@@ -21,11 +21,18 @@ const sidebars = {
     {
       type: 'category',
       label: 'Documentation',
+      collapsed: false,
       items: ['intro', 'intro/platform']
+    },
+    {
+      type: 'category',
+      label: 'Guides',
+      collapsed: false,
+      items: ['guides/data-from-s3', 'guides/data-from-s3-to-iomete', 'guides/data-from-jdbc', 'guides/run-spark-job']
     }
   ],
 
-  guide: ['guide', 'guide/guide1', 'guide/guide2', 'guide/guide3', 'guide/guide4'],
+  // guide: ['guide', 'guide/guide1', 'guide/guide2', 'guide/guide3', 'guide/guide4'],
 };
 
 module.exports = sidebars;
