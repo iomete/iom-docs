@@ -18,19 +18,11 @@ const sidebars = {
 
   // But you can create a sidebar manually
   docs: [
-    'intro',
-    'greeting',
-    {
-      id: 'greeting',
-      type: 'doc',
-      label: 'Name in sidebarjs',
-    },
     {
       type: 'category',
-      label: 'Tutorial he',
-      items: ['tutorial-basics/create-a-document'],
-      collapsed: true,
-    },
+      label: 'Documentation',
+      items: ['intro', 'intro/platform']
+    }
   ],
 
   guide: ['guide', 'guide/guide1', 'guide/guide2', 'guide/guide3', 'guide/guide4'],

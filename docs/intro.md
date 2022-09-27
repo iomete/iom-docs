@@ -1,47 +1,33 @@
 ---
-sidebar_position: 1
+title: Welcome to iomete docs!
+slug: /welcome-to-iomete
 ---
 
-# Tutorial Intro
+<!-- # **The iomete lakehouse platform** -->
 
-Let's discover **Docusaurus in less than 5 minutes**.
+**The platform**
 
-## Getting Started
+- Modern lakehouse built on top of Apache Iceberg and Apache Spark.
+- Includes: 
+  - Serverless lakehouse
+  - Serverless Spark Jobs
+  - SQL editor
+  - Advanced data catalog 
+  - Built-in BI (or connect 3rd party BI e.g. Tableau, Looker)
 
-Get started by **creating a new site**.
+**iomete's extreme value proposition**
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+- Our compute pricing is equal to AWS on-demand pricing, with no mark up. 
+- You get basically all our lakehouse functionality for free.
+- We believe in the democratization of data. Data is used in important areas like health, climate, sustainability and finance. Therefore data computation and analysis that is easy and available at the lowest price possible even at petabytes scale, may be a great thing for planet earth. 
 
-### What you'll need
+# **Platform features**
 
-- [Node.js](https://nodejs.org/en/download/) version 16.14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+- **Modern architecture:** We are ex-Uber/Google/Amazon engineers that understand data at scale.
+- **Open source:** We built on Apache Iceberg and Apache Spark. We use an open source data format (Parquet).
+- **Fully managed: **No maintenance, no upfront investment.
+- **Unified experience**: Don’t waste time patching together multi-vendor solutions.
+- **Fantastic support**: Directly access our engineering team via Slack if you have questions. 
+- **Scalable**: As you grow, iomete grows with you. Only pay for what you use.
+- **Compatible**: Works well with most other data infrastructure solutions.
+- **We democratize data** by empowering teams to become data-driven in an easy and cost-effective way.
