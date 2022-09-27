@@ -73,8 +73,8 @@ const config = {
           alt: 'iomete logo',
           src: `/logos/logo-black.svg`,
           srcDark: `/logos/logo-white.svg`,
-          href: '/',
-          target: '_self',
+          href: 'https://www.iomete.com',
+          target: '_blank',
           height: 42,
         },
         items: [
