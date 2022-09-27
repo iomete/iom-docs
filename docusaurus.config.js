@@ -67,17 +67,28 @@ const config = {
         }
       },
       navbar: {
-        title: 'iomete',
+        // title: 'docs',
+        hideOnScroll: true,
         logo: {
           alt: 'iomete logo',
-          src: 'img/logo.svg',
+          src: `/logos/logo-black.svg`,
+          srcDark: `/logos/logo-white.svg`,
+          href: '/',
+          target: '_self',
+          height: 42,
         },
         items: [
           {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Docs',
+          },
+          {
+            type: 'doc',
+            docId: 'guide',
+            label: 'Guide',
+            position: 'left',
           },
           { to: '/blog', label: 'Blog', position: 'left' },
           {
@@ -94,7 +105,7 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Docs',
                 to: '/docs/intro',
               },
             ],
