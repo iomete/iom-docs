@@ -52,7 +52,7 @@ const config = {
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve('./src/css/custom.scss'),
         },
       }),
     ],
@@ -159,7 +159,10 @@ const config = {
         contextualSearch: true,
         searchPagePath: 'search'
       },
-    })
+    }),
+    plugins:[
+      'docusaurus-plugin-sass',
+    ]
 };
 
 module.exports = config;
