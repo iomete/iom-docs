@@ -49,6 +49,28 @@ const sidebars = {
         'data-source/orc',
       ]
     },
+    {
+      type: 'category',
+      label: 'Spark SQL reference',
+      collapsed: false,
+      items: [
+        {
+          type: 'category',
+          label: 'DDL',
+          collapsed: false,
+          items: [
+            'sql/ddl/create-db',
+            'sql/ddl/alter-db',
+            'sql/ddl/drop-db',
+            'sql/ddl/create-table',
+            'sql/ddl/alter-table',
+            'sql/ddl/drop-table',
+            'sql/ddl/create-view',
+            'sql/ddl/drop-view'
+          ]
+        },
+      ]
+    },
     // {
     //   type: 'category',
     //   label: 'Tests',

@@ -4,7 +4,7 @@
 
 Reading JSON file directly from the location without it copying it. It automatically detects the schema (column names), and flatten it
 
-```postgresql
+```sql
 SELECT  country_name, region, `SP.URB.TOTL`, `SP.URB.TOTL.IN.ZS`
 FROM json.`s3a://iomete-lakehouse-shared/superset_examples/countries.json` 
 LIMIT 3;
@@ -26,7 +26,7 @@ To get more control reading raw JSON files you can use the following syntax and 
 Note that the file that is offered as a `json` file is not a typical JSON file. Each line must contain a separate, self-contained valid JSON object.  For more information, please see JSON Lines text format, also called newline-delimited JSON [https://jsonlines.org/.](https://jsonlines.org/.) For a regular multi-line JSON file, set the `multiLine` option to true
 
 
-```postgresql
+```sql
 CREATE TABLE countries
 USING org.apache.spark.sql.json
 OPTIONS (

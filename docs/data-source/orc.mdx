@@ -8,7 +8,7 @@ ORC is another columnar data file format. Spark supports a vectorized ORC reader
 Reading ORC file directly from the location without it copying it. It automatically detects the schema (column names), and automatically flatten the inner structure
 
 
-```postgresql
+```sql
 SELECT _col1, _col2, _col3, _col4, _col9, _col10 
 FROM orc.`s3a://iomete-lakehouse-shared/orc/userdata1_orc`
 LIMIT 5;
@@ -29,7 +29,7 @@ LIMIT 5;
 
 To get more control reading raw **ORC** files you can use the following syntax and provide different **options**. It doesn't copy the data, it just references it.
 
-```postgresql
+```sql
 CREATE TABLE userdata_orc
 USING orc
 OPTIONS (

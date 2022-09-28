@@ -7,7 +7,7 @@ Parquet is a columnar format that is supported by many other data processing sys
 
 Reading JSON file directly from the location without it copying it. It automatically detects the schema (column names), and flatten it
 
-```postgresql
+```sql
 SELECT id, first_name, last_name, email, gender, birthdate,salary
 FROM parquet.`s3a://iomete-lakehouse-shared/parquet/userdata1.parquet`
 LIMIT 5;
@@ -28,7 +28,7 @@ LIMIT 5;
 
 To get more control reading raw **Parquet** file you can use the following syntax and provide different **options**. It doesn't copy the data, it just references it.
 
-```postgresql
+```sql
 CREATE TABLE userdata
 USING org.apache.spark.sql.parquet
 OPTIONS (

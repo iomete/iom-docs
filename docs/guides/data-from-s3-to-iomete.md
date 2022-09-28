@@ -106,7 +106,7 @@ Non-partitioned Table
 
 - **Option 1. Create a table from select**
 
-```postgresql
+```sql
 -- Create table directly from the query
 CREATE TABLE countries
 AS SELECT  * FROM json.`s3a://my-staging-area-for-iomete/countries.json`
@@ -117,7 +117,7 @@ DESC TABLE EXTENDED countries;
 
 - **Option 2. Insert into to existing table**
 
-```postgresql
+```sql
 -- just append data
 INSERT INTO countries
 SELECT  * FROM json.`s3a://my-staging-area-for-iomete/countries.json`
@@ -129,7 +129,7 @@ SELECT  * FROM json.`s3a://my-staging-area-for-iomete/countries.json`
 
 - **Option 3. Merge with existing data**
 
-```postgresql
+```sql
 MERGE INTO countries
     USING (SELECT  * FROM json.`s3a://my-staging-area-for-iomete/countries.json`) updates
 ON countries.id = updates.id
@@ -146,7 +146,7 @@ Partitioned Table
 
 - **Option 1. Create a partitioned table from select**
 
-```postgresql
+```sql
 -- Create a partitioned table directly from the query
 CREATE TABLE countries_partitioned
   PARTITIONED BY (country_code)
@@ -159,7 +159,7 @@ DESC TABLE EXTENDED countries_partitioned;
 
 - **Option 2. Insert into to existing table**
 
-```postgresql
+```sql
 -- just append data
 INSERT INTO countries_partitioned
   SELECT  * FROM json.`s3a://my-staging-area-for-iomete/countries.json`
@@ -173,7 +173,7 @@ INSERT OVERWRITE TABLE countries_partitioned
 
 - **Option 3. Merge with existing data**
 
-```postgresql
+```sql
 MERGE INTO countries_partitioned
   USING (SELECT  * FROM json.`s3a://my-staging-area-for-iomete/countries.json`) updates
 ON countries_partitioned.id = updates.id
@@ -188,7 +188,7 @@ WHEN NOT MATCHED
 
 First, let's create a view with clean column names to be used in BI dashboarding:
 
-```postgresql
+```sql
 CREATE OR REPLACE VIEW countries_view 
   AS SELECT 
       country_code, 

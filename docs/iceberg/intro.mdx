@@ -28,7 +28,7 @@ Apache Iceberg is an open table format for huge analytic datasets. It provides a
 
 ### Creating a table
 
-```postgresql
+```sql
 CREATE TABLE table1 (id bigint, data string);
 ```
 
@@ -43,14 +43,14 @@ Iceberg supports the full range of SQL DDL commands, including:
 
 ### Writing
 Once your table is created, insert data using [INSERT INTO:](https://iceberg.apache.org/spark-writes/#insert-into)
-```postgresql
+```sql
 INSERT INTO table1 VALUES (1, 'a'), (2, 'b'), (3, 'c');
 INSERT INTO table1 SELECT id, data FROM source WHERE length(data) = 1;
 ``` 
 
 Row-level SQL updates using [MERGE INTO](https://iceberg.apache.org/spark-writes/#merge-into) and [DELETE FROM](https://iceberg.apache.org/docs/latest/spark-writes/):
 
-```postgresql
+```sql
 MERGE INTO local.db.target t USING (SELECT * FROM updates) u ON t.id = u.id
 WHEN MATCHED THEN UPDATE SET t.count = t.count + u.count
 WHEN NOT MATCHED THEN INSERT *
@@ -59,7 +59,7 @@ WHEN NOT MATCHED THEN INSERT *
 
 ### Reading
 
-```postgresql
+```sql
 SELECT count(1) as count, data
 FROM table1
 GROUP BY data
@@ -67,7 +67,7 @@ GROUP BY data
 
 To view all of the snapshots in a table, use the `snapshots` metadata table:
 
-```postgresql
+```sql
 SELECT * FROM default.table1.snapshots
 ```
 
