@@ -5,6 +5,8 @@
  */
 
 /* You can override the default Infima variables here. */
+@use './test.module.scss';
+
 :root {
   --ifm-color-primary: #1890ff;
   --ifm-color-primary-dark: #0082fb;

@@ -20,6 +20,12 @@ const sidebars = {
   docs: [
     {
       type: 'category',
+      label: 'Tests',
+      collapsed: false,
+      items: ['test/test1']
+    },
+    {
+      type: 'category',
       label: 'Documentation',
       collapsed: false,
       items: ['intro', 'intro/platform']
