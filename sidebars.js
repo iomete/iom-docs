@@ -18,27 +18,26 @@ const sidebars = {
 
   // But you can create a sidebar manually
   docs: [
-    {
-      type: 'category',
-      label: 'Tests',
-      collapsed: false,
-      items: ['test/test1']
-    },
+    // {
+    //   type: 'category',
+    //   label: 'Tests',
+    //   collapsed: false,
+    //   items: ['test/test1']
+    // },
     {
       type: 'category',
       label: 'Documentation',
       collapsed: false,
       items: ['intro', 'intro/platform']
-    },
-    {
-      type: 'category',
-      label: 'Guides',
-      collapsed: false,
-      items: ['guides/data-from-s3', 'guides/data-from-s3-to-iomete', 'guides/data-from-jdbc', 'guides/run-spark-job']
     }
   ],
 
-  // guide: ['guide', 'guide/guide1', 'guide/guide2', 'guide/guide3', 'guide/guide4'],
+  guide: [{
+    type: 'category',
+    label: 'Guide',
+    collapsed: false,
+    items: ['guide', 'guide/data-from-s3', 'guide/data-from-s3-to-iomete', 'guide/data-from-jdbc', 'guide/run-spark-job']
+  }]
 };
 
 module.exports = sidebars;
