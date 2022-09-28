@@ -9,7 +9,7 @@ tags:
 
 <!-- # **The iomete lakehouse platform** -->
 
-**The platform**
+#### The platform
 
 - Modern lakehouse built on top of Apache Iceberg and Apache Spark.
 - Includes: 
@@ -19,13 +19,13 @@ tags:
   - Advanced data catalog 
   - Built-in BI (or connect 3rd party BI e.g. Tableau, Looker)
 
-**iomete's extreme value proposition**
+#### iomete's extreme value proposition
 
 - Our compute pricing is equal to AWS on-demand pricing, with no mark up. 
 - You get basically all our lakehouse functionality for free.
 - We believe in the democratization of data. Data is used in important areas like health, climate, sustainability and finance. Therefore data computation and analysis that is easy and available at the lowest price possible even at petabytes scale, may be a great thing for planet earth. 
 
-# **Platform features**
+#### Platform features
 
 - **Modern architecture:** We are ex-Uber/Google/Amazon engineers that understand data at scale.
 - **Open source:** We built on Apache Iceberg and Apache Spark. We use an open source data format (Parquet).
