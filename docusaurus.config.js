@@ -39,17 +39,15 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          // editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           // breadcrumbs: false,
           showLastUpdateTime: true,
         },
         blog: {
-          showReadingTime: true,
+          // showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          // editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
           customCss: require.resolve('./src/styles/custom.scss'),
@@ -76,7 +74,7 @@ const config = {
           srcDark: `/logos/logo-white.svg`,
           href: 'https://www.iomete.com',
           target: '_blank',
-          height: 42,
+          height: 42
         },
         items: [
           {
@@ -93,9 +91,9 @@ const config = {
           },
           { to: '/blog', label: 'Blog', position: 'left' },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/iomete',
             label: 'GitHub',
-            position: 'right',
+            position: 'right'
           },
           {
             type: 'search',
@@ -141,12 +139,12 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/facebook/docusaurus'
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `© ${new Date().getFullYear()} iomete`,
       },
       prism: {
         theme: lightCodeTheme,
