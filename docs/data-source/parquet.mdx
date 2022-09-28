@@ -1,0 +1,68 @@
+# Parquet files
+
+Parquet is a columnar format that is supported by many other data processing systems. Spark SQL provides support for both reading and writing Parquet files that automatically preserve the schema of the original data. When reading Parquet files, all columns are automatically converted to be nullable for compatibility reasons.
+
+
+###  Option 1. Direct reading 
+
+Reading JSON file directly from the location without it copying it. It automatically detects the schema (column names), and flatten it
+
+```postgresql
+SELECT id, first_name, last_name, email, gender, birthdate,salary
+FROM parquet.`s3a://iomete-lakehouse-shared/parquet/userdata1.parquet`
+LIMIT 5;
+
++-----+-------------+------------+---------------------------+---------+------------+------------+
+| id  | first_name  | last_name  |           email           | gender  | birthdate  |   salary   |
++-----+-------------+------------+---------------------------+---------+------------+------------+
+| 1   | Amanda      | Jordan     | ajordan0@com.com          | Female  | 3/8/1971   | 49756.53   |
+| 2   | Albert      | Freeman    | afreeman1@is.gd           | Male    | 1/16/1968  | 150280.17  |
+| 3   | Evelyn      | Morgan     | emorgan2@altervista.org   | Female  | 2/1/1960   | 144972.51  |
+| 4   | Denise      | Riley      | driley3@gmpg.org          | Female  | 4/8/1997   | 90263.05   |
+| 5   | Carlos      | Burns      | cburns4@miitbeian.gov.cn  |         |            | NULL       |
++-----+-------------+------------+---------------------------+---------+------------+------------+
+```
+
+
+###   Option 2. Reference table with options 
+
+To get more control reading raw **Parquet** file you can use the following syntax and provide different **options**. It doesn't copy the data, it just references it.
+
+```postgresql
+CREATE TABLE userdata
+USING org.apache.spark.sql.parquet
+OPTIONS (
+  path "s3a://iomete-lakehouse/trial-staging-area/parquet/userdata1.parquet"
+);
+
+  
+DESC userdata;
+
++--------------------+------------+----------+
+|      col_name      | data_type  | comment  |
++--------------------+------------+----------+
+| registration_dttm  | timestamp  | NULL     |
+| id                 | int        | NULL     |
+| first_name         | string     | NULL     |
+| last_name          | string     | NULL     |
+| email              | string     | NULL     |
+| gender             | string     | NULL     |
+| ip_address         | string     | NULL     |
+| cc                 | string     | NULL     |
+| country            | string     | NULL     |
+| birthdate          | string     | NULL     |
+| salary             | double     | NULL     |
+| title              | string     | NULL     |
+| comments           | string     | NULL     |
++--------------------+------------+----------+
+```
+
+**Options**
+
+You can set the following Parquet-specific option(s) for reading Parquet files:
+
+  * `mergeSchema` **(default is the value specified in spark.sql.parquet.mergeSchema)**: sets whether we should merge schemas collected from all Parquet part-files. This will override `spark.sql.parquet.mergeSchema`.
+  *  `pathGlobFilter`: an optional glob pattern to only include files with paths matching the pattern. The syntax follows org.apache.hadoop.fs.GlobFilter. It does not change the behavior of partition discovery.
+  *  `modifiedBefore` (batch only): an optional timestamp to only include files with modification times occurring before the specified Time. The provided timestamp must be in the following form: `YYYY-MM-DDTHH:mm:ss` (e.g. `2020-06-01T13:00:00`)
+  *  `modifiedAfter` (batch only): an optional timestamp to only include files with modification times occurring after the specified Time. The provided timestamp must be in the following form: `YYYY-MM-DDTHH:mm:ss` (e.g. `2020-06-01T13:00:00`)
+  *  `recursiveFileLookup`: recursively scan a directory for files. Using this option disables partition discovery

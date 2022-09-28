@@ -26,7 +26,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Iceberg tables',
+      label: 'Iceberg Tables',
       collapsed: false,
       items: [
         'iceberg/intro',
@@ -35,6 +35,18 @@ const sidebars = {
         'iceberg/writes',
         'iceberg/procedure',
         'iceberg/maintenance',
+      ]
+    },
+    {
+      type: 'category',
+      label: 'Data Sources',
+      collapsed: false,
+      items: [
+        'data-source/jdbc',
+        'data-source/csv',
+        'data-source/json',
+        'data-source/parquet',
+        'data-source/orc',
       ]
     },
     // {

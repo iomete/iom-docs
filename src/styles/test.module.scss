@@ -2,3 +2,9 @@
     padding: 12px;
     color: red;
 }
+
+.menu__list-item-collapsible {
+    &>a {
+        font-weight: 600;
+    }
+}

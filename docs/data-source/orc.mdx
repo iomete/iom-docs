@@ -1,0 +1,68 @@
+# ORC files
+
+ORC is another columnar data file format. Spark supports a vectorized ORC reader with a new ORC file format for ORC files
+
+
+###   Option 1. Direct reading 
+
+Reading ORC file directly from the location without it copying it. It automatically detects the schema (column names), and automatically flatten the inner structure
+
+
+```postgresql
+SELECT _col1, _col2, _col3, _col4, _col9, _col10 
+FROM orc.`s3a://iomete-lakehouse-shared/orc/userdata1_orc`
+LIMIT 5;
+
++--------+---------+----------+---------------------------+------------+------------+
+| _col1  |  _col2  |  _col3   |           _col4           |   _col9    |   _col10   |
++--------+---------+----------+---------------------------+------------+------------+
+| 1      | Amanda  | Jordan   | ajordan0@com.com          | 3/8/1971   | 49756.53   |
+| 2      | Albert  | Freeman  | afreeman1@is.gd           | 1/16/1968  | 150280.17  |
+| 3      | Evelyn  | Morgan   | emorgan2@altervista.org   | 2/1/1960   | 144972.51  |
+| 4      | Denise  | Riley    | driley3@gmpg.org          | 4/8/1997   | 90263.05   |
+| 5      | Carlos  | Burns    | cburns4@miitbeian.gov.cn  |            | NULL       |
++--------+---------+----------+---------------------------+------------+------------+
+```
+
+
+###   Option 2. Reference table with options 
+
+To get more control reading raw **ORC** files you can use the following syntax and provide different **options**. It doesn't copy the data, it just references it.
+
+```postgresql
+CREATE TABLE userdata_orc
+USING orc
+OPTIONS (
+  path "s3a://iomete-lakehouse-shared/orc/userdata1_orc"
+);
+
+  
+DESC userdata_orc;
+
++-----------+------------+----------+
+| col_name  | data_type  | comment  |
++-----------+------------+----------+
+| _col0     | timestamp  | NULL     |
+| _col1     | int        | NULL     |
+| _col2     | string     | NULL     |
+| _col3     | string     | NULL     |
+| _col4     | string     | NULL     |
+| _col5     | string     | NULL     |
+| _col6     | string     | NULL     |
+| _col7     | string     | NULL     |
+| _col8     | string     | NULL     |
+| _col9     | string     | NULL     |
+| _col10    | double     | NULL     |
+| _col11    | string     | NULL     |
+| _col12    | string     | NULL     |
++-----------+------------+----------+
+```
+
+ **Options**
+You can set the following ORC-specific option(s) for reading ORC files:
+
+  *  `mergeSchema` **(default is the value specified in spark.sql.orc.mergeSchema)**: sets whether we should merge schemas collected from all ORC part-files. This will override spark.sql.orc.mergeSchema.
+  *  `pathGlobFilter`: an optional glob pattern to only include files with paths matching the pattern. The syntax follows org.apache.hadoop.fs.GlobFilter. It does not change the behavior of partition discovery.
+  *  `modifiedBefore` (batch only): an optional timestamp to only include files with modification times occurring before the specified Time. The provided timestamp must be in the following form: `YYYY-MM-DDTHH:mm:ss`(e.g. `2020-06-01T13:00:00`)
+  *  `modifiedAfter` (batch only): an optional timestamp to only include files with modification times occurring after the specified Time. The provided timestamp must be in the following form: `YYYY-MM-DDTHH:mm:ss` (e.g. `2020-06-01T13:00:00`)
+  *  `recursiveFileLookup`: recursively scan a directory for files. Using this option disables partition discovery

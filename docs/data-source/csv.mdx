@@ -1,0 +1,95 @@
+# CSV Files
+### Option 1. Direct reading
+
+The following syntax allows reading CSV file directly from the location without it copying the data. It automatically detects the schema (column names)
+
+
+```sql
+SELECT _c0, _c1, _c2, _c3
+FROM csv.`s3a://iomete-lakehouse-shared/superset_examples/tutorial_flights.csv`
+LIMIT 5;
+
++--------------------+---------+---------------+--------------------------+
+|        _c0         |   _c1   |      _c2      |           _c3            |
++--------------------+---------+---------------+--------------------------+
+| Department         | Cost    | Travel Class  | Ticket Single or Return  |
+| Orange Department  | 81.52   | Economy       | Return                   |
+| Yellow Department  | 343.98  | Economy       | Return                   |
+| Yellow Department  | 25.98   | Economy       | Return                   |
+| Yellow Department  | 12.99   | Economy       | Return                   |
++--------------------+---------+---------------+--------------------------+
+```
+
+### Option 2. Reference table with options
+
+As you've seen from the previous example, it didn't take the first row as header information. To get more control reading raw CSV files you can use the following syntax and provide different options. It doesn't copy the data, it just references to it
+
+```sql
+CREATE table tutorial_flights
+USING csv
+OPTIONS (
+  header "true", --first row is header information
+  path "s3a://iomete-lakehouse-shared/superset_examples/tutorial_flights.csv"
+);
+  
+DESC tutorial_flights;
+
++--------------------------+------------+----------+
+|         col_name         | data_type  | comment  |
++--------------------------+------------+----------+
+| Department               | string     | NULL     |
+| Cost                     | string     | NULL     |
+| Travel Class             | string     | NULL     |
+| Ticket Single or Return  | string     | NULL     |
+| Airline                  | string     | NULL     |
+| Travel Date              | string     | NULL     |
+| Origin ICAO              | string     | NULL     |
+| Origin Name              | string     | NULL     |
+| Origin Municipality      | string     | NULL     |
+| Origin Region            | string     | NULL     |
+| Origin Country           | string     | NULL     |
+| Origin Latitude          | string     | NULL     |
+| Origin Longitude         | string     | NULL     |
+| Destination ICAO         | string     | NULL     |
+| Destination Name         | string     | NULL     |
+| Destination Region       | string     | NULL     |
+| Destination Country      | string     | NULL     |
+| Destination Latitude     | string     | NULL     |
+| Destination Longitude    | string     | NULL     |
+| Distance                 | string     | NULL     |
++--------------------------+------------+----------+
+
+---------------------
+
+# You could define columns explicitly with its types
+CREATE table tutorial_flights2(department string, cost double)
+USING csv
+OPTIONS (
+  header "true", --take the first row as header information
+  path "s3a://iomete-lakehouse-shared/superset_examples/tutorial_flights.csv"
+);
+
+DESC tutorial_flights2;
++-------------+------------+----------+
+|  col_name   | data_type  | comment  |
++-------------+------------+----------+
+| department  | string     | NULL     |
+| cost        | double     | NULL     |
++-------------+------------+----------+
+
+select * from tutorial_flights2;
++--------------------+---------+
+|     department     |  cost   |
++--------------------+---------+
+| Orange Department  | 81.52   |
+| Yellow Department  | 343.98  |
+| Yellow Department  | 25.98   |
++--------------------+---------+
+```
+[block:callout]
+{
+  "type": "info",
+  "body": "* **path:** location of files\n  * **header:** when set to true the first line of files will be used to name columns and will not be included in data. All types will be assumed string. Default value is false.\n  * **delimiter:** by default columns are delimited using `,` but delimiter can be set to any character\n  * **quote:** by default, the quote character is `\"` but can be set to any character. Delimiters inside quotes are ignored\n  * **escape:** by default the escape character is `\\` but can be set to any character. Escaped quote characters are ignored\n  * **mode:** determines the parsing mode. By default it is `PERMISSIVE`. Possible values are:\n    * **PERMISSIVE:** tries to parse all lines: nulls are inserted for missing tokens and extra tokens are ignored\n    * **DROPMALFORMED:** drops lines which have fewer or more tokens than expected or tokens which do not match the schema\n    * **FAILFAST:** aborts with a RuntimeException if encounters any malformed line\n  * **charset:** defaults to 'UTF-8' but can be set to other valid charset names\n  * **inferSchema:** automatically infers column types. It requires one extra pass over the data and is false by default\n  * **comment:** skip lines beginning with this character. Default is `#`. Disable comments by setting this to `null`\n  * **nullValue:** specifies a string that indicates a null value, any fields matching this string will be set as nulls\n  * **dateFormat:** specifies a string that indicates the date format to use when reading dates or timestamps. Custom date formats follow the formats at `java.text.SimpleDateFormat`. This applies to both `DateType` and `TimestampType`. By default, it is `null` which means trying to parse times and date by `java.sql.Timestamp.valueOf()` and `java.sql.Date.valueOf()`",
+  "title": "Options"
+}
+[/block]
