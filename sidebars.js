@@ -34,9 +34,9 @@ const sidebars = {
 
   guide: [{
     type: 'category',
-    label: 'Guide',
+    label: 'Data Sync',
     collapsed: false,
-    items: ['guide', 'guide/data-from-s3', 'guide/data-from-s3-to-iomete', 'guide/data-from-jdbc', 'guide/run-spark-job']
+    items: ['guides', 'guides/data-from-s3', 'guides/data-from-s3-to-iomete', 'guides/data-from-jdbc', 'guides/run-spark-job']
   }]
 };
 
