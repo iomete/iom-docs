@@ -22,7 +22,7 @@ const sidebars = {
       type: 'category',
       label: 'Documentation',
       collapsed: false,
-      items: ['intro', 'intro/platform']
+      items: ['docs', 'docs/platform']
     },
     // {
     //   type: 'category',
