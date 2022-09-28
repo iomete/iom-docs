@@ -1,5 +1,6 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
+const path = require('path');
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
@@ -96,6 +97,10 @@ const config = {
             label: 'GitHub',
             position: 'right',
           },
+          {
+            type: 'search',
+            position: 'right',
+          },
         ],
       },
       footer: {
@@ -145,9 +150,16 @@ const config = {
       },
       prism: {
         theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        darkTheme: darkCodeTheme
       },
-    }),
+      algolia: {
+        appId: 'O9QSL985BS',
+        apiKey: 'ceb5366064b8fbf70959827cf9f69227',
+        indexName: 'ionicframework',
+        contextualSearch: true,
+        searchPagePath: 'search'
+      },
+    })
 };
 
 module.exports = config;
