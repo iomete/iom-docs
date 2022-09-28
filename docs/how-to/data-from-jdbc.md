@@ -1,6 +1,6 @@
 ---
-title: How-to Sync Data From JDBC Sources
-slug: /how-to-sync-data-from-jdbc
+title: Sync Data From JDBC Sources
+slug: /sync-data-from-jdbc
 ---
 
 Intro

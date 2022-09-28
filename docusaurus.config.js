@@ -85,8 +85,8 @@ const config = {
           },
           {
             type: 'doc',
-            docId: 'guides',
-            label: 'Guides',
+            docId: 'how-to',
+            label: 'How to',
             position: 'left',
           },
           { to: '/blog', label: 'Blog', position: 'left' },

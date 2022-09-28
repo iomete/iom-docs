@@ -1,6 +1,6 @@
 ---
-title: How-to Sync Data From AWS S3
-slug: /how-to-sync-data-from-aws-s3
+title: Sync Data From AWS S3
+slug: /sync-data-from-aws-s3
 ---
 
 ## Intro

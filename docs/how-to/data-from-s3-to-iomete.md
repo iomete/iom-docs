@@ -1,6 +1,6 @@
 ---
-title: How-to Sync Data From AWS S3 to iomete
-slug: /how-to-sync-data-from-aws-s3-to-iomete
+title: Sync Data From AWS S3 to iomete
+slug: /sync-data-from-aws-s3-to-iomete
 ---
 
 Intro

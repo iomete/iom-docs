@@ -81,9 +81,9 @@ const sidebars = {
 
   guide: [{
     type: 'category',
-    label: 'Data Sync',
+    label: 'How to',
     collapsed: false,
-    items: ['guides', 'guides/data-from-s3', 'guides/data-from-s3-to-iomete', 'guides/data-from-jdbc', 'guides/run-spark-job']
+    items: ['how-to', 'how-to/data-from-s3', 'how-to/data-from-s3-to-iomete', 'how-to/data-from-jdbc', 'how-to/run-spark-job']
   }]
 };
 
