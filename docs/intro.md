@@ -1,6 +1,10 @@
 ---
 title: Welcome to iomete docs!
 slug: /welcome-to-iomete
+tags:
+  - Intro
+  - Getting started
+  - iomete doc
 ---
 
 <!-- # **The iomete lakehouse platform** -->

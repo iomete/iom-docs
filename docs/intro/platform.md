@@ -1,6 +1,10 @@
 ---
 title: The iomete Lakehouse Platform
 slug: /iomete-lakehouse-platform
+tags:
+  - Platform
+  - Getting started
+  - iomete doc
 ---
 
 We deliver data-infrastructure-as-one-single-platform. We are on the cloud (AWS) and provide a fully managed experience. We also provide local cloud, on-premise and hybrid solutions.
