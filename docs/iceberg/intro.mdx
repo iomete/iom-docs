@@ -1,0 +1,83 @@
+---
+title: Getting Started
+---
+
+**iomete** uses [Apache Spark](https://spark.apache.org/) as a compute engine, with [Apache Iceberg](https://iceberg.apache.org/) provider with additional optimization and packaging.
+___
+
+# Apache Iceberg
+
+Apache Iceberg is an open table format for huge analytic datasets. It provides a rich feature set:
+
+  * ACID transactions and insert/merge/delete
+  * [Schema evolution](https://iceberg.apache.org/evolution#schema-evolution) supports add, drop, update, or rename, and has [no side-effects](https://iceberg.apache.org/evolution#correctness)
+  * [Hidden partitioning](https://iceberg.apache.org/partitioning) prevents user mistakes that cause silently incorrect results or extremely slow queries
+  * [Partition layout evolution](https://iceberg.apache.org/evolution#partition-evolution) can update the layout of a table as data volume or query patterns change
+  * [Time travel](https://iceberg.apache.org/spark-queries#time-travelr) enables reproducible queries that use exactly the same table snapshot, or lets users easily examine changes
+  * Version rollback allows users to quickly correct problems by resetting tables to a good state
+
+{/* <br/>
+[block:callout]
+{
+  "type": "info",
+  "title": "Iceberg is the default provider. That means the followings have the same effect:",
+  "body": "`create table test1(id string);`\n`create table test1(id string) using icerberg;`"
+}
+[/block]
+<br/> */}
+
+### Creating a table
+
+```postgresql
+CREATE TABLE table1 (id bigint, data string);
+```
+
+Iceberg supports the full range of SQL DDL commands, including:
+   
+  * [CREATE TABLE ... PARTITIONED BY](https://iceberg.apache.org/spark-ddl/#create-table)
+  * [CREATE TABLE ... AS SELECT](https://iceberg.apache.org/spark-ddl/#create-table-as-select)
+  * [ALTER TABLE](https://iceberg.apache.org/spark-ddl/#alter-table)
+  * [DROP TABLE](https://iceberg.apache.org/spark-ddl/#drop-table)
+
+<br/>
+
+### Writing
+Once your table is created, insert data using [INSERT INTO:](https://iceberg.apache.org/spark-writes/#insert-into)
+```postgresql
+INSERT INTO table1 VALUES (1, 'a'), (2, 'b'), (3, 'c');
+INSERT INTO table1 SELECT id, data FROM source WHERE length(data) = 1;
+``` 
+
+Row-level SQL updates using [MERGE INTO](https://iceberg.apache.org/spark-writes/#merge-into) and [DELETE FROM](https://iceberg.apache.org/docs/latest/spark-writes/):
+
+```postgresql
+MERGE INTO local.db.target t USING (SELECT * FROM updates) u ON t.id = u.id
+WHEN MATCHED THEN UPDATE SET t.count = t.count + u.count
+WHEN NOT MATCHED THEN INSERT *
+```
+<br/>
+
+### Reading
+
+```postgresql
+SELECT count(1) as count, data
+FROM table1
+GROUP BY data
+```
+
+To view all of the snapshots in a table, use the `snapshots` metadata table:
+
+```postgresql
+SELECT * FROM default.table1.snapshots
+```
+
+```Result
++-------------------------+----------------+-----------+-----------+----------------------------------------------------+-----+
+| committed_at            | snapshot_id    | parent_id | operation | manifest_list                                      | ... |
++-------------------------+----------------+-----------+-----------+----------------------------------------------------+-----+
+| 2019-02-08 03:29:51.215 | 57897183625154 | null      | append    | s3://.../table/metadata/snap-57897183625154-1.avro | ... |
+|                         |                |           |           |                                                    | ... |
+|                         |                |           |           |                                                    | ... |
+| ...                     | ...            | ...       | ...       | ...                                                | ... |
++-------------------------+----------------+-----------+-----------+----------------------------------------------------+-----+
+```

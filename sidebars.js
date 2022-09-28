@@ -24,6 +24,19 @@ const sidebars = {
       collapsed: false,
       items: ['docs', 'docs/platform']
     },
+    {
+      type: 'category',
+      label: 'Iceberg tables',
+      collapsed: false,
+      items: [
+        'iceberg/intro',
+        'iceberg/ddl',
+        'iceberg/queries',
+        'iceberg/writes',
+        'iceberg/procedure',
+        'iceberg/maintenance',
+      ]
+    },
     // {
     //   type: 'category',
     //   label: 'Tests',
