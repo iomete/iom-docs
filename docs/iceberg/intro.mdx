@@ -1,6 +1,9 @@
 ---
 title: Getting Started
 slug: getting-started
+last_update:
+  date: 09/30/2022
+  author: Vugar Dadalov
 ---
 
 **iomete** uses [Apache Spark](https://spark.apache.org/) as a compute engine, with [Apache Iceberg](https://iceberg.apache.org/) provider with additional optimization and packaging.
@@ -71,13 +74,8 @@ To view all of the snapshots in a table, use the `snapshots` metadata table:
 SELECT * FROM default.table1.snapshots
 ```
 
-```Result
-+-------------------------+----------------+-----------+-----------+----------------------------------------------------+-----+
-| committed_at            | snapshot_id    | parent_id | operation | manifest_list                                      | ... |
-+-------------------------+----------------+-----------+-----------+----------------------------------------------------+-----+
-| 2019-02-08 03:29:51.215 | 57897183625154 | null      | append    | s3://.../table/metadata/snap-57897183625154-1.avro | ... |
-|                         |                |           |           |                                                    | ... |
-|                         |                |           |           |                                                    | ... |
-| ...                     | ...            | ...       | ...       | ...                                                | ... |
-+-------------------------+----------------+-----------+-----------+----------------------------------------------------+-----+
-```
+
+| committed_at            | snapshot_id     | parent_id | operation  | manifest_list                                      |
+| ----------------------- | --------------- | --------- | ---------- | -------------------------------------------------- |
+| 2019-02-08 03:29:51.215 | 57897183625154  | null      | append     | s3://.../table/metadata/snap-57897183625154-1.avro |
+| ...                     | ...             | ...       | ...        | ...                                                |
