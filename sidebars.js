@@ -111,6 +111,12 @@ const sidebars = {
             'sql/queries/transform',
           ]
         },
+        {
+          type: 'category',
+          label: 'Auxiliary Statements',
+          collapsed: false,
+          items: ['sql/auxiliary-statements/cache']
+        }
       ]
     },
     // {
