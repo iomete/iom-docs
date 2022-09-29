@@ -3,27 +3,37 @@ title: Sync Data From AWS S3 to iomete
 slug: /sync-data-from-aws-s3-to-iomete
 ---
 
-Intro
------
+<!-- <head>
+  <title>Sync Data From AWS S3 to iomete</title>
+  <meta
+    name="description"
+    content="Sync Data From AWS S3 to iomete"
+  />
+</head> -->
+
+This is an end-to-end guide that explains how to move files from your AWS S3 to iomete and show it in the built-in BI dashboard.
+___
+
+### Intro
 
 This is an end-to-end guide about how to move files from your AWS S3 to iomete and show it in the BI dashboard. In this example, we use a JSON file, but for other file types (such as CSV, Parquet, and ORC) please check out: <a href="https://docs.iomete.com/docs/reading-raw-files" target="_blank">https\://docs.iomete.com/external-data-sources/reading-raw-files</a>
 
-<!-- <<!-- <br> -->> -->
+<br/>
 
-Your files in AWS S3
---------------------
+### Your files in AWS S3
 
 Let's say you have a dedicated bucket where you have files you want to move to iomete
 
-![](https://files.readme.io/d66079e-Screenshot_2021-07-05_at_14.54.46.png "Screenshot 2021-07-05 at 14.54.46.png")
+![](/img/how-to/z2-aws-file.png)
 
-> 📘 
-> 
-> Note: This bucket will be different in your case. This is just an example bucket for demonstration purpose
-
+:::info Note
+This bucket will be different in your case. This is just an example bucket for demonstration purpose
+:::
 We want to query/migrate `countries.json` file in iomete platform
 
-[block:image]
+![The file (countries.json) we want to move to iomete](/img/how-to/z2-jsonf.png "The file (countries.json) we want to move to iomete")
+
+<!-- [block:image]
 {
   "images": [
     {
@@ -36,28 +46,23 @@ We want to query/migrate `countries.json` file in iomete platform
     }
   ]
 }
-[/block]
+[/block] -->
 
-<<!-- <br> -->>
 
-> 📘 
-> 
-> You could download  thecountries.json file for yourself with this command:
-> 
-> wget <a href="https://iomete-public.s3.eu-central-1.amazonaws.com/datasets/countries.json" target="blank"> https\://iomete-public.s3.eu-central-1.amazonaws.com/datasets/countries.json</a>
-
-<<!-- <br> -->>
+:::info You could download  thecountries.json file for yourself with this command:
+wget <a href="https://iomete-public.s3.eu-central-1.amazonaws.com/datasets/countries.json" target="blank"> https\://iomete-public.s3.eu-central-1.amazonaws.com/datasets/countries.json</a>
+:::
 
 **Create a storage integration in iomete**
 ------------------------------------------
 
 1. Choose `AWS External Storage`
 
-![](https://files.readme.io/96cc20c-Screen_Shot_2022-02-20_at_13.47.46.png "Screen Shot 2022-02-20 at 13.47.46.png")
 
-2. Specify a name and enter your `AWS S3 Location` to create integration between to
+1. Specify a name and enter your `AWS S3 Location` to create integration between to
 
-[block:image]
+![Create AWS External Stage Storage Integration](/img/how-to/z2-ext-aws.png)
+<!-- [block:image]
 {
   "images": [
     {
@@ -70,15 +75,16 @@ We want to query/migrate `countries.json` file in iomete platform
     }
   ]
 }
-[/block]
+[/block] -->
 
 3. Once it is created copy policies created to be added to your S3 Bucket permissions
 
-![](https://files.readme.io/b33c4c8-Screen_Shot_2022-02-20_at_14.07.58.png "Screen Shot 2022-02-20 at 14.07.58.png")
+![](/img/how-to/z2-create-ext-aws-form.png)
+<!-- TODO external storage integration -->
 
 ![](https://files.readme.io/b1a6fdd-Screen_Shot_2022-02-20_at_14.09.23.png "Screen Shot 2022-02-20 at 14.09.23.png")
 
-4. Go to your AWS S3 Bucket and add generated JSON policy to your S3 Bucket's Permission
+1. Go to your AWS S3 Bucket and add generated JSON policy to your S3 Bucket's Permission
 
 ![](https://files.readme.io/4bc29e9-JSON_policy_1.png "JSON_policy_1.png")
 
