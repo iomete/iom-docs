@@ -99,6 +99,7 @@ const sidebars = {
             'sql/queries/limit-clause',
             'sql/queries/order-by-clause',
             'sql/queries/set-operators',
+            'sql/queries/sort-by-clause',
           ]
         },
       ]
