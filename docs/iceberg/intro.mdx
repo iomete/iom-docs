@@ -6,7 +6,7 @@ slug: getting-started
 **iomete** uses [Apache Spark](https://spark.apache.org/) as a compute engine, with [Apache Iceberg](https://iceberg.apache.org/) provider with additional optimization and packaging.
 ___
 
-# Apache Iceberg
+## Apache Iceberg
 
 Apache Iceberg is an open table format for huge analytic datasets. It provides a rich feature set:
 
@@ -17,15 +17,14 @@ Apache Iceberg is an open table format for huge analytic datasets. It provides a
   * [Time travel](https://iceberg.apache.org/spark-queries#time-travelr) enables reproducible queries that use exactly the same table snapshot, or lets users easily examine changes
   * Version rollback allows users to quickly correct problems by resetting tables to a good state
 
-{/* <br/>
-[block:callout]
-{
-  "type": "info",
-  "title": "Iceberg is the default provider. That means the followings have the same effect:",
-  "body": "`create table test1(id string);`\n`create table test1(id string) using icerberg;`"
-}
-[/block]
-<br/> */}
+
+:::info
+Iceberg is the default provider. That means the followings have the same effect:
+- `create table test1(id string);`
+- `create table test1(id string) using icerberg;`
+:::
+
+<br/>
 
 ### Creating a table
 
