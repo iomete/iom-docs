@@ -87,6 +87,7 @@ const sidebars = {
           items: [
             'sql/queries/select',
             'sql/queries/cte',
+            'sql/queries/cluster-by-clause',
           ]
         },
       ]
