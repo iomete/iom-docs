@@ -94,6 +94,7 @@ const sidebars = {
             'sql/queries/hints',
             'sql/queries/inline-table',
             'sql/queries/file',
+            'sql/queries/join',
           ]
         },
       ]
