@@ -3,30 +3,35 @@ title: Sync Data From JDBC Sources
 slug: /sync-data-from-jdbc
 ---
 
-Intro
------
+<!-- <head>
+  <title>Sync Data From AWS S3 to iomete</title>
+  <meta
+    name="description"
+    content="Sync Data From AWS S3 to iomete"
+  />
+</head> -->
+
+This is an end-to-end guide about how to migrate tables from JDBC sources (MySQL, PostgreSQL, etc.) to iomete and display it in the BI dashboard.
+___
+### Intro
 
 This is an end-to-end guide about how to migrate **tables** from JDBC sources (MySQL, PostgreSQL, etc.) to iomete and display it in the BI dashboard. 
 
-> 📘 
-> 
-> First, you need to establish an SSH tunnel between iomete and your database in your private network. See [Database Connection Options](https://docs.iomete.com/docs/database-connection-options)
+:::info
+First, you need to establish an SSH tunnel between iomete and your database in your private network. See [Database Connection Options](https://docs.iomete.com/docs/database-connection-options)
+:::
 
-***
-
-Database to migrate
--------------------
+### Database to migrate
 
 Let's assume that we want to replicate the MySQL database (or any other supported JDBC database) to the **iomete** warehouse
 
-> 📘 
-> 
-> In this tutorial, we will be using a publicly accessible iomete-tutorial database instance that contains the [Employees Sample Database. ](https://dev.mysql.com/doc/employee/en/sakila-structure.html)
+:::info
+In this tutorial, we will be using a publicly accessible iomete-tutorial database instance that contains the [Employees Sample Database. ](https://dev.mysql.com/doc/employee/en/sakila-structure.html)
+:::
 
-> 📘 
-> 
-> In case of connecting to your own database instance see [Database Connection Options](https://docs.iomete.com/docs/database-connection-options) for the details
-
+:::info
+In case of connecting to your own database instance see [Database Connection Options](https://docs.iomete.com/docs/database-connection-options) for the details
+:::
 Here are the details of `iomete-tutorial` public database:
 
 ```
@@ -47,19 +52,17 @@ The database contains the following tables:
 | titles       | 443308    |
 | salaries     | 2844047   |
 
-***
 
-Create warehouse
-----------------
+<br/>
+
+### Create warehouse
 
 Create a new warehouse instance
 
-![](https://files.readme.io/8dd28b1-Screen_Shot_2022-02-20_at_15.04.32.png "Screen Shot 2022-02-20 at 15.04.32.png")
+![Create lakehouse](/img/how-to/z3-create-lakehouse.png)
 
-***
 
-Querying  Source Table
-----------------------
+### Querying  Source Table
 
 After having the warehouse created, we create a table using JDBC Sources using [CREATE TABLE](https://docs.iomete.com/docs/create-table) command. In the OPTIONS part we specify credentials of the database to which we want to connect as follows (see [JDBC Sources](https://docs.iomete.com/docs/jdbc-sources)): 
 
@@ -77,11 +80,12 @@ OPTIONS (
 SELECT * FROM employees_proxy limit 100;
 ```
 
-> 📘 
-> 
-> This table doesn't hold the actual data. Data will be retrieved from the actual source once we query the table
+:::info
+This table doesn't hold the actual data. Data will be retrieved from the actual source once we query the table
+:::
 
-[block:image]
+![Query Editor](/img/how-to/z3-sql_editor.png)
+<!-- [block:image]
 {
   "images": [
     {
@@ -94,17 +98,13 @@ SELECT * FROM employees_proxy limit 100;
     }
   ]
 }
-[/block]
+[/block] -->
 
-***
-
-Migrating Data
---------------
+### Migrating Data
 
 To move the data from the source to the warehouse, you can use one of the following options:
 
 **  Non-partitioned Table    **
--------------------------------
 
 - **Option 1. Create a table from select**
 
@@ -146,8 +146,7 @@ Partitioning data to speed up queries or DML that have predicates involving the 
 SELECT SUBSTRING(birth_date, 0, 4) as birth_year, * FROM employees_proxy LIMIT 100;
 ```
 
-**Partitioned Table**
----------------------
+### **Partitioned Table**
 
 - **Option 1. Create a partitioned table from select**
 
@@ -189,11 +188,7 @@ WHEN NOT MATCHED
   THEN INSERT *
 ```
 
-<!-- <hr> -->
-  
-
-Visualize Data
---------------
+### Visualize Data
 
 Let's move `employees.salaries` before moving to BI visualization 
 
@@ -220,39 +215,36 @@ CREATE OR REPLACE VIEW employee_salaries AS
   JOIN salaries s ON e.emp_no = s.emp_no;
 ```
 
-Open BI Application
--------------------
+### Open BI Application
 
-![](https://files.readme.io/969080c-Screenshot_2021-07-05_at_19.52.21.png "Screenshot 2021-07-05 at 19.52.21.png")
+![Open BI](/img/how-to/z3-open-by.png)
 
-Add new dataset
----------------
+### Add new dataset
 
 To add a new dataset, choose `Dataset` link from the Data menu and click the `+Dataset` button:
 
-![](https://files.readme.io/bb5d276-Screenshot4_2021-07-12_at_01.05.55.png "Screenshot4 2021-07-12 at 01.05.55.png")
+![](/img/how-to/z3-new-dataset.png)
 
-Create a new chart
-------------------
+### Create a new chart
 
 Click on the newly created dataset `employee_salaries` which opens chart view. Let's create a `table` visualization for the `Top 10 High Salary Employees`
 
-![](https://files.readme.io/b2b8c20-Screenshot5_2021-07-12_at_01.10.43.png "Screenshot5 2021-07-12 at 01.10.43.png")
+![](/img/how-to/z3-create-new-chart.png)
 
 Save the chart to a dashboard
 
-![](https://files.readme.io/0cb9d3b-Screenshot6_2021-07-12_at_01.11.08.png "Screenshot6 2021-07-12 at 01.11.08.png")
+![](/img/how-to/z3-save-schart.png)
 
 Create another chart. This time `Female/Male Salary Distribution` using `PieChart` visualization
 
-![](https://files.readme.io/d055fea-Screenshot7_2021-07-12_at_01.12.49.png "Screenshot7 2021-07-12 at 01.12.49.png")
+![](/img/how-to/z3-create-another-chart.png)
 
 Save this chart to the dashboard too and navigate to the dashboard. And, here is the dashboard of the Employees that we just created
 
-![](https://files.readme.io/3fc195c-Screenshot8_2021-07-12_at_01.13.20.png "Screenshot8 2021-07-12 at 01.13.20.png")
+![](/img/how-to/z3-save-another-chart.png)
 
 Congratulations 🎉🎉🎉
 
-> 📘 Bonus part
-> 
-> There is a dedicated python library to help to automate this table replication with just a configuration. Please, check out [Syncing JDBC Sources](https://docs.iomete.com/docs/sync-jdbc-sources)
+:::success Bonus part
+There is a dedicated python library to help to automate this table replication with just a configuration. Please, check out [Syncing JDBC Sources](https://docs.iomete.com/docs/sync-jdbc-sources)
+:::
