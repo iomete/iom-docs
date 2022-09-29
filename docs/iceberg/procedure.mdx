@@ -2,9 +2,18 @@
 title: Iceberg Procedures
 ---
 
+<!-- <head>
+  <title>Iceberg tables DDL</title>
+  <meta
+    name="description"
+    content="Iceberg tables create"
+  />
+</head> -->
+___
+
 ## Spark Procedures
 
-## Usage
+### Usage
 
 Procedures can be used from any configured Iceberg catalog with `CALL`. All procedures are in the namespace `system`.
 
@@ -18,8 +27,6 @@ All procedure arguments are named. When passing arguments by name, arguments can
 CALL catalog_name.system.procedure_name(arg_name_2 => arg_2, arg_name_1 => arg_1)
 ```
 
-
-
 ### Positional arguments
 
 When passing arguments by position, only the ending arguments may be omitted if they are optional.
@@ -28,7 +35,7 @@ When passing arguments by position, only the ending arguments may be omitted if 
 CALL catalog_name.system.procedure_name(arg_1, arg_2, ... arg_n)
 ```
 
-
+<br/>
 
 ## Snapshot management
 
@@ -38,9 +45,9 @@ Roll back a table to a specific snapshot ID.
 
 To roll back to a specific time, use [`rollback_to_timestamp`](#rollback_to_timestamp).
 
-> 📘 
-> 
-> This procedure invalidates all cached Spark plans that reference the affected table.
+:::info
+This procedure invalidates all cached Spark plans that reference the affected table.
+:::
 
 #### Usage
 
@@ -64,15 +71,15 @@ Roll back table `db.sample` to snapshot ID `1`:
 CALL catalog_name.system.rollback_to_snapshot('db.sample', 1)
 ```
 
-
+<br/>
 
 ### `rollback_to_timestamp`
 
 Roll back a table to the snapshot that was current at some time.
 
-> 📘 
-> 
-> This procedure invalidates all cached Spark plans that reference the affected table.
+:::info
+This procedure invalidates all cached Spark plans that reference the affected table.
+:::
 
 #### Usage
 
@@ -97,16 +104,15 @@ CALL catalog_name.system.rollback_to_timestamp('db.sample', TIMESTAMP '2021-06-3
 ```
 
 
-
 ### `set_current_snapshot`
 
 Sets the current snapshot ID for a table.
 
 Unlike rollback, the snapshot is not required to be an ancestor of the current table state.
 
-> 📘 
-> 
-> This procedure invalidates all cached Spark plans that reference the affected table.
+:::info
+This procedure invalidates all cached Spark plans that reference the affected table.
+:::
 
 #### Usage
 
@@ -129,8 +135,7 @@ Set the current snapshot for `db.sample` to 1:
 ```sql
 CALL catalog_name.system.set_current_snapshot('db.sample', 1)
 ```
-
-
+<br/>
 
 ### `cherrypick_snapshot`
 
@@ -140,9 +145,9 @@ Cherry-picking creates a new snapshot from an existing snapshot without altering
 
 Only append and dynamic overwrite snapshots can be cherry-picked.
 
-> 📘 
-> 
-> This procedure invalidates all cached Spark plans that reference the affected table.
+:::info
+This procedure invalidates all cached Spark plans that reference the affected table.
+:::
 
 #### Usage
 
@@ -167,14 +172,13 @@ CALL catalog_name.system.cherrypick_snapshot('my_table', 1)
 ```
 
 
-
 Cherry-pick snapshot 1 with named args
 
 ```sql
 CALL catalog_name.system.cherrypick_snapshot(snapshot_id => 1, table => 'my_table' )
 ```
 
-
+<br/>
 
 ## Metadata management
 
@@ -217,7 +221,7 @@ Remove snapshots older than specific day and time, but retain the last 100 snaps
 CALL hive_prod.system.expire_snapshots('db.sample', TIMESTAMP '2021-06-30 00:00:00.000', 100)
 ```
 
-
+<br/>
 
 ### `remove_orphan_files`
 
@@ -248,14 +252,13 @@ CALL catalog_name.system.remove_orphan_files(table => 'db.sample', dry_run => tr
 ```
 
 
-
 Remove any files in the `tablelocation/data` folder which are not known to the table `db.sample`.
 
 ```sql
 CALL catalog_name.system.remove_orphan_files(table => 'db.sample', location => 'tablelocation/data')
 ```
 
-
+<br/>
 
 ### `rewrite_data_files`
 
@@ -314,7 +317,7 @@ Rewrite the data files in table `db.sample` and select the files that may contai
 CALL catalog_name.system.rewrite_data_files(table => 'db.sample', where => 'id = 3 and name = "foo"')
 ```
 
-
+<br/>
 
 ### `rewrite_manifests`
 
@@ -322,9 +325,9 @@ Rewrite manifests for a table to optimize scan planning.
 
 Data files in manifests are sorted by fields in the partition spec. This procedure runs in parallel using a Spark job.
 
-> 📘 
-> 
-> This procedure invalidates all cached Spark plans that reference the affected table.
+:::info
+This procedure invalidates all cached Spark plans that reference the affected table.
+:::
 
 #### Usage
 
@@ -356,7 +359,7 @@ Rewrite the manifests in table `db.sample` and disable the use of Spark caching.
 CALL catalog_name.system.rewrite_manifests('db.sample', false)
 ```
 
-
+<br/>
 
 ## Table migration
 
@@ -372,13 +375,13 @@ When inserts or overwrites run on the snapshot, new files are placed in the snap
 
 When finished testing a snapshot table, clean it up by running `DROP TABLE`.
 
-> 📘 
-> 
-> Because tables created by `snapshot` are not the sole owners of their data files, they are prohibited from  
-> actions like `expire_snapshots` which would physically delete data files. Iceberg deletes, which only effect metadata,  
-> are still allowed. In addition, any operations which affect the original data files will disrupt the Snapshot's  
-> integrity. DELETE statements executed against the original Hive table will remove original data files and the  
-> `snapshot` table will no longer be able to access them.
+:::info
+Because tables created by `snapshot` are not the sole owners of their data files, they are prohibited from  
+actions like `expire_snapshots` which would physically delete data files. Iceberg deletes, which only effect metadata,  
+are still allowed. In addition, any operations which affect the original data files will disrupt the Snapshot's  
+integrity. DELETE statements executed against the original Hive table will remove original data files and the  
+`snapshot` table will no longer be able to access them.
+:::
 
 See [`migrate`](#migrate) to replace an existing table with an Iceberg table.
 
@@ -508,7 +511,7 @@ CALL spark_catalog.system.add_files(
 
 
 
-## `Metadata information`
+## Metadata information
 
 ### `ancestors_of`
 
