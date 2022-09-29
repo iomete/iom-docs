@@ -105,6 +105,7 @@ const sidebars = {
             'sql/queries/use-database',
             'sql/queries/where-clause',
             'sql/queries/window-functions',
+            'sql/queries/case-clause',
           ]
         },
       ]
