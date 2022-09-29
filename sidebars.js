@@ -86,6 +86,7 @@ const sidebars = {
           collapsed: false,
           items: [
             'sql/queries/select',
+            'sql/queries/cte',
           ]
         },
       ]
