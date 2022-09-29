@@ -21,13 +21,13 @@ const sidebars = {
     {
       type: 'category',
       label: 'Documentation',
-      collapsed: false,
+      // collapsed: false,
       items: ['docs', 'docs/platform']
     },
     {
       type: 'category',
       label: 'Iceberg Tables',
-      collapsed: false,
+      // collapsed: false,
       items: [
         'iceberg/getting-started',
         'iceberg/ddl',
@@ -40,7 +40,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Data Sources',
-      collapsed: false,
+      // collapsed: false,
       items: [
         'data-source/jdbc',
         'data-source/csv',
@@ -57,7 +57,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'DDL',
-          collapsed: false,
+          // collapsed: false,
           items: [
             'sql/ddl/create-db',
             'sql/ddl/alter-db',
@@ -72,12 +72,20 @@ const sidebars = {
         {
           type: 'category',
           label: 'Writes',
-          collapsed: false,
+          // collapsed: false,
           items: [
             'sql/writes/truncate-table',
             'sql/writes/insert-into',
             'sql/writes/merge-into',
             'sql/writes/insert-overwrite',
+          ]
+        },
+        {
+          type: 'category',
+          label: 'Queries',
+          collapsed: false,
+          items: [
+            'sql/queries/select',
           ]
         },
       ]
