@@ -104,6 +104,7 @@ const sidebars = {
             'sql/queries/table-valued-functions',
             'sql/queries/use-database',
             'sql/queries/where-clause',
+            'sql/queries/window-functions',
           ]
         },
       ]
