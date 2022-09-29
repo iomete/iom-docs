@@ -95,6 +95,7 @@ const sidebars = {
             'sql/queries/inline-table',
             'sql/queries/file',
             'sql/queries/join',
+            'sql/queries/like-predicate',
           ]
         },
       ]
