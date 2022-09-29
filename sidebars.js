@@ -102,6 +102,7 @@ const sidebars = {
             'sql/queries/sort-by-clause',
             'sql/queries/sampling-queries',
             'sql/queries/table-valued-functions',
+            'sql/queries/use-database',
           ]
         },
       ]
