@@ -98,6 +98,7 @@ const sidebars = {
             'sql/queries/like-predicate',
             'sql/queries/limit-clause',
             'sql/queries/order-by-clause',
+            'sql/queries/set-operators',
           ]
         },
       ]
