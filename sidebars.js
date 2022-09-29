@@ -93,6 +93,7 @@ const sidebars = {
             'sql/queries/having-by-clause',
             'sql/queries/hints',
             'sql/queries/inline-table',
+            'sql/queries/file',
           ]
         },
       ]
