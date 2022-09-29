@@ -29,7 +29,7 @@ const sidebars = {
       label: 'Iceberg Tables',
       collapsed: false,
       items: [
-        'iceberg/intro',
+        'iceberg/getting-started',
         'iceberg/ddl',
         'iceberg/queries',
         'iceberg/writes',
