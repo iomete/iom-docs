@@ -1,11 +1,19 @@
 ---
 title: The iomete Lakehouse Platform
 slug: /iomete-lakehouse-platform
-tags:
-  - Platform
-  - Getting started
-  - iomete doc
+tags: [iomete Intro, Getting started, iomete docs]
+keywords: [iomete, datalake, lakehouse, warehouse]
 ---
+
+<!-- <head>
+  <title>The iomete lakehouse platform</title>
+  <meta
+    name="description"
+    content="The iomete lakehouse platform"
+  />
+</head> -->
+
+On this page we give an overview of the components that make up the iomete lakehouse platform. The iomete lakehouse platform was designed to provide a unified experience with one source of truth. The platform is complete with a built-in data catalog and built-in BI so that users can become data-driven in an easy and cost-effective manner.
 
 We deliver data-infrastructure-as-one-single-platform. We are on the cloud (AWS) and provide a fully managed experience. We also provide local cloud, on-premise and hybrid solutions.
 
@@ -20,23 +28,12 @@ The platform includes:
 4. Data Loaders (Data migration from 3rd party services, aka data connectors)
 5. Built-in BI Solution (but also works with 3rd party BI solution such as Tableau, Looker and the likes)
 
-[block:image]
-{
-  "images": [
-    {
-      "image": [
-        "https://files.readme.io/89b8122-how-it-works-new-v5.png",
-        "how-it-works-new-v5.png",
-        1980
-      ],
-      "sizing": "80"
-    }
-  ]
-}
-[/block]
 
-Lakehouse
-=========
+![How it works](/img/docs/how-it-works.png)
+
+<br/>
+
+### Lakehouse
 
 At the center, iomete provides a data** lakehouse. **Lakehouse is an environment designed to combine the data structure and data management features of a data warehouse with the low-cost storage of a data lake.
 
@@ -61,8 +58,7 @@ Incredible isn’t it?!
 
 One of the exciting concepts we mentioned above is **decoupled compute and storage**. Next, let’s learn what it is.
 
-Decoupled Compute and Storage
------------------------------
+### Decoupled Compute and Storage
 
 iomete lakehouse uses decoupled compute & storage architecture, aka multi-cluster shared-data architecture.
 
@@ -73,15 +69,13 @@ Why is running multiple compute clusters on shared data important? Here are the 
 - Single source of truth of your all company data, as opposed to having different data silos
 - Isolate your compute workloads based on team or use cases without duplicating data. _For instance, different teams have different compute clusters or separate ETL workloads from BI workloads, etc. Moreover, as your organization grows, the system can scale horizontally._
 
-Data Governance
-===============
+### Data Governance
 
 Data governance is a collection of processes, roles, policies, standards, and metrics that ensure the effective and efficient use of information in enabling an organization to achieve its goals. It establishes the processes and responsibilities that ensure the quality and security of the data used across a business or organization. Data governance defines who can take what action, upon what data, in what situations, using what methods.
 
 iomete provides the following services to control all these. 
 
-Advanced Data Authorization Control & Auditing
-----------------------------------------------
+### Advanced Data Authorization Control & Auditing
 
 iomete provides a state-of-the-art centralized data access control. You can manage:
 
@@ -91,8 +85,7 @@ iomete provides a state-of-the-art centralized data access control. You can mana
 
 Moreover, data auditing enables to track who consumes what data.
 
-Data Catalog & Discovery
-------------------------
+### Data Catalog & Discovery
 
 Iomete data catalog is a collection of metadata, combined with data management and search tools, that helps analysts and other data users find the data they need. It serves as an inventory of available data and provides information to evaluate fitness data for intended uses.
 
@@ -103,8 +96,7 @@ Here are the benefits of the iomete data catalog:
 - Smart auto-tag-detection. Iomete profiles data and automatically tags datasets with PII/PCI (email, address, person, location, credit card, etc.)
 - Data lineage. Reveal how data has evolved through its lifecycle, where it has come from, and foresee the assets that will be impacted due to change going forward.
 
-Data monitoring & observability
--------------------------------
+### Data monitoring & observability
 
 Observability is no longer just for software engineering. With the rise of data downtime and the increasing complexity of the data stack, observability has emerged as a critical concern for data teams, too.
 
@@ -113,17 +105,14 @@ iomete provides:
 - Automated data quality profiling: automatically profiles your data to identify missing values, outliers & other data anomalies. 
 - Quality checks: Define checks on the datasets to define the health level. When datasets are not conforming to the checks defined on them, the platform will alert the team about the problem.
 
-Serverless Job Service (ETL)
-============================
+### Serverless Job Service (ETL)
 
 Serverless Job Service is a serverless job service for Apache Spark applications with an intuitive user experience. You can think of it, Heroku for Spark applications.
 
-Data Loaders
-============
+### Data Loaders
 
 Data Loaders are connectors to move data from 3rd party applications, like Mixpanel, HubSpot, and hundreds of others. More will come on this.
 
-BI
-==
+### BI
 
 Fast, lightweight, intuitive, and loaded with options that make it easy for users of all skill sets to explore and visualize their data, from simple line charts to highly detailed geospatial charts. If you wish to connect your favorite third party BI tool instead (e.g. Tableau or Looker): piece of cake.

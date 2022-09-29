@@ -2,14 +2,14 @@
 title: Welcome to iomete docs!
 slug: /welcome-to-iomete
 tags: [iomete Intro, Getting started, iomete docs]
-keywords: [keywords, describing, xaxxa]
+keywords: [iomete, datalake, lakehouse, warehouse]
 ---
 
 <head>
-  <title>Welcome to iomete docs!!</title>
+  <title>Welcome to iomete docs</title>
   <meta
     name="description"
-    content="The iomete lakehouse platform"
+    content="Get started | iomete docs"
   />
   <link rel="canonical" href="https://www.iomete.com/docs" />
   <meta property="og:url" content="https://www.iomete.com/docs" />
