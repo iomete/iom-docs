@@ -96,6 +96,7 @@ const sidebars = {
             'sql/queries/file',
             'sql/queries/join',
             'sql/queries/like-predicate',
+            'sql/queries/limit-clause'
           ]
         },
       ]
