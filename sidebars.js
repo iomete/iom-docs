@@ -108,6 +108,7 @@ const sidebars = {
             'sql/queries/case-clause',
             'sql/queries/pivot-clause',
             'sql/queries/literal-view-clause',
+            'sql/queries/transform',
           ]
         },
       ]
