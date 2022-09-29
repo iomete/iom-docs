@@ -2,6 +2,14 @@
 title: Queries
 ---
 
+<!-- <head>
+  <title>Iceberg tables queries</title>
+  <meta
+    name="description"
+    content="Iceberg tables query"
+  />
+</head> -->
+
 ```sql
 SELECT * FROM db.table1 -- database: db, table: table1
 ```
@@ -15,12 +23,7 @@ SELECT * FROM db.table1.files
 
 <br/>
 
-***
-
-<br/>
-
-Time travel
-===========
+### Time travel
 
 To select a specific table snapshot or the snapshot at some time, Iceberg supports two Spark read options:
 
@@ -43,25 +46,20 @@ spark.read
     .load("path/to/table")
 ```
 
-> 📘 
-> 
-> Time travel is not yet supported by Spark’s SQL syntax.
+:::info 
+Time travel is not yet supported by Spark’s SQL syntax.
+:::
 
 <br/>
 
-***
 
-<br/>
-
-Inspecting tables
-=================
+### Inspecting tables
 
 To inspect a table’s history, snapshots, and other metadata, Iceberg supports metadata tables.
 
 Metadata tables are identified by adding the metadata table name after the original table name. For example, history for `db.table1` is read using `db.table1.history`.
 
-History
--------
+### History
 
 To show table history, run:
 
@@ -82,12 +80,13 @@ SELECT * FROM db.table1.history
 +-------------------------+---------------------+---------------------+---------------------+
 ```
 
-> 📘 
-> 
-> **This shows a commit that was rolled back.** The example has two snapshots with the same parent, and one is not an ancestor of the current table state.
+:::info 
+**This shows a commit that was rolled back.** The example has two snapshots with the same parent, and one is not an ancestor of the current table state.
+:::
 
-Snapshots
----------
+<br/>
+
+### Snapshots
 
 To show the valid snapshots for a table, run:
 
@@ -132,8 +131,9 @@ order by made_current_at
 +-------------------------+-----------+----------------+---------------------+----------------------------------+
 ```
 
-Files
------
+<br/>
+
+### Files
 
 To show a table’s data files and each file’s metadata, run:
 
@@ -151,8 +151,9 @@ SELECT * FROM db.table.files
 +-------------------------------------------------------------------------+-------------+--------------+--------------------+--------------------+------------------+-------------------+------------------+-----------------+-----------------+--------------+---------------+
 ```
 
-Manifests
----------
+<br/>
+
+### Manifests
 
 To show a table’s file manifests and each file’s metadata, run:
 
@@ -168,7 +169,7 @@ SELECT * FROM db.table.manifests
 +----------------------------------------------------------------------+--------+-------------------+---------------------+------------------------+---------------------------+--------------------------+--------------------------------------+
 ```
 
-> 📘 
-> 
-> 1. Fields within partition_summaries column of the manifests table correspond to field_summary structs within [manifest list](https://iceberg.apache.org/spec/#manifest-lists), with the following order: - contains_null - contains_nan - lower_bound - upper_bound 
-> 2. contains_nan could return null, which indicates that this information is not available from files’ metadata
+:::info
+1. Fields within partition_summaries column of the manifests table correspond to field_summary structs within [manifest list](https://iceberg.apache.org/spec/#manifest-lists), with the following order: - contains_null - contains_nan - lower_bound - upper_bound 
+2. contains_nan could return null, which indicates that this information is not available from files’ metadata
+:::
