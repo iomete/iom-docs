@@ -3,15 +3,25 @@ title: Sync Data From AWS S3
 slug: /sync-data-from-aws-s3
 ---
 
-## Intro
+<!-- <head>
+  <title>Sync Data From AWS S3</title>
+  <meta
+    name="description"
+    content="Sync Data From AWS S3"
+  />
+</head> -->
+
+
+### Intro
 
 This is an end-to-end guide about how to move files from your AWS S3 to iomete and show it in the BI dashboard.
 
-## Your files in AWS S3
+### Your files in AWS S3
 
 Let's say you have a bucket where you have files you want to move to iomete.
 
-[block:image]
+![The dedicated bucket for iomete](/img/how-to/bucket.png)
+<!-- [block:image]
 {
   "images": [
     {
@@ -24,15 +34,17 @@ Let's say you have a bucket where you have files you want to move to iomete.
     }
   ]
 }
-[/block]
+[/block] -->
 
-> 💡 
-> 
-> Note: This is just an example bucket for demonstration purpose. This bucket will be different in your case.
+:::note
+💡 This is just an example bucket for demonstration purpose. This bucket will be different in your case.
+:::
 
 Let's say, we want to create or receive a new query/migrate `countries.json` file in iomete platform.
 
-[block:image]
+![The File (countries.json) we want to move to iomete](/img/how-to/countries.png)
+
+<!-- [block:image]
 {
   "images": [
     {
@@ -45,23 +57,22 @@ Let's say, we want to create or receive a new query/migrate `countries.json` fil
     }
   ]
 }
-[/block]
+[/block] -->
 
-<!-- <br> -->
+<br/>
 
-> 📘 
-> 
-> You could download  the countries.json file for yourself with this command:
-> 
-> wget <a href="https://iomete-public.s3.eu-central-1.amazonaws.com/datasets/countries.json" target="blank"> https\://iomete-public.s3.eu-central-1.amazonaws.com/datasets/countries.json</a>
+:::info You could download the countries.json file for yourself with this command:
+wget <a href="https://iomete-public.s3.eu-central-1.amazonaws.com/datasets/countries.json" target="blank"> https\://iomete-public.s3.eu-central-1.amazonaws.com/datasets/countries.json</a>
+:::
 
-<!-- </br> -->
+<br/>
 
 ## Create a policy for default iomete access role
 
-> 💡 
-> 
-> Remember the first storage integration and **default_iomete_access_role**  from <a href="https\://docs.iomete.com/docs/iam-role-for-data-lake-access" target="blank"> IAM Role For Data Lake Access </a>
+:::note
+
+💡Remember the first storage integration and **default_iomete_access_role**  from <a href="https\://docs.iomete.com/docs/iam-role-for-data-lake-access" target="blank"> IAM Role For Data Lake Access </a>
+:::
 
 Just create a policy for bucket **area-for-iomete** and attach it to the **default_iomete_access_role**. 
 
@@ -71,7 +82,8 @@ The following step-by-step instructions describe how to configure it.
 
 - Go to **Identity & Access Management (IAM) -> Policies -> Create Policy:**
 
-[block:image]
+![Create policy button on Policies page](/img/how-to/create-policy-button.png)
+<!-- [block:image]
 {
   "images": [
     {
@@ -84,11 +96,12 @@ The following step-by-step instructions describe how to configure it.
     }
   ]
 }
-[/block]
+[/block] -->
 
 - In the editor, click the **JSON** tab.
 
-[block:image]
+![JSON tab in editor](/img/how-to/json-tab.png)
+<!-- [block:image]
 {
   "images": [
     {
@@ -101,14 +114,15 @@ The following step-by-step instructions describe how to configure it.
     }
   ]
 }
-[/block]
+[/block] -->
 
 - Add a policy document that will allow **iomete** to access the S3 bucket and folder.  
   The following policy (in JSON format) provides iomete with the required permissions to load or unload data using a single bucket and folder path. Copy and paste the text into the policy editor:
 
-> 💡 
-> 
-> Note: Change the bucket name with yours. This is just an example bucket for demonstration purpose.
+:::note
+💡 Change the bucket name with yours. This is just an example bucket for demonstration 
+purpose.
+:::
 
 ```json json
 {
@@ -143,7 +157,9 @@ After review save it with the name: **area_for_iomete_access**.
 - Go to **Identity & Access Management (IAM) -> Roles**
 - Search for **default_iomete_access_role**
 
-[block:image]
+![Default iomete access role on Policies page](/img/how-to/default_iomete_access_role.png)
+
+<!-- [block:image]
 {
   "images": [
     {
@@ -156,13 +172,15 @@ After review save it with the name: **area_for_iomete_access**.
     }
   ]
 }
-[/block]
+[/block] -->
 
 Inside of the **default_iomete_access_role**, attach the new created **area_for_iomete_access** beside of **iomete_datalake_access**.
 
 - Click the **Add permissions -> Attach policies**
 
-[block:image]
+![Default iomete access role](/img/how-to/attach-policy.png)
+
+<!-- [block:image]
 {
   "images": [
     {
@@ -175,10 +193,12 @@ Inside of the **default_iomete_access_role**, attach the new created **area_for_
     }
   ]
 }
-[/block]
+[/block] -->
 
 - Search for **area_for_iomete_access** and click the **Attach policies** button.
 
+![New attached **area_for_iomete** role.](/img/how-to/attached-policy.png)
+<!-- 
 [block:image]
 {
   "images": [
@@ -192,7 +212,7 @@ Inside of the **default_iomete_access_role**, attach the new created **area_for_
     }
   ]
 }
-[/block]
+[/block] -->
 
 **area_for_iomete** successfully attached to the **default_iomete_access_role**. Now let's see how to get data from the platform.
 
@@ -206,7 +226,8 @@ In the SQL Editor, you should be able to query the file and migrate to iomete us
 
 Querying JSON file data without moving to `iomete`
 
-[block:image]
+![Query JSON Data](/img/how-to/querying-data.png)
+<!-- [block:image]
 {
   "images": [
     {
@@ -220,7 +241,7 @@ Querying JSON file data without moving to `iomete`
     }
   ]
 }
-[/block]
+[/block] -->
 
 ### Non-partitioned Table
 
@@ -335,7 +356,9 @@ Lets visualize the new **countries_view** in the BI Application.
 
 From the menu choose `Data -> Dataset` and click `+ Dataset` button on the right top corner.
 
-[block:image]
+![New dataset creation on BI](/img/how-to/create-dataset.png)
+
+<!-- [block:image]
 {
   "images": [
     {
@@ -348,13 +371,14 @@ From the menu choose `Data -> Dataset` and click `+ Dataset` button on the right
     }
   ]
 }
-[/block]
+[/block] -->
 
 **Create a new chart** 
 
 Click on the newly created dataset `countries_view` which opens chart view. Choose the visualization type and corresponding settings:
 
-[block:image]
+![Top 10 countries with highest population](/img/how-to/chart.png)
+<!-- [block:image]
 {
   "images": [
     {
@@ -368,11 +392,12 @@ Click on the newly created dataset `countries_view` which opens chart view. Choo
     }
   ]
 }
-[/block]
+[/block] -->
 
 Save this chart to the dashboard too and navigate to the dashboard. And, here is the dashboard of the `Countries` that we just created.
 
-[block:image]
+![Countries dashboard on BI](/img/how-to/dashboard-countries.png)
+<!-- [block:image]
 {
   "images": [
     {
@@ -386,4 +411,4 @@ Save this chart to the dashboard too and navigate to the dashboard. And, here is
     }
   ]
 }
-[/block]
+[/block] -->
