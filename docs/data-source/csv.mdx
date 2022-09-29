@@ -1,4 +1,17 @@
-# CSV Files
+---
+title: CSV Files
+---
+
+___
+
+<!-- <head>
+  <title>JDBC Sources</title>
+  <meta
+    name="description"
+    content="JDBC Sources"
+  />
+</head> -->
+
 ### Option 1. Direct reading
 
 The following syntax allows reading CSV file directly from the location without it copying the data. It automatically detects the schema (column names)
@@ -86,10 +99,20 @@ select * from tutorial_flights2;
 | Yellow Department  | 25.98   |
 +--------------------+---------+
 ```
-[block:callout]
-{
-  "type": "info",
-  "body": "* **path:** location of files\n  * **header:** when set to true the first line of files will be used to name columns and will not be included in data. All types will be assumed string. Default value is false.\n  * **delimiter:** by default columns are delimited using `,` but delimiter can be set to any character\n  * **quote:** by default, the quote character is `\"` but can be set to any character. Delimiters inside quotes are ignored\n  * **escape:** by default the escape character is `\\` but can be set to any character. Escaped quote characters are ignored\n  * **mode:** determines the parsing mode. By default it is `PERMISSIVE`. Possible values are:\n    * **PERMISSIVE:** tries to parse all lines: nulls are inserted for missing tokens and extra tokens are ignored\n    * **DROPMALFORMED:** drops lines which have fewer or more tokens than expected or tokens which do not match the schema\n    * **FAILFAST:** aborts with a RuntimeException if encounters any malformed line\n  * **charset:** defaults to 'UTF-8' but can be set to other valid charset names\n  * **inferSchema:** automatically infers column types. It requires one extra pass over the data and is false by default\n  * **comment:** skip lines beginning with this character. Default is `#`. Disable comments by setting this to `null`\n  * **nullValue:** specifies a string that indicates a null value, any fields matching this string will be set as nulls\n  * **dateFormat:** specifies a string that indicates the date format to use when reading dates or timestamps. Custom date formats follow the formats at `java.text.SimpleDateFormat`. This applies to both `DateType` and `TimestampType`. By default, it is `null` which means trying to parse times and date by `java.sql.Timestamp.valueOf()` and `java.sql.Date.valueOf()`",
-  "title": "Options"
-}
-[/block]
+
+:::info Options
+* **path:** location of files
+* **header:** when set to true the first line of files will be used to name columns and will not be included in data. All types will be assumed string. Default value is false.
+* **delimiter:** by default columns are delimited using `,` but delimiter can be set to any character
+* **quote:** by default, the quote character is `\"` but can be set to any character. Delimiters inside quotes are ignored
+* **escape:** by default the escape character is `\\` but can be set to any character. Escaped quote characters are ignored
+* **mode:** determines the parsing mode. By default it is `PERMISSIVE`. Possible values are:
+  * **PERMISSIVE:** tries to parse all lines: nulls are inserted for missing tokens and extra tokens are ignored
+  * **DROPMALFORMED:** drops lines which have fewer or more tokens than expected or tokens which do not match the schema
+  * **FAILFAST:** aborts with a RuntimeException if encounters any malformed line
+* **charset:** defaults to 'UTF-8' but can be set to other valid charset names
+* **inferSchema:** automatically infers column types. It requires one extra pass over the data and is false by default
+* **comment:** skip lines beginning with this character. Default is `#`. Disable comments by setting this to `null`
+* **nullValue:** specifies a string that indicates a null value, any fields matching this string will be set as nulls
+* **dateFormat:** specifies a string that indicates the date format to use when reading dates or timestamps. Custom date formats follow the formats at `java.text.SimpleDateFormat`. This applies to both `DateType` and `TimestampType`. By default, it is `null` which means trying to parse times and date by `java.sql.Timestamp.valueOf()` and `java.sql.Date.valueOf()`
+:::
