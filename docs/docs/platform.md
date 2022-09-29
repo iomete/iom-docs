@@ -2,7 +2,6 @@
 title: The iomete Lakehouse Platform
 slug: /iomete-lakehouse-platform
 tags: [iomete Intro, Getting started, iomete docs]
-keywords: [iomete, datalake, lakehouse, warehouse]
 ---
 
 <!-- <head>

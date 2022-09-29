@@ -2,7 +2,6 @@
 title: Welcome to iomete docs!
 slug: /welcome-to-iomete
 tags: [iomete Intro, Getting started, iomete docs]
-keywords: [iomete, datalake, lakehouse, warehouse]
 ---
 
 <head>
