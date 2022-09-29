@@ -69,6 +69,17 @@ const sidebars = {
             'sql/ddl/drop-view'
           ]
         },
+        {
+          type: 'category',
+          label: 'Writes',
+          collapsed: false,
+          items: [
+            'sql/writes/truncate-table',
+            'sql/writes/insert-into',
+            'sql/writes/merge-into',
+            'sql/writes/insert-overwrite',
+          ]
+        },
       ]
     },
     // {
