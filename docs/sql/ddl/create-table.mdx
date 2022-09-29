@@ -1,4 +1,20 @@
-## **Syntax**
+---
+title: Create Table
+---
+
+<!-- <head>
+  <title>Create Table</title>
+  <meta
+    name="description"
+    content="Create Table"
+  />
+</head> -->
+
+The `CREATE TABLE` statement defines a new table
+___
+
+
+### **Syntax**
 
 ```sql
 CREATE TABLE [ IF NOT EXISTS ] table_identifier
@@ -16,7 +32,7 @@ CREATE TABLE [ IF NOT EXISTS ] table_identifier
 ```
 ---
 
-## **Parameters**
+### **Parameters**
 
   * **table_identifier**
   Specifies a table name, which may be optionally qualified with a database name.
@@ -44,14 +60,10 @@ CREATE TABLE [ IF NOT EXISTS ] table_identifier
 
 **Examples**
 
+:::info
+Insert/update/merge operation only supported with deltadeltaprovider. It's always recommended to create tables with delta provider
+:::
 
-
-[block:callout]
-{
-  "type": "info",
-  "body": "Insert/update/merge operation only supported with deltadeltaprovider. It's always recommended to create tables with delta provider"
-}
-[/block]
 ```sql
 CREATE IF NOT EXISTS TABLE events (
   date DATE,
