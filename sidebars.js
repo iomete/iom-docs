@@ -100,6 +100,7 @@ const sidebars = {
             'sql/queries/order-by-clause',
             'sql/queries/set-operators',
             'sql/queries/sort-by-clause',
+            'sql/queries/sampling-queries',
           ]
         },
       ]
