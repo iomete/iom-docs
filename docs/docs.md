@@ -1,17 +1,27 @@
 ---
 title: Welcome to iomete docs!
 slug: /welcome-to-iomete
-tags:
-  - Intro
-  - Getting started
-  - iomete doc
+tags: [iomete Intro, Getting started, iomete docs]
+keywords: [keywords, describing, xaxxa]
 ---
 
-<!-- # **The iomete lakehouse platform** -->
+<head>
+  <title>Welcome to iomete docs!!</title>
+  <meta
+    name="description"
+    content="The iomete lakehouse platform"
+  />
+  <link rel="canonical" href="https://www.iomete.com/docs" />
+  <meta property="og:url" content="https://www.iomete.com/docs" />
+</head>
 
-#### The platform
+⚡️ Here you'll find comprehensive guides and documentation to get you up and **running with iomete quickly and easily**
 
-- Modern lakehouse built on top of Apache Iceberg and Apache Spark.
+### The iomete lakehouse platform
+
+**The platform**
+
+- Modern lakehouse built on top of **Apache Iceberg** and **Apache Spark.**
 - Includes: 
   - Serverless lakehouse
   - Serverless Spark Jobs
@@ -19,13 +29,13 @@ tags:
   - Advanced data catalog 
   - Built-in BI (or connect 3rd party BI e.g. Tableau, Looker)
 
-#### iomete's extreme value proposition
+**iomete's extreme value proposition**
 
 - Our compute pricing is equal to AWS on-demand pricing, with no mark up. 
 - You get basically all our lakehouse functionality for free.
 - We believe in the democratization of data. Data is used in important areas like health, climate, sustainability and finance. Therefore data computation and analysis that is easy and available at the lowest price possible even at petabytes scale, may be a great thing for planet earth. 
 
-#### Platform features
+### Platform features
 
 - **Modern architecture:** We are ex-Uber/Google/Amazon engineers that understand data at scale.
 - **Open source:** We built on Apache Iceberg and Apache Spark. We use an open source data format (Parquet).
