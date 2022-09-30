@@ -118,7 +118,8 @@ const sidebars = {
           items: ['sql/auxiliary-statements/cache']
         },
         'sql/column-types',
-        'sql/datetime-patterns'
+        'sql/datetime-patterns',
+        'sql/identifiers'
       ]
     },
     // {
