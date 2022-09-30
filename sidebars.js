@@ -134,6 +134,8 @@ const sidebars = {
         'user-guide/sso-login',
         'user-guide/virtual-lakehouses',
         'user-guide/serverless-streams',
+        'user-guide/user-management',
+        'user-guide/access-policy-management',
       ]
     }
     // {
