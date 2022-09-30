@@ -137,6 +137,7 @@ const sidebars = {
         'user-guide/user-management',
         'user-guide/access-policy-management',
         'user-guide/serverless-spark-application',
+        'user-guide/storage-integration',
       ]
     }
     // {
