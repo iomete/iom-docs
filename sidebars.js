@@ -157,7 +157,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'LIBRARIES',
-      collapsed: false,
+      // collapsed: false,
       items: [
         {
           type: 'category',
@@ -169,6 +169,15 @@ const sidebars = {
           ]
         },
         'libraries/sync-jdbc-sources',
+      ]
+    },
+    {
+      type: 'category',
+      label: 'BI - APACHE SUPERSET',
+      collapsed: false,
+      items: [
+        'bi-apache-superset/security',
+        'bi-apache-superset/public-dashboard'
       ]
     }
     // {
