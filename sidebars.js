@@ -187,6 +187,7 @@ const sidebars = {
       items: [
         'administration-guide/iam-role-for-datalake-access',
         'administration-guide/staging-area-access',
+        'administration-guide/iomete-ip-addresses',
       ]
     }
     // {
