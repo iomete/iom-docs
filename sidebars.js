@@ -121,7 +121,8 @@ const sidebars = {
         'sql/datetime-patterns',
         'sql/identifiers',
         'sql/operators',
-        'sql/literals'
+        'sql/literals',
+        'sql/null-semantics'
       ]
     },
     // {
