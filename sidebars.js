@@ -21,13 +21,13 @@ const sidebars = {
     {
       type: 'category',
       label: 'Documentation',
-      // collapsed: false,
+      collapsed: false,
       items: ['docs', 'docs/platform']
     },
     {
       type: 'category',
       label: 'Iceberg Tables',
-      // collapsed: false,
+      collapsed: false,
       items: [
         'iceberg/getting-started',
         'iceberg/ddl',
@@ -40,7 +40,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Data Sources',
-      // collapsed: false,
+      collapsed: false,
       items: [
         'data-source/jdbc',
         'data-source/csv',
@@ -52,12 +52,12 @@ const sidebars = {
     {
       type: 'category',
       label: 'Spark SQL reference',
-      // collapsed: false,
+      collapsed: false,
       items: [
         {
           type: 'category',
           label: 'DDL',
-          // collapsed: false,
+          collapsed: false,
           items: [
             'sql/ddl/create-db',
             'sql/ddl/alter-db',
@@ -72,7 +72,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Writes',
-          // collapsed: false,
+          collapsed: false,
           items: [
             'sql/writes/truncate-table',
             'sql/writes/insert-into',
@@ -83,7 +83,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Queries',
-          // collapsed: false,
+          collapsed: false,
           items: [
             'sql/queries/select',
             'sql/queries/cte',
@@ -129,7 +129,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'User Guide',
-      // collapsed: false,
+      collapsed: false,
       items: [
         'user-guide/sso-login',
         'user-guide/virtual-lakehouses',
@@ -145,7 +145,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'IOMETE SPARK JOBS',
-      // collapsed: false,
+      collapsed: false,
       items: [
         'spark-job/data-compaction-job',
         'spark-job/query-scheduler-job',
@@ -157,7 +157,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'LIBRARIES',
-      // collapsed: false,
+      collapsed: false,
       items: [
         {
           type: 'category',
@@ -174,7 +174,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'BI - APACHE SUPERSET',
-      // collapsed: false,
+      collapsed: false,
       items: [
         'bi-apache-superset/security',
         'bi-apache-superset/public-dashboard'
@@ -183,7 +183,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'ADMINISTRATION GUIDE',
-      // collapsed: false,
+      collapsed: false,
       items: [
         'administration-guide/iam-role-for-datalake-access',
         'administration-guide/staging-area-access',
