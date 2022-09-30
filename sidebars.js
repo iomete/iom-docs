@@ -136,6 +136,7 @@ const sidebars = {
         'user-guide/serverless-streams',
         'user-guide/user-management',
         'user-guide/access-policy-management',
+        'user-guide/serverless-spark-application',
       ]
     }
     // {
