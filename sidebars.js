@@ -120,7 +120,8 @@ const sidebars = {
         'sql/column-types',
         'sql/datetime-patterns',
         'sql/identifiers',
-        'sql/operators'
+        'sql/operators',
+        'sql/literals'
       ]
     },
     // {
