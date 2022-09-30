@@ -129,7 +129,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'User Guide',
-      collapsed: false,
+      // collapsed: false,
       items: [
         'user-guide/sso-login',
         'user-guide/virtual-lakehouses',
@@ -140,6 +140,14 @@ const sidebars = {
         'user-guide/storage-integration',
         'user-guide/integrated-bi',
         'user-guide/private-docker-registry',
+      ]
+    },
+    {
+      type: 'category',
+      label: 'IOMETE SPARK JOBS',
+      collapsed: false,
+      items: [
+        'spark-job/data-compaction-job',
       ]
     }
     // {
