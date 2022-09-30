@@ -122,7 +122,8 @@ const sidebars = {
         'sql/identifiers',
         'sql/operators',
         'sql/literals',
-        'sql/null-semantics'
+        'sql/null-semantics',
+        'sql/functions',
       ]
     },
     // {
