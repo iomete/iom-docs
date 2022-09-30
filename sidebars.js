@@ -148,6 +148,7 @@ const sidebars = {
       collapsed: false,
       items: [
         'spark-job/data-compaction-job',
+        'spark-job/query-scheduler-job',
       ]
     }
     // {
