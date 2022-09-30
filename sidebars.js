@@ -145,13 +145,28 @@ const sidebars = {
     {
       type: 'category',
       label: 'IOMETE SPARK JOBS',
-      collapsed: false,
+      // collapsed: false,
       items: [
         'spark-job/data-compaction-job',
         'spark-job/query-scheduler-job',
         'spark-job/jdbc-sync-job',
         'spark-job/kafka-streaming',
         'spark-job/file-streaming',
+      ]
+    },
+    {
+      type: 'category',
+      label: 'LIBRARIES',
+      collapsed: false,
+      items: [
+        {
+          type: 'category',
+          label: 'Drivers',
+          collapsed: false,
+          items: [
+            'libraries/drivers/sql-alchemy-driver'
+          ]
+        }
       ]
     }
     // {
