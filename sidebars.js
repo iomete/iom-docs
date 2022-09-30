@@ -52,7 +52,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Spark SQL reference',
-      collapsed: false,
+      // collapsed: false,
       items: [
         {
           type: 'category',
@@ -126,6 +126,14 @@ const sidebars = {
         'sql/functions',
       ]
     },
+    {
+      type: 'category',
+      label: 'User Guide',
+      collapsed: false,
+      items: [
+        'user-guide/sso-login',
+      ]
+    }
     // {
     //   type: 'category',
     //   label: 'Tests',
