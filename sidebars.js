@@ -164,7 +164,8 @@ const sidebars = {
           label: 'Drivers',
           collapsed: false,
           items: [
-            'libraries/drivers/sql-alchemy-driver'
+            'libraries/drivers/sql-alchemy-driver',
+            'libraries/drivers/jdbc-driver',
           ]
         }
       ]
