@@ -198,6 +198,14 @@ const sidebars = {
       items: [
         'misc/datagrip-lakehouse-connection',
       ]
+    },
+    {
+      type: 'category',
+      label: 'DBT',
+      collapsed: false,
+      items: [
+        'dbt/iomete-profile',
+      ]
     }
     // {
     //   type: 'category',
