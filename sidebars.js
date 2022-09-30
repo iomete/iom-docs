@@ -139,6 +139,7 @@ const sidebars = {
         'user-guide/serverless-spark-application',
         'user-guide/storage-integration',
         'user-guide/integrated-bi',
+        'user-guide/private-docker-registry',
       ]
     }
     // {
