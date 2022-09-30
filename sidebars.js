@@ -132,6 +132,7 @@ const sidebars = {
       collapsed: false,
       items: [
         'user-guide/sso-login',
+        'user-guide/virtual-lakehouses',
       ]
     }
     // {
