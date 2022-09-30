@@ -151,6 +151,7 @@ const sidebars = {
         'spark-job/query-scheduler-job',
         'spark-job/jdbc-sync-job',
         'spark-job/kafka-streaming',
+        'spark-job/file-streaming',
       ]
     }
     // {
