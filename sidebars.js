@@ -83,7 +83,7 @@ const sidebars = {
         {
           type: 'category',
           label: 'Queries',
-          collapsed: false,
+          // collapsed: false,
           items: [
             'sql/queries/select',
             'sql/queries/cte',
@@ -116,7 +116,8 @@ const sidebars = {
           label: 'Auxiliary Statements',
           collapsed: false,
           items: ['sql/auxiliary-statements/cache']
-        }
+        },
+        "sql/column-types"
       ]
     },
     // {
