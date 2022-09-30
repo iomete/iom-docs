@@ -186,6 +186,7 @@ const sidebars = {
       collapsed: false,
       items: [
         'administration-guide/iam-role-for-datalake-access',
+        'administration-guide/staging-area-access',
       ]
     }
     // {
