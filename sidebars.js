@@ -174,10 +174,18 @@ const sidebars = {
     {
       type: 'category',
       label: 'BI - APACHE SUPERSET',
-      collapsed: false,
+      // collapsed: false,
       items: [
         'bi-apache-superset/security',
         'bi-apache-superset/public-dashboard'
+      ]
+    },
+    {
+      type: 'category',
+      label: 'ADMINISTRATION GUIDE',
+      collapsed: false,
+      items: [
+        'administration-guide/iam-role-for-datalake-access',
       ]
     }
     // {
