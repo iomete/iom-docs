@@ -133,6 +133,7 @@ const sidebars = {
       items: [
         'user-guide/sso-login',
         'user-guide/virtual-lakehouses',
+        'user-guide/serverless-streams',
       ]
     }
     // {
