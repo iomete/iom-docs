@@ -98,10 +98,10 @@ const config = {
             label: 'GitHub',
             position: 'right'
           },
-          {
-            type: 'search',
-            position: 'right',
-          },
+          // {
+          //   type: 'search',
+          //   position: 'right',
+          // },
         ],
       },
       footer: {
@@ -153,13 +153,13 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme
       },
-      algolia: {
-        appId: 'O9QSL985BS',
-        apiKey: 'ceb5366064b8fbf70959827cf9f69227',
-        indexName: 'ionicframework',
-        contextualSearch: true,
-        searchPagePath: 'search'
-      },
+      // algolia: {
+      //   appId: 'O9QSL985BS',
+      //   apiKey: 'ceb5366064b8fbf70959827cf9f69227',
+      //   indexName: 'ionicframework',
+      //   contextualSearch: true,
+      //   searchPagePath: 'search'
+      // },
     }),
     plugins:[
       'docusaurus-plugin-sass',
