@@ -15,3 +15,28 @@ last_update:
 </head> -->
 
 ___
+
+Heyy Namig. There is some hints just for you :wink:
+
+![Airbyte open source tool](/img/integrations/airbyte/airbyte-open-source-data-integration.png)
+
+:::note
+For note
+:::
+
+:::note Hello Title
+For note with title
+:::
+
+:::info 
+For info
+:::
+
+
+:::warning 
+For warning
+:::
+
+:::success 
+For success
+:::
