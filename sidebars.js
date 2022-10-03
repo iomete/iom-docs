@@ -221,9 +221,9 @@ const sidebars = {
 
   guide: [{
     type: 'category',
-    label: 'How to',
+    label: 'Guides',
     collapsed: false,
-    items: ['how-to', 'how-to/data-from-s3', 'how-to/data-from-s3-to-iomete', 'how-to/data-from-jdbc', 'how-to/run-spark-job']
+    items: ['how-to', 'how-to/data-from-s3', 'how-to/data-from-jdbc', 'how-to/run-spark-job']
   }]
 };
 
