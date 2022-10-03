@@ -74,7 +74,7 @@ wget <a href="https://iomete-public.s3.eu-central-1.amazonaws.com/datasets/count
 
 :::note
 
-💡Remember the first storage integration and **default_iomete_access_role**  from <a href="https\://docs.iomete.com/docs/iam-role-for-data-lake-access" target="blank"> IAM Role For Data Lake Access </a>
+💡Remember the first storage integration and **default_iomete_access_role**  from <a href="administration-guide/iam-role-for-datalake-access" target="blank"> IAM Role For Data Lake Access </a>
 :::
 
 Just create a policy for bucket **area-for-iomete** and attach it to the **default_iomete_access_role**. 

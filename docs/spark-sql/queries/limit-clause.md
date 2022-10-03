@@ -14,7 +14,7 @@ last_update:
 </head> -->
 
 ### Description
-The  `LIMIT`  clause is used to constrain the number of rows returned by the <a href="https://docs.iomete.com/docs/queries-select">SELECT</a> statement. In general, this clause is used in conjunction with <a href="https://docs.iomete.com/docs/queries-order-by-clause">ORDER BY</a> to ensure that the results are deterministic.
+The  `LIMIT`  clause is used to constrain the number of rows returned by the <a href="./select">SELECT</a> statement. In general, this clause is used in conjunction with <a href="./order-by-clause">ORDER BY</a> to ensure that the results are deterministic.
 [block:api-header]
 
 ### Syntax

@@ -15,7 +15,7 @@ last_update:
 
 ### Description
 
-The SORT BY clause is used to return the result rows sorted within each partition in the user specified order. When there is more than one partition SORT BY may return result that is partially ordered. This is different than <a href="https://docs.iomete.com/docs/queries-order-by-clause">ORDER BY</a> clause which guarantees a total order of the output.
+The SORT BY clause is used to return the result rows sorted within each partition in the user specified order. When there is more than one partition SORT BY may return result that is partially ordered. This is different than <a href="./order-by-clause">ORDER BY</a> clause which guarantees a total order of the output.
 
 ### Syntax
 

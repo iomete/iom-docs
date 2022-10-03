@@ -16,7 +16,7 @@ ___
 
 ### Description
 
-The CLUSTER BY clause is used to first repartition the data based on the input expressions and then sort the data within each partition. This is semantically equivalent to performing a <a href="https://docs.iomete.com/docs/queries-distribute-by-clause">DISTRIBUTE BY</a> followed by a <a href="https://docs.iomete.com/docs/queries-sort-by-clause">SORT BY</a>. This clause only ensures that the resultant rows are sorted within each partition and does not guarantee a total order of output.
+The CLUSTER BY clause is used to first repartition the data based on the input expressions and then sort the data within each partition. This is semantically equivalent to performing a <a href="./distribute-by-clause">DISTRIBUTE BY</a> followed by a <a href="./sort-by-clause">SORT BY</a>. This clause only ensures that the resultant rows are sorted within each partition and does not guarantee a total order of output.
 
 
 ### Syntax

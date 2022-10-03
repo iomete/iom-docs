@@ -42,7 +42,7 @@ expression_name [ ( column_name [ , ... ] ) ] [ AS ] ( query )
 
 - **query**
 
-    A <a href="https://docs.iomete.com/docs/queries-select">SELECT</a> statement.
+    A <a href="./select">SELECT</a> statement.
 
 ## Examples
 

@@ -20,7 +20,7 @@ Define your tables to migrate, your source JDBC connection and destination wareh
 
 
 :::info
-If your database is in your private network then you need to have SSH Tunnel between Iomete (see: [Database Connection Options](https://iomete.readme.io/docs/database-connection-options))
+If your database is in your private network then you need to have SSH Tunnel between Iomete (see: [Database Connection Options](../administration-guide/database-connection-options))
 :::
 
 ### How it works

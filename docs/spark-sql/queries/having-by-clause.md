@@ -15,7 +15,7 @@ last_update:
 
 ### Description
 
-The HAVING clause is used to filter the results produced by GROUP BY based on the specified condition. It is often used in conjunction with a <a href="https://docs.iomete.com/docs/queries-group-by-clause">GROUP BY</a> clause.
+The HAVING clause is used to filter the results produced by GROUP BY based on the specified condition. It is often used in conjunction with a <a href="./group-by-clause">GROUP BY</a> clause.
 
 ### Syntax
 

@@ -15,7 +15,7 @@ last_update:
 
 ### Description
 
-The DISTRIBUTE BY clause is used to repartition the data based on the input expressions. Unlike the <a href="https://docs.iomete.com/docs/queries-cluster-by-clause">CLUSTER BY</a> clause, this does not sort the data within each partition.
+The DISTRIBUTE BY clause is used to repartition the data based on the input expressions. Unlike the <a href="./cluster-by-clause">CLUSTER BY</a> clause, this does not sort the data within each partition.
 
 ### Syntax
 ```sql

@@ -80,11 +80,11 @@ SELECT [ hints , ... ] [ ALL | DISTINCT ] { [ [ named_expression | regex_column_
     Specifies a source of input for the query. It can be one of the following:
 
   - Table relation
-  - <a href="https://docs.iomete.com/docs/queries-join">Join </a> relation
-  - <a href="https://docs.iomete.com/docs/queries-table-valued-functions-tvf">Table-value function</a>
-  - <a href="https://docs.iomete.com/docs/queries-inline-table">Inline table</a>
+  - <a href="./join">Join </a> relation
+  - <a href="./table-valued-functions-tvf">Table-value function</a>
+  - <a href="./inline-table">Inline table</a>
   - Subquery
-  - <a href="https://docs.iomete.com/docs/queries-file">File </a>
+  - <a href="./file">File </a>
 
 
 - ** pivot**
