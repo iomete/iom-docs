@@ -1,12 +1,15 @@
 ---
-title: iomete Profile
+title: DBT integration
+last_update:
+  date: 10/04/2022
+  author: Vugar Dadalov
 ---
 
 <!-- <head>
-  <title>iomete Profile</title>
+  <title>DBT integration</title>
   <meta
     name="description"
-    content="iomete Profile"
+    content="DBT integration"
   />
 </head> -->
 

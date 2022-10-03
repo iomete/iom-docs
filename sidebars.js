@@ -204,10 +204,11 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'DBT',
+      label: 'Integrations',
       collapsed: false,
       items: [
-        'dbt/iomete-profile',
+        'integrations/dbt',
+        'integrations/airbyte',
       ]
     }
     // {
