@@ -142,7 +142,7 @@ const config = {
             items: [
               {
                 label: 'Docs',
-                to: '/docs/docs',
+                to: '/docs/welcome-to-iomete',
               },
             ],
           },
@@ -150,16 +150,16 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                label: 'Linkedin',
+                href: 'https://www.linkedin.com/company/iomete',
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                href: 'https://twitter.com/iometedata',
+              },
+              {
+                label: 'Stack Overflow',
+                href: 'https://stackoverflow.com/questions/tagged/iomete',
               },
             ],
           },
@@ -172,7 +172,7 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus'
+                href: 'https://github.com/iomete'
               },
             ],
           },
