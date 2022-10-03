@@ -32,12 +32,12 @@ const sidebars = {
       label: 'Iceberg Tables',
       collapsed: false,
       items: [
-        'iceberg/getting-started',
-        'iceberg/ddl',
-        'iceberg/queries',
-        'iceberg/writes',
-        'iceberg/procedure',
-        'iceberg/maintenance',
+        'iceberg-tables/getting-started',
+        'iceberg-tables/ddl',
+        'iceberg-tables/queries',
+        'iceberg-tables/writes',
+        'iceberg-tables/iceberg-procedures',
+        'iceberg-tables/maintenance',
       ]
     },
     {
