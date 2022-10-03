@@ -139,8 +139,8 @@ const sidebars = {
         'user-guide/serverless-streams',
         'user-guide/user-management',
         'user-guide/access-policy-management',
-        'user-guide/serverless-spark-application',
-        'user-guide/storage-integration',
+        'user-guide/serverless-spark-applications',
+        'user-guide/storage-integrations',
         'user-guide/integrated-bi',
         'user-guide/private-docker-registry',
       ]
