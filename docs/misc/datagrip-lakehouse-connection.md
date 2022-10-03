@@ -1,5 +1,9 @@
 ---
 title: DataGrip Lakehouse Connection
+slug: /datagrip-lakehouse-connection
+last_update:
+  date: 10/04/2022
+  author: Vugar Dadalov
 ---
 
 <!-- <head>
