@@ -1,6 +1,6 @@
 ---
-title: How-to Run Your First Spark Job
-slug: /how-to-run-your-first-spark-job
+title: Run Your First Spark Job
+slug: /run-your-first-spark-job
 ---
 
 <!-- <head>

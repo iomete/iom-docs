@@ -1,6 +1,6 @@
 ---
 title: Sync Data From JDBC Sources
-slug: /sync-data-from-jdbc
+slug: /sync-data-from-jdbc-sources
 ---
 
 <!-- <head>
