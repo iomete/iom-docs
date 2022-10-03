@@ -150,11 +150,11 @@ const sidebars = {
       label: 'IOMETE SPARK JOBS',
       collapsed: false,
       items: [
-        'spark-job/data-compaction-job',
-        'spark-job/query-scheduler-job',
-        'spark-job/jdbc-sync-job',
-        'spark-job/kafka-streaming',
-        'spark-job/file-streaming',
+        'iomete-spark-job/data-compaction-job',
+        'iomete-spark-job/query-scheduler-job',
+        'iomete-spark-job/jdbc-sync-job',
+        'iomete-spark-job/kafka-streaming',
+        'iomete-spark-job/file-streaming',
       ]
     },
     {
