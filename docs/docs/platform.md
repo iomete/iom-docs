@@ -2,6 +2,9 @@
 title: The iomete Lakehouse Platform
 slug: /iomete-lakehouse-platform
 tags: [iomete Intro, Getting started, iomete docs]
+last_update:
+  date: 10/04/2022
+  author: Vugar Dadalov
 ---
 
 <!-- <head>

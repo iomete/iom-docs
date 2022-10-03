@@ -1,6 +1,9 @@
 ---
 title: Sync Data From JDBC Sources
 slug: /sync-data-from-jdbc-sources
+last_update:
+  date: 10/04/2022
+  author: Vugar Dadalov
 ---
 
 <!-- <head>

@@ -2,6 +2,9 @@
 title: Welcome to iomete docs!
 slug: /welcome-to-iomete
 tags: [iomete Intro, Getting started, iomete docs]
+last_update:
+  date: 10/04/2022
+  author: Vugar Dadalov
 ---
 
 <head>

@@ -1,6 +1,9 @@
 ---
 title: Sync Data From AWS S3
 slug: /sync-data-from-aws-s3
+last_update:
+  date: 10/04/2022
+  author: Vugar Dadalov
 ---
 
 <!-- <head>
