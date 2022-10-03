@@ -45,11 +45,11 @@ const sidebars = {
       label: 'Data Sources',
       collapsed: false,
       items: [
-        'data-source/jdbc',
-        'data-source/csv',
-        'data-source/json',
-        'data-source/parquet',
-        'data-source/orc',
+        'data-sources/jdbc-sources',
+        'data-sources/csv-files',
+        'data-sources/json-files',
+        'data-sources/parquet-files',
+        'data-sources/orc-files',
       ]
     },
     {
