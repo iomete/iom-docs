@@ -1,4 +1,4 @@
-name: UI Deployment
+name: Docs Deployment
 
 on: workflow_dispatch
         
@@ -34,4 +34,3 @@ jobs:
                   no-cache: true
                   private: true
                   filesToInclude: '**'
-                  
