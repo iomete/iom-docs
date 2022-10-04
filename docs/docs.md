@@ -1,5 +1,6 @@
 ---
-title: Welcome to iomete docs!
+title: Welcome to iomete docs
+description: Here you'll find comprehensive guides and documentation to get you up and running with iomete quickly and easily
 slug: /welcome-to-iomete
 tags: [iomete Intro, Getting started, iomete docs]
 last_update:
@@ -8,11 +9,6 @@ last_update:
 ---
 
 <head>
-  <title>Welcome to iomete docs</title>
-  <meta
-    name="description"
-    content="Get started | iomete docs"
-  />
   <link rel="canonical" href="https://iomete.com/docs" />
   <meta property="og:url" content="https://iomete.com/docs" />
 </head>
