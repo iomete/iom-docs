@@ -1,0 +1,37 @@
+name: UI Deployment
+
+on: workflow_dispatch
+        
+
+jobs:
+    production:
+        name: documentation-deployment
+        runs-on: self-hosted
+        env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+                  cache: 'npm'
+            - run: npm install --no-audit --no-progress -s --no-fund
+            - run: npm run build
+
+            - name: S3 Upload
+              uses: reggionick/s3-deploy@v3
+              with:
+                  folder: build
+                  bucket: ${{ secrets.s3_bucket_name }}
+                  bucket-region: ${{ secrets.s3_bucket_region }}
+                  dist-id: ${{ secrets.cloudfront_distribution_id }}
+                  invalidation: /*
+                  delete-removed: true
+                  no-cache: true
+                  private: true
+                  filesToInclude: '**'
+                  
