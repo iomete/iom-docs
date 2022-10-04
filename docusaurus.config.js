@@ -56,36 +56,36 @@ const config = {
     ({
       metadata: [
         // { name: 'keywords', content: 'iomete, datalake, lakehouse, warehouse, docs, documentation, sql editor, big data' },
-        // { name: 'og:image', content: '/img/meta/open-graph.png' },
-        // { name: 'twitter:image', content: '/img/meta/open-graph.png' },
-        // {
-        //   name: 'twitter:card',
-        //   content: 'summary_large_image',
-        // },
-        // {
-        //   name: 'twitter:domain',
-        //   content: 'iomete.com',
-        // },
-        // {
-        //   name: 'twitter:site',
-        //   content: '@iomete',
-        // },
-        // {
-        //   name: 'twitter:creator',
-        //   content: 'iomete',
-        // },
-        // {
-        //   name: 'fb:page_id',
-        //   content: '1321836767955949',
-        // },
-        // {
-        //   name: 'og:type',
-        //   content: 'website',
-        // },
-        // {
-        //   name: 'og:site_name',
-        //   content: 'iomete Docs',
-        // },
+        { name: 'og:image', content: 'https://iomete.com/docs/img/meta/open-graph.png' },
+        { name: 'twitter:image', content: 'https://iomete.com/docs/img/meta/open-graph.png' },
+        {
+          name: 'twitter:card',
+          content: 'summary_large_image',
+        },
+        {
+          name: 'twitter:domain',
+          content: 'iomete.com',
+        },
+        {
+          name: 'twitter:site',
+          content: '@iomete',
+        },
+        {
+          name: 'twitter:creator',
+          content: 'iomete',
+        },
+        {
+          name: 'fb:page_id',
+          content: '1321836767955949',
+        },
+        {
+          name: 'og:type',
+          content: 'website',
+        },
+        {
+          name: 'og:site_name',
+          content: 'iomete Docs',
+        },
       ],
       // announcementBar: {
       //   id: 'support_us',
