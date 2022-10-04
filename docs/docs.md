@@ -4,8 +4,8 @@ description: Here you'll find comprehensive guides and documentation to get you 
 slug: /welcome-to-iomete
 tags: [iomete Intro, Getting started, iomete docs]
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+  date: 10/05/2022
+  author: Fuad Musayev
 ---
 
 <head>
