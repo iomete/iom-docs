@@ -13,8 +13,8 @@ last_update:
     name="description"
     content="Get started | iomete docs"
   />
-  <link rel="canonical" href="https://www.iomete.com/docs" />
-  <meta property="og:url" content="https://www.iomete.com/docs" />
+  <link rel="canonical" href="https://iomete.com/docs" />
+  <meta property="og:url" content="https://iomete.com/docs" />
 </head>
 
 ⚡️ Here you'll find comprehensive guides and documentation to get you up and **running with iomete quickly and easily**

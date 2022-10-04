@@ -9,7 +9,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'iomete docs',
   tagline: 'The easy, low-cost Snowflake / Databricks alternative. Cloud, on prem and hybrid solutions.',
-  url: 'https://www.iomete.com',
+  url: 'https://iomete.com',
   baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -100,7 +100,7 @@ const config = {
           alt: 'iomete logo',
           src: `/logos/logo-black.svg`,
           srcDark: `/logos/logo-white.svg`,
-          href: 'https://www.iomete.com',
+          href: 'https://iomete.com',
           target: '_blank',
           height: 42
         },
