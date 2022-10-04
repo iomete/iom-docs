@@ -13,7 +13,7 @@ const config = {
   baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'icons/iom-dark.svg',
+  favicon: 'icons/iom-dark.png',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -87,6 +87,13 @@ const config = {
         //   content: 'iomete Docs',
         // },
       ],
+      // announcementBar: {
+      //   id: 'support_us',
+      //   content:
+      //     '⭐️ If you like iomete, give it a star on  <a target="_blank" rel="noopener noreferrer" href="#">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="#">Twitter</a>',
+      //   backgroundColor: '#fafbfc',
+      //   textColor: 'black',
+      // },
       docs: {
         sidebar: {
           // hideable: true,
