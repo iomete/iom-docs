@@ -144,7 +144,7 @@ const config = {
             items: [
               {
                 label: 'Docs',
-                to: '/docs/welcome-to-iomete',
+                to: '/docs',
               },
             ],
           },
