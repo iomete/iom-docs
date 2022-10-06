@@ -17,6 +17,10 @@
   --ifm-color-primary-lightest: #6cb8ff;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  // Custom
+  --docs-color-border: #dadde1;
+  --code-block-bg-c: #f6f8fc;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -29,4 +33,32 @@
   --ifm-color-primary-lighter: #3792e8;
   --ifm-color-primary-lightest: #58a4ec;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  // Custom
+  --docs-color-border: #2e2e2e;
+  --code-block-bg-c: #232526;
+}
+
+:root {
+  // Custom
+  --ifm-table-border-color: var(--docs-color-border);
+  --code-border-color: var(--docs-color-border);
+}
+
+.tabs {
+  border-bottom: 1px solid var(--docs-color-border);
+}
+
+// pre.prism-code {
+//   border: 1px solid var(--code-border-color);
+// }
+
+code[class*=language-], pre[class*=language-] {
+  background: var(--code-block-bg-c);
+}
+
+.cfvee {
+  font-size: 13px;
+    line-height: 16px;
+    color: #445b78;
 }

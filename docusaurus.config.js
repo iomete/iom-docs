@@ -74,10 +74,10 @@ const config = {
           name: 'twitter:creator',
           content: 'iomete',
         },
-        {
-          name: 'fb:page_id',
-          content: '1321836767955949',
-        },
+        // {
+        //   name: 'fb:page_id',
+        //   content: '1321836767955949',
+        // },
         {
           name: 'og:type',
           content: 'website',
