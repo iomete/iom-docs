@@ -6,6 +6,12 @@ hide_table_of_contents: true
 tags: [Engineering]
 ---
 
+<head>
+  <title>Database Connection Options</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex"/>
+</head>
+
 Apache Iceberg is a high-performance format for huge analytic tables. It has built-in metadata tables for inspection and procedures for data compaction and table maintenance. Also, its snapshot architecture making it easy time-travel over data versions.
 
 <!-- truncate -->

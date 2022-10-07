@@ -6,6 +6,12 @@ hide_table_of_contents: true
 tags: [Educational]
 ---
 
+<head>
+  <title>Database Connection Options</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex"/>
+</head>
+
 ![Data Governance for modern data stack](/blog/2022-10-04-data-governace/data-governance-for-modern-data-stack.png)
 
 <!-- truncate -->

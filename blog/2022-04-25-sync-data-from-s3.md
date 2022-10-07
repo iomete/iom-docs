@@ -6,6 +6,12 @@ hide_table_of_contents: true
 tags: [Engineering]
 ---
 
+<head>
+  <title>Database Connection Options</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex"/>
+</head>
+
 ## Intro
 This is an end-to-end guide about how to move files from your AWS S3 to iomete and show it in the BI dashboard. In this example, we use a JSON file, but for other file types (such as CSV, Parquet, and ORC) visit [docs.](/docs/sync-data-from-aws-s3)
 

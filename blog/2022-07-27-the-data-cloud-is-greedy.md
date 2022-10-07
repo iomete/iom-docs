@@ -6,7 +6,11 @@ hide_table_of_contents: true
 tags: [Company]
 ---
 
-<br/>
+<head>
+  <title>Database Connection Options</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex"/>
+</head>
 
 ![The Data Cloud is Greedy](/blog/2022-07-27-the-data-cloud-is-greedy/the-data-cloud-is-greedy.jpeg)
 

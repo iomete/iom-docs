@@ -6,7 +6,11 @@ hide_table_of_contents: true
 tags: [Platform]
 ---
 
-<br/>
+<head>
+  <title>Database Connection Options</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex"/>
+</head>
 
 In September 2022, we released a number of new and improved platform features:
 

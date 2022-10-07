@@ -6,7 +6,11 @@ hide_table_of_contents: true
 tags: [Educational]
 ---
 
-<br/>
+<head>
+  <title>Database Connection Options</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex"/>
+</head>
 
 ![serverless-lakehouse-platform](/blog/2022-08-04-serverless-lakehouse-platform/serverless-lakehouse-platform.png)
 

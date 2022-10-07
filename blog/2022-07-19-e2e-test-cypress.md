@@ -6,7 +6,11 @@ hide_table_of_contents: true
 tags: [Engineering]
 ---
 
-<br/>
+<head>
+  <title>Database Connection Options</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex"/>
+</head>
 
 ## Table of contents:
 1. Introduction

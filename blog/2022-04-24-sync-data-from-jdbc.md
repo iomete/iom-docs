@@ -6,6 +6,12 @@ hide_table_of_contents: true
 tags: [Engineering]
 ---
 
+<head>
+  <title>Database Connection Options</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex"/>
+</head>
+
 ## Intro
 ‌This is an end-to-end guide about migrating **tables** from JDBC sources (MySQL, PostgreSQL, etc.) to iomete and display it in the BI dashboard.
 
