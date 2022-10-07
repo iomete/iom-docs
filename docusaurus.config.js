@@ -34,6 +34,10 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
+        // sitemap: {
+        //   changefreq: 'weekly',
+        //   ignorePatterns: ['/blog/**']
+        // },
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
