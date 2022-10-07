@@ -23,15 +23,15 @@ For the sake of simplicity let's use public iomete spark images. In this example
 
 This docker image has pre-built `local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar` contains example spark applications
 
-![](/img/how-to/z4-edit-job.png)
+![Edit spark jobs](/img/how-to/edit-spark-job.png)
 
 In the following screenshot, you'll see how to configure main application file and main class. And you also specify how much compute unit you need form the job. **1ICU** is equal to 4cpu/32GB RAM/150GB NVME SSD node. 
 
-![](/img/how-to/z4-job-ninstance.png)
+![Spark job instance](/img/how-to/spark-job-instance.png)
 
 Hit the `Create` button and that's all. Your job is ready. Job will be run based on the schedule you defined. But, you can also trigger run manually. 
 
-![Job View](/img/how-to/z4-job-detail.png)
+![Spark job View](/img/how-to/spark-job-view.png)
 <!-- [block:image]
 {
   "images": [
@@ -49,7 +49,7 @@ Hit the `Create` button and that's all. Your job is ready. Job will be run based
 
 You can check the information about historical and current Run. On the Run detail page you can see _when_, _how long_ the job has been run. You can also get the logs of the run: 
 
-![Job Run Logs](/img/how-to/z4-job-logs.png)
+![Job Run Logs](/img/how-to/job-run-logs.png)
 <!-- [block:image]
 {
   "images": [

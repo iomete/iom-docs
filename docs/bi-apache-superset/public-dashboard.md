@@ -21,7 +21,7 @@ By default, BI requires an account in order to view dashboards, but you can chan
 
 1. Go to BI tool and from **Settings** menu choose **Roles**. You will see the role named "**Public**".
 
-![](/img/bi-apache-superset/dashboard-bi-role-settings.png)
+![sharing dashboards with team members on iomete console](/img/bi-apache-superset/dashboard-bi-role-settings.png)
 
 1. Edit **Public** role and provide the following system accesses and datasource (which you want to be publicly available) individually
 ```
@@ -60,7 +60,7 @@ can sql json on Superset
 can explore json on Superset
 ```
 
-![](/img/bi-apache-superset/dashboard-bi-public-accesses.png)
+![sharing data with different roles](/img/bi-apache-superset/dashboard-bi-public-accesses.png)
 
 1. Go to the dashboard you would like to share and from right menu select one of the options [**Copy dashboard URL** or **Share dashboard by email**]
 
@@ -68,11 +68,11 @@ can explore json on Superset
 Please keep in mind that copy URL won't work in Safari browser, due to Apple software limitations
 :::
 
-![](/img/bi-apache-superset/dashboard-bi-copy-url.png)
+![copy dashboard URL iomete console](/img/bi-apache-superset/dashboard-bi-copy-url.png)
 
 You can verify it is working by simple opening the copied link in incognito mode (or you can just log out). You should be able to view dashboard without any Menu item or Edit actions visible
 
-![](/img/bi-apache-superset/dashboard-bi-dash.png)
+![copying URL iomete console](/img/bi-apache-superset/dashboard-bi-dash.png)
 
 :::warning Access denied issue
 If one or more chart throws access denied error, please make sure that **Public** role has access to all data sources that the chart uses.

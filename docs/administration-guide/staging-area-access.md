@@ -23,4 +23,4 @@ ___
 - In the policy editor, click the **JSON** tab  
   <br/>
 
-![](/img/administration-guide/staging-area-create_policy_end.png)
+![Creating an IAM Policy JSON for staging area access](/img/administration-guide/staging-area-create_policy_end.png)

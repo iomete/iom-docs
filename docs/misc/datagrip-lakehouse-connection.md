@@ -20,12 +20,12 @@ ___
 
 1. In DataGrip click on `Add Datasource` and choose `Apache Spark` from dropdown. It should be under the _Others_ section
 
-![](/img/misc/datagrip1.png)
+![datagrip lakehouse connection](/img/misc/datagrip-connection-details.png)
 
 
 1. If you will see the `Download missing drivers` button below, install them first.
 
-![](/img/misc/datagrip2.png)
+![Datagrip downloading missing drivers](/img/misc/datagrip-downloading-missing-files.png)
 
 
 - After downloading the required drivers, insert your JDBC connection URL to `URL` field 
@@ -37,8 +37,7 @@ You can find the warehouse's JDBC URL on the warehouse's detail page under the J
 
 Copy JDBC URL from Connection details
 
-![](/img/misc/datagrip3.png)
-
+![Datagrip connection details](/img/misc/datagrip-connection-details.png)
 
 
 1. Then type in your **iomete** user and password into corresponding fields
@@ -49,4 +48,4 @@ Please take into consideration that **Test Connection** could take couple of min
 :::
 
 
-![](/img/misc/datagrip4.png)
+![Datagrip connection test](/img/misc/datagrip-connection-tests.png)

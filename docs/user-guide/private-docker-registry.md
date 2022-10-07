@@ -26,7 +26,7 @@ Let's get started.
 
 To add new registry, open your iomete console, and go to settings panel and press `Create New` button.
 
-![](/img/user-guide/docker-registry-list.png)
+![docker registry list](/img/user-guide/docker-registry-list.png)
 
 Adding private docker registry is similar to `docker login` command, you will need to fill in 4 fields:
 
@@ -39,7 +39,7 @@ After filling the form you should see a new line in *Docker Registries* table.
 
 Now to use your private docker registry go to *Jobs* menu and create a new job. Under the *Deployment* section type in private repository to **Docker Image** field. And on the left side of *Docker Image* field you will see dropdown with list of your private docker registries added to **iomete** platform. Choose corresponding one from dropdown list.
 
-![](/img/user-guide/job-form-docker-registry.png)
+![job from docker registry](/img/user-guide/job-form-docker-registry.png)
 
 Now Run the job to test. If username/password provided are correct you should see that job will successfully run.  
 

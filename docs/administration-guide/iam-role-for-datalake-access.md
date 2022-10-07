@@ -19,11 +19,11 @@ The following step-by-step instructions describe how to configure access permiss
 - Log into your AWS Management Console
 - Go to **Identity & Access Management (IAM) -> Policies -> Create Policy:** 
 
-![Create Policy button on Policies page](/img/administration-guide/admin-guide-iam2-policy-create.png)
+![Creating an IAM Policy For Data Lake Location](/img/administration-guide/admin-guide-iam2-policy-create.png)
 
 
 - In the policy editor, click the **JSON** tab
-![](/img/administration-guide/admin-guide-create-policy.png)
+![Creating policy document for iomete](/img/administration-guide/admin-guide-create-policy.png)
 
 
 - Add a policy document that will allow **iomete** to access the S3 bucket and folder.
@@ -68,11 +68,11 @@ In the AWS Management Console, create an AWS IAM role to grant privileges on the
 - Log into your AWS Management Console
 - Go to **Identity & Access Management (IAM) -> Roles -> Create role:**
 
-![](/img/administration-guide/admin-guide-Identity_and_Access_Management.png)
+![creating AWS IAM role for iomete](/img/administration-guide/admin-guide-Identity_and_Access_Management.png)
 
 - Select **Another AWS account** as the trusted entity type
   
-![Select Trusted Entity Page in AWS Management Console](/img/administration-guide/admin-guide-create_role.png)
+![Select Trusted Entity Page for iomete in AWS Management Console](/img/administration-guide/admin-guide-create_role.png)
 
 - In the **Account ID** field, enter iomete account ID: **680330367469**
 - Click the **Next: Permissions** button.
@@ -80,7 +80,7 @@ In the AWS Management Console, create an AWS IAM role to grant privileges on the
 - Go to **Review** and provide a name. For example, **default_iomete_access_role**
 - Edit **default_iomete_access_role** role and switch to the **Trust relationships** section of the role:
 
-![](/img/administration-guide/admin-guide-in_the_console.png)
+![access to iomete from AWS](/img/administration-guide/admin-guide-in_the_console.png)
 
 Click the **Edit trust relationship** button and add the following JSON policy:
 
@@ -103,4 +103,4 @@ Click the **Edit trust relationship** button and add the following JSON policy:
 - In the role summary, copy the Role ARN.
 <br/>
 
-![](/img/administration-guide/admin-guide-summary.png)
+![role summary ARN on iomete ](/img/administration-guide/admin-guide-summary.png)

@@ -156,7 +156,7 @@ Specify the following parameters (these are examples, you can change them based 
 
 <br/>
 
-![](../../static/img/spark-job/job-sync-create-spark-job.png)
+![Spark job sync creating spark job](/img/spark-job/job-sync-create-spark-job.png)
 
 Environment Variables
 
@@ -164,17 +164,17 @@ Environment Variables
 You can use **Environment Variables** to store your sensitive variables like password, secrets, etc. Then you can use these variables in your config file using the <code>${DB_PASSWORD}</code> syntax.
 :::
 
-![](/img/spark-job/job-sync-create-env-variables.png)
+![Spark jobe sync create enviroment variables](/img/spark-job/job-sync-create-env-variables.png)
 
 Application Config
 
-![](/img/spark-job/job-sync-create-spark-job-application-config.png)
+![Spark job sync create spark job application configuration](/img/spark-job/job-sync-create-spark-job-application-config.png)
 
 And, hit the create button.
 
 The job will be run based on the defined schedule. But, you can trigger the job manually by clicking on the `Run` button.
 
-![](../../static/img/spark-job/job-sync-manual-run.png)
+![Spark job sync manual run](../../static/img/spark-job/job-sync-manual-run.png)
 
 ### Github
 

@@ -57,7 +57,7 @@ We do not recommend altering the 3 base roles as there are a set of assumptions 
 
 Here’s how to provide users access to only specific datasets. First make sure the users with limited access have [only] the Gamma role assigned to them. Second, create a new role `(Menu -> Security -> List Roles)` and click the `+` sign.
 
-![](/img/bi-apache-superset/docs.png)
+![prividing users access to only specific datasets ](/img/bi-apache-superset/Managing-Gamma-per-data-source-access.png)
 
 This new window allows you to give this new role a name, attribute it to users and select the tables in the `Permissions` dropdown. To select the data sources you want to associate with this role, simply click in the dropdown and use the typeahead to search for your table names.
 

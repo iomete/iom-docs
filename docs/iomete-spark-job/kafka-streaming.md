@@ -17,7 +17,7 @@ last_update:
 ___
 
 
-![](/img/spark-job/kafka-logo-iomete.png)
+![kafka and iomete logo](/img/spark-job/kafka-logo-iomete.png)
 
 This is a collection of data movement capabilities. This streaming job copies data from Kafka to Iceberg.
 

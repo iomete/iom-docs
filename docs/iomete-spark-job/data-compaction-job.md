@@ -37,7 +37,7 @@ To enable data compaction spark job follow the next steps:
 
 See example screenshot below
 
-![](/img/spark-job/data-compaction-job.png)
+![data compaction job](/img/spark-job/data-compaction-job.png)
 
 <br/>
  

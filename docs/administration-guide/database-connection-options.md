@@ -42,21 +42,22 @@ If your SSH server and database happen to be in AWS, you can follow the instruct
 ### AWS
 
 1. To configure an SSH server in AWS, open the EC2 console and select **Running Instances:**
-![](/img/administration-guide/db-connect1-MYSQL-RDS-click-running-instances.26d0275e.png)
+
+![AWS EC2 console Running Instances](/img/administration-guide/MYSQL-RDS-click-running-instances.png)
 
 2. Select the instance you intend to use as an SSH tunnel:
-![](/img/administration-guide/db-connect2-MYSQL-RDS-click-ssh-tunnel-instance.63fcee72.png)
+![AWS SSH tunnel](/img/administration-guide/MYSQL-RDS-click-ssh-tunnel-instance.png)
 
 3. Select the **Security groups** and then select **default:**
-![](../../static/img/administration-guide/db-connect3-MYSQL-RDS-click-ssh-tunnel-security-group-new.d92c9025.png)
+![AWS security groups](/img/administration-guide/MYSQL-RDS-click-ssh-tunnel-security-group-new.png)
 
 4. Select the **Inbound** tab.
    
 5. Click Edit.
-![](/img/administration-guide/db-connect5-mysql-rds-click-inbound-edit.c0e13877.png)
+![AWS security group inbound tab](/img/administration-guide/mysql-rds-click-inbound-edit.png)
 
 6. Select **SSH**, enter [iomete's IP](./iomete-ip-addresses), and click **Save**:
-![](/img/administration-guide/db-connect6.png)
+![SSH tunnel for iomete's IP](/img/administration-guide/selecting-SSH-AWS.png)
 
 
 ### SSH Connection
@@ -74,11 +75,11 @@ vim authorized_keys
 ```
 
 Second step is to copy public key from iomete's Console application.
-![](/img/administration-guide/db-connect7.png)
+![iomete console SSH tunnel](/img/administration-guide/copying-public-key-from-iomete-Console.png)
 
 Add the public key provided by iomete to the ```authorized_keys``` file in your SSH Server. The key must be all on one line. Make sure that you don’t introduce any line breaks when cutting and pasting. Afterward, you'll need to allow port access. 
 
 Now you should be able to connect to your database through SSH Tunnel.
 Go to iomete's Console Application and fill our the form, you can look at the example below
 
-![](/img/administration-guide/db-connect8-SSH.png)
+![connecting AWS to iomete console with tunnel](/img/administration-guide/connect-to-your-database-through-SSH-Tunnel.png)
