@@ -2,26 +2,26 @@ piet:
   name: Piet Jan de Bruin
   title: Cofounder iomete
   url: https://www.linkedin.com/in/pietjandebruin
-  image_url: ../avatar/piet.jpeg
+  image_url: ./avatars/piet.jpeg
 
 fuad:
   name: Fuad Musayev
   title: Software Engineer @ iomete
   url: https://www.linkedin.com/in/musayevfuad/
-  image_url: ../avatar/fuad.jpeg
+  image_url: ./avatars/fuad.jpeg
 
 aytan:
   name: Aytan Jalilova 
   title: Marketing Manager @ iomete
   url: https://www.linkedin.com/in/aytan-jalilova-1a3078171/
-  image_url: ../avatar/aytan.jpeg
+  image_url: ./avatars/aytan.jpeg
 namig:
   name: Namig Aliyev 
   title: Software Engineer @ iomete
   url: https://www.linkedin.com/in/namigaliyev/
-  image_url: ../avatar/namig.jpeg
+  image_url: ./avatars/namig.jpeg
 mikayil:
   name: Mikayil Jafarov
   title: Frontend engineer @ iomete
   url: https://www.linkedin.com/in/mikayil-jafarov-020b64205/
-  image_url: ../avatar/mikayil.jpeg
+  image_url: ./avatars/mikayil.jpeg
