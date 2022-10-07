@@ -45,12 +45,16 @@ const config = {
           // Remove this to remove the "edit this page" links.
           // editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           // breadcrumbs: false,
-          showLastUpdateTime: true,
+          showLastUpdateTime: true
         },
-        blog: false,
+        blog: {
+          routeBasePath: 'blog',
+          blogSidebarCount: 'ALL',
+          postsPerPage: 'ALL'
+        },
         theme: {
           customCss: require.resolve('./src/styles/custom.scss'),
-        },
+        }
       }),
     ],
   ],
@@ -111,8 +115,8 @@ const config = {
           alt: 'iomete logo',
           src: `/logos/logo-black.svg`,
           srcDark: `/logos/logo-white.svg`,
-          href: 'https://iomete.com',
-          target: '_blank',
+          href: '/',
+          // target: '_blank',
           height: 42
         },
         items: [
@@ -128,7 +132,7 @@ const config = {
             label: 'Guides',
             position: 'left',
           },
-          // { to: '/blog', label: 'Blog', position: 'left' },
+          { to: '/blog', label: 'Blog', position: 'left' },
           {
             href: 'https://github.com/iomete',
             label: 'GitHub',

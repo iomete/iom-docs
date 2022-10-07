@@ -21,6 +21,15 @@
   // Custom
   --docs-color-border: #dadde1;
   --code-block-bg-c: #f6f8fc;
+  article {
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .alert--info {
+    border-left-color: #0070f3;
+    background-color: #f7fbff;
+  }
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -37,6 +46,15 @@
   // Custom
   --docs-color-border: #2e2e2e;
   --code-block-bg-c: #232526;
+  article {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .alert--info {
+    border-left-color: #0070f3;
+    background-color: #253548;
+  }
 }
 
 :root {
@@ -47,18 +65,4 @@
 
 .tabs {
   border-bottom: 1px solid var(--docs-color-border);
-}
-
-// pre.prism-code {
-//   border: 1px solid var(--code-border-color);
-// }
-
-code[class*=language-], pre[class*=language-] {
-  background: var(--code-block-bg-c);
-}
-
-.cfvee {
-  font-size: 13px;
-    line-height: 16px;
-    color: #445b78;
 }
