@@ -7,7 +7,7 @@ tags: [Engineering]
 ---
 
 <head>
-  <title>Database Connection Options</title>
+  <title>E2E tests with Cypress for front-end | iomete blog</title>
   <meta name="robots" content="noindex, nofollow" />
   <meta name="googlebot" content="noindex"/>
 </head>

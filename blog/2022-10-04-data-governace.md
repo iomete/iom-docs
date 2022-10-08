@@ -7,7 +7,7 @@ tags: [Educational]
 ---
 
 <head>
-  <title>Database Connection Options</title>
+  <title>Data Governance for modern data stack | iomete blog</title>
   <meta name="robots" content="noindex, nofollow" />
   <meta name="googlebot" content="noindex"/>
 </head>

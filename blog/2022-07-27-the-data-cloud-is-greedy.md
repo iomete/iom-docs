@@ -7,7 +7,7 @@ tags: [Company]
 ---
 
 <head>
-  <title>Database Connection Options</title>
+  <title>The Data Cloud is Greedy | iomete blog</title>
   <meta name="robots" content="noindex, nofollow" />
   <meta name="googlebot" content="noindex"/>
 </head>

@@ -49,7 +49,10 @@ const config = {
         blog: {
           routeBasePath: 'blog',
           blogSidebarCount: 'ALL',
-          postsPerPage: 'ALL'
+          postsPerPage: 'ALL',
+          blogTitle: 'iomete | Blog',
+          // blogSidebarTitle: 'All our posts',
+          blogDescription: 'The blog of the easy, low-cost Snowflake / Databricks alternative. Data has been complex and expensive for too long. Learn how we make it easy and affordable.'
         },
         theme: {
           customCss: require.resolve('./src/styles/custom.scss'),
