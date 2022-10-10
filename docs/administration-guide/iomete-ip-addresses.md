@@ -17,8 +17,7 @@ We pull data from your sources and send it to your destination using a set of fi
 
 ### AWS
 
-| Region                              | IP ADDRESSES (CIDR) | Region host          |
-| :---------------------------------- | :------------------ | :------------------- |
-| **Europe (Frankfurt)** eu-central-1 | 3.68.17.30/32       | frankfurt.iomete.com |
-| **Ohio** us-east-2                  | 18.116.243.203/32   | ohio-1.iomete.com    |
-| **Oregon** us-west-2                | 35.85.22.45         | oregon-1.iomete.com  |
+| Region                                  | IP ADDRESSES (CIDR) | Region host             |
+| :-------------------------------------- | :------------------ | :---------------------- |
+| **Frankfurt** eu-central-1              | 18.198.120.219      | eu-central-1.iomete.com |
+| **Oregon** us-west-2                    | 35.85.22.45         | us-west-2.iomete.com    |
