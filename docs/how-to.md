@@ -1,6 +1,6 @@
 ---
 title: Introduction
-slug: /sync-data-intro
+slug: /guides
 authors:
   - name: Joel Marcey
     title: Co-creator of Docusaurus 1
