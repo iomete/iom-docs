@@ -61,9 +61,9 @@ const config = {
         // googleAnalytics: {
         //   trackingID: 'G-QL2LE4R9FS',
         // },
-        // gtag: {
-        //   trackingID: 'G-QL2LE4R9FS'
-        // }
+        gtag: {
+          trackingID: 'G-QL2LE4R9FS'
+        }
       }),
     ],
   ],
