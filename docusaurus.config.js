@@ -57,7 +57,14 @@ const config = {
         },
         theme: {
           customCss: require.resolve('./src/styles/custom.scss'),
-        }
+        },
+        googleAnalytics: {
+          trackingID: 'G-QL2LE4R9FS',
+          anonymizeIP: true,
+        },
+        // gtag: {
+
+        // }
       }),
     ],
   ],
