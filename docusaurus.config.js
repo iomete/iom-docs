@@ -51,7 +51,8 @@ const config = {
           blogSidebarCount: 'ALL',
           postsPerPage: 'ALL',
           blogTitle: 'iomete | Blog',
-          // blogSidebarTitle: 'All our posts',
+          // blogListComponent: '/blog/index.js',
+          blogSidebarTitle: 'All our posts',
           blogDescription: 'The blog of the easy, low-cost Snowflake / Databricks alternative. Data has been complex and expensive for too long. Learn how we make it easy and affordable.'
         },
         theme: {
