@@ -52,6 +52,9 @@ const config = {
           postsPerPage: 'ALL',
           blogTitle: 'iomete | Blog',
           // blogListComponent: '/blog/index.js',
+          blogTagsPostsComponent: require.resolve(
+            "./src/theme/BlogListPage/index.tsx",
+          ),
           blogSidebarTitle: 'All our posts',
           blogDescription: 'The blog of the easy, low-cost Snowflake / Databricks alternative. Data has been complex and expensive for too long. Learn how we make it easy and affordable.'
         },
@@ -221,6 +224,27 @@ const config = {
           postcssOptions.plugins.push(require("autoprefixer"));
           return postcssOptions;
         },
+      };
+    },
+    async function blogInterceptor(context, options) {
+      return {
+        name: "docusaurus-hello-test",
+        contentLoaded: (content, allContent, actions ) => {
+          console.log(content, allContent, actions);
+          console.info(content, allContent, actions);
+          console.warn(content, allContent, actions);
+          // const { setGlobalData } = actions;
+          // const blogContents = allContent["docusaurus-plugin-content-blog"]["default"];
+          // console.log('blogContents => ', blogContents);
+          // const blogTags = blogContents.blogTags;
+          // console.log('blogTags => ', blogTags);
+
+          // var blogPosts = blogContents.blogPosts;
+          // console.log('blogPosts => ', blogPosts);
+          // blogPosts = blogPosts.slice(0, 3) //get 3 recent blog posts
+          // console.log('blogPosts2 => ', blogPosts);
+          // setGlobalData({ blogTags, blogPosts })
+        }
       };
     }
   ]

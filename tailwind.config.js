@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     extend: {},
   },
+  important: true,
   plugins: [],
   darkMode: ['class', '[data-theme="dark"]'],
   corePlugins: { preflight: false }

@@ -52,3 +52,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+// *,
+// ::before,
+// ::after {
+//   border-width: 0; 
+//   border-style: solid; 
+// }
+button {
+    border-width: 0;
+    border-style: solid;
+}
