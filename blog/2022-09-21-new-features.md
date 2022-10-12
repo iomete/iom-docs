@@ -3,7 +3,8 @@ slug: new-iomete-features-september-2022
 title: New iomete features | September 2022
 authors: fuad
 hide_table_of_contents: true
-tags: [Platform]
+tags: [Release]
+image: /blog/2022-09-21-new-features/thumb.jpeg
 ---
 
 <head>

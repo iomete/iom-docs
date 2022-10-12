@@ -3,7 +3,8 @@ slug: /data-governance-for-modern-data-stack
 title: Data Governance for modern data stack
 authors: aytan
 hide_table_of_contents: true
-tags: [Educational]
+tags: [Educational, Company]
+image: /blog/2022-10-04-data-governace/data-governance-for-modern-data-stack.png
 ---
 
 <head>

@@ -4,6 +4,7 @@ title: E2E tests with Cypress for front-end
 authors: mikayil
 hide_table_of_contents: true
 tags: [Engineering]
+image: /blog/2022-07-19-e2e-test-cypress/before-cypress.png
 ---
 
 <head>

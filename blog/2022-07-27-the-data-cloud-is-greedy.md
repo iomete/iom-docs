@@ -4,6 +4,7 @@ title: The Data Cloud is Greedy
 authors: piet
 hide_table_of_contents: true
 tags: [Company]
+image: /blog/2022-07-27-the-data-cloud-is-greedy/thumb.png
 ---
 
 <head>

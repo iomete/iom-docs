@@ -4,6 +4,7 @@ title: Spark SQL Cheat Sheet for Apache Iceberg
 authors: fuad
 hide_table_of_contents: true
 tags: [Engineering]
+image: /blog/2022-08-25-cheat-sheet/thumb.jpeg
 ---
 
 <head>

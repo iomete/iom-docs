@@ -4,6 +4,7 @@ title: Sync Data From JDBC Sources
 authors: namig
 hide_table_of_contents: true
 tags: [Engineering]
+image: /blog/2022-04-24-sync-data-from-jdbc/thumb.jpeg
 ---
 
 <head>

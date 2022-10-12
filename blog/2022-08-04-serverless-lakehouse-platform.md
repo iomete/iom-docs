@@ -4,6 +4,7 @@ title: The Rise of the Serverless Lakehouse Platform
 authors: piet
 hide_table_of_contents: true
 tags: [Educational]
+image: /blog/2022-08-04-serverless-lakehouse-platform/serverless-lakehouse-platform.png
 ---
 
 <head>

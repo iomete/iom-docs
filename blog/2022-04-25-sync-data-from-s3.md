@@ -4,6 +4,7 @@ title: Sync Data From S3
 authors: namig
 hide_table_of_contents: true
 tags: [Engineering]
+image: /blog/2022-04-25-sync-data-from-s3/thumb.jpeg
 ---
 
 <head>
