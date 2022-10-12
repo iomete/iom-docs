@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 export type Props = {
   items: Array<{ name: string; permalink: string }>;
@@ -15,26 +16,27 @@ const Chip = function ({ label, permalink, active = false }) {
   return (
     <a
       href={permalink}
-      className="
-              bg-gray-100
-              text-black
-              hover:bg-blue-700
-              hover:text-white
-              dark:bg-gray-500
-              dark:text-white
-              dark:hover:bg-blue-600
-              transition-colors
-              duration-100
-              rounded
-              no-underline
-              text-lg
-              px-2
-              py-1
-              sm:px-3
-              sm:py-2
-              md:px-6
-              md:py-4
-              capitalize"
+      className={clsx(
+        active ? "bg-blue-700" : "bg-gray-100",
+        active ? "text-white" : "text-black",
+        "hover:bg-blue-700",
+        "hover:text-white",
+        active ? "dark:bg-blue-600" : "dark:bg-gray-500",
+        "dark:text-white",
+        "dark:hover:bg-blue-600",
+        "transition-colors",
+        "duration-100",
+        "rounded",
+        "no-underline",
+        "text-lg",
+        "px-2",
+        "py-1",
+        "sm:px-3",
+        "sm:py-2",
+        "md:px-6",
+        "md:py-4",
+        "capitalize"
+      )}
     >
       {label}
     </a>
