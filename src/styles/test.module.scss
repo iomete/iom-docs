@@ -63,3 +63,7 @@ button {
     border-width: 0;
     border-style: solid;
 }
+
+a {
+    @apply text-primary-light dark:text-primary-dark;
+}

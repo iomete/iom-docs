@@ -23,7 +23,7 @@ export const Cards = ({ tag, content }: Props) => {
     <>
       <a
         href={content.metadata.permalink}
-        className="no-underline max-w-sm overflow-hidden bg-white rounded shadow-sm hover:shadow-md outline outline-1 outline-gray-200 dark:outline-gray-700 bg-slate-50 hover:bg-slate-100 dark:bg-gray-800 dark:hover:bg-gray-900"
+        className="no-underline max-w-lg overflow-hidde rounded shadow-sm hover:shadow-md outline outline-1 outline-gray-200 dark:outline-gray-700 bg-slate-50 hover:bg-slate-100 dark:bg-gray-800 dark:hover:bg-gray-900"
       >
         <img className="object-cover w-full h-64" src={imageUrl} alt={frontMatter.title} />
 

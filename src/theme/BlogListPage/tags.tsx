@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import clsx from "clsx";
 
 export type Props = {
@@ -14,16 +15,16 @@ const prioritizedTags: Props["items"] = ["release","educational", "company", "en
 
 const Chip = function ({ label, permalink, active = false }) {
   return (
-    <a
-      href={permalink}
+    <Link
+      to={permalink}
       className={clsx(
-        active ? "bg-blue-700" : "bg-gray-100",
+        active ? "bg-primary-light" : "bg-gray-100",
         active ? "text-white" : "text-black",
-        "hover:bg-blue-700",
+        "hover:bg-primary-light",
         "hover:text-white",
-        active ? "dark:bg-blue-600" : "dark:bg-gray-500",
+        active ? "dark:bg-primary-dark" : "dark:bg-gray-500",
         "dark:text-white",
-        "dark:hover:bg-blue-600",
+        "dark:hover:bg-primary-dark",
         "transition-colors",
         "duration-100",
         "rounded",
@@ -39,19 +40,19 @@ const Chip = function ({ label, permalink, active = false }) {
       )}
     >
       {label}
-    </a>
+    </Link>
   );
 };
 
 export const Tags = ({ activeTag }) => (
-  <section className="block p-5 md:px-10">
+  <section className="block">
     <div className="max-w-7xl w-full mx-auto">
-      <div className="flex space-x-2 md:space-x-3 xl:space-x-5 justify-center">
+      <div className="flex space-x-2 md:space-x-3 xl:space-x-5 justify-start">
         <Chip label="All" permalink="/docs/blog" />
         {prioritizedTags.map(({ name, permalink }) => (
           <Chip key={permalink} label={name} permalink={permalink} active={activeTag === permalink} />
         ))}
-        <Chip label="More..." permalink="/docs/blog/tags" />
+        {/* <Chip label="More..." permalink="/docs/blog/tags" /> */}
       </div>
     </div>
   </section>
