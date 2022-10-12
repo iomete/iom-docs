@@ -7,12 +7,9 @@ import { ThemeClassNames } from "@docusaurus/theme-common";
 
 import { Tags } from "./tags";
 import { Header } from "./header";
-
-
+import { Cards } from "./card";
 
 export default function BlogListPage(props: Props | TagProps) {
-  console.log(props);
-  
   const metadata = "listMetadata" in props ? props.listMetadata : props.metadata;
 
   const {
@@ -30,9 +27,17 @@ export default function BlogListPage(props: Props | TagProps) {
       <main className="max-w-6xl mx-auto mt-2 md:mt-20 mb-8 p-6">
         <Header />
 
-        <Tags activeTag={ metadata.permalink } />
+        <Tags activeTag={metadata.permalink} />
 
-        <h2>{tag ? `Articles tagged with "${tag.label}"` : "Blog Posts"}</h2>
+        {/* <div className="mt-12">
+          <h2>{tag ? `Articles tagged with "${tag.label}"` : "Blog Posts"}</h2>
+        </div> */}
+
+        <div className="mt-12 grid grid-flow-row gap-6 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+          {props.items.map(({ content }) => (
+            <Cards key={content.metadata.permalink} content={content as any} tag={tag} />
+          ))}
+        </div>
       </main>
     </Layout>
   );
