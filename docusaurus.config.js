@@ -65,7 +65,9 @@ const config = {
         //   trackingID: 'G-QL2LE4R9FS',
         // },
         gtag: {
-          trackingID: 'G-QL2LE4R9FS'
+          // trackingID: 'G-QL2LE4R9FS'
+          trackingID: 'G-YMX75JE2MY',
+          anonymizeIP: false
         }
       }),
     ],
