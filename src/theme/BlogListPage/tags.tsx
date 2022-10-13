@@ -45,11 +45,11 @@ const Chip = function ({ label, permalink, active = false }) {
 };
 
 export const Tags = ({ activeTag }) => (
-  <div className="flex space-x-2 md:space-x-3 xl:space-x-5 justify-start">
+  <div className="flex flex-wrap gap-2 md:gap-3 xl:space-x-5 justify-center">
     <Chip label="All" permalink="/docs/blog" />
     {prioritizedTags.map(({ name, permalink }) => (
       <Chip key={permalink} label={name} permalink={permalink} active={activeTag === permalink} />
     ))}
-    {/* <Chip label="More..." permalink="/docs/blog/tags" /> */}
+    <Chip label="More..." permalink="/docs/blog/tags" />
   </div>
 );

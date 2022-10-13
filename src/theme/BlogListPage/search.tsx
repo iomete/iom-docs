@@ -27,8 +27,10 @@ export const Search = function () {
             id="default-search"
             className="
             block
-            px-4
-            py-3
+            px-3
+            py-2
+            md:px-4
+            md:py-3
             w-full
             text-sm
             rounded border
