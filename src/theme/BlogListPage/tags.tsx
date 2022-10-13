@@ -8,7 +8,7 @@ export type Props = {
 };
 
 // Todo remove '/docs' after blog migration
-const prioritizedTags: Props["items"] = ["release","educational", "company", "engineering"].map((tag) => ({
+const prioritizedTags: Props["items"] = ["release", "educational", "company", "engineering"].map((tag) => ({
   name: tag,
   permalink: `/docs/blog/tags/${tag.replace(/ /g, "-")}`,
 }));
@@ -45,15 +45,11 @@ const Chip = function ({ label, permalink, active = false }) {
 };
 
 export const Tags = ({ activeTag }) => (
-  <section className="block">
-    <div className="max-w-7xl w-full mx-auto">
-      <div className="flex space-x-2 md:space-x-3 xl:space-x-5 justify-start">
-        <Chip label="All" permalink="/docs/blog" />
-        {prioritizedTags.map(({ name, permalink }) => (
-          <Chip key={permalink} label={name} permalink={permalink} active={activeTag === permalink} />
-        ))}
-        {/* <Chip label="More..." permalink="/docs/blog/tags" /> */}
-      </div>
-    </div>
-  </section>
+  <div className="flex space-x-2 md:space-x-3 xl:space-x-5 justify-start">
+    <Chip label="All" permalink="/docs/blog" />
+    {prioritizedTags.map(({ name, permalink }) => (
+      <Chip key={permalink} label={name} permalink={permalink} active={activeTag === permalink} />
+    ))}
+    {/* <Chip label="More..." permalink="/docs/blog/tags" /> */}
+  </div>
 );

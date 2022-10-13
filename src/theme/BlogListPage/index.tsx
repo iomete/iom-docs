@@ -8,6 +8,7 @@ import { ThemeClassNames } from "@docusaurus/theme-common";
 import { Tags } from "./tags";
 import { Header } from "./header";
 import { Cards } from "./card";
+import { Search } from "./search";
 
 export default function BlogListPage(props: Props | TagProps) {
   const metadata = "listMetadata" in props ? props.listMetadata : props.metadata;
@@ -26,8 +27,10 @@ export default function BlogListPage(props: Props | TagProps) {
     <Layout title={title} description={blogDescription} wrapperClassName={ThemeClassNames.wrapper.blogPages}>
       <main className="max-w-7xl mx-auto mt-2 md:mt-20 mb-8 p-6">
         <Header />
-
-        <Tags activeTag={metadata.permalink} />
+        <div className="w-full flex gap-5 gap-x-24 justify-between flex-wrap-reverse">
+          <Tags activeTag={metadata.permalink} />
+          <Search />
+        </div>
 
         {/* <div className="mt-12">
           <h2>{tag ? `Articles tagged with "${tag.label}"` : "Blog Posts"}</h2>
