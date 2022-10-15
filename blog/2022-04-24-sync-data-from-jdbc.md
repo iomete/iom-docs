@@ -4,7 +4,7 @@ title: Sync Data From JDBC Sources
 authors: namig
 hide_table_of_contents: true
 tags: [Engineering]
-image: /blog/2022-04-24-sync-data-from-jdbc/thumb.jpeg
+image: /img/blog/2022-04-24-sync-data-from-jdbc/thumb.jpeg
 ---
 
 <head>
@@ -58,7 +58,7 @@ The database contains the following tables:
 ## Create lakehouse
 ‌Create a new lakehouse instance:
 
-![Create lakehouse](/blog/2022-04-24-sync-data-from-jdbc/lakehouse-create.png)
+![Create lakehouse](/img/blog/2022-04-24-sync-data-from-jdbc/lakehouse-create.png)
 
 
 ## Querying  Source Table
@@ -79,7 +79,7 @@ SELECT * FROM employees_proxy limit 100;
 This table doesn't hold the actual data. Data will be retrieved from the actual source once we query the table
 :::
 
-![iomete sql editor](/blog/2022-04-24-sync-data-from-jdbc/sql-editor.png)
+![iomete sql editor](/img/blog/2022-04-24-sync-data-from-jdbc/sql-editor.png)
 
 ## Migrating Data
 To move the data from the source to the warehouse, you can use one of the following options:
@@ -150,15 +150,15 @@ JOIN salaries s ON e.emp_no = s.emp_no;
 ```
 
 ## Open BI Application
-![Open BI Application](/blog/2022-04-24-sync-data-from-jdbc/bi.png)
+![Open BI Application](/img/blog/2022-04-24-sync-data-from-jdbc/bi.png)
 
 To add a new database connection, choose Databases link from the Data menu and click the +Database button:
 
-![](/blog/2022-04-24-sync-data-from-jdbc/create-database.png)
+![](/img/blog/2022-04-24-sync-data-from-jdbc/create-database.png)
 
 ## Choose Database Type
 Here you need to choose **Apache Hive** from the dropdown:
-![Choose Database Type](/blog/2022-04-24-sync-data-from-jdbc/connect-database.png)
+![Choose Database Type](/img/blog/2022-04-24-sync-data-from-jdbc/connect-database.png)
 
 
 Replace iomete_username and warehouse_name with your values accordingly:
@@ -169,30 +169,30 @@ hive://:XXXXXXXXXX@-warehouse-thriftserver:10000/?auth=CUSTOM&transport_mode=htt
 
 <br/>
 
-![Connect database](/blog/2022-04-24-sync-data-from-jdbc/connect-selected-database.png)
+![Connect database](/img/blog/2022-04-24-sync-data-from-jdbc/connect-selected-database.png)
 
 ## Add new dataset
 To add a new dataset, choose Dataset link from the Data menu and click the + Dataset button:
 
-![](/blog/2022-04-24-sync-data-from-jdbc/add-new-dataset.png)
+![](/img/blog/2022-04-24-sync-data-from-jdbc/add-new-dataset.png)
 
 ## Create a new chart
 Click on the newly created dataset employee_salaries which opens chart view. Let's create a table visualization for the Top 10 High Salary Employees:
 
-![Create a new chart](/blog/2022-04-24-sync-data-from-jdbc/create-new-chart.png)
+![Create a new chart](/img/blog/2022-04-24-sync-data-from-jdbc/create-new-chart.png)
 
 Save the chart to a dashboard:
-![Save chart](/blog/2022-04-24-sync-data-from-jdbc/save-chart.png)
+![Save chart](/img/blog/2022-04-24-sync-data-from-jdbc/save-chart.png)
 
 <br/>
 
 Create another chart. This time Female/Male Salary Distribution using PieChart visualization:
 
-![Create pie chart](/blog/2022-04-24-sync-data-from-jdbc/create-another-pie-chart.png)
+![Create pie chart](/img/blog/2022-04-24-sync-data-from-jdbc/create-another-pie-chart.png)
 
 Save this chart to the dashboard too and navigate to the dashboard. And, here is the dashboard of the Employees that we just created:
 
-![](/blog/2022-04-24-sync-data-from-jdbc/save-pie-chart.png)
+![](/img/blog/2022-04-24-sync-data-from-jdbc/save-pie-chart.png)
 
 Congratulations! You did it!
 

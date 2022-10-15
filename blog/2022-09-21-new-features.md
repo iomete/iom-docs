@@ -4,7 +4,7 @@ title: New iomete features | September 2022
 authors: fuad
 hide_table_of_contents: true
 tags: [Release]
-image: /blog/2022-09-21-new-features/thumb.jpeg
+image: /img/blog/2022-09-21-new-features/thumb.jpeg
 ---
 
 <head>
@@ -27,39 +27,39 @@ In September 2022, we released a number of new and improved platform features:
 ## New single domain for iomete console
 The console became easier to access through one single domain at [app.iomete.com](https://app.iomete.com/signin). The old *<account_number>.iomete.com* domains have been removed. Use your 12-digit account number to sign in.
 
-![sign in to your iomete account through one single domain at app.iomete.com](/blog/2022-09-21-new-features/iomete-signin.jpeg "sign in to your iomete account through one single domain at app.iomete.com
+![sign in to your iomete account through one single domain at app.iomete.com](/img/blog/2022-09-21-new-features/iomete-signin.jpeg "sign in to your iomete account through one single domain at app.iomete.com
 ")
 
 
 ## Transparent pricing
 We are proud to offer the most transparent pricing in the industry. Users pay the AWS on-demand compute price. No markups. You may select the AWS machine types supported by iomete from the interface and view the AWS price for that machine; iomete will charge you the same amount as AWS would charge you. Please keep in mind that prices vary depending on your AWS region.
 
-![Transparent pricing](/blog/2022-09-21-new-features/transparent-pricing.jpeg)
+![Transparent pricing](/img/blog/2022-09-21-new-features/transparent-pricing.jpeg)
 
 
 ## New Access Control System
 Simply manage iomete permissions through the Access Control System. Detailed roles and permissions can be assigned to individuals and groups. Resource-based permissions are also supported. For a smooth transition, we enabled systems default permissions and allocated them to each user.
 
-![iomete access control system - roles](/blog/2022-09-21-new-features/access-control-system.jpeg "iomete access control system - roles")
+![iomete access control system - roles](/img/blog/2022-09-21-new-features/access-control-system.jpeg "iomete access control system - roles")
 
-![iomete access control system - permissions](/blog/2022-09-21-new-features/create-permission.jpeg "iomete access control system - permissions")
+![iomete access control system - permissions](/img/blog/2022-09-21-new-features/create-permission.jpeg "iomete access control system - permissions")
 
 
 ## Improved dashboard
 The improved dashboard makes it easy to analyze your tasks and discover pain points. With the Grafana tool one can easily optimize spark jobs.
 
-![iomete dashboard](/blog/2022-09-21-new-features/improved-dashboard.jpeg)
+![iomete dashboard](/img/blog/2022-09-21-new-features/improved-dashboard.jpeg)
 
 ## Switch between accounts
 Users can now easily switch between multiple iomete accounts. To switch between accounts, click on the profile button found on the left bottom side.
 
-![iomete switch between accounts](/blog/2022-09-21-new-features/switch-account.jpeg)
+![iomete switch between accounts](/img/blog/2022-09-21-new-features/switch-account.jpeg)
 
 
 ## Billing console
 Users can quickly review and download invoices and arrange payment directly from iomete’s billing console.
 
-![iomete billing console](/blog/2022-09-21-new-features/billing-console.jpeg)
+![iomete billing console](/img/blog/2022-09-21-new-features/billing-console.jpeg)
 
 
 ## Role-based integrations

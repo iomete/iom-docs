@@ -4,7 +4,7 @@ title: E2E tests with Cypress for front-end
 authors: mikayil
 hide_table_of_contents: true
 tags: [Engineering]
-image: /blog/2022-07-19-e2e-test-cypress/before-cypress.png
+image: /img/blog/2022-07-19-e2e-test-cypress/before-cypress.png
 ---
 
 <head>
@@ -60,7 +60,7 @@ Here are the e2e testing tools which we were choosing from:
 ## Protractor
 In our case, we were planning to write the e2e tests for the Angular application and we had several options to choose from. In the past, we had experience with the [Protractor](https://www.protractortest.org/#/) which is an e2e tool designed especially for Angular apps and built on top of [Selenium](https://www.selenium.dev/).
 
-![Protractor](/blog/2022-07-19-e2e-test-cypress/protractor.png)
+![Protractor](/img/blog/2022-07-19-e2e-test-cypress/protractor.png)
 
 The main attraction of this tool is its Angular orientation. This means that [Protractor](https://www.protractortest.org/#/) is aware of the internal mechanism of the Angular framework which enables testing framework-specific elements. However, it has its own drawbacks. First of all, it is based on Selenium which makes its configuration a little bit tedious. In addition, it is supposed to wait for pending tasks and there is no need to place manually and wait for them to finish but in reality, this mechanism is not stable and often you find yourself struggling to find what caused your tests to fail and why particular element can’t be found. This results in not so much a pleasant experience and spending a lot of time. Moreover, there are no convenient debugging tools at your disposal and you can’t just replay your tests and check out the video or screenshots in order to locate the reasons behind your errors (at least there weren’t at a time when the author was using this tool).
 
@@ -86,16 +86,16 @@ describe('angularjs homepage todo list', function () {
 ## Rainforest QA
 At one stage of our considerations, we were looking at one popular e2e testing tool named [Rainforest QA](https://www.rainforestqa.com/). This tool represents a comprehensive all-in-one paid solution for e2e testing. However, this tool is a no-code solution mostly for QA engineers where you write your test for UI by clicking on interface elements and selecting actions for them.
 
-![Rainforest QA](/blog/2022-07-19-e2e-test-cypress/rainforestqa.gif)
+![Rainforest QA](/img/blog/2022-07-19-e2e-test-cypress/rainforestqa.gif)
 
 This is great in terms of using systems without the need to dive into code level and add custom attributes to elements in order to be able to get hold of UI elements. This may speed up the testing process when testing is done mainly by QA engineers or if the system to be tested is quite simple and no complex testing scenario is required. In addition to that, elements are retrieved by visual representation and text content which means that if the design of a particular UI element changes your tests will probably break. The specificity of this testing tool wasn’t a good fit for our case. We aimed for more stability and independence from the visuals of our UI elements. Despite the fact that [Rainforest QA](https://www.rainforestqa.com/) has great tooling and support it is still more QA engineer oriented.
 
-![](/blog/2022-07-19-e2e-test-cypress/rainforest-qa-dashboard.png)
+![](/img/blog/2022-07-19-e2e-test-cypress/rainforest-qa-dashboard.png)
 
 ### Cypress
 Looking back at our experience with e2e testing tools we looked at end-to-end testing as something painful, non-stable, and time-consuming. We wanted to find a tool that will help us eliminate those difficulties and make testing intuitive and effective. In our searches, we came across a [Cypress](https://www.cypress.io/) testing tool that was gaining popularity very fast throughout the community. We decided to give it a shot (**SPOILER**: it turned out to be the right decision).
 
-![Before cypress](/blog/2022-07-19-e2e-test-cypress/before-cypress.png)
+![Before cypress](/img/blog/2022-07-19-e2e-test-cypress/before-cypress.png)
 
 **The features we found to be the most attractive for our team:**
 
@@ -154,12 +154,12 @@ CypressError: cy.click() failed because this element is detached from the DOM.
 
 After spending a lot of time to find the reason behind this error and google-ing we found this issue on Github. It turns out the reason behind this is that framework (Angular in our case) happened to swap the queried DOM element to the new one (re-rendering). And this process is not something a user can control. As a result, there are tons of “clutch” solutions out there on the internet with an official solution yet to be presented by the Cypress team. This issue is dated back to May 12, 2020. Moreover, the team doesn’t promise it to be resolved in the near future, which is saddening.
 
-![](/blog/2022-07-19-e2e-test-cypress/comment.png)
+![](/img/blog/2022-07-19-e2e-test-cypress/comment.png)
 
 ## Final thoughts
 Although Cypress fixed a lot of problems of modern e2e testing and made it a lot easier and more stable, in our opinion there is still a lot of work to do until e2e testing is something you can rely on.
 
-![](/blog/2022-07-19-e2e-test-cypress/test-has-been-broken.png)
+![](/img/blog/2022-07-19-e2e-test-cypress/test-has-been-broken.png)
 
 Writing stable, decoupled, idempotent end-to-end tests is still no small feat. While Cypress helps you overcome most of the difficulties related to specifics of e2e testing, you should bear in mind that it is not a silver bullet and some things just come with the nature of tests themselves.
 

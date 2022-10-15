@@ -23,7 +23,7 @@ This is an end-to-end guide about how to move files from your AWS S3 to iomete a
 
 Let's say you have a bucket where you have files you want to move to iomete.
 
-![The dedicated bucket for iomete](/img/how-to/bucket.png)
+![The dedicated bucket for iomete](/img/guides/bucket.png)
 <!-- [block:image]
 {
   "images": [
@@ -45,7 +45,7 @@ Let's say you have a bucket where you have files you want to move to iomete.
 
 Let's say, we want to create or receive a new query/migrate `countries.json` file in iomete platform.
 
-![The File (countries.json) we want to move to iomete](/img/how-to/countries.png)
+![The File (countries.json) we want to move to iomete](/img/guides/countries.png)
 
 <!-- [block:image]
 {
@@ -85,7 +85,7 @@ The following step-by-step instructions describe how to configure it.
 
 - Go to **Identity & Access Management (IAM) -> Policies -> Create Policy:**
 
-![Create policy button on Policies page](/img/how-to/create-policy-button.png)
+![Create policy button on Policies page](/img/guides/create-policy-button.png)
 <!-- [block:image]
 {
   "images": [
@@ -103,7 +103,7 @@ The following step-by-step instructions describe how to configure it.
 
 - In the editor, click the **JSON** tab.
 
-![JSON tab in editor](/img/how-to/json-tab.png)
+![JSON tab in editor](/img/guides/json-tab.png)
 <!-- [block:image]
 {
   "images": [
@@ -160,7 +160,7 @@ After review save it with the name: **area_for_iomete_access**.
 - Go to **Identity & Access Management (IAM) -> Roles**
 - Search for **default_iomete_access_role**
 
-![Default iomete access role on Policies page](/img/how-to/default_iomete_access_role.png)
+![Default iomete access role on Policies page](/img/guides/default_iomete_access_role.png)
 
 <!-- [block:image]
 {
@@ -181,7 +181,7 @@ Inside of the **default_iomete_access_role**, attach the new created **area_for_
 
 - Click the **Add permissions -> Attach policies**
 
-![Default iomete access role](/img/how-to/attach-policy.png)
+![Default iomete access role](/img/guides/attach-policy.png)
 
 <!-- [block:image]
 {
@@ -200,7 +200,7 @@ Inside of the **default_iomete_access_role**, attach the new created **area_for_
 
 - Search for **area_for_iomete_access** and click the **Attach policies** button.
 
-![New attached **area_for_iomete** role.](/img/how-to/attached-policy.png)
+![New attached **area_for_iomete** role.](/img/guides/attached-policy.png)
 <!-- 
 [block:image]
 {
@@ -229,7 +229,7 @@ In the SQL Editor, you should be able to query the file and migrate to iomete us
 
 Querying JSON file data without moving to `iomete`
 
-![Query JSON Data](/img/how-to/querying-data.png)
+![Query JSON Data](/img/guides/querying-data.png)
 <!-- [block:image]
 {
   "images": [
@@ -359,7 +359,7 @@ Lets visualize the new **countries_view** in the BI Application.
 
 From the menu choose `Data -> Dataset` and click `+ Dataset` button on the right top corner.
 
-![New dataset creation on BI](/img/how-to/create-dataset.png)
+![New dataset creation on BI](/img/guides/create-dataset.png)
 
 <!-- [block:image]
 {
@@ -380,7 +380,7 @@ From the menu choose `Data -> Dataset` and click `+ Dataset` button on the right
 
 Click on the newly created dataset `countries_view` which opens chart view. Choose the visualization type and corresponding settings:
 
-![Top 10 countries with highest population](/img/how-to/chart.png)
+![Top 10 countries with highest population](/img/guides/chart.png)
 <!-- [block:image]
 {
   "images": [
@@ -399,7 +399,7 @@ Click on the newly created dataset `countries_view` which opens chart view. Choo
 
 Save this chart to the dashboard too and navigate to the dashboard. And, here is the dashboard of the `Countries` that we just created.
 
-![Countries dashboard on BI](/img/how-to/dashboard-countries.png)
+![Countries dashboard on BI](/img/guides/dashboard-countries.png)
 <!-- [block:image]
 {
   "images": [

@@ -10,6 +10,7 @@ import { Header } from "./header";
 import { Cards } from "./card";
 import { Search } from "./search";
 import { NoResult } from "./no-result";
+import { MainCard } from "./main-card";
 
 export default function BlogListPage(props: Props | TagProps) {
   const [searchInput, setSearchInput] = useState("");
@@ -27,10 +28,16 @@ export default function BlogListPage(props: Props | TagProps) {
 
   const tag = "tag" in props ? props.tag : null;
 
+  const mainBlog = metadata.page === 1 && [...props.items].find((item) => (item.content.frontMatter as any).featured_blog);
+  console.log(mainBlog);
+  
+  const posts = [...props.items.filter((item) => !(item.content.frontMatter as any).featured_blog)]
+
+
   const onChange = (val: string) => {
     setSearchInput(val);
     if (val !== "") {
-      const filteredData = props.items.filter((item) => {
+      const filteredData = posts.filter((item) => {
         return [
           item.content.frontMatter.title.toLowerCase(),
           ...item.content.metadata.tags.map((a) => a.label.toLowerCase()),
@@ -40,7 +47,7 @@ export default function BlogListPage(props: Props | TagProps) {
       });
       setFilteredResults(filteredData);
     } else {
-      setFilteredResults([...props.items]);
+      setFilteredResults([...posts]);
     }
   };
 
@@ -48,7 +55,7 @@ export default function BlogListPage(props: Props | TagProps) {
     return !list.length ? (
       <NoResult />
     ) : (
-      <div className="mt-12 grid grid-flow-row gap-6 text-neutral-600 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+      <div className="blog-cards">
         {list.map(({ content }) => (
           <Cards key={content.metadata.permalink} content={content as any} tag={tag} />
         ))}
@@ -58,14 +65,17 @@ export default function BlogListPage(props: Props | TagProps) {
 
   return (
     <Layout title={title} description={blogDescription} wrapperClassName={ThemeClassNames.wrapper.blogPages}>
-      <main className="max-w-7xl mx-auto mt-2 md:mt-20 mb-8 p-6">
+      <main className="blog-main">
         <Header />
-        <div className="w-full flex gap-5 gap-x-24 justify-between flex-wrap-reverse">
+
+        {/* {mainBlog && (<MainCard content={mainBlog.content} tag={tag}/>)} */}
+
+        <div className="blog-tags-search">
           <Tags activeTag={metadata.permalink} />
           <Search onChange={onChange} />
         </div>
 
-        {searchInput.length > 1 ? <List list={filteredResults} /> : <List list={props.items} />}
+        {searchInput.length > 1 ? <List list={filteredResults} /> : <List list={posts} />}
       </main>
     </Layout>
   );

@@ -15,41 +15,20 @@ const prioritizedTags: Props["items"] = ["release", "educational", "company", "e
 
 const Chip = function ({ label, permalink, active = false }) {
   return (
-    <Link
-      to={permalink}
-      className={clsx(
-        active ? "bg-primary-light" : "bg-gray-100",
-        active ? "text-white" : "text-black",
-        "hover:bg-primary-light",
-        "hover:text-white",
-        active ? "dark:bg-primary-dark" : "dark:bg-gray-500",
-        "dark:text-white",
-        "dark:hover:bg-primary-dark",
-        "transition-colors",
-        "duration-100",
-        "rounded",
-        "no-underline",
-        "text-lg",
-        "px-3",
-        "py-1",
-        "md:px-4",
-        "md:py-2",
-        "xl:px-6",
-        "xl:py-2",
-        "capitalize"
-      )}
-    >
+    <Link to={permalink} className={clsx("blog-tag-link", active && "active")}>
       {label}
     </Link>
   );
 };
 
-export const Tags = ({ activeTag }) => (
-  <div className="flex flex-wrap gap-2 md:gap-3 xl:space-x-5 justify-center">
-    <Chip label="All" permalink="/docs/blog" />
-    {prioritizedTags.map(({ name, permalink }) => (
-      <Chip key={permalink} label={name} permalink={permalink} active={activeTag === permalink} />
-    ))}
-    <Chip label="More..." permalink="/docs/blog/tags" />
-  </div>
-);
+export const Tags = ({ activeTag }) => {
+  return (
+    <div className="blog-tags">
+      <Chip label="All" permalink="/docs/blog" />
+      {prioritizedTags.map(({ name, permalink }) => (
+        <Chip key={permalink} label={name} permalink={permalink} active={activeTag === permalink} />
+      ))}
+      <Chip label="More..." permalink="/docs/blog/tags" />
+    </div>
+  )
+};

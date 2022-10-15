@@ -23,8 +23,8 @@ const sidebars = {
       label: 'Documentation',
       collapsed: false,
       items: [
-        'docs', 
-        'docs/platform'
+        'intro',
+        'intro/platform'
       ]
     },
     {
@@ -211,19 +211,13 @@ const sidebars = {
         'integrations/airbyte',
       ]
     }
-    // {
-    //   type: 'category',
-    //   label: 'Tests',
-    //   collapsed: false,
-    //   items: ['test/test1']
-    // }
   ],
 
-  guide: [{
+  guides: [{
     type: 'category',
     label: 'Guides',
     collapsed: false,
-    items: ['how-to', 'how-to/data-from-s3', 'how-to/data-from-jdbc', 'how-to/run-spark-job']
+    items: ['guides', 'guides/data-from-s3', 'guides/data-from-jdbc', 'guides/run-spark-job']
   }]
 };
 

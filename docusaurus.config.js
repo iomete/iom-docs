@@ -1,6 +1,5 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
-const path = require('path');
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
@@ -13,7 +12,7 @@ const config = {
   baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'icons/iom-dark.png',
+  favicon: 'img/favicon.png',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -28,30 +27,30 @@ const config = {
   //   locales: ['en'],
   // },
 
-
   presets: [
     [
       'classic',
-      /** @type {import('@docusaurus/preset-classic').Options} */
+      /** @type {import('@docusaurus/preset-classic').  Options} */
       ({
-        sitemap: {
-          ignorePatterns: ['/docs/blog/**']
-        },
+        // sitemap: {
+        //   ignorePatterns: ['/docs/blog/**']
+        // },
         docs: {
           routeBasePath: '/',
-          sidebarPath: require.resolve('./sidebars.js'),
+          sidebarPath: require.resolve('./sidebars.js')
+          // autoCollapseCategories: false
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          // editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // breadcrumbs: false,
-          showLastUpdateTime: true
+          // editUrl:
+          //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           routeBasePath: 'blog',
           blogSidebarCount: 'ALL',
           postsPerPage: 'ALL',
           blogTitle: 'iomete | Blog',
-          // blogListComponent: '/blog/index.js',
+          showReadingTime: true,
+          // // blogListComponent: '/blog/index.js',
           blogTagsPostsComponent: require.resolve(
             "./src/theme/BlogListPage/index.tsx",
           ),
@@ -59,13 +58,9 @@ const config = {
           blogDescription: 'The blog of the easy, low-cost Snowflake / Databricks alternative. Data has been complex and expensive for too long. Learn how we make it easy and affordable.'
         },
         theme: {
-          customCss: require.resolve('./src/styles/custom.scss'),
+          customCss: require.resolve('./src/css/custom.scss'),
         },
-        // googleAnalytics: {
-        //   trackingID: 'G-QL2LE4R9FS',
-        // },
         gtag: {
-          // trackingID: 'G-QL2LE4R9FS'
           trackingID: 'G-YMX75JE2MY',
           anonymizeIP: false
         }
@@ -80,25 +75,21 @@ const config = {
         // { name: 'keywords', content: 'iomete, datalake, lakehouse, warehouse, docs, documentation, sql editor, big data' },
         { name: 'og:image', content: 'https://iomete.com/docs/img/meta/open-graph.png' },
         { name: 'twitter:image', content: 'https://iomete.com/docs/img/meta/open-graph.png' },
-        {
-          name: 'twitter:card',
-          content: 'summary_large_image',
-        },
-        {
-          name: 'twitter:domain',
-          content: 'iomete.com',
-        },
-        {
-          name: 'twitter:site',
-          content: '@iomete',
-        },
-        {
-          name: 'twitter:creator',
-          content: 'iomete',
-        },
         // {
-        //   name: 'fb:page_id',
-        //   content: '1321836767955949',
+        //   name: 'twitter:card',
+        //   content: 'summary_large_image',
+        // },
+        // {
+        //   name: 'twitter:domain',
+        //   content: 'iomete.com',
+        // },
+        // {
+        //   name: 'twitter:site',
+        //   content: '@iomete',
+        // },
+        // {
+        //   name: 'twitter:creator',
+        //   content: 'iomete',
         // },
         {
           name: 'og:type',
@@ -109,26 +100,19 @@ const config = {
           content: 'iomete Docs',
         },
       ],
-      // announcementBar: {
-      //   id: 'support_us',
-      //   content:
-      //     '⭐️ If you like iomete, give it a star on  <a target="_blank" rel="noopener noreferrer" href="#">GitHub</a> and follow us on <a target="_blank" rel="noopener noreferrer" href="#">Twitter</a>',
-      //   backgroundColor: '#fafbfc',
-      //   textColor: 'black',
+      // docs: {
+      //   sidebar: {
+      //     hideable: true,
+      //     autoCollapseCategories: true
+      //   }
       // },
-      docs: {
-        sidebar: {
-          // hideable: true,
-          // autoCollapseCategories: true
-        }
-      },
       navbar: {
-        // title: 'docs',
+        // title: 'My Site',
         hideOnScroll: true,
         logo: {
           alt: 'iomete logo',
-          src: `/logos/logo-black.svg`,
-          srcDark: `/logos/logo-white.svg`,
+          src: `/img/logo-black.svg`,
+          srcDark: `/img/logo-white.svg`,
           href: '/',
           // target: '_blank',
           height: 42
@@ -136,13 +120,13 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'docs',
+            docId: 'intro',
             position: 'left',
             label: 'Docs',
           },
           {
             type: 'doc',
-            docId: 'how-to',
+            docId: 'guides',
             label: 'Guides',
             position: 'left',
           },
@@ -151,11 +135,7 @@ const config = {
             href: 'https://github.com/iomete',
             label: 'GitHub',
             position: 'right'
-          },
-          // {
-          //   type: 'search',
-          //   position: 'right',
-          // },
+          }
         ],
       },
       footer: {
@@ -181,10 +161,10 @@ const config = {
                 label: 'Twitter',
                 href: 'https://twitter.com/iometedata',
               },
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/iomete',
-              },
+              // {
+              //   label: 'Stack Overflow',
+              //   href: 'https://stackoverflow.com/questions/tagged/iomete',
+              // },
             ],
           },
           {
@@ -205,7 +185,7 @@ const config = {
       },
       prism: {
         theme: lightCodeTheme,
-        darkTheme: darkCodeTheme
+        darkTheme: darkCodeTheme,
       },
       // algolia: {
       //   appId: 'O9QSL985BS',
@@ -216,39 +196,7 @@ const config = {
       // },
     }),
   plugins: [
-    'docusaurus-plugin-sass',
-    async function myPlugin(context, options) {
-      return {
-        name: "docusaurus-tailwindcss",
-        configurePostCss(postcssOptions) {
-          // Appends TailwindCSS and AutoPrefixer.
-          postcssOptions.plugins.push(require("tailwindcss"));
-          postcssOptions.plugins.push(require("autoprefixer"));
-          return postcssOptions;
-        },
-      };
-    },
-    async function blogInterceptor(context, options) {
-      return {
-        name: "docusaurus-hello-test",
-        contentLoaded: (content, allContent, actions ) => {
-          console.log(content, allContent, actions);
-          console.info(content, allContent, actions);
-          console.warn(content, allContent, actions);
-          // const { setGlobalData } = actions;
-          // const blogContents = allContent["docusaurus-plugin-content-blog"]["default"];
-          // console.log('blogContents => ', blogContents);
-          // const blogTags = blogContents.blogTags;
-          // console.log('blogTags => ', blogTags);
-
-          // var blogPosts = blogContents.blogPosts;
-          // console.log('blogPosts => ', blogPosts);
-          // blogPosts = blogPosts.slice(0, 3) //get 3 recent blog posts
-          // console.log('blogPosts2 => ', blogPosts);
-          // setGlobalData({ blogTags, blogPosts })
-        }
-      };
-    }
+    'docusaurus-plugin-sass'
   ]
 };
 

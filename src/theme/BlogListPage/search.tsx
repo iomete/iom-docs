@@ -1,14 +1,13 @@
-import React from 'react';
+import React from "react";
 
-export const Search = function ({onChange}) {
+export const Search = function ({ onChange }) {
   return (
     <>
-      <form className="flex-grow basis-64">
-        <div className="relative w-full">
-          <div className="flex absolute inset-y-0 right-0 items-center pr-3 pointer-events-none">
+      <form className="blog-search" autoComplete="off">
+        <div>
+          <div>
             <svg
               aria-hidden="true"
-              className="w-5 h-5 text-gray-500 dark:text-gray-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -25,24 +24,6 @@ export const Search = function ({onChange}) {
           <input
             type="search"
             id="default-search"
-            className="
-            block
-            px-3
-            py-2
-            md:px-4
-            md:py-3
-            w-full
-            text-sm
-            rounded border
-            border-gray-300
-            outline-none
-            focus:ring-primary-light
-            focus:border-primary-light
-            dark:border-gray-600
-            dark:placeholder-gray-400
-            dark:text-white
-            dark:focus:ring-primary-light
-            dark:focus:border-blue-500"
             placeholder="Search by name, title, category..."
             required
             onChange={(e) => onChange(e.target.value)}

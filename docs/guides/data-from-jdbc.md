@@ -62,7 +62,7 @@ The database contains the following tables:
 
 Create a new warehouse instance
 
-![Create lakehouse](/img/how-to/create-new-chart.png)
+![Create lakehouse](/img/guides/create-new-chart.png)
 
 
 ### Querying  Source Table
@@ -87,7 +87,7 @@ SELECT * FROM employees_proxy limit 100;
 This table doesn't hold the actual data. Data will be retrieved from the actual source once we query the table
 :::
 
-![Query Editor](/img/how-to/iomete-sql_editor.png)
+![Query Editor](/img/guides/iomete-sql_editor.png)
 <!-- [block:image]
 {
   "images": [
@@ -220,31 +220,31 @@ CREATE OR REPLACE VIEW employee_salaries AS
 
 ### Open BI Application
 
-![Open BI](/img/how-to/open-BI-iomete-console.png)
+![Open BI](/img/guides/open-BI-iomete-console.png)
 
 ### Add new dataset
 
 To add a new dataset, choose `Dataset` link from the Data menu and click the `+Dataset` button:
 
-![Add new dataset](/img/how-to/add-new-dataset.png)
+![Add new dataset](/img/guides/add-new-dataset.png)
 
 ### Create a new chart
 
 Click on the newly created dataset `employee_salaries` which opens chart view. Let's create a `table` visualization for the `Top 10 High Salary Employees`
 
-![Create a new chart]/img/how-to/create-new-chart.png)
+![Create a new chart]/img/guides/create-new-chart.png)
 
 Save the chart to a dashboard
 
-![Save the chart to a dashboard](/img/how-to/saving-BI-chart.png)
+![Save the chart to a dashboard](/img/guides/saving-BI-chart.png)
 
 Create another chart. This time `Female/Male Salary Distribution` using `PieChart` visualization
 
-![create iomete chart](/img/how-to/create-another-BI-chart-iomete.png)
+![create iomete chart](/img/guides/create-another-BI-chart-iomete.png)
 
 Save this chart to the dashboard too and navigate to the dashboard. And, here is the dashboard of the Employees that we just created
 
-![navigate iomete dashboard](/img/how-to/saving-another-chart.png)
+![navigate iomete dashboard](/img/guides/saving-another-chart.png)
 
 Congratulations 🎉🎉🎉
 

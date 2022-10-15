@@ -4,7 +4,7 @@ title: Data Governance for modern data stack
 authors: aytan
 hide_table_of_contents: true
 tags: [Educational, Company]
-image: /blog/2022-10-04-data-governace/data-governance-for-modern-data-stack.png
+image: /img/blog/2022-10-04-data-governace/data-governance-for-modern-data-stack.png
 ---
 
 <head>
@@ -13,7 +13,7 @@ image: /blog/2022-10-04-data-governace/data-governance-for-modern-data-stack.png
   <meta name="googlebot" content="noindex"/>
 </head>
 
-![Data Governance for modern data stack](/blog/2022-10-04-data-governace/data-governance-for-modern-data-stack.png)
+![Data Governance for modern data stack](/img/blog/2022-10-04-data-governace/data-governance-for-modern-data-stack.png)
 
 <!-- truncate -->
 
@@ -38,7 +38,7 @@ Data Governance has three purposes:
 - Build data literacy;
 - Maximizing data used for the benefit of the organization
 
-![Data Quality](/blog/2022-10-04-data-governace/data-quality.jpeg "Data Quality")
+![Data Quality](/img/blog/2022-10-04-data-governace/data-quality.jpeg "Data Quality")
 
 Ensuring data quality is the first step in the data governance mission. In this context, data quality is defined by multiple data validity (Data Quality = Completeness x Validity). That is, collecting all the necessary data for an analytics use case and ensuring that the data is valid. The data governance committee should have strategies to support and improve data quality, ensuring completeness and validity of data to support analytics.
 
@@ -68,7 +68,7 @@ Implementing a data governance program in the correct detail in an organized and
 ## How is Data Governance structured?
 An effective data governance program; Maximizes the value of data for operational effectiveness, decision making, and regulatory compliance while minimizing the risks associated with poor data management. Includes basic tasks. A proper Data Governance organization, workflow, tools and creating an effective data stack, etc. Enterprise stakeholders prioritize data management by hiring chief data officers (CDOs). Policies that control corporate data must be determined: processes and procedures that ensure compliance with data policies, standards, and business rules.
 
-![prioritize data management](/blog/2022-10-04-data-governace/prioritize-data-management.jpeg)
+![prioritize data management](/img/blog/2022-10-04-data-governace/prioritize-data-management.jpeg)
 
 
 As the diagram shows, there are multiple layers in the data governance process established under executive and board leadership. The data governance committee, data administrators, data architects and programmers, database and system administrators, and the access control system surround the technical data warehouse and analysis platform. At first glance, these layers may seem hierarchical, but if applied properly, the layers complement each other efficiently. When put together effectively, these data management layers provide data analysts with efficient and robust results.
@@ -95,7 +95,7 @@ Speaking of roles, it is worth mentioning that. The number of roles in EDWH need
 ## Why do companies choose iomete?
 iomete platform also covered security of data inside data policies module. In this module admin of console can create different policies for company.
 
-![iomete data governance](/blog/2022-10-04-data-governace/iomete-data-governance.png)
+![iomete data governance](/img/blog/2022-10-04-data-governace/iomete-data-governance.png)
 
 iomete platform also covered the security of data inside the data policies module. In this module admin of the console can create different policies for the company. For example, the admin can create a policy for the finance team that hides(masking) some tables inside the database. Also, the admin can choose some access policies for the finance team to keep confidentiality inside the different teams of the company.
 

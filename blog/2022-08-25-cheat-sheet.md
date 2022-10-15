@@ -4,7 +4,7 @@ title: Spark SQL Cheat Sheet for Apache Iceberg
 authors: fuad
 hide_table_of_contents: true
 tags: [Engineering]
-image: /blog/2022-08-25-cheat-sheet/thumb.jpeg
+image: /img/blog/2022-08-25-cheat-sheet/thumb.jpeg
 ---
 
 <head>
@@ -21,6 +21,6 @@ In the lakehouse platform, we are using Apache Iceberg with Apache Spark. Even t
 
 We included DDL operations for creating databases and tables, altering table structures, basic read / write queries, SQL queries for time travel. In the third column we included base Apache Iceberg SQL procedures with arguments that are most likely to be used.
 
-![](/blog/2022-08-25-cheat-sheet/iceberg-cheat-sheet.jpeg)
+![](/img/blog/2022-08-25-cheat-sheet/iceberg-cheat-sheet.jpeg)
 
-Download the PDF version [here](/blog/2022-08-25-cheat-sheet/iceberg-cheat-sheet.pdf). We hope you find it useful. 🤗
+Download the PDF version [here](/img/blog/2022-08-25-cheat-sheet/iceberg-cheat-sheet.pdf). We hope you find it useful. 🤗

@@ -4,7 +4,9 @@ title: The Data Cloud is Greedy
 authors: piet
 hide_table_of_contents: true
 tags: [Company]
-image: /blog/2022-07-27-the-data-cloud-is-greedy/thumb.png
+image: /img/blog/2022-07-27-the-data-cloud-is-greedy/thumb.png
+# featured_blog: true
+# featured_content: In this post we share our Hate List. four observations around the customer and value proposition of "The Data Cloud" (the establishment) and how we've used these observations to engineer our own value and customer proposition.
 ---
 
 <head>
@@ -13,7 +15,7 @@ image: /blog/2022-07-27-the-data-cloud-is-greedy/thumb.png
   <meta name="googlebot" content="noindex"/>
 </head>
 
-![The Data Cloud is Greedy](/blog/2022-07-27-the-data-cloud-is-greedy/the-data-cloud-is-greedy.jpeg)
+![The Data Cloud is Greedy](/img/blog/2022-07-27-the-data-cloud-is-greedy/the-data-cloud-is-greedy.jpeg)
 
 <!-- truncate -->
 

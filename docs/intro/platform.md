@@ -31,7 +31,7 @@ The platform includes:
 5. Built-in BI Solution (but also works with 3rd party BI solution such as Tableau, Looker and the likes)
 
 
-![iomete data stack](/img/docs/how-it-works.png)
+![iomete data stack](/img/intro/how-it-works.png)
 
 <br/>
 
