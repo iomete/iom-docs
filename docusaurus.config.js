@@ -9,7 +9,7 @@ const config = {
   title: 'iomete docs',
   tagline: 'The easy, low-cost Snowflake / Databricks alternative. Cloud, on prem and hybrid solutions.',
   url: 'https://iomete.com',
-  baseUrl: '/',
+  baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.png',
@@ -36,7 +36,7 @@ const config = {
         //   ignorePatterns: ['/docs/blog/**']
         // },
         docs: {
-          routeBasePath: 'docs',
+          routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js')
           // autoCollapseCategories: false
           // Please change this to your repo.
@@ -45,7 +45,7 @@ const config = {
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
-          routeBasePath: 'blog',
+          routeBasePath: '/blog',
           blogSidebarCount: 'ALL',
           postsPerPage: 'ALL',
           blogTitle: 'iomete | Blog',
@@ -113,7 +113,7 @@ const config = {
           alt: 'iomete logo',
           src: `/img/logo-black.svg`,
           srcDark: `/img/logo-white.svg`,
-          href: '/docs',
+          href: '/',
           // target: '_blank',
           height: 42
         },

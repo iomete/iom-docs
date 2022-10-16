@@ -15,7 +15,7 @@ export const Cards = ({ tag, content }: Props) => {
   const frontMatter: FrontMatter = content.frontMatter;
 
   // Todo remove '/docs' after blog migration
-  const imageUrl = frontMatter.image;
+  const imageUrl = "/docs/" + frontMatter.image;
   // console.log(tags, { ...content });
   const autor: Author = content.metadata.authors[0];
 
