@@ -5,6 +5,7 @@ authors: mikayil
 hide_table_of_contents: true
 tags: [Engineering]
 image: /img/blog/2022-07-19-e2e-test-cypress/before-cypress.png
+description: Nowadays, it is an industry standard to write tests for your code. Such popularity is not just a trend, it is backed by the observation that tests bring stability and scalability to code.
 ---
 
 <head>
@@ -24,7 +25,7 @@ image: /img/blog/2022-07-19-e2e-test-cypress/before-cypress.png
 
 ## Introduction
 
-Nowadays, it is an industry standard to write tests for your code.  Such popularity is not just a trend, it is backed by the observation that tests bring stability and scalability to code. Tests help to keep your code clean and modular while at the same time enabling developers to refactor without implicit errors in unexpected parts of the application. Tests tend to describe the functionality of an application in a clear and concise way and for that reason, they are usually used as some kind of documentation. There is practically no downside to writing tests.
+Nowadays, it is an industry standard to write tests for your code. Such popularity is not just a trend, it is backed by the observation that tests bring stability and scalability to code. Tests help to keep your code clean and modular while at the same time enabling developers to refactor without implicit errors in unexpected parts of the application. Tests tend to describe the functionality of an application in a clear and concise way and for that reason, they are usually used as some kind of documentation. There is practically no downside to writing tests.
 
 There are different methodologies of testing, however, we are going to focus on sharing our experience with the [Cypress](https://www.cypress.io/) testing tool which we use for e2e testing, *although it can be used for component testing purposes too.*
 

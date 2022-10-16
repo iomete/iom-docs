@@ -5,6 +5,7 @@ authors: namig
 hide_table_of_contents: true
 tags: [Engineering]
 image: /img/blog/2022-04-24-sync-data-from-jdbc/thumb.jpeg
+description: An end-to-end guide about migrating tables from JDBC sources (MySQL, PostgreSQL, etc.) to iomete and display it in the BI dashboard.
 ---
 
 <head>

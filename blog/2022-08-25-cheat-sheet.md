@@ -5,6 +5,7 @@ authors: fuad
 hide_table_of_contents: true
 tags: [Engineering]
 image: /img/blog/2022-08-25-cheat-sheet/thumb.jpeg
+description: Apache Iceberg is a high-performance format for huge analytic tables. It has built-in metadata tables for inspection and procedures for data compaction and table maintenance.
 ---
 
 <head>

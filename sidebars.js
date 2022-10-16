@@ -147,7 +147,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'IOMETE SPARK JOBS',
+      label: 'Spark Jobs',
       collapsed: false,
       items: [
         'iomete-spark-job/data-compaction-job',
@@ -159,7 +159,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'LIBRARIES',
+      label: 'Libraries',
       collapsed: false,
       items: [
         {
@@ -176,7 +176,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'BI - APACHE SUPERSET',
+      label: 'BI - Apache Superset',
       collapsed: false,
       items: [
         'bi-apache-superset/security',
@@ -185,7 +185,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'ADMINISTRATION GUIDE',
+      label: 'Administration',
       collapsed: false,
       items: [
         'administration-guide/iam-role-for-datalake-access',
@@ -196,7 +196,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'MISC',
+      label: 'Misc',
       collapsed: false,
       items: [
         'misc/datagrip-lakehouse-connection',

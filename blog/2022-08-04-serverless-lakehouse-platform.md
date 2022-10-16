@@ -5,6 +5,7 @@ authors: piet
 hide_table_of_contents: true
 tags: [Educational]
 image: /img/blog/2022-08-04-serverless-lakehouse-platform/serverless-lakehouse-platform.png
+description: A data lake is a flexible architecture and allows organizations to keep all data in one repository. It does, however, have some shortcomings.
 ---
 
 <head>

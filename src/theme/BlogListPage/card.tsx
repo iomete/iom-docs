@@ -15,30 +15,21 @@ export const Cards = ({ tag, content }: Props) => {
   const frontMatter: FrontMatter = content.frontMatter;
 
   // Todo remove '/docs' after blog migration
-  const imageUrl = "/docs/" + frontMatter.image;
+  const imageUrl = frontMatter.image;
   // console.log(tags, { ...content });
   const autor: Author = content.metadata.authors[0];
 
   return (
     <>
       <a href={content.metadata.permalink} className="blog-card">
-        <img src={imageUrl} alt={frontMatter.title} />
+        <img className="blog-card-image" src={imageUrl} alt={frontMatter.title} />
         <div className="blog-card-footer">
-          <div>
-            <span>{tags.map((tag) => tag.label).join(", ")}</span>
-            <div>{frontMatter.title}</div>
-          </div>
-
-          <div>
-            <div>
-              <img src={content.assets.authorsImageUrls[0]} alt="Avatar" />
-              <div>
-                <div>{autor.name}</div>
-                <div>
-                  {content.metadata.formattedDate}
-                </div>
-              </div>
-            </div>
+          <span className="blog-card-tags">{tags.map((tag) => tag.label).join(", ")}</span>
+          <h2 className="blog-card-title">{frontMatter.title}</h2>
+          <p className="blog-card-description">{frontMatter.description}</p>
+          <div className="blog-card-author">
+            <img className="blog-card-avatar" src={content.assets.authorsImageUrls[0]} alt="Avatar" />
+            <div className="blog-card-author-name">{autor.name} <span className="blog-card-post-date">&nbsp;·&nbsp; {content.metadata.formattedDate}</span></div>
           </div>
         </div>
       </a>

@@ -9,8 +9,7 @@ import { Tags } from "./tags";
 import { Header } from "./header";
 import { Cards } from "./card";
 import { Search } from "./search";
-import { NoResult } from "./no-result";
-import { MainCard } from "./main-card";
+import { NoResult } from "./NoResult";
 
 export default function BlogListPage(props: Props | TagProps) {
   const [searchInput, setSearchInput] = useState("");
@@ -18,13 +17,8 @@ export default function BlogListPage(props: Props | TagProps) {
 
   const metadata = "listMetadata" in props ? props.listMetadata : props.metadata;
 
-  const {
-    siteConfig: { title: siteTitle },
-  } = useDocusaurusContext();
-
   const { blogDescription, blogTitle, permalink } = metadata;
-
-  const title = permalink === "/" ? siteTitle : blogTitle;
+  const title = blogTitle;
 
   const tag = "tag" in props ? props.tag : null;
 

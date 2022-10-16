@@ -5,6 +5,7 @@ authors: namig
 hide_table_of_contents: true
 tags: [Engineering]
 image: /img/blog/2022-04-25-sync-data-from-s3/thumb.jpeg
+description: An end-to-end guide about how to move files from your AWS S3 to iomete and show it in the BI dashboard.
 ---
 
 <head>

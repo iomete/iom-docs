@@ -5,6 +5,7 @@ authors: fuad
 hide_table_of_contents: true
 tags: [Release]
 image: /img/blog/2022-09-21-new-features/thumb.jpeg
+description: In September 2022, we released a number of new and improved platform features. Check full description in this blog post.
 ---
 
 <head>

@@ -7,6 +7,7 @@ tags: [Company]
 image: /img/blog/2022-07-27-the-data-cloud-is-greedy/thumb.png
 # featured_blog: true
 # featured_content: In this post we share our Hate List. four observations around the customer and value proposition of "The Data Cloud" (the establishment) and how we've used these observations to engineer our own value and customer proposition.
+description: In this post we explained why we believe "The Data Cloud" - a reference to the establishment in our industry - is greedy by sharing our hate list.
 ---
 
 <head>
@@ -81,7 +82,7 @@ Customer retention is a good thing, but it depends on how one achieves it. If af
 
 ## iomete's positioning | Make sure that customers can walk away if they want to.
 
-Our idea of a healthy relationship is that customers stay with us because we are the best alternative.  Therefore we designed our proposition in such a way that the customer can always leave with no strings attached:
+Our idea of a healthy relationship is that customers stay with us because we are the best alternative. Therefore we designed our proposition in such a way that the customer can always leave with no strings attached:
 
 - Our data format is Apache Parquet, an open source format so customers can always access their data.
 - Our platform is built on Apache Iceberg and Apache Spark, two leading open source projects.

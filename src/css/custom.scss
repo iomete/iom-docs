@@ -31,3 +31,68 @@
   --ifm-color-primary-lightest: #3d96ff;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+.docs-wrapper .navbar {
+  margin-left: 300px;
+}
+
+.docs-wrapper .navbar__brand {
+  display: none;
+}
+
+#__docusaurus .menu__link--sublist-caret:after {
+  background: var(--ifm-menu-link-sublist-icon) 50% / 1.5rem 1.5rem;
+}
+
+#__docusaurus .theme-doc-sidebar-container .menu {
+  padding: 1.15rem 1.15rem 5rem 1.15rem;
+}
+
+.menu__list-item-collapsible > a {
+  font-weight: 600;
+  color: #000;
+}
+
+.menu__list-item > a {
+  font-size: 14px;
+  padding: 6px 12px 6px 12px;
+}
+
+.menu__list-item-collapsible:hover {
+  background: none;
+}
+
+.menu__link--active:not(.menu__link--sublist) {
+  background-color: #0070f310;
+}
+
+.menu__link--active:hover:is(.menu__link--sublist) {
+  color: #000;
+}
+
+.theme-doc-breadcrumbs {
+  visibility: hidden;
+}
+
+#__docusaurus .container {
+  margin-bottom: 35px;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.card {
+  border-radius: 6px;
+  box-shadow: none !important;
+  border-color: #ddd !important;
+}
+
+@media screen and (max-width: 996px) {
+  .docs-wrapper .navbar {
+    margin-left: 0px;
+  }
+  
+  .docs-wrapper .navbar__brand {
+    display: inline-block;
+    margin-left: 12px;
+  }
+}

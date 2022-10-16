@@ -9,7 +9,7 @@ const config = {
   title: 'iomete docs',
   tagline: 'The easy, low-cost Snowflake / Databricks alternative. Cloud, on prem and hybrid solutions.',
   url: 'https://iomete.com',
-  baseUrl: '/docs/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.png',
@@ -36,7 +36,7 @@ const config = {
         //   ignorePatterns: ['/docs/blog/**']
         // },
         docs: {
-          routeBasePath: '/',
+          routeBasePath: '/docs',
           sidebarPath: require.resolve('./sidebars.js')
           // autoCollapseCategories: false
           // Please change this to your repo.
@@ -45,12 +45,12 @@ const config = {
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
-          routeBasePath: 'blog',
+          routeBasePath: '/blog',
           blogSidebarCount: 'ALL',
           postsPerPage: 'ALL',
           blogTitle: 'iomete | Blog',
           showReadingTime: true,
-          // // blogListComponent: '/blog/index.js',
+          // blogListComponent: '/blog/index.js',
           blogTagsPostsComponent: require.resolve(
             "./src/theme/BlogListPage/index.tsx",
           ),
@@ -138,51 +138,11 @@ const config = {
           }
         ],
       },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: 'Docs',
-            items: [
-              {
-                label: 'Docs',
-                to: '/docs',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Linkedin',
-                href: 'https://www.linkedin.com/company/iomete',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/iometedata',
-              },
-              // {
-              //   label: 'Stack Overflow',
-              //   href: 'https://stackoverflow.com/questions/tagged/iomete',
-              // },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              // {
-              //   label: 'Blog',
-              //   to: '/blog',
-              // },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/iomete'
-              },
-            ],
-          },
-        ],
-        copyright: `© ${new Date().getFullYear()} iomete`,
-      },
+      // footer: {
+      //   style: 'light',
+      //   links: [],
+      //   copyright: `© ${new Date().getFullYear()} iomete`,
+      // },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
