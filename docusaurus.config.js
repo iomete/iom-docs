@@ -36,7 +36,7 @@ const config = {
         //   ignorePatterns: ['/docs/blog/**']
         // },
         docs: {
-          routeBasePath: '/docs',
+          routeBasePath: 'docs',
           sidebarPath: require.resolve('./sidebars.js')
           // autoCollapseCategories: false
           // Please change this to your repo.
@@ -45,7 +45,7 @@ const config = {
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
-          routeBasePath: '/blog',
+          routeBasePath: 'blog',
           blogSidebarCount: 'ALL',
           postsPerPage: 'ALL',
           blogTitle: 'iomete | Blog',
