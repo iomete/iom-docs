@@ -99,7 +99,7 @@ const config = {
             label: 'Guides',
             position: 'left',
           },
-          { to: '../blog', label: 'Blog', position: 'left' },
+          { to: 'https://iomete.com/blog', label: 'Blog', position: 'left' },
           {
             href: 'https://github.com/iomete',
             label: 'GitHub',
