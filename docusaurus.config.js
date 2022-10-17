@@ -32,9 +32,6 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').  Options} */
       ({
-        // sitemap: {
-        //   ignorePatterns: ['/docs/blog/**']
-        // },
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js')
@@ -44,19 +41,7 @@ const config = {
           // editUrl:
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
-        blog: {
-          routeBasePath: '/blog',
-          blogSidebarCount: 'ALL',
-          postsPerPage: 'ALL',
-          blogTitle: 'iomete | Blog',
-          showReadingTime: true,
-          // blogListComponent: '/blog/index.js',
-          blogTagsPostsComponent: require.resolve(
-            "./src/theme/BlogListPage/index.tsx",
-          ),
-          blogSidebarTitle: 'All our posts',
-          blogDescription: 'The blog of the easy, low-cost Snowflake / Databricks alternative. Data has been complex and expensive for too long. Learn how we make it easy and affordable.'
-        },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.scss'),
         },
@@ -75,22 +60,6 @@ const config = {
         // { name: 'keywords', content: 'iomete, datalake, lakehouse, warehouse, docs, documentation, sql editor, big data' },
         { name: 'og:image', content: 'https://iomete.com/docs/img/meta/open-graph.png' },
         { name: 'twitter:image', content: 'https://iomete.com/docs/img/meta/open-graph.png' },
-        // {
-        //   name: 'twitter:card',
-        //   content: 'summary_large_image',
-        // },
-        // {
-        //   name: 'twitter:domain',
-        //   content: 'iomete.com',
-        // },
-        // {
-        //   name: 'twitter:site',
-        //   content: '@iomete',
-        // },
-        // {
-        //   name: 'twitter:creator',
-        //   content: 'iomete',
-        // },
         {
           name: 'og:type',
           content: 'website',
@@ -130,7 +99,7 @@ const config = {
             label: 'Guides',
             position: 'left',
           },
-          { to: '/blog', label: 'Blog', position: 'left' },
+          { to: '../blog', label: 'Blog', position: 'left' },
           {
             href: 'https://github.com/iomete',
             label: 'GitHub',
@@ -138,11 +107,6 @@ const config = {
           }
         ],
       },
-      // footer: {
-      //   style: 'light',
-      //   links: [],
-      //   copyright: `© ${new Date().getFullYear()} iomete`,
-      // },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,

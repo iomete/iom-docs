@@ -89,7 +89,7 @@
 .card {
   border-radius: 6px;
   box-shadow: none !important;
-  border-color: #ddd !important;
+  border-color: var(--ifm-color-emphasis-300) !important;
 }
 
 @media screen and (max-width: 996px) {
