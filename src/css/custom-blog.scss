@@ -12,10 +12,6 @@
     margin-bottom: 32px;
     padding: 24px;
 
-    .text-muted {
-        color: #808080;
-    }
-
     .blog-header {
         margin-bottom: 64px;
 
@@ -25,6 +21,8 @@
         }
 
         &>p {
+            color: var(--ifm-color-gray-700);
+            color: var(--iom-text-muted);
             font-size: 19px;
         }
     }
@@ -218,11 +216,12 @@
             margin-top: 6px;
 
             .blog-card-tags {
-                color: #808080;
+                color: var(--iom-text-muted);
                 font-size: 12px;
             }
             
             .blog-card-title {
+                color: var(--ifm-color-emphasis-1000);
                 font-size: 24px;
                 font-weight: bold;
                 margin-bottom: 8px;
@@ -230,7 +229,7 @@
             }
 
             .blog-card-description {
-                color: #707070;
+                color: var(--iom-text-muted);
                 display: -webkit-box;
                 -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical;
@@ -263,7 +262,7 @@
                 }
     
                 .blog-card-post-date {
-                    color: var(--ifm-color-emphasis-600);
+                    color: var(--iom-text-muted);
                 }
             }
 
