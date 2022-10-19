@@ -1,5 +1,6 @@
 ---
 title: The iomete Lakehouse Platform
+description: an overview of the components of the iomete lakehouse platform. Snowflake Databricks alternative with a built-in data catalog that users can become data-driven
 slug: /iomete-lakehouse-platform
 tags: [iomete Intro, Getting started, iomete docs]
 last_update:
