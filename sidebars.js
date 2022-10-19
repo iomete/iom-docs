@@ -217,7 +217,7 @@ const sidebars = {
     type: 'category',
     label: 'Guides',
     collapsed: false,
-    items: ['guides', 'guides/data-from-s3', 'guides/data-from-jdbc', 'guides/run-spark-job']
+    items: ['guides', 'guides/data-from-s3', 'guides/data-from-jdbc', 'guides/run-spark-job', 'guides/connection-options']
   }]
 };
 
