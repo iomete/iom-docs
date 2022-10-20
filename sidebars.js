@@ -67,9 +67,9 @@ const sidebars = {
             'spark-sql/ddl/drop-database',
             'spark-sql/ddl/create-table',
             'spark-sql/ddl/alter-table',
-            'spark-sql/ddl/drop-table',
+            // 'spark-sql/ddl/drop-table',
             'spark-sql/ddl/create-view',
-            'spark-sql/ddl/drop-view'
+            // 'spark-sql/ddl/drop-view'
           ]
         },
         {
@@ -137,12 +137,10 @@ const sidebars = {
         'user-guide/sso-login',
         'user-guide/virtual-lakehouses',
         'user-guide/lakehouse-statuses',
-        'user-guide/serverless-streams',
-        'user-guide/user-management',
-        'user-guide/access-policy-management',
-        'user-guide/serverless-spark-applications',
-        'user-guide/storage-integrations',
-        'user-guide/integrated-bi',
+        // 'user-guide/user-management',
+        // 'user-guide/access-policy-management',
+        // 'user-guide/serverless-spark-applications',
+        // 'user-guide/storage-integrations',
         'user-guide/private-docker-registry',
       ]
     },
@@ -173,15 +171,6 @@ const sidebars = {
           ]
         },
         'libraries/sync-jdbc-sources',
-      ]
-    },
-    {
-      type: 'category',
-      label: 'BI - Apache Superset',
-      collapsed: false,
-      items: [
-        'bi-apache-superset/security',
-        'bi-apache-superset/public-dashboard'
       ]
     },
     {
