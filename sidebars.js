@@ -136,6 +136,7 @@ const sidebars = {
       items: [
         'user-guide/sso-login',
         'user-guide/virtual-lakehouses',
+        'user-guide/lakehouse-statuses',
         'user-guide/serverless-streams',
         'user-guide/user-management',
         'user-guide/access-policy-management',
