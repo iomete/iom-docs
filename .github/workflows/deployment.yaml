@@ -29,7 +29,7 @@ jobs:
                   bucket: ${{ secrets.s3_bucket_name }}/docs
                   bucket-region: ${{ secrets.s3_bucket_region }}
                   dist-id: ${{ secrets.cloudfront_distribution_id }}
-                  invalidation: /*
+                  invalidation: /docs*
                   delete-removed: true
                   no-cache: true
                   private: true
