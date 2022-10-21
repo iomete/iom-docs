@@ -169,8 +169,7 @@ const sidebars = {
             'libraries/drivers/sql-alchemy-driver',
             'libraries/drivers/jdbc-driver',
           ]
-        },
-        'libraries/sync-jdbc-sources',
+        }
       ]
     },
     {

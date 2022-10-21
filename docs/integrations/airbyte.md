@@ -23,11 +23,11 @@ Basically, the destination configuration form has two separate parts, iomete and
 
 Fill in the configuration parameters with your own data according to the table below.
 
-| Parameter                  | Type            | Required  | Notes                                                                                                                                                                                                                                                                |
-|:---------------------------|:----------------|:----------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Lakehouse Connection URL   | String          | Required  | Example: `airbyte://frankfurt.iomete.com/12312421312/default`. <br/> This is a combination of hostname, account number and lakehouse name. See [documentation](https://iomete.com/docs/airbyte-connection) how to get Lakehouse connection URL from iomete platform. |
-| Username                   | String          | Required  | Username to use to access iomete.                                                                                                                                                                                                                                    |
-| Password                   | String          | Required  | Password associated with username.                                                                                                                                                                                                                                   |
+| Parameter                  | Type            | Required  | Notes                                                                                                                                                                                                        |
+|:---------------------------|:----------------|:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Lakehouse Connection URL   | String          | Required  | Example: `airbyte://frankfurt.iomete.com/12312421312/default`. <br/> This is a combination of hostname, account number and lakehouse name. Check the lakehouse's connection details from the iomete console. |
+| Username                   | String          | Required  | Username to use to access iomete.                                                                                                                                                                            |
+| Password                   | String          | Required  | Password associated with username.                                                                                                                                                                           |
 
 ![iomete destination configuration first part](/img/integrations/airbyte/iomete-destination-config-1.png)
 

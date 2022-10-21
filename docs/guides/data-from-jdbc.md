@@ -247,7 +247,3 @@ Save this chart to the dashboard too and navigate to the dashboard. And, here is
 ![navigate iomete dashboard](/img/guides/saving-another-chart.png)
 
 Congratulations 🎉🎉🎉
-
-:::success Bonus part
-There is a dedicated python library to help to automate this table replication with just a configuration. Please, check out [Syncing JDBC Sources](./libraries/sync-jdbc-sources)
-:::
