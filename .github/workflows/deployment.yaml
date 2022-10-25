@@ -21,7 +21,8 @@ jobs:
                   cache: 'npm'
             - run: npm install --no-audit --no-progress -s --no-fund
             - run: npm run build
-
+#https://github.com/Reggionick/s3-deploy
+#https://stackoverflow.com/questions/18774069/amazon-cloudfront-cache-control-no-cache-header-has-no-effect-after-24-hours
             - name: S3 Upload
               uses: reggionick/s3-deploy@v3
               with:
@@ -31,6 +32,7 @@ jobs:
                   dist-id: ${{ secrets.cloudfront_distribution_id }}
                   invalidation: /docs*
                   delete-removed: true
-                  no-cache: true
+                  no-cache: false
+                  cache: 86400
                   private: true
                   filesToInclude: '**'
