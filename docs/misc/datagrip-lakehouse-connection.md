@@ -1,18 +1,11 @@
 ---
 title: DataGrip Lakehouse Connection
+description: How to connect to Apache Spark Warehouse through DataGrip
 slug: /datagrip-lakehouse-connection
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>DataGrip Lakehouse Connection</title>
-  <meta
-    name="description"
-    content="DataGrip Lakehouse Connection"
-  />
-</head> -->
 
 ___
 

@@ -1,17 +1,10 @@
 ---
 title: Data Compaction Job
+description: iomete provides built-in job to run data compactions for iceberg tables that slow down over the time and require to run data compaction to clean up tables
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Data Compaction Job</title>
-  <meta
-    name="description"
-    content="Data Compaction Job"
-  />
-</head> -->
 
 ___
 

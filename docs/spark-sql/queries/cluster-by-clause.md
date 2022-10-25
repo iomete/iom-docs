@@ -1,17 +1,11 @@
 ---
 title: CLUSTER BY Clause
+description: The CLUSTER BY clause is used to first repartition the data based on the input expressions and then sort the data within each partition
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
 
-<!-- <head>
-  <title>CLUSTER BY Clause</title>
-  <meta
-    name="description"
-    content="CLUSTER BY Clause"
-  />
-</head> -->
 ___
 
 ### Description

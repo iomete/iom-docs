@@ -1,18 +1,11 @@
 ---
 title: Merge Into
+description: Merge into statement is a set of updates, insertions, and deletions based on a source table into a target Delta table
 slug: /spark-sql/merge-into
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Merge Into</title>
-  <meta
-    name="description"
-    content="Merge Into"
-  />
-</head> -->
 
 Merges a set of updates, insertions, and deletions based on a source table into a target Delta table
 ___

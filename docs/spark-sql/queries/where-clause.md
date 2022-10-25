@@ -1,17 +1,10 @@
 ---
 title: WHERE Clause
+description: The WHERE clause is used to limit the results of the FROM clause of a query or a subquery based on the specified condition
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>WHERE Clause</title>
-  <meta
-    name="description"
-    content="WHERE Clause"
-  />
-</head> -->
 
 ### Description
 The WHERE clause is used to limit the results of the FROM clause of a query or a subquery based on the specified condition.

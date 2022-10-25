@@ -1,17 +1,10 @@
 ---
 title: Inline Table
+description: An inline table is a temporary table created using a VALUES clause
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Inline Table</title>
-  <meta
-    name="description"
-    content="Inline Table"
-  />
-</head> -->
 
 ### Description
 

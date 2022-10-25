@@ -1,18 +1,11 @@
 ---
 title: Kafka Streaming
+description: This is a collection of data movement capabilities. This streaming job copies data from Kafka to Iceberg
 slug: kafka-streaming-job
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Kafka Streaming</title>
-  <meta
-    name="description"
-    content="Kafka Streaming"
-  />
-</head> -->
 
 ___
 

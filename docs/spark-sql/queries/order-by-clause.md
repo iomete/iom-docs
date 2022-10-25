@@ -1,17 +1,11 @@
 ---
 title: ORDER BY Clause
+description: The ORDER BY clause is used to return the result rows in a sorted manner in the user specified order
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
 
-<!-- <head>
-  <title>ORDER BY Clause</title>
-  <meta
-    name="description"
-    content="ORDER BY Clause"
-  />
-</head> -->
 ___
 
 ### Description

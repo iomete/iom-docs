@@ -1,17 +1,10 @@
 ---
 title: Use Database
+description: USE statement is used to set the current database. Once set, the unqualified database artifacts that are referenced by SQLs are resolved from the current database
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Use Database</title>
-  <meta
-    name="description"
-    content="Use Database"
-  />
-</head> -->
 
 ### Description
 

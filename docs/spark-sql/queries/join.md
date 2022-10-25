@@ -1,17 +1,10 @@
 ---
 title: JOIN
+description:  SQL join is used to combine rows from two relations based on join criteria. It describes the overall join syntax and the sub-sections cover different types of joins along with examples.
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>JOIN</title>
-  <meta
-    name="description"
-    content="JOIN"
-  />
-</head> -->
 
 ### Description
 

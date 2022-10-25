@@ -1,18 +1,11 @@
 ---
 title: Table-valued Functions (TVF)
+description: A table-valued function (TVF) is a function that returns a relation or a set of rows
 slug: table-valued-functions-tvf
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Table-valued Functions (TVF)</title>
-  <meta
-    name="description"
-    content="Table-valued Functions (TVF)"
-  />
-</head> -->
 
 ### Description
 

@@ -1,17 +1,10 @@
 ---
 title: DBT integration
+description: This is a guide to setup profile to connect iomete DBT adapter
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>DBT integration</title>
-  <meta
-    name="description"
-    content="DBT integration"
-  />
-</head> -->
 
 Setup profile to connect iomete DBT adapter
 ___

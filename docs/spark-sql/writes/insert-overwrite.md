@@ -1,18 +1,11 @@
 ---
 title: Insert Overwrite
+description: The insert overwrite statement overwrites the existing data in the table using the new values
 slug: /spark-sql/insert-overwrite
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Insert Overwrite</title>
-  <meta
-    name="description"
-    content="Insert Overwrite"
-  />
-</head> -->
 
 The `INSERT OVERWRITE` statement overwrites the existing data in the table using the new values. The inserted rows can be specified by value expressions or result from a query
 ___

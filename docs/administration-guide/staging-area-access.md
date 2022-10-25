@@ -1,18 +1,9 @@
 ---
 title: Staging area access
+description: How to create IAM policy for staging area access
 ---
 
-<!-- <head>
-  <title>Staging area access</title>
-  <meta
-    name="description"
-    content="Staging area access"
-  />
-</head> -->
-
-___
-
-#### Creating an IAM Policy for staging area access
+## Creating an IAM Policy for staging area access
 
 - Log into your AWS Management Console
 - Go to **Identity & Access Management (IAM) -> Policies -> Create Policy:** 

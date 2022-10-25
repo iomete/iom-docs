@@ -1,17 +1,10 @@
 ---
 title: Hints
+description: Hints give users a way to suggest how Spark SQL to use specific approaches to generate its execution plan.
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Hints</title>
-  <meta
-    name="description"
-    content="Hints"
-  />
-</head> -->
 
 ### Description
 

@@ -1,17 +1,10 @@
 ---
 title: HAVING BY Clause
+description: The HAVING clause is used to filter the results produced by GROUP BY based on the specified condition
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>HAVING BY Clause</title>
-  <meta
-    name="description"
-    content="HAVING BY Clause"
-  />
-</head> -->
 
 ### Description
 

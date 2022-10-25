@@ -1,17 +1,10 @@
 ---
 title: LIKE Predicate
+description: A LIKE predicate is used to search for a specific pattern
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>LIKE Predicate</title>
-  <meta
-    name="description"
-    content="LIKE Predicate"
-  />
-</head> -->
 
 ### Description
 

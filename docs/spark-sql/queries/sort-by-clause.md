@@ -1,17 +1,10 @@
 ---
 title: SORT BY Clause
+description: The SORT BY clause is used to return the result rows sorted within each partition in the user specified order
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>SORT BY Clause</title>
-  <meta
-    name="description"
-    content="SORT BY Clause"
-  />
-</head> -->
 
 ### Description
 

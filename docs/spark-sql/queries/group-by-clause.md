@@ -1,17 +1,10 @@
 ---
 title: GROUP BY Clause
+description: Group by clause is used to group the rows based on a set of specified grouping expressions and compute aggregations on the group of rows
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>GROUP BY Clause</title>
-  <meta
-    name="description"
-    content="GROUP BY Clause"
-  />
-</head> -->
 
 ### Description
 

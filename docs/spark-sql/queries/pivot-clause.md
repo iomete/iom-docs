@@ -1,17 +1,10 @@
 ---
 title: PIVOT Clause
+description: The PIVOT clause is used for data perspective based on specific column values, which will be turned to multiple columns used in SELECT clause
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>PIVOT Clause</title>
-  <meta
-    name="description"
-    content="PIVOT Clause"
-  />
-</head> -->
 
 ### Description
 

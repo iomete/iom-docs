@@ -1,17 +1,10 @@
 ---
 title: Private Docker Registry
+description: To create spark job you may want to add a custom docker image stored in your private registry at this time you need private docker registries in iomete platform
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Private Docker Registry</title>
-  <meta
-    name="description"
-    content="Private Docker Registry"
-  />
-</head> -->
 
 ___
 

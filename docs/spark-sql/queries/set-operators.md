@@ -1,17 +1,11 @@
 ---
 title: Set Operators
+description: Set operators are used to combine two input relations into a single one
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
 
-<!-- <head>
-  <title>Set Operators</title>
-  <meta
-    name="description"
-    content="Set Operators"
-  />
-</head> -->
 ___
 
 ### Description

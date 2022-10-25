@@ -1,18 +1,10 @@
 ---
 title: Window Functions
+description: Window functions operate on a group of rows, referred to as a window, and calculate a return value for each row based on the group of rows
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Window Functions</title>
-  <meta
-    name="description"
-    content="Window Functions"
-  />
-</head> -->
-
 
 ### Description
 

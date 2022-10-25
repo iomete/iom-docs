@@ -1,17 +1,10 @@
 ---
 title: DISTRIBUTE BY Clause
+description: The DISTRIBUTE BY clause is used to repartition the data based on the input expressions
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>DISTRIBUTE BY Clause</title>
-  <meta
-    name="description"
-    content="DISTRIBUTE BY Clause"
-  />
-</head> -->
 
 ### Description
 

@@ -1,5 +1,7 @@
 ---
-title: Introduction
+title: Guides
+description: iomete guide provides information about how to sync data to iomete 
+sidebar_label: Introduction
 slug: /guides
 authors:
   - name: Joel Marcey

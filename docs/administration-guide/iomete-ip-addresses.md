@@ -1,14 +1,7 @@
 ---
-title: Iomete IP Addresses
+title: iomete IP Addresses
+description: Customers can use these static IP addresses to increase the security only opening their SSH access to these addresses
 ---
-
-<!-- <head>
-  <title>Iomete IP Addresses</title>
-  <meta
-    name="description"
-    content="Iomete IP Addresses"
-  />
-</head> -->
 
 Customers can use these static IP addresses to increase the security only opening their SSH access to these addresses
 ___

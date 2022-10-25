@@ -1,18 +1,12 @@
 ---
 title: Cache
+description: Caches contents of a table or output of a query with the given storage level. This reduces scanning of the original files in future queries
 slug: /spark-sql/cache
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
 
-<!-- <head>
-  <title>Cache</title>
-  <meta
-    name="description"
-    content="Cache"
-  />
-</head> -->
 
 Caches contents of a table or output of a query with the given storage level. This reduces scanning of the original files in future queries.
 ___

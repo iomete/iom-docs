@@ -1,18 +1,11 @@
 ---
 title: Insert Into
+description: This documentation explains how to inserts new rows into a table
 slug: /spark-sql/insert-into
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Insert Into</title>
-  <meta
-    name="description"
-    content="Insert Into"
-  />
-</head> -->
 
 The INSERT INTO statement inserts new rows into a table. The inserted rows can be specified by value expressions or result from a query.
 ___

@@ -1,18 +1,10 @@
 ---
 title: TRANSFORM
+description: The transform clause is used to specify a Hive-style transform query specification to transform the inputs by running a user-specified command or script
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>TRANSFORM</title>
-  <meta
-    name="description"
-    content="TRANSFORM"
-  />
-</head> -->
-
 
 ### Description
 

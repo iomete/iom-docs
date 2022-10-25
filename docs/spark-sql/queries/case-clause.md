@@ -1,17 +1,10 @@
 ---
 title: CASE Clause
+description: CASE clause uses a rule to return a specific result based on the specified condition, similar to if/else statements in other programming languages
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>CASE Clause</title>
-  <meta
-    name="description"
-    content="CASE Clause"
-  />
-</head> -->
 
 ### Description
 

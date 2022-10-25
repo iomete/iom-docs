@@ -1,17 +1,10 @@
 ---
 title: MySQL to iomete using Airbyte
+description: This is an end-to-end guide about how to move MySQL data to iomete using Airbyte
 last_update:
   date: 10/04/2022
   author: Namig Aliyev
 ---
-
-<!-- <head>
-  <title>MySQL to iomete using Airbyte</title>
-  <meta
-    name="description"
-    content="MySQL to iomete using Airbyte"
-  />
-</head> -->
 
 ___
 

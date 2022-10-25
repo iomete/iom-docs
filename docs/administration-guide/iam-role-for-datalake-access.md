@@ -1,18 +1,11 @@
 ---
 title: IAM Role For Data Lake Access
+description: The following step-by-step instructions describe how to configure access permissions for iomete
 ---
-
-<!-- <head>
-  <title>IAM Role For Data Lake Access</title>
-  <meta
-    name="description"
-    content="IAM Role For Data Lake Access"
-  />
-</head> -->
 
 ___
 
-### Creating an IAM Policy For Data Lake Location
+## Creating an IAM Policy For Data Lake Location
 
 The following step-by-step instructions describe how to configure access permissions for **iomete:**
 
@@ -59,7 +52,7 @@ Provide **bucket** and **prefix** of your data lake location
 
 After review save it with the name: **iomete_datalake_access** 
 
-#### Create the IAM Role
+### Create the IAM Role
 
 In the AWS Management Console, create an AWS IAM role to grant privileges on the S3 bucket containing your data files.
 

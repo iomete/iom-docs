@@ -1,18 +1,11 @@
 ---
 title: File Streaming
+description: How to stream files
 slug: file-streaming-job
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>File Streaming</title>
-  <meta
-    name="description"
-    content="File Streaming"
-  />
-</head> -->
 
 ___
 

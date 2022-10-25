@@ -1,17 +1,11 @@
 ---
 title: Datetime Patterns
+description: Datetime Patterns for Formatting and Parsing. There are several common scenarios for datetime usage in Apache Spark
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
 
-<!-- <head>
-  <title>Datetime Patterns</title>
-  <meta
-    name="description"
-    content="Datetime Patterns"
-  />
-</head> -->
 
 Datetime Patterns for Formatting and Parsing
 ___

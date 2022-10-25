@@ -1,17 +1,10 @@
 ---
 title: LATERAL VIEW Clause
+description: Literal view clause is used in conjunction with generator functions which will generate a virtual table containing one or more rows
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>LATERAL VIEW Clause</title>
-  <meta
-    name="description"
-    content="LATERAL VIEW Clause"
-  />
-</head> -->
 
 ### Description
 

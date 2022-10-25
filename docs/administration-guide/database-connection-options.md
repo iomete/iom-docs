@@ -1,16 +1,7 @@
 ---
 title: Database Connection Options
+description: This guide explains how to connect iomete to your database through Whiitelist iomete's IP or SSh tunnel or AWS
 ---
-
-<!-- <head>
-  <title>Database Connection Options</title>
-  <meta
-    name="description"
-    content="Database Connection Options"
-  />
-</head> -->
-
-___
 
 There are three ways to connect **Iomete** to your database:
 

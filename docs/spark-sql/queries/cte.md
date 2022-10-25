@@ -1,18 +1,11 @@
 ---
 title: Common Table Expression (CTE)
+description: A common table expression (CTE) defines a temporary result set that a user can reference possibly multiple times within the scope of a SQL statement
 slug: common-table-expression-cte
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Common Table Expression (CTE)</title>
-  <meta
-    name="description"
-    content="Common Table Expression (CTE)"
-  />
-</head> -->
 
 ## Description
 

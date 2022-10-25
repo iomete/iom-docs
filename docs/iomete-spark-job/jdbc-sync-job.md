@@ -1,17 +1,10 @@
 ---
 title: JDBC Sync Job
+description: iomete provides JDBC Sync Job to easily replicate tables from JDBC databases (MySQL, PostgreSQL, etc.) to iomete
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>JDBC Sync Job</title>
-  <meta
-    name="description"
-    content="JDBC Sync Job"
-  />
-</head> -->
 
 ___
 

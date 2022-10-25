@@ -1,18 +1,10 @@
 ---
 title: Identifiers
+description: An identifier is a string used to identify a database object. Spark SQL has regular identifiers and delimited identifiers, which are enclosed within backtick
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Identifiers</title>
-  <meta
-    name="description"
-    content="Identifiers"
-  />
-</head> -->
-
 
 An identifier is a string used to identify a database object such as a table, view, schema, column, etc. Spark SQL has regular identifiers and delimited identifiers, which are enclosed within backtick
 ___

@@ -1,17 +1,10 @@
 ---
 title: NULL Semantics
+description: How to handle NULL - the value of a column specific to a row is not known at the time the row comes into existence in SQL
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>NULL Semantics</title>
-  <meta
-    name="description"
-    content="NULL Semantics"
-  />
-</head> -->
 
 ___
 

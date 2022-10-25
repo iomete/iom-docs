@@ -1,17 +1,10 @@
 ---
 title: File
+description: Using file you can query a file with a specified format directly with SQL
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>File</title>
-  <meta
-    name="description"
-    content="File"
-  />
-</head> -->
 
 ### Description
 

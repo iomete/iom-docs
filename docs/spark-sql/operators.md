@@ -1,25 +1,18 @@
 ---
 title: Operators
+description: Spark SQL operators in iomete
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
 
-<!-- <head>
-  <title>Operators</title>
-  <meta
-    name="description"
-    content="Operators"
-  />
-</head> -->
-
 ___
 
 
-## **!**
+### **!**
 ! expr - Logical not.
 
-## %
+### %
 
 expr1 % expr2 - Returns the remainder after `expr1` / `expr2`.
 
@@ -31,7 +24,7 @@ expr1 % expr2 - Returns the remainder after `expr1` / `expr2`.
  0.2
 ```
 
-## &
+### &
 
 expr1 & expr2 - Returns the result of bitwise AND of `expr1` and `expr2`.
 
@@ -51,7 +44,7 @@ expr1 \* expr2 - Returns ```expr1```  \*  ```expr2```.
  6
 ```
 
-## +
+### +
 
 expr1 + expr2 - Returns `expr1`  +  `expr2`.
 
@@ -61,7 +54,7 @@ expr1 + expr2 - Returns `expr1`  +  `expr2`.
  3
 ```
 
-## -
+### -
 
 expr1 - expr2 - Returns `expr1`  -  `expr2`.
 
@@ -71,7 +64,7 @@ expr1 - expr2 - Returns `expr1`  -  `expr2`.
  1
 ```
 
-## /
+### /
 
 expr1 / expr2 - Returns `expr1`  /  `expr2`. It always performs floating point division.
 
@@ -83,7 +76,7 @@ expr1 / expr2 - Returns `expr1`  /  `expr2`. It always performs floating point d
  1.0
 ```
 
-## <
+### <
 
 expr1 < expr2 - Returns true if  `expr1`  is less than  `expr2`. 
 
@@ -104,7 +97,7 @@ expr1 < expr2 - Returns true if  `expr1`  is less than  `expr2`.
  NULL
 ```
 
-## <=
+### <=
 
 expr1 <= expr2 - Returns true if  `expr1`  is less than or equal to  `expr2`. 
 
@@ -125,7 +118,7 @@ expr1 <= expr2 - Returns true if  `expr1`  is less than or equal to  `expr2`.
  NULL
 ```
 
-## <=> 
+### <=> 
 
 expr1 <=> expr2 - Returns same result as the EQUAL(=) operator for non-null operands, but returns true if both are null, false if one of the them is null.
 
@@ -144,7 +137,7 @@ expr1 <=> expr2 - Returns same result as the EQUAL(=) operator for non-null oper
  true
 ```
 
-## =
+### =
 
 expr1 = expr2 - Returns true if  `expr1`  equals  `expr2`, or false otherwise.
 
@@ -163,7 +156,7 @@ expr1 = expr2 - Returns true if  `expr1`  equals  `expr2`, or false otherwise.
  NULL
 ```
 
-## ==
+### ==
 
 expr1 == expr2 - Returns true if `expr1` equals `expr2`, or false otherwise.
 
@@ -183,7 +176,7 @@ expr1 == expr2 - Returns true if `expr1` equals `expr2`, or false otherwise.
  NULL
 ```
 
-## >
+### >
 
 expr1 > expr2 - Returns true if `expr1` is greater than `expr2`.
 
@@ -205,7 +198,7 @@ expr1 > expr2 - Returns true if `expr1` is greater than `expr2`.
  NULL
 ```
 
-## >=
+### >=
 
 expr1 >= expr2 - Returns true if `expr1` is greater than or equal to `expr2`.
 
@@ -227,7 +220,7 @@ expr1 >= expr2 - Returns true if `expr1` is greater than or equal to `expr2`.
  NULL
 ```
 
-## ^
+### ^
 
 expr1 ^ expr2 - Returns the result of bitwise exclusive OR of `expr1` and `expr2`.
 

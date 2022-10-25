@@ -1,17 +1,10 @@
 ---
 title: Virtual Lakehouses
+description: A virtual warehouse is a cluster of compute resources that provide the required resources
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Virtual Lakehouses</title>
-  <meta
-    name="description"
-    content="Virtual Lakehouses"
-  />
-</head> -->
 
 ___
 

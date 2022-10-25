@@ -1,18 +1,10 @@
 ---
 title: Literals
+description: A string literal is used to specify a character string value
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Literals</title>
-  <meta
-    name="description"
-    content="Literals"
-  />
-</head> -->
-
 
 ### String Literal 
 A string literal is used to specify a character string value.

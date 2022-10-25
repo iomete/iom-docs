@@ -1,17 +1,10 @@
 ---
 title: Select
+description: Apache Spark supports a select statement the following section describes the overall query syntax
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Select</title>
-  <meta
-    name="description"
-    content="Select"
-  />
-</head> -->
 
 Spark supports a `SELECT` statement and conforms to the ANSI SQL standard. Queries are used to retrieve result sets from one or more tables. The following section describes the overall query syntax and the sub-sections cover different constructs of a query along with examples.
 ___

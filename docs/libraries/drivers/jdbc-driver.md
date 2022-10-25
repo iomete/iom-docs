@@ -1,17 +1,10 @@
 ---
 title: JDBC Driver
+description: Iomete warehouse JDBC endpoints are compatible with Hive JDBC drivers
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>JDBC Driver</title>
-  <meta
-    name="description"
-    content="JDBC Driver"
-  />
-</head> -->
 
 ___
 

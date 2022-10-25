@@ -1,17 +1,10 @@
 ---
 title: Query Scheduler Job
+description: iomete provides Query Scheduler Job to run your queries over warehouse on schedule time or manually
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Query Scheduler Job</title>
-  <meta
-    name="description"
-    content="Query Scheduler Job"
-  />
-</head> -->
 
 ___
 
