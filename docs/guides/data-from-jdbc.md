@@ -62,7 +62,7 @@ The database contains the following tables:
 
 Create a new warehouse instance
 
-![Create lakehouse](/img/guides/create-new-chart.png)
+![Create lakehouse](/img/guides/create-lakehouse.png)
 
 
 ### Querying  Source Table
