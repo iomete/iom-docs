@@ -118,13 +118,13 @@ const config = {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
-      // algolia: {
-      //   appId: 'O9QSL985BS',
-      //   apiKey: 'ceb5366064b8fbf70959827cf9f69227',
-      //   indexName: 'ionicframework',
-      //   contextualSearch: true,
-      //   searchPagePath: 'search'
-      // },
+      algolia: {
+        appId: 'AVE94V70YI',
+        apiKey: 'f5899b82846b2fcf4f1e8833691f81a5',
+        indexName: 'iomete',
+        contextualSearch: true,
+        searchPagePath: 'search'
+      },
     }),
   plugins: [
     'docusaurus-plugin-sass'
