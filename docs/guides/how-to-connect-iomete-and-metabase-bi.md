@@ -66,7 +66,7 @@ Some properties can be extracted from the connection string, as in the example b
 
 - Just copy this line from the end of the connection string with your account number and lakehouse name |
 
-![How to connect Metabase](/img/guides/metabase-bi/how-to-connect-metabase.png)
+![How to connect Metabase](/img/guides/metabase-bi/connecting-metabase-and-iomete.png)
 
 After connecting the iomete database to Metabase, it will require a couple of minutes to sync all the metadata from iomete. You will be able to track progress in the bottom right corner:
 
