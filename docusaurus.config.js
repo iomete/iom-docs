@@ -119,12 +119,13 @@ const config = {
         darkTheme: darkCodeTheme,
       },
       algolia: {
-        appId: 'AVE94V70YI',
-        apiKey: 'f5899b82846b2fcf4f1e8833691f81a5',
+        appId: 'A90PMTH5W5',
+        apiKey: '3c9132c4cdf813a81e47299fde60c651',
         indexName: 'iomete',
-        contextualSearch: true,
-        searchPagePath: 'search'
-      },
+        // contextualSearch: true,
+        // searchPagePath: 'search',
+        // debug: true,
+      }
     }),
   plugins: [
     'docusaurus-plugin-sass'
