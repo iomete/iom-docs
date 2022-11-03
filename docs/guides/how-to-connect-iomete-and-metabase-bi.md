@@ -48,7 +48,7 @@ Select **Spark SQL** as your database:
 
 For connection details go to the [iomete app](https://app.iomete.com), select the lakehouse you want to connect to, and in the **Connection details,** you will find all the required information.
 
-![Connection details](/img/guides/metabase-bi/connection-details.png)
+![Connection details](/img/guides/bi-connections/connection-details.png)
 
 Some properties can be extracted from the connection string, as in the example below:
 
