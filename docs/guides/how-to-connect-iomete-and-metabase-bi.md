@@ -1,6 +1,6 @@
 ---
-title: How to connect iomete and Metabase BI
-description: This guide explains how to effortlessly integrate iomete with one of the most popular BI tools Metabase
+title: Metabase Connection
+description: How to connect iomete and Metabase BI. This guide explains how to effortlessly integrate iomete with one of the most popular BI tools Metabase
 last_update:
   date: 10/31/2022
   author: Fuad Musayev

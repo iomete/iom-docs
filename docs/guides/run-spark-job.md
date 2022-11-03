@@ -1,18 +1,11 @@
 ---
 title: Run Your First Spark Job
+description: Run Your First Spark Job. In this guide we explain how to run your first spark job on iomete.
 slug: /run-your-first-spark-job
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Sync Data From AWS S3 to iomete</title>
-  <meta
-    name="description"
-    content="Sync Data From AWS S3 to iomete"
-  />
-</head> -->
 
 In this guide we explain how to run your first spark job on iomete.
 ___

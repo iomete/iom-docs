@@ -204,16 +204,37 @@ const sidebars = {
 
   guides: [{
     type: 'category',
-    label: 'Guides',
+    label: 'How To Guides',
     collapsed: false,
     items: [
       'guides',
-      'guides/data-from-s3',
-      'guides/data-from-jdbc',
-      'guides/run-spark-job',
-      'guides/connection-options',
-      'guides/how-to-connect-iomete-and-metabase-bi',
-      'guides/how-to-connect-iomete-and-apache-superset'
+      {
+        type: 'category',
+        label: 'Sync Data',
+        collapsed: false,
+        items: [
+          'guides/data-from-s3',
+          'guides/data-from-jdbc',
+        ]
+      },
+      {
+        type: 'category',
+        label: 'BI Integrations',
+        collapsed: false,
+        items: [
+          // 'guides/connection-options',
+          'guides/how-to-connect-iomete-and-metabase-bi',
+          'guides/how-to-connect-iomete-and-apache-superset'
+        ]
+      },
+      {
+        type: 'category',
+        label: 'Spark Jobs',
+        collapsed: false,
+        items: [
+          'guides/run-spark-job',
+        ]
+      }
     ]
   }]
 };
