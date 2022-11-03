@@ -212,7 +212,8 @@ const sidebars = {
       'guides/data-from-jdbc',
       'guides/run-spark-job',
       'guides/connection-options',
-      'guides/how-to-connect-iomete-and-metabase-bi'
+      'guides/how-to-connect-iomete-and-metabase-bi',
+      'guides/how-to-connect-iomete-and-apache-superset'
     ]
   }]
 };
