@@ -7,6 +7,8 @@ last_update:
   author: Vugar Dadalov
 ---
 
+import Img from '@site/src/components/Img';
+
 ### Intro
 
 This is an end-to-end guide about how to move files from your AWS S3 to iomete and show it in the BI dashboard.
@@ -15,7 +17,9 @@ This is an end-to-end guide about how to move files from your AWS S3 to iomete a
 
 Let's say you have a bucket where you have files you want to move to iomete.
 
-![The dedicated bucket for iomete](/img/guides/bucket.png)
+<!-- ![The dedicated bucket for iomete](/img/guides/bucket.png) -->
+<Img src="/img/guides/bucket.png" alt="The dedicated bucket for iomete"/>
+
 <!-- [block:image]
 {
   "images": [
@@ -37,7 +41,8 @@ Let's say you have a bucket where you have files you want to move to iomete.
 
 Let's say, we want to create or receive a new query/migrate `countries.json` file in iomete platform.
 
-![The File (countries.json) we want to move to iomete](/img/guides/countries.png)
+<!-- ![The File (countries.json) we want to move to iomete](/img/guides/countries.png) -->
+<Img src="/img/guides/countries.png" alt="The File (countries.json) we want to move to iomete"/>
 
 <!-- [block:image]
 {

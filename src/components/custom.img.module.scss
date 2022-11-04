@@ -1,0 +1,25 @@
+.imgContainer {
+    margin-bottom: 32px;
+
+    .imgContent {
+        background: linear-gradient(0deg, #162c52, #3d79dc);
+        padding: 32px;
+        padding-bottom: 24px;
+        margin: auto;
+        border-radius: 12px;
+
+        img {
+            border-radius: 8px;
+        }
+
+    }
+
+    .imgCaption {
+        text-align: center;
+    }
+}
+
+p>img {
+    margin: auto;
+    display: block;
+}

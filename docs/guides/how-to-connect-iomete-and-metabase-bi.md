@@ -5,6 +5,7 @@ last_update:
   date: 10/31/2022
   author: Fuad Musayev
 ---
+
 ![iomete metabase](/img/guides/metabase-bi/iomete-metabase.png)
 
 Hi! In this guide, we will explain how to effortlessly integrate **iomete** with one of the most popular BI tools: **Metabase**.

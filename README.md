@@ -39,3 +39,25 @@ $ GIT_USER=<Your GitHub username> yarn deploy
 ```
 
 If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+
+
+## Custom Img component
+
+**Props**
+- **src** Image source *required*
+- **alt** Image alternative (for SEO) *required*
+- **caption** For label int the bottom of image *optional*
+- **width** Image width *optional*
+- **height** Image height *optional*
+
+**import component in md/mdx file**  *required*
+```jsx
+    import Img from "@site/src/components/Img";
+```
+
+```html
+    <Img src="../img/guides/metabase-bi/choose-datasource.png" alt="Choose datasource"/>
+    <Img src="../img/guides/metabase-bi/choose-datasource.png" alt="Choose datasource" caption="Choose datasource with/>
+    <Img src="../img/guides/metabase-bi/choose-datasource.png" alt="Choose datasource" caption="Choose datasource with caption" width="800px"/>
+    <Img src="../img/guides/metabase-bi/choose-datasource.png" alt="Choose datasource" caption="Choose datasource with caption" height="800px"/>
+```
