@@ -122,10 +122,8 @@ const config = {
         appId: 'A90PMTH5W5',
         apiKey: '3c9132c4cdf813a81e47299fde60c651',
         indexName: 'iomete',
-        // contextualSearch: true,
-        // searchPagePath: 'search',
-        // debug: true,
-      }
+        contextualSearch: false
+      },
     }),
   plugins: [
     'docusaurus-plugin-sass'
