@@ -1,7 +1,6 @@
 ---
 title: Run Your First Spark Job
 description: Run Your First Spark Job. In this guide we explain how to run your first spark job on iomete.
-slug: /run-your-first-spark-job
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov

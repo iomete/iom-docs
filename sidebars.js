@@ -213,8 +213,8 @@ const sidebars = {
         label: 'Sync Data',
         collapsed: false,
         items: [
-          'guides/data-from-s3',
-          'guides/data-from-jdbc',
+          'guides/sync-data-from-aws-s3',
+          'guides/sync-data-from-jdbc-sources',
         ]
       },
       {
@@ -232,7 +232,7 @@ const sidebars = {
         label: 'Spark Jobs',
         collapsed: false,
         items: [
-          'guides/run-spark-job',
+          'guides/run-your-first-spark-job',
         ]
       }
     ]

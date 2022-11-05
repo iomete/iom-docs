@@ -1,7 +1,6 @@
 ---
 title: From JDBC Sources
 description: Sync Data From JDBC Sources. This is an end-to-end guide about how to migrate tables from JDBC sources (MySQL, PostgreSQL, etc.) to iomete and display it in the BI dashboard.
-slug: /sync-data-from-jdbc-sources
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
