@@ -241,6 +241,7 @@ const sidebars = {
         collapsed: false,
         items: [
           'guides/dbt/getting-started-with-iomete-dbt',
+          'guides/dbt/dbt-materializations',
         ]
       }
     ]

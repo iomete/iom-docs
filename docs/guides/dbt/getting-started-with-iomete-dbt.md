@@ -211,7 +211,7 @@ caption="employee_salaries view"/>
 
 ### Change materialization type to table
 
-If you want to create a `table` instead of `view`, you can change the `materialization` type to `table`. iomete supports table, view and incremental materialization. Please read [DBT IOMETE Materializations](https://www.notion.so/In-review-DBT-IOMETE-Materializations-2b0b47d8ff7c4ce090ce82cb70e76c76) to learn more**.**
+If you want to create a `table` instead of `view`, you can change the `materialization` type to `table`. iomete supports table, view and incremental materialization, see [dbt-iomete materializations](./dbt-materializations) to learn more**.**
 
 Quickly change materialization to the `table` and check the result
 
