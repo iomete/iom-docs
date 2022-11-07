@@ -14,7 +14,7 @@ import Img from '@site/src/components/Img';
 
 - [table](https://docs.getdbt.com/terms/table)
 - [view](https://docs.getdbt.com/terms/view)
-- [incremental](https://www.notion.so/In-review-Incremental-models-a9091eac48f54058a7b09baed5c1d8ef)
+- [incremental](dbt-Incremental-models)
 
 ## Configuring materializations
 
@@ -93,7 +93,7 @@ When using the `table` materialization, your model is rebuilt as a [table](https
 `incremental` models allow dbt to insert or update records into a table since the last time that dbt was run.
 
 - **Pros:** You can significantly reduce the build time by just transforming new records
-- **Cons:** Incremental models require extra configuration and are an advanced usage of dbt. Read more about using incremental models on iomete [here](https://www.notion.so/In-review-Incremental-models-a9091eac48f54058a7b09baed5c1d8ef).
+- **Cons:** Incremental models require extra configuration and are an advanced usage of dbt. Read more about using incremental models on iomete [here](dbt-Incremental-models).
 - **Advice:**
   - Incremental models are best for event-style data
   - Use incremental models when your `dbt run`s are becoming too slow (i.e. don't start with incremental models)
