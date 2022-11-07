@@ -234,6 +234,14 @@ const sidebars = {
         items: [
           'guides/run-your-first-spark-job',
         ]
+      },
+      {
+        type: 'category',
+        label: 'DBT',
+        collapsed: false,
+        items: [
+          'guides/dbt/getting-started-with-iomete-dbt',
+        ]
       }
     ]
   }]
