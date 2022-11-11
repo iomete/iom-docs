@@ -40,24 +40,51 @@ $ GIT_USER=<Your GitHub username> yarn deploy
 
 If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
 
+## Custom Img component properties
 
-## Custom Img component
-
-**Props**
-- **src** Image source *required*
-- **alt** Image alternative (for SEO) *required*
-- **caption** For label int the bottom of image *optional*
-- **width** Image width *optional*
-- **height** Image height *optional*
-
-**import component in md/mdx file**  *required*
-```jsx
-    import Img from "@site/src/components/Img";
-```
+`src` **_required_** Image source
 
 ```html
-    <Img src="../img/guides/metabase-bi/choose-datasource.png" alt="Choose datasource"/>
-    <Img src="../img/guides/metabase-bi/choose-datasource.png" alt="Choose datasource" caption="Choose datasource with/>
-    <Img src="../img/guides/metabase-bi/choose-datasource.png" alt="Choose datasource" caption="Choose datasource with caption" width="800px"/>
-    <Img src="../img/guides/metabase-bi/choose-datasource.png" alt="Choose datasource" caption="Choose datasource with caption" height="800px"/>
+<img src="source.png" />
+
+<!-- Result -->
+<img src="source.png" />
+```
+
+`alt` **_optional_** Image alternative (for SEO)
+
+```html
+<img src="source.png" alt="Alternative text" />
+
+<!-- Result -->
+<img src="source.png" alt="Alternative text" />
+```
+
+`caption` **_optional_** Image label (Shows in the bottom of image)
+
+```html
+<img src="source.png" alt="Alternative text" caption="Image label" />
+
+<!-- Result -->
+<img src="source.png" alt="Alternative text" caption="Image label" />
+```
+
+If not specified `alt` props then `caption`'s value will set instead.
+
+```html
+<img src="source.png" caption="Image label" />
+
+<!-- Result -->
+<img src="source.png" alt="Image label" caption="Image label" />
+```
+
+`padding` *type*:**number**,  *default*: **32** 
+
+```html
+<Img src="source.png" padding={48}/>
+
+<!-- Result -->
+<div style="padding: 48px;">
+    <img src="source.png" />
+</div>
 ```
