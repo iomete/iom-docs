@@ -45,7 +45,7 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 `src` **_required_** Image source
 
 ```html
-<img src="source.png" />
+<Img src="source.png" />
 
 <!-- Result -->
 <img src="source.png" />
@@ -54,7 +54,7 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 `alt` **_optional_** Image alternative (for SEO)
 
 ```html
-<img src="source.png" alt="Alternative text" />
+<Img src="source.png" alt="Alternative text" />
 
 <!-- Result -->
 <img src="source.png" alt="Alternative text" />
@@ -63,7 +63,7 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 `caption` **_optional_** Image label (Shows in the bottom of image)
 
 ```html
-<img src="source.png" alt="Alternative text" caption="Image label" />
+<Img src="source.png" alt="Alternative text" caption="Image label" />
 
 <!-- Result -->
 <img src="source.png" alt="Alternative text" caption="Image label" />
@@ -72,7 +72,7 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 If not specified `alt` props then `caption`'s value will set instead.
 
 ```html
-<img src="source.png" caption="Image label" />
+<Img src="source.png" caption="Image label" />
 
 <!-- Result -->
 <img src="source.png" alt="Image label" caption="Image label" />
