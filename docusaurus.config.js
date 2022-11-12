@@ -27,6 +27,10 @@ const config = {
   //   locales: ['en'],
   // },
 
+  scripts: [
+    '/docs/js/heap.js'
+  ],
+
   presets: [
     [
       'classic',
