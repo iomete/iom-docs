@@ -196,7 +196,6 @@ const sidebars = {
       label: 'Integrations',
       collapsed: false,
       items: [
-        'integrations/dbt',
         'integrations/airbyte',
       ]
     }
