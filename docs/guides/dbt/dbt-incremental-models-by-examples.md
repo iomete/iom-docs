@@ -60,7 +60,7 @@ Here are the DBT configurations for incremental models
 ### Bad file format
 
 
-```sql
+```sql title="models/incremental_strategies/models_bad/bad_file_format.sql"
 {{ config(
     materialized = 'incremental',
 		file_format = 'bad_format'
@@ -76,7 +76,7 @@ select 1
 Iceberg tables only support `append` and `merge` incremental strategies. The following results in error.
 :::
 
-```sql
+```sql title="models/incremental_strategies/models_bad/bad_insert_overwrite_iceberg.sql"
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'insert_overwrite'
@@ -97,7 +97,7 @@ You cannot use this strategy when file_format is set to 'iceberg' (default one)
 :::info
 Non-iceberg tables don’t support merge incremental strategy
 :::
-```sql
+```sql title="models/incremental_strategies/models_bad/bad_merge_not_iceberg.sql"
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'merge',
@@ -117,7 +117,7 @@ Invalid incremental strategy provided: merge
 
 ### Bad strategy
 
-```sql
+```sql title="models/incremental_strategies/models_bad/bad_strategy.sql"
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'something_else',
@@ -138,7 +138,7 @@ Invalid incremental strategy provided: something_else
 
 ### Append
 
-```sql
+```sql title="models/incremental_strategies/models_iceberg/append.sql"
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'append'
@@ -191,7 +191,7 @@ Results
 Without no merge keys it behaves as **append** mode
 :::
 
-```sql
+```sql title="models/incremental_strategies/models_iceberg/merge_no_key.sql"
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'merge'
@@ -239,7 +239,7 @@ Results
 
 ### Merge with `unique_key`
 
-```sql
+```sql title="models/incremental_strategies/models_iceberg/merge_unique_key.sql"
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'merge',
@@ -287,7 +287,7 @@ Results
 
 ### Merge with `update columns`
 
-```sql
+```sql title="models/incremental_strategies/models_iceberg/merge_update_columns.sql"
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'merge',
@@ -344,7 +344,7 @@ Results
 Each run overwrites the whole table
 :::
 
-```sql
+```sql title="models/incremental_strategies/models_insert_overwrite/insert_overwrite_no_partitions.sql"
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'insert_overwrite',
@@ -395,7 +395,7 @@ Results
 Each run overwrites the overlapping partitions
 :::
 
-```sql
+```sql title="models/incremental_strategies/models_insert_overwrite/insert_overwrite_partitions.sql"
 {{ config(
     materialized = 'incremental',
     incremental_strategy = 'insert_overwrite',
@@ -450,7 +450,7 @@ Results
 
 Let’s use this as a source model
 
-```sql
+```sql title="models/incremental_on_schema_change/models/model_a.sql"
 {{ 
     config(materialized='table') 
 }}
@@ -479,7 +479,7 @@ from source_data
 
 Ignore schema changes
 
-```sql
+```sql title="models/incremental_on_schema_change/models/incremental_ignore.sql"
 {{
     config(
         materialized='incremental',
@@ -559,7 +559,7 @@ Results
 
 Only adds the new fields
 
-```sql
+```sql title="models/incremental_on_schema_change/models/incremental_append_new_columns.sql"
 {{
     config(
         materialized='incremental',
@@ -651,7 +651,7 @@ Results
 
 Full sync schema changes
 
-```sql
+```sql title="models/incremental_on_schema_change/models/incremental_sync_all_columns.sql"
 {{
     config(
         materialized='incremental',
@@ -745,7 +745,7 @@ Results
 
 Fails when the schema change is detected
 
-```sql
+```sql title="models/incremental_on_schema_change/models/incremental_fail.sql"
 {{
     config(
         materialized='incremental',
