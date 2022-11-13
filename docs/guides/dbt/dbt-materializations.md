@@ -10,7 +10,7 @@ import Img from '@site/src/components/Img';
 
 # DBT Materializations
 
-[Materializations](https://docs.getdbt.com/terms/materialization) are strategies for persisting dbt models in a warehouse. There are four types of materializations that `dbt-iomete`. They are:
+[Materializations](https://docs.getdbt.com/terms/materialization) are strategies for persisting dbt models in a warehouse. There are 3 types of materializations supported by `dbt-iomete`. They are:
 
 - [table](https://docs.getdbt.com/terms/table)
 - [view](https://docs.getdbt.com/terms/view)

@@ -242,7 +242,8 @@ const sidebars = {
         items: [
           'guides/dbt/getting-started-with-iomete-dbt',
           'guides/dbt/dbt-materializations',
-          'guides/dbt/dbt-Incremental-models'
+          'guides/dbt/dbt-Incremental-models',
+          'guides/dbt/dbt-incremental-models-by-examples'
         ]
       }
     ]
