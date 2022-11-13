@@ -137,7 +137,7 @@ dbt_project:
       host: eu-central-1.iomete.com
       lakehouse: virtual-warehouse-1
       user: "{{ env_var('DBT_USER') }}"         # use env variables for sensitive information
-      password: "{{ env_var('DBT_PASSWORD') }}  # use env variables for sensitive information
+      password: "{{ env_var('DBT_PASSWORD') }}"  # use env variables for sensitive information
       schema: dbt_database
       threads: 1
       type: iomete
