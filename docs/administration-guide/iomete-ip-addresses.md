@@ -12,5 +12,5 @@ We pull data from your sources and send it to your destination using a set of fi
 
 | Region                                  | IP ADDRESSES (CIDR) | Region host             |
 | :-------------------------------------- | :------------------ | :---------------------- |
-| **Frankfurt** eu-central-1              | 18.198.120.219      | eu-central-1.iomete.com |
-| **Oregon** us-west-2                    | 35.85.22.45         | us-west-2.iomete.com    |
+| **Frankfurt** eu-central-1              | 18.198.120.219/32      | eu-central-1.iomete.com |
+| **Oregon** us-west-2                    | 35.85.22.45/32         | us-west-2.iomete.com    |
