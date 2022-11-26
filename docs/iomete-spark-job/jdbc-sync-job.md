@@ -1,6 +1,6 @@
 ---
 title: JDBC Sync Job
-description: iomete provides JDBC Sync Job to easily replicate tables from JDBC databases (MySQL, PostgreSQL, etc.) to iomete
+description: IOMETE provides JDBC Sync Job to easily replicate tables from JDBC databases (MySQL, PostgreSQL, etc.) to IOMETE
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -8,14 +8,14 @@ last_update:
 
 ___
 
-**iomete** provides **JDBC Sync Job** to easily replicate tables from JDBC databases (MySQL, PostgreSQL, etc.) to iomete. Only you need to provide configuration properties. Powerful feature of job is **Sync mode**. You can choose a technique that how you want to move your data. Full load or Incremental. You can find more details bellow about sync mode
+**IOMETE** provides **JDBC Sync Job** to easily replicate tables from JDBC databases (MySQL, PostgreSQL, etc.) to IOMETE. Only you need to provide configuration properties. Powerful feature of job is **Sync mode**. You can choose a technique that how you want to move your data. Full load or Incremental. You can find more details bellow about sync mode
 
 ### Sync Mode
 
 You can define sync mode for each table. Currently, supported sync modes are:
 
 - `FullLoad`: Read everything in the source and overwrites whole table at the destination at each sync
-- `IncrementalSnapshot`: It creates the snapshot of table in the destination and only move the newly inserted and updated records. While writing to iomete it uses merge statement. This mode requires 2 parameters: `identification_column` will be used on merge statement, and `tracking_column` to track the where it should continue to get data from the source table
+- `IncrementalSnapshot`: It creates the snapshot of table in the destination and only move the newly inserted and updated records. While writing to IOMETE it uses merge statement. This mode requires 2 parameters: `identification_column` will be used on merge statement, and `tracking_column` to track the where it should continue to get data from the source table
 
 ### Installation
 

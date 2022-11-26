@@ -1,6 +1,6 @@
 ---
 title: Private Docker Registry
-description: To create spark job you may want to add a custom docker image stored in your private registry at this time you need private docker registries in iomete platform
+description: To create spark job you may want to add a custom docker image stored in your private registry at this time you need private docker registries in IOMETE platform
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -11,13 +11,13 @@ ___
 
 ## Private Docker Registries
 
-While using **iomete** platform, at some point, you may required to use private docker registry, for example when creating spark job you may want to add a custom docker image stored in your private registry. 
+While using **IOMETE** platform, at some point, you may required to use private docker registry, for example when creating spark job you may want to add a custom docker image stored in your private registry. 
 
-In this section we will demonstrate on how to integrate private docker registries into **iomete** and we will create sample Spark Job using image from private registry. Also we are going to cover some popular registries ( *AWS ECR, DigitalOcean, Quay.io, DockerHub, GCP / Google Container Registry*) with helpful resources.
+In this section we will demonstrate on how to integrate private docker registries into **IOMETE** and we will create sample Spark Job using image from private registry. Also we are going to cover some popular registries ( *AWS ECR, DigitalOcean, Quay.io, DockerHub, GCP / Google Container Registry*) with helpful resources.
 
 Let's get started.
 
-To add new registry, open your iomete console, and go to settings panel and press `Create New` button.
+To add new registry, open your IOMETE console, and go to settings panel and press `Create New` button.
 
 ![docker registry list](/img/user-guide/docker-registry-list.png)
 
@@ -30,7 +30,7 @@ Adding private docker registry is similar to `docker login` command, you will ne
 
 After filling the form you should see a new line in *Docker Registries* table.
 
-Now to use your private docker registry go to *Jobs* menu and create a new job. Under the *Deployment* section type in private repository to **Docker Image** field. And on the left side of *Docker Image* field you will see dropdown with list of your private docker registries added to **iomete** platform. Choose corresponding one from dropdown list.
+Now to use your private docker registry go to *Jobs* menu and create a new job. Under the *Deployment* section type in private repository to **Docker Image** field. And on the left side of *Docker Image* field you will see dropdown with list of your private docker registries added to **IOMETE** platform. Choose corresponding one from dropdown list.
 
 ![job from docker registry](/img/user-guide/job-form-docker-registry.png)
 

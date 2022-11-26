@@ -1,6 +1,6 @@
 ---
 title: Data Compaction Job
-description: iomete provides built-in job to run data compactions for iceberg tables that slow down over the time and require to run data compaction to clean up tables
+description: IOMETE provides built-in job to run data compactions for iceberg tables that slow down over the time and require to run data compaction to clean up tables
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -9,7 +9,7 @@ last_update:
 ___
 
 Over the time iceberg tables could slow down and require to run data compaction to clean up tables.
-**iomete** provides built-in job to run data compactions for each table. This job triggers the next iceberg processes:
+**IOMETE** provides built-in job to run data compactions for each table. This job triggers the next iceberg processes:
 1. ExpireSnapshots [Maintenance - Expire Snapshots](doc:data-compaction#expire-snapshots)
 2. Delete Orphan Files - See [Maintenance - Delete Orphan Files](doc:data-compaction#delete-orphan-files)
 3. Rewrite Data Files - See [Maintenance - Rewrite Data Files](doc:data-compaction#compact-data-files) 

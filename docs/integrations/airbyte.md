@@ -1,6 +1,6 @@
 ---
-title: MySQL to iomete using Airbyte
-description: This is an end-to-end guide about how to move MySQL data to iomete using Airbyte
+title: MySQL to IOMETE using Airbyte
+description: This is an end-to-end guide about how to move MySQL data to IOMETE using Airbyte
 last_update:
   date: 10/04/2022
   author: Namig Aliyev
@@ -8,21 +8,21 @@ last_update:
 
 ___
 
-This is an end-to-end guide about how to move MySQL data to iomete using Airbyte.
+This is an end-to-end guide about how to move MySQL data to IOMETE using Airbyte.
 
 ### Destination Configuration
 
-Basically, the destination configuration form has two separate parts, iomete and Staging area configurations.
+Basically, the destination configuration form has two separate parts, IOMETE and Staging area configurations.
 
 Fill in the configuration parameters with your own data according to the table below.
 
 | Parameter                  | Type            | Required  | Notes                                                                                                                                                                                                        |
 |:---------------------------|:----------------|:----------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Lakehouse Connection URL   | String          | Required  | Example: `airbyte://frankfurt.iomete.com/12312421312/default`. <br/> This is a combination of hostname, account number and lakehouse name. Check the lakehouse's connection details from the iomete console. |
-| Username                   | String          | Required  | Username to use to access iomete.                                                                                                                                                                            |
+| Lakehouse Connection URL   | String          | Required  | Example: `airbyte://frankfurt.iomete.com/12312421312/default`. <br/> This is a combination of hostname, account number and lakehouse name. Check the lakehouse's connection details from the IOMETE console. |
+| Username                   | String          | Required  | Username to use to access IOMETE.                                                                                                                                                                            |
 | Password                   | String          | Required  | Password associated with username.                                                                                                                                                                           |
 
-![iomete destination configuration first part](/img/integrations/airbyte/iomete-destination-config-1.png)
+![IOMETE destination configuration first part](/img/integrations/airbyte/iomete-destination-config-1.png)
 
 Fill the Staging area informations.
 
@@ -66,9 +66,9 @@ Password: 9tVDVEKp
 - Start sync and monitor synchronization status from history. <br/>
 ![Successful sync result](/img/integrations/airbyte/successful-sync-result.png)
 
-Synchronization completed successful. Let’s check migrated data in the iomete console.
+Synchronization completed successful. Let’s check migrated data in the IOMETE console.
 
 ### Editor
 The `employees` database has been created and the `current_dept_emp` table has been successfully migrated.
 
-![Migration result in the iomete SQL editor](/img/integrations/airbyte/migration-result.png)
+![Migration result in the IOMETE SQL editor](/img/integrations/airbyte/migration-result.png)

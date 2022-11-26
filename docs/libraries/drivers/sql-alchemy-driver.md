@@ -1,6 +1,6 @@
 ---
 title: SQLAlchemy Driver
-description: iomete lakehouse endpoints are compatible with special driver, you can use the samples repository to quick start
+description: IOMETE lakehouse endpoints are compatible with special driver, you can use the samples repository to quick start
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -8,7 +8,7 @@ last_update:
 
 ___
 
-Iomete lakehouse endpoints are compatible with <a href="https://pypi.org/project/py-hive-iomete" targetr="_blank">py-hive-iomete</a> driver
+IOMETE lakehouse endpoints are compatible with <a href="https://pypi.org/project/py-hive-iomete" targetr="_blank">py-hive-iomete</a> driver
 
 ## Usage
 
@@ -116,4 +116,4 @@ print(records)
 
 
 
-You can find the configuration parameters from the lakehouse "Connection Details" tab from the iomete console
+You can find the configuration parameters from the lakehouse "Connection Details" tab from the IOMETE console
