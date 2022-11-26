@@ -1,13 +1,13 @@
 ---
 title: IAM Role For Data Lake Access
-description: The following step-by-step instructions describe how to configure access permissions for iomete
+description: The following step-by-step instructions describe how to configure access permissions for IOMETE
 ---
 
 ___
 
 ## Creating an IAM Policy For Data Lake Location
 
-The following step-by-step instructions describe how to configure access permissions for **iomete:**
+The following step-by-step instructions describe how to configure access permissions for **IOMETE:**
 
 - Log into your AWS Management Console
 - Go to **Identity & Access Management (IAM) -> Policies -> Create Policy:** 
@@ -16,11 +16,11 @@ The following step-by-step instructions describe how to configure access permiss
 
 
 - In the policy editor, click the **JSON** tab
-![Creating policy document for iomete](/img/administration-guide/admin-guide-create-policy.png)
+![Creating policy document for IOMETE](/img/administration-guide/admin-guide-create-policy.png)
 
 
-- Add a policy document that will allow **iomete** to access the S3 bucket and folder.
-The following policy (in JSON format) provides iomete with the required permissions to load or unload data using a single bucket and folder path. Copy and paste the text into the policy editor:
+- Add a policy document that will allow **IOMETE** to access the S3 bucket and folder.
+The following policy (in JSON format) provides IOMETE with the required permissions to load or unload data using a single bucket and folder path. Copy and paste the text into the policy editor:
 
 :::info
 Provide **bucket** and **prefix** of your data lake location
@@ -61,19 +61,19 @@ In the AWS Management Console, create an AWS IAM role to grant privileges on the
 - Log into your AWS Management Console
 - Go to **Identity & Access Management (IAM) -> Roles -> Create role:**
 
-![creating AWS IAM role for iomete](/img/administration-guide/admin-guide-Identity_and_Access_Management.png)
+![creating AWS IAM role for IOMETE](/img/administration-guide/admin-guide-Identity_and_Access_Management.png)
 
 - Select **Another AWS account** as the trusted entity type
   
-![Select Trusted Entity Page for iomete in AWS Management Console](/img/administration-guide/admin-guide-create_role.png)
+![Select Trusted Entity Page for IOMETE in AWS Management Console](/img/administration-guide/admin-guide-create_role.png)
 
-- In the **Account ID** field, enter iomete account ID: **680330367469**
+- In the **Account ID** field, enter IOMETE account ID: **680330367469**
 - Click the **Next: Permissions** button.
 - Locate the policy you created in the previous step (**iomete_datalake_access**), and select this policy
 - Go to **Review** and provide a name. For example, **default_iomete_access_role**
 - Edit **default_iomete_access_role** role and switch to the **Trust relationships** section of the role:
 
-![access to iomete from AWS](/img/administration-guide/admin-guide-in_the_console.png)
+![access to IOMETE from AWS](/img/administration-guide/admin-guide-in_the_console.png)
 
 Click the **Edit trust relationship** button and add the following JSON policy:
 
@@ -96,4 +96,4 @@ Click the **Edit trust relationship** button and add the following JSON policy:
 - In the role summary, copy the Role ARN.
 <br/>
 
-![role summary ARN on iomete ](/img/administration-guide/admin-guide-summary.png)
+![role summary ARN on IOMETE ](/img/administration-guide/admin-guide-summary.png)

@@ -1,6 +1,6 @@
 ---
 title: Operators
-description: Spark SQL operators in iomete
+description: Spark SQL operators in IOMETE
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov

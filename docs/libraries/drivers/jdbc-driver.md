@@ -1,6 +1,6 @@
 ---
 title: JDBC Driver
-description: Iomete warehouse JDBC endpoints are compatible with Hive JDBC drivers
+description: IOMETE warehouse JDBC endpoints are compatible with Hive JDBC drivers
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -8,7 +8,7 @@ last_update:
 
 ___
 
-Iomete warehouse JDBC endpoints are compatible with Hive JDBC drivers. So we can use the following dependency from the `Maven Repository:`
+IOMETE warehouse JDBC endpoints are compatible with Hive JDBC drivers. So we can use the following dependency from the `Maven Repository:`
 
 ```xml
 <dependencies>

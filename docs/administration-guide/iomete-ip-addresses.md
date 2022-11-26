@@ -1,12 +1,12 @@
 ---
-title: iomete IP Addresses
+title: IOMETE IP Addresses
 description: Customers can use these static IP addresses to increase the security only opening their SSH access to these addresses
 ---
 
 Customers can use these static IP addresses to increase the security only opening their SSH access to these addresses
 ___
 
-We pull data from your sources and send it to your destination using a set of fixed IP addresses. To ensure that **iomete** can do this, you must whitelist these IP addresses in your firewall. Use the list below according to the region in which you'd like your **iomete** SSH access and whitelist all IPs listed for your region:
+We pull data from your sources and send it to your destination using a set of fixed IP addresses. To ensure that **IOMETE** can do this, you must whitelist these IP addresses in your firewall. Use the list below according to the region in which you'd like your **IOMETE** SSH access and whitelist all IPs listed for your region:
 
 ### AWS
 

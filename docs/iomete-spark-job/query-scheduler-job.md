@@ -1,6 +1,6 @@
 ---
 title: Query Scheduler Job
-description: iomete provides Query Scheduler Job to run your queries over warehouse on schedule time or manually
+description: IOMETE provides Query Scheduler Job to run your queries over warehouse on schedule time or manually
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -8,7 +8,7 @@ last_update:
 
 ___
 
-**iomete** provides **Query Scheduler Job** to run your queries over warehouse. You can run your queries on schedule time or manually.  To enable job follow the next steps:
+**IOMETE** provides **Query Scheduler Job** to run your queries over warehouse. You can run your queries on schedule time or manually.  To enable job follow the next steps:
 
 ### Installation
 

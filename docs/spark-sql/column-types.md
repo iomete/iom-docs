@@ -1,6 +1,6 @@
 ---
 title: Column Types
-description: This page explains all column types that iomete supports 
+description: This page explains all column types that IOMETE supports 
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -8,7 +8,7 @@ last_update:
 
 ___
 
-Iomete supports the following column types:
+IOMETE supports the following column types:
 
 | Type Name                	| Description                                                                                                                                                                                         	|
 |--------------------------	|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|

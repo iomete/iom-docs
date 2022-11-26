@@ -3,21 +3,21 @@ title: Database Connection Options
 description: This guide explains how to connect iomete to your database through Whiitelist iomete's IP or SSh tunnel or AWS
 ---
 
-There are three ways to connect **Iomete** to your database:
+There are three ways to connect **IOMETE** to your database:
 
-- Directly by [whitelisting Iomete's IP](./iomete-ip-addresses)
+- Directly by [whitelisting IOMETE's IP](./iomete-ip-addresses)
 - Via an SSH tunnel
 
-## Whitelist iomete's IP
+## Whitelist IOMETE's IP
 
-The fastest and easiest way to connect is to allow [iomete's IP](./iomete-ip-addresses) direct access to your database port. For more information about how to do this, visit the setup guide for your database.
+The fastest and easiest way to connect is to allow [IOMETE's IP](./iomete-ip-addresses) direct access to your database port. For more information about how to do this, visit the setup guide for your database.
 
 <br/>
 
 
 ## SSH Tunnel
 
-If it's not possible to provide direct access to your database port, you can connect to iomete via an SSH tunnel. You can also choose this connection method for an added layer of security. To connect via an SSH tunnel, you need to setup an SSH tunnel server that has access to your database port. The tunnel server's SSH port needs to be accessible from [iomete's IP](./iomete-ip-addresses)
+If it's not possible to provide direct access to your database port, you can connect to IOMETE via an SSH tunnel. You can also choose this connection method for an added layer of security. To connect via an SSH tunnel, you need to setup an SSH tunnel server that has access to your database port. The tunnel server's SSH port needs to be accessible from [IOMETE's IP](./iomete-ip-addresses)
 
 <br/>
 
@@ -25,7 +25,7 @@ If it's not possible to provide direct access to your database port, you can con
 
 Make sure that port access is allowed from:
 
-1. [iomete's IP](./iomete-ip-addresses) to your tunnel server's SSH port
+1. [IOMETE's IP](./iomete-ip-addresses) to your tunnel server's SSH port
 2. Your SSH tunnel server to your source database port
 
 If your SSH server and database happen to be in AWS, you can follow the instructions below to configure port access.
@@ -47,8 +47,8 @@ If your SSH server and database happen to be in AWS, you can follow the instruct
 5. Click Edit.
 ![AWS security group inbound tab](/img/administration-guide/mysql-rds-click-inbound-edit.png)
 
-6. Select **SSH**, enter [iomete's IP](./iomete-ip-addresses), and click **Save**:
-![SSH tunnel for iomete's IP](/img/administration-guide/selecting-SSH-AWS.png)
+1. Select **SSH**, enter [IOMETE's IP](./iomete-ip-addresses), and click **Save**:
+![SSH tunnel for IOMETE's IP](/img/administration-guide/selecting-SSH-AWS.png)
 
 
 ### SSH Connection
@@ -65,12 +65,12 @@ cd .ssh;
 vim authorized_keys
 ```
 
-Second step is to copy public key from iomete's Console application.
-![iomete console SSH tunnel](/img/administration-guide/copying-public-key-from-iomete-Console.png)
+Second step is to copy public key from IOMETE's Console application.
+![IOMETE console SSH tunnel](/img/administration-guide/copying-public-key-from-iomete-Console.png)
 
-Add the public key provided by iomete to the ```authorized_keys``` file in your SSH Server. The key must be all on one line. Make sure that you don’t introduce any line breaks when cutting and pasting. Afterward, you'll need to allow port access. 
+Add the public key provided by IOMETE to the ```authorized_keys``` file in your SSH Server. The key must be all on one line. Make sure that you don’t introduce any line breaks when cutting and pasting. Afterward, you'll need to allow port access. 
 
 Now you should be able to connect to your database through SSH Tunnel.
-Go to iomete's Console Application and fill our the form, you can look at the example below
+Go to IOMETE's Console Application and fill our the form, you can look at the example below
 
-![connecting AWS to iomete console with tunnel](/img/administration-guide/connect-to-your-database-through-SSH-Tunnel.png)
+![connecting AWS to IOMETE console with tunnel](/img/administration-guide/connect-to-your-database-through-SSH-Tunnel.png)

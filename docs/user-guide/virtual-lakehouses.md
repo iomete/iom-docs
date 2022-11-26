@@ -8,7 +8,7 @@ last_update:
 
 ___
 
-A virtual warehouse is a cluster of compute resources that provide the required resources, such as CPU, memory to perform the querying processing. Table data files are stored in cloud data storage (S3) as a shared data storage that allows multiple virtual warehouse clusters to share the same data while isolating compute. Iomete uses Apache Spark as a data warehouse query engine with ACID support
+A virtual warehouse is a cluster of compute resources that provide the required resources, such as CPU, memory to perform the querying processing. Table data files are stored in cloud data storage (S3) as a shared data storage that allows multiple virtual warehouse clusters to share the same data while isolating compute. IOMETE uses Apache Spark as a data warehouse query engine with ACID support
 
 :::info
 In production environments, it is often required to isolate workloads, for example, to avoid the overhead of batch ETL jobs on ad-hoc analytical queries. Since data is decoupled and shared from virtual warehouses, it enables the creation of multiple warehouse clusters to isolate the workloads and turn on/off clusters based on requirements to save costs. Cluster size can be defined based on requirements and workloads.

@@ -1,6 +1,6 @@
 ---
 title: Guides
-description: iomete guide provides information about how to sync data to iomete 
+description: IOMETE guide provides information about how to sync data to IOMETE 
 sidebar_label: Introduction
 slug: /guides
 authors:

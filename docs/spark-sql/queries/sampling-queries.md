@@ -1,6 +1,6 @@
 ---
 title: Sampling Queries
-description: iomete lakehouse platform Spark SQL how to sampling queries
+description: IOMETE lakehouse platform Spark SQL how to sampling queries
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov

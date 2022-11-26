@@ -1,8 +1,8 @@
 ---
-title: Welcome to iomete docs
-description: Here you'll find comprehensive guides and documentation to get you up and running with iomete quickly and easily
+title: Welcome to IOMETE docs
+description: Here you'll find comprehensive guides and documentation to get you up and running with IOMETE quickly and easily
 slug: /
-# tags: [iomete Intro, Getting started, iomete docs]
+# tags: [IOMETE Intro, Getting started, IOMETE docs]
 last_update:
   date: 10/05/2022
   author: Fuad Musayev
@@ -13,9 +13,9 @@ last_update:
   <meta property="og:url" content="https://iomete.com/docs" />
 </head>
 
-⚡️ Here you'll find comprehensive guides and documentation to get you up and **running with iomete quickly and easily**
+⚡️ Here you'll find comprehensive guides and documentation to get you up and **running with IOMETE quickly and easily**
 
-### The iomete lakehouse platform
+### The IOMETE lakehouse platform
 
 **The platform**
 
@@ -27,7 +27,7 @@ last_update:
   - Advanced data catalog 
   - Built-in BI (or connect 3rd party BI e.g. Tableau, Looker)
 
-**iomete's extreme value proposition**
+**IOMETE's extreme value proposition**
 
 - Our compute pricing is equal to AWS on-demand pricing, with no mark up. 
 - You get basically all our lakehouse functionality for free.
@@ -40,6 +40,6 @@ last_update:
 - **Fully managed: **No maintenance, no upfront investment.
 - **Unified experience**: Don’t waste time patching together multi-vendor solutions.
 - **Fantastic support**: Directly access our engineering team via Slack if you have questions. 
-- **Scalable**: As you grow, iomete grows with you. Only pay for what you use.
+- **Scalable**: As you grow, IOMETE grows with you. Only pay for what you use.
 - **Compatible**: Works well with most other data infrastructure solutions.
 - **We democratize data** by empowering teams to become data-driven in an easy and cost-effective way.

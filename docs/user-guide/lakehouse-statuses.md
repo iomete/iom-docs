@@ -1,12 +1,12 @@
 ---
 title: Lakehouse statuses
-description: Explanation of iomete lakehouse cluster statuses
+description: Explanation of IOMETE lakehouse cluster statuses
 last_update:
   date: 10/20/2022
   author: Vusal D.
 hide_table_of_contents: true
 ---
-This page describes the iomete lakehouse cluster statuses
+This page describes the IOMETE lakehouse cluster statuses
 
 
 :::note

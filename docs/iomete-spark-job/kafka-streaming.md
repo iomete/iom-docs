@@ -10,14 +10,18 @@ last_update:
 ___
 
 
-![kafka and iomete logo](/img/spark-job/kafka-logo-iomete.png)
+![kafka and IOMETE logo](/img/spark-job/kafka-logo-iomete.png)
 
 This is a collection of data movement capabilities. This streaming job copies data from Kafka to Iceberg.
 
 ## Table of Contents
- * [Deserialization](#Deserialization)
- * [Job creation](#job-creation)
- * [Tests](#tests)
+- [Table of Contents](#table-of-contents)
+- [Deserialization](#deserialization)
+  - [JSON](#json)
+  - [Avro](#avro)
+- [Job creation](#job-creation)
+- [Configuration properties](#configuration-properties)
+- [Tests](#tests)
 
 
 ## Deserialization
