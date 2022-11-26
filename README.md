@@ -42,49 +42,36 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 
 ## Custom Img component properties
 
-`src` **_required_** Image source
+| Property     | Requirements | Type   | Default | Description                                                                                            |
+|--------------|--------------|--------|:-------:|--------------------------------------------------------------------------------------------------------|
+| src          | mandatory    | string |    -    | Image source                                                                                           |
+| alt          | optional     | string |    -    | Image alternative (for SEO).  If the image "alt" is not specified, then it will take the caption text. |
+| caption      | optional     | string |    -    | The caption text displayed after (on the bottom) the image                                             |
+| padding (px) | optional     | number |    32   | Padding of gradient                                                                                    |
+
+## Examples
 
 ```html
-<Img src="source.png" />
+<!-- src -->
+<Img src="source.png"/>
 
-<!-- Result -->
+<!-- Converted to -->
 <img src="source.png" />
 ```
 
-`alt` **_optional_** Image alternative (for SEO)
-
 ```html
-<Img src="source.png" alt="Alternative text" />
-
-<!-- Result -->
-<img src="source.png" alt="Alternative text" />
-```
-
-`caption` **_optional_** Image label (Shows in the bottom of image)
-
-```html
-<Img src="source.png" alt="Alternative text" caption="Image label" />
-
-<!-- Result -->
-<img src="source.png" alt="Alternative text" caption="Image label" />
-```
-
-If not specified `alt` props then `caption`'s value will set instead.
-
-```html
+<!-- src, caption -->
 <Img src="source.png" caption="Image label" />
 
-<!-- Result -->
-<img src="source.png" alt="Image label" caption="Image label" />
+<!-- Converted to -->
+<img src="source.png" caption="Image label" alt="Image label" />
+
 ```
 
-`padding` *type*:**number**,  *default*: **32** 
-
 ```html
-<Img src="source.png" padding={48}/>
+<!-- src, caption, alt -->
+<Img src="source.png" caption="Image label" alt="Alternative text" />
 
-<!-- Result -->
-<div style="padding: 48px;">
-    <img src="source.png" />
-</div>
+<!-- Converted to -->
+<img src="source.png" caption="Image label" alt="Alternative text" />
 ```
