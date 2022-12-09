@@ -6,12 +6,12 @@ last_update:
   author: Vugar Dadalov
 ---
 
-In this guide we explain how to run your first spark job on iomete.
+In this guide we explain how to run your first spark job on **IOMETE**.
 ___
 
 At the console, navigate to **Job** menu and click to `Create New`
 
-For the sake of simplicity let's use public iomete spark images. In this example, we are going to use `iomete/spark:3.2.1.0`
+For the sake of simplicity let's use public IOMETE spark images. In this example, we are going to use `iomete/spark:3.2.1.0`
 
 This docker image has pre-built `local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar` contains example spark applications
 
