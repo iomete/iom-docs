@@ -21,18 +21,18 @@ Personal access tokens are an alternative to using passwords for authentication 
 
 **1.** Navigate to **Settings** menu
    
-<Img src="/img/guides/pat/pat-go-to-settings.png"
+<Img src="/img/user-guide/pat/pat-go-to-settings.png"
   alt="PAT settings menu" maxWidth="256px"/>
 
 **2.** Click **Access Token** tab
    
-<Img src="/img/guides/pat/pat-tab.png"
+<Img src="/img/user-guide/pat/pat-tab.png"
   alt="PAT tab"/>
 
 
 **3.** Click **Generate new token**
 
-<Img src="/img/guides/pat/pat-generate.png"
+<Img src="/img/user-guide/pat/pat-generate.png"
   alt="PAT generate new"/>
 
 **4.** Under **Token name**, give the token a name.
@@ -45,12 +45,12 @@ Users receive two notifications during the lifetime of a **Personal Access Token
 
 **6.** Click **Generate**.
 
-<Img src="/img/guides/pat/pat-generate-view.png"
+<Img src="/img/user-guide/pat/pat-generate-view.png"
   alt="PAT generate view" maxWidth="456px"/>
 
 **7.** After genereting you should see
 
-<Img src="/img/guides/pat/pat-generated-view.png"
+<Img src="/img/user-guide/pat/pat-generated-view.png"
   alt="PAT generate view" maxWidth="456px"/>
 
 :::caution Download or Copy
@@ -61,7 +61,7 @@ Make sure to copy your personal access token now. You won't be able to see it ag
    
 **9.** We can see generated token in list view.
 
-<Img src="/img/guides/pat/pat-list.png"
+<Img src="/img/user-guide/pat/pat-list.png"
   alt="PAT generate view"/>
 
 
