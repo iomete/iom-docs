@@ -142,6 +142,7 @@ const sidebars = {
         // 'user-guide/serverless-spark-applications',
         // 'user-guide/storage-integrations',
         'user-guide/private-docker-registry',
+        'user-guide/create-a-personal-access-token'
       ]
     },
     {
@@ -243,14 +244,6 @@ const sidebars = {
           'guides/dbt/dbt-materializations',
           'guides/dbt/dbt-incremental-models',
           'guides/dbt/dbt-incremental-models-by-examples'
-        ]
-      },
-      {
-        type: 'category',
-        label: 'User preferences',
-        collapsed: false,
-        items: [
-          'guides/user-preferences/create-a-personal-access-token'
         ]
       }
     ]
