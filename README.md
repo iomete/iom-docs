@@ -42,12 +42,14 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 
 ## Custom Img component properties
 
-| Property     | Requirements | Type   | Default | Description                                                                                            |
-|--------------|--------------|--------|:-------:|--------------------------------------------------------------------------------------------------------|
-| src          | mandatory    | string |    -    | Image source                                                                                           |
-| alt          | optional     | string |    -    | Image alternative (for SEO).  If the image "alt" is not specified, then it will take the caption text. |
-| caption      | optional     | string |    -    | The caption text displayed after (on the bottom) the image                                             |
-| padding (px) | optional     | number |    32   | Padding of gradient                                                                                    |
+| Property     | Requirements | Type   | Default    | Description                                                                                            |
+|--------------|--------------|--------|:----------:|--------------------------------------------------------------------------------------------------------|
+| src          | mandatory    | string |    -       | Image source                                                                                           |
+| alt          | optional     | string |    -       | Image alternative (for SEO).  If the image "alt" is not specified, then it will take the caption text. |
+| caption      | optional     | string |    -       | The caption text displayed after (on the bottom) the image                                             |
+| padding (px) | optional     | number |    16      | Padding of gradient                                                                                    |
+| centered     | optional     |    -   |    -       | Make centered image. You don't need to set value.                                                      |
+| maxWidth (px)| optional     | string |max-content | Set max width.                                                                                         |
 
 ## Examples
 
@@ -74,4 +76,14 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 
 <!-- Converted to -->
 <img src="source.png" caption="Image label" alt="Alternative text" />
+```
+
+```html
+<!-- centered -->
+<Img src="source.png" centered/>
+```
+
+```html
+<!-- maxWidth -->
+<Img src="source.png" maxWidth="256px"/>
 ```

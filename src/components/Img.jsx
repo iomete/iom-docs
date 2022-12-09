@@ -1,11 +1,12 @@
 import React from "react";
 import styles from "./custom.img.module.scss";
 
-export default function Img({ src, alt = "", caption = "", padding = 32 }) {
+export default function Img({ src, alt = "", caption = "", padding = 16, maxWidth = 'max-content', centered = false }) {
   const paddingBottom = padding - 8;
-  console.log(padding, paddingBottom);
+  const margin = centered ? 'auto' : 'inherit';
+
   return (
-    <div className={styles.imgContainer}>
+    <div className={styles.imgContainer} style={{ maxWidth, marginLeft: margin, marginRight: margin }}>
       <div className={styles.imgContent} style={{ padding: padding, paddingBottom: paddingBottom }}>
         <img src={require("@site/static" + src).default} alt={alt ? alt : caption} />
       </div>
