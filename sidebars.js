@@ -241,8 +241,16 @@ const sidebars = {
         items: [
           'guides/dbt/getting-started-with-iomete-dbt',
           'guides/dbt/dbt-materializations',
-          'guides/dbt/dbt-Incremental-models',
+          'guides/dbt/dbt-incremental-models',
           'guides/dbt/dbt-incremental-models-by-examples'
+        ]
+      },
+      {
+        type: 'category',
+        label: 'User preferences',
+        collapsed: false,
+        items: [
+          'guides/user-preferences/create-a-personal-access-token'
         ]
       }
     ]
