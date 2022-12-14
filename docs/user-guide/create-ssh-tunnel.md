@@ -60,10 +60,15 @@ After the SSH setup is completed, we will delete your credentials. For security 
 **7.** Click **Confirm** button. This will deploy a Cloudformation Script into your AWS account.
 <Img src="/img/user-guide/ssh-tunnel/confirm-automate.png" alt="Confirm Automate"/>
 
-**8.** After **Confirming,** you should see this message. Click **Go details** button to going details page of creating **tunnel**
+**8.** After **Confirming,** we should see this message. Click **Go details** button to going details page of creating **tunnel**
+
+:::info
+The setup process will be completed in a few minutes
+:::
+
 <Img src="/img/user-guide/ssh-tunnel/go-details.png" alt="Go details"/>
 
-**9.** We can see **SSH Tunnel** details view. By selecting the relevant buttons, we can **edit** or **delete**.
+We can see **SSH Tunnel** details view.
 <Img src="/img/user-guide/ssh-tunnel/details.png" alt="Details"/>
 
 ### Create Manually
@@ -98,3 +103,21 @@ Open the AWS **[EC2 console](https://console.aws.amazon.com/ec2/home?#Instances
 
 After clicking **Create** button we should see
 <Img src="/img/user-guide/ssh-tunnel/manual-details.png" alt="Manual Details"/>
+
+## Statuses
+
+- ### Connected
+
+  Connection established successfully.
+
+- ### Pending
+
+  SSH Tunnel being deployed and connection establishment is in progress. Normally takes less than a minute. If took more than 2-3 minutes check logs or contact support
+
+- ### Setup in progress
+
+  Cloudformation script is running, usually takes 2-3 minutes maximum
+
+- ### Failed
+
+  Connection failed. Please check logs for more details.
