@@ -50,6 +50,7 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 | padding (px) | optional     | number |    16      | Padding of gradient                                                                                    |
 | centered     | optional     |    -   |    -       | Make centered image. You don't need to set value.                                                      |
 | maxWidth (px)| optional     | string |max-content | Set max width.                                                                                         |
+| imgClass     | optional     | string |    -       | Set css class to img                                                                                   |
 
 ## Examples
 
@@ -86,4 +87,9 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 ```html
 <!-- maxWidth -->
 <Img src="source.png" maxWidth="256px"/>
+```
+
+```html
+<!-- imgClass -->
+<Img src="source.png" imgClass="bg-white"/>
 ```

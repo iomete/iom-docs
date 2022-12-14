@@ -16,7 +16,7 @@ If your database is in the private subnet, you can establish a secure channel be
 You can also choose this connection method for an added layer of security too.
 :::
 
-<Img src="/img/user-guide/ssh-tunnel/ssh-tunnel.png" alt="SSH Tunnel"/>
+<Img src="/img/user-guide/ssh-tunnel/ssh-tunnel.png" alt="SSH Tunnel" imgClass="bg-white"/>
 
 ## Create SSH Tunnel in IOMETE
 
