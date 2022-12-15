@@ -38,8 +38,9 @@ const config = {
       ({
         docs: {
           routeBasePath: '/',
-          sidebarPath: require.resolve('./sidebars.js')
-          // autoCollapseCategories: false
+          sidebarPath: require.resolve('./sidebars.js'),
+          breadcrumbs: false
+          // autoCollapseCategories: false,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
