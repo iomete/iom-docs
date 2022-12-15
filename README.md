@@ -40,6 +40,20 @@ $ GIT_USER=<Your GitHub username> yarn deploy
 
 If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
 
+
+## Feedback component
+
+If you want to hide rating feedback 
+`hideFeedback:true` in frontMatter
+
+**Expample**
+```mdx
+---
+title: Doc title
+hideFeedback:true
+---
+```
+
 ## Custom Img component properties
 
 | Property     | Requirements | Type   | Default    | Description                                                                                            |
