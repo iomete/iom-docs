@@ -8,13 +8,10 @@ const Feedback = ({ label }) => {
 
   const [haveVoted, setHaveVoted] = useState(false);
   const giveFeedback = value => {
-    if (window.ga) {
-      window.ga('send', {
-        hitType: 'event',
-        eventCategory: 'button',
-        eventAction: 'feedback',
-        eventLabel: label,
-        eventValue: value,
+    if (window.gtag) {
+      window.gtag('event', 'Doc Feedback', {
+        event_label: label,
+        event_value: value,
       });
     }
     setHaveVoted(true);
