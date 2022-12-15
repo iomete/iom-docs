@@ -3,16 +3,7 @@ title: Guides
 description: IOMETE guide provides information about how to sync data to IOMETE 
 sidebar_label: Introduction
 slug: /guides
-authors:
-  - name: Joel Marcey
-    title: Co-creator of Docusaurus 1
-    url: https://github.com/JoelMarcey
-    image_url: https://github.com/JoelMarcey.png
-  - name: Sébastien Lorber
-    title: Docusaurus maintainer
-    url: https://sebastienlorber.com
-    image_url: https://github.com/slorber.png
-
+hideFeedback: true
 ---
 
 import DocCardList from '@theme/DocCardList';

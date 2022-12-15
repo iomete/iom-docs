@@ -3,6 +3,7 @@ title: Welcome to IOMETE docs
 description: Here you'll find comprehensive guides and documentation to get you up and running with IOMETE quickly and easily
 slug: /
 # tags: [IOMETE Intro, Getting started, IOMETE docs]
+hideFeedback: true
 last_update:
   date: 10/05/2022
   author: Fuad Musayev
