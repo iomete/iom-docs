@@ -220,6 +220,7 @@ const sidebars = {
             // 'guides/connection-options',
             "guides/how-to-connect-iomete-and-metabase-bi",
             "guides/how-to-connect-iomete-and-apache-superset",
+            "guides/power-bi",
           ],
         },
         {
