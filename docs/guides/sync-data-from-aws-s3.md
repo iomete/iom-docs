@@ -3,7 +3,6 @@ title: From AWS S3 Files
 description: Sync Data From AWS S3. This is an end-to-end guide about how to move files from your AWS S3 to iomete and show it in the BI dashboard.
 last_update:
   date: 10/04/2022
-  author: Vugar Dadalov
 ---
 
 import Img from '@site/src/components/Img';

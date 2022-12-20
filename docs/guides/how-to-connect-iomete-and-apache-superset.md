@@ -3,7 +3,6 @@ title: Apache Superset Connection
 description: How to connect iomete and Apache Superset. This guide explains how to effortlessly integrate iomete with one of the most popular BI tools Apache Superset
 last_update:
   date: 10/31/2022
-  author: Vusal Dadalov
 ---
 ![iomete superset](/img/guides/apache-superset-iomete/iomete-superset.png)
 
