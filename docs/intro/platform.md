@@ -1,22 +1,10 @@
 ---
-title: The IOMETE Lakehouse Platform
-description: an overview of the components of the IOMETE lakehouse platform. Snowflake Databricks alternative with a built-in data catalog that users can become data-driven
 slug: /iomete-lakehouse-platform
-tags: [IOMETE Intro, Getting started, IOMETE docs]
-last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+title: Platform
+description: An overview of the components of the IOMETE lakehouse platform. Snowflake Databricks alternative with a built-in data catalog that users can become data-driven
 ---
 
-<!-- <head>
-  <title>The IOMETE lakehouse platform</title>
-  <meta
-    name="description"
-    content="The IOMETE lakehouse platform"
-  />
-</head> -->
-
-On this page we give an overview of the components that make up the IOMETE lakehouse platform. The IOMETE lakehouse platform was designed to provide a unified experience with one source of truth. The platform is complete with a built-in data catalog and built-in BI so that users can become data-driven in an easy and cost-effective manner.
+On this page we give an overview of the components that make up the IOMETE lakehouse platform. The IOMETE lakehouse platform was designed to provide a unified experience with one source of truth. The platform is complete with a built-in data catalog so that users can become data-driven in an easy and cost-effective manner.
 
 We deliver data-infrastructure-as-one-single-platform. We are on the cloud (AWS) and provide a fully managed experience. We also provide local cloud, on-premise and hybrid solutions.
 
@@ -29,7 +17,7 @@ The platform includes:
    3. Data monitoring & observability
 3. Serverless Job Service (ETL)
 4. Data Loaders (Data migration from 3rd party services, aka data connectors)
-5. Built-in BI Solution (but also works with 3rd party BI solution such as Tableau, Looker and the likes)
+5. BI integrations (Tableau, Power BI, Looker, Metabase, Superset)
 
 
 ![IOMETE data stack](/img/intro/how-it-works.png)
@@ -116,6 +104,6 @@ Serverless Job Service is a serverless job service for Apache Spark applications
 
 Data Loaders are connectors to move data from 3rd party applications, like Mixpanel, HubSpot, and hundreds of others. More will come on this.
 
-### BI
+<!-- ### BI
 
-Fast, lightweight, intuitive, and loaded with options that make it easy for users of all skill sets to explore and visualize their data, from simple line charts to highly detailed geospatial charts. If you wish to connect your favorite third party BI tool instead (e.g. Tableau or Looker): piece of cake.
+Fast, lightweight, intuitive, and loaded with options that make it easy for users of all skill sets to explore and visualize their data, from simple line charts to highly detailed geospatial charts. If you wish to connect your favorite third party BI tool instead (e.g. Tableau or Looker): piece of cake. -->

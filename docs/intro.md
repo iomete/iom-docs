@@ -1,12 +1,8 @@
 ---
-title: Welcome to IOMETE docs
-description: Here you'll find comprehensive guides and documentation to get you up and running with IOMETE quickly and easily
 slug: /
-# tags: [IOMETE Intro, Getting started, IOMETE docs]
-hideFeedback: true
-last_update:
-  date: 10/05/2022
-  author: Fuad Musayev
+title: Introduction
+description: Here you'll find comprehensive guides and documentation to get you up and running with IOMETE quickly and easily
+# hideFeedback: true
 ---
 
 <head>
@@ -14,7 +10,7 @@ last_update:
   <meta property="og:url" content="https://iomete.com/docs" />
 </head>
 
-⚡️ Here you'll find comprehensive guides and documentation to get you up and **running with IOMETE quickly and easily**
+Here you'll find comprehensive guides and documentation to get you up and **running with IOMETE quickly and easily**
 
 ### The IOMETE lakehouse platform
 
@@ -38,7 +34,7 @@ last_update:
 
 - **Modern architecture:** We are ex-Uber/Google/Amazon engineers that understand data at scale.
 - **Open source:** We built on Apache Iceberg and Apache Spark. We use an open source data format (Parquet).
-- **Fully managed: **No maintenance, no upfront investment.
+- **Fully managed:** No maintenance, no upfront investment.
 - **Unified experience**: Don’t waste time patching together multi-vendor solutions.
 - **Fantastic support**: Directly access our engineering team via Slack if you have questions. 
 - **Scalable**: As you grow, IOMETE grows with you. Only pay for what you use.
