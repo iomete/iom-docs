@@ -90,7 +90,7 @@ source .env/bin/activate
 pip install --upgrade dbt-iomete
 ```
 
-### Boostrap the dbt project
+### Bootstrap the dbt project
 
 :::important
 You can find DBT connection parameters from the [lakehouse page](http://app.iomete.com).
