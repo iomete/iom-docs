@@ -26,6 +26,23 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "User Guide",
+      collapsed: false,
+      items: [
+        "user-guide/sso-login",
+        "user-guide/virtual-lakehouses",
+        "user-guide/lakehouse-statuses",
+        // 'user-guide/user-management',
+        // 'user-guide/access-policy-management',
+        // 'user-guide/serverless-spark-applications',
+        // 'user-guide/storage-integrations',
+        "user-guide/private-docker-registry",
+        "user-guide/create-a-personal-access-token",
+        "user-guide/create-ssh-tunnel",
+      ],
+    },
+    {
+      type: "category",
       label: "Iceberg Tables",
       collapsed: false,
       items: [
@@ -126,23 +143,7 @@ const sidebars = {
         "spark-sql/functions",
       ],
     },
-    {
-      type: "category",
-      label: "User Guide",
-      collapsed: false,
-      items: [
-        "user-guide/sso-login",
-        "user-guide/virtual-lakehouses",
-        "user-guide/lakehouse-statuses",
-        // 'user-guide/user-management',
-        // 'user-guide/access-policy-management',
-        // 'user-guide/serverless-spark-applications',
-        // 'user-guide/storage-integrations',
-        "user-guide/private-docker-registry",
-        "user-guide/create-a-personal-access-token",
-        "user-guide/create-ssh-tunnel",
-      ],
-    },
+    
     {
       type: "category",
       label: "Spark Jobs",
