@@ -2,7 +2,7 @@
 title: Power BI - Connecting to IOMETE
 sidebar_label: Power BI
 description: How to connect Power BI to IOMETE lakehouse platform.
-image:  /img/power-bi/power-bi-connecting-to-iomete.png
+image: https://iomete.com/docs/img/guides/power-bi/power-bi-connecting-to-iomete.png
 ---
 
 
