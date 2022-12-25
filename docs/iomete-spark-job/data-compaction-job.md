@@ -10,10 +10,10 @@ ___
 
 Over the time iceberg tables could slow down and require to run data compaction to clean up tables.
 **IOMETE** provides built-in job to run data compactions for each table. This job triggers the next iceberg processes:
-1. ExpireSnapshots [Maintenance - Expire Snapshots](doc:data-compaction#expire-snapshots)
-2. Delete Orphan Files - See [Maintenance - Delete Orphan Files](doc:data-compaction#delete-orphan-files)
-3. Rewrite Data Files - See [Maintenance - Rewrite Data Files](doc:data-compaction#compact-data-files) 
-4. Rewrite Manifests - See [Maintenance](doc:data-compaction#rewrite-manifests) 
+1. ExpireSnapshots [Maintenance - Expire Snapshots](https://iomete.com/docs/iceberg-tables/maintenance#expire-snapshots)
+2. Delete Orphan Files - See [Maintenance - Delete Orphan Files](https://iomete.com/docs/iceberg-tables/maintenance#delete-orphan-files)
+3. Rewrite Data Files - See [Maintenance - Rewrite Data Files](https://iomete.com/docs/iceberg-tables/maintenance#compact-data-files) 
+4. Rewrite Manifests - See [Maintenance](https://iomete.com/docs/iceberg-tables/maintenance#rewrite-manifests) 
    
 To enable data compaction spark job follow the next steps:
 1. In the left sidebar menu choose `Spark Jobs`

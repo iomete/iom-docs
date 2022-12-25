@@ -186,11 +186,11 @@ CALL catalog_name.system.cherrypick_snapshot(snapshot_id => 1, table => 'my_tabl
 
 ## Metadata management
 
-Many maintenance actions can be performed using Iceberg stored procedures. [Data Compaction](doc:data-compaction) 
+Many maintenance actions can be performed using Iceberg stored procedures. [Data Compaction Job](https://iomete.com/docs/iomete-spark-job/data-compaction-job) 
 
 ### `expire_snapshots`
 
-Each write/update/delete/upsert/compaction in Iceberg produces a new snapshot while keeping the old data and metadata  
+Each `write/update/delete/upsert/compaction` in Iceberg produces a new snapshot while keeping the old data and metadata  
 around for snapshot isolation and time travel. The `expire_snapshots` procedure can be used to remove older snapshots  
 and their files which are no longer needed.
 
@@ -201,8 +201,8 @@ the `expire_snapshots` procedure will never remove files which are still require
 
 | Argument Name            | Required? | Type      | Description                                                                                                                                                                                                                    |
 | ------------------------ | --------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `table`                  | ✔️        | string    | Name of the table to update                                                                                                                                                                                                    |
-| `older_than`             | ️         | timestamp | Timestamp before which snapshots will be removed (Default: 5 days ago)                                                                                                                                                         |
+| `table`                  | ✔️         | string    | Name of the table to update                                                                                                                                                                                                    |
+| `older_than`             |           | timestamp | Timestamp before which snapshots will be removed (Default: 5 days ago)                                                                                                                                                         |
 | `retain_last`            |           | int       | Number of ancestor snapshots to preserve regardless of `older_than` (defaults to 1)                                                                                                                                            |
 | `max_concurrent_deletes` |           | int       | Size of the thread pool used for delete file actions (by default, no thread pool is used)                                                                                                                                      |
 | `stream_results`         |           | boolean   | When true, deletion files will be sent to Spark driver by RDD partition (by default, all the files will be sent to Spark driver). This option is recommended to set to `true` to prevent Spark driver OOM from large file size |
@@ -236,7 +236,7 @@ Used to remove files which are not referenced in any metadata files of an Iceber
 | Argument Name            | Required? | Type      | Description                                                                               |
 | ------------------------ | --------- | --------- | ----------------------------------------------------------------------------------------- |
 | `table`                  | ✔️        | string    | Name of the table to clean                                                                |
-| `older_than`             | ️         | timestamp | Remove orphan files created before this timestamp (Defaults to 3 days ago)                |
+| `older_than`             |          | timestamp | Remove orphan files created before this timestamp (Defaults to 3 days ago)                |
 | `location`               |           | string    | Directory to look for files in (defaults to the table's location)                         |
 | `dry_run`                |           | boolean   | When true, don't actually remove files (defaults to false)                                |
 | `max_concurrent_deletes` |           | int       | Size of the thread pool used for delete file actions (by default, no thread pool is used) |
@@ -277,8 +277,8 @@ Iceberg can compact data files in parallel using Spark with the `rewriteDataFile
 | `table`       | ✔️        | string               | Name of the table to update                                                                                                                                                                                                         |
 | `strategy`    |           | string               | Name of the strategy - binpack or sort. Defaults to binpack strategy                                                                                                                                                                |
 | `sort_order`  |           | string               | Comma separated sort_order_column. Where sort_order_column is a space separated sort order info per column (ColumnName SortDirection NullOrder). <br/> SortDirection can be ASC or DESC. NullOrder can be NULLS FIRST or NULLS LAST |
-| `options`     | ️         | map\<string, string> | Options to be used for actions                                                                                                                                                                                                      |
-| `where`       | ️         | string               | predicate as a string used for filtering the files. Note that all files that may contain data matching the filter will be selected for rewriting                                                                                    |
+| `options`     |          | map\<string, string> | Options to be used for actions                                                                                                                                                                                                      |
+| `where`       |          | string               | predicate as a string used for filtering the files. Note that all files that may contain data matching the filter will be selected for rewriting                                                                                    |
 
 #### Output
 
@@ -554,8 +554,6 @@ Get all the snapshot ancestors of current snapshots(default)
 ```sql
 CALL spark_catalog.system.ancestors_of('db.tbl')
 ```
-
-
 
 Get all the snapshot ancestors by a particular snapshot
 
