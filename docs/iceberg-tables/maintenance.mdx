@@ -22,12 +22,14 @@ Example using iceberg sql procedure:
 CALL spark_catalog.system.expire_snapshots('db.sample')
 ```
 
-See the [Iceberg Procedures - Expire Snapshots](doc:iceberg-procedures#expire_snapshots) for available options.
+See the [Iceberg Procedures - Expire Snapshots](https://iomete.com/docs/iceberg-tables/iceberg-procedures#expire_snapshots) for available options.
 
 Expiring old snapshots removes them from metadata, so they are no longer available for time travel queries.
 
 :::info
-Data files are not deleted until they are no longer referenced by a snapshot that may be used for time travel or rollback.\nRegularly expiring snapshots deletes unused data files.
+Data files are not deleted until they are no longer referenced by a snapshot that may be used for time travel or rollback.
+
+Regularly expiring snapshots deletes unused data files.
 :::
 
 ### Remove old metadata files
@@ -54,7 +56,7 @@ To clean up these "orphan" files under a table location, use the `remove_orphan_
 CALL spark_catalog.system.remove_orphan_files(table => 'db.sample')
 ```
 
-[Iceberg Procedures - Remove orphan files](doc:iceberg-procedures#remove_orphan_files) - to see more configuration options.
+[Iceberg Procedures - Remove orphan files](https://iomete.com/docs/iceberg-tables/iceberg-procedures#remove_orphan_files) - to see more configuration options.
 
 This action may take a long time to finish if you have lots of files in data and metadata directories. It is recommended to execute this periodically, but you may not need to execute this often.
 
@@ -87,7 +89,7 @@ CALL spark_catalog.system.rewrite_data_files('db.sample')
 
 The `files` metadata table is useful for inspecting data file sizes and determining when to compact partitions.
 
-[Iceberg Procedures - Rewrite data files](doc:iceberg-procedures#rewrite_data_files) - to see more configuration options.
+[Iceberg Procedures - Rewrite data files](https://iomete.com/docs/iceberg-tables/iceberg-procedures#rewrite_data_files) - to see more configuration options.
 
 ### Rewrite manifests
 
@@ -101,4 +103,4 @@ When a table's write pattern doesn't align with the query pattern, metadata can 
 CALL spark_catalog.system.rewrite_manifests('db.sample')
 ```
 
-[Iceberg Procedures - Rewrite manifests](doc:iceberg-procedures#rewrite_manifests) - to see more configuration options.
+[Iceberg Procedures - Rewrite manifests](https://iomete.com/docs/iceberg-tables/iceberg-procedures#rewrite_manifests) - to see more configuration options.

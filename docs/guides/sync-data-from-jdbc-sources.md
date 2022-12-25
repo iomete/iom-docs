@@ -12,7 +12,7 @@ ___
 This is an end-to-end guide about how to migrate **tables** from JDBC sources (MySQL, PostgreSQL, etc.) to iomete and display it in the BI dashboard. 
 
 :::info
-First, you need to establish an SSH tunnel between iomete and your database in your private network. See [Database Connection Options](./administration-guide/database-connection-options)
+First, you need to establish an SSH tunnel between iomete and your database in your private network. See [Database Connection Options](https://iomete.com/docs/administration-guide/database-connection-options)
 :::
 
 ### Database to migrate
@@ -58,7 +58,9 @@ Create a new warehouse instance
 
 ### Querying  Source Table
 
-After having the warehouse created, we create a table using JDBC Sources using [CREATE TABLE](./spark-sql/create-table) command. In the OPTIONS part we specify credentials of the database to which we want to connect as follows (see [JDBC Sources](./data-sources/jdbc-sources)): 
+After having the lakehouse created, we create a table using JDBC Sources using [CREATE TABLE](https://iomete.com/docs/spark-sql/create-table) command. In the OPTIONS part we specify credentials of the database to which we want to connect as follows 
+<!--TODO (see [JDBC Sources](./data-sources/jdbc-sources)):  -->
+<!-- https://iomete.com/docs/guides/how-to-connect-iomete-and-apache-superset#get-connection-details-from-iomete -->
 
 ```sql
 CREATE TABLE IF NOT EXISTS employees_proxy
