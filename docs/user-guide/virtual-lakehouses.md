@@ -1,10 +1,16 @@
-import Img from '@site/src/components/Img';
-
-# Virtual Lakehouses
-
+---
+title: Virtual Lakehouses
+description: Virtual Lakehouses. This guide explains how to create lakehouse in IOMETE
+last_update:
+  date: 12/25/2022
+  author: Nurlan Mammadov
 ---
 
+import Img from '@site/src/components/Img';
+
 A virtual **lakehouse** is a cluster of compute resources that provide the required resources, such as CPU, memory to perform the querying processing. Table data files are stored in cloud data storage (S3) as a shared data storage that allows multiple virtual lakehouse clusters to share the same data while isolating compute. IOMETE uses Apache Spark as a data lakehouse query engine with ACID support
+
+---
 
 :::info
 In production environments, it is often required to isolate workloads, for example, to avoid the overhead of batch ETL jobs on ad-hoc analytical queries. Since data is decoupled and shared from virtual lakehouse, it enables the creation of multiple lakehouse clusters to isolate the workloads and turn on/off clusters based on requirements to save costs. Cluster size can be defined based on requirements and workloads.
