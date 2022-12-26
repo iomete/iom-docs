@@ -30,6 +30,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "user-guide/sso-login",
+        // "user-guide/virtual-lakehouses",
         "user-guide/virtual-lakehouses",
         "user-guide/lakehouse-statuses",
         // 'user-guide/user-management',
@@ -143,7 +144,7 @@ const sidebars = {
         "spark-sql/functions",
       ],
     },
-    
+
     {
       type: "category",
       label: "Spark Jobs",
