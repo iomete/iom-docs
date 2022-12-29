@@ -224,6 +224,7 @@ const sidebars = {
             "guides/how-to-connect-iomete-and-metabase-bi",
             "guides/how-to-connect-iomete-and-apache-superset",
             "guides/power-bi",
+            "guides/iomete-tableau-integration",
           ],
         },
         {
