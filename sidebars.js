@@ -40,6 +40,7 @@ const sidebars = {
         "user-guide/private-docker-registry",
         "user-guide/create-a-personal-access-token",
         "user-guide/create-ssh-tunnel",
+        "user-guide/sql-editor"
       ],
     },
     {
