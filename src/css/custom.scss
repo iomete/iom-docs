@@ -54,12 +54,12 @@
   padding: 1.15rem 1.15rem 5rem 1.15rem;
 }
 
-.menu__list-item-collapsible > a {
+.menu__list-item-collapsible>a {
   font-weight: 600;
   color: var(--ifm-heading-color);
 }
 
-.menu__list-item > a {
+.menu__list-item>a {
   font-size: 14px;
   padding: 6px 12px 6px 12px;
 }
@@ -92,7 +92,7 @@
   .docs-wrapper .navbar {
     margin-left: 0px;
   }
-  
+
   .docs-wrapper .navbar__brand {
     display: inline-block;
     margin-left: 12px;
@@ -102,4 +102,18 @@
 // user-guide/create-ssh-tunnel
 .bg-white {
   background-color: white;
+}
+
+.bg-emphasis-300 {
+  background-color: var(--ifm-color-emphasis-300);
+}
+
+.inline-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0px 4px;
+  border-radius: 2px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  line-height: 24px;
 }
