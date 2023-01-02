@@ -13,12 +13,12 @@ import Img from '@site/src/components/Img';
 The SQL Editor is where you run queries on your dataset and get results. The main components of the SQL Editor are highlighted below:
 
 
-- [<Database size={16} weight="duotone" /> Database Explorer](#database-explorer)
-- [<ListChecks size={16}  /> Worksheets](#worksheets)
-  - [Quering data](#quering-data)
-  - [Query result](#query-result)
-- [<ClockCounterClockwise size={16} /> Query Histories](#query-histories)
-- [<ListDashes size={16}/> Query Variables](#query-variables)
+- [Database explorer](#database-explorer)
+- [Worksheets](#worksheets)
+  - [Querying data](#querying-data)
+  - [Query Result](#query-result)
+- [Query Histories](#query-histories)
+- [Query Variables](#query-variables)
 
 <Img src="/img/user-guide/sql-editor/sql-editor.png" alt="IOMETE SQL Editor"/>
 
@@ -39,10 +39,10 @@ The options menu lets you:
 
 ## Worksheets
 
-Worksheet is a document that store all SQL statements. 
+The worksheet is a document that stores all SQL statements. 
 
 **Welcome** worksheet - This worksheet was created for you when you first started SQL Editor.
-When you make changes to a worksheet it will save automatically after delay 5 second.
+When you make changes to a worksheet it will save automatically after a delay of 5 seconds.
 
 In the **Worksheet** panel, you can:
 
@@ -55,13 +55,13 @@ In the **Worksheet** panel, you can:
 <Img src="/img/user-guide/sql-editor/sql-editor-worksheets.png" alt="IOMETE SQL Editor - Worksheets" maxWidth="700px"/>
 
 
-### Quering data
+### Querying data
 
 :::info
 Before running a query you must select a running **[Lakehouse](https://iomete.com/docs/user-guide/virtual-lakehouses)** and **Database**.
 :::
 
-To select (or change) the Runing lakehouse for a worksheet, click the `Select Lakehouse` dropdown in the upper-right corner of the query editor.
+To select (or change) the Running lakehouse for a worksheet, click the `Select Lakehouse` dropdown in the upper-right corner of the query editor.
 
 To select (or change) the current database for a worksheet, click the `Select Database` dropdown in the upper-right corner of the query editor.
 
@@ -75,7 +75,7 @@ As you enter your script in the query editor, the autocomplete feature suggests:
 
 IOMETE tracks table aliases and suggests them as autocomplete options. For example, if you execute a query using `call_center as c` or `call_center c` as an alias, the next time you type `c`, the autocomplete feature suggests the alias as an option. 
 
-If you want to open autocomplete, use given shortcut:
+If you want to open autocomplete, use the given shortcut:
 - ⌘+Space (Mac)
 - Ctrl+Space (Windows) 
 
@@ -85,10 +85,10 @@ If you want to open autocomplete, use given shortcut:
 **Run query**
 
 :::info
-Currently you can run only single query
+Currently, you can run only a single query
 :::
 
-To run a single query, in the query editor, place your cursor in the query, and then:
+Using the query editor, run a single query as follows:
 - Click `Run` button
 - ⌘+Enter (Mac)
 - Ctrl+Enter (Windows)
@@ -99,7 +99,7 @@ To run a single query, in the query editor, place your cursor in the query, and 
 Up to 10,000 rows can be displayed in the results.
 :::
 
-In the query result includes the following informations:
+The query result includes the following information:
 
 - The duration of the query execution.
 - The status of the query execution.
@@ -118,8 +118,8 @@ To download your results as a .csv file, click <span className="inline-button"><
 
 **Using Sort and Filters**
 
-You can use column sorting and filtering. Hover over columns to view filter icon and click.
-When clicking filter icon, you can see available filters.
+You can use column sorting and filtering. Hover over columns to view the filter icon and click.
+When clicking the filter icon, you can see available filters.
 
 <Img src="/img/user-guide/sql-editor/sql-editor-result-filter.png" maxWidth="360px" alt="IOMETE SQL Editor - Query result filter"/>
 
@@ -129,16 +129,16 @@ When clicking filter icon, you can see available filters.
 
 ## Query Histories
 
-When you run a query, it is tracked as a new item in the SQL history. You can use the SQL history to go back to a previous queries that you can see query result and open query in active worksheet. 
+When you run a query, it is tracked as a new item in the SQL history. You can use the SQL history to go back to previous queries so that you can see query results and open queries in the active worksheet. 
 
 <Img src="/img/user-guide/sql-editor/sql-editor-history.png" alt="IOMETE SQL Editor - Query histories"/>
 
 ## Query Variables
 
-Use variables in your SQL queries by wrapping them in a double curly braces, like `{{id}}` .
-Before you can use a variable, you must declare the variable. Specifying an expression for the initial value for the variable. 
+Use variables in your SQL queries by wrapping them in double curly braces, like `{{id}}` .
+It is necessary to declare a variable before using it. Specifying an expression for the initial value for the variable. 
 
-After declaring variable, you can see it in autocomplete.
+After declaring the variable, you can see it in autocomplete.
 
 <Img src="/img/user-guide/sql-editor/sql-editor-query-variable.png" alt="IOMETE SQL Editor - Query variables"/>
 
