@@ -32,7 +32,7 @@ const sidebars = {
         "user-guide/sso-login",
         // "user-guide/virtual-lakehouses",
         "user-guide/virtual-lakehouses",
-        "user-guide/lakehouse-statuses",
+        // "user-guide/lakehouse-statuses",
         // 'user-guide/user-management',
         // 'user-guide/access-policy-management',
         // 'user-guide/serverless-spark-applications',

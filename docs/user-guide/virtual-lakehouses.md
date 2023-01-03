@@ -16,7 +16,7 @@ A virtual **lakehouse** is a cluster of compute resources that provide the requi
 In production environments, it is often required to isolate workloads, for example, to avoid the overhead of batch ETL jobs on ad-hoc analytical queries. Since data is decoupled and shared from virtual lakehouse, it enables the creation of multiple lakehouse clusters to isolate the workloads and turn on/off clusters based on requirements to save costs. Cluster size can be defined based on requirements and workloads.
 :::
 
-## **Create a new Lakehouse[](https://iomete.com/docs/user-guide/virtual-lakehouses#create-virtual-warehouse)**
+## **Create a new Lakehouse[](https://iomete.com/docs/user-guide/virtual-lakehouses#create-virtual-lakehouse)**
 
 **1.** Go to the **Lakehouses** and click the **Create New** button
 <Img src="/img/user-guide/virtual-lakehouse/create-new.png" alt="Create New Lakehouse" />
@@ -85,7 +85,7 @@ By clicking checkbox in the left side we can **disabled** **auto scale** functio
 2.  **Lakehouse's** general information.
 3.  Lakehouse **statuses**
     :::info
-    More details about **lakehouse** **statuses** check [this link.](https://iomete.com/docs/user-guide/lakehouse-statuses)
+    More details about **lakehouse** **statuses** click [here](#lakehouse-statuses)
     :::
 
 4.  **Connections** details
@@ -94,3 +94,25 @@ By clicking checkbox in the left side we can **disabled** **auto scale** functio
     In this section we may check your lakehouse's **start**/**stop** logs.
 
 6.  **Delete** - this button makes it simple to **remove** Lakehouse.
+
+## **Lakehouse Statuses[](https://iomete.com/docs/user-guide/virtual-lakehouses#lakehouse-statuses)**
+
+:::info
+We need to understand the cluster components to understand the lakehouse cluster's statuses. Lakehouse cluster comprises of driver and executors.
+
+- **Driver:** is the gateway to accept and keep connections, plan executions, and orchestrate executors.
+- **Executors:** are the components that do the actual processing.
+
+:::
+
+### Statuses
+
+A lakehouse cluster can be one of the following statuses:
+
+| Status     | Description                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stopped    | Cluster is completely turned off. <br/><br/>**Driver:** Not running<br/>**Executors:** No executors running<br/>**Accepting connections:** No<br/>**Cost charging:** No                                                                                                                                                                                                                                                                 |
+| Pending    | Cluster is newly started manually and waiting for resources for the driver<br/><br/>**Driver:** Not running. Waiting for the resources<br/>**Executors:** No executors running<br/>**Accepting connections:** No<br/>**Cost charging:** No                                                                                                                                                                                              |
+| Suspended  | This status happens when auto-scale is enabled on the cluster. When the cluster stays without any workload, it scales down and turns off the executors to prevent charging costs. Only the driver is running. When the driver gets a query, it starts executors to handle the processing<br/><br/>**Driver:** Running<br/>**Executors:** No executors running<br/>**Accepting connections:** Yes<br/>**Cost charging:** Only for driver |
+| Scaling-up | This status happens when auto-scale is enabled on the cluster. The cluster decides to scale up executors based on the workload needs up to the maximum of the cluster size.<br/><br/>**Driver:** Running<br/>**Executors:** 0 or some already running, and new executors are being started<br/>**Accepting connections:** Yes<br/>**Cost charging:** For driver and already running executors                                           |
+| Running    | Cluster is running state<br/><br/>**Driver:** Running<br/>**Executors:** Running<br/>**Accepting connections:** Yes<br/>**Cost charging:** For driver and running executors                                                                                                                                                                                                                                                             |
