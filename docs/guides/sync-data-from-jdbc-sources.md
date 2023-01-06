@@ -24,7 +24,7 @@ In this tutorial, we will be using a publicly accessible iomete-tutorial databas
 :::
 
 :::info
-In case of connecting to your own database instance see [Database Connection Options](./administration-guide/database-connection-options) for the details
+In case of connecting to your own database instance see [Database Connection Options](https://iomete.com/docs/administration-guide/database-connection-options) for the details
 :::
 Here are the details of `iomete-tutorial` public database:
 
@@ -81,20 +81,6 @@ This table doesn't hold the actual data. Data will be retrieved from the actual 
 :::
 
 ![Query Editor](/img/guides/iomete-sql_editor.png)
-<!-- [block:image]
-{
-  "images": [
-    {
-      "image": [
-        "https://files.readme.io/62f62fa-sql_editor.png",
-        "sql_editor.png",
-        3478
-      ],
-      "caption": "Query Editor"
-    }
-  ]
-}
-[/block] -->
 
 ### Migrating Data
 

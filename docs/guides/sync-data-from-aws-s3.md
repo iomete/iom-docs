@@ -49,11 +49,11 @@ The following step-by-step instructions describe how to configure it.
 
 - Go to **Identity & Access Management (IAM) -> Policies -> Create Policy:**
 
-![Create policy button on Policies page](/img/guides/create-policy-button.png)
+<Img src="/img/guides/create-policy-button.png" alt="Create policy button on Policies page"/>
 
 - In the editor, click the **JSON** tab.
 
-![JSON tab in editor](/img/guides/json-tab.png)
+<Img src="/img/guides/json-tab.png" alt="JSON tab in editor"/>
 
 - Add a policy document that will allow **iomete** to access the S3 bucket and folder.  
   The following policy (in JSON format) provides iomete with the required permissions to load or unload data using a single bucket and folder path. Copy and paste the text into the policy editor:
@@ -95,17 +95,17 @@ After review save it with the name: **area_for_iomete_access**.
 - Go to **Identity & Access Management (IAM) -> Roles**
 - Search for **default_iomete_access_role**
 
-![Default iomete access role on Policies page](/img/guides/default_iomete_access_role.png)
+<Img src="/img/guides/default_iomete_access_role.png" alt="Default iomete access role on Policies page"/>
 
 Inside of the **default_iomete_access_role**, attach the new created **area_for_iomete_access** beside of **iomete_datalake_access**.
 
 - Click the **Add permissions -> Attach policies**
 
-![Default iomete access role](/img/guides/attach-policy.png)
+<Img src="/img/guides/attach-policy.png" alt="Default iomete access role"/>
 
 - Search for **area_for_iomete_access** and click the **Attach policies** button.
 
-![New attached **area_for_iomete** role.](/img/guides/attached-policy.png)
+<Img src="/img/guides/attached-policy.png" alt="New attached **area_for_iomete** role."/>
 
 **area_for_iomete** successfully attached to the **default_iomete_access_role**. Now let's see how to get data from the platform.
 
@@ -118,7 +118,7 @@ In the SQL Editor, you should be able to query the file and migrate to iomete us
 
 Querying JSON file data without moving to `iomete`
 
-![Query JSON Data](/img/guides/querying-data.png)
+<Img src="/img/guides/querying-data.png" alt="Query JSON Data"/>
 
 ### Non-partitioned Table
 
@@ -225,14 +225,14 @@ Lets visualize the new **countries_view** in the BI Application.
 
 From the menu choose `Data -> Dataset` and click `+ Dataset` button on the right top corner.
 
-![New dataset creation on BI](/img/guides/create-dataset.png)
+<Img src="/img/guides/create-dataset.png" alt="New dataset creation on BI" maxWidth="456px"/>
 
 **Create a new chart** 
 
 Click on the newly created dataset `countries_view` which opens chart view. Choose the visualization type and corresponding settings:
 
-![Top 10 countries with highest population](/img/guides/chart.png)
+<Img src="/img/guides/chart.png" alt="Top 10 countries with highest population"/>
 
 Save this chart to the dashboard too and navigate to the dashboard. And, here is the dashboard of the `Countries` that we just created.
 
-![Countries dashboard on BI](/img/guides/dashboard-countries.png)
+<Img src="/img/guides/dashboard-countries.png" alt="Countries dashboard on BI"/>
