@@ -21,7 +21,7 @@ For a quick start, you can use the samples repository: <https://github.com/iomet
 Install the following dependency
 
 ```shell
-pip install py-hive-iomete
+pip install py-hive-iomete==1.1.0
 ```
 
 
@@ -32,8 +32,8 @@ pip install py-hive-iomete
 from pyhive import hive
 
 connection = hive.connect(
-    host="<cloud_region>.iomete.com",
-    account_number="<account_number>",
+    host="<cluster_id>.iomete.cloud",
+    workspace_id="<workspace_id>",
     lakehouse="<lakehouse_cluster_name>",
     database="default",
     username="<username>",
@@ -56,8 +56,8 @@ from pyhive import hive
 from TCLIService.ttypes import TOperationState
 
 connection = hive.connect(
-    host="<cloud_region>.iomete.com",
-    account_number="<account_number>",
+    host="<cluster_id>.iomete.cloud",
+    workspace_id="<workspace_id>",
     lakehouse="<lakehouse_cluster_name>",
     database="default",
     username="<username>",
@@ -101,11 +101,11 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import *
 
 engine = create_engine(
-    'iomete://<username>:<password>@<region>.iomete.com/<database>?account_number=<account_number>&lakehouse=<lakehouse_cluster_name>')
+    'iomete://<username>:<personal_access_token>@<cluster_id>.iomete.cloud/<database>?workspace_id=<workspace_id>&lakehouse=<lakehouse_cluster_name>')
 
 # Alternatively, "hive" driver could be used as well
 # engine = create_engine(
-#    'hive://<username>:<password>@<region>.iomete.com/<database>?account_number=<account_number>&lakehouse=<lakehouse_cluster_name>')
+#    'hive://<username>:<personal_access_token>@<cluster_id>.iomete.cloud/<database>?workspace_id=<workspace_id>&lakehouse=<lakehouse_cluster_name>')
 
 session = sessionmaker(bind=engine)()
 records = session.query(Table('my_awesome_data', MetaData(bind=engine), autoload=True)) \
