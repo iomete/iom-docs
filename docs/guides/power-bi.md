@@ -34,15 +34,16 @@ In the next Form, you will need to add connection details like in the screenshot
 <Img src="/img/guides/power-bi/spark-connection-details.png" alt="Power Bi spark connection details"/>
 
 
-⚠️ To fill in these values you can go to the IOMETE Platform and copy connection details from the lakehouse you are trying to connect. Switch to the HTTP tab in the Connections section and copy the “Server” parameter.
+⚠️ To fill in these values you can go to the IOMETE Platform and copy connection details from the lakehouse you are trying to connect. Switch to the Power BI tab in the Connections section and copy the “Server” parameter.
 
 <Img src="/img/guides/power-bi/iomete-lakehouse-connection-details.png" alt="IOMETE lakehouse connection details"/>
 
-For protocol, select HTTP, and in Data Connectivity mode select DirectQuery
+For protocol, select HTTP, and in Data Connectivity mode select Import.
 
 
 :::caution Important
-You should ***always*** use **DirectQuery** for connectivity mode, otherwise Power BI tries to import all the data from storage directly to the Power BI machine, and it will eventually fail due to memory issues if you have a GB of data.
+Power BI recommends to use **Import** for connectivity mode. For relatively large data or real-time streaming switch to **DirectQuery** mode.
+Read more about connectivity modes and their use cases <a target="_blank" href="https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-directquery-about#power-bi-data-connectivity-modes">here</a>.
 :::
 
 Now in the next step, you will see your tables and views. Note that Power BI doesn’t provide the option to choose a database, but instead it will display all the tables across all of your databases.
