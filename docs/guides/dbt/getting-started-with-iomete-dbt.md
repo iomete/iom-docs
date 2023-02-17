@@ -131,13 +131,13 @@ cat ~/.dbt/profiles.yml
 dbt_project:
   outputs:
     dev:
-      account_number: '707505543825'
+      workspace_id: 'pceh7-sak'
       connect_retries: 0
       connect_timeout: 120
-      host: eu-central-1.iomete.com
-      lakehouse: virtual-warehouse-1
-      user: "{{ env_var('DBT_USER') }}"         # use env variables for sensitive information
-      password: "{{ env_var('DBT_PASSWORD') }}"  # use env variables for sensitive information
+      host: iomdev.iomete.cloud
+      lakehouse: virtual-warehouse
+      user: "{{ env_var('DBT_IOMETE_USER_NAME') }}" # use env variables for sensitive information
+      token: "{{ env_var('DBT_IOMETE_TOKEN') }}"    # use env variables for sensitive information
       schema: dbt_database
       threads: 1
       type: iomete
