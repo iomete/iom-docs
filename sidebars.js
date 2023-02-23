@@ -209,11 +209,38 @@ const sidebars = {
         // "guides/aws-cost-usage-reports-data-processing",
         {
           type: "category",
-          label: "Sync Data",
+          label: "Installation",
+          collapsed: false,
+          items: [
+          "guides/installation/how-to-install",
+          "guides/installation/saving-tfstate",
+          "guides/installation/different-profiles",
+          ]
+        },
+        {
+          type: "category",
+          label: "Ingestion",
           collapsed: false,
           items: [
             "guides/sync-data-from-aws-s3",
             "guides/sync-data-from-jdbc-sources",
+          ],
+        },
+        {
+          type: "category",
+          label: "Spark Jobs",
+          collapsed: false,
+          items: ["guides/run-your-first-spark-job"],
+        },
+        {
+          type: "category",
+          label: "Transformation",
+          collapsed: false,
+          items: [
+            "guides/dbt/getting-started-with-iomete-dbt",
+            "guides/dbt/dbt-materializations",
+            "guides/dbt/dbt-incremental-models",
+            "guides/dbt/dbt-incremental-models-by-examples",
           ],
         },
         {
@@ -226,23 +253,6 @@ const sidebars = {
             "guides/how-to-connect-iomete-and-apache-superset",
             "guides/power-bi",
             "guides/iomete-tableau-integration",
-          ],
-        },
-        {
-          type: "category",
-          label: "Spark Jobs",
-          collapsed: false,
-          items: ["guides/run-your-first-spark-job"],
-        },
-        {
-          type: "category",
-          label: "DBT",
-          collapsed: false,
-          items: [
-            "guides/dbt/getting-started-with-iomete-dbt",
-            "guides/dbt/dbt-materializations",
-            "guides/dbt/dbt-incremental-models",
-            "guides/dbt/dbt-incremental-models-by-examples",
           ],
         },
       ],

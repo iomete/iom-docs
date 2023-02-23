@@ -205,34 +205,12 @@ WHEN NOT MATCHED
   THEN INSERT *;
 ```
 
+### Visualize Data - Integration to BI applications:
 
-### Visualize Data
+[Metabase](https://iomete.com/docs/guides/how-to-connect-iomete-and-metabase-bi)
 
-First, let's create a view with clean column names to be used in BI dashboarding:
+[Apache Superset](https://iomete.com/docs/guides/how-to-connect-iomete-and-apache-superset)
 
-```sql
-CREATE OR REPLACE VIEW countries_view 
-  AS SELECT 
-      country_code, 
-      region, 
-      `SP.POP.TOTL` AS sp_pop_totl 
-     FROM countries;
-```
+[Power BI](https://iomete.com/docs/guides/power-bi)
 
-Lets visualize the new **countries_view** in the BI Application.
-
-**Add new dataset**
-
-From the menu choose `Data -> Dataset` and click `+ Dataset` button on the right top corner.
-
-<Img src="/img/guides/create-dataset.png" alt="New dataset creation on BI" maxWidth="456px"/>
-
-**Create a new chart** 
-
-Click on the newly created dataset `countries_view` which opens chart view. Choose the visualization type and corresponding settings:
-
-<Img src="/img/guides/chart.png" alt="Top 10 countries with highest population"/>
-
-Save this chart to the dashboard too and navigate to the dashboard. And, here is the dashboard of the `Countries` that we just created.
-
-<Img src="/img/guides/dashboard-countries.png" alt="Countries dashboard on BI"/>
+[Tableau](https://iomete.com/docs/guides/iomete-tableau-integration)

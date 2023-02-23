@@ -170,59 +170,14 @@ WHEN NOT MATCHED
   THEN INSERT *
 ```
 
-### Visualize Data
+### Visualize Data - Integration to BI applications:
 
-Let's move `employees.salaries` before moving to BI visualization 
+[Metabase](https://iomete.com/docs/guides/how-to-connect-iomete-and-metabase-bi)
 
-```sql
-CREATE TABLE IF NOT EXISTS salaries_proxy
-USING org.apache.spark.sql.jdbc
-OPTIONS (
-  url "jdbc:mysql://iomete-tutorial.cetmtjnompsh.eu-central-1.rds.amazonaws.com:3306/employees",
-  dbtable "employees.salaries",
-  driver 'com.mysql.cj.jdbc.Driver',
-  user 'tutorial_user',
-  password '9tVDVEKp'
-);
+[Apache Superset](https://iomete.com/docs/guides/how-to-connect-iomete-and-apache-superset)
 
-CREATE TABLE salaries
-  AS SELECT  * FROM salaries_proxy;
-```
+[Power BI](https://iomete.com/docs/guides/power-bi)
 
-Create a view joining `employees` and `salaries` tables
-
-```
-CREATE OR REPLACE VIEW employee_salaries AS 
- SELECT e.emp_no, e.first_name, e.last_name, e.gender, s.salary FROM employees e
-  JOIN salaries s ON e.emp_no = s.emp_no;
-```
-
-### Open BI Application
-
-![Open BI](/img/guides/open-BI-iomete-console.png)
-
-### Add new dataset
-
-To add a new dataset, choose `Dataset` link from the Data menu and click the `+Dataset` button:
-
-![Add new dataset](/img/guides/add-new-dataset.png)
-
-### Create a new chart
-
-Click on the newly created dataset `employee_salaries` which opens chart view. Let's create a `table` visualization for the `Top 10 High Salary Employees`
-
-![Create a new chart]/img/guides/create-new-chart.png)
-
-Save the chart to a dashboard
-
-![Save the chart to a dashboard](/img/guides/saving-BI-chart.png)
-
-Create another chart. This time `Female/Male Salary Distribution` using `PieChart` visualization
-
-![create iomete chart](/img/guides/create-another-BI-chart-iomete.png)
-
-Save this chart to the dashboard too and navigate to the dashboard. And, here is the dashboard of the Employees that we just created
-
-![navigate iomete dashboard](/img/guides/saving-another-chart.png)
+[Tableau](https://iomete.com/docs/guides/iomete-tableau-integration)
 
 Congratulations 🎉🎉🎉

@@ -6,7 +6,7 @@ slug: /guides
 hideFeedback: true
 ---
 
-import DocCardList from '@theme/DocCardList';
-import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+IOMETE can be configured to fit your organization's needs in the most efficient way. The Guides section contains instructions to help you through the process:
 
-<DocCardList items={useCurrentSidebarCategory().items.slice(1)}/>
+
+![IOMETE architecture](/img/guides/iomete-architecture-guides.png)
