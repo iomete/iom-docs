@@ -87,9 +87,9 @@ cluster_endpoint = "https://0B...73.gr7.us-east-2.eks.amazonaws.com"
 
 You can store the state files in a git repository, in an S3 bucket, or in a local folder. See the available Terraform backends for more information:  -->
 
-1)  Save tfstate in defferentplace [ Saving “.tfstate” in a different place](saving-tfstate) 
+1)  Save tfstate in defferentplace [ Saving “.tfstate” in a different place](/docs/guides/installation/saving-tfstate) 
 
-2) Using different AWS profile  [Different profiles](different-profiles)  
+2) Using different AWS profile  [Different profiles](/docs/guides/installation/different-profiles)  
 
 </aside>
 
