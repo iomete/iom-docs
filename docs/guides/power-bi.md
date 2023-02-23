@@ -8,9 +8,6 @@ image: https://iomete.com/docs/img/guides/power-bi/power-bi-connecting-to-iomete
 
 # Power BI - Connecting to IOMETE
 
-How to connect Power BI to IOMETE lakehouse platform.
-___
-
 <!-- <head>
   <meta property="og:image" content="/img/power-bi/power-bi-connecting-to-iomete.png" />
 </head> -->
