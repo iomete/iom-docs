@@ -87,9 +87,9 @@ cluster_endpoint = "https://0B...73.gr7.us-east-2.eks.amazonaws.com"
 
 You can store the state files in a git repository, in an S3 bucket, or in a local folder. See the available Terraform backends for more information:  -->
 
-2)  Save tfstate in defferentplace [ Saving “.tfstate” in a different place](https://www.notion.so/Saving-tfstate-in-a-different-place-2bfb6cc01757472094643a950aa7ff58) 
+1)  Save tfstate in defferentplace [ Saving “.tfstate” in a different place](https://iomete.com/docs/guides/installation/saving-tfstate) 
 
-3) Using different AWS profile  [Different profiles](https://www.notion.so/Different-profiles-f9c1d2f6a1714051a9dd82792fbd0545) 
+2) Using different AWS profile  [Different profiles](https://iomete.com/docs/guides/installation/different-profiles) 
 
 </aside>
 
