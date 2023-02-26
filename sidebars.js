@@ -213,8 +213,8 @@ const sidebars = {
           collapsed: false,
           items: [
           "guides/installation/how-to-install",
-          "guides/installation/saving-tfstate",
           "guides/installation/different-profiles",
+          "guides/installation/installation-faq",
           ]
         },
         {

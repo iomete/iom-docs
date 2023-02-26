@@ -1,5 +1,5 @@
 ---
-title: SQL Editor
+title: SQL Editor overview
 description: SQL Editor. This guide explains how quering in IOMETE
 last_update:
   date: 12/30/2022
