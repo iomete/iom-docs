@@ -1,3 +1,9 @@
+---
+title: Different profiles
+last_update:
+  date: 10/04/2022 
+---
+
 # Different profiles
 
 Sometime need to separate accounts (ex. dev, stage, prod) by the access keys. 
@@ -13,6 +19,7 @@ For detailed information see:
 After successfully creating Profile (ex. iomete-stage) need to export profile to environment before running terraform. ex:
 
 ```bash
+
 export AWS_PROFILE=iomete-stage
 
 terraform init
