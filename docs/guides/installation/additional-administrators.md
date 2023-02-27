@@ -6,20 +6,7 @@ last_update:
 
 ---
 
-export const Card = ({ title, children}) => (
-  <a style={{ marginBottom: '10px', display: 'inline-block' }}>
-    <div style={{
-        backgroundColor: '#fff',
-        border: '1px solid #dee3ea',
-        borderRadius: '0.4rem',
-        padding: '24px',
-        margin: '10px 0px 10px 0px',
-        display: 'inline-block' , 
-        }}>
-        <p style={{ color: '#777', marginBottom: '0px', display: 'flex'}}>{children}</p>
-    </div>
-  </a>
-);
+import Card from "@site/src/components/Card";
 
 AWS Key Management Service (KMS) is an Amazon Web Services product that allows administrators to create, delete and control keys that encrypt data stored in AWS databases and products.
     

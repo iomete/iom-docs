@@ -1,0 +1,39 @@
+.card-component {
+  margin-bottom: 10px;
+  width: 50%;
+  display: inline-block;
+
+  /* Add shadows to create the "card" effect */
+  // box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  // transition: 0.3s;
+  /* On mouse-over, add a deeper shadow */
+
+  // background-color: #f5f5f5;
+
+  /* Add some padding inside the card container */
+  .card-content {
+    padding: 2px 16px;
+    background-color: #fcfdfe;
+    border: 1px solid #d1d4d8;
+    border-radius: 0.4rem;
+    padding: 24px;
+    margin: 0 10px 10px 10px;
+    display: inline-block;
+
+    &:hover {
+      background-color: #f9fafc;
+      border: 1px solid #c1c4c8;
+    }
+  }
+
+  .card-title {
+    color: #5a5f66;
+    margin-bottom: 14px;
+    margin-top: 10px;
+  }
+
+  p {
+    color: #858c9c;
+    margin-bottom: 0px;
+  }
+}
