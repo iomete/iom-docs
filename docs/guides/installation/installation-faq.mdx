@@ -1,48 +1,31 @@
 ---
 title: Installation FAQ
 last_update:
-  date: 10/04/2022 
-
+  date: 10/04/2022
 ---
 
-
-
+import Card from "@site/src/components/Card";
+import Question from "@site/src/components/Question";
 
 import { Info } from "phosphor-react";
 import { UsersThree } from "phosphor-react";
 import { UserPlus } from "phosphor-react";
 import { FloppyDisk } from "phosphor-react";
 
+<Card title="Using AWS Profiles" link="/docs/guides/installation/aws-profiles" icon={<Info size={42} color="#858c9c" />}>
+  A named profile is a set of settings and credentials that can be applied to an AWS CLI command
+</Card>
+<Card title="Public Access Restriction " link="/docs/guides/installation/public-access" icon={<UsersThree size={42} color="#858c9c" />}>
+  Public access is restricted by default, but customers can take steps to limit access for security or compliance purposes
+</Card>
+<Card title="Saving terraform state" link="/docs/guides/installation/saving-terraform-state" icon={<FloppyDisk size={42} color="#858c9c" />}>
+  The following steps will guide you on how to move or save Terraform state files to an Amazon S3 bucket
+</Card>
+<Card title="Additional administrators" link="/docs/guides/installation/additional-administrators" icon={<UserPlus size={42} color="#858c9c" />}>
+  How to allow someone else (ex. dev, stage, prod) to manage Kubernetes resources in EKS
+</Card>
 
-export const Card = ({title, link, icon, children}) => (
-  <a href={link} style={{ marginBottom: '10px', width: '50%', display: 'inline-block' }}>
-    <div style={{
-        backgroundColor: '#fff',
-        border: '1px solid #dee3ea',
-        borderRadius: '0.4rem',
-        padding: '24px',
-        margin: '0 10px 10px 10px',
-        display: 'inline-block'
-      }}>
-        {icon}
-        <div class='card-head-text'>
-        <h3 style={{ color: '#555', marginBottom: '14px', marginTop: '10px' }}>{title}</h3>
-        <p style={{ color: '#777', marginBottom: '0px' }}>{children}</p>
-        </div>
-        
-    </div>
-  </a>
-);
-
-<Card title="Using AWS Profiles" link="/guides/installation/aws-profiles" icon={<Info size={48} color='#000'/>}>
-A named profile is a set of settings and credentials that can be applied to an AWS CLI command
-</Card>
-<Card title="Public Access Restriction " link="/guides/installation/public-access" icon={<UsersThree size={48} color='#000'/>}>
-Public access is restricted by default, but customers can take steps to limit access for security or compliance purposes
-</Card>
-<Card title="Saving terraform state" link="/guides/installation/saving-terraform-state" icon={<FloppyDisk size={48} color='#000'/>}>
-The following steps will guide you on how to move or save Terraform state files to an Amazon S3 bucket
-</Card>
-<Card title="Additional administrators" link="/guides/installation/additional-administrators" icon={<UserPlus size={48} color='#000'/>}>
-How to allow someone else (ex. dev, stage, prod) to manage Kubernetes resources in EKS 
-</Card>
+<Question title="Additional administrators">How to allow someone else (ex. dev, stage, prod) to manage Kubernetes resources in EKS</Question>
+<Question title="Saving terraform state">
+  The following steps will guide you on how to move or save Terraform state files to an Amazon S3 bucket
+</Question>
