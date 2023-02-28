@@ -1,5 +1,6 @@
 ---
 title: How to install IOMETE
+description: This guide will explain how to install IOMETE on Amazon Web Services using the AWS CLI and Terraform command line tools
 last_update:
   date: 10/04/2022
 ---
