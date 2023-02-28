@@ -212,9 +212,8 @@ const sidebars = {
           label: "Installation",
           collapsed: false,
           items: [
-          "guides/installation/how-to-install",
-          "guides/installation/different-profiles",
           "guides/installation/installation-faq",
+          "guides/installation/how-to-install",
           ]
         },
         {
