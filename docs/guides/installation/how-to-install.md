@@ -5,7 +5,7 @@ last_update:
   date: 10/04/2022
 ---
 
-# Installing the IOMETE module is a quick and easy process that won't take up much of your time.
+## Installing the IOMETE module is a quick and easy process that won't take up much of your time.
 
 Getting started with IOMETE is simple and can be done with just a few clicks. However, if you're new to using AWS, you'll need to install some tools on your local computer before you can begin. To get started, make sure you have an AWS account, as well as access and secret keys.
 
