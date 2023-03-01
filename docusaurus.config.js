@@ -6,8 +6,8 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "iomete docs",
-  tagline: "The easy, low-cost Snowflake / Databricks alternative. Cloud, on prem and hybrid solutions.",
+  title: "IOMETE docs",
+  tagline: "First cloud-prem lakehouse",
   url: "https://iomete.com",
   baseUrl: "/docs/",
   onBrokenLinks: "throw",
