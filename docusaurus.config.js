@@ -86,7 +86,7 @@ const config = {
       // },
       navbar: {
         // title: 'My Site',
-        hideOnScroll: true,
+        hideOnScroll: false,
         logo: {
           alt: "iomete logo",
           src: `/img/logo-black.svg`,

@@ -7,15 +7,17 @@ const Question = ({ title, children }) => {
 
   return (
     <article className="question">
-      <header>
-        <h3 onClick={() => setExpanded(!expanded)} className="question-title">
-          {title}
-        </h3>
-        <button className="btn" onClick={() => setExpanded(!expanded)}>
-          {expanded ? <Minus size={32} weight="bold" /> : <Plus size={32} weight="bold" />}
-        </button>
+      <header onClick={() => setExpanded(!expanded)}>
+        <h3 className="title">{title}</h3>
+        <span className="icon">
+          {expanded ? <Minus size={24} color="#0070F3" weight="bold" /> : <Plus size={24} color="#0070F3" weight="bold" />}
+        </span>
       </header>
-      {expanded && <p>{children}</p>}
+      {expanded && (
+        <div className="content">
+          <p>{children}</p>
+        </div>
+      )}
     </article>
   );
 };

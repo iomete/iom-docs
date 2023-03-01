@@ -5,8 +5,8 @@
  */
 
 /* You can override the default Infima variables here. */
-@use './test.module.scss';
-@use './custom-blog.scss';
+@use "./test.module.scss";
+@use "./custom-blog.scss";
 
 :root {
   --ifm-color-primary: #0070f3;
@@ -24,7 +24,7 @@
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
+[data-theme="dark"] {
   --ifm-color-primary: #0070f3;
   --ifm-color-primary-dark: #0065db;
   --ifm-color-primary-darker: #005fcf;
@@ -38,13 +38,13 @@
   --iom-text-muted: var(--ifm-color-gray-600);
 }
 
-.docs-wrapper .navbar {
-  margin-left: 300px;
-}
+// .docs-wrapper .navbar {
+//   margin-left: 300px;
+// }
 
-.docs-wrapper .navbar__brand {
-  display: none;
-}
+// .docs-wrapper .navbar__brand {
+//   display: none;
+// }
 
 #__docusaurus .menu__link--sublist-caret:after {
   background: var(--ifm-menu-link-sublist-icon) 50% / 1.5rem 1.5rem;
@@ -54,12 +54,12 @@
   padding: 1.15rem 1.15rem 5rem 1.15rem;
 }
 
-.menu__list-item-collapsible>a {
+.menu__list-item-collapsible > a {
   font-weight: 600;
   color: var(--ifm-heading-color);
 }
 
-.menu__list-item>a {
+.menu__list-item > a {
   font-size: 14px;
   padding: 6px 12px 6px 12px;
 }
@@ -80,6 +80,7 @@
   margin-bottom: 35px;
   padding-left: 35px;
   padding-right: 35px;
+  margin-top: 20px;
 }
 
 .card {
@@ -116,4 +117,17 @@
   border-radius: 2px;
   border: 1px solid var(--ifm-color-emphasis-300);
   line-height: 24px;
+}
+
+.DocSearch-Button {
+  border-radius: 5px !important;
+  width: 200px;
+
+  .DocSearch-Search-Icon {
+    color: var(--docsearch-muted-color) !important;
+  }
+
+  .DocSearch-Button-Keys {
+    display: none;
+  }
 }
