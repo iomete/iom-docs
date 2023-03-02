@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./style.scss";
 
 const GridBox = ({ children }) => <div className="grid-box">{children}</div>;

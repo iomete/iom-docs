@@ -110,6 +110,11 @@ const config = {
           },
           { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
           {
+            href: "https://api.iomete.com",
+            label: "API",
+            position: "right",
+          },
+          {
             href: "https://github.com/iomete",
             label: "GitHub",
             position: "right",
