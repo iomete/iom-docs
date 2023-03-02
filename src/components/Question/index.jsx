@@ -10,14 +10,16 @@ const Question = ({ title, children }) => {
       <header onClick={() => setExpanded(!expanded)}>
         <h3 className="title">{title}</h3>
         <span className="icon">
-          {expanded ? <Minus size={24} color="#0070F3" weight="bold" /> : <Plus size={24} color="#0070F3" weight="bold" />}
+          {expanded ? (
+            <Minus size={24} color="#0070F3" weight="bold" />
+          ) : (
+            <Plus size={24} color="#0070F3" weight="bold" />
+          )}
         </span>
       </header>
-      {expanded && (
-        <div className="content">
-          <p>{children}</p>
-        </div>
-      )}
+      <div className="content" style={expanded ? { marginTop: "40px" } : { height: "0px" }}>
+        <p>{children}</p>
+      </div>
     </article>
   );
 };
