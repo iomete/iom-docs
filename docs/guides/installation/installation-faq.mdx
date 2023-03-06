@@ -5,7 +5,7 @@ last_update:
 ---
 import Question from "@site/src/components/Question";
 
-<Question title="Using AWS Profiles">A *named profile* is a collection of settings and credentials that you can apply to an AWS CLI command. When you specify a profile to run a command, the settings and credentials are used to run that command. Multiple *named profiles* can be stored in the `config` and `credentials` files.
+<Question title="Using AWS Profiles">A <b>named profile</b> is a collection of settings and credentials that you can apply to an AWS CLI command. When you specify a profile to run a command, the settings and credentials are used to run that command. Multiple <b>named profiles</b> can be stored in the <code>config</code> and <code>credentials</code> files.
 
 For detailed information see:  [Named profiles for the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
 
@@ -60,8 +60,8 @@ If the output that you receive is similar to the example displayed below, then y
 
 :::info
 
-“Successfully configured the backend "s3"! Terraform will automatically
-use this backend unless the backend configuration changes.”
+"Successfully configured the backend "s3"! Terraform will automatically
+use this backend unless the backend configuration changes."
 
 :::
 
@@ -107,7 +107,7 @@ To verify that the **`.tfstate`** file has been saved to your bucket, you can ch
 
 <Question title="Define additional administrators">AWS Key Management Service (KMS) is an Amazon Web Services product that allows administrators to create, delete and control keys that encrypt data stored in AWS databases and products.
 
-AWS KMS can be accessed within [AWS Identity and Access Management](https://www.techtarget.com/searchaws/definition/Amazon-Web-Services-AWS-Identity-and-Access-Management-IAM) by selecting the "Encryption Keys" section or by using the AWS KMS command-line interface or software development kit
+AWS KMS can be accessed within [AWS Identity and Access Management](https://www.techtarget.com/searchaws/definition/Amazon-Web-Services-AWS-Identity-and-Access-Management-IAM) by selecting the "Encryption Keys" section or by using the AWS KMS command-line interface or software development kit
 
 IOMETE customer-stack Terraform module will use or create a KMS key only who run the Terraform code if additional administrator ARN`s not added. (AWS KMS see:[https://docs.aws.amazon.com/kms/latest/developerguide/overview.html](https://docs.aws.amazon.com/kms/latest/developerguide/overview.html) )
 
@@ -125,11 +125,11 @@ IOMETE control plane uses EKS (AWS Kubernetes service) API address to connect an
 If the customer has security compliance or any other concern to needs to restrict public access to EKS API must follow the next steps:
 
 1. Uncomment  **kubernetes_public_access_cidrs** in Terraform script
-2. Add static IP address (or address range for ex.: 5.194.94.20/30) to **“your_ip_range/mask”** section.
+2. Add static IP address (or address range for ex.: 5.194.94.20/30) to **"your_ip_range/mask"** section.
 
 :::caution
 
-Please do not remove IOMETE's IP addresses (18.156.67.183/32”, “54.235.211.34”/32). Removing them will prevent the control plane from accessing the cluster, and the lakehouse will be inoperable.
+Please do not remove IOMETE's IP addresses (18.156.67.183/32", "54.235.211.34"/32). Removing them will prevent the control plane from accessing the cluster, and the lakehouse will be inoperable.
 
 :::
 
