@@ -28,9 +28,7 @@ import TOCInline from '@theme/TOCInline';
   </ul>
 </div>
 
-<div style={{ alignSelf: "center" }}>
-  <Img src="/img/user-guide/sql-editor/sql-endpoint.png" alt="IOMETE SQL Editor"/>
-</div>
+<Img src="/img/user-guide/sql-editor/sql-editor.png" alt="IOMETE SQL Editor"/>
 
 </GridBox>
 
