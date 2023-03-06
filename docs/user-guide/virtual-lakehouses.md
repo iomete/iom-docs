@@ -50,15 +50,7 @@ Executors basically are responsible for executing the queries. They will be scal
 :::
 <br />
 
-**6.** Select **storage integration,** under Storage Integration section.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-si.png" alt="Lakehouse Storage Integration" />
-
-:::info **Optional parameter**
-Useful if you need access to additional storage buckets/locations.
-:::
-<br />
-
-**7.** Set **auto scale,** under Auto scale section.
+**6.** Set **auto scale,** under Auto scale section.
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-autoscale.png" alt="Lakehouse Auto Scale" />
 
 :::info
@@ -70,7 +62,7 @@ By clicking checkbox in the left side we can **disabled** **auto scale** functio
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-autoscale-check.png" alt="Lakehouse Auto Scale Check" />
 <br />
 
-**8.** Click the **Create** button after adding a **description** to the **optional description field**.
+**7.** Click the **Create** button after adding a **description** to the **optional description field**.
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-desc.png" alt="Lakehouse Description" />
 <br />
 

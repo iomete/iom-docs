@@ -29,7 +29,7 @@ const sidebars = {
       label: "User Guide",
       collapsed: false,
       items: [
-        "user-guide/sso-login",
+        // "user-guide/sso-login",
         // "user-guide/virtual-lakehouses",
         "user-guide/virtual-lakehouses",
         // "user-guide/lakehouse-statuses",
@@ -218,7 +218,7 @@ const sidebars = {
         },
         {
           type: "category",
-          label: "Ingestion",
+          label: "Sync",
           collapsed: false,
           items: [
             "guides/sync-data-from-aws-s3",

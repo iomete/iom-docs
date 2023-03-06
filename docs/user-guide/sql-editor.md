@@ -7,20 +7,32 @@ last_update:
 ---
 
 import { Database, ListDashes, ClockCounterClockwise, ListChecks, DotsThreeVertical, DownloadSimple } from "phosphor-react";
+import GridBox from "@site/src/components/GridBox";
+import Img from "@site/src/components/Img";
+import TOCInline from '@theme/TOCInline';
 
-import Img from '@site/src/components/Img';
+<GridBox>
+  
 
-The SQL Editor is where you run queries on your dataset and get results. The main components of the SQL Editor are highlighted below:
 
+<div>
+  <p>The SQL Editor is where you run queries on your dataset and get results. The main components of the SQL Editor are highlighted below:</p>
+  
+  <ul>
+    <li><a href="#database-explorer">Database explorer</a></li>
+    <li><a href="#worksheets">Worksheets</a></li>
+    <li><a href="#querying-data">Querying data</a></li>
+    <li><a href="#query-result">Query Result</a></li>
+    <li><a href="#query-histories">Query Histories</a></li>
+    <li><a href="#query-variables">Query Variables</a></li>
+  </ul>
+</div>
 
-- [Database explorer](#database-explorer)
-- [Worksheets](#worksheets)
-  - [Querying data](#querying-data)
-  - [Query Result](#query-result)
-- [Query Histories](#query-histories)
-- [Query Variables](#query-variables)
+<div style={{ alignSelf: "center" }}>
+  <Img src="/img/user-guide/sql-editor/sql-endpoint.png" alt="IOMETE SQL Editor"/>
+</div>
 
-<Img src="/img/user-guide/sql-editor/sql-editor.png" alt="IOMETE SQL Editor"/>
+</GridBox>
 
 
 ## Database explorer
