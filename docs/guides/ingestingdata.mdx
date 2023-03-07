@@ -1,0 +1,38 @@
+---
+title: Ingestion to IOMETE
+description: This guide aims to explain how to ingest data from different sources to IOMETE
+last_update:
+  date: 10/04/2022
+---
+
+import Card from "@site/src/components/Card";
+import GridBox from "@site/src/components/GridBox";
+import { File, GithubLogo } from "phosphor-react";
+import ExternalCard from "@site/src/components/ExternalCard";
+
+
+<GridBox>
+<ExternalCard title="Kinesis streaming job" icon={<GithubLogo size={24} weight="bold" />} link="https://github.com/iomete/kinesis-streaming-job">
+  This project contains a spark streaming job that reads data from a kinesis stream and writes it to a Iceberg Table.
+</ExternalCard>
+
+<ExternalCard title="MySQL streaming job" icon={<GithubLogo size={24} weight="bold" />} link="https://github.com/iomete/iomete-mysql-sync">
+  This library provides easily replicate tables from MySQL databases to IOMETE
+</ExternalCard>
+
+<ExternalCard title="Kafka streaming job" icon={<GithubLogo size={24} weight="bold" />} link="https://github.com/iomete/kafka-streaming-job">
+This is a collection of data movement capabilities. This streaming job copies data from Kafka to Iceberg.
+</ExternalCard>
+
+<ExternalCard title="PostgreSQL streaming job" icon={<GithubLogo size={24} weight="bold" />} link="https://github.com/iomete/iomete-postgresql-sync">
+This library provides easily replicate tables from PostgreSQL to IOMETE
+</ExternalCard>
+
+<ExternalCard title="MongoDB streaming job" icon={<GithubLogo size={24} weight="bold" />} link="https://github.com/iomete/iomete_mongodb_sync">
+This library provides easily replicate tables from MongoDB databases to IOMETE
+</ExternalCard>
+
+<ExternalCard title="File streaming job" icon={<GithubLogo size={24} weight="bold" />} link="https://github.com/iomete/file-streaming">
+This library provides easily transfer files to IOMETE continuously
+</ExternalCard>
+</GridBox>

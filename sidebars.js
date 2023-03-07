@@ -212,8 +212,8 @@ const sidebars = {
           label: "Installation",
           collapsed: false,
           items: [
-          "guides/installation/installation-faq",
           "guides/installation/how-to-install",
+          "guides/installation/installation-faq",
           ]
         },
         {
@@ -229,7 +229,8 @@ const sidebars = {
           type: "category",
           label: "Spark Jobs",
           collapsed: false,
-          items: ["guides/run-your-first-spark-job"],
+          items: ["guides/run-your-first-spark-job",
+          "guides/ingestingdata",],
         },
         {
           type: "category",
