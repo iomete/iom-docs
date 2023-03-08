@@ -13,8 +13,6 @@ import TOCInline from '@theme/TOCInline';
 
 <TOCInline toc={toc}  minHeadingLevel={2} maxHeadingLevel={5}/>
 
-# DBT Incremental models By Examples
-
 Building DBT incremental models are a little difficult than other materializaion types (view, table). This guide aims to make it easy to understand all possible DBT incremental model configurations with lots of examples.
 
 
