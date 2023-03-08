@@ -30,7 +30,7 @@ docker run -d -p 3000:3000 --name metabase metabase/metabase
 docker logs -f metabase
 ```
 
-Now you should be able to access [http://localhost:3000](http://localhost:3000) 
+Now you should be able to access http://localhost:3000
 
 Read more in [Metabase documentation](https://www.metabase.com/docs/latest/installation-and-operation/installing-metabase)
 
