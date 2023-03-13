@@ -107,3 +107,13 @@ hideFeedback:true
 <!-- imgClass -->
 <Img src="source.png" imgClass="bg-white"/>
 ```
+
+
+## Export to PDF
+
+https://github.com/signcl/docusaurus-prince-pdf
+
+### Local
+`npm run build`
+`npm run serve`
+`npx docusaurus-prince-pdf -u http://localhost:3000/docs/guides --include-index`
