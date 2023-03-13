@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.scss";
 
-export default function Img({ src, alt = "", caption = "", padding = 16, maxWidth = "max-content", centered = false, imgClass = "" }) {
+export default function Img({ src, alt = "", caption = "", padding = 16, maxWidth = "unset", centered = false, imgClass = "" }) {
   const paddingBottom = padding - 8;
   const margin = centered ? "auto" : "inherit";
 
