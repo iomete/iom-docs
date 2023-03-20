@@ -230,7 +230,8 @@ const sidebars = {
           label: "Spark Jobs",
           collapsed: false,
           items: ["guides/run-your-first-spark-job",
-          "guides/ingestingdata",],
+          "guides/ingestingdata",
+          "guides/spark-application-config"],
         },
         {
           type: "category",
