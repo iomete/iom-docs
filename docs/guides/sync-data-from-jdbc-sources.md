@@ -5,7 +5,7 @@ last_update:
   date: 10/04/2022
 ---
 
-This is an end-to-end guide about how to migrate tables from JDBC sources (MySQL, PostgreSQL, etc.) to iomete and display it in the BI dashboard.
+This is an end-to-end guide about how to migrate tables from JDBC sources (MySQL, PostgreSQL, etc.) to IOMETE and display it in the BI dashboard.
 ___
 ### Intro
 
@@ -17,7 +17,7 @@ First, you need to establish an SSH tunnel between iomete and your database in y
 
 ### Database to migrate
 
-Let's assume that we want to replicate the MySQL database (or any other supported JDBC database) to the **iomete** warehouse
+Let's assume that we want to replicate the MySQL database (or any other supported JDBC database) to the **IOMETE** warehouse
 
 :::info
 In this tutorial, we will be using a publicly accessible iomete-tutorial database instance that contains the [Employees Sample Database. ](https://dev.mysql.com/doc/employee/en/sakila-structure.html)
