@@ -223,6 +223,7 @@ const sidebars = {
           items: [
             "guides/sync-data-from-aws-s3",
             "guides/sync-data-from-jdbc-sources",
+            "guides/read-external-s3-bucket"
           ],
         },
         {
