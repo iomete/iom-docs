@@ -179,8 +179,6 @@ const sidebars = {
       label: "Administration",
       collapsed: false,
       items: [
-        "administration-guide/iam-role-for-datalake-access",
-        "administration-guide/staging-area-access",
         "administration-guide/iomete-ip-addresses",
         "administration-guide/database-connection-options",
       ],
