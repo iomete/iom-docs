@@ -7,7 +7,7 @@ last_update:
 
 ![iomete metabase](/img/guides/metabase-bi/iomete-metabase.png)
 
-Hi! In this guide, we will explain how to effortlessly integrate **iomete** with one of the most popular BI tools: **Metabase**.
+Hi! In this guide, we will explain how to effortlessly integrate **IOMETE** with one of the most popular BI tools: **Metabase**.
 
 ## What is Metabase?
 
