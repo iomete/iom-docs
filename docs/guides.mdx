@@ -5,27 +5,28 @@ sidebar_label: Introduction
 slug: /guides
 hideFeedback: true
 ---
+
 import Card from "@site/src/components/Card";
 import GridBox from "@site/src/components/GridBox";
-import { File, GithubLogo, ChartBar, Swap, HardDrives, ArrowsClockwise, Download} from "phosphor-react";
+import { File, GithubLogo, ChartBar, Swap, HardDrives, ArrowsClockwise, Download } from "@phosphor-icons/react";
 
 IOMETE can be configured to fit your organization's needs in the most efficient way. The Guides section contains instructions to help you through the process:
 
 <GridBox>
-<Card title="Installation" icon={<Download size={24} weight="bold" />} link="/docs/guides/installation/how-to-install">
+<Card title="Installation" icon={<Download />} link="/docs/guides/installation/how-to-install">
   IOMETE will be running on your AWS account. You need to setup some tools before starting.
 </Card>
 
-<Card title="Sync" icon={<ArrowsClockwise size={24} weight="bold" />} link="/docs/guides/sync-data-from-aws-s3">
- Sync data from your operational databases or other data sources into a lakehouse without ingestion
+<Card title="Sync" icon={<ArrowsClockwise />} link="/docs/guides/sync-data-from-aws-s3">
+  Sync data from your operational databases or other data sources into a lakehouse without ingestion
 </Card>
 
-<Card title="Spark jobs" icon={<HardDrives size={24} weight="bold" />} link="/docs/guides/run-your-first-spark-job">
- Apache Spark can be used for batch processing, streaming, interactive analytics, iterative graph computation, machine learning, and SQL queries
+<Card title="Spark jobs" icon={<HardDrives />} link="/docs/guides/run-your-first-spark-job">
+  Apache Spark can be used for batch processing, streaming, interactive analytics, iterative graph computation, machine learning, and SQL queries
 </Card>
 
-<Card title="Transformation" icon={<Swap size={24} weight="bold" />} link="/docs/guides/dbt/getting-started-with-iomete-dbt">
-DBT allows analysts to custom-write transformations via SQL SELECT statements to transform data without extensive programming experience.
+<Card title="Transformation" icon={<Swap />} link="/docs/guides/dbt/getting-started-with-iomete-dbt">
+  DBT allows analysts to custom-write transformations via SQL SELECT statements to transform data without extensive programming experience.
 </Card>
 
 </GridBox>
@@ -34,16 +35,20 @@ DBT allows analysts to custom-write transformations via SQL SELECT statements to
 
 <GridBox>
 
-<Card title="Metabase " icon={<ChartBar size={24} weight="bold" />} link="/docs/guides/how-to-connect-iomete-and-metabase-bi">
+<Card title="Metabase" icon={<ChartBar />} link="/docs/guides/how-to-connect-iomete-and-metabase-bi">
+  Step-by-step guide on how to connect IOMETE with Metabase BI tool.
 </Card>
 
-<Card title="Apache Superset" icon={<ChartBar size={24} weight="bold" />} link="/docs/guides/how-to-connect-iomete-and-apache-superset">
+<Card title="Apache Superset" icon={<ChartBar />} link="/docs/guides/how-to-connect-iomete-and-apache-superset">
+  Step-by-step guide on how to connect IOMETE with Apache Superset BI tool.
 </Card>
 
-<Card title="Power BI" icon={<ChartBar size={24} weight="bold" />} link="/docs/guides/power-bi">
+<Card title="Power BI" icon={<ChartBar />} link="/docs/guides/power-bi">
+  Step-by-step guide on how to connect IOMETE with Power BI.
 </Card>
 
-<Card title="Tableau" icon={<ChartBar size={24} weight="bold" />} link="/docs/guides/iomete-tableau-integration">
+<Card title="Tableau" icon={<ChartBar />} link="/docs/guides/iomete-tableau-integration">
+  Step-by-step guide on how to connect IOMETE with Tableau.
 </Card>
 
 </GridBox>

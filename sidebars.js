@@ -40,13 +40,13 @@ const sidebars = {
         "user-guide/private-docker-registry",
         "user-guide/create-a-personal-access-token",
         "user-guide/create-ssh-tunnel",
-        "user-guide/sql-editor"
+        "user-guide/sql-editor",
       ],
     },
     {
       type: "category",
       label: "Iceberg Tables",
-      collapsed: false,
+      collapsed: true,
       items: [
         "iceberg-tables/getting-started",
         "iceberg-tables/ddl",
@@ -59,7 +59,7 @@ const sidebars = {
     {
       type: "category",
       label: "Data Sources",
-      collapsed: false,
+      collapsed: true,
       items: [
         "data-sources/jdbc-sources",
         "data-sources/csv-files",
@@ -71,12 +71,12 @@ const sidebars = {
     {
       type: "category",
       label: "Spark SQL reference",
-      collapsed: false,
+      collapsed: true,
       items: [
         {
           type: "category",
           label: "DDL",
-          collapsed: false,
+          collapsed: true,
           items: [
             "spark-sql/ddl/create-database",
             "spark-sql/ddl/alter-database",
@@ -91,7 +91,7 @@ const sidebars = {
         {
           type: "category",
           label: "Writes",
-          collapsed: false,
+          collapsed: true,
           items: [
             "spark-sql/writes/truncate-table",
             "spark-sql/writes/insert-into",
@@ -102,7 +102,7 @@ const sidebars = {
         {
           type: "category",
           label: "Queries",
-          collapsed: false,
+          collapsed: true,
           items: [
             "spark-sql/queries/select",
             "spark-sql/queries/cte",
@@ -133,7 +133,7 @@ const sidebars = {
         {
           type: "category",
           label: "Auxiliary Statements",
-          collapsed: false,
+          collapsed: true,
           items: ["spark-sql/auxiliary-statements/cache"],
         },
         "spark-sql/column-types",
@@ -145,11 +145,10 @@ const sidebars = {
         "spark-sql/functions",
       ],
     },
-
     {
       type: "category",
       label: "Spark Jobs",
-      collapsed: false,
+      collapsed: true,
       items: [
         "iomete-spark-job/data-compaction-job",
         "iomete-spark-job/query-scheduler-job",
@@ -160,39 +159,39 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "Jupyter Notebook",
+      collapsed: true,
+      items: ["notebook/starting-with-notebook"],
+    },
+    {
+      type: "category",
       label: "Libraries",
-      collapsed: false,
+      collapsed: true,
       items: [
         {
           type: "category",
           label: "Drivers",
-          collapsed: false,
-          items: [
-            "libraries/drivers/sql-alchemy-driver",
-            "libraries/drivers/jdbc-driver",
-          ],
+          collapsed: true,
+          items: ["libraries/drivers/sql-alchemy-driver", "libraries/drivers/jdbc-driver"],
         },
       ],
     },
     {
       type: "category",
       label: "Administration",
-      collapsed: false,
-      items: [
-        "administration-guide/iomete-ip-addresses",
-        "administration-guide/database-connection-options",
-      ],
+      collapsed: true,
+      items: ["administration-guide/iomete-ip-addresses", "administration-guide/database-connection-options"],
     },
     {
       type: "category",
       label: "Misc",
-      collapsed: false,
+      collapsed: true,
       items: ["misc/datagrip-lakehouse-connection"],
     },
     {
       type: "category",
       label: "Integrations",
-      collapsed: false,
+      collapsed: true,
       items: ["integrations/airbyte"],
     },
   ],
@@ -209,28 +208,19 @@ const sidebars = {
           type: "category",
           label: "Installation",
           collapsed: false,
-          items: [
-          "guides/installation/how-to-install",
-          "guides/installation/installation-faq",
-          ]
+          items: ["guides/installation/how-to-install", "guides/installation/installation-faq"],
         },
         {
           type: "category",
           label: "Sync",
           collapsed: false,
-          items: [
-            "guides/sync-data-from-aws-s3",
-            "guides/sync-data-from-jdbc-sources",
-            "guides/external-s3-buckets-access"
-          ],
+          items: ["guides/sync-data-from-aws-s3", "guides/sync-data-from-jdbc-sources", "guides/external-s3-buckets-access"],
         },
         {
           type: "category",
           label: "Spark Jobs",
           collapsed: false,
-          items: ["guides/run-your-first-spark-job",
-          "guides/ingestingdata",
-          "guides/spark-application-config"],
+          items: ["guides/run-your-first-spark-job", "guides/ingestingdata", "guides/spark-application-config"],
         },
         {
           type: "category",

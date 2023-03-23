@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./style.scss";
 
-import { ArrowRight } from "phosphor-react";
+// import { ArrowRight } from "@phosphor-icons/react";
 
 const Card = ({ title, icon, link, children }) => (
   <div className="iom-card">
@@ -13,9 +13,9 @@ const Card = ({ title, icon, link, children }) => (
           <h3 className="title">{title}</h3>
           <p>{children}</p>
         </div>
-        <div className="right">
-          <ArrowRight size={24} color="#0070F3" weight="bold" />
-        </div>
+        {/* <div className="right">
+          <ArrowRight size={24} color="#0070F3" weight="regular" />
+        </div> */}
       </div>
     </Link>
   </div>

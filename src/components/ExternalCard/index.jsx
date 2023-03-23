@@ -1,10 +1,10 @@
 import React from "react";
 import "./style.scss";
 
-import { ArrowRight } from "phosphor-react";
+import { ArrowSquareOut } from "@phosphor-icons/react";
 
 const ExternalCard = ({ title, icon, link, children }) => (
-  <div className="iom-card">
+  <div className="iom-external-card">
     <a target="_blank" href={link}>
       <div className="wrapper">
         <div className="icon-wrapper">{icon}</div>
@@ -13,7 +13,7 @@ const ExternalCard = ({ title, icon, link, children }) => (
           <p>{children}</p>
         </div>
         <div className="right">
-          <ArrowRight size={24} color="#0070F3" weight="bold" />
+          <ArrowSquareOut size={24} color="#0070F3" weight="regular" />
         </div>
       </div>
     </a>

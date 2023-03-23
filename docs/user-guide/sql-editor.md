@@ -6,7 +6,7 @@ last_update:
   author: Vugar Dadalov
 ---
 
-import { Database, ListDashes, ClockCounterClockwise, ListChecks, DotsThreeVertical, DownloadSimple } from "phosphor-react";
+import { Database, ListDashes, ClockCounterClockwise, ListChecks, DotsThreeVertical, DownloadSimple } from "@phosphor-icons/react";
 import GridBox from "@site/src/components/GridBox";
 import Img from "@site/src/components/Img";
 import TOCInline from '@theme/TOCInline';

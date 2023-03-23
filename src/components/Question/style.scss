@@ -1,11 +1,15 @@
 .question {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04);
-  border-radius: 6px;
+  // box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
 
-  padding: 20px 28px;
+  padding: 18px 28px;
   margin-bottom: 18px;
+
+  &:hover {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
 
   header {
     display: flex;
@@ -15,9 +19,9 @@
 
     .title {
       color: #242424;
-      font-weight: 700;
-      font-size: 20px;
-      line-height: 28px;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 26px;
       margin-bottom: 0px;
     }
 

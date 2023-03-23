@@ -1,0 +1,71 @@
+---
+title: Using Visual Studio Code
+description: How to connect and start using Notebook in IOMETE
+slug: /using-vscode
+last_update:
+  date: 03/20/2023
+  author: Fuad Musayev
+---
+
+# Using Visual Studio Code
+
+Coming soon...
+
+## Customizing Spark Environment
+
+To customize the Spark environment in Jupyter Notebook, you can modify the Spark configuration properties.
+These properties control various aspects of Spark's behavior, such as the memory allocation,
+the number of cores to use, and the log level.
+
+You can modify the Spark configuration properties by creating a SparkConf object and setting
+the properties you want to modify. For example, to set the log level to WARN, you can use
+the following code:
+
+```python
+from pyspark.conf import SparkConf
+from pyspark.sql import SparkSession
+
+conf = SparkConf().set("spark.log.level", "WARN")
+spark = SparkSession.builder.config(conf=conf).getOrCreate()
+```
+
+## Accessing to SparkSession
+
+To access the SparkSession in Python code, you can use the SparkSession.builder method
+to create a new session. Once you have a session, you can use it to create DataFrames,
+read data from various sources, and execute SQL queries.
+
+For example, to create a DataFrame from a CSV file, you can use the following code:
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("MyApp").getOrCreate()
+df = spark.read.format("csv").option("header", "true").load("mydata.csv")
+```
+
+## Installing additional libraries
+
+To install additional Python libraries in Jupyter Notebook, you can use pip to install the libraries.
+For example, to install the NumPy library, you can use the following command:
+
+```python
+!pip install numpy
+```
+
+This will install the NumPy library and its dependencies
+
+## Requesting new Kernel
+
+If you need a Jupyter kernel with specific libraries or plugins preinstalled, you can
+request a custom kernel from Jupyter support. This can be useful if you have specialized
+requirements or need to work with specific data sources or tools.
+
+To request a custom kernel, you will need to provide the details of the libraries or
+plugins you need to be installed. Jupyter support will then create a custom kernel that includes
+these dependencies.
+
+Having a custom kernel with preinstalled libraries can save you time and effort,
+as you won't need to install and configure these dependencies manually.
+This can be especially useful if you are working with a large number of libraries or
+need to switch between different environments frequently.

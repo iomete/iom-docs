@@ -10,7 +10,11 @@ description: Here you'll find comprehensive guides and documentation to get you 
   <meta property="og:url" content="https://iomete.com/docs" />
 </head>
 
+:::info Welcome to IOMETE's documentation! 👋  
+
 Here you'll find comprehensive guides and documentation to get you up and **running with IOMETE quickly and easily**
+
+:::
 
 ### The IOMETE lakehouse platform
 
