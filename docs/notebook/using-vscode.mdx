@@ -7,65 +7,53 @@ last_update:
   author: Fuad Musayev
 ---
 
+import Img from "@site/src/components/Img";
+import ImgBorder from "@site/src/components/ImgBorder";
+import ExternalCard from "@site/src/components/ExternalCard";
+import { GoogleChromeLogo } from "@phosphor-icons/react";
+
 # Using Visual Studio Code
 
-Coming soon...
+We recommend using Visual Studio Code as a Jupyter Client.
+VS Code provide a lot of nice features and easy source control and can be integrated with Github Copilot to boost your productivity with AI capabilities.
 
-## Customizing Spark Environment
+To use Visual Studio Code as Jupyter Client, you need to install the following extensions from the Visual Studio Marketplace.  
+All required extensions are provided by Microsoft company
 
-To customize the Spark environment in Jupyter Notebook, you can modify the Spark configuration properties.
-These properties control various aspects of Spark's behavior, such as the memory allocation,
-the number of cores to use, and the log level.
+<Img padding={32} src="/img/jupyter/vscode-plugins.png" alt="VS Code plugins" />
 
-You can modify the Spark configuration properties by creating a SparkConf object and setting
-the properties you want to modify. For example, to set the log level to WARN, you can use
-the following code:
+To bootstrap your experience you can clone our [examples repo](https://github.com/iomete/notebook-examples) and open it in Visual Studio Code.
 
-```python
-from pyspark.conf import SparkConf
-from pyspark.sql import SparkSession
+## Connecting to Jupyter Server
 
-conf = SparkConf().set("spark.log.level", "WARN")
-spark = SparkSession.builder.config(conf=conf).getOrCreate()
-```
+To connect to IOMETE's Jupyter server:
 
-## Accessing to SparkSession
+1. Open the Kernel Picker button on the top right-hand side of the notebook (or run the **Notebook: Select Notebook Kernel** command from the Command Palette).
 
-To access the SparkSession in Python code, you can use the SparkSession.builder method
-to create a new session. Once you have a session, you can use it to create DataFrames,
-read data from various sources, and execute SQL queries.
+   ![Notebook kernel picker](/img/jupyter/notebook-kernel-picker.png)
 
-For example, to create a DataFrame from a CSV file, you can use the following code:
+2. Select the **Existing Jupyter Server** option to connect to an existing Jupyter server.
 
-```python
-from pyspark.sql import SparkSession
+   ![Select existing Jupyter server](/img/jupyter/select-existing-server.png)
 
-spark = SparkSession.builder.appName("MyApp").getOrCreate()
-df = spark.read.format("csv").option("header", "true").load("mydata.csv")
-```
+3. To connect to an existing server for the first time, select **Enter the URL of the running Jupyter server**.
 
-## Installing additional libraries
+   ![Choose to connect to an existing server](/img/jupyter/select-enter-server-url.png)
 
-To install additional Python libraries in Jupyter Notebook, you can use pip to install the libraries.
-For example, to install the NumPy library, you can use the following command:
+4. When prompted to Enter the URL of the running Jupyter server, provide the server's URI (hostname) with the authentication token included with a ?token= URL parameter. (If you start the server in the VS Code terminal with an authentication token enabled, the URL with the token typically appears in the terminal output from where you can copy it.) Alternatively, you can specify a username and password after providing the URI.
 
-```python
-!pip install numpy
-```
+   ![Prompt to supply a Jupyter server URI](/img/jupyter/enter-server-url.png)
 
-This will install the NumPy library and its dependencies
+5. Copy connection string from [IOMETE Console app](https://console.iomete.com).
 
-## Requesting new Kernel
+   <ImgBorder src="/img/jupyter/connect-vscode.png" alt="VS Code connection" />
 
-If you need a Jupyter kernel with specific libraries or plugins preinstalled, you can
-request a custom kernel from Jupyter support. This can be useful if you have specialized
-requirements or need to work with specific data sources or tools.
+### Additional Resources
 
-To request a custom kernel, you will need to provide the details of the libraries or
-plugins you need to be installed. Jupyter support will then create a custom kernel that includes
-these dependencies.
-
-Having a custom kernel with preinstalled libraries can save you time and effort,
-as you won't need to install and configure these dependencies manually.
-This can be especially useful if you are working with a large number of libraries or
-need to switch between different environments frequently.
+<ExternalCard
+  title="Jupyter Notebooks in VS Code"
+  icon={<GoogleChromeLogo />}
+  link="https://code.visualstudio.com/docs/datascience/jupyter-notebooks"
+>
+  Read official Microsft documentation about Jupyter Notebooks in VS Code for more information.
+</ExternalCard>

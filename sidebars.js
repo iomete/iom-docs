@@ -161,7 +161,7 @@ const sidebars = {
       type: "category",
       label: "Jupyter Notebook",
       collapsed: true,
-      items: ["notebook/starting-with-notebook"],
+      items: ["notebook/starting-with-notebook", "notebook/using-vscode"],
     },
     {
       type: "category",

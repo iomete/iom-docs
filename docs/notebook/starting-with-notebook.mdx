@@ -13,6 +13,10 @@ directly from your local environment.
 
 import Question from "@site/src/components/Question";
 import ImgBorder from "@site/src/components/ImgBorder";
+import Card from "@site/src/components/Card";
+import ExternalCard from "@site/src/components/ExternalCard";
+import GridBox from "@site/src/components/GridBox";
+import { GithubLogo, CodeBlock } from "@phosphor-icons/react";
 
 ## Installing Jupyter Clients
 
@@ -91,3 +95,70 @@ By default kernels are terminated after closing the client. You can do it manual
 :::caution
 For cost-saving purposes it is strongly recommended to make sure that you closed the client, after finishing your job, and no kernels are running.
 :::
+
+## Accessing SparkSession object
+
+To access the SparkSession in Python code, you can use the SparkSession.builder method
+to create a new session. Once you have a session, you can use it to create DataFrames,
+read data from various sources, and execute SQL queries.
+
+For example, you can use the following code:
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("JupiterClient").getOrCreate()
+
+df = spark.sql("show databases")
+df.show()
+```
+
+## Customizing Spark Environment
+
+Kernels are basically Spark Applications, you can provide and override various spark parameters (like environment variables, executors count, dynamic allocation, etc).
+
+To customize the Spark environment in Jupyter Notebook go to  
+[IOMETE Console app](https://app.iomete.com) → Notebook menu → Built-in Kernels → Select kernel → Edit
+
+<ImgBorder src="/img/jupyter/edit-kernel.png" alt="Edit Kernels" />
+
+Another method to modify the Spark configuration properties is directly from python code.  
+You can modify the Spark configuration properties by creating a SparkConf object and setting
+the properties you want to modify. For example, to set the log level to WARN, you can use
+the following code:
+
+```python
+from pyspark.conf import SparkConf
+from pyspark.sql import SparkSession
+
+conf = SparkConf().set("spark.log.level", "WARN")
+spark = SparkSession.builder.config(conf=conf).getOrCreate()
+```
+
+But this configuration will only be applied to the current Notebook session.
+
+## Installing additional libraries
+
+To install and use additional Python libraries in Jupyter Notebook, you can use pip.
+For example, to install the NumPy library, you can use the following commands (install and load):
+
+```python
+%pip install numpy
+%load_ext numpy
+```
+
+This will install the NumPy library and its dependencies
+
+## What's next?
+
+<GridBox>
+
+<ExternalCard title="Examples" icon={<GithubLogo />} link="https://github.com/iomete/notebook-examples">
+  Explore our notebooks repository for easy start
+</ExternalCard>
+
+<Card title="Visual Studio Code" icon={<CodeBlock />} link="/docs/using-vscode">
+  Read our guide on how to use VS Code as Jupyter Client
+</Card>
+
+</GridBox>
