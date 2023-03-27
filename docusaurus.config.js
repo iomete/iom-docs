@@ -75,7 +75,7 @@ const config = {
         },
         {
           name: "og:site_name",
-          content: "iomete Docs",
+          content: "IOMETE Docs",
         },
       ],
       // docs: {
