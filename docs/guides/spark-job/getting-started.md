@@ -11,6 +11,7 @@ last_update:
   date: 03.27.2023
 ---
 import Img from '@site/src/components/Img';
+import { Plus } from "@phosphor-icons/react";
 
 This guide aims to help you get familiar with getting started with writing your first Spark Job and deploying in the IOMETE platform.
 
@@ -128,7 +129,7 @@ There are two ways to create a Spark Job in the IOMETE:
 **Using the IOMETE Control Plane UI**
 
 1.  Go to `Spark Jobs` page
-2.  Click on `Create New` button
+2.  Click on <span className="inline-button"><Plus size={16}/> Create New</span> button
 3.  Provide the following information:
     - `Name`: `sample-job`
     - `Image`: `iomete/sample-job:1.0.0`
