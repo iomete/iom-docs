@@ -1,9 +1,11 @@
 ---
 title: From JDBC Sources
-description: Sync Data From JDBC Sources. This is an end-to-end guide about how to migrate tables from JDBC sources (MySQL, PostgreSQL, etc.) to iomete and display it in the BI dashboard.
+description: Sync Data From JDBC Sources. This is an end-to-end guide about how to migrate tables from JDBC sources (MySQL, PostgreSQL, etc.) to IOMETE and display it in the BI dashboard.
 last_update:
-  date: 10/04/2022
+  date: 03/27/2023
 ---
+
+import Img from '@site/src/components/Img';
 
 This is an end-to-end guide about how to migrate tables from JDBC sources (MySQL, PostgreSQL, etc.) to IOMETE and display it in the BI dashboard.
 ___
@@ -53,8 +55,7 @@ The database contains the following tables:
 
 Create a new warehouse instance
 
-![Create lakehouse](/img/guides/create-lakehouse.png)
-
+<Img src="/img/guides/create-lakehouse.png" alt="Create lakehouse" padding={8}/>
 
 ### Querying  Source Table
 
@@ -80,7 +81,8 @@ SELECT * FROM employees_proxy limit 100;
 This table doesn't hold the actual data. Data will be retrieved from the actual source once we query the table
 :::
 
-![Query Editor](/img/guides/iomete-sql_editor.png)
+
+<Img src="/img/guides/iomete-sql-editor.png" alt="Query Editor" padding={8}/>
 
 ### Migrating Data
 
@@ -172,12 +174,12 @@ WHEN NOT MATCHED
 
 ### Visualize Data - Integration to BI applications:
 
-[Metabase](https://iomete.com/docs/guides/how-to-connect-iomete-and-metabase-bi)
+[Metabase](/docs/guides/how-to-connect-iomete-and-metabase-bi)
 
-[Apache Superset](https://iomete.com/docs/guides/how-to-connect-iomete-and-apache-superset)
+[Apache Superset](/docs/guides/how-to-connect-iomete-and-apache-superset)
 
-[Power BI](https://iomete.com/docs/guides/power-bi)
+[Power BI](/docs/guides/power-bi)
 
-[Tableau](https://iomete.com/docs/guides/iomete-tableau-integration)
+[Tableau](/docs/guides/iomete-tableau-integration)
 
 Congratulations 🎉🎉🎉

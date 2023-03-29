@@ -30,6 +30,8 @@
   --ifm-color-info-contrast-background: #eaf3fc;
   --ifm-color-info-dark: #3d96ff;
   // --ifm-global-shadow-lw: none;
+
+  --ifm-code-padding-horizontal: 0.3rem;
 }
 
 .tabs__item {
@@ -117,7 +119,9 @@ pre {
   background-color: var(--ifm-color-emphasis-300);
 }
 
+// To show button use this class
 .inline-button {
+  vertical-align: bottom;
   display: inline-flex;
   align-items: center;
   gap: 4px;

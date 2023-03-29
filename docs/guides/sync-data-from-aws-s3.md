@@ -207,10 +207,10 @@ WHEN NOT MATCHED
 
 ### Visualize Data - Integration to BI applications:
 
-[Metabase](https://iomete.com/docs/guides/how-to-connect-iomete-and-metabase-bi)
+[Metabase](/docs/guides/how-to-connect-iomete-and-metabase-bi)
 
-[Apache Superset](https://iomete.com/docs/guides/how-to-connect-iomete-and-apache-superset)
+[Apache Superset](/docs/guides/how-to-connect-iomete-and-apache-superset)
 
-[Power BI](https://iomete.com/docs/guides/power-bi)
+[Power BI](/docs/guides/power-bi)
 
-[Tableau](https://iomete.com/docs/guides/iomete-tableau-integration)
+[Tableau](/docs/guides/iomete-tableau-integration)
