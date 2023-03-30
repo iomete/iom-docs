@@ -33,11 +33,11 @@ pip install iomete-sdk
 
 ## Prerequisites
 
-Also, you should have a valid IOMETE API token and workspace ID. For this example, we are using environment variables to store these values.
+Also, you should have a valid IOMETE API token and workspace ID. For this example, we are using environment variables to store these values.  
 In the "**Resources**" section below, you can find a link to the documentation on how to create an API token.
-Workspace ID can be found in the **Organization Settings** page of the IOMETE platform.
+Workspace ID can be found in the **Workspace Settings** page of the IOMETE platform.
 
-<ImgBorder src="/img/user-guide/workspace-id.png" alt="Workspace ID" />
+<ImgBorder src="/img/spark-job/workspace-id.png" alt="Workspace ID" />
 
 ## SDK Usage Examples
 
@@ -104,6 +104,16 @@ curl --location --request POST 'https://api.iomete.com/api/v1/workspaces/pceh7-8
 
 This will create a new job with a name, a specific Spark version, main application file, main class, and arguments.
 
+:::tip
+
+All our API's for spark job works with `job_id` and `job_name`. You can use either of them in the request URL to interact with the job.
+For example, both  
+`https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}` and  
+`https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_name}`
+will work fine. For simplicity we will use `job_name = test-job` in the examples.
+
+:::
+
 ### Updating a Job
 
 To update a job, you can use the `update_job` method. Here's an example of how to update a job to add a schedule:
@@ -124,7 +134,7 @@ print(job_update_response)
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request PUT 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}' \
+curl --location --request PUT 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job' \
 --header 'Authorization: Bearer TEST_TOKEN' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -138,8 +148,6 @@ curl --location --request PUT 'https://api.iomete.com/api/v1/workspaces/pceh7-81
     "schedule": "0 0 */1 * *"
 }'
 ```
-
-Note: Replace `{job_id}` with the actual job ID.
 
   </TabItem>
 </Tabs>
@@ -161,11 +169,9 @@ job_client.delete_job_by_id(job_id=job_create_response["id"])
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request DELETE 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}' \
+curl --location --request DELETE 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job' \
 --header 'Authorization: Bearer TEST_TOKEN'
 ```
-
-Note: Replace `{job_id}` with the actual job ID.
 
   </TabItem>
 </Tabs>
@@ -188,13 +194,11 @@ print(job_run_response)
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request POST 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}/runs' \
+curl --location --request POST 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job/runs' \
 --header 'Authorization: Bearer TEST_TOKEN' \
 --header 'Content-Type: application/json' \
 --data-raw '{}'
 ```
-
-Note: Replace `{job_id}` with the actual job ID.
 
   </TabItem>
 </Tabs>
@@ -215,13 +219,11 @@ print(job_run_response)
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request POST 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}/runs' \
+curl --location --request POST 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job/runs' \
 --header 'Authorization: Bearer TEST_TOKEN' \
 --header 'Content-Type: application/json' \
 --data-raw '{ "arguments": ["arg1", "arg2"] }'
 ```
-
-Note: Replace `{job_id}` with the actual job ID.
 
   </TabItem>
 </Tabs>
@@ -242,11 +244,9 @@ print(job_runs)
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request GET 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}/runs' \
+curl --location --request GET 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job/runs' \
 --header 'Authorization: Bearer TEST_TOKEN'
 ```
-
-Note: Replace `{job_id}` with the actual job ID.
 
   </TabItem>
 </Tabs>
@@ -268,11 +268,11 @@ job_client.cancel_job_run(job_id=job_create_response["id"], run_id=job_run_respo
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request POST 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}/runs/{run_id}/cancel' \
+curl --location --request POST 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job/runs/{run_id}/cancel' \
 --header 'Authorization: Bearer TEST_TOKEN'
 ```
 
-Note: Replace `{job_id}` with the actual job ID and `{run_id}` with the actual run ID.
+Note: Replace `{run_id}` with the actual run ID.
 
   </TabItem>
 </Tabs>
