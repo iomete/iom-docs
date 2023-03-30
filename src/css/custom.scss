@@ -32,6 +32,16 @@
   // --ifm-global-shadow-lw: none;
 }
 
+.tabs__item {
+  border-radius: 4px;
+  padding: 12px 16px;
+}
+
+.tabs__item--active {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 pre {
   border: 1px solid #d3d7dd;
 }

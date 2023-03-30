@@ -41,6 +41,7 @@ const sidebars = {
         "user-guide/create-a-personal-access-token",
         "user-guide/create-ssh-tunnel",
         "user-guide/sql-editor",
+        "user-guide/iomete-sdk",
       ],
     },
     {

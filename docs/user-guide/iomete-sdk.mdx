@@ -1,0 +1,294 @@
+---
+title: SDK Usage for Spark Jobs
+description: IOMETE's SDK Usage for interacting with Spark Jobs
+last_update:
+  date: 03/30/2023
+  author: Fuad Musayev
+---
+
+import Question from "@site/src/components/Question";
+import ImgBorder from "@site/src/components/ImgBorder";
+import Card from "@site/src/components/Card";
+import ExternalCard from "@site/src/components/ExternalCard";
+import GridBox from "@site/src/components/GridBox";
+import { Key, CodeBlock } from "@phosphor-icons/react";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+IOMETE's Python SDK provides a simple and convenient way to interact with our platform using Python code.
+With our SDK, you can easily integrate our platform's functionality into your Python projects and automate various tasks.
+
+This document provides examples of how to use the `iomete-sdk` Python module to interact with the IOMETE platform.
+The examples demonstrate various operations such as creating, updating, and deleting jobs, as well as submitting job runs.
+
+If you have any questions or feedback, please do not hesitate to reach out to our support team.
+
+## Installation
+
+To follow these examples, make sure you have the following dependency installed:
+
+```bash
+pip install iomete-sdk
+```
+
+## Prerequisites
+
+Also, you should have a valid IOMETE API token and workspace ID. For this example, we are using environment variables to store these values.
+In the "**Resources**" section below, you can find a link to the documentation on how to create an API token.
+Workspace ID can be found in the **Organization Settings** page of the IOMETE platform.
+
+<ImgBorder src="/img/user-guide/workspace-id.png" alt="Workspace ID" />
+
+## SDK Usage Examples
+
+### Initialization
+
+First, import the required libraries and create a `SparkJobApiClient` instance to interact with the Iomete platform:
+
+```python
+import os
+import uuid
+from iomete_sdk import SparkJobApiClient
+
+TEST_TOKEN = os.environ.get("TEST_TOKEN")
+WORKSPACE_ID = "pceh7-816"
+
+job_client = SparkJobApiClient(
+    workspace_id=WORKSPACE_ID,
+    api_key=TEST_TOKEN,
+)
+```
+
+### Creating a Job
+
+Here's an example of how to create a new job:
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+```python
+job_payload = {
+    "name": "test-job",
+    "template": {
+        "spark_version": "3.2.1",
+        "main_application_file": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
+        "main_class": "org.apache.spark.examples.SparkPi",
+        "arguments": ["10"]
+    }
+}
+job_create_response = job_client.create_job(payload=job_payload)
+
+print(job_create_response)
+```
+
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+
+```bash
+curl --location --request POST 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs' \
+--header 'Authorization: Bearer TEST_TOKEN' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "test-job",
+    "template": {
+        "spark_version": "3.2.1",
+        "main_application_file": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
+        "main_class": "org.apache.spark.examples.SparkPi",
+        "arguments": ["10"]
+    }
+}'
+```
+
+  </TabItem>
+</Tabs>
+
+This will create a new job with a name, a specific Spark version, main application file, main class, and arguments.
+
+### Updating a Job
+
+To update a job, you can use the `update_job` method. Here's an example of how to update a job to add a schedule:
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+```python
+cron_schedule = "0 0 */1 * *"
+
+update_payload = job_create_response.copy()
+update_payload["schedule"] = cron_schedule
+job_update_response = job_client.update_job(job_id=job_create_response["id"], payload=update_payload)
+print(job_update_response)
+```
+
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+
+```bash
+curl --location --request PUT 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}' \
+--header 'Authorization: Bearer TEST_TOKEN' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "test-job",
+    "template": {
+        "spark_version": "3.2.1",
+        "main_application_file": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
+        "main_class": "org.apache.spark.examples.SparkPi",
+        "arguments": ["10"]
+    },
+    "schedule": "0 0 */1 * *"
+}'
+```
+
+Note: Replace `{job_id}` with the actual job ID.
+
+  </TabItem>
+</Tabs>
+
+This will update the job created earlier with a schedule that runs it once every day.
+
+### Deleting a Job
+
+To delete a job, use the `delete_job_by_id` method:
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+```python
+job_client.delete_job_by_id(job_id=job_create_response["id"])
+```
+
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+
+```bash
+curl --location --request DELETE 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}' \
+--header 'Authorization: Bearer TEST_TOKEN'
+```
+
+Note: Replace `{job_id}` with the actual job ID.
+
+  </TabItem>
+</Tabs>
+
+This will delete the job created earlier using its ID.
+
+### Running Job
+
+To submit a job run, use the `submit_job_run` method. This will submit a new run for the job created earlier:
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+```python
+run_response = job_client.submit_job_run(job_id=job_create_response["id"], payload={})
+print(job_run_response)
+```
+
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+
+```bash
+curl --location --request POST 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}/runs' \
+--header 'Authorization: Bearer TEST_TOKEN' \
+--header 'Content-Type: application/json' \
+--data-raw '{}'
+```
+
+Note: Replace `{job_id}` with the actual job ID.
+
+  </TabItem>
+</Tabs>
+
+If you need to override configuration, for example `arguments`, you can pass them in the payload.
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+```python
+run_response = job_client.submit_job_run(job_id=job_create_response["id"], payload={
+    "arguments": ["arg1", "arg2"]
+})
+print(job_run_response)
+```
+
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+
+```bash
+curl --location --request POST 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}/runs' \
+--header 'Authorization: Bearer TEST_TOKEN' \
+--header 'Content-Type: application/json' \
+--data-raw '{ "arguments": ["arg1", "arg2"] }'
+```
+
+Note: Replace `{job_id}` with the actual job ID.
+
+  </TabItem>
+</Tabs>
+
+### Getting Job Runs
+
+To get the runs for a specific job, use the `get_job_runs` method:
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+```python
+job_runs = job_client.get_job_runs(job_id=job_create_response["id"])
+print(job_runs)
+```
+
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+
+```bash
+curl --location --request GET 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}/runs' \
+--header 'Authorization: Bearer TEST_TOKEN'
+```
+
+Note: Replace `{job_id}` with the actual job ID.
+
+  </TabItem>
+</Tabs>
+
+This will return a list of runs for the job.
+
+### Cancelling a Job Run
+
+To cancel a job run, use the `cancel_job_run` method:
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+```python
+job_client.cancel_job_run(job_id=job_create_response["id"], run_id=job_run_response["id"])
+```
+
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+
+```bash
+curl --location --request POST 'https://api.iomete.com/api/v1/workspaces/pceh7-816/jobs/{job_id}/runs/{run_id}/cancel' \
+--header 'Authorization: Bearer TEST_TOKEN'
+```
+
+Note: Replace `{job_id}` with the actual job ID and `{run_id}` with the actual run ID.
+
+  </TabItem>
+</Tabs>
+
+This will cancel the job run submitted earlier.
+
+## Resources
+
+<GridBox>
+
+<Card title="API Token" icon={<Key />} link="/docs/user-guide/create-a-personal-access-token">
+  Read our guide on how to create a personal access token for API
+</Card>
+
+<ExternalCard title="API Specification" icon={<CodeBlock />} link="https://api.iomete.com">
+  Explore API possibilities with our accessible OpenAPI specification
+</ExternalCard>
+
+</GridBox>
