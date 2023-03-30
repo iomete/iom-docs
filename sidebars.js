@@ -41,7 +41,6 @@ const sidebars = {
         "user-guide/create-a-personal-access-token",
         "user-guide/create-ssh-tunnel",
         "user-guide/sql-editor",
-        "user-guide/iomete-sdk",
       ],
     },
     {
@@ -221,7 +220,7 @@ const sidebars = {
           type: "category",
           label: "Spark Jobs",
           collapsed: false,
-          items: ["guides/spark-job/getting-started", "guides/ingestingdata", "guides/spark-application-config"],
+          items: ["guides/spark-job/getting-started", "guides/ingestingdata", "guides/spark-application-config", "guides/iomete-sdk"],
         },
         {
           type: "category",
