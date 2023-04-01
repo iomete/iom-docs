@@ -1,0 +1,130 @@
+---
+title: Airflow - Trigger Spark Jobs
+description: Airflow helps to programmatically trigger, schedule and monitor Spark Jobs.
+last_update:
+  date: 04/01/2023
+  author: Fuad Musayev
+---
+
+import ImgBorder from "@site/src/components/ImgBorder";
+import Card from "@site/src/components/Card";
+import ExternalCard from "@site/src/components/ExternalCard";
+import GridBox from "@site/src/components/GridBox";
+import { Key, GithubLogo } from "@phosphor-icons/react";
+
+# Run Spark Jobs with Airflow
+
+The IOMETE's Airflow Plugin is an extension designed to make it easy for developers to trigger and manage
+Spark jobs within their Airflow workflows.  
+In this documentation, we will guide you through the installation, configuration, and usage of the plugin  
+to help you get started quickly and efficiently.
+
+### Table of Contents
+
+1. [Installation](#installation)
+2. [Configuration](#configuration)
+3. [Usage](#usage)
+4. [Example DAG](#example-dag)
+5. [Support](#support)
+
+### Installation
+
+**Prerequisites**:
+
+- Python 3.7 or later
+- Apache Airflow 2.x
+
+**Steps**:
+
+1. To install the IOMETE Airflow Plugin, use the following pip command:
+
+   ```
+   pip install iomete-airflow-plugin
+   ```
+
+2. Once the installation is complete, restart your Airflow server.
+3. Import the plugin in your Airflow DAG script:
+   ```
+   from iomete_airflow_plugin.iomete_operator import IometeOperator
+   ```
+
+### Configuration
+
+Before using the `IometeOperator`, you need to configure the required parameters in your Airflow environment:
+
+1. You need to add `iomete_access_token` key to airflow's Variables module.  
+   In the "**Resources**" section below, you can find a link to the documentation
+   on how to create an API token.
+
+2. _[Optional]_ You can also add `iomete_workspace_id` key to airflow's Variables module.  
+   Or you can inject `workspace_id` parameter dynamically to `IometeOperator` class.
+
+<ImgBorder src="/img/spark-job/airflow-variables.png" alt="Airflow Variables" />
+
+### Usage
+
+With the Iomete Airflow Plugin installed and configured,
+you can now use the `IometeOperator` in your Airflow DAGs to trigger Spark jobs.
+
+**Parameters**:
+
+1. `task_id`: A unique identifier for the task in the DAG (required).
+2. `job_id`: Spark Job ID or Name from IOMETE platform.
+3. `workspace_id`: Workspace ID from IOMETE platform.
+   Can be skipped only if you have added `iomete_workspace_id` key to airflow's Variables module.
+4. `config_override`: _[Optional]_ Configuration overrides of the Spark Job. Example:
+   ```json
+   {
+     "arguments": ["string"],
+     "env_vars": {
+       "key": "value"
+     }
+   }
+   ```
+
+### Example DAG
+
+```python
+from airflow import DAG, utils
+from iomete_airflow_plugin.iomete_operator import IometeOperator
+
+args = {
+    "owner": "airflow",
+    "email": ["airflow@example.com"],
+    "depends_on_past": False,
+    "start_date": utils.dates.days_ago(0, second=1),
+}
+
+dag = DAG(dag_id="iomete-task", default_args=args, schedule_interval=None)
+
+iomete_task = IometeOperator(
+    task_id="random-and-unique-task-id",
+    job_id="YOUR_JOB_ID", # Replace this value with Job ID or name
+    workspace_id="pceh7-816", # Replace this value with Workspace ID or omit if you have added iomete_workspace_id key to airflow's Variables
+    config_override={
+        "arguments": ["sample_arg1", "sample_arg2"]
+    },
+    dag=dag,
+)
+
+iomete_task
+```
+
+### Support
+
+For support and further assistance,
+you can use IOMETE Platform's support section or contact the IOMETE support team at support@iomete.com.
+
+### Resources
+
+<GridBox>
+
+<Card title="API Token" icon={<Key />} link="/docs/user-guide/create-a-personal-access-token">
+  Read our guide on how to create a personal access token for API
+</Card>
+
+<ExternalCard title="Github Repo" icon={<GithubLogo />} link="https://github.com/iomete/iomete-airflow-plugin">
+  Check out Github repo for more information & examples
+</ExternalCard>
+
+</GridBox>

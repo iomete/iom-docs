@@ -219,13 +219,19 @@ const sidebars = {
         {
           type: "category",
           label: "Spark Jobs",
-          collapsed: false,
-          items: ["guides/spark-job/getting-started", "guides/ingestingdata", "guides/spark-application-config", "guides/iomete-sdk"],
+          collapsed: true,
+          items: [
+            "guides/spark-job/getting-started",
+            "guides/ingestingdata",
+            "guides/spark-application-config",
+            "guides/iomete-sdk",
+            "guides/airflow",
+          ],
         },
         {
           type: "category",
           label: "Transformation",
-          collapsed: false,
+          collapsed: true,
           items: [
             "guides/dbt/getting-started-with-iomete-dbt",
             "guides/dbt/dbt-materializations",
@@ -236,7 +242,7 @@ const sidebars = {
         {
           type: "category",
           label: "BI Integrations",
-          collapsed: false,
+          collapsed: true,
           items: [
             // 'guides/connection-options',
             "guides/how-to-connect-iomete-and-metabase-bi",
