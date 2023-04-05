@@ -208,7 +208,7 @@ const sidebars = {
           type: "category",
           label: "Installation",
           collapsed: false,
-          items: ["guides/installation/how-to-install", "guides/installation/installation-faq"],
+          items: ["guides/installation/how-to-install"],
         },
         {
           type: "category",
