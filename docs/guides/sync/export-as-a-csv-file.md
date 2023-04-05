@@ -15,7 +15,7 @@ import { File, FileCsv, FileJs } from "@phosphor-icons/react";
 There are times when you may need to export data from a table as a CSV file to use in another application, such as Excel or Google Sheets. In IOMETE, there are two ways to accomplish this:
 
 1.  Utilizing the SQL Editor in IOMETE.
-2.  Writing a query or table results as a CSV file using SQL.
+2.  Exporting a query result as a CSV to an S3 bucket.
 
 
 ## Utilizing the SQL Editor in IOMETE.
@@ -32,9 +32,9 @@ Firstly, to prevent users accidentally querying very large tables, which could f
 Secondly, exporting a large amount of data can cause the browser (SQL Editor) to crash. To prevent this from happening and provide a better user experience, IOMETE automatically adds a LIMIT clause to SQL statements if none is specified by the user. This ensures that only a reasonable amount of data is returned and displayed in the SQL Editor UI.
 :::
 
-## Writing query or table results as a CSV file using SQL
+## Exporting a query result as a CSV to an S3 bucket.
 
-As we spoke, exporting a large table or query result to CSV using the SQL editor is not feasible. Luckily there is a reliable way for it. Exporting the query/table result directly to an S3 bucket. This is the most flexible way to export data as a CSV file. You can export any table or query result as a CSV file.
+As we spoke, exporting a large table or query result to CSV using the SQL editor is not feasible. Luckily there is a reliable way for it. Exporting the query/table result directly to an S3 bucket. This is the most flexible and robust way to export data as a CSV file. You can export any table or query result as a CSV file.
 
 :::tip
 By exporting the data directly to an S3 bucket, you can bypass the limitations of the SQL Editor UI and export much larger datasets.
@@ -52,7 +52,7 @@ Let's assume that we want to export the result of the following query to an S3 b
 select * from employees
 ```
 
-To export the query result to an S3 bucket, we need to write a query that exports the result of the query to an S3 bucket. The query will look like this:
+To export the query result to an S3 bucket, we need to write a SQL that exports the result of the query to an S3 bucket. The query will look like this:
 
 ```sql
 CREATE table my_csv_export
@@ -63,6 +63,8 @@ OPTIONS (
 ) AS 
 select * from employees
 ```
+Here CSV external table is used to export the query result to an S3 bucket. Read [CSV Data Source](/docs/data-sources/csv-files) to learn more about the data source options.
+
 :::tip
 It can be any complex query result. Just put any query after the `as` keyword.
 :::
@@ -83,10 +85,10 @@ Here is the preview of the exported CSV file:
 Now that we've gone over the two ways to export data as a CSV file in IOMETE, let's compare them and their pros and
 cons.
 
-| Method                                                     | Pros                                                                                                           | Cons                                                                                                         |
-|------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| **Utilizing the SQL Editor in IOMETE**                     | Easy to use, Quick for small exports                                                                           | Limited to 10,000 rows, Not recommended for large query results. Can cause browser crashes for large exports |
-| **Writing query or table results as a CSV file using SQL** | No limit on the number of rows exported, More flexible for large exports, Can export any table or query result | Additional setup required to provide read/write access to an S3 bucket                                       |
+| Method                                                   | Pros                                                                                                           | Cons                                                                                                         |
+|----------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| **Utilizing the SQL Editor in IOMETE**                   | Easy to use, Quick for small exports                                                                           | Limited to 10,000 rows, Not recommended for large query results. Can cause browser crashes for large exports |
+| **Exporting a query result as a CSV to an S3 bucket.**   | No limit on the number of rows exported, More flexible for large exports, Can export any table or query result | Additional setup required to provide read/write access to an S3 bucket                                       |
 
 
  
