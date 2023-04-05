@@ -214,7 +214,7 @@ const sidebars = {
           type: "category",
           label: "Sync",
           collapsed: false,
-          items: ["guides/sync-data-from-aws-s3", "guides/sync-data-from-jdbc-sources", "guides/external-s3-buckets-access"],
+          items: ["guides/read-files-from-aws-s3", "guides/sync-data-from-jdbc-sources", "guides/external-s3-buckets-access"],
         },
         {
           type: "category",

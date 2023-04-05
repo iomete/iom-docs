@@ -7,6 +7,10 @@ last_update:
 import Img from '@site/src/components/Img';
 import Question from "@site/src/components/Question";
 
+import Card from "@site/src/components/Card";
+import GridBox from "@site/src/components/GridBox";
+import { Files, Database, Sparkle, Circuitry } from "@phosphor-icons/react";
+
 **Installing the IOMETE platform is a quick and easy process that won't take up much of your time**
 
 Getting started with IOMETE is simple and can be done with just a few clicks. However, if you're new to using AWS, you'll need to install some tools on your local computer before you can begin. To get started, make sure you have an AWS account, as well as access and secret keys.
@@ -289,5 +293,31 @@ Your state is now being stored in Terraform Cloud. You can see the state in the 
 Detailed information and learn how to use Terraform cloud see: [https://www.hashicorp.com/blog/using-terraform-cloud-remote-state-management](https://www.hashicorp.com/blog/using-terraform-cloud-remote-state-management)
 </Question>
 </Question>
- 
 
+
+## Additional Resources
+
+Start using IOMETE with the following guides
+
+<GridBox>
+
+<Card title="Sync data from JDBC Databases" icon={<Database />} link="/docs/guides/sync-data-from-jdbc-sources">
+Read our guide on how to sync data from JDBC sources, like MySQL, PostgreSQL, and Oracle.
+</Card>
+
+<Card title="Querying Files in AWS S3" icon={<Files />} link="/docs/guides/read-files-from-aws-s3">
+If you have data files in AWS S3, you can directly query them using the S3 connector.
+</Card>
+ 
+<Card title="Getting Started with Spark Jobs" icon={<Sparkle />} link="/docs/guides/spark-job/getting-started">
+Learn how to run Spark jobs on IOMETE.
+</Card>
+
+<Card title="Getting started with DBT" icon={<Circuitry />} link="/docs/guides/dbt/getting-started-with-iomete-dbt">
+Learn how to use DBT with IOMETE.
+</Card>
+
+
+
+
+</GridBox>
