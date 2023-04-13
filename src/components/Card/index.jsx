@@ -8,7 +8,7 @@ const Card = ({ title, icon, link, children }) => (
   <div className="iom-card">
     <Link to={link}>
       <div className="wrapper">
-        <div className="icon-wrapper">{icon}</div>
+        {icon && <div className="icon-wrapper">{icon}</div>}
         <div className="content">
           <h3 className="title">{title}</h3>
           <p>{children}</p>
