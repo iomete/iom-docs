@@ -209,7 +209,7 @@ const sidebars = {
           type: "category",
           label: "Installation",
           collapsed: false,
-          items: ["guides/installation/how-to-install", "guides/installation/changelog"],
+          items: ["guides/installation/how-to-install", "guides/installation/how-to-upgrade", "guides/installation/changelog"],
         },
         {
           type: "category",
