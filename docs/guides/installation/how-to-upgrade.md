@@ -43,7 +43,7 @@ Replace `X.Y.Z` with the latest version number provided by IOMETE.
 Before applying the changes, it's a good idea to run `terraform plan` to review any modifications to your infrastructure.
 
 ```bash
-terraform init
+terraform init --upgrade
 terraform plan
 ```
 
