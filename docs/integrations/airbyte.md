@@ -1,6 +1,6 @@
 ---
 title: MySQL to IOMETE using Airbyte
-description: This is an end-to-end guide about how to move MySQL data to IOMETE using Airbyte
+description: Move MySQL data to IOMETE with Airbyte| Easy configuration of Lakehouse Connection URL, Bucket Name, Bucket Path, Region, and more. Monitor and sync data seamlessly.
 last_update:
   date: 10/04/2022
   author: Namig Aliyev

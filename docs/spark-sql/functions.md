@@ -1,6 +1,6 @@
 ---
 title: Functions
-description: Learn about Spark SQL built-in functions in IOMETE
+description: Dive into the world of SQL built-in functions and learn how to manipulate, aggregate, and transform data with ease. Discover how to improve your queries with essential functions like COUNT, SUM, AVG, MIN, MAX, and more.
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov

@@ -1,7 +1,7 @@
 ---
 title: Power BI - Connecting to IOMETE
 sidebar_label: Power BI
-description: How to connect Power BI to IOMETE lakehouse platform.
+description: Effortlessly integrate IOMETE with Power BI - Step-by-step guide to connect, visualize and analyze data. Create reports and visualizations with Power BI resources.
 image: https://iomete.com/docs/img/guides/power-bi/power-bi-connecting-to-iomete.png
 ---
 

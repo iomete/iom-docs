@@ -1,6 +1,6 @@
 ---
 title: Literals
-description: A string literal is used to specify a character string value
+description: String Binary Null Boolean Numeric and Datetime literals. Learn about syntax and examples for each type of literal in SQL.
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov

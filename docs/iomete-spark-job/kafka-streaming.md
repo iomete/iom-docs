@@ -1,6 +1,6 @@
 ---
 title: Kafka Streaming
-description: This is a collection of data movement capabilities. This streaming job copies data from Kafka to Iceberg
+description: Learn how to move data from Kafka to Iceberg using IOMETE. This guide covers deserialization, job creation, configuration, and testing.
 slug: kafka-streaming-job
 last_update:
   date: 10/04/2022

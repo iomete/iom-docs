@@ -1,6 +1,6 @@
 ---
 title: DBT Incremental models
-description: DBT Incremental models. Learn how to use incremental dbt model on iomete data platform
+description: Learn how to use the incremental dbt model on the IOMETE data platform to reduce the runtime of transformation and improve warehouse performance
 last_update:
   date: 07/11/2022
   author: Vusal Dadalov

@@ -1,6 +1,6 @@
 ---
 title: File Streaming
-description: How to stream files
+description: Stream files to iceberg continuously with Spark file streaming job. Configure file formats, database settings, and processing time intervals. Run tests for seamless file streaming.
 slug: file-streaming-job
 last_update:
   date: 10/04/2022
