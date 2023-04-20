@@ -1,6 +1,6 @@
 ---
 title: Operators
-description: Spark SQL operators in IOMETE
+description: Learn about logical, arithmetic, and comparison operators in SQL. Understand how to use operators such as !, %, *, +, -, /, <, <=, <=>, =, ==, >, >=, and more with examples.
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov

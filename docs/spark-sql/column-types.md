@@ -1,6 +1,6 @@
 ---
 title: Column Types
-description: This page explains all column types that IOMETE supports 
+description: IOMETE Column Types are BOOLEAN, BYTE, SHORT, INT, LONG, FLOAT, DOUBLE, DATE, TIMESTAMP, STRING, BINARY, DECIMAL, ARRAY, STRUCT, MAP. Examples of usage and range of values
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov

@@ -1,6 +1,6 @@
 ---
 title: Select
-description: Apache Spark supports a select statement the following section describes the overall query syntax
+description: Learn about Spark's SELECT statement and query syntax conforming to ANSI SQL standards. Retrieve result sets from multiple tables using different constructs and examples. 
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov

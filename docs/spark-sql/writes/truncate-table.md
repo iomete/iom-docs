@@ -1,6 +1,6 @@
 ---
 title: Truncate Table
-description: The TRUNCATE TABLE statement removes all the rows from a table or partitions
+description: Remove all rows from a table or partition(s) with TRUNCATE TABLE statement. Learn syntax, parameters, and examples for easy table truncation in this comprehensive documentation
 slug: /spark-sql/truncate-table
 last_update:
   date: 10/04/2022

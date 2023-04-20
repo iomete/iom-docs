@@ -1,6 +1,6 @@
 ---
 title: Queries
-description: Metadata tables such as `history` and `snapshots`, can use the Iceberg table name as a namespace
+description: Learn how to use Iceberg tables in Spark for time travel, inspecting table history, snapshots, and metadata, by reading this comprehensive guide with SQL examples.
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -25,7 +25,7 @@ For example, to read from the `files` metadata table for `prod.db.table`, run:
 SELECT * FROM db.table1.files
 ```
 
-<br/>
+<br />
 
 ### Time travel
 
@@ -50,12 +50,11 @@ spark.read
     .load("path/to/table")
 ```
 
-:::info 
+:::info
 Time travel is not yet supported by Spark’s SQL syntax.
 :::
 
-<br/>
-
+<br />
 
 ### Inspecting tables
 
@@ -84,11 +83,11 @@ SELECT * FROM db.table1.history
 +-------------------------+---------------------+---------------------+---------------------+
 ```
 
-:::info 
+:::info
 **This shows a commit that was rolled back.** The example has two snapshots with the same parent, and one is not an ancestor of the current table state.
 :::
 
-<br/>
+<br />
 
 ### Snapshots
 
@@ -135,7 +134,7 @@ order by made_current_at
 +-------------------------+-----------+----------------+---------------------+----------------------------------+
 ```
 
-<br/>
+<br />
 
 ### Files
 
@@ -155,7 +154,7 @@ SELECT * FROM db.table.files
 +-------------------------------------------------------------------------+-------------+--------------+--------------------+--------------------+------------------+-------------------+------------------+-----------------+-----------------+--------------+---------------+
 ```
 
-<br/>
+<br />
 
 ### Manifests
 
@@ -174,6 +173,7 @@ SELECT * FROM db.table.manifests
 ```
 
 :::info
-1. Fields within partition_summaries column of the manifests table correspond to field_summary structs within [manifest list](https://iceberg.apache.org/spec/#manifest-lists), with the following order: - contains_null - contains_nan - lower_bound - upper_bound 
+
+1. Fields within partition_summaries column of the manifests table correspond to field_summary structs within [manifest list](https://iceberg.apache.org/spec/#manifest-lists), with the following order: - contains_null - contains_nan - lower_bound - upper_bound
 2. contains_nan could return null, which indicates that this information is not available from files’ metadata
-:::
+   :::

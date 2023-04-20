@@ -1,6 +1,6 @@
 ---
 title: SSH Tunnel
-description: SSH TUnnel. This guide explains how to create manual and automate SSH Tunnels in IOMETE
+description: Learn securely connect your private subnet database with IOMETE using SSH Tunnel. Choose from CloudFormation Automation or Manual Configuration options
 last_update:
   date: 12/09/2022
   author: Nurlan Mammadov
