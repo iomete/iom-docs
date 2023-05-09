@@ -2,7 +2,6 @@
 // Note: type annotations allow type checking and IDEs autocompletion
 
 const lightCodeTheme = require("prism-react-renderer/themes/github");
-const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -88,12 +87,12 @@ const config = {
         // title: 'My Site',
         hideOnScroll: false,
         logo: {
-          alt: "iomete logo",
+          alt: "IOMETE logo",
           src: `/img/logo-black.svg`,
-          srcDark: `/img/logo-white.svg`,
           href: "https://iomete.com",
           target: "_self",
-          height: 42,
+          height: 32,
+          width: 82
         },
         items: [
           {
@@ -122,8 +121,7 @@ const config = {
         ],
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        theme: lightCodeTheme
       },
       algolia: {
         appId: "A90PMTH5W5",
