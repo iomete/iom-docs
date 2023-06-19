@@ -298,7 +298,7 @@ Detailed information and learn how to use Terraform cloud see: [https://www.hash
 <Question title="Using EBS encryption">
 If you are using EBS encryption, you need to add users to the KMS key policy to allow IOMETE data-plane to access the key. 
 <br />
-This is required for EBS access to the IOMETE data-plane, enabling it to attach EBS volumes to IOMETE data-plane nodes.  
+This is necessary for the IOMETE data-plane to access to EBS storage, which allows it to attach EBS volumes to the nodes within the IOMETE data-plane.
 <br />
 <br />
 To add a user/role to a KMS key using the AWS Management Console, follow these step-by-step instructions:
