@@ -5,6 +5,7 @@ last_update:
   date: 10/04/2022
 ---
 import Img from '@site/src/components/Img';
+import ImgBorder from '@site/src/components/ImgBorder';
 import Question from "@site/src/components/Question";
 
 import Card from "@site/src/components/Card";
@@ -207,8 +208,8 @@ terraform apply
 If the output that you receive is similar to the example displayed below, then you can be assured that your code has been executed successfully.
 
 :::info
-**“Successfully configured the backend "s3"! Terraform will automatically
-use this backend unless the backend configuration changes.”**
+**"Successfully configured the backend "s3"! Terraform will automatically
+use this backend unless the backend configuration changes."**
 :::
 
 ```bash
@@ -292,6 +293,44 @@ Your state is now being stored in Terraform Cloud. You can see the state in the 
 
 Detailed information and learn how to use Terraform cloud see: [https://www.hashicorp.com/blog/using-terraform-cloud-remote-state-management](https://www.hashicorp.com/blog/using-terraform-cloud-remote-state-management)
 </Question>
+</Question>
+
+<Question title="Using EBS encryption">
+If you are using EBS encryption, you need to add users to the KMS key policy to allow IOMETE data-plane to access the key. 
+<br />
+This is required for EBS access to the IOMETE data-plane, enabling it to attach EBS volumes to IOMETE data-plane nodes.  
+<br />
+<br />
+To add a user/role to a KMS key using the AWS Management Console, follow these step-by-step instructions:
+<br />
+<br />
+<ol>
+<li>Open the AWS Management Console and navigate to the AWS KMS service.</li>
+<li>Click on "Customer managed keys" in the left-hand menu.</li>
+<li> Select the KMS key you want to manage.  
+	<br />
+	<br />
+	<ImgBorder src="/img/guides/how-to-install/kms-console.png" alt="KMS Console"/>
+</li>
+<li>Locate the "Key details" section or navigate to the specific tab where the "Key users" tab is available.</li>
+<li>Click on the "Key users" tab.</li>
+<li>Click on "Add" and enter 'iomete' in the search/filter box to narrow down the list of available roles.
+	<br />
+	<br />
+	<ImgBorder src="/img/guides/how-to-install/search.png" alt="KMS Console"/>
+</li>
+<li>Add the following roles to the key policy:
+	<ul>
+		<li><code>iomete-&#123;cluster_id&#125;-ng-eks-node-group-202...</code></li>
+		<li><code>KarpenterIRSA-iomete-&#123;cluster_id&#125;-202...</code></li>
+		<li><code>AmazonEKS_EBS_CSI_DriverRole-&#123;cluster_id&#125;</code></li>
+	</ul>
+	<br />
+	<ImgBorder src="/img/guides/how-to-install/kms-list.png" alt="KMS Console"/>
+</li>
+<li>Click on "Save changes" to save the modifications to the KMS key policy.</li>
+</ol>
+These steps will grant the necessary access to the IOMETE data-plane and enable EBS attachment to the IOMETE data-plane nodes.
 </Question>
 
 
