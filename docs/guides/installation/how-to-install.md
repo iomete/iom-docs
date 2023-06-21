@@ -301,36 +301,56 @@ If you are using EBS encryption, you need to add users to the KMS key policy to 
 This is necessary for the IOMETE data-plane to access to EBS storage, which allows it to attach EBS volumes to the nodes within the IOMETE data-plane.
 <br />
 <br />
-To add a user/role to a KMS key using the AWS Management Console, follow these step-by-step instructions:
-<br />
-<br />
+First you need to determine which key is used for encrypting EBS volumes, you can follow these instructions to find the appropriate key:
 <ol>
-<li>Open the AWS Management Console and navigate to the AWS KMS service.</li>
-<li>Click on "Customer managed keys" in the left-hand menu.</li>
-<li> Select the KMS key you want to manage.  
-	<br />
-	<br />
-	<ImgBorder src="/img/guides/how-to-install/kms-console.png" alt="KMS Console"/>
-</li>
-<li>Locate the "Key details" section or navigate to the specific tab where the "Key users" tab is available.</li>
-<li>Click on the "Key users" tab.</li>
-<li>Click on "Add" and enter 'iomete' in the search/filter box to narrow down the list of available roles.
-	<br />
-	<br />
-	<ImgBorder src="/img/guides/how-to-install/search.png" alt="KMS Console"/>
-</li>
-<li>Add the following roles to the key policy:
-	<ul>
-		<li><code>iomete-&#123;cluster_id&#125;-ng-eks-node-group-202...</code></li>
-		<li><code>KarpenterIRSA-iomete-&#123;cluster_id&#125;-202...</code></li>
-		<li><code>AmazonEKS_EBS_CSI_DriverRole-&#123;cluster_id&#125;</code></li>
-	</ul>
-	<br />
-	<ImgBorder src="/img/guides/how-to-install/kms-list.png" alt="KMS Console"/>
-</li>
-<li>Click on "Save changes" to save the modifications to the KMS key policy.</li>
+	<li>Select the appropriate Region in the AWS Management Console.</li>
+	<li>Navigate to the EC2 service by clicking on the 'EC2 Dashboard' in the upper menu.</li>
+	<li>In the right-side menu, locate the 'Account attributes' section and click on 'EBS encryption'.
+		<br />
+		<br />
+		<ImgBorder src="/img/guides/how-to-install/ec2-ebs.png" alt="KMS Console"/>
+	</li>
+	<li>On the 'EBS encryption' page, you will find the 'Default encryption key' section.
+		<br />
+		<br />
+		<ImgBorder src="/img/guides/how-to-install/kms-key.png" alt="KMS Console"/>
+	</li>
+	<li>Note down the key displayed as the 'Default encryption key'.</li>
+</ol>
+Once you have identified the key, you need to grant access to the IOMETE Data-plane service for this key. This will enable the IOMETE Data-plane to perform necessary operations on the encrypted EBS volumes.
+<br />
+<br />
+
+To add a user/role to a KMS key using the AWS Management Console, follow these step-by-step instructions:
+<ol>
+	<li>Open the AWS Management Console and navigate to the AWS KMS service.</li>
+	<li>Click on "Customer managed keys" in the left-hand menu.</li>
+	<li> Select the KMS key you want to manage.  
+		<br />
+		<br />
+		<ImgBorder src="/img/guides/how-to-install/kms-console.png" alt="KMS Console"/>
+	</li>
+	<li>Locate the "Key details" section or navigate to the specific tab where the "Key users" tab is available.</li>
+	<li>Click on the "Key users" tab.</li>
+	<li>Click on "Add" and enter 'iomete' in the search/filter box to narrow down the list of available roles.
+		<br />
+		<br />
+		<ImgBorder src="/img/guides/how-to-install/search.png" alt="KMS Console"/>
+	</li>
+	<li>Add the following roles to the key policy:
+		<ul>
+			<li><code>iomete-&#123;cluster_id&#125;-ng-eks-node-group-202...</code></li>
+			<li><code>KarpenterIRSA-iomete-&#123;cluster_id&#125;-202...</code></li>
+			<li><code>AmazonEKS_EBS_CSI_DriverRole-&#123;cluster_id&#125;</code></li>
+		</ul>
+		<br />
+		<ImgBorder src="/img/guides/how-to-install/kms-list.png" alt="KMS Console"/>
+	</li>
+	<li>Click on "Save changes" to save the modifications to the KMS key policy.</li>
 </ol>
 These steps will grant the necessary access to the IOMETE data-plane and enable EBS attachment to the IOMETE data-plane nodes.
+
+
 </Question>
 
 
