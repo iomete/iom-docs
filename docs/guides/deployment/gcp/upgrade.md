@@ -24,7 +24,7 @@ You can either store the state file in a git repository, an S3 bucket, or a loca
 
 ## 1. Upgrade to the latest IOMETE Terraform module
 
-Review the [IOMETE Changelog](changelog) to learn about the new features, improvements, and bug fixes in the latest version. Understanding the changes will help you prepare for potential impacts on your existing infrastructure or custom configurations.
+Review the [IOMETE Changelog](/docs/guides/deployment/aws/changelog) to learn about the new features, improvements, and bug fixes in the latest version. Understanding the changes will help you prepare for potential impacts on your existing infrastructure or custom configurations.
 
 From the changelog, obtain the latest Terraform module. Replace the existing `customer-stack` module in your Terraform configuration with the new version.
 
