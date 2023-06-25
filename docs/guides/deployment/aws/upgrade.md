@@ -1,6 +1,6 @@
 ---
-title: IOMETE Upgrade Guide - Terraform
-sidebar_label: How to upgrade
+title: IOMETE AWS Upgrade
+sidebar_label: Upgrade
 description: This guide will walk you through upgrading your IOMETE platform using Terraform on Amazon Web Services (AWS).
 last_update:
   date: 04/19/2023

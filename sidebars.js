@@ -207,9 +207,34 @@ const sidebars = {
         // "guides/aws-cost-usage-reports-data-processing",
         {
           type: "category",
-          label: "Installation",
+          label: "Deployment",
           collapsed: false,
-          items: ["guides/installation/how-to-install", "guides/installation/how-to-upgrade", "guides/installation/changelog"],
+          items: [
+            {
+              type: "category",
+              label: "AWS",
+              collapsed: false,
+              items: [
+                "guides/deployment/aws/install", "guides/deployment/aws/upgrade", "guides/deployment/aws/changelog"
+              ],
+            },
+            // {
+            //   type: "category",
+            //   label: "Azure",
+            //   collapsed: false,
+            //   items: [
+            //     "guides/deployment/azure/install", "guides/deployment/azure/upgrade", "guides/deployment/azure/changelog"
+            //   ],
+            // },
+            // {
+            //   type: "category",
+            //   label: "GCP",
+            //   collapsed: false,
+            //   items: [
+            //     "guides/deployment/gcp/install", "guides/deployment/gcp/upgrade", "guides/deployment/gcp/changelog"
+            //   ],
+            // },
+          ],
         },
         {
           type: "category",
