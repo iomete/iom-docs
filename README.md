@@ -2,46 +2,27 @@
 
 This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
 
-### Installation
+## Installation
 
-```
-$ yarn
-```
+1. [Install](https://nodejs.org/en/download) nodejs and npm
 
-### Local Development
+2. Check nodejs version `node -v`
+    - The Node.js version number should be displayed as output.
 
-```
-$ yarn start
-```
+3. Verify the installation of npm alongside Node.js `npm -v`
+    - The npm version number should be displayed as output.
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+4. Clone Repository
 
-### Build
+5. Run `cd iom-docs`
 
-```
-$ yarn build
-```
+6. Run `npm install`
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
-
-### Deployment
-
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```
-$ GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+7. Run `npm run start`
+    - The project should be running on port 3000 and will be opened in the browser.
 
 
-## Feedback component
+### Feedback component
 
 If you want to hide rating feedback 
 `hideFeedback:true` in frontMatter
@@ -54,7 +35,7 @@ hideFeedback:true
 ---
 ```
 
-## Custom Img component properties
+### Custom Img component properties
 
 | Property     | Requirements | Type   | Default    | Description                                                                                            |
 |--------------|--------------|--------|:----------:|--------------------------------------------------------------------------------------------------------|
@@ -66,7 +47,7 @@ hideFeedback:true
 | maxWidth (px)| optional     | string |max-content | Set max width.                                                                                         |
 | imgClass     | optional     | string |    -       | Set css class to img                                                                                   |
 
-## Examples
+### Examples
 
 ```html
 <!-- src -->
@@ -109,7 +90,7 @@ hideFeedback:true
 ```
 
 
-## Export to PDF
+### Export to PDF
 
 https://github.com/signcl/docusaurus-prince-pdf
 
