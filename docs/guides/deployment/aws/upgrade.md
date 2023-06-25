@@ -11,7 +11,7 @@ Upgrading the IOMETE platform is a simple process that ensures you're using the 
 
 Before proceeding, ensure you have the following:
 1.  An active IOMETE account and a working IOMETE installation.
-2.  AWS CLI and Terraform (v0.14+) are installed on your local machine. If you need help installing these tools, refer to the [IOMETE Installation Guide](how-to-install).
+2.  AWS CLI and Terraform (v0.14+) are installed on your local machine. If you need help installing these tools, refer to the [IOMETE Installation Guide](install).
 3.  Access to your Terraform configuration files and state files.
 
 
