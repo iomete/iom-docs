@@ -26,28 +26,28 @@ With both AWS CLI and Terraform installed, your environment is ready to go. Now 
 
 ## 1. Register for an account on the [IOMETE Console](https://app.iomete.cloud/dashboard) and create an organization.
 
-<Img src="/img/guides/how-to-install/new-org-1.png" alt="New Org"/>
+<Img src="/img/guides/deployments/org-list.png" alt="Organization list"/>
 
-<Img src="/img/guides/how-to-install/new-org-2.png" alt="New Org"/>
+<Img src="/img/guides/deployments/org-create.png" alt="Create organization"/>
 
 ## 2. Continue to the New Cluster section
 
 Select the provider (we currently support only AWS) and select the region where the cluster will be installed.
 
-<Img src="/img/guides/how-to-install/cluster-setup.png" alt="Cluster Setup"/>
+<Img src="/img/guides/deployments/aws-setup-cluster.png" alt="Cluster Setup"/>
 
 ## 3. Define the workspace name
 
 Workspaces are isolated spaces that can be used by different departments, divisions, and so.
 
-<Img src="/img/guides/how-to-install/workspace-setup.png" alt="Workspace Setup"/>
+<Img src="/img/guides/deployments/define-workspace.png" alt="Workspace define"/>
 
 
 ## 4. Terraform configuration
   
 The system will generate a terraform script including unique `cluster_id`.
 
-<Img src="/img/guides/how-to-install/generated-terraform-script.png" alt="Workspace Setup"/>
+<Img src="/img/guides/deployments/aws-terraform-conf.png" alt="Terraform configuration"/>
 
 :::danger
 Don’t change cluster_id, this ID will be used to access your cluster (ex. connect external BI tools).
@@ -89,7 +89,7 @@ cluster_endpoint = "https://0B...73.gr7.us-east-2.eks.amazonaws.com"
 
 Once you have the output values, you can copy and paste them into the IOMETE console. This completes the final step of the setup process.
 
-<Img src="/img/guides/how-to-install/terraform-output.png" alt="Terraform output to IOMETE Console to Complete the installation"/>
+<Img src="/img/guides/deployments/aws-terraform-output.png" alt="Terraform output to IOMETE Console to Complete the installation"/>
 
 
 Once you hit the `Execute` button, IOMETE will start the installing IOMETE operator inside the Kubernetes cluster. This will take a few minutes.
