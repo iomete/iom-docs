@@ -38,28 +38,28 @@ Make sure you have the following tools installed on your local computer:
 
 Register for an account on the [IOMETE Console](https://app.iomete.cloud/dashboard) and create an organization.
 
-<Img src="/img/guides/how-to-install/new-org-1.png" alt="New Org"/>
+<Img src="/img/guides/deployments/org-list.png" alt="New Org"/>
 
-<Img src="/img/guides/how-to-install/new-org-2.png" alt="New Org"/>
+<Img src="/img/guides/deployments/org-create.png" alt="New Org"/>
 
 ### Create a New Cluster
 
 Select the provider (we currently support only AWS) and select the region where the cluster will be installed.
 
-<Img src="/img/guides/how-to-install/cluster-setup.png" alt="Cluster Setup"/>
+<Img src="/img/guides/deployments/gcp-setup-cluster.png" alt="Cluster Setup"/>
 
 ### Define the workspace name
 
 Workspaces are isolated spaces that can be used by different departments, divisions, and so.
 
-<Img src="/img/guides/how-to-install/workspace-setup.png" alt="Workspace Setup"/>
+<Img src="/img/guides/deployments/define-workspace.png" alt="Workspace define"/>
 
 
 ### Terraform configuration
   
 The system will generate a terraform script including unique `cluster_id`.
 
-<Img src="/img/guides/how-to-install/generated-terraform-script.png" alt="Workspace Setup"/>
+<Img src="/img/guides/deployments/gcp-terraform-conf.png" alt="Terraform configuration"/>
 
 :::danger
 Don’t change cluster_id, this ID will be used to access your cluster (ex. connect external BI tools).
@@ -112,7 +112,7 @@ Here are the fields you need to copy from the IOMETE_DATA file:
 - Cluster Service Account Key
   :::
 
-<Img src="/img/guides/how-to-install/terraform-output.png" alt="Terraform output to IOMETE Console to Complete the installation"/>
+<Img src="/img/guides/deployments/gcp-terraform-output.png" alt="Terraform output to IOMETE Console to Complete the installation"/>
 
 
 Once you hit the `Execute` button, IOMETE will start the installing IOMETE operator inside the Kubernetes cluster. This will take a few minutes.
