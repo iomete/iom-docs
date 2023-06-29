@@ -82,6 +82,7 @@ Navigate to the folder where you downloaded the terraform script file in your te
 
 ```bash
 gcloud auth login
+gcloud auth application-default login
 ```
 
 :::info
