@@ -22,7 +22,7 @@ ___
 
 ## Quickstart
 
-IOMETE provides a [PySpark quickstart template](https://github.com/iomete/spark-job-template) for you to get started with your first Spark Job. You can use this template to get started with your first Spark Job. Please follow the instructions in the `README` file to get started.
+IOMETE provides a [PySpark quickstart template for AWS](https://github.com/iomete/spark-job-template) or [PySpark quickstart template for GCP](https://github.com/iomete/spark-job-template-gcp) for you to get started with your first Spark Job. You can use this template to get started with your first Spark Job. Please follow the instructions in the `README` file to get started.
 
 ## Sample Job
 
