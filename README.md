@@ -89,6 +89,10 @@ hideFeedback:true
 <Img src="source.png" imgClass="bg-white"/>
 ```
 
+### Mini Card
+import MiniCard from "@site/src/components/MiniCard";
+
+<MiniCard link="https://iomete.com/start-know" linkName="Start now">Click to Get started</MiniCard>
 
 ### Export to PDF
 
