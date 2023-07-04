@@ -33,7 +33,7 @@ Copy JDBC URL from Connection details
 ![Datagrip connection details](/img/misc/datagrip-connection-details.png)
 
 
-1. Then type in your **iomete** user and password into corresponding fields
+1. Then type in your **IOMETE** email and [Personal Access Token](/docs/user-guide/create-a-personal-access-token) into corresponding fields
 2. Optionally you can specify the schema (database)
 
 :::warning Check Status
@@ -41,4 +41,4 @@ Please take into consideration that **Test Connection** could take couple of min
 :::
 
 
-![Datagrip connection test](/img/misc/datagrip-connection-tests.png)
+![Datagrip connection test](/img/misc/datagrip-connection-tests-2.png)
