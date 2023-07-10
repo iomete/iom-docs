@@ -1,7 +1,7 @@
 ---
-title: IOMETE deployment on AWS
+title: IOMETE deployment on GCP
 sidebar_label: Install
-description: This guide will explain how to deploy IOMETE on Amazon Web Services using the AWS CLI and Terraform command line tools
+description: This guide will explain how to deploy IOMETE on Google Cloud Platform using the Terraform command line tools
 last_update:
   date: 10/04/2022
 ---
