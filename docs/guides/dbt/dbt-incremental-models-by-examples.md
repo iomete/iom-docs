@@ -183,7 +183,7 @@ Results
 ```
 ---
 
-### Merge without `unique_key`
+### Merge without unique_key
 
 :::info
 Without no merge keys it behaves as **append** mode
@@ -235,7 +235,7 @@ Results
 ```
 ---
 
-### Merge with `unique_key`
+### Merge with unique_key
 
 ```sql title="models/incremental_strategies/models_iceberg/merge_unique_key.sql"
 {{ config(
@@ -283,7 +283,7 @@ Results
 ```
 ---
 
-### Merge with `update columns`
+### Merge with update columns
 
 ```sql title="models/incremental_strategies/models_iceberg/merge_update_columns.sql"
 {{ config(
