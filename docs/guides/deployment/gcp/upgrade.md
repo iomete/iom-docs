@@ -1,11 +1,7 @@
 ---
 title: IOMETE GCP Upgrade
 sidebar_label: Upgrade
-<<<<<<< Updated upstream
 description: This guide will walk you through upgrading your IOMETE platform using Terraform on Google Cloud Platform (GCP).
-=======
-description: This guide will walk you through upgrading your IOMETE platform using Terraform on Google Cloud (GCP).
->>>>>>> Stashed changes
 last_update:
   date: 04/19/2023
   author: Vusal Dadalov
