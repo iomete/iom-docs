@@ -32,7 +32,7 @@ With both AWS CLI and Terraform installed, your environment is ready to go. Now 
 
 ## 2. Continue to the New Cluster section
 
-Select the provider (we currently support only AWS) and select the region where the cluster will be installed.
+Select the provider and select the region where the cluster will be installed.
 
 <Img src="/img/guides/deployments/aws-setup-cluster.png" alt="Cluster Setup"/>
 

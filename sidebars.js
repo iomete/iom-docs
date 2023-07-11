@@ -218,14 +218,14 @@ const sidebars = {
                 "guides/deployment/aws/install", "guides/deployment/aws/upgrade", "guides/deployment/aws/changelog"
               ],
             },
-            // {
-            //   type: "category",
-            //   label: "Azure",
-            //   collapsed: false,
-            //   items: [
-            //     "guides/deployment/azure/install", "guides/deployment/azure/upgrade", "guides/deployment/azure/changelog"
-            //   ],
-            // },
+            {
+              type: "category",
+              label: "Azure",
+              collapsed: false,
+              items: [
+                "guides/deployment/azure/install", "guides/deployment/azure/upgrade"
+              ],
+            },
             {
               type: "category",
               label: "GCP",

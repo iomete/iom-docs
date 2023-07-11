@@ -1,9 +1,9 @@
 ---
-title: IOMETE deployment on GCP
+title: IOMETE deployment on Azure
 sidebar_label: Install
-description: This guide will explain how to deploy IOMETE on Google Cloud Platform using the Terraform command line tools
+description: This guide will explain how to deploy IOMETE on Amazon Web Services using the Azure CLI and Terraform command line tools
 last_update:
-  date: 10/04/2022
+  date: 07/11/2023
 ---
 import Img from '@site/src/components/Img';
 import ImgBorder from '@site/src/components/ImgBorder';
@@ -13,22 +13,18 @@ import Card from "@site/src/components/Card";
 import GridBox from "@site/src/components/GridBox";
 import { Files, Database, Sparkle, Circuitry } from "@phosphor-icons/react";
 
-# IOMETE deployment on GCP
+# IOMETE deployment on Azure
 
 **Installing the IOMETE platform is a quick and easy process that won't take up much of your time**
 
-Getting started with IOMETE is simple and can be done with just a few clicks. However, if you're new to using GCP, you'll need to install some tools on your local computer before you can begin. To get started, make sure you have a GCP account.
-
-:::info
-To install new resources you have to provide a **project id**. It's possible to use the existing project but, we recommend to create a new project to isolate access and resources. See: https://developers.google.com/workspace/guides/create-project
-:::
+Getting started with IOMETE is simple and can be done with just a few clicks. However, if you're new to using Azure, you'll need to install some tools on your local computer before you can begin. To get started, make sure you have a Azure account.
 
 
 ## Required tools
 
 Make sure you have the following tools installed on your local computer:
 
-- **Google CLI:**: Visit the [Google CLI installation guide](https://cloud.google.com/sdk/docs/install-sdk).
+- **Azure CLI:**: Visit the [Azure CLI installation guide](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
 - **Terraform:**: Visit the [Terraform installation guide](https://learn.hashicorp.com/tutorials/terraform/install-cli)
     
 
@@ -44,9 +40,9 @@ Register for an account on the [IOMETE Console](https://app.iomete.cloud/dashboa
 
 ### Create a New Cluster
 
-Select the provider  and select the region where the cluster will be installed.
+Select the provider and select the region where the cluster will be installed.
 
-<Img src="/img/guides/deployments/gcp-setup-cluster.png" alt="Cluster Setup"/>
+<Img src="/img/guides/deployments/az-setup-cluster.png" alt="Cluster Setup"/>
 
 ### Define the workspace name
 
@@ -59,35 +55,31 @@ Workspaces are isolated spaces that can be used by different departments, divisi
   
 The system will generate a terraform script including unique `cluster_id`.
 
-<Img src="/img/guides/deployments/gcp-terraform-conf.png" alt="Terraform configuration"/>
+<Img src="/img/guides/deployments/az-terraform-conf.png" alt="Terraform configuration"/>
 
 :::danger
 Don’t change cluster_id, this ID will be used to access your cluster (ex. connect external BI tools).
 :::
 
-## Deploy IOMETE to GCP
+## Deploy IOMETE to Azure
 
 Download the terraform script file provided in the IOMETE console and execute it.
 
 :::info
 The use who will run the terraform script needs to have the following permissions:
-- GCP Project Admin
+- Azure Subscription Owner/Contributor
 :::
 
 ### 1. Navigate to the folder in CLI.
 
 Navigate to the folder where you downloaded the terraform script file in your terminal.
 
-### 2. Authenticate to GCP
+### 2. Authenticate to Azure
 
 ```bash
-gcloud auth login
-gcloud auth application-default login
+azure login
 ```
 
-:::info
-Make sure you have selected the correct project.
-:::
 
 ### 3. Apply the terraform script
 
@@ -98,7 +90,7 @@ terraform init
 # Create a plan
 terraform plan
 
-# Apply the changes to your GCP
+# Apply the changes to your Azure
 terraform apply
 ```
 
@@ -107,13 +99,14 @@ Open the IOMETE control plane interface. Find the appropriate section or field t
 
 :::info
 Here are the fields you need to copy from the IOMETE_DATA file:
-- GKE Name
-- GKE Endpoint
+- AKS Name
+- AKS Endpoint
 - Cluster CA Certificate
-- Cluster Service Account Key
+- Client Certificate
+- Client Key
 :::
 
-<Img src="/img/guides/deployments/gcp-terraform-output.png" alt="Terraform output to IOMETE Console to Complete the installation"/>
+<Img src="/img/guides/deployments/az-terraform-output.png" alt="Terraform output to IOMETE Console to Complete the installation"/>
 
 
 Once you hit the `Execute` button, IOMETE will start the installing IOMETE operator inside the Kubernetes cluster. This will take a few minutes.

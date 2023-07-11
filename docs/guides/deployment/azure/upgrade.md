@@ -1,21 +1,17 @@
 ---
-title: IOMETE GCP Upgrade
+title: IOMETE Azure Upgrade
 sidebar_label: Upgrade
-<<<<<<< Updated upstream
-description: This guide will walk you through upgrading your IOMETE platform using Terraform on Google Cloud Platform (GCP).
-=======
-description: This guide will walk you through upgrading your IOMETE platform using Terraform on Google Cloud (GCP).
->>>>>>> Stashed changes
+description: This guide will walk you through upgrading your IOMETE platform using Terraform on Azure.
 last_update:
   date: 04/19/2023
   author: Vusal Dadalov
 ---
 
-Upgrading the IOMETE platform is a simple process that ensures you're using the latest features and improvements. This guide will provide you with the necessary steps to upgrade your IOMETE installation on GCP using Terraform.
+Upgrading the IOMETE platform is a simple process that ensures you're using the latest features and improvements. This guide will provide you with the necessary steps to upgrade your IOMETE installation on Azure using Terraform.
 
 Before proceeding, ensure you have the following:
 1.  An active IOMETE account and a working IOMETE installation.
-2.  Google CLI and Terraform (v0.14+) are installed on your local machine. If you need help installing these tools, refer to the [IOMETE Installation Guide](install).
+2.  Azure CLI and Terraform (v0.14+) are installed on your local machine. If you need help installing these tools, refer to the [IOMETE Installation Guide](install).
 3.  Access to your Terraform configuration files and state files.
 
 
@@ -34,7 +30,7 @@ From the changelog, obtain the latest Terraform module. Replace the existing `da
 
 ```hcl
 module "data-plane" {
-  source  = "iomete/data-plane-google/google"
+  source  = "iomete/data-plane-azure/azure"
   version = "X.Y.Z" # example: 1.3.0
   ...
 }
@@ -57,7 +53,7 @@ If the plan output looks correct, proceed with the upgrade by running the `terra
 terraform apply
 ```
 
-Terraform will update the IOMETE platform resources on your GCP account, and the process may take several minutes to complete. 
+Terraform will update the IOMETE platform resources on your Azure account, and the process may take several minutes to complete. 
 Once it's finished, your IOMETE platform will be upgraded to the latest version.
 
 
