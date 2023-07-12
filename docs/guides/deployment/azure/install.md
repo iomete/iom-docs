@@ -24,27 +24,27 @@ Getting started with IOMETE is simple and can be done with just a few clicks. Ho
 
 Make sure you have the following tools installed on your local computer:
 
-- **Azure CLI:**: Visit the [Azure CLI installation guide](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
-- **Terraform:**: Visit the [Terraform installation guide](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+- **Azure CLI:** Visit the [Azure CLI installation guide](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
+- **Terraform:** Visit the [Terraform installation guide](https://learn.hashicorp.com/tutorials/terraform/install-cli)
     
 
 ## Signup for IOMETE
 
 ### Create an organization
 
-Register for an account on the [IOMETE Console](https://app.iomete.cloud/dashboard) and create an organization.
+Register for an account on the [IOMETE Console](https://app.iomete.cloud) and create an organization.
 
 <Img src="/img/guides/deployments/org-list.png" alt="IOMETE Organizations"/>
 
 <Img src="/img/guides/deployments/org-create.png" alt="IOMETE Organization create"/>
 
-### Create a New Cluster
+### Create a new cluster
 
 Select the provider and select the region where the cluster will be installed.
 
 <Img src="/img/guides/deployments/az-setup-cluster.png" alt="Cluster Setup"/>
 
-### Define the workspace name
+### Define a workspace name
 
 Workspaces are isolated spaces that can be used by different departments, divisions, and so.
 

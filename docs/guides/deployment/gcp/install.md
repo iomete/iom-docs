@@ -48,7 +48,7 @@ Select the provider  and select the region where the cluster will be installed.
 
 <Img src="/img/guides/deployments/gcp-setup-cluster.png" alt="Cluster Setup"/>
 
-### Define the workspace name
+### Define a workspace name
 
 Workspaces are isolated spaces that can be used by different departments, divisions, and so.
 
