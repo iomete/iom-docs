@@ -86,6 +86,7 @@ const sidebars = {
             "spark-sql/ddl/alter-table",
             // 'spark-sql/ddl/drop-table',
             "spark-sql/ddl/create-view",
+            "spark-sql/ddl/sql-ddl-examples",
             // 'spark-sql/ddl/drop-view'
           ],
         },
