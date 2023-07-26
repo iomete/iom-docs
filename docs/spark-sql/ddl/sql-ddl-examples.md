@@ -49,7 +49,7 @@ CREATE TABLE ddl_ops_demo_db.sample(id bigint COMMENT 'unique id', data string, 
 ```
 
 ``` jsx  title="describe table"
-SHOW TABLES in ddl_ops_demo_db;
+DESCRIBE EXTENDED ddl_ops_demo_db.sample;
 
 /* Output: 
 +-------------------------------+----------------------------------------------------+------------+
@@ -72,7 +72,9 @@ SHOW TABLES in ddl_ops_demo_db;
 | # Detailed Table Information  |                                                    |            |
 | Name                          | spark_catalog.ddl_ops_demo_db.sample               |            |
 | Location                      | gs://iom-lakehouse-2e6c6c/data/ddl_ops_demo_db...  |            |
-| Provider                      | iceberg                                            |            |
+// highlight-start
+| Provider                      | iceberg                                            |          |
+// highlight-end
 | Owner                         | root                                               |            |
 | Table Properties              | [current-snapshot-id=none,format=iceberg/parqu...  |            |
 +-------------------------------+----------------------------------------------------+------------+
@@ -101,14 +103,18 @@ DESCRIBE EXTENDED ddl_ops_demo_db.sample_partitioned;
 | data                          | string                                             |          |
 | category                      | string                                             |          |
 | ts                            | timestamp                                          |          |
-|                               |                                                    |          |
+
+// highlight-start
 | # Partitioning                |                                                    |          |
 | Part 0                        | days(ts)                                           |          |
 | Part 1                        | category                                           |          |
+// highlight-end
 |                               |                                                    |          |
 | # Metadata Columns            |                                                    |          |
 | _spec_id                      | int                                                |          |
+// highlight-start
 | _partition                    | struct<ts_day:date,category:string>                |          |
+// highlight-end
 | _file                         | string                                             |          |
 | _pos                          | bigint                                             |          |
 | _deleted                      | boolean                                            |          |
@@ -167,7 +173,9 @@ DESCRIBE EXTENDED ddl_ops_demo_db.employees_mysql_external;
 | Last Access                   | UNKNOWN                                            |          |
 | Created By                    | Spark 3.3.3-IOMETE                                 |          |
 | Type                          | MANAGED                                            |          |
+// highlight-start
 | Provider                      | org.apache.spark.sql.jdbc                          |          |
+// highlight-end
 | Location                      | gs://iom-lakehouse-2e6c6c/data/ddl_ops_demo_db...  |          |
 | Serde Library                 | org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe |          |
 | InputFormat                   | org.apache.hadoop.mapred.SequenceFileInputFormat   |          |
@@ -193,12 +201,14 @@ automatically identified based on the query result.
 +-------------------------------+----------------------------------------------------+----------+
 |           col_name            |                     data_type                      | comment  |
 +-------------------------------+----------------------------------------------------+----------+
+// highlight-start
 | emp_no                        | int                                                |          |
 | birth_date                    | date                                               |          |
 | first_name                    | string                                             |          |
 | last_name                     | string                                             |          |
 | gender                        | string                                             |          |
 | hire_date                     | date                                               |          |
+// highlight-end
 |                               |                                                    |          |
 | # Partitioning                |                                                    |          |
 | Not partitioned               |                                                    |          |
@@ -260,8 +270,10 @@ but the physical location of the table remains unchanged.
 |                               |                                                    |          |
 | # Detailed Table Information  |                                                    |          |
 | Name                          | spark_catalog.ddl_ops_demo_db.employees            |          |
+// highlight-start
 | Location                      | gs://iom-lakehouse-2e6c6c/data/ddl_ops_demo_db     |          |
 |                               | /employees_iceberg_table                           |          |
+// highlight-end
 | Provider                      | iceberg                                            |          |
 | Owner                         | root                                               |          |
 | Table Properties              | [current-snapshot-id=37222068048484820,format...   |          |
