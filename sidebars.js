@@ -71,6 +71,15 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "Data Security",
+      link: {
+        type: "doc",
+        id: "security/overview",
+      },
+      items: ["security/access-control", "security/masking", "security/row-level-filter", "security/tag-based"],
+    },
+    {
+      type: "category",
       label: "Spark SQL reference",
       collapsed: true,
       items: [
@@ -174,7 +183,10 @@ const sidebars = {
           type: "category",
           label: "Drivers",
           collapsed: true,
-          items: ["libraries/drivers/sql-alchemy-driver", "libraries/drivers/jdbc-driver"],
+          items: [
+            "libraries/drivers/sql-alchemy-driver",
+            "libraries/drivers/jdbc-driver",
+          ],
         },
       ],
     },
@@ -182,7 +194,10 @@ const sidebars = {
       type: "category",
       label: "Administration",
       collapsed: true,
-      items: ["administration-guide/iomete-ip-addresses", "administration-guide/database-connection-options"],
+      items: [
+        "administration-guide/iomete-ip-addresses",
+        "administration-guide/database-connection-options",
+      ],
     },
     {
       type: "category",
@@ -216,7 +231,9 @@ const sidebars = {
               label: "AWS",
               collapsed: false,
               items: [
-                "guides/deployment/aws/install", "guides/deployment/aws/upgrade", "guides/deployment/aws/changelog"
+                "guides/deployment/aws/install",
+                "guides/deployment/aws/upgrade",
+                "guides/deployment/aws/changelog",
               ],
             },
             {
@@ -224,7 +241,8 @@ const sidebars = {
               label: "Azure",
               collapsed: false,
               items: [
-                "guides/deployment/azure/install", "guides/deployment/azure/upgrade"
+                "guides/deployment/azure/install",
+                "guides/deployment/azure/upgrade",
               ],
             },
             {
@@ -232,7 +250,8 @@ const sidebars = {
               label: "GCP",
               collapsed: false,
               items: [
-                "guides/deployment/gcp/install", "guides/deployment/gcp/upgrade"
+                "guides/deployment/gcp/install",
+                "guides/deployment/gcp/upgrade",
               ],
             },
           ],
