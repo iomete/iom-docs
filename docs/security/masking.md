@@ -65,7 +65,7 @@ SELECT * from default.customers;
 ```
 
 - **Sample Data Before Applying Masking Policy for public group:**
-  Consider a few records in the **`customers`** table before the masking policy is applied:
+  Consider a few records in the `customers` table before the masking policy is applied:
 
   ![data masking example](/img/security/masking/data-masking-example.png)
 

@@ -19,12 +19,12 @@ These policies determine who can perform specific actions (read, write, execute,
 
 ## Allow Conditions
 
-| Field        | Description                                                                                                                    |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| Select Role  | Specify one or more roles for whom this policy should be applied                                                               |
-| Select Group | Specify one or more groups for whom this policy should be applied                                                              |
-| Select User  | Specify one or more users for whom this policy should be applied                                                               |
-| Permissions  | Add or edit permissions: Select, Update, Create, Drop, Alter, Index, Lock, All, ReplAdmin, Service Admin, Select/Deselect All. |
+| Field        | Description                                                                                                                                          |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Select Role  | Specify one or more `roles` for whom this policy should be applied                                                                                   |
+| Select Group | Specify one or more `groups` for whom this policy should be applied                                                                                  |
+| Select User  | Specify one or more `users` for whom this policy should be applied                                                                                   |
+| Permissions  | Add or edit permissions: `Select`, `Update`, `Create`, `Drop`, `Alter`, `Index`, `Lock`, `All`, `ReplAdmin`, `Service Admin`, `Select/Deselect All`. |
 
 :::info
 To add additional conditions, click on the `Add new condition` button. The conditions are evaluated in the order they appear in the policy. The top condition is applied first, followed by the second, third, and so on.

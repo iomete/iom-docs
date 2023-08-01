@@ -44,7 +44,7 @@ This use case focuses on implementing a row-level filtering policy for the `cust
 
 - Target Table: `customers` table in `default` database.
 
-![row level table](/img/security/row-level-filter/row-level-example.png)
+  ![row level table](/img/security/row-level-filter/row-level-example.png)
 
 **Filtering Rule:**
 
@@ -78,17 +78,18 @@ SELECT * from default.customers;
 - **Sample Data Before Applying Row-Level-Filtering Policy:**
   Consider a few records in the `customers` table before the Row-Level-Filtering policy is applied:
 
-![row level sample data](/img/security/row-level-filter/row-level-example2.png)
+  ![row level sample data](/img/security/row-level-filter/row-level-example2.png)
 
 - **Sample Data After Row-Level-Filtering :**
+
   Once the Row-Level-Filtering policy is applied, the `rows` in `customers` table will show different results based on filtering.
 
-User Olivia, a member of uk-employees group:
-The result includes only customers in UK.
+  User `Olivia`, a member of `uk-employees` group:
+  The result includes only customers in UK.
 
-![row level use case](/img/security/row-level-filter/row-level-example3.png)
+  ![row level use case](/img/security/row-level-filter/row-level-example3.png)
 
-    User Jane, a member of ca-employees group:
-    The result includes only customers in Canada.
+  User `Jane`, a member of `ca-employees` group:
+  The result includes only customers in Canada.
 
-![Untitled](/img/security/row-level-filter/row-level-example4.png)
+  ![Untitled](/img/security/row-level-filter/row-level-example4.png)
