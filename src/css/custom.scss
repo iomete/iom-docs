@@ -207,6 +207,13 @@ input[type="search"]::-webkit-search-results-decoration {
   -webkit-appearance: none;
 }
 
+.menu__caret:before {
+  background: var(--ifm-menu-link-sublist-icon) 50% / 1.25rem 1.25rem;
+}
+
+.menu__caret:hover {
+  background: none !important;
+}
 
 // .navbar__logo {
 //   width: 5.125rem!important;

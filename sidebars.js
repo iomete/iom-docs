@@ -76,8 +76,9 @@ const sidebars = {
         type: "doc",
         id: "security/overview",
       },
-      items: ["security/access-control", "security/masking", "security/row-level-filter", "security/tag-based"],
+      items: ["security/access-control", "security/masking", "security/row-level-filter", "security/tag-based-access", "security/tag-based-masking"],
     },
+
     {
       type: "category",
       label: "Spark SQL reference",
@@ -183,10 +184,7 @@ const sidebars = {
           type: "category",
           label: "Drivers",
           collapsed: true,
-          items: [
-            "libraries/drivers/sql-alchemy-driver",
-            "libraries/drivers/jdbc-driver",
-          ],
+          items: ["libraries/drivers/sql-alchemy-driver", "libraries/drivers/jdbc-driver"],
         },
       ],
     },
@@ -194,10 +192,7 @@ const sidebars = {
       type: "category",
       label: "Administration",
       collapsed: true,
-      items: [
-        "administration-guide/iomete-ip-addresses",
-        "administration-guide/database-connection-options",
-      ],
+      items: ["administration-guide/iomete-ip-addresses", "administration-guide/database-connection-options"],
     },
     {
       type: "category",
@@ -230,29 +225,19 @@ const sidebars = {
               type: "category",
               label: "AWS",
               collapsed: false,
-              items: [
-                "guides/deployment/aws/install",
-                "guides/deployment/aws/upgrade",
-                "guides/deployment/aws/changelog",
-              ],
+              items: ["guides/deployment/aws/install", "guides/deployment/aws/upgrade", "guides/deployment/aws/changelog"],
             },
             {
               type: "category",
               label: "Azure",
               collapsed: false,
-              items: [
-                "guides/deployment/azure/install",
-                "guides/deployment/azure/upgrade",
-              ],
+              items: ["guides/deployment/azure/install", "guides/deployment/azure/upgrade"],
             },
             {
               type: "category",
               label: "GCP",
               collapsed: false,
-              items: [
-                "guides/deployment/gcp/install",
-                "guides/deployment/gcp/upgrade",
-              ],
+              items: ["guides/deployment/gcp/install", "guides/deployment/gcp/upgrade"],
             },
           ],
         },
