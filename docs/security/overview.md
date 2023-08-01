@@ -9,11 +9,11 @@ description: IOMETE is a security framework that helps manage who can access and
 
 **Resource-based** policies in **IOMETE** offer a powerful mechanism for enforcing security controls based on the resources being accessed. These policies cover three key areas:
 
-| Access policy                                                              | Control access to specific resources and actions based on user attributes and context.                       | Grant read-only access to an HDFS directory for "Finance" group during business hours.                              |
-|----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
-| Masking Policy                                                             | Anonymize or mask sensitive data when accessed by certain users or groups.                                   | Mask all but the last four digits of a social security number for users outside the "HR" department in Hive.        |
-| Anonymize or mask sensitive data when accessed by certain users or groups. | Mask all but the last four digits of a social security number for users outside the "HR" department in Hive. | Sales representatives can access only customer rows assigned to their region (Alice - US, Bob - Europe) in a table. |
-| Row-Level Policy                                                           | Restrict access to specific rows or records within a resource based on user attributes or conditions.        | Sales representatives can access only customer rows assigned to their region (Alice - US, Bob - Europe) in a table. |
+| Policy Type 	| Description 	| Example 	|
+|---	|---	|---	|
+|  [Access Policy](/docs/security/access-control) 	| Control access to specific resources and actions based on user attributes and context. 	| Grant read-only access to an HDFS directory for "Finance" group during business hours. 	|
+|  [Masking Policy](/docs/security/masking)  	| Anonymize or mask sensitive data when accessed by certain users or groups. 	| Mask all but the last four digits of a social security number for users outside the "HR" department in Hive. 	|
+|  [Row-Level Policy](/docs/security/row-level-filter) 	| Restrict access to specific rows or records within a resource based on user attributes or conditions. 	| Sales representatives can access only customer rows assigned to their region (Alice - US, Bob - Europe) in a table. 	|
 
 ### **Tag-based Access Policies:**
 
