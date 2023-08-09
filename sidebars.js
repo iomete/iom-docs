@@ -216,7 +216,7 @@ const sidebars = {
               label: "AWS",
               collapsed: false,
               items: [
-                "guides/deployment/aws/install", "guides/deployment/aws/upgrade", "guides/deployment/aws/changelog"
+                "guides/deployment/aws/install", "guides/deployment/aws/upgrade", "guides/deployment/aws/changelog", "guides/deployment/aws/permissions"
               ],
             },
             {
