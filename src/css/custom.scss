@@ -47,6 +47,7 @@
 pre {
   border: 1px solid #d3d7dd;
 }
+
 // .docs-wrapper .navbar {
 //   margin-left: 300px;
 // }
@@ -64,12 +65,12 @@ pre {
   font-weight: 400;
 }
 
-.menu__list-item-collapsible > a {
+.menu__list-item-collapsible>a {
   font-weight: 500;
   color: var(--ifm-heading-color);
 }
 
-.menu__list-item > a {
+.menu__list-item>a {
   font-size: 14px;
   padding: 6px 12px 6px 12px;
 }
@@ -131,6 +132,13 @@ pre {
   line-height: 24px;
 }
 
+// To show single button
+.single-button {
+  vertical-align: middle;
+  border-radius: 4px;
+  border: 0.1px solid var(--ifm-color-emphasis-300);
+}
+
 .DocSearch-Button {
   border-radius: 5px !important;
   width: 200px;
@@ -173,17 +181,13 @@ pre {
   }
 }
 
-.pagination-nav {
-  display: none;
-}
-
 .main {
   padding: 12px;
   color: red;
 }
 
 .menu__list-item-collapsible {
-  & > a {
+  &>a {
     font-weight: 600;
   }
 }
