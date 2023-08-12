@@ -4,6 +4,7 @@ description: These policies determine who can perform specific actions (read, wr
 ---
 
 import { DotsSixVertical } from "@phosphor-icons/react";
+import styles from "./styles.module.css";
 
 These policies determine who can perform specific actions (read, write, execute, admin) on resources within the Hadoop ecosystem. Access Control Policies can be configured at a granular level to ensure precise control over user privileges.
 
@@ -13,25 +14,25 @@ These policies determine who can perform specific actions (read, write, execute,
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Policy Name         | Enter an appropriate policy name. This name cannot be duplicated across the system. This field is mandatory. The policy is enabled by default.                                                                                                                                          |
 | Normal/Override     | Enables you to specify an override policy. When override is selected, the access permissions in the policy override the access permissions in existing policies. This feature can be used with Add Validity Period to create temporary access policies that override existing policies. |
-| Database            | Type in the applicable database name. The autocomplete feature displays available databases based on the entered text. Include is selected by default to allow access. Select Exclude to deny access.                                                                                   |
-| Table               | Specifies a table-based. Select table, then type in the applicable table name. The autocomplete feature displays available tables based on the entered text. Include is selected by default to allow access. Select Exclude to deny access.                                             |
-| Column              | Type in the applicable Hive column name. The autocomplete feature displays available columns based on the entered text. Include is selected by default to allow access. Select Exclude to deny access.                                                                                  |
+| Database            | Type in the applicable database name. The autocomplete feature displays available databases based on the entered text. Include is selected by default to allow access. <br/>Select <span className={styles.switch}>Exclude</span> to deny access.                                       |
+| Table               | Specifies a table-based. Select table, then type in the applicable table name. The autocomplete feature displays available tables based on the entered text. Include is selected by default to allow access. <br/>Select <span className={styles.switch}>Exclude</span> to deny access. |
+| Column              | Type in the applicable Hive column name. The autocomplete feature displays available columns based on the entered text. Include is selected by default to allow access. <br/>Select <span className={styles.switch}>Exclude</span> to deny access.                                      |
 | Description         | (Optional) Describe the purpose of the policy.                                                                                                                                                                                                                                          |
 | Add Validity Period | Specify a start and end time for the policy.                                                                                                                                                                                                                                            |
 
 ## Allow Conditions
 
-| Field        | Description                                                                                                                                          |
-| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Select Group | Specify one or more `groups` for whom this policy should be applied. If no group is specified, you must provide a user.                              |
-| Select User  | Specify one or more `users` for whom this policy should be applied. If no user is specified, you must provide a group.                               |
-| Permissions  | Add or edit permissions: `Select`, `Update`, `Create`, `Drop`, `Alter`, `Index`, `Lock`, `All`, `ReplAdmin`, `Service Admin`, `Select/Deselect All`. |
+| Field        | Description                                                                                                                                |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Select Group | Specify one or more `groups` for whom this policy should be applied. If no group is specified, you must provide a user.                    |
+| Select User  | Specify one or more `users` for whom this policy should be applied. If no user is specified, you must provide a group.                     |
+| Permissions  | Add or edit permissions: `Select` `Update` `Create` `Drop` `Alter` `Index` `Lock` `All` `ReplAdmin` `Service Admin` `Select/Deselect All`. |
 
 :::info
 To add additional conditions, click on the `Add new condition` button. The conditions are evaluated in the order they appear in the policy. The top condition is applied first, followed by the second, third, and so on.
 
 <p>
-  Drag items from the left-side icon <DotsSixVertical size={20} className="single-button" /> to reorder.
+  Drag items from the left-side icon <DotsSixVertical size={20} className={styles.button} /> to reorder.
 </p>
 :::
 
@@ -39,9 +40,7 @@ To add additional conditions, click on the `Add new condition` button. The condi
 Additionally, you can use `Deny All Other Accesses` to block access for all users, groups, and roles not explicitly specified in the allow conditions of the policy. This ensures that only those specified in the allow conditions are granted access, and all others are denied access.
 :::
 
-## Access control use cases
-
-## Access **Policy evaluation flow**
+## Access Policy evaluation flow
 
 Find all the policies that apply to the requested resource. Once the policies are found, they are evaluated in the following order:
 
@@ -50,7 +49,9 @@ Find all the policies that apply to the requested resource. Once the policies ar
 
 ![accces-policy-evaliation-flow](/img/security/access-control-use-case/access-control-logic.png)
 
-## Use Case: **Payment Database Access**
+## Access control use cases
+
+### Use case 1: Payment Database Access
 
 This use case establishes the access rules for the `payment_db` database. It gives the `finance` group full access, while all other groups are excluded, apart from the `data_engs` group. This allows for potential access to be extended to `data_engs` group members.
 
@@ -92,7 +93,7 @@ Being excluded from denial doesn’t automatically grant resource access. It sim
 If the Exclude from deny rule is not applied, all groups mentioned in the Deny section would be completely barred from accessing the specified resources, regardless of any other Allow rules that might exist. In this scenario, if the data_engs group was not specified in the Exclude from deny rule, they would be denied access to the payment_db database, even if there was another rule elsewhere that allowed them access. The Deny rule takes precedence over any conflicting Allow rules unless an Exclude from deny rule is specifically applied.
 :::
 
-## Use Case: **Validity Period**
+### Use case 2: Validity Period
 
 Validity Period can be applied to the policies. When validity period is defined, the policy will be active only during the specified time period.
 

@@ -1,0 +1,69 @@
+---
+title: Security Policies Overview
+description: IOMETE is a security framework that helps manage who can access and do what with data in big data systems like Hadoop and others. It allows centralized control over authorization, access control, and auditing for various components like Hive, HBase, HDFS, Kafka, and Solr.
+---
+
+import styles from "./styles.module.css";
+
+**IOMETE** is a security framework that helps manage who can access and do what with data in big data systems like Hadoop and others. It allows centralized control over authorization, access control, and auditing for various components like Hive, HBase, HDFS, Kafka, and Solr. **IOMETE** has two types of policies: **resource-based** and **tag-based**.
+
+### **Resource-based Policies**
+
+**Resource-based** policies in **IOMETE** offer a powerful mechanism for enforcing security controls based on the resources being accessed. These policies cover three key areas:
+
+| Policy Type                                         | Description                                                                                           | Example                                                                                                             |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| [Access Policy](/docs/security/access-control)      | Control access to specific resources and actions based on user attributes and context.                | Grant read-only access to an HDFS directory for "Finance" group during business hours.                              |
+| [Masking Policy](/docs/security/masking)            | Anonymize or mask sensitive data when accessed by certain users or groups.                            | Mask all but the last four digits of a social security number for users outside the "HR" department in Hive.        |
+| [Row-Level Policy](/docs/security/row-level-filter) | Restrict access to specific rows or records within a resource based on user attributes or conditions. | Sales representatives can access only customer rows assigned to their region (Alice - US, Bob - Europe) in a table. |
+
+### **Tag-based Access Policies:**
+
+**Tag-based** Access Policies in **IOMETE** allow administrators to manage access controls to resources based on assigned **tags**. Instead of defining policies for individual resources, administrators group resources with similar characteristics under a common tag and apply access controls to the entire tag. This simplifies policy management and allows users or groups to access all resources sharing the same tag with consistent access permissions.
+
+| Policy Type                                    | Description                                                                                                                                                              | Example                                                                                                                                     |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Access Policy](/docs/security/access-control) | Manage access controls to resources based on assigned tags. Resources with similar characteristics share common tags, and access controls are applied to the entire tag. | Assign "Finance," "Marketing," and "HR" tags to corresponding resources and define access policies based on these tags for each department. |
+| [Masking Policy](/docs/security/masking)       | Control data masking within resources based on their assigned tags. Sensitive data is categorized with tags to indicate sensitivity levels.                              | Tag resources containing sensitive data as "Sensitive" and define masking policies for specific attributes within those resources.          |
+
+### IOMETE **access conditions**
+
+**IOMETE** access policy model has two main parts: defining the resources the policy applies to (like HDFS files, Hive databases, and HBase tables), and specifying access conditions for specific users and groups.
+
+**IOMETE** provides the following **access conditions** for managing fine-grained access control:
+
+1. **Allow conditions**:
+   "Allow" is a positive permission that grants users or groups the explicit right to access a specific resource or perform particular actions. When a user or group is granted "Allow" permissions, they are explicitly permitted to perform the specified operations on the defined resource.
+2. **Exclude from Allow conditions**:
+   "Exclude from Allow" is a negative permission that can be used to exclude certain users or groups from an "Allow" policy. This means that even if a broader "Allow" rule exists, any user or group listed in the "Exclude from Allow" will be denied access, effectively overriding the broader permission.
+3. **Deny conditions**:
+   "Deny" is a negative permission that explicitly prohibits users or groups from accessing a resource or performing specific actions. When a user or group is listed in a "Deny" policy, they will be denied access, regardless of any "Allow" permissions that might exist.
+4. **Exclude from Deny conditions**:
+   "Exclude from Deny" is a positive permission that can be used to override a broader "Deny" rule. If a user or group is included in the "Exclude from Deny" list, they will be allowed access, even if there is a general "Deny" policy affecting other users or groups.
+
+![Apache Ranger conditions](/img/security/overview/apache-ranger-conditions.png)
+
+### Wildcards in resource-based policies
+
+**Wildcard** characters can be included in the resource path, the **database** name, the **table** name, or the **column** name
+
+| Character         | Description                                                                                                                         | Example                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Asterisk (\*)     | Used as a wildcard to represent any sequence of characters, including an empty sequence. It is a powerful tool for pattern matching | If you search for "apple*", it will match "apple," "applesauce," "applet," "apples," and any other word that starts with "apple." If you search for "*at," it will match "cat," "bat," "hat," "rat," and any other word that ends with "at." If you search for "a\*e," it will match "ace," "ate," "axe," "ape," and any other word that has an 'a' followed by any number of characters and then an 'e.' |
+| Question mark (?) | Used to represent a single character in a search pattern.                                                                           | If you search for "h?t," it will match "hat," "hot," "hit," and any other three-letter word where the first and last letters are 'h' and 't,' respectively, and the second letter can be any single character.                                                                                                                                                                                            |
+
+:::info Wildcard support
+Wildcard supported exclusively in Access Policies.
+:::
+
+## Variables in resource-based policies
+
+IOMETE Authorization Resource Policy {USER} Variable
+
+The **{USER}** variable allows for automatic filling of the information of the user who is accessing the system. For instance:
+
+When selecting a user, simply choose **{USER}**.
+
+When specifying the resource path, input "data\_**{USER}.**
+
+**IOMETE** recommends using the '**{USER}**' string to represent the accessing user in its policies. However, **IOMETE** also allows customization of this string, which serves as a shorthand for the accessing user's name in the policy resource specification. By default, **IOMETE** expects '**{**' and '**}**' as delimiters for the '**USER**' string. But it supports customization of delimiters, escape sequences, and the '**USER**' string itself by adding a user-specified prefix on a per resource-level basis in the service definition of each component supported by **IOMETE**.
