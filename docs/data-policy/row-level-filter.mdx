@@ -1,0 +1,146 @@
+---
+title: Row Level Filter
+description: In IOMETE Row-level filtering limits who can see certain rows in a database.
+---
+
+import { DotsSixVertical } from "@phosphor-icons/react";
+import styles from "./styles.module.css";
+import Details from "./components/Details";
+
+IOMETE Row-level Filter policies allow users to access only a subset of data based on the context in which they interact with the data. When utilizing a table with a row-filter, only a portion of rows will be visible to the user – as determined by the filter configuration within the row-filter policy.
+
+<hr />
+
+## Policy details
+
+<Details />
+
+## Policy resources
+
+| Field    | Description                                                                                                                                                  |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Database | Choose only one database. All available options are displayed in the selection. The search function helps you find an exact match.                           |
+| Table    | Choose only one table. All available options are displayed in the selection based on the chosen database. The search function helps you find an exact match. |
+
+:::caution Wildcard
+Wildcard matching is not supported in row level filter policy.
+:::
+
+## Row Filter Conditions
+
+<table>
+  <thead>
+    <tr>
+      <th style={{ whiteSpace: "nowrap" }}>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Select Group</td>
+      <td>
+        Specify one or more groups for whom this policy should be applied.
+        <br />
+        If no group is specified, you must provide a user.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Select User</td>
+      <td>
+        Specify one or more users for whom this policy should be applied.
+        <br />
+        If no user is specified, you must provide a group.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Access Types</td>
+      <td>
+        Currently select is the only available access type. This will be used in conjunction with the WHERE clause
+        specified in the Row Level Filter field.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Row Level Filter</td>
+      <td>
+        To create a row filter for the specified users, groups, and roles, Click <code>Add Row Filter</code>, then type
+        a valid WHERE clause in the Enter filter expression box. <br />
+        <br />
+        To allow Select access for the specified users and groups without row-level restrictions, do not add a row
+        filter (leave the setting as "Add Row Filter"). <br />
+        <br />
+        Filters are evaluated in the order listed in the policy. The filter at the top of the Row Filter Conditions list
+        is applied first, then the second, then the third, and so on.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+:::info New condition
+To add additional conditions, click on the `Add new condition` button. The conditions are evaluated in the order they appear in the policy. The top condition is applied first, followed by the second, third, and so on.
+
+<p>
+  Drag items from the left-side icon <DotsSixVertical size={20} className={styles.button} /> to reorder.
+</p>
+:::
+
+## **Use Case: Policy Masking for Phone Number in Customers Table**
+
+Let's use the `customers` table for row-level filtering feature use cases as well.
+
+This use case focuses on implementing a row-level filtering policy for the `customers` table to restrict user access to customer records based on their respective countries. The objective is to ensure that users can only view records of customers located in the same country where they work. This policy will help maintain data privacy and comply with country-specific regulations.
+
+![row-level-filtering](/img/security/row-level-filter/row-level-example5.png)
+
+## **Policy details**
+
+- Target Table: `customers` table in `default` database.
+
+  ![row level table](/img/security/row-level-filter/row-level-example.png)
+
+**Filtering rule:**
+
+- The policy enforces that users can only access customer records from their own country-specific group.
+- For instance, users belonging to the `us_employees` group can only access customer records for customers located in the United States. Similarly, users belonging to the `uk_employees` group can only access customer records for customers located in the United Kingdom.
+- The filtering is applied dynamically based on the user's country-specific group membership.
+
+**Group examples:**
+
+- `us_employees`: For users working in the United States.
+- `ca_employees`: For users working in the Canada.
+- `uk_employees`: For users working in the United Kingdom.
+- Other country-specific groups can be created for different regions as per requirements.
+  ![row level conditions](/img/security/row-level-filter/row-level-example1.png)
+
+:::info
+Default access type in row-level-filter is `select`
+:::
+
+**Rationale:**
+
+- By implementing this row-level filtering policy, we ensure that users can only access customer data relevant to their work location, minimizing the risk of unauthorized access to sensitive information.
+- Users are restricted to view customer records within their country, promoting data privacy compliance and adhering to the principle of least privilege.
+
+## **Query Results**
+
+```sql
+SELECT * from default.customers;
+```
+
+- **Sample Data Before Applying Row-Level-Filtering Policy:**
+  Consider a few records in the `customers` table before the Row-Level-Filtering policy is applied:
+
+  ![row level sample data](/img/security/row-level-filter/row-level-example2.png)
+
+- **Sample Data After Row-Level-Filtering :**
+
+  Once the Row-Level-Filtering policy is applied, the `rows` in `customers` table will show different results based on filtering.
+
+  User `Olivia`, a member of `uk-employees` group:
+  The result includes only customers in UK.
+
+  ![row level use case](/img/security/row-level-filter/row-level-example3.png)
+
+  User `Jane`, a member of `ca-employees` group:
+  The result includes only customers in Canada.
+
+  ![Untitled](/img/security/row-level-filter/row-level-example4.png)
