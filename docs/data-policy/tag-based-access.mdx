@@ -1,7 +1,7 @@
 ---
 title: Tag based access policy
 sidebar_label: Tag based access
-description: IOMETE uses data policy access, enabling the allocation of access policies, or permissions, to users or groups.
+description: IOMETE uses tag-based data policy access, using tags to enable the allocation of access policies, or permissions, to users or groups.
 ---
 
 import { DotsSixVertical } from "@phosphor-icons/react";
@@ -9,7 +9,7 @@ import styles from "./styles.module.css";
 
 import Details from "./components/Details";
 
-IOMETE uses data policy access, enabling the allocation of access policies, or permissions, to users or groups.
+IOMETE uses tag-based data policy access, using tags to enable the allocation of access policies, or permissions, to users or groups.
 
 <hr />
 
@@ -73,72 +73,22 @@ To add additional conditions, click on the `Add new condition` button. The condi
 </p>
 :::
 
-## Access Policy evaluation flow
+## Tag-based Access Policy evaluation flow
 
-Find all the policies that apply to the requested resource. Once the policies are found, they are evaluated in the following order:
+![access policy-use-case](/img/security/tag-based-access-flow.png)
 
-1. If the request matches any deny conditions and not excluded by deny exclusions in any of the policies, then the request is **denied**.
-2. If the request matches any allow conditions and not excluded with allow exclusions, then the request is **allowed**.
+## Tag-based policy use cases
 
-![access policy-use-case](/img/security/tag-based-access-flow.svg)
+Tag-based policies use "tags" as labels for data like files or tables in a database. These tags classify data based on things like sensitivity or data type. Tag-based access policies then use these tags to create access rules.
 
-## Access control use cases
+Here's how it works:
 
-### Use case 1: Payment Database Access
+1. **Tagging Data:** Data administrators or users label data with tags that describe their features. For instance, a financial dataset could have tags like "Confidential" and "Finance," while a marketing dataset might be tagged as "Public" and "Marketing."
 
-This use case establishes the access rules for the `payment_db` database. It gives the `finance` group full access, while all other groups are excluded, apart from the `data_engs` group. This allows for potential access to be extended to `data_engs` group members.
+2. **Defining Policies:** Access policies are then defined using these tags. Instead of specifying access control rules based on individual users or groups, policies are linked to tags. For instance, a policy might be set up to allow only users with the "Finance" tag to access data tagged as "Confidential."
 
-```
-Resources:
-  - databases: payment_db:[*]
-Allow: groups:[finance] permissions:[*]
-Deny:  groups:[public] permission:[*]
-Exclude from deny:
-    - groups:[data_engs] permissions:[select]
-    - groups:[finance] permissions:[*]
+3. **Dynamic Access Control:** When a user wants to access data, IOMETE checks if the user's tag matches the data's tag-based access rule. If they match, access is allowed. If not, access is blocked.
 
-```
+4. **Flexibility and Automation:** Tag-based access policies offer a more dynamic and flexible approach to access control. As data changes or new data assets are added, the tagging system can be adjusted, and the corresponding access policies will automatically apply without the need for constant policy updates.
 
-![access policy-use-case](/img/security/access-control-use-case/access-policy-use-case.png)
-
-**Explanation**:
-
-- The `Resources` section outlines the specific area this policy relates to. In this instance, it’s all tables/views found within the `payment_db` database.
-
-  ![access policy resources](/img/security/access-control-use-case/access-policy-resources.png)
-
-- The `Allow` section specifies which groups are granted access to the aforementioned resources. For this policy, the `finance` group has full access to all tables/views in the `payment_db` database.
-
-  ![access policy conditions](/img/security/access-control-use-case/access-policy-conditions.png)
-
-- The `Deny` section identifies the groups that are not permitted to access these resources. Here, the `public` group is explicitly denied access to all tables/views within the `payment_db` database.
-
-  ![deny condition](/img/security/access-control-use-case/access-policy-deny-conditions.png)
-
-- The `Exclude from deny` section lists the groups that are exempted from the access denial rule.
-  ![exclude from deny](/img/security/access-control-use-case/exclude-from-deny-conditions.png)
-
-:::info **Important**: 
-Being excluded from denial doesn’t automatically grant resource access. It simply means that if there’s another rule permitting access, that rule will apply. In this case, the data_engs group is exempt from the denial rule, but they don’t have access to the resources since there isn’t an additional rule granting them access.
-:::
-
-:::info **Note**: 
-If the Exclude from deny rule is not applied, all groups mentioned in the Deny section would be completely barred from accessing the specified resources, regardless of any other Allow rules that might exist. In this scenario, if the data_engs group was not specified in the Exclude from deny rule, they would be denied access to the payment_db database, even if there was another rule elsewhere that allowed them access. The Deny rule takes precedence over any conflicting Allow rules unless an Exclude from deny rule is specifically applied.
-:::
-
-### Use case 2: Validity Period
-
-Validity Period can be applied to the policies. When validity period is defined, the policy will be active only during the specified time period.
-
-![validity period](/img/security/access-control-use-case/access-policy-validity-period.png)
-
-:::info **Note**: 
-Multiple date ranges can be specified in the validity period.
-:::
-
-![add validity period](/img/security/access-control-use-case/add-policy-validity-period.png)
-
-:::info **Note**: 
-If you would like the policy to override all other policies during its validity period, select override.
-:::info
-![edit validity period](/img/security/access-control-use-case/edit-validity-period.png)
+Tag-based access policies improve data security, simplify access control, and ensure only authorized people can access sensitive information by using specific tags tied to data.
