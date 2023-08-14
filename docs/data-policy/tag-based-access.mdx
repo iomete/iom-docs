@@ -1,6 +1,6 @@
 ---
-title: Data policy access
-sidebar_label: Access control
+title: Tag based access policy
+sidebar_label: Tag based access
 description: IOMETE uses data policy access, enabling the allocation of access policies, or permissions, to users or groups.
 ---
 
@@ -19,28 +19,7 @@ IOMETE uses data policy access, enabling the allocation of access policies, or p
 
 ## Policy resources
 
-| Field     | Description                                                                                                                                                                                                                                                                                  |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Databases | Choose databases. All available options are displayed in the selection. The search function helps you find an exact match. <br/>Include is selected by default to allow access. Select <span className={styles.switch}>Exclude</span> to deny access.                                        |
-| Tables    | Choose tables. All available options are displayed in the selection based on the chosen databases. The search function helps you find an exact match. <br/>Include is selected by default to allow access. Select <span className={styles.switch}>Exclude</span> to deny access.             |
-| Columns   | Choose columns. All available options are displayed in the selection based on the chosen databases and tables. The search function helps you find an exact match. <br/>Include is selected by default to allow access. Select <span className={styles.switch}>Exclude</span> to deny access. |
-
-:::success Wildcard
-
-Wildcard characters can be included in the database name, the table name, or the column name:
-
-- **Asterisk (\*):** indicates zero or more occurrences of characters
-  <br />
-  If you search for "apple*", it will match "apple," "applesauce," "applet," "apples," and any other word that starts with
-  "apple." If you search for "*at," it will match "cat," "bat," "hat," "rat," and any other word that ends with "at." If
-  you search for "a\*e," it will match "ace," "ate," "axe," "ape," and any other word that has an 'a' followed by any number
-  of characters and then an 'e.'
-- **Question mark (?):** indicates a single character
-  <br />
-  If you search for "h?t," it will match "hat," "hot," "hit," and any other three-letter word where the first and last letters
-  are 'h' and 't,' respectively, and the second letter can be any single character.
-
-:::
+**Tags:** Provide the relevant tag name that should be applied.
 
 ## Policy Conditions
 
@@ -101,7 +80,7 @@ Find all the policies that apply to the requested resource. Once the policies ar
 1. If the request matches any deny conditions and not excluded by deny exclusions in any of the policies, then the request is **denied**.
 2. If the request matches any allow conditions and not excluded with allow exclusions, then the request is **allowed**.
 
-![accces-policy-evaliation-flow](/img/security/access-control-use-case/access-control-logic.png)
+![access policy-use-case](/img/security/tag-based-access-flow.svg)
 
 ## Access control use cases
 

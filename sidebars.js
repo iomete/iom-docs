@@ -85,7 +85,7 @@ const sidebars = {
         type: "doc",
         id: "data-policy/overview",
       },
-      items: ["data-policy/access-control", "data-policy/masking", "data-policy/row-level-filter", "data-policy/tag-based-access", "data-policy/tag-based-masking"],
+      items: ["data-policy/access", "data-policy/masking", "data-policy/row-level-filter", "data-policy/tag-based-access", "data-policy/tag-based-masking"],
     },
 
     {
