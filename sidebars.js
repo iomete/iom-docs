@@ -78,6 +78,15 @@ const sidebars = {
       },
       items: ["security/access-control", "security/masking", "security/row-level-filter", "security/tag-based-access", "security/tag-based-masking"],
     },
+    {
+      type: "category",
+      label: "Data Policies",
+      link: {
+        type: "doc",
+        id: "data-policy/overview",
+      },
+      items: ["data-policy/access-control", "data-policy/masking", "data-policy/row-level-filter", "data-policy/tag-based-access", "data-policy/tag-based-masking"],
+    },
 
     {
       type: "category",

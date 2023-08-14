@@ -1,0 +1,122 @@
+---
+title: Data policy masking
+sidebar_label: Data masking
+description: IOMETE enables dynamic data masking for enhanced security. Safeguard sensitive info like PII, PCI, PHI with column anonymization in query results.
+---
+
+import { DotsSixVertical } from "@phosphor-icons/react";
+import styles from "./styles.module.css";
+
+import Details from "./components/Details";
+
+IOMETE allows you to protect sensitive data using data masking. With this feature, you can create policies that mask or anonymize specific columns containing sensitive data, such as **PII**, **PCI**, and **PHI**, dynamically in the query output.
+
+<hr />
+
+## Policy details
+
+<Details />
+
+## Policy resources
+
+| Field    | Description                                                                                                                                                             |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Database | Choose only one database. All available options are displayed in the selection. The search function helps you find an exact match.                                      |
+| Table    | Choose only one table. All available options are displayed in the selection based on the chosen database. The search function helps you find an exact match.            |
+| Column   | Choose only one column. All available options are displayed in the selection based on the chosen database and table. The search function helps you find an exact match. |
+
+:::caution Wildcard
+Wildcard matching is not supported in data masking policy.
+:::
+
+## Mask Conditions
+
+IOMETE provides the mask conditions for the management of fine-grained data masking.
+The condition includes the following properties.
+
+<table>
+  <thead>
+    <tr>
+      <th style={{ whiteSpace: "nowrap" }}>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Select Group</td>
+      <td>
+        Specify one or more groups for whom this policy should be applied. If no group is specified, you must provide a
+        user.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Select User</td>
+      <td>
+        Specify one or more users for whom this policy should be applied. If no user is specified, you must provide a
+        group.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Masking options</td>
+      <td>
+        To create a masking filter for the specified users, groups, click <strong>Select Masking Option</strong>, then
+        select a masking type: <br />- <strong>Redact</strong> – mask all alphabetic characters with "x" and all numeric
+        characters with "n". <br />- <strong>Partial mask</strong>: show last 4 – Show only the last four characters.{" "}
+        <br />- <strong>Partial mask</strong>: show first 4 – Show only the first four characters. <br />-{" "}
+        <strong>Hash</strong> – Replace all characters with a hash of the entire cell value. <br />-{" "}
+        <strong>Nullify</strong> – Replace all characters with a NULL value. <br />- <strong>Unmasked</strong> (retain
+        original value) – No masking is applied. <br />- <strong>Date: show only year</strong> – Show only the year
+        portion of a date string and default the month and day to 01/01.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+:::info New condition
+To add additional conditions, click on the `Add new condition` button. The conditions are evaluated in the order they appear in the policy. The top condition is applied first, followed by the second, third, and so on.
+
+<p>
+  Drag items from the left-side icon <DotsSixVertical size={20} className={styles.button} /> to reorder.
+</p>
+:::
+
+## **Use Case: Policy Masking for Phone Number in Customers Table**
+
+Let's use the `customers` table for data-masking feature use cases as well.
+
+This use case focuses on implementing a masking policy for the `phone_number` column within the `customers` table. The objective is to provide a certain level of data privacy while granting access to the data for the public group.
+
+![data masking use](/img/security/masking/data-masking-use-case.png)
+
+## **Policy details**
+
+- Target Table: `customers`
+- Target Column: `phone_number`
+  ![data masking UI](/img/security/masking/data-masking-ui.png)
+
+**Masking Rule:**
+
+- The policy enforces that members of the public group can only view the last 4 digits of the `phone_number` column.
+- All other digits preceding the last 4 should be masked or obfuscated, ensuring that sensitive information remains protected.
+
+**Access Permissions:**
+
+- The public group is granted read access to the `phone_number` column within the `customers` table.
+- This allows the `public` group members to view the partially masked phone numbers for customers while ensuring that critical digits are concealed.
+  ![data masking permission](/img/security/masking/data-masking-permission.png)
+
+## **Query Results**
+
+```sql
+SELECT * from default.customers;
+```
+
+- **Sample Data Before Applying Masking Policy for public group:**
+  Consider a few records in the `customers` table before the masking policy is applied:
+
+  ![data masking example](/img/security/masking/data-masking-example.png)
+
+- **Sample Data After Applying Masking Policy public group:**
+  Once the masking policy is applied, the `phone_number` column will show different results based on the user group's access level.
+
+  ![data masking sample](/img/security/masking/data-masking-sample.png)

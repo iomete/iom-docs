@@ -1,0 +1,165 @@
+---
+title: Data policy access
+sidebar_label: Access control
+description: IOMETE uses data policy access, enabling the allocation of access policies, or permissions, to users or groups.
+---
+
+import { DotsSixVertical } from "@phosphor-icons/react";
+import styles from "./styles.module.css";
+
+import Details from "./components/Details";
+
+IOMETE uses data policy access, enabling the allocation of access policies, or permissions, to users or groups.
+
+<hr />
+
+## Policy details
+
+<Details />
+
+## Policy resources
+
+| Field     | Description                                                                                                                                                                                                                                                                                  |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Databases | Choose databases. All available options are displayed in the selection. The search function helps you find an exact match. <br/>Include is selected by default to allow access. Select <span className={styles.switch}>Exclude</span> to deny access.                                        |
+| Tables    | Choose tables. All available options are displayed in the selection based on the chosen databases. The search function helps you find an exact match. <br/>Include is selected by default to allow access. Select <span className={styles.switch}>Exclude</span> to deny access.             |
+| Columns   | Choose columns. All available options are displayed in the selection based on the chosen databases and tables. The search function helps you find an exact match. <br/>Include is selected by default to allow access. Select <span className={styles.switch}>Exclude</span> to deny access. |
+
+:::success Wildcard
+
+Wildcard characters can be included in the database name, the table name, or the column name:
+
+- **Asterisk (\*):** indicates zero or more occurrences of characters
+  <br />
+  If you search for "apple*", it will match "apple," "applesauce," "applet," "apples," and any other word that starts with
+  "apple." If you search for "*at," it will match "cat," "bat," "hat," "rat," and any other word that ends with "at." If
+  you search for "a\*e," it will match "ace," "ate," "axe," "ape," and any other word that has an 'a' followed by any number
+  of characters and then an 'e.'
+- **Question mark (?):** indicates a single character
+  <br />
+  If you search for "h?t," it will match "hat," "hot," "hit," and any other three-letter word where the first and last letters
+  are 'h' and 't,' respectively, and the second letter can be any single character.
+
+:::
+
+## Policy Conditions
+
+IOMETE provides the following access conditions for managing fine-grained access control:
+
+- **Allow conditions:** "Allow" is a positive permission that grants users or groups the explicit right to access a specific resource or perform particular actions. When a user or group is granted "Allow" permissions, they are explicitly permitted to perform the specified operations on the defined resource.
+- **Exclude from Allow Conditions:** "Exclude from Allow" is a negative permission that can be used to exclude certain users or groups from an "Allow" policy. This means that even if a broader "Allow" rule exists, any user or group listed in the "Exclude from Allow" will be denied access, effectively overriding the broader permission.
+- **Deny Conditions:** "Deny" is a negative permission that explicitly prohibits users or groups from accessing a resource or performing specific actions. When a user or group is listed in a "Deny" policy, they will be denied access, regardless of any "Allow" permissions that might exist.
+- **Exclude from Deny Conditions:** "Exclude from Deny" is a positive permission that can be used to override a broader "Deny" rule. If a user or group is included in the "Exclude from Deny" list, they will be allowed access, even if there is a general "Deny" policy affecting other users or groups.
+
+Each condition includes the following properties.
+
+<table>
+  <thead>
+    <tr>
+      <th style={{ whiteSpace: "nowrap" }}>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Select Group</td>
+      <td>
+        Specify one or more <code>groups</code> for whom this policy should be applied. If no group is specified, you
+        must provide a user.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Select User</td>
+      <td>
+        Specify one or more <code>users</code> for whom this policy should be applied. If no user is specified, you must
+        provide a group.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Permissions</td>
+      <td>
+        Add or edit permissions: <code>Select</code> <code>Update</code> <code>Create</code> <code>Drop</code>{" "}
+        <code>Alter</code> <code>Index</code> <code>Lock</code> <code>All</code> <code>ReplAdmin</code>{" "}
+        <code>Service Admin</code> <code>Select/Deselect All</code>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+:::info
+To add additional conditions, click on the `Add new condition` button. The conditions are evaluated in the order they appear in the policy. The top condition is applied first, followed by the second, third, and so on.
+
+<p>
+  Drag items from the left-side icon <DotsSixVertical size={20} className={styles.button} /> to reorder.
+</p>
+:::
+
+## Access Policy evaluation flow
+
+Find all the policies that apply to the requested resource. Once the policies are found, they are evaluated in the following order:
+
+1. If the request matches any deny conditions and not excluded by deny exclusions in any of the policies, then the request is **denied**.
+2. If the request matches any allow conditions and not excluded with allow exclusions, then the request is **allowed**.
+
+![accces-policy-evaliation-flow](/img/security/access-control-use-case/access-control-logic.png)
+
+## Access control use cases
+
+### Use case 1: Payment Database Access
+
+This use case establishes the access rules for the `payment_db` database. It gives the `finance` group full access, while all other groups are excluded, apart from the `data_engs` group. This allows for potential access to be extended to `data_engs` group members.
+
+```
+Resources:
+  - databases: payment_db:[*]
+Allow: groups:[finance] permissions:[*]
+Deny:  groups:[public] permission:[*]
+Exclude from deny:
+    - groups:[data_engs] permissions:[select]
+    - groups:[finance] permissions:[*]
+
+```
+
+![access policy-use-case](/img/security/access-control-use-case/access-policy-use-case.png)
+
+**Explanation**:
+
+- The `Resources` section outlines the specific area this policy relates to. In this instance, it’s all tables/views found within the `payment_db` database.
+
+  ![access policy resources](/img/security/access-control-use-case/access-policy-resources.png)
+
+- The `Allow` section specifies which groups are granted access to the aforementioned resources. For this policy, the `finance` group has full access to all tables/views in the `payment_db` database.
+
+  ![access policy conditions](/img/security/access-control-use-case/access-policy-conditions.png)
+
+- The `Deny` section identifies the groups that are not permitted to access these resources. Here, the `public` group is explicitly denied access to all tables/views within the `payment_db` database.
+
+  ![deny condition](/img/security/access-control-use-case/access-policy-deny-conditions.png)
+
+- The `Exclude from deny` section lists the groups that are exempted from the access denial rule.
+  ![exclude from deny](/img/security/access-control-use-case/exclude-from-deny-conditions.png)
+
+:::info **Important**: 
+Being excluded from denial doesn’t automatically grant resource access. It simply means that if there’s another rule permitting access, that rule will apply. In this case, the data_engs group is exempt from the denial rule, but they don’t have access to the resources since there isn’t an additional rule granting them access.
+:::
+
+:::info **Note**: 
+If the Exclude from deny rule is not applied, all groups mentioned in the Deny section would be completely barred from accessing the specified resources, regardless of any other Allow rules that might exist. In this scenario, if the data_engs group was not specified in the Exclude from deny rule, they would be denied access to the payment_db database, even if there was another rule elsewhere that allowed them access. The Deny rule takes precedence over any conflicting Allow rules unless an Exclude from deny rule is specifically applied.
+:::
+
+### Use case 2: Validity Period
+
+Validity Period can be applied to the policies. When validity period is defined, the policy will be active only during the specified time period.
+
+![validity period](/img/security/access-control-use-case/access-policy-validity-period.png)
+
+:::info **Note**: 
+Multiple date ranges can be specified in the validity period.
+:::
+
+![add validity period](/img/security/access-control-use-case/add-policy-validity-period.png)
+
+:::info **Note**: 
+If you would like the policy to override all other policies during its validity period, select override.
+:::info
+![edit validity period](/img/security/access-control-use-case/edit-validity-period.png)

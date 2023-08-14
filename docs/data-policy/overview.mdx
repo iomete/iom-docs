@@ -1,0 +1,84 @@
+---
+title: Data Policies
+description: Secure Data Policies in IOMETE ensures controlled access via a user interface. Admins manage permissions for groups/users on databases, tables and columns.
+---
+
+import styles from "./styles.module.css";
+
+Data policies at IOMETE maintains access control using a user interface for consistent administration. Security admins set policies for databases, tables, and columns, managing permissions for groups or users.
+
+<hr />
+
+IOMETE has two types of policies: &nbsp; [resource-based](#resource-based-policies) and [tag-based](#tag-based-policies).
+
+### Resource-based policies
+
+Resource-based policies in IOMETE offer a powerful mechanism for enforcing security controls based on the resources being accessed. These policies cover three key areas:
+
+<table>
+  <thead>
+    <tr>
+      <th style={{ whiteSpace: "nowrap" }}>Policy Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>
+        <a href="/docs/data-policy/access-control">Access Policy</a>
+      </td>
+      <td>
+        An access policy comprises rules and permissions that specify who can access specific resources and the actions
+        they can take after gaining access.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>
+        <a href="/docs/data-policy/masking">Data Masking</a>
+      </td>
+      <td>
+        Data masking is a method to hide sensitive information by changing it into fake data while keeping its
+        appearance intact. It safeguards private details during testing or sharing.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>
+        <a href="/docs/data-policy/row-level-filter">Row-level Filtering</a>
+      </td>
+      <td>Row-level filtering limits who can see certain rows in a database.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Tag-based policies
+
+Tag-based policies in IOMETE allow administrators to manage access controls to resources based on assigned **tags**. Instead of defining policies for individual resources, administrators group resources with similar characteristics under a common tag and apply access controls to the entire tag. This simplifies policy management and allows users or groups to access all resources sharing the same tag with consistent access permissions.
+
+<table>
+  <thead>
+    <tr>
+      <th>Policy Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>
+        <a href="/docs/data-policy/access-control">Tag-based Access Policy</a>
+      </td>
+      <td>
+        Manage access controls to resources based on assigned tags. Resources with similar characteristics share common
+        tags, and access controls are applied to the entire tag.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>
+        <a href="/docs/data-policy/masking">Tag-based Masking Policy</a>
+      </td>
+      <td>
+        Control data masking within resources based on their assigned tags. Sensitive data is categorized with tags to
+        indicate sensitivity levels.
+      </td>
+    </tr>
+  </tbody>
+</table>
