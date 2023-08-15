@@ -1,0 +1,73 @@
+---
+title: Tag Based Data Masking Policy
+sidebar_label: Tag Based Masking
+description: In IOMETE, the tag-based masking policy anonymizes data from a chosen column using its database, table, and column names based on tags.
+---
+
+import { DotsSixVertical } from "@phosphor-icons/react";
+import styles from "./styles.module.css";
+
+import Details from "./components/Details";
+
+In IOMETE, the tag-based masking policy anonymizes data from a chosen column using its database, table, and column names based on tags.
+
+<hr />
+
+## Policy details
+
+<Details />
+
+## Policy resources
+
+**Tags:** Provide the relevant tag name that should be applied.
+
+## Mask Conditions
+
+IOMETE provides the mask conditions for the management of fine-grained data masking.
+The condition includes the following properties.
+
+<table>
+  <thead>
+    <tr>
+      <th style={{ whiteSpace: "nowrap" }}>Field</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Select Group</td>
+      <td>
+        Specify one or more groups for whom this policy should be applied. If no group is specified, you must provide a
+        user.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Select User</td>
+      <td>
+        Specify one or more users for whom this policy should be applied. If no user is specified, you must provide a
+        group.
+      </td>
+    </tr>
+    <tr>
+      <td style={{ whiteSpace: "nowrap" }}>Masking options</td>
+      <td>
+        To create a masking filter for the specified users, groups, click <strong>Select Masking Option</strong>, then
+        select a masking type: <br />- <strong>Redact</strong> – mask all alphabetic characters with "x" and all numeric
+        characters with "n". <br />- <strong>Partial mask</strong>: show last 4 – Show only the last four characters.{" "}
+        <br />- <strong>Partial mask</strong>: show first 4 – Show only the first four characters. <br />-{" "}
+        <strong>Hash</strong> – Replace all characters with a hash of the entire cell value. <br />-{" "}
+        <strong>Nullify</strong> – Replace all characters with a NULL value. <br />- <strong>Unmasked</strong> (retain
+        original value) – No masking is applied. <br />- <strong>Date: show only year</strong> – Show only the year
+        portion of a date string and default the month and day to 01/01.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+:::info New condition
+To add additional conditions, click on the `Add new condition` button. The conditions are evaluated in the order they appear in the policy. The top condition is applied first, followed by the second, third, and so on.
+
+<p>
+  Drag items from the left-side icon <DotsSixVertical size={20} className={styles.button} /> to reorder.
+</p>
+:::
