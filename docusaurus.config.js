@@ -54,7 +54,8 @@ const config = {
         sitemap: {
           changefreq: "weekly",
           priority: 0.5,
-          ignorePatterns: ["/docs/tags/**"],
+          ignorePatterns: ["/docs/tags/**", "/docs/data-policy/**"],
+          noIndex: true,
           filename: "sitemap.xml",
         },
       },
@@ -62,79 +63,79 @@ const config = {
   ],
 
   themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    {
-      metadata: [
-        // { name: 'keywords', content: 'iomete, datalake, lakehouse, warehouse, docs, documentation, sql editor, big data' },
-        { name: "og:image", content: "https://iomete.com/docs/img/meta/open-graph.png" },
-        { name: "twitter:image", content: "https://iomete.com/docs/img/meta/open-graph.png" },
+  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+  {
+    metadata: [
+      // { name: 'keywords', content: 'iomete, datalake, lakehouse, warehouse, docs, documentation, sql editor, big data' },
+      { name: "og:image", content: "https://iomete.com/docs/img/meta/open-graph.png" },
+      { name: "twitter:image", content: "https://iomete.com/docs/img/meta/open-graph.png" },
+      {
+        name: "og:type",
+        content: "website",
+      },
+      {
+        name: "og:site_name",
+        content: "IOMETE Docs",
+      },
+    ],
+    // docs: {
+    //   sidebar: {
+    //     hideable: true,
+    //     autoCollapseCategories: true
+    //   }
+    // },
+    navbar: {
+      // title: 'My Site',
+      hideOnScroll: false,
+      logo: {
+        alt: "IOMETE logo",
+        src: `/img/logo-black.svg`,
+        href: "https://iomete.com",
+        target: "_self",
+        height: 32,
+        width: 82
+      },
+      items: [
         {
-          name: "og:type",
-          content: "website",
+          type: "doc",
+          docId: "intro",
+          position: "left",
+          label: "Docs",
         },
         {
-          name: "og:site_name",
-          content: "IOMETE Docs",
+          type: "doc",
+          docId: "guides",
+          label: "Guides",
+          position: "left",
+        },
+        { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
+        {
+          href: "https://api.iomete.com",
+          label: "API",
+          position: "right",
+        },
+        {
+          href: "https://github.com/iomete",
+          label: "GitHub",
+          position: "right",
         },
       ],
-      // docs: {
-      //   sidebar: {
-      //     hideable: true,
-      //     autoCollapseCategories: true
-      //   }
-      // },
-      navbar: {
-        // title: 'My Site',
-        hideOnScroll: false,
-        logo: {
-          alt: "IOMETE logo",
-          src: `/img/logo-black.svg`,
-          href: "https://iomete.com",
-          target: "_self",
-          height: 32,
-          width: 82
-        },
-        items: [
-          {
-            type: "doc",
-            docId: "intro",
-            position: "left",
-            label: "Docs",
-          },
-          {
-            type: "doc",
-            docId: "guides",
-            label: "Guides",
-            position: "left",
-          },
-          { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
-          {
-            href: "https://api.iomete.com",
-            label: "API",
-            position: "right",
-          },
-          {
-            href: "https://github.com/iomete",
-            label: "GitHub",
-            position: "right",
-          },
-        ],
-      },
-      prism: {
-        theme: lightCodeTheme
-      },
-      algolia: {
-        appId: "A90PMTH5W5",
-        apiKey: "3c9132c4cdf813a81e47299fde60c651",
-        indexName: "iomete",
-        contextualSearch: false,
-      },
-      colorMode: {
-        defaultMode: "light",
-        disableSwitch: true,
-        respectPrefersColorScheme: false,
-      },
     },
+    prism: {
+      theme: lightCodeTheme
+    },
+    algolia: {
+      appId: "A90PMTH5W5",
+      apiKey: "3c9132c4cdf813a81e47299fde60c651",
+      indexName: "iomete",
+      contextualSearch: false,
+    },
+    colorMode: {
+      defaultMode: "light",
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
+    },
+  },
   plugins: ["docusaurus-plugin-sass"],
 };
 

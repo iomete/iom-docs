@@ -69,15 +69,15 @@ const sidebars = {
         "data-sources/orc-files",
       ],
     },
-    {
-      type: "category",
-      label: "Data Security",
-      link: {
-        type: "doc",
-        id: "security/overview",
-      },
-      items: ["security/access-control", "security/masking", "security/row-level-filter", "security/tag-based-access", "security/tag-based-masking"],
-    },
+    // {
+    //   type: "category",
+    //   label: "Data Security",
+    //   link: {
+    //     type: "doc",
+    //     id: "security/overview",
+    //   },
+    //   items: ["security/access-control", "security/masking", "security/row-level-filter", "security/tag-based-access", "security/tag-based-masking"],
+    // },
     {
       type: "category",
       label: "Data Policies",
