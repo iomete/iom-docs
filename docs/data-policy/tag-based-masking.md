@@ -1,5 +1,6 @@
 ---
-title: Tag based masking
+title: Tag Based Data Masking Policy
+sidebar_label: Tag Based Masking
 description: In IOMETE, the resource-based masking policy for Hive anonymizes data from a specific Hive column identified by the database, table, and column names. On the other hand, the tag-based masking policy anonymizes Hive column data based on tags and their associated attribute values linked to the Hive column.
 ---
 
