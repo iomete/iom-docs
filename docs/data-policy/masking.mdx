@@ -80,7 +80,9 @@ To add additional conditions, click on the `Add new condition` button. The condi
 </p>
 :::
 
-## **Use Case: Policy Masking for Phone Number in Customers Table**
+## Data masking policy use cases
+
+### Use case: Masking phone number in Customers Table
 
 Let's use the `customers` table for data-masking feature use cases as well.
 
@@ -88,24 +90,24 @@ This use case focuses on implementing a masking policy for the `phone_number` co
 
 ![data masking use](/img/security/masking/data-masking-use-case.png)
 
-## **Policy details**
+**Policy details:**
 
 - Target Table: `customers`
 - Target Column: `phone_number`
   ![data masking UI](/img/security/masking/data-masking-ui.png)
 
-**Masking Rule:**
+**Masking rule:**
 
 - The policy enforces that members of the public group can only view the last 4 digits of the `phone_number` column.
 - All other digits preceding the last 4 should be masked or obfuscated, ensuring that sensitive information remains protected.
 
-**Access Permissions:**
+**Access permissions:**
 
 - The public group is granted read access to the `phone_number` column within the `customers` table.
 - This allows the `public` group members to view the partially masked phone numbers for customers while ensuring that critical digits are concealed.
   ![data masking permission](/img/security/masking/data-masking-permission.png)
 
-## **Query Results**
+**Query results**
 
 ```sql
 SELECT * from default.customers;

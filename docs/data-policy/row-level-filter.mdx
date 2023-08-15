@@ -84,7 +84,9 @@ To add additional conditions, click on the `Add new condition` button. The condi
 </p>
 :::
 
-## **Use Case: Policy Masking for Phone Number in Customers Table**
+## Row Level Filter use cases
+
+### Use Case: Users see only same-country customer records.
 
 Let's use the `customers` table for row-level filtering feature use cases as well.
 
@@ -92,7 +94,7 @@ This use case focuses on implementing a row-level filtering policy for the `cust
 
 ![row-level-filtering](/img/security/row-level-filter/row-level-example5.png)
 
-## **Policy details**
+**Policy details**
 
 - Target Table: `customers` table in `default` database.
 
@@ -121,7 +123,7 @@ Default access type in row-level-filter is `select`
 - By implementing this row-level filtering policy, we ensure that users can only access customer data relevant to their work location, minimizing the risk of unauthorized access to sensitive information.
 - Users are restricted to view customer records within their country, promoting data privacy compliance and adhering to the principle of least privilege.
 
-## **Query Results**
+  **Query Results**
 
 ```sql
 SELECT * from default.customers;
