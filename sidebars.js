@@ -234,7 +234,9 @@ const sidebars = {
               type: "category",
               label: "AWS",
               collapsed: false,
-              items: ["guides/deployment/aws/install", "guides/deployment/aws/upgrade", "guides/deployment/aws/changelog"],
+              items: [
+                "guides/deployment/aws/install", "guides/deployment/aws/upgrade", "guides/deployment/aws/changelog", "guides/deployment/aws/permissions"
+              ],
             },
             {
               type: "category",
