@@ -80,12 +80,12 @@ const sidebars = {
     // },
     {
       type: "category",
-      label: "Data Policies",
+      label: "Data Security",
       link: {
         type: "doc",
-        id: "data-policy/overview",
+        id: "data-security/overview",
       },
-      items: ["data-policy/access", "data-policy/masking", "data-policy/row-level-filter", "data-policy/tag-based-access", "data-policy/tag-based-masking"],
+      items: ["data-security/access", "data-security/masking", "data-security/row-level-filter", "data-security/tag-based-access", "data-security/tag-based-masking"],
     },
 
     {
