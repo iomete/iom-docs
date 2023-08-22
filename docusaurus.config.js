@@ -54,7 +54,12 @@ const config = {
         sitemap: {
           changefreq: "weekly",
           priority: 0.5,
-          ignorePatterns: ["/docs/tags/**", "/docs/data-policy/**"],
+          ignorePatterns: [
+            "/docs/tags/**",
+            "/docs/data-policy/**",
+            "/docs/user-guide/access-policy-management",
+            "/docs/user-guide/serverless-spark-applications"
+          ],
           filename: "sitemap.xml",
         },
       },
@@ -135,7 +140,46 @@ const config = {
       respectPrefersColorScheme: false,
     },
   },
-  plugins: ["docusaurus-plugin-sass"],
+  plugins: ["docusaurus-plugin-sass",
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            to: '/data-security/overview',
+            from: ['/user-guide/access-policy-management', '/data-policy/overview'],
+          },
+          {
+            to: '/data-security/access',
+            from: ['/data-policy/access'],
+          },
+          {
+            to: '/data-security/masking',
+            from: ['/data-policy/masking'],
+          },
+          {
+            to: '/data-security/row-level-filter',
+            from: ['/data-policy/row-level-filter'],
+          },
+          {
+            to: '/data-security/tag-based-access',
+            from: ['/data-policy/tag-based-access'],
+          },
+          {
+            to: '/data-security/tag-based-masking',
+            from: ['/data-policy/tag-based-masking'],
+          },
+          {
+            to: '/guides/spark-job/getting-started',
+            from: '/user-guide/serverless-spark-applications',
+          },
+          {
+            to: '/guides',
+            from: '/user-guide/storage-integrations'
+          }
+        ]
+      },
+    ]],
 };
 
 module.exports = config;
