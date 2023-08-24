@@ -1,0 +1,82 @@
+---
+title: Query Scheduler Job
+description: IOMETE's Query Scheduler Job allows you to effortlessly run your warehouse queries on a schedule or manually.
+last_update:
+  date: 10/04/2022
+  author: Vugar Dadalov
+---
+
+import FlexButton from "@site/src/components/FlexButton";
+import Img from "@site/src/components/Img";
+import { Cpu, Plus } from "@phosphor-icons/react";
+
+---
+
+**IOMETE** provides **Query Scheduler Job** to run your queries over warehouse. You can run your queries on schedule time or manually. To enable job follow the next steps:
+
+### Installation
+
+- In the left sidebar menu choose <FlexButton label='Spark Jobs'><Cpu size={20} color='#858c9c' weight="duotone"/></FlexButton>
+- Click on <FlexButton label='Create' primary><Plus size={16} /></FlexButton>
+
+<Img src="/img/spark-job/job-lis-create.png" alt="IOMETE Spark Jobs" />
+
+Specify the following parameters (these are examples, you can change them based on your preference):
+
+- **Name:** `query-scheduler-job`
+- **Schedule:** `0 0/22 1/1 * *`
+- **Docker image:** `iomete/query_scheduler_job:0.3.0`
+- **Main application file:** `local:///app/driver.py`
+- **Environment variables:** `LOG_LEVEL`: `INFO`
+
+<Img src="/img/spark-job/query-scheduler-job-deployment.png" alt="IOMETE Spark Jobs Create" />
+
+- **Config file:**
+  Scroll down and expand `Application configurations` section and click `Add config file`
+
+  <Img src="/img/spark-job/spark-job-app-config.png" alt="IOMETE Spark Jobs add config file" />
+
+```python
+# Queries to be run sequentially
+[
+  # let's create an example database
+  """
+  CREATE DATABASE EXAMPLE
+  """,
+
+  # use the newly created database to run the further queries within this database
+  """
+  USE EXAMPLE
+  """,
+
+  # query example one
+  """
+  CREATE TABLE IF NOT EXISTS dept_manager_proxy
+  USING org.apache.spark.sql.jdbc
+  OPTIONS (
+    url "jdbc:mysql://iomete-tutorial.cetmtjnompsh.eu-central-1.rds.amazonaws.com:3306/employees",
+    dbtable "employees.dept_manager",
+    driver 'com.mysql.cj.jdbc.Driver',
+    user 'tutorial_user',
+    password '9tVDVEKp'
+  )
+  """,
+
+  # another query that depends on the previous query result
+  """
+  CREATE TABLE IF NOT EXISTS dept_manager AS SELECT  * FROM dept_manager_proxy
+  """
+]
+```
+
+<Img src="/img/spark-job/spark-job-app-config-fill.png" alt="IOMETE Spark Jobs add config file" maxWidth="600px" />
+
+And, hit the create button.
+
+## **Summary**
+
+You can find source code in <a href="https://github.com/iomete/query-scheduler-job" target="blank">Github</a>. Feel free to customize code for your requirements. Please do not hesitate to contact us if you have any question
+
+The job will be run based on the defined schedule. But, you can trigger the job manually by clicking on the Run button.
+
+<Img src="/img/spark-job/spark-job-manual-run.png" alt="IOMETE Run Job Manually" />
