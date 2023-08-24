@@ -30,9 +30,9 @@ Specify the following parameters (these are examples, you can change them based 
 
 - **Name:** `jdbc-sync-job`
 - **Schedule:** `0 0/22 1/1 * *`
-- **Docker Image:** `iomete/iomete_jdbc_sync:0.2.1`
+- **Docker image:** `iomete/iomete_jdbc_sync:0.2.1`
 - **Main application file:** `local:///app/driver.py`
-- **Environment Variables:** `DB_PASSWORD`: `9tVDVEKp`
+- **Environment variables:** `DB_PASSWORD`: `9tVDVEKp`
 
 <Img src="/img/spark-job/spark-job-create-jdbc-sync.png" alt="IOMETE Spark Jobs Create" />
 
