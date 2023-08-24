@@ -2,13 +2,17 @@
 title: JDBC Sync Job
 description: IOMETE provides JDBC Sync Job to easily replicate tables from JDBC databases (MySQL, PostgreSQL, etc.) to IOMETE
 last_update:
-  date: 10/04/2022
+  date: 08/24/2023
   author: Vugar Dadalov
 ---
 
-___
+import FlexButton from "@site/src/components/FlexButton";
+import Img from "@site/src/components/Img";
+import { Cpu, Plus } from "@phosphor-icons/react";
 
-**IOMETE** provides **JDBC Sync Job** to easily replicate tables from JDBC databases (MySQL, PostgreSQL, etc.) to IOMETE. Only you need to provide configuration properties. Powerful feature of job is **Sync mode**. You can choose a technique that how you want to move your data. Full load or Incremental. You can find more details bellow about sync mode
+---
+
+IOMETE provides **JDBC Sync Job** to easily replicate tables from JDBC databases (MySQL, PostgreSQL, etc.) to IOMETE. Only you need to provide configuration properties. Powerful feature of job is **Sync mode**. You can choose a technique that how you want to move your data. Full load or Incremental. You can find more details bellow about sync mode
 
 ### Sync Mode
 
@@ -19,17 +23,32 @@ You can define sync mode for each table. Currently, supported sync modes are:
 
 ### Installation
 
-- Go to `Spark Jobs`.
-- Click on `Create New`.
+- In the left sidebar menu choose <FlexButton label='Spark Jobs'><Cpu size={20} color='#858c9c' weight="duotone"/></FlexButton>
+- Click on <FlexButton label='Create' primary><Plus size={16} /></FlexButton>
 
 Specify the following parameters (these are examples, you can change them based on your preference):
+
 - **Name:** `jdbc-sync-job`
 - **Schedule:** `0 0/22 1/1 * *`
 - **Docker Image:** `iomete/iomete_jdbc_sync:0.2.1`
 - **Main application file:** `local:///app/driver.py`
 - **Environment Variables:** `DB_PASSWORD`: `9tVDVEKp`
-- **Config file:** 
-- 
+
+<Img src="/img/spark-job/spark-job-create-jdbc-sync.png" alt="IOMETE Spark Jobs Create" />
+
+:::info Environment variables
+You can use **Environment variables** to store your sensitive variables like password, secrets, etc. Then you can use these variables in your config file using the <code>${DB_PASSWORD}</code> syntax.
+:::
+
+<br/>
+
+### Config file
+
+- **Config file:**
+  Scroll down and expand `Application configurations` section and click `Add config file` and paste following **JSON**.
+
+  <Img src="/img/spark-job/spark-job-app-config.png" alt="IOMETE Spark Jobs add config file" />
+
 ```json
 {
     source_connection: {
@@ -149,26 +168,14 @@ Specify the following parameters (these are examples, you can change them based 
 
 <br/>
 
-![Spark job sync creating spark job](/img/spark-job/job-sync-create-spark-job.png)
-
-Environment Variables
-
-:::note
-You can use **Environment Variables** to store your sensitive variables like password, secrets, etc. Then you can use these variables in your config file using the <code>${DB_PASSWORD}</code> syntax.
-:::
-
-![Spark jobe sync create enviroment variables](/img/spark-job/job-sync-create-env-variables.png)
-
-Application Config
-
-![Spark job sync create spark job application configuration](/img/spark-job/job-sync-create-spark-job-application-config.png)
+<Img src="/img/spark-job/spark-job-create-jdbc-sync-config-file.png" alt="IOMETE Spark job sync create spark job application configuration" />
 
 And, hit the create button.
 
-The job will be run based on the defined schedule. But, you can trigger the job manually by clicking on the `Run` button.
+The job will be run based on the defined schedule. But, you can trigger the job manually by clicking on the <FlexButton label='Run' primary/> button.
 
-![Spark job sync manual run](../../static/img/spark-job/job-sync-manual-run.png)
+<Img src="/img/spark-job/job-sync-manual-run.png" alt="IOMETE Spark job sync manual run" />
 
-### Github
+## Github
 
 You can find source code of **JDBC Sync Job** in github. [View in Github](https://github.com/iomete/iomete-jdbc-sync)
