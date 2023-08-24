@@ -1,0 +1,21 @@
+.iom-btn-flex {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+
+  padding: 0px 8px;
+
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+
+  vertical-align: middle;
+
+  &.iom-btn-primary {
+    color: #fff !important;
+    border-color: #0070f3 !important;
+    background: #0070f3 !important;
+  }
+}
