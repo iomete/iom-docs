@@ -78,7 +78,13 @@ const sidebars = {
         type: "doc",
         id: "data-security/overview",
       },
-      items: ["data-security/access", "data-security/masking", "data-security/row-level-filter", "data-security/tag-based-access", "data-security/tag-based-masking"],
+      items: [
+        "data-security/access",
+        "data-security/masking",
+        "data-security/row-level-filter",
+        "data-security/tag-based-access",
+        "data-security/tag-based-masking",
+      ],
     },
 
     {
@@ -228,7 +234,10 @@ const sidebars = {
               label: "AWS",
               collapsed: false,
               items: [
-                "guides/deployment/aws/install", "guides/deployment/aws/upgrade", "guides/deployment/aws/changelog", "guides/deployment/aws/permissions"
+                "guides/deployment/aws/install",
+                "guides/deployment/aws/upgrade",
+                "guides/deployment/aws/changelog",
+                "guides/deployment/aws/permissions",
               ],
             },
             {
