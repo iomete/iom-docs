@@ -3,18 +3,22 @@ title: Kafka Streaming
 description: Learn how to move data from Kafka to Iceberg using IOMETE. This guide covers deserialization, job creation, configuration, and testing.
 slug: kafka-streaming-job
 last_update:
-  date: 10/04/2022
+  date: 08/24/2023
   author: Vugar Dadalov
 ---
 
-___
+import FlexButton from "@site/src/components/FlexButton";
+import Img from "@site/src/components/Img";
+import { Cpu, Plus } from "@phosphor-icons/react";
 
+---
 
 ![kafka and IOMETE logo](/img/spark-job/kafka-logo-iomete.png)
 
 This is a collection of data movement capabilities. This streaming job copies data from Kafka to Iceberg.
 
 ## Table of Contents
+
 - [Table of Contents](#table-of-contents)
 - [Deserialization](#deserialization)
   - [JSON](#json)
@@ -23,33 +27,49 @@ This is a collection of data movement capabilities. This streaming job copies da
 - [Configuration properties](#configuration-properties)
 - [Tests](#tests)
 
-
 ## Deserialization
+
 Currently, two deserialization format supported.
+
 1. JSON
 2. AVRO
 
 ### JSON
-In the Spark configuration, a user-defined reference json schema can be defined, 
-and the system processes the binary data accordingly. Otherwise, 
+
+In the Spark configuration, a user-defined reference json schema can be defined,
+and the system processes the binary data accordingly. Otherwise,
 It considers the schema of the first row and assumes the rest of the rows is compatible.
 
 ### Avro
+
 Converts binary data according to the schema defined by the user or retrieves the schema from the schema registry.
 
 ![Avro record streaming.](/img/spark-job/kafka-avro-diagram.jpeg)
 
 ## Job creation
 
-- Go to `Spark Jobs`.
-- Click on `Create New`.
+- In the left sidebar menu choose <FlexButton label='Spark Jobs'><Cpu size={20} color='#858c9c' weight="duotone"/></FlexButton>
+- Click on <FlexButton label='Create' primary><Plus size={16} /></FlexButton>
 
 Specify the following parameters (these are examples, you can change them based on your preference):
+
 - **Name:** `kafka-streaming-job`
-- **Docker Image:** `iomete/iomete_kafka_streaming_job:0.2.1`
+- **Docker image:** `iomete/iomete_kafka_streaming_job:0.2.1`
 - **Main application file:** `local:///app/driver.py`
-- **Environment Variables:** `LOG_LEVEL`: `INFO` or `ERROR`
-- **Config file:** 
+- **Environment variables:** `LOG_LEVEL`: `INFO` or `ERROR`
+
+<Img src="/img/spark-job/spark-job-create-kafka-streaming.png" alt="IOMETE Spark Jobs Create kafka streaming" />
+
+:::info Environment variables
+You can use **Environment variables** to store your sensitive variables like password, secrets, etc. Then you can use these variables in your config file using the <code>${DB_PASSWORD}</code> syntax.
+:::
+
+## Config file
+
+Scroll down and expand `Application configurations` section and click `Add config file` and paste following **JSON**.
+
+<Img src="/img/spark-job/spark-job-app-config.png" alt="IOMETE Spark Jobs add config file" />
+
 ```json
 {
   kafka: {
@@ -72,6 +92,7 @@ Specify the following parameters (these are examples, you can change them based 
 ```
 
 ## Configuration properties
+
 <table>
   <thead>
     <tr>
@@ -161,27 +182,9 @@ Specify the following parameters (these are examples, you can change them based 
 
 <br/>
 
-Create Spark Job - Deployment
-![Deployment preferences.](/img/spark-job/kafka-job-creation-deployment.png)
+<Img src="/img/spark-job/spark-job-create-kafka-streaming-config.png" alt="IOMETE Spark kafka streaming create spark job application configuration" />
 
-<br/>
-Create Spark Job - Instance
-<br/>
-
-:::note
-You can use **Environment Variables** to store your sensitive data like password, secrets, etc. Then you can use these variables in your config file using the <code>${ENV_NAME}</code> syntax.
-:::
-
-![Instance and environment variable parameters.](/img/spark-job/kafka-job-creation-environment.png)
-
-
-Create Spark Job - Application Configurations
-
-![Job config file.](/img/spark-job/kafka-job-creation-config.png)
-
-
-Create Spark Job - Application dependencies
-![Job Dependencies.](/img/spark-job/kafka-job-creation-dependencies.png)
+And, hit the create button.
 
 ## Tests
 
