@@ -18,16 +18,16 @@ In production environments, it is often required to isolate workloads, for examp
 
 ## **Create a new Lakehouse[](https://iomete.com/docs/user-guide/virtual-lakehouses#create-virtual-lakehouse)**
 
-**1.** Go to the **Lakehouses** and click the **Create New** button
+**1.** Go to the **Lakehouses** and click the **Create** button
 <Img src="/img/user-guide/virtual-lakehouse/create-new.png" alt="Create New Lakehouse" />
 <br />
 
 **2.** Give the new **lakehouse** a name under **Name**.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-name.png" alt="Lakehouse name" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-name.png"  alt="Lakehouse name" maxWidth="500px" />
 <br />
 
 **3.** Under the **Type** section, choose **type**.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-type.png" alt="Lakehouse type" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-type.png" alt="Lakehouse type" maxWidth="500px" />
 
 :::info
 Type defines the maximum number of executors/workers that spark could scale. Read more about spark executors [here](https://spark.apache.org/docs/latest/cluster-overview.html).
@@ -35,7 +35,7 @@ Type defines the maximum number of executors/workers that spark could scale. Rea
 <br />
 
 **4.** Select **driver**, under the Driver section.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-driver.png" alt="Lakehouse driver" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-driver.png" alt="Lakehouse driver" maxWidth="500px" />
 
 :::info
 Spark driver is running all the time until lakehouse stopped manually. Driver is responsible for managing executors/workers and connections. If stopped, no connections could be established to the lakehouse.
@@ -43,7 +43,7 @@ Spark driver is running all the time until lakehouse stopped manually. Driver is
 <br />
 
 **5.** Select **executor**, under the Executor section.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor.png" alt="Lakehouse executor" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor.png" alt="Lakehouse executor" maxWidth="500px" />
 
 :::info
 Executors basically are responsible for executing the queries. They will be scaled up and down automatically based on the auto-scale parameter. Keep auto-scale on to minimize lakehouse costs.
@@ -51,7 +51,7 @@ Executors basically are responsible for executing the queries. They will be scal
 <br />
 
 **6.** Set **auto scale,** under Auto scale section.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-autoscale.png" alt="Lakehouse Auto Scale" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-autoscale.png" alt="Lakehouse Auto Scale" maxWidth="500px" />
 
 :::info
 Executors will be scaled down after the specified time of inactivity. Executors will be scaled up automatically on demand (Scale up time around 10-15 seconds). It is recommended to keep auto-scale on to minimize monthly costs.
@@ -59,11 +59,11 @@ Executors will be scaled down after the specified time of inactivity. Executors 
 
 By clicking checkbox in the left side we can **disabled** **auto scale** functionality.
 
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-autoscale-check.png" alt="Lakehouse Auto Scale Check" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-autoscale-check.png" alt="Lakehouse Auto Scale Check" maxWidth="500px" />
 <br />
 
 **7.** Click the **Create** button after adding a **description** to the **optional description field**.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-desc.png" alt="Lakehouse Description" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-desc.png" alt="Lakehouse Description" maxWidth="500px" />
 <br />
 
 🎉 🎉🎉 **Tadaa**! The newly created **test-lakehouse** details view is shown.
