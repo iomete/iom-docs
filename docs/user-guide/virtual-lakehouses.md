@@ -6,6 +6,8 @@ last_update:
   author: Nurlan Mammadov
 ---
 
+import { Plus } from "@phosphor-icons/react";
+
 import Img from '@site/src/components/Img';
 
 A virtual **lakehouse** is a cluster of compute resources that provide the required resources, such as CPU, memory to perform the querying processing. Table data files are stored in cloud data storage (S3) as a shared data storage that allows multiple virtual lakehouse clusters to share the same data while isolating compute. IOMETE uses Apache Spark as a data lakehouse query engine with ACID support
@@ -18,7 +20,7 @@ In production environments, it is often required to isolate workloads, for examp
 
 ## **Create a new Lakehouse[](https://iomete.com/docs/user-guide/virtual-lakehouses#create-virtual-lakehouse)**
 
-**1.** Go to the **Lakehouses** and click the **Create** button
+**1.** Go to the **Lakehouses** and click the <span className="inline-button"><Plus size={16}/>Create</span> button
 <Img src="/img/user-guide/virtual-lakehouse/create-new.png" alt="Create New Lakehouse" />
 <br />
 
