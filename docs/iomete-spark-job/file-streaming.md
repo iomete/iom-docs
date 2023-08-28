@@ -3,34 +3,57 @@ title: File Streaming
 description: Stream files to iceberg continuously with Spark file streaming job. Configure file formats, database settings, and processing time intervals. Run tests for seamless file streaming.
 slug: file-streaming-job
 last_update:
-  date: 10/04/2022
+  date: 08/24/2023
   author: Vugar Dadalov
 ---
 
-___
+import FlexButton from "@site/src/components/FlexButton";
+import Img from "@site/src/components/Img";
+import { Cpu, Plus } from "@phosphor-icons/react";
+
+---
 
 Transfer files to iceberg continuously.
 
 ## Table of Contents
- * [File Formats](#file-formats)
- * [Job creation](#job-creation)
- * [Tests](#tests)
+
+- [File Formats](#file-formats)
+- [Job creation](#job-creation)
+- [Tests](#tests)
 
 ## File formats
+
 Tested file formats.
+
 - CSV
 
 ## Job creation
 
-- Go to `Spark Jobs`.
-- Click on `Create New`.
+- In the left sidebar menu choose <FlexButton label='Spark Jobs'><Cpu size={20} color='#858c9c' weight="duotone"/></FlexButton>
+- Click on <FlexButton label='Create' primary><Plus size={16} /></FlexButton>
 
 Specify the following parameters (these are examples, you can change them based on your preference):
+
 - **Name:** `file-streaming-job`
-- **Docker Image:** `iomete/iomete_file_streaming_job:0.2.0`
+- **Docker image:** `iomete/iomete_file_streaming_job:0.2.0`
 - **Main application file:** `local:///app/driver.py`
-- **Environment Variables:** `LOG_LEVEL`: `INFO` or ERROR
-- **Config file:** 
+- **Environment variables:** `LOG_LEVEL`: `INFO` or ERROR
+
+<Img src="/img/spark-job/spark-job-create-file-streaming.png" alt="IOMETE Spark Jobs Create" />
+
+:::info Environment variables
+You can use **Environment variables** to store your sensitive variables like password, secrets, etc. Then you can use these variables in your config file using the <code>${DB_PASSWORD}</code> syntax.
+:::
+
+<br/>
+
+### Config file
+
+- **Config file:**
+  Scroll down and expand `Application configurations` section and click `Add config file` and paste following **JSON**.
+
+  <Img src="/img/spark-job/spark-job-app-config.png" alt="IOMETE Spark Jobs add config file" />
+
 ```json
 {
   file: {
@@ -50,7 +73,9 @@ Specify the following parameters (these are examples, you can change them based 
   }
 }
 ```
+
 ## Configuration properties
+
 <table>
   <thead>
     <tr>
