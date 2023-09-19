@@ -89,24 +89,49 @@ By clicking checkbox in the left side we can **disabled** **auto scale** functio
 
 6.  **Delete** - this button makes it simple to **remove** Lakehouse.
 
-## **Lakehouse Statuses[](https://iomete.com/docs/user-guide/virtual-lakehouses#lakehouse-statuses)**
 
-:::info
-We need to understand the cluster components to understand the lakehouse cluster's statuses. Lakehouse cluster comprises of driver and executors.
+## Lakehouse Cluster Statuses
 
-- **Driver:** is the gateway to accept and keep connections, plan executions, and orchestrate executors.
-- **Executors:** are the components that do the actual processing.
+To effectively manage and monitor your lakehouse cluster, you need to understand its two main components: the **Driver** and the **Executors**. 
+- **Driver** acts as the control center, managing connections and orchestrating tasks
+- **Executors** carry out the actual data processing.
 
+### Driver Status
+
+What Each Status Means
+- **Stopped**: The Driver is offline and not accepting any connections.
+- **Starting**: The Driver is booting up.
+- **Active**: The Driver is running and ready to accept connections.
+- **Failed**: The Driver couldn't start. Contact support for assistance.
+
+<Img src="/img/user-guide/virtual-lakehouse/statuses/driver-status.png" alt="Driver status" />
+
+:::tip Cost Implications
+You're only charged for the Driver when it's in the 'Active' state.
 :::
 
-### Statuses
+### Executor Status
 
-A lakehouse cluster can be one of the following statuses:
+What Each Status Means
+- **No Running Executors**: There is no active executor. This happens when auto-scale is configured. In this case, when there is no workload for a configured auto-suspend time, the cluster scales down to zero. Executors will scale up automatically based on demand.
+- **Pending**: Executors are scheduled to start and waiting for resources to start.
+- **Running**: Executors are active and processing data.
 
-| Status     | Description                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stopped    | Cluster is completely turned off. <br/><br/>**Driver:** Not running<br/>**Executors:** No executors running<br/>**Accepting connections:** No<br/>**Cost charging:** No                                                                                                                                                                                                                                                                 |
-| Pending    | Cluster is newly started manually and waiting for resources for the driver<br/><br/>**Driver:** Not running. Waiting for the resources<br/>**Executors:** No executors running<br/>**Accepting connections:** No<br/>**Cost charging:** No                                                                                                                                                                                              |
-| Suspended  | This status happens when auto-scale is enabled on the cluster. When the cluster stays without any workload, it scales down and turns off the executors to prevent charging costs. Only the driver is running. When the driver gets a query, it starts executors to handle the processing<br/><br/>**Driver:** Running<br/>**Executors:** No executors running<br/>**Accepting connections:** Yes<br/>**Cost charging:** Only for driver |
-| Scaling-up | This status happens when auto-scale is enabled on the cluster. The cluster decides to scale up executors based on the workload needs up to the maximum of the cluster size.<br/><br/>**Driver:** Running<br/>**Executors:** 0 or some already running, and new executors are being started<br/>**Accepting connections:** Yes<br/>**Cost charging:** For driver and already running executors                                           |
-| Running    | Cluster is running state<br/><br/>**Driver:** Running<br/>**Executors:** Running<br/>**Accepting connections:** Yes<br/>**Cost charging:** For driver and running executors                                                                                                                                                                                                                                                             |
+#### Status Examples
+- **Running 1/4**: One out of four Executors is active. The cluster scales down to save costs when the workload is light.
+- **Running 1/4 Pending 3/4**: One Executor is active, and three are waiting to start due to an increase in workload.
+<Img src="/img/user-guide/virtual-lakehouse/statuses/scaling-up.png" alt="Lakehouse is scaling-up." />
+- **Running 4/4**: All Executors are active, and the cluster is at full capacity.
+<Img src="/img/user-guide/virtual-lakehouse/statuses/running.png" alt="All executors are active" />
+
+:::tip Cost Implications
+You're only billed for Executors when they're in the 'Running' state.
+:::
+
+### Scaling-Up Timing
+
+By default, scaling up usually takes 1 to 2 minutes, depending on various factors like the cloud provider's response time and resource availability.
+
+:::tip Faster Scaling-Up
+In cloud environments, you can utilize IOMETE to establish a **hot pool** of preconfigured resources. This markedly accelerates the scaling process, reducing the scale-up time to a mere 10 to 15 seconds. Contact support to learn more about this feature.
+:::
