@@ -172,7 +172,7 @@ const sidebars = {
       items: [
         "iomete-spark-job/data-compaction-job",
         "iomete-spark-job/query-scheduler-job",
-        "iomete-spark-job/jdbc-sync-job",
+        "iomete-spark-job/mysql-database-replication-job",
         "iomete-spark-job/kafka-streaming",
         "iomete-spark-job/file-streaming",
       ],
