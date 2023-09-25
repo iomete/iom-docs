@@ -104,7 +104,7 @@ const sidebars = {
             "spark-sql/ddl/alter-table",
             // 'spark-sql/ddl/drop-table',
             "spark-sql/ddl/create-view",
-            "spark-sql/ddl/sql-ddl-examples",
+            // "spark-sql/ddl/sql-ddl-examples",
             // 'spark-sql/ddl/drop-view'
           ],
         },
@@ -286,6 +286,15 @@ const sidebars = {
             "guides/dbt/dbt-materializations",
             "guides/dbt/dbt-incremental-models",
             "guides/dbt/dbt-incremental-models-by-examples",
+          ],
+        },
+        {
+          type: "category",
+          label: "SQL examples",
+          collapsed: true,
+          items: [
+            "spark-sql/ddl/sql-ddl-examples",
+            "guides/sql-examples/dml-operations",
           ],
         },
         {
