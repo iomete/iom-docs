@@ -1,7 +1,7 @@
 ---
 title: SQL DDL Examples
-description:  This SQL script showcases key DDL operations in IOMETE, a platform based on Spark SQL and Iceberg. It includes database and table creation, CTAS and RTAS operations, and various table alterations.
-slug: /docs/spark-sql/ddl/sql-ddl-examples
+description: This SQL script showcases key DDL operations in IOMETE, a platform based on Spark SQL and Iceberg. It includes database and table creation, CTAS and RTAS operations, and various table alterations.
+slug: /spark-sql/ddl/sql-ddl-examples
 ---
 
 This SQL script showcases key DDL operations in IOMETE, a platform based on Spark SQL and Iceberg. It includes database and table creation, CTAS and RTAS operations, and various table alterations.
@@ -52,7 +52,7 @@ CREATE TABLE ddl_ops_demo_db.sample(id bigint COMMENT 'unique id', data string, 
 ```sql jsx title="describe table"
 DESCRIBE EXTENDED ddl_ops_demo_db.sample;
 
-/* Output: 
+/* Output:
 +-------------------------------+----------------------------------------------------+------------+
 |           col_name            |                     data_type                      |  comment   |
 +-------------------------------+----------------------------------------------------+------------+
@@ -89,7 +89,7 @@ CREATE TABLE ddl_ops_demo_db.sample_partitioned (
     data string,
     category string,
     ts timestamp
-) 
+)
 PARTITIONED BY (days(ts), category);
 ```
 
@@ -136,7 +136,7 @@ DESCRIBE EXTENDED ddl_ops_demo_db.sample_partitioned;
 
 :::tip
 
-See [JDBC sources](https://iomete.com/docs/data-sources/jdbc-sources) 
+See [JDBC sources](https://iomete.com/docs/data-sources/jdbc-sources)
 
 :::
 
@@ -197,7 +197,7 @@ SELECT *
 FROM ddl_ops_demo_db.employees_mysql_external;
 
 DESCRIBE EXTENDED ddl_ops_demo_db.employees_iceberg_table;
-/* Output: The table columns and their corresponding types are 
+/* Output: The table columns and their corresponding types are
 automatically identified based on the query result.
 +-------------------------------+----------------------------------------------------+----------+
 |           col_name            |                     data_type                      | comment  |
@@ -232,13 +232,13 @@ automatically identified based on the query result.
 */
 
 ```
+
 ```sql jsx title=" RTAS (Replace Table As Select). Atomic table replacement creates a new snapshot with the results of the SELECT query, but keeps table history."
 CREATE OR REPLACE TABLE ddl_ops_demo_db.employees_iceberg_table
 AS
 SELECT *
 FROM ddl_ops_demo_db.employees_mysql_external;
 ```
-
 
 ```sql jsx title="Alter table name"
 ALTER TABLE ddl_ops_demo_db.employees_iceberg_table RENAME TO employees;
@@ -247,7 +247,7 @@ ALTER TABLE ddl_ops_demo_db.employees_iceberg_table RENAME TO employees;
 ```sql jsx title="describe table"
 
 DESCRIBE EXTENDED ddl_ops_demo_db.employees;
-/* Output: The name of the table has been changed as part of a metadata operation, 
+/* Output: The name of the table has been changed as part of a metadata operation,
 but the physical location of the table remains unchanged.
 +-------------------------------+----------------------------------------------------+----------+
 |           col_name            |                     data_type                      | comment  |
@@ -303,7 +303,7 @@ ALTER TABLE ddl_ops_demo_db.sample UNSET TBLPROPERTIES ('read.split.target-size'
 ```
 
 ```sql jsx title="add columns (metadata only operations)"
-ALTER TABLE ddl_ops_demo_db.sample 
+ALTER TABLE ddl_ops_demo_db.sample
 ADD COLUMNS (
     new_column1 string comment 'new_column docs',
     new_column2 int
@@ -316,12 +316,15 @@ ADD COLUMNS (
 +---------+
 */
 ```
+
 ```sql jsx title="rename column (metadata only operations)"
 ALTER TABLE ddl_ops_demo_db.sample RENAME COLUMN data TO payload;
 ```
+
 ```sql jsx title="change column type (metadata only operations). Allowed conversions: int -> bigint, float -> double, decimal(P,S) to decimal(P2,S) when P2 > P (scale cannot change)"
 ALTER TABLE ddl_ops_demo_db.sample ALTER COLUMN new_column2 TYPE bigint;
 ```
+
 ```sql jsx title="drop columns (metadata only operations)"
 ALTER TABLE ddl_ops_demo_db.sample DROP COLUMN id;
 ```
@@ -331,7 +334,6 @@ ALTER TABLE ddl_ops_demo_db.sample ADD PARTITION FIELD years(ts);
 ```
 
 ## Clean up
-
 
 ```sql jsx title="drop Iceberg table (delete table and data from storage. Pay attention to the PURGE option)"
 DROP TABLE ddl_ops_demo_db.sample PURGE;
