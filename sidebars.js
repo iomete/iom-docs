@@ -56,6 +56,7 @@ const sidebars = {
       collapsed: true,
       items: [
         "data-sources/jdbc-sources",
+        "data-sources/snowflake-source",
         "data-sources/csv-files",
         "data-sources/json-files",
         "data-sources/parquet-files",
