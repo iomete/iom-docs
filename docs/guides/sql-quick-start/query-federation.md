@@ -129,7 +129,7 @@ OPTIONS (
 );
 ```
 
-For more details, check the [Snowflake Connector](/data-sources/snowflake-source).
+For more details, check the [Snowflake Connector](/data-sources/snowflake-connector).
 
 ## Conclusion
 
