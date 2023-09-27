@@ -296,7 +296,9 @@ const sidebars = {
           items: [
             "guides/sql-quick-start/sql-ddl-examples",
             "guides/sql-quick-start/dml-operations",
-            "guides/sql-quick-start/query-federation"
+            "guides/sql-quick-start/iceberg-advanced-features",
+            "guides/sql-quick-start/tables-from-jdbc-csv-json",
+            "guides/sql-quick-start/query-federation",
           ],
         },
         {
