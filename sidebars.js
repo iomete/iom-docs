@@ -291,11 +291,12 @@ const sidebars = {
         },
         {
           type: "category",
-          label: "SQL examples",
+          label: "SQL Quick Start",
           collapsed: true,
           items: [
-            "spark-sql/ddl/sql-ddl-examples",
-            "guides/sql-examples/dml-operations",
+            "guides/sql-quick-start/sql-ddl-examples",
+            "guides/sql-quick-start/dml-operations",
+            "guides/sql-quick-start/query-federation"
           ],
         },
         {
