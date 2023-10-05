@@ -6,7 +6,7 @@ last_update:
   author: Vugar Dadalov
 ---
 
-___
+---
 
 IOMETE lakehouse endpoints are compatible with <a href="https://pypi.org/project/py-hive-iomete" targetr="_blank">py-hive-iomete</a> driver
 
@@ -21,10 +21,8 @@ For a quick start, you can use the samples repository: <https://github.com/iomet
 Install the following dependency
 
 ```shell
-pip install py-hive-iomete==1.1.0
+pip install py-hive-iomete==1.2.0
 ```
-
-
 
 ### DB-API sample
 
@@ -33,7 +31,6 @@ from pyhive import hive
 
 connection = hive.connect(
     host="<cluster_id>.iomete.cloud",
-    workspace_id="<workspace_id>",
     lakehouse="<lakehouse_cluster_name>",
     database="default",
     username="<username>",
@@ -47,8 +44,6 @@ print(cursor.fetchone())
 print(cursor.fetchall())
 ```
 
-
-
 ### DB-API (asynchronous) sample
 
 ```python
@@ -57,7 +52,6 @@ from TCLIService.ttypes import TOperationState
 
 connection = hive.connect(
     host="<cluster_id>.iomete.cloud",
-    workspace_id="<workspace_id>",
     lakehouse="<lakehouse_cluster_name>",
     database="default",
     username="<username>",
@@ -83,8 +77,6 @@ while status in (TOperationState.INITIALIZED_STATE, TOperationState.RUNNING_STAT
 print(cursor.fetchall())
 ```
 
-
-
 ## SQLAlchemy
 
 Install SQLAlchemy extra package
@@ -93,19 +85,17 @@ Install SQLAlchemy extra package
 pip install "py-hive-iomete[sqlalchemy]"
 ```
 
-
-
 ```python
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import *
 
 engine = create_engine(
-    'iomete://<username>:<personal_access_token>@<cluster_id>.iomete.cloud/<database>?workspace_id=<workspace_id>&lakehouse=<lakehouse_cluster_name>')
+    'iomete://<username>:<personal_access_token>@<cluster_id>.iomete.cloud/<database>?lakehouse=<lakehouse_cluster_name>')
 
 # Alternatively, "hive" driver could be used as well
 # engine = create_engine(
-#    'hive://<username>:<personal_access_token>@<cluster_id>.iomete.cloud/<database>?workspace_id=<workspace_id>&lakehouse=<lakehouse_cluster_name>')
+#    'hive://<username>:<personal_access_token>@<cluster_id>.iomete.cloud/<database>?lakehouse=<lakehouse_cluster_name>')
 
 session = sessionmaker(bind=engine)()
 records = session.query(Table('my_awesome_data', MetaData(bind=engine), autoload=True)) \
@@ -113,7 +103,5 @@ records = session.query(Table('my_awesome_data', MetaData(bind=engine), autoload
     .all()
 print(records)
 ```
-
-
 
 You can find the configuration parameters from the lakehouse "Connection Details" tab from the IOMETE console
