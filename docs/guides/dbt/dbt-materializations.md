@@ -1,6 +1,6 @@
 ---
 title: DBT Materializations
-description: DBT Materializations on iomete platform. Learn how to set different materialization types (view, table, incremental) and understand their pros & cons
+description: DBT Materializations on IOMETE platform. Learn how to set different materialization types (view, table, incremental) and understand their pros & cons
 last_update:
   date: 07/11/2022
   author: Vusal Dadalov
@@ -93,7 +93,7 @@ When using the `table` materialization, your model is rebuilt as a [table](https
 `incremental` models allow dbt to insert or update records into a table since the last time that dbt was run.
 
 - **Pros:** You can significantly reduce the build time by just transforming new records
-- **Cons:** Incremental models require extra configuration and are an advanced usage of dbt. Read more about using incremental models on iomete [here](dbt-incremental-models).
+- **Cons:** Incremental models require extra configuration and are an advanced usage of dbt. Read more about using incremental models on IOMETE [here](dbt-incremental-models).
 - **Advice:**
   - Incremental models are best for event-style data
   - Use incremental models when your `dbt run`s are becoming too slow (i.e. don't start with incremental models)

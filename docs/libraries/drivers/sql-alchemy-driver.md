@@ -2,11 +2,11 @@
 title: SQLAlchemy Driver
 description: IOMETE lakehouse endpoints are compatible with special driver, you can use the samples repository to quick start
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+  date: 10/04/2023
+  author: Vusal Dadalov
 ---
 
----
+___
 
 IOMETE lakehouse endpoints are compatible with <a href="https://pypi.org/project/py-hive-iomete" targetr="_blank">py-hive-iomete</a> driver
 
@@ -21,8 +21,10 @@ For a quick start, you can use the samples repository: <https://github.com/iomet
 Install the following dependency
 
 ```shell
-pip install py-hive-iomete==1.2.0
+pip install --upgrade py-hive-iomete
 ```
+
+
 
 ### DB-API sample
 
@@ -30,11 +32,13 @@ pip install py-hive-iomete==1.2.0
 from pyhive import hive
 
 connection = hive.connect(
-    host="<cluster_id>.iomete.cloud",
+    host="<host>",
+    port="<port>",
+    scheme="<https or http>",
     lakehouse="<lakehouse_cluster_name>",
     database="default",
     username="<username>",
-    password="<password>"
+    password="<personal_access_token>"
 )
 
 cursor = connection.cursor()
@@ -44,6 +48,8 @@ print(cursor.fetchone())
 print(cursor.fetchall())
 ```
 
+
+
 ### DB-API (asynchronous) sample
 
 ```python
@@ -51,11 +57,13 @@ from pyhive import hive
 from TCLIService.ttypes import TOperationState
 
 connection = hive.connect(
-    host="<cluster_id>.iomete.cloud",
+    host="<host>",
+    port="<port>",
+    scheme="<https or http>",
     lakehouse="<lakehouse_cluster_name>",
     database="default",
     username="<username>",
-    password="<password>"
+    password="<personal_access_token>"
 )
 
 cursor = connection.cursor()
@@ -77,6 +85,8 @@ while status in (TOperationState.INITIALIZED_STATE, TOperationState.RUNNING_STAT
 print(cursor.fetchall())
 ```
 
+
+
 ## SQLAlchemy
 
 Install SQLAlchemy extra package
@@ -85,17 +95,21 @@ Install SQLAlchemy extra package
 pip install "py-hive-iomete[sqlalchemy]"
 ```
 
+
+
 ```python
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import *
 
-engine = create_engine(
-    'iomete://<username>:<personal_access_token>@<cluster_id>.iomete.cloud/<database>?lakehouse=<lakehouse_cluster_name>')
+# Possible dialects (hive and iomete are both operate identically):
+# hive+http
+# hive+https
+# iomete+http
+# iomete+https
 
-# Alternatively, "hive" driver could be used as well
-# engine = create_engine(
-#    'hive://<username>:<personal_access_token>@<cluster_id>.iomete.cloud/<database>?lakehouse=<lakehouse_cluster_name>')
+engine = create_engine(
+    'iomete+https://<username>:<personal_access_token>@<host>:<port>/<database>?lakehouse=<lakehouse_cluster_name>')
 
 session = sessionmaker(bind=engine)()
 records = session.query(Table('my_awesome_data', MetaData(bind=engine), autoload=True)) \
@@ -103,5 +117,7 @@ records = session.query(Table('my_awesome_data', MetaData(bind=engine), autoload
     .all()
 print(records)
 ```
+
+
 
 You can find the configuration parameters from the lakehouse "Connection Details" tab from the IOMETE console

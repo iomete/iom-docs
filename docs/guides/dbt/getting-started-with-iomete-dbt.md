@@ -1,6 +1,6 @@
 ---
 title: Getting started with DBT
-description: Getting started with IOMETE & DBT. In this post, we will discuss using `DBT` and using it on the iomete data platform to bootstrap your `DBT` journey.
+description: Getting started with IOMETE & DBT. In this post, we will discuss using `DBT` and using it on the IOMETE data platform to bootstrap your `DBT` journey.
 last_update:
   date: 07/11/2022
   author: Vusal Dadalov
@@ -10,30 +10,30 @@ import Img from '@site/src/components/Img';
 
 # Getting started with DBT
 
-In this post, we will discuss using `DBT` and using it on the iomete data platform to bootstrap your `DBT` journey.
+In this post, we will discuss using `DBT` and using it on the IOMETE data platform to bootstrap your `DBT` journey.
 
 ## IOMETE & DBT
 
 dbt Core is an open-source tool that enables data teams to transform data using analytics engineering best practices. Read more [here](https://docs.getdbt.com/docs/introduction) about dbt.
 
-**[dbt-iomete](https://docs.getdbt.com/reference/warehouse-setups/iomete-setup)** adapter enable our customers to leverage DBT as their transformation layer. Iomete Serverless Lakehouse is built on two powerful engines, Apache Iceberg and Apache Spark. dbt-iomete adapter bring full support for the Iceberg Tables.
+**[dbt-iomete](https://docs.getdbt.com/reference/warehouse-setups/iomete-setup)** adapter enable our customers to leverage DBT as their transformation layer. IOMETE Serverless Lakehouse is built on two powerful engines, Apache Iceberg and Apache Spark. dbt-iomete adapter bring full support for the Iceberg Tables.
 
 ![dbt on the iomete data platform](https://uploads-ssl.webflow.com/62e59e059afb7e3948870885/62e80b69e03720a02a0b5719_dbt-in-iomete-platform.png)
 
 ## Prepare Data
 
 :::important
-To use DBT on the iomete platform, one needs a running lakehouse cluster. See this [doc](https://iomete.com/docs/user-guide/virtual-lakehouses) for more details on getting a serverless lakehouse running
+To use DBT on the IOMETE platform, one needs a running lakehouse cluster. See this [doc](https://iomete.com/docs/user-guide/virtual-lakehouses) for more details on getting a lakehouse running
 :::
 
 Suppose we have two tables, and we’ll use these tables to generate a new table or view using DBT. Let's prepare the two tables to be used by the DBT project.
 
 :::tip
-For the sake of demo, we’ll use the iomete’s external tables capability, which is the quickest way of bringing some tables to the platform without dealing data movement. You can read our docs and [guide](https://iomete.com/docs/guides/sync-data-from-jdbc-sources) about how to work with external tables.
+For the sake of demo, we’ll use the IOMETE’s external tables capability, which is the quickest way of bringing some tables to the platform without dealing data movement. You can read our docs and [guide](https://iomete.com/docs/guides/sync-data-from-jdbc-sources) about how to work with external tables.
 :::
 
 :::important
-You can create external tables on flat files (csv, json, ORC, parquet, etc), as well as from JDBC sources. In this guide will use the JDBC external table
+You can create external tables on flat files (CSV, JSON, ORC, Parquet, etc), as well as from JDBC sources. In this guide will use the JDBC external table
 :::
 
 Go to SQL editor in the [iomete app](https://app.iomete.com/editor) and create a new database and two external tables:
@@ -93,12 +93,12 @@ pip install --upgrade dbt-iomete
 ### Bootstrap the dbt project
 
 :::important
-You can find DBT connection parameters from the [lakehouse page](http://app.iomete.com).
+You can find DBT connection parameters from the **lakehouse page**
 
 <Img src="/img/guides/dbt/dbt_connection_details_tab.jpg" 
-  alt="Choose your serverless lakehouse instance from the list and go to DBT tab for the connection details"/>
+  alt="Choose your lakehouse instance from the list and go to DBT tab for the connection details"/>
 
-Choose your serverless lakehouse instance from the list and go to DBT tab for the connection details
+Choose your lakehouse instance from the list and go to DBT tab for the connection details
 :::
 
 :::important
@@ -131,16 +131,17 @@ cat ~/.dbt/profiles.yml
 dbt_project:
   outputs:
     dev:
-      workspace_id: 'pceh7-sak'
+      type: iomete
+      host: 4.236.193.224
+      port: 80
+      https: false
+      lakehouse: dbt
+      schema: dbt_database
+      user: admin
+      token: "{{ env_var('DBT_IOMETE_TOKEN') }}"    # use env variables for sensitive information
+      threads: 1
       connect_retries: 0
       connect_timeout: 120
-      host: iomdev.iomete.cloud
-      lakehouse: virtual-warehouse
-      user: "{{ env_var('DBT_IOMETE_USER_NAME') }}" # use env variables for sensitive information
-      token: "{{ env_var('DBT_IOMETE_TOKEN') }}"    # use env variables for sensitive information
-      schema: dbt_database
-      threads: 1
-      type: iomete
   target: dev
 ```
 :::
@@ -202,7 +203,7 @@ alt="Successful dbt run command output"
 caption="Successful dbt run command output"/>
 
 
-See the changes on iomete.
+See the changes on IOMETE.
 
 <Img src="/img/guides/dbt/dbt_transformation_result_as_view.png"
 alt="employee_salaries view"
@@ -211,7 +212,7 @@ caption="employee_salaries view"/>
 
 ### Change materialization type to table
 
-If you want to create a `table` instead of `view`, you can change the `materialization` type to `table`. iomete supports table, view and incremental materialization, see [dbt-iomete materializations](./dbt-materializations) to learn more**.**
+If you want to create a `table` instead of `view`, you can change the `materialization` type to `table`. IOMETE supports table, view and incremental materialization, see [dbt-iomete materializations](./dbt-materializations) to learn more**.**
 
 Quickly change materialization to the `table` and check the result
 
@@ -240,8 +241,8 @@ This time dbt created an iceberg table as a result of transformation:
 
 ## Conclusion
 
-We covered a quick intro to DBT, and worked through setting up our environment to get DBT connected to the iomete lakehouse.
+We covered a quick intro to DBT, and worked through setting up our environment to get DBT connected to the IOMETE lakehouse.
 
-If you have any questions or feedback related to DBT on the iomete lakehouse platform, please reach out to us via our intercom chat.
+If you have any questions or feedback related to DBT on the IOMETE lakehouse platform, please reach out to us via our intercom chat.
 
 

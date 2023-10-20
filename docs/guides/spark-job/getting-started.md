@@ -39,7 +39,7 @@ This template is meant to be used as a starting point for your own jobs. You can
 1.  Clone this repository
 2.  Modify the code and tests to fit your needs
 3.  Build the Docker image and push it to your Docker registry
-4.  Create a Spark Job in the Iomete Control Plane
+4.  Create a Spark Job in the IOMETE Control Plane
 5.  Run the Spark Job
 6.  Modify the code and tests as needed
 7.  Go to step 3
@@ -123,8 +123,8 @@ Once the docker is built and pushed to your Docker registry, you can create a Sp
 
 There are two ways to create a Spark Job in the IOMETE:
 
-1.  Using the Iomete Control Plane UI
-2.  Using the Iomete Control Plane API
+1.  Using the IOMETE Control Plane UI
+2.  Using the IOMETE Control Plane API
 
 **Using the IOMETE Control Plane UI**
 
@@ -167,7 +167,7 @@ curl -v --request POST \
 
 ### Run Spark Job
 
-Once the Spark Job is created, you can run it using the Iomete Control Plane UI or API. 
+Once the Spark Job is created, you can run it using the IOMETE Control Plane UI or API. 
 
 #### Run from UI
 

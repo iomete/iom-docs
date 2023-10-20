@@ -199,12 +199,6 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Administration",
-      collapsed: true,
-      items: ["administration-guide/iomete-ip-addresses", "administration-guide/database-connection-options"],
-    },
-    {
-      type: "category",
       label: "Misc",
       collapsed: true,
       items: ["misc/datagrip-lakehouse-connection"],
