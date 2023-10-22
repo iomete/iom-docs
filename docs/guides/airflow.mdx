@@ -19,7 +19,7 @@ Spark jobs within their Airflow workflows.
 In this documentation, we will guide you through the installation, configuration, and usage of the plugin  
 to help you get started quickly and efficiently.
 
-### Table of Contents
+## Table of Contents
 
 1. [Installation](#installation)
 2. [Configuration](#configuration)
@@ -27,37 +27,39 @@ to help you get started quickly and efficiently.
 4. [Example DAG](#example-dag)
 5. [Support](#support)
 
-### Installation
+## Installation
 
-**Prerequisites**:
+### Prerequisites
 
 - Python 3.7 or later
 - Apache Airflow 2.x
 
-**Steps**:
+### Setup Local Airflow
 
-1. To install the IOMETE Airflow Plugin, use the following pip command:
+To setup Airflow locally you can use [docker-compose file](https://github.com/iomete/iomete-airflow-plugin/blob/main/docker-compose.yaml).  
+Download it to your local machine and run the following command:
 
-   ```
-   pip install iomete-airflow-plugin
-   ```
+```bash
+docker-compose up --build
+```
 
-2. Once the installation is complete, restart your Airflow server.
-3. Import the plugin in your Airflow DAG script:
-   ```
-   from iomete_airflow_plugin.iomete_operator import IometeOperator
-   ```
+It will start Airflow webserver on http://localhost:8080. May take couple of minutes to start.
 
-### Configuration
+### Install IOMETE Airflow Plugin
 
-Before using the `IometeOperator`, you need to configure the required parameters in your Airflow environment:
+```bash
+pip install iomete-airflow-plugin
+```
 
-1. You need to add `iomete_access_token` key to airflow's Variables module.  
-   In the "**Resources**" section below, you can find a link to the documentation
+### Configure IOMETE Variables
+
+Before using the _IometeOperator_, you need to configure the required parameters in your Airflow environment.  
+From Airflow UI, navigate to **Admin > Variables** and add the following variables:
+
+1. `iomete_access_token` - In the **Resources** section below, you can find a link to the detailed documentation
    on how to create an API token.
 
-2. _[Optional]_ You can also add `iomete_workspace_id` key to airflow's Variables module.  
-   Or you can inject `workspace_id` parameter dynamically to `IometeOperator` class.
+2. `iomete_host` - The host of the IOMETE platform. For example: `https://sandbox.iomete.cloud`
 
 <ImgBorder src="/img/spark-job/airflow-variables.png" alt="Airflow Variables" />
 
@@ -66,24 +68,48 @@ Before using the `IometeOperator`, you need to configure the required parameters
 With the Iomete Airflow Plugin installed and configured,
 you can now use the `IometeOperator` in your Airflow DAGs to trigger Spark jobs.
 
+All your DAG's should be added to `dags/` folder in your Airflow home directory (or to the directory where you ran docker-compose)
+
 **Parameters**:
 
 1. `task_id`: A unique identifier for the task in the DAG (required).
 2. `job_id`: Spark Job ID or Name from IOMETE platform.
-3. `workspace_id`: Workspace ID from IOMETE platform.
-   Can be skipped only if you have added `iomete_workspace_id` key to airflow's Variables module.
-4. `config_override`: _[Optional]_ Configuration overrides of the Spark Job. Example:
+
+   ```markdown
+   job_id = 0978b946-42b1-4f8d-a807-8acfc32347f9
+
+   # or
+
+   job_id = "my-spark-job-name"
+   ```
+
+3. `config_override`: _[Optional]_ Configuration overrides of the Spark Job. Example:
 
    ```json
    {
      "arguments": ["string"],
-     "env_vars": {
+     "envVars": {
        "key": "value"
+     },
+     "sparkConf": {
+       "spark.example.variable": "sample_value"
      }
    }
    ```
 
-### Example DAG
+### Example DAGs
+
+:::tip Link to Source
+
+Source of examples below could be found in this [Github Repo](https://github.com/iomete/iomete-airflow-plugin/tree/main/dags)
+
+:::
+
+:::tip Overriding Config
+
+You can dynamically change `config_override` params with each run by choosing "Run w/ config" from Airflow's UI.
+
+:::
 
 ```python
 from airflow import DAG, utils
@@ -96,19 +122,65 @@ args = {
     "start_date": utils.dates.days_ago(0, second=1),
 }
 
-dag = DAG(dag_id="iomete-task", default_args=args, schedule_interval=None)
+# You can change params from Airflow's UI by choosing "Run w/ config"
+dag = DAG(
+    dag_id="iomete-dag-catalog-sync-runner",
+    default_args=args,
+    schedule_interval=None,
+    params={
+        'job_id': "0761a510-3a66-4c72-b06e-9d071f30d85d", # or name
+        'config_override': {
+            # everything inside config_override should be camelCase
+            "envVars": {
+                "env1": "value1"
+            },
+            "arguments": ["arg1"],
+            "sparkConf": {
+                "spark.example.variable": "sample_value"
+            }
+        }
+    }
+)
 
 iomete_task = IometeOperator(
-    task_id="random-and-unique-task-id",
-    job_id="YOUR_JOB_ID", # Replace this value with Job ID or name
-    workspace_id="pceh7-816", # Replace this value with Workspace ID or omit if you have added iomete_workspace_id key to airflow's Variables
-    config_override={
-        "arguments": ["sample_arg1", "sample_arg2"]
-    },
+    task_id="iomete-task-catalog-sync-runner",
+    job_id="{{ params.job_id }}",
+    config_override="{{ params.config_override }}",
     dag=dag,
 )
 
 iomete_task
+```
+
+Sequential execution example
+
+```python
+from airflow import DAG, utils
+from iomete_airflow_plugin.iomete_operator import IometeOperator
+
+args = {
+    "owner": "airflow",
+    "email": ["airflow@example.com"],
+    "depends_on_past": False,
+    "start_date": utils.dates.days_ago(0, second=1),
+}
+
+dag = DAG(dag_id="iomete-dag-sequential-execution", default_args=args, schedule_interval=None)
+
+task1 = IometeOperator(
+    task_id="first-task-catalog-sync",
+    job_id="0761a510-3a66-4c72-b06e-9d071f30d85d", # we use job id here
+    dag=dag,
+)
+
+task2 = IometeOperator(
+    task_id="second-task-sql-runner",
+    job_id="sql-runner", # we use job name here
+    dag=dag,
+)
+
+# task2 will be executed after task1
+task1 >> task2
 ```
 
 ### Support
