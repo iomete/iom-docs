@@ -20,185 +20,84 @@ This is a collection of data movement capabilities. This streaming job copies da
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
-- [Deserialization](#deserialization)
-  - [JSON](#json)
-  - [Avro](#avro)
-- [Job creation](#job-creation)
+- [Deserialization Format](#deserialization-format)
+- [Spark Job creation](#spark-job-creation)
 - [Configuration properties](#configuration-properties)
-- [Tests](#tests)
 
-## Deserialization
+## Deserialization Format
 
-Currently, two deserialization format supported.
+Currently, only JSON deserialization format supported.
 
-1. JSON
-2. AVRO
-
-### JSON
-
-In the Spark configuration, a user-defined reference json schema can be defined,
-and the system processes the binary data accordingly. Otherwise,
-It considers the schema of the first row and assumes the rest of the rows is compatible.
-
-### Avro
-
-Converts binary data according to the schema defined by the user or retrieves the schema from the schema registry.
-
-![Avro record streaming.](/img/spark-job/kafka-avro-diagram.jpeg)
-
-## Job creation
+## Spark Job creation
 
 - In the left sidebar menu choose <FlexButton label='Spark Jobs'><Cpu size={20} color='#858c9c' weight="duotone"/></FlexButton>
 - Click on <FlexButton label='Create' primary><Plus size={16} /></FlexButton>
 
 Specify the following parameters (these are examples, you can change them based on your preference):
 
-- **Name:** `kafka-streaming-job`
-- **Docker image:** `iomete/iomete_kafka_streaming_job:0.2.1`
-- **Main application file:** `local:///app/driver.py`
-- **Environment variables:** `LOG_LEVEL`: `INFO` or `ERROR`
-
-<Img src="/img/spark-job/spark-job-create-kafka-streaming.png" alt="IOMETE Spark Jobs Create kafka streaming" />
-
-:::info Environment variables
-You can use **Environment variables** to store your sensitive variables like password, secrets, etc. Then you can use these variables in your config file using the <code>${DB_PASSWORD}</code> syntax.
-:::
-
-## Config file
-
-Scroll down and expand `Application configurations` section and click `Add config file` and paste following **JSON**.
-
-<Img src="/img/spark-job/spark-job-app-config.png" alt="IOMETE Spark Jobs add config file" />
-
-```json
-{
-  kafka: {
-      bootstrap_servers: "localhost:9092",
-      topic: "usage.spark.0",
-      serialization_format: json,
-      group_id: group_1,
-      starting_offsets: latest,
-      trigger: {
-        interval: 5
-        unit: seconds # minutes
+- **Name**: `kafka-iceberg-stream`
+- **Docker image**: `iomete/kafka-iceberg-stream:1.0.0`
+- **Main application file**: `local:///app/job.py`
+- **Java options** (Optional): `-Dlog4j.configurationFile=/opt/spark/iomete/log4j2.properties` - specify logging configuration file
+- **Config file**: 
+  ```hocon
+  {
+    kafka: {
+      options: {
+        "kafka.bootstrap.servers": "kafka-bootstrap-server:9092",
+        "subscribePattern": ".*"
       },
-      schema_registry_url: "http://127.0.0.1:8081"
-  },
-  database: {
-    schema: default,
-    table: spark_usage_20
+
+      # either once or processing_time should be set for the trigger. Not both.
+      trigger: {
+        # processing_time: "15 minutes",
+        once: True
+      },
+
+      # set checkpointLocation to object storage for production.
+      # Example: "s3a://assests-dir/checkpoints/kafka-streaming/data/app1"
+      checkpoint_location: ".tmp/checkpoints/kafka-streaming/data/app1",
+    },
+    destination: {
+      database: "default",
+      table: "all_db_changes_v1",
+    }
   }
-}
-```
+  ```
+
+  :::note
+
+  Note: It's recommended to exclude the `startingOffsets` option. If the table doesn't exist or is empty, it will default to the `earliest` setting automatically. Conversely, if the table is filled, it will default to the `latest` setting. This allows you to start from the beginning when the table is empty and continue from where you left off (based on the checkpoint state) when the table is not empty.
+
+  :::
+
+<Img src="/img/spark-job/cdc.png" alt="IOMETE Spark Jobs Create kafka streaming" />
+
 
 ## Configuration properties
 
-<table>
-  <thead>
-    <tr>
-      <th>Property</th>
-      <th>Description</th>
-    </tr>
-  </thead>
+- **kafka.options**: Kafka options. See [Kafka Consumer Configurations](https://spark.apache.org/docs/latest/structured-streaming-kafka-integration.html) for more details.
+- **kafka.trigger**: Trigger options. See [Triggers](https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#triggers) for more details. Only one of the `processing_time` or `once` should be set.
+- **kafka.checkpoint_location**: Checkpoint location. See [Checkpointing](https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html#recovering-from-failures-with-checkpointing) for more details.
+- **destination.database**: Iceberg database name. Database should be created before running the job.
+- **destination.table**: Iceberg table name. Table will be created if it does not exist.
 
-  <tbody>
-    <tr>
-      <td>
-        <code>kafka</code><br/>
-      </td>
-      <td>
-        <p>Required properties to connect and configure.</p>
-        <table>
-            <tbody>
-                <tr>
-                  <td>
-                    <code>bootstrap_servers</code>
-                  </td>
-                  <td>
-                    <p>Kafka broker server.</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <code>topic</code>
-                  </td>
-                  <td>
-                    <p>Kafka topic name.</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <code>serialization_format</code>
-                  </td>
-                  <td>
-                    <p>Value data serialization format.</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <code>group_id</code>
-                  </td>
-                  <td>
-                    <p>Consumer group id.</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <code>starting_offsets</code>
-                  </td>
-                  <td>
-                    <p>Specify where to start instead.</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <code>trigger</code>
-                  </td>
-                  <td>
-                    <ul>
-                      <li><code>interval</code> Processing trigger interval.</li>
-                      <li><code>unit</code> Processing trigger unit: seconds, minutes</li>
-                    </ul>
-                  </td>
-                </tr>
-            </tbody>
-        </table>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <code>database</code><br/>
-      </td>
-      <td>
-        <p>Destination database properties.</p>
-        <ul>
-          <li><code>schema</code> Specify the schema (database) to store into.</li>
-          <li><code>table</code> Specify the table.</li>
-        </ul>
-      </td>
-    </tr>
-</tbody>
-</table>
-
-<br/>
-
-<Img src="/img/spark-job/spark-job-create-kafka-streaming-config.png" alt="IOMETE Spark kafka streaming create spark job application configuration" />
-
-And, hit the create button.
-
-## Tests
-
-**Prepare the dev environment**
-
-```shell
-virtualenv .env #or python3 -m venv .env
-source .env/bin/activate
-
-pip install -e ."[dev]"
+Job will create a table with the following schema:
+```
+root
+ |-- topic: string (nullable = true)
+ |-- partition: integer (nullable = true)
+ |-- offset: long (nullable = true)
+ |-- timestamp: timestamp (nullable = true)
+ |-- timestampType: integer (nullable = true)
+ |-- key: string (nullable = true)
+ |-- value: string (nullable = true)
 ```
 
-**Run test**
-
-```shell
-python3 -m pytest
-```
+- **topic**: Kafka topic name that the record is received from.
+- **partition**: Kafka partition number that the record is received from.
+- **offset**: Kafka offset number that the record is received from.
+- **timestamp**: Kafka timestamp that the record is received from.
+- **timestampType**: Kafka timestamp type that the record is received from.
+- **key**: Kafka record key.
+- **value**: Kafka record value.
