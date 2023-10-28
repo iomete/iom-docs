@@ -34,18 +34,38 @@ to help you get started quickly and efficiently.
 - Python 3.7 or later
 - Apache Airflow 2.x
 
-### Setup Local Airflow
+### Setup Airflow (Optional)
 
-To setup Airflow locally you can use [docker-compose file](https://github.com/iomete/iomete-airflow-plugin/blob/main/docker-compose.yaml).  
-Download it to your local machine and run the following command:
+:::note
+
+Skip this step if you already have Airflow installed and configured.
+
+:::
+
+We will cover 2 ways of installing Airflow with IOMETE plugin (Operator) locally:
+
+**1. Docker Setup**  
+Clone our [Airflow plugin repository](https://github.com/iomete/iomete-airflow-plugin) and run `docker-compose` file.
+It will build latest version from source and will start Airflow webserver on http://localhost:8080. May take couple of minutes to start.
 
 ```bash
 docker-compose up --build
 ```
 
-It will start Airflow webserver on http://localhost:8080. May take couple of minutes to start.
+**2. Helm Install**  
+You can install Airflow directly to Kubernetes using [official Helm chart](https://artifacthub.io/packages/helm/apache-airflow/airflow).
+Just change the docker image to `iomete/airflow:2.7.1` in `values.yaml` file. It will run Airflow with installed IOMETE plugin.
 
-### Install IOMETE Airflow Plugin
+### Manually Install IOMETE Airflow Plugin
+
+:::note
+
+Skip this step if you installed Airflow with one of the methods above.
+
+:::
+
+If you already have Airflow installed and configured, you can install the IOMETE Airflow Plugin manually.
+In your Airflow home directory, run the following command (May need to restart Airflow webserver):
 
 ```bash
 pip install iomete-airflow-plugin
