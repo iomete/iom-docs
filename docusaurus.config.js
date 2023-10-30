@@ -126,7 +126,7 @@ const config = {
       ],
     },
     prism: {
-      theme: lightCodeTheme
+      theme: lightCodeTheme,
     },
     algolia: {
       appId: "A90PMTH5W5",

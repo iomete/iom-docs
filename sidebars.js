@@ -247,6 +247,14 @@ const sidebars = {
               collapsed: false,
               items: ["guides/deployment/gcp/install", "guides/deployment/gcp/upgrade"],
             },
+            {
+              type: "category",
+              label: "On-Premise",
+              collapsed: false,
+              items: [
+                "guides/deployment/on-prem/life-cycle-management",
+              ],
+            }
           ],
         },
         {
