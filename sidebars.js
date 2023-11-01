@@ -233,6 +233,7 @@ const sidebars = {
                 "guides/deployment/aws/upgrade",
                 "guides/deployment/aws/changelog",
                 "guides/deployment/aws/permissions",
+                "guides/deployment/aws/data-plane-cost",
               ],
             },
             {
