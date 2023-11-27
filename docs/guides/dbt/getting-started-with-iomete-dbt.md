@@ -16,7 +16,7 @@ In this post, we will discuss using `DBT` and using it on the IOMETE data platfo
 
 dbt Core is an open-source tool that enables data teams to transform data using analytics engineering best practices. Read more [here](https://docs.getdbt.com/docs/introduction) about dbt.
 
-**[dbt-iomete](https://docs.getdbt.com/reference/warehouse-setups/iomete-setup)** adapter enable our customers to leverage DBT as their transformation layer. IOMETE Serverless Lakehouse is built on two powerful engines, Apache Iceberg and Apache Spark. dbt-iomete adapter bring full support for the Iceberg Tables.
+**[dbt-iomete](https://docs.getdbt.com/reference/warehouse-setups/iomete-setup)** adapter enable our customers to leverage DBT as their transformation layer. IOMETE Lakehouse is built on two powerful engines, Apache Iceberg and Apache Spark. dbt-iomete adapter bring full support for the Iceberg Tables.
 
 ![dbt on the iomete data platform](https://uploads-ssl.webflow.com/62e59e059afb7e3948870885/62e80b69e03720a02a0b5719_dbt-in-iomete-platform.png)
 
