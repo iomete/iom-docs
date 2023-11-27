@@ -6,50 +6,22 @@ description: An overview of the components of the IOMETE lakehouse platform. Sno
 
 On this page we give an overview of the components that make up the IOMETE lakehouse platform. The IOMETE lakehouse platform was designed to provide a unified experience with one source of truth. The platform is complete with a built-in data catalog so that users can become data-driven in an easy and cost-effective manner.
 
-We deliver data-infrastructure-as-one-single-platform. We are on the cloud (AWS) and provide a fully managed experience. We also provide local cloud, on-premise and hybrid solutions.
+<!-- We deliver data-infrastructure-as-one-single-platform. We are on the cloud (AWS) and provide a fully managed experience. We also provide local cloud, on-premise and hybrid solutions. -->
 
 The platform includes:
 
 1. Lakehouse
-2. Data Governance
-   1. Advanced Data Authorization Control & Auditing
-   2. Data catalog & discovery
-   3. Data monitoring & observability
-3. Serverless Job Service (ETL)
-4. Data Loaders (Data migration from 3rd party services, aka data connectors)
-5. BI integrations (Tableau, Power BI, Looker, Metabase, Superset)
+   1. Data Plane
+   2. Control Plane
+2. Customer Tools (Tableau, Power BI, Looker, Metabase, Superset etc.)
 
 
 ![IOMETE data stack](/img/intro/how-it-works.png)
 
 <br/>
 
-### Lakehouse
 
-At the center, IOMETE provides a data** lakehouse. **Lakehouse is an environment designed to combine the data structure and data management features of a data warehouse with the low-cost storage of a data lake.
-
-To understand **lakehouse**, let’s explore the pros & cons of data lakes: 
-
-Data lakes have been known for their cost-effectiveness, unlimited scalability, and shared-data architecture. But this approach also brought certain challenges. It doesn’t have the database interface we are accustomed to, no support for update/insert/delete, no ACID, data access control on column level, etc. You need to deal directly with the physical files instead of high-level database operations.
-
-Lakehouse solves all those challenges of data lakes and keeps the advantages of data lakes. Simply think **Lakehouse = Data Warehouse + Data Lake. **
-
-The IOMETE lakehouse provides the following advantages:
-
-- Cost-effective: use cheap cloud blob storage (AWS S3, Google Cloud Storage, etc.)
-- Unlimited scalability: provided by cloud storage
-- Decoupled compute and storage. That allows multiple compute clusters to use the shared data. 
-- ACID (atomic, consistent, isolated, durable) support and insert/update/delete support
-- Working with database/table/view/columns abstraction instead of physical files
-- Granular data access control up to column/row level
-- Schema enforcement. Data should conform to the schema of the table.
-- Store the data as-is, without having to structure the data first, and run different types of analytics to guide better decisions, building dashboards and visualizations from big data processing, real-time analytics, and machine learning. 
-
-Incredible isn’t it?!
-
-One of the exciting concepts we mentioned above is **decoupled compute and storage**. Next, let’s learn what it is.
-
-### Decoupled Compute and Storage
+<!-- ### Decoupled Compute and Storage
 
 IOMETE lakehouse uses decoupled compute & storage architecture, aka multi-cluster shared-data architecture.
 
@@ -106,4 +78,66 @@ Data Loaders are connectors to move data from 3rd party applications, like Mixpa
 
 <!-- ### BI
 
-Fast, lightweight, intuitive, and loaded with options that make it easy for users of all skill sets to explore and visualize their data, from simple line charts to highly detailed geospatial charts. If you wish to connect your favorite third party BI tool instead (e.g. Tableau or Looker): piece of cake. -->
+Fast, lightweight, intuitive, and loaded with options that make it easy for users of all skill sets to explore and visualize their data, from simple line charts to highly detailed geospatial charts. If you wish to connect your favorite third party BI tool instead (e.g. Tableau or Looker): piece of cake. --> -->
+
+## IOMETE Control Plane
+
+Located in the cloud and powered by Kubernetes, the Control Plane is essentially the brain of the IOMETE platform. It manages various crucial aspects:
+
+**Data Plane Services:** These include handling Lakehouse Clusters, managing Spark jobs, providing SQL Editor interfaces, organizing the Data Catalog, and overseeing Data Security.
+
+**Authentication and Authorization:** Utilizes Role-Based Access Control (RBAC) to ensure secure and appropriate access to resources.
+
+**API Gateway:** Manages all inbound requests and offers API key authentication. It's complemented by SDKs to facilitate customer interactions with IOMETE's APIs.
+
+**Private Databases Interaction:** Direct communication with private databases for data retrieval and storage.
+
+**Message Queue Interaction:** Enables asynchronous communication with the Data Plane, enhancing system responsiveness.
+
+**IOMETE Console UI** - Web Application: The primary user interface for interacting with the IOMETE platform.
+
+### Control Plane Locations
+
+For robustness and performance optimization, the Control Plane is replicated across major regions worldwide:
+
+- United States (US) Region
+- European Union (EU) Region
+- Asia Pacific (AP) Region
+
+
+### Benefits of Control Plane Replication
+
+- High Availability
+- Load Balancing
+- Disaster Recovery
+- Latency Optimization
+- Compliance and Data Sovereignty
+
+
+## IOMETE Data Plane
+
+Hosted on the customer's cloud infrastructure (AWS, GCP, Azure), the Data Plane is focused on data processing and analysis:
+
+**Apache Spark Engine:** Used for large-scale data processing.
+
+**Jupyter EG:** Provides an interactive computational environment for data science and machine learning.
+
+**Apache Ranger:** Manages security across the lakehouse data.
+
+**IOMETE Services:** Microservices architecture for system monitoring and maintenance.
+
+**Interaction with Control Plane:** Communication through Load Balancer and Message Queues.
+
+**Storage Service:** Uses cloud storage services for data and metadata storage.
+
+**Databases:** Store security policies and metadata for external Hive tables.
+
+
+## Connecting to Lakehouse Endpoints
+
+Customers can connect to Lakehouse endpoints using various tools, ensuring data remains within their cloud. The Lakehouse endpoints manage authentication and authorization, and execute actions based on user privileges.
+
+
+**Control Plane and Data Plane Communication**
+
+A simplified example illustrates how these two components interact during processes like Lakehouse Cluster creation. This involves load balancing, metadata storage, and YAML deployment via Kubernetes in the Data Plane.

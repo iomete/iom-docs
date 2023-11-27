@@ -21,13 +21,13 @@ Personal access tokens are an alternative to using passwords for authentication 
 
 **1.** Navigate to **Settings** menu
    
-<Img src="/img/user-guide/pat/pat-go-to-settings.png"
-  alt="PAT settings menu" maxWidth="256px"/>
+<!-- <Img src="/img/user-guide/pat/pat-go-to-settings.png"
+  alt="PAT settings menu" maxWidth="256px"/> -->
 
-**2.** Click **Access Token** tab
+**2.** Click **Personal Access Token(PAT)** tab
    
-<Img src="/img/user-guide/pat/pat-tab.png"
-  alt="PAT tab"/>
+<!-- <Img src="/img/user-guide/pat/pat-tab.png"
+  alt="PAT tab"/> -->
 
 
 **3.** Click **Generate new token**

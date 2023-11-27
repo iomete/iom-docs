@@ -16,31 +16,58 @@ Here you'll find comprehensive guides and documentation to get you up and **runn
 
 :::
 
-### The IOMETE lakehouse platform
+## The IOMETE lakehouse platform
 
 **The platform**
 
 - Modern lakehouse built on top of **Apache Iceberg** and **Apache Spark.**
 - Includes: 
-  - Serverless lakehouse
-  - Serverless Spark Jobs
+  - Lakehouse
+  - Spark Jobs
   - SQL editor
   - Advanced data catalog 
-  - Built-in BI (or connect 3rd party BI e.g. Tableau, Looker)
+  - Jupyter Notebook
 
 **IOMETE's extreme value proposition**
 
-- Our compute pricing is equal to AWS on-demand pricing, with no mark up. 
-- You get basically all our lakehouse functionality for free.
-- We believe in the democratization of data. Data is used in important areas like health, climate, sustainability and finance. Therefore data computation and analysis that is easy and available at the lowest price possible even at petabytes scale, may be a great thing for planet earth. 
+IOMETE offers a comprehensive and versatile data lakehouse platform, merging the capabilities of data lakes and data warehouses into a single, integrated solution. This platform is suitable for both cloud and on-premise deployments, providing a cloud-like data analytics experience in on-premise environments:
 
-### Platform features
+## Platform features
 
-- **Modern architecture:** We are ex-Uber/Google/Amazon engineers that understand data at scale.
-- **Open source:** We built on Apache Iceberg and Apache Spark. We use an open source data format (Parquet).
-- **Fully managed:** No maintenance, no upfront investment.
-- **Unified experience**: Don’t waste time patching together multi-vendor solutions.
-- **Fantastic support**: Directly access our engineering team via Slack if you have questions. 
-- **Scalable**: As you grow, IOMETE grows with you. Only pay for what you use.
-- **Compatible**: Works well with most other data infrastructure solutions.
-- **We democratize data** by empowering teams to become data-driven in an easy and cost-effective way.
+IOMETE's blend of advanced features and flexible architecture makes it suitable for a wide range of data management, analytics, and visualization tasks. It effectively consolidates data lakes and warehouses, streamlines data preparation, and enables real-time analytics, machine learning, predictive modeling, data visualization, and time-series analytics. 
+
+**Object Storage:** A durable and available object storage system, MinIO is configured for optimal performance, considering factors like CPU, RAM, disk speed, and network specifications.
+
+**Compute Cluster with Kubernetes:** Kubernetes orchestrates IOMETE services, including Lakehouse and Spark job clusters. These clusters are elastically scalable, automatically adjusting based on load to maximize resource utilization.
+
+**Lakehouse Platform:** Powered by Apache Spark and Apache Iceberg, it offers a robust SQL interface for data exploration and analytics. Features include ACID-compliant operations, data versioning, and time travel etc.
+
+**Query Federation Engine:** Allows querying data from multiple sources, including relational and NoSQL databases, and flat files, without complex ETL pipelines.
+
+**Spark Job Service:** Facilitates running and monitoring Spark Jobs, including Spark Streaming for real-time data processing.
+
+**Notebook Service:** Provides an environment for running ad-hoc queries with results streamed back from the IOMETE cluster.
+
+**Data Catalog:** A centralized repository for dataset metadata, enhancing collaboration and resource sharing.
+
+**Central Data Access Control:** Manages access control policies across all datasets, including selective masking for sensitive fields. Built on Apache Ranger
+
+**Built-in SQL Editor:** Features syntax highlighting and auto-completion for writing SQL queries.
+
+**Integration with External Tools:** Supports integration with tools like Apache Airflow and BI tools, enhancing extensibility and existing infrastructure compatibility.
+
+**BI Tool Integration:** Works seamlessly with major BI tools like Tableau, PowerBI, and Looker for deep BI experiences.
+
+**DBT Plugin:** Facilitates SQL-based data pipelines, enhancing data integration workflows.
+
+**Data Ingestion & ETL:** Integrates with data ingestion tools like Airbyte and Singer for efficient data import.
+
+**Orchestration:** Integrates with Apache Airflow for advanced orchestration capabilities.
+
+**Data Catalog & Lineage:** Offers robust data cataloging and integrates with platforms like Amundsen, Atlas, Talend, and Informatica for metadata and lineage collection.
+
+**Exceptional Performance:** Enhanced with optimizations and modern technologies for high performance, as evidenced by benchmark results showing significant advantages over competitors 
+
+**Security Features:** Includes robust authentication, authorization, encryption, and advanced monitoring/logging for data protection.
+
+**Cloud-Native Architecture:** Offers cloud-like elasticity, scalability, and ease of deployment, both in the cloud and on-premise.
