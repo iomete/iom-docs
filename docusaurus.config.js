@@ -48,7 +48,7 @@ const config = {
           customCss: require.resolve("./src/css/custom.scss"),
         },
         googleTagManager: {
-          containerId: 'GTM-W4ZH33W',
+          containerId: "GTM-W4ZH33W",
         },
         // gtag: {
         //   trackingID: "G-YMX75JE2MY",
@@ -61,129 +61,151 @@ const config = {
             "/docs/tags/**",
             "/docs/data-policy/**",
             "/docs/user-guide/access-policy-management",
-            "/docs/user-guide/serverless-spark-applications"
+            "/docs/user-guide/serverless-spark-applications",
           ],
           filename: "sitemap.xml",
         },
       },
-
     ],
   ],
 
   themeConfig:
-  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-  {
-    metadata: [
-      // { name: 'keywords', content: 'iomete, datalake, lakehouse, warehouse, docs, documentation, sql editor, big data' },
-      { name: "og:image", content: "https://iomete.com/docs/img/meta/open-graph.png" },
-      { name: "twitter:image", content: "https://iomete.com/docs/img/meta/open-graph.png" },
-      {
-        name: "og:type",
-        content: "website",
-      },
-      {
-        name: "og:site_name",
-        content: "IOMETE Docs",
-      },
-    ],
-    // docs: {
-    //   sidebar: {
-    //     hideable: true,
-    //     autoCollapseCategories: true
-    //   }
-    // },
-    navbar: {
-      // title: 'My Site',
-      hideOnScroll: false,
-      logo: {
-        alt: "IOMETE logo",
-        src: `/img/logo-black.svg`,
-        href: "https://iomete.com",
-        target: "_self",
-        height: 32,
-        width: 82
-      },
-      items: [
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    {
+      metadata: [
+        // { name: 'keywords', content: 'iomete, datalake, lakehouse, warehouse, docs, documentation, sql editor, big data' },
+        { name: "og:image", content: "https://iomete.com/docs/img/meta/open-graph.png" },
+        { name: "twitter:image", content: "https://iomete.com/docs/img/meta/open-graph.png" },
         {
-          type: "doc",
-          docId: "intro",
-          position: "left",
-          label: "Docs",
+          name: "og:type",
+          content: "website",
         },
         {
-          type: "doc",
-          docId: "guides",
-          label: "Guides",
-          position: "left",
-        },
-        { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
-        {
-          href: "https://api.iomete.com",
-          label: "API",
-          position: "right",
-        },
-        {
-          href: "https://github.com/iomete",
-          label: "GitHub",
-          position: "right",
+          name: "og:site_name",
+          content: "IOMETE Docs",
         },
       ],
+      // docs: {
+      //   sidebar: {
+      //     hideable: true,
+      //     autoCollapseCategories: true
+      //   }
+      // },
+      navbar: {
+        // title: 'My Site',
+        hideOnScroll: false,
+        logo: {
+          alt: "IOMETE logo",
+          src: `/img/logo-black.svg`,
+          href: "https://iomete.com",
+          target: "_self",
+          height: 32,
+          width: 82,
+        },
+        items: [
+          {
+            type: "doc",
+            docId: "intro",
+            position: "left",
+            label: "Docs",
+          },
+          {
+            type: "doc",
+            docId: "guides",
+            label: "Guides",
+            position: "left",
+          },
+          { to: "ai", label: "AI", position: "left" },
+          { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
+
+          {
+            href: "http://localhost:15000/",
+            label: "Try AI bot",
+            position: "left",
+            target: "_blank",
+            style: { border: "3px solid #ff9800", color: "#ff9800" },
+          },
+          {
+            href: "https://api.iomete.com",
+            label: "API",
+            position: "right",
+          },
+          {
+            href: "https://github.com/iomete",
+            label: "GitHub",
+            position: "right",
+          },
+        ],
+      },
+      prism: {
+        theme: lightCodeTheme,
+      },
+      algolia: {
+        appId: "A90PMTH5W5",
+        apiKey: "3c9132c4cdf813a81e47299fde60c651",
+        indexName: "iomete",
+        contextualSearch: false,
+      },
+      colorMode: {
+        defaultMode: "light",
+        disableSwitch: true,
+        respectPrefersColorScheme: false,
+      },
     },
-    prism: {
-      theme: lightCodeTheme,
-    },
-    algolia: {
-      appId: "A90PMTH5W5",
-      apiKey: "3c9132c4cdf813a81e47299fde60c651",
-      indexName: "iomete",
-      contextualSearch: false,
-    },
-    colorMode: {
-      defaultMode: "light",
-      disableSwitch: true,
-      respectPrefersColorScheme: false,
-    },
-  },
-  plugins: ["docusaurus-plugin-sass",
+  plugins: [
+    "docusaurus-plugin-sass",
+
     [
-      '@docusaurus/plugin-client-redirects',
+      "@docusaurus/plugin-client-redirects",
       {
         redirects: [
           {
-            to: '/data-security/overview',
-            from: ['/user-guide/access-policy-management', '/data-policy/overview'],
+            to: "/data-security/overview",
+            from: ["/user-guide/access-policy-management", "/data-policy/overview"],
           },
           {
-            to: '/data-security/access',
-            from: ['/data-policy/access'],
+            to: "/data-security/access",
+            from: ["/data-policy/access"],
           },
           {
-            to: '/data-security/masking',
-            from: ['/data-policy/masking'],
+            to: "/data-security/masking",
+            from: ["/data-policy/masking"],
           },
           {
-            to: '/data-security/row-level-filter',
-            from: ['/data-policy/row-level-filter'],
+            to: "/data-security/row-level-filter",
+            from: ["/data-policy/row-level-filter"],
           },
           {
-            to: '/data-security/tag-based-access',
-            from: ['/data-policy/tag-based-access'],
+            to: "/data-security/tag-based-access",
+            from: ["/data-policy/tag-based-access"],
           },
           {
-            to: '/data-security/tag-based-masking',
-            from: ['/data-policy/tag-based-masking'],
+            to: "/data-security/tag-based-masking",
+            from: ["/data-policy/tag-based-masking"],
           },
           {
-            to: '/guides/spark-job/getting-started',
-            from: '/user-guide/serverless-spark-applications',
+            to: "/guides/spark-job/getting-started",
+            from: "/user-guide/serverless-spark-applications",
           },
           {
-            to: '/guides',
-            from: '/user-guide/storage-integrations'
-          }
-        ]
+            to: "/guides",
+            from: "/user-guide/storage-integrations",
+          },
+        ],
       },
-    ]],
+    ],
+    async function myPlugin(context, options) {
+      return {
+        name: "docusaurus-tailwindcss",
+        configurePostCss(postcssOptions) {
+          // Appends TailwindCSS and AutoPrefixer.
+          postcssOptions.plugins.push(require("tailwindcss"));
+          postcssOptions.plugins.push(require("autoprefixer"));
+          return postcssOptions;
+        },
+      };
+    },
+  ],
 };
 
 module.exports = config;

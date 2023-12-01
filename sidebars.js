@@ -252,10 +252,8 @@ const sidebars = {
               type: "category",
               label: "On-Premise",
               collapsed: false,
-              items: [
-                "guides/deployment/on-prem/life-cycle-management",
-              ],
-            }
+              items: ["guides/deployment/on-prem/life-cycle-management"],
+            },
           ],
         },
         {
