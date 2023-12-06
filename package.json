@@ -23,6 +23,7 @@
     "@phosphor-icons/react": "^2.0.6",
     "@uiw/react-markdown-preview": "4.2.2",
     "autoprefixer": "^10.4.16",
+    "axios": "^1.6.2",
     "clsx": "^1.2.1",
     "docusaurus-plugin-sass": "^0.2.2",
     "docusaurus-prince-pdf": "^1.1.1",

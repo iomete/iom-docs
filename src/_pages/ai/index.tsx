@@ -2,10 +2,11 @@
 import { useEffect, useRef, useState } from "react";
 import "./globals.css";
 
-import { PaperPlaneRight } from "@phosphor-icons/react";
+import { PaperPlaneRight, PlusCircle } from "@phosphor-icons/react";
 import axios from "axios";
-import Conversation from "../ai/conversation";
+import Conversation from "./conversation";
 import React from "react";
+import { getHistory, resetHistory, search } from "./api";
 
 function generateUserId() {
   const timestamp = new Date().getTime();
@@ -21,115 +22,73 @@ export default function Home() {
 
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
-  // Function to fetch the list
   useEffect(() => {
-    let storedId = localStorage.getItem("userId");
+    // scroll to bottom
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  }, [conversationData]);
 
-    if (storedId) {
-      setUserId(storedId);
-    } else {
-      const newUserId = generateUserId();
-      localStorage.setItem("userId", newUserId);
-      storedId = newUserId;
-      setUserId(newUserId);
-    }
+  useEffect(() => {
+    const storedId = localStorage.getItem("userId") || generateUserId();
+    localStorage.setItem("userId", storedId);
+    setUserId(storedId);
 
-    const apiUrl = `http://127.0.0.1:8000/get_history/${storedId}`;
-
-    axios
-      .get(apiUrl) // Replace with your actual API endpoint
-      .then((response) => {
-        console.log("hostory-->", history);
-        setConversationData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching list:", error);
-      });
+    getHistory(storedId)
+      .then((response) => setConversationData(response))
+      .catch((error) => console.error("There was a problem fetching history:", error));
   }, []);
 
   const askAi = async () => {
+    if (loading || !title.length) return;
     const post = { role: "user", content: title };
-    let newData = [...conversationData, post];
-    setConversationData(newData);
+    setConversationData([...conversationData, post]);
     setTitle("");
-    console.log("stroe id", userId);
-    const apiUrl = `http://127.0.0.1:8000/search/${userId}`;
     setLoading(true);
-    axios
-      .post(apiUrl, post, {
-        headers: {
-          "Content-Type": "application/json",
-          // You may need to include additional headers like authentication tokens if required
-        },
-      })
-      .then((response) => {
-        console.log("response-->", response.data);
 
-        setConversationData(response.data.history);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("There was a problem with the Axios request:", error);
-        setLoading(false);
-      });
+    try {
+      const response = await search(userId, post);
+      setConversationData(response);
+    } catch (error) {
+      console.error("There was a problem with the Axios request:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReset = async () => {
+    if (loading) return;
+    try {
+      const response = await resetHistory(userId);
+      setConversationData(response);
+    } catch (error) {
+      console.error("There was a problem resetting history:", error);
+    }
   };
 
   const handleSubmit = async (e: any) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-
-      if (loading) {
-        return;
-      }
-
       askAi();
     }
   };
 
-  const handleReset = async () => {
-    const apiUrl = `http://localhost:8000/reset_history/${userId}`;
-
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        console.log("log-->", response);
-        setConversationData(response.data);
-      })
-      .catch((error) => {
-        // setError(error.response?.data || "An error occurred");
-      });
-  };
-
-  // Function to scroll to the bottom of the chat container
-  const scrollToBottom = () => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  };
-
-  // Use the useEffect hook to scroll to the bottom whenever conversationData changes
-  useEffect(() => {
-    scrollToBottom();
-  }, [conversationData]);
-
   return (
-    <main className="h-screen w-screen flex-col justify-center items-center lg:px-24 md:px-24 sm:px-8 px-2">
-      <div className="text-black w-full h-1/6 p-6 mb-3 md:mb-0">
-        <h1 className=" text-3xl mb-4 text-center font-bold leading-none text-gray-600   md:text-4xl lg:text-5xl whitespace-pre">
-          IOMETE AI Search Engine{" "}
-          <span className="text-lg  border-2 rounded-md px-2 py-1 border-green-600 text-green-600" style={{ verticalAlign: "middle" }}>
+    <main className="flex-col items-center justify-center w-screen h-screen px-2 lg:px-24 md:px-24 sm:px-8">
+      <div className="w-full p-6 mb-3 text-black h-1/6 md:mb-0">
+        <h1 className="mb-4 text-3xl font-bold leading-none text-center text-gray-600 whitespace-pre md:text-4xl lg:text-5xl">
+          IOMETE Bot{" "}
+          <span className="px-2 py-1 text-lg text-green-600 border-2 border-green-600 border-solid rounded-md" style={{ verticalAlign: "middle" }}>
             Experiment
           </span>
         </h1>
-        <p className="text-gray-500 sm:text-xl text-2xl  text-center">Feel free to ask me any questions you have about using IOMETE</p>
+        <p className="text-2xl text-center text-gray-500 sm:text-xl">Tell me what you'd like to learn about employing IOMETE.</p>
       </div>
-      <div className="text-black w-full h-4/6 overflow-y-auto chat-content" ref={chatContainerRef}>
+      <div className="w-full overflow-y-auto text-black h-4/6 chat-content" ref={chatContainerRef}>
         {!conversationData?.length && (
-          <div className="flex justify-center items-center h-full">
-            <div role="status" className="flex justify-center items-center">
+          <div className="flex items-center justify-center h-full">
+            <div role="status" className="flex items-center justify-center">
               <svg
                 aria-hidden="true"
-                className="w-8 h-8 mr-2 text-gray-200 animate-spin  fill-blue-600"
+                className="w-8 h-8 mr-2 text-gray-200 animate-spin fill-blue-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -149,14 +108,17 @@ export default function Home() {
         )}
         {conversationData?.length > 0 && <Conversation loading={loading} conversations={conversationData} />}
       </div>
-      <div className="text-black w-full h-1/6  flex flex-col justify-evenly">
+      <div className="flex flex-col w-full text-black h-1/6 justify-evenly">
         <span className="bg-gray-300 h-[2px]"></span>
-        <div className="flex justify-center items-center w-full px-4">
+        <div className="flex items-center justify-center w-full px-4">
           <a className="w-auto text-blue-500 cursor-pointer whitespace-nowrap" onClick={() => handleReset()}>
-            New topic
+            <div className="flex items-center gap-2 ">
+              <span>New topic</span>
+              <PlusCircle size={20} />
+            </div>
           </a>
 
-          <form onSubmit={handleSubmit} className="px-4 w-full">
+          <form onSubmit={handleSubmit} className="w-full px-4">
             <label className="mb-2 text-sm font-medium text-gray-900 sr-only ">Search</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -173,7 +135,7 @@ export default function Home() {
               <textarea
                 id="default-search"
                 rows={1}
-                className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 "
+                className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg resize-none bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search docs..."
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -183,13 +145,14 @@ export default function Home() {
               <button
                 type="submit"
                 onClick={() => askAi()}
-                className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 "
+                disabled={loading}
+                className="text-white absolute right-2.5 bottom-[7px] bg-[#3c82f6] hover:bg-[#3c82f6] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 pt-2 h-10 w-[54px] cursor-pointer border-0"
               >
                 {loading ? (
-                  <>
+                  <span>
                     <svg
                       aria-hidden="true"
-                      className=" h-5  text-gray-200 animate-spin  fill-blue-600"
+                      className="text-gray-200 animate-spin fill-gray-300"
                       viewBox="0 0 100 101"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -203,7 +166,7 @@ export default function Home() {
                         fill="currentFill"
                       />
                     </svg>
-                  </>
+                  </span>
                 ) : (
                   <PaperPlaneRight size={22} />
                 )}

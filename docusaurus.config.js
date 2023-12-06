@@ -115,16 +115,14 @@ const config = {
             label: "Guides",
             position: "left",
           },
-          { to: "ai", label: "AI", position: "left" },
           { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
-
-          {
-            href: "http://localhost:15000/",
-            label: "Try AI bot",
-            position: "left",
-            target: "_blank",
-            style: { border: "3px solid #ff9800", color: "#ff9800" },
-          },
+          // {
+          //   to: "ai",
+          //   label: "Try AI bot",
+          //   position: "left",
+          //   target: "_blank",
+          //   style: { border: "3px solid #ff9800", color: "#ff9800", borderRadius: "4px" },
+          // },
           {
             href: "https://api.iomete.com",
             label: "API",
