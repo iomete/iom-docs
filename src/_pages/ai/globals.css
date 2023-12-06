@@ -14,7 +14,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: blue;
+  background-color: #3c82f6;
   margin: 0 4px;
   animation: pulse 1s infinite;
 }
@@ -39,4 +39,10 @@
 
 .chat-content {
   scroll-behavior: smooth;
+}
+
+.chat img {
+  max-height: 300px !important;
+  border: 2px solid rgb(231, 228, 228) !important;
+  border-radius: 4px;
 }
