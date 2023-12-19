@@ -269,6 +269,15 @@ const sidebars = {
         },
         {
           type: "category",
+          label: "PySpark",
+          collapsed: false,
+          items: [
+            "guides/pyspark/pyspark-join",
+            "guides/pyspark/spark-not",
+          ],
+        },
+        {
+          type: "category",
           label: "Spark Jobs",
           collapsed: true,
           items: [
