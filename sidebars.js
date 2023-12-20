@@ -274,6 +274,10 @@ const sidebars = {
           items: [
             "guides/pyspark/pyspark-join",
             "guides/pyspark/spark-not",
+            "guides/pyspark/pyspark- windows",
+            "guides/pyspark/pyspark-countdistinct",
+            "guides/pyspark/pyspark-renamecolumn",
+            "guides/pyspark/pyspark-groupby",
           ],
         },
         {
