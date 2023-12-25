@@ -116,6 +116,12 @@ const config = {
             position: "left",
             label: "Guides",
           },
+          {
+            type: 'docSidebar',
+            sidebarId: 'glossary',
+            position: "left",
+            label: "Glossary",
+          },
           { to: '/blog', label: 'Blog', position: 'left' },
           // { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
           {
