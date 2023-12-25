@@ -6,7 +6,6 @@ last_update:
   author: Fuad Musayev
 ---
 
-import Question from "@site/src/components/Question";
 import ImgBorder from "@site/src/components/ImgBorder";
 import Card from "@site/src/components/Card";
 import ExternalCard from "@site/src/components/ExternalCard";
@@ -73,7 +72,7 @@ job_payload = {
         "spark_version": "3.2.1",
         "main_application_file": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
         "main_class": "org.apache.spark.examples.SparkPi",
-        "arguments": ["10"]
+        "arguments": \["10"]
     }
 }
 job_create_response = job_client.create_job(payload=job_payload)

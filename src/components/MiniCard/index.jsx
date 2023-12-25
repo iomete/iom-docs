@@ -1,11 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "./style.scss";
+
+import styles from "./styles.module.scss";
 
 const MiniCard = ({ link, linkName, children }) => (
-  <div className="iom-mini-card">
+  <div className={styles.MiniCard}>
     <h3 className="title">{children}</h3>
-    <Link to={link}>{linkName}</Link>
+    <a href={link}>{linkName}</a>
   </div>
 );
 

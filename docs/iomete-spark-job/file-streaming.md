@@ -42,7 +42,7 @@ Specify the following parameters (these are examples, you can change them based 
 <Img src="/img/spark-job/spark-job-create-file-streaming.png" alt="IOMETE Spark Jobs Create" />
 
 :::info Environment variables
-You can use **Environment variables** to store your sensitive variables like password, secrets, etc. Then you can use these variables in your config file using the <code>${DB_PASSWORD}</code> syntax.
+You can use **Environment variables** to store your sensitive variables like password, secrets, etc. Then you can use these variables in your config file using the <code>$\{DB_PASSWORD}</code> syntax.
 :::
 
 <br/>
@@ -134,7 +134,7 @@ Create Spark Job - Deployment
 Create Spark Job - Instance
 
 :::note
-You can use **Environment Variables** to store your sensitive data like password, secrets, etc. Then you can use these variables in your config file using the <code>${ENV_NAME}</code> syntax.
+You can use **Environment Variables** to store your sensitive data like password, secrets, etc. Then you can use these variables in your config file using the <code>$\{ENV_NAME}</code> syntax.
 :::
 
 ![Instance and environment variable parameters.](/img/spark-job/file-job-creation-instance.png)

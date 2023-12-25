@@ -1,0 +1,24 @@
+.imgContainer {
+    width: fit-content;
+    margin: auto;
+    margin-bottom: 32px;
+
+    .imgContent {
+        background: linear-gradient(0deg, #162c52, #3d79dc);
+        border-radius: 4px;
+        width: fit-content;
+
+        img {
+            border-radius: 2px;
+        }
+    }
+
+    .imgCaption {
+        text-align: center;
+    }
+}
+
+p>img {
+    margin: auto;
+    display: block;
+}

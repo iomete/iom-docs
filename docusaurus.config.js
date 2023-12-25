@@ -1,41 +1,49 @@
 // @ts-check
-// Note: type annotations allow type checking and IDEs autocompletion
+// `@type` JSDoc annotations allow editor autocompletion and type checking
+// (when paired with `@ts-check`).
+// There are various equivalent ways to declare your Docusaurus config.
+// See: https://docusaurus.io/docs/api/docusaurus-config
 
-const lightCodeTheme = require("prism-react-renderer/themes/github");
+import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "IOMETE docs",
-  tagline: "First cloud-prem lakehouse",
-  url: "https://iomete.com",
-  baseUrl: "/docs/",
-  onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
-  favicon: "img/favicon.png",
+  title: 'IOMETE',
+  tagline: 'First cloud-prem lakehouse',
+  favicon: 'img/favicon.png',
+
+  // Set the production url of your site here
+  url: 'https://iomete.com',
+  // Set the /<baseUrl>/ pathname under which your site is served
+  // For GitHub pages deployment, it is often '/<projectName>/'
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   // organizationName: 'facebook', // Usually your GitHub org/user name.
   // projectName: 'docusaurus', // Usually your repo name.
 
-  // Even if you don't use internalization, you can use this field to set useful
-  // metadata like html lang. For example, if your site is Chinese, you may want
-  // to replace "en" with "zh-Hans".
+  onBrokenLinks: 'throw',
+  onBrokenMarkdownLinks: 'warn',
+
+  // Even if you don't use internationalization, you can use this field to set
+  // useful metadata like html lang. For example, if your site is Chinese, you
+  // may want to replace "en" with "zh-Hans".
   // i18n: {
   //   defaultLocale: 'en',
   //   locales: ['en'],
   // },
 
-  scripts: ["/docs/js/heap.js"],
+  // scripts: ["/js/heap.js"],
 
   presets: [
     [
-      "classic",
-      /** @type {import('@docusaurus/preset-classic').  Options} */
-      {
+      'classic',
+      /** @type {import('@docusaurus/preset-classic').Options} */
+      ({
         docs: {
-          routeBasePath: "/",
-          sidebarPath: require.resolve("./sidebars.js"),
+          routeBasePath: "/docs/",
+          sidebarPath: './sidebars.js',
           breadcrumbs: false,
           // autoCollapseCategories: false,
           // Please change this to your repo.
@@ -43,9 +51,18 @@ const config = {
           // editUrl:
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
-        blog: false,
+        blog: {
+          // blogSidebarCount: 10,
+          postsPerPage: 'ALL',
+          showReadingTime: true,
+          // blogListComponent: '/blog/index.js',
+          // blogTagsPostsComponent: require.resolve("./src/theme/BlogListPage/index.tsx"),
+          blogTitle: "IOMETE Blog",
+          blogDescription:
+            "Modern lakehouse platform. Save 5x over expensive alternatives | Built on Apache Iceberg and Apache Spark | Cloud, on premise and hybrid solutions.",
+        },
         theme: {
-          customCss: require.resolve("./src/css/custom.scss"),
+          customCss: ['./src/css/custom.scss', require.resolve('./node_modules/@ionic-internal/ionic-ds/dist/tokens/tokens.css')],
         },
         googleTagManager: {
           containerId: "GTM-W4ZH33W",
@@ -65,38 +82,22 @@ const config = {
           ],
           filename: "sitemap.xml",
         },
-      },
+      }),
     ],
   ],
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    {
-      metadata: [
-        // { name: 'keywords', content: 'iomete, datalake, lakehouse, warehouse, docs, documentation, sql editor, big data' },
-        { name: "og:image", content: "https://iomete.com/docs/img/meta/open-graph.png" },
-        { name: "twitter:image", content: "https://iomete.com/docs/img/meta/open-graph.png" },
-        {
-          name: "og:type",
-          content: "website",
-        },
-        {
-          name: "og:site_name",
-          content: "IOMETE Docs",
-        },
-      ],
-      // docs: {
-      //   sidebar: {
-      //     hideable: true,
-      //     autoCollapseCategories: true
-      //   }
-      // },
+    ({
+      // Replace with your project's social card
+      // image: 'img/iomete-docs-og.png',
+
       navbar: {
         // title: 'My Site',
-        hideOnScroll: false,
         logo: {
-          alt: "IOMETE logo",
+          alt: "IOMETE",
           src: `/img/logo-black.svg`,
+          srcDark: `/img/logo-white.svg`,
           href: "https://iomete.com",
           target: "_self",
           height: 32,
@@ -104,39 +105,30 @@ const config = {
         },
         items: [
           {
-            type: "doc",
-            docId: "intro",
-            position: "left",
-            label: "Docs",
+            type: 'docSidebar',
+            sidebarId: 'docs',
+            position: 'left',
+            label: 'Docs',
           },
           {
-            type: "doc",
-            docId: "guides",
-            label: "Guides",
+            type: 'docSidebar',
+            sidebarId: 'guides',
             position: "left",
+            label: "Guides",
           },
-          { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
-          // {
-          //   to: "ai",
-          //   label: "Try AI bot",
-          //   position: "left",
-          //   target: "_blank",
-          //   style: { border: "3px solid #ff9800", color: "#ff9800", borderRadius: "4px" },
-          // },
+          { to: '/blog', label: 'Blog', position: 'left' },
+          // { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
           {
             href: "https://api.iomete.com",
             label: "API",
             position: "right",
           },
           {
-            href: "https://github.com/iomete",
-            label: "GitHub",
-            position: "right",
+            href: 'https://github.com/iomete',
+            label: 'GitHub',
+            position: 'right',
           },
         ],
-      },
-      prism: {
-        theme: lightCodeTheme,
       },
       algolia: {
         appId: "A90PMTH5W5",
@@ -145,65 +137,58 @@ const config = {
         contextualSearch: false,
       },
       colorMode: {
-        defaultMode: "light",
-        disableSwitch: true,
-        respectPrefersColorScheme: false,
+        respectPrefersColorScheme: true
       },
-    },
+
+      prism: {
+        theme: prismThemes.github,
+        darkTheme: prismThemes.dracula,
+        additionalLanguages: ['bash']
+      },
+    }),
   plugins: [
-    "docusaurus-plugin-sass",
+    'docusaurus-plugin-sass',
 
     [
       "@docusaurus/plugin-client-redirects",
       {
         redirects: [
           {
-            to: "/data-security/overview",
-            from: ["/user-guide/access-policy-management", "/data-policy/overview"],
+            to: "/docs/data-security/overview",
+            from: ["/docs/user-guide/access-policy-management", "/docs/data-policy/overview"],
           },
           {
-            to: "/data-security/access",
-            from: ["/data-policy/access"],
+            to: "/docs/data-security/access",
+            from: ["/docs/data-policy/access"],
           },
           {
-            to: "/data-security/masking",
-            from: ["/data-policy/masking"],
+            to: "/docs/data-security/masking",
+            from: ["/docs/data-policy/masking"],
           },
           {
-            to: "/data-security/row-level-filter",
-            from: ["/data-policy/row-level-filter"],
+            to: "/docs/data-security/row-level-filter",
+            from: ["/docs/data-policy/row-level-filter"],
           },
           {
-            to: "/data-security/tag-based-access",
-            from: ["/data-policy/tag-based-access"],
+            to: "/docs/data-security/tag-based-access",
+            from: ["/docs/data-policy/tag-based-access"],
           },
           {
-            to: "/data-security/tag-based-masking",
-            from: ["/data-policy/tag-based-masking"],
+            to: "/docs/data-security/tag-based-masking",
+            from: ["/docs/data-policy/tag-based-masking"],
           },
           {
-            to: "/guides/spark-job/getting-started",
-            from: "/user-guide/serverless-spark-applications",
+            to: "/docs/guides/spark-job/getting-started",
+            from: "/docs/user-guide/serverless-spark-applications",
           },
           {
-            to: "/guides",
-            from: "/user-guide/storage-integrations",
+            to: "/docs/guides",
+            from: "/docs/user-guide/storage-integrations",
           },
         ],
       },
-    ],
-    async function myPlugin(context, options) {
-      return {
-        name: "docusaurus-tailwindcss",
-        configurePostCss(postcssOptions) {
-          // Appends TailwindCSS and AutoPrefixer.
-          postcssOptions.plugins.push(require("tailwindcss"));
-          postcssOptions.plugins.push(require("autoprefixer"));
-          return postcssOptions;
-        },
-      };
-    },
-  ],
+    ]
+  ]
 };
 
-module.exports = config;
+export default config;

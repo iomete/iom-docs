@@ -6,8 +6,6 @@ last_update:
   author: Vugar Dadalov
 ---
 
-___
-
 IOMETE warehouse JDBC endpoints are compatible with Hive JDBC drivers. So we can use the following dependency from the `Maven Repository:`
 
 ```xml
@@ -21,5 +19,5 @@ IOMETE warehouse JDBC endpoints are compatible with Hive JDBC drivers. So we can
 ```
 
 :::success
-Currently, the supported version is  <=2.3.9
+Currently, the supported version is \<=2.3.9
 :::

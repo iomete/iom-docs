@@ -1,41 +1,17 @@
 import React from 'react';
-import clsx from 'clsx';
-import {
-  PageMetadata,
-  HtmlClassNameProvider,
-  ThemeClassNames,
-  translateTagsPageTitle,
-} from '@docusaurus/theme-common';
-import Layout from '@theme/Layout';
-import TagsListByLetter from '@theme/TagsListByLetter';
-import SearchMetadata from '@theme/SearchMetadata';
-export default function DocTagsListPage({ tags }) {
-  const title = translateTagsPageTitle();
+import DocTagsListPage from '@theme-original/DocTagsListPage';
+import Head from '@docusaurus/Head';
+
+export default function DocTagsListPageWrapper(props) {
   return (
     <>
-      <head>
+      {/* Just prevent indexing */}
+      <Head>
         <meta name="robots" content="noindex, nofollow, noarchive" />
         <meta name="googlebot" content="noindex, nofollow, noarchive" />
-      </head>
-      <HtmlClassNameProvider
-        className={clsx(
-          ThemeClassNames.wrapper.docsPages,
-          ThemeClassNames.page.docsTagsListPage,
-        )}>
-        <PageMetadata title={title} />
-        <SearchMetadata tag="doc_tags_list" />
-        <Layout>
-          <div className="container margin-vert--lg">
-            <div className="row">
-              <main className="col col--8 col--offset-2">
-                <h1>{title}</h1>
-                <TagsListByLetter tags={tags} />
-              </main>
-            </div>
-          </div>
-        </Layout>
-      </HtmlClassNameProvider>
+      </Head>
+      {/* Just prevent indexing */}
+      <DocTagsListPage {...props} />
     </>
-
   );
 }

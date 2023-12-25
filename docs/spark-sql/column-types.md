@@ -6,28 +6,25 @@ last_update:
   author: Vugar Dadalov
 ---
 
-___
-
 IOMETE supports the following column types:
 
-| Type Name                	| Description                                                                                                                                                                                         	|
-|--------------------------	|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	|
-| BOOLEAN                  	| Represents boolean values                                                                                                                                                                           	|
-| BYTE, TINYINT            	| Represents 1-byte signed integer numbers. The range of numbers is from -128 to 127                                                                                                                  	|
-| SHORT, SMALLINT          	| Represents 2-byte signed integer numbers. The range of numbers is from -32768 to 32767                                                                                                              	|
-| INT, INTEGER             	| Represents 4-byte signed integer numbers. The range of numbers is from -2147483648 to 2147483647                                                                                                    	|
-| LONG, BIGINT             	| Represents 8-byte signed integer numbers. The range of numbers is from -9223372036854775808 to 9223372036854775807                                                                                  	|
-| FLOAT, REAL              	| Represents 4-byte single-precision floating-point numbers                                                                                                                                           	|
-| DOUBLE                   	| Represents 8-byte double-precision floating-point numbers                                                                                                                                           	|
-| DATE                     	| Represents values comprising values of fields year, month, and day, without a time-zone                                                                                                             	|
-| TIMESTAMP                	| Represents values comprising values of fields year, month, day, hour, minute, and second, with the session local time-zone. The timestamp value represents an absolute point in time                	|
-| STRING                   	| Represents character string values                                                                                                                                                                  	|
-| BINARY                   	| Represents byte sequence values                                                                                                                                                                     	|
-| DECIMAL, DEC, NUMERIC    	| Represents arbitrary-precision signed decimal numbers. Backed internally by java.math.BigDecimal. A BigDecimal consists of an arbitrary precision integer unscaled value and a 32-bit integer scale 	|
-| ARRAY                    	| Represents values comprising a sequence of elements with the type of elementType                                                                                                                    	|
-| STRUCT<name1: type, ...> 	| Represents values with the structure described by a sequence of name:type pairs                                                                                                                     	|
-| MAP<keytype, valuetype>  	| Represents values comprising a set of key-value pairs. The data type of keys is described by keyType and the data type of values is described by valueType                                          	|
-
+| Type Name                 | Description                                                                                                                                                                                         |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BOOLEAN                   | Represents boolean values                                                                                                                                                                           |
+| BYTE, TINYINT             | Represents 1-byte signed integer numbers. The range of numbers is from -128 to 127                                                                                                                  |
+| SHORT, SMALLINT           | Represents 2-byte signed integer numbers. The range of numbers is from -32768 to 32767                                                                                                              |
+| INT, INTEGER              | Represents 4-byte signed integer numbers. The range of numbers is from -2147483648 to 2147483647                                                                                                    |
+| LONG, BIGINT              | Represents 8-byte signed integer numbers. The range of numbers is from -9223372036854775808 to 9223372036854775807                                                                                  |
+| FLOAT, REAL               | Represents 4-byte single-precision floating-point numbers                                                                                                                                           |
+| DOUBLE                    | Represents 8-byte double-precision floating-point numbers                                                                                                                                           |
+| DATE                      | Represents values comprising values of fields year, month, and day, without a time-zone                                                                                                             |
+| TIMESTAMP                 | Represents values comprising values of fields year, month, day, hour, minute, and second, with the session local time-zone. The timestamp value represents an absolute point in time                |
+| STRING                    | Represents character string values                                                                                                                                                                  |
+| BINARY                    | Represents byte sequence values                                                                                                                                                                     |
+| DECIMAL, DEC, NUMERIC     | Represents arbitrary-precision signed decimal numbers. Backed internally by java.math.BigDecimal. A BigDecimal consists of an arbitrary precision integer unscaled value and a 32-bit integer scale |
+| ARRAY                     | Represents values comprising a sequence of elements with the type of elementType                                                                                                                    |
+| STRUCT\<name1: type, ...> | Represents values with the structure described by a sequence of name:type pairs                                                                                                                     |
+| MAP\<keytype, valuetype>  | Represents values comprising a set of key-value pairs. The data type of keys is described by keyType and the data type of values is described by valueType                                          |
 
 ## Examples
 
@@ -66,7 +63,7 @@ select * from bool_types order by id;
 
 <br/>
 
- **Integer types** 
+**Integer types**
 
 ```sql
 CREATE TABLE IF NOT EXISTS integer_types (id INT, byte_col BYTE, short_col SHORT, int_col INT, long_col LONG) USING delta;
@@ -100,7 +97,7 @@ select * from integer_types order by id;
 
 <br/>
 
-**Floating point numbers** 
+**Floating point numbers**
 
 ```sql
 CREATE TABLE IF NOT EXISTS floating_point_number_types (id INT, float_col FLOAT, double_col DOUBLE) USING delta;
@@ -132,7 +129,7 @@ select * from floating_point_number_types order by id;
 
 <br/>
 
- **Date types** 
+**Date types**
 
 ```sql
 CREATE TABLE IF NOT EXISTS date_types (id INT, date_col DATE, ts_col TIMESTAMP) USING delta;
@@ -170,7 +167,7 @@ select * from str_type order by id;
 
 <br/>
 
- **Numeric type**
+**Numeric type**
 
 ```sql
 -- NUMERIC(value, precision)
@@ -190,7 +187,7 @@ select * from bigdecimal_type  order by id;
 | 1   | 123.12340    |
 | 2   | 12345.12346  |
 +-----+--------------+
-``` 
+```
 
 <br/>
 
@@ -233,7 +230,7 @@ select * from struct_type order by id;
 | 1   | {"num":1,"txt":"one"}  |
 | 2   | {"num":1,"txt":"one"}  |
 +-----+------------------------+
-``` 
+```
 
 <br/>
 

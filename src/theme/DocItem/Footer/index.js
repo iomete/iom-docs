@@ -1,15 +1,15 @@
 import React from 'react';
-import {useDoc} from '@docusaurus/theme-common/internal';
+import Footer from '@theme-original/DocItem/Footer';
+import { useDoc } from '@docusaurus/theme-common/internal';
 import Feedback from '@site/src/components/Feedback';
 
-export default function DocItemFooter() {
-  const {metadata, frontMatter} = useDoc();
-
-  if(frontMatter.hideFeedback) {
-    return null;
-  }
+export default function FooterWrapper(props) {
+  const { metadata, frontMatter } = useDoc();
 
   return (
-    <Feedback label={metadata.unversionedId} />
+    <>
+      <Footer {...props} />
+      {!frontMatter.hideFeedback && <Feedback label={metadata.unversionedId} />}
+    </>
   );
 }

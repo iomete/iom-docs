@@ -5,7 +5,14 @@
  */
 
 /* You can override the default Infima variables here. */
-@use "./custom-blog.scss";
+
+@use './updates.scss';
+@use './docsearch.scss';
+@use './scrollbar.scss';
+@use './custom-classes.scss';
+
+@use './components/admonition';
+@use './components/_toc.scss';
 
 :root {
   --ifm-color-primary: #0070f3;
@@ -18,8 +25,8 @@
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
-  --iom-text-color: var(--ifm-color-gray-1000);
-  --iom-text-muted: var(--ifm-color-gray-700);
+  // --iom-text-color: var(--ifm-color-gray-1000);
+  // --iom-text-muted: var(--ifm-color-gray-700);
 
   --ifm-heading-font-weight: 600;
   --ifm-alert-border-radius: 2px;
@@ -34,184 +41,14 @@
   --ifm-code-padding-horizontal: 0.3rem;
 }
 
-.tabs__item {
-  border-radius: 4px;
-  padding: 12px 16px;
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
-
-.tabs__item--active {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-pre {
-  border: 1px solid #d3d7dd;
-}
-
-// .docs-wrapper .navbar {
-//   margin-left: 300px;
-// }
-
-// .docs-wrapper .navbar__brand {
-//   display: none;
-// }
-
-#__docusaurus .menu__link--sublist-caret:after {
-  background: var(--ifm-menu-link-sublist-icon) 50% / 1.25rem 1.25rem;
-}
-
-#__docusaurus .theme-doc-sidebar-container .menu {
-  padding: 1.15rem 1.15rem 2rem 1.15rem;
-  font-weight: 400;
-}
-
-.menu__list-item-collapsible>a {
-  font-weight: 500;
-  color: var(--ifm-heading-color);
-}
-
-.menu__list-item>a {
-  font-size: 14px;
-  padding: 6px 12px 6px 12px;
-}
-
-.menu__list-item-collapsible:hover {
-  background: none;
-}
-
-.menu__link--active:not(.menu__link--sublist) {
-  background-color: #0070f310;
-}
-
-.menu__link--active:hover:is(.menu__link--sublist) {
-  color: var(--ifm-heading-color);
-}
-
-#__docusaurus .container {
-  margin-bottom: 35px;
-  padding-left: 35px;
-  padding-right: 35px;
-  margin-top: 20px;
-}
-
-.card {
-  border-radius: 6px;
-  box-shadow: none !important;
-  border-color: var(--ifm-color-emphasis-300) !important;
-}
-
-@media screen and (max-width: 996px) {
-  .docs-wrapper .navbar {
-    margin-left: 0px;
-  }
-
-  .docs-wrapper .navbar__brand {
-    display: inline-block;
-    margin-left: 12px;
-  }
-}
-
-// user-guide/create-ssh-tunnel
-.bg-white {
-  background-color: white;
-}
-
-.bg-emphasis-300 {
-  background-color: var(--ifm-color-emphasis-300);
-}
-
-// To show button use this class
-.inline-button {
-  vertical-align: bottom;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 0px 4px;
-  border-radius: 2px;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  line-height: 24px;
-}
-
-.DocSearch-Button {
-  border-radius: 5px !important;
-  width: 200px;
-
-  .DocSearch-Search-Icon {
-    color: var(--docsearch-muted-color) !important;
-  }
-
-  .DocSearch-Button-Keys {
-    display: none;
-  }
-}
-
-.thin-scrollbar::-webkit-scrollbar-track {
-  background: unset;
-  border-radius: unset;
-}
-
-.thin-scrollbar::-webkit-scrollbar-thumb {
-  background: #ddd;
-  width: 2px;
-  visibility: hidden;
-}
-
-.thin-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-.theme-doc-sidebar-container {
-  border-right: 1px solid #e9e9e9 !important;
-}
-
-.thin-scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
-
-#__docusaurus .theme-doc-sidebar-container:hover {
-  .thin-scrollbar::-webkit-scrollbar-thumb {
-    visibility: visible;
-  }
-}
-
-.main {
-  padding: 12px;
-  color: red;
-}
-
-.menu__list-item-collapsible {
-  &>a {
-    font-weight: 600;
-  }
-}
-
-// :root {
-//   --docs-color-border: #dadde1;
-//   --code-block-bg-c: #f6f8fc;
-//   --ifm-table-border-color: var(--docs-color-border);
-//   --code-border-color: var(--docs-color-border);
-// }
-
-.tabs {
-  border-bottom: 1px solid var(--docs-color-border);
-}
-
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
-  // Remove celar button
-  -webkit-appearance: none;
-}
-
-.menu__caret:before {
-  background: var(--ifm-menu-link-sublist-icon) 50% / 1.25rem 1.25rem;
-}
-
-.menu__caret:hover {
-  background: none !important;
-}
-
-// .navbar__logo {
-//   width: 5.125rem!important;
-// }

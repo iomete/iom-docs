@@ -6,14 +6,12 @@ last_update:
   author: Vusal Dadalov
 ---
 
-___
-
-IOMETE lakehouse endpoints are compatible with <a href="https://pypi.org/project/py-hive-iomete" targetr="_blank">py-hive-iomete</a> driver
+IOMETE lakehouse endpoints are compatible with [py-hive-iomete](https://pypi.org/project/py-hive-iomete) driver
 
 ## Usage
 
 :::info
-For a quick start, you can use the samples repository: <https://github.com/iomete/py-hive-iomete-samples>
+For a quick start, you can use the samples repository: https://github.com/iomete/py-hive-iomete-samples
 :::
 
 ## DB-API
@@ -23,8 +21,6 @@ Install the following dependency
 ```shell
 pip install --upgrade py-hive-iomete
 ```
-
-
 
 ### DB-API sample
 
@@ -47,8 +43,6 @@ cursor.execute("SELECT * FROM my_awesome_data LIMIT 10")
 print(cursor.fetchone())
 print(cursor.fetchall())
 ```
-
-
 
 ### DB-API (asynchronous) sample
 
@@ -85,8 +79,6 @@ while status in (TOperationState.INITIALIZED_STATE, TOperationState.RUNNING_STAT
 print(cursor.fetchall())
 ```
 
-
-
 ## SQLAlchemy
 
 Install SQLAlchemy extra package
@@ -94,8 +86,6 @@ Install SQLAlchemy extra package
 ```shell
 pip install "py-hive-iomete[sqlalchemy]"
 ```
-
-
 
 ```python
 from sqlalchemy.engine import create_engine
@@ -117,7 +107,5 @@ records = session.query(Table('my_awesome_data', MetaData(bind=engine), autoload
     .all()
 print(records)
 ```
-
-
 
 You can find the configuration parameters from the lakehouse "Connection Details" tab from the IOMETE console

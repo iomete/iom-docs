@@ -39,13 +39,13 @@ All connection properties can be extracted from the connection string, from the 
 
 | Connection     | SparkThriftServer(Spark1.1 and later) |
 | -------------- | ------------------------------------- |
-| Server         | {domain or IP address}                |
-| Port           | {server port}                         |
+| Server         | \{domain or IP address}               |
+| Port           | \{server port}                        |
 | Authentication | Username and Password                 |
-| Username       | {your user name}                      |
-| Password       | {personal access token}               |
+| Username       | \{your user name}                     |
+| Password       | \{personal access token}              |
 | Transport      | HTTP                                  |
-| HTTP Path      | lakehouse/{lakehouse name}            |
+| HTTP Path      | lakehouse/\{lakehouse name}           |
 
 <Img src="/img/guides/iomete-tableau-integration/tableau-spark-sql-driver.png" alt="IOMETE lakehouse details"/>
 
@@ -89,18 +89,18 @@ A nice looking dashboard presenting the information of required report. Tableau 
 4. Click To a server and find **Spark SQL by CData** and click.
 5. Enter following properties.
 
-| Parameter      | Value                      |
-| -------------- | -------------------------- |
-| **General**    |                            |
-| Server         | {domain or IP address}     |
-| Port           | {server port}              |
-| Auth Scheme    | Plain                      |
-| User           | {your user name}           |
-| Password       | {personal access token}    |
-| **Advanced**   |                            |
-| Transport Mode | HTTP                       |
-| HTTP Path      | lakehouse/{lakehouse name} |
-| Use SSL        | True                       |
+| Parameter      | Value                       |
+| -------------- | --------------------------- |
+| **General**    |                             |
+| Server         | \{domain or IP address}     |
+| Port           | \{server port}              |
+| Auth Scheme    | Plain                       |
+| User           | \{your user name}           |
+| Password       | \{personal access token}    |
+| **Advanced**   |                             |
+| Transport Mode | HTTP                        |
+| HTTP Path      | lakehouse/\{lakehouse name} |
+| Use SSL        | True                        |
 
 <!-- spark-sql-by-cdata-driver.png -->
 <Img src="/img/guides/iomete-tableau-integration/spark-sql-by-cdata-driver.png" alt="IOMETE tableau CData connector" maxWidth="600px"/>

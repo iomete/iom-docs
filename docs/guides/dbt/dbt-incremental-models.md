@@ -12,7 +12,7 @@ import Img from '@site/src/components/Img';
 
 ## Overview
 
-Incremental models are built as tables in your [data lake](https://docs.getdbt.com/terms/data-lake). The first time a model is run, the [table](https://docs.getdbt.com/terms/table) is built by transforming *all rows* of source data. On subsequent runs, dbt transforms *only* the rows in your source data that you tell dbt to filter for, inserting them into the target table, which is the table that has already been built.
+Incremental models are built as tables in your [data lake](https://docs.getdbt.com/terms/data-lake). The first time a model is run, the [table](https://docs.getdbt.com/terms/table) is built by transforming _all rows_ of source data. On subsequent runs, dbt transforms _only_ the rows in your source data that you tell dbt to filter for, inserting them into the target table, which is the table that has already been built.
 
 Often, the rows you filter for on an incremental run will be the rows in your source data that have been created or updated since the last time dbt ran. As such, on each dbt run, your model **gets built incrementally**.
 
@@ -43,7 +43,7 @@ To use incremental models, you also need to tell dbt:
 
 To tell dbt which rows it should transform on an incremental run, wrap valid SQL that filters for these rows in the `is_incremental()` macro.
 
-Often, you'll want to filter for "new" rows, as in rows that have been created since the last time dbt ran this model. The best way to find the timestamp of the most recent run of this model is by checking the most recent timestamp in your target table. dbt makes it easy to query your target table by using the [{{ this }}](https://docs.getdbt.com/reference/dbt-jinja-functions/this) variable.
+Often, you'll want to filter for "new" rows, as in rows that have been created since the last time dbt ran this model. The best way to find the timestamp of the most recent run of this model is by checking the most recent timestamp in your target table. dbt makes it easy to query your target table by using the [\{\{ this }}](https://docs.getdbt.com/reference/dbt-jinja-functions/this) variable.
 
 For example, a model that includes a computationally slow transformation on a column can be built incrementally, as follows:
 
@@ -90,8 +90,8 @@ By using the first syntax, which is more universal, dbt can ensure that the colu
 
 When you define a `unique_key`, you'll see this behavior for each row of "new" data returned by your dbt model:
 
-- If the same `unique_key` is present in the "new" and "old" model data, dbt will update/replace the old row with the new row of data.  IOMETE (iceberg) is using [MERGE INTO](https://iomete.com/docs/iceberg-tables/writes#merge-into) syntax for that
-- If the `unique_key` is *not* present in the "old" data, dbt will insert the entire row into the table. In other words it becomes `append-only` mode.
+- If the same `unique_key` is present in the "new" and "old" model data, dbt will update/replace the old row with the new row of data. IOMETE (iceberg) is using [MERGE INTO](https://iomete.com/docs/iceberg-tables/writes#merge-into) syntax for that
+- If the `unique_key` is _not_ present in the "old" data, dbt will insert the entire row into the table. In other words it becomes `append-only` mode.
 
 :::info
 
@@ -137,7 +137,6 @@ group by 1
 Building this model incrementally without the `unique_key` parameter would result in multiple rows in the target table for a single day – one row for each time dbt runs on that day. Instead, the inclusion of the `unique_key` parameter ensures the existing row is updated instead.
 :::
 
-
 ## How do I rebuild an incremental model?
 
 If your incremental model logic has changed, the transformations on your new rows of data may diverge from the historical transformations, which are stored in your target table. In this case, you should rebuild your incremental model.
@@ -170,14 +169,14 @@ Like many things in programming, incremental models are a trade-off between comp
 The `is_incremental()` macro will return `True` if:
 
 - the destination table already exists in the database
-- dbt is *not* running in full-refresh mode
+- dbt is _not_ running in full-refresh mode
 - the running model is configured with `materialized='incremental'`
 
 Note that the SQL in your model needs to be valid whether `is_incremental()` evaluates to `True` or `False`.
 
 ### How do incremental models work behind the scenes?
 
-The IOMETE platform supports incremental models for Iceberg tables which is the default table format. The incremental build will not work if `file_format` is explicitly specified other than `iceberg`  (e.g., `file_format = 'parquet'`).
+The IOMETE platform supports incremental models for Iceberg tables which is the default table format. The incremental build will not work if `file_format` is explicitly specified other than `iceberg` (e.g., `file_format = 'parquet'`).
 
 Apache Iceberg’s ACID Transaction management is used to ensure this is executed as a single unit of work.
 
@@ -217,9 +216,8 @@ The possible values for `on_schema_change` are:
 
 - `ignore`: Default behavior (see below).
 - `fail`: Triggers an error message when the source and target schemas diverge
-- `append_new_columns`: Append new columns to the existing table. Note that this setting does *not* remove columns from the existing table that are not present in the new data.
-- `sync_all_columns`: Adds any new columns to the existing table and removes any columns that are now missing. Note that this is *inclusive* of data type changes
-
+- `append_new_columns`: Append new columns to the existing table. Note that this setting does _not_ remove columns from the existing table that are not present in the new data.
+- `sync_all_columns`: Adds any new columns to the existing table and removes any columns that are now missing. Note that this is _inclusive_ of data type changes
 
 :::info
 None of the `on_schema_change` behaviors backfill values in old records for newly added columns. If you need to populate those values, we recommend running manual updates or triggering a `--full-refresh`
@@ -230,9 +228,9 @@ None of the `on_schema_change` behaviors backfill values in old records for newl
 
 This is the behavior if `on_schema_change: ignore`, which is set by default, and on older versions of dbt.
 
-If you add a column to your incremental model and execute a `dbt run`, this column will *not* appear in your target table.
+If you add a column to your incremental model and execute a `dbt run`, this column will _not_ appear in your target table.
 
-Similarly, if you remove a column from your incremental model and execute a `dbt run`, this column will *not* be removed from your target table.
+Similarly, if you remove a column from your incremental model and execute a `dbt run`, this column will _not_ be removed from your target table.
 
 Instead, whenever the logic of your incremental changes, execute a full-refresh run of both your incremental model and any downstream models.
 :::
@@ -276,13 +274,13 @@ select ...
 
 ### Strategy-specific configs
 
-- *Changelog*
+- _Changelog_
   - **v0.20.0:** Introduced `merge_update_columns`
   - **v0.21.0:** Introduced `on_schema_change`
 
 If you are using the `merge` strategy and have specified a `unique_key`, by default, dbt will entirely overwrite matched rows with new values.
 
-On the `dbt-iomete` adapter, which supports the `merge` strategy, you may optionally pass a list of column names to a `merge_update_columns` config. In that case, dbt will update *only* the columns specified by the config and keep the previous values of other columns.
+On the `dbt-iomete` adapter, which supports the `merge` strategy, you may optionally pass a list of column names to a `merge_update_columns` config. In that case, dbt will update _only_ the columns specified by the config and keep the previous values of other columns.
 
 ```sql
 {{

@@ -1,0 +1,35 @@
+.Feedback {
+  // background-color: #f5f7f9;
+  margin-top: 48px;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+
+  .Title {
+    color: #222;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .Action {
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 22px;
+    margin: 0 16px;
+  }
+
+  p {
+    margin-bottom: 0px;
+  }
+
+  .Iconx svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    line-height: 22px;
+    vertical-align: text-bottom;
+  }
+}

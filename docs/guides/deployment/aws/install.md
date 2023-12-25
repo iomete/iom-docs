@@ -5,6 +5,7 @@ description: This guide will explain how to deploy IOMETE on Amazon Web Services
 last_update:
   date: 10/04/2022
 ---
+
 import Img from '@site/src/components/Img';
 import ImgBorder from '@site/src/components/ImgBorder';
 import Question from "@site/src/components/Question";
@@ -17,7 +18,7 @@ import { Files, Database, Sparkle, Circuitry } from "@phosphor-icons/react";
 
 Getting started with IOMETE is simple and can be done with just a few clicks. However, if you're new to using AWS, you'll need to install some tools on your local computer before you can begin. To get started, make sure you have an AWS account, as well as access and secret keys.
 
-If you need help installing the necessary tools, check out the documentation provided by AWS at **[AWS getting started prerequisities](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-prereqs.html)**. 
+If you need help installing the necessary tools, check out the documentation provided by AWS at **[AWS getting started prerequisities](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-prereqs.html)**.
 Once you have everything set up, you can easily install the latest version of the AWS CLI by following the instructions at **[AWS CLI getting started install](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)**.
 
 Once you've successfully installed the AWS CLI, you'll need to install Terraform (v0.14+) as well. Terraform is a command-line tool and can be downloaded from the following link: **[Install | Terraform | HashiCorp Developer](https://developer.hashicorp.com/terraform/downloads)**.
@@ -42,9 +43,8 @@ Workspaces are isolated spaces that can be used by different departments, divisi
 
 <Img src="/img/guides/deployments/define-workspace.png" alt="Workspace define"/>
 
-
 ## 4. Terraform configuration
-  
+
 The system will generate a terraform script including unique `cluster_id`.
 
 <Img src="/img/guides/deployments/aws-terraform-conf.png" alt="Terraform configuration"/>
@@ -64,7 +64,7 @@ The AWS user that will be used to run Terraform needs to have the following perm
 - Create S3 buckets
 - Create EKS clusters
 - EC2 full access
-:::
+  :::
 
 ### To run Terraform, execute the following commands in your terminal:
 
@@ -91,7 +91,6 @@ Once you have the output values, you can copy and paste them into the IOMETE con
 
 <Img src="/img/guides/deployments/aws-terraform-output.png" alt="Terraform output to IOMETE Console to Complete the installation"/>
 
-
 Once you hit the `Execute` button, IOMETE will start the installing IOMETE operator inside the Kubernetes cluster. This will take a few minutes.
 
 That's it! You've successfully set up IOMETE using Terraform. If you encounter any issues or have any questions, please don't hesitate to contact our support team at: [support@iomete.com](mailto:support@iomete.com).
@@ -100,12 +99,12 @@ That's it! You've successfully set up IOMETE using Terraform. If you encounter a
 It's important to store your Terraform state file in a secure location to avoid losing it. If you lose the state file, you won't be able to manage the cluster with Terraform anymore. You can store the state file in a git repository, S3 bucket, or local folder. For more information on Terraform backends, please refer the FAQ below about saving terraform state in an external location.
 :::
 
-
 ## Installation FAQ
 
-<Question title="Using AWS Profiles">A <b>named profile</b> is a collection of settings and credentials that you can apply to an AWS CLI command. When you specify a profile to run a command, the settings and credentials are used to run that command. Multiple <b>named profiles</b> can be stored in the <code>config</code> and <code>credentials</code> files.
+<Question title="Using AWS Profiles">
+A **named profile** is a collection of settings and credentials that you can apply to an AWS CLI command. When you specify a profile to run a command, the settings and credentials are used to run that command. Multiple **named profiles** can be stored in the `config` and `credentials` files.
 
-For detailed information see:  [Named profiles for the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
+For detailed information see: [Named profiles for the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
 
 ### Using profile:
 
@@ -130,17 +129,20 @@ If using only one account (only default profile) no need to export or separate t
 Just run the Terraform code.
 </Question>
 
-<Question title="Public Access Restriction">By default, the EKS API (Kubernetes cluster API) is accessible from anywhere. However, it's important to restrict public access to a selected IP range for security reasons.
+<Question title="Public Access Restriction">
+By default, the EKS API (Kubernetes cluster API) is accessible from anywhere. However, it's important to restrict public access to a selected IP range for security reasons.
 
 The IOMETE control plane connects to and manages the data lakehouse and Spark jobs using the EKS (AWS Kubernetes service) API address. By default, the **`kubernetes_public_access_cidrs`** code in the Terraform script is commented out. However, if you need to restrict public access to the EKS API for security or compliance reasons, follow these steps:
 
 Add the following code to the Terraform script:
+
 ```terraform
 module "customer-stack" {
 	...
 	kubernetes_public_access_cidrs = ["18.156.67.183/32", "54.235.211.34/32", "your_ip_range/mask"] # <- add this line
 }
 ```
+
 :::info
 These are the IOMETE static IP addresses: "18.156.67.183/32", "54.235.211.34/32". This is need to for IOMETE Control Plane communicate with the cluster.
 :::
@@ -151,12 +153,13 @@ These are the IOMETE static IP addresses: "18.156.67.183/32", "54.235.211.34/32"
 
 :::note
 ❗️ Only deployed IP addresses will have access to all resources and EKS instances created by Terraform.
-:::note
+:::
 
 By following these steps, you can restrict public access to your EKS API and ensure that only authorized users can access your IOMETE lakehouse. If you have any questions or need assistance, please don't hesitate to contact our support team.
 </Question>
 
-<Question title="Define additional administrators">AWS Key Management Service (KMS) is an Amazon Web Services product that allows administrators to create, delete and control keys that encrypt data stored in AWS databases and products.
+<Question title="Define additional administrators">
+AWS Key Management Service (KMS) is an Amazon Web Services product that allows administrators to create, delete and control keys that encrypt data stored in AWS databases and products.
 
 AWS KMS can be accessed within [AWS Identity and Access Management](https://www.techtarget.com/searchaws/definition/Amazon-Web-Services-AWS-Identity-and-Access-Management-IAM) by selecting the "Encryption Keys" section or by using the AWS KMS command-line interface or software development kit
 
@@ -253,7 +256,8 @@ commands will detect it and remind you to do so if necessary.
 To verify that the **`.tfstate`** file has been saved to your bucket, you can check the contents of the bucket to confirm that the file exists. If the file is present, it means that the state file has been successfully saved.
 </Question>
 
-<Question title="How to save in Terraform Cloud"> Unlike other remote state solutions that require complicated setup, Terraform Cloud offers an easy way to get started with remote state:
+<Question title="How to save in Terraform Cloud">
+Unlike other remote state solutions that require complicated setup, Terraform Cloud offers an easy way to get started with remote state:
 
 - Step 0 — Sign up for a Terraform Cloud account [here](https://app.terraform.io/signup)
 - Step 1 — An email will be sent to you, follow the link to activate your free Terraform Cloud account.
@@ -286,6 +290,7 @@ terraform {
 }
 
 ```
+
 - Step 6— Run `terraform init` and you’re done.
 
 Your state is now being stored in Terraform Cloud. You can see the state in the UI:
@@ -297,25 +302,26 @@ Detailed information and learn how to use Terraform cloud see: [https://www.hash
 </Question>
 
 <Question title="Using EBS encryption">
-If you are using EBS encryption, you need to add users to the KMS key policy to allow IOMETE data-plane to access the key. 
+If you are using EBS encryption, you need to add users to the KMS key policy to allow IOMETE data-plane to access the key.
 <br />
 This is necessary for the IOMETE data-plane to access to EBS storage, which allows it to attach EBS volumes to the nodes within the IOMETE data-plane.
 <br />
 <br />
 First you need to determine which key is used for encrypting EBS volumes, you can follow these instructions to find the appropriate key:
+
 <ol>
 	<li>Select the appropriate Region in the AWS Management Console.</li>
 	<li>Navigate to the EC2 service by clicking on the 'EC2 Dashboard' in the upper menu.</li>
-	<li>In the right-side menu, locate the 'Account attributes' section and click on 'EBS encryption'.
+	\<li>In the right-side menu, locate the 'Account attributes' section and click on 'EBS encryption'.
 		<br />
 		<br />
 		<ImgBorder src="/img/guides/how-to-install/ec2-ebs.png" alt="KMS Console"/>
-	</li>
-	<li>On the 'EBS encryption' page, you will find the 'Default encryption key' section.
+	\</li>
+	\<li>On the 'EBS encryption' page, you will find the 'Default encryption key' section.
 		<br />
 		<br />
 		<ImgBorder src="/img/guides/how-to-install/kms-key.png" alt="KMS Console"/>
-	</li>
+	\</li>
 	<li>Note down the key displayed as the 'Default encryption key'.</li>
 </ol>
 Once you have identified the key, you need to grant access to the IOMETE Data-plane service for this key. This will enable the IOMETE Data-plane to perform necessary operations on the encrypted EBS volumes.
@@ -323,22 +329,26 @@ Once you have identified the key, you need to grant access to the IOMETE Data-pl
 <br />
 
 To add a user/role to a KMS key using the AWS Management Console, follow these step-by-step instructions:
+
 <ol>
 	<li>Open the AWS Management Console and navigate to the AWS KMS service.</li>
 	<li>Click on "Customer managed keys" in the left-hand menu.</li>
-	<li> Select the KMS key you want to manage.  
+	<li>
+		Select the KMS key you want to manage.  
 		<br />
 		<br />
 		<ImgBorder src="/img/guides/how-to-install/kms-console.png" alt="KMS Console"/>
 	</li>
 	<li>Locate the "Key details" section or navigate to the specific tab where the "Key users" tab is available.</li>
 	<li>Click on the "Key users" tab.</li>
-	<li>Click on "Add" and enter 'iomete' in the search/filter box to narrow down the list of available roles.
+	<li>
+	Click on "Add" and enter 'iomete' in the search/filter box to narrow down the list of available roles.
 		<br />
 		<br />
 		<ImgBorder src="/img/guides/how-to-install/search.png" alt="KMS Console"/>
 	</li>
-	<li>Add the following roles to the key policy:
+	<li>
+		Add the following roles to the key policy:
 		<ul>
 			<li><code>iomete-&#123;cluster_id&#125;-ng-eks-node-group-202...</code></li>
 			<li><code>KarpenterIRSA-iomete-&#123;cluster_id&#125;-202...</code></li>
@@ -351,9 +361,7 @@ To add a user/role to a KMS key using the AWS Management Console, follow these s
 </ol>
 These steps will grant the necessary access to the IOMETE data-plane and enable EBS attachment to the IOMETE data-plane nodes.
 
-
 </Question>
-
 
 ## Additional Resources
 
@@ -368,7 +376,7 @@ Read our guide on how to sync data from JDBC sources, like MySQL, PostgreSQL, an
 <Card title="Querying Files in AWS S3" icon={<Files />} link="/docs/guides/read-files-from-aws-s3">
 If you have data files in AWS S3, you can directly query them using the S3 connector.
 </Card>
- 
+
 <Card title="Getting Started with Spark Jobs" icon={<Sparkle />} link="/docs/guides/spark-job/getting-started">
 Learn how to run Spark jobs on IOMETE.
 </Card>
@@ -376,8 +384,5 @@ Learn how to run Spark jobs on IOMETE.
 <Card title="Getting started with DBT" icon={<Circuitry />} link="/docs/guides/dbt/getting-started-with-iomete-dbt">
 Learn how to use DBT with IOMETE.
 </Card>
-
-
-
 
 </GridBox>
