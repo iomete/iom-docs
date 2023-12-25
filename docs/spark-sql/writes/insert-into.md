@@ -8,7 +8,6 @@ last_update:
 ---
 
 The INSERT INTO statement inserts new rows into a table. The inserted rows can be specified by value expressions or result from a query.
-___
 
 The table must not be a view or an external table. In order to truncate multiple partitions at once, the user can specify the partitions in partition_spec. If no partition_spec is specified it will remove all partitions in the table.
 
@@ -27,17 +26,18 @@ When you INSERT INTO a table schema enforcement and evolution is supported. If a
 
 ### Parameters
 
-* **table_identifier**
-  * ```[database_name.] table_name```: A table name, optionally qualified with a database name.
-  **Syntax:** `PARTITION ( partition_col_name  = partition_col_val [ , ... ] )`
+- **table_identifier**
 
-* **VALUES ( { value | NULL } [ , … ] ) [ , ( … ) ]**
-The values to be inserted. Either an explicitly specified value or a `NULL`. Use a comma to separate each value in the clause. You can specify more than one set of values to insert multiple rows.
+  - `[database_name.] table_name`: A table name, optionally qualified with a database name.
+    **Syntax:** `PARTITION ( partition_col_name  = partition_col_val [ , ... ] )`
 
-* **query**
-    *   A `SELECT` statement
-    *   A `TABLE` statement
-    *   A `FROM` statement
+- **VALUES ( \{ value | NULL } [ , … ] ) [ , ( … ) ]**
+  The values to be inserted. Either an explicitly specified value or a `NULL`. Use a comma to separate each value in the clause. You can specify more than one set of values to insert multiple rows.
+
+- **query**
+  - A `SELECT` statement
+  - A `TABLE` statement
+  - A `FROM` statement
 
 <br/>
 
@@ -49,12 +49,11 @@ The values to be inserted. Either an explicitly specified value or a `NULL`. Use
 
 Here's the shortest and easiest way to insert data into a table. You only have to specify the values, but you have to pass all values `in order`. If you have 10 columns, you have to specify 10 values.
 
-
 ```sql
 -- CREATE TABLE session (id INT, start_date TIMESTAMP, end_date TIMESTAMP, category INT) using delta;
 -- assuming the sessions table has only four columns:
 -- id, start_date, and end_date, and category, in that order
-INSERT INTO sessions 
+INSERT INTO sessions
 VALUES (1, '2020-04-02 14:05:15.400', '2020-04-03 14:25:15.400', 1);
 
 +-----+------------------------+--------------------------+-----------+
@@ -67,7 +66,7 @@ VALUES (1, '2020-04-02 14:05:15.400', '2020-04-03 14:25:15.400', 1);
 To skip some columns use **NULL** in-place of that column:
 
 ```sql
-INSERT INTO sessions 
+INSERT INTO sessions
 VALUES (2, '2020-04-02 14:05:15.400', '2020-04-04 16:57:53.653', NULL );
 
 +-----+------------------------+--------------------------+-----------+
@@ -85,8 +84,7 @@ VALUES (2, '2020-04-02 14:05:15.400', '2020-04-04 16:57:53.653', NULL );
 
 ## Multi-row insert using a VALUES clause
 
-You can insert multiple rows in one ```INSERT``` statement by having multiple sets of values enclosed in parentheses:
-
+You can insert multiple rows in one `INSERT` statement by having multiple sets of values enclosed in parentheses:
 
 ```sql
 INSERT INTO sessions VALUES
@@ -111,8 +109,7 @@ INSERT INTO sessions VALUES
 
 ## Multi-row insert using a SELECT statement
 
-You can insert multiple rows in one ```INSERT``` statement by selecting data from a different table. This is similar to a ```CREATE TABLE AS``` syntax :
-
+You can insert multiple rows in one `INSERT` statement by selecting data from a different table. This is similar to a `CREATE TABLE AS` syntax :
 
 ```sql
 CREATE TABLE sessions_dm (id INT, start_date TIMESTAMP, end_date TIMESTAMP, category INT) using delta;
@@ -151,15 +148,16 @@ SELECT * FROM sessions_dm;
 To append the whole `sessions` table into `sessions_dm` table. You can use:
 
 ```sql
--- appends sessions data to sessions_dm 
+-- appends sessions data to sessions_dm
 INSERT INTO sessions_dm TABLE sessions;
 ```
 
 Or using a FROM statement
+
 ```sql
 -- appends selected data to sessions_dm
 INSERT INTO sessions_dm
-     FROM sessions 
+     FROM sessions
      SELECT id, start_date, end_date, category WHERE category IS NOT NULL;
 ```
 

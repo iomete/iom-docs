@@ -1,0 +1,11 @@
+// To show button use this class
+.inline-button {
+    vertical-align: bottom;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0px 4px;
+    border-radius: 2px;
+    border: 1px solid var(--ifm-color-emphasis-300);
+    line-height: 24px;
+}

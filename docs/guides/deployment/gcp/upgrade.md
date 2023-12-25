@@ -10,17 +10,16 @@ last_update:
 Upgrading the IOMETE platform is a simple process that ensures you're using the latest features and improvements. This guide will provide you with the necessary steps to upgrade your IOMETE installation on GCP using Terraform.
 
 Before proceeding, ensure you have the following:
+
 1.  An active IOMETE account and a working IOMETE installation.
 2.  Google CLI and Terraform (v0.14+) are installed on your local machine. If you need help installing these tools, refer to the [IOMETE Installation Guide](install).
 3.  Access to your Terraform configuration files and state files.
-
 
 :::info
 Before upgrading, it's essential to back up your Terraform state file.
 This file contains information about your infrastructure and must be preserved to avoid losing control over your resources.
 You can either store the state file in a git repository, an S3 bucket, Terraform cloud or a local folder.
 :::
-
 
 ## 1. Upgrade to the latest IOMETE Terraform module
 
@@ -35,8 +34,8 @@ module "data-plane" {
   ...
 }
 ```
-Replace `X.Y.Z` with the latest version number provided by IOMETE.
 
+Replace `X.Y.Z` with the latest version number provided by IOMETE.
 
 ## 2. Review and apply the changes
 
@@ -53,20 +52,16 @@ If the plan output looks correct, proceed with the upgrade by running the `terra
 terraform apply
 ```
 
-Terraform will update the IOMETE platform resources on your GCP account, and the process may take several minutes to complete. 
+Terraform will update the IOMETE platform resources on your GCP account, and the process may take several minutes to complete.
 Once it's finished, your IOMETE platform will be upgraded to the latest version.
-
-
 
 ## 4. Verify the upgrade
 
 After the upgrade is complete, verify that everything is running smoothly. Access the IOMETE Console and ensure all your data and configurations are intact. Additionally, perform some basic operations like running queries or creating new resources to confirm that the platform is functioning correctly.
 
-
 :::success That's it 🎉🎉🎉
-You've successfully upgraded your IOMETE platform using Terraform. If you encounter any issues or have any questions, please don't hesitate to contact our support team at: \[<support@iomete.com>]\(mailto:support@iomete.com)
+You've successfully upgraded your IOMETE platform using Terraform. If you encounter any issues or have any questions, please don't hesitate to contact our support team at: [support@iomete.com](mailto:support@iomete.com)
 :::
-
 
 ## Troubleshooting
 
@@ -75,5 +70,4 @@ If you encounter issues during the upgrade process, try the following:
 1.  Review the Terraform output for error messages or warnings.
 2.  Consult the IOMETE documentation or release notes for known issues and their resolutions.
 3.  If necessary, roll back to your previous IOMETE installation.
-4.  Reach out to the IOMETE support team at <support@iomete.com> for assistance.
-
+4.  Reach out to the IOMETE support team at support@iomete.com for assistance.

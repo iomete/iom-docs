@@ -1,0 +1,66 @@
+.docs-wrapper .navbar .navbar__toggle {
+    margin-right: 0.8rem;
+}
+
+.theme-doc-sidebar-container .menu {
+    padding: 1.15rem 1.15rem 2rem 1.15rem;
+    font-weight: 400;
+
+    ul.menu__list .menu__list-item {
+        &>a {
+            font-size: 14px;
+            padding: 6px 12px 6px 12px;
+        }
+
+        &-collapsible {
+            &>a {
+                font-weight: 500;
+                color: var(--ifm-heading-color);
+            }
+        }
+
+        .menu__link--sublist-caret:after,
+        .menu__caret:before {
+            background-size: 1.3rem;
+        }
+    }
+}
+
+.container {
+    margin-bottom: 35px;
+    padding-left: 35px;
+    padding-right: 35px;
+    margin-top: 20px;
+}
+
+.tabs {
+    border-bottom: 1px solid var(--ifm-table-border-color);
+
+    &__item {
+        border-radius: 4px;
+        padding: 8px 16px;
+
+        &--active {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+}
+
+pre {
+    border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.card {
+    border-radius: 6px;
+    box-shadow: none !important;
+    border-color: var(--ifm-color-emphasis-300) !important;
+}
+
+// input[type="search"]::-webkit-search-decoration,
+// input[type="search"]::-webkit-search-cancel-button,
+// input[type="search"]::-webkit-search-results-button,
+// input[type="search"]::-webkit-search-results-decoration {
+//     // Remove celar button
+//     -webkit-appearance: none;
+// }

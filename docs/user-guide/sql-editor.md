@@ -36,7 +36,7 @@ import TOCInline from '@theme/TOCInline';
 
 Database explorer panel is used to explore your database objects, which includes **namespaces, tables, views,** and their **columns** (even complex columns), and partitions.
 
-To view database objects, expand a database. Each object in the database explorer has a corresponding options menu <DotsThreeVertical size={16} weight="bold" className="bg-emphasis-300"/> .
+To view database objects, expand a database. Each object in the database explorer has a corresponding options menu <DotsThreeVertical size={16} weight="duotone"/> .
 
 The options menu lets you:
 

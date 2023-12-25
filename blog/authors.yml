@@ -1,0 +1,35 @@
+piet:
+  name: Piet Jan de Bruin
+  title: Cofounder IOMETE
+  # url: https://www.linkedin.com/in/pietjandebruin
+  image_url: /img/avatars/piet.png
+
+fuad:
+  name: Fuad Musayev
+  title: Software Engineer @ IOMETE
+  # url: https://www.linkedin.com/in/musayevfuad/
+  image_url: /img/avatars/fuad.png
+
+aytan:
+  name: Aytan Jalilova
+  title: Developer Advocate @ IOMETE
+  # url: https://www.linkedin.com/in/aytan-jalilova-1a3078171/
+  image_url: /img/avatars/aytan.jpeg
+namig:
+  name: Namig Aliyev
+  title: Software Engineer @ IOMETE
+  # url: https://www.linkedin.com/in/namigaliyev/
+  image_url: /img/avatars/namig.png
+mikayil:
+  name: Mikayil Jafarov
+  title: Frontend engineer @ IOMETE
+  # url: https://www.linkedin.com/in/mikayil-jafarov-020b64205/
+  image_url: /img/avatars/mikayil.png
+lakshmi:
+  name: Lakshmi Narayana Segu
+  title: Developer Advocate @ IOMETE
+  image_url: /img/avatars/lakshmi.png
+vusal:
+  name: Vusal Dadalov
+  title: founder @IOMETE
+  image_url: /img/avatars/vusal.png

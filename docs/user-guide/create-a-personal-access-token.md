@@ -16,19 +16,17 @@ You can create a personal access token to use in place of a password with the **
 
 Personal access tokens are an alternative to using passwords for authentication to IOMETE when using IOMETE API. In this article, we will explain to you how to create and use Personal Access Tokens for IOMETE API.
 
-
 ### Create new access token
 
 **1.** Navigate to **Settings** menu
-   
+
 <!-- <Img src="/img/user-guide/pat/pat-go-to-settings.png"
   alt="PAT settings menu" maxWidth="256px"/> -->
 
 **2.** Click **Personal Access Token(PAT)** tab
-   
+
 <!-- <Img src="/img/user-guide/pat/pat-tab.png"
   alt="PAT tab"/> -->
-
 
 **3.** Click **Generate new token**
 
@@ -58,19 +56,16 @@ Make sure to copy your personal access token now. You won't be able to see it ag
 :::
 
 **8.** Click **Done**.
-   
+
 **9.** We can see generated token in list view.
 
 <Img src="/img/user-guide/pat/pat-list.png"
   alt="PAT generate view"/>
 
-
-
-
 :::success How to use Personal Access Token
-**IOMETE API** can be accessed through code or CLI tools using the Personal Access Token. You should send the API token in the HTTP header `X-API-Token`. Below we provided simple example written in Python. 
+**IOMETE API** can be accessed through code or CLI tools using the Personal Access Token. You should send the API token in the HTTP header `X-API-Token`. Below we provided simple example written in Python.
 
-You will see your **IOMETE region host** instead of *{your_iomete_account_host}*
+You will see your **IOMETE region host** instead of _\{your_iomete_account_host}_
 
 ```python
  import requests

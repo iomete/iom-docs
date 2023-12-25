@@ -10,7 +10,7 @@ const ExternalCard = ({ title, icon, link, children }) => (
         {icon && <div className="icon-wrapper">{icon}</div>}
         <div className="content">
           <h3 className="title">{title}</h3>
-          <p>{children}</p>
+          {children}
         </div>
         <div className="right">
           <ArrowSquareOut size={24} color="#0070F3" weight="regular" />

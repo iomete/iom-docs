@@ -34,15 +34,15 @@ In the configuration window, complete all the necessary fields by providing the 
 
 Extract all connection properties from the connection string, referencing the "lakehouse" details sheet in IOMETE (refer to the sample picture below):
 
-| Property           | Value                       |
-| ------------------ | --------------------------- |
-| Host               | {domain or IP address}      |
-| Port               | {server port}               |
-| HTTP Path          | /lakehouse/{lakehouse_name} |
-| Username (User ID) | {your user name}            |
-| Password           | {personal access token}     |
-| Database           | {database name}             |
-| HTTP Scheme        | http/https                  |
+| Property           | Value                        |
+| ------------------ | ---------------------------- |
+| Host               | \{domain or IP address}      |
+| Port               | \{server port}               |
+| HTTP Path          | /lakehouse/\{lakehouse_name} |
+| Username (User ID) | \{your user name}            |
+| Password           | \{personal access token}     |
+| Database           | \{database name}             |
+| HTTP Scheme        | http/https                   |
 
 <Img src="/img/guides/redash/iomete-redash-connection.png" alt="IOMETE data source connection" />
 

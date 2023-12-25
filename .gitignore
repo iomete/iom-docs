@@ -18,7 +18,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-/.idea/
-/static/robots.txt
-/pdf

@@ -52,13 +52,13 @@ For connection details go to the [iomete app](https://app.iomete.com), select th
 
 Some properties can be extracted from the connection string, as in the example below:
 
-| Property | Value and Description |
-| --- | --- |
-| Display Name | iomete-tpcds-db <br /> _note_: Could be anything, like iomete-{db-name} |
-| Host | us-east-1.iomete.com <br /> _note_: extracted from the connection string |
-| Port | 443 <br /> _note_: iomete exposes connection to HTTPS 443 port |
-| Database Name | tpcds_db_10gb <br /> _note_: in our example, we connect to tpcds database |
-| Username / Password | Here goes your iomete account credentials |
+| Property                | Value and Description                                                                                                                                                                        |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Display Name            | iomete-tpcds-db <br /> _note_: Could be anything, like iomete-\{db-name}                                                                                                                     |
+| Host                    | us-east-1.iomete.com <br /> _note_: extracted from the connection string                                                                                                                     |
+| Port                    | 443 <br /> _note_: iomete exposes connection to HTTPS 443 port                                                                                                                               |
+| Database Name           | tpcds*db_10gb <br /> \_note*: in our example, we connect to tpcds database                                                                                                                   |
+| Username / Password     | Here goes your iomete account credentials                                                                                                                                                    |
 | Additional JDBC options | ;transportMode=http;ssl=true;httpPath=lakehouse/000000000000/demo <br /><br /> _note_: Just copy this line from the end of the connection string with your account number and lakehouse name |
 
 ![How to connect Metabase](/img/guides/metabase-bi/connecting-metabase-and-iomete.png)
