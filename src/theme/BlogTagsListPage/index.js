@@ -1,16 +1,14 @@
 import React from 'react';
-import DocTagsListPage from '@theme-original/DocTagsListPage';
+import BlogTagsListPage from '@theme-original/BlogTagsListPage';
 
-export default function DocTagsListPageWrapper(props) {
+export default function BlogTagsListPageWrapper(props) {
   return (
     <>
-      {/* Just prevent indexing */}
       <head>
         <meta name="robots" content="noindex, nofollow, noarchive" />
         <meta name="googlebot" content="noindex, nofollow, noarchive" />
       </head>
-      {/* Just prevent indexing */}
-      <DocTagsListPage {...props} />
+      <BlogTagsListPage {...props} />
     </>
   );
 }
