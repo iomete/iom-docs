@@ -4,7 +4,7 @@ module.exports = {
 
   content: {
     relative: true,
-    files: ["./src/pages/ai/**/*.{ts,tsx}"],
+    files: ["./src/pages/glossary/**/*.{ts,tsx,js,jsx}"],
     // "./src/theme/BlogListPage/*.{ts,js,tsx}", "./src/**/*.{js,jsx,ts,tsx}"
   },
   corePlugins: {
