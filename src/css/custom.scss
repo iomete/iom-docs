@@ -6,6 +6,7 @@
 
 /* You can override the default Infima variables here. */
 
+
 @use './updates.scss';
 @use './docsearch.scss';
 @use './scrollbar.scss';
@@ -52,3 +53,7 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
