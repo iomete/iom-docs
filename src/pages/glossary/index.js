@@ -22,20 +22,22 @@ export default function Glossary() {
       <main>
         <div className="container mt-8">
           <h1>Glossary</h1>
-          <Search searchInputHandle={searchInputHandle} />
+          <Search searchInputHandle={searchInputHandle}/>
+
+
           <div className="mt-4">
             {filteredData.length === 0 ? (
-              <div className="flex items-center justify-center bg-white p-4 rounded-md shadow-md">
-                <p className="text-lg text-gray-600">No data found</p>
-              </div>
+                <div className="flex items-center justify-center bg-white p-4 rounded-md shadow-md">
+                  <p className="text-lg text-gray-600">No data found</p>
+                </div>
             ) : (
-              <div className="grid grid-cols-1 divide-y-4 divide-teal-400">
-                {filteredData.map((g, index) => (
-                  <div key={index}>
-                    <Card link={g.link} title={g.title} subtitle={g.subtitle} />
-                  </div>
-                ))}
-              </div>
+                <div className="grid grid-cols-1 divide-y-4 divide-teal-400">
+                  {filteredData.map((g, index) => (
+                      <div key={index}>
+                        <Card link={g.link} title={g.title} subtitle={g.subtitle}/>
+                      </div>
+                  ))}
+                </div>
             )}
           </div>
         </div>
