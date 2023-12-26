@@ -1,0 +1,23 @@
+.CardLink,
+.CardLink:hover {
+    color: unset;
+    text-decoration: none;
+}
+
+.CardTags {
+    color: var(--ifm-color-emphasis-700);
+}
+
+.CardTitle {
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.CardDesc {
+    display: inline-block;
+    height: 48px;
+    overflow: hidden;
+    color: var(--ifm-color-emphasis-800);
+}

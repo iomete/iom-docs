@@ -3,6 +3,7 @@ title: Apache Iceberg vs Delta Lake case study
 description: A case study article about IOMETE's decision to chose Apache Iceberg over Delta Lake and the unique experience and key takeaways that came out of it
 slug: apache-iceberg-delta-lake
 image: img/blog/2023-04-04-iceberg-vs-deltalake/deltalake-vs-iceberg.png
+coverImage: img/blog/thumbnails/2.png
 hide_table_of_contents: true
 featured_blog: true
 tags: [Engineering]

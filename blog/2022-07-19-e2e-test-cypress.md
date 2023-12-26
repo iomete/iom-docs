@@ -6,6 +6,7 @@ authors: mikayil
 hide_table_of_contents: true
 tags: [Engineering]
 image: img/blog/2022-07-19-e2e-test-cypress/before-cypress.png
+coverImage: img/blog/thumbnails/0.png
 banner_description: Nowadays, it is an industry standard to write tests for your code. Such popularity is not just a trend, it is backed by the observation that tests bring stability and scalability to code.
 ---
 

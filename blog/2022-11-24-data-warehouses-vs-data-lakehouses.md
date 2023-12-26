@@ -5,6 +5,7 @@ authors: aytan
 hide_table_of_contents: true
 tags: [Engineering]
 image: img/blog/2022-11-24-warehouse-vs-lakehouse/evolution_of_big_data.png
+coverImage: img/blog/thumbnails/3.png
 description: data lakehouses to data warehouses evaluation of data infrastructure and the main differences between them explained
 banner_description: let’s explore the journey from warehouse to lakehouses and what are the main differences
 ---

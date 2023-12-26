@@ -6,6 +6,7 @@ hide_table_of_contents: true
 tags: [Engineering]
 authors: aytan
 banner_description: To force the whole dataset to be ordered using Z-ORDER
+coverImage: img/blog/thumbnails/2.png
 ---
 
 import MiniCard from "@site/src/components/MiniCard";

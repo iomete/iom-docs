@@ -5,6 +5,7 @@ slug: /alternativa-data-financial-services
 authors: lakshmi
 hide_table_of_contents: true
 image: img/blog/2023-03-10-alternative-data/onboarding-process-for-alternative-data.png
+coverImage: img/blog/thumbnails/1.png
 tags: [Engineering]
 banner_description: How to get benefit from Alternative Data in Financial industry
 ---

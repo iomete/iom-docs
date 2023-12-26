@@ -8,6 +8,7 @@ hide_table_of_contents: true
 tags: [Engineering]
 authors: piet
 banner_description: key steps in building an effective on-premise Data Lakehouse
+coverImage: img/blog/thumbnails/3.png
 ---
 
 In the world of big data and analytics, the concept of a Data Lakehouse combines the flexibility and scalability of a data lake (great for unstructured/raw data and ML/AI) with the benefits of a traditional data warehouse (great for structured data and BI).

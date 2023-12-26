@@ -3,6 +3,7 @@ title: Data lake benefits 2023
 description: Read about the benefits of implementing a data lakehouse architecture to improve data agility, scalability, and cost-effectiveness by combining data warehouses and data lakes.
 slug: data-lake-benefits-2023
 image: img/blog/2023-02-13-data-lake/benefits-of-data-lake.png
+coverImage: img/blog/thumbnails/2.png
 hide_table_of_contents: true
 tags: [Company]
 authors: aytan

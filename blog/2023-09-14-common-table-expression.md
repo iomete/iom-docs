@@ -6,6 +6,7 @@ hide_table_of_contents: true
 tags: [Engineering]
 authors: aytan
 banner_description: powerful feature in IOMETE SQL editor that allows you to define temporary result sets
+coverImage: img/blog/thumbnails/3.png
 ---
 
 import MiniCard from "@site/src/components/MiniCard";

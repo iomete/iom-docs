@@ -3,6 +3,7 @@ title: Using ChatGPT for data engineering
 description: Using ChatGPT saves data engineers hours of time and frustration, such as troubleshooting code, generating Mermaid diagrams, modeling data, and generating sample data.
 slug: chatgpt-for-data-engineering
 image: img/blog/2023-05-02-using-chatgpt-for-data-engineering/chat-gpt-for-data-enginnering.jpg
+coverImage: img/blog/thumbnails/0.png
 hide_table_of_contents: true
 tags: [Engineering]
 authors: aytan

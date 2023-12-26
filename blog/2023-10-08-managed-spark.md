@@ -6,6 +6,7 @@ hide_table_of_contents: true
 tags: [Engineering]
 authors: aytan
 banner_description: How to automate cluster scaling
+coverImage: img/blog/thumbnails/0.png
 ---
 
 import MiniCard from "@site/src/components/MiniCard";

@@ -52,7 +52,7 @@ const config = {
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
-          // blogSidebarCount: 10,
+          blogSidebarCount: 0,
           postsPerPage: 'ALL',
           showReadingTime: true,
           // blogListComponent: '/blog/index.js',

@@ -6,6 +6,7 @@ hide_table_of_contents: true
 tags: [Company]
 authors: piet
 banner_description: Apache Iceberg is a table format that is quickly becoming the standard for storing and managing data lake
+coverImage: img/blog/thumbnails/2.png
 ---
 
 import MiniCard from "@site/src/components/MiniCard";

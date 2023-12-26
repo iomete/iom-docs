@@ -3,6 +3,7 @@ title: IOMETE changelog 2023 Q2
 description: We are thrilled to announce an exciting updates of IOMETE data platform for Q2 2023
 slug: changelog-q2-2023
 image: img/blog/2023-07-31-changelog/changelog-banner.jpg
+coverImage: img/blog/thumbnails/2.png
 hide_table_of_contents: true
 tags: [Engineering]
 authors: aytan

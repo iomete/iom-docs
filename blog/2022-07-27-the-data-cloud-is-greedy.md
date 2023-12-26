@@ -6,6 +6,7 @@ authors: piet
 hide_table_of_contents: true
 tags: [Company]
 image: img/blog/2022-07-27-the-data-cloud-is-greedy/thumb.png
+coverImage: img/blog/thumbnails/1.png
 banner_description: In this post we explained why we believe "The Data Cloud" - a reference to the establishment in our industry - is greedy by sharing our hate list.
 # featured_blog: true
 # featured_content: In this post we share our Hate List. four observations around the customer and value proposition of "The Data Cloud" (the establishment) and how we've used these observations to engineer our own value and customer proposition.
@@ -27,7 +28,6 @@ In the last financial crisis (2007/2008) AWS existed only for two years and the 
 
 4. The Data Cloud believes that retention is the same as true love. It is not.
 
-
 ## Observation #1: The Data Cloud prioritizes investor interest over customer interest.
 
 It is no secret that venture capital is in love with enterprise software, including the Data Cloud. This might be driven by 70%+ gross margins, recurring revenue and long retention periods. As a result, startups in the data infrastructure space are encouraged to create their business models around these financial metrics. That is... if they wish to obtain funding.
@@ -38,10 +38,9 @@ Driven by a wave of VC funding, this has resulted in hundreds of startups in the
 
 We align our interests with those of the customer and avoid becoming solely dependent on VC funding to fulfill our growth potential. We're okay if that results - initially - in lower growth and a lower gross margin. Customers want to become data-driven in an easy and cost-effective way. We should facilitate that.
 
-
 ## Observation #2: The Data Cloud embraces "price doesn't matter"-thinking
 
-We went through Y Combinator and were hammered with the message that product is everything. We agree. We do believe that without a great product, a low price does not matter. But: We also believe that having a great product at an exorbitant price point makes one vulnerable to disruption through a new entrant that delivers on product *and* price point.
+We went through Y Combinator and were hammered with the message that product is everything. We agree. We do believe that without a great product, a low price does not matter. But: We also believe that having a great product at an exorbitant price point makes one vulnerable to disruption through a new entrant that delivers on product _and_ price point.
 
 The Data Cloud today heavily relies on a carefully crafted "expertise" message fueled by billion-dollar marketing budgets (e.g. Gartner quadrants, summits in Las Vegas, MIT-sponsored research papers etc) to justify exorbitant pricing.
 
@@ -55,7 +54,6 @@ Our answer:
 
 #### ‍ Make compute prices equal to AWS on-demand prices. No mark-up. AWS users basically get our platform for free.
 
-
 ## Observation #3: The Data Cloud relies heavily on "push-sales".
 
 Snowflake - the leading Data Cloud - is still not profitable ten years after inception despite a 70% gross margin (their management recently announced at their annual summit it expects gross margin to increase to 80% -> Who will pay for that?)
@@ -64,16 +62,13 @@ That 70%-plus gross margin comes with a burden; one needs a large marketing & sa
 
 We believe: **the better the deal for the customer, the less push-selling it takes.** If it takes you billions of funding to get to $1Bn in revenue and are still unprofitable, your product might not be as great as you think.
 
-
 ## IOMETE's positioning | Grow through word-of-mouth and customer referrals.
 
 80% of our team consists of engineers and we are passionate about building a great product that will be used intensively by many customers. We hate (pushy) selling, so we'll avoid it all costs. No cold sales emails. If we could have it our way people would come to us. Engineers are a critical bunch, but when you've earned their love, they'll talk about you.
 
-
 ## Observation #4: The Data Cloud believes that retention is the same as true love. It is not.
 
 Customer retention is a good thing, but it depends on how one achieves it. If after getting married, the husband locks up the spouse so that she cannot walk away, that might not be a great thing. If the husband then proudly explains to his friends that they have been married for 10 years, it might be factually true, but would that still be the case if the husband would have kept the door open?
-
 
 ## IOMETE's positioning | Make sure that customers can walk away if they want to.
 
@@ -82,7 +77,6 @@ Our idea of a healthy relationship is that customers stay with us because we are
 - Our data format is Apache Parquet, an open source format so customers can always access their data.
 - Our platform is built on Apache Iceberg and Apache Spark, two leading open source projects.
 - The customer's data is stored under their own AWS account. The IOMETE platform accesses the data in the customer account to run queries, but the customer owns her data, 100%, at all times.
-
 
 ## The Data Cloud needs a Challenge(r)...
 

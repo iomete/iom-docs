@@ -8,6 +8,7 @@ hide_table_of_contents: true
 tags: [Engineering]
 authors: piet
 banner_description: Embracing IOMETE's Innovative Approach
+coverImage: img/blog/thumbnails/0.png
 ---
 
 In an era where cloud computing often grabs the spotlight, IOMETE is pioneering a transformative approach with its modern on-premise data lakehouse solution. IOMETE challenges the prevalent narrative, showcasing that on-premise environments can match, and at times surpass, the dynamism and effectiveness of cloud services in the realm of data engineering and ML/AI.
