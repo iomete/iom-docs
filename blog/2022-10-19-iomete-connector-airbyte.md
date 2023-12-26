@@ -5,6 +5,7 @@ authors: namig
 hide_table_of_contents: true
 tags: [Engineering]
 image: img/blog/2022-10-19-iomete-connector-airbyte.md/iomete-airbyte-og.png
+coverImage: img/blog/thumbnails/2.png
 description: The IOMETE Airbyte Connector allows you to easily integrate data from popular third-party applications like Hubspot, Mixpanel, Salesforce, and other sources into the IOMETE platform for analysis and reporting.
 banner_description: Easily integrate data from popular third-party applications like Hubspot, Mixpanel, Salesforce, and other sources into the IOMETE platform.
 ---

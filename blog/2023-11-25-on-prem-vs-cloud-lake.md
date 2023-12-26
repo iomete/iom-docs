@@ -7,6 +7,7 @@ hide_table_of_contents: true
 tags: [Engineering]
 authors: piet
 banner_description: Learn what is data mesh and how to implement it to your organization step-by-step
+coverImage: img/blog/thumbnails/1.png
 ---
 
 In the dynamic world of data management, the choice between a cloud-based and an on-premise Data Lakehouse is a pivotal decision for organizations.

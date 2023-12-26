@@ -3,6 +3,7 @@ slug: the-rise-of-the-serverless-lakehouse-platform
 title: The Rise of the Serverless Lakehouse Platform
 description: In this blog post we discuss the progression from data warehouse, to data lake, to lakehouse to the IOMETE serverless lakehouse platform.
 image: img/blog/2022-08-04-serverless-lakehouse-platform/serverless-lakehouse-platform.png
+coverImage: img/blog/thumbnails/2.png
 authors: piet
 hide_table_of_contents: true
 tags: [Educational]
@@ -14,11 +15,13 @@ banner_description: A data lake is a flexible architecture and allows organizati
 <!-- truncate -->
 
 ## The data warehouse
+
 In the 1980s, data warehouses (DWs) or enterprise data warehouses (EDWs) appeared. The term "data warehouse" refers to a repository for structured, filtered data from one or more disparate sources. In addition to analytical and business reporting purposes, it is also used to optimize business operations by keeping records and analyzing data.
 
 One of the major drawbacks of data warehouses is their rigidity. Data warehouses are at their best when working with structured, filtered data. This triggered the industry to develop a solution that offered a higher degree of flexibility.
 
 ## The data lake
+
 Data lakes, such as Databrick's delta lake, were developed to overcome the limitations of data warehouses. The modern use cases most companies seek to address cannot be addressed by data warehouses, despite their ability to offer high-performance and scalable analytics.
 
 Essentially, a data lake is a central repository for unstructured data - e.g. text, numbers, images, videos or audi0 - that can be used whatever way we see fit, now or in the future. This type of data can be a big unlock for organizations.
@@ -26,6 +29,7 @@ Essentially, a data lake is a central repository for unstructured data - e.g. te
 A data lake is a flexible architecture and allows organizations to keep all data in one repository. It does, however, have some shortcomings. In the absence of a data catalog, data integrity can become an issue.
 
 ## The data lakehouse
+
 With today's storage architectures, users with big datasets have yet another option to choose from: the "data lakehouse" architecture.
 
 Data lakehouses house both structured and unstructured data, just like data lakes. Thus, businesses that can benefit from working with unstructured data only need one data repository instead of two.
@@ -37,6 +41,7 @@ Unstructured data of the type that would typically be stored in a data lake is a
 To categorize and classify unstructured data, a data lakehouse might use metadata layers to act as a middleman between the unstructured data and the data user. The data can be structured effectively by identifying and extracting features, allowing it to be cataloged and indexed just like structured data.
 
 ## Serverless computing
+
 The rise of cloud computing has enabled a lot of progress in data infrastructure over the past two decades. Gone are the days of basements or garages with grumpy back-end engineers (Gilfoyle!).
 
 Service providers handle all hardware and OS requirements for serverless computing, so organizations don't have to worry about it.
@@ -48,6 +53,7 @@ The code for serverless functions is only invoked when triggered by a request. I
 With serverless computing, developers can concentrate on the business goals of their code instead of worrying about infrastructure. Furthermore, users only pay for the resources they actually use, instead of buying physical hardware or renting cloud instances that mostly sit idle.
 
 ## The serverless lakehouse
+
 Serverless lakehouses combine the benefits of serverless (cloud) computing with those of data lakes. It's the culmination of forty years of innovation in data infrastructure.
 
 Who is the data lakehouse architecture designed for? Organizations that are interested in moving from BI to AI are one of the key groups of users. Due to the rich insight that can be derived from unstructured data, businesses are increasingly using it for data-driven operations and decision-making.
@@ -63,6 +69,7 @@ Unlike data warehouses, which must be manually adapted to the organization's for
 As more organizations begin to realize the value of unstructured data combined with AI and machine learning, the data lakehouse approach has become increasingly popular. For organizations seeking to continue with legacy BI and analytics workflows while migrating to smart, automated data initiatives, it is a step up in maturity from the combined data lake and data warehouse model that has been considered the only option up until now.
 
 ## The IOMETE lakehouse platform
+
 The lakehouse is considered the latest innovation in data infrastructure that combines the benefits of a data warehouse and a data lake. IOMETE has taken it a few steps further. While the core of the [IOMETE platform](https://iomete.com/#platform) is a blazing-fast serverless lakehouse, it includes an advanced data catalog, serverless spark jobs, a SQL-editor and built-in BI. Why? So you don't have to do the complex and expensive integrations of standalone solutions.
 
 Apart from complete, the platform is flexible too. The IOMETE lakehouse is built on open source Apache Iceberg and Apache Spark and uses Apache Parquet as the data format. One can use the built-in BI which is based on Apache Superset or we can easily connect third party solutions such as Tableau, Looker, and PowerBI.

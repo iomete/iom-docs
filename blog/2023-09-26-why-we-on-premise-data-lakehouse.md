@@ -6,6 +6,7 @@ hide_table_of_contents: true
 tags: [Company]
 authors: piet
 banner_description: why we position ourselves as the on premise data lakehouse
+coverImage: img/blog/thumbnails/2.png
 ---
 
 import MiniCard from "@site/src/components/MiniCard";

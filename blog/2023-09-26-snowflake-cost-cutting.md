@@ -6,6 +6,7 @@ hide_table_of_contents: true
 tags: [Engineering]
 authors: aytan
 banner_description: How to cut your Snowflake bills
+coverImage: img/blog/thumbnails/1.png
 ---
 
 import MiniCard from "@site/src/components/MiniCard";

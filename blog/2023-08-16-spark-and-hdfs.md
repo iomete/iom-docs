@@ -6,6 +6,7 @@ hide_table_of_contents: true
 tags: [Engineering]
 authors: aytan
 banner_description: relationship between Spark and HDFS and discuss setting up your architecture
+coverImage: img/blog/thumbnails/0.png
 ---
 
 import MiniCard from "@site/src/components/MiniCard";

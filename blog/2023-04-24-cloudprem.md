@@ -3,6 +3,7 @@ title: Cloud-prem data lakehouse platform
 description: Learn what cloud-prem lakehouse platform and the differences between on-premise and cloud architectures and how to choose the right platform for your organization's needs
 slug: cloud-prem-lakehouse
 image: img/blog/2023-04-24-cloudprem/what-is-cloud-prem-lakehouse-platform.png
+coverImage: img/blog/thumbnails/3.png
 hide_table_of_contents: true
 tags: [Engineering]
 authors: aytan

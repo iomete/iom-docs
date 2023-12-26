@@ -6,6 +6,7 @@ hide_table_of_contents: true
 tags: [Engineering]
 authors: aytan
 banner_description: How to optimize an old long SQL query?
+coverImage: img/blog/thumbnails/1.png
 ---
 
 Sometimes, we inherit old SQL queries from previous developers, and these queries can be long, complex, and difficult to understand, even for experienced developers. To make matters worse, these queries often have no documentation, making it even harder to figure out what they've done.

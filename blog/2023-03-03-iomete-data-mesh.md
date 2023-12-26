@@ -3,6 +3,7 @@ title: DATA MESH with IOMETE
 description: Learn what is Data Mesh step-by-step for an introduction to a distributed data architecture that promotes domain-oriented ownership and decentralization
 slug: data-mesh-iomete
 image: img/blog/2023-03-03-iomete-data-mesh/data-mesh-with-iomete.png
+coverImage: img/blog/thumbnails/0.png
 hide_table_of_contents: true
 tags: [Company]
 authors: lakshmi
