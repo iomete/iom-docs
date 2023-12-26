@@ -1,15 +1,14 @@
 import React from 'react';
 import DocTagDocListPage from '@theme-original/DocTagDocListPage';
+import Head from '@docusaurus/Head';
 
 export default function DocTagDocListPageWrapper(props) {
   return (
     <>
-      {/* Just prevent indexing */}
-      <head>
+      <Head>
         <meta name="robots" content="noindex, nofollow, noarchive" />
         <meta name="googlebot" content="noindex, nofollow, noarchive" />
-      </head>
-      {/* Just prevent indexing */}
+      </Head>
       <DocTagDocListPage {...props} />
     </>
   );
