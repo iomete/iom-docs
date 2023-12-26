@@ -210,7 +210,17 @@ const sidebars = {
       items: ["integrations/airbyte"],
     },
   ],
-
+  learn: [
+    "learn",
+    {
+      type: "category",
+      label: "Pyspark",
+      collapsed: false,
+      items: [
+        "learn/pyspark/pyspark-join"
+      ]
+    }
+  ],
   guides: [
     {
       type: "category",

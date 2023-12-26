@@ -115,6 +115,12 @@ const config = {
             label: "Guides",
             position: "left",
           },
+          {
+            type: "doc",
+            docId: "learn",
+            label: "Learn",
+            position: "left",
+          },
           { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
           // {
           //   to: "ai",

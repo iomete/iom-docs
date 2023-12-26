@@ -1,0 +1,740 @@
+---
+title: PySpark Joins
+sidebar_label: Joins
+description: PySpark Joins explained with examples
+---
+
+
+import Img from '@site/src/components/Img';
+
+Joins are fundamental operations for combining data from multiple sources. PySpark provides different types of joins, including
+- inner and cross joins
+- outer joins (left, right, full)
+- left semi and, left anti join
+
+<Img src="/img/learn/pyspark/joins/all-joins.svg"
+     caption="Spark All Joins Types" padding="4px"
+     alt="Spark All Joins Types"/>
+
+
+PySpark Join Syntax:
+```python
+df1.join(df2, join_condition, join_type)
+```
+
+PySpark join type must be one of:
+- `inner` (default)
+- `cross`
+- `outer`, `full`, `fullouter`, `full_outer`
+- `left`, `leftouter`, `left_outer`
+- `right`, `rightouter`, `right_outer`
+- `semi`, `leftsemi`, `left_semi`
+- `anti`, `leftanti`, `left_anti`
+
+:::info
+Default join type is `inner`
+:::
+
+| SQL Join Clause                         | PySpark Join Type                             | Description                                                                                          |
+|-----------------------------------------|-----------------------------------------------|------------------------------------------------------------------------------------------------------|
+| **INNER JOIN**                          | `inner`                                       | Returns all rows when there is at least one match in BOTH tables                                     |
+| **CROSS JOIN**                          | `cross`                                       | Returns all rows from the left table multiplied by all rows from the right table (Cartesian product) |
+| **LEFT OUTER JOIN** (a.k.a LEFT JOIN)   | `left`, `leftouter`, `left_outer`             | Returns all rows from the left table, and the matched rows from the right table                      |
+| **RIGHT OUTER JOIN** (a.k.a RIGHT JOIN) | `right`, `rightouter`, `right_outer`          | Returns all rows from the right table, and the matched rows from the left table                      |
+| **FULL OUTER JOIN**                     | `outher`, `full`, `fullouther`, `full_outher` | Returns all rows when there is a match in ONE of the tables                                          |
+| **LEFT SEMI JOIN**                      | `semi`, `leftsemi`, `left_semi`               | Returns all rows from the left table for which there is at least one match in the right table        |
+| **LEFT ANTI JOIN**                      | `anti`, `leftanti`, `left_anti`               | Returns all rows from the left table for which there is no match in the right table                  |
+
+:::tip
+Spark doesn't support **right semi** and **right anti** joins.
+:::
+
+
+
+
+:::info
+In this guide, we will use `tables`, `datasets`, and `data frames` interchangeably. They all have the same meaning in this context.
+:::
+
+---
+## Inner Join
+
+In an **Inner Join** between two DataFrames (let's call them A and B), the operation matches each row from A with each row from B where the join condition is true. Only the matching rows from both DataFrames are included in the result.
+
+It's one of the most commonly used joins, allowing you to correlate related data across different sources.
+
+<Img src="/img/learn/pyspark/joins/inner-join.svg"
+     padding="4px"
+     caption="Spark - Inner Join" alt="Spark - Inner Join"/>
+
+Let's use two simple tables to demonstrate how an INNER JOIN works:
+
+### Example Tables
+
+**Table A (Employees):**
+
+| emp_id | emp_name | dept_id |
+|--------|----------|---------|
+| 1      | John     | 1       |
+| 2      | Emma     | 2       |
+| 3      | Raj      | null    |
+| 4      | Nina     | 4       |
+
+**Table B (Departments):**
+
+| dept_id | dept_name |
+|---------|-----------|
+| 1       | HR        |
+| 2       | Tech      |
+| 3       | Marketing |
+| null    | Temp      |
+
+
+:::note
+Some records have null values in the `dept_id` column to demonstrate null handling.
+:::
+
+**Objective**
+
+We aim to match employees with their respective departments based on a common `dept_id`. Our goal is to retrieve a combined view of employees and their department names.
+
+Expected output:
+
+| emp_id | emp_name | dept_id | dept_name |
+|--------|----------|---------|-----------|
+| 1      | John     | 1       | HR        |
+| 2      | Emma     | 2       | Tech      |
+
+:::caution
+Rows with null in `dept_id` are expected to be excluded from the result as **nulls** do not match with any value, including other nulls.
+:::
+
+
+### PySpark Inner Join Example
+
+Here's how you might set up the DataFrames and perform the `Inner Join` in PySpark:
+
+```python
+from pyspark.sql import SparkSession
+
+# Initialize a SparkSession
+spark = SparkSession.builder.appName("inner_join_example").getOrCreate()
+
+# Create DataFrames for Employees and Departments
+data_employees = [(1, "John", 1), (2, "Emma", 2), (3, "Raj", None), (4, "Nina", 4)]
+data_departments = [(1, "HR"), (2, "Tech"), (3, "Marketing"), (None, "Temp")]
+
+columns_employees = ["emp_id", "emp_name", "dept_id"]
+columns_departments = ["dept_id", "dept_name"]
+
+df_employees = spark.createDataFrame(data_employees, columns_employees)
+df_departments = spark.createDataFrame(data_departments, columns_departments)
+
+# Perform INNER JOIN
+# since `inner` is the default join type, we can omit it
+df_joined = df_employees.join(df_departments, df_employees.dept_id == df_departments.dept_id)
+
+# Show the result
+df_joined.show()
+```
+
+
+The result of `df_joined.show()` would include rows with matching `dept_id` values from both tables:
+
+```
++------+--------+-------+---------+
+|emp_id|emp_name|dept_id|dept_name|
++------+--------+-------+---------+
+|     1|    John|      1|       HR|
+|     2|    Emma|      2|     Tech|
++------+--------+-------+---------+
+```
+
+
+:::tip Handling Null Values in Inner Join
+As you've seen in the example, you cannot match `null` values with other null values. Therefore, rows with null values as the join key are excluded from the result.
+:::
+
+
+---
+## Left Outer Join
+
+A **Left Outer Join** in PySpark is a valuable operation for combining data from multiple sources while preserving all rows from the left DataFrame and including matching rows from the right DataFrame.
+This type of join is especially useful when you want to include all records from one dataset and only the matching records from another dataset.
+
+<Img src="/img/learn/pyspark/joins/left-join.svg"
+     padding="4px"
+     caption="Spark - Left Outer Join" alt="Spark - Left Outer Join"/>
+
+**Syntax:**
+```python
+df1.join(df2, join_condition, "left")
+```
+
+In a Left Outer Join:
+- All rows from the left DataFrame are included in the result.
+- Only the rows from the right DataFrame that match the join condition are included.
+- If there's no match in the right DataFrame, null values are used to fill in the columns from the right DataFrame.
+
+#### Example
+
+Let's illustrate a Left Outer Join using two simple tables:
+
+**Table A (Employees):**
+
+| emp_id | emp_name | dept_id |
+|--------|----------|---------|
+| 1      | John     | 1       |
+| 2      | Emma     | 2       |
+| 3      | Raj      | null    |
+| 4      | Nina     | 4       |
+
+**Table B (Departments):**
+
+| dept_id | dept_name |
+|---------|-----------|
+| 1       | HR        |
+| 2       | Tech      |
+| 3       | Marketing |
+| null    | Temp      |
+
+**Objective**
+
+Our goal is to match employees with their respective departments based on a common `dept_id`. The expected output should provide a combined view of employees and their department names, including those employees with null `dept_id`.
+
+#### PySpark Left Outer Join Example
+
+Here's how you might set up the DataFrames and perform the Left Outer Join in PySpark:
+
+```python
+from pyspark.sql import SparkSession
+
+# Initialize a SparkSession
+spark = SparkSession.builder.appName("left_outer_join_example").getOrCreate()
+
+# Create DataFrames for Employees and Departments
+data_employees = [(1, "John", 1), (2, "Emma", 2), (3, "Raj", None), (4, "Nina", 4)]
+data_departments = [(1, "HR"), (2, "Tech"), (3, "Marketing"), (None, "Temp")]
+
+columns_employees = ["emp_id", "emp_name", "dept_id"]
+columns_departments = ["dept_id", "dept_name"]
+
+df_employees = spark.createDataFrame(data_employees, columns_employees)
+df_departments = spark.createDataFrame(data_departments, columns_departments)
+
+# Perform Left Outer Join
+df_joined = df_employees.join(df_departments, df_employees.dept_id == df_departments.dept_id, "left")
+
+# Show the result
+df_joined.show()
+```
+
+The result of `df_joined.show()` would include all rows from the `df_employees` DataFrame and matching rows from the `df_departments` DataFrame, with null values in the `dept_name` column for rows without a match in the right DataFrame.
+
+```
++------+--------+-------+---------+
+|emp_id|emp_name|dept_id|dept_name|
++------+--------+-------+---------+
+|     1|    John|      1|       HR|
+|     2|    Emma|      2|     Tech|
+|     3|     Raj|   null|     null|
+|     4|    Nina|      4|     null|
++------+--------+-------+---------+
+```
+
+The Left Outer Join retains all rows from the left DataFrame (`df_employees`) and includes matching rows from the right DataFrame (`df_departments`) while filling in null values for non-matching rows.
+
+
+---
+## Right Outer Join
+
+A **Right Outer Join** in PySpark is a powerful operation for combining data from multiple sources while retaining all rows from the right DataFrame and including matching rows from the left DataFrame. This type of join is particularly useful when you want to include all records from one dataset and only the matching records from another dataset.
+
+<Img src="/img/learn/pyspark/joins/right-join.svg"
+     padding="4px"
+     caption="Spark - Right Outer Join" alt="Spark - Right Outer Join"/>
+
+**Syntax:**
+```python
+df1.join(df2, join_condition, "right")
+```
+
+In a Right Outer Join:
+- All rows from the right DataFrame are included in the result.
+- Only the rows from the left DataFrame that match the join condition are included.
+- If there's no match in the left DataFrame, null values are used to fill in the columns from the left DataFrame.
+
+#### Example
+
+Let's illustrate a Right Outer Join using two simple tables:
+
+**Table A (Employees):**
+
+| emp_id | emp_name | dept_id |
+|--------|----------|---------|
+| 1      | John     | 1       |
+| 2      | Emma     | 2       |
+| 3      | Raj      | null    |
+| 4      | Nina     | 4       |
+
+**Table B (Departments):**
+
+| dept_id | dept_name |
+|---------|-----------|
+| 1       | HR        |
+| 2       | Tech      |
+| 3       | Marketing |
+| null    | Temp      |
+
+**Objective**
+
+Our goal is to match employees with their respective departments based on a common `dept_id`. The expected output should provide a combined view of employees and their department names, including those employees with null `dept_id`.
+
+#### PySpark Right Outer Join Example
+
+Here's how you might set up the DataFrames and perform the Right Outer Join in PySpark:
+
+```python
+from pyspark.sql import SparkSession
+
+# Initialize a SparkSession
+spark = SparkSession.builder.appName("right_outer_join_example").getOrCreate()
+
+# Create DataFrames for Employees and Departments
+data_employees = [(1, "John", 1), (2, "Emma", 2), (3, "Raj", None), (4, "Nina", 4)]
+data_departments = [(1, "HR"), (2, "Tech"), (3, "Marketing"), (None, "Temp")]
+
+columns_employees = ["emp_id", "emp_name", "dept_id"]
+columns_departments = ["dept_id", "dept_name"]
+
+df_employees = spark.createDataFrame(data_employees, columns_employees)
+df_departments = spark.createDataFrame(data_departments, columns_departments)
+
+# Perform Right Outer Join
+df_joined = df_employees.join(df_departments, df_employees.dept_id == df_departments.dept_id, "right")
+
+# Show the result
+df_joined.show()
+```
+
+The result of `df_joined.show()` would include all rows from the `df_departments` DataFrame and matching rows from the `df_employees` DataFrame, with null values in the `emp_id` and `emp_name` columns for rows without a match in the left DataFrame.
+
+```
++------+--------+-------+---------+
+|emp_id|emp_name|dept_id|dept_name|
++------+--------+-------+---------+
+|     1|    John|      1|       HR|
+|     2|    Emma|      2|     Tech|
+|  null|    null|      3| Marketing|
+|  null|    null|   null|     Temp|
++------+--------+-------+---------+
+```
+
+The Right Outer Join retains all rows from the right DataFrame (`df_departments`) and includes matching rows from the left DataFrame (`df_employees`) while filling in null values for non-matching rows.
+
+
+
+---
+## Full Outer Join
+
+A **Full Outer Join** in PySpark is a versatile operation for combining data from multiple sources while retaining all rows from both the left and right DataFrames. This type of join is especially useful when you want to include all records from both datasets and match where possible.
+
+<Img src="/img/learn/pyspark/joins/full-join.svg"
+     padding="4px"
+     caption="Spark - Full Outer Join" alt="Spark - Full Outer Join"/>
+
+**Syntax:**
+```python
+df1.join(df2, join_condition, "outer")
+```
+
+In a Full Outer Join:
+- All rows from both the left and right DataFrames are included in the result.
+- Rows from the left DataFrame that have matching rows in the right DataFrame are included.
+- Rows from the right DataFrame that have matching rows in the left DataFrame are included.
+- If there's no match in either DataFrame, null values are used to fill in the columns from the missing DataFrame.
+
+#### Example
+
+Let's illustrate a Full Outer Join using two simple tables:
+
+**Table A (Employees):**
+
+| emp_id | emp_name | dept_id |
+|--------|----------|---------|
+| 1      | John     | 1       |
+| 2      | Emma     | 2       |
+| 3      | Raj      | null    |
+| 4      | Nina     | 4       |
+
+**Table B (Departments):**
+
+| dept_id | dept_name |
+|---------|-----------|
+| 1       | HR        |
+| 2       | Tech      |
+| 3       | Marketing |
+| null    | Temp      |
+
+**Objective**
+
+Our goal is to match employees with their respective departments based on a common `dept_id`. The expected output should provide a combined view of employees and their department names, including those employees with null `dept_id` and those departments with null `dept_id`.
+
+#### PySpark Full Outer Join Example
+
+Here's how you might set up the DataFrames and perform the Full Outer Join in PySpark:
+
+```python
+from pyspark.sql import SparkSession
+
+# Initialize a SparkSession
+spark = SparkSession.builder.appName("full_outer_join_example").getOrCreate()
+
+# Create DataFrames for Employees and Departments
+data_employees = [(1, "John", 1), (2, "Emma", 2), (3, "Raj", None), (4, "Nina", 4)]
+data_departments = [(1, "HR"), (2, "Tech"), (3, "Marketing"), (None, "Temp")]
+
+columns_employees = ["emp_id", "emp_name", "dept_id"]
+columns_departments = ["dept_id", "dept_name"]
+
+df_employees = spark.createDataFrame(data_employees, columns_employees)
+df_departments = spark.createDataFrame(data_departments, columns_departments)
+
+# Perform Full Outer Join
+df_joined = df_employees.join(df_departments, df_employees.dept_id == df_departments.dept_id, "outer")
+
+# Show the result
+df_joined.show()
+```
+
+The result of `df_joined.show()` would include all rows from both the `df_employees` and `df_departments` DataFrames, with null values in the columns for rows without a match in the respective DataFrame.
+
+```
++------+--------+-------+---------+
+|emp_id|emp_name|dept_id|dept_name|
++------+--------+-------+---------+
+|     1|    John|      1|       HR|
+|     2|    Emma|      2|     Tech|
+|     3|     Raj|   null| Marketing|
+|     4|    Nina|      4|     null|
+|  null|    null|      3|     Temp|
++------+--------+-------+---------+
+```
+
+The Full Outer Join retains all rows from both the left DataFrame (`df_employees`) and the right DataFrame (`df_departments`) while filling in null values for non-matching rows in both DataFrames.
+
+
+
+
+
+
+
+
+
+
+
+---
+## Left Semi Join
+
+Left Semi Join in PySpark is an operation used to filter a DataFrame based on the keys present in another DataFrame. It's essentially a way to narrow down a dataset by keeping only the rows that have a corresponding match in another dataset.
+<Img src="/img/learn/pyspark/joins/left-semi-join.svg"
+     padding="4px"
+     caption="Spark - Left Semi Join" alt="Spark - Left Semi Join"/>
+
+In a Left Semi Join between two datasets (let's call them A and B), the join returns all the rows from the left dataset (A) that have a corresponding match in the right dataset (B). It's the opposite of a Left Anti Join, which returns rows that do not have a match.
+
+
+Let's create an example using two simple tables to demonstrate how a Left Semi Join works in PySpark:
+
+**Example Tables**
+
+**Table A (Users):**
+
+| id   | name    |
+|------|---------|
+| 1    | Alice   |
+| 2    | Bob     |
+| 3    | Charlie |
+| 4    | David   |
+| null | Eve     |
+
+**Table B (Purchases):**
+
+| user_id | item     |
+|---------|----------|
+| 1       | Book     |
+| 2       | Pen      |
+| 5       | Notebook |
+| null    | Pencil   |
+
+:::note
+Some records have null values to demonstrate null handling.
+:::
+
+In this scenario:
+- Table A lists users with a unique `id`.
+- Table B records purchases made by users, linked by `user_id`.
+
+**Objective**
+
+We want to find out which users have made purchases. We expect to identify Alice (1) and Bob (2) as users who appear in both the users table and the purchases table.
+
+Expected output:
+
+```
++---+-----+
+| id| name|
++---+-----+
+|  1|Alice|
+|  2| Bob |
++---+-----+
+```
+
+:::caution
+User `Eve` (null) is not included because null values do not match with any other value, including another null.
+:::
+
+---
+### PySpark Left Semi Join Example
+
+Here's how you might set up the data and perform the join:
+
+```python
+from pyspark.sql import SparkSession
+
+# Initialize a SparkSession
+spark = SparkSession.builder.appName("left_semi_join_example").getOrCreate()
+
+# Create DataFrames for Users and Purchases
+data_users = [(1, "Alice"), (2, "Bob"), (3, "Charlie"), (4, "David")]
+data_purchases = [(1, "Book"), (2, "Pen"), (5, "Notebook")]
+
+columns_users = ["id", "name"]
+columns_purchases = ["user_id", "item"]
+
+df_users = spark.createDataFrame(data_users, columns_users)
+df_purchases = spark.createDataFrame(data_purchases, columns_purchases)
+
+# Perform Left Semi Join
+df_purchasers = df_users.join(df_purchases, df_users.id == df_purchases.user_id, "left_semi")
+
+# Show the result
+df_purchasers.show()
+```
+
+In this code:
+- `df_users` represents Table A (Users).
+- `df_purchases` represents Table B (Purchases).
+- The `left_semi` join is used to find all users who have a corresponding `id` in the purchases table.
+
+The result of `df_purchasers.show()` would be:
+
+```
++---+-----+
+| id| name|
++---+-----+
+|  1|Alice|
+|  2| Bob |
++---+-----+
+```
+
+:::tip Handling Null Values in Left Semi Join
+As you've seen in the example, you cannot match `null` values with other null values. Therefore, rows with null values as the join key are excluded from the result.
+:::
+
+:::tip Pros and Cons
+**Pros:**
+- **Performance**: Generally faster than other joins as it only needs to check for the existence of keys without needing to shuffle and join all corresponding data.
+- **Simplicity**: The result is straightforward, containing only rows from the left DataFrame that have matches in the right DataFrame.
+
+**Cons:**
+- **Less Intuitive**: The concept might be less intuitive for those used to SQL joins, as it doesn't return a combined result set.
+:::
+
+
+---
+## Left Anti Join
+
+Left Anti Join in PySpark is a powerful tool for finding non-matching records between two datasets.
+
+<Img src="/img/learn/pyspark/joins/left-anti-join.svg"
+     padding="4px"
+     caption="Spark - Left Anti Join" alt="Spark - Left Anti Join"/>
+
+Consider two datasets (let's call them A and B). The join returns all the rows from the left dataset (A) that do not have a match in the right dataset (B).
+
+:::tip
+This join is the opposite of a `Left Semi Join`, which returns rows that do have a match.
+:::
+
+Let's create an example using two simple tables to demonstrate how a `Left Anti Join` works in PySpark.
+
+**Example Tables**
+
+**Table A (Users):**
+
+| id   | name    |
+|------|---------|
+| 1    | Alice   |
+| 2    | Bob     |
+| 3    | Charlie |
+| 4    | David   |
+| null | Eve     |
+
+**Table B (Purchases):**
+
+| user_id | item     |
+|---------|----------|
+| 1       | Book     |
+| 2       | Pen      |
+| 5       | Notebook |
+| null    | Pencil   |
+
+:::note
+Some records have null values to demonstrate null handling.
+:::
+
+In this example:
+- Table A is a list of users with a unique `id` for each user.
+- Table B records purchases made by users, referenced by `user_id`.
+
+**Objective**
+
+We want to find out which users have **not** made any purchases.
+
+In this example, we expect the result only to include **Charlie (3)** and **David (4)**, as they are the only users who do not have a matching `id` in the purchases table. In other words, Charlie and David have not made any purchases, as their IDs do not appear in the purchases table.
+
+| id   | name    |
+|------|---------|
+| 3    | Charlie |
+| 4    | David   |
+| null | Eve     |
+
+:::caution
+The result also includes **Eve (null)** because nulls do not match with any other value, including other nulls.
+:::
+
+
+### PySpark Left Anti Join Example
+
+Here's how you might set up the data and perform the join:
+
+```python
+from pyspark.sql import SparkSession
+
+# Initialize a SparkSession
+spark = SparkSession.builder.appName("left_anti_join_example").getOrCreate()
+
+# Create DataFrames for Users and Purchases
+data_users = [(1, "Alice"), (2, "Bob"), (3, "Charlie"), (4, "David")]
+data_purchases = [(1, "Book"), (2, "Pen"), (5, "Notebook")]
+
+columns_users = ["id", "name"]
+columns_purchases = ["user_id", "item"]
+
+df_users = spark.createDataFrame(data_users, columns_users)
+df_purchases = spark.createDataFrame(data_purchases, columns_purchases)
+
+# Perform Left Anti Join
+df_non_purchasers = df_users.join(df_purchases, df_users.id == df_purchases.user_id, "left_anti")
+
+# Show the result
+df_non_purchasers.show()
+```
+
+In the code:
+- `df_users` represents Table A (Users).
+- `df_purchases` represents Table B (Purchases).
+- The `left_anti` join is used to find all users who do not have a matching `id` in the purchases table.
+
+:::tip Handling Null Values in Left Anto Join
+As you've seen in the example, even though there's a null in the purchases table, nulls do not match with other nulls in standard join operations. Therefore, Eve is also listed as not having made a purchase.
+:::
+
+
+
+
+---
+## Cross Join
+
+A **Cross Join** in PySpark is a join operation that returns the Cartesian product of two DataFrames. In other words, it combines every row from the left DataFrame with every row from the right DataFrame, resulting in a large, unfiltered result. Cross Joins should be used with caution as they can generate a massive number of rows and can be computationally expensive.
+
+<Img src="/img/learn/pyspark/joins/cross-join.svg"
+     padding="4px"
+     caption="Spark - Cross Join" alt="Spark - Cross Join"/>
+
+**Syntax:**
+```python
+df1.crossJoin(df2)
+```
+
+In a Cross Join:
+- All rows from the left DataFrame are combined with all rows from the right DataFrame.
+- There is no join condition; it simply generates all possible combinations.
+
+#### Example
+
+Let's illustrate a Cross Join using two simple tables:
+
+**Table A (Employees):**
+
+| emp_id | emp_name |
+|--------|----------|
+| 1      | John     |
+| 2      | Emma     |
+| 3      | Raj      |
+
+**Table B (Departments):**
+
+| dept_id | dept_name |
+|---------|-----------|
+| A       | HR        |
+| B       | Tech      |
+
+**Objective**
+
+Our goal is to generate a Cartesian product of employees and departments, creating a result that pairs every employee with every department.
+
+#### PySpark Cross Join Example
+
+Here's how you might set up the DataFrames and perform the Cross Join in PySpark:
+
+```python
+from pyspark.sql import SparkSession
+
+# Initialize a SparkSession
+spark = SparkSession.builder.appName("cross_join_example").getOrCreate()
+
+# Create DataFrames for Employees and Departments
+data_employees = [(1, "John"), (2, "Emma"), (3, "Raj")]
+data_departments = [("A", "HR"), ("B", "Tech")]
+
+columns_employees = ["emp_id", "emp_name"]
+columns_departments = ["dept_id", "dept_name"]
+
+df_employees = spark.createDataFrame(data_employees, columns_employees)
+df_departments = spark.createDataFrame(data_departments, columns_departments)
+
+# Perform Cross Join
+df_cross_joined = df_employees.crossJoin(df_departments)
+
+# Show the result
+df_cross_joined.show()
+```
+
+The result of `df_cross_joined.show()` would include every possible combination of employees and departments:
+
+```
++------+--------+-------+---------+
+|emp_id|emp_name|dept_id|dept_name|
++------+--------+-------+---------+
+|     1|    John|      A|       HR|
+|     1|    John|      B|     Tech|
+|     2|    Emma|      A|       HR|
+|     2|    Emma|      B|     Tech|
+|     3|     Raj|      A|       HR|
+|     3|     Raj|      B|     Tech|
++------+--------+-------+---------+
+```
+
+The Cross Join generates all possible combinations of rows from both DataFrames, creating a Cartesian product of employees and departments. It's important to use Cross Joins judiciously, as they can result in a large number of rows in the output.
