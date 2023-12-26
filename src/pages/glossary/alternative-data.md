@@ -1,3 +1,8 @@
+---
+title: Alternative Data
+description: Alternative data encompasses insights from non-traditional sources, offering a broader perspective compared to conventional data channels.
+---
+
 # Alternative Data
 
 ## What is Alternative Data in Business Analytics?

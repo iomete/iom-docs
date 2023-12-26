@@ -1,3 +1,8 @@
+---
+title: Anomaly Detection
+description: Discover rare events or standout data points with anomaly detection. Essential for cybersecurity, finance, and healthcare to identify potential threats, fraud, or significant anomalies.
+---
+
 # Anomaly Detection
 
 ## What is Anomaly Detection?

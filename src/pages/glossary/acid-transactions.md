@@ -1,3 +1,8 @@
+---
+title: ACID Transactions
+description: ACID is an acronym encapsulating the fundamental properties that define a transaction - Atomicity, Consistency, Isolation, and Durability.
+---
+
 # ACID Transactions
 
 ## What is an ACID Transaction?

@@ -1,3 +1,8 @@
+---
+title: AdaGrad
+description: AdaGrad comprises a family of sub-gradient algorithms designed for stochastic optimization purposes.
+---
+
 # AdaGrad
 
 ## What is AdaGrad?
