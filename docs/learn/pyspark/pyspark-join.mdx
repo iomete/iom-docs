@@ -263,24 +263,27 @@ The result of `df_cross_joined.show()` would include every possible combination 
 ---
 ## Left Outer Join
 
-A **Left Outer Join** in PySpark is a valuable operation for combining data from multiple sources while preserving all rows from the left DataFrame and including matching rows from the right DataFrame.
-This type of join is especially useful when you want to include all records from one dataset and only the matching records from another dataset.
+In a **Left Outer Join** (also called `Left Join`) between two DataFrames (let's call them A and B), the operation first finds all the rows from DataFrame A and then attempts to match each row from A with rows from B where the join condition is true.
 
 <Img src="/img/learn/pyspark/joins/left-join.svg"
      padding="4px"
      caption="Spark - Left Outer Join" alt="Spark - Left Outer Join"/>
-
-**Syntax:**
-```python
-df1.join(df2, join_condition, "left")
-```
 
 In a Left Outer Join:
 - All rows from the left DataFrame are included in the result.
 - Only the rows from the right DataFrame that match the join condition are included.
 - If there's no match in the right DataFrame, null values are used to fill in the columns from the right DataFrame.
 
-#### Example
+:::info
+Left Outer Join is especially useful when you want to include all records from one dataset and only the matching records from another dataset.
+:::
+
+**Syntax:**
+```python
+df1.join(df2, join_condition, "left") # "leftouter", "left_outer" can be used
+```
+
+#### Example tables
 
 Let's illustrate a Left Outer Join using two simple tables:
 
@@ -305,6 +308,19 @@ Let's illustrate a Left Outer Join using two simple tables:
 **Objective**
 
 Our goal is to match employees with their respective departments based on a common `dept_id`. The expected output should provide a combined view of employees and their department names, including those employees with null `dept_id`.
+
+Expected output:
+
+|emp_id|emp_name|dept_id|dept_id|dept_name|
+|------|--------|-------|-------|---------|
+|     1|    John|      1|      1|       HR|
+|     2|    Emma|      2|      2|     Tech|
+|     3|     Raj|   null|   null|     null|
+|     4|    Nina|      4|   null|     null|
+
+:::note
+Order of rows can be different in the actual output. Output is sorted for better readability.
+:::
 
 #### PySpark Left Outer Join Example
 
@@ -345,40 +361,47 @@ LEFT JOIN
 
 The result of `df_joined.show()` would include all rows from the `df_employees` DataFrame and matching rows from the `df_departments` DataFrame, with null values in the `dept_name` column for rows without a match in the right DataFrame.
 
-```
-+------+--------+-------+---------+
-|emp_id|emp_name|dept_id|dept_name|
-+------+--------+-------+---------+
-|     1|    John|      1|       HR|
-|     2|    Emma|      2|     Tech|
-|     3|     Raj|   null|     null|
-|     4|    Nina|      4|     null|
-+------+--------+-------+---------+
+```shell
+|emp_id|emp_name|dept_id|dept_id|dept_name|
++------+--------+-------+-------+---------+
+|     1|    John|      1|      1|       HR|
+|     2|    Emma|      2|      2|     Tech|
+|     3|     Raj|   null|   null|     null|  -> null values for non-matching rows
+|     4|    Nina|      4|   null|     null|  -> dep_id=4 doesn't exist in departments table, thus null values for right table columns
++------+--------+-------+-------+---------+
 ```
 
-The Left Outer Join retains all rows from the left DataFrame (`df_employees`) and includes matching rows from the right DataFrame (`df_departments`) while filling in null values for non-matching rows.
+
+:::tip Handling Null Values in Left Outer Join
+As you've seen in the example, null `dept_id` doesn't match `null` in the right DataFrame (`df_departments`). Therefore, those rows are not matched and null values are used to fill in the columns from the right DataFrame.
+:::
 
 
 ---
 ## Right Outer Join
 
-A **Right Outer Join** in PySpark is a powerful operation for combining data from multiple sources while retaining all rows from the right DataFrame and including matching rows from the left DataFrame. This type of join is particularly useful when you want to include all records from one dataset and only the matching records from another dataset.
+In a **Right Outer Join** (also called `Right Join`) between two DataFrames (let's call them A and B), the operation first finds all the rows from DataFrame B and then attempts to match each row from B with rows from A where the join condition is true.
 
 <Img src="/img/learn/pyspark/joins/right-join.svg"
      padding="4px"
      caption="Spark - Right Outer Join" alt="Spark - Right Outer Join"/>
-
-**Syntax:**
-```python
-df1.join(df2, join_condition, "right")
-```
 
 In a Right Outer Join:
 - All rows from the right DataFrame are included in the result.
 - Only the rows from the left DataFrame that match the join condition are included.
 - If there's no match in the left DataFrame, null values are used to fill in the columns from the left DataFrame.
 
-#### Example
+
+:::info
+Right Outer Join is almost identical to Left Outer Join, except that it starts with the right DataFrame instead of the left DataFrame.
+:::
+
+**Syntax:**
+```python
+df1.join(df2, join_condition, "right") # "rightouter", "right_outer" can be used
+```
+
+#### Example tables
 
 Let's illustrate a Right Outer Join using two simple tables:
 
@@ -402,7 +425,21 @@ Let's illustrate a Right Outer Join using two simple tables:
 
 **Objective**
 
-Our goal is to match employees with their respective departments based on a common `dept_id`. The expected output should provide a combined view of employees and their department names, including those employees with null `dept_id`.
+Our goal is to match employees with their respective departments. We ignore employees who don't have a matching `dept_id`.
+
+Expected output:
+
+|emp_id|emp_name|dept_id|dept_id|dept_name|
+|------|--------|-------|-------|---------|
+|     1|    John|      1|      1|       HR|
+|     2|    Emma|      2|      2|     Tech|
+|  null|    null|   null|      3|Marketing|
+|  null|    null|   null|   null|     Temp|
+
+:::note
+Output is sorted for better readability.
+:::
+
 
 #### PySpark Right Outer Join Example
 
@@ -432,7 +469,8 @@ df_joined.show()
 ```
 
 
-Spark SQL Equivalent:
+Spark SQL Equivalent of Right Join:
+
 ```sql
 SELECT
     *
@@ -445,41 +483,50 @@ RIGHT JOIN
 The result of `df_joined.show()` would include all rows from the `df_departments` DataFrame and matching rows from the `df_employees` DataFrame, with null values in the `emp_id` and `emp_name` columns for rows without a match in the left DataFrame.
 
 ```
-+------+--------+-------+---------+
-|emp_id|emp_name|dept_id|dept_name|
-+------+--------+-------+---------+
-|     1|    John|      1|       HR|
-|     2|    Emma|      2|     Tech|
-|  null|    null|      3| Marketing|
-|  null|    null|   null|     Temp|
-+------+--------+-------+---------+
++------+--------+-------+-------+---------+
+|emp_id|emp_name|dept_id|dept_id|dept_name|
++------+--------+-------+-------+---------+
+|     1|    John|      1|      1|       HR|
+|     2|    Emma|      2|      2|     Tech|
+|  null|    null|   null|      3|Marketing|  -> no employees in Marketing department
+|  null|    null|   null|   null|     Temp|  -> null values do not match with other null values, therefore no matching rows
++------+--------+-------+-------+---------+
 ```
 
 The Right Outer Join retains all rows from the right DataFrame (`df_departments`) and includes matching rows from the left DataFrame (`df_employees`) while filling in null values for non-matching rows.
 
 
+:::tip Handling Null Values in Right Outer Join
+As you've seen in the example, null `dept_id` doesn't match `null` in the left DataFrame (`df_employees`). Therefore, those rows are not matched and null values are used to fill in the columns from the left DataFrame.
+:::
+
 
 ---
 ## Full Outer Join
 
-A **Full Outer Join** in PySpark is a versatile operation for combining data from multiple sources while retaining all rows from both the left and right DataFrames. This type of join is especially useful when you want to include all records from both datasets and match where possible.
+In a Full Outer Join (also known as a Full Join), the operation combines the results of both Left and Right Outer Joins. This join type merge rows from two DataFrames (let's call them A and B) based on a join condition. Unlike Left or Right Joins that prioritize one DataFrame, the Full Outer Join treats both sides equally.
+
 
 <Img src="/img/learn/pyspark/joins/full-join.svg"
      padding="4px"
      caption="Spark - Full Outer Join" alt="Spark - Full Outer Join"/>
 
-**Syntax:**
-```python
-df1.join(df2, join_condition, "outer")
-```
 
 In a Full Outer Join:
-- All rows from both the left and right DataFrames are included in the result.
-- Rows from the left DataFrame that have matching rows in the right DataFrame are included.
-- Rows from the right DataFrame that have matching rows in the left DataFrame are included.
-- If there's no match in either DataFrame, null values are used to fill in the columns from the missing DataFrame.
+- All rows from both the left DataFrame (A) and the right DataFrame (B) are included in the result.
+- If there's a match between the DataFrames based on the join condition, the corresponding rows are combined into a single row in the result.
+- If there's no match for a row in DataFrame A, the result will contain null values for columns from DataFrame B, and vice versa.
 
-#### Example
+:::tip
+In simple terms, Full Outer Join = Left Outer Join + Right Outer Join
+:::
+
+**Syntax:**
+```python
+df1.join(df2, join_condition, "full") # "outer", "fullouter", "full_outer" can also be used
+```
+
+#### Example tables
 
 Let's illustrate a Full Outer Join using two simple tables:
 
@@ -503,7 +550,26 @@ Let's illustrate a Full Outer Join using two simple tables:
 
 **Objective**
 
-Our goal is to match employees with their respective departments based on a common `dept_id`. The expected output should provide a combined view of employees and their department names, including those employees with null `dept_id` and those departments with null `dept_id`.
+Our goal is to match employees with their respective departments based on a common `dept_id`. 
+The expected output should provide a combined view of employees and their department names, including non-matching rows from both DataFrames.
+
+
+Expected output:
+
+
+|emp_id|emp_name|dept_id|dept_id|dept_name|
+|------|--------|-------|-------|---------|
+|     1|    John|      1|      1|       HR|
+|     2|    Emma|      2|      2|     Tech|
+|     3|     Raj|   null|   null|     null|
+|     4|    Nina|      4|   null|     null|
+|  null|    null|   null|   null|     Temp|
+|  null|    null|   null|      3|Marketing|
+
+:::note
+Output is sorted for better readability.
+:::
+
 
 #### PySpark Full Outer Join Example
 
@@ -545,27 +611,21 @@ FULL OUTER JOIN
 The result of `df_joined.show()` would include all rows from both the `df_employees` and `df_departments` DataFrames, with null values in the columns for rows without a match in the respective DataFrame.
 
 ```
-+------+--------+-------+---------+
-|emp_id|emp_name|dept_id|dept_name|
-+------+--------+-------+---------+
-|     1|    John|      1|       HR|
-|     2|    Emma|      2|     Tech|
-|     3|     Raj|   null| Marketing|
-|     4|    Nina|      4|     null|
-|  null|    null|      3|     Temp|
-+------+--------+-------+---------+
++------+--------+-------+-------+---------+
+|emp_id|emp_name|dept_id|dept_id|dept_name|
++------+--------+-------+-------+---------+
+|     1|    John|      1|      1|       HR|   -> matched row
+|     2|    Emma|      2|      2|     Tech|   -> matched row
+|     3|     Raj|   null|   null|     null|   -> employees included in the result, but no matching department (null `dept_id` on employees table)
+|     4|    Nina|      4|   null|     null|   -> employees included in the result, but no matching department
+|  null|    null|   null|   null|     Temp|   -> departments included in the result, but no matching employee (null `dept_id` on departments table)
+|  null|    null|   null|      3|Marketing|   -> departments included in the result, but no matching employee
++------+--------+-------+-------+---------+
 ```
 
-The Full Outer Join retains all rows from both the left DataFrame (`df_employees`) and the right DataFrame (`df_departments`) while filling in null values for non-matching rows in both DataFrames.
-
-
-
-
-
-
-
-
-
+:::tip Handling Null Values in Full Outer Join
+As you see in the example above, `null` values do not match with other `null` values. Therefore, rows with null values as the join key are not matched.
+:::
 
 
 ---
