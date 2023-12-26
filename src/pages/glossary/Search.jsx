@@ -6,16 +6,20 @@ function Search({ searchInputHandle }) {
   };
 
   return (
-    <div className="relative text-gray-600 w-full">
+    <div style={{ display: "flex", alignItems: "center", width: "100%", position: "relative" }}>
       <input
         type="text"
         onChange={handleChange}
         placeholder="Search..."
-        className="bg-white h-12 px-5 pr-10 rounded-md text-sm focus:outline-none w-full"
+        style={{
+          width: "100%",
+          padding: "16px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+          fontSize: "18px",
+        }}
       />
-      <span className="absolute right-0 top-0 mt-3 mr-4">
-        <MagnifyingGlass size={22} />
-      </span>
+      <MagnifyingGlass size={18} style={{ marginRight: 12, position: "absolute", right: 0 }} />
     </div>
   );
 }
