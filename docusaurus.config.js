@@ -117,8 +117,8 @@ const config = {
             label: "Guides",
           },
           {
-            type: 'docSidebar',
-            sidebarId: 'glossary',
+
+            to: '/glossary',
             position: "left",
             label: "Glossary",
           },
