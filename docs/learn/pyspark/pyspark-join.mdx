@@ -1,5 +1,5 @@
 ---
-title: PySpark Joins
+title: PySpark Joins Explained
 sidebar_label: Joins
 description: PySpark Joins explained with examples
 ---
@@ -69,7 +69,7 @@ It's one of the most commonly used joins, allowing you to correlate related data
 
 Let's use two simple tables to demonstrate how an INNER JOIN works:
 
-### Example Tables
+#### Example Tables
 
 **Table A (Employees):**
 
@@ -110,7 +110,7 @@ Rows with null in `dept_id` are expected to be excluded from the result as **nul
 :::
 
 
-### PySpark Inner Join Example
+#### PySpark Inner Join Example
 
 Here's how you might set up the DataFrames and perform the `Inner Join` in PySpark:
 
@@ -138,16 +138,23 @@ df_joined = df_employees.join(df_departments, df_employees.dept_id == df_departm
 df_joined.show()
 ```
 
+Spark SQL Equivalent of the Inner Join:
+```sql
+SELECT *
+FROM employees e
+INNER JOIN departments d
+    ON e.dept_id = d.dept_id;
+```
 
 The result of `df_joined.show()` would include rows with matching `dept_id` values from both tables:
 
 ```
-+------+--------+-------+---------+
-|emp_id|emp_name|dept_id|dept_name|
-+------+--------+-------+---------+
-|     1|    John|      1|       HR|
-|     2|    Emma|      2|     Tech|
-+------+--------+-------+---------+
++------+--------+-------+-------+---------+
+|emp_id|emp_name|dept_id|dept_id|dept_name|
++------+--------+-------+-------+---------+
+|     1|    John|      1|      1|       HR|
+|     2|    Emma|      2|      2|     Tech|
++------+--------+-------+-------+---------+
 ```
 
 
@@ -155,6 +162,103 @@ The result of `df_joined.show()` would include rows with matching `dept_id` valu
 As you've seen in the example, you cannot match `null` values with other null values. Therefore, rows with null values as the join key are excluded from the result.
 :::
 
+---
+## Cross Join
+
+A **Cross Join** in PySpark is a join operation that returns the Cartesian product of two DataFrames. In other words, it combines every row from the left DataFrame with every row from the right DataFrame, resulting in a large, unfiltered result.
+
+<Img src="/img/learn/pyspark/joins/cross-join.svg"
+     padding="4px"
+     caption="Spark - Cross Join" alt="Spark - Cross Join"/>
+
+In a Cross Join:
+- All rows from the left DataFrame are combined with all rows from the right DataFrame.
+- There is no join condition; it simply generates all possible combinations.
+
+:::caution
+Cross Joins should be used with caution as they can generate a massive number of rows and can be computationally **expensive**.
+:::
+
+
+#### PySpark Cross Join Syntax
+```python
+df1.crossJoin(df2)
+```
+
+#### Example tables
+
+Let's illustrate a Cross Join using two simple tables:
+
+**Table A (Employees):**
+
+| emp_id | emp_name |
+|--------|----------|
+| 1      | John     |
+| 2      | Emma     |
+| 3      | Raj      |
+
+**Table B (Departments):**
+
+| dept_id | dept_name |
+|---------|-----------|
+| A       | HR        |
+| B       | Tech      |
+
+**Objective**
+
+Our goal is to generate a Cartesian product of employees and departments, creating a result that pairs every employee with every department.
+
+#### PySpark Cross Join Example
+
+Here's how you might set up the DataFrames and perform the Cross Join in PySpark:
+
+```python
+from pyspark.sql import SparkSession
+
+# Initialize a SparkSession
+spark = SparkSession.builder.appName("cross_join_example").getOrCreate()
+
+# Create DataFrames for Employees and Departments
+data_employees = [(1, "John"), (2, "Emma"), (3, "Raj")]
+data_departments = [("A", "HR"), ("B", "Tech")]
+
+columns_employees = ["emp_id", "emp_name"]
+columns_departments = ["dept_id", "dept_name"]
+
+df_employees = spark.createDataFrame(data_employees, columns_employees)
+df_departments = spark.createDataFrame(data_departments, columns_departments)
+
+# Perform Cross Join
+df_cross_joined = df_employees.crossJoin(df_departments)
+
+# Show the result
+df_cross_joined.show()
+```
+
+Spark SQL Equivalent of Cross Join:
+```sql
+SELECT
+    *
+FROM
+    employees e
+CROSS JOIN
+    departments d;
+```
+
+The result of `df_cross_joined.show()` would include every possible combination of employees and departments:
+
+```
++------+--------+-------+---------+
+|emp_id|emp_name|dept_id|dept_name|
++------+--------+-------+---------+
+|     1|    John|      A|       HR|
+|     1|    John|      B|     Tech|
+|     2|    Emma|      A|       HR|
+|     2|    Emma|      B|     Tech|
+|     3|     Raj|      A|       HR|
+|     3|     Raj|      B|     Tech|
++------+--------+-------+---------+
+```
 
 ---
 ## Left Outer Join
@@ -227,6 +331,16 @@ df_joined = df_employees.join(df_departments, df_employees.dept_id == df_departm
 
 # Show the result
 df_joined.show()
+```
+
+Spark SQL Equivalent of Left Join:
+```sql
+SELECT
+    *
+FROM
+    employees e
+LEFT JOIN
+    departments d ON e.dept_id = d.dept_id;
 ```
 
 The result of `df_joined.show()` would include all rows from the `df_employees` DataFrame and matching rows from the `df_departments` DataFrame, with null values in the `dept_name` column for rows without a match in the right DataFrame.
@@ -315,6 +429,17 @@ df_joined = df_employees.join(df_departments, df_employees.dept_id == df_departm
 
 # Show the result
 df_joined.show()
+```
+
+
+Spark SQL Equivalent:
+```sql
+SELECT
+    *
+FROM
+    employees e
+RIGHT JOIN
+    departments d ON e.dept_id = d.dept_id;
 ```
 
 The result of `df_joined.show()` would include all rows from the `df_departments` DataFrame and matching rows from the `df_employees` DataFrame, with null values in the `emp_id` and `emp_name` columns for rows without a match in the left DataFrame.
@@ -407,6 +532,16 @@ df_joined = df_employees.join(df_departments, df_employees.dept_id == df_departm
 df_joined.show()
 ```
 
+Spark SQL Equivalent of Full Outer Join:
+```sql
+SELECT
+    *
+FROM
+    employees e
+FULL OUTER JOIN
+    departments d ON e.dept_id = d.dept_id;
+```
+
 The result of `df_joined.show()` would include all rows from both the `df_employees` and `df_departments` DataFrames, with null values in the columns for rows without a match in the respective DataFrame.
 
 ```
@@ -495,7 +630,7 @@ User `Eve` (null) is not included because null values do not match with any othe
 :::
 
 ---
-### PySpark Left Semi Join Example
+#### PySpark Left Semi Join Example
 
 Here's how you might set up the data and perform the join:
 
@@ -520,6 +655,16 @@ df_purchasers = df_users.join(df_purchases, df_users.id == df_purchases.user_id,
 
 # Show the result
 df_purchasers.show()
+```
+
+Spark SQL Equivalent:
+```sql
+SELECT
+    *
+FROM
+    users u
+LEFT SEMI JOIN
+    purchases p ON u.id = p.user_id;
 ```
 
 In this code:
@@ -615,7 +760,7 @@ The result also includes **Eve (null)** because nulls do not match with any othe
 :::
 
 
-### PySpark Left Anti Join Example
+#### PySpark Left Anti Join Example
 
 Here's how you might set up the data and perform the join:
 
@@ -642,6 +787,16 @@ df_non_purchasers = df_users.join(df_purchases, df_users.id == df_purchases.user
 df_non_purchasers.show()
 ```
 
+Spark SQL Equivalent:
+```sql
+SELECT
+    *
+FROM
+    users u
+LEFT ANTI JOIN
+    purchases p ON u.id = p.user_id;
+```
+
 In the code:
 - `df_users` represents Table A (Users).
 - `df_purchases` represents Table B (Purchases).
@@ -650,91 +805,3 @@ In the code:
 :::tip Handling Null Values in Left Anto Join
 As you've seen in the example, even though there's a null in the purchases table, nulls do not match with other nulls in standard join operations. Therefore, Eve is also listed as not having made a purchase.
 :::
-
-
-
-
----
-## Cross Join
-
-A **Cross Join** in PySpark is a join operation that returns the Cartesian product of two DataFrames. In other words, it combines every row from the left DataFrame with every row from the right DataFrame, resulting in a large, unfiltered result. Cross Joins should be used with caution as they can generate a massive number of rows and can be computationally expensive.
-
-<Img src="/img/learn/pyspark/joins/cross-join.svg"
-     padding="4px"
-     caption="Spark - Cross Join" alt="Spark - Cross Join"/>
-
-**Syntax:**
-```python
-df1.crossJoin(df2)
-```
-
-In a Cross Join:
-- All rows from the left DataFrame are combined with all rows from the right DataFrame.
-- There is no join condition; it simply generates all possible combinations.
-
-#### Example
-
-Let's illustrate a Cross Join using two simple tables:
-
-**Table A (Employees):**
-
-| emp_id | emp_name |
-|--------|----------|
-| 1      | John     |
-| 2      | Emma     |
-| 3      | Raj      |
-
-**Table B (Departments):**
-
-| dept_id | dept_name |
-|---------|-----------|
-| A       | HR        |
-| B       | Tech      |
-
-**Objective**
-
-Our goal is to generate a Cartesian product of employees and departments, creating a result that pairs every employee with every department.
-
-#### PySpark Cross Join Example
-
-Here's how you might set up the DataFrames and perform the Cross Join in PySpark:
-
-```python
-from pyspark.sql import SparkSession
-
-# Initialize a SparkSession
-spark = SparkSession.builder.appName("cross_join_example").getOrCreate()
-
-# Create DataFrames for Employees and Departments
-data_employees = [(1, "John"), (2, "Emma"), (3, "Raj")]
-data_departments = [("A", "HR"), ("B", "Tech")]
-
-columns_employees = ["emp_id", "emp_name"]
-columns_departments = ["dept_id", "dept_name"]
-
-df_employees = spark.createDataFrame(data_employees, columns_employees)
-df_departments = spark.createDataFrame(data_departments, columns_departments)
-
-# Perform Cross Join
-df_cross_joined = df_employees.crossJoin(df_departments)
-
-# Show the result
-df_cross_joined.show()
-```
-
-The result of `df_cross_joined.show()` would include every possible combination of employees and departments:
-
-```
-+------+--------+-------+---------+
-|emp_id|emp_name|dept_id|dept_name|
-+------+--------+-------+---------+
-|     1|    John|      A|       HR|
-|     1|    John|      B|     Tech|
-|     2|    Emma|      A|       HR|
-|     2|    Emma|      B|     Tech|
-|     3|     Raj|      A|       HR|
-|     3|     Raj|      B|     Tech|
-+------+--------+-------+---------+
-```
-
-The Cross Join generates all possible combinations of rows from both DataFrames, creating a Cartesian product of employees and departments. It's important to use Cross Joins judiciously, as they can result in a large number of rows in the output.
