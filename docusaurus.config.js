@@ -4,27 +4,27 @@
 // There are various equivalent ways to declare your Docusaurus config.
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
-import { themes as prismThemes } from 'prism-react-renderer';
+import { themes as prismThemes } from "prism-react-renderer";
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'IOMETE',
-  tagline: 'First cloud-prem lakehouse',
-  favicon: 'img/favicon.png',
+  title: "IOMETE",
+  tagline: "First cloud-prem lakehouse",
+  favicon: "img/favicon.png",
 
   // Set the production url of your site here
-  url: 'https://iomete.com',
+  url: "https://iomete.com",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: "/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   // organizationName: 'facebook', // Usually your GitHub org/user name.
   // projectName: 'docusaurus', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenLinks: "throw",
+  onBrokenMarkdownLinks: "warn",
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -38,12 +38,12 @@ const config = {
 
   presets: [
     [
-      'classic',
+      "classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
           routeBasePath: "/docs/",
-          sidebarPath: './sidebars.js',
+          sidebarPath: "./sidebars.js",
           breadcrumbs: false,
           // autoCollapseCategories: false,
           // Please change this to your repo.
@@ -53,7 +53,7 @@ const config = {
         },
         blog: {
           blogSidebarCount: 0,
-          postsPerPage: 'ALL',
+          postsPerPage: "ALL",
           showReadingTime: true,
           // blogListComponent: '/blog/index.js',
           // blogTagsPostsComponent: require.resolve("./src/theme/BlogListPage/index.tsx"),
@@ -61,8 +61,9 @@ const config = {
           blogDescription:
             "Modern lakehouse platform. Save 5x over expensive alternatives | Built on Apache Iceberg and Apache Spark | Cloud, on premise and hybrid solutions.",
         },
+
         theme: {
-          customCss: ['./src/css/custom.scss', require.resolve('./node_modules/@ionic-internal/ionic-ds/dist/tokens/tokens.css')],
+          customCss: ["./src/css/custom.scss", require.resolve("./node_modules/@ionic-internal/ionic-ds/dist/tokens/tokens.css")],
         },
         googleTagManager: {
           containerId: "GTM-W4ZH33W",
@@ -105,24 +106,24 @@ const config = {
         },
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'docs',
-            position: 'left',
-            label: 'Docs',
+            type: "docSidebar",
+            sidebarId: "docs",
+            position: "left",
+            label: "Docs",
           },
           {
-            type: 'docSidebar',
-            sidebarId: 'guides',
+            type: "docSidebar",
+            sidebarId: "guides",
             position: "left",
             label: "Guides",
           },
           {
-
-            to: '/glossary',
+            to: "/glossary",
             position: "left",
             label: "Glossary",
           },
-          { to: '/blog', label: 'Blog', position: 'left' },
+          { to: "/blog", label: "Blog", position: "left" },
+          { to: "/glossary2", label: "Glossary2", position: "left" },
           // { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
           {
             href: "https://api.iomete.com",
@@ -130,9 +131,9 @@ const config = {
             position: "right",
           },
           {
-            href: 'https://github.com/iomete',
-            label: 'GitHub',
-            position: 'right',
+            href: "https://github.com/iomete",
+            label: "GitHub",
+            position: "right",
           },
         ],
       },
@@ -143,17 +144,17 @@ const config = {
         contextualSearch: false,
       },
       colorMode: {
-        respectPrefersColorScheme: true
+        respectPrefersColorScheme: true,
       },
 
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
-        additionalLanguages: ['bash']
+        additionalLanguages: ["bash"],
       },
     }),
   plugins: [
-    'docusaurus-plugin-sass',
+    "docusaurus-plugin-sass",
 
     [
       "@docusaurus/plugin-client-redirects",
@@ -194,7 +195,46 @@ const config = {
         ],
       },
     ],
-  ]
+
+    // [
+    //   "@docusaurus/plugin-content-blog",
+    //   {
+    //     /**
+    //      * Required for any multi-instance plugin
+    //      */
+    //     id: "blog",
+    //     /**
+    //      * URL route for the blog section of your site.
+    //      * *DO NOT* include a trailing slash.
+    //      */
+    //     routeBasePath: "blog",
+    //     /**
+    //      * Path to data on filesystem relative to site dir.
+    //      */
+    //     path: "./blog",
+    //   },
+    // ],
+
+    [
+      "@docusaurus/plugin-content-blog",
+      {
+        /**
+         * Required for any multi-instance plugin
+         */
+        id: "glossary2",
+        /**
+         * URL route for the blog section of your site.
+         * *DO NOT* include a trailing slash.
+         */
+        routeBasePath: "glossary2",
+        /**
+         * Path to data on filesystem relative to site dir.
+         */
+        path: "./glossary2",
+        blogListComponent: "/src/theme/GlossaryListPage/index.js",
+      },
+    ],
+  ],
 };
 
 export default config;
