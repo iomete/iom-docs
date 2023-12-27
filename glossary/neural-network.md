@@ -1,6 +1,6 @@
 ---
 title: Neural Network
-description: Explore the world of Neural Networks, computing models that mimic the networked structure of neurons in the brain. Understand the interconnected processing elements called neurons, working collaboratively to produce an output function. Delve into the components of neural networks, including input and output layers, along with hidden layers that transform input for the output layer's use. Learn about various neural network architectures, such as Feed-Forward Neural Networks, Recurrent Neural Networks (RNNs), and Convolutional Neural Networks (ConvNets or CNNs), each serving different purposes in deep learning. Gain insights into the complexities and applications of these architectures and discover other types like symmetrically connected networks, Boltzmann machine networks, Hopfield networks, and more, highlighting the importance of selecting the right network based on the training data and specific application requirements.
+description: Neural networks are a type of computing model that mimics the networked structure of neurons in the brain. They consist of interconnected processing elements called neurons that work together to produce an output function. Neural networks are made up of input and output layers and often include a hidden layer that transforms input into something the output layer can use.
 ---
 
 # Neural Network

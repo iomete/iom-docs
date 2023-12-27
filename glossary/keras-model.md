@@ -1,6 +1,6 @@
 ---
 title: Keras Model
-description: Explore the power of Keras, a high-level library for deep learning. Learn about Keras models, their modularity, and the Sequential and Functional APIs, providing flexibility and ease for creating a variety of deep learning architectures.
+description: Keras is a powerful high-level library for deep learning built on top of Theano and Tensorflow. It provides an easy and efficient way to create a range of deep learning models in Python. Keras has become one of the most popular high-level neural network APIs for developing and testing neural networks.
 ---
 
 # Keras Model

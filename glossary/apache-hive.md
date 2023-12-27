@@ -1,6 +1,6 @@
 ---
 title: Apache Hive
-description: Apache Hive, an open-source data warehouse solution, facilitates the processing of large datasets within the Apache Hadoop Distributed File System (HDFS). It enables seamless reading, writing, and management of extensive data, seamlessly integrating into the broader Hadoop Ecosystem.
+description: Apache Hive is an open-source data warehouse solution designed to read, write, and manage large datasets extracted from the Apache Hadoop Distributed File System (HDFS), which is part of a broader Hadoop Ecosystem.
 ---
 
 # Apache Hive
@@ -25,12 +25,12 @@ Apache Hive supports the analysis of large datasets stored in Hadoop's HDFS and 
 
 It offers a SQL-like query language called HiveQL with schema-on-read and transparently converts queries to Apache Spark, MapReduce, and Apache Tez jobs. Other features of Hive include:
 
--   Hive Data Functions help process and query large datasets. Some functionalities provided by these functions include string manipulation, date manipulation, type conversion, conditional operators, mathematical functions, and others.
--   Metadata storage in a relational database management system.
--   Various storage types such as Parquet, plain text, RCFile, HBase, ORC, and others.
--   Operating on compressed data stored in the Hadoop ecosystem using algorithms.
--   Built-in user-defined functions (UDFs) to manipulate dates, strings, and other data-mining tools. Hive supports extending the UDF set to handle use-cases not supported by built-in functions.
--   SQL-like queries (HiveQL), which are implicitly converted into MapReduce or Tez, or Spark jobs.
+- Hive Data Functions help process and query large datasets. Some functionalities provided by these functions include string manipulation, date manipulation, type conversion, conditional operators, mathematical functions, and others.
+- Metadata storage in a relational database management system.
+- Various storage types such as Parquet, plain text, RCFile, HBase, ORC, and others.
+- Operating on compressed data stored in the Hadoop ecosystem using algorithms.
+- Built-in user-defined functions (UDFs) to manipulate dates, strings, and other data-mining tools. Hive supports extending the UDF set to handle use-cases not supported by built-in functions.
+- SQL-like queries (HiveQL), which are implicitly converted into MapReduce or Tez, or Spark jobs.
 
 ## Apache Hive architecture and key Apache Hive components
 
@@ -106,9 +106,9 @@ By using an RDBMS, Apache Hive can ensure that all data is stored and processed 
 
 There are a few key differences between Apache Hive and an RDBMS:
 
--   RDBMS functions work on read and write many times, whereas Hive works on write once, read many times.
--   Hive follows the schema-on-read rule, meaning there is no data validation, checking, or parsing, just copying/moving files. In traditional databases, a schema is applied to a table that enforces a schema on a write rule.
--   Because Hive is built on top of Hadoop, it has to comply with the same restrictions of Hadoop and MapReduce, which other RDBMS may not need to.
+- RDBMS functions work on read and write many times, whereas Hive works on write once, read many times.
+- Hive follows the schema-on-read rule, meaning there is no data validation, checking, or parsing, just copying/moving files. In traditional databases, a schema is applied to a table that enforces a schema on a write rule.
+- Because Hive is built on top of Hadoop, it has to comply with the same restrictions of Hadoop and MapReduce, which other RDBMS may not need to.
 
 ## Apache Hive vs. Apache Spark
 
@@ -129,6 +129,3 @@ This includes ANSI SQL aggregate and analytical functions. Hive is optimized for
 ## Apache Hive vs. Presto
 
 A project originally established at Facebook, PrestoDB, more commonly known as Presto, is a distributed SQL query engine that allows users to process and analyze petabytes of data at a rapid speed. Presto's infrastructure supports the integration of both relational databases and non-relational databases from MySQL and Teradata to MongoDB and Cassandra.
-
-
-

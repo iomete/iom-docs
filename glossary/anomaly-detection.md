@@ -1,6 +1,6 @@
 ---
 title: Anomaly Detection
-description: Discover rare events or standout data points with anomaly detection. Essential for cybersecurity, finance, and healthcare to identify potential threats, fraud, or significant anomalies.
+description: Anomaly detection is a powerful technique used to identify rare events or observations that differ significantly from the rest of the data. This technique is particularly useful in finance, where thousands or millions of transactions need to be monitored for potential errors or fraudulent activity.
 ---
 
 # Anomaly Detection

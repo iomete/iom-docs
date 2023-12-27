@@ -1,6 +1,6 @@
 ---
-title: Data Lakehouse - Simplicity, Flexibility, and Low Cost for Big Data Management
-description: Explore the concept of a data lakehouse, a data repository combining the best features of data warehouses and data lakes. Learn about key technologies enabling the data lakehouse revolution, metadata layers, high-performance SQL execution, optimized access for data science and machine learning, and the evolution of data architectures from warehouses to lakes and beyond.
+title: Data Lakehouse
+description: A data lakehouse is a data repository that combines the best features of data warehouses and data lakes. Enabled by a new, open system design, data lakehouses implement similar data structures and management features to those in a data warehouse directly on the low-cost storage used for data lakes.
 ---
 
 # Data Lakehouse: Simplicity, Flexibility, and Low Cost for Big Data Management

@@ -1,6 +1,6 @@
 ---
 title: Dense Tensor
-description: Explore the concept of dense tensors, crucial components in multi-dimensional data analysis applications. Learn how dense tensors store values efficiently in a contiguous sequential block of memory, making them suitable for tensor computations. Discover their use in dense layers, fully connected layers often employed towards the end of a network. Explore the dten library, a popular tool for high-performance dense tensor applications, known for its flexibility and support for tensor matricization.
+description: Dense tensors are a crucial component of multi-dimensional data analysis applications. They store values in a contiguous sequential block of memory, making them efficient for tensor computations. Popular software products like MATLAB and open source third-party toolboxes offer support for dense tensor operations.
 ---
 
 # Dense Tensor

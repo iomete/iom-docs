@@ -1,6 +1,6 @@
 ---
 title: HDFS
-description: Explore the Hadoop Distributed File System (HDFS), its role as the primary storage system for Hadoop applications, benefits, and alternatives for handling large data sets.
+description: HDFS, short for Hadoop Distributed File System, is the primary storage system for Hadoop applications. This open-source framework facilitates the swift transfer of data between nodes and is commonly employed by companies dealing with and storing big data.
 ---
 
 # HDFS

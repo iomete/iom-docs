@@ -1,6 +1,6 @@
 ---
-title: Data Pipelines - Moving and Transforming Data Effortlessly
-description: Explore the concept of data pipelines, a series of steps that efficiently move and transform data from one system to another. Learn about different types of pipelines, including batch and streaming, and discover how to build data pipelines using coding or automated solutions. Explore the importance of data pipelines for maintaining high data quality and ensuring data reaches its intended destination.
+title: Data Pipelines
+description: A data pipeline is a series of steps that move data from one system to another, encompassing the source, processing steps, and destination. Data can be modified during the transfer process, and some pipelines may be used to transform data.
 ---
 
 # Data Pipelines

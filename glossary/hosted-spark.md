@@ -1,6 +1,6 @@
 ---
 title: Hosted Spark
-description: Explore Hosted Spark, a unified data platform simplifying interactions with Apache Spark, a powerful cluster computing system for Big Data. Learn about its high-level APIs, supporting tools, and how Hosted Spark services streamline remote app connections to Spark clusters, facilitating seamless data exploration.
+description: Hosted Spark is a unified data platform that provides organizations with a simplified way to interact with Apache Spark, a fast and general cluster computing system for Big Data.
 ---
 
 # Hosted Spark

@@ -1,6 +1,6 @@
 ---
 title: Jupyter Notebook
-description: Explore the world of Jupyter Notebooks, an open-source web application empowering data scientists to create, share, and showcase live code, multimedia elements, and equations. Learn about their applications, benefits, functionality, and IOMETE's support for Jupyter Notebooks.
+description: A Jupyter Notebook is an open-source web application that allows data scientists to create and share documents containing live code, multimedia elements, and equations.
 ---
 
 # Jupyter Notebook

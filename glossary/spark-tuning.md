@@ -1,11 +1,13 @@
 ---
 title: Spark Tuning
-description: Explore Spark Tuning, the process of adjusting settings to optimize memory, cores, and instances utilized by the system in Apache Spark. Learn about crucial aspects such as data serialization, memory tuning, data structure tuning, garbage collection tuning, and memory management to achieve outstanding performance in Spark applications.
+description: What is Spark Tuning? Spark Tuning refers to the process of adjusting settings to optimize memory, cores, and instances utilized by the system, ensuring seamless performance and avoiding resource bottlenecks in Apache Spark.
 ---
 
 # Spark Tuning
 
-What is Spark Tuning? **Spark Tuning** refers to the process of adjusting settings to optimize memory, cores, and instances utilized by the system, ensuring seamless performance and avoiding resource bottlenecks in Apache Spark.
+## What is Spark Tuning?
+
+**Spark Tuning** refers to the process of adjusting settings to optimize memory, cores, and instances utilized by the system, ensuring seamless performance and avoiding resource bottlenecks in Apache Spark.
 
 **Data Serialization** is crucial for reducing memory usage and enhancing network performance. Spark supports two serialization libraries: Java Serialization and Kryo Serialization. By terminating long-running jobs, utilizing resources efficiently, ensuring accurate execution engines, and improving system performance time, one can achieve outstanding results in Spark performance.
 

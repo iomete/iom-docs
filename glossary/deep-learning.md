@@ -1,6 +1,6 @@
 ---
 title: Deep Learning
-description: Explore the concept of deep learning, a powerful subset of machine learning that utilizes algorithms inspired by the human brain. Learn how deep neural networks analyze large amounts of data, create representations, and achieve remarkable accuracy in tasks like image, text, and sound analysis. Discover the key components of deep learning, including layers, neurons, and the process of learning through trial and error.
+description: Deep Learning is a powerful subset of machine learning that uses algorithms inspired by the human brain to analyze large amounts of data. Also known as deep neural networks, these models are designed to learn data representations, rather than relying on traditional algorithms.
 ---
 
 # Deep Learning

@@ -1,6 +1,6 @@
 ---
 title: Dataset
-description: Explore the concept of datasets, structured sets of data crucial for data analytics, analysis, and machine learning. Understand the distinctions between datasets and databases, examples of datasets, their role in data-driven decision-making, and the importance of managing, cataloging, and securing datasets for effective data governance.
+description: A dataset is a structured set of data gathered and stored for analysis or processing. Typically, the data within a dataset is related and originates from a single source or is intended for a specific project.
 ---
 
 # Dataset

@@ -1,6 +1,6 @@
 ---
 title: Spark API
-description: Explore the Spark API, encompassing three key components - RDDs (Resilient Distributed Datasets), DataFrames, and Datasets. Understand RDDs as fault-tolerant, immutable collections of records supporting parallel processing, known for their lazy evaluation feature that accelerates Spark operations. Learn about DataFrames, which are distributed collections of rows with named columns, resembling an Excel sheet or a relational database table. Discover Datasets as strongly-typed, immutable collections of objects mapped to a relational schema. While each API offers advantages, they also come with specific disadvantages, such as the need to optimize RDDs and typecasting requirements with Datasets.
+description: If you're working with Spark, you'll encounter three APIs - DataFrames, Datasets, and RDDs (Resilient Distributed Datasets).
 ---
 
 # Spark API

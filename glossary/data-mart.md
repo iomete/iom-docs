@@ -1,6 +1,6 @@
 ---
-title: Data Mart - Curated Databases for Targeted Analytics
-description: Explore the concept of a data mart, a curated database designed to meet the specific needs of a single data team, community, or business line. Learn about the characteristics, types, benefits, challenges, and how the Data Lakehouse addresses these challenges by providing a unified platform with security and governance.
+title: Data Mart
+description: A data mart is a curated database designed to serve the specific needs of a single data team, community, or line of business, such as the marketing or engineering department.
 ---
 
 # Data Mart
@@ -21,6 +21,7 @@ A data mart is a curated database designed to serve the specific needs of a sing
 ## Types of Data Marts
 
 Today, there are three basic types of Data Marts:
+
 - **Independent data marts:** Not part of a data warehouse and typically focused on one area of business or subject area.
 - **Dependent data marts:** Built into an existing data warehouse.
 - **Hybrid data marts:** Combine data taken from a data warehouse and "other" data sources.

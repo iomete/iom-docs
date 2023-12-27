@@ -1,6 +1,6 @@
 ---
 title: Large Language Models (LLMs)
-description: Explore Large Language Models (LLMs), advanced machine learning models transforming natural language processing. Trained on massive datasets, LLMs perform tasks such as answering questions, chat, code generation, translation, and more, driving business impact across industries.
+description: Large Language Models (LLMs) are revolutionizing the field of natural language processing (NLP). These advanced machine learning models are trained on massive datasets to understand the patterns and structures of human language.
 ---
 
 # Large Language Models (LLMs)

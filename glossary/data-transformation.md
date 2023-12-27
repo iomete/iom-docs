@@ -1,6 +1,6 @@
 ---
 title: Data Transformation
-description: Explore the concept of data transformation, its importance in generating actionable insights, and its role in ETL (Extract, Transform, Load) processes. Discover various data transformation techniques and optimization methods to enhance performance. Learn about IOMETE's tools for implementing data transformations and ETL on the Data Lakehouse Platform, empowering data engineering teams to build reliable batch and streaming data pipelines.
+description: Data transformation is the process of turning raw data into usable datasets that organizations can use to meet operational needs and create actionable insights. By manipulating datasets, the data transformation process generates insights that can be used to make business decisions.
 ---
 
 # Data Transformation

@@ -1,6 +1,6 @@
 ---
 title: Data Security
-description: Explore the concept of data security, a set of practices and procedures designed to protect sensitive data from unauthorized access, theft, corruption, or accidental loss. Understand the importance of data security for organizations, including mitigating risks such as malware, ransomware, phishing, and insider threats. Learn about key data security strategies, including encryption, masking, erasure, access management, and data governance.
+description: Data security is a set of practices and procedures designed to protect data from unauthorized access, theft, corruption, poisoning, or accidental loss. It involves safeguarding sensitive data, such as personally identifiable information, financial information, health information, and intellectual property, throughout the data lifecycle, from creation to destruction.
 ---
 
 # Data Security

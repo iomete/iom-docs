@@ -1,6 +1,6 @@
 ---
 title: Data Vault
-description: Explore the Data Vault methodology, a data modeling design pattern used for building enterprise-scale data warehouses. Learn about the entities involved - hubs, links, and satellites - and understand how Data Vault is well-suited for organizations adopting the data lakehouse paradigm. Discover the advantages of Data Vault, including agility, structure, and scalability, making it a popular choice for businesses dealing with large volumes of data.
+description: A Data Vault is a data modeling design pattern used to build a data warehouse for enterprise-scale analytics. It is made up of three types of entities - hubs, links, and satellites.
 ---
 
 # Data Vault

@@ -1,11 +1,13 @@
 ---
 title: Streaming Analytics
-description: Explore the concept of Streaming Analytics, also known as event stream processing, which involves examining real-time data through continuous queries. Learn about its benefits, applications, and significance across various industries.
+description: What is Streaming Analytics? Streaming Analytics, also referred to as event stream processing, is an effective method for examining real-time data. By employing continuous queries known as event streams, organizations can derive valuable insights from various data sources such as the Internet of Things (IoT), cloud applications, mobile devices, and machine sensors.
 ---
 
 # Streaming Analytics
 
-What is Streaming Analytics? **Streaming Analytics**, also referred to as event stream processing, is an effective method for examining real-time data. By employing continuous queries known as event streams, organizations can derive valuable insights from various data sources such as the Internet of Things (IoT), cloud applications, mobile devices, and machine sensors.
+## What is Streaming Analytics?
+
+**Streaming Analytics**, also referred to as event stream processing, is an effective method for examining real-time data. By employing continuous queries known as event streams, organizations can derive valuable insights from various data sources such as the Internet of Things (IoT), cloud applications, mobile devices, and machine sensors.
 
 ## Benefits of Streaming Analytics
 
