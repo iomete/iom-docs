@@ -196,25 +196,6 @@ const config = {
       },
     ],
 
-    // [
-    //   "@docusaurus/plugin-content-blog",
-    //   {
-    //     /**
-    //      * Required for any multi-instance plugin
-    //      */
-    //     id: "blog",
-    //     /**
-    //      * URL route for the blog section of your site.
-    //      * *DO NOT* include a trailing slash.
-    //      */
-    //     routeBasePath: "blog",
-    //     /**
-    //      * Path to data on filesystem relative to site dir.
-    //      */
-    //     path: "./blog",
-    //   },
-    // ],
-
     [
       "@docusaurus/plugin-content-blog",
       {
@@ -233,7 +214,7 @@ const config = {
         path: "./glossary",
         blogListComponent: "/src/theme/GlossaryListPage/index.js",
         postsPerPage: "ALL",
-        sortPosts: "descending",
+        showReadingTime: false,
       },
     ],
   ],
