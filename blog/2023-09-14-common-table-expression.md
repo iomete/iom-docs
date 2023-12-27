@@ -94,7 +94,7 @@ In this example:
 
 This query return the customer records where the **`PAYMENT_AMT`** is higher than the average payment amount in the **`demo_db.customer`** table.
 
-<MiniCard link="https://form.typeform.com/to/ofF9ZQYd" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
 
 ## Using multiple CTE
 
