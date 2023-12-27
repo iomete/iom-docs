@@ -117,13 +117,13 @@ const config = {
             position: "left",
             label: "Guides",
           },
-          {
-            to: "/glossary",
-            position: "left",
-            label: "Glossary",
-          },
+          // {
+          //   to: "/glossary",
+          //   position: "left",
+          //   label: "Glossary",
+          // },
           { to: "/blog", label: "Blog", position: "left" },
-          { to: "/glossary2", label: "Glossary2", position: "left" },
+          { to: "/glossary", label: "Glossary", position: "left" },
           // { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
           {
             href: "https://api.iomete.com",
@@ -221,16 +221,16 @@ const config = {
         /**
          * Required for any multi-instance plugin
          */
-        id: "glossary2",
+        id: "glossary",
         /**
          * URL route for the blog section of your site.
          * *DO NOT* include a trailing slash.
          */
-        routeBasePath: "glossary2",
+        routeBasePath: "glossary",
         /**
          * Path to data on filesystem relative to site dir.
          */
-        path: "./glossary2",
+        path: "./glossary",
         blogListComponent: "/src/theme/GlossaryListPage/index.js",
       },
     ],
