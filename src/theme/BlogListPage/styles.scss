@@ -19,44 +19,6 @@ html.iom-blog-list {
                         max-width: 50% !important;
                     }
 
-                    // Card
-                    .card {
-                        background-color: transparent;
-
-                        .card__image img {
-                            width: 100%;
-                        }
-
-                        .card__body {
-                            padding: 0;
-                        }
-
-                        .card__footer {
-                            padding: 0px 0px 24px 0px;
-
-                            .avatar {
-                                align-items: center;
-                                column-gap: 8px;
-
-                                .avatar__photo {
-                                    width: 24px;
-                                    height: 24px;
-                                }
-
-                                .avatar__intro {
-                                    justify-content: flex-start;
-                                    align-items: baseline;
-                                    flex-direction: row;
-                                    column-gap: 6px;
-                                    flex-wrap: wrap;
-
-                                    span::after {
-                                        content: "      •";
-                                    }
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }

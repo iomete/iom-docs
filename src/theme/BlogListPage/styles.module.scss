@@ -8,35 +8,10 @@
     }
 }
 
-.CardLink,
-.CardLink:hover {
-    color: unset;
-    text-decoration: none;
-}
-
-.CardTags {
-    color: var(--ifm-color-emphasis-700);
-}
-
-.CardTitle {
-    font-size: 18px;
-    margin-bottom: 4px;
-    // white-space: nowrap;
-    // overflow: hidden;
-    // text-overflow: ellipsis;
-}
-
-.CardDesc {
-    display: inline-block;
-    height: 48px;
-    overflow: hidden;
-    color: var(--ifm-color-emphasis-800);
-}
-
 .TagsSearchSection {
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     column-gap: 24px;
     row-gap: 24px;
 }
