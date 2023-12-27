@@ -1,5 +1,5 @@
 ---
-title: Understanding Hadoop Cluster - Architecture, Advantages, and Challenges
+title: Hadoop Cluster
 description: Explore the concept of a Hadoop Cluster, its architecture, advantages, challenges, and the role it plays in big data analytics.
 ---
 

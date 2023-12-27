@@ -1,5 +1,5 @@
 ---
-title:  What is Retrieval Augmented Generation?
+title: Retrieval Augmented Generation
 description: Explore Retrieval Augmented Generation (RAG), an innovative approach enhancing the effectiveness of large language model (LLM) applications by leveraging custom data. Understand how RAG retrieves relevant data/documents, providing them as context for LLMs, particularly beneficial for support chatbots and Q&A systems requiring access to domain-specific knowledge. Learn how RAG addresses major challenges faced by LLM models, offering organizations an industry-standard solution to deploy any LLM model and augment it for relevant results without the costs and time of fine-tuning or pre-training. Discover the benefits of RAG, including up-to-date and accurate responses, reduced inaccuracies, domain-specific relevance, and efficiency. Explore various use cases for RAG, such as question and answer chatbots, search augmentation, and knowledge engines, and understand when to choose RAG over fine-tuning for specific applications.
 ---
 

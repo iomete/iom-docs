@@ -232,6 +232,8 @@ const config = {
          */
         path: "./glossary",
         blogListComponent: "/src/theme/GlossaryListPage/index.js",
+        postsPerPage: "ALL",
+        sortPosts: "descending",
       },
     ],
   ],

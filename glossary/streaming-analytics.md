@@ -1,5 +1,5 @@
 ---
-title:  What is Streaming Analytics?
+title: Streaming Analytics
 description: Explore the concept of Streaming Analytics, also known as event stream processing, which involves examining real-time data through continuous queries. Learn about its benefits, applications, and significance across various industries.
 ---
 

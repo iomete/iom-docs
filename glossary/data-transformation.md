@@ -1,5 +1,5 @@
 ---
-title: Data Transformation - Unleashing Business Insights Through Data Manipulation
+title: Data Transformation
 description: Explore the concept of data transformation, its importance in generating actionable insights, and its role in ETL (Extract, Transform, Load) processes. Discover various data transformation techniques and optimization methods to enhance performance. Learn about IOMETE's tools for implementing data transformations and ETL on the Data Lakehouse Platform, empowering data engineering teams to build reliable batch and streaming data pipelines.
 ---
 

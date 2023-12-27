@@ -1,0 +1,10 @@
+.Card {
+  //   background-color: var(--ifm-color-info-contrast-background);
+  border-radius: 6px;
+}
+
+.CardLink,
+.CardLink:hover {
+  color: unset;
+  text-decoration: none;
+}

@@ -1,5 +1,5 @@
 ---
-title: Demystifying Lambda Architecture for Big Data Processing
+title: Lambda Architecture
 description: Explore Lambda Architecture, a powerful solution for processing large amounts of data, combining batch and stream processing methods. Learn about its three layers - batch layer, serving layer, and speed layer, along with benefits and challenges.
 ---
 

@@ -1,5 +1,5 @@
 ---
-title:  What is Orchestration?
+title: Orchestration
 description: Understand Data Orchestration, the process of coordinating and managing multiple computer systems, applications, and services to execute larger workflows or processes. Explore how it streamlines and optimizes the execution of frequent, repeatable processes, assisting data teams in managing complex tasks and workflows. Recognize the significance of orchestration tools in effective DevOps practices, automating application deployments, managing continuous integration and continuous delivery pipelines, and orchestrating release workflows. Discover the role of data orchestration platforms in organizing siloed data from various storage locations and making it available for analysis across legacy systems, cloud-based tools, and data lakes. Learn how IOMETE simplifies the orchestration of multiple tasks, enabling data teams to create and manage multi-step pipelines for transforming, refining data, and training machine learning algorithms, ultimately saving time, increasing efficiency, and eliminating redundancies.
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: Understanding Keras Models in Deep Learning
+title: Keras Model
 description: Explore the power of Keras, a high-level library for deep learning. Learn about Keras models, their modularity, and the Sequential and Functional APIs, providing flexibility and ease for creating a variety of deep learning architectures.
 ---
 

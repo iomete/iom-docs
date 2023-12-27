@@ -1,5 +1,5 @@
 ---
-title: Unveiling Apache Spark's Machine Learning Library (MLlib)
+title: Machine Learning Library (MLlib)
 description: Explore Apache Spark's Machine Learning Library (MLlib), a scalable and easy-to-use library that integrates seamlessly with Spark components. Learn about its features, scalability, and support for various machine learning tasks.
 ---
 
@@ -34,4 +34,3 @@ MLlib supports various machine learning tasks, including:
 ### Ideal Choice for Data Scientists
 
 Spark's MLlib, with its sophisticated machine learning API, is an ideal choice for data scientists who need to perform a variety of machine learning tasks on distributed data. It simplifies the complexities of distributed data processing, allowing data scientists to focus on extracting insights from their data.
-

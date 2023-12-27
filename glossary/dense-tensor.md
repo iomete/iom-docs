@@ -1,5 +1,5 @@
 ---
-title: Dense Tensor - Understanding the Role of Dense Tensors in Multi-Dimensional Data Analysis
+title: Dense Tensor
 description: Explore the concept of dense tensors, crucial components in multi-dimensional data analysis applications. Learn how dense tensors store values efficiently in a contiguous sequential block of memory, making them suitable for tensor computations. Discover their use in dense layers, fully connected layers often employed towards the end of a network. Explore the dten library, a popular tool for high-performance dense tensor applications, known for its flexibility and support for tensor matricization.
 ---
 

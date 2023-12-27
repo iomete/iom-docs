@@ -1,5 +1,5 @@
 ---
-title:  What is SparkR?
+title: SparkR
 description: Discover SparkR, a powerful tool for running R on Apache Spark. Learn about its features, how it aligns with Spark's other language bindings, and its versatility for data analysis.
 ---
 

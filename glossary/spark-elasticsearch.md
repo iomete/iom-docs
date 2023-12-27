@@ -1,5 +1,5 @@
 ---
-title:  What is Spark Elasticsearch?
+title: Spark Elasticsearch
 description: Explore Spark Elasticsearch, a powerful open-source NoSQL distributed database designed for storing, retrieving, and managing document-oriented and semi-structured data. Widely used by top companies, including tech giants like Google, Oracle, and Microsoft, Elasticsearch provides a flexible solution for indexing structured data. With its ecosystem of complementary open-source software and platforms, Elasticsearch is easily implementable and scalable, making it suitable for logging solutions, full-text search, scraping and combining public data, and working with event data and metrics. Gain insights into key components such as Elasticsearch clusters, nodes, ports, shards, replicas, analyzers, and documents.
 ---
 

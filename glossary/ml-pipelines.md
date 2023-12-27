@@ -1,5 +1,5 @@
 ---
-title:  What are ML Pipelines?
+title: ML Pipelines
 description: Explore ML Pipelines, a crucial aspect of machine learning that addresses the challenges of connecting various stages like pre-processing, feature extraction, model fitting, and validation. Learn about the ML Pipelines API in MLlib, specifically under the "spark.ml" package, which provides a solution for creating and tuning pipelines, particularly suitable for large-scale datasets. Understand the key components, including Transformers and Estimators, and discover how this powerful tool simplifies tasks such as classifying text documents through segmentation, cleaning, feature extraction, and training with cross-validation.
 ---
 

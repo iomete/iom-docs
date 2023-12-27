@@ -1,5 +1,5 @@
 ---
-title:  What is Star Schema?
+title: Star Schema
 description: Explore the concept of Star Schema, a multidimensional data model used for organizing data in databases, data warehouses, and data marts. Learn about its benefits, components like fact and dimension tables, and how it differs from Third Normal Form (3NF).
 ---
 
@@ -25,10 +25,10 @@ In this model, the fact table is normalized, but the dimensions tables are not. 
 
 ## Benefits of Star Schemas
 
--   Fact/dimensional models like star schemas are **simple** to understand and implement, and make it easy for end users to find the data they need. They can be applied to data marts and other data resources.
--   **Great for simple queries** because of their reduced dependency on joins when accessing the data, as compared to normalized models like snowflake schemas.
--   **Adapt well to fit OLAP models.**
--   **Improved query performance** as compared to normalized data, because star schemas attempt to avoid computationally expensive joins.
+- Fact/dimensional models like star schemas are **simple** to understand and implement, and make it easy for end users to find the data they need. They can be applied to data marts and other data resources.
+- **Great for simple queries** because of their reduced dependency on joins when accessing the data, as compared to normalized models like snowflake schemas.
+- **Adapt well to fit OLAP models.**
+- **Improved query performance** as compared to normalized data, because star schemas attempt to avoid computationally expensive joins.
 
 ## How does a Star Schema Differ from 3NF (Third Normal Form)?
 
