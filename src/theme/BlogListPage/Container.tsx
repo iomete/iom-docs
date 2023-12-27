@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { Props } from "@theme/BlogListPage";
-import Card from "./Card";
+import Card from "./card";
 import styles from "./styles.module.scss";
 import Search from "./search";
 import Tags from "./tags";
@@ -39,6 +39,8 @@ function Container(props: Props) {
   return (
     <div className={styles.Container}>
       <Header />
+
+      {featuredBlog && <Card {...(featuredBlog.content as any)} isFeatured />}
 
       <section className={styles.TagsSearchSection}>
         <Tags activeTag={props.metadata.permalink} />

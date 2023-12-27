@@ -1,0 +1,83 @@
+.CardLink,
+.CardLink:hover {
+    color: unset;
+    text-decoration: none;
+}
+
+.CardLink :global(.card) {
+    @media (min-width: 768px) {
+        &.FeaturedCard {
+            flex-direction: row-reverse !important;
+            margin-bottom: 24px !important;
+            align-items: center !important;
+            column-gap: 48px;
+
+            h3 {
+                font-size: 36px !important;
+                font-weight: 700 !important;
+            }
+
+            small {
+                font-size: 16px !important;
+            }
+
+            :global(.card__image) {
+                min-width: 400px !important;
+                max-width: 100% !important;
+            }
+
+            .CardDesc {
+                height: auto !important;
+            }
+        }
+    }
+
+    background-color: transparent;
+
+    :global(.card__image img) {
+        width: 100%;
+    }
+
+    :global(.card__body) {
+        padding: 0px 0px 56px 0px;
+
+        .CardTags {
+            color: var(--ifm-color-emphasis-700);
+        }
+
+        .CardTitle {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .CardDesc {
+            display: inline-block;
+            height: 48px;
+            overflow: hidden;
+            color: var(--ifm-color-emphasis-800);
+        }
+
+
+        :global(.avatar) {
+            align-items: center;
+            column-gap: 8px;
+
+            :global(.avatar__photo) {
+                width: 24px;
+                height: 24px;
+            }
+
+            :global(.avatar__intro) {
+                justify-content: flex-start;
+                align-items: baseline;
+                flex-direction: row;
+                column-gap: 6px;
+                flex-wrap: wrap;
+
+                span::after {
+                    content: "      •";
+                }
+            }
+        }
+    }
+}

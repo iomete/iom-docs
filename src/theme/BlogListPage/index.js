@@ -27,6 +27,7 @@ function BlogListPageMetadata({ metadata }) {
   );
 }
 export default function BlogListPage(props) {
+  console.log(useDocusaurusContext());
   // console.log('props', props);
   return (
     <HtmlClassNameProvider

@@ -3,9 +3,16 @@ import type { Content, FrontMatter } from "@theme/BlogPostPage";
 
 import styles from "./styles.module.scss";
 import Link from "@docusaurus/Link";
+import clsx from "clsx";
 
 interface ContentExtended extends Content {
-  frontMatter: FrontMatter & { coverImage?: string; tags?: string[]; featured_blog?: string };
+  frontMatter: FrontMatter & {
+    coverImage?: string;
+    tags?: string[];
+    featured_blog?: boolean;
+    banner_description?: string;
+  };
+  isFeatured?: boolean;
 }
 
 interface IAvatarProps {
@@ -24,23 +31,21 @@ function Avatar({ authors: [author], date }: IAvatarProps) {
   );
 }
 
-function Card({ frontMatter, metadata }: ContentExtended) {
+function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
   // console.log("Card", frontMatter, assets, metadata);
 
   const imgUrl = frontMatter.coverImage?.startsWith("/") ? frontMatter.coverImage : `/${frontMatter.coverImage}`;
 
   return (
     <Link to={metadata.permalink} className={styles.CardLink}>
-      <div className="card">
+      <div className={clsx("card", isFeatured && styles.FeaturedCard)}>
         <div className="card__image">
           <img src={imgUrl} alt="Cover" />
         </div>
         <div className="card__body">
-          <small className={styles.CardTags}>{frontMatter.tags?.[0]}</small>
+          {!isFeatured && <small className={styles.CardTags}>{frontMatter.tags?.[0]}</small>}
           <h3 className={styles.CardTitle}>{frontMatter.title}</h3>
-          <small className={styles.CardDesc}>{frontMatter.description}</small>
-        </div>
-        <div className="card__footer">
+          <small className={styles.CardDesc}>{frontMatter.banner_description || frontMatter.description}</small>
           <Avatar authors={metadata.authors || []} date={metadata.formattedDate} />
         </div>
       </div>
