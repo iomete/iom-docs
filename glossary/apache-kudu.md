@@ -1,8 +1,7 @@
 ---
 title: Apache Kudu
-description: Apache Kudu, a free and open-source columnar storage system crafted for Apache Hadoop, excels in handling structured data. With support for low-latency random access to individual rows and efficient analytical access patterns, Kudu seamlessly bridges the gap between the Hadoop Distributed File System and the HBase NoSQL Database.
+description: Apache Kudu is a free and open-source columnar storage system developed for Apache Hadoop. This engine is designed for structured data and supports low-latency random access to individual rows, along with efficient analytical access patterns. Kudu bridges the gap between the widely used Hadoop Distributed File System and HBase NoSQL Database.
 ---
-
 
 ## What is Apache Kudu?
 
@@ -12,9 +11,9 @@ Apache Kudu is a free and open-source columnar storage system developed for Apac
 
 Apache Kudu combines the advantages of HBase and Parquet. It's as fast as HBase for data ingestion and nearly as quick as Parquet for analytical queries. Kudu supports various query types, enabling you to:
 
--   Search for a specific value using its key.
--   Search for a range of sorted keys.
--   Execute arbitrary queries across multiple columns.
+- Search for a specific value using its key.
+- Search for a range of sorted keys.
+- Execute arbitrary queries across multiple columns.
 
 ### Fully distributed and fault-tolerant
 

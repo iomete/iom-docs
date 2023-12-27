@@ -1,6 +1,6 @@
 ---
 title: Data Sharing
-description: Explore the concept of data sharing, its importance in the data-driven world, and the various methods and challenges associated with sharing data within and outside organizations. Learn about the potential benefits of effective data sharing, technologies used, and how organizations can overcome challenges to outperform peers on business value metrics.
+description: Data sharing refers to the ability to make the same data available to one or many stakeholders. It enables new business opportunities, collaboration with partners, and the generation of new revenue streams through data monetization.
 ---
 
 # Data Sharing

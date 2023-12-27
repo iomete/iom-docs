@@ -1,11 +1,12 @@
 ---
 title: Data Automation
-description: Explore data automation, a technique facilitating the collection, transformation, storage, processing, and analysis of data without manual human intervention. Learn about Extract, Transform, and Load (ETL) and how data automation improves data quality, saves costs, enhances insights generation, and accelerates analytics.
+description: Data automation is a popular data management technique that can help organizations collect, upload, transform, store, process, and analyze data without the need for manual human intervention.
 ---
 
 # Data Automation
 
 ## What is Data Automation?
+
 Data automation is a popular data management technique that can help organizations collect, upload, transform, store, process, and analyze data without the need for manual human intervention. By automating repetitive and time-consuming tasks such as data ingestion, transformation, validation, cleansing, integration, and analysis, data automation helps organizations make the most of their data and make data-driven decisions faster and easier.
 
 One common example of data automation is Extract, Transform, and Load (ETL), which enables engineers to extract data from different sources, transform it into a usable and trusted resource, and load it into systems that end-users can access and use downstream to solve business problems.

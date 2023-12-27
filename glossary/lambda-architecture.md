@@ -1,6 +1,6 @@
 ---
 title: Lambda Architecture
-description: Explore Lambda Architecture, a powerful solution for processing large amounts of data, combining batch and stream processing methods. Learn about its three layers - batch layer, serving layer, and speed layer, along with benefits and challenges.
+description: Lambda Architecture is a powerful solution for processing large amounts of data, commonly known as "Big Data". It combines batch-processing and stream-processing methods to compute arbitrary functions. The architecture consists of three layers - the batch layer, the serving layer, and the speed layer.
 ---
 
 # Lambda Architecture

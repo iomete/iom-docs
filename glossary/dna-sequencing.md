@@ -1,6 +1,6 @@
 ---
 title: DNA Sequencing
-description: Explore the intricacies of DNA sequencing, its methods, and applications in genomics, research, diagnostics, and forensics. Learn about the Sanger method and High-Throughput Sequencing for accurate and rapid DNA analysis.
+description: DNA sequencing is the process of determining the exact sequence of nucleotides in DNA (deoxyribonucleic acid). This involves determining the order of the four chemical building blocks - adenine, guanine, cytosine, and thymine - that make up the DNA molecule.
 ---
 
 # DNA Sequencing

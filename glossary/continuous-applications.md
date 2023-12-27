@@ -1,11 +1,12 @@
 ---
 title: Continuous Applications
-description: Explore continuous applications, a type of end-to-end application that responds to data in real-time. Immerse yourself in the dynamic world of applications designed to adapt and react to data as it unfolds in real-time. 
+description: Continuous applications are a type of end-to-end application that reacts to data in real-time. Developers can use a single programming interface to support the different aspects of continuous applications, such as query serving or interaction with batch jobs.
 ---
 
 # Continuous Applications
 
 ## What are Continuous Applications?
+
 Continuous applications are a type of end-to-end application that reacts to data in real-time. Developers can use a single programming interface to support the different aspects of continuous applications, such as query serving or interaction with batch jobs.
 
 Here are some examples of how continuous applications can be used:

@@ -1,6 +1,6 @@
 ---
 title: DataFrame
-description: Explore the concept of a DataFrame, a versatile two-dimensional table used in data analytics. Learn about its structure, schema definition, and its prevalence in various programming languages and frameworks such as Spark, pandas (Python), R, Scala, and more.
+description: A DataFrame is a two-dimensional table of rows and columns, similar to a spreadsheet, that organizes data in a structured way. It is one of the most commonly used data structures in modern data analytics due to its flexibility and ease of use.
 ---
 
 # DataFrames

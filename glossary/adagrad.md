@@ -1,6 +1,6 @@
 ---
 title: AdaGrad
-description: AdaGrad comprises a family of sub-gradient algorithms designed for stochastic optimization purposes.
+description: AdaGrad is a family of sub-gradient algorithms for stochastic optimization. Gradient descent is the most commonly used optimization method in machine learning and deep learning algorithms.
 ---
 
 # AdaGrad

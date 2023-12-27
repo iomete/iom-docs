@@ -1,11 +1,12 @@
 ---
-title: Convolutional Layer in CNN
-description: Delve into the convolutional layer, a key component of convolutional neural networks (CNNs or ConvNets). CNNs excel in recognizing patterns in images, spatial data analysis, computer vision, natural language processing, signal processing, and beyond. Uncover the power of this layer in extracting meaningful features for diverse applications.
+title: Convolutional Layer
+description: A convolutional neural network (CNN or ConvNet) is a type of deep neural network used for recognizing patterns in images, as well as for spatial data analysis, computer vision, natural language processing, signal processing, and more.
 ---
 
 # Convolutional Layer
 
 ## What is a Convolutional Layer?
+
 A convolutional neural network (CNN or ConvNet) is a type of deep neural network used for recognizing patterns in images, as well as for spatial data analysis, computer vision, natural language processing, signal processing, and more. The architecture of a Convolutional Network is inspired by the organization of the Visual Cortex and resembles the connectivity pattern of neurons in the human brain.
 
 CNNs use filters (or kernels) to detect features like edges in an image. The four main operations in a CNN are Convolution, Non-Linearity (ReLU), Pooling or Sub-Sampling, and Classification (Fully Connected Layer).

@@ -1,6 +1,6 @@
 ---
 title: Star Schema
-description: Explore the concept of Star Schema, a multidimensional data model used for organizing data in databases, data warehouses, and data marts. Learn about its benefits, components like fact and dimension tables, and how it differs from Third Normal Form (3NF).
+description: A star schema is a multidimensional data model used to organize data in a database, making it easy to understand and analyze. Star schemas can be applied to data warehouses, databases, data marts, and other tools. The star schema design is optimized for querying large data sets.
 ---
 
 # Star Schema

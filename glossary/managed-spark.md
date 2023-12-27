@@ -1,6 +1,6 @@
 ---
 title: Managed Spark
-description: Explore Managed Spark, a versatile service that enables on-demand creation, easy management, and dynamic scaling of Spark clusters for efficient batch processing, querying, streaming, and machine learning. Discover the advantages, including automated cluster management, resizable clusters, developer tools, simplified management, and cost-effectiveness.
+description: Managed Spark is a dynamic service designed to empower users with open source data tools for diverse tasks such as batch processing, querying, streaming, and machine learning. This service facilitates the rapid creation of clusters on-demand, streamlined cluster management, and seamless scalability, enabling users to efficiently handle data-intensive workloads.
 ---
 
 # Managed Spark

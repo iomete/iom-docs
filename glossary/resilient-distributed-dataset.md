@@ -1,6 +1,6 @@
 ---
 title: Resilient Distributed Dataset (RDD)
-description: Explore Resilient Distributed Datasets (RDDs), the primary user-facing API in Spark known for their immutable distributed collections of data elements partitioned across nodes in a cluster. Understand how RDDs offer parallel operation using a low-level API that provides transformations and actions. Learn five reasons to use RDDs, including the need for low-level control over datasets, handling unstructured data, preference for functional programming constructs, lack of a required schema, and willingness to forgo some optimization and performance benefits available with DataFrames and Datasets for structured and semi-structured data.
+description: RDDs have been the primary user-facing API in Spark since its inception. At their core, RDDs are immutable distributed collections of data elements that are partitioned across nodes in a cluster, allowing for parallel operation using a low-level API that offers transformations and actions.
 ---
 
 # Resilient Distributed Dataset (RDD)

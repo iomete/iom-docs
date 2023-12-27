@@ -1,10 +1,7 @@
 ---
-title: Apache Spark for Large Data Sets
-description: Discover Apache Spark, the open-source analytics engine designed for processing extensive data sets. Capable of handling both batch and real-time analytics, Apache Spark originated as a 2009 research project at the University of California, Berkeley, with a focus on enhancing processing speeds in Hadoop systems.
+title: Apache Spark
+description: What is Apache Spark as a Service? Apache Spark is an open source cluster computing framework for fast real-time large-scale data processing. IOMETE Spark-as-a-Service comes with a set of built-in applications that can help you access and analyze data faster.
 ---
-
-
-
 
 #Apache Spark as a Service#
 
@@ -15,5 +12,3 @@ An easy way to access Spark data.
 No specialized coding skills required; as a result, it can be easily used by both technical and business users.
 Lower costs.
 If you're looking for an easy and cost-effective way to access Spark data, IOMETE’s Spark-as-a-Service is the perfect solution. With no specialized coding skills required, it's easy for both technical and business users to use. Plus, it eliminates the infrastructure challenges and speeds up the process, making it a great choice for short-term data analytics projects.
-
-

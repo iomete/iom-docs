@@ -1,6 +1,6 @@
 ---
 title: Digital Twin
-description: Explore the concept of digital twins, virtual models that accurately reflect physical objects. Learn how digital twins, created using data from IoT sensors and enterprise systems, play a crucial role in manufacturing, logistics, and transportation. Discover how digital twins streamline processes, optimize supply chains, and provide insights for product design, quality management, and operations.
+description: A digital twin is a virtual model that accurately reflects a physical object. In manufacturing, a digital twin gathers system and process state data with the help of various IoT sensors and enterprise data to form a virtual model.
 ---
 
 # Digital Twin
