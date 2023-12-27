@@ -37,6 +37,7 @@ function Container(props: Props) {
     <div className={styles.Container}>
       <section className={styles.TagsSearchSection}>
         <Search onChange={onSearchChange} />
+        {/* <Tags activeTag={props.metadata.permalink} /> */}
       </section>
 
       <div className="row">

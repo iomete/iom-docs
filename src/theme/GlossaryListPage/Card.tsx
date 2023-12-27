@@ -20,9 +20,7 @@ function Card({ frontMatter, metadata }: ContentExtended) {
 
           <small className={styles.CardDesc}>{frontMatter.description}</small>
 
-          <div className={styles.CardReadMore}>
-            Read more <CaretRight size={14} weight="light" />
-          </div>
+          <div className={styles.CardReadMore}>Read more</div>
         </div>
       </div>
     </Link>
