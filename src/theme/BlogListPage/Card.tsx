@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 import Link from "@docusaurus/Link";
 
 interface ContentExtended extends Content {
-  frontMatter: FrontMatter & { coverImage?: string; tags?: string[] };
+  frontMatter: FrontMatter & { coverImage?: string; tags?: string[]; featured_blog?: string };
 }
 
 interface IAvatarProps {
@@ -27,11 +27,13 @@ function Avatar({ authors: [author], date }: IAvatarProps) {
 function Card({ frontMatter, metadata }: ContentExtended) {
   // console.log("Card", frontMatter, assets, metadata);
 
+  const imgUrl = frontMatter.coverImage?.startsWith("/") ? frontMatter.coverImage : `/${frontMatter.coverImage}`;
+
   return (
     <Link to={metadata.permalink} className={styles.CardLink}>
       <div className="card">
         <div className="card__image">
-          <img src={frontMatter.coverImage} alt="Author" />
+          <img src={imgUrl} alt="Cover" />
         </div>
         <div className="card__body">
           <small className={styles.CardTags}>{frontMatter.tags?.[0]}</small>

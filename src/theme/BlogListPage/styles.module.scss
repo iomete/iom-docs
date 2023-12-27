@@ -1,3 +1,13 @@
+.Container {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+
+    @media (max-width: 768px) {
+        gap: 32px;
+    }
+}
+
 .CardLink,
 .CardLink:hover {
     color: unset;
