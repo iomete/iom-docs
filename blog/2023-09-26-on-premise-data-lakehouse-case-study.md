@@ -22,7 +22,7 @@ A large organization operates an on-premise/self hosted storage that processes v
 2. **Performance:** As data volumes grow, the performance of analytics queries using their existing tightly coupled database system is degrading.
 3. **Tool Diversity:** The organization uses a variety of analytics tools, including SQL-based queries, machine learning libraries, and custom scripts. Each tool requires different data formats and access methods.
 
-<MiniCard link="https://form.typeform.com/to/ofF9ZQYd" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
 
 ## **Solution: Single Kubernetes Cluster**
 

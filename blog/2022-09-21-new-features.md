@@ -23,7 +23,7 @@ In September 2022, we released a number of new and improved platform features:
 
 ## New single domain for IOMETE console
 
-The console became easier to access through one single domain at [app.iomete.com](https://app.iomete.com/signin). The old _\<account_number\>.iomete.com_ domains have been removed. Use your 12-digit account number to sign in.
+The console became easier to access through one single domain at. The old _\<account_number>.iomete.com_ domains have been removed. Use your 12-digit account number to sign in.
 
 ![sign in to your IOMETE account through one single domain at app.iomete.com](/img/blog/2022-09-21-new-features/iomete-signin.jpeg "sign in to your IOMETE account through one single domain at app.iomete.com
 ")

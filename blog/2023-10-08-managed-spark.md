@@ -21,7 +21,7 @@ As a managed Spark platform, IOMETE provides users with access to Apache Spark, 
 - **Optimized Resource Utilization:** IOMETE optimizes the allocation and utilization of computing resources for Spark jobs, ensuring efficient execution and cost reduction.
 - **Advanced Monitoring and Debugging:** IOMETE provides comprehensive monitoring and debugging capabilities for Spark jobs. Users can track job progress, monitor resource usage, and investigate errors or performance issues.
 
-<MiniCard link="https://form.typeform.com/to/ofF9ZQYd" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
 
 ## Here are some specific examples of how IOMETE manages Spark:
 

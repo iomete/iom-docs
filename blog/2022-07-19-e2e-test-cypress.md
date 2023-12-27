@@ -33,7 +33,7 @@ There are different methodologies of testing, however, we are going to focus on 
 Why should you consider e2e testing?
 Having a lot of testing types at your disposal, why should someone also consider writing e2e testing too? **e2e** (end-to-end) testing type is particularly useful in cases you want to test your system imitating real user behavior. All normal user interactions like typing, clicking, scrolling, and others happen as if they were performed by real users. This is useful when you want to test your app like one whole system (front-end and back-end together) as if it is made by a QA engineer manually.
 
-<MiniCard link="https://form.typeform.com/to/ofF9ZQYd" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
 
 **First of all, let’s outline the main features of the most popular testing methodologies:**
 

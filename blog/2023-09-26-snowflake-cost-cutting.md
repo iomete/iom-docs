@@ -28,7 +28,7 @@ Speculating on the strategies that Instacart might have employed to optimize the
 3. **Resource Management:** Snowflake's costs can be heavily influenced by resource management. Instacart might have fine-tuned their resource allocation to ensure optimal performance while minimizing expenses.
 4. **Alternative Solutions:** Instacart might have explored alternative solutions for specific use cases. For instance, Snowflake might not be the most cost-effective option for real-time analytics, leading them to adopt more suitable and affordable tools.
 
-<MiniCard link="https://form.typeform.com/to/ofF9ZQYd" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
 
 ## Snowflake cost cutting solution - IOMETE
 

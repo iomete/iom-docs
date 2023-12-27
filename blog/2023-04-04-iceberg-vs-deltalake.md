@@ -23,8 +23,6 @@ Its engine agnostic nature and complete independence from Apache Spark is one of
 
 In the beginning, Delta Lake's tight coupling provided a competitive advantage, as it could take advantage of many Spark optimizations. However, Iceberg has closed that gap over the last few years.. With Iceberg, we have the flexibility to choose the best engine for our specific use case.
 
-<MiniCard link="https://iomete.com/pricing" linkName="Learn more">Want a free-forever data lakehouse platform?</MiniCard>
-
 ## **Fully Open Source Apache Iceberg**
 
 In addition to its open-source nature, Apache Iceberg is also a part of the Apache Software Foundation. This means that Iceberg is a fully open-source project and is not owned by any company. This is a big advantage of Apache Iceberg over Delta Lake because Delta Lake is owned by Databricks.
@@ -43,8 +41,8 @@ While we believe that Apache Iceberg is the best choice for our use case, it is 
 
 However, Iceberg has recently added support for merge-on-read functionality, which is a huge step forward. This means that stream updates could cause a lot of small files because the default strategy is copy-on-write. But with the merge-on-read strategy, you will end up with fewer files, which is a huge improvement in streaming write (update/delete) performance.
 
-<MiniCard link="https://form.typeform.com/to/ofF9ZQYd" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
 
 ## **Conclusion**
 
-In conclusion, Apache Iceberg is a great open-source project and is becoming a standard in the industry. At IOMETE, we are big fans of Apache Iceberg. Our main product is a fully managed lakehouse platform based on Apache Spark + Iceberg. With the IOMETE Lakehouse Platform, you can set up a lakehouse platform in a few minutes and get all the amazing functionalities like Virtual Lakehouse Clusters, Spark Job Service, Notebook service, Advanced Data Access Control, and many other functionalities. If you want to learn more [book a discovery call](https://calendly.com/d/g23-tpw-hnc/iomete-30-min-demo-discovery-call?month=2023-08) with us. Alternatively, you can sign up for our Free(for-ever) Plan by following [this link](https://auth.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=https%3A%2F%2Fapp.iomete.com). If you want to reach more about Apache Iceberg you can access the [Ultimate Guide to Apache Iceberg](https://iomete.com/the-ultimate-guide-to-apache-iceberg).
+In conclusion, Apache Iceberg is a great open-source project and is becoming a standard in the industry. At IOMETE, we are big fans of Apache Iceberg. Our main product is a fully managed lakehouse platform based on Apache Spark + Iceberg. With the IOMETE Lakehouse Platform, you can set up a lakehouse platform in a few minutes and get all the amazing functionalities like Virtual Lakehouse Clusters, Spark Job Service, Notebook service, Advanced Data Access Control, and many other functionalities. If you want to learn more [book a discovery call](https://calendly.com/pietjan/iomete-20-min) with us. If you want to reach more about Apache Iceberg you can access the [Ultimate Guide to Apache Iceberg](https://iomete.com/the-ultimate-guide-to-apache-iceberg).

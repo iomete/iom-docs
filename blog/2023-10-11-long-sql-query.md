@@ -24,7 +24,7 @@ Here are a few additional tips:
 
 - **Use a query profiler** A query profiler can help you to identify which parts of your query are taking the most time to execute. This can be helpful for optimizing the performance of your queries.
 - **Ask for help from others** If you're struggling to understand or modify an old SQL query, don't be afraid to ask for help from a more experienced developer or database administrator.
-- **Use the right tools** There are a number of tools available that can help you to write, format, and debug SQL queries. For example, the IOMETE provides a visual interface for building and executing SQL queries, making it easy to get started even if you're not a SQL expert. If you want to discover with sample account here is the [link to IOMETE sandbox](https://form.typeform.com/to/ofF9ZQYd).
+- **Use the right tools** There are a number of tools available that can help you to write, format, and debug SQL queries. For example, the IOMETE provides a visual interface for building and executing SQL queries, making it easy to get started even if you're not a SQL expert. If you want to discover with sample account here is the [link to IOMETE sandbox](https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com).
 
 ## **Step-by-Step Guide for optimizing Lengthy SQL Queries:**
 
