@@ -15,8 +15,6 @@ const prioritizedTags: Props["items"] = ["release", "educational", "company", "e
 }));
 
 const Chip = function ({ label, permalink, active = false }) {
-  console.log("Chip", permalink, active);
-
   return (
     <Link to={permalink} className={clsx(styles.TagLink, active && styles.Active)}>
       {label}

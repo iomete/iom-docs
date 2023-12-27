@@ -8,14 +8,8 @@ import Header from "./header";
 import Empty from "./empty";
 
 function Container(props: Props) {
-  // console.log("props", props);
   const featuredBlog = props.items.find((item) => (item.content.frontMatter as any).featured_blog);
   const posts = [...props.items.filter((item) => !(item.content.frontMatter as any).featured_blog)];
-
-  const selectedTag = "tag" in props ? props.tag : null;
-  console.log("selectedTag", selectedTag);
-
-  console.log("items", props, featuredBlog);
 
   const [filteredResults, setFilteredResults] = useState<Props["items"]>(posts);
 
@@ -35,7 +29,6 @@ function Container(props: Props) {
     }
   };
 
-  // className={clsx("container", styles.Container)}
   return (
     <div className={styles.Container}>
       <Header />

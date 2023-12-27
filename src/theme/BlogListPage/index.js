@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {
   PageMetadata,
   HtmlClassNameProvider,
@@ -12,23 +11,29 @@ import Head from "@docusaurus/Head";
 import './styles.scss';
 
 function BlogListPageMetadata({ metadata }) {
-  const {
-    siteConfig: { title: siteTitle },
-  } = useDocusaurusContext();
+  const canonicalUrl = "https://iomete.com/blog";
 
-  const { blogDescription, blogTitle, permalink } = metadata;
-
-  const isBlogOnlyMode = permalink === '/';
-  const title = isBlogOnlyMode ? siteTitle : blogTitle;
   return (
     <>
-      <PageMetadata title={title} description={blogDescription} />
+      <Head>
+        <link rel="canonical" href={canonicalUrl}></link>
+        <meta property="og:url" content={canonicalUrl} />
+        {!metadata &&
+          <>
+            <meta name="robots" content="noindex, nofollow, noarchive" />
+            <meta name="googlebot" content="noindex, nofollow, noarchive" /></>
+        }
+      </Head>
+
+      {metadata && <PageMetadata title={metadata.blogTitle} description={metadata.blogDescription} >
+        {/* TODO put image to PageMetadata */}
+        <meta property="og:image" content={'img/iomete-blog-og.png'} />
+        <meta name="twitter:image" content={'img/iomete-blog-og.png'} />
+      </PageMetadata>}
     </>
   );
 }
 export default function BlogListPage(props) {
-  console.log(useDocusaurusContext());
-  // console.log('props', props);
   return (
     <HtmlClassNameProvider
       className={clsx(
@@ -36,12 +41,8 @@ export default function BlogListPage(props) {
         ThemeClassNames.page.blogListPage,
         'iom-blog-list'
       )}>
-      {props.metadata && <BlogListPageMetadata metadata={props.metadata} />}
+      <BlogListPageMetadata metadata={props.metadata} />
 
-      {!props.metadata && <Head>
-        <meta name="robots" content="noindex, nofollow, noarchive" />
-        <meta name="googlebot" content="noindex, nofollow, noarchive" />
-      </Head>}
       <BlogLayout >
         <Container {...props} metadata={props.listMetadata || props.metadata} />
       </BlogLayout>
