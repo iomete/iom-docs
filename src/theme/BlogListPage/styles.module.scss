@@ -32,3 +32,11 @@
     overflow: hidden;
     color: var(--ifm-color-emphasis-800);
 }
+
+.TagsSearchSection {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: 24px;
+    row-gap: 24px;
+}
