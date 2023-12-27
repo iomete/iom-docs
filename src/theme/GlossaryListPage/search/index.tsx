@@ -11,7 +11,7 @@ interface IProps {
 function Search({ onChange, placeholder = "Search by name, title, category..." }: IProps) {
   return (
     <div className={styles.Search}>
-      <input type="text" onChange={(e) => onChange(e.target.value)} placeholder={placeholder} />
+      <input type="text" onChange={(e) => onChange(e.target.value)} placeholder="Search..." />
       <MagnifyingGlass size={18} />
     </div>
   );
