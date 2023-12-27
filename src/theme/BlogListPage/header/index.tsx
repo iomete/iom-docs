@@ -12,8 +12,9 @@ function Header() {
           <a href="mailto:hello@iomete.com" className="text-primary">
             hello@iomete.com
           </a>
-          . <div>We'd love to hear from you!</div>
+          .
         </p>
+        <p>We'd love to hear from you!</p>
       </div>
       <img src="/img/iomete-bg.svg" alt="Iomete Logo" className={styles.BgImg} />
     </div>
