@@ -1,9 +1,9 @@
 :root:root {
-    --docsearch-searchbox-background: var(--token-primary-bg-c);
+    --docsearch-searchbox-background: transparent;
     --docsearch-searchbox-height: 2.25rem;
-    --docsearch-searchbox-focus-background: var(--token-primary-bg-c);
+    --docsearch-searchbox-focus-background: var(--ifm-color-emphasis-100);
 
-    --docsearch-key-gradient: var(--token-primary-bg-c);
+    --docsearch-key-gradient: transparent;
     --docsearch-key-shadow: none;
 }
 
@@ -35,7 +35,7 @@ html[data-theme='dark'] {
 #__docusaurus {
     [class^='searchBox_'] {
         flex-grow: 1;
-        max-width: 14rem;
+        max-width: 24rem;
     }
 
     @media (max-width: 996px) {
@@ -47,6 +47,7 @@ html[data-theme='dark'] {
 
     .DocSearch-Button {
         width: 100%;
+        min-width: 120px;
         border-radius: 8px;
         box-shadow: var(--docsearch-searchbox-shadow);
 
@@ -97,15 +98,35 @@ html[data-theme='dark'] {
     }
 }
 
-// .DocSearch-Button {
-//     border-radius: 5px !important;
-//     width: 200px;
+.DocSearch-Button {
+    --docsearch-searchbox-background: transparent;
+    --docsearch-searchbox-height: 2.25rem;
+    --docsearch-searchbox-focus-background: transparent;
 
-//     .DocSearch-Search-Icon {
-//         color: var(--docsearch-muted-color) !important;
-//     }
+    --docsearch-key-gradient: transparent;
+    --docsearch-key-shadow: none;
+    border-radius: 5px !important;
 
-//     .DocSearch-Button-Keys {
-//         display: none;
-//     }
-// }
+    width: 100%;
+    min-width: 120px;
+
+    .DocSearch-Search-Icon {
+        color: var(--docsearch-muted-color) !important;
+    }
+
+    .DocSearch-Button-Keys {
+        display: none;
+    }
+}
+
+html[data-theme='dark'] {
+    --docsearch-searchbox-shadow: inset 0 0 0 1px var(--c-gray-90);
+
+    --search-keys-border-c: var(--c-gray-80);
+
+    .DocSearch-Button {
+        &:hover {
+            --docsearch-searchbox-focus-background: var(--ifm-color-emphasis-100);
+        }
+    }
+}
