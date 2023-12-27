@@ -33,9 +33,7 @@ export default function Glossary() {
               <div className="row">
                 {filteredData.map((g, index) => (
                   <div className="col col--12 margin-vert--md" key={index}>
-                    <div className="col-demo">
-                      <Card link={g.link} title={g.title} subtitle={g.subtitle} />
-                    </div>
+                    <Card link={g.link} title={g.title} subtitle={g.subtitle} />
                   </div>
                 ))}
               </div>
