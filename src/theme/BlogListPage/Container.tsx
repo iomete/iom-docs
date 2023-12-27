@@ -4,6 +4,8 @@ import Card from "./Card";
 import styles from "./styles.module.scss";
 import Search from "./search";
 import Tags from "./tags";
+import Header from "./header";
+import Empty from "./empty";
 
 function Container(props: Props) {
   // console.log("props", props);
@@ -36,19 +38,25 @@ function Container(props: Props) {
   // className={clsx("container", styles.Container)}
   return (
     <div className={styles.Container}>
+      <Header />
+
       <section className={styles.TagsSearchSection}>
         <Tags activeTag={props.metadata.permalink} />
         <Search onChange={onSearchChange} />
       </section>
 
       <div className="row">
-        {filteredResults.map((item, index) => {
-          return (
-            <div className="col col--4" key={index}>
-              <Card {...(item.content as any)} />
-            </div>
-          );
-        })}
+        {filteredResults?.length ? (
+          filteredResults.map((item, index) => {
+            return (
+              <div className="col col--4" key={index}>
+                <Card {...(item.content as any)} />
+              </div>
+            );
+          })
+        ) : (
+          <Empty />
+        )}
       </div>
     </div>
   );
