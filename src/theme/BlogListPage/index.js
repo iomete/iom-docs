@@ -31,6 +31,7 @@ export default function BlogListPage(props) {
       className={clsx(
         ThemeClassNames.wrapper.blogPages,
         ThemeClassNames.page.blogListPage,
+        'iom-blog-list'
       )}>
       <BlogListPageMetadata {...props} />
       <BlogLayout >

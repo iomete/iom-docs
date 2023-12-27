@@ -12,7 +12,7 @@ function Container(props: Props) {
   return (
     <>
       <div className="row">
-        {[...props.items].reverse().map((item, index) => {
+        {[...props.items].map((item, index) => {
           return (
             <div className="col col--4" key={index}>
               <Card {...(item.content as any)} />
