@@ -56,7 +56,7 @@ const config = {
           postsPerPage: "ALL",
           showReadingTime: true,
           // blogListComponent: '/blog/index.js',
-          // blogTagsPostsComponent: require.resolve("./src/theme/BlogListPage/index.tsx"),
+          blogTagsPostsComponent: "/src/theme/BlogListPage/index.js",
           blogTitle: "IOMETE Blog",
           blogDescription:
             "Modern lakehouse platform. Save 5x over expensive alternatives | Built on Apache Iceberg and Apache Spark | Cloud, on premise and hybrid solutions.",

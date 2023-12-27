@@ -7,6 +7,7 @@ import {
 } from '@docusaurus/theme-common';
 import BlogLayout from '@theme/BlogLayout';
 import Container from './Container';
+import Head from "@docusaurus/Head";
 
 import './styles.scss';
 
@@ -26,6 +27,7 @@ function BlogListPageMetadata({ metadata }) {
   );
 }
 export default function BlogListPage(props) {
+  // console.log('props', props);
   return (
     <HtmlClassNameProvider
       className={clsx(
@@ -33,9 +35,14 @@ export default function BlogListPage(props) {
         ThemeClassNames.page.blogListPage,
         'iom-blog-list'
       )}>
-      <BlogListPageMetadata {...props} />
+      {props.metadata && <BlogListPageMetadata metadata={props.metadata} />}
+
+      {!props.metadata && <Head>
+        <meta name="robots" content="noindex, nofollow, noarchive" />
+        <meta name="googlebot" content="noindex, nofollow, noarchive" />
+      </Head>}
       <BlogLayout >
-        <Container {...props} />
+        <Container {...props} metadata={props.listMetadata || props.metadata} />
       </BlogLayout>
     </HtmlClassNameProvider>
   );
