@@ -5,6 +5,9 @@
 }
 
 .Search {
+    flex-grow: 1;
+    flex-basis: 256px;
+
     display: flex;
     align-items: center;
     max-width: 100%;

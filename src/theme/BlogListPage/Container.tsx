@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import clsx from "clsx";
 import type { Props } from "@theme/BlogListPage";
-import type { Props as TagProps } from "@theme/BlogTagsPostsPage";
 import Card from "./Card";
 import styles from "./styles.module.scss";
 import Search from "./search";
@@ -17,20 +15,34 @@ function Container(props: Props) {
 
   console.log("items", props, featuredBlog);
 
-  const [filteredResults, setFilteredResults] = useState([]);
+  const [filteredResults, setFilteredResults] = useState<Props["items"]>(posts);
 
   const onSearchChange = (val: string) => {
-    console.log("Search", val);
+    if (val !== "") {
+      const filteredData = posts.filter((item) => {
+        return [
+          item.content.frontMatter.title?.toLowerCase(),
+          ...item.content.metadata.tags.map((a) => a.label.toLowerCase()),
+          ...item.content.metadata.authors.map((a) => a.name?.toLowerCase()),
+          item.content.metadata.formattedDate.toLowerCase(),
+        ].some((a) => a?.includes(val.toLowerCase()));
+      });
+      setFilteredResults(filteredData);
+    } else {
+      setFilteredResults([...posts]);
+    }
   };
 
   // className={clsx("container", styles.Container)}
   return (
     <div className={styles.Container}>
-      <Tags activeTag={props.metadata.permalink} />
-      <Search onChange={onSearchChange} />
+      <section className={styles.TagsSearchSection}>
+        <Tags activeTag={props.metadata.permalink} />
+        <Search onChange={onSearchChange} />
+      </section>
 
       <div className="row">
-        {posts.map((item, index) => {
+        {filteredResults.map((item, index) => {
           return (
             <div className="col col--4" key={index}>
               <Card {...(item.content as any)} />
