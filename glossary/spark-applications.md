@@ -1,5 +1,5 @@
 ---
-title:  What are Spark Applications?
+title: Spark Applications
 description: Explore Spark Applications, consisting of a driver process and a set of executor processes. The driver process manages application information, responds to user input, and distributes work across executors. Executors execute assigned code and report computation states back to the driver node. The cluster manager controls physical machines, allocating resources to Spark Applications, enabling concurrent execution of multiple applications.
 ---
 

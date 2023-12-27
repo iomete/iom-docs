@@ -1,5 +1,5 @@
 ---
-title: Data Warehouse - Centralized Repository for Business Intelligence
+title: Data Warehouse
 description: Explore the concept of a data warehouse, a centralized repository storing historical and current data for business-friendly insights, reporting, and analysis. Learn its applications, benefits, and challenges. Discover the differences between a data warehouse and a data lake and understand the advantages of the IOMETE Data Lakehouse, combining the strengths of both.
 ---
 

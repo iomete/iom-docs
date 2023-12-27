@@ -1,5 +1,5 @@
 ---
-title: Understanding Hash Buckets - Hash Tables and Hash Maps
+title: Hash Buckets
 description: Explore the concept of Hash Buckets, also known as hash tables or hash maps, as a powerful data structure in computing. Learn how hash buckets facilitate quick and efficient access to objects based on unique keys, optimizing data sorting and lookup processes.
 ---
 

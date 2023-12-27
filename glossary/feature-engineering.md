@@ -1,5 +1,5 @@
 ---
-title: Feature Engineering - Enhancing Data for Machine Learning Models
+title: Feature Engineering
 description: Explore the significance of feature engineering in machine learning, a crucial process that transforms raw data into features, enhancing the quality of input data for more accurate and efficient models.
 ---
 

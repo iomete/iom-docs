@@ -1,5 +1,5 @@
 ---
-title:  What is Spark Streaming?
+title: Spark Streaming
 description: Explore Spark Streaming, a powerful and scalable streaming processing system that initially supported both batch and real-time workloads but is now considered a legacy project. Instead, consider using Spark Structured Streaming, a newer and easier-to-use streaming engine seamlessly integrating with Spark components like MLlib and Spark SQL. With Spark Structured Streaming, process real-time data from various sources and push results to file systems, databases, and live dashboards. This unified approach offers benefits like fast recovery from failures, improved load balancing, and native integration with advanced processing libraries such as SQL, machine learning, and graph processing.
 ---
 

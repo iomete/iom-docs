@@ -1,5 +1,5 @@
 ---
-title: Exploring Hive Date Functions for Efficient Data Processing
+title: Hive Date Function
 description: Understand the significance of Hive Date Functions in data processing. Learn how Hive, a powerful tool for querying and processing data, offers a variety of built-in functions, including date functions, to enhance data manipulation and analysis capabilities.
 ---
 

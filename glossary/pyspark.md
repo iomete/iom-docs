@@ -1,5 +1,5 @@
 ---
-title:  What is PySpark?
+title: PySpark
 description: Explore PySpark, a Python API for Apache Spark designed to facilitate collaboration between Spark and Python. Learn how PySpark enables interfacing with Resilient Distributed Datasets (RDDs) in Apache Spark using the Python programming language. Discover PySparkSQL, a PySpark library allowing SQL-like analysis on large amounts of structured or semi-structured data, and its connectivity to Apache Hive for HiveQL queries. Uncover the availability of MLlib, Spark's machine learning library, through PySpark, supporting various machine-learning algorithms. Explore GraphFrames, a graph processing library, providing efficient graph analysis APIs using the PySpark core and PySparkSQL. Recognize the advantages of PySpark, including its ease of use, readability, and familiarity with Python, making data analysis, maintenance, and data visualization more straightforward than with Scala or Java.
 ---
 

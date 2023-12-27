@@ -1,5 +1,5 @@
 ---
-title: DataFrame - Two-Dimensional Table for Structured Data Organization
+title: DataFrame
 description: Explore the concept of a DataFrame, a versatile two-dimensional table used in data analytics. Learn about its structure, schema definition, and its prevalence in various programming languages and frameworks such as Spark, pandas (Python), R, Scala, and more.
 ---
 

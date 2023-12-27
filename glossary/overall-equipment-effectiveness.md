@@ -1,5 +1,5 @@
 ---
-title:  What is Overall Equipment Effectiveness?
+title: Overall Equipment Effectiveness
 description: Explore Overall Equipment Effectiveness (OEE), a crucial measure indicating how well a manufacturing operation is utilized compared to its full potential. Learn how identifying the percentage of productive manufacturing time provides valuable insights for systematic process improvements. Discover why measuring OEE is a manufacturing best practice, aiding in the identification of losses, benchmarking progress, and enhancing equipment productivity. Understand the power of OEE in guiding the implementation of use cases that improve its components, such as deploying predictive maintenance to enhance availability or leveraging computer vision for quality control.
 ---
 

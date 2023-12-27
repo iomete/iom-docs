@@ -1,5 +1,5 @@
 ---
-title: What is TensorFlow?
+title: TensorFlow
 description: Explore TensorFlow, an open-source library that facilitates the development of machine learning models. Learn about its capabilities, language support, and applications in various industries.
 ---
 

@@ -1,5 +1,5 @@
 ---
-title:  What is Real-Time Analytics?
+title: Real-Time Analytics
 description: Explore Real-Time Analytics, an essential tool for businesses requiring swift, data-driven decision-making. Understand how organizations utilize stream processing, event-driven architecture, and real-time data pipelines to ingest, process, and analyze data as it's generated, providing current insights for crucial business decisions. Recognize the applications of real-time analytics in scenarios where data timeliness is critical, such as personalized ads, intelligent pricing, or predictive maintenance. Delve into the foundational capabilities of data streaming, distinguishing between batch processing and streaming processing. Discover the diverse stakeholders and industries benefiting from real-time analytics and the tools, including Apache Spark, IOMETE SQL, and event-driven architecture, employed to implement it. Learn how organizations can create data pipelines and leverage real-time data visualization and predictive analytics to extract insights. In summary, real-time analytics is a vital capability enabling organizations to make quick, data-driven decisions and gain a competitive advantage.
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: Understanding HDFS - Hadoop Distributed File System
+title: HDFS
 description: Explore the Hadoop Distributed File System (HDFS), its role as the primary storage system for Hadoop applications, benefits, and alternatives for handling large data sets.
 ---
 

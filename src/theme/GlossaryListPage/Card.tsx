@@ -12,8 +12,8 @@ function Card({ frontMatter, metadata }: ContentExtended) {
   // console.log("Card", frontMatter, assets, metadata);
 
   return (
-    <Link to={metadata.permalink} className={styles.CardLink}>
-      <div className="card">
+    <Link to={metadata.permalink} className={styles.CardLink} style={{ textDecoration: "none" }}>
+      <div className={`${styles.Card} item shadow--lw`}>
         <div className="card__body">
           <h3 className={styles.CardTitle}>{frontMatter.title}</h3>
           <small className={styles.CardDesc}>{frontMatter.description}</small>

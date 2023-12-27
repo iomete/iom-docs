@@ -1,5 +1,5 @@
 ---
-title: Dataset - Structured Set of Data for Analysis and Processing
+title: Dataset
 description: Explore the concept of datasets, structured sets of data crucial for data analytics, analysis, and machine learning. Understand the distinctions between datasets and databases, examples of datasets, their role in data-driven decision-making, and the importance of managing, cataloging, and securing datasets for effective data governance.
 ---
 
@@ -11,17 +11,19 @@ A dataset is a structured set of data gathered and stored for analysis or proces
 
 ## Dataset vs. Database
 
-The terms *dataset* and *database* are often confused. Although both are related to data organization and management, they have several significant differences:
--   A dataset, as described earlier, is a collection of data used for analysis and modeling, typically organized in a structured format like an Excel spreadsheet, a CSV file, or a JSON file. The data can be organized in various ways and come from diverse sources, such as customer surveys, experiments, or existing databases. Datasets serve multiple purposes, including training and testing ML models, data visualization, research, and statistical analysis. They can be shared publicly or privately and are generally smaller than databases.
--   A database, on the other hand, is designed for long-term storage and management of large amounts of organized data stored electronically. This allows for easy access, manipulation, and updating of the data. In essence, a database is an organized collection of data stored as multiple datasets. There are various types of databases, including relational databases, document databases, and key-value databases.
+The terms _dataset_ and _database_ are often confused. Although both are related to data organization and management, they have several significant differences:
+
+- A dataset, as described earlier, is a collection of data used for analysis and modeling, typically organized in a structured format like an Excel spreadsheet, a CSV file, or a JSON file. The data can be organized in various ways and come from diverse sources, such as customer surveys, experiments, or existing databases. Datasets serve multiple purposes, including training and testing ML models, data visualization, research, and statistical analysis. They can be shared publicly or privately and are generally smaller than databases.
+- A database, on the other hand, is designed for long-term storage and management of large amounts of organized data stored electronically. This allows for easy access, manipulation, and updating of the data. In essence, a database is an organized collection of data stored as multiple datasets. There are various types of databases, including relational databases, document databases, and key-value databases.
 
 ## Examples of Datasets
 
 Datasets can include numbers, text, images, audio recordings, or even basic object descriptions. They can be organized in different forms, such as tables and files. Some examples of datasets are:
--   A dataset listing all real estate sales in a specific area during a designated time period.
--   A dataset containing information on all known meteorite landings.
--   A dataset on regional air quality in a specific area during a designated time period.
--   A dataset showing the attendance rate for public school students pre-K-12 by student group and district during the 2021–2022 school year.
+
+- A dataset listing all real estate sales in a specific area during a designated time period.
+- A dataset containing information on all known meteorite landings.
+- A dataset on regional air quality in a specific area during a designated time period.
+- A dataset showing the attendance rate for public school students pre-K-12 by student group and district during the 2021–2022 school year.
 
 ## Public Datasets
 

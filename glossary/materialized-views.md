@@ -1,5 +1,5 @@
 ---
-title:  What are Materialized Views?
+title: Materialized Views
 description: Explore the concept of materialized views, which store precomputed data as physical tables, making them ideal for frequently performed complex queries or aggregations. Learn how to easily create materialized views using the IOMETE SQL Editor and set up automatic refreshes for up-to-date data.
 ---
 

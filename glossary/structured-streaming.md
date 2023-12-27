@@ -1,5 +1,5 @@
 ---
-title:  What is Structured Streaming?
+title: Structured Streaming
 description: Explore the concept of Structured Streaming, a powerful stream processing API introduced in Spark 2.2. Learn about its capabilities, advantages, and how it enables incremental processing for real-time data.
 ---
 

@@ -5,12 +5,9 @@ import styles from "./styles.module.scss";
 import Search from "./search";
 
 function Container(props: Props) {
-  // console.log("props", props);
+  console.log("props-->", props);
   const featuredBlog = props.items.find((item) => (item.content.frontMatter as any).featured_blog);
   const posts = [...props.items.filter((item) => !(item.content.frontMatter as any).featured_blog)];
-
-  const selectedTag = "tag" in props ? props.tag : null;
-  console.log("selectedTag", selectedTag);
 
   console.log("items", props, featuredBlog);
 
@@ -42,7 +39,7 @@ function Container(props: Props) {
       <div className="row">
         {filteredResults.map((item, index) => {
           return (
-            <div className="col col--12" key={index}>
+            <div className="col col--12 margin-vert--md" key={index}>
               <Card {...(item.content as any)} />
             </div>
           );
