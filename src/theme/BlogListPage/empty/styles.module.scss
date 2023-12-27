@@ -1,0 +1,12 @@
+.Empty {
+    margin: auto;
+
+    padding-top: 64px;
+    padding-bottom: 64px;
+    width: 240px;
+    max-width: fit-content;
+
+    @media (min-width: 640px) {
+        padding: 64px;
+    }
+}
