@@ -1,6 +1,7 @@
 ---
 title: Streaming Analytics
 description: What is Streaming Analytics? Streaming Analytics, also referred to as event stream processing, is an effective method for examining real-time data. By employing continuous queries known as event streams, organizations can derive valuable insights from various data sources such as the Internet of Things (IoT), cloud applications, mobile devices, and machine sensors.
+tags: [s]
 ---
 
 # Streaming Analytics

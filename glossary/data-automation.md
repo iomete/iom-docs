@@ -1,6 +1,7 @@
 ---
 title: Data Automation
 description: Data automation is a popular data management technique that can help organizations collect, upload, transform, store, process, and analyze data without the need for manual human intervention.
+tags: [d]
 ---
 
 # Data Automation

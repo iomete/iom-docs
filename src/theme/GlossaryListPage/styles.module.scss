@@ -1,11 +1,22 @@
+.TagsSearchSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 [data-theme="dark"] {
   .Card:hover {
     background-color: #1e293b;
   }
 }
 
+.CardRow {
+  margin-top: 12px;
+}
+
 .Card {
   border-radius: 6px;
+
   //   background-color: pink;
 }
 

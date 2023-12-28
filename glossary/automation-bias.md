@@ -1,6 +1,7 @@
 ---
 title: Automation Bias
 description: Automation bias is an over-reliance on automated aids and decision support systems, while machine bias relates to the ways in which algorithms exhibit the bias of the algorithm used or their input data.
+tags: [a]
 ---
 
 # Automation Bias

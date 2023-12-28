@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import type { Props } from "@theme/BlogListPage";
 import Card from "./Card";
+import Tags from "./tags";
 import styles from "./styles.module.scss";
 import Search from "./search";
 
@@ -37,10 +38,10 @@ function Container(props: Props) {
     <div className={styles.Container}>
       <section className={styles.TagsSearchSection}>
         <Search onChange={onSearchChange} />
-        {/* <Tags activeTag={props.metadata.permalink} /> */}
+        <Tags activeTag={props.metadata.permalink} />
       </section>
 
-      <div className="row">
+      <div className={`${styles.CardRow} row`}>
         {filteredResults.map((item, index) => {
           return (
             <div className="col col--12 margin-vert--sm" key={index}>

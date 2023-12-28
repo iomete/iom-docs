@@ -1,6 +1,7 @@
 ---
 title: Data Mart
 description: A data mart is a curated database designed to serve the specific needs of a single data team, community, or line of business, such as the marketing or engineering department.
+tags: [d]
 ---
 
 # Data Mart

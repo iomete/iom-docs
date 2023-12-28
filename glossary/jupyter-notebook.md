@@ -1,6 +1,7 @@
 ---
 title: Jupyter Notebook
 description: A Jupyter Notebook is an open-source web application that allows data scientists to create and share documents containing live code, multimedia elements, and equations.
+tags: [j]
 ---
 
 # Jupyter Notebook

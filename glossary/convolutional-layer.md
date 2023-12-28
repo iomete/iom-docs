@@ -1,6 +1,7 @@
 ---
 title: Convolutional Layer
 description: A convolutional neural network (CNN or ConvNet) is a type of deep neural network used for recognizing patterns in images, as well as for spatial data analysis, computer vision, natural language processing, signal processing, and more.
+tags: [c]
 ---
 
 # Convolutional Layer

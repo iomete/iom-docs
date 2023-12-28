@@ -40,7 +40,7 @@ function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
     <Link to={metadata.permalink} className={styles.CardLink}>
       <div className={clsx("card", isFeatured && styles.FeaturedCard)}>
         <div className="card__image">
-          <img src={imgUrl} alt="Cover" />
+          <img src={imgUrl} alt="Cover" className={styles.CardImg} />
         </div>
         <div className="card__body">
           {!isFeatured && <small className={styles.CardTags}>{frontMatter.tags?.[0]}</small>}

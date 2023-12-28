@@ -1,6 +1,7 @@
 ---
 title: ML Pipelines
 description: Machine learning algorithms involve multiple stages, from pre-processing to feature extraction, model fitting, and validation. Connecting these stages, especially with large-scale datasets, can be challenging. Many ML libraries are not optimized for distributed computation or pipeline creation and tuning.
+tags: [m]
 ---
 
 # ML Pipelines

@@ -1,6 +1,7 @@
 ---
 title: PySpark
 description: What is PySpark? PySpark is a Python API for Apache Spark, designed to support the collaboration of Spark and Python. With PySpark, you can interface with Resilient Distributed Datasets (RDDs) in Apache Spark using Python programming language.
+tags: [p]
 ---
 
 # PySpark

@@ -1,6 +1,7 @@
 ---
 title: Predictive Maintenance
 description: Predictive Maintenance is a method of determining when an asset needs maintenance based on its actual condition, rather than a fixed schedule. By predicting and preventing failures, you can reduce costly equipment downtimes and maximize uptime and productivity.
+tags: [p]
 ---
 
 # Predictive Maintenance
