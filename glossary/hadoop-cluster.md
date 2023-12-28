@@ -1,6 +1,7 @@
 ---
 title: Hadoop Cluster
 description: Apache Hadoop is an open-source, Java-based software framework and parallel data processing engine. It allows big data analytics processing tasks to be divided into smaller tasks that can be executed in parallel using an algorithm (such as the MapReduce algorithm) and distributed across a Hadoop cluster.
+tags: [h]
 ---
 
 # Hadoop Cluster

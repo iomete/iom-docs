@@ -1,6 +1,7 @@
 ---
 title: Hash Buckets
 description: Hash Buckets, also known as hash tables or hash maps, are a powerful data structure in computing that allows for quick and efficient access to objects based on a unique key, such as a Social Security Number or account number.
+tags: [h]
 ---
 
 # Hash Buckets

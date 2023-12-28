@@ -1,6 +1,7 @@
 ---
 title: Bayesian Neural Network (BNN)
 description: Bayesian Neural Networks (BNNs) are a type of neural network that uses statistical methodology to attach a probability distribution to everything, including model parameters. By extending standard networks with posterior inference, BNNs can control over-fitting and obtain better results for a vast number of tasks, especially in domains where data is scarce, such as molecular biology and medical diagnosis.
+tags: [b]
 ---
 
 # Bayesian Neural Network

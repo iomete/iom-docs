@@ -1,6 +1,7 @@
 ---
 title: Spark Streaming
 description: What is Spark Streaming? Spark Streaming is a powerful and scalable streaming processing system that supports both batch and real-time workloads. However, it is now considered a legacy project with no further updates.
+tags: [s]
 ---
 
 # Spark Streaming

@@ -1,6 +1,7 @@
 ---
 title: Hosted Spark
 description: Hosted Spark is a unified data platform that provides organizations with a simplified way to interact with Apache Spark, a fast and general cluster computing system for Big Data.
+tags: [h]
 ---
 
 # Hosted Spark

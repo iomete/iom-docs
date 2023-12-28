@@ -1,6 +1,7 @@
 ---
 title: Unified Data Analytics Platform
 description: A Unified Data Analytics Platform assists organizations in accelerating innovation by integrating data science, engineering, and business. With IOMETE as your Unified Data Analytics Platform, you can rapidly prepare and clean data on a massive scale without limitations.
+tags: [u]
 ---
 
 # Unified Data Analytics Platform

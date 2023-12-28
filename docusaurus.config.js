@@ -213,6 +213,7 @@ const config = {
          */
         path: "./glossary",
         blogListComponent: "/src/theme/GlossaryListPage/index.js",
+
         postsPerPage: "ALL",
         showReadingTime: false,
       },

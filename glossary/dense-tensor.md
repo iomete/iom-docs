@@ -1,6 +1,7 @@
 ---
 title: Dense Tensor
 description: Dense tensors are a crucial component of multi-dimensional data analysis applications. They store values in a contiguous sequential block of memory, making them efficient for tensor computations. Popular software products like MATLAB and open source third-party toolboxes offer support for dense tensor operations.
+tags: [d]
 ---
 
 # Dense Tensor

@@ -9,41 +9,12 @@ export type Props = {
   activeTag?: string;
 };
 
-const prioritizedTags: Props["items"] = [
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "u",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-].map((tag) => ({
+const prioritizedTags: Props["items"] = ["A", "B", "C", "D", "E", "F", "H", "J", "K", "L", "M", "N", "O", "P", "R", "S", "T", "U"].map((tag) => ({
   name: tag,
   permalink: `/glossary/tags/${tag.replace(/ /g, "-")}`,
 }));
 
 const Chip = function ({ label, permalink, active = false }) {
-  console.log("Chip", permalink, active);
-
   return (
     <Link to={permalink} className={clsx(styles.TagLink, active && styles.Active)}>
       {label}
@@ -56,15 +27,11 @@ interface IProps {
 }
 function Tags({ activeTag }: IProps) {
   return (
-    <div className={`$styles.Tags} row`}>
-      <div className="col col--1">
-        <Chip label="All" permalink="/glossary" />
-      </div>
+    <div className={styles.Tags}>
+      <Chip label="All" permalink="/glossary" />
 
       {prioritizedTags.map(({ name, permalink }) => (
-        <div className="col col--1">
-          <Chip key={permalink} label={name} permalink={permalink} active={activeTag === permalink} />
-        </div>
+        <Chip key={permalink} label={name} permalink={permalink} active={activeTag === permalink} />
       ))}
     </div>
   );

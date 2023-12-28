@@ -1,6 +1,7 @@
 ---
 title: Materialized Views
 description: Materialized views differ from regular database views as they store precomputed data as a physical table. This feature makes them well-suited for handling complex queries or aggregations that are frequently performed.
+tags: [m]
 ---
 
 # Materialized Views

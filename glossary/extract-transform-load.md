@@ -1,6 +1,7 @@
 ---
 title: Extract Transform Load (ETL)
 description: ETL, or extract, transform, and load, is a critical process for businesses looking to derive insights from their data. As data sources and types continue to grow, data engineering teams face increasing pressure to process raw data into clean, reliable data that can be used downstream.
+tags: [e]
 ---
 
 # Extract Transform Load (ETL)

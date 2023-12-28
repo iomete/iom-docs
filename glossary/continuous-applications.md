@@ -1,6 +1,7 @@
 ---
 title: Continuous Applications
 description: Continuous applications are a type of end-to-end application that reacts to data in real-time. Developers can use a single programming interface to support the different aspects of continuous applications, such as query serving or interaction with batch jobs.
+tags: [c]
 ---
 
 # Continuous Applications

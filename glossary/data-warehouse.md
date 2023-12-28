@@ -1,6 +1,7 @@
 ---
 title: Data Warehouse
 description: A data warehouse is a centralized repository that stores current and historical data from multiple sources in a business-friendly manner for easier insights and reporting. Data warehouses are typically used for business intelligence (BI), reporting, and data analysis, making them essential for businesses looking to optimize their decision-making processes.
+tags: [d]
 ---
 
 # Data Warehouse
