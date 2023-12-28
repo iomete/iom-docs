@@ -1,7 +1,7 @@
 ---
 title: SparkR
 description: SparkR is a powerful tool for running R on Apache Spark, offering the same principles as Spark's other language bindings. With SparkR, users can easily import it into their environment and run their code, making it a great option for those familiar with R's syntax.
-tags: [s]
+alphabet: S
 ---
 
 # SparkR

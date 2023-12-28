@@ -1,7 +1,7 @@
 ---
 title: Orchestration
 description: Data Orchestration is the process of coordinating and managing multiple computer systems, applications, and services to execute larger workflows or processes.
-tags: [o]
+alphabet: O
 ---
 
 # Orchestration

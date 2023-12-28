@@ -1,7 +1,7 @@
 ---
 title: Data Sharing
 description: Data sharing refers to the ability to make the same data available to one or many stakeholders. It enables new business opportunities, collaboration with partners, and the generation of new revenue streams through data monetization.
-tags: [d]
+alphabet: D
 ---
 
 # Data Sharing

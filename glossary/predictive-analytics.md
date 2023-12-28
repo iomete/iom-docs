@@ -1,7 +1,7 @@
 ---
 title: Predictive Analytics
 description: Predictive Analytics is a powerful tool that uses advanced techniques to analyze both new and historical data, identifying patterns and predicting future outcomes and trends. By leveraging big data and applying algorithms to large data sets, organizations can find and exploit patterns within their data to detect risks and opportunities.
-tags: [p]
+alphabet: P
 ---
 
 # Predictive Analytics

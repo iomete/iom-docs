@@ -1,7 +1,7 @@
 ---
 title: Spark Applications
 description: What are Spark Applications? Spark Applications are made up of a driver process and a set of executor processes. The driver process is responsible for maintaining information about the application, responding to user input, and distributing work across the executors.
-tags: [s]
+alphabet: S
 ---
 
 # Spark Applications

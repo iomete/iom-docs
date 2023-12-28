@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { Props } from "@theme/BlogListPage";
 import Card from "./Card";
 import Tags from "./tags";
 import styles from "./styles.module.scss";
 import Search from "./search";
+import Empty from "../BlogListPage/empty";
 
 function Container(props: Props) {
-  const posts = [...props.items.filter((item) => !(item.content.frontMatter as any).featured_blog)].sort((a, b) =>
+  const [searchState, setSearchState] = useState<{ word: string; alphabet: string }>({ word: "", alphabet: "" });
+
+  // const all = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+  const alphabets = [...new Set(props.items.map((item) => (item.content.frontMatter as any).alphabet) || [])].sort();
+
+  const posts = [...props.items].sort((a, b) =>
     (a.content.frontMatter as any).title.toUpperCase() > (b.content.frontMatter as any).title.toUpperCase()
       ? 1
       : (b.content.frontMatter as any).title.toUpperCase() > (a.content.frontMatter as any).title.toUpperCase()
@@ -16,39 +22,59 @@ function Container(props: Props) {
 
   const [filteredResults, setFilteredResults] = useState<Props["items"]>(posts);
 
-  const onSearchChange = (val: string) => {
-    if (val !== "") {
+  useEffect(() => {
+    console.log(searchState);
+
+    if (searchState.word !== "" || searchState.alphabet !== "") {
+      const lowerWord = searchState.word.toLowerCase();
+
       const filteredData = posts.filter((item) => {
-        return [
-          item.content.frontMatter.title?.toLowerCase(),
-          ...item.content.metadata.tags.map((a) => a.label.toLowerCase()),
-          ...item.content.metadata.authors.map((a) => a.name?.toLowerCase()),
-          item.content.metadata.formattedDate.toLowerCase(),
-        ].some((a) => a?.includes(val.toLowerCase()));
+        const lowerTitle = item.content.frontMatter.title?.toLowerCase();
+
+        if (lowerWord && searchState.alphabet) {
+          return lowerTitle?.includes(lowerWord) && (item.content.frontMatter as any).alphabet === searchState.alphabet;
+        }
+
+        if (lowerWord) {
+          return lowerTitle?.includes(lowerWord);
+        }
+
+        return (item.content.frontMatter as any).alphabet === searchState.alphabet;
       });
 
       setFilteredResults(filteredData);
     } else {
       setFilteredResults([...posts]);
     }
+  }, [searchState]);
+
+  const onSearchChange = (val: string) => {
+    setSearchState((old) => ({ ...old, word: val }));
   };
 
-  // className={clsx("container", styles.Container)}
+  const onAlphabetChange = (val: string) => {
+    setSearchState((old) => ({ ...old, alphabet: val }));
+  };
+
   return (
     <div className={styles.Container}>
       <section className={styles.TagsSearchSection}>
         <Search onChange={onSearchChange} />
-        <Tags activeTag={props.metadata.permalink} />
+        <Tags list={alphabets} selected={searchState.alphabet} onChange={onAlphabetChange} />
       </section>
 
       <div className={`${styles.CardRow} row`}>
-        {filteredResults.map((item, index) => {
-          return (
-            <div className="col col--12 margin-vert--sm" key={index}>
-              <Card {...(item.content as any)} />
-            </div>
-          );
-        })}
+        {filteredResults?.length ? (
+          filteredResults.map((item, index) => {
+            return (
+              <div className="col col--12 margin-vert--sm" key={index}>
+                <Card {...(item.content as any)} />
+              </div>
+            );
+          })
+        ) : (
+          <Empty />
+        )}
       </div>
     </div>
   );

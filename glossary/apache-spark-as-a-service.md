@@ -1,7 +1,7 @@
 ---
 title: Apache Spark
 description: What is Apache Spark as a Service? Apache Spark is an open source cluster computing framework for fast real-time large-scale data processing. IOMETE Spark-as-a-Service comes with a set of built-in applications that can help you access and analyze data faster.
-tags: [a]
+alphabet: A
 ---
 
 #Apache Spark as a Service#

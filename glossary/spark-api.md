@@ -1,7 +1,7 @@
 ---
 title: Spark API
 description: If you're working with Spark, you'll encounter three APIs - DataFrames, Datasets, and RDDs (Resilient Distributed Datasets).
-tags: [s]
+alphabet: S
 ---
 
 # Spark API

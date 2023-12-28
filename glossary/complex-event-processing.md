@@ -1,7 +1,7 @@
 ---
 title: Complex Event Processing (CEP)
 description: Complex Event Processing (CEP) is a technology used for querying data before storing it in a database or analyzing it in real-time without ever storing it. CEP is an organizational tool that helps to aggregate different information and identify cause-and-effect relationships among events in real-time, allowing you to proactively take effective actions.
-tags: [c]
+alphabet: C
 ---
 
 # Complex Event Processing

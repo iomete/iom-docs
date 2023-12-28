@@ -1,7 +1,7 @@
 ---
 title: Medallion Architecture
 description: Medallion Architecture is a data design pattern employed to organize data within a lakehouse, aiming to enhance data quality as it traverses each layer of the architecture.
-tags: [m]
+alphabet: M
 ---
 
 # Medallion Architecture

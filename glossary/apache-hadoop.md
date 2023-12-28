@@ -1,7 +1,7 @@
 ---
 title: Apache Hadoop
 description: Apache Hadoop is an open source, Java-based software platform that manages data processing and storage for big data applications. The platform works by distributing Hadoop big data and analytics jobs across nodes in a computing cluster, breaking them down into smaller workloads that can be run in parallel.
-tags: [a]
+alphabet: A
 ---
 
 # Apache Hadoop

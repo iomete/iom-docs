@@ -1,7 +1,7 @@
 ---
 title: Real-Time Analytics
 description: What is Real-Time Analytics? Real-time Analytics is an essential tool for businesses that require swift, data-driven decision-making.
-tags: [r]
+alphabet: R
 ---
 
 # Real-Time Analytics
