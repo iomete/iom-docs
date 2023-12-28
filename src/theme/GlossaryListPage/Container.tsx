@@ -58,6 +58,8 @@ function Container(props: Props) {
 
   return (
     <div className={styles.Container}>
+      <h1>Glossary</h1>
+
       <section className={styles.TagsSearchSection}>
         <Search onChange={onSearchChange} />
         <Tags list={alphabets} selected={searchState.alphabet} onChange={onAlphabetChange} />

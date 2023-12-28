@@ -23,7 +23,7 @@ function BlogListPageMetadata({ metadata }) {
 }
 export default function GlossaryListPage(props) {
   return (
-    <HtmlClassNameProvider className={clsx(ThemeClassNames.wrapper.blogPages, ThemeClassNames.page.blogListPage)}>
+    <HtmlClassNameProvider className={clsx(ThemeClassNames.wrapper.blogPages, ThemeClassNames.page.blogListPage, 'iom-glossary-list')}>
       <BlogListPageMetadata {...props} />
       <BlogLayout>
         <Container {...props} />
