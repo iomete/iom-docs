@@ -1,7 +1,7 @@
 ---
 title: Demand Forecasting
 description: Demand forecasting is the process of projecting consumer demand to estimate future revenue. It involves projecting the assortment of products that shoppers will buy using both quantitative and qualitative data.
-tags: [d]
+alphabet: D
 ---
 
 # Demand Forecasting

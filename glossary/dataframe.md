@@ -1,7 +1,7 @@
 ---
 title: DataFrame
 description: A DataFrame is a two-dimensional table of rows and columns, similar to a spreadsheet, that organizes data in a structured way. It is one of the most commonly used data structures in modern data analytics due to its flexibility and ease of use.
-tags: [d]
+alphabet: D
 ---
 
 # DataFrames

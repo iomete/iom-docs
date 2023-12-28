@@ -1,7 +1,7 @@
 ---
 title: Digital Twin
 description: A digital twin is a virtual model that accurately reflects a physical object. In manufacturing, a digital twin gathers system and process state data with the help of various IoT sensors and enterprise data to form a virtual model.
-tags: [d]
+alphabet: D
 ---
 
 # Digital Twin

@@ -1,7 +1,7 @@
 ---
 title: Data Lakehouse
 description: A data lakehouse is a data repository that combines the best features of data warehouses and data lakes. Enabled by a new, open system design, data lakehouses implement similar data structures and management features to those in a data warehouse directly on the low-cost storage used for data lakes.
-tags: [d]
+alphabet: D
 ---
 
 # Data Lakehouse: Simplicity, Flexibility, and Low Cost for Big Data Management

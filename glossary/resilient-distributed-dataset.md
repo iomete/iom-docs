@@ -1,7 +1,7 @@
 ---
 title: Resilient Distributed Dataset (RDD)
 description: RDDs have been the primary user-facing API in Spark since its inception. At their core, RDDs are immutable distributed collections of data elements that are partitioned across nodes in a cluster, allowing for parallel operation using a low-level API that offers transformations and actions.
-tags: [r]
+alphabet: R
 ---
 
 # Resilient Distributed Dataset (RDD)

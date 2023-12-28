@@ -1,7 +1,7 @@
 ---
 title: Unified Data Warehouse
 description: What is a Unified Data Warehouse? A Unified Data Warehouse is a centralized database that consolidates all of an organization's business information, making it readily available throughout the company.
-tags: [u]
+alphabet: U
 ---
 
 # Unified Data Warehouse

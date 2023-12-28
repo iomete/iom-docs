@@ -1,7 +1,7 @@
 ---
 title: Personalized Finance
 description: Personalized Finance - also known as open finance - is a data-driven approach that empowers banks to offer tailored services to their clients.
-tags: [p]
+alphabet: P
 ---
 
 # Personalized Finance

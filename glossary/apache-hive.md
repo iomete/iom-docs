@@ -1,7 +1,7 @@
 ---
 title: Apache Hive
 description: Apache Hive is an open-source data warehouse solution designed to read, write, and manage large datasets extracted from the Apache Hadoop Distributed File System (HDFS), which is part of a broader Hadoop Ecosystem.
-tags: [a]
+alphabet: A
 ---
 
 # Apache Hive

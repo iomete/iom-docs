@@ -1,7 +1,7 @@
 ---
 title: Data Pipelines
 description: A data pipeline is a series of steps that move data from one system to another, encompassing the source, processing steps, and destination. Data can be modified during the transfer process, and some pipelines may be used to transform data.
-tags: [d]
+alphabet: D
 ---
 
 # Data Pipelines

@@ -1,7 +1,7 @@
 ---
 title: Real-Time Retail
 description: Real-time data provides accurate and timely insights that enable businesses to make informed decisions and improve supply chain agility, reduce costs, optimize product availability, and replenish stock.
-tags: [r]
+alphabet: R
 ---
 
 # Real-Time Retail

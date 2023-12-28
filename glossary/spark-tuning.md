@@ -1,7 +1,7 @@
 ---
 title: Spark Tuning
 description: What is Spark Tuning? Spark Tuning refers to the process of adjusting settings to optimize memory, cores, and instances utilized by the system, ensuring seamless performance and avoiding resource bottlenecks in Apache Spark.
-tags: [s]
+alphabet: S
 ---
 
 # Spark Tuning

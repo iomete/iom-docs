@@ -1,7 +1,7 @@
 ---
 title: Machine Learning Model
 description: A machine learning model is a powerful tool that leverages algorithms to identify patterns and make decisions based on previously unseen data. In various fields, such as natural language processing and image recognition, machine learning plays a crucial role in optimizing algorithms to discern specific patterns or outputs.
-tags: [m]
+alphabet: M
 ---
 
 # Machine Learning Model
