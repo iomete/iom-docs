@@ -77,6 +77,8 @@ const config = {
           priority: 0.5,
           ignorePatterns: [
             "/docs/tags/**",
+            "/blog/tags/**",
+            "/glossary/tags/**",
             "/docs/data-policy/**",
             "/docs/user-guide/access-policy-management",
             "/docs/user-guide/serverless-spark-applications",
@@ -123,7 +125,7 @@ const config = {
           //   label: "Glossary",
           // },
           { to: "/blog", label: "Blog", position: "left" },
-          { to: "/glossary", label: "Glossary", position: "left" },
+          // { to: "/glossary", label: "Glossary", position: "left" },
           // { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
           {
             href: "https://api.iomete.com",
@@ -142,6 +144,7 @@ const config = {
         apiKey: "3c9132c4cdf813a81e47299fde60c651",
         indexName: "iomete",
         contextualSearch: false,
+        searchPagePath: false
       },
       colorMode: {
         respectPrefersColorScheme: true,
@@ -203,6 +206,7 @@ const config = {
          * Required for any multi-instance plugin
          */
         id: "glossary",
+        blogSidebarCount: 0,
         /**
          * URL route for the blog section of your site.
          * *DO NOT* include a trailing slash.

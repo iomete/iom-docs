@@ -1,5 +1,7 @@
-html.iom-blog-list {
+html.iom-glossary-list {
   div.container.margin-vert--lg {
+    max-width: var(--ifm-container-width);
+
     @media (max-width: 768px) {
       padding: 0 24px;
     }
