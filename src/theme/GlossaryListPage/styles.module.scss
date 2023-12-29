@@ -99,3 +99,7 @@
     }
   }
 }
+
+[data-theme=dark] .CardRow .CardLink .Card:hover {
+  background-color: var(--ifm-color-emphasis-200);
+}
