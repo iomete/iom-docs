@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import type { Props } from "@theme/BlogListPage";
 import Card from "./Card";
-import Tags from "./tags";
+// import Tags from "./tags";
 import styles from "./styles.module.scss";
-import Search from "./search";
+import Search from "./Search";
 import Empty from "../BlogListPage/empty";
+import Heading from "@theme/Heading";
+import Tags from "./Tags";
 
 function Container(props: Props) {
   const [searchState, setSearchState] = useState<{ word: string; alphabet: string }>({ word: "", alphabet: "" });
 
-  // const all = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
   const alphabets = [...new Set(props.items.map((item) => (item.content.frontMatter as any).alphabet) || [])].sort();
 
   const posts = [...props.items].sort((a, b) =>
@@ -23,8 +24,6 @@ function Container(props: Props) {
   const [filteredResults, setFilteredResults] = useState<Props["items"]>(posts);
 
   useEffect(() => {
-    console.log(searchState);
-
     if (searchState.word !== "" || searchState.alphabet !== "") {
       const lowerWord = searchState.word.toLowerCase();
 
@@ -58,7 +57,7 @@ function Container(props: Props) {
 
   return (
     <div className={styles.Container}>
-      <h1>Glossary</h1>
+      <Heading as="h1">Glossary</Heading>
 
       <section className={styles.TagsSearchSection}>
         <Search onChange={onSearchChange} />
