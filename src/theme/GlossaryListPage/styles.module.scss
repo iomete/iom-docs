@@ -1,40 +1,101 @@
+.Container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
 .TagsSearchSection {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-[data-theme="dark"] {
-  .Card:hover {
-    background-color: #1e293b;
+.Tags {
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  .TagLink {
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 4px 8px;
+
+    color: var(--ifm-color-emphasis-800);
+    background-color: var(--ifm-color-emphasis-200);
+
+    &.Active,
+    &:hover {
+      color: white;
+      background-color: var(--ifm-color-primary);
+    }
+  }
+}
+
+.Search {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  width: 100%;
+  position: relative;
+
+  input {
+    width: 100%;
+    padding: 12px;
+
+    @media (max-width: 768px) {
+      padding: 8px;
+    }
+
+    padding-right: 32px;
+    border-radius: 5px;
+    border: 1px solid var(--ifm-color-emphasis-300);
+    background-color: transparent;
+
+    font-size: 18px;
+    outline: unset;
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--ifm-navbar-link-hover-color);
+    }
+
+    &::placeholder {
+      font-size: 14px;
+      color: var(--ifm-color-emphasis-600);
+    }
+  }
+
+  svg {
+    margin-right: 12px;
+    position: absolute;
+    right: 0px;
   }
 }
 
 .CardRow {
-  margin-top: 12px;
-}
+  row-gap: 12px;
 
-.Card {
-  border-radius: 6px;
+  .CardLink,
+  .CardLink:hover {
+    color: unset;
+    text-decoration: none;
+  }
 
-  //   background-color: pink;
-}
+  .CardLink .Card {
+    border-radius: 6px;
 
-.Card:hover {
-  background-color: #f8fafc;
-}
+    &:hover {
+      background-color: var(--ifm-color-emphasis-100);
+    }
 
-.CardLink,
-.CardLink:hover {
-  color: unset;
-  text-decoration: none;
-}
+    .CardTitle {
+      margin-bottom: 0.5rem;
+    }
 
-.CardTitle {
-  margin-bottom: 0.5rem;
-}
-
-.CardReadMore {
-  margin-top: 1rem;
-  color: var(--ifm-color-primary);
+    .CardReadMore {
+      margin-top: 1rem;
+      color: var(--ifm-color-primary);
+    }
+  }
 }

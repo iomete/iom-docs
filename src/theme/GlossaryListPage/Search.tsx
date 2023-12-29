@@ -5,13 +5,12 @@ import styles from "./styles.module.scss";
 
 interface IProps {
   onChange: (val: string) => void;
-  placeholder?: string;
 }
 
-function Search({ onChange, placeholder = "Search by name, title, category..." }: IProps) {
+function Search({ onChange }: IProps) {
   return (
     <div className={styles.Search}>
-      <input type="text" onChange={(e) => onChange(e.target.value)} placeholder="Search..." />
+      <input type="text" onChange={(e) => onChange(e.target.value)} placeholder="Search by title" />
       <MagnifyingGlass size={18} />
     </div>
   );
