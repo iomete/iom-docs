@@ -15,8 +15,8 @@ function Tags({ list, selected, onChange }: IProps) {
         All
       </div>
 
-      {list.map((item) => (
-        <div className={clsx(styles.TagLink, selected === item && styles.Active)} onClick={() => onChange(item)}>
+      {list.map((item, index) => (
+        <div key={index} className={clsx(styles.TagLink, selected === item && styles.Active)} onClick={() => onChange(item)}>
           {item}
         </div>
       ))}

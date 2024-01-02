@@ -16,7 +16,7 @@ const config = {
   url: "https://iomete.com",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/",
+  baseUrl: "/resources",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -55,7 +55,7 @@ const config = {
           blogSidebarCount: 0,
           postsPerPage: "ALL",
           showReadingTime: true,
-          // blogListComponent: '/blog/index.js',
+          // blogListComponent: "/blog/index.js",
           blogTagsPostsComponent: "/src/theme/BlogListPage/index.js",
           blogTitle: "IOMETE Blog",
           blogDescription:
@@ -144,7 +144,7 @@ const config = {
         apiKey: "3c9132c4cdf813a81e47299fde60c651",
         indexName: "iomete",
         contextualSearch: false,
-        searchPagePath: false
+        searchPagePath: false,
       },
       colorMode: {
         respectPrefersColorScheme: true,
