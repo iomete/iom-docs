@@ -6,8 +6,11 @@ import Search from "./search";
 import Tags from "./tags";
 import Header from "./header";
 import Empty from "./empty";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 function Container(props: Props) {
+  const baseUrl = useBaseUrl("/");
+
   const featuredBlog = props.items.find((item) => (item.content.frontMatter as any).featured_blog);
   const posts = [...props.items.filter((item) => !(item.content.frontMatter as any).featured_blog)];
 
@@ -31,7 +34,7 @@ function Container(props: Props) {
 
   return (
     <div className={styles.Container}>
-      <Header />
+      <Header baseUrl={baseUrl} />
 
       {featuredBlog && <Card {...(featuredBlog.content as any)} isFeatured />}
 

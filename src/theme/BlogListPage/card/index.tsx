@@ -4,6 +4,7 @@ import type { Content, FrontMatter } from "@theme/BlogPostPage";
 import styles from "./styles.module.scss";
 import Link from "@docusaurus/Link";
 import clsx from "clsx";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 interface ContentExtended extends Content {
   frontMatter: FrontMatter & {
@@ -13,16 +14,18 @@ interface ContentExtended extends Content {
     banner_description?: string;
   };
   isFeatured?: boolean;
+  baseUrl: string;
 }
 
 interface IAvatarProps {
   date: string;
   authors: Content["metadata"]["authors"];
+  baseUrl: string;
 }
-function Avatar({ authors: [author], date }: IAvatarProps) {
+function Avatar({ authors: [author], date, baseUrl }: IAvatarProps) {
   return (
     <div className="avatar">
-      <img className="avatar__photo" src={author.imageURL} />
+      <img className="avatar__photo" src={baseUrl + author.imageURL} />
       <div className="avatar__intro">
         <span>{author.name}</span>
         <small>{date}</small>
@@ -32,9 +35,10 @@ function Avatar({ authors: [author], date }: IAvatarProps) {
 }
 
 function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
-  // console.log("Card", frontMatter, assets, metadata);
+  const baseUrl = useBaseUrl("/");
 
-  const imgUrl = frontMatter.coverImage?.startsWith("/") ? frontMatter.coverImage : `/${frontMatter.coverImage}`;
+  // console.log("Card", frontMatter, assets, metadata);
+  const imgUrl = baseUrl + frontMatter.coverImage?.startsWith("/") ? frontMatter.coverImage : `/${frontMatter.coverImage}`;
 
   return (
     <Link to={metadata.permalink} className={styles.CardLink}>
@@ -46,7 +50,7 @@ function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
           {!isFeatured && <small className={styles.CardTags}>{frontMatter.tags?.[0]}</small>}
           <h3 className={styles.CardTitle}>{frontMatter.title}</h3>
           <small className={styles.CardDesc}>{frontMatter.banner_description || frontMatter.description}</small>
-          <Avatar authors={metadata.authors || []} date={metadata.formattedDate} />
+          <Avatar authors={metadata.authors || []} date={metadata.formattedDate} baseUrl={baseUrl} />
         </div>
       </div>
     </Link>
