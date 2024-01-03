@@ -1,0 +1,37 @@
+name: Docs Deployment V3
+
+on: workflow_dispatch
+
+jobs:
+  production:
+    name: documentation-deployment-v3
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+      - run: npm install --no-audit --no-progress -s --no-fund
+      - run: npm run build
+      #https://github.com/Reggionick/s3-deploy
+      #https://stackoverflow.com/questions/18774069/amazon-cloudfront-cache-control-no-cache-header-has-no-effect-after-24-hours
+      - name: S3 Upload
+        uses: reggionick/s3-deploy@v3
+        with:
+          folder: build
+          bucket: ${{ secrets.s3_bucket_name }}/resources
+          bucket-region: ${{ secrets.s3_bucket_region }}
+          dist-id: ${{ secrets.cloudfront_distribution_id }}
+          invalidation: /resources*
+          delete-removed: true
+          no-cache: false
+          cache: 86400
+          private: true
+          filesToInclude: "**"
