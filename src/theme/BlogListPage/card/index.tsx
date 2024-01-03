@@ -20,12 +20,11 @@ interface ContentExtended extends Content {
 interface IAvatarProps {
   date: string;
   authors: Content["metadata"]["authors"];
-  baseUrl: string;
 }
-function Avatar({ authors: [author], date, baseUrl }: IAvatarProps) {
+function Avatar({ authors: [author], date }: IAvatarProps) {
   return (
     <div className="avatar">
-      <img className="avatar__photo" src={baseUrl + author.imageURL} />
+      <img className="avatar__photo" src={author.imageURL} />
       <div className="avatar__intro">
         <span>{author.name}</span>
         <small>{date}</small>
@@ -38,7 +37,8 @@ function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
   const baseUrl = useBaseUrl("/");
 
   // console.log("Card", frontMatter, assets, metadata);
-  const imgUrl = baseUrl + frontMatter.coverImage?.startsWith("/") ? frontMatter.coverImage : `/${frontMatter.coverImage}`;
+  const imgUrl =
+    baseUrl + frontMatter.coverImage?.startsWith("/") ? frontMatter.coverImage : `/${frontMatter.coverImage}`;
 
   return (
     <Link to={metadata.permalink} className={styles.CardLink}>
@@ -50,7 +50,7 @@ function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
           {!isFeatured && <small className={styles.CardTags}>{frontMatter.tags?.[0]}</small>}
           <h3 className={styles.CardTitle}>{frontMatter.title}</h3>
           <small className={styles.CardDesc}>{frontMatter.banner_description || frontMatter.description}</small>
-          <Avatar authors={metadata.authors || []} date={metadata.formattedDate} baseUrl={baseUrl} />
+          <Avatar authors={metadata.authors || []} date={metadata.formattedDate} />
         </div>
       </div>
     </Link>

@@ -16,7 +16,7 @@ const config = {
   url: "https://iomete.com",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/resources",
+  baseUrl: "/resources/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -92,8 +92,14 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      // Replace with your project's social card
-      // image: 'img/iomete-docs-og.png',
+      metadata: [
+        { property: "og:image", content: "/resources/img/iomete-docs-og.png" },
+        { property: "og:type", content: "article" },
+        { property: "og:site_name", content: "IOMETE Documentation" },
+        { name: "twitter:title", content: "IOMETE Documentation" },
+        { name: "twitter:site", content: "IOMETE Documentation" },
+        { name: "twitter:image", content: "/resources/img/iomete-docs-og.png", },
+      ],
 
       navbar: {
         // title: 'My Site',
