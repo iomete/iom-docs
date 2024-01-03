@@ -36,9 +36,8 @@ function Avatar({ authors: [author], date }: IAvatarProps) {
 function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
   const baseUrl = useBaseUrl("/");
 
-  // console.log("Card", frontMatter, assets, metadata);
   const imgUrl =
-    baseUrl + frontMatter.coverImage?.startsWith("/") ? frontMatter.coverImage : `/${frontMatter.coverImage}`;
+    baseUrl + (frontMatter.coverImage?.startsWith("/") ? frontMatter.coverImage.slice(1) : frontMatter.coverImage);
 
   return (
     <Link to={metadata.permalink} className={styles.CardLink}>
