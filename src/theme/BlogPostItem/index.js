@@ -9,10 +9,10 @@ export default function BlogPostItemWrapper(props) {
 
   return (
     <>
-      <Head>
+      {!props.children.type.frontMatter.image && <Head>
         <meta property="og:image" content={baseUrl + "img/iomete-blog-og.png"} />
         <meta name="twitter:image" content={baseUrl + "img/iomete-blog-og.png"} />
-      </Head>
+      </Head>}
 
       <BlogPostItem {...props} />
     </>

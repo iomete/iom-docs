@@ -3,7 +3,6 @@ title: On-Premise Data Engineering in the Age of ML and AI | Embracing IOMETE's 
 
 description: Maximum data security and control, which are critical for businesses dealing with sensitive data or operating under stringent regulatory requirements
 slug: on-prem-data-engineering-ml-ai
-image: onprem-vs-cloud-data-lake
 hide_table_of_contents: true
 tags: [Engineering]
 authors: piet
