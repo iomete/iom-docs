@@ -57,7 +57,7 @@ function Container(props: Props) {
 
   return (
     <div className={styles.Container}>
-      <Heading as="h1">Glossary</Heading>
+      <Heading as="h1">IOMETE glossary</Heading>
 
       <section className={styles.TagsSearchSection}>
         <Search onChange={onSearchChange} />
