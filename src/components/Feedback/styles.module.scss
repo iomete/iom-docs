@@ -6,7 +6,7 @@
   text-align: center;
 
   .Title {
-    color: #222;
+    // color: #222;
     font-size: 14px;
     line-height: 20px;
     font-weight: 500;
@@ -26,8 +26,8 @@
   }
 
   .Iconx svg {
-    width: 16px;
-    height: 16px;
+    color: var(--ifm-color-primary);
+
     margin-right: 6px;
     line-height: 22px;
     vertical-align: text-bottom;
