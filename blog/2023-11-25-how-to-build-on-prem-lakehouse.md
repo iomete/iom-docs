@@ -3,7 +3,6 @@ title: How to Build An On-premise Data Lakehouse
 
 description: Solutions building an on-premise Data Lakehouse key steps in building an effective on-premise Data Lakehouse
 slug: how-to-build-on-prem-data-lakehouse
-image: onprem-vs-cloud-data-lake
 hide_table_of_contents: true
 tags: [Engineering]
 authors: piet

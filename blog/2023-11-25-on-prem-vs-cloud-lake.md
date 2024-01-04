@@ -2,7 +2,6 @@
 title: On-premise vs. Cloud Data Lakehouse | Understanding Their Strengths and Weaknesses
 description: The cloud-based Data Lakehouse represents the convergence of cloud computing's scalability and a Data Lakehouse architecture's advanced data management capabilities.
 slug: on-prem-vs-cloud-data-lakehouse
-image: onprem-vs-cloud-data-lake
 hide_table_of_contents: true
 tags: [Engineering]
 authors: piet
