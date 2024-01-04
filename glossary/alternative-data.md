@@ -1,6 +1,7 @@
 ---
 title: Alternative Data
-description: Alternative data refers to information gathered from non-traditional sources, providing insights beyond what traditional data sources can offer. The definition of alternative data varies across industries, depending on the conventional data sources used by businesses and competitors.
+description: Unlock insights beyond traditional data with Alternative Data. Diverse sources redefine analytics, adapting to industry-specific data landscapes.
+banner_description: Alternative data refers to information gathered from non-traditional sources, providing insights beyond what traditional data sources can offer. The definition of alternative data varies across industries, depending on the conventional data sources used by businesses and competitors.
 alphabet: A
 ---
 

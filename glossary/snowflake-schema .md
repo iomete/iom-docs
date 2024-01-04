@@ -1,6 +1,7 @@
 ---
 title: Snowflake Schema
-description: What is Snowflake Schema? Snowflake Schema is a multidimensional data model used for business intelligence and reporting in data warehouses, data marts, and relational databases. It is an extension of a Star Schema, where dimension tables are broken down into subdimensions.
+description: Explore Snowflake Schema, a multidimensional data model for business intelligence in data warehouses.
+banner_description: Snowflake Schema is a multidimensional data model used for business intelligence and reporting in data warehouses, data marts, and relational databases. It is an extension of a Star Schema, where dimension tables are broken down into subdimensions.
 alphabet: S
 ---
 

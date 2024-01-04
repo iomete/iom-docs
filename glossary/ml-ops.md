@@ -1,6 +1,7 @@
 ---
 title: MLOps (Machine Learning Operations)
-description: MLOps (Machine Learning Operations) is a critical function in Machine Learning engineering that optimizes the process of taking machine learning models to production and ensures their ongoing maintenance and monitoring.
+description: MLOps - Critical in ML engineering, optimizes taking models to production, ensuring ongoing maintenance and monitoring.
+banner_description: MLOps (Machine Learning Operations) is a critical function in Machine Learning engineering that optimizes the process of taking machine learning models to production and ensures their ongoing maintenance and monitoring.
 alphabet: M
 ---
 

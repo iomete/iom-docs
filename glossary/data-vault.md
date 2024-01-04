@@ -1,6 +1,7 @@
 ---
 title: Data Vault
-description: A Data Vault is a data modeling design pattern used to build a data warehouse for enterprise-scale analytics. It is made up of three types of entities - hubs, links, and satellites.
+description: A Data Vault is a data modeling design pattern used to build a data warehouse for enterprise-scale analytics.
+banner_description: A Data Vault is a data modeling design pattern used to build a data warehouse for enterprise-scale analytics. It is made up of three types of entities - hubs, links, and satellites.
 alphabet: D
 ---
 

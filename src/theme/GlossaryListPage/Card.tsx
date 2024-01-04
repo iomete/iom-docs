@@ -6,7 +6,7 @@ import Link from "@docusaurus/Link";
 import Heading from "@theme/Heading";
 
 interface ContentExtended extends Content {
-  frontMatter: FrontMatter & { coverImage?: string; tags?: string[]; featured_blog?: string };
+  frontMatter: FrontMatter & { coverImage?: string; tags?: string[]; featured_blog?: string; banner_description: string };
 }
 
 function Card({ frontMatter, metadata }: ContentExtended) {
@@ -17,7 +17,7 @@ function Card({ frontMatter, metadata }: ContentExtended) {
           <Heading as="h3" className={styles.CardTitle}>
             {frontMatter.title}
           </Heading>
-          <small className={styles.CardDesc}>{frontMatter.description}</small>
+          <small className={styles.CardDesc}>{frontMatter.banner_description}</small>
           <div className={styles.CardReadMore}>Read more</div>
         </div>
       </div>

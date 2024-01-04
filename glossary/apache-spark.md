@@ -1,6 +1,7 @@
 ---
 title: Apache Spark
-description: Apache Spark is an open-source analytics engine for processing large data sets. It can handle batch and real-time analytics and data processing tasks. Spark began in 2009 as a research project at the University of California, Berkeley, aiming to improve processing speeds in Hadoop systems.
+description: Supercharge analytics with Apache Spark—an open-source engine for large datasets. Handle batch and real-time tasks, evolving from a 2009 UC Berkeley project.
+banner_description: Apache Spark is an open-source analytics engine for processing large data sets. It can handle batch and real-time analytics and data processing tasks. Spark began in 2009 as a research project at the University of California, Berkeley, aiming to improve processing speeds in Hadoop systems.
 alphabet: A
 ---
 

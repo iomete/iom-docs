@@ -1,6 +1,7 @@
 ---
 title: Spark SQL
-description: What is Spark SQL? Spark SQL is a powerful module for structured data processing that provides native support for SQL in Spark. It enables users to run unmodified Hadoop Hive queries up to 100x faster on existing deployments and data, while also providing seamless integration with the rest of the Spark ecosystem.
+description: Optimize structured data processing - Spark SQL, native SQL support, accelerates Hive queries up to 100x, seamlessly integrates with Spark ecosystem.
+banner_description: Spark SQL is a powerful module for structured data processing that provides native support for SQL in Spark. It enables users to run unmodified Hadoop Hive queries up to 100x faster on existing deployments and data, while also providing seamless integration with the rest of the Spark ecosystem.
 alphabet: S
 ---
 

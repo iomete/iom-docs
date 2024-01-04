@@ -1,6 +1,7 @@
 ---
 title: Data Governance
-description: Data governance is a comprehensive approach that comprises the principles, practices, and tools to manage an organization's data assets throughout their lifecycle. By aligning data-related requirements with business strategy, data governance provides superior data management, quality, visibility, security, and compliance capabilities across the organization.
+description: Data governance is a comprehensive approach that comprises the principles, practices, and tools to manage an organization's data assets throughout their lifecycle.
+banner_description: Data governance is a comprehensive approach that comprises the principles, practices, and tools to manage an organization's data assets throughout their lifecycle. By aligning data-related requirements with business strategy, data governance provides superior data management, quality, visibility, security, and compliance capabilities across the organization.
 alphabet: D
 ---
 

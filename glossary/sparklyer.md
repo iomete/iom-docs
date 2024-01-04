@@ -1,6 +1,7 @@
 ---
 title: Sparklyr
-description: Sparklyr is an open-source package that bridges the gap between R and Apache Spark, allowing you to harness Spark's distributed data capabilities within a modern R environment. This powerful tool enables interactive manipulation of large datasets, making it ideal for data manipulation, analysis, and visualization.
+description: Optimize with Sparklyr seamlessly connected to Apache Spark. Utilize Spark's distributed power for efficient large-scale data manipulation and visualization.
+banner_description: Sparklyr is an open-source package that bridges the gap between R and Apache Spark, allowing you to harness Spark's distributed data capabilities within a modern R environment. This powerful tool enables interactive manipulation of large datasets, making it ideal for data manipulation, analysis, and visualization.
 alphabet: S
 ---
 

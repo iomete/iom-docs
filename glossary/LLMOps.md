@@ -1,6 +1,7 @@
 ---
 title: Large Language Model Ops (LLMOps)
-description: Large Language Model Ops (LLMOps) refers to a set of practices, techniques, and tools used for managing large language models in production environments. LLMOps is becoming increasingly vital as enterprises deploy large language models, including notable examples like OpenAI's ChatGPT and Google's Bard.
+description: Large Language Model Ops (LLMOps) refers to a set of practices, techniques, and tools used for managing large language models in production environments.
+banner_description: Large Language Model Ops (LLMOps) refers to a set of practices, techniques, and tools used for managing large language models in production environments. LLMOps is becoming increasingly vital as enterprises deploy large language models, including notable examples like OpenAI's ChatGPT and Google's Bard.
 alphabet: L
 ---
 

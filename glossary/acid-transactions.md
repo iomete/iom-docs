@@ -1,6 +1,7 @@
 ---
 title: ACID Transactions
-description: ACID is an acronym representing the four essential properties defining a transaction - Atomicity, Consistency, Isolation, and Durability.
+description: Explore the foundation of ACID principles for robust database transactions - Atomicity, Consistency, Isolation, Durability.
+banner_description: ACID is an acronym representing the four essential properties defining a transaction - Atomicity, Consistency, Isolation, and Durability.
 alphabet: A
 ---
 

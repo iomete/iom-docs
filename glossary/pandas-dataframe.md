@@ -1,6 +1,7 @@
 ---
 title: Pandas DataFrame
-description: Pandas DataFrame is an open-source library, written for the Python programming language, that offers fast and adaptable data structures and analysis tools perfect for scientific computing, machine learning, and data science.
+description: Pandas DataFrame - Python library for fast, adaptable data structures and analysis. Ideal for scientific computing, machine learning, and data science.
+banner_description: Pandas DataFrame is an open-source library, written for the Python programming language, that offers fast and adaptable data structures and analysis tools perfect for scientific computing, machine learning, and data science.
 alphabet: P
 ---
 

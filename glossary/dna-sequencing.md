@@ -1,6 +1,7 @@
 ---
 title: DNA Sequencing
-description: DNA sequencing is the process of determining the exact sequence of nucleotides in DNA (deoxyribonucleic acid). This involves determining the order of the four chemical building blocks - adenine, guanine, cytosine, and thymine - that make up the DNA molecule.
+description: Dive into DNA Sequencing - determine precise nucleotide order—adenine, guanine, cytosine, thymine—shaping DNA's chemical building blocks.
+banner_description: DNA sequencing is the process of determining the exact sequence of nucleotides in DNA (deoxyribonucleic acid). This involves determining the order of the four chemical building blocks - adenine, guanine, cytosine, and thymine - that make up the DNA molecule.
 alphabet: D
 ---
 

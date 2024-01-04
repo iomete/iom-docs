@@ -1,6 +1,7 @@
 ---
 title: Medallion Architecture
 description: Medallion Architecture is a data design pattern employed to organize data within a lakehouse, aiming to enhance data quality as it traverses each layer of the architecture.
+banner_description: Managed Spark a dynamic service with open-source data tools empowering users for diverse tasks like batch processing, querying, streaming, and machine learning.
 alphabet: M
 ---
 

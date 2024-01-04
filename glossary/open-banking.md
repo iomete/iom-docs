@@ -1,6 +1,7 @@
 ---
 title: Open Banking
 description: Open Banking is a revolutionary way to provide secure access to consumers' financial data, all with their consent.
+banner_description: Open Banking is a revolutionary way to provide secure access to consumers' financial data, all with their consent.
 alphabet: O
 ---
 

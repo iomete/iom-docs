@@ -1,6 +1,7 @@
 ---
 title: Overall Equipment Effectiveness
-description: Overall Equipment Effectiveness is a measure of how well a manufacturing operation is being utilized compared to its full potential. By identifying the percentage of manufacturing time that is truly productive, one can gain important insights on how to systematically improve the manufacturing process.
+description: Overall Equipment Effectiveness is a measure of how well a manufacturing operation is being utilized compared to its full potential.
+banner_description: Overall Equipment Effectiveness is a measure of how well a manufacturing operation is being utilized compared to its full potential. By identifying the percentage of manufacturing time that is truly productive, one can gain important insights on how to systematically improve the manufacturing process.
 alphabet: O
 ---
 

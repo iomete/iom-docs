@@ -1,6 +1,7 @@
 ---
 title: Apache Kylin
-description: Apache Kylin is a distributed open-source online analytics processing (OLAP) engine designed for interactive Big Data analytics. It provides a SQL interface and multi-dimensional analysis (OLAP) on Hadoop and Spark and easily integrates with BI tools through ODBC drivers, JDBC drivers, and REST APIs.
+description: Supercharge analytics with Apache Kylin—a distributed OLAP engine for Big Data. Use SQL, integrate seamlessly with BI tools via ODBC, JDBC, and REST APIs.
+banner_description: Apache Kylin is a distributed open-source online analytics processing (OLAP) engine designed for interactive Big Data analytics. It provides a SQL interface and multi-dimensional analysis (OLAP) on Hadoop and Spark and easily integrates with BI tools through ODBC drivers, JDBC drivers, and REST APIs.
 alphabet: A
 ---
 

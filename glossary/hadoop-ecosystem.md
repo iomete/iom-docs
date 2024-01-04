@@ -1,6 +1,7 @@
 ---
 title: Hadoop Ecosystem
-description: The Apache Hadoop ecosystem encompasses various components of the Apache Hadoop software library, consisting of open-source projects and a wide range of complementary tools. Some well-known tools in the Hadoop ecosystem include HDFS, Hive, Pig, YARN, MapReduce, Spark, HBase, Oozie, Sqoop, Zookeeper,_ and more.
+description: Explore Apache Hadoop's open-source ecosystem, featuring tools like HDFS, Hive, Pig, YARN, Spark, and more.
+banner_description: The Apache Hadoop ecosystem encompasses various components of the Apache Hadoop software library, consisting of open-source projects and a wide range of complementary tools. Some well-known tools in the Hadoop ecosystem include HDFS, Hive, Pig, YARN, MapReduce, Spark, HBase, Oozie, Sqoop, Zookeeper, and more.
 alphabet: H
 ---
 

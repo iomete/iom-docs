@@ -1,6 +1,7 @@
 ---
 title: Deep Learning
-description: Deep Learning is a powerful subset of machine learning that uses algorithms inspired by the human brain to analyze large amounts of data. Also known as deep neural networks, these models are designed to learn data representations, rather than relying on traditional algorithms.
+description: Dive into Deep Learning is a potent ML subset using brain-inspired algorithms. Deep neural networks analyze vast data, departing from traditional methods.
+banner_description: Deep Learning is a powerful subset of machine learning that uses algorithms inspired by the human brain to analyze large amounts of data. Also known as deep neural networks, these models are designed to learn data representations, rather than relying on traditional algorithms.
 alphabet: D
 ---
 

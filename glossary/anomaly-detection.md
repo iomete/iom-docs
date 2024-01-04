@@ -1,6 +1,7 @@
 ---
 title: Anomaly Detection
-description: Anomaly detection is a powerful technique used to identify rare events or observations that differ significantly from the rest of the data. This technique is particularly useful in finance, where thousands or millions of transactions need to be monitored for potential errors or fraudulent activity.
+description: Harness the power of anomaly detection to spot rare events. In finance, monitor thousands of transactions for errors and fraud, ensuring data integrity.
+banner_description: Anomaly detection is a powerful technique used to identify rare events or observations that differ significantly from the rest of the data. This technique is particularly useful in finance, where thousands or millions of transactions need to be monitored for potential errors or fraudulent activity.
 alphabet: A
 ---
 

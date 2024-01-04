@@ -1,6 +1,7 @@
 ---
 title: Tensorflow Estimator API
-description: What is the Tensorflow Estimator API? The Tensorflow Estimator API is a powerful tool for creating machine learning models that are both complete and intuitive. With the Estimator API, one can easily train, evaluate, and generate predictions for one’s model.
+description: Utilize TensorFlow Estimator API for intuitive creation of complete ML models. Easily train, evaluate, and generate predictions with this versatile API.
+banner_description: The Tensorflow Estimator API is a powerful tool for creating machine learning models that are both complete and intuitive. With the Estimator API, one can easily train, evaluate, and generate predictions for one’s model.
 alphabet: T
 ---
 
