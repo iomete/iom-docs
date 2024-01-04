@@ -34,19 +34,19 @@ Learn more about querying files like CSV, JSON, Parquet, ORC and more detailed c
 
 <GridBox>
 
-<Card title="CSV Files" icon={<FileCsv />} link="/docs/data-sources/csv-files">
+<Card title="CSV Files" icon={<FileCsv />} link="docs/data-sources/csv-files">
 Learn how to query CSV files in IOMETE and options to configure the CSV data source
 </Card>
 
-<Card title="JSON Files" icon={<FileJs />} link="/docs/data-sources/json-files">
+<Card title="JSON Files" icon={<FileJs />} link="docs/data-sources/json-files">
 Learn how to query JSON files in IOMETE and options to configure the JSON data source
 </Card>
 
-<Card title="Parquet Files" icon={<File />} link="/docs/data-sources/parquet-files">
+<Card title="Parquet Files" icon={<File />} link="docs/data-sources/parquet-files">
 Learn how to query Parquet files in IOMETE and options to configure the Parquet data source
 </Card>
 
-<Card title="ORC Files" icon={<File />} link="/docs/data-sources/orc-files">
+<Card title="ORC Files" icon={<File />} link="docs/data-sources/orc-files">
 Learn how to query ORC files in IOMETE and options to configure the ORC data source
 </Card>
 
@@ -69,7 +69,6 @@ AS SELECT  * FROM json.`s3a://area-for-iomete/countries.json`;
 DESC TABLE EXTENDED countries;
 ```
 
-
 - **Option 2. Insert into to existing table**
 
 ```sql
@@ -81,7 +80,6 @@ SELECT  * FROM json.`s3a://area-for-iomete/countries.json`;
 INSERT OVERWRITE TABLE countries
 SELECT  * FROM json.`s3a://area-for-iomete/countries.json`;
 ```
-
 
 - **Option 3. Merge with existing data**
 
@@ -105,13 +103,12 @@ Partitioning data to speed up queries or DML that have predicates involving the 
 -- Create a partitioned table directly from the query
 CREATE TABLE countries_partitioned
   PARTITIONED BY (country_code)
-AS SELECT * FROM json.`s3a://area-for-iomete/countries.json` 
+AS SELECT * FROM json.`s3a://area-for-iomete/countries.json`
 ORDER BY country_code;
-         
+
 -- To inspect the table use the following query
 DESC TABLE EXTENDED countries_partitioned;
 ```
-
 
 - **Option 2. Insert into to existing table**
 
@@ -127,7 +124,6 @@ INSERT OVERWRITE TABLE countries_partitioned
   ORDER BY country_code;
 ```
 
-
 - **Option 3. Merge with existing data**
 
 ```sql
@@ -139,7 +135,6 @@ WHEN MATCHED THEN
 WHEN NOT MATCHED
   THEN INSERT *;
 ```
-
 
 ## Conclusion
 
