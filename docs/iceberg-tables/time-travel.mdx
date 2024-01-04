@@ -17,11 +17,10 @@ Each snapshot is a consistent and complete view of the table at a given point in
 
 Below we will provide SQL example on how to use time travel in IOMETE platform.
 
-import ImgBorder from "@site/src/components/ImgBorder";
-import Card from "@site/src/components/Card";
+import Img from "@site/src/components/Img";
 import ExternalCard from "@site/src/components/ExternalCard";
 import GridBox from "@site/src/components/GridBox";
-import { GithubLogo, CodeBlock, ClockCountdown } from "@phosphor-icons/react";
+import { ClockCountdown } from "@phosphor-icons/react";
 import Admonition from "@theme/Admonition";
 
 ### Prepare sample data
@@ -68,7 +67,7 @@ To query history of the table you need to provide database name and table name i
 
 Result of the query will look like this:
 
-<ImgBorder src="/img/iceberg/table-history.png" alt="Table history" />
+<Img src="/img/iceberg/table-history.png" alt="Table history" />
 
 As you can see we have two snapshots.
 Additionally you can get more details about snapshots by running the following query:
@@ -98,7 +97,7 @@ SELECT * FROM spark_catalog.default.time_travel_example VERSION AS OF 2583872980
 
 All queries above will return only 1 result
 
-<ImgBorder src="/img/iceberg/time-travelled.png" alt="Time travel result" />
+<Img src="/img/iceberg/time-travelled.png" alt="Time travel result" />
 
 ## Using named references
 

@@ -53,3 +53,11 @@
   --ifm-color-primary-lightest: #b7dcfa;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+
+p>img {
+  margin: auto;
+  display: block;
+  border-radius: 4px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}

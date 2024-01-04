@@ -12,7 +12,7 @@ By connecting to IOMETE's Jupyter Gateway you will be able to explore and analyz
 directly from your local environment.
 
 import Question from "@site/src/components/Question";
-import ImgBorder from "@site/src/components/ImgBorder";
+import Img from "@site/src/components/Img";
 import Card from "@site/src/components/Card";
 import ExternalCard from "@site/src/components/ExternalCard";
 import GridBox from "@site/src/components/GridBox";
@@ -40,7 +40,7 @@ Jupyter Gateway is used to manage Jupyter kernels and provide access to remote k
 To connect to a Jupyter Gateway, you will need to specify the gateway URL and token.  
 Go to [IOMETE Console app](https://app.iomete.com) → Notebook menu → Copy connection string as in screenshot below
 
-<ImgBorder src="/img/jupyter/connect.png" alt="Connection String" />
+<Img src="/img/jupyter/connect.png" alt="Connection String" />
 
 The `--gateway-url` is different for each workspace.  
 Below you can find a template for connection string depending on your client.
@@ -72,12 +72,12 @@ Currently IOMETE supports 2 python-based kernels. Creating custom kernels will b
 1. Pyspark Kernel
 2. Python Kernel with pre-intsalled Mongo libraries
 
-<ImgBorder src="/img/jupyter/kernels.png" alt="Available Kernels" />
+<Img src="/img/jupyter/kernels.png" alt="Available Kernels" />
 
 When starting/selecting a kernel the Spark driver will be deployed in the background. This process may take up to 2 minutes. Please be patient.
 You can track the status of kernel from client UI or from IOMETE Console app under the section "Active Kernels".
 
-<ImgBorder src="/img/jupyter/active-kernels.png" alt="Active Kernels" />
+<Img src="/img/jupyter/active-kernels.png" alt="Active Kernels" />
 
 By default kernels are terminated after closing the client. You can do it manually from IOMETE Console app.
 
@@ -109,7 +109,7 @@ Kernels are basically Spark Applications, you can provide and override various s
 To customize the Spark environment in Jupyter Notebook go to  
 [IOMETE Console app](https://app.iomete.com) → Notebook menu → Built-in Kernels → Select kernel → Edit
 
-<ImgBorder src="/img/jupyter/edit-kernel.png" alt="Edit Kernels" />
+<Img src="/img/jupyter/edit-kernel.png" alt="Edit Kernels" />
 
 Another method to modify the Spark configuration properties is directly from python code.  
 You can modify the Spark configuration properties by creating a SparkConf object and setting

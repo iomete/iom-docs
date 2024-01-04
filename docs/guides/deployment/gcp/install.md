@@ -7,7 +7,6 @@ last_update:
 ---
 
 import Img from '@site/src/components/Img';
-import ImgBorder from '@site/src/components/ImgBorder';
 import Question from "@site/src/components/Question";
 
 import Card from "@site/src/components/Card";
