@@ -7,7 +7,6 @@ last_update:
 ---
 
 import Img from '@site/src/components/Img';
-import ImgBorder from '@site/src/components/ImgBorder';
 import Question from "@site/src/components/Question";
 
 import Card from "@site/src/components/Card";
@@ -27,27 +26,27 @@ With both AWS CLI and Terraform installed, your environment is ready to go. Now 
 
 ## 1. Register for an account on the [IOMETE Console](https://app.iomete.cloud/dashboard) and create an organization.
 
-<Img src="img/guides/deployments/org-list.png" alt="Organization list"/>
+<Img src="/img/guides/deployments/org-list.png" alt="Organization list"/>
 
-<Img src="img/guides/deployments/org-create.png" alt="Create organization"/>
+<Img src="/img/guides/deployments/org-create.png" alt="Create organization"/>
 
 ## 2. Continue to the New Cluster section
 
 Select the provider and select the region where the cluster will be installed.
 
-<Img src="img/guides/deployments/aws-setup-cluster.png" alt="Cluster Setup"/>
+<Img src="/img/guides/deployments/aws-setup-cluster.png" alt="Cluster Setup"/>
 
 ## 3. Define a workspace name
 
 Workspaces are isolated spaces that can be used by different departments, divisions, and so.
 
-<Img src="img/guides/deployments/define-workspace.png" alt="Workspace define"/>
+<Img src="/img/guides/deployments/define-workspace.png" alt="Workspace define"/>
 
 ## 4. Terraform configuration
 
 The system will generate a terraform script including unique `cluster_id`.
 
-<Img src="img/guides/deployments/aws-terraform-conf.png" alt="Terraform configuration"/>
+<Img src="/img/guides/deployments/aws-terraform-conf.png" alt="Terraform configuration"/>
 
 :::danger
 Don’t change cluster_id, this ID will be used to access your cluster (ex. connect external BI tools).
@@ -89,7 +88,7 @@ cluster_endpoint = "https://0B...73.gr7.us-east-2.eks.amazonaws.com"
 
 Once you have the output values, you can copy and paste them into the IOMETE console. This completes the final step of the setup process.
 
-<Img src="img/guides/deployments/aws-terraform-output.png" alt="Terraform output to IOMETE Console to Complete the installation"/>
+<Img src="/img/guides/deployments/aws-terraform-output.png" alt="Terraform output to IOMETE Console to Complete the installation"/>
 
 Once you hit the `Execute` button, IOMETE will start the installing IOMETE operator inside the Kubernetes cluster. This will take a few minutes.
 
@@ -315,12 +314,12 @@ First you need to determine which key is used for encrypting EBS volumes, you ca
 	\<li>In the right-side menu, locate the 'Account attributes' section and click on 'EBS encryption'.
 		<br />
 		<br />
-		<ImgBorder src="/img/guides/how-to-install/ec2-ebs.png" alt="KMS Console"/>
+		<Img src="/img/guides/how-to-install/ec2-ebs.png" alt="KMS Console"/>
 	\</li>
 	\<li>On the 'EBS encryption' page, you will find the 'Default encryption key' section.
 		<br />
 		<br />
-		<ImgBorder src="/img/guides/how-to-install/kms-key.png" alt="KMS Console"/>
+		<Img src="/img/guides/how-to-install/kms-key.png" alt="KMS Console"/>
 	\</li>
 	<li>Note down the key displayed as the 'Default encryption key'.</li>
 </ol>
@@ -337,7 +336,7 @@ To add a user/role to a KMS key using the AWS Management Console, follow these s
 		Select the KMS key you want to manage.  
 		<br />
 		<br />
-		<ImgBorder src="/img/guides/how-to-install/kms-console.png" alt="KMS Console"/>
+		<Img src="/img/guides/how-to-install/kms-console.png" alt="KMS Console"/>
 	</li>
 	<li>Locate the "Key details" section or navigate to the specific tab where the "Key users" tab is available.</li>
 	<li>Click on the "Key users" tab.</li>
@@ -345,7 +344,7 @@ To add a user/role to a KMS key using the AWS Management Console, follow these s
 	Click on "Add" and enter 'iomete' in the search/filter box to narrow down the list of available roles.
 		<br />
 		<br />
-		<ImgBorder src="/img/guides/how-to-install/search.png" alt="KMS Console"/>
+		<Img src="/img/guides/how-to-install/search.png" alt="KMS Console"/>
 	</li>
 	<li>
 		Add the following roles to the key policy:
@@ -355,7 +354,7 @@ To add a user/role to a KMS key using the AWS Management Console, follow these s
 			<li><code>AmazonEKS_EBS_CSI_DriverRole-&#123;cluster_id&#125;</code></li>
 		</ul>
 		<br />
-		<ImgBorder src="/img/guides/how-to-install/kms-list.png" alt="KMS Console"/>
+		<Img src="/img/guides/how-to-install/kms-list.png" alt="KMS Console"/>
 	</li>
 	<li>Click on "Save changes" to save the modifications to the KMS key policy.</li>
 </ol>

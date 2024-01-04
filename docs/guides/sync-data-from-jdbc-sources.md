@@ -8,10 +8,12 @@ last_update:
 import Img from '@site/src/components/Img';
 
 This is an end-to-end guide about how to migrate tables from JDBC sources (MySQL, PostgreSQL, etc.) to IOMETE and display it in the BI dashboard.
-___
+
+---
+
 ### Intro
 
-This is an end-to-end guide about how to migrate **tables** from JDBC sources (MySQL, PostgreSQL, etc.) to iomete and display it in the BI dashboard. 
+This is an end-to-end guide about how to migrate **tables** from JDBC sources (MySQL, PostgreSQL, etc.) to iomete and display it in the BI dashboard.
 
 :::info
 First, you need to establish an SSH tunnel between iomete and your database in your private network. See [Database Connection Options](https://iomete.com/docs/administration-guide/database-connection-options)
@@ -48,18 +50,18 @@ The database contains the following tables:
 | titles       | 443308    |
 | salaries     | 2844047   |
 
-
 <br/>
 
 ### Create warehouse
 
 Create a new warehouse instance
 
-<Img src="/img/guides/create-lakehouse.png" alt="Create lakehouse" padding={8}/>
+<Img src="/img/guides/create-lakehouse.png" alt="Create lakehouse"/>
 
-### Querying  Source Table
+### Querying Source Table
 
-After having the lakehouse created, we create a table using JDBC Sources using [CREATE TABLE](https://iomete.com/docs/spark-sql/create-table) command. In the OPTIONS part we specify credentials of the database to which we want to connect as follows 
+After having the lakehouse created, we create a table using JDBC Sources using [CREATE TABLE](https://iomete.com/docs/spark-sql/create-table) command. In the OPTIONS part we specify credentials of the database to which we want to connect as follows
+
 <!--TODO (see [JDBC Sources](./data-sources/jdbc-sources)):  -->
 <!-- https://iomete.com/docs/guides/how-to-connect-iomete-and-apache-superset#get-connection-details-from-iomete -->
 
@@ -81,20 +83,19 @@ SELECT * FROM employees_proxy limit 100;
 This table doesn't hold the actual data. Data will be retrieved from the actual source once we query the table
 :::
 
-
-<Img src="/img/guides/iomete-sql-editor.png" alt="Query Editor" padding={8}/>
+<Img src="/img/guides/iomete-sql-editor.png" alt="Query Editor"/>
 
 ### Migrating Data
 
 To move the data from the source to the warehouse, you can use one of the following options:
 
-**  Non-partitioned Table    **
+** Non-partitioned Table **
 
 - **Option 1. Create a table from select**
 
 ```sql
 -- Create table directly from the query
-CREATE TABLE employees 
+CREATE TABLE employees
   AS SELECT  * FROM employees_proxy;
 -- To inspect the table use the following query
 DESC TABLE EXTENDED employees;
@@ -136,10 +137,10 @@ SELECT SUBSTRING(birth_date, 0, 4) as birth_year, * FROM employees_proxy LIMIT 1
 
 ```sql
 -- Create a partitioned table directly from the query
-CREATE TABLE employees_partitioned 
+CREATE TABLE employees_partitioned
   PARTITIONED BY (birth_year)
-AS SELECT SUBSTRING(birth_date, 0, 4) as birth_year, * FROM 
-      employees_proxy order by birth_year; 
+AS SELECT SUBSTRING(birth_date, 0, 4) as birth_year, * FROM
+      employees_proxy order by birth_year;
 
 -- To inspect the table use the following query
 DESC TABLE EXTENDED employees_partitioned;
@@ -163,7 +164,7 @@ INSERT OVERWRITE TABLE employees_partitioned
 
 ```sql
 MERGE INTO employees_partitioned
- USING (SELECT 
+ USING (SELECT
    SUBSTRING(birth_date, 0, 4) as birth_year, * FROM employees_proxy) updates
  ON employees_partitioned.emp_no = updates.emp_no
 WHEN MATCHED THEN
