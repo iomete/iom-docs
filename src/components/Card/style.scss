@@ -1,7 +1,6 @@
 .iom-card {
-  background: #ffffff;
+  background: var(--ifm-card-background-color);
   border: 1px solid rgba(0, 0, 0, 0.12);
-  // box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04);
   border-radius: 4px;
 
   padding: 20px 20px;
@@ -32,7 +31,6 @@
 
   .content {
     .title {
-      color: #242424;
       font-weight: 600;
       font-size: 20px;
       line-height: 28px;
@@ -40,19 +38,15 @@
     }
 
     p {
-      color: #666;
+      color: var(--ifm-menu-color);
       font-weight: 400;
       margin-bottom: 0px;
     }
   }
 
   .icon-wrapper {
-    // background: #0070f3;
-    // border-radius: 4px;
     color: #0070f3;
     font-size: 32px;
     margin-top: -4px;
-    // padding-top: 0px;
-    // padding-left: 0px;
   }
 }
