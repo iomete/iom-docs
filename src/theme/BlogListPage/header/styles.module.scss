@@ -1,35 +1,37 @@
 .Header {
-    display: flex;
-    align-items: center;
-    height: 550px;
-    // hk-font
+  display: flex;
+  align-items: center;
+  height: 550px;
+  // hk-font
 
-    h3 {
-        font-size: 52px;
-        margin-bottom: 1.25rem;
-    }
+  h3 {
+    font-size: 52px;
+    margin-bottom: 1.25rem;
+  }
 
-    p {
-        margin: 0;
-        font-size: 1.125rem
-            /* 18px */
-        ;
-        color: var(--ifm-color-emphasis-800);
-    }
+  p {
+    margin: 0;
+    font-size: 1.125rem /* 18px */;
+    color: var(--ifm-color-emphasis-800);
+  }
 }
 
 .HeaderContent {
-    width: 66.666667%;
+  width: 66.666667%;
 
-    @media (max-width: 768px) {
-        width: 100%;
-    }
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 .BgImg {
-    // absolute  right-0 top-28 z-[-1]
-    position: absolute;
-    right: 0;
-    top: 112px;
-    z-index: -1;
+  position: absolute;
+  right: 0;
+  top: 112px;
+  z-index: -1;
+  color: var(--ifm-color-emphasis-200);
+}
+
+[data-theme="dark"] .BgImg {
+  color: var(--ifm-card-background-color);
 }
