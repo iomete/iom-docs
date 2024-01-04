@@ -1,6 +1,7 @@
 ---
 title: Data Analysis Platform
-description: A data analysis platform is a collection of technologies and services used to analyze large, complex, and dynamic datasets. It allows you to retrieve, combine, interact with, explore, and visualize data from various sources.
+description: Harness a platform for analyzing large, complex datasets. Retrieve, combine, interact with, explore, and visualize data seamlessly from diverse sources.
+banner_description: A data analysis platform is a collection of technologies and services used to analyze large, complex, and dynamic datasets. It allows you to retrieve, combine, interact with, explore, and visualize data from various sources.
 alphabet: D
 ---
 

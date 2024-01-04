@@ -1,6 +1,7 @@
 ---
 title: Model Risk Management
 description: Model Risk Management is a crucial facet of risk management and operational efficiency, especially for financial institutions.
+banner_description: Model Risk Management is a crucial facet of risk management and operational efficiency, especially for financial institutions.
 alphabet: M
 ---
 

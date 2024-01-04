@@ -1,6 +1,7 @@
 ---
 title: Tungsten Project for Apache Spark
-description: What is Tungsten? The Tungsten Project is a major initiative to enhance Apache Spark's execution engine. Its goal is to significantly boost the efficiency of memory and CPU usage for Spark applications, bringing performance closer to the limits of modern hardware.
+description: Explore Tungsten - enhances Spark's execution engine, maximizing memory and CPU efficiency for peak performance on modern hardware.
+banner_description: The Tungsten Project is a major initiative to enhance Apache Spark's execution engine. Its goal is to significantly boost the efficiency of memory and CPU usage for Spark applications, bringing performance closer to the limits of modern hardware.
 alphabet: T
 ---
 

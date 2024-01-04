@@ -1,6 +1,7 @@
 ---
 title: Hive Date Function
-description: Hive is a powerful tool for processing and querying data, and it comes with a wide range of built-in functions to help you get the most out of your data. These functions include string manipulation, date manipulation, mathematical functions, conditional operators, and more.
+description: Discover Hive's data prowess - diverse functions optimize data use—from string manipulation to math and conditionals. Empower your exploration.
+banner_description: Hive is a powerful tool for processing and querying data, and it comes with a wide range of built-in functions to help you get the most out of your data. These functions include string manipulation, date manipulation, mathematical functions, conditional operators, and more.
 alphabet: H
 ---
 

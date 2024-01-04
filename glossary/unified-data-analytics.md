@@ -1,6 +1,7 @@
 ---
 title: Unified Data Analytics
-description: What is Unified Data Analytics? Unified Data Analytics is a cutting-edge solution that combines data processing and AI technologies, making AI more accessible for enterprises and accelerating their AI initiatives.
+description: Integrate cutting-edge Unified Data Analytics, combining data processing and AI. Empower enterprises, accelerate AI initiatives, and make AI more accessible.
+banner_description: Unified Data Analytics is a cutting-edge solution that combines data processing and AI technologies, making AI more accessible for enterprises and accelerating their AI initiatives.
 alphabet: U
 ---
 

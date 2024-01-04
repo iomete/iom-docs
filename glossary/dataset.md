@@ -1,6 +1,7 @@
 ---
 title: Dataset
-description: A dataset is a structured set of data gathered and stored for analysis or processing. Typically, the data within a dataset is related and originates from a single source or is intended for a specific project.
+description: A dataset is a structured set of data gathered and stored for analysis or processing.
+banner_description: A dataset is a structured set of data gathered and stored for analysis or processing. Typically, the data within a dataset is related and originates from a single source or is intended for a specific project.
 alphabet: D
 ---
 

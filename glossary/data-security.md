@@ -1,6 +1,7 @@
 ---
 title: Data Security
-description: Data security is a set of practices and procedures designed to protect data from unauthorized access, theft, corruption, poisoning, or accidental loss. It involves safeguarding sensitive data, such as personally identifiable information, financial information, health information, and intellectual property, throughout the data lifecycle, from creation to destruction.
+description: Data security is a set of practices and procedures designed to protect data from unauthorized access, theft, corruption, poisoning, or accidental loss.
+banner_description: Data security is a set of practices and procedures designed to protect data from unauthorized access, theft, corruption, poisoning, or accidental loss. It involves safeguarding sensitive data, such as personally identifiable information, financial information, health information, and intellectual property, throughout the data lifecycle, from creation to destruction.
 alphabet: D
 ---
 

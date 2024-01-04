@@ -1,6 +1,7 @@
 ---
 title: MapReduce
-description: MapReduce is a potent distributed execution framework within the Apache Hadoop Ecosystem. It simplifies distributed programming by exposing two processing steps - Map and Reduce. By leveraging MapReduce, you can split data between parallel processing tasks and apply transformation logic to each chunk of data. Once completed, the Reduce phase aggregates data from the Map set.
+description: MapReduce is a potent distributed execution framework within the Apache Hadoop Ecosystem.
+banner_description: MapReduce is a potent distributed execution framework within the Apache Hadoop Ecosystem. It simplifies distributed programming by exposing two processing steps - Map and Reduce. By leveraging MapReduce, you can split data between parallel processing tasks and apply transformation logic to each chunk of data. Once completed, the Reduce phase aggregates data from the Map set.
 alphabet: M
 ---
 

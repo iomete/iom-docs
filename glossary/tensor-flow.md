@@ -1,6 +1,7 @@
 ---
 title: TensorFlow
-description: What is TensorFlow? TensorFlow is an open-source library that streamlines the development of machine learning models. It empowers developers to train and deploy deep neural networks for tasks like image recognition and natural language processing. TensorFlow supports CPUs, GPUs, and Google's tensor processing units (TPUs), with wrappers available in multiple languages, including Python, C++, and Java.
+description: Use TensorFlow - open-source for ML. Train deep neural networks for image recognition, NLP. Supports CPUs, GPUs, Google's TPUs, with Python, C++, Java wrappers.
+banner_description: TensorFlow is an open-source library that streamlines the development of machine learning models. It empowers developers to train and deploy deep neural networks for tasks like image recognition and natural language processing. TensorFlow supports CPUs, GPUs, and Google's tensor processing units (TPUs), with wrappers available in multiple languages, including Python, C++, and Java.
 alphabet: T
 ---
 

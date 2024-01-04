@@ -1,6 +1,7 @@
 ---
 title: Artificial Neural Network (ANN)
-description: An artificial neuron network (ANN) is a computing system modeled after the operation of neurons in the human brain.
+description: Embrace the power of Artificial Neural Networks (ANNs)—computing systems mimicking human brain neurons.
+banner_description: An artificial neuron network (ANN) is a computing system modeled after the operation of neurons in the human brain.
 alphabet: A
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: Catalyst Optimizer
-description: Spark SQL's Catalyst optimizer is a powerful tool that uses advanced programming language features to build an extensible query optimizer. Catalyst is based on functional programming constructs in Scala and is designed to easily add new optimization techniques and features to Spark SQL.
+description: Maximize query efficiency with Spark SQL's Catalyst optimizer, using Scala's functional programming for extensible optimization in bioinformatics.
+banner_description: Spark SQL's Catalyst optimizer is a powerful tool that uses advanced programming language features to build an extensible query optimizer. Catalyst is based on functional programming constructs in Scala and is designed to easily add new optimization techniques and features to Spark SQL.
 alphabet: C
 ---
 

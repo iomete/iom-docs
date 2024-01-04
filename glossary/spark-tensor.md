@@ -1,6 +1,7 @@
 ---
 title: Sparse Tensor
-description: Sparse Tensor is a powerful tool for handling multi-dimensional arrays and serves as a vital component in developing the pytensor library. One of the key classes in pytensor is the Sptensor, which represents sparse tensors.
+description: Leverage Sparse Tensor in pytensor for efficient multi-dimensional array handling. Explore Sptensor, a vital class representing sparse tensors.
+banner_description: Sparse Tensor is a powerful tool for handling multi-dimensional arrays and serves as a vital component in developing the pytensor library. One of the key classes in pytensor is the Sptensor, which represents sparse tensors.
 alphabet: S
 ---
 

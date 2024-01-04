@@ -1,6 +1,7 @@
 ---
 title: Neural Network
-description: Neural networks are a type of computing model that mimics the networked structure of neurons in the brain. They consist of interconnected processing elements called neurons that work together to produce an output function. Neural networks are made up of input and output layers and often include a hidden layer that transforms input into something the output layer can use.
+description: Neural networks are a type of computing model that mimics the networked structure of neurons in the brain.
+banner_description: Neural networks are a type of computing model that mimics the networked structure of neurons in the brain. They consist of interconnected processing elements called neurons that work together to produce an output function. Neural networks are made up of input and output layers and often include a hidden layer that transforms input into something the output layer can use.
 alphabet: N
 ---
 

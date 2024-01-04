@@ -1,6 +1,7 @@
 ---
 title: Data Transformation
-description: Data transformation is the process of turning raw data into usable datasets that organizations can use to meet operational needs and create actionable insights. By manipulating datasets, the data transformation process generates insights that can be used to make business decisions.
+description: Data transformation is the process of turning raw data into usable datasets that organizations can use to meet operational needs and create actionable insights.
+banner_description: Data transformation is the process of turning raw data into usable datasets that organizations can use to meet operational needs and create actionable insights. By manipulating datasets, the data transformation process generates insights that can be used to make business decisions.
 alphabet: D
 ---
 
