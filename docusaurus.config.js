@@ -98,7 +98,7 @@ const config = {
         { property: "og:site_name", content: "IOMETE Documentation" },
         { name: "twitter:title", content: "IOMETE Documentation" },
         { name: "twitter:site", content: "IOMETE Documentation" },
-        { name: "twitter:image", content: "/resources/img/iomete-docs-og.png", },
+        { name: "twitter:image", content: "/resources/img/iomete-docs-og.png" },
       ],
 
       navbar: {
@@ -140,8 +140,16 @@ const config = {
           },
           {
             href: "https://github.com/iomete",
-            label: "GitHub",
             position: "right",
+            className: "link-icon github-link",
+            "aria-label": "GitHub repository",
+          },
+
+          {
+            href: "https://discord.com/channels/1189603935493836860/1189607607426633878",
+            position: "right",
+            className: "link-icon discord-link",
+            "aria-label": "Discord Community",
           },
         ],
       },
