@@ -125,19 +125,23 @@ const config = {
             position: "left",
             label: "Guides",
           },
-          // {
-          //   to: "/glossary",
-          //   position: "left",
-          //   label: "Glossary",
-          // },
+
           { to: "/blog", label: "Blog", position: "left" },
-          // { to: "/glossary", label: "Glossary", position: "left" },
-          // { to: "https://iomete.com/blog", label: "Blog", position: "left", target: "_self" },
+          {
+            type: "search",
+            position: "right",
+          },
           {
             href: "https://api.iomete.com",
             label: "API",
             position: "right",
           },
+          {
+            type: "html",
+            position: "right",
+            value: '<div class="separator" aria-hidden></div>',
+          },
+
           {
             href: "https://github.com/iomete",
             position: "right",
