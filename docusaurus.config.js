@@ -138,6 +138,7 @@ const config = {
           {
             type: "search",
             position: "right",
+            className: "navbar-search"
           },
           {
             href: "https://api.iomete.com",
@@ -151,7 +152,7 @@ const config = {
           },
 
           {
-            href: "https://github.com/iomete",
+            href: "https://github.com/orgs/iomete/projects/2",
             position: "right",
             className: "link-icon github-link",
             "aria-label": "GitHub repository",
