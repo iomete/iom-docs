@@ -128,7 +128,12 @@ const config = {
             position: "left",
             label: "Guides",
           },
-
+          {
+            type: "docSidebar",
+            sidebarId: "learn",
+            label: "Learn",
+            position: "left",
+          },
           { to: "/blog", label: "Blog", position: "left" },
           {
             type: "search",

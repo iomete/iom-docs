@@ -212,14 +212,19 @@ const sidebars = {
     },
   ],
 
-  guides: [
+  learn: [
+    // "learn",
     {
       type: "category",
-      label: "How To Guides",
-      collapsed: false,
-      items: [
-        "guides",
-        // "guides/aws-cost-usage-reports-data-processing",
+      label: "Pyspark",
+      collapsed: true,
+      items: ["learn/pyspark/pyspark-join"]
+    }
+  ],
+
+  guides: [
+    "guides",
+
         {
           type: "category",
           label: "Deployment",
@@ -317,8 +322,6 @@ const sidebars = {
           ],
         },
       ],
-    },
-  ],
 };
 
 export default sidebars;
