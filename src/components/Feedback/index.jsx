@@ -1,13 +1,14 @@
-import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import { Smiley, SmileyMeh } from "@phosphor-icons/react";
 import useIsBrowser from "@docusaurus/useIsBrowser";
 
 const Feedback = ({ label }) => {
-  if (!useIsBrowser()) return null;
-
   const [haveVoted, setHaveVoted] = useState(false);
+  const useDom = useIsBrowser();
+
+  if (!useDom) return;
+
   const giveFeedback = (value) => {
     if (window.gtag) {
       window.gtag("event", "Doc Feedback", {
