@@ -13,6 +13,7 @@
 
 @use "./components/admonition";
 @use "./components/_toc.scss";
+@use "./components/doc-sidebar";
 
 :root {
   --ifm-color-primary: #0070f3;
@@ -112,8 +113,7 @@ html[data-theme="dark"] .discord-link:before {
   width: 1px;
 }
 
-
 //navbar search button
-.navbar-search{
+.navbar-search {
   width: 220px;
 }
