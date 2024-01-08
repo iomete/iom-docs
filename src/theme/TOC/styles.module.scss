@@ -10,3 +10,9 @@
   font-weight: 700;
   color: gray;
 }
+
+@media (max-width: 996px) {
+  .Content {
+    display: none;
+  }
+}
