@@ -14,6 +14,7 @@
 @use "./components/admonition";
 @use "./components/_toc.scss";
 @use "./components/doc-sidebar";
+@use "./components/pagination.scss";
 
 :root {
   --ifm-color-primary: #0070f3;

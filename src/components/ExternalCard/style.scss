@@ -1,5 +1,6 @@
 .iom-external-card {
-  background: #ffffff;
+  // background: #ffffff;
+  background-color: var(--ifm-card-background-color);
   border: 1px solid rgba(0, 0, 0, 0.12);
   // box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04);
   border-radius: 4px;
@@ -32,7 +33,6 @@
 
   .content {
     .title {
-      color: #242424;
       font-weight: 600;
       font-size: 20px;
       line-height: 28px;
@@ -40,7 +40,6 @@
     }
 
     p {
-      color: #666;
       font-weight: 400;
       margin-bottom: 0px;
     }
