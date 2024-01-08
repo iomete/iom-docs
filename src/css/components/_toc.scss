@@ -18,13 +18,6 @@ html[data-theme="dark"] {
     position: sticky;
     top: calc(var(--ifm-navbar-height) + 1rem);
 
-    //previous style
-    //position: static;
-    //top: initial;
-    //overflow: hidden;
-    //background: red;
-    //max-height: initial;
-
     padding-block-end: 1.25rem;
     line-height: 1.4;
   }
