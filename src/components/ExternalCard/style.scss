@@ -1,3 +1,7 @@
+html[data-theme="dark"] .iom-external-card:hover {
+  background-color: var(--ifm-color-gray-800);
+}
+
 .iom-external-card {
   // background: #ffffff;
   background-color: var(--ifm-card-background-color);
@@ -11,8 +15,8 @@
   cursor: pointer;
 
   &:hover {
-    border: 1px solid rgba(0, 0, 0, 0.2);
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04);
+    background-color: var(--docsearch-modal-background);
   }
 
   a {

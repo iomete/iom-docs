@@ -13,7 +13,9 @@ import { Cpu, Plus } from "@phosphor-icons/react";
 
 ---
 
-![kafka and IOMETE logo](/img/spark-job/kafka-logo-iomete.png)
+<Img src="/img/spark-job/kafka-logo-iomete.png"
+     caption="Kafka and IOMETE logo" padding="4px" isBackgroundWhite={true}
+     alt="Kafka and IOMETE logo"/>
 
 This is a collection of data movement capabilities. This streaming job copies data from Kafka to Iceberg.
 
@@ -39,7 +41,8 @@ Specify the following parameters (these are examples, you can change them based 
 - **Docker image**: `iomete/kafka-iceberg-stream:1.0.0`
 - **Main application file**: `local:///app/job.py`
 - **Java options** (Optional): `-Dlog4j.configurationFile=/opt/spark/iomete/log4j2.properties` - specify logging configuration file
-- **Config file**: 
+- **Config file**:
+
   ```hocon
   {
     kafka: {
@@ -73,7 +76,6 @@ Specify the following parameters (these are examples, you can change them based 
 
 <Img src="/img/spark-job/cdc.png" alt="IOMETE Spark Jobs Create kafka streaming" />
 
-
 ## Configuration properties
 
 - **kafka.options**: Kafka options. See [Kafka Consumer Configurations](https://spark.apache.org/docs/latest/structured-streaming-kafka-integration.html) for more details.
@@ -83,6 +85,7 @@ Specify the following parameters (these are examples, you can change them based 
 - **destination.table**: Iceberg table name. Table will be created if it does not exist.
 
 Job will create a table with the following schema:
+
 ```
 root
  |-- topic: string (nullable = true)
