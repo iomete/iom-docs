@@ -81,7 +81,7 @@ const sidebars = {
     {
       type: "category",
       label: "Spark SQL reference",
-      collapsed: true,
+      collapsed: false,
       items: [
         {
           type: "category",
@@ -159,7 +159,7 @@ const sidebars = {
     {
       type: "category",
       label: "Spark Jobs",
-      collapsed: true,
+      collapsed: false,
       items: [
         "iomete-spark-job/data-compaction-job",
         "iomete-spark-job/query-scheduler-job",
@@ -171,13 +171,13 @@ const sidebars = {
     {
       type: "category",
       label: "Jupyter Notebook",
-      collapsed: true,
+      collapsed: false,
       items: ["notebook/starting-with-notebook", "notebook/using-vscode"],
     },
     {
       type: "category",
       label: "Libraries",
-      collapsed: true,
+      collapsed: false,
       items: [
         {
           type: "category",
@@ -190,13 +190,13 @@ const sidebars = {
     {
       type: "category",
       label: "Misc",
-      collapsed: true,
+      collapsed: false,
       items: ["misc/datagrip-lakehouse-connection"],
     },
     {
       type: "category",
       label: "Integrations",
-      collapsed: true,
+      collapsed: false,
       items: ["integrations/airbyte"],
     },
   ],
@@ -282,7 +282,7 @@ const sidebars = {
     {
       type: "category",
       label: "SQL Quick Start",
-      collapsed: true,
+      collapsed: false,
       items: [
         "guides/sql-quick-start/sql-ddl-examples",
         "guides/sql-quick-start/dml-operations",
@@ -294,7 +294,7 @@ const sidebars = {
     {
       type: "category",
       label: "BI Integrations",
-      collapsed: true,
+      collapsed: false,
       items: [
         // 'guides/connection-options',
         "guides/how-to-connect-iomete-and-metabase-bi",
