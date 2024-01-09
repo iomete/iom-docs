@@ -4,8 +4,8 @@ import styles from "./styles.module.scss";
 
 export default function TOCWrapper(props) {
   return (
-    <div className={styles.Content}>
-      <span className={styles.ContentTitle}>CONTENTS</span>
+    <div className={`toc-wrapper`}>
+      <h2>CONTENTS</h2>
       <TOC {...props} />
     </div>
   );

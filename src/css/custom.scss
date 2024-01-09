@@ -15,6 +15,7 @@
 @use "./components/_toc.scss";
 @use "./components/doc-sidebar";
 @use "./components/pagination.scss";
+@use "./components/doc-item.scss";
 
 :root {
   --ifm-color-primary: #0070f3;
@@ -41,6 +42,7 @@
   // --ifm-global-shadow-lw: none;
 
   --ifm-code-padding-horizontal: 0.3rem;
+  line-height: 2;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */

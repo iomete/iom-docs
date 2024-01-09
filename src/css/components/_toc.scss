@@ -37,16 +37,15 @@ html[data-theme="dark"] {
     position: sticky;
     top: calc(var(--ifm-navbar-height) + 16px);
     max-height: calc(100vh - var(--ifm-navbar-height) - 16px);
-    margin-block-start: 5rem;
-
-    padding-block-end: 2rem;
+    margin-block-start: 1rem;
+    padding-block-end: 3rem;
 
     h2 {
       font-size: 0.625rem;
       line-height: 12px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      //color: var(--c-indigo-60);
+      color: var(--c-indigo-60);
     }
 
     .table-of-contents {
