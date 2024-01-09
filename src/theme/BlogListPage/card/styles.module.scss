@@ -65,7 +65,7 @@
 
     .CardDesc {
       display: inline-block;
-      height: 48px;
+      max-height: 48px;
       overflow: hidden;
       color: var(--ifm-color-emphasis-800);
     }

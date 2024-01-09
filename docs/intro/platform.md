@@ -15,17 +15,15 @@ The platform includes:
    2. Control Plane
 2. Customer Tools (Tableau, Power BI, Looker, Metabase, Superset etc.)
 
-
 ![IOMETE data stack](/img/intro/how-it-works.png)
 
 <br/>
-
 
 <!-- ### Decoupled Compute and Storage
 
 IOMETE lakehouse uses decoupled compute & storage architecture, aka multi-cluster shared-data architecture.
 
-In this architecture, the data is stored in a cloud object store (like AWS S3) and run multiple compute-cluster on top of the shared data. 
+In this architecture, the data is stored in a cloud object store (like AWS S3) and run multiple compute-cluster on top of the shared data.
 
 Why is running multiple compute clusters on shared data important? Here are the advantages of this architecture:
 
@@ -36,7 +34,7 @@ Why is running multiple compute clusters on shared data important? Here are the 
 
 Data governance is a collection of processes, roles, policies, standards, and metrics that ensure the effective and efficient use of information in enabling an organization to achieve its goals. It establishes the processes and responsibilities that ensure the quality and security of the data used across a business or organization. Data governance defines who can take what action, upon what data, in what situations, using what methods.
 
-IOMETE provides the following services to control all these. 
+IOMETE provides the following services to control all these.
 
 ### Advanced Data Authorization Control & Auditing
 
@@ -65,7 +63,7 @@ Observability is no longer just for software engineering. With the rise of data 
 
 IOMETE provides:
 
-- Automated data quality profiling: automatically profiles your data to identify missing values, outliers & other data anomalies. 
+- Automated data quality profiling: automatically profiles your data to identify missing values, outliers & other data anomalies.
 - Quality checks: Define checks on the datasets to define the health level. When datasets are not conforming to the checks defined on them, the platform will alert the team about the problem.
 
 ### Serverless Job Service (ETL)
@@ -78,7 +76,7 @@ Data Loaders are connectors to move data from 3rd party applications, like Mixpa
 
 <!-- ### BI
 
-Fast, lightweight, intuitive, and loaded with options that make it easy for users of all skill sets to explore and visualize their data, from simple line charts to highly detailed geospatial charts. If you wish to connect your favorite third party BI tool instead (e.g. Tableau or Looker): piece of cake. --> -->
+Fast, lightweight, intuitive, and loaded with options that make it easy for users of all skill sets to explore and visualize their data, from simple line charts to highly detailed geospatial charts. If you wish to connect your favorite third party BI tool instead (e.g. Tableau or Looker): piece of cake. -->
 
 ## IOMETE Control Plane
 
@@ -104,7 +102,6 @@ For robustness and performance optimization, the Control Plane is replicated acr
 - European Union (EU) Region
 - Asia Pacific (AP) Region
 
-
 ### Benefits of Control Plane Replication
 
 - High Availability
@@ -112,7 +109,6 @@ For robustness and performance optimization, the Control Plane is replicated acr
 - Disaster Recovery
 - Latency Optimization
 - Compliance and Data Sovereignty
-
 
 ## IOMETE Data Plane
 
@@ -132,11 +128,9 @@ Hosted on the customer's cloud infrastructure (AWS, GCP, Azure), the Data Plane 
 
 **Databases:** Store security policies and metadata for external Hive tables.
 
-
 ## Connecting to Lakehouse Endpoints
 
 Customers can connect to Lakehouse endpoints using various tools, ensuring data remains within their cloud. The Lakehouse endpoints manage authentication and authorization, and execute actions based on user privileges.
-
 
 **Control Plane and Data Plane Communication**
 
