@@ -16,9 +16,11 @@
   .Action {
     border: none;
     cursor: pointer;
-    font-size: 16px;
-    line-height: 22px;
-    margin: 0 16px;
+    margin: 0 12px;
+    transform: scale(1);
+    :hover {
+      transform: scale(1.2);
+    }
   }
 
   p {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
-import { Smiley, SmileyMeh } from "@phosphor-icons/react";
+import { ThumbsDown, ThumbsUp } from "@phosphor-icons/react";
 import useIsBrowser from "@docusaurus/useIsBrowser";
 
 const Feedback = ({ label }) => {
@@ -26,20 +26,18 @@ const Feedback = ({ label }) => {
       {haveVoted ? (
         <p>Thanks for letting us know!</p>
       ) : (
-        <>
+        <div className={styles.Actions}>
           <span title="Happy" data-doc-useful="yes" className={styles.Action} onClick={() => giveFeedback("yes")}>
             <span className={styles.Iconx}>
-              <Smiley size={20} weight="regular" />
+              <ThumbsUp size={20} weight="light" />
             </span>
-            Yes
           </span>
           <span title="Disappointed" data-doc-useful="no" className={styles.Action} onClick={() => giveFeedback("no")}>
             <span className={styles.Iconx}>
-              <SmileyMeh size={20} weight="regular" />
+              <ThumbsDown size={20} weight="light" />
             </span>
-            No
           </span>
-        </>
+        </div>
       )}
     </div>
   );
