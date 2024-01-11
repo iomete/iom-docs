@@ -1,13 +1,12 @@
 ---
-title: Iceberg Features - Branching, Tagging and Time-Travel
+title: Iceberg Features - Branching, Tagging & Time-Travel
 sidebar_label: Iceberg Advanced Features
-description:  This script illustrates advanced features of Apache Iceberg tables, including branching, tagging, and time-travel. It starts with setting up a sample database and tables, followed by detailed examples of branching operations, querying branches/tags and writing to branches.
+description: This script illustrates advanced features of Apache Iceberg tables, including branching, tagging, and time-travel. It starts with setting up a sample database and tables, followed by detailed examples of branching operations, querying branches/tags and writing to branches.
 ---
 
 This script illustrates advanced features of Apache Iceberg tables, including branching, tagging, and time-travel. It starts with setting up a sample database and tables, followed by detailed examples of branching operations, querying branches/tags and writing to branches.
 
-
-``` sql jsx  title="Let's create a database and some sample tables for the queries"
+```sql jsx  title="Let's create a database and some sample tables for the queries"
 CREATE DATABASE IF NOT EXISTS common_queries_demo_db;
 
 
@@ -67,6 +66,7 @@ ALTER TABLE iceberg_demo_db.employees REPLACE BRANCH audit
 ALTER TABLE iceberg_demo_db.employees REPLACE BRANCH audit
     RETAIN 60 DAYS;
 ```
+
 ```sql jsx  title="Drop branch audit"
 ALTER TABLE iceberg_demo_db.employees DROP BRANCH audit;
 ```
@@ -118,12 +118,12 @@ SELECT * FROM iceberg_demo_db.employees VERSION AS OF 'historical_tag' LIMIT 100
 SELECT * FROM iceberg_demo_db.employees.tag_historical_tag LIMIT 100;
 ```
 
-
 ## Writing to Branches
 
-```sql 
+```sql
 ALTER TABLE iceberg_demo_db.employees CREATE BRANCH branch_audit;
 ```
+
 ```sql jsx  title="INSERT into {audit_branch}. The main branch stays unchanged"
 INSERT INTO iceberg_demo_db.employees.branch_audit_branch (
     emp_no,
@@ -142,9 +142,11 @@ VALUES (
     CAST('2000-10-01' AS DATE)
 );
 ```
+
 ```sql jsx  title="Main branch doesn't return any row for emp_no=1"
 SELECT * FROM iceberg_demo_db.employees WHERE emp_no=1;
 ```
+
 ```sql jsx  title="Branch branch_audit returns the inserted row for emp_no=1"
 SELECT * FROM iceberg_demo_db.employees.branch_audit_branch WHERE emp_no=1;
 
@@ -157,10 +159,10 @@ SELECT * FROM iceberg_demo_db.employees.branch_audit_branch WHERE emp_no=1;
 -- DELETE FROM iceberg_demo_db.employees.branch_audit_branch WHERE emp_no = 2;
 
 ```
+
 ```sql jsx  title="Clean up"
 DROP TABLE iceberg_demo_db.employees PURGE;
 DROP TABLE iceberg_demo_db.employees_mysql_external;
 
 DROP DATABASE iceberg_demo_db;
 ```
-
