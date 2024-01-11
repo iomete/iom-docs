@@ -7,6 +7,8 @@ alphabet: M
 
 # MLOps
 
+## What is MLOps?
+
 **MLOps** (Machine Learning Operations) is a critical function in Machine Learning engineering that optimizes the process of taking machine learning models to production and ensures their ongoing maintenance and monitoring.
 
 MLOps facilitates collaboration between data scientists and machine learning engineers, accelerating model development and production through the implementation of continuous integration and deployment (CI/CD) practices. This approach includes proper monitoring, validation, and governance of ML models.

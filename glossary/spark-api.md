@@ -7,6 +7,8 @@ alphabet: S
 
 # Spark API
 
+## What is Spark API?
+
 If you're working with Spark, you'll encounter three APIs: DataFrames, Datasets, and RDDs (Resilient Distributed Datasets).
 
 **RDDs** are fault-tolerant, immutable collections of records that support parallel processing. They can be transformed using low-level APIs and are known for their lazy feature, which speeds up Spark operations.

@@ -7,6 +7,8 @@ alphabet: S
 
 # Sparse Tensor
 
+## What is Sparse Tensor?
+
 **Sparse Tensor** is a powerful tool for handling multi-dimensional arrays and serves as a vital component in developing the pytensor library. One of the key classes in pytensor is the Sptensor, which represents sparse tensors. Sparse tensors are datasets with mostly zero entries, like large diagonal matrices. Sptensors store only non-zero values and their coordinates, reducing storage needs and avoiding unnecessary calculations with zero values.
 
 Sptensors have several primary attributes:
