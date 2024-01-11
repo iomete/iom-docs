@@ -16,7 +16,10 @@ This is an end-to-end guide about how to migrate tables from JDBC sources (MySQL
 This is an end-to-end guide about how to migrate **tables** from JDBC sources (MySQL, PostgreSQL, etc.) to iomete and display it in the BI dashboard.
 
 :::info
-First, you need to establish an SSH tunnel between iomete and your database in your private network. See [Database Connection Options](https://iomete.com/docs/administration-guide/database-connection-options)
+First, you need to establish an SSH tunnel between iomete and your database in your private network.
+
+<!-- See [Database Connection Options](https://iomete.com/docs/administration-guide/database-connection-options) -->
+
 :::
 
 ### Database to migrate

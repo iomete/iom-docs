@@ -5,7 +5,7 @@ slug: data-mesh-iomete
 image: img/blog/2023-03-03-iomete-data-mesh/data-mesh-with-iomete.png
 coverImage: img/blog/thumbnails/0.png
 hide_table_of_contents: true
-tags: [Company]
+tags2: [Company]
 authors: lakshmi
 banner_description: Learn how to implement data mesh to your organization with IOMETE
 ---

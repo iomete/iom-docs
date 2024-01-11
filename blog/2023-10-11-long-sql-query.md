@@ -3,7 +3,7 @@ title: How to optimize SQL query?
 description: IOMETE's managed Spark platform makes it easy to get started with data analytics, with high performance, low costs, and simplified data management
 slug: optimize-sql-query
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: aytan
 banner_description: How to optimize an old long SQL query?
 coverImage: img/blog/thumbnails/1.png

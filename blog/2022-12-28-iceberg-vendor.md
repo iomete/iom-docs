@@ -5,7 +5,7 @@ slug: iomete-apache-iceberg-vendor
 image: img/blog/iceberg-vendor/apache-iceberg-vendor-iomete.png
 coverImage: img/blog/thumbnails/1.png
 hide_table_of_contents: true
-tags: [Company]
+tags2: [Company]
 authors: piet
 banner_description: We’re pleased to announce that IOMETE is now featured as one of the few vendors that supports the Apache Iceberg table format
 ---

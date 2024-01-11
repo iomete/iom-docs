@@ -5,7 +5,7 @@ slug: changelog-q2-2023
 image: img/blog/2023-07-31-changelog/changelog-banner.jpg
 coverImage: img/blog/thumbnails/2.png
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: aytan
 banner_description: What is new in IOMETE platform
 ---

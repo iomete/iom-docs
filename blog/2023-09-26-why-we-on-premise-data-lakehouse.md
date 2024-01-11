@@ -3,7 +3,7 @@ title: Why we choose to be the on premise data lakehouse
 description: This wide range of deployment possibilities makes IOMETE extremely versatile from a product perspective. For large enterprises there are real benefits of having a data lakehouse platform that is agnostic as to where your data lives
 slug: why-we-choose-to-be-the-on-premise-data-lakehouse
 hide_table_of_contents: true
-tags: [Company]
+tags2: [Company]
 authors: piet
 banner_description: why we position ourselves as the on premise data lakehouse
 coverImage: img/blog/thumbnails/2.png

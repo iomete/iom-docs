@@ -3,7 +3,7 @@ slug: data-warehouses-vs-data-lakehouses
 title: data lakehouse vs data warehouse vs data lake
 authors: aytan
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 image: img/blog/2022-11-24-warehouse-vs-lakehouse/evolution_of_big_data.png
 coverImage: img/blog/thumbnails/3.png
 description: data lakehouses to data warehouses evaluation of data infrastructure and the main differences between them explained

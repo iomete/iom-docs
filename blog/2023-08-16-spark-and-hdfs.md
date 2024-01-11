@@ -4,7 +4,7 @@ title: Spark & HDFS Integration in Data Lakehouse
 description: In this blog post, we'll explore the relationship between Spark and HDFS and discuss setting up your architecture using Dockerized Spark clusters and HDFS.
 slug: spark-and-hdfs
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: aytan
 banner_description: relationship between Spark and HDFS and discuss setting up your architecture
 coverImage: img/blog/thumbnails/0.png

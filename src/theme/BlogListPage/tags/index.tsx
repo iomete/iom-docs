@@ -1,7 +1,6 @@
 import React from "react";
 
 import styles from "./styles.module.scss";
-import Link from "@docusaurus/Link";
 import clsx from "clsx";
 
 export type Props = {
@@ -9,31 +8,28 @@ export type Props = {
   activeTag?: string;
 };
 
-const prioritizedTags: Props["items"] = ["release", "educational", "company", "engineering"].map((tag) => ({
-  name: tag,
-  permalink: `/blog/tags/${tag.replace(/ /g, "-")}`,
-}));
-
-const Chip = function ({ label, permalink, active = false }) {
-  return (
-    <Link to={permalink} className={clsx(styles.TagLink, active && styles.Active)}>
-      {label}
-    </Link>
-  );
-};
+const tags = ["Release", "Educational", "Company", "Engineering"];
 
 interface IProps {
-  activeTag?: string;
+  selected?: string;
+  onChange: (val: string) => void;
 }
-function Tags({ activeTag }: IProps) {
+function Tags({ selected, onChange }: IProps) {
   return (
     <div className={styles.Tags}>
-      <Chip label="All" permalink="/blog" />
+      <div className={styles.TagLink} onClick={() => onChange("")}>
+        All
+      </div>
 
-      {prioritizedTags.map(({ name, permalink }) => (
-        <Chip key={permalink} label={name} permalink={permalink} active={activeTag === permalink} />
+      {tags.map((tag) => (
+        <div
+          key={tag}
+          className={clsx(styles.TagLink, tag === selected && styles.Active)}
+          onClick={() => onChange(tag)}
+        >
+          {tag}
+        </div>
       ))}
-      <Chip label="More..." permalink="/blog/tags" />
     </div>
   );
 }

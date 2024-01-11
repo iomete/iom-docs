@@ -6,7 +6,7 @@ image: img/blog/2023-04-04-iceberg-vs-deltalake/deltalake-vs-iceberg.png
 coverImage: img/blog/thumbnails/2.png
 hide_table_of_contents: true
 featured_blog: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: vusal
 banner_description: Why IOMETE chooses Apache Iceberg over Delta Lake?
 ---

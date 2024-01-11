@@ -3,7 +3,7 @@ title: Snowflake cost cutting
 description: Using Snowflake Compute Credit to save your cloud computing bills by 50%. Want to know how much does it means exactly? Check our blog
 slug: snowflake-cost-cutting
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: aytan
 banner_description: How to cut your Snowflake bills
 coverImage: img/blog/thumbnails/1.png

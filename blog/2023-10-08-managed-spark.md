@@ -3,7 +3,7 @@ title: Managed Spark for Data Lakehouse Platform
 description: IOMETE's managed Spark platform makes it easy to get started with data analytics, with high performance, low costs, and simplified data management
 slug: managed-spark
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: aytan
 banner_description: How to automate cluster scaling
 coverImage: img/blog/thumbnails/0.png

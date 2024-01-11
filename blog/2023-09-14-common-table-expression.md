@@ -3,7 +3,7 @@ title: What is common table expression?
 description: Common Table Expressions (CTEs) are a powerful feature in SQL that allows you to define temporary result sets that can be referenced multiple times within a SQL statement
 slug: common-table-expression
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: aytan
 banner_description: powerful feature in IOMETE SQL editor that allows you to define temporary result sets
 coverImage: img/blog/thumbnails/3.png

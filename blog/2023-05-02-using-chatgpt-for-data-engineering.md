@@ -5,7 +5,7 @@ slug: chatgpt-for-data-engineering
 image: img/blog/2023-05-02-using-chatgpt-for-data-engineering/chat-gpt-for-data-enginnering.jpg
 coverImage: img/blog/thumbnails/0.png
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: aytan
 banner_description: Using ChatGPT saves data engineers hours of time and frustration
 ---
