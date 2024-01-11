@@ -9,7 +9,7 @@ function Header({ baseUrl }: IProps) {
   return (
     <div className={styles.Header}>
       <div className={styles.HeaderContent}>
-        <h3>The IOMETE blog</h3>
+        <h1>The IOMETE blog</h1>
         <p>
           Welcome to our blog. Here's where we share company news, engineering updates and educational content. Don't hesitate to reach out to us by
           email{" "}

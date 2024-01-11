@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <Layout title={siteConfig.title} description="Description will go into a meta tag in <head />">
       <div className="container margin-top--lg padding-top--lg">
-        <Heading as="h3" className="hero__title">
+        <Heading as="h1" className="hero__title">
           IOMETE Resources
         </Heading>
         <p className="hero__subtitle">Unlock the Power of Data Integration and Analytics with IOMETE's Modern Lakehouse Platform</p>
