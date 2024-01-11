@@ -1,5 +1,5 @@
 ---
-title: The Benefits of On-Premise and Hybrid Data Warehouses
+title: Advantages of On-Premise & Hybrid Data Warehouses
 description: in this post we talk about “data warehouse” because that’s a more known term, but we have a strong preference for the next generation of data warehouses, i.e. “the data lakehouse”
 slug: onpremise-hybrid-data-warehouse
 hide_table_of_contents: true

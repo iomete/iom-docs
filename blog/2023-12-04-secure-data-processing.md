@@ -1,6 +1,7 @@
 ---
 title: How to build secure data processing architecture?
-description: First hand experience on how to securely process and analyse data in cost-friendly way
+# description: First hand experience on how to securely process and analyse data in cost-friendly way
+description: Unlocking Cost-Effective Data Processing - A Firsthand Guide to Securely Analyzing Data with Efficiency
 slug: secure-data-processing
 image: img/blog/2023-05-27-secure-data-processing/secure-data-processing.jpg
 hide_table_of_contents: true
