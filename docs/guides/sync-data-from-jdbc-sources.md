@@ -18,7 +18,7 @@ This is an end-to-end guide about how to migrate **tables** from JDBC sources (M
 :::info
 First, you need to establish an SSH tunnel between iomete and your database in your private network.
 
-<!-- See [Database Connection Options](/docs/administration-guide/database-connection-options) -->
+<!-- See [Database Connection Options](https://iomete.com/docs/administration-guide/database-connection-options) -->
 
 :::
 
@@ -30,10 +30,9 @@ Let's assume that we want to replicate the MySQL database (or any other supporte
 In this tutorial, we will be using a publicly accessible iomete-tutorial database instance that contains the [Employees Sample Database. ](https://dev.mysql.com/doc/employee/en/sakila-structure.html)
 :::
 
-<!-- :::info
-In case of connecting to your own database instance see [Database Connection Options](/docs/administration-guide/database-connection-options) for the details
-::: -->
-
+:::info
+In case of connecting to your own database instance see [Database Connection Options](https://iomete.com/docs/administration-guide/database-connection-options) for the details
+:::
 Here are the details of `iomete-tutorial` public database:
 
 ```
@@ -64,10 +63,10 @@ Create a new warehouse instance
 
 ### Querying Source Table
 
-After having the lakehouse created, we create a table using JDBC Sources using [CREATE TABLE](/docs/spark-sql/create-table) command. In the OPTIONS part we specify credentials of the database to which we want to connect as follows
+After having the lakehouse created, we create a table using JDBC Sources using [CREATE TABLE](https://iomete.com/docs/spark-sql/create-table) command. In the OPTIONS part we specify credentials of the database to which we want to connect as follows
 
 <!--TODO (see [JDBC Sources](./data-sources/jdbc-sources)):  -->
-<!-- /docs/guides/how-to-connect-iomete-and-apache-superset#get-connection-details-from-iomete -->
+<!-- https://iomete.com/docs/guides/how-to-connect-iomete-and-apache-superset#get-connection-details-from-iomete -->
 
 ```sql
 CREATE TABLE IF NOT EXISTS employees_proxy
