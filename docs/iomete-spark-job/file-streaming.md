@@ -15,12 +15,6 @@ import { Cpu, Plus } from "@phosphor-icons/react";
 
 Transfer files to iceberg continuously.
 
-## Table of Contents
-
-- [File Formats](#file-formats)
-- [Job creation](#job-creation)
-- [Tests](#tests)
-
 ## File formats
 
 Tested file formats.
@@ -74,7 +68,7 @@ You can use **Environment variables** to store your sensitive variables like pas
 }
 ```
 
-## Configuration properties
+### Configuration properties
 
 <table>
   <thead>

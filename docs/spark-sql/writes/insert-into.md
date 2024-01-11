@@ -24,7 +24,7 @@ When you INSERT INTO a table schema enforcement and evolution is supported. If a
 
 <br/>
 
-### Parameters
+## Parameters
 
 - **table_identifier**
 
