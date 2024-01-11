@@ -7,6 +7,8 @@ alphabet: O
 
 # Orchestration
 
+## What is Orchestration?
+
 **Data Orchestration** is the process of coordinating and managing multiple computer systems, applications, and services to execute larger workflows or processes.
 
 It streamlines and optimizes the execution of frequent, repeatable processes, helping data teams manage complex tasks and workflows. Orchestration tools are necessary for effective DevOps practices, automating application deployments, managing continuous integration and continuous delivery pipelines, and orchestrating release workflows.

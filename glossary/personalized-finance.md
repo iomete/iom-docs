@@ -7,6 +7,8 @@ alphabet: P
 
 # Personalized Finance
 
+## What is Personalized Finance?
+
 **Personalized Finance** - also known as open finance - is a data-driven approach that empowers banks to offer tailored services to their clients.
 
 By leveraging advanced analytics like geospatial or natural language processing (NLP), banks can provide personalized insights, recommendations, and reporting capabilities. Personalized finance is made possible through open banking standards and evolving regulations across the world.

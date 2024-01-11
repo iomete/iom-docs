@@ -7,6 +7,8 @@ alphabet: M
 
 # Model Risk Management
 
+## What is Model Risk Management?
+
 **Model Risk Management** is a crucial facet of risk management and operational efficiency, especially for financial institutions.
 
 This practice revolves around identifying, measuring, and mitigating risks associated with incorrect or misused models. Inaccurate models can result in significant losses, especially in areas such as valuing financial securities, assigning consumer credit scores, and detecting fraudulent credit card transactions.
