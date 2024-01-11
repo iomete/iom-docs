@@ -5,7 +5,7 @@ slug: snowflake-compute-credit
 image: img/blog/snowflake-compute-credit/snowflake-compute-credits.jpg
 coverImage: img/blog/thumbnails/1.png
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: aytan
 banner_description: Understanding your consumption of Snowflake credits
 ---

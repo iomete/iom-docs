@@ -3,7 +3,7 @@ title: Apache Spark in On-Premise Lakehouse Architecture
 description: Apache Spark within on-premise lakehouse architectures marks a significant advancement in data processing. Integrating with systems like IOMETE and Kubernetes,
 slug: apache-spark-on-prem
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: fuad
 banner_description: In on-premise lakehouses, Spark excels in data analytics, and ML workflows
 coverImage: img/blog/thumbnails/2.png

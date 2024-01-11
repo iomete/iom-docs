@@ -4,7 +4,7 @@ title: The Data Cloud is Greedy
 description: In this blog post we discuss the status quo in the data cloud industry - the prioritization of investor interest over customer interest.
 authors: piet
 hide_table_of_contents: true
-tags: [Company]
+tags2: [Company]
 image: img/blog/2022-07-27-the-data-cloud-is-greedy/thumb.png
 coverImage: img/blog/thumbnails/1.png
 banner_description: In this post we explained why we believe "The Data Cloud" - a reference to the establishment in our industry - is greedy by sharing our hate list.

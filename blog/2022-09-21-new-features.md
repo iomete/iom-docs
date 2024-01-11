@@ -4,7 +4,7 @@ description: In September 2022, IOMETE released a number of new platform feature
 slug: new-iomete-features-september-2022
 authors: fuad
 hide_table_of_contents: true
-tags: [Release]
+tags2: [Release]
 image: img/blog/2022-09-21-new-features/september-update-2022.png
 coverImage: img/blog/thumbnails/0.png
 banner_description: In September 2022, we released a number of new and improved platform features. Check full description in this blog post.

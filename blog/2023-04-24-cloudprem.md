@@ -5,7 +5,7 @@ slug: cloud-prem-lakehouse
 image: img/blog/2023-04-24-cloudprem/what-is-cloud-prem-lakehouse-platform.png
 coverImage: img/blog/thumbnails/3.png
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: aytan
 banner_description: What is the cloud-prem data analytics platform? How to choose the right platform?
 ---

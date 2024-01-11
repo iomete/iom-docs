@@ -3,7 +3,7 @@ title: Z-ORDER sorting during compaction
 description: to force the whole dataset sorting during compaction to be ordered using Z-ORDER, you can use the following steps
 slug: z-order-sorting
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: aytan
 banner_description: To force the whole dataset to be ordered using Z-ORDER
 coverImage: img/blog/thumbnails/2.png

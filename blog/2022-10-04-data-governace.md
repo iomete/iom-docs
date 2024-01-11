@@ -4,7 +4,7 @@ description: Get to know how data governance can improve your business operation
 slug: /data-governance-for-modern-data-stack
 authors: aytan
 hide_table_of_contents: true
-tags: [Educational, Company]
+tags2: [Educational, Company]
 image: img/blog/2022-10-04-data-governace/data-governance-for-modern-data-stack.png
 coverImage: img/blog/thumbnails/1.png
 banner_description: Data Governance is a concept that entered our lives with Big Data and has been implemented in many institutions and organizations.

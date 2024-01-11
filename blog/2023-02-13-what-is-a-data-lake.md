@@ -5,7 +5,7 @@ slug: data-lake-benefits-2023
 image: img/blog/2023-02-13-data-lake/benefits-of-data-lake.png
 coverImage: img/blog/thumbnails/2.png
 hide_table_of_contents: true
-tags: [Company]
+tags2: [Company]
 authors: aytan
 banner_description: Learn the benefits of data lakes and how to implement them in your organization [2023]
 ---

@@ -4,10 +4,11 @@ description: Organizations often ask, "How does Apache Ranger enhance the securi
 slug: apache-ranger-data-security
 authors: aytan
 hide_table_of_contents: true
-tags: [Educational, Company]
+tags2: [Educational, Company]
 coverImage: img/blog/thumbnails/1.png
 banner_description: Known for its stronghold in the Hadoop ecosystem, is a critical tool for organizations dealing with big data security.
 ---
+
 When we talk about keeping lots of data safe, it's really important. That's where Apache Ranger comes in. It's like a guardian for your data, especially when you use it with systems like IOMETE. This blog is all about how Apache Ranger helps keep your data safe. It's great at making sure only the right people can get to your data, follows rules to keep your data in line, and makes sure everything is done the right way.
 
 ## The Role of Apache Ranger in Data Governance

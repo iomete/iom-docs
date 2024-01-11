@@ -3,7 +3,7 @@ title: Advantages of On-Premise & Hybrid Data Warehouses
 description: in this post we talk about “data warehouse” because that’s a more known term, but we have a strong preference for the next generation of data warehouses, i.e. “the data lakehouse”
 slug: onpremise-hybrid-data-warehouse
 hide_table_of_contents: true
-tags: [Company]
+tags2: [Company]
 authors: piet
 banner_description: There can be good reasons to opt for an on-premise data warehouse or lakehouse
 coverImage: img/blog/thumbnails/1.png

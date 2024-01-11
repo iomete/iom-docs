@@ -5,7 +5,7 @@ description: Unlocking Cost-Effective Data Processing - A Firsthand Guide to Sec
 slug: secure-data-processing
 image: img/blog/2023-05-27-secure-data-processing/secure-data-processing.jpg
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: lakshmi
 banner_description: First hand experience on how to securely process and analyse data in cost-friendly way
 coverImage: img/blog/thumbnails/0.png

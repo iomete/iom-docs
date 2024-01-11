@@ -4,7 +4,7 @@ description: Get a quick access to popular commands with our Spark SQL Cheat She
 slug: cheat-sheet-for-apache-iceberg
 authors: fuad
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 image: img/blog/2022-08-25-cheat-sheet/iceberg-cheat-sheet.jpeg
 coverImage: img/blog/thumbnails/3.png
 banner_description: Apache Iceberg is a high-performance format for huge analytic tables. It has built-in metadata tables for inspection and procedures for data compaction and table maintenance.

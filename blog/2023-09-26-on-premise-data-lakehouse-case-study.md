@@ -3,7 +3,7 @@ title: On-premise Analytics Platform case study
 description: This use case demonstrates how the separation of storage and compute can benefit organizations with diverse analytics needs in an on-premises environment
 slug: on-premise-case-study
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: aytan
 banner_description: Step-by-step on-premise use case
 coverImage: img/blog/thumbnails/0.png

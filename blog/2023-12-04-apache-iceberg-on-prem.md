@@ -3,7 +3,7 @@ title: Apache Iceberg in on-prem
 description: Explore the benefits of Apache Iceberg's table format for on-premise environments that seeking efficient, scalable, and compliant data management solutions
 slug: iceberg-onprem
 hide_table_of_contents: true
-tags: [Engineering]
+tags2: [Engineering]
 authors: fuad
 banner_description: cloud-native table format in on premise
 coverImage: img/blog/thumbnails/3.png
