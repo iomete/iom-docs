@@ -1,11 +1,11 @@
 ---
 # title: On-Premise Data Engineering in the Age of ML and AI | Embracing IOMETE's Innovative Approach
-title: On-Premise Data Engineering - Innovating in ML & AI
+title: IOMETE's On-Premise Data Engineering - Innovating in ML & AI
 
 description: Maximum data security and control, which are critical for businesses dealing with sensitive data or operating under stringent regulatory requirements
 slug: on-prem-data-engineering-ml-ai
 hide_table_of_contents: true
-tags2: [Engineering]
+tags: [Engineering]
 authors: piet
 banner_description: Embracing IOMETE's Innovative Approach
 coverImage: img/blog/thumbnails/0.png
