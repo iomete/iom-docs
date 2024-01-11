@@ -51,7 +51,6 @@ html[data-theme="dark"] {
     .table-of-contents {
       padding: 0;
       margin-inline-start: calc(-1 * var(--ifm-toc-padding-horizontal));
-      margin-inline-end: calc(-1 * var(--ifm-toc-padding-horizontal));
 
       > li:first-of-type {
         margin-block-start: 0;

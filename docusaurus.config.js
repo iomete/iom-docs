@@ -138,7 +138,7 @@ const config = {
           {
             type: "search",
             position: "right",
-            className: "navbar-search"
+            className: "navbar-search",
           },
           {
             href: "https://api.iomete.com",
@@ -159,7 +159,7 @@ const config = {
           },
 
           {
-            href: "https://discord.com/channels/1189603935493836860/1189607607426633878",
+            href: "https://discord.gg/26GeyJx3Ut",
             position: "right",
             className: "link-icon discord-link",
             "aria-label": "Discord Community",
