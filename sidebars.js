@@ -182,11 +182,11 @@ const sidebars = {
             label: "SQL Quick Start",
             collapsed: false,
             items: [
-                "guides/sql-quick-start/sql-ddl-examples",
-                "guides/sql-quick-start/dml-operations",
-                "guides/sql-quick-start/iceberg-advanced-features",
-                "guides/sql-quick-start/tables-from-jdbc-csv-json",
-                "guides/sql-quick-start/query-federation",
+                "sql-quick-start/sql-ddl-examples",
+                "sql-quick-start/dml-operations",
+                "sql-quick-start/iceberg-advanced-features",
+                "sql-quick-start/tables-from-jdbc-csv-json",
+                "sql-quick-start/query-federation",
             ],
         },
         {
@@ -280,7 +280,7 @@ const sidebars = {
             type: "category",
             label: "Pyspark",
             collapsed: false,
-            items: ["learn/pyspark/pyspark-join"],
+            items: ["pyspark-reference/pyspark-join"],
         },
         {
             type: "category",
