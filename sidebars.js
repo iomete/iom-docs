@@ -18,6 +18,78 @@ const sidebars = {
 
     // But you can create a sidebar manually
 
+<<<<<<< HEAD
+=======
+
+  getting_started: [
+    {
+      type: "category",
+      label: "Overview",
+      collapsed: false,
+      items: ["getting-started/what-is-iomete", "getting-started/console-tour"],
+    },
+  ],
+
+  docs: [
+    {
+      type: "category",
+      label: "Documentation",
+      collapsed: false,
+      items: ["intro", "intro/platform"],
+    },
+    {
+      type: "category",
+      label: "User Guide",
+      collapsed: false,
+      items: [
+        "user-guide/virtual-lakehouses",
+        "user-guide/private-docker-registry",
+        "user-guide/create-a-personal-access-token",
+        // "user-guide/create-ssh-tunnel",
+        "user-guide/sql-editor",
+      ],
+    },
+    {
+      type: "category",
+      label: "Iceberg Tables",
+      collapsed: false,
+      items: [
+        "iceberg-tables/getting-started",
+        "iceberg-tables/ddl",
+        "iceberg-tables/queries",
+        "iceberg-tables/writes",
+        "iceberg-tables/iceberg-procedures",
+        "iceberg-tables/time-travel",
+        "iceberg-tables/maintenance",
+      ],
+    },
+    {
+      type: "category",
+      label: "Data Sources",
+      collapsed: false,
+      items: [
+        "data-sources/jdbc-sources",
+        "data-sources/snowflake-connector",
+        "data-sources/csv-files",
+        "data-sources/json-files",
+        "data-sources/parquet-files",
+        "data-sources/orc-files",
+      ],
+    },
+    {
+      type: "category",
+      label: "Data Security",
+      collapsed: false,
+      items: [
+        "data-security/overview",
+        "data-security/access",
+        "data-security/masking",
+        "data-security/row-level-filter",
+        "data-security/tag-based-access",
+        "data-security/tag-based-masking",
+      ],
+    },
+>>>>>>> bfc2775 (Getting started menu is added)
 
     getting_started: [
         {
@@ -65,6 +137,7 @@ const sidebars = {
         },
     ],
 
+<<<<<<< HEAD
     guides: [
         {
             type: "category",
@@ -84,6 +157,18 @@ const sidebars = {
                 "user-guide/sql-editor",
             ],
         },
+=======
+
+  learn: [
+    // "learn",
+    {
+      type: "category",
+      label: "Pyspark",
+      collapsed: true,
+      items: ["learn/pyspark/pyspark-join"],
+    },
+  ],
+>>>>>>> bfc2775 (Getting started menu is added)
 
         {
             type: "category",
