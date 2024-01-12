@@ -66,7 +66,7 @@ In the **Worksheet** panel, you can:
 ### Querying data
 
 :::info
-Before running a query you must select a running **[Lakehouse](https://iomete.com/docs/user-guide/virtual-lakehouses)** and **Database**.
+Before running a query you must select a running **[Lakehouse](/docs/user-guide/virtual-lakehouses)** and **Database**.
 :::
 
 To select (or change) the Running lakehouse for a worksheet, click the `Select Lakehouse` dropdown in the upper-right corner of the query editor.

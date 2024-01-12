@@ -13,7 +13,6 @@ import TOCInline from '@theme/TOCInline';
 
 <GridBox>
 
-
 <div>
   <p>The SQL Editor is where you run queries on your dataset and get results. The main components of the SQL Editor are highlighted below:</p>
   
@@ -64,7 +63,7 @@ In the **Worksheet** panel, you can:
 ### Querying data
 
 :::info
-Before running a query you must select a running **[Lakehouse](https://iomete.com/docs/user-guide/virtual-lakehouses)** and **Database**.
+Before running a query you must select a running **[Lakehouse](/docs/user-guide/virtual-lakehouses)** and **Database**.
 :::
 
 To select (or change) the Running lakehouse for a worksheet, click the `Select Lakehouse` dropdown in the upper-right corner of the query editor.

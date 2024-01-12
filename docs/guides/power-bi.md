@@ -2,9 +2,8 @@
 title: Power BI - Connecting to IOMETE
 sidebar_label: Power BI
 description: Effortlessly integrate IOMETE with Power BI - Step-by-step guide to connect, visualize and analyze data. Create reports and visualizations with Power BI resources.
-image: https://iomete.com/docs/img/guides/power-bi/power-bi-connecting-to-iomete.png
+image: img/guides/power-bi/power-bi-connecting-to-iomete.png
 ---
-
 
 # Power BI - Connecting to IOMETE
 
@@ -14,9 +13,7 @@ image: https://iomete.com/docs/img/guides/power-bi/power-bi-connecting-to-iomete
 
 import Img from '@site/src/components/Img';
 
-
 ![Power BI & IOMETE connecting](/img/guides/power-bi/power-bi-connecting-to-iomete.png)
-
 
 This guide explains how to effortlessly integrate IOMETE with yet another popular BI tool: Power BI.
 
@@ -30,13 +27,11 @@ In the next Form, you will need to add connection details like in the screenshot
 
 <Img src="/img/guides/power-bi/spark-connection-details.png" alt="Power Bi spark connection details"/>
 
-
 ⚠️ To fill in these values you can go to the IOMETE Platform and copy connection details from the lakehouse you are trying to connect. Switch to the Power BI tab in the Connections section and copy the “Server” parameter.
 
 <Img src="/img/guides/power-bi/iomete-lakehouse-connection-details.png" alt="IOMETE lakehouse connection details"/>
 
 For protocol, select HTTP, and in Data Connectivity mode select Import.
-
 
 :::caution Important
 Power BI recommends to use **Import** for connectivity mode. For relatively large data or real-time streaming switch to **DirectQuery** mode.
@@ -49,8 +44,7 @@ Select the tables and views you want to use in Power BI.
 
 <Img src="/img/guides/power-bi/power-bi-navigator.png" alt="Power BI navigator"/>
 
-
-You will have to wait a couple of minutes before Power BI will load the data sets. 
+You will have to wait a couple of minutes before Power BI will load the data sets.
 
 Congratulations, you have successfully connected Power BI to IOMETE.
 

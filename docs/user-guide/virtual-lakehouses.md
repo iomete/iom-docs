@@ -18,7 +18,7 @@ A virtual **lakehouse** is a cluster of compute resources that provide the requi
 In production environments, it is often required to isolate workloads, for example, to avoid the overhead of batch ETL jobs on ad-hoc analytical queries. Since data is decoupled and shared from virtual lakehouse, it enables the creation of multiple lakehouse clusters to isolate the workloads and turn on/off clusters based on requirements to save costs. Cluster size can be defined based on requirements and workloads.
 :::
 
-## **Create a new Lakehouse[](https://iomete.com/docs/user-guide/virtual-lakehouses#create-virtual-lakehouse)**
+## **Create a new Lakehouse**
 
 **1.** Go to the **Lakehouses** and click the <span className="inline-button"><Plus size={16}/>Create</span> button
 <Img src="/img/user-guide/virtual-lakehouse/create-new.png" alt="Create New Lakehouse" />
@@ -89,16 +89,17 @@ By clicking checkbox in the left side we can **disabled** **auto scale** functio
 
 6.  **Delete** - this button makes it simple to **remove** Lakehouse.
 
-
 ## Lakehouse Cluster Statuses
 
-To effectively manage and monitor your lakehouse cluster, you need to understand its two main components: the **Driver** and the **Executors**. 
+To effectively manage and monitor your lakehouse cluster, you need to understand its two main components: the **Driver** and the **Executors**.
+
 - **Driver** acts as the control center, managing connections and orchestrating tasks
 - **Executors** carry out the actual data processing.
 
 ### Driver Status
 
 What Each Status Means
+
 - **Stopped**: The Driver is offline and not accepting any connections.
 - **Starting**: The Driver is booting up.
 - **Active**: The Driver is running and ready to accept connections.
@@ -113,16 +114,18 @@ You're only charged for the Driver when it's in the 'Active' state.
 ### Executor Status
 
 What Each Status Means
+
 - **No Running Executors**: There is no active executor. This happens when auto-scale is configured. In this case, when there is no workload for a configured auto-suspend time, the cluster scales down to zero. Executors will scale up automatically based on demand.
 - **Pending**: Executors are scheduled to start and waiting for resources to start.
 - **Running**: Executors are active and processing data.
 
 #### Status Examples
+
 - **Running 1/4**: One out of four Executors is active. The cluster scales down to save costs when the workload is light.
 - **Running 1/4 Pending 3/4**: One Executor is active, and three are waiting to start due to an increase in workload.
-<Img src="/img/user-guide/virtual-lakehouse/statuses/scaling-up.png" alt="Lakehouse is scaling-up." />
+  <Img src="/img/user-guide/virtual-lakehouse/statuses/scaling-up.png" alt="Lakehouse is scaling-up." />
 - **Running 4/4**: All Executors are active, and the cluster is at full capacity.
-<Img src="/img/user-guide/virtual-lakehouse/statuses/running.png" alt="All executors are active" />
+  <Img src="/img/user-guide/virtual-lakehouse/statuses/running.png" alt="All executors are active" />
 
 :::tip Cost Implications
 You're only billed for Executors when they're in the 'Running' state.

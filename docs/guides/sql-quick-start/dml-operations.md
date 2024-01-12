@@ -1,13 +1,13 @@
 ---
 title: DML operations
-description:  This SQL script illustrates common queries and DML operations in IOMETE, utilizing Spark SQL and Iceberg. It encompasses database and table creation, data insertion, update and deletion operations and table descriptions.
+description: This SQL script illustrates common queries and DML operations in IOMETE, utilizing Spark SQL and Iceberg. It encompasses database and table creation, data insertion, update and deletion operations and table descriptions.
 ---
 
 ### Common queries and DML operations (IOMETE SparkSQL and Iceberg)
 
 This SQL script illustrates common queries and DML operations in IOMETE, utilizing Spark SQL and Iceberg. It encompasses database and table creation, data insertion, update and deletion operations and table descriptions.
 
-``` sql jsx  title="Let's create a database and some sample tables for the queries"
+```sql jsx  title="Let's create a database and some sample tables for the queries"
 CREATE DATABASE IF NOT EXISTS common_queries_demo_db;
 
 
@@ -21,7 +21,8 @@ OPTIONS (
     password '9tVDVEKp'
 );
 ```
-``` sql
+
+```sql
 
 CREATE TABLE common_queries_demo_db.employees
 AS
@@ -35,7 +36,7 @@ FROM common_queries_demo_db.employees_mysql_external;
 ```sql jsx  title="Show tables in the given database"
 SHOW TABLES in common_queries_demo_db;
 
-/* Output: 
+/* Output:
 +-------------------------+---------------------------+--------------+
 |        namespace        |         tableName         | isTemporary  |
 +-------------------------+---------------------------+--------------+
@@ -45,11 +46,10 @@ SHOW TABLES in common_queries_demo_db;
 */
 ```
 
-
 ```sql jsx  title="Describe table"
 DESCRIBE common_queries_demo_db.employees;
 
-/* Output: 
+/* Output:
 +------------------+------------+----------+
 |     col_name     | data_type  | comment  |
 +------------------+------------+----------+
@@ -68,7 +68,7 @@ DESCRIBE common_queries_demo_db.employees;
 
 ```sql jsx  title="Extended description"
 DESCRIBE EXTENDED common_queries_demo_db.employees;
-/* Output: 
+/* Output:
 +-------------------------------+----------------------------------------------------+----------+
 |           col_name            |                     data_type                      | comment  |
 +-------------------------------+----------------------------------------------------+----------+
@@ -102,7 +102,7 @@ DESCRIBE EXTENDED common_queries_demo_db.employees;
 ```sql jsx  title="Show table properties"
 SHOW TBLPROPERTIES common_queries_demo_db.employees;
 
-/* Output: 
+/* Output:
 +----------------------+---------------------+
 |         key          |        value        |
 +----------------------+---------------------+
@@ -116,7 +116,7 @@ SHOW TBLPROPERTIES common_queries_demo_db.employees;
 ```sql jsx  title="Show table schema"
 SHOW CREATE TABLE common_queries_demo_db.employees;
 
-/* Output: 
+/* Output:
 +----------------------------------------------------------------------------+
 |                   createtab_stmt                                           |
 +----------------------------------------------------------------------------+
@@ -140,7 +140,7 @@ SHOW CREATE TABLE common_queries_demo_db.employees;
 ```sql jsx  title="Inspect table history (Iceberg)"
 SELECT * FROM common_queries_demo_db.employees.history;
 
-/* Output: 
+/* Output:
 +--------------------------+---------------------+------------+----------------------+
 |     made_current_at      |     snapshot_id     | parent_id  | is_current_ancestor  |
 +--------------------------+---------------------+------------+----------------------+
@@ -152,7 +152,7 @@ SELECT * FROM common_queries_demo_db.employees.history;
 ```sql jsx  title="Inspect table snapshots (Iceberg)"
 SELECT * FROM common_queries_demo_db.employees.snapshots;
 
-/* Output: 
+/* Output:
 +--------------------------+---------------------+------------+------------+----------------------------------------------------+----------------------------------------------------+
 |       committed_at       |     snapshot_id     | parent_id  | operation  |                   manifest_list                    |                      summary                       |
 +--------------------------+---------------------+------------+------------+----------------------------------------------------+----------------------------------------------------+
@@ -164,7 +164,7 @@ SELECT * FROM common_queries_demo_db.employees.snapshots;
 ```sql jsx  title="Show the table's data files and each file's metadata (Iceberg)"
 SELECT * FROM common_queries_demo_db.employees.files;
 
-/* Output: 
+/* Output:
 +----------+----------------------------------------------------+--------------+----------+---------------+---------------------+----------------------------------------------------+----------------------------------------------------+----------------------------+-------------------+----------------------------------------------+------------------------------------------------+---------------+----------------+---------------+----------------+----------------------------------------------------+
 | content  |                     file_path                      | file_format  | spec_id  | record_count  | file_size_in_bytes  |                    column_sizes                    |                    value_counts                    |     null_value_counts      | nan_value_counts  |                 lower_bounds                 |                  upper_bounds                  | key_metadata  | split_offsets  | equality_ids  | sort_order_id  |                  readable_metrics                  |
 +----------+----------------------------------------------------+--------------+----------+---------------+---------------------+----------------------------------------------------+----------------------------------------------------+----------------------------+-------------------+----------------------------------------------+------------------------------------------------+---------------+----------------+---------------+----------------+----------------------------------------------------+
@@ -173,11 +173,10 @@ SELECT * FROM common_queries_demo_db.employees.files;
 */
 ```
 
-
 ```sql jsx  title="Show the table's file manifests and each file's metadata (Iceberg)"
 SELECT * FROM common_queries_demo_db.employees.manifests;
 
-/* Output: 
+/* Output:
 +----------+----------------------------------------------------+---------+--------------------+---------------------+-------------------------+----------------------------+---------------------------+---------------------------+------------------------------+-----------------------------+----------------------+
 | content  |                        path                        | length  | partition_spec_id  |  added_snapshot_id  | added_data_files_count  | existing_data_files_count  | deleted_data_files_count  | added_delete_files_count  | existing_delete_files_count  | deleted_delete_files_count  | partition_summaries  |
 +----------+----------------------------------------------------+---------+--------------------+---------------------+-------------------------+----------------------------+---------------------------+---------------------------+------------------------------+-----------------------------+----------------------+
@@ -187,7 +186,6 @@ SELECT * FROM common_queries_demo_db.employees.manifests;
 ```
 
 ## INSERT INTO Operations
-
 
 ```sql jsx  title="INSERT INTO operation"
 INSERT INTO common_queries_demo_db.employees
@@ -204,7 +202,7 @@ VALUES (
 ```sql jsx  title="See the newly inserted record"
 SELECT * FROM common_queries_demo_db.employees WHERE emp_no = 1;
 
-/* Output: 
+/* Output:
 +---------+-------------+-------------+------------+---------+-------------+
 | emp_no  | birth_date  | first_name  | last_name  | gender  |  hire_date  |
 +---------+-------------+-------------+------------+---------+-------------+
@@ -228,6 +226,7 @@ VALUES (
     CAST('2000-10-01' AS DATE)
 );
 ```
+
 ```sql jsx  title="Using a SELECT query to insert data"
 INSERT INTO common_queries_demo_db.employees
 SELECT 1 AS id,
@@ -247,7 +246,8 @@ CREATE TABLE common_queries_demo_db.employees_partitioned (
     gender string
 ) PARTITIONED BY (gender);
 ```
-```sql 
+
+```sql
 INSERT INTO common_queries_demo_db.employees_partitioned
 SELECT emp_no,
        birth_date,
@@ -257,13 +257,14 @@ SELECT emp_no,
 FROM common_queries_demo_db.employees
 ORDER BY gender;
 ```
+
 :::note
 ORDER BY is required for partitioned columns. They must be sorted.
 :::
 
-## MERGE/Update/Delete Operations 
+## MERGE/Update/Delete Operations
 
-```sql jsx  title="MERGE INTO operation" 
+```sql jsx  title="MERGE INTO operation"
 MERGE INTO spark_catalog.common_queries_demo_db.employees AS t
 USING (
     SELECT
@@ -288,13 +289,13 @@ WHEN NOT MATCHED THEN
 ```
 
 :::info
-See: https://iomete.com/docs/iceberg-tables/writes#merge-into-syntax"
+See: [MERGE INTO](/docs/iceberg-tables/writes#merge-into-syntax)
 :::
 
 ```sql jsx  title="Check the row"
 SELECT * FROM common_queries_demo_db.employees WHERE emp_no = 1;
 
-/* Output: 
+/* Output:
 +---------+-------------+-------------+------------+---------+-------------+
 | emp_no  | birth_date  | first_name  | last_name  | gender  |  hire_date  |
 +---------+-------------+-------------+------------+---------+-------------+
@@ -319,22 +320,10 @@ DELETE FROM common_queries_demo_db.employees WHERE emp_no = 1;
 
 ## Clean up
 
-```sql 
+```sql
 DROP TABLE common_queries_demo_db.employees PURGE;
 DROP TABLE common_queries_demo_db.employees_partitioned PURGE;
 DROP TABLE common_queries_demo_db.employees_mysql_external;
 
 DROP DATABASE common_queries_demo_db;
 ```
-
-
-
-
-
-
-
-
-
-
-
-

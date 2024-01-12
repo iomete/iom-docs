@@ -6,7 +6,7 @@ last_update:
   author: Vugar Dadalov
 ---
 
-___
+---
 
 ## Recommended Maintenance
 
@@ -14,14 +14,15 @@ ___
 
 Each write to an Iceberg table creates a new _snapshot_, or version, of a table. Snapshots can be used for time-travel queries, or the table can be rolled back to any valid snapshot.
 
-Snapshots accumulate until they are expired by the [`expireSnapshots`] operation. Regularly expiring snapshots is recommended to delete data files that are no longer needed, and to keep the size of table metadata small.
+Snapshots accumulate until they are expired by the \[`expireSnapshots`] operation. Regularly expiring snapshots is recommended to delete data files that are no longer needed, and to keep the size of table metadata small.
 
 Example using iceberg sql procedure:
+
 ```sql
 CALL spark_catalog.system.expire_snapshots('db.sample')
 ```
 
-See the [Iceberg Procedures - Expire Snapshots](https://iomete.com/docs/iceberg-tables/iceberg-procedures#expire_snapshots) for available options.
+See the [Iceberg Procedures - Expire Snapshots](/docs/iceberg-tables/iceberg-procedures#expire_snapshots) for available options.
 
 Expiring old snapshots removes them from metadata, so they are no longer available for time travel queries.
 
@@ -44,7 +45,6 @@ To automatically clean metadata files, set `write.metadata.delete-after-commit.e
 | `write.metadata.delete-after-commit.enabled` | Whether to delete old metadata files after each table commit |
 | `write.metadata.previous-versions-max`       | The number of old metadata files to keep                     |
 
-
 ### Delete orphan files
 
 In Spark and other distributed processing engines, task or job failures can leave files that are not referenced by table metadata, and in some cases normal snapshot expiration may not be able to determine a file is no longer needed and delete it.
@@ -55,23 +55,23 @@ To clean up these "orphan" files under a table location, use the `remove_orphan_
 CALL spark_catalog.system.remove_orphan_files(table => 'db.sample')
 ```
 
-[Iceberg Procedures - Remove orphan files](https://iomete.com/docs/iceberg-tables/iceberg-procedures#remove_orphan_files) - to see more configuration options.
+[Iceberg Procedures - Remove orphan files](/docs/iceberg-tables/iceberg-procedures#remove_orphan_files) - to see more configuration options.
 
 This action may take a long time to finish if you have lots of files in data and metadata directories. It is recommended to execute this periodically, but you may not need to execute this often.
 
 :::caution
-It is dangerous to remove orphan files with a retention interval shorter than the time expected for any write to complete because it 
+It is dangerous to remove orphan files with a retention interval shorter than the time expected for any write to complete because it
 might corrupt the table if in-progress files are considered orphaned and are deleted. The default interval is 3 days.
 :::
-
 
 :::info
 Iceberg uses the string representations of paths when determining which files need to be removed. On some file systems,
 the path can change over time, but it still represents the same file. For example, if you change authorities for an HDFS cluster,
-none of the old path urls used during creation will match those that appear in a current listing. *This will lead to data loss when 
-RemoveOrphanFiles is run*. Please be sure the entries in your MetadataTables match those listed by the Hadoop
+none of the old path urls used during creation will match those that appear in a current listing. _This will lead to data loss when
+RemoveOrphanFiles is run_. Please be sure the entries in your MetadataTables match those listed by the Hadoop
 FileSystem API to avoid unintentional deletion.
 :::
+
 ## Optional Maintenance
 
 Some tables require additional maintenance. For example, streaming queries may produce small data files that should be [compacted into larger files](#compact-data-files). And some tables can benefit from [rewriting manifest files](#rewrite-manifests) to make locating data for queries much faster.
@@ -88,7 +88,7 @@ CALL spark_catalog.system.rewrite_data_files('db.sample')
 
 The `files` metadata table is useful for inspecting data file sizes and determining when to compact partitions.
 
-[Iceberg Procedures - Rewrite data files](https://iomete.com/docs/iceberg-tables/iceberg-procedures#rewrite_data_files) - to see more configuration options.
+[Iceberg Procedures - Rewrite data files](/docs/iceberg-tables/iceberg-procedures#rewrite_data_files) - to see more configuration options.
 
 ### Rewrite manifests
 
@@ -102,4 +102,4 @@ When a table's write pattern doesn't align with the query pattern, metadata can 
 CALL spark_catalog.system.rewrite_manifests('db.sample')
 ```
 
-[Iceberg Procedures - Rewrite manifests](https://iomete.com/docs/iceberg-tables/iceberg-procedures#rewrite_manifests) - to see more configuration options.
+[Iceberg Procedures - Rewrite manifests](/docs/iceberg-tables/iceberg-procedures#rewrite_manifests) - to see more configuration options.

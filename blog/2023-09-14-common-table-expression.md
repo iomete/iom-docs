@@ -132,4 +132,4 @@ So, the final result of this query will be a single row with the values 1 and 2.
 
 CTEs are particularly useful when performing complex calculations or transformations on a subset of data before using it in the main query. They can also improve query performance by allowing the database to optimize the execution plan. If you have any specific questions or need more detailed examples, feel free to ask
 
-You can find more information about CTEs in the [IOMETE documentation](https://iomete.com/docs/spark-sql/queries/common-table-expression-cte) section of our documentation.
+You can find more information about CTEs in the [IOMETE documentation](/docs/spark-sql/queries/common-table-expression-cte) section of our documentation.
