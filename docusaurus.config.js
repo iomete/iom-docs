@@ -217,10 +217,6 @@ const config = {
             from: ["/docs/data-policy/tag-based-masking"],
           },
           {
-            to: "/docs/guides/spark-job/getting-started",
-            from: "/docs/user-guide/serverless-spark-applications",
-          },
-          {
             to: "/docs/guides",
             from: "/docs/user-guide/storage-integrations",
           },
