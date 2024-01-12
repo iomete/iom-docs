@@ -37,7 +37,7 @@ No rows selected
 
 :::tip
 
-See [DDL for Iceberg Tables: Create, Alter, Manage Operations](https://iomete.com/docs/iceberg-tables/ddl).
+See [DDL for Iceberg Tables: Create, Alter, Manage Operations](/docs/iceberg-tables/ddl).
 
 :::
 
@@ -136,7 +136,7 @@ DESCRIBE EXTENDED ddl_ops_demo_db.sample_partitioned;
 
 :::tip
 
-See [JDBC sources](https://iomete.com/docs/data-sources/jdbc-sources)
+See [JDBC sources](/docs/data-sources/jdbc-sources)
 
 :::
 

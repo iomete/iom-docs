@@ -23,13 +23,13 @@ dbt Core is an open-source tool that enables data teams to transform data using 
 ## Prepare Data
 
 :::important
-To use DBT on the IOMETE platform, one needs a running lakehouse cluster. See this [doc](https://iomete.com/docs/user-guide/virtual-lakehouses) for more details on getting a lakehouse running
+To use DBT on the IOMETE platform, one needs a running lakehouse cluster. See this [doc](/docs/user-guide/virtual-lakehouses) for more details on getting a lakehouse running
 :::
 
 Suppose we have two tables, and we’ll use these tables to generate a new table or view using DBT. Let's prepare the two tables to be used by the DBT project.
 
 :::tip
-For the sake of demo, we’ll use the IOMETE’s external tables capability, which is the quickest way of bringing some tables to the platform without dealing data movement. You can read our docs and [guide](https://iomete.com/docs/guides/sync-data-from-jdbc-sources) about how to work with external tables.
+For the sake of demo, we’ll use the IOMETE’s external tables capability, which is the quickest way of bringing some tables to the platform without dealing data movement. You can read our docs and [guide](/docs/guides/sync-data-from-jdbc-sources) about how to work with external tables.
 :::
 
 :::important
@@ -61,6 +61,7 @@ CREATE TABLE IF NOT EXISTS dbt_database.salaries
                 password '9tVDVEKp'
 );
 ```
+
 :::important
 This tables will be used later by dbt project
 :::
@@ -105,11 +106,10 @@ Choose your lakehouse instance from the list and go to DBT tab for the connectio
 Use `dbt_database` as your schema which we setup earlier.
 :::
 
-
 Run the following command to bootstrap the new dbt project
 
 ```bash
-# dbt init <your-project-name> 
+# dbt init <your-project-name>
 dbt init dbt_project
 
 # and, follow the interactive form to provide the inputs
@@ -144,6 +144,7 @@ dbt_project:
       connect_timeout: 120
   target: dev
 ```
+
 :::
 
 ### Test connection
@@ -168,7 +169,7 @@ dbt debug
 A model is a **select statement**. Models are defined in `.sql` files in your models directory. Each `.sql` file contains one model/select statement. The name of the file is used as the model name.
 
 :::info Remember
-We have built two tables employees and salaries on the data preparation section. 
+We have built two tables employees and salaries on the data preparation section.
 
 Let's create a transformation on top of these tables, which is going to be `join` of these tables.
 :::
@@ -176,6 +177,7 @@ Let's create a transformation on top of these tables, which is going to be `join
 ### Add a new model
 
 Open your project in your favorite code editor and add the following file in the models directory:
+
 ```sql title="dbt_project/models/employee_salaries.sql"
 SELECT e.emp_no,
        e.first_name,
@@ -189,7 +191,6 @@ FROM dbt_database.employees e
 Default materialization is `view` and the above model going to create an `employee_salaries` **view**.
 :::
 
-
 ### Run dbt transformation
 
 Run the below command from the project's home directory:
@@ -202,13 +203,11 @@ dbt run
 alt="Successful dbt run command output"
 caption="Successful dbt run command output"/>
 
-
 See the changes on IOMETE.
 
 <Img src="/img/guides/dbt/dbt_transformation_result_as_view.png"
 alt="employee_salaries view"
 caption="employee_salaries view"/>
-
 
 ### Change materialization type to table
 
@@ -244,5 +243,3 @@ This time dbt created an iceberg table as a result of transformation:
 We covered a quick intro to DBT, and worked through setting up our environment to get DBT connected to the IOMETE lakehouse.
 
 If you have any questions or feedback related to DBT on the IOMETE lakehouse platform, please reach out to us via our intercom chat.
-
-

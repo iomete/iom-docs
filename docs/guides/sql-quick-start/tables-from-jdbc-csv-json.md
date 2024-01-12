@@ -1,16 +1,14 @@
 ---
 title: Tables from JDBC, CSV, JSON, Parquet, ORC files
 sidebar_label: External tables
-description:  This SQL script provides a comprehensive guide on data sources and external tables manipulation in IOMETE, with examples covering JDBC, CSV, JSON, Parquet, and ORC. It demonstrates creating tables from various data sources, querying these tables, as well as exporting data back to these sources.
+description: This SQL script provides a comprehensive guide on data sources and external tables manipulation in IOMETE, with examples covering JDBC, CSV, JSON, Parquet, and ORC. It demonstrates creating tables from various data sources, querying these tables, as well as exporting data back to these sources.
 ---
 
 This SQL script provides a comprehensive guide on data sources and external tables manipulation in IOMETE, with examples covering JDBC, CSV, JSON, Parquet, and ORC. It demonstrates creating tables from various data sources, querying these tables, as well as exporting data back to these sources.
 
-
-``` sql jsx  title="Let's start from creating a database"
+```sql jsx  title="Let's start from creating a database"
 CREATE DATABASE IF NOT EXISTS common_queries_demo_db;
 ```
-
 
 ## Manipulating JDBC sources
 
@@ -27,9 +25,8 @@ OPTIONS (
 ```
 
 :::tip
-See: https://iomete.com/docs/data-sources/jdbc-sources
+See: [JDBC-sources doc](/docs/data-sources/jdbc-sources)
 :::
-
 
 ```sql jsx  title="To import data in iceberg format we can use CTAS statement"
 CREATE TABLE data_sources_demo_db.employees
@@ -40,7 +37,7 @@ FROM data_sources_demo_db.employees_mysql_external;
 ```sql jsx  title="This will read data from the mysql table. Filters and other operations will be pushed down to the source"
 SELECT * FROM data_sources_demo_db.employees_mysql_external LIMIT 10;
 
-/* Output: 
+/* Output:
 +---------+-------------+-------------+------------+---------+-------------+
 | emp_no  | birth_date  | first_name  | last_name  | gender  |  hire_date  |
 +---------+-------------+-------------+------------+---------+-------------+
@@ -62,7 +59,6 @@ SELECT * FROM data_sources_demo_db.employees_mysql_external LIMIT 10;
 Similarly, you can read/write from other JDBC sources such as PostgreSQL, Oracle, SQL Server, etc.
 :::
 
-
 ## Manipulating CSV files
 
 ```sql jsx  title="Read CSV file from the Cloud Storage"
@@ -70,7 +66,7 @@ SELECT *
 FROM csv.`gs://iomete-examples/sample-data/csv/employees.csv`
 LIMIT 10;
 
-/* Output: 
+/* Output:
 +---------+-------------+-------------+------------+---------+-------------+
 |   _c0   |     _c1     |     _c2     |    _c3     |   _c4   |     _c5     |
 +---------+-------------+-------------+------------+---------+-------------+
@@ -87,8 +83,9 @@ LIMIT 10;
 +---------+-------------+-------------+------------+---------+-------------+
 */
 ```
+
 :::tip
-See: https://iomete.com/docs/data-sources/csv-files
+See: [CSV Files doc](/docs/data-sources/csv-files)
 :::
 
 ```sql jsx  title="Create table allows to provide additional options such as header, inferSchema, etc"
@@ -100,14 +97,11 @@ OPTIONS (
   path "gs://iomete-examples/sample-data/csv/employees.csv"
 );
 ```
-:::tip
-See: https://iomete.com/docs/data-sources/csv-files
-:::
 
 ```sql jsx  title="Check the table schema and inferred data types"
 DESC EXTENDED data_sources_demo_db.employees_csv_external;
 
-/* Output: 
+/* Output:
 +-------------------------------+----------------------------------------------------+----------+
 |           col_name            |                     data_type                      | comment  |
 +-------------------------------+----------------------------------------------------+----------+
@@ -139,7 +133,7 @@ DESC EXTENDED data_sources_demo_db.employees_csv_external;
 ```sql jsx  title="Read data from the table (CSV file)"
 SELECT * FROM data_sources_demo_db.employees_csv_external LIMIT 10;
 
-/* Output: 
+/* Output:
 +---------+------------------------+-------------+------------+---------+------------------------+
 | emp_no  |       birth_date       | first_name  | last_name  | gender  |       hire_date        |
 +---------+------------------------+-------------+------------+---------+------------------------+
@@ -163,6 +157,7 @@ CREATE TABLE data_sources_demo_db.tmp_csv_external_write
     OPTIONS (path "gs://path/to/employees.csv")
 AS SELECT * FROM data_sources_demo_db.employees;
 ```
+
 ```sql jsx  title="You can drop temporary table after the export. It will not delete the CSV file"
 DROP TABLE data_sources_demo_db.tmp_csv_external_write;
 ```
@@ -172,7 +167,7 @@ DROP TABLE data_sources_demo_db.tmp_csv_external_write;
 ```sql jsx  title="Read JSON file from the Cloud Storage"
 SELECT  * FROM json.`gs://iomete-examples/sample-data/json/employees.json` LIMIT 10;
 
-/* Output: 
+/* Output:
 +-------------+---------+-------------+---------+-------------+------------+
 | birth_date  | emp_no  | first_name  | gender  |  hire_date  | last_name  |
 +-------------+---------+-------------+---------+-------------+------------+
@@ -197,7 +192,7 @@ CREATE TABLE data_sources_demo_db.employees_json_external
 
 SELECT * FROM data_sources_demo_db.employees_json_external LIMIT 10;
 
-/* Output: 
+/* Output:
 +-------------+---------+-------------+---------+-------------+------------+
 | birth_date  | emp_no  | first_name  | gender  |  hire_date  | last_name  |
 +-------------+---------+-------------+---------+-------------+------------+
@@ -214,8 +209,9 @@ SELECT * FROM data_sources_demo_db.employees_json_external LIMIT 10;
 +-------------+---------+-------------+---------+-------------+------------+
 */
 ```
+
 :::tip
-See: https://iomete.com/docs/data-sources/json-files
+See: [JSON Files doc](/docs/data-sources/json-files)
 :::
 
 ```sql jsx  title="To export data to a JSON file, you can use the following syntax. It will write employees data to the specified path in JSON format"
@@ -224,17 +220,17 @@ CREATE TABLE data_sources_demo_db.tmp_json_external_write
     OPTIONS (path "gs://path/to/employees.json")
     AS SELECT * FROM data_sources_demo_db.employees;
 ```
+
 ```sql jsx  title="You can drop temporary table after the export. It will not delete the JSON file"
 DROP TABLE data_sources_demo_db.tmp_json_external_write;
 ```
-
 
 ## Manipulating Parquet files
 
 ```sql jsx  title="Read Parquet file from the Cloud Storage"
 SELECT  * FROM parquet.`gs://iomete-examples/sample-data/parquet/employees.parquet` LIMIT 10;
 
-/* Output: 
+/* Output:
 +---------+-------------+-------------+------------+---------+-------------+
 | emp_no  | birth_date  | first_name  | last_name  | gender  |  hire_date  |
 +---------+-------------+-------------+------------+---------+-------------+
@@ -259,7 +255,7 @@ CREATE TABLE data_sources_demo_db.employees_parquet_external
 
 SELECT * FROM data_sources_demo_db.employees_parquet_external LIMIT 10;
 
-/* Output: 
+/* Output:
 +---------+-------------+-------------+------------+---------+-------------+
 | emp_no  | birth_date  | first_name  | last_name  | gender  |  hire_date  |
 +---------+-------------+-------------+------------+---------+-------------+
@@ -276,8 +272,9 @@ SELECT * FROM data_sources_demo_db.employees_parquet_external LIMIT 10;
 +---------+-------------+-------------+------------+---------+-------------+
 */
 ```
+
 :::tip
-See: https://iomete.com/docs/data-sources/parquet-files
+See: [Parquet Files doc](/docs/data-sources/parquet-files)
 :::
 
 ```sql jsx  title="To export data to a Parquet file, you can use the following syntax. It will write employees data to the specified path in Parquet format"
@@ -286,6 +283,7 @@ CREATE TABLE data_sources_demo_db.tmp_parquet_external_write
     OPTIONS (path "gs://path/to/employees.parquet")
     AS SELECT * FROM data_sources_demo_db.employees;
 ```
+
 ```sql jsx  title="You can drop temporary table after the export. It will not delete the Parquet file"
 DROP TABLE data_sources_demo_db.tmp_parquet_external_write;
 ```
@@ -295,7 +293,7 @@ DROP TABLE data_sources_demo_db.tmp_parquet_external_write;
 ```sql jsx  title="Read ORC file from the Cloud Storage"
 SELECT  * FROM orc.`gs://iomete-examples/sample-data/orc/employees.orc` LIMIT 10;
 
-/* Output: 
+/* Output:
 +---------+-------------+-------------+------------+---------+-------------+
 | emp_no  | birth_date  | first_name  | last_name  | gender  |  hire_date  |
 +---------+-------------+-------------+------------+---------+-------------+
@@ -320,7 +318,7 @@ CREATE TABLE data_sources_demo_db.employees_orc_external
 
 SELECT * FROM data_sources_demo_db.employees_orc_external LIMIT 10;
 
-/* Output: 
+/* Output:
 +---------+-------------+-------------+------------+---------+-------------+
 | emp_no  | birth_date  | first_name  | last_name  | gender  |  hire_date  |
 +---------+-------------+-------------+------------+---------+-------------+
@@ -337,8 +335,9 @@ SELECT * FROM data_sources_demo_db.employees_orc_external LIMIT 10;
 +---------+-------------+-------------+------------+---------+-------------+
 */
 ```
+
 :::tip
-See: https://iomete.com/docs/data-sources/orc-files
+See: [Orc Files doc](/docs/data-sources/orc-files)
 :::
 
 ```sql jsx  title="To export data to a ORC file, you can use the following syntax. It will write employees data to the specified path in ORC format"

@@ -1,20 +1,11 @@
 ---
-title: "Iceberg Spark Procedures for Snapshot and Metadata Management"
+title: Iceberg Spark Procedures for Snapshot and Metadata
 sidebar_label: Iceberg Procedures
 description: Iceberg Spark Procedures Usage Procedures that can be used from any configured Iceberg catalog with CALL in the namespace system
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
-
-<!-- <head>
-  <title>Iceberg tables DDL</title>
-  <meta
-    name="description"
-    content="Iceberg tables create"
-  />
-</head> -->
-___
 
 ## Spark Procedures
 
@@ -40,7 +31,7 @@ When passing arguments by position, only the ending arguments may be omitted if 
 CALL catalog_name.system.procedure_name(arg_1, arg_2, ... arg_n)
 ```
 
-<br/>
+<br />
 
 ## Snapshot management
 
@@ -76,7 +67,7 @@ Roll back table `db.sample` to snapshot ID `1`:
 CALL catalog_name.system.rollback_to_snapshot('db.sample', 1)
 ```
 
-<br/>
+<br />
 
 ### `rollback_to_timestamp`
 
@@ -107,7 +98,6 @@ Roll back `db.sample` to a specific day and time.
 ```sql
 CALL catalog_name.system.rollback_to_timestamp('db.sample', TIMESTAMP '2021-06-30 00:00:00.000')
 ```
-
 
 ### `set_current_snapshot`
 
@@ -140,7 +130,8 @@ Set the current snapshot for `db.sample` to 1:
 ```sql
 CALL catalog_name.system.set_current_snapshot('db.sample', 1)
 ```
-<br/>
+
+<br />
 
 ### `cherrypick_snapshot`
 
@@ -176,18 +167,17 @@ Cherry-pick snapshot 1
 CALL catalog_name.system.cherrypick_snapshot('my_table', 1)
 ```
 
-
 Cherry-pick snapshot 1 with named args
 
 ```sql
 CALL catalog_name.system.cherrypick_snapshot(snapshot_id => 1, table => 'my_table' )
 ```
 
-<br/>
+<br />
 
 ## Metadata management
 
-Many maintenance actions can be performed using Iceberg stored procedures. [Data Compaction Job](https://iomete.com/docs/iomete-spark-job/data-compaction-job) 
+Many maintenance actions can be performed using Iceberg stored procedures. [Data Compaction Job](/docs/iomete-spark-job/data-compaction-job)
 
 ### `expire_snapshots`
 
@@ -202,7 +192,7 @@ the `expire_snapshots` procedure will never remove files which are still require
 
 | Argument Name            | Required? | Type      | Description                                                                                                                                                                                                                    |
 | ------------------------ | --------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `table`                  | ✔️         | string    | Name of the table to update                                                                                                                                                                                                    |
+| `table`                  | ✔️        | string    | Name of the table to update                                                                                                                                                                                                    |
 | `older_than`             |           | timestamp | Timestamp before which snapshots will be removed (Default: 5 days ago)                                                                                                                                                         |
 | `retain_last`            |           | int       | Number of ancestor snapshots to preserve regardless of `older_than` (defaults to 1)                                                                                                                                            |
 | `max_concurrent_deletes` |           | int       | Size of the thread pool used for delete file actions (by default, no thread pool is used)                                                                                                                                      |
@@ -226,7 +216,7 @@ Remove snapshots older than specific day and time, but retain the last 100 snaps
 CALL hive_prod.system.expire_snapshots('db.sample', TIMESTAMP '2021-06-30 00:00:00.000', 100)
 ```
 
-<br/>
+<br />
 
 ### `remove_orphan_files`
 
@@ -237,7 +227,7 @@ Used to remove files which are not referenced in any metadata files of an Iceber
 | Argument Name            | Required? | Type      | Description                                                                               |
 | ------------------------ | --------- | --------- | ----------------------------------------------------------------------------------------- |
 | `table`                  | ✔️        | string    | Name of the table to clean                                                                |
-| `older_than`             |          | timestamp | Remove orphan files created before this timestamp (Defaults to 3 days ago)                |
+| `older_than`             |           | timestamp | Remove orphan files created before this timestamp (Defaults to 3 days ago)                |
 | `location`               |           | string    | Directory to look for files in (defaults to the table's location)                         |
 | `dry_run`                |           | boolean   | When true, don't actually remove files (defaults to false)                                |
 | `max_concurrent_deletes` |           | int       | Size of the thread pool used for delete file actions (by default, no thread pool is used) |
@@ -256,14 +246,13 @@ List all the files that are candidates for removal by performing a dry run of th
 CALL catalog_name.system.remove_orphan_files(table => 'db.sample', dry_run => true)
 ```
 
-
 Remove any files in the `tablelocation/data` folder which are not known to the table `db.sample`.
 
 ```sql
 CALL catalog_name.system.remove_orphan_files(table => 'db.sample', location => 'tablelocation/data')
 ```
 
-<br/>
+<br />
 
 ### `rewrite_data_files`
 
@@ -278,8 +267,8 @@ Iceberg can compact data files in parallel using Spark with the `rewriteDataFile
 | `table`       | ✔️        | string               | Name of the table to update                                                                                                                                                                                                         |
 | `strategy`    |           | string               | Name of the strategy - binpack or sort. Defaults to binpack strategy                                                                                                                                                                |
 | `sort_order`  |           | string               | Comma separated sort_order_column. Where sort_order_column is a space separated sort order info per column (ColumnName SortDirection NullOrder). <br/> SortDirection can be ASC or DESC. NullOrder can be NULLS FIRST or NULLS LAST |
-| `options`     |          | map\<string, string> | Options to be used for actions                                                                                                                                                                                                      |
-| `where`       |          | string               | predicate as a string used for filtering the files. Note that all files that may contain data matching the filter will be selected for rewriting                                                                                    |
+| `options`     |           | map\<string, string> | Options to be used for actions                                                                                                                                                                                                      |
+| `where`       |           | string               | predicate as a string used for filtering the files. Note that all files that may contain data matching the filter will be selected for rewriting                                                                                    |
 
 #### Output
 
@@ -297,8 +286,6 @@ and also split large files according to the default write size of the table.
 CALL catalog_name.system.rewrite_data_files('db.sample')
 ```
 
-
-
 Rewrite the data files in table `db.sample` by sorting all the data on id and name  
 using the same defaults as bin-pack to determine which files to rewrite.
 
@@ -306,15 +293,11 @@ using the same defaults as bin-pack to determine which files to rewrite.
 CALL catalog_name.system.rewrite_data_files(table => 'db.sample', strategy => 'sort', sort_order => 'id DESC NULLS LAST,name ASC NULLS FIRST')
 ```
 
-
-
 Rewrite the data files in table `db.sample` using bin-pack strategy in any partition where more than 2 or more files need to be rewritten.
 
 ```sql
 CALL catalog_name.system.rewrite_data_files(table => 'db.sample', options => map('min-input-files','2'))
 ```
-
-
 
 Rewrite the data files in table `db.sample` and select the files that may contain data matching the filter (id = 3 and name = "foo") to be rewritten.
 
@@ -322,7 +305,7 @@ Rewrite the data files in table `db.sample` and select the files that may contai
 CALL catalog_name.system.rewrite_data_files(table => 'db.sample', where => 'id = 3 and name = "foo"')
 ```
 
-<br/>
+<br />
 
 ### `rewrite_manifests`
 
@@ -339,7 +322,7 @@ This procedure invalidates all cached Spark plans that reference the affected ta
 | Argument Name | Required? | Type    | Description                                           |
 | ------------- | --------- | ------- | ----------------------------------------------------- |
 | `table`       | ✔️        | string  | Name of the table to update                           |
-| `use_caching` | ️         | boolean | Use Spark caching during operation (defaults to true) |
+| `use_caching` |           | boolean | Use Spark caching during operation (defaults to true) |
 
 #### Output
 
@@ -356,15 +339,13 @@ Rewrite the manifests in table `db.sample` and align manifest files with table p
 CALL catalog_name.system.rewrite_manifests('db.sample')
 ```
 
-
-
 Rewrite the manifests in table `db.sample` and disable the use of Spark caching. This could be done to avoid memory issues on executors.
 
 ```sql
 CALL catalog_name.system.rewrite_manifests('db.sample', false)
 ```
 
-<br/>
+<br />
 
 ## Table migration
 
@@ -414,16 +395,12 @@ catalog's default location for `db.snap`.
 CALL catalog_name.system.snapshot('db.sample', 'db.snap')
 ```
 
-
-
 Migrate an isolated Iceberg table which references table `db.sample` named `db.snap` at  
 a manually specified location `/tmp/temptable/`.
 
 ```sql
 CALL catalog_name.system.snapshot('db.sample', 'db.snap', '/tmp/temptable/')
 ```
-
-
 
 ### `migrate`
 
@@ -457,15 +434,11 @@ Migrate the table `db.sample` in Spark's default catalog to an Iceberg table and
 CALL catalog_name.system.migrate('spark_catalog.db.sample', map('foo', 'bar'))
 ```
 
-
-
 Migrate `db.sample` in the current catalog to an Iceberg table without adding any additional properties:
 
 ```sql
 CALL catalog_name.system.migrate('db.sample')
 ```
-
-
 
 ### `add_files`
 
@@ -473,7 +446,7 @@ Attempts to directly add files from a Hive or file based table into a given Iceb
 snapshot, `add_files` can import files from a specific partition or partitions and does not create a new Iceberg table.  
 This command will create metadata for the new files and will not move them. This procedure will not analyze the schema  
 of the files to determine if they actually match the schema of the Iceberg table. Upon completion, the Iceberg table  
-will then treat these files as if they are part of the set of files  owned by Iceberg. This means any subsequent  
+will then treat these files as if they are part of the set of files owned by Iceberg. This means any subsequent  
 `expire_snapshot` calls will be able to physically delete the added files. This method should not be used if  
 `migrate` or `snapshot` are possible.
 
@@ -502,8 +475,6 @@ partition_filter => map('part_col_1', 'A')
 )
 ```
 
-
-
 Add files from a `parquet` file based table at location `path/to/table` to the Iceberg table `db.tbl`. Add all  
 files regardless of what partition they belong to.
 
@@ -513,8 +484,6 @@ CALL spark_catalog.system.add_files(
   source_table => '`parquet`.`path/to/table`'
 )
 ```
-
-
 
 ## Metadata information
 
@@ -527,7 +496,7 @@ Report the live snapshot IDs of parents of a specified snapshot
 | Argument Name | Required? | Type   | Description                                                      |
 | ------------- | --------- | ------ | ---------------------------------------------------------------- |
 | `table`       | ✔️        | string | Name of the table to report live snapshot IDs                    |
-| `snapshot_id` | ️         | long   | Use a specified snapshot to get the live snapshot IDs of parents |
+| `snapshot_id` |           | long   | Use a specified snapshot to get the live snapshot IDs of parents |
 
 > tip : Using snapshot_id
 >
