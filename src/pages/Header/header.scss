@@ -1,0 +1,34 @@
+.iom-hero {
+  align-items: center;
+  color: var(--ifm-hero-text-color);
+  display: flex;
+  justify-content: space-between;
+}
+
+p {
+  line-height: 33px;
+}
+
+.iom-hero-text {
+  max-width: 50%;
+}
+
+html[data-theme="dark"] .hero-img img {
+  filter: invert(1) hue-rotate(-180deg);
+}
+
+@media (max-width: 996px) {
+  .hero-img {
+    visibility: hidden;
+    display: none;
+  }
+
+  .iom-hero {
+    display: block;
+    margin-bottom: 64px;
+  }
+
+  .iom-hero-text {
+    max-width: 100%;
+  }
+}
