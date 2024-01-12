@@ -191,36 +191,7 @@ const config = {
     [
       "@docusaurus/plugin-client-redirects",
       {
-        redirects: [
-          {
-            to: "/docs/data-security/overview",
-            from: ["/docs/user-guide/access-policy-management", "/docs/data-policy/overview"],
-          },
-          {
-            to: "/docs/data-security/access",
-            from: ["/docs/data-policy/access"],
-          },
-          {
-            to: "/docs/data-security/masking",
-            from: ["/docs/data-policy/masking"],
-          },
-          {
-            to: "/docs/data-security/row-level-filter",
-            from: ["/docs/data-policy/row-level-filter"],
-          },
-          {
-            to: "/docs/data-security/tag-based-access",
-            from: ["/docs/data-policy/tag-based-access"],
-          },
-          {
-            to: "/docs/data-security/tag-based-masking",
-            from: ["/docs/data-policy/tag-based-masking"],
-          },
-          {
-            to: "/docs/guides",
-            from: "/docs/user-guide/storage-integrations",
-          },
-        ],
+        redirects: [],
       },
     ],
 
