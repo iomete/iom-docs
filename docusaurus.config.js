@@ -119,15 +119,6 @@ const config = {
           {
             type: "docSidebar",
             sidebarId: "getting_started",
-<<<<<<< HEAD
-=======
-            position: "left",
-            label: "Getting Started"
-          },
-          {
-            type: "docSidebar",
-            sidebarId: "docs",
->>>>>>> bfc2775 (Getting started menu is added)
             position: "left",
             label: "Getting Started",
           },
