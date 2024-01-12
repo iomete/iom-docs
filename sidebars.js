@@ -47,20 +47,7 @@ const sidebars = {
         "user-guide/sql-editor",
       ],
     },
-    {
-      type: "category",
-      label: "Iceberg Tables",
-      collapsed: false,
-      items: [
-        "iceberg-tables/getting-started",
-        "iceberg-tables/ddl",
-        "iceberg-tables/queries",
-        "iceberg-tables/writes",
-        "iceberg-tables/iceberg-procedures",
-        "iceberg-tables/time-travel",
-        "iceberg-tables/maintenance",
-      ],
-    },
+
     {
       type: "category",
       label: "Data Sources",
@@ -88,9 +75,161 @@ const sidebars = {
       ],
     },
 
+
     {
       type: "category",
-      label: "Spark SQL reference",
+      label: "Spark Jobs",
+      collapsed: false,
+      items: [
+        "iomete-spark-job/data-compaction-job",
+        "iomete-spark-job/query-scheduler-job",
+        "iomete-spark-job/mysql-database-replication-job",
+        "iomete-spark-job/kafka-streaming",
+        "iomete-spark-job/file-streaming",
+      ],
+    },
+    {
+      type: "category",
+      label: "Jupyter Notebook",
+      collapsed: false,
+      items: ["notebook/starting-with-notebook", "notebook/using-vscode"],
+    },
+    {
+      type: "category",
+      label: "Client & Libraries",
+      collapsed: false,
+      items: ["libraries/drivers/sql-alchemy-driver", "libraries/drivers/jdbc-driver"],
+    },
+    {
+      type: "category",
+      label: "Misc",
+      collapsed: false,
+      items: ["misc/datagrip-lakehouse-connection"],
+    },
+    {
+      type: "category",
+      label: "Integrations",
+      collapsed: false,
+      items: ["integrations/airbyte"],
+    },
+  ],
+
+
+
+
+  guides: [
+    "guides",
+
+    {
+      type: "category",
+      label: "Deployment",
+      collapsed: false,
+      items: [
+        {
+          type: "category",
+          label: "AWS",
+          collapsed: false,
+          items: [
+            "guides/deployment/aws/install",
+            "guides/deployment/aws/upgrade",
+            "guides/deployment/aws/changelog",
+            "guides/deployment/aws/permissions",
+            "guides/deployment/aws/data-plane-cost",
+          ],
+        },
+        {
+          type: "category",
+          label: "Azure",
+          collapsed: false,
+          items: ["guides/deployment/azure/install", "guides/deployment/azure/upgrade"],
+        },
+        {
+          type: "category",
+          label: "GCP",
+          collapsed: false,
+          items: ["guides/deployment/gcp/install", "guides/deployment/gcp/upgrade"],
+        },
+        {
+          type: "category",
+          label: "On-Premise",
+          collapsed: false,
+          items: ["guides/deployment/on-prem/life-cycle-management"],
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Sync",
+      collapsed: false,
+      items: [
+        "guides/read-files-from-aws-s3",
+        "guides/sync-data-from-jdbc-sources",
+        "guides/sync/export-as-a-csv-file",
+        "guides/external-s3-buckets-access",
+      ],
+    },
+    {
+      type: "category",
+      label: "Spark Jobs",
+      collapsed: true,
+      items: ["guides/spark-job/getting-started", "guides/ingestingdata", "guides/spark-application-config", "guides/iomete-sdk", "guides/airflow"],
+    },
+    {
+      type: "category",
+      label: "Transformation",
+      collapsed: true,
+      items: [
+        "guides/dbt/getting-started-with-iomete-dbt",
+        "guides/dbt/dbt-materializations",
+        "guides/dbt/dbt-incremental-models",
+        "guides/dbt/dbt-incremental-models-by-examples",
+      ],
+    },
+    {
+      type: "category",
+      label: "BI Integrations",
+      collapsed: false,
+      items: [
+        // 'guides/connection-options',
+        "guides/how-to-connect-iomete-and-metabase-bi",
+        "guides/how-to-connect-iomete-and-apache-superset",
+        "guides/power-bi",
+        "guides/iomete-tableau-integration",
+        "guides/iomete-redash-connection",
+      ],
+    },
+  ],
+
+  reference: [
+    {
+      type: "category",
+      label: "SQL Quick Start",
+      collapsed: false,
+      items: [
+        "guides/sql-quick-start/sql-ddl-examples",
+        "guides/sql-quick-start/dml-operations",
+        "guides/sql-quick-start/iceberg-advanced-features",
+        "guides/sql-quick-start/tables-from-jdbc-csv-json",
+        "guides/sql-quick-start/query-federation",
+      ],
+    },
+    {
+      type: "category",
+      label: "Iceberg Tables",
+      collapsed: false,
+      items: [
+        "iceberg-tables/getting-started",
+        "iceberg-tables/ddl",
+        "iceberg-tables/queries",
+        "iceberg-tables/writes",
+        "iceberg-tables/iceberg-procedures",
+        "iceberg-tables/time-travel",
+        "iceberg-tables/maintenance",
+      ],
+    },
+    {
+      type: "category",
+      label: "Spark SQL Reference",
       collapsed: false,
       items: [
         {
@@ -166,54 +305,9 @@ const sidebars = {
         "spark-sql/functions",
       ],
     },
-    {
-      type: "category",
-      label: "Spark Jobs",
-      collapsed: false,
-      items: [
-        "iomete-spark-job/data-compaction-job",
-        "iomete-spark-job/query-scheduler-job",
-        "iomete-spark-job/mysql-database-replication-job",
-        "iomete-spark-job/kafka-streaming",
-        "iomete-spark-job/file-streaming",
-      ],
-    },
-    {
-      type: "category",
-      label: "Jupyter Notebook",
-      collapsed: false,
-      items: ["notebook/starting-with-notebook", "notebook/using-vscode"],
-    },
-    {
-      type: "category",
-      label: "Libraries",
-      collapsed: false,
-      items: [
-        {
-          type: "category",
-          label: "Drivers",
-          collapsed: true,
-          items: ["libraries/drivers/sql-alchemy-driver", "libraries/drivers/jdbc-driver"],
-        },
-      ],
-    },
-    {
-      type: "category",
-      label: "Misc",
-      collapsed: false,
-      items: ["misc/datagrip-lakehouse-connection"],
-    },
-    {
-      type: "category",
-      label: "Integrations",
-      collapsed: false,
-      items: ["integrations/airbyte"],
-    },
   ],
 
-
-  learn: [
-    // "learn",
+  tutorials: [
     {
       type: "category",
       label: "Pyspark",
@@ -222,98 +316,13 @@ const sidebars = {
     },
   ],
 
-  guides: [
-    "guides",
-
+  learn: [
+    // "learn",
     {
       type: "category",
-      label: "Deployment",
-      collapsed: false,
-      items: [
-        {
-          type: "category",
-          label: "AWS",
-          collapsed: false,
-          items: [
-            "guides/deployment/aws/install",
-            "guides/deployment/aws/upgrade",
-            "guides/deployment/aws/changelog",
-            "guides/deployment/aws/permissions",
-            "guides/deployment/aws/data-plane-cost",
-          ],
-        },
-        {
-          type: "category",
-          label: "Azure",
-          collapsed: false,
-          items: ["guides/deployment/azure/install", "guides/deployment/azure/upgrade"],
-        },
-        {
-          type: "category",
-          label: "GCP",
-          collapsed: false,
-          items: ["guides/deployment/gcp/install", "guides/deployment/gcp/upgrade"],
-        },
-        {
-          type: "category",
-          label: "On-Premise",
-          collapsed: false,
-          items: ["guides/deployment/on-prem/life-cycle-management"],
-        },
-      ],
-    },
-    {
-      type: "category",
-      label: "Sync",
-      collapsed: false,
-      items: [
-        "guides/read-files-from-aws-s3",
-        "guides/sync-data-from-jdbc-sources",
-        "guides/sync/export-as-a-csv-file",
-        "guides/external-s3-buckets-access",
-      ],
-    },
-    {
-      type: "category",
-      label: "Spark Jobs",
+      label: "Pyspark",
       collapsed: true,
-      items: ["guides/spark-job/getting-started", "guides/ingestingdata", "guides/spark-application-config", "guides/iomete-sdk", "guides/airflow"],
-    },
-    {
-      type: "category",
-      label: "Transformation",
-      collapsed: true,
-      items: [
-        "guides/dbt/getting-started-with-iomete-dbt",
-        "guides/dbt/dbt-materializations",
-        "guides/dbt/dbt-incremental-models",
-        "guides/dbt/dbt-incremental-models-by-examples",
-      ],
-    },
-    {
-      type: "category",
-      label: "SQL Quick Start",
-      collapsed: false,
-      items: [
-        "guides/sql-quick-start/sql-ddl-examples",
-        "guides/sql-quick-start/dml-operations",
-        "guides/sql-quick-start/iceberg-advanced-features",
-        "guides/sql-quick-start/tables-from-jdbc-csv-json",
-        "guides/sql-quick-start/query-federation",
-      ],
-    },
-    {
-      type: "category",
-      label: "BI Integrations",
-      collapsed: false,
-      items: [
-        // 'guides/connection-options',
-        "guides/how-to-connect-iomete-and-metabase-bi",
-        "guides/how-to-connect-iomete-and-apache-superset",
-        "guides/power-bi",
-        "guides/iomete-tableau-integration",
-        "guides/iomete-redash-connection",
-      ],
+      items: ["learn/pyspark/pyspark-join"],
     },
   ],
 };
