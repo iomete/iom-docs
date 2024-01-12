@@ -120,7 +120,7 @@ const config = {
             type: "docSidebar",
             sidebarId: "getting_started",
             position: "left",
-            label: "Getting Started"
+            label: "Getting Started",
           },
           {
             type: "docSidebar",
@@ -132,35 +132,25 @@ const config = {
             type: "docSidebar",
             sidebarId: "reference",
             position: "left",
-            label: "Reference"
+            label: "Reference",
           },
           {
             type: "docSidebar",
             sidebarId: "integrations",
             position: "left",
-            label: "Integrations"
+            label: "Integrations",
           },
           {
             type: "docSidebar",
             sidebarId: "tutorials",
             position: "left",
-            label: "Tutorials"
+            label: "Tutorials",
           },
           { to: "/blog", label: "Blog", position: "left" },
           {
             type: "search",
             position: "right",
             className: "navbar-search",
-          },
-          {
-            href: "https://api.iomete.com",
-            label: "API",
-            position: "right",
-          },
-          {
-            type: "html",
-            position: "right",
-            value: '<div class="separator" aria-hidden></div>',
           },
 
           {
