@@ -124,12 +124,6 @@ const config = {
           },
           {
             type: "docSidebar",
-            sidebarId: "docs",
-            position: "left",
-            label: "Docs",
-          },
-          {
-            type: "docSidebar",
             sidebarId: "guides",
             position: "left",
             label: "Guides",
@@ -142,15 +136,15 @@ const config = {
           },
           {
             type: "docSidebar",
-            sidebarId: "tutorials",
+            sidebarId: "integrations",
             position: "left",
-            label: "Tutorials"
+            label: "Integrations"
           },
           {
             type: "docSidebar",
-            sidebarId: "learn",
-            label: "Learn",
+            sidebarId: "tutorials",
             position: "left",
+            label: "Tutorials"
           },
           { to: "/blog", label: "Blog", position: "left" },
           {
