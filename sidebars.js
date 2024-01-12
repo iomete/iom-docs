@@ -18,6 +18,16 @@ const sidebars = {
 
   // But you can create a sidebar manually
 
+
+  getting_started: [
+    {
+      type: "category",
+      label: "Overview",
+      collapsed: false,
+      items: ["getting-started/what-is-iomete", "getting-started/console-tour"],
+    },
+  ],
+
   docs: [
     {
       type: "category",
@@ -200,6 +210,7 @@ const sidebars = {
       items: ["integrations/airbyte"],
     },
   ],
+
 
   learn: [
     // "learn",

@@ -118,6 +118,12 @@ const config = {
         items: [
           {
             type: "docSidebar",
+            sidebarId: "getting_started",
+            position: "left",
+            label: "Getting Started"
+          },
+          {
+            type: "docSidebar",
             sidebarId: "docs",
             position: "left",
             label: "Docs",
