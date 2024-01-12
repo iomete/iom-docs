@@ -26,9 +26,46 @@ const sidebars = {
       collapsed: false,
       items: ["getting-started/what-is-iomete", "getting-started/console-tour"],
     },
+    {
+      type: "category",
+      label: "Deployment",
+      collapsed: false,
+      items: [
+        {
+          type: "category",
+          label: "AWS",
+          collapsed: false,
+          items: [
+            "guides/deployment/aws/install",
+            "guides/deployment/aws/upgrade",
+            "guides/deployment/aws/changelog",
+            "guides/deployment/aws/permissions",
+            "guides/deployment/aws/data-plane-cost",
+          ],
+        },
+        {
+          type: "category",
+          label: "Azure",
+          collapsed: false,
+          items: ["guides/deployment/azure/install", "guides/deployment/azure/upgrade"],
+        },
+        {
+          type: "category",
+          label: "GCP",
+          collapsed: false,
+          items: ["guides/deployment/gcp/install", "guides/deployment/gcp/upgrade"],
+        },
+        {
+          type: "category",
+          label: "On-Premise",
+          collapsed: false,
+          items: ["guides/deployment/on-prem/life-cycle-management"],
+        },
+      ],
+    },
   ],
 
-  docs: [
+  guides: [
     {
       type: "category",
       label: "Documentation",
@@ -75,18 +112,11 @@ const sidebars = {
       ],
     },
 
-
     {
       type: "category",
       label: "Spark Jobs",
       collapsed: false,
-      items: [
-        "iomete-spark-job/data-compaction-job",
-        "iomete-spark-job/query-scheduler-job",
-        "iomete-spark-job/mysql-database-replication-job",
-        "iomete-spark-job/kafka-streaming",
-        "iomete-spark-job/file-streaming",
-      ],
+      items: ["guides/spark-job/getting-started", "guides/ingestingdata", "guides/spark-application-config", "guides/iomete-sdk", "guides/airflow"],
     },
     {
       type: "category",
@@ -113,71 +143,11 @@ const sidebars = {
       items: ["integrations/airbyte"],
     },
   ],
-
-
-
-
-  guides: [
-    "guides",
-
+  integrations: [
     {
       type: "category",
-      label: "Deployment",
+      label: "DBT",
       collapsed: false,
-      items: [
-        {
-          type: "category",
-          label: "AWS",
-          collapsed: false,
-          items: [
-            "guides/deployment/aws/install",
-            "guides/deployment/aws/upgrade",
-            "guides/deployment/aws/changelog",
-            "guides/deployment/aws/permissions",
-            "guides/deployment/aws/data-plane-cost",
-          ],
-        },
-        {
-          type: "category",
-          label: "Azure",
-          collapsed: false,
-          items: ["guides/deployment/azure/install", "guides/deployment/azure/upgrade"],
-        },
-        {
-          type: "category",
-          label: "GCP",
-          collapsed: false,
-          items: ["guides/deployment/gcp/install", "guides/deployment/gcp/upgrade"],
-        },
-        {
-          type: "category",
-          label: "On-Premise",
-          collapsed: false,
-          items: ["guides/deployment/on-prem/life-cycle-management"],
-        },
-      ],
-    },
-    {
-      type: "category",
-      label: "Sync",
-      collapsed: false,
-      items: [
-        "guides/read-files-from-aws-s3",
-        "guides/sync-data-from-jdbc-sources",
-        "guides/sync/export-as-a-csv-file",
-        "guides/external-s3-buckets-access",
-      ],
-    },
-    {
-      type: "category",
-      label: "Spark Jobs",
-      collapsed: true,
-      items: ["guides/spark-job/getting-started", "guides/ingestingdata", "guides/spark-application-config", "guides/iomete-sdk", "guides/airflow"],
-    },
-    {
-      type: "category",
-      label: "Transformation",
-      collapsed: true,
       items: [
         "guides/dbt/getting-started-with-iomete-dbt",
         "guides/dbt/dbt-materializations",
@@ -290,12 +260,7 @@ const sidebars = {
             "spark-sql/queries/transform",
           ],
         },
-        {
-          type: "category",
-          label: "Auxiliary Statements",
-          collapsed: true,
-          items: ["spark-sql/auxiliary-statements/cache"],
-        },
+        "spark-sql/auxiliary-statements/cache",
         "spark-sql/column-types",
         "spark-sql/datetime-patterns",
         "spark-sql/identifiers",
@@ -305,24 +270,37 @@ const sidebars = {
         "spark-sql/functions",
       ],
     },
+    {
+      type: "category",
+      label: "Pyspark",
+      collapsed: false,
+      items: ["learn/pyspark/pyspark-join"],
+    },
+    {
+      type: "category",
+      label: "Open Source Spark Jobs",
+      collapsed: false,
+      items: [
+        "iomete-spark-job/data-compaction-job",
+        "iomete-spark-job/query-scheduler-job",
+        "iomete-spark-job/mysql-database-replication-job",
+        "iomete-spark-job/kafka-streaming",
+        "iomete-spark-job/file-streaming",
+      ],
+    },
   ],
 
   tutorials: [
     {
       type: "category",
-      label: "Pyspark",
-      collapsed: true,
-      items: ["learn/pyspark/pyspark-join"],
-    },
-  ],
-
-  learn: [
-    // "learn",
-    {
-      type: "category",
-      label: "Pyspark",
-      collapsed: true,
-      items: ["learn/pyspark/pyspark-join"],
+      label: "Sync",
+      collapsed: false,
+      items: [
+        "guides/read-files-from-aws-s3",
+        "guides/sync-data-from-jdbc-sources",
+        "guides/sync/export-as-a-csv-file",
+        "guides/external-s3-buckets-access",
+      ],
     },
   ],
 };
