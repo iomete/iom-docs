@@ -13,7 +13,7 @@ export default function Header() {
         <p className="hero__subtitle">Enhance your IOMETE experience with in-depth tutorials and resourceful guides.</p>
       </div>
       <div className="hero-img">
-        <Img src="/img/landing/hero.png" borderless />
+        <Img src="/img/landing/hero.png" borderless alt="IOMETE HERO" />
       </div>
     </div>
   );
