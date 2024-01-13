@@ -6,6 +6,7 @@ import Header from "./Header";
 import Features from "./Features";
 
 import "./landing.scss";
+import Resources from "./Resources";
 
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
@@ -17,15 +18,7 @@ export default function Home() {
 
         <Features />
 
-        {/* <article className="margin-top--lg">
-          <GridBox>
-            {cards.map((card) => (
-              <Card key={card.to} title={card.title} link={card.to} icon={card.icon}>
-                {card.description}
-              </Card>
-            ))}
-          </GridBox>
-        </article> */}
+        <Resources />
       </div>
     </Layout>
   );

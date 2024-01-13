@@ -1,0 +1,15 @@
+.resource-container {
+  padding-top: 4rem;
+}
+
+.resource-icon {
+  background-color: #f1f7ff;
+  background-color: var(--c-blue-0);
+  color: var(--ifm-color-primary-light);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+html[data-theme="dark"] .resource-icon {
+  background: #1d252f;
+}
