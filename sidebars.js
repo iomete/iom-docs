@@ -24,7 +24,7 @@ const sidebars = {
             type: "category",
             label: "Overview",
             collapsed: false,
-            items: ["getting-started/what-is-iomete", "getting-started/console-tour"],
+            items: ["getting-started/what-is-iomete"],
         },
         {
             type: "category",
