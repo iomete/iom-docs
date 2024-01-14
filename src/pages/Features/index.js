@@ -1,5 +1,7 @@
 import { BookOpenText, ChatCenteredText, Notebook, Wrench } from "@phosphor-icons/react";
 
+import "./features.scss";
+
 import Card from "./Card";
 
 const cards = [
@@ -31,8 +33,10 @@ const cards = [
 export default function Features() {
   return (
     <>
-      <h3>Featured Resources</h3>
-      <p>Dive into our top picks</p>
+      <div className={"feature-header-text"}>
+        <h3>Featured Resources</h3>
+        <p>Dive into our top picks</p>
+      </div>
 
       <div className="row">
         {cards.map((card) => (

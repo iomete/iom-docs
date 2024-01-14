@@ -1,8 +1,14 @@
 .iom-hero {
   align-items: center;
-  color: var(--ifm-hero-text-color);
+  // color: var(--ifm-hero-text-color);
+  color: var(--ifm-color-emphasis-500);
+
   display: flex;
   justify-content: space-between;
+
+  img {
+    filter: invert(1) hue-rotate(-180deg);
+  }
 }
 
 p {
@@ -13,9 +19,9 @@ p {
   max-width: 50%;
 }
 
-html[data-theme="dark"] .hero-img img {
-  filter: invert(1) hue-rotate(-180deg);
-}
+// html[data-theme="dark"] .hero-img img {
+//   filter: invert(1) hue-rotate(-180deg);
+// }
 
 @media (max-width: 996px) {
   .hero-img {
