@@ -17,10 +17,16 @@ function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
         </div>
         <div className={`card__body ${styles.CardBody}`}>
           <div className={styles.CardTags}>{!isFeatured && frontMatter.tags2?.map((t) => <small key={t}>{t}</small>)}</div>
-
           <h3 className={styles.CardTitle}>{frontMatter.title}</h3>
           <small className={styles.CardDesc}>{frontMatter.banner_description || frontMatter.description}</small>
-          <p className={styles.CardDate}> {metadata.formattedDate} </p>
+          <p className={styles.CardDate}>
+            {metadata.formattedDate}{" "}
+            {isFeatured && (
+              <>
+                <span>•</span> <span className={styles.CardFeaturedText}>Featured post</span>
+              </>
+            )}
+          </p>
         </div>
       </div>
     </Link>

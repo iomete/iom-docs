@@ -17,16 +17,12 @@ interface IProps {
 function Tags({ selected, onChange }: IProps) {
   return (
     <div className={styles.Tags}>
-      <div className={styles.TagLink} onClick={() => onChange("")}>
+      <div className={clsx(styles.TagLink, selected === "" && styles.Active)} onClick={() => onChange("")}>
         All
       </div>
 
       {tags.map((tag) => (
-        <div
-          key={tag}
-          className={clsx(styles.TagLink, tag === selected && styles.Active)}
-          onClick={() => onChange(tag)}
-        >
+        <div key={tag} className={clsx(styles.TagLink, tag === selected && styles.Active)} onClick={() => onChange(tag)}>
           {tag}
         </div>
       ))}

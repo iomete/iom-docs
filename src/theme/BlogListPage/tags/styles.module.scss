@@ -1,52 +1,37 @@
 .Tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
 
-    @media (min-width: 768px) {
-        gap: 12px;
-    }
+  @media (min-width: 768px) {
+    gap: 12px;
+  }
 }
 
 .TagLink {
-    cursor: pointer;
-    text-decoration: none !important;
-    text-decoration-line: none !important;
-    transition-property: color,
-        background-color,
-        border-color,
-        text-decoration-color,
-        fill,
-        stroke;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-    transition-duration: 100ms;
-    border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-duration: 100ms;
+  border-radius: 4px;
 
-    font-size: 18px;
-    line-height: 28px;
+  padding: 6px 12px;
+  height: 32px;
+  line-height: 18px;
+  font-size: 16px;
 
-    padding: 4px 12px;
+  text-transform: capitalize;
 
-    @media (min-width: 768px) {
-        padding: 6px 16px;
-        line-height: 34px;
-    }
+  color: var(--ifm-color-emphasis-700);
+  background-color: var(--ifm-color-emphasis-200);
 
-    @media (min-width: 1280px) {
-        padding: 6px 24px;
-    }
-
-    text-transform: capitalize;
-
-    color: var(--ifm-color-emphasis-800);
-    background-color: var(--ifm-color-emphasis-200);
-
-    &.Active,
-    &:hover {
-        color: white;
-        background-color: var(--ifm-color-primary);
-    }
-
+  &.Active,
+  &:hover {
+    color: white;
+    background-color: var(--ifm-color-primary);
+  }
 }

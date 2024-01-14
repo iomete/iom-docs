@@ -9,16 +9,7 @@ function Header({ baseUrl }: IProps) {
   return (
     <div className={styles.Header}>
       <div className={styles.HeaderContent}>
-        <h1>The IOMETE blog</h1>
-        <p>
-          Welcome to our blog. Here's where we share company news, engineering updates and educational content. Don't hesitate to reach out to us by
-          email{" "}
-          <a href="mailto:hello@iomete.com" className="text-primary">
-            hello@iomete.com
-          </a>
-          .
-        </p>
-        <p>We'd love to hear from you!</p>
+        <h1>Latest from IOMETE</h1>
       </div>
       <div className={styles.BgImg}>
         <svg width="330" height="505" viewBox="0 0 330 505" fill="none" xmlns="http://www.w3.org/2000/svg">

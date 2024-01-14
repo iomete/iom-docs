@@ -1,26 +1,11 @@
 .Header {
   display: flex;
   align-items: center;
-  height: 550px;
-  // hk-font
+  height: 100px;
 
   h1 {
-    font-size: 52px;
+    font-size: 46px;
     margin-bottom: 1.25rem;
-  }
-
-  p {
-    margin: 0;
-    font-size: 1.125rem /* 18px */;
-    color: var(--ifm-color-emphasis-800);
-  }
-}
-
-.HeaderContent {
-  width: 66.666667%;
-
-  @media (max-width: 768px) {
-    width: 100%;
   }
 }
 
