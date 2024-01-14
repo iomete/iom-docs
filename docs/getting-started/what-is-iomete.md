@@ -1,7 +1,7 @@
 ---
 title: What is IOMETE?
 sidebar_label: What is IOMETE?
-description: What is IOMETE Data Lakehouse Platform?
+description: IOMETE is a state-of-the-art, fast, scalable, user-friendly Data Lakehouse Platform for AI and Analytics.
 last_update:
   date: 01/30/2024
   author: Vusal Dadalov
@@ -28,53 +28,53 @@ IOMETE is a cutting-edge Data Lakehouse Platform that revolutionizes how organiz
 
 ### What is a Data Lakehouse?
 
-A data lakehouse is a modern data management architecture that combines the advantages of data lakes and data warehouses. 
-It brings together the scalability of data lakes with the reliability, data quality, ACID transactions, and security features of data warehouses. 
+A data lakehouse is a modern data management architecture that combines the advantages of data lakes and data warehouses.
+It brings together the scalability of data lakes with the reliability, data quality, ACID transactions, and security features of data warehouses.
 IOMETE embraces this concept to provide you with a robust platform for managing your data.
 
 ### Data Lake vs. Data Lakehouse
 
-While a data lake stores structured and unstructured data at scale, a data lakehouse, such as IOMETE, goes a step further by incorporating data warehouse features. 
+While a data lake stores structured and unstructured data at scale, a data lakehouse, such as IOMETE, goes a step further by incorporating data warehouse features.
 This means you can perform operations like ACID transactions, updates, deletes, and merges within your data lakehouse environment.
 
-:::tip Data Lakehouse in a nutshell 
+:::tip Data Lakehouse in a nutshell
 `Data Lakehouse` = `Data Lake` + `Data Warehouse`
 :::
 
 ## High-Level Architecture
 
-
-IOMETE utilizes a decoupled compute and storage architecture, which allows for the independent scaling of compute and storage. To put it simply, IOMETE acts as the computation, management, and governance layer that connects to the storage layer. 
-IOMETE's architecture is designed to provide optimal performance and flexibility for data processing. 
-
+IOMETE utilizes a decoupled compute and storage architecture, which allows for the independent scaling of compute and storage. To put it simply, IOMETE acts as the computation, management, and governance layer that connects to the storage layer.
+IOMETE's architecture is designed to provide optimal performance and flexibility for data processing.
 
 <Img src="/img/getting-started/iomete-high-level-overview.png" alt="IOMETE Architecture High-Level Overview"/>
-
 
 Let's take a closer look at its components:
 
 ### Storage Layer
 
 #### Storage backends
+
 IOMETE supports various storage backends. You can choose the storage backend that best suits your needs.
 
 - Cloud storages:
-    - AWS S3
-    - Azure Blob Storage
-    - Azure Data Lake Storage Gen2
-    - Google Cloud Storage
-    - Digital Ocean Spaces,
+  - AWS S3
+  - Azure Blob Storage
+  - Azure Data Lake Storage Gen2
+  - Google Cloud Storage
+  - Digital Ocean Spaces,
 - S3 Compatible Object Storages
-    - MinIO
-    - Dell EMC ECS
+  - MinIO
+  - Dell EMC ECS
 - Hadoop HDFS
 - Network File Systems (NFS)
 - And, even local file systems.
 
 #### Data formats
+
 IOMETE seamlessly handles structured, semi-structured, and unstructured data formats, ensuring you can work with diverse data types effectively.
 
 **Structured data and semi-structured data:**
+
 - Apache Parquet
 - Apache Avro
 - Apache ORC
@@ -83,6 +83,7 @@ IOMETE seamlessly handles structured, semi-structured, and unstructured data for
 - CSV
 
 **Unstructured (raw) data:**
+
 - Images
 - Videos
 - Audio
@@ -93,6 +94,7 @@ IOMETE seamlessly handles structured, semi-structured, and unstructured data for
 #### Lakehouse Storage formats:
 
 And, IOMETE uses these Lakehouse Storage formats offering you the best integration options for managing your data.
+
 - Apache Iceberg
 - Apache Hudi
 - Delta Lake
@@ -132,30 +134,37 @@ IOMETE Enterprise Edition offers a control plane and multi-data plane architectu
 ## Benefits of Using IOMETE
 
 ### Unparalleled Performance and Scalability
+
 - **Fast Data Processing**: Leverages Apache Spark for lightning-fast analytics and data processing.
 - **Scalability**: Cloud-native architecture allows for seamless handling of data at any scale.
 
 ### User-Friendly and Flexible Deployment
+
 - **Intuitive Interface**: User-friendly for both technical and non-technical users, enhancing accessibility.
 - **Versatile Deployment Options**: Can be deployed on-premises, in the cloud, or hybrid environments, suiting diverse organizational needs.
 
 ### Enhanced Data Management and Security
+
 - **Robust Data Lakehouse Architecture**: Combines the benefits of data lakes and warehouses, offering scalability with reliability and security.
 - **Comprehensive Data Formats Support**: Handles a wide range of data types, from structured to unstructured formats.
 - **Data Security and Privacy**: Operates within your infrastructure, ensuring no data is sent outside, thus prioritizing security and privacy.
 
 ### Advanced Analytics and Integration Capabilities
+
 - **Query Federation Engine**: Queries data from multiple sources without complex ETL, streamlining data analytics.
 - **Broad Tool Integration**: Compatible with popular BI tools and data science platforms for extensive analytics and business intelligence.
 
 ### Efficient Data Governance and Collaboration
+
 - **Central Data Access Control**: Built on Apache Ranger, managing access control policies effectively.
 - **Data Catalog**: Centralized repository for dataset metadata, promoting efficient collaboration and resource sharing.
 
 ### High Availability and Disaster Recovery
+
 - **Multi-Region Support**: Enterprise Edition features multi-region deployment for disaster recovery and high availability.
 
 ### Technological Excellence
+
 - **Cutting-Edge Components**: Utilizes leading technologies like Apache Spark, Apache Iceberg, and Kubernetes for top-notch performance and elasticity.
 - **Comprehensive Data Processing Services**: Includes services like Spark Jobs, Data Catalog, and Jupyter Notebook Service for a complete data engineering experience.
 

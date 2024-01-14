@@ -1,6 +1,6 @@
 ---
 title: Sampling Queries
-description: IOMETE lakehouse platform Spark SQL how to sampling queries
+description: The IOMETE Lakehouse Platform with Spark SQL offers a guide on efficiently executing sampling queries, optimizing data exploration and analysis.
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -8,14 +8,14 @@ last_update:
 
 ### Description
 
-The ```TABLESAMPLE``` statement is used to sample the table. It supports the following sampling methods:
+The `TABLESAMPLE` statement is used to sample the table. It supports the following sampling methods:
 
-   - ```TABLESAMPLE(x ROWS)```: Sample the table down to the given number of rows.
-   - ```TABLESAMPLE(x PERCENT)```: Sample the table down to the given percentage. Note that percentages 
-      are defined as a number between 0 and 100.
-   - ```TABLESAMPLE(BUCKET x OUT OF y)```: Sample the table down to a x out of y fraction.
+- `TABLESAMPLE(x ROWS)`: Sample the table down to the given number of rows.
+- `TABLESAMPLE(x PERCENT)`: Sample the table down to the given percentage. Note that percentages
+  are defined as a number between 0 and 100.
+- `TABLESAMPLE(BUCKET x OUT OF y)`: Sample the table down to a x out of y fraction.
 
-**Note:**  ```TABLESAMPLE``` returns the approximate number of rows or fraction requested.
+**Note:** `TABLESAMPLE` returns the approximate number of rows or fraction requested.
 
 ### Syntax
 

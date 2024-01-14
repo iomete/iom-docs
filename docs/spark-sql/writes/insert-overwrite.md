@@ -1,6 +1,6 @@
 ---
 title: Insert Overwrite
-description: The insert overwrite statement overwrites the existing data in the table using the new values
+description: The "INSERT OVERWRITE" statement serves to replace the existing data in a table with updated values.
 slug: /spark-sql/insert-overwrite
 last_update:
   date: 10/04/2022
@@ -8,9 +8,10 @@ last_update:
 ---
 
 The `INSERT OVERWRITE` statement overwrites the existing data in the table using the new values. The inserted rows can be specified by value expressions or result from a query
-___
 
-**Syntax** 
+---
+
+**Syntax**
 
 ```mysql
 INSERT OVERWRITE [ TABLE ] table_name
@@ -18,17 +19,15 @@ INSERT OVERWRITE [ TABLE ] table_name
     { { VALUES ( { value | NULL } [ , ... ] ) [ , ( ... ) ] } | query }
 ```
 
- **Parameters** 
+**Parameters**
 
-*`table_name`* The name of an existing table.*`PARTITION ( partition_col_name [ = partition_col_val ] [ , ... ] )`* Specifies one or more partition column and value pairs. The partition value is optional.*`VALUES ( { value | NULL } [ , ... ] ) [ , ( ... ) ]`* Specifies the values to be inserted. Either an explicitly specified value or a NULL can be inserted. A comma must be used to seperate each value in the clause. More than one set of values can be specified to insert multiple rows.*`query`* A query that produces the rows to be inserted. It can be in one of following formats:
+_`table_name`_ The name of an existing table._`PARTITION ( partition_col_name [ = partition_col_val ] [ , ... ] )`_ Specifies one or more partition column and value pairs. The partition value is optional._`VALUES ( { value | NULL } [ , ... ] ) [ , ( ... ) ]`_ Specifies the values to be inserted. Either an explicitly specified value or a NULL can be inserted. A comma must be used to seperate each value in the clause. More than one set of values can be specified to insert multiple rows._`query`_ A query that produces the rows to be inserted. It can be in one of following formats:
 
-  * a `SELECT` statement
-  * a `TABLE` statement
-  * a `FROM` statement
+- a `SELECT` statement
+- a `TABLE` statement
+- a `FROM` statement
 
-
-
-**Examples** 
+**Examples**
 
 ### Insert Using a VALUES Clause
 
@@ -99,7 +98,6 @@ INSERT OVERWRITE [ TABLE ] table_name
       + -------------- + ------------------------------ + -------------- +
 ```
 
-
 ### Insert Using a TABLE Statement
 
 ```sql
@@ -126,7 +124,6 @@ INSERT OVERWRITE [ TABLE ] table_name
       | Gordon Martin  | 779 Lake Ave, Oxford           | 888888         |
       + -------------- + ------------------------------ + -------------- +
 ```
-
 
 ### Insert Using a FROM Statement
 

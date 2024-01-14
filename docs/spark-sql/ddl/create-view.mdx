@@ -1,6 +1,6 @@
 ---
 title: Create View
-description: This documentation explains how to create a view on Apache Spark SQL
+description: This documentation provides a detailed guide on creating a view using Apache Spark SQL, facilitating a clear understanding of the process.
 slug: /spark-sql/create-view
 last_update:
   date: 10/04/2022
@@ -8,7 +8,8 @@ last_update:
 ---
 
 Views are based on the result-set of an SQL query. `CREATE VIEW` constructs a virtual table that has no physical data therefore other operations like `ALTER VIEW` and `DROP VIEW` only change metadata.
-___
+
+---
 
 **Syntax**
 
@@ -18,9 +19,7 @@ CREATE [OR REPLACE] [TEMPORARY] VIEW [IF NOT EXISTS] [db_name.]view_name
     AS query;
 ```
 
-
-
-<br/>
+<br />
 
 **Parameters**
 
@@ -32,14 +31,14 @@ _`OR REPLACE`_ If a view of same name already exists, it will be replaced._`[GLO
 
 `query`A `SELECT` statement that constructs the view from base tables or other views.
 
-<br/>
+<br />
 
 **Examples**
 
 ```sql
 -- Create or replace view for `experienced_employee` with comments.
 CREATE OR REPLACE VIEW experienced_employee
-    (ID COMMENT 'Unique identification number', Name) 
+    (ID COMMENT 'Unique identification number', Name)
     COMMENT 'View for experienced employees'
     AS SELECT id, name FROM all_employee
         WHERE working_years > 5;

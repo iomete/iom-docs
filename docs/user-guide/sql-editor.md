@@ -1,6 +1,6 @@
 ---
 title: SQL Editor overview
-description: SQL Editor. This guide explains how quering in IOMETE
+description: Explore the SQL Editor in IOMETE with this guide, unraveling the intricacies of querying for a seamless and efficient data exploration experience.
 last_update:
   date: 12/30/2022
   author: Vugar Dadalov

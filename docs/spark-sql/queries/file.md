@@ -1,6 +1,6 @@
 ---
 title: File
-description: Using file you can query a file with a specified format directly with SQL
+description: By utilizing the "USING FILE" syntax, you can directly query a file in a specified format using SQL, streamlining the interaction with structured data.
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -15,15 +15,16 @@ You can query a file with a specified format directly with SQL.
 ```js
 file_format.`file_path`
 ```
+
 ### Parameters
 
 - **file_format**
 
-    Specifies a file format for a given file path, could be TEXTFILE, ORC, PARQUET, etc.
+  Specifies a file format for a given file path, could be TEXTFILE, ORC, PARQUET, etc.
 
 - **file_path**
 
-    Specifies a file path with a given format.
+  Specifies a file path with a given format.
 
 ### Examples
 

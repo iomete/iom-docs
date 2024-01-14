@@ -1,10 +1,10 @@
 ---
 title: IOMETE Community Deployment Overview
 sidebar_label: Overview
-description: IOMETE Community Deployment Overview
+description: IOMETE Community Deployment Overview - provides a comprehensive insight into the deployment process and configuration of the IOMETE community platform.
 last_update:
-    date: 01/13/2024
-    author: Vusal Dadalov
+  date: 01/13/2024
+  author: Vusal Dadalov
 ---
 
 Welcome to the IOMETE Community Deployment Overview.
@@ -44,12 +44,15 @@ To begin your IOMETE deployment:
 ## Frequently Asked Questions (FAQ)
 
 ### Can I run IOMETE on a single node?
+
 **Yes.** IOMETE can run on a single node for development and testing. Details are available on the [single node deployment page](https://github.com/iomete/iomete-community/blob/main/kubernetes/local-k3s-guide.md).
 
 ### Does IOMETE run entirely within my infrastructure?
+
 **Yes.** IOMETE operates entirely within your infrastructure and does not transmit data to external cloud services.
 
 ### Is internet connectivity required for IOMETE?
+
 **By default, yes.** IOMETE needs an internet connection to download necessary docker images.
 
 :::info air-gapped environments
@@ -62,21 +65,25 @@ IOMETE provides a unified experience across cloud and on-premise deployments.
 However, there are some differences due to the nature of the environments:
 
 :::info Installation
+
 - **Cloud:** Uses terraform for infrastructure setup and helm charts for IOMETE installation.
 - **On-premise:** Manual infrastructure setup with helpful deployment scripts, followed by helm chart installation.
-:::
+  :::
 
 :::info Object Storage
+
 - **Cloud:** Utilizes managed services like AWS S3, Azure Blob Storage, Google Cloud Storage.
 - **On-premise:** Requires setting up S3 compatible storages like [MinIO](https://min.io/), [DELL ECS](https://www.delltechnologies.com/en-us/storage/ecs/index.htm), etc.
-:::
+  :::
 
 :::info Auto Scaling
+
 - **Cloud:** Built-in auto-scaling features to optimize resource usage.
 - **On-premise:** Typically static resource allocation, but dynamic scaling can be utilized.
-:::
+  :::
 
 ### Differences between Community and Enterprise versions?
+
 Refer to [IOMETE Pricing](https://iomete.com/pricing) for a detailed comparison.
 
 ### Support for Community Version?
@@ -88,4 +95,5 @@ IOMETE Community Version is supported by the community. Feel free to join the [I
 Dedicated support is available for Enterprise customers. Enterprise customers receive dedicated support via Slack or MS Teams, including full maintenance and updates.
 
 ### How to get Enterprise Version?
+
 Schedule a call [here](https://calendly.com/iomete/30min) to discuss your requirements and obtain a quote.

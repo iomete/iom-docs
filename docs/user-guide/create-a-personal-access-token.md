@@ -1,6 +1,6 @@
 ---
 title: Personal access token
-description: Personal access token (PAT). This guide explains how to create personal access token in IOMETE
+description: A Personal Access Token (PAT) is pivotal for secure authentication. This guide elucidates the process of generating a Personal Access Token in IOMETE.
 last_update:
   date: 12/09/2022
   author: Vugar Dadalov

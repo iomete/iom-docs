@@ -1,6 +1,6 @@
 ---
 title: Inline Table
-description: An inline table is a temporary table created using a VALUES clause
+description: An inline table is a transient table generated through a VALUES clause, providing a convenient way to create temporary data structures in SQL.
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -10,23 +10,23 @@ last_update:
 
 An inline table is a temporary table created using a VALUES clause.
 
-
 ### Syntax
 
 ```sql
 VALUES ( expression [ , ... ] ) [ table_alias ]
 ```
+
 ### Parameters
 
 - **expression**
 
-    Specifies a combination of one or more values, operators and SQL functions that results in a value.
+  Specifies a combination of one or more values, operators and SQL functions that results in a value.
 
 - **table_alias**
 
-    Specifies a temporary name with an optional column name list.
+  Specifies a temporary name with an optional column name list.
 
-    **Syntax:** `[ AS ] table_name [ ( column_name [ , ... ] ) ]`
+  **Syntax:** `[ AS ] table_name [ ( column_name [ , ... ] ) ]`
 
 ### Examples
 

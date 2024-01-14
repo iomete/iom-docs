@@ -1,6 +1,6 @@
 ---
 title: DISTRIBUTE BY Clause
-description: The DISTRIBUTE BY clause is used to repartition the data based on the input expressions
+description: The "DISTRIBUTE BY" clause facilitates data repartitioning based on specified input expressions, optimizing data distribution in Apache Spark SQL queries.
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
@@ -11,13 +11,15 @@ last_update:
 The DISTRIBUTE BY clause is used to repartition the data based on the input expressions. Unlike the <a href="./cluster-by-clause">CLUSTER BY</a> clause, this does not sort the data within each partition.
 
 ### Syntax
+
 ```sql
 DISTRIBUTE BY { expression [ , ... ] }
 ```
+
 ### Parameters
 
 - **expression**
-    Specifies combination of one or more values, operators and SQL functions that results in a value.
+  Specifies combination of one or more values, operators and SQL functions that results in a value.
 
 ### Examples
 

@@ -1,25 +1,26 @@
 ---
 title: Set Operators
-description: Set operators are used to combine two input relations into a single one
+description: Set operators are employed to merge two input relations into a unified result, facilitating the combination of data sets in a single operation.
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
 
-___
+---
 
 ### Description
+
 Set operators are used to combine two input relations into a single one. Spark SQL supports three types of set operators:
 
-   - ```EXCEPT or MINUS```
-   - ```INTERSECT```
-   - ```UNION```
+- `EXCEPT or MINUS`
+- `INTERSECT`
+- `UNION`
 
 Note that input relations must have the same number of columns and compatible data types for the respective columns.
 
 ### EXCEPT
 
-```EXCEPT``` and ```EXCEPT ALL``` return the rows that are found in one relation but not the other. EXCEPT (alternatively, EXCEPT DISTINCT) takes only distinct rows while ```EXCEPT ALL``` does not remove duplicates from the result rows. Note that ```MINUS``` is an alias for ```EXCEPT```.
+`EXCEPT` and `EXCEPT ALL` return the rows that are found in one relation but not the other. EXCEPT (alternatively, EXCEPT DISTINCT) takes only distinct rows while `EXCEPT ALL` does not remove duplicates from the result rows. Note that `MINUS` is an alias for `EXCEPT`.
 
 ### Syntax
 
@@ -42,7 +43,7 @@ SELECT * FROM number1;
 |  3|
 |  4|
 +---+
-  
+
 SELECT * FROM number2;
 +---+
 |  c|
@@ -88,11 +89,9 @@ SELECT c FROM number1 MINUS ALL (SELECT c FROM number2);
 +---+
 ```
 
-
 ### INTERSECT
 
-```INTERSECT``` and ```INTERSECT ALL``` return the rows that are found in both relations. ```INTERSECT```(alternatively, ```INTERSECT DISTINCT```) takes only distinct rows while ```INTERSECT ALL``` does not remove duplicates from the result rows.
-
+`INTERSECT` and `INTERSECT ALL` return the rows that are found in both relations. `INTERSECT`(alternatively, `INTERSECT DISTINCT`) takes only distinct rows while `INTERSECT ALL` does not remove duplicates from the result rows.
 
 ### Syntax
 
@@ -129,17 +128,18 @@ SELECT c FROM number1 MINUS ALL (SELECT c FROM number2);
 +---+
 ```
 
-
 ### UNION
 
-```UNION``` and ```UNION ALL``` return the rows that are found in either relation. ```UNION``` (alternatively, ```UNION DISTINCT```) takes only distinct rows while ```UNION ALL``` does not remove duplicates from the result rows.
+`UNION` and `UNION ALL` return the rows that are found in either relation. `UNION` (alternatively, `UNION DISTINCT`) takes only distinct rows while `UNION ALL` does not remove duplicates from the result rows.
 
 ### Syntax
 
 ```sql
 [ ( ] relation [ ) ] UNION [ ALL | DISTINCT ] [ ( ] relation [ ) ]
 ```
+
 ### Examples
+
 ```sql
 (SELECT c FROM number1) UNION (SELECT c FROM number2);
 +---+

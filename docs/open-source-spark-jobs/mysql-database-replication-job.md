@@ -1,7 +1,7 @@
 ---
 title: MySQL Database Replication Job
 sidebar_label: MySQL Database Replication Job
-description: Quickly move your MySQL tables to IOMETE Lakehouse using our Spark Job that's simple to configure.
+description: Quickly move your *MySQL* tables to *IOMETE* Lakehouse using our Spark Job that's simple to configure.
 last_update:
   date: 09/20/2023
   author: Vusal Dadalov
@@ -38,7 +38,6 @@ You can use **Environment variables** to store your sensitive variables like pas
 :::
 
 <br/>
-
 
 ### Config file
 

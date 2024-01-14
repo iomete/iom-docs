@@ -1,7 +1,7 @@
 ---
 title: IOMETE Azure Upgrade
 sidebar_label: Upgrade
-description: This guide will walk you through upgrading your IOMETE platform using Terraform on Azure.
+description: This guide will take you through the process of upgrading your IOMETE platform using Terraform on the Azure cloud infrastructure.
 last_update:
   date: 04/19/2023
   author: Vusal Dadalov

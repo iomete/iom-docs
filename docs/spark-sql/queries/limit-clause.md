@@ -1,13 +1,14 @@
 ---
 title: LIMIT Clause
-description: limit clause is to ensure that the results are deterministic
-last_update: 
+description: To perform sampling queries in the IOMETE Lakehouse Platform using Spark SQL, you can leverage the "TABLESAMPLE" clause.
+last_update:
   date: 10/04/2022
   author: Vugar Dadalov
 ---
 
 ### Description
-The  `LIMIT`  clause is used to constrain the number of rows returned by the <a href="./select">SELECT</a> statement. In general, this clause is used in conjunction with <a href="./order-by-clause">ORDER BY</a> to ensure that the results are deterministic.
+
+The `LIMIT` clause is used to constrain the number of rows returned by the <a href="./select">SELECT</a> statement. In general, this clause is used in conjunction with <a href="./order-by-clause">ORDER BY</a> to ensure that the results are deterministic.
 [block:api-header]
 
 ### Syntax
@@ -20,11 +21,11 @@ LIMIT { ALL | integer_expression }
 
 - **ALL**
 
-    If specified, the query returns all the rows. In other words, no limit is applied if this option is specified.
+  If specified, the query returns all the rows. In other words, no limit is applied if this option is specified.
 
 - **integer_expression**
 
-    Specifies a foldable expression that returns an integer.
+  Specifies a foldable expression that returns an integer.
 
 ### Examples
 

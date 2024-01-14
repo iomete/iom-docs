@@ -1,6 +1,6 @@
 ---
 title: Insert Into
-description: This documentation explains how to inserts new rows into a table
+description: This documentation guides users through the process of inserting new rows into a table, offering clear and concise instructions for seamless execution.
 slug: /spark-sql/insert-into
 last_update:
   date: 10/04/2022
