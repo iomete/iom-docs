@@ -1,0 +1,13 @@
+.button.button-iom {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 4px;
+    padding: 0px 6px;
+    font-weight: 500;
+    cursor: default;
+
+    &.button--primary {
+        color: #fff;
+    }
+}

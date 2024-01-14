@@ -14,8 +14,8 @@ import { Cpu, Plus } from "@phosphor-icons/react";
 ---
 
 <Img src="/img/spark-job/kafka-logo-iomete.png"
-     caption="Kafka and IOMETE logo" padding="4px" isBackgroundWhite={true}
-     alt="Kafka and IOMETE logo"/>
+caption="Kafka and IOMETE logo" padding="4px" style={{background: "white"}}
+alt="Kafka and IOMETE logo"/>
 
 This is a collection of data movement capabilities. This streaming job copies data from Kafka to Iceberg.
 
