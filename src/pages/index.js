@@ -6,7 +6,6 @@ import Header from "./Header";
 import Features from "./Features";
 
 import "./landing.scss";
-import Resources from "./Resources";
 
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
@@ -17,8 +16,6 @@ export default function Home() {
         <Header />
 
         <Features />
-
-        <Resources />
       </div>
     </Layout>
   );

@@ -1,26 +1,26 @@
 html.iom-blog-list {
-    div.container.margin-vert--lg {
-        @media (max-width: 768px) {
-            padding: 0 24px;
-        }
-
-        &>.row {
-            display: block;
-            margin: 0 !important;
-
-            &>main.col--9 {
-                max-width: 100% !important;
-                margin-left: 0 !important;
-
-                padding: 0;
-
-                .row .col {
-                    @media (max-width: 996px) and (min-width: 768px) {
-                        max-width: 50% !important;
-                    }
-
-                }
-            }
-        }
+  div.container.margin-vert--lg {
+    max-width: var(--ifm-container-width);
+    @media (max-width: 768px) {
+      padding: 0 24px;
     }
+
+    & > .row {
+      display: block;
+      margin: 0 !important;
+
+      & > main.col--9 {
+        max-width: 100% !important;
+        margin-left: 0 !important;
+
+        padding: 0;
+
+        .row .col {
+          @media (max-width: 996px) and (min-width: 768px) {
+            max-width: 50% !important;
+          }
+        }
+      }
+    }
+  }
 }

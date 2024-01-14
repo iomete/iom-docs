@@ -19,14 +19,18 @@
 
   @media (min-width: 768px) {
     &.FeaturedCard {
-      flex-direction: row-reverse !important;
+      flex-direction: row;
       margin-bottom: 24px !important;
-      align-items: center !important;
-      justify-content: space-between;
+      align-items: start !important;
+
       column-gap: 48px;
 
+      .CardBody {
+        max-width: 50%;
+      }
+
       h3 {
-        font-size: 36px !important;
+        font-size: 32px !important;
         font-weight: 700 !important;
       }
 
@@ -53,11 +57,24 @@
 
   :global(.card__body) {
     padding: 0px 0px 56px 0px;
+    .CardDate {
+      font-size: 14px;
+      font-weight: 500;
+      color: gray;
+    }
 
     .CardTags {
       color: var(--ifm-color-emphasis-700);
       display: flex;
       gap: 8px;
+      padding: 6px 0;
+      small {
+        background-color: var(--ifm-color-emphasis-200);
+        font-size: 12px;
+        line-height: 16px;
+        border-radius: 4px;
+        padding: 4px 8px;
+      }
     }
 
     .CardTitle {
@@ -68,8 +85,7 @@
     .CardDesc {
       display: inline-block;
       max-height: 48px;
-      overflow: hidden;
-      color: var(--ifm-color-emphasis-800);
+      color: var(--ifm-color-emphasis-700);
     }
 
     :global(.avatar) {

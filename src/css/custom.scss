@@ -111,3 +111,10 @@ html[data-theme="dark"] .discord-link:before {
 .navbar-search {
   width: 220px;
 }
+
+.blog-list-item {
+  max-width: 800px; /* Adjust the value based on your preference */
+  margin-left: auto;
+  margin-right: auto;
+  background-color: red;
+}
