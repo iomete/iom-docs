@@ -4,28 +4,28 @@ import Card from "./Card";
 
 const cards = [
   {
-    to: "docs",
-    title: "Comprehensive Documentation",
-    description: "Explore our extensive docs to find in-depth explanations, tutorials, and guides on various topics.",
+    to: "docs/community-deployment/overview",
+    title: "Community Deployment",
+    description: "Learn how to deploy a community edition of IOMETE on Cloud or On-Premise.",
+    label: "Getting Started",
+  },
+  {
+    to: "docs/user-guide/virtual-lakehouses",
+    title: "Virtual Lakehouses",
+    description: "Learn how to create and manage virtual lakehouses which provides an SQL interface to query and process data in your data lakehouse.",
     label: "User Guide",
   },
   {
-    to: "docs/guides",
-    title: "Actionable Guides",
-    description: "Discover step-by-step guides and practical solutions to help you navigate our platform and achieve your goals.",
-    label: "User Guide",
+    to: "docs/sql-quick-start/sql-ddl-examples",
+    title: "SQL Quickstart",
+    description: "A quickstart guides to using SQL to query and process data in your data lakehouse.",
+    label: "Reference",
   },
   {
-    to: "blog",
-    title: "Insightful Articles",
-    description: "Delve into our blog to stay updated on industry trends, discover insightful articles, and engage with our experts.",
-    label: "User Guide",
-  },
-  {
-    to: "glossary",
-    title: "Terminology Dictionary",
-    description: "Navigate our glossary to find definitions and explanations of key terms related to our platform and services.",
-    label: "User Guide",
+    to: "docs/guides/read-files-from-aws-s3",
+    title: "Loading Data",
+    description: "Tutorials on how to query data files in S3 and from operational databases using JDBC providers.",
+    label: "Tutorials",
   },
 ];
 export default function Features() {
