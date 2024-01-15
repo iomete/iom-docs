@@ -1,0 +1,133 @@
+---
+title: Create Table
+description: Create Table | Syntax, Parameters, Examples | Delta, CSV, TXT, ORC, JDBC, PARQUET | Partition, Cluster, Sort Data | Copy Data with SELECT
+slug: /reference/spark-sql/create-table
+last_update:
+  date: 10/04/2022
+  author: Vugar Dadalov
+---
+
+The `CREATE TABLE` statement defines a new table
+
+---
+
+### **Syntax**
+
+```sql
+CREATE TABLE [ IF NOT EXISTS ] table_identifier
+    [ ( col_name1 col_type1 [ COMMENT col_comment1 ], ... ) ]
+    USING data_source
+    [ OPTIONS ( key1=val1, key2=val2, ... ) ]
+    [ PARTITIONED BY ( col_name1, col_name2, ... ) ]
+    [ CLUSTERED BY ( col_name3, col_name4, ... )
+        [ SORTED BY ( col_name [ ASC | DESC ], ... ) ]
+        INTO num_buckets BUCKETS ]
+    [ LOCATION path ]
+    [ COMMENT table_comment ]
+    [ TBLPROPERTIES ( key1=val1, key2=val2, ... ) ]
+    [ AS select_statement ]
+```
+
+---
+
+### **Parameters**
+
+- **table_identifier**
+  Specifies a table name, which may be optionally qualified with a database name.
+  **Syntax:** `[ database_name. ] table_name`
+- **USING data_source**
+  Data Source is the input format used to create the table. Data source can be DELTA, CSV, TXT, ORC, JDBC, PARQUET, etc.
+  **NOTE:** Use DELTA if the table is mutable and update, merge statements will be used.
+- **PARTITIONED BY**
+  Partitions are created on the table, based on the columns specified.
+- **CLUSTERED BY**
+  Partitions created on the table will be bucketed into fixed buckets based on the column specified for bucketing.
+  **NOTE:** Bucketing is an optimization technique that uses buckets (and bucketing columns) to determine data partitioning and avoid data shuffle.
+- **SORTED BY**
+  Determines the order in which the data is stored in buckets. Default is Ascending order.
+- **LOCATION**
+  Path to the directory where table data is stored, which could be a path on distributed storage like HDFS, etc.
+- **COMMENT**
+  A string literal to describe the table.
+- **TBLPROPERTIES**
+  A list of key-value pairs that is used to tag the table definition.
+- **AS select_statement**
+  The table is populated using the data from the select statement.
+
+<br />
+
+**Examples**
+
+:::info
+Insert/update/merge operation only supported with deltadeltaprovider. It's always recommended to create tables with delta provider
+:::
+
+```sql
+CREATE IF NOT EXISTS TABLE events (
+  date DATE,
+  eventId STRING,
+  eventType STRING,
+  data STRING)
+USING DELTA;
+
+
+CREATE OR REPLACE TABLE events (
+  date DATE,
+  eventId STRING,
+  eventType STRING,
+  data STRING)
+USING DELTA
+```
+
+You can also use `CREATE TABLE AS` with a `SELECT` command to copy data from an existing table:
+
+```sql
+CREATE TABLE sessions_dm USING delta
+AS SELECT *
+FROM sessions
+WHERE category IS NOT NULL ;
+
+DESC TABLE sessions_dm;
+
++-------------+------------+----------+
+|  col_name   | data_type  | comment  |
++-------------+------------+----------+
+| id          | int        | NULL     |
+| start_date  | timestamp  | NULL     |
+| end_date    | timestamp  | NULL     |
+| category    | int        | NULL     |
++-------------+------------+----------+
+
+SELECT * FROM sessions_dm;
+
++-----+------------------------+--------------------------+-----------+
+| id  |       start_date       |         end_date         | category  |
++-----+------------------------+--------------------------+-----------+
+| 1   | 2020-04-02 14:05:15.4  | 2020-04-03 14:25:15.4    | 1         |
+| 3   | 2020-04-02 14:05:15.4  | 2020-04-04 16:57:53.653  | 3         |
++-----+------------------------+--------------------------+-----------+
+```
+
+**Partition data**
+
+You can partition data to speed up queries or DML that have predicates involving the partition columns. To partition data when you create a Delta table, specify partition by columns. A common pattern is to partition by date, for example:
+
+```sql
+-- Create table in the metastore
+CREATE TABLE events (
+  date DATE,
+  eventId STRING,
+  eventType STRING,
+  data STRING)
+USING DELTA
+PARTITIONED BY (date)
+```
+
+```sql
+CREATE TABLE sessions_dm
+  USING delta
+  PARTITIONED BY (category)
+AS SELECT *
+FROM sessions
+WHERE category IS NOT NULL;
+```

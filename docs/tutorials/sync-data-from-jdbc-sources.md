@@ -64,7 +64,7 @@ Create a new warehouse instance
 
 ### Querying Source Table
 
-After having the lakehouse created, we create a table using JDBC Sources using [CREATE TABLE](/spark-sql/create-table) command. In the OPTIONS part we specify credentials of the database to which we want to connect as follows
+After having the lakehouse created, we create a table using JDBC Sources using [CREATE TABLE](/reference/spark-sql/create-table) command. In the OPTIONS part we specify credentials of the database to which we want to connect as follows
 
 <!--TODO (see [JDBC Sources](./data-sources/jdbc-sources)):  -->
 <!-- /docs/guides/how-to-connect-iomete-and-apache-superset#get-connection-details-from-iomete -->

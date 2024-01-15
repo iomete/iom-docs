@@ -1,0 +1,45 @@
+---
+title: Create View
+description: This documentation provides a detailed guide on creating a view using Apache Spark SQL, facilitating a clear understanding of the process.
+slug: /reference/spark-sql/create-view
+last_update:
+  date: 10/04/2022
+  author: Vugar Dadalov
+---
+
+Views are based on the result-set of an SQL query. `CREATE VIEW` constructs a virtual table that has no physical data therefore other operations like `ALTER VIEW` and `DROP VIEW` only change metadata.
+
+---
+
+**Syntax**
+
+```sql
+CREATE [OR REPLACE] [TEMPORARY] VIEW [IF NOT EXISTS] [db_name.]view_name
+    create_view_clauses
+    AS query;
+```
+
+<br />
+
+**Parameters**
+
+_`OR REPLACE`_ If a view of same name already exists, it will be replaced._`[GLOBAL]` `TEMPORARY`_ TEMPORARY views are session-scoped and will be dropped when session ends because it skips persisting the definition in the underlying metastore, if any._`IF NOT EXISTS`_ Creates a view if it does not exists._`create_view_clauses`_ These clauses are optional and order insensitive. It can be of following formats.
+
+`[(column_name [COMMENT column_comment], ...) ]` to specify column-level comments.  
+`[COMMENT view_comment]` to specify view-level comments.  
+`[TBLPROPERTIES (property_name = property_value, ...)]` to add metadata key-value pairs.
+
+`query`A `SELECT` statement that constructs the view from base tables or other views.
+
+<br />
+
+**Examples**
+
+```sql
+-- Create or replace view for `experienced_employee` with comments.
+CREATE OR REPLACE VIEW experienced_employee
+    (ID COMMENT 'Unique identification number', Name)
+    COMMENT 'View for experienced employees'
+    AS SELECT id, name FROM all_employee
+        WHERE working_years > 5;
+```

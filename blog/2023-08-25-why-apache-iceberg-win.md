@@ -46,7 +46,7 @@ These are just a few of the reasons why Apache Iceberg is the winning table form
 
 Check out the [Ultimate Guide to Apache Iceberg](https://iomete.com/the-ultimate-guide-to-apache-iceberg).
 
-Check out the [Guide on how to start with Apache Iceberg](/iceberg-tables/getting-started).
+Check out the [Guide on how to start with Apache Iceberg](/reference/iceberg-tables/getting-started).
 
 **About IOMETE**
 
