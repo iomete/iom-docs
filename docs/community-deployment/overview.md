@@ -96,4 +96,4 @@ Dedicated support is available for Enterprise customers. Enterprise customers re
 
 ### How to get Enterprise Version?
 
-Schedule a call [here](https://calendly.com/iomete/30min) to discuss your requirements and obtain a quote.
+Schedule a call [here](https://calendly.com/iomete/iomete-discovery-call) to discuss your requirements and obtain a quote.

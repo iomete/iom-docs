@@ -46,4 +46,4 @@ However, if an organization is looking for a rapidly scalable solution, then a c
 
 Whatever your data infrastructure and deployment requirements may look like, consider the IOMETE data lakehouse platform with its modern architecture and flexible deployment options.
 
-[Book](https://calendly.com/d/g23-tpw-hnc/iomete-30-min-demo-discovery-call?month=2023-08) a 30 min discovery call to learn more.
+[Book](https://calendly.com/iomete/iomete-discovery-call) a 30 min discovery call to learn more.
