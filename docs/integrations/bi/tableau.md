@@ -1,11 +1,11 @@
 ---
-title: IOMETE - Tableau Integration
+title: Tableau - Connecting to IOMETE
 sidebar_label: Tableau
 description: In this guide, we will explain how to effortlessly integrate IOMETE with one of the most popular BI tools Tableau
 image: img/guides/iomete-tableau-integration/iomete-tableau.png
 ---
 
-# IOMETE - Tableau Integration
+# Tableau - Connecting to IOMETE
 
 import Img from '@site/src/components/Img';
 

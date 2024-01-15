@@ -1,14 +1,16 @@
 ---
-title: Apache Superset Connection
+title: Apache Superset - Connecting to IOMETE
+sidebar_label: Apache Superset
 description: This guide explains how to effortlessly integrate iomete with one of the most popular BI tools Apache Superset
 last_update:
   date: 10/31/2022
 ---
+
 ![iomete superset](/img/guides/apache-superset-iomete/iomete-superset.png)
 
 Hi! In this guide, we will explain how to effortlessly integrate **IOMETE** with one of the most popular BI tools: [Apache Superset](https://superset.apache.org/).
 
-## Apache Superset
+## Apache Superset - Connecting to IOMETE
 
 Apache Superset is a modern data exploration and visualization platform. Superset is fast, lightweight, intuitive, and loaded with options that make it easy for users of all skill sets to explore and visualize their data, from simple line charts to highly detailed geospatial charts.
 
