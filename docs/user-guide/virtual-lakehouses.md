@@ -21,15 +21,15 @@ In production environments, it is often required to isolate workloads, for examp
 ## **Create a new Lakehouse**
 
 **1.** Go to the **Lakehouses** and click the <button className="button button--primary button-iom"><Plus size={16}/>Create</button> button
-<Img src="/img/user-guide/virtual-lakehouse/lakehouses.png" srcDark="/img/user-guide/virtual-lakehouse/lakehouses-dark.png" alt="Lakehouses"/>
+<Img src="/img/user-guide/virtual-lakehouse/lakehouses.png" alt="Lakehouses"/>
 <br />
 
 **2.** Give the new **lakehouse** a name under **Name**.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-create.png" srcDark="/img/user-guide/virtual-lakehouse/lakehouse-create-dark.png"  alt="Create Lakehouse" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-create.png"  alt="Create Lakehouse" />
 <br />
 
 **3.** Select driver, under the **Node driver** section.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-driver.png" srcDark="/img/user-guide/virtual-lakehouse/lakehouse-driver-dark.png" alt="Lakehouse driver" maxWidth="500px" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-driver.png" alt="Lakehouse driver" maxWidth="500px" />
 
 :::info Node driver
 Spark driver is running all the time until lakehouse stopped manually. Driver is responsible for managing executors/workers and connections. If stopped, no connections could be established to the lakehouse.
@@ -37,7 +37,7 @@ Spark driver is running all the time until lakehouse stopped manually. Driver is
 <br />
 
 **4.** Select executor, under the **Node executor** section. [Read more](https://spark.apache.org/docs/latest/cluster-overview.html) about spark executors.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor-select.png" srcDark="/img/user-guide/virtual-lakehouse/lakehouse-executor-select-dark.png" alt="Lakehouse executor select" maxWidth="500px" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor-select.png" alt="Lakehouse executor select" maxWidth="500px" />
 
 <br/>
 
@@ -47,7 +47,7 @@ Below these inputs, a real-time preview of **Total CPU** and **Total Memory** is
 
 <!-- Use this preview information to optimize the performance of your lakehouse by selecting the right combination of Node Executors and Executor counts. -->
 
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor.png" srcDark="/img/user-guide/virtual-lakehouse/lakehouse-executor-dark.png" alt="Lakehouse executor" maxWidth="500px" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor.png" alt="Lakehouse executor" maxWidth="500px" />
 
 :::info Node executor
 Executors basically are responsible for executing the queries. They will be scaled up and down automatically based on the auto-suspend parameter.
@@ -67,7 +67,7 @@ Read more about spark executors [here](https://spark.apache.org/docs/latest/clu
 **6.** Set Auto suspend under **Auto suspend** section.
 
 By clicking checkbox in the left side we can **disabled Auto suspend** functionality.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-auto-suspend.png" srcDark="/img/user-guide/virtual-lakehouse/lakehouse-auto-suspend-dark.png" alt="Lakehouse auto suspend" maxWidth="500px" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-auto-suspend.png" alt="Lakehouse auto suspend" maxWidth="500px" />
 
 :::info
 Executors will be scaled down after the specified time of inactivity. Executors will be scaled up automatically on demand (Scale up time around 10-15 seconds). It is recommended to keep auto-suspend on to minimize monthly costs.
@@ -76,14 +76,14 @@ Executors will be scaled down after the specified time of inactivity. Executors 
 <br />
 
 **7.** Click the **Create** button after adding a **description** to the **optional description field**.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-description.png" srcDark="/img/user-guide/virtual-lakehouse/lakehouse-description-dark.png" alt="Lakehouse Description" maxWidth="500px" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-description.png" alt="Lakehouse Description" maxWidth="500px" />
 <br />
 
 🎉 🎉🎉 **Tadaa**! The newly created **test-lakehouse** details view is shown.
 
 ## **Lakehouse details**
 
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-info.png" srcDark="/img/user-guide/virtual-lakehouse/lakehouse-info-dark.png" alt="Lakehouse Details" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-info.png" alt="Lakehouse Details" />
 
 1.  Navigation buttons
     - **Spark UI** - this button will take us Spark Jobs information.
@@ -104,11 +104,11 @@ Executors will be scaled down after the specified time of inactivity. Executors 
     - Redash Connection
 5.  **Logs**
     In this section we can see Spark logs.
-    <Img src="/img/user-guide/virtual-lakehouse/lakehouse-logs.png" srcDark="/img/user-guide/virtual-lakehouse/lakehouse-logs-dark.png" alt="Lakehouse logs" maxWidth="500px" />
+    <Img src="/img/user-guide/virtual-lakehouse/lakehouse-logs.png" alt="Lakehouse logs" maxWidth="500px" />
 
 6.  **Events**
     In this section we may check your lakehouse's **Start**/**Terminate** events.
-    <Img src="/img/user-guide/virtual-lakehouse/lakehouse-events.png" srcDark="/img/user-guide/virtual-lakehouse/lakehouse-events-dark.png" alt="Lakehouse events" maxWidth="500px" />
+    <Img src="/img/user-guide/virtual-lakehouse/lakehouse-events.png" alt="Lakehouse events" maxWidth="500px" />
 
 7.  **Delete** - this button makes it simple to **delete** Lakehouse.
 
@@ -130,7 +130,7 @@ What Each Status Means
 - **Stopped**: The Driver is offline and not accepting any connections.
 - **Failed**: The Driver couldn't start. Contact support for assistance.
 
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-driver-status.png" srcDark="/img/user-guide/virtual-lakehouse/lakehouse-driver-status-dark.png" alt="Lakehouse Driver status" maxWidth="600px"/>
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-driver-status.png" alt="Lakehouse Driver status" maxWidth="600px"/>
 
 :::tip Cost Implications
 You're only charged for the Driver when it's in the 'Active' state.
@@ -148,9 +148,9 @@ What Each Status Means
 
 - **Running 1/4**: One out of four Executors is active. The cluster scales down to save costs when the workload is light.
 - **Running 1/4 Pending 3/4**: One Executor is active, and three are waiting to start due to an increase in workload.
-  <Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor-pending.png"  srcDark="/img/user-guide/virtual-lakehouse/lakehouse-executor-pending-dark.png" alt="Lakehouse is scaling-up." />
+  <Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor-pending.png" alt="Lakehouse is scaling-up." />
 - **Running 4/4**: All Executors are active, and the cluster is at full capacity.
-  <Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor-running.png"  srcDark="/img/user-guide/virtual-lakehouse/lakehouse-executor-running-dark.png" alt="All executors are active" />
+  <Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor-running.png" alt="All executors are active" />
 
 :::tip Cost Implications
 You're only billed for Executors when they're in the 'Running' state.
