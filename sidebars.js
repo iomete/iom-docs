@@ -24,7 +24,10 @@ const sidebars = {
             type: "category",
             label: "Overview",
             collapsed: false,
-            items: ["getting-started/what-is-iomete"],
+            items: [
+                "getting-started/what-is-iomete",
+                "getting-started/platform-tour",
+            ],
         },
         {
             type: "category",
@@ -69,12 +72,6 @@ const sidebars = {
     guides: [
         {
             type: "category",
-            label: "Documentation",
-            collapsed: false,
-            items: ["intro", "intro/platform"],
-        },
-        {
-            type: "category",
             label: "User Guide",
             collapsed: false,
             items: [
@@ -85,7 +82,6 @@ const sidebars = {
                 "user-guide/sql-editor",
             ],
         },
-
         {
             type: "category",
             label: "Data Sources",
@@ -112,7 +108,6 @@ const sidebars = {
                 "data-security/tag-based-masking",
             ],
         },
-
         {
             type: "category",
             label: "Spark Jobs",

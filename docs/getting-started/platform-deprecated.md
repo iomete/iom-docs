@@ -4,6 +4,10 @@ title: Platform
 description: An overview of the components of the IOMETE lakehouse platform. Snowflake Databricks alternative with a built-in data catalog that users can become data-driven
 ---
 
+:::danger Deprecated
+This page requires an update. Please check back soon.
+:::
+
 On this page we give an overview of the components that make up the IOMETE lakehouse platform. The IOMETE lakehouse platform was designed to provide a unified experience with one source of truth. The platform is complete with a built-in data catalog so that users can become data-driven in an easy and cost-effective manner.
 
 <!-- We deliver data-infrastructure-as-one-single-platform. We are on the cloud (AWS) and provide a fully managed experience. We also provide local cloud, on-premise and hybrid solutions. -->

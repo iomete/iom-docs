@@ -1,8 +1,6 @@
 ---
-slug: /
-title: Introduction
+title: Platform Tour
 description: Here you'll find comprehensive guides and documentation to get you up and running with IOMETE quickly and easily
-# hideFeedback: true
 ---
 
 <head>
