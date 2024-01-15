@@ -137,13 +137,7 @@ const sidebars = {
             label: "Misc",
             collapsed: false,
             items: ["misc/datagrip-lakehouse-connection"],
-        },
-        {
-            type: "category",
-            label: "Integrations",
-            collapsed: false,
-            items: ["integrations/airbyte"],
-        },
+        }
     ],
     integrations: [
         {
@@ -169,6 +163,12 @@ const sidebars = {
                 "guides/iomete-tableau-integration",
                 "guides/iomete-redash-connection",
             ],
+        },
+        {
+            type: "category",
+            label: "Airbyte",
+            collapsed: false,
+            items: ["integrations/airbyte"],
         },
     ],
 
@@ -293,17 +293,10 @@ const sidebars = {
     ],
 
     tutorials: [
-        {
-            type: "category",
-            label: "Sync",
-            collapsed: false,
-            items: [
-                "guides/read-files-from-aws-s3",
-                "guides/sync-data-from-jdbc-sources",
-                "guides/sync/export-as-a-csv-file",
-                "guides/external-s3-buckets-access",
-            ],
-        },
+        "guides/read-files-from-aws-s3",
+        "guides/sync-data-from-jdbc-sources",
+        "guides/sync/export-as-a-csv-file",
+        "guides/external-s3-buckets-access",
     ],
 };
 
