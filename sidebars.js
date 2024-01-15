@@ -293,10 +293,10 @@ const sidebars = {
     ],
 
     tutorials: [
-        "guides/read-files-from-aws-s3",
-        "guides/sync-data-from-jdbc-sources",
-        "guides/sync/export-as-a-csv-file",
-        "guides/external-s3-buckets-access",
+        "tutorials/read-files-from-aws-s3",
+        "tutorials/sync-data-from-jdbc-sources",
+        "tutorials/export-as-a-csv-file",
+        "tutorials/external-s3-buckets-access",
     ],
 };
 
