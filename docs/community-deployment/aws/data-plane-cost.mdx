@@ -3,48 +3,47 @@ title: IOMETE Data Plane Cost
 sidebar_label: Data Plane Cost
 description: The IOMETE Data Plane guide explores managing and optimizing AWS costs. Learn about AWS S3 storage, EC2 compute costs, and techniques like Spot Instances and Reserved Instances for cost reduction.
 keywords:
-    - IOMETE Data Plane
-    - AWS S3 Storage Cost
-    - AWS EC2 Compute Cost
-    - Elastic Kubernetes Service (EKS)
-    - AWS Cost Monitoring
-    - AWS Cost Optimization
-    - Spot Instances
-    - Reserved Instances
-    - AWS Savings Plan
-    - Terraform
-    - AWS Cost Explorer
-    - S3 Gateway Endpoint
-    - Lakehouse Cluster
-    - Apache Spark
+  - IOMETE Data Plane
+  - AWS S3 Storage Cost
+  - AWS EC2 Compute Cost
+  - Elastic Kubernetes Service (EKS)
+  - AWS Cost Monitoring
+  - AWS Cost Optimization
+  - Spot Instances
+  - Reserved Instances
+  - AWS Savings Plan
+  - Terraform
+  - AWS Cost Explorer
+  - S3 Gateway Endpoint
+  - Lakehouse Cluster
+  - Apache Spark
 
 last_update:
-    date: 10/10/2023
-    author: Vusal Dadalov
+  date: 10/10/2023
+  author: Vusal Dadalov
 ---
 
-import Img from '@site/src/components/Img';
+import Img from "@site/src/components/Img";
 
 ## Overview
 
-The IOMETE Data Plane is hosted within the customer's own AWS (Amazon Web Services) account, providing the customer with complete control over data, processing, and associated costs. 
+The IOMETE Data Plane is hosted within the customer's own AWS (Amazon Web Services) account, providing the customer with complete control over data, processing, and associated costs.
 
 Data Plane consists of two main components and operates entirely within the perimeter of the customer's AWS infrastructure:
 
 1. **Data Storage:** A cloud object store (AWS S3), which primarily stores data in the Iceberg (Parquet) open format.
 2. **Compute Cluster:** This is an EKS (Elastic Kubernetes Service) cluster that manages all the computational resources required to run Lakehouse clusters and Spark jobs.
 
-<Img src="/img/guides/deployments/aws/data-plane-cost/data-plane-overview.png"
-     alt="AWS - Data Plane Overview" caption="AWS - Data Plane Overview"/>
-
+<Img src="/img/guides/deployments/aws/data-plane-cost/data-plane-overview.png" alt="AWS - Data Plane Overview" caption="AWS - Data Plane Overview" />
 
 As you see in the diagram above, there are two main cost components:
+
 - **AWS S3 Storage Cost**
 - **AWS EC2 Compute Cost**
 
 ## AWS S3 Storage Cost
 
-Lakehouse data is stored in AWS S3, highly durable and scalable object storage. 
+Lakehouse data is stored in AWS S3, highly durable and scalable object storage.
 
 AWS S3 is a pay-as-you-go service. You pay for the storage you use. The cost of the S3 is around $0.023 per GB per month. Check the [AWS S3 pricing page](https://aws.amazon.com/s3/pricing/) for the latest pricing.
 
@@ -52,16 +51,14 @@ AWS S3 is a pay-as-you-go service. You pay for the storage you use. The cost of 
 The IOMETE Data Plane infrastructure establishes an **S3 Gateway endpoint** to access S3 data from the Data Plane VPC. The S3 Gateway endpoint is a highly available and scalable service that delivers a secure connection between the VPC and S3 over AWS's backbone network. Consequently, communication between the Data Plane VPC and S3 doesn't go through the public internet. This yields benefits, including **no data transfer cost** between S3 and compute machines. Additionally, it stays in compliance with customer **security policies** and **regulations**. Read more about [AWS S3 Gateway endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/vpc-endpoints-s3.html).
 :::
 
-
 ## AWS Compute Cost
 
 Our data plane compute infrastructure operates on top of EKS (Elastic Kubernetes Service), which utilizes AWS EC2 instances as the compute nodes.
 
 ### Fixed Costs
 
-- **EKS**: AWS charges approximately *$72/month* for an EKS cluster. Refer to the [AWS EKS pricing page](https://aws.amazon.com/eks/pricing/) for more details.
+- **EKS**: AWS charges approximately _$72/month_ for an EKS cluster. Refer to the [AWS EKS pricing page](https://aws.amazon.com/eks/pricing/) for more details.
 - **IOMETE core services**: These refer to the base services that control the Data Plane infrastructure. They are consistently in operation. These services require a modest amount of resources (2vCPU, 16GB RAM), which corresponds to the `r6g.large` EC2 instance type. The cost is typically around **~$74/month**.
-
 
 In summary, the fixed costs for the Data Plane infrastructure are roughly **$146/month**.
 
@@ -69,16 +66,14 @@ In summary, the fixed costs for the Data Plane infrastructure are roughly **$146
 AWS Pricing are different for each region. The prices mentioned above are for the `us-east-1` region. Please check the [AWS Pricing page](https://aws.amazon.com/pricing/) for the latest pricing for your region.
 :::
 
-
 ### Workload Costs
 
 The remaining resources are utilized by user workloads, such as Lakehouse/Spark Job/Notebook clusters. These costs fluctuate based on the workload type, size, and usage pattern.
 
 All these clusters are based on Apache Spark and consist of a driver and one or more executors. The driver is responsible for managing the executors. The executors are responsible for running the data processing tasks.
 
-
 :::important
-The Lakehouse cluster driver should be operational at all times as it acts as the endpoint for BI tools. The executors are elastic and can be scaled up or down according to the load. Learn more about the [Lakehouse cluster](/docs/user-guide/virtual-lakehouses).
+The Lakehouse cluster driver should be operational at all times as it acts as the endpoint for BI tools. The executors are elastic and can be scaled up or down according to the load. Learn more about the [Lakehouse cluster](/user-guide/virtual-lakehouses).
 :::
 
 ## AWS Cost Monitoring
@@ -101,17 +96,15 @@ First, you need to create a Cost Allocation Tag. You can do that by following th
 3. Find and select the `iomete.com/managed` tag
 4. Click on the `Activate` button
 
-<Img src="/img/guides/deployments/aws/data-plane-cost/cost-allocation-tags.png"
-     alt="Cost allocation tags" caption="Cost allocation tags"/>
+<Img src="/img/guides/deployments/aws/data-plane-cost/cost-allocation-tags.png" alt="Cost allocation tags" caption="Cost allocation tags" />
 
 :::important
 It will take **up to 24 hours** for AWS to activate the tag. Once the tag is activated, you can use it to monitor the AWS cost.
-::: 
+:::
 
 Go to the AWS Cost Explorer and filter the cost by the tag `iomete.com/managed=true`
 
-<Img src="/img/guides/deployments/aws/data-plane-cost/cost-explorer-tag.png"
-     alt="Cost allocation tags" caption="Cost allocation tags"/>
+<Img src="/img/guides/deployments/aws/data-plane-cost/cost-explorer-tag.png" alt="Cost allocation tags" caption="Cost allocation tags" />
 
 ## AWS Cloud Cost Optimization
 
@@ -139,6 +132,5 @@ To optimize cost, it is recommended to reserve instances that have a stable and 
 :::tip
 It is also recommended to use the right instance type and size to monitor usage and adjust the number of reserved instances as necessary to ensure that you are using your reserved instances effectively.
 :::
-
 
 If you need help with AWS cost optimization, please with IOMETE support team at [support@iomete.com]

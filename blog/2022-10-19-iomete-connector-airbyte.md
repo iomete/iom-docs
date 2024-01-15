@@ -39,4 +39,4 @@ The storage that Airbyte uses as a staging area. Airbyte will read/write to this
 
 ## How to start your first synchronization?
 
-Read the [doc](/docs/integrations/airbyte/) on how to connect your MySQL database to IOMETE
+<!-- Read the [doc](/docs/integrations/airbyte/) on how to connect your MySQL database to IOMETE -->

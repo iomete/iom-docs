@@ -90,7 +90,7 @@ By using the first syntax, which is more universal, dbt can ensure that the colu
 
 When you define a `unique_key`, you'll see this behavior for each row of "new" data returned by your dbt model:
 
-- If the same `unique_key` is present in the "new" and "old" model data, dbt will update/replace the old row with the new row of data. IOMETE (iceberg) is using [MERGE INTO](/docs/iceberg-tables/writes#merge-into) syntax for that
+- If the same `unique_key` is present in the "new" and "old" model data, dbt will update/replace the old row with the new row of data. IOMETE (iceberg) is using [MERGE INTO](/iceberg-tables/writes#merge-into) syntax for that
 - If the `unique_key` is _not_ present in the "old" data, dbt will insert the entire row into the table. In other words it becomes `append-only` mode.
 
 :::info

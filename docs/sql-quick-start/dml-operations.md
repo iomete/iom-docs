@@ -289,7 +289,7 @@ WHEN NOT MATCHED THEN
 ```
 
 :::info
-See: [MERGE INTO](/docs/iceberg-tables/writes#merge-into-syntax)
+See: [MERGE INTO](/iceberg-tables/writes#merge-into-syntax)
 :::
 
 ```sql jsx  title="Check the row"

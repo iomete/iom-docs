@@ -20,7 +20,7 @@ Let's assume you have an external bucket in AWS S3 with the CSV files you want t
 
 ## Provide permissions to IOMETE
 
-In order to access files in this external S3 bucket, IOMETE requires permissions to read/write the files. Follow [this guide](/docs/guides/external-s3-buckets-access) to provide the necessary permissions.
+In order to access files in this external S3 bucket, IOMETE requires permissions to read/write the files. Follow [this guide](/tutorials/external-s3-buckets-access) to provide the necessary permissions.
 
 ## Querying files in AWS S3
 

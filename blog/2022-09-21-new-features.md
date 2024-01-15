@@ -66,7 +66,7 @@ We removed “External Storage Integration”. Now we support only role-based an
 
 ## Lakehouse connection
 
-To use lakehouse connection from Database Tools (for example, DataGrip) or Python (SQL Alchemy), you will have to update your connection details. For further details check the [datagrip lakehouse connection](/docs/datagrip-lakehouse-connection) and [SQL alchemy](/docs/libraries/drivers/sql-alchemy-driver) driver documentation.
+To use lakehouse connection from Database Tools (for example, DataGrip) or Python (SQL Alchemy), you will have to update your connection details. For further details check the [datagrip lakehouse connection](/datagrip-lakehouse-connection) and [SQL alchemy](/libraries/drivers/sql-alchemy-driver) driver documentation.
 
 ## Smaller updates and fixes
 

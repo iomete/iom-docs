@@ -63,7 +63,7 @@ OPTIONS (
 );
 ```
 
-For more, visit our [JDBC Sources Documentation](/docs/data-sources/jdbc-sources).
+For more, visit our [JDBC Sources Documentation](/data-sources/jdbc-sources).
 
 ## Object Storage: CSV, JSON, Parquet, and ORC Files
 
@@ -108,7 +108,7 @@ OPTIONS (
 );
 ```
 
-For more details, check our documentation on [CSV](/docs/data-sources/csv-files), [JSON](/docs/data-sources/json-files), [Parquet](/docs/data-sources/parquet-files), and [ORC](/docs/data-sources/orc-files).
+For more details, check our documentation on [CSV](/data-sources/csv-files), [JSON](/data-sources/json-files), [Parquet](/data-sources/parquet-files), and [ORC](/data-sources/orc-files).
 
 ## Snowflake Integration
 
@@ -129,7 +129,7 @@ OPTIONS (
 );
 ```
 
-For more details, check the [Snowflake Connector](/docs/data-sources/snowflake-connector).
+For more details, check the [Snowflake Connector](/data-sources/snowflake-connector).
 
 ## Conclusion
 

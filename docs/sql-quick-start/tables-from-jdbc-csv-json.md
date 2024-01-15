@@ -25,7 +25,7 @@ OPTIONS (
 ```
 
 :::tip
-See: [JDBC-sources doc](/docs/data-sources/jdbc-sources)
+See: [JDBC-sources doc](/data-sources/jdbc-sources)
 :::
 
 ```sql jsx  title="To import data in iceberg format we can use CTAS statement"
@@ -85,7 +85,7 @@ LIMIT 10;
 ```
 
 :::tip
-See: [CSV Files doc](/docs/data-sources/csv-files)
+See: [CSV Files doc](/data-sources/csv-files)
 :::
 
 ```sql jsx  title="Create table allows to provide additional options such as header, inferSchema, etc"
@@ -211,7 +211,7 @@ SELECT * FROM data_sources_demo_db.employees_json_external LIMIT 10;
 ```
 
 :::tip
-See: [JSON Files doc](/docs/data-sources/json-files)
+See: [JSON Files doc](/data-sources/json-files)
 :::
 
 ```sql jsx  title="To export data to a JSON file, you can use the following syntax. It will write employees data to the specified path in JSON format"
@@ -274,7 +274,7 @@ SELECT * FROM data_sources_demo_db.employees_parquet_external LIMIT 10;
 ```
 
 :::tip
-See: [Parquet Files doc](/docs/data-sources/parquet-files)
+See: [Parquet Files doc](/data-sources/parquet-files)
 :::
 
 ```sql jsx  title="To export data to a Parquet file, you can use the following syntax. It will write employees data to the specified path in Parquet format"
@@ -337,7 +337,7 @@ SELECT * FROM data_sources_demo_db.employees_orc_external LIMIT 10;
 ```
 
 :::tip
-See: [Orc Files doc](/docs/data-sources/orc-files)
+See: [Orc Files doc](/data-sources/orc-files)
 :::
 
 ```sql jsx  title="To export data to a ORC file, you can use the following syntax. It will write employees data to the specified path in ORC format"

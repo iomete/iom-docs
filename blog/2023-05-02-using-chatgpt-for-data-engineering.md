@@ -60,7 +60,7 @@ Data engineers use ChatGPT to help them with data modeling. ChatGPT can be used 
 
 ## Generating Sample Data
 
-ChatGPT can also be used to generate sample data. Data engineers often need sample data to test their code and to create mock data for various purposes. ChatGPT can generate somewhat realistic data based on [SQL DDL](/docs/spark-sql/create-database) for a table. Data engineers can provide a prompt to this table, and ChatGPT will generate sample data that can be used for testing or mock data generation.
+ChatGPT can also be used to generate sample data. Data engineers often need sample data to test their code and to create mock data for various purposes. ChatGPT can generate somewhat realistic data based on [SQL DDL](/spark-sql/create-database) for a table. Data engineers can provide a prompt to this table, and ChatGPT will generate sample data that can be used for testing or mock data generation.
 
 ## Writing Documentation
 
