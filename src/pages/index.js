@@ -1,14 +1,12 @@
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 
-import { BookOpenText, ChatCenteredText, Notebook, Wrench } from "@phosphor-icons/react";
-import Header from "./Header";
-import Features from "./Features";
+import Heading from "@theme/Heading";
+import Img from "@site/src/components/Img";
+import Features from "./_hero_/Features";
 
 import "./landing.scss";
 
 export default function Home() {
-  const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
       title="Documentation"
@@ -17,7 +15,19 @@ export default function Home() {
     >
       <div className="container margin-top--lg padding-top--lg">
         <div className="hero-bg"></div>
-        <Header />
+
+        <div className="iom-hero">
+          <div className="iom-hero-text">
+            <Heading as="h1" className="hero__title">
+              IOMETE Documentation
+            </Heading>
+            <p className="hero__subtitle">Enhance your IOMETE experience with in-depth tutorials and resourceful guides.</p>
+          </div>
+          <div className="hero-img">
+            <Img src="/img/landing/hero.png" borderless alt="IOMETE HERO" />
+          </div>
+        </div>
+
         <Features />
       </div>
     </Layout>

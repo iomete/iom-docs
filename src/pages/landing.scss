@@ -18,3 +18,42 @@ html[data-theme="dark"] .hero-bg {
     display: none;
   }
 }
+
+
+// Header
+.iom-hero {
+  align-items: center;
+  // color: var(--ifm-hero-text-color);
+  color: var(--ifm-color-emphasis-500);
+
+  display: flex;
+  justify-content: space-between;
+
+  img {
+    filter: invert(1) hue-rotate(-180deg);
+  }
+}
+
+p {
+  line-height: 33px;
+}
+
+.iom-hero-text {
+  max-width: 50%;
+}
+
+@media (max-width: 996px) {
+  .hero-img {
+    visibility: hidden;
+    display: none;
+  }
+
+  .iom-hero {
+    display: block;
+    margin-bottom: 64px;
+  }
+
+  .iom-hero-text {
+    max-width: 100%;
+  }
+}

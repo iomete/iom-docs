@@ -2,15 +2,16 @@
 title: Getting Started with Spark Jobs
 sidebar_label: Getting Started
 description: Learn how to run your first Spark Job on the IOMETE platform using PySpark. Follow our step-by-step guide and get started with Spark Jobs today!
-tags:
-- IOMETE
-- How-To-Guides
-- Spark Jobs
-- PySpark
-- Apache Iceberg
+# tags:
+# - IOMETE
+# - How-To-Guides
+# - Spark Jobs
+# - PySpark
+# - Apache Iceberg
 last_update:
   date: 03.27.2023
 ---
+
 import Img from '@site/src/components/Img';
 import { Plus } from "@phosphor-icons/react";
 
@@ -19,7 +20,8 @@ This guide aims to help you get familiar with getting started with writing your 
 :::info
 In this guide, we will use a PySpark sample job but, you can use any other language like Scala, Java or other supported languages.
 :::
-___
+
+---
 
 ## Quickstart
 
@@ -53,17 +55,17 @@ If you are just starting with PySpark at IOMETE, you can just explore the sample
 
 The project is composed of the following folders/files:
 
--   `infra/`: contains requirements and Dockerfile files
-    -   `requirements-dev.txt`: contains the list of python packages to install for development
-    -   `requirements.txt`: contains the list of python packages to install for production. This requirements file is used to build the Docker image
-    -   `Dockerfile`: contains the Dockerfile to build the spark job image
--   `spark-conf/`: contains the spark configuration files for development environment
-    -   `spark-defaults.conf`: contains the spark configuration
-    -   `log4j.properties`: contains the log4j configuration for the PySpark job. This file is used to configure the logging level of the job
--   `test_data/`: contains the test data for the job unit/integration tests
--   `job.py`: contains the spark job code. Template comes with a sample code that reads a csv file from S3 and writes the data to a table in the Lakehouse. Feel free to modify the code to fit your needs.
--   `test_job.py`: contains the spark job tests. Template comes with a sample test that reads the test data from `test_data/` and asserts the output of the job. Feel free to modify the tests to fit your needs.
--   `Makefile`: contains the commands to run the job and tests
+- `infra/`: contains requirements and Dockerfile files
+  - `requirements-dev.txt`: contains the list of python packages to install for development
+  - `requirements.txt`: contains the list of python packages to install for production. This requirements file is used to build the Docker image
+  - `Dockerfile`: contains the Dockerfile to build the spark job image
+- `spark-conf/`: contains the spark configuration files for development environment
+  - `spark-defaults.conf`: contains the spark configuration
+  - `log4j.properties`: contains the log4j configuration for the PySpark job. This file is used to configure the logging level of the job
+- `test_data/`: contains the test data for the job unit/integration tests
+- `job.py`: contains the spark job code. Template comes with a sample code that reads a csv file from S3 and writes the data to a table in the Lakehouse. Feel free to modify the code to fit your needs.
+- `test_job.py`: contains the spark job tests. Template comes with a sample test that reads the test data from `test_data/` and asserts the output of the job. Feel free to modify the tests to fit your needs.
+- `Makefile`: contains the commands to run the job and tests
 
 ## How to run the job
 
@@ -90,7 +92,6 @@ python job.py
 ```
 
 ## How to run the tests
-
 
 :::info
 Make sure you have installed the dependencies, and exported the `SPARK_CONF_DIR` environment variable as described in the previous section.
@@ -142,8 +143,8 @@ There are two ways to create a Spark Job in the IOMETE:
 
 First set `WORKSPACE_ENDPOINT` and `API_TOKEN` environment variables. Retrieve
 
--   `API TOKEN` from here: https://app.iomete.cloud/user-settings/personal-access-token
--   `WORKSPACE_ENDPOINT` from the `Workspace Settings` page and find the value of `Workspace Endpoint`.
+- `API TOKEN` from here: https://app.iomete.cloud/user-settings/personal-access-token
+- `WORKSPACE_ENDPOINT` from the `Workspace Settings` page and find the value of `Workspace Endpoint`.
 
 ```bash
 export WORKSPACE_ENDPOINT="<your workspace id>"
@@ -168,7 +169,7 @@ curl -v --request POST \
 
 ### Run Spark Job
 
-Once the Spark Job is created, you can run it using the IOMETE Control Plane UI or API. 
+Once the Spark Job is created, you can run it using the IOMETE Control Plane UI or API.
 
 #### Run from UI
 

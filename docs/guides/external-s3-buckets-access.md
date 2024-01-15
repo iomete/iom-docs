@@ -1,13 +1,13 @@
 ---
 title: External S3 Buckets Access
 description: Learn how to provide access to external S3 buckets in IOMETE, a cloud-based data platform for data storage and analysis. This guide outlines simple steps to connect to S3 buckets and grant permission to the Lakehouse role.
-tags:
-- IOMETE
-- How-To-Guides
-- S3 Buckets
-- Lakehouse Role
-- Bucket Policy
-- Read From S3
+# tags:
+# - IOMETE
+# - How-To-Guides
+# - S3 Buckets
+# - Lakehouse Role
+# - Bucket Policy
+# - Read From S3
 last_update:
   date: 10/03/2023
 ---
@@ -32,28 +32,28 @@ Let's say you have a bucket called `my-bucket` and you want to give access to th
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Sid": "ListObjectsInBucket",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": ["<lakehouse_role>"]
-        },
-        "Action": ["s3:ListBucket"],
-        "Resource": ["arn:aws:s3:::<your_bucket>"]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListObjectsInBucket",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": ["<lakehouse_role>"]
       },
-      {
-        "Sid": "AllObjectActions",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": ["<lakehouse_role>"]
-        },
-        "Action": "s3:*Object",
-        "Resource": ["arn:aws:s3:::<your_bucket>/*"]
-      }
-    ]
-  }
+      "Action": ["s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::<your_bucket>"]
+    },
+    {
+      "Sid": "AllObjectActions",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": ["<lakehouse_role>"]
+      },
+      "Action": "s3:*Object",
+      "Resource": ["arn:aws:s3:::<your_bucket>/*"]
+    }
+  ]
+}
 ```
 
 This policy provides full read/write access to your bucket from the Lakehouse role.
@@ -62,28 +62,28 @@ This policy provides full read/write access to your bucket from the Lakehouse ro
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Sid": "ListObjectsInBucket",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": ["<lakehouse_role>"]
-        },
-        "Action": ["s3:ListBucket"],
-        "Resource": ["arn:aws:s3:::<your_bucket>"]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListObjectsInBucket",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": ["<lakehouse_role>"]
       },
-      {
-        "Sid": "AllObjectActions",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": ["<lakehouse_role>"]
-        },
-        "Action": "s3:GetObject",
-        "Resource": ["arn:aws:s3:::<your_bucket>/*"]
-      }
-    ]
-  }
+      "Action": ["s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::<your_bucket>"]
+    },
+    {
+      "Sid": "AllObjectActions",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": ["<lakehouse_role>"]
+      },
+      "Action": "s3:GetObject",
+      "Resource": ["arn:aws:s3:::<your_bucket>/*"]
+    }
+  ]
+}
 ```
 
 This policy provides read-only access to your bucket from the Lakehouse role.
@@ -92,33 +92,31 @@ This policy provides read-only access to your bucket from the Lakehouse role.
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Sid": "ListObjectsInBucket",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": ["<lakehouse_role>"]
-        },
-        "Action": ["s3:ListBucket"],
-        "Resource": ["arn:aws:s3:::<your_bucket>"]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListObjectsInBucket",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": ["<lakehouse_role>"]
       },
-      {
-        "Sid": "AllObjectActions",
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": ["<lakehouse_role>"]
-        },
-        "Action": "s3:GetObject",
-        "Resource": ["arn:aws:s3:::<your_bucket>/folder/*"]
-      }
-    ]
-  }
+      "Action": ["s3:ListBucket"],
+      "Resource": ["arn:aws:s3:::<your_bucket>"]
+    },
+    {
+      "Sid": "AllObjectActions",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": ["<lakehouse_role>"]
+      },
+      "Action": "s3:GetObject",
+      "Resource": ["arn:aws:s3:::<your_bucket>/folder/*"]
+    }
+  ]
+}
 ```
 
 This policy provides read-only access to a specific folder in your bucket from the Lakehouse role.
-
-
 
 ## Setting the Bucket Policy in S3
 
@@ -131,7 +129,5 @@ To set the bucket policy, you need to navigate to your S3 bucket's permissions p
 5.  Click on "Save".
 
 Once saved, you should see a message at the top of the page that says "Bucket policy has been updated." You have now successfully granted access to your external S3 bucket for your Lakehouse role!
-
-
 
 By following these steps, you can easily provide access to read external S3 buckets in IOMETE.

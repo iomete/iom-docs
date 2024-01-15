@@ -1,8 +1,6 @@
-import { BookOpenText, ChatCenteredText, Notebook, Wrench } from "@phosphor-icons/react";
-
-import "./features.scss";
-
+import React from "react";
 import Card from "./Card";
+import styles from "./styles.module.scss";
 
 const cards = [
   {
@@ -14,7 +12,8 @@ const cards = [
   {
     to: "docs/user-guide/virtual-lakehouses",
     title: "Virtual Lakehouses",
-    description: "Learn how to create and manage virtual lakehouses which provides an SQL interface to query and process data in your data lakehouse.",
+    description:
+      "Learn how to create and manage virtual lakehouses which provides an SQL interface to query and process data in your data lakehouse.",
     label: "User Guide",
   },
   {
@@ -30,10 +29,11 @@ const cards = [
     label: "Tutorials",
   },
 ];
-export default function Features() {
+
+function Features() {
   return (
     <>
-      <div className={"feature-header-text"}>
+      <div className={styles.FeatureHeaderText}>
         <h3>Featured Resources</h3>
         <p>Dive into our top picks</p>
       </div>
@@ -48,3 +48,5 @@ export default function Features() {
     </>
   );
 }
+
+export default Features;
