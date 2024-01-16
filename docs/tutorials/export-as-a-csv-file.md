@@ -63,7 +63,7 @@ OPTIONS (
 select * from employees
 ```
 
-Here CSV external table is used to export the query result to an S3 bucket. Read [CSV Data Source](/data-sources/csv-files) to learn more about the data source options.
+Here CSV external table is used to export the query result to an S3 bucket. Read [CSV Data Source](reference/data-sources/csv-files) to learn more about the data source options.
 
 :::tip
 It can be any complex query result. Just put any query after the `as` keyword.

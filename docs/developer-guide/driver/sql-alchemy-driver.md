@@ -1,6 +1,7 @@
 ---
 title: SQLAlchemy Driver
 description: IOMETE lakehouse endpoints are compatible with special driver, you can use the samples repository to quick start
+slug: /developer-guide/sql-alchemy-driver
 last_update:
   date: 10/04/2023
   author: Vusal Dadalov

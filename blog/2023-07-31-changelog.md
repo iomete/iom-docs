@@ -14,7 +14,7 @@ import Iframe from '@site/src/components/Iframe';
 
 ## Scala Notebook
 
-We are thrilled to announce an exciting update for Jupyter Notebook users! With our latest integration, connecting to [IOMETE's Jupyter Gateway](/starting-with-notebook) enables seamless data exploration and analysis from your local environment. Harness the power of Jupyter Notebook as you directly access and analyze data stored in IOMETE's data lake, making your data exploration process more agile and efficient than ever before. Unlock the full potential of your data resources and elevate your data-driven decision-making with this groundbreaking collaboration. Upgrade your data exploration experience today with Jupyter Notebook and IOMETE's integrated solution.
+We are thrilled to announce an exciting update for Jupyter Notebook users! With our latest integration, connecting to [IOMETE's Jupyter Gateway](/developer-guide/getting-started-with-jupyter-notebook) enables seamless data exploration and analysis from your local environment. Harness the power of Jupyter Notebook as you directly access and analyze data stored in IOMETE's data lake, making your data exploration process more agile and efficient than ever before. Unlock the full potential of your data resources and elevate your data-driven decision-making with this groundbreaking collaboration. Upgrade your data exploration experience today with Jupyter Notebook and IOMETE's integrated solution.
 
 <!-- truncate -->
 

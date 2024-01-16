@@ -1,7 +1,7 @@
 ---
 title: DataGrip Lakehouse Connection
 description: Use DataGrip to connect to Apache Spark Warehouse - Add Datasource, download missing drivers, insert JDBC URL, enter user and password, optionally specify schema.
-slug: /datagrip-lakehouse-connection
+slug: /user-guide/datagrip-lakehouse-connection
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov

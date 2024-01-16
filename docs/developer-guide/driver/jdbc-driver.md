@@ -1,6 +1,7 @@
 ---
 title: JDBC Driver
 description: Use IOMETE JDBC Driver for seamless integration with Hive JDBC drivers. Compatible and easy-to-use, with Maven dependency. Get tips and support for <=2.3.9 version
+slug: /developer-guide/jdbc-driver
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
