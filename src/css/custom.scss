@@ -7,6 +7,7 @@
 /* You can override the default Infima variables here. */
 
 @use "./infima.scss";
+@use "./components/medium-zoom-image.scss";
 
 @use "./updates.scss";
 @use "./components/docsearch.scss";

@@ -1,0 +1,11 @@
+.medium-zoom-overlay {
+    z-index: 201;
+}
+
+[data-theme='dark'] .medium-zoom-overlay {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.medium-zoom-image--opened {
+    z-index: 202;
+}
