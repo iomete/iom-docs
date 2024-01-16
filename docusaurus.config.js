@@ -6,6 +6,30 @@
 
 import { themes as prismThemes } from "prism-react-renderer";
 
+const glossaryPlugin = [
+  "@docusaurus/plugin-content-blog",
+  {
+    /**
+     * Required for any multi-instance plugin
+     */
+    id: "glossary",
+    blogSidebarCount: 0,
+    /**
+     * URL route for the blog section of your site.
+     * *DO NOT* include a trailing slash.
+     */
+    routeBasePath: "glossary",
+    /**
+     * Path to data on filesystem relative to site dir.
+     */
+    path: "./glossary",
+    blogListComponent: "/src/theme/GlossaryListPage/index.js",
+
+    postsPerPage: "ALL",
+    showReadingTime: false,
+  },
+]
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "IOMETE",
@@ -200,30 +224,10 @@ const config = {
   plugins: [
     "docusaurus-plugin-sass",
     'plugin-image-zoom',
-    [
-      "@docusaurus/plugin-content-blog",
-      {
-        /**
-         * Required for any multi-instance plugin
-         */
-        id: "glossary",
-        blogSidebarCount: 0,
-        /**
-         * URL route for the blog section of your site.
-         * *DO NOT* include a trailing slash.
-         */
-        routeBasePath: "glossary",
-        /**
-         * Path to data on filesystem relative to site dir.
-         */
-        path: "./glossary",
-        blogListComponent: "/src/theme/GlossaryListPage/index.js",
-
-        postsPerPage: "ALL",
-        showReadingTime: false,
-      },
-    ],
-  ],
+    // Glossary for production only. Comment the next line and uncomment `glossaryPlugin` to activate both modes.
+    process.env.NODE_ENV === 'production' && glossaryPlugin,
+    // glossaryPlugin,
+  ].filter(Boolean),
 };
 
 export default config;
