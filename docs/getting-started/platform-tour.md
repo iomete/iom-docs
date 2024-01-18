@@ -29,24 +29,24 @@ The main components of the SQL Editor are highlighted below:
 - **Worksheets** offer a simple method for you to write SQL queries, execute the queries, and see the results.
 - **Database explorer** is used to explore your database objects, which includes namespaces, tables, views, and their columns (even complex columns), and partitions.
 - **Lakehouse and Namespace selection** are required to execute SQL queries.
-- SQL Editor with autocomplete
-- Query result
+- **SQL Editor** is used to write SQL queries using autocomplete feature. IOMETE tracks database objects and suggests them as autocomplete options
+- **Query result view** provide executed queries results. You can filter each column in the results and toggle on Charts to visualize the results as graphs.
 
 <Img src="/img/getting-started/platform-tour/sql-editor-page.png" alt="SQL Editor page"/>
 
 For more details, see [SQL Editor](/docs/user-guide/sql-editor.md).
 
-## Connect clusters page
+<!-- ## Connect clusters page
 
 A **virtual lakehouse** is a cluster of compute resources that provide the required resources, such as CPU, memory to perform the querying processing.
 
-<Img src="/img/getting-started/platform-tour/connect-cluster.png" alt="Connect clusters page"/>
+<Img src="/img/getting-started/platform-tour/connect-cluster.png" alt="Connect clusters page"/> -->
 
 <!-- For more details, see [Connect clusters](/docs/user-guide/virtual-lakehouses.md). -->
 
-<!-- ## Spark Jobs page
+## Spark Jobs page
 
-## Data security page
+<!--## Data security page
 
 ## Data catalog page
 
