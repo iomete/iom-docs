@@ -14,7 +14,7 @@ export default function Home() {
       description="Explore the limitless possibilities of IOMETE with our comprehensive tutorials and resourceful guides. Elevate your IOMETE experience through in-depth insights, step-by-step tutorials, and a curated collection of valuable resources.
     "
     >
-      <div className="container margin-top--lg padding-top--lg">
+      <div className={`container margin-top--lg padding-top--lg ${styles.HeroContainer}`}>
         <div className={styles.HeroBg}></div>
 
         <div className={styles.IomHero}>
