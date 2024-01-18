@@ -40,7 +40,7 @@ function Features() {
 
       <div className="row">
         {cards.map((card) => (
-          <div className="col col--3" key={card.to}>
+          <div className={`col col--3 ${styles.Column}`} key={card.to}>
             <Card label={card.label} title={card.title} link={card.to} description={card.description}></Card>
           </div>
         ))}

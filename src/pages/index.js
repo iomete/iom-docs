@@ -3,8 +3,9 @@ import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import Img from "@site/src/components/Img";
 import Features from "./_hero_/Features";
+import styles from "./styles.module.scss";
 
-import "./landing.scss";
+import "./styles.module.scss";
 
 export default function Home() {
   return (
@@ -14,16 +15,16 @@ export default function Home() {
     "
     >
       <div className="container margin-top--lg padding-top--lg">
-        <div className="hero-bg"></div>
+        <div className={styles.HeroBg}></div>
 
-        <div className="iom-hero">
-          <div className="iom-hero-text">
+        <div className={styles.IomHero}>
+          <div className={styles.IomHeroText}>
             <Heading as="h1" className="hero__title">
               IOMETE Documentation
             </Heading>
             <p className="hero__subtitle">Enhance your IOMETE experience with in-depth tutorials and resourceful guides.</p>
           </div>
-          <div className="hero-img">
+          <div className={styles.HeroImg}>
             <Img src="/img/landing/hero.png" borderless alt="IOMETE HERO" />
           </div>
         </div>
