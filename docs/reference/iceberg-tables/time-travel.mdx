@@ -19,8 +19,6 @@ Below we will provide SQL example on how to use time travel in IOMETE platform.
 import Img from "@site/src/components/Img";
 import ExternalCard from "@site/src/components/ExternalCard";
 import GridBox from "@site/src/components/GridBox";
-import { ClockCountdown } from "@phosphor-icons/react";
-import Admonition from "@theme/Admonition";
 
 ### Prepare sample data
 
@@ -38,9 +36,9 @@ Now insert first row into the table:
 insert into time_travel_example values(1, 'first row', CURRENT_TIMESTAMP);
 ```
 
-<Admonition type="tip" icon={<ClockCountdown weight="bold" />} title="Wait couple minutes...">
-  <p>Wait couple minutes before inserting next row, so we can see the difference in timestamps.</p>
-</Admonition>
+:::info Wait couple minutes...
+Wait couple minutes before inserting next row, so we can see the difference in timestamps.
+:::
 
 Let's insert the second row into our table:
 

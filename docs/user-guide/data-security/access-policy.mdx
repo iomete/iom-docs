@@ -31,13 +31,14 @@ Wildcard characters can be included in the database name, the table name, or the
 
 - **Asterisk (\*):** indicates zero or more occurrences of characters
   <br />
-  If you search for "apple*", it will match "apple," "applesauce," "applet," "apples," and any other word that starts with "apple." If you search for "*at,"
-  it will match "cat," "bat," "hat," "rat," and any other word that ends with "at." If you search for "a\*e," it will match "ace," "ate," "axe," "ape,"
-  and any other word that has an 'a' followed by any number of characters and then an 'e.'
+  If you search for "apple*", it will match "apple," "applesauce," "applet," "apples," and any other word that starts with
+  "apple." If you search for "*at," it will match "cat," "bat," "hat," "rat," and any other word that ends with "at." If
+  you search for "a\*e," it will match "ace," "ate," "axe," "ape," and any other word that has an 'a' followed by any number
+  of characters and then an 'e.'
 - **Question mark (?):** indicates a single character
   <br />
-  If you search for "h?t," it will match "hat," "hot," "hit," and any other three-letter word where the first and last letters are 'h' and 't,' respectively,
-  and the second letter can be any single character.
+  If you search for "h?t," it will match "hat," "hot," "hit," and any other three-letter word where the first and last letters
+  are 'h' and 't,' respectively, and the second letter can be any single character.
 
 :::
 
@@ -63,20 +64,23 @@ Each condition includes the following properties.
     <tr>
       <td style={{ whiteSpace: "nowrap" }}>Select Group</td>
       <td>
-        Specify one or more <code>groups</code> for whom this policy should be applied. If no group is specified, you must provide a user.
+        Specify one or more <code>groups</code> for whom this policy should be applied. If no group is specified, you
+        must provide a user.
       </td>
     </tr>
     <tr>
       <td style={{ whiteSpace: "nowrap" }}>Select User</td>
       <td>
-        Specify one or more <code>users</code> for whom this policy should be applied. If no user is specified, you must provide a group.
+        Specify one or more <code>users</code> for whom this policy should be applied. If no user is specified, you must
+        provide a group.
       </td>
     </tr>
     <tr>
       <td style={{ whiteSpace: "nowrap" }}>Permissions</td>
       <td>
-        Add or edit permissions: <code>Select</code> <code>Update</code> <code>Create</code> <code>Drop</code> <code>Alter</code> <code>Index</code>{" "}
-        <code>Lock</code> <code>All</code> <code>ReplAdmin</code> <code>Service Admin</code> <code>Select/Deselect All</code>.
+        Add or edit permissions: <code>Select</code> <code>Update</code> <code>Create</code> <code>Drop</code>{" "}
+        <code>Alter</code> <code>Index</code> <code>Lock</code> <code>All</code> <code>ReplAdmin</code>{" "}
+        <code>Service Admin</code> <code>Select/Deselect All</code>.
       </td>
     </tr>
   </tbody>
@@ -85,9 +89,7 @@ Each condition includes the following properties.
 :::info
 To add additional conditions, click on the `Add new condition` button. The conditions are evaluated in the order they appear in the policy. The top condition is applied first, followed by the second, third, and so on.
 
-<p>
-  Drag items from the left-side icon <DotsSixVertical size={20} className={styles.button} /> to reorder.
-</p>
+Drag items from the left-side icon <DotsSixVertical size={20} className={styles.button} /> to reorder.
 :::
 
 ## Access Policy evaluation flow

@@ -14,7 +14,7 @@ import TOCInline from '@theme/TOCInline';
 <GridBox>
 
 <div>
-  <p>The SQL Editor is where you run queries on your dataset and get results. The main components of the SQL Editor are highlighted below:</p>
+  The SQL Editor is where you run queries on your dataset and get results. The main components of the SQL Editor are highlighted below:
   
   <ul>
     <li><a href="#database-explorer">Database explorer</a></li>

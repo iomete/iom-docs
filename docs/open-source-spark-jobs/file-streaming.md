@@ -84,7 +84,7 @@ You can use **Environment variables** to store your sensitive variables like pas
         <code>file</code><br/>
       </td>
       <td>
-        <p>Required properties to connect and configure.</p>
+        Required properties to connect and configure.
         <ul>
           <li><code>format</code> The format of file.</li>
           <li><code>path</code> The source path to connect file directory</li>
@@ -99,7 +99,7 @@ You can use **Environment variables** to store your sensitive variables like pas
         <code>database</code><br/>
       </td>
       <td>
-        <p>Destination database properties.</p>
+        Destination database properties.
         <ul>
           <li><code>schema</code> Specify the schema (database) to store into.</li>
           <li><code>table</code> Specify the table.</li>
@@ -111,7 +111,7 @@ You can use **Environment variables** to store your sensitive variables like pas
         <code>processing_time</code><br/>
       </td>
       <td>
-        <p>Processing time to persist incoming data on iceberg.</p>
+        Processing time to persist incoming data on iceberg.
         <ul>
           <li><code>interval</code> Processing trigger interval.</li>
           <li><code>table</code> Processing trigger unit: seconds, minutes.</li>

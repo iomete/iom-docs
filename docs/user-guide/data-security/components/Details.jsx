@@ -3,8 +3,7 @@ import React from "react";
 export default function Details() {
   return (
     <>
-      <p>Policy details includes the following properties.</p>
-
+      Policy details includes the following properties.
       <table>
         <thead>
           <tr>
