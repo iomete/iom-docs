@@ -1,6 +1,6 @@
 ---
 title: How to optimize SQL query?
-description: IOMETE's managed Spark platform makes it easy to get started with data analytics, with high performance, low costs, and simplified data management
+description: IOMETE's managed Spark platform simplifies data analytics, offering high performance, low costs, and streamlined data management for effortless startup.
 slug: optimize-sql-query
 hide_table_of_contents: true
 tags2: [Engineering]

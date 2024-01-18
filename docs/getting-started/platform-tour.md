@@ -4,8 +4,8 @@ description: Here you'll find comprehensive guides and documentation to get you 
 ---
 
 <head>
-  <link rel="canonical" href="https://iomete.com/resources/docs" />
-  <meta property="og:url" content="https://iomete.com/resources/docs" />
+  <link rel="canonical" href="https://iomete.com/resources" />
+  <meta property="og:url" content="https://iomete.com/resources" />
 </head>
 
 :::info Welcome to IOMETE's documentation! 👋

@@ -1,6 +1,6 @@
 ---
 title: What is a Snowflake Compute Credit?
-description: Using Snowflake Compute Credit to save your cloud computing bills by 50%. Want to know how much does it means exactly? Check our blog
+description: Leverage Snowflake Compute Credits to slash cloud computing bills by 50%. Discover precise savings details on our blog.
 slug: snowflake-compute-credit
 image: img/blog/snowflake-compute-credit/snowflake-compute-credits.jpg
 coverImage: img/blog/thumbnails/1.png
