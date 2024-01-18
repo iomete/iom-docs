@@ -52,8 +52,24 @@ IOMETE offers [PySpark quickstart template for AWS](https://github.com/iomete/sp
 
 For more details, see [Spark job](/docs/developer-guide/spark-job/getting-started.md)
 
-<!-- ## Data security page -->
+## Data security page
 
-<!--## Data catalog page
+Data security at IOMETE is maintained through access control using a user interface for consistent administration. Security admins set policies for databases, tables, and columns, managing permissions for groups or users. IOMETE offers the following types of data security.
 
-## Notebook -->
+- **Access Policy** policy comprises rules and permissions that specify who can access specific resources and the actions they can take after gaining access.
+- **Data masking** is a method to hide sensitive information by changing it into fake data while keeping its appearance intact. It safeguards private details during testing or sharing.
+- **Row-level filtering** limits who can see certain rows in a database.
+
+For more details, see [Data security overview](/docs/user-guide/data-security/overview.mdx)
+
+## Data catalog page
+
+The data catalog interface offers metadata for all tables.
+You can easily filter by _Schemas_, _Table type_, _Provider_ and _Tags_, and use the search function to find what you need. Additionally, you have the option to bookmark tables for quick access.
+
+<Img src="/img/getting-started/platform-tour/data-catalog-page.png" alt="Data catalog page"/>
+
+In the detailed view of a table, you can view comprehensive information such as Created time, Updated time, Last sync time, Table type, Table owner, Tags, Description, and Columns. For more convenience, you can edit table tags, owner, and description. Similarly, you can edit column tags and descriptions. This user-friendly interface allows you to manage and customize the information according to your needs.
+
+<Img src="/img/getting-started/platform-tour/data-catalog-page-detail.png" alt="Data catalog page detail"/>
+<!--## Notebook -->
