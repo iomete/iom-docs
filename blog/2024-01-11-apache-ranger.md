@@ -39,11 +39,11 @@ For those ready to dive into Apache Ranger, the [Apache Ranger Quick Start Guide
 
 ### **Data Masking and Row-Level Filters**
 
-Apache Ranger's capabilities extend to advanced security features like [data masking](https://iomete.com/resources/docs/data-security/masking) and [row-level filtering](https://iomete.com/resources/docs/data-security/row-level-filter). These features are essential for protecting sensitive data while still allowing users to perform their roles effectively.
+Apache Ranger's capabilities extend to advanced security features like [data masking](/user-guide/data-security/data-masking) and [row-level filtering](/user-guide/data-security/row-level-filter). These features are essential for protecting sensitive data while still allowing users to perform their roles effectively.
 
 ### **Tag-Based Access and Masking**
 
-In complex data environments, managing access and security at a granular level is essential. Apache Ranger's [tag-based access](https://iomete.com/resources/docs/data-security/tag-based-access) and [tag-based masking](https://iomete.com/resources/docs/data-security/tag-based-masking) provide this level of control, ensuring data security is both robust and flexible.
+In complex data environments, managing access and security at a granular level is essential. Apache Ranger's [tag-based access](/user-guide/data-security/tag-based-access-policy) and [tag-based masking](/user-guide/data-security/tag-based-data-masking) provide this level of control, ensuring data security is both robust and flexible.
 
 ### Conclusion
 

@@ -34,19 +34,19 @@ Learn more about querying files like CSV, JSON, Parquet, ORC and more detailed c
 
 <GridBox>
 
-<Card title="CSV Files" icon={<FileCsv />} link="docs/data-sources/csv-files">
+<Card title="CSV Files" icon={<FileCsv />} link="reference/data-sources/csv-files">
 Learn how to query CSV files in IOMETE and options to configure the CSV data source
 </Card>
 
-<Card title="JSON Files" icon={<FileJs />} link="docs/data-sources/json-files">
+<Card title="JSON Files" icon={<FileJs />} link="reference/data-sources/json-files">
 Learn how to query JSON files in IOMETE and options to configure the JSON data source
 </Card>
 
-<Card title="Parquet Files" icon={<File />} link="docs/data-sources/parquet-files">
+<Card title="Parquet Files" icon={<File />} link="reference/data-sources/parquet-files">
 Learn how to query Parquet files in IOMETE and options to configure the Parquet data source
 </Card>
 
-<Card title="ORC Files" icon={<File />} link="docs/data-sources/orc-files">
+<Card title="ORC Files" icon={<File />} link="reference/data-sources/orc-files">
 Learn how to query ORC files in IOMETE and options to configure the ORC data source
 </Card>
 

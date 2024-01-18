@@ -368,19 +368,19 @@ Start using IOMETE with the following guides
 
 <GridBox>
 
-<Card title="Sync data from JDBC Databases" icon={<Database />} link="docs/guides/sync-data-from-jdbc-sources">
+<Card title="Sync data from JDBC Databases" icon={<Database />} link="tutorials/sync-data-from-jdbc-sources">
 Read our guide on how to sync data from JDBC sources, like MySQL, PostgreSQL, and Oracle.
 </Card>
 
-<Card title="Querying Files in AWS S3" icon={<Files />} link="docs/guides/read-files-from-aws-s3">
+<Card title="Querying Files in AWS S3" icon={<Files />} link="tutorials/read-files-from-aws-s3">
 If you have data files in AWS S3, you can directly query them using the S3 connector.
 </Card>
 
-<Card title="Getting Started with Spark Jobs" icon={<Sparkle />} link="docs/guides/spark-job/getting-started">
+<Card title="Getting Started with Spark Jobs" icon={<Sparkle />} link="developer-guide/spark-job/getting-started">
 Learn how to run Spark jobs on IOMETE.
 </Card>
 
-<Card title="Getting started with DBT" icon={<Circuitry />} link="docs/guides/dbt/getting-started-with-iomete-dbt">
+<Card title="Getting started with DBT" icon={<Circuitry />} link="integrations/dbt/getting-started-with-iomete-dbt">
 Learn how to use DBT with IOMETE.
 </Card>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "@docusaurus/Link";
 import "./style.scss";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
