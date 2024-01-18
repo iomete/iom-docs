@@ -20,7 +20,7 @@ Before using the **SQL Editor**, you should create a lakehouse.
 
 <Img src="/img/getting-started/platform-tour/lakehouse-page.png" alt="Lakehouses page"/>
 
-For more details, see [Virtual Lakehouses](/docs/user-guide/virtual-lakehouses.md).
+For more details, see [Virtual Lakehouses](/docs/user-guide/virtual-lakehouses.md)
 
 ## SQL Editor page
 
@@ -34,7 +34,7 @@ The main components of the SQL Editor are highlighted below:
 
 <Img src="/img/getting-started/platform-tour/sql-editor-page.png" alt="SQL Editor page"/>
 
-For more details, see [SQL Editor](/docs/user-guide/sql-editor.md).
+For more details, see [SQL Editor](/docs/user-guide/sql-editor.md)
 
 <!-- ## Connect clusters page
 
@@ -46,8 +46,14 @@ A **virtual lakehouse** is a cluster of compute resources that provide the requi
 
 ## Spark Jobs page
 
-<!--## Data security page
+IOMETE offers [PySpark quickstart template for AWS](https://github.com/iomete/spark-job-template) or [PySpark quickstart template for GCP](https://github.com/iomete/spark-job-template-gcp) helping you kickstart your first Spark Job. Follow the README instructions to use the template, which includes a sample job reading a CSV file from an S3 bucket, applying transformations, and writing the output to an Iceberg Table. Use it as a starting point for your custom jobs.
 
-## Data catalog page
+<Img src="/img/getting-started/platform-tour/spark-jobs-page.png" alt="Spark jobs page"/>
+
+For more details, see [Spark job](/docs/developer-guide/spark-job/getting-started.md)
+
+<!-- ## Data security page -->
+
+<!--## Data catalog page
 
 ## Notebook -->
