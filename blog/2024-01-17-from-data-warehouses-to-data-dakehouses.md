@@ -73,7 +73,7 @@ This distinction led to the development of ETL (Extract, Transform, Load) proces
 - Model differences between operational and analytical systems necessitate ETL processes
 
 
-## 2000's: Hadoop Era (4mins)
+## 2000's: Hadoop Era
 
 ![History of Data Lakehouse - Hadoop](/img/blog/2024-01-17-from-data-warehouses-to-data-dakehouses/history-data-hadoop.png)
 
@@ -224,9 +224,7 @@ Data Lakehouses represent the latest milestone in this journey. They offer a sop
 
 Thank you for joining me on this enlightening journey. As we continue to push the boundaries of what's possible in data architecture, I invite you to stay tuned for more insights and explorations in our upcoming webinars.
 
-Webinar video where I talk about the history of data lakehouses:
-
-<iframe allow="encrypted-media" allowfullscreen="allowfullscreen" frameborder="0" height="315" src="https://www.bigmarker.com/recordings/5ae1df95f49a?height=315&width=560" width="560"></iframe>
+Webinar video where I talk about the history of data lakehouses: [Webinar video where I talk about the history of data lakehouses](https://www.youtube.com/watch?v=WHM2z9ntL2I)
 
 
 ![How to build an on-premise data lakehouse](/img/blog/2024-01-17-from-data-warehouses-to-data-dakehouses/how-to-build-a-data-lakehouse.png)
