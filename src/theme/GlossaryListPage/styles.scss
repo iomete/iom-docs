@@ -6,16 +6,22 @@ html.iom-glossary-list {
       padding: 0 24px;
     }
 
-    &>.row {
+    & > .row {
       display: block;
       margin: 0 !important;
 
-      &>main.col--9 {
+      & > main.col--9 {
         max-width: 100% !important;
         margin-left: 0 !important;
 
         padding: 0;
       }
     }
+  }
+}
+
+@media (max-width: 996px) {
+  .toc-wrapper {
+    display: none;
   }
 }
