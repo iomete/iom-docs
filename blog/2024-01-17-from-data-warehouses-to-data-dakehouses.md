@@ -1,5 +1,5 @@
 ---
-title: The Evolutionary Journey - From Data Warehouses to Data Lakehouses
+title: Data Warehouse to Lakehouse Evolution
 description: Discover the evolution from data warehouses to lakehouses in this insightful blog post, exploring the changing landscape of data technology.
 slug: from-data-warehouses-to-data-dakehouses
 authors: vusal
@@ -7,6 +7,8 @@ tags2: [Educational, Technical]
 coverImage: /img/blog/2024-01-17-from-data-warehouses-to-data-dakehouses/tech-trend-divergence-convergence.png
 banner_description: Discover the evolution from data warehouses to lakehouses in this insightful blog post, exploring the changing landscape of data technology.
 ---
+
+import YoutubeCard from "@site/src/components/YoutubeCard";
 
 ## Introduction
 
@@ -223,8 +225,11 @@ Data Lakehouses represent the latest milestone in this journey. They offer a sop
 
 Thank you for joining me on this enlightening journey. As we continue to push the boundaries of what's possible in data architecture, I invite you to stay tuned for more insights and explorations in our upcoming webinars.
 
-Webinar video where I talk about the history of data lakehouses: [Webinar video where I talk about the history of data lakehouses](https://www.youtube.com/watch?v=WHM2z9ntL2I)
+Webinar video where I talk about the history of data lakehouses:
 
+<YoutubeCard link="https://www.youtube.com/embed/WHM2z9ntL2I?si=1NJzm98lrnPGTokO" title="History of data lakehouses | IOMETE" />
+
+<hr />
 ![How to build an on-premise data lakehouse](/img/blog/2024-01-17-from-data-warehouses-to-data-dakehouses/how-to-build-a-data-lakehouse.png)
 
 Feel free to reach out to me on vusal@iomete.com if you have any questions or feedback. If you want to attend our next webinar about **How to build a Lakehouse Platform**, you can drop me an email.

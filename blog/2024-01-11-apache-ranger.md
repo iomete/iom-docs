@@ -9,6 +9,8 @@ coverImage: img/blog/thumbnails/1.png
 banner_description: Known for its stronghold in the Hadoop ecosystem, is a critical tool for organizations dealing with big data security.
 ---
 
+import YoutubeCard from "@site/src/components/YoutubeCard";
+
 When we talk about keeping lots of data safe, it's really important. That's where Apache Ranger comes in. It's like a guardian for your data, especially when you use it with systems like IOMETE. This blog is all about how Apache Ranger helps keep your data safe. It's great at making sure only the right people can get to your data, follows rules to keep your data in line, and makes sure everything is done the right way.
 
 ## The Role of Apache Ranger in Data Governance
@@ -21,7 +23,7 @@ Organizations often ask, "How does Apache Ranger enhance the security of a data 
 
 When it comes to securing Hadoop ecosystems, Apache Ranger is often compared with other data security tools. Its user-friendly interface for security teams and administrators sets it apart, making it a preferred choice for managing data access in large-scale systems. For those looking into "How to implement Apache Ranger in a data system?" or seeking a "Tutorial on setting up Apache Ranger," it's noteworthy that Apache Ranger integrates seamlessly with existing data systems, enhancing the overall security architecture without major overhauls.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/OaGAdWcrCF8?si=8Ql1Og2pV5UNqlH6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<YoutubeCard link="https://www.youtube.com/embed/OaGAdWcrCF8?si=8Ql1Og2pV5UNqlH6"  title="Comparing Apache Ranger with Other Security Tools | IOMETE"/>
 
 ## Impact on Data Compliance and Regulatory Standards
 

@@ -81,3 +81,7 @@ https://github.com/signcl/docusaurus-prince-pdf
 
 The Glossary plugin is disabled in devMode by default for low-speed purposes.
 If you want to enable both modes, comment out the line `process.env.NODE_ENV === 'production' && glossaryPlugin,` and uncomment the line `// glossaryPlugin,`.
+
+### Youtube (Embed) video
+
+For youtube embed videos import and use YoutubeCard component. Just pass link and title.
