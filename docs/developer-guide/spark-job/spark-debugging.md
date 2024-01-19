@@ -1,8 +1,10 @@
 ---
 title: Faster Spark Application Development and Debugging
 description: Learn how to debug Spark applications locally and remotely
+draft: true
 last_update:
   date: 01/19/2024
+  author: Vusal Dadalov
 ---
 
 Application debugging is a process of identifying and fixing the errors that occur in the application.
