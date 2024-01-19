@@ -5,6 +5,8 @@ description: Explore powerful IOMETE features. Lakehouses, SQL Editor, Spark Job
 
 import Img from '@site/src/components/Img';
 
+The IOMETE Platform interface is composed of the following sections:
+
 1. **User Menu:** - Use this menu to switch themes, access the settings menu, and log out.
 
 2. **Navigation Menu:** - Navigate through different Platform areas including Lakehouses, SQL Editor, Spark jobs, Data catalog and more.
