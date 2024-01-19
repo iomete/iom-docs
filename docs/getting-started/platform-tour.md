@@ -1,17 +1,19 @@
 ---
 title: Platform Tour
-description: Here you'll find comprehensive guides and documentation to get you up and running with IOMETE quickly and easily
+description: Explore powerful IOMETE features. Lakehouses, SQL Editor, Spark Jobs, Data Catalog, Data Security, Notebooks. Simplify data management seamlessly.
 ---
 
 import Img from '@site/src/components/Img';
 
-- Modern lakehouse built on top of **Apache Iceberg** and **Apache Spark.**
-- Includes:
-  - Lakehouse
-  - Spark Jobs
-  - SQL editor
-  - Advanced data catalog
-  - Jupyter Notebook
+1. **User Menu:** - Use this menu to switch themes, access the settings menu, and log out.
+
+2. **Navigation Menu:** - Navigate through different Platform areas including Lakehouses, SQL Editor, Spark jobs, Data catalog and more.
+
+3. **Help Menu:** - Access this menu to redirect to Community & Support and Documentation for assistance.
+
+4. **Content:** - When a Platform menu item is selected, the associated content is displayed in the content pane.
+
+  <Img src="/img/getting-started/platform-tour/dashboard-page.png" alt="Dashboards page"/>
 
 ## Lakehouses page
 
