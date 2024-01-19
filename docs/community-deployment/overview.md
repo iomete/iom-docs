@@ -88,7 +88,7 @@ Refer to [IOMETE Pricing](https://iomete.com/pricing) for a detailed comparison.
 
 ### Support for Community Version?
 
-IOMETE Community Version is supported by the community. Feel free to join the [IOMETE Community Discord Server](https://discord.gg/5Qj8Gwq) for support and discussions.
+IOMETE Community Version is supported by the community. Feel free to join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
 
 ### Dedicated Support?
 
