@@ -76,4 +76,11 @@ You can easily filter by _Schemas_, _Table type_, _Provider_ and _Tags_, and use
 In the detailed view of a table, you can view comprehensive information such as Created time, Updated time, Last sync time, Table type, Table owner, Tags, Description, and Columns. For more convenience, you can edit table tags, owner, and description. Similarly, you can edit column tags and descriptions. This user-friendly interface allows you to manage and customize the information according to your needs.
 
 <Img src="/img/getting-started/platform-tour/data-catalog-page-detail.png" alt="Data catalog page detail"/>
-<!--## Notebook -->
+
+## Notebook
+
+Jupyter Notebook is a powerful tool for interactive data exploration and prototyping. By connecting to IOMETE's Jupyter Gateway you will be able to explore and analyze data stored in IOMETE's data lake directly from your local environment.
+
+<Img src="/img/getting-started/platform-tour/notebook-page.png" alt="Notebook page detail"/>
+
+For more details, see [Starting with Notebook](/docs/developer-guide/notebook/starting-with-notebook.mdx)
