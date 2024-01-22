@@ -77,6 +77,16 @@ https://github.com/signcl/docusaurus-prince-pdf
 
 ---
 
+### Iframe component (Exp: Youtube iframe)
+
+```jsx
+import Iframe from "@site/src/components/Iframe";
+
+<Iframe title="Title of video" src="https://www.youtube.com/embed/link" />;
+```
+
+---
+
 ### Glossary
 
 The Glossary plugin is disabled in devMode by default for low-speed purposes.

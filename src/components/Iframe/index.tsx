@@ -6,7 +6,7 @@ interface IProps {
   title: string;
   allowFullScreen?: boolean;
 }
-function Iframe({ src, title, allowFullScreen = true }: IProps) {
+function Iframe({ src, title }: IProps) {
   return (
     <div className={styles.Iframe}>
       <iframe
@@ -15,7 +15,7 @@ function Iframe({ src, title, allowFullScreen = true }: IProps) {
         src={src}
         title={title}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen={allowFullScreen}
+        allowFullScreen
       ></iframe>
     </div>
   );
