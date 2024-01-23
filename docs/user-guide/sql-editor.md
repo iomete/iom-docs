@@ -164,7 +164,7 @@ When you run a query, it is tracked as a new item in the SQL history. You can us
 
 <Img src="/img/user-guide/sql-editor/query-history.png" alt="SQL Editor - Query histories"/>
 
-## IOMETE AI Assistant
+<!-- ## IOMETE AI Assistant
 
 To open IOMETE AI Assistant click the <span className="inline-button"><ChatTeardropDots size={16}/>AI Assistant</span> button.
 
@@ -184,4 +184,4 @@ IOMETE SQL AI assistant can help users in many different ways, some of which are
 
 - **Quick suggestions:** It predicts and suggests SQL words, namespaces, tables and more as users type, cutting down on errors and speeding up writing.
 
-- **Exploring data:** It makes it easier to understand databases by showing how tables relate and what information they hold.
+- **Exploring data:** It makes it easier to understand databases by showing how tables relate and what information they hold. -->
