@@ -37,10 +37,12 @@ const sidebars = {
           collapsed: true,
           items: [
             "community-deployment/aws/install",
-            "community-deployment/aws/upgrade",
-            "community-deployment/aws/changelog",
             "community-deployment/aws/permissions",
+            "community-deployment/aws/aws-advanced-settings",
+            "community-deployment/aws/troubleshooting",
             "community-deployment/aws/data-plane-cost",
+            "community-deployment/aws/changelog",
+            "community-deployment/aws/uninstall",
           ],
         },
         {

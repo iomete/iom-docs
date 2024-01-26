@@ -60,7 +60,7 @@ Once it's finished, your IOMETE platform will be upgraded to the latest version.
 After the upgrade is complete, verify that everything is running smoothly. Access the IOMETE Console and ensure all your data and configurations are intact. Additionally, perform some basic operations like running queries or creating new resources to confirm that the platform is functioning correctly.
 
 :::success That's it 🎉🎉🎉
-You've successfully upgraded your IOMETE platform using Terraform. If you encounter any issues or have any questions, please don't hesitate to contact our support team at: support@iomete.com
+You've successfully upgraded your IOMETE platform using Terraform. If you encounter any issues or have any questions, please join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
 :::
 
 ## Troubleshooting
@@ -70,4 +70,4 @@ If you encounter issues during the upgrade process, try the following:
 1.  Review the Terraform output for error messages or warnings.
 2.  Consult the IOMETE documentation or release notes for known issues and their resolutions.
 3.  If necessary, roll back to your previous IOMETE installation.
-4.  Reach out to the IOMETE support team at support@iomete.com for assistance.
+4.  Reach out to the IOMETE support team at [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut).
