@@ -1,5 +1,5 @@
 ---
-title: IOMETE Community Version Deployment on AWS
+title: IOMETE Community Edition Deployment on AWS
 sidebar_label: Install
 description: This guide will explain how to deploy IOMETE on Amazon Web Services using the AWS CLI and Terraform command line tools
 last_update:
@@ -17,7 +17,7 @@ import { Files, Database, Sparkle, Circuitry } from "@phosphor-icons/react";
 
 You're about to install the **IOMETE Lakehouse Platform Community Edition on AWS**. The IOMETE Community Edition is **the most generous Data Lakehouse Platform** on the market. Enjoy the benefits of a data lakehouse platform with no restrictions on data volume, users, or queries.
 
-IOMETE Community Version is supported by the community. Feel free to join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
+IOMETE Community Edition is supported by the community. Feel free to join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
 
 :::tip Installing the IOMETE platform on AWS should take approximately 25 minutes
 - 15 minutes to create the infrastructure (EKS cluster, VPC, etc.) using Terraform
@@ -35,7 +35,7 @@ IOMETE Community Version is supported by the community. Feel free to join the [I
 
 ## Installation Steps
 
-Please clone the [IOMETE Community Version Deployment on AWS](https://github.com/iomete/iomete-community-aws) and follow the instructions below.
+Please clone the [IOMETE Community Edition Deployment on AWS](https://github.com/iomete/iomete-community-aws) and follow the instructions below.
 
 ### 1. Terraform
 Reference: https://registry.terraform.io/modules/iomete/data-plane-aws/aws/2.2.0

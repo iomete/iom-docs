@@ -1,5 +1,5 @@
 ---
-title: IOMETE Community Deployment Overview
+title: IOMETE Community Edition
 sidebar_label: Overview
 description: IOMETE Community Deployment Overview - provides a comprehensive insight into the deployment process and configuration of the IOMETE community platform.
 last_update:
@@ -7,40 +7,54 @@ last_update:
   author: Vusal Dadalov
 ---
 
-Welcome to the IOMETE Community Deployment Overview.
+import Img from '@site/src/components/Img';
+import Question from "@site/src/components/Question";
 
-This overview will help you deploy the IOMETE Lakehouse platform, a leading free Lakehouse solution. Whether you're looking to use IOMETE for personal projects or commercial endeavors, this guide will assist you in setting up the platform in your preferred environment.
+import Card from "@site/src/components/Card";
+import GridBox from "@site/src/components/GridBox";
+import { Files, Database, Sparkle, Circuitry,Cloud, GoogleLogo, AmazonLogo, WindowsLogo, HardDrives } from "@phosphor-icons/react";
 
-## Introduction to IOMETE Community Version
+Welcome to the future of data management and analytics with the **IOMETE Lakehouse Platform Community Edition**. This edition stands out as **the most generous Data Lakehouse Platform available in the market today**, offering an unparalleled blend of freedom and functionality in data handling. 
 
-:::info IOMETE Community Version
-**The most generous free Modern Lakehouse platform in the world!**
-:::
+---
+## The World's Most Generous Free Modern Lakehouse Platform
 
-The IOMETE Community Version is a robust and freely accessible Lakehouse platform. Its versatility allows deployment across various environments, including cloud and on-premise setups.
+IOMETE Community Edition is completely free with no hidden costs. Your data remains within your control, never leaving your account or data lake.
 
-- **Cost-Free**: Use it for personal or commercial projects without any restrictions.
-- **Versatility**: Compatible with cloud or on-premise environments.
+- **Managed Data Lakehouse**: Experience the power of Managed Apache Spark and Iceberg for efficient data management.
+- **Speed, Scale, and Simplicity**: Enjoy a modern, intuitive UI that simplifies complex tasks
+- **Scalable from TB to PB**: Unparalleled performance and reliability.
+- **No Lock-In**: Open data lakehouse with Apache Spark & Iceberg - no vendor lock-in, top-class engines.
+- **Cost Efficiency and Control**: Only pay for the infrastructure you use with options for Spot and Reserved instances for additional savings.
+- **Flexible Deployment**: Compatible with cloud or on-premise environments.
 - **Generosity**: Recognized as the most generous free Lakehouse platform globally.
+- **Free**: Use it for personal or commercial projects without any restrictions.
 
-For a comparison with the Enterprise version, visit [IOMETE Pricing](https://iomete.com/pricing).
+## Start Using IOMETE Community Edition
 
-## Supported Cloud Providers
+IOMETE is compatible with several leading cloud service providers. Choose the platform that best suits your needs and follow the instructions to get started and join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
 
-IOMETE is compatible with several leading cloud service providers, ensuring flexibility and ease of deployment:
+<GridBox>
 
-- [Amazon Web Services](https://aws.amazon.com/)
-- [Google Cloud Platform](https://cloud.google.com/)
-- [Microsoft Azure](https://azure.microsoft.com/)
-- [Digital Ocean](https://www.digitalocean.com/)
+<Card title="AWS" icon={<AmazonLogo />} link="community-deployment/aws/install">
+AWS Community Edition Deployment
+</Card>
 
-## Deployment Instructions
+<Card title="GCP" icon={<GoogleLogo />} link="community-deployment/gcp/install">
+Google Cloud Community Edition Deployment
+</Card>
 
-To begin your IOMETE deployment:
+<Card title="Azure" icon={<WindowsLogo />} link="community-deployment/azure/install">
+Azure Community Edition Deployment
+</Card>
 
-1. Clone the [IOMETE Community Deployment](https://github.com/iomete/iomete-community) repository.
-2. Follow the detailed instructions provided in the repository to complete the deployment process.
+<Card title="On-premise" icon={<HardDrives />} link="community-deployment/on-prem/install">
+On-premise Community Edition Deployment
+</Card>
 
+</GridBox>
+
+---
 ## Frequently Asked Questions (FAQ)
 
 ### Can I run IOMETE on a single node?
@@ -86,9 +100,9 @@ However, there are some differences due to the nature of the environments:
 
 Refer to [IOMETE Pricing](https://iomete.com/pricing) for a detailed comparison.
 
-### Support for Community Version?
+### Support for Community Edition?
 
-IOMETE Community Version is supported by the community. Feel free to join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
+IOMETE Community Edition is supported by the community. Feel free to join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
 
 ### Dedicated Support?
 
