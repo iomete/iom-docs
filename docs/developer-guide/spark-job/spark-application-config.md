@@ -4,29 +4,34 @@ description: When creating a Spark job deployment programmatically with IOMETE, 
 last_update:
   date: 10/04/2022
 ---
+
 import Img from '@site/src/components/Img';
 
 When creating a Spark job deployment programmatically with IOMETE, you would run a command similar to the following:
 
 ```bash
-curl --request POST \
---url $WORKSPACE_ENDPOINT/spark-jobs \
---header "Content-Type: application/json" \
---header "X-API-TOKEN: $API_TOKEN" \
---data '{
-  "name": "sample-job1",
-  "template": {
-    "image": "iomete/sample-job:1.0.0",
-    "main_application_file": "local:///app/job.py"
-  }
-}'
+curl --location \
+  --request POST "https://sandbox.iomete.com/api/v1/spark-jobs" \
+  --header "X-API-Token: <ACCESS_TOKEN>" \
+  --header "Content-Type: application/json" \
+  --data-raw '{
+    "jobType": "MANUAL",
+    "name": "sample-job",
+    "template": {
+        "image": "iomete/sample-job:1.0.0",
+        "mainApplicationFile": "local:///app/job.py",
+        "instanceConfig": {
+            "driverType": "stde2pdsv5dr",
+            "executorType": "stde2pdsv5",
+            "executorCount": 1
+        }
+    }
+  }'
 ```
 
 Or, using IOMETE console
 
-<!-- ![Create Spark Job](img/guides/spark-application-config/create-spark-job.png) -->
-
-<Img src="/img/guides/spark-application-config/create-spark-job.png" alt="Create Spark Job"/>
+<Img src="/img/guides/spark-job/job-create.png" alt="Create Spark Job" maxWidth="520px"/>
 
 The `template` is the `IOMETE Spark Application Configuration` (short: `Application Config`) used to create runs. In programming language terms, you can think of it as a class, and runs are instances created from this class.
 
@@ -36,48 +41,44 @@ In this document, we'll cover all the available options for configuring a Spark 
 
 The `Deployment Parameters` consists of several fields that help specify various aspects of the Spark application deployment. Below is a list of the available fields:
 
-- **image**: Container image for the driver and executors. If this field is provided, there is no need to specify the `spark_version`. This is because the Spark distribution that comes with the provided image will be used. If this field is not provided but the Spark version is provided, IOMETE will detect the matching Docker image version and use that. If both fields are omitted, the default values will be used.
-- **spark_version**: Spark version to use. This field will be used only if `image` field is omitted. If this field is provided and the image field is omitted, IOMETE will detect the matching Docker image version and use that. The default value for the Spark version is `3.2.1`, and the default Docker image is `iomete/spark:3.2.1-latest`.
-- **main_application_file**: URI for the application file (jar, Python script, etc.). This field is also required and has no default value.
-- **main_class**: Main class for the application (Scala/Java only). This field is required for Java/Scala applications, but not for PySpark applications.
+- **image**: Container image for the driver and executors. If this field is provided, there is no need to specify the `sparkVersion`. This is because the Spark distribution that comes with the provided image will be used. If this field is not provided but the Spark version is provided, IOMETE will detect the matching Docker image version and use that. If both fields are omitted, the default values will be used.
+- **sparkVersion**: Spark version to use. This field will be used only if `image` field is omitted. If this field is provided and the image field is omitted, IOMETE will detect the matching Docker image version and use that. The default value for the Spark version is `3.2.1`, and the default Docker image is `iomete/spark:3.2.1-latest`.
+- **mainApplicationFile**: URI for the application file (jar, Python script, etc.). This field is also required and has no default value.
+- **mainClass**: Main class for the application (Scala/Java only). This field is required for Java/Scala applications, but not for PySpark applications.
 
 **Example 1:** A simple PySpark application deployment configuration.
 
 ```json
 {
-    "image": "iomete/sample-job:1.0.0",
-    "main_application_file": "local:///app/job.py"
+  "image": "iomete/sample-job:1.0.0",
+  "mainApplicationFile": "local:///app/job.py"
 }
 ```
 
-<!-- ![Untitled](/img/guides/spark-application-config/deploying-java-spark.png) -->
-
 <Img src="/img/guides/spark-application-config/deploying-java-spark.png" alt="Spark application config"/>
 
-This configuration specifies that the image used for the driver and executors is `iomete/sample-job:1.0.0`. The `main_application_file` field points to a Python script located at `local:///app/job.py`.
+This configuration specifies that the image used for the driver and executors is `iomete/sample-job:1.0.0`. The `mainApplicationFile` field points to a Python script located at `local:///app/job.py`.
 
 :::tip
 Note that the `local://` URI scheme is used to indicate that the file is located on the local filesystem of the machine running IOMETE.
 :::
 :::tip
-In addition, since this is a PySpark application, there's no need to specify the `main_class` field.
+In addition, since this is a PySpark application, there's no need to specify the `mainClass` field.
 :::
 
 **Example 2:** Deploying Java spark application
 
 ```json
 {
-    "spark_version": "3.2.1",
-    "main_class": "org.apache.spark.examples.SparkPi",
-    "main_application_file": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1.jar"
+  "sparkVersion": "3.2.1",
+  "mainClass": "org.apache.spark.examples.SparkPi",
+  "mainApplicationFile": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1.jar"
 }
 ```
 
-<!-- ![Untitled](/img/guides/spark-application-config/deployment-apache-spark.png) -->
-
 <Img src="/img/guides/spark-application-config/deployment-apache-spark.png" alt="Apache spark deployment"/>
 
-This configuration specifies that the Spark version is `3.2.1`, and the application file is located at `local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1.jar`. Additionally, it specifies the `main_class` to be `org.apache.spark.examples.SparkPi`. The docker image and version will be resolved based the on the Spark version, which is `iomete/spark:3.2.1-latest` in this case.
+This configuration specifies that the Spark version is `3.2.1`, and the application file is located at `local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1.jar`. Additionally, it specifies the `mainClass` to be `org.apache.spark.examples.SparkPi`. The docker image and version will be resolved based the on the Spark version, which is `iomete/spark:3.2.1-latest` in this case.
 
 :::tip
 Note that this configuration is for a Scala application, which requires a main class to be specified.
@@ -91,7 +92,7 @@ In this case, we are using the pre-built Spark example JAR file for calculating 
 The IOMETE platform runs on top of Kubernetes. Thus, the spark job should be packaged as a Docker image.
 
 :::info
- If non-dockerized deployment is used, just specify the Spark Version. The platform will use the corresponding docker image, which has the Spark distribution. The application artifacts (jar, python file, and dependencies) should be uploaded to remote storage (S3, GCS, etc.) and specified in the Main Application File and Dependencies sections accordingly.
+If non-dockerized deployment is used, just specify the Spark Version. The platform will use the corresponding docker image, which has the Spark distribution. The application artifacts (jar, python file, and dependencies) should be uploaded to remote storage (S3, GCS, etc.) and specified in the Main Application File and Dependencies sections accordingly.
 :::
 
 Mainly two different deployment options can be used:
@@ -112,6 +113,8 @@ This is the recommended option.
 :::
 
 Example:
+
+<!-- TODO sparkConf or spark_conf  -->
 
 ```docker
 FROM iomete/spark-py:3.2.1.1
@@ -145,7 +148,6 @@ The path must be a valid URI. The widely used URI schemes are:
 - `local:///` - A local file. If the application file is located in the Docker image, use this URI scheme. For example, `local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar`.
 - `s3a://` - An S3 file. For example, `s3a://my-bucket/spark-examples_2.12-3.2.1-iomete.jar`
 
-
 :::note
 There is a special value `spark-internal` that can be used if the Jar file is already in the Spark Classpath. For example, if you want to run the SparkPi example, you can use `spark-internal` as the Main Application File. This will run the SparkPi example that is already in the Spark distribution.
 :::
@@ -160,17 +162,17 @@ Example: `org.apache.spark.examples.SparkPi`
 
 ## Driver and Executor Configuration
 
-The `instance_config` field in IOMETE specifies the configuration for both the `driver` and `executor` instances of the Spark application. The field `executor_count` in `instance_config` specifies the number of executor instances, while the driver instance is always one.
+The `instanceConfig` field in IOMETE specifies the configuration for both the `driver` and `executor` instances of the Spark application. The field `executorCount` in `instanceConfig` specifies the number of executor instances, while the driver instance is always one.
 
 For example, consider the following JSON config:
 
 ```json
 {
-    "instance_config": {
-        "driver_type": "r6g.large",
-        "executor_type": "r5d.xlarge",
-        "executor_count": 2
-    }
+  "instanceConfig": {
+    "driverType": "r6g.large",
+    "executorType": "r5d.xlarge",
+    "executorCount": 2
+  }
 }
 ```
 
@@ -200,7 +202,7 @@ Passing arguments to a Spark application can be done through the `args` field in
 
 ```json
 {
-    "args": ["arg1", "arg2"]
+  "args": ["arg1", "arg2"]
 }
 ```
 
@@ -208,15 +210,15 @@ These arguments will be passed to the main function of the Spark application as 
 
 ### Environment Variables
 
-You can also specify environment variables for your Spark application using the `env_vars` field of the Application Config. This field takes a JSON object with key-value pairs, where each key is the name of an environment variable and its value is the value to be assigned to it.
+You can also specify environment variables for your Spark application using the `envVars` field of the Application Config. This field takes a JSON object with key-value pairs, where each key is the name of an environment variable and its value is the value to be assigned to it.
 
 Here's an example env var config:
 
 ```json
 {
-  "env_vars": {
-      "APP_ENV": "production"
-    }
+  "envVars": {
+    "APP_ENV": "production"
+  }
 }
 ```
 
@@ -238,13 +240,13 @@ Here's an example:
 
 ```json
 {
-  "env_vars": {
-      "APP_ENV": "production",
-      "DB_URL": "jdbc:mysql://localhost/mydatabase",
-      "DB_PASSWORD": "mysecretpassword",
-      "AWS_ACCESS_KEY_ID": "AKIAXXXXXXXXXXXXXXXX",
-      "AWS_SECRET_ACCESS_KEY": "mytopsecretkey"
-    }
+  "envVars": {
+    "APP_ENV": "production",
+    "DB_URL": "jdbc:mysql://localhost/mydatabase",
+    "DB_PASSWORD": "mysecretpassword",
+    "AWS_ACCESS_KEY_ID": "AKIAXXXXXXXXXXXXXXXX",
+    "AWS_SECRET_ACCESS_KEY": "mytopsecretkey"
+  }
 }
 ```
 
@@ -253,48 +255,47 @@ Here's an example:
 
 ### Spark Configuration
 
-To configure Spark, you can use the `spark_conf` field of the `Application Config`. The field takes a JSON object with the configuration key-value pairs.
+To configure Spark, you can use the `sparkConf` field of the `Application Config`. The field takes a JSON object with the configuration key-value pairs.
 
-For example, to set the `spark.ui.port`, `spark.eventLog.enabled`, and `spark.eventLog.dir` properties, use the following `spark_conf` field:
+For example, to set the `spark.ui.port`, `spark.eventLog.enabled`, and `spark.eventLog.dir` properties, use the following `sparkConf` field:
 
 ```json
 {
-  "spark_conf": {
+  "sparkConf": {
     "spark.ui.port": "4045",
     "spark.eventLog.enabled": "true",
     "spark.eventLog.dir": "hdfs://hdfs-namenode-1:8020/spark/spark-events"
   }
 }
-
 ```
 
 Check out the [Spark Configuration](https://spark.apache.org/docs/latest/configuration.html) page for all the available configuration options.
 
 ### Hadoop Configuration
 
-To add Hadoop configuration, you can use the `hadoop_conf` field of the `Application Config`. The field takes a JSON object with the configuration key-value pairs.
+To add Hadoop configuration, you can use the `hadoopConf` field of the `Application Config`. The field takes a JSON object with the configuration key-value pairs.
 
 Example:
 
 ```json
 {
-  "hadoop_conf": {
+  "hadoopConf": {
     "fs.gs.project.id": "spark",
     "fs.gs.system.bucket": "spark",
-    "google.cloud.auth.service.account.enable": true,
+    "google.cloud.auth.service.account.enable": true
   }
 }
 ```
 
 ### Java System Options
 
-In addition to Spark and Hadoop configuration, you can also specify Java system options using the `java_options` field of the Application Config. This is useful when you need to pass arguments to the JVM that runs your Spark application.
+In addition to Spark and Hadoop configuration, you can also specify Java system options using the `javaOptions` field of the Application Config. This is useful when you need to pass arguments to the JVM that runs your Spark application.
 
 Java system options are specified as a single string containing one or more options separated by spaces. Here's an example:
 
 ```json
 {
-  "java_options": "-Dlog.level=INFO -XX:+UseG1GC",
+  "javaOptions": "-Dlog.level=INFO -XX:+UseG1GC"
 }
 ```
 
@@ -315,9 +316,7 @@ Example:
 ```json
 {
   "deps": {
-    "jars": [
-      "s3a://my-bucket/spark-jars/my-lib.jar"
-    ],
+    "jars": ["s3a://my-bucket/spark-jars/my-lib.jar"],
     "files": [
       "gs://spark-data/data-file-1.txt",
       "s3a://my-bucket/data-file-2.txt"
@@ -337,15 +336,9 @@ Here's an example using IOMETE to specify these parameters:
 ```json
 {
   "deps": {
-    "repositories": [
-      ""
-    ],
-    "packages": [
-      "com.example:some-package:1.0.0"
-    ],
-    "excludePackages": [
-      "com.example:other-package"
-    ]
+    "repositories": [""],
+    "packages": ["com.example:some-package:1.0.0"],
+    "excludePackages": ["com.example:other-package"]
   }
 }
 ```
@@ -355,19 +348,19 @@ Here's an example using IOMETE to specify these parameters:
 
 ## Python Support
 
-Python support can be enabled by setting `main_application_file` with the path to your python application. Also, you can specify additional python files to be added to the python path by adding them to `deps.py_files`.
+Python support can be enabled by setting `mainApplicationFile` with the path to your python application. Also, you can specify additional python files to be added to the python path by adding them to `deps.pyFiles`.
 
 Below is an example showing part of an `Application Config` with python:
 
 ```json
 {
-    "main_application_file": "s3://my-bucket/my-app.py",
-    "deps": {
-        "py_files": [
-            "s3://my-bucket/py_container_checks.py",
-            "s3://my-bucket/python-dep.zip"
-        ]
-    }
+  "mainApplicationFile": "s3://my-bucket/my-app.py",
+  "deps": {
+    "pyFiles": [
+      "s3://my-bucket/py_container_checks.py",
+      "s3://my-bucket/python-dep.zip"
+    ]
+  }
 }
 ```
 
@@ -375,24 +368,24 @@ Below is an example showing part of an `Application Config` with python:
 
 #### Configuring Automatic Application Restart and Failure Handling
 
-IOMETE supports automatic application restart with a configurable Restart Policy using the optional field `restart_policy`. The following is an example of a sample RestartPolicy:
+IOMETE supports automatic application restart with a configurable Restart Policy using the optional field `restartPolicy`. The following is an example of a sample RestartPolicy:
 
 ```
 {
-  "restart_policy": {
+  "restartPolicy": {
     "type": "OnFailure",
-    "on_failure_retries": 3,
-    "on_failure_retry_interval": 10,
-    "on_submission_failure_retries": 5,
-    "on_submission_failure_retry_interval": 20
+    "onFailureRetries": 3,
+    "onFailureRetryInterval": 10,
+    "onSubmissionFailureRetries": 5,
+    "onSubmissionFailureRetryInterval": 20
   }
 }
 
 ```
 
-The valid types of `restart_policy` include `Never`, `OnFailure`, and `Always`. Upon termination of an application, IOMETE determines if the application is subject to restart based on its termination state and the `restart_policy` in the specification. If the application is subject to restart, IOMETE restarts it by submitting a new run.
+The valid types of `restartPolicy` include `Never`, `OnFailure`, and `Always`. Upon termination of an application, IOMETE determines if the application is subject to restart based on its termination state and the `restartPolicy` in the specification. If the application is subject to restart, IOMETE restarts it by submitting a new run.
 
-For `OnFailure`, IOMETE further supports setting limits on the number of retries via the `on_failure_retries` and `on_submission_failure_retries` fields. Additionally, if the submission retries have not been reached, IOMETE retries submitting the application using a linear backoff with the interval specified by `on_failure_retry_interval` and `on_submission_failure_retry_interval`, which are required for both `OnFailure` and `Always` Restart Policy.
+For `OnFailure`, IOMETE further supports setting limits on the number of retries via the `onFailureRetries` and `onSubmissionFailureRetries` fields. Additionally, if the submission retries have not been reached, IOMETE retries submitting the application using a linear backoff with the interval specified by `onFailureRetryInterval` and `onSubmissionFailureRetryInterval`, which are required for both `OnFailure` and `Always` Restart Policy.
 
 :::tip
 The old resources, like driver pod, UI service/ingress, etc., are deleted if they still exist before submitting the new run, and a new driver pod is created by the submission client, so effectively, the driver gets restarted.
@@ -417,59 +410,51 @@ The following example is not a correct configuration and is only for demonstrati
   "name": "sample-job1",
   "template": {
     "image": "iomete/sample-job:1.0.0",
-    "spark_version": "3.2.1",
-    "main_application_file": "local:///app/job.py",
-    "main_class": null,
+    "sparkVersion": "3.2.1",
+    "mainApplicationFile": "local:///app/job.py",
+    "mainClass": null,
     "args": ["arg1", "arg2"],
-    "env_vars": {
+    "envVars": {
       "APP_ENV": "production",
       "DB_URL": "jdbc:mysql://localhost/mydatabase",
       "SECRET_MYAPP_API_KEY": "mysecretapikey"
     },
-    "spark_conf": {
+    "sparkConf": {
       "spark.ui.port": "4045",
       "spark.eventLog.enabled": "true",
       "spark.eventLog.dir": "hdfs://hdfs-namenode-1:8020/spark/spark-events"
     },
-    "hadoop_conf": {
+    "hadoopConf": {
       "fs.gs.project.id": "spark",
       "fs.gs.system.bucket": "spark",
       "google.cloud.auth.service.account.enable": true
     },
-    "java_options": "-Dlog.level=INFO -XX:+UseG1GC",
+    "javaOptions": "-Dlog.level=INFO -XX:+UseG1GC",
     "deps": {
-      "jars": [
-        "s3a://my-bucket/spark-jars/my-lib.jar"
-      ],
+      "jars": ["s3a://my-bucket/spark-jars/my-lib.jar"],
       "files": [
         "gs://spark-data/data-file-1.txt",
         "s3a://my-bucket/data-file-2.txt"
       ],
-      "packages": [
-        "com.example:some-package:1.0.0"
-      ],
-      "excludePackages": [
-        "com.example:other-package"
-      ],
-      "repositories": [
-        ""
-      ],
-      "py_files": [
+      "packages": ["com.example:some-package:1.0.0"],
+      "excludePackages": ["com.example:other-package"],
+      "repositories": [""],
+      "pyFiles": [
         "s3://my-bucket/py_container_checks.py",
         "s3://my-bucket/python-dep.zip"
       ]
     },
-    "instance_config": {
-      "driver_type": "r6g.large",
-      "executor_type": "r5d.xlarge",
-      "executor_count": 2
+    "instanceConfig": {
+      "driverType": "r6g.large",
+      "executorType": "r5d.xlarge",
+      "executorCount": 2
     },
-    "restart_policy": {
+    "restartPolicy": {
       "type": "OnFailure",
-      "on_failure_retries": 3,
-      "on_failure_retry_interval": 10,
-      "on_submission_failure_retries": 5,
-      "on_submission_failure_retry_interval": 20
+      "onFailureRetries": 3,
+      "onFailureRetryInterval": 10,
+      "onSubmissionFailureRetries": 5,
+      "onSubmissionFailureRetryInterval": 20
     }
   }
 }

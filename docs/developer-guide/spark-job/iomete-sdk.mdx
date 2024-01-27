@@ -33,7 +33,7 @@ pip install iomete-sdk
 ## Prerequisites
 
 Also, you should have a valid IOMETE API token and workspace ID. For this example, we are using environment variables to store these values.  
-In the "**Resources**" section below, you can find a link to the documentation on how to create an API token.
+In the **[Resources](#resources)** section below, you can find a link to the documentation on how to create an API token.
 Workspace ID and Endpoint (for cURL examples) can be found in the **Workspace Settings** page of the IOMETE platform.
 
 <Img src="/img/spark-job/workspace-id.png" alt="Workspace ID" />
@@ -69,9 +69,9 @@ Here's an example of how to create a new job:
 job_payload = {
     "name": "test-job",
     "template": {
-        "spark_version": "3.2.1",
-        "main_application_file": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
-        "main_class": "org.apache.spark.examples.SparkPi",
+        "sparkVersion": "3.2.1",
+        "mainApplicationFile": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
+        "mainClass": "org.apache.spark.examples.SparkPi",
         "arguments": \["10"]
     }
 }
@@ -90,9 +90,9 @@ curl --location --request POST 'https://control-plane.iomete.com/api/v1/workspac
 --data-raw '{
     "name": "test-job",
     "template": {
-        "spark_version": "3.2.1",
-        "main_application_file": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
-        "main_class": "org.apache.spark.examples.SparkPi",
+        "sparkVersion": "3.2.1",
+        "mainApplicationFile": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
+        "mainClass": "org.apache.spark.examples.SparkPi",
         "arguments": ["10"]
     }
 }'
@@ -139,9 +139,9 @@ curl --location --request PUT 'https://control-plane.iomete.com/api/v1/workspace
 --data-raw '{
     "name": "test-job",
     "template": {
-        "spark_version": "3.2.1",
-        "main_application_file": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
-        "main_class": "org.apache.spark.examples.SparkPi",
+        "sparkVersion": "3.2.1",
+        "mainApplicationFile": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
+        "mainClass": "org.apache.spark.examples.SparkPi",
         "arguments": ["10"]
     },
     "schedule": "0 0 */1 * *"
@@ -282,11 +282,19 @@ This will cancel the job run submitted earlier.
 
 <GridBox>
 
-<Card title="API Token" icon={<Key />} link="user-guide/create-a-personal-access-token">
+<Card
+  title="API Token"
+  icon={<Key />}
+  link="user-guide/create-a-personal-access-token"
+>
   Read our guide on how to create a personal access token for API
 </Card>
 
-<ExternalCard title="API Specification" icon={<CodeBlock />} link="https://api.iomete.com">
+<ExternalCard
+  title="API Specification"
+  icon={<CodeBlock />}
+  link="https://api.iomete.com"
+>
   Explore API possibilities with our accessible OpenAPI specification
 </ExternalCard>
 

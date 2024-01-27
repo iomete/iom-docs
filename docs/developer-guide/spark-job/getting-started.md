@@ -2,18 +2,12 @@
 title: Getting Started with Spark Jobs
 sidebar_label: Getting Started
 description: Learn how to run your first Spark Job on the IOMETE platform using PySpark. Follow our step-by-step guide and get started with Spark Jobs today!
-# tags:
-# - IOMETE
-# - How-To-Guides
-# - Spark Jobs
-# - PySpark
-# - Apache Iceberg
 last_update:
-  date: 03.27.2023
+  date: 01/26/2024
 ---
 
 import Img from '@site/src/components/Img';
-import { Plus } from "@phosphor-icons/react";
+import { Plus, Code, Cpu } from "@phosphor-icons/react";
 
 This guide aims to help you get familiar with getting started with writing your first Spark Job and deploying in the IOMETE platform.
 
@@ -130,66 +124,45 @@ There are two ways to create a Spark Job in the IOMETE:
 
 **Using the IOMETE Control Plane UI**
 
-1.  Go to `Spark Jobs` page
-2.  Click on <span className="inline-button"><Plus size={16}/> Create New</span> button
+1.  Go to <button class="button button--default button-iom"><Cpu size={16} /> Spark Jobs</button> page
+2.  Click on <button class="button button--primary button-iom"><Plus size={16} /><b>Create</b></button>
 3.  Provide the following information:
-    - `Name`: `sample-job`
-    - `Image`: `iomete/sample-job:1.0.0`
-    - `Main Application File`: `local:///app/job.py`
+    - `Name` : `sample-job`
+    - `Docker image` : `iomete/sample-job:1.0.0`
+    - `Main application file` : `local:///app/job.py`
 
-<Img src="/img/guides/spark-job/getting-started/create-spark-job.png" alt="Create Spark Job"/>
+<Img src="/img/guides/spark-job/job-create.png" alt="Create Spark Job" maxWidth="520px"/>
 
 **Using the IOMETE Control Plane API**
 
-First set `WORKSPACE_ENDPOINT` and `API_TOKEN` environment variables. Retrieve
+You can create a Spark job using the API. After entering the inputs, go to the bottom and click the <button class="button button--primary button-iom"><Code size={16} /></button> button next to the <button class="button button--primary button-iom">Create</button> button. You will see a CURL command.
 
-- `API TOKEN` from here: https://app.iomete.cloud/user-settings/personal-access-token
-- `WORKSPACE_ENDPOINT` from the `Workspace Settings` page and find the value of `Workspace Endpoint`.
+<Img src="/img/guides/spark-job/job-create-api.png" alt="Create Spark Job with API" maxWidth="520px"/>
 
-```bash
-export WORKSPACE_ENDPOINT="<your workspace id>"
-export API_TOKEN="<your api token>"
-```
+<!-- :::info CURL
+You can see <button class="button button--primary button-iom"><Code size={16} /></button> button for `Run job`, `Abort job`, `Get run list`,` Get job details`, `Delete job`, `Edit job`
+::: -->
 
-```bash
-curl -v --request POST \
---url $WORKSPACE_ENDPOINT/spark-jobs \
---header "Content-Type: application/json" \
---header "X-API-TOKEN: $API_TOKEN" \
---data '{
-  "name": "sample-job22",
-  "template": {
-    "spark_version": "3.2.1",
-    "image": "iomete/sample-job:1.0.0",
-    "main_application_file": "local:///app/job.py"
-    }
-  }
-}'
-```
+<Img src="/img/guides/spark-job/job-create-api-example.png" alt="Create Spark Job with API" maxWidth="520px"/>
+
+:::info ACCESS TOKEN
+To create an access token, go to the Settings menu and switch to the Access Tokens tab.
+:::
 
 ### Run Spark Job
 
 Once the Spark Job is created, you can run it using the IOMETE Control Plane UI or API.
 
-#### Run from UI
-
 To run it from the UI, go to the `Spark Jobs` page, go to the details of job and click on the `Run` button.
 
-#### Run from API
+<Img src="/img/guides/spark-job/job-run-btn.png" alt="Run Spark Job" maxWidth="520px"/>
 
-To run it from the API, first set `JOB_ID` environment variable to the ID of the Spark Job you created in the previous step. Then, run the following command:
+To run it from the API, click the <button class="button button--primary button-iom"><Code size={16} /></button> button next to the <button class="button button--primary button-iom">Run job</button> button.
 
-```bash
-# replace the JOB_ID with the ID of the Spark Job you created in the previous step
-export JOB_ID="40fcb60a-1cfd-47a9-8a3c-2920fa398326"
-
-curl -v --request POST \
-  --url $WORKSPACE_ENDPOINT/spark-jobs/$JOB_ID/runs \
-  --header "X-API-TOKEN: $API_TOKEN"
-```
+<Img src="/img/guides/spark-job/job-run-api.png" alt="Run Spark Job with API" maxWidth="520px"/>
 
 You can monitor and check the status of the Spark Job run from the `Spark Job Runs` page:
 
-<Img src="/img/guides/spark-job/getting-started/job-run.png" alt="Spark Job Run Details"/>
+<Img src="/img/guides/spark-job/job-run-view.png" alt="Spark Job Run Details"/>
 
 Congratulations 🎉🎉🎉
