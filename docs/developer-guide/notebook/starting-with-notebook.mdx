@@ -14,7 +14,6 @@ directly from your local environment.
 import Question from "@site/src/components/Question";
 import Img from "@site/src/components/Img";
 import Card from "@site/src/components/Card";
-import ExternalCard from "@site/src/components/ExternalCard";
 import GridBox from "@site/src/components/GridBox";
 import { GithubLogo, CodeBlock } from "@phosphor-icons/react";
 
@@ -142,11 +141,19 @@ This will install the NumPy library and its dependencies
 
 <GridBox>
 
-<ExternalCard title="Examples" icon={<GithubLogo />} link="https://github.com/iomete/notebook-examples">
+<Card
+  title="Examples"
+  icon={<GithubLogo />}
+  link="https://github.com/iomete/notebook-examples"
+>
   Explore our notebooks repository for easy start
-</ExternalCard>
+</Card>
 
-<Card title="Visual Studio Code" icon={<CodeBlock />} link="developer-guide/jupyter-notebook-on-vscode">
+<Card
+  title="Visual Studio Code"
+  icon={<CodeBlock />}
+  link="developer-guide/jupyter-notebook-on-vscode"
+>
   Read our guide on how to use VS Code as Jupyter Client
 </Card>
 

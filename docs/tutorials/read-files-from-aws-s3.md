@@ -8,7 +8,6 @@ last_update:
 import Img from '@site/src/components/Img';
 
 import Card from "@site/src/components/Card";
-import ExternalCard from "@site/src/components/ExternalCard";
 import GridBox from "@site/src/components/GridBox";
 import { File, FileCsv, FileJs } from "@phosphor-icons/react";
 
