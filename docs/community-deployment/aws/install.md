@@ -13,7 +13,7 @@ import Question from "@site/src/components/Question";
 import Card from "@site/src/components/Card";
 import GridBox from "@site/src/components/GridBox";
 import { Files, Database, Sparkle, Circuitry } from "@phosphor-icons/react";
-
+import YoutubeCard from "@site/src/components/YoutubeCard";
 
 You're about to install the **IOMETE Lakehouse Platform Community Edition on AWS**. The IOMETE Community Edition is **the most generous Data Lakehouse Platform** on the market. Enjoy the benefits of a data lakehouse platform with no restrictions on data volume, users, or queries.
 
@@ -31,6 +31,8 @@ IOMETE Community Edition is supported by the community. Feel free to join the [I
 - Kubectl. [Find Kubectl Install Tools here](https://kubernetes.io/docs/tasks/tools/).
 - Helm 3. [Details on installing Helm can be found here](https://helm.sh/docs/intro/install/).
 :::
+
+<YoutubeCard link="https://www.youtube.com/embed/gNtZrnKNg4Y" title="Install IOMETE Community Edition on AWS: Free Data Lakehouse Tutorial" />
 
 
 ## Installation Steps
