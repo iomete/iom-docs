@@ -23,7 +23,10 @@ const sidebars = {
       type: "category",
       label: "Overview",
       collapsed: false,
-      items: ["getting-started/what-is-iomete", "getting-started/platform-tour"],
+      items: [
+        "getting-started/what-is-iomete",
+        "getting-started/platform-tour",
+      ],
     },
     {
       type: "category",
@@ -61,7 +64,10 @@ const sidebars = {
           type: "category",
           label: "On-Premise",
           collapsed: true,
-          items: ["community-deployment/on-prem/install", "community-deployment/on-prem/life-cycle-management"],
+          items: [
+            "community-deployment/on-prem/install",
+            "community-deployment/on-prem/life-cycle-management",
+          ],
         },
       ],
     },
@@ -78,6 +84,7 @@ const sidebars = {
         "user-guide/create-a-personal-access-token",
         // "user-guide/create-ssh-tunnel",
         "user-guide/sql-editor",
+        "user-guide/data-catalog",
       ],
     },
     {
@@ -121,13 +128,19 @@ const sidebars = {
       type: "category",
       label: "Jupyter Notebook",
       collapsed: false,
-      items: ["developer-guide/notebook/starting-with-notebook", "developer-guide/notebook/using-vscode"],
+      items: [
+        "developer-guide/notebook/starting-with-notebook",
+        "developer-guide/notebook/using-vscode",
+      ],
     },
     {
       type: "category",
       label: "Client & Libraries",
       collapsed: false,
-      items: ["developer-guide/driver/sql-alchemy-driver", "developer-guide/driver/jdbc-driver"],
+      items: [
+        "developer-guide/driver/sql-alchemy-driver",
+        "developer-guide/driver/jdbc-driver",
+      ],
     },
     {
       type: "category",
