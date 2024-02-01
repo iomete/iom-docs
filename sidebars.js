@@ -73,6 +73,7 @@ const sidebars = {
           label: "Advanced Settings",
           collapsed: true,
           items: [
+            "deployment/configure-custom-dns",
             "deployment/backend-databases",
             "deployment/life-cycle-management",
           ],
