@@ -74,6 +74,7 @@ const sidebars = {
           collapsed: true,
           items: [
             "deployment/configure-custom-dns",
+            "deployment/enable-tls",
             "deployment/backend-databases",
             "deployment/life-cycle-management",
           ],
