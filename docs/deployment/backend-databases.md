@@ -1,6 +1,6 @@
 ---
-title: IOMETE Backend Database
-sidebar_label: Backend Database
+title: IOMETE Backend Databases
+sidebar_label: Backend Databases
 description: Explore IOMETE's backend database requirements for MySQL and PostgreSQL, tailored for small to large scale users. Learn about CPU, memory, and disk space needs for managing internal and data lake metadata, with tips on enhancing performance and safeguarding data.
 last_update:
   date: 01/20/2024

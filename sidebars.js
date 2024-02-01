@@ -62,11 +62,19 @@ const sidebars = {
         },
         {
           type: "category",
-          label: "On-Premise",
+          label: "On-Premises",
           collapsed: true,
           items: [
             "community-deployment/on-prem/install",
-            "community-deployment/on-prem/life-cycle-management",
+          ],
+        },
+        {
+          type: "category",
+          label: "Advanced Settings",
+          collapsed: true,
+          items: [
+            "deployment/backend-databases",
+            "deployment/life-cycle-management",
           ],
         },
       ],
