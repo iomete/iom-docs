@@ -57,7 +57,7 @@ The Details Page in the **IOMETE** Data Catalog provides a comprehensive view of
 
 ### General information
 
-View important table details like name, creation date, last update, and synchronization status. Access information on data provider, database, table type, owners, tags, and description. Effortlessly manage owners and tags, and edit the description in either text or **markdown** format.
+View important table details like name, creation date, last update, and synchronization status. Access information on data provider, database, table type, owners, tags, and description. Effortlessly manage owners and tags.
 
 <div class="row">
   <div class="col col--6">
@@ -68,8 +68,17 @@ View important table details like name, creation date, last update, and synchron
   </div>
 </div>
 
+You can edit the description in either text or **markdown** format. When you type using markdown, you can preview it at the bottom.
+
+<Img src="/img/user-guide/data-catalog/edit-description.png" alt="Data Catalog edit description" maxWidth="600px"/>
+
 ### Metrics and columns
 
-Get quick and clear insights using easy-to-read visuals that show data size, file count, and the number of rows and columns. The detailed table breaks down each column, displaying its name, data type, tags, and descriptions. Easily edit or add tags and descriptions right in the table, with support for **markdown** formatting in descriptions.
+Get quick and clear insights using easy-to-read visuals that show data size, file count, and the number of rows and columns. The detailed table breaks down each column, displaying its name, data type, tags, and descriptions.
 
 <Img src="/img/user-guide/data-catalog/metrics-columns.png" alt="Data Catalog table metrics and table columns"/>
+
+You can also can edit or add tags and descriptions right in the table, with support for **markdown** formatting in descriptions.
+
+<Img src="/img/user-guide/data-catalog/column-tag-add.png" alt="Data Catalog columns tags add"/>
+<Img src="/img/user-guide/data-catalog/column-description-edit.png" alt="Data Catalog columns tags add" maxWidth="600px"/>

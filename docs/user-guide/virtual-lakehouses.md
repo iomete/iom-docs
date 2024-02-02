@@ -2,8 +2,8 @@
 title: Virtual Lakehouses
 description: Learn how to create and manage virtual lakehouses in IOMETE, including cluster creation, scaling, and isolation of workloads for optimized performance and cost savings.
 last_update:
-  date: 12/25/2022
-  author: Nurlan Mammadov
+  date: 01/16/2024
+  author: Vugar Dadalov
 ---
 
 import { Plus } from "@phosphor-icons/react";

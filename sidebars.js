@@ -90,11 +90,12 @@ const sidebars = {
       collapsed: false,
       items: [
         "user-guide/virtual-lakehouses",
-        "user-guide/private-docker-registry",
-        "user-guide/create-a-personal-access-token",
         // "user-guide/create-ssh-tunnel",
         "user-guide/sql-editor",
         "user-guide/data-catalog",
+        "user-guide/roles",
+        "user-guide/create-a-personal-access-token",
+        "user-guide/private-docker-registry",
       ],
     },
     {
