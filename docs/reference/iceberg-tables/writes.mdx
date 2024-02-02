@@ -5,21 +5,13 @@ description: Learn how to use IOMETE for row-level updates and replacing data in
 last_update:
   date: 10/04/2022
   author: Vugar Dadalov
---- 
-
-<!-- <head>
-  <title>Iceberg tables DDL</title>
-  <meta
-    name="description"
-    content="Iceberg tables create"
-  />
-</head> -->
+---
 
 ### Writing with SQL
 
 **IOMETE** supports `INSERT INTO`, `MERGE INTO`, and `INSERT OVERWRITE`
 
-<br/>
+<br />
 
 ### `INSERT INTO`
 
@@ -33,7 +25,7 @@ INSERT INTO db.table VALUES (1, 'a'), (2, 'b')
 INSERT INTO db.table SELECT ...
 ```
 
-<br/>
+<br />
 
 ### `MERGE INTO`
 
@@ -45,11 +37,11 @@ Iceberg supports `MERGE INTO` by rewriting data files that contain rows that nee
 **MERGE INTO is recommended instead of INSERT OVERWRITE** because Iceberg can replace only the affected data files, and because the data overwritten by a dynamic overwrite may change if the table’s partitioning changes.
 :::
 
-<br/>
+<br />
 
 ### `MERGE INTO syntax`
 
-`MERGE INTO` updates a table, called the target table, using a set of updates from another query, called the source. The update for a row in the target table is found using the `ON` clause that is like a join condition. 
+`MERGE INTO` updates a table, called the target table, using a set of updates from another query, called the source. The update for a row in the target table is found using the `ON` clause that is like a join condition.
 
 ```sql
 MERGE INTO db.target t   -- a target table
@@ -71,6 +63,7 @@ Source rows (updates) that do not match can be inserted:
 ```sql
 WHEN NOT MATCHED THEN INSERT *
 ```
+
 Inserts also support additional conditions:
 
 ```sql
@@ -79,7 +72,7 @@ WHEN NOT MATCHED AND s.event_time > still_valid_threshold THEN INSERT (id, count
 
 Only one record in the source data can update any given row of the target table, or else an error will be thrown.
 
-<br/>
+<br />
 
 ### INSERT OVERWRITE
 
@@ -87,7 +80,7 @@ Only one record in the source data can update any given row of the target table,
 
 The partitions that will be replaced by `INSERT OVERWRITE` depends on Spark’s partition overwrite mode and the partitioning of a table. `MERGE INTO` can rewrite only affected data files and has more easily understood behavior, so it is recommended instead of `INSERT OVERWRITE.`
 
-<br/>
+<br />
 
 ### Overwrite behavior
 
@@ -105,7 +98,8 @@ CREATE TABLE my_app.logs (
     message string)
 PARTITIONED BY (level, hours(ts))
 ```
-<br/>
+
+<br />
 
 ### Dynamic overwrite
 
@@ -123,7 +117,7 @@ GROUP BY uuid
 
 In dynamic mode, this will replace any partition with rows in the `SELECT` result. Because the date of all rows is restricted to 1 July, only hours of that day will be replaced.
 
-<br/>
+<br />
 
 ### Static overwrite
 
@@ -144,7 +138,7 @@ GROUP BY uuid
 
 Note that this mode cannot replace hourly partitions like the dynamic example query because the `PARTITION` clause can only reference table columns, not hidden partitions.
 
-<br/>
+<br />
 
 ### `DELETE FROM`
 
@@ -157,11 +151,11 @@ WHERE ts >= '2020-05-01 00:00:00' and ts < '2020-06-01 00:00:00'
 
 If the delte filter matches entire partitions of the table, Iceberg will perform a metadata-only delete. If the filter matches individual rows of a table, then Iceberg will rewrite only the affected data files.
 
-<br/>
+<br />
 
 ### Writing to partitioned tables
 
-Iceberg requires the data to be sorted according to the partition spec per task (Spark partition) in prior to write against partitioned table.  
+Iceberg requires the data to be sorted according to the partition spec per task (Spark partition) in prior to write against partitioned table.
 
 Let’s go through writing the data against below sample table:
 
@@ -188,8 +182,8 @@ ORDER BY ts, category
 Spark and Iceberg support different set of types. Iceberg does the type conversion automatically, but not for all combinations, so you may want to understand the type conversion in Iceberg in prior to design the types of columns in your tables.
 
 ### Spark type to Iceberg type
-This type conversion table describes how Spark types are converted to the Iceberg types. The conversion applies on both creating Iceberg table and writing to Iceberg table via Spark.
 
+This type conversion table describes how Spark types are converted to the Iceberg types. The conversion applies on both creating Iceberg table and writing to Iceberg table via Spark.
 
 | Spark     | Iceberg                 |
 | --------- | ----------------------- |
@@ -211,34 +205,35 @@ This type conversion table describes how Spark types are converted to the Iceber
 | array     | list                    |
 | map       | map                     |
 
-<br/>
+<br />
 
 :::info
 The table is based on representing conversion during creating table. In fact, broader supports are applied on write. Here’re some points on write:
-* Iceberg numeric types (`integer` , `long` , `float` , `double` , `decimal`) support promotion during writes. e.g. You can write Spark types short, byte, integer, long to Iceberg type long.
-* You can write to Iceberg fixed type using Spark binary type. Note that assertion on the length will be performed.
-:::
+
+- Iceberg numeric types (`integer` , `long` , `float` , `double` , `decimal`) support promotion during writes. e.g. You can write Spark types short, byte, integer, long to Iceberg type long.
+- You can write to Iceberg fixed type using Spark binary type. Note that assertion on the length will be performed.
+  :::
 
 ### Iceberg type to Spark type
 
 This type conversion table describes how Iceberg types are converted to the Spark types. The conversion applies on reading from Iceberg table via Spark.
 
-|Iceberg|Spark|Notes|
-|:----|:----|:----|
-|boolean|boolean| |
-|integer|integer| |
-|long|long| |
-|float|float| |
-|double|double| |
-|date|date| |
-|time| |Not supported|
-|timestamp with timezone|timestamp| |
-|timestamp without timezone| |Not supported|
-|string|string| |
-|uuid|string| |
-|fixed|binary| |
-|binary|binary| |
-|decimal|decimal| |
-|struct|struct| |
-|list|array| |
-|map|map| |
+| Iceberg                    | Spark     | Notes         |
+| :------------------------- | :-------- | :------------ |
+| boolean                    | boolean   |               |
+| integer                    | integer   |               |
+| long                       | long      |               |
+| float                      | float     |               |
+| double                     | double    |               |
+| date                       | date      |               |
+| time                       |           | Not supported |
+| timestamp with timezone    | timestamp |               |
+| timestamp without timezone |           | Not supported |
+| string                     | string    |               |
+| uuid                       | string    |               |
+| fixed                      | binary    |               |
+| binary                     | binary    |               |
+| decimal                    | decimal   |               |
+| struct                     | struct    |               |
+| list                       | array     |               |
+| map                        | map       |               |

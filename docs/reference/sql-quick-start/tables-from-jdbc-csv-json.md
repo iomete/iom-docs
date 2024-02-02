@@ -1,6 +1,6 @@
 ---
 title: Tables from JDBC, CSV, JSON, Parquet, ORC files
-sidebar_label: External tables
+sidebar_label: External Tables
 description: This SQL script provides a comprehensive guide on data sources and external tables manipulation in IOMETE, with examples covering JDBC, CSV, JSON, Parquet, and ORC. It demonstrates creating tables from various data sources, querying these tables, as well as exporting data back to these sources.
 ---
 

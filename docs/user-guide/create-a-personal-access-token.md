@@ -1,5 +1,5 @@
 ---
-title: Access token
+title: Access Token
 description: An Access Token is pivotal for secure authentication. This guide elucidates the process of generating an Access Token in IOMETE.
 last_update:
   date: 01/29/2024

@@ -1,19 +1,19 @@
 ---
 title: Read and write data from Snowflake
 description: Learn how to seamlessly integrate Snowflake with IOMETE using Spark SQL. This guide covers SQL and DataFrame API examples in both PySpark and Scala, along with parameter explanations and best practices.
-sidebar_label: Snowflake connector
+sidebar_label: Snowflake Connector
 last_update:
-    date: 10/09/2023
-    author: Vusal Dadalov
+  date: 10/09/2023
+  author: Vusal Dadalov
 ---
-___
+
+---
 
 IOMETE provides a Snowflake connector to support reading and writing data from Snowflake.
 
 :::info
 The connector is already included in the IOMETE distribution package. No additional installation is required.
 :::
-
 
 ## Query a Snowflake table in IOMETE
 
@@ -42,39 +42,46 @@ The `CREATE TABLE` statement with the Snowflake Spark Connector is used to defin
 ### Parameters
 
 #### `dbtable '<table-name>'`
+
 - **Description**: Specifies the name of the table in Snowflake that you want to connect to.
 - **Example**: If your Snowflake table is named `employees`, you would set `dbtable 'employees'`.
 
 #### `sfUrl '<snowflake-account-url>'`
+
 - **Description**: The URL of the Snowflake account you are connecting to.
 - **Example**: `<account_identifier>.<region_id>.<cloud_provider>.snowflakecomputing.com` (e.g. `xy12345.us-east-1.aws.snowflakecomputing.com`).
 
 #### `sfUser '<username>'`
+
 - **Description**: The username used to authenticate with Snowflake.
 - **Example**: If your Snowflake username is `john_doe`, you would set `sfUser 'john_doe'`.
 
 #### `sfPassword '<password>'`
+
 - **Description**: The password corresponding to the username, used for authentication.
 - **Example**: If your password is `myPassword123`, you would set `sfPassword 'myPassword123'`.
 
 #### `sfDatabase '<database-name>'`
+
 - **Description**: The name of the Snowflake database you want to use.
 - **Example**: If you are using a database named `hr_db`, you would set `sfDatabase 'hr_db'`.
 
 #### `sfSchema '<schema-name>'`
+
 - **Description**: The name of the schema within the Snowflake database.
 - **Example**: If you are using a schema named `public`, you would set `sfSchema 'public'`.
 
 #### `sfWarehouse '<warehouse-name>'`
+
 - **Description**: The name of the Snowflake virtual warehouse to use for the data processing tasks.
 - **Example**: If you are using a warehouse named `my_warehouse`, you would set `sfWarehouse 'my_warehouse'`.
-
 
 ## Data frame API
 
 Data frame readers and writers are also available:
 
 ### Pyspark example:
+
 ```python
 snowflake_table = (spark.read
   .format("snowflake")
@@ -90,6 +97,7 @@ snowflake_table = (spark.read
 ```
 
 ### Scala example:
+
 ```scala
 val snowflake_table = spark.read
   .format("snowflake")
@@ -102,7 +110,6 @@ val snowflake_table = spark.read
   .option("sfWarehouse", warehouse_name)
   .load()
 ```
-
 
 ### Pyspark example writing data to Snowflake and read it back
 

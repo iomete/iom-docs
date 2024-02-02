@@ -1,5 +1,5 @@
 ---
-title: DML operations
+title: DML Operations
 description: This SQL script illustrates common queries and DML operations in IOMETE, utilizing Spark SQL and Iceberg. It encompasses database and table creation, data insertion, update and deletion operations and table descriptions.
 ---
 
