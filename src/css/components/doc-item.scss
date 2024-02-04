@@ -5,6 +5,9 @@
 //overrides
 #__docusaurus {
   //#region ------------ DocItem -------------
+  display: flex;
+  justify-content: center;
+
   [class*="docItemCol_"] {
     max-width: initial;
     min-width: 0;
@@ -77,11 +80,4 @@
     margin-inline-start: auto;
     margin-inline-end: auto;
   }
-
-  //   [class*="docItemCol_"] {
-  //     display: flex;
-  //     justify-content: center;
-  //     min-width: 0;
-  //   }
-  //#endregion
 }

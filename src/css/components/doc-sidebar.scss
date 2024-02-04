@@ -58,7 +58,6 @@ html[data-theme="dark"] {
     overflow-y: auto;
 
     padding-inline-start: var(--sidebar-spacing-horizontal);
-
     padding-inline-end: var(--sidebar-spacing-horizontal);
 
     padding-block-start: 5rem;
@@ -88,7 +87,9 @@ html[data-theme="dark"] {
 
     .menu__list {
       .menu__link--sublist {
-        margin-inline-start: calc(-1 * (var(--dropdown-icon-width) + var(--dropdown-icon-gap)));
+        margin-inline-start: calc(
+          -1 * (var(--dropdown-icon-width) + var(--dropdown-icon-gap))
+        );
 
         &::after {
           // The chevron icon will have less opacity when it's not on the first level.
@@ -103,7 +104,9 @@ html[data-theme="dark"] {
       }
       .menu__list {
         .menu__link {
-          padding-inline-start: calc(var(--dropdown-icon-width) + var(--dropdown-icon-gap));
+          padding-inline-start: calc(
+            var(--dropdown-icon-width) + var(--dropdown-icon-gap)
+          );
         }
       }
       &-collapsible {
@@ -113,7 +116,9 @@ html[data-theme="dark"] {
     }
   }
 
-  .theme-doc-sidebar-item-category-level-1 > .menu__list > .menu__list-item:last-of-type {
+  .theme-doc-sidebar-item-category-level-1
+    > .menu__list
+    > .menu__list-item:last-of-type {
     padding-block-end: 1rem;
   }
 
@@ -159,7 +164,8 @@ html[data-theme="dark"] {
     justify-content: flex-end;
 
     &::after {
-      background: var(--ifm-menu-link-sublist-icon) center / var(--dropdown-icon-width) var(--dropdown-icon-height);
+      background: var(--ifm-menu-link-sublist-icon) center /
+        var(--dropdown-icon-width) var(--dropdown-icon-height);
       background-repeat: no-repeat;
 
       min-width: auto;

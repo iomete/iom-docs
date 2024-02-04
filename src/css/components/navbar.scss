@@ -25,10 +25,14 @@ html[data-theme="dark"] {
   .navbar {
     padding: 0 16px;
     font-size: 14px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
     &__inner {
       width: initial;
       flex-grow: 1;
       flex-wrap: nowrap;
+      max-width: 1400px;
     }
 
     &__items {
