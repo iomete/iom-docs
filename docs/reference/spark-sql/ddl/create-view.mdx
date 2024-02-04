@@ -11,7 +11,7 @@ Views are based on the result-set of an SQL query. `CREATE VIEW` constructs a vi
 
 ---
 
-**Syntax**
+## Syntax
 
 ```sql
 CREATE [OR REPLACE] [TEMPORARY] VIEW [IF NOT EXISTS] [db_name.]view_name
@@ -21,7 +21,7 @@ CREATE [OR REPLACE] [TEMPORARY] VIEW [IF NOT EXISTS] [db_name.]view_name
 
 <br />
 
-**Parameters**
+## Parameters
 
 _`OR REPLACE`_ If a view of same name already exists, it will be replaced._`[GLOBAL]` `TEMPORARY`_ TEMPORARY views are session-scoped and will be dropped when session ends because it skips persisting the definition in the underlying metastore, if any._`IF NOT EXISTS`_ Creates a view if it does not exists._`create_view_clauses`_ These clauses are optional and order insensitive. It can be of following formats.
 
@@ -33,7 +33,7 @@ _`OR REPLACE`_ If a view of same name already exists, it will be replaced._`[GLO
 
 <br />
 
-**Examples**
+## Examples
 
 ```sql
 -- Create or replace view for `experienced_employee` with comments.

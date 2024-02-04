@@ -7,10 +7,6 @@ last_update:
   author: Vugar Dadalov
 ---
 
----
-
-### Description
-
 Set operators are used to combine two input relations into a single one. Spark SQL supports three types of set operators:
 
 - `EXCEPT or MINUS`
@@ -19,7 +15,9 @@ Set operators are used to combine two input relations into a single one. Spark S
 
 Note that input relations must have the same number of columns and compatible data types for the respective columns.
 
-### EXCEPT
+---
+
+## EXCEPT
 
 `EXCEPT` and `EXCEPT ALL` return the rows that are found in one relation but not the other. EXCEPT (alternatively, EXCEPT DISTINCT) takes only distinct rows while `EXCEPT ALL` does not remove duplicates from the result rows. Note that `MINUS` is an alias for `EXCEPT`.
 
@@ -90,7 +88,7 @@ SELECT c FROM number1 MINUS ALL (SELECT c FROM number2);
 +---+
 ```
 
-### INTERSECT
+## INTERSECT
 
 `INTERSECT` and `INTERSECT ALL` return the rows that are found in both relations. `INTERSECT`(alternatively, `INTERSECT DISTINCT`) takes only distinct rows while `INTERSECT ALL` does not remove duplicates from the result rows.
 
@@ -129,7 +127,7 @@ SELECT c FROM number1 MINUS ALL (SELECT c FROM number2);
 +---+
 ```
 
-### UNION
+## UNION
 
 `UNION` and `UNION ALL` return the rows that are found in either relation. `UNION` (alternatively, `UNION DISTINCT`) takes only distinct rows while `UNION ALL` does not remove duplicates from the result rows.
 

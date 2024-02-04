@@ -11,11 +11,11 @@ The `ALTER TABLE` statement changes the schema or properties of a table.
 
 ---
 
-RENAME
+## RENAME
 
 `ALTER TABLE RENAME` statement changes the table name of an existing table in the database.
 
-**Syntax**
+### Syntax
 
 ```sql
 ALTER TABLE [db_name.]old_table_name RENAME TO [db_name.]new_table_name
@@ -23,35 +23,32 @@ ALTER TABLE [db_name.]old_table_name RENAME TO [db_name.]new_table_name
 ALTER TABLE table_name PARTITION partition_spec RENAME TO PARTITION partition_spec;
 ```
 
-**Parameters**
+### Parameters
 
 _`old_table_name`_ Name of an existing table._`db_name`_ Name of the existing database.`new_table_name` New name using which the table has to be renamed.`partition_spec` Partition to be renamed.
 
-ADD COLUMNS
+## ADD COLUMNS
+
 `ALTER TABLE ADD COLUMNS` statement adds mentioned columns to an existing table.
 
-**Syntax**
+### Syntax
 
 ```sql
 ALTER TABLE table_name ADD COLUMNS (col_spec[, col_spec ...])
 ```
 
-<br />
-
-**Parameters**
+### Parameters
 
 _`table_name`_ The name of an existing table. _`COLUMNS (col_spec)`_ Specifies the columns to be added to be renamed.
 
-SET AND UNSET
+## SET AND UNSET
 
-###**SET TABLE PROPERTIES**
+### Set table properties
 
 `ALTER TABLE SET` command is used for setting the table properties. If a particular property was already set, this overrides the old value with the new one.
 `ALTER TABLE UNSET` is used to drop the table property.
 
-<br />
-
-**Syntax**
+### Syntax
 
 ```sql
 --Set Table Properties
@@ -61,9 +58,7 @@ ALTER TABLE table_name SET TBLPROPERTIES (key1=val1, key2=val2, ...)
 ALTER TABLE table_name UNSET TBLPROPERTIES [IF EXISTS] (key1, key2, ...)
 ```
 
-<br />
-
-**Examples**
+## Examples
 
 ```sql
 --Set Table Properties

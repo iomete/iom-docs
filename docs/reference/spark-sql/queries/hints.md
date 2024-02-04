@@ -7,21 +7,21 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 Hints give users a way to suggest how Spark SQL to use specific approaches to generate its execution plan.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 /*+ hint [ , ... ] */
 ```
 
-### Partitioning Hints
+## Partitioning Hints
 
 Partitioning hints allow users to suggest a partitioning strategy that Spark should follow. `COALESCE`, `REPARTITION`, and `REPARTITION_BY_RANGE` hints are supported and are equivalent to `coalesce`, `repartition`, and `repartitionByRange` Dataset APIs, respectively. These hints give users a way to tune performance and control the number of output files in Spark SQL. When multiple partitioning hints are specified, multiple nodes are inserted into the logical plan, but the leftmost hint is picked by the optimizer.
 
-### Partitioning Hints Types
+## Partitioning Hints Types
 
 - **COALESCE**
 
@@ -46,7 +46,7 @@ Partitioning hints allow users to suggest a partitioning strategy that Spark sho
   partitions, to make these partitions not too big. This hint is useful when you need to write the result of this
   query to a table, to avoid too small/big files. This hint is ignored if AQE is not enabled.
 
-### Examples
+## Examples
 
 ```sql
 SELECT /*+ COALESCE(3) */ * FROM t;

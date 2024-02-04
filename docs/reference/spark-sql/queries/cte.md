@@ -7,9 +7,9 @@ last_update:
   author: Vugar Dadalov
 ---
 
-## Description
-
 A common table expression (CTE) defines a temporary result set that a user can reference possibly multiple times within the scope of a SQL statement. A CTE is used mainly in a SELECT statement.
+
+---
 
 ## Syntax
 

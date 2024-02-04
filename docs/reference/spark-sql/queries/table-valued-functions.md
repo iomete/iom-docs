@@ -7,16 +7,16 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 A table-valued function (TVF) is a function that returns a relation or a set of rows. There are two types of TVFs in Spark SQL:
 
 - a TVF that can be specified in a FROM clause, e.g. range;
 - a TVF that can be specified in SELECT/LATERAL VIEW clauses, e.g. explode.
 
-### Supported Table-valued Functions
+---
 
-#### TVFs that can be specified in a FROM clause:
+## Supported Table-valued Functions
+
+### TVFs that can be specified in a FROM clause:
 
 | Function                                      | Argument Type(s)      | Description                                                                                                                                                                         |
 | :-------------------------------------------- | :-------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -25,7 +25,7 @@ A table-valued function (TVF) is a function that returns a relation or a set of 
 | **range** ( start, end, step )                | Long, Long, Long      | Creates a table with a single _LongType_ column named id, containing rows in a range from start to end (exclusive) with step value.                                                 |
 | **range** ( start, end, step, numPartitions ) | Long, Long, Long, Int | Creates a table with a single _LongType_ column named id,containing rows in a range from start to end (exclusive) with step value, with partition number _numPartitions_ specified. |
 
-#### TVFs that can be specified in SELECT/LATERAL VIEW clauses:
+### TVFs that can be specified in SELECT/LATERAL VIEW clauses:
 
 | Function                                          | Argument Type(s) | Description                                                                                                                                                                                                                                                                                       |
 | :------------------------------------------------ | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -39,7 +39,7 @@ A table-valued function (TVF) is a function that returns a relation or a set of 
 | **json_tuple**<br/>( _jsonStr, p1, p2, …, pn_ )   | Seq[Expression]  | Returns a tuple like the function _get_json_object_, but it takes multiple names. All the input parameters and output column types are string.                                                                                                                                                    |
 | **parse_url**<br/>( _url, partToExtract[, key]_ ) | Seq[Expression]  | Extracts a part from a URL.                                                                                                                                                                                                                                                                       |
 
-### Examples
+## Examples
 
 ```sql
 -- range call with end

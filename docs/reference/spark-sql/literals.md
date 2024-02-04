@@ -6,19 +6,22 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### String Literal 
+## String Literal
+
 A string literal is used to specify a character string value.
 
-**Syntax** 
+### Syntax
+
 ```json
 'char [ ... ]' | "char [ ... ]"
 ```
 
-**Parameters** 
-  *    **char**
-         One character from the character set. Use ``` \ ``` to escape special characters (e.g., ``` ' ``` or ``` \ ```). 
+### Parameters
 
-**Examples** 
+- **char**
+  One character from the character set. Use `\` to escape special characters (e.g., `'` or `\`).
+
+### Examples
 
 ```sql
 SELECT 'Hello, World!' AS col;
@@ -42,23 +45,24 @@ SELECT 'it\'s $10.' AS col;
 |It's $10.|
 +---------+
 ```
-<br/>
 
+## Binary Literal
 
-### Binary Literal
 A binary literal is used to specify a byte sequence value.
 
-**Syntax** 
+### Syntax
+
 ```json
 X { 'num [ ... ]' | "num [ ... ]" }
 ```
 
-**Parameters** 
+### Parameters
 
-  * **num**
-    Any hexadecimal number from 0 to F.
+- **num**
+  Any hexadecimal number from 0 to F.
 
-**Examples** 
+### Examples
+
 ```sql
 SELECT X'123456' AS col;
 +----------+
@@ -67,18 +71,19 @@ SELECT X'123456' AS col;
 |[12 34 56]|
 +----------+
 ```
-<br/>
 
+## Null Literal
 
-### Null Literal s
 A null literal is used to specify a null value.
 
-**Syntax** 
+### Syntax
+
 ```sql
 NULL
 ```
 
-**Examples** 
+### Examples
+
 ```sql
 SELECT NULL AS col;
 +----+
@@ -87,17 +92,19 @@ SELECT NULL AS col;
 |NULL|
 +----+
 ```
-<br/>
 
-### Boolean
+## Boolean
+
 A boolean literal is used to specify a boolean value.
 
-**Syntax** 
+### Syntax
+
 ```sql
 TRUE | FALSE
 ```
 
-**Examples** 
+### Examples
+
 ```sql
 SELECT TRUE AS col;
 +----+
@@ -107,32 +114,32 @@ SELECT TRUE AS col;
 +----+
 ```
 
-<br/>
+## Numeric Literal
 
-### Numeric Literal
 A numeric literal is used to specify a fixed or floating-point number.
 
-### Integral Literal
+## Integral Literal
 
-**Syntax**
+### Syntax
+
 ```json
 [ + | - ] digit [ ... ] [ L | S | Y ]
 ```
- <br/>
 
-**Parameters**
-  *  **digit**
+### Parameters
+
+- **digit**
   Any numeral from 0 to 9.
-  *  **L**
-  Case insensitive, indicates ```BIGINT```, which is an 8-byte signed integer number.
-  *  **S**
-  Case insensitive, indicates ```SMALLINT```, which is a 2-byte signed integer number.
-  *  **Y**
-Case insensitive, indicates ```TINYINT```, which is a 1-byte signed integer number.
-  *  **default (no postfix)**
+- **L**
+  Case insensitive, indicates `BIGINT`, which is an 8-byte signed integer number.
+- **S**
+  Case insensitive, indicates `SMALLINT`, which is a 2-byte signed integer number.
+- **Y**
+  Case insensitive, indicates `TINYINT`, which is a 1-byte signed integer number.
+- **default (no postfix)**
   Indicates a 4-byte signed integer number.
 
-**Examples**
+### Examples
 
 ```sql
 SELECT -2147483648 AS col;
@@ -162,46 +169,47 @@ SELECT 482S AS col;
 +---+
 |482|
 +---+
-``` 
-<br/>
+```
 
-### Fractional Literals
+## Fractional Literals
 
-<br/>
+### Syntax
 
-**Syntax** 
 decimal literals:
+
 ```json
 decimal_digits { [ BD ] | [ exponent BD ] } | digit [ ... ] [ exponent ] BD
 ```
 
 double literals:
+
 ```json
 decimal_digits  { D | exponent [ D ] }  | digit [ ... ] { exponent [ D ] | [ exponent ] D }
 ```
 
 While decimal_digits is defined as
+
 ```json
 [ + | - ] { digit [ ... ] . [ digit [ ... ] ] | . digit [ ... ] }
 ```
 
 and exponent is defined as
+
 ```json
 E [ + | - ] digit [ ... ]
 ```
 
-<br/>
+### Parameters
 
+- **digit**
+  Any numeral from 0 to 9.
+- **D**
+  Case insensitive, indicates `DOUBLE`, which is an 8-byte double-precision floating point number.
+- **BD**
+  Case insensitive, indicates `DECIMAL`, with the total number of digits as precision and the number of digits to right of decimal point as scale.
 
-**Parameters**
-  *  **digit**
-Any numeral from 0 to 9.
-  *  **D**
-Case insensitive, indicates ```DOUBLE```, which is an 8-byte double-precision floating point number.
-  *  **BD**
-Case insensitive, indicates ```DECIMAL```, with the total number of digits as precision and the number of digits to right of decimal point as scale.
+### Examples
 
-**Examples**
 ```sql
 SELECT 12.578 AS col;
 +------+
@@ -287,23 +295,26 @@ SELECT -3.E-3D AS col;
 |-0.003|
 +------+
 ```
-<br/>
 
-### Datetime Literal
+## Datetime Literal
+
 A Datetime literal is used to specify a datetime value.
 
-### Date Literal
+## Date Literal
 
-**Syntax** 
+### Syntax
+
 ```json
 DATE { 'yyyy' |
        'yyyy-[m]m' |
        'yyyy-[m]m-[d]d' |
        'yyyy-[m]m-[d]d[T]' }
 ```
-**Note**: defaults to ```01``` if month or day is not specified.
 
-**Examples**
+**Note**: defaults to `01` if month or day is not specified.
+
+### Examples
+
 ```sql
 SELECT DATE '1997' AS col;
 +----------+
@@ -327,9 +338,10 @@ SELECT DATE '2011-11-11' AS col;
 +----------+
 ```
 
-### Timestamp Literal
+## Timestamp Literal
 
-**Syntax**
+### Syntax
+
 ```json
 TIMESTAMP { 'yyyy' |
             'yyyy-[m]m' |
@@ -339,22 +351,23 @@ TIMESTAMP { 'yyyy' |
             'yyyy-[m]m-[d]d[T][h]h:[m]m[:]' |
             'yyyy-[m]m-[d]d[T][h]h:[m]m:[s]s[.]' |
             'yyyy-[m]m-[d]d[T][h]h:[m]m:[s]s.[ms][ms][ms][us][us][us][zone_id]'}
-``` 
+```
 
-**Note**: defaults to ```00``` if hour, minute or second is not specified. ```zone_id``` should have one of the forms:
+**Note**: defaults to `00` if hour, minute or second is not specified. `zone_id` should have one of the forms:
 
-  * Z - Zulu time zone UTC+0
-  * ```+|-[h]h:[m]m```
-  * An id with one of the prefixes UTC+, UTC-, GMT+, GMT-, UT+ or UT-, and a suffix in the formats: 
-      *  ```+|-h[h]```
-      *  ```+|-hh[:]mm```
-      *  ```+|-hh:mm:ss```
-      *  ```+|-hhmmss```
-  * Region-based zone IDs in the form ```area/city```, such as ```Europe/Paris```
+- Z - Zulu time zone UTC+0
+- `+|-[h]h:[m]m`
+- An id with one of the prefixes UTC+, UTC-, GMT+, GMT-, UT+ or UT-, and a suffix in the formats:
+  - `+|-h[h]`
+  - `+|-hh[:]mm`
+  - `+|-hh:mm:ss`
+  - `+|-hhmmss`
+- Region-based zone IDs in the form `area/city`, such as `Europe/Paris`
 
-**Note**: defaults to the session local timezone (set via ```spark.sql.session.timeZone```) if ```zone_id``` is not specified.
+**Note**: defaults to the session local timezone (set via `spark.sql.session.timeZone`) if `zone_id` is not specified.
 
-**Examples** 
+### Examples
+
 ```sql
 SELECT TIMESTAMP '1997-01-31 09:26:56.123' AS col;
 +-----------------------+
@@ -378,7 +391,8 @@ SELECT TIMESTAMP '1997-01' AS col;
 +-------------------+
 ```
 
-### Interval Literal
+## Interval Literal
+
 An interval literal is used to specify a fixed period of time.
 
 ```sql
@@ -387,24 +401,24 @@ INTERVAL 'interval_value interval_unit [ interval_value interval_unit ... ]' |
 INTERVAL interval_string_value interval_unit TO interval_unit
 ```
 
-**Parameters** 
+### Parameters
 
-  * **interval_value**
-    **Syntax**: 
-    ```json
-    [ + | - ] number_value | '[ + | - ] number_value'
-    ```
-  * **interval_string_value**
-    year-month/day-time interval string.
+- **interval_value**
+  **Syntax**:
+  ```json
+  [ + | - ] number_value | '[ + | - ] number_value'
+  ```
+- **interval_string_value**
+  year-month/day-time interval string.
 
-* **interval_unit**
-    **Syntax**: 
-    ```json
-     YEAR[S] | MONTH[S] | WEEK[S] | DAY[S] | HOUR[S] | MINUTE[S] | SECOND[S] |
-     MILLISECOND[S] | MICROSECOND[S]
-    ```
+- **interval_unit**
+  **Syntax**:
+  ```json
+   YEAR[S] | MONTH[S] | WEEK[S] | DAY[S] | HOUR[S] | MINUTE[S] | SECOND[S] |
+   MILLISECOND[S] | MICROSECOND[S]
+  ```
 
-**Examples** 
+### Examples
 
 ```sql
 SELECT INTERVAL 3 YEAR AS col;

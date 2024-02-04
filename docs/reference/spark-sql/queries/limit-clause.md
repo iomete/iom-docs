@@ -7,18 +7,18 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 The `LIMIT` clause is used to constrain the number of rows returned by the <a href="./select">SELECT</a> statement. In general, this clause is used in conjunction with <a href="./order-by-clause">ORDER BY</a> to ensure that the results are deterministic.
 [block:api-header]
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 LIMIT { ALL | integer_expression }
 ```
 
-### Parameters
+## Parameters
 
 - **ALL**
 
@@ -28,7 +28,7 @@ LIMIT { ALL | integer_expression }
 
   Specifies a foldable expression that returns an integer.
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE person (name STRING, age INT);

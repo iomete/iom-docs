@@ -28,9 +28,7 @@ IOMETE supports the following column types:
 
 ## Examples
 
-<br/>
-
-**Bool type**
+### Bool type
 
 ```sql
 CREATE TABLE IF NOT EXISTS bool_types (id INT, bool_col BOOLEAN) USING delta;
@@ -61,9 +59,7 @@ select * from bool_types order by id;
 +-----+-----------+
 ```
 
-<br/>
-
-**Integer types**
+### Integer types
 
 ```sql
 CREATE TABLE IF NOT EXISTS integer_types (id INT, byte_col BYTE, short_col SHORT, int_col INT, long_col LONG) USING delta;
@@ -95,9 +91,7 @@ select * from integer_types order by id;
 +-----+-----------+------------+--------------+-----------------------+
 ```
 
-<br/>
-
-**Floating point numbers**
+### Floating point numbers
 
 ```sql
 CREATE TABLE IF NOT EXISTS floating_point_number_types (id INT, float_col FLOAT, double_col DOUBLE) USING delta;
@@ -127,9 +121,7 @@ select * from floating_point_number_types order by id;
 +-----+------------+-------------+
 ```
 
-<br/>
-
-**Date types**
+### Date types
 
 ```sql
 CREATE TABLE IF NOT EXISTS date_types (id INT, date_col DATE, ts_col TIMESTAMP) USING delta;
@@ -147,9 +139,7 @@ select * from date_types order by id;
 +-----+-------------+--------------------------+
 ```
 
-<br/>
-
-**String type**
+### String type
 
 ```sql
 CREATE TABLE IF NOT EXISTS str_type (id INT, str_col STRING) USING delta;
@@ -165,9 +155,7 @@ select * from str_type order by id;
 +-----+-----------------+
 ```
 
-<br/>
-
-**Numeric type**
+### Numeric type
 
 ```sql
 -- NUMERIC(value, precision)
@@ -189,9 +177,7 @@ select * from bigdecimal_type  order by id;
 +-----+--------------+
 ```
 
-<br/>
-
-**Array type**
+### Array type
 
 ```sql
 CREATE TABLE IF NOT EXISTS array_type (id INT, array_int_col ARRAY<INT>, array_str_col ARRAY<STRING>) USING delta;
@@ -210,9 +196,7 @@ select * from array_type order by id;
 +-----+----------------+------------------------+
 ```
 
-<br/>
-
-**Struct type**
+### Struct type
 
 ```sql
 CREATE TABLE IF NOT EXISTS struct_type (id INT, struct_col STRUCT<num:INT, txt: STRING>) USING delta;
@@ -232,9 +216,7 @@ select * from struct_type order by id;
 +-----+------------------------+
 ```
 
-<br/>
-
-**Map type**
+### Map type
 
 ```sql
 CREATE TABLE IF NOT EXISTS map_type (id INT, map_col MAP<INT, STRING>) USING delta;

@@ -7,11 +7,11 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 The `GROUP BY` clause is used to group the rows based on a set of specified grouping expressions and compute aggregations on the group of rows based on one or more specified aggregate functions. Spark also supports advanced aggregations to do multiple aggregations for the same input record set via `GROUPING SETS`, `CUBE`, `ROLLUP` clauses. The grouping expressions and advanced aggregations can be mixed in the `GROUP BY` clause and nested in a `GROUPING SETS` clause. See more details in the Mixed/Nested Grouping Analytics section. When a `FILTER` clause is attached to an aggregate function, only the matching rows are passed to that function.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 GROUP BY group_expression [ , group_expression [ , ... ] ] [ WITH { ROLLUP | CUBE } ]
@@ -24,7 +24,7 @@ While aggregate functions are defined as
 aggregate_name ( [ DISTINCT ] expression [ , ... ] ) [ FILTER ( WHERE boolean_expression ) ]
 ```
 
-### Parameters
+## Parameters
 
 - **group_expression**
 
@@ -109,7 +109,7 @@ CUBE|ROLLUP` is just a syntax sugar for `GROUPING SETS`, please refer to the sec
   Filters the input rows for which the `boolean_expression` in the WHERE clause evaluates to true are passed to
   the aggregate function; other rows are discarded.
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE dealer (id INT, city STRING, car_model STRING, quantity INT);

@@ -7,11 +7,11 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 Window functions operate on a group of rows, referred to as a window, and calculate a return value for each row based on the group of rows. Window functions are useful for processing tasks such as calculating a moving average, computing a cumulative statistic, or accessing the value of rows given the relative position of the current row.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 window_function [ nulls_option ] OVER
@@ -20,7 +20,7 @@ window_function [ nulls_option ] OVER
   [ window_frame ] )
 ```
 
-### Parameters
+## Parameters
 
 - **window_function**
 
@@ -70,7 +70,7 @@ window_function [ nulls_option ] OVER
 
   **Note:** If `frame_end` is omitted it defaults to `CURRENT ROW`.
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE employees (name STRING, dept STRING, salary INT, age INT);

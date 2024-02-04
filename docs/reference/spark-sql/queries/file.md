@@ -7,17 +7,17 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 You can query a file with a specified format directly with SQL.
 
-### Syntax
+---
+
+## Syntax
 
 ```js
 file_format.`file_path`
 ```
 
-### Parameters
+## Parameters
 
 - **file_format**
 
@@ -27,7 +27,7 @@ file_format.`file_path`
 
   Specifies a file path with a given format.
 
-### Examples
+## Examples
 
 ```sql
 -- PARQUET file

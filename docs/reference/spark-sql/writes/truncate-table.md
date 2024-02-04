@@ -13,21 +13,17 @@ The TRUNCATE TABLE statement removes all the rows from a table or partition(s).
 
 The table must not be a view or an external table. In order to truncate multiple partitions at once, the user can specify the partitions in `partition_spec`. If no `partition_spec` is specified it will remove all partitions in the table.
 
-**Syntax**
+## Syntax
 
 ```sql
 TRUNCATE TABLE table_name [PARTITION partition_spec];
 ```
 
-<br/>
-
-**Parameters**
+## Parameters
 
 _`table_name`_ The name of an existing table._`PARTITION ( partition_spec :[ partition_column = partition_col_value, partition_column = partition_col_value, ...] )`_ Specifies one or more partition columns and value pairs. The partition value is optional.
 
-<br/>
-
-**Examples**
+## Examples
 
 ```sql
 --Create table Student with partition

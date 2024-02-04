@@ -7,8 +7,6 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 The `TRANSFORM` clause is used to specify a Hive-style transform query specification to transform the inputs by running a user-specified command or script.
 
 Spark’s script transform supports two modes:
@@ -16,7 +14,9 @@ Spark’s script transform supports two modes:
 1.  Hive support disabled: Spark script transform can run with `spark.sql.catalogImplementation=in-memory` or without `SparkSession.builder.enableHiveSupport()`. In this case, now Spark only uses the script transform with `ROW FORMAT DELIMITED` and treats all values passed to the script as strings.
 2.  Hive support enabled: When Spark is run with `spark.sql.catalogImplementation=hive` or Spark SQL is started with `SparkSession.builder.enableHiveSupport()`, Spark can use the script transform with both `Hive SerDe and ROW FORMAT DELIMITED`.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 SELECT TRANSFORM ( expression [ , ... ] )
@@ -27,7 +27,7 @@ SELECT TRANSFORM ( expression [ , ... ] )
     [ RECORDREADER record_reader_class ]
 ```
 
-### Parameters
+## Parameters
 
 - **expression**
 
@@ -51,7 +51,7 @@ SELECT TRANSFORM ( expression [ , ... ] )
 
   Specifies a command or a path to script to process data.
 
-### ROW FORMAT DELIMITED BEHAVIOR
+## ROW FORMAT DELIMITED BEHAVIOR
 
 When Spark uses ROW FORMAT DELIMITED format:
 
@@ -115,7 +115,7 @@ When Spark uses ROW FORMAT DELIMITED format:
      +-----+-------+
   ```
 
-### Hive SerDe behavior
+## Hive SerDe behavior
 
 When Hive support is enabled and Hive SerDe mode is used:
 
@@ -133,7 +133,7 @@ When Hive support is enabled and Hive SerDe mode is used:
 
 - These defaults can be overridden with `ROW FORMAT SERDE` or `ROW FORMAT DELIMITED`.
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE person (zip_code INT, name STRING, age INT);

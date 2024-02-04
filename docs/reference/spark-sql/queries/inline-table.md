@@ -7,17 +7,17 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 An inline table is a temporary table created using a VALUES clause.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 VALUES ( expression [ , ... ] ) [ table_alias ]
 ```
 
-### Parameters
+## Parameters
 
 - **expression**
 
@@ -29,7 +29,7 @@ VALUES ( expression [ , ... ] ) [ table_alias ]
 
   **Syntax:** `[ AS ] table_name [ ( column_name [ , ... ] ) ]`
 
-### Examples
+## Examples
 
 ```sql
 -- single row, without a table alias

@@ -7,22 +7,22 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 The DISTRIBUTE BY clause is used to repartition the data based on the input expressions. Unlike the <a href="./cluster-by-clause">CLUSTER BY</a> clause, this does not sort the data within each partition.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 DISTRIBUTE BY { expression [ , ... ] }
 ```
 
-### Parameters
+## Parameters
 
 - **expression**
   Specifies combination of one or more values, operators and SQL functions that results in a value.
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE person (name STRING, age INT);

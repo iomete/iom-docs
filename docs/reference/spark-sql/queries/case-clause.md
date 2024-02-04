@@ -7,11 +7,11 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 CASE clause uses a rule to return a specific result based on the specified condition, similar to if/else statements in other programming languages.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 CASE [ expression ] { WHEN boolean_expression THEN then_expression } [ ... ]
@@ -19,7 +19,7 @@ CASE [ expression ] { WHEN boolean_expression THEN then_expression } [ ... ]
 END
 ```
 
-### Parameters
+## Parameters
 
 - **boolean_expression**
 
@@ -36,7 +36,7 @@ END
   Specifies the default expression; `then_expression` and `else_expression` should all be same type or
   coercible to a common type.
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE person (id INT, name STRING, age INT);

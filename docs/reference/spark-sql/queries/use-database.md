@@ -7,25 +7,25 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 USE statement is used to set the current database. Once set, the unqualified database artifacts such as tables, functions and views that are referenced by SQLs are resolved from the current database
+
+---
 
 :::info
 The default database name is ‘default’
 :::
 
-**Syntax**
+## Syntax
 
 ```sql
 USE database_name
 ```
 
-**Parameter**
+## Parameter
 
 `database_name` Name of the database will be used. If the database does not exist, an exception will be thrown.
 
-**Example**
+## Example
 
 ```sql
 -- Use the 'userdb' which exists.

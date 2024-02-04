@@ -13,7 +13,7 @@ Merges a set of updates, insertions, and deletions based on a source table into 
 
 You can upsert data from an Apache Spark DataFrame into a Delta table using the `merge` operation. This operation is similar to the SQL `MERGE` command but has additional support for deletes and extra conditions in updates, inserts, and deletes.
 
-**Syntax**
+## Syntax
 
 ```sql
 MERGE INTO target_table_identifier [AS target_alias]
@@ -48,9 +48,7 @@ where
   INSERT (column1 [, column2 ...]) VALUES (value1 [, value2 ...])
 ```
 
-<br/>
-
-**Operation semantics**
+## Operation semantics
 
 Here is a detailed description of the `merge` programmatic operation.
 
@@ -76,11 +74,11 @@ Here is a detailed description of the `merge` programmatic operation.
 A MERGE operation can fail if multiple rows of the source dataset match and attempt to update the same rows of the target Delta table. According to the SQL semantics of merge, such an update operation is ambiguous as it is unclear which source row should be used to update the matched target row. You can preprocess the source table to eliminate the possibility of multiple matches.
 :::
 
-## **Examples**
+## Examples
 
 You can use `MERGE INTO` for complex operations like deduplicating data, upserting change data, applying SCD Type 2 operations, etc.
 
-Example 1. Merging new event updates
+### Merging new event updates
 
 Suppose you have a table that contains new data for events with `eventId`. Some of these events may already be present in the `events` table. To merge the new data into the `events` table, you want to update the matching rows (that is, `eventId` already present) and insert the new rows (that is, `eventId` not present). You can run the following:
 
@@ -103,7 +101,7 @@ WHEN NOT MATCHED
   THEN INSERT *;
 ```
 
-Example 2. Data deduplication when writing into Delta tables
+### Data deduplication when writing into Delta tables
 
 A common ETL use case is to collect logs into Delta table by appending them to a table. However, often the sources can generate duplicate log records and downstream deduplication steps are needed to take care of them. With `merge`, you can avoid inserting duplicate records.
 

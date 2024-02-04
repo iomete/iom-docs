@@ -8,11 +8,11 @@ last_update:
 
 ---
 
-### Description
-
 A table consists of a set of rows and each row contains a set of columns. A column is associated with a data type and represents a specific attribute of an entity (for example, `age` is a column of an entity called `person`). Sometimes, the value of a column specific to a row is not known at the time the row comes into existence. In `SQL`, such values are represented as `NULL`. This section details the semantics of `NULL` values handling in various operators, expressions and other `SQL` constructs.
 
 The following illustrates the schema layout and data of a table named `person`. The data contains `NULL` values in the `age` column and this table will be used in various examples in the sections below.
+
+---
 
 **TABLE: person**
 

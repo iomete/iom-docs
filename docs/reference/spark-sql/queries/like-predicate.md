@@ -7,11 +7,11 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 A LIKE predicate is used to search for a specific pattern. This predicate also supports multiple patterns with quantifiers include ANY, SOME and ALL.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 [ NOT ] { LIKE search_pattern [ ESCAPE esc_char ] | [ RLIKE | REGEXP ] regex_pattern }
@@ -19,7 +19,7 @@ A LIKE predicate is used to search for a specific pattern. This predicate also s
 [ NOT ] { LIKE quantifiers ( search_pattern [ , ... ]) }
 ```
 
-### Parameters
+## Parameters
 
 - **search_pattern**
 
@@ -40,7 +40,7 @@ A LIKE predicate is used to search for a specific pattern. This predicate also s
 
   Specifies the predicate quantifiers include ANY, SOME and ALL. ANY or SOME means if one of the patterns matches the input, then return true; ALL means if all the patterns matches the input, then return true.
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE person (id INT, name STRING, age INT);

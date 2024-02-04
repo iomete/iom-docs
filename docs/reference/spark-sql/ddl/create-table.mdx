@@ -11,7 +11,7 @@ The `CREATE TABLE` statement defines a new table
 
 ---
 
-### **Syntax**
+## Syntax
 
 ```sql
 CREATE TABLE [ IF NOT EXISTS ] table_identifier
@@ -30,7 +30,7 @@ CREATE TABLE [ IF NOT EXISTS ] table_identifier
 
 ---
 
-### **Parameters**
+## Parameters
 
 - **table_identifier**
   Specifies a table name, which may be optionally qualified with a database name.
@@ -54,9 +54,7 @@ CREATE TABLE [ IF NOT EXISTS ] table_identifier
 - **AS select_statement**
   The table is populated using the data from the select statement.
 
-<br />
-
-**Examples**
+## Examples
 
 :::info
 Insert/update/merge operation only supported with deltadeltaprovider. It's always recommended to create tables with delta provider
@@ -108,7 +106,7 @@ SELECT * FROM sessions_dm;
 +-----+------------------------+--------------------------+-----------+
 ```
 
-**Partition data**
+## Partition data
 
 You can partition data to speed up queries or DML that have predicates involving the partition columns. To partition data when you create a Delta table, specify partition by columns. A common pattern is to partition by date, for example:
 

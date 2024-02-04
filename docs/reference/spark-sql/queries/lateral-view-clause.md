@@ -7,17 +7,17 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 The `LATERAL VIEW` clause is used in conjunction with generator functions such as `EXPLODE`, which will generate a virtual table containing one or more rows. `LATERAL VIEW` will apply the rows to each original output row.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 LATERAL VIEW [ OUTER ] generator_function ( expression [ , ... ] ) [ table_alias ] AS column_alias [ , ... ]
 ```
 
-### Parameters
+## Parameters
 
 - **OUTER**
 
@@ -36,7 +36,7 @@ LATERAL VIEW [ OUTER ] generator_function ( expression [ , ... ] ) [ table_alias
   Lists the column aliases of `generator_function`, which may be used in output rows. We may have multiple
   aliases if generator_function have multiple output columns.
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE person (id INT, name STRING, age INT, class INT, address STRING);

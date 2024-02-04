@@ -7,19 +7,17 @@ last_update:
   author: Vugar Dadalov
 ---
 
----
-
-### Description
-
 The ORDER BY clause is used to return the result rows in a sorted manner in the user specified order. Unlike the SORT BY clause, this clause guarantees a total order in the output.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 ORDER BY { expression [ sort_direction | nulls_sort_order ] [ , ... ] }
 ```
 
-### Parametres
+## Parametres
 
 - **ORDER BY**
 
@@ -40,7 +38,7 @@ ORDER BY { expression [ sort_direction | nulls_sort_order ] [ , ... ] }
 
   **Syntax:** `[ NULLS { FIRST | LAST } ]`
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE person (id INT, name STRING, age INT);

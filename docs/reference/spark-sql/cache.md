@@ -10,20 +10,18 @@ Caches contents of a table or output of a query with the given storage level. Th
 
 ---
 
-### Cache Table
-
-**Description**
+## Cache Table
 
 `CACHE TABLE` statement caches contents of a table or output of a query with the given storage level. This reduces scanning of the original files in future queries.
 
-**Syntax**
+### Syntax
 
 ```sql
 CACHE [ LAZY ] TABLE table_name
     [ OPTIONS ( 'storageLevel' [ = ] value ) ] [ [ AS ] query ]
 ```
 
-**Parameters**
+### Parameters
 
 _`LAZY`_ Only cache the table when it is first used, instead of immediately.table*nameThe name of the table to be cached.*`OPTIONS ( 'storageLevel' [ = ] value )OPTIONS`_ clause with _`storageLevel`\_ key and value pair. A Warning is issued when a key other than storageLevel is used. The valid options for `storageLevel` are:
 
@@ -46,75 +44,69 @@ An Exception is thrown when an invalid value is set for `storageLevel`. If `stor
 - `a TABLE statement`
 - `a FROM statement`
 
-**Examples**
+### Examples
 
 ```sql
 CACHE TABLE testCache OPTIONS ('storageLevel' 'DISK_ONLY') SELECT * FROM testData;
 ```
 
-<br/>
-
-### **Uncache Table**
-
-**Description**
+## **Uncache Table**
 
 `UNCACHE TABLE` removes the entries and associated data from the in-memory and/or on-disk cache for a given table or view. The underlying entries should already have been brought to cache by previous `CACHE TABLE` operation. `UNCACHE TABLE` on a non-existent table throws Exception if `IF EXISTS` is not specified.
 
-**Syntax**
+### Syntax
 
 ```sql
 UNCACHE TABLE [ IF EXISTS ] table_name
 ```
 
-**Parameters**
+### Parameters
 
 _`table_name`_ The name of the table or view to be uncached.
 
-**Examples**
+### Examples
 
 ```sql
 UNCACHE TABLE t1;
 ```
 
-### Clear Cache
-
-**Description**
+## Clear Cache
 
 `CLEAR CACHE` removes the entries and associated data from the in-memory and/or on-disk cache for all cached tables and views.
 
-**Syntax**
+### Syntax
 
 ```sql
 CLEAR CACHE
 ```
 
-**Examples**
+### Examples
 
 ```sql
 CLEAR CACHE;
 ```
 
-<br/>
-
-### Refresh Tables
-
-**Description**
+## Refresh Tables
 
 `REFRESH TABLE` statement invalidates the cached entries, which include data and metadata of the given table or view. The invalidated cache is populated in lazy manner when the cached table or the query associated with it is executed again.
 
-**Syntax**
+### Syntax
 
 ```sql
 REFRESH [TABLE] tableIdentifier
 ```
 
-**Parameters**
+### Parameters
 
 _`tableIdentifier`_ Specifies a table name, which is either a qualified or unqualified name that designates a table/view. If no database identifier is provided, it refers to a temporary view or a table/view in the current database.
 
-**Syntax:** `[database_name.]table_name`
+### Syntax
 
-**Examples**
+```sql
+[database_name.]table_name
+```
+
+### Examples
 
 ```sql
 -- The cached entries of the table will be refreshed

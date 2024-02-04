@@ -7,17 +7,17 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 The HAVING clause is used to filter the results produced by GROUP BY based on the specified condition. It is often used in conjunction with a <a href="./group-by-clause">GROUP BY</a> clause.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 HAVING boolean_expression
 ```
 
-### Parameters
+## Parameters
 
 - **boolean_expression**
 
@@ -32,7 +32,7 @@ HAVING boolean_expression
   - Expressions that appear in GROUP BY
   - Aggregate functions
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE dealer (id INT, city STRING, car_model STRING, quantity INT);

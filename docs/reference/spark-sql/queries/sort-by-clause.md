@@ -7,17 +7,17 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 The SORT BY clause is used to return the result rows sorted within each partition in the user specified order. When there is more than one partition SORT BY may return result that is partially ordered. This is different than <a href="./order-by-clause">ORDER BY</a> clause which guarantees a total order of the output.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 SORT BY { expression [ sort_direction | nulls_sort_order ] [ , ... ] }
 ```
 
-### Parameters
+## Parameters
 
 - **SORT BY**
 
@@ -42,7 +42,7 @@ SORT BY { expression [ sort_direction | nulls_sort_order ] [ , ... ] }
 
   **Syntax:** `[ NULLS { FIRST | LAST } ]`
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE person (zip_code INT, name STRING, age INT);

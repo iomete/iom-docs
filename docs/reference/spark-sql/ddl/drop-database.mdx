@@ -11,21 +11,17 @@ Drop a database and delete the directory associated with the database from the f
 
 ---
 
-**Syntax**
+## Syntax
 
 ```sql
 DROP (DATABASE|SCHEMA) [IF EXISTS] dbname [RESTRICT|CASCADE];
 ```
 
-<br />
-
-**Parameters**
+## Parameters
 
 `DATABASE|SCHEMA` `DATABASE` and `SCHEMA` mean the same thing, either of them can be used.`IF EXISTS` If specified, no exception is thrown when the database does not exist.RESTRICTIf specified, will restrict dropping a non-empty database and is enabled by default.`CASCADE` If specified, will drop all the associated tables and functions.
 
-<br />
-
-**Examples**
+## Examples
 
 ```sql
 -- Create `inventory_db` Database

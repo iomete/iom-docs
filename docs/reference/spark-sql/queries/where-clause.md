@@ -7,23 +7,23 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 The WHERE clause is used to limit the results of the FROM clause of a query or a subquery based on the specified condition.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 WHERE boolean_expression
 ```
 
-### Parameters
+## Parameters
 
 - **boolean_expression**
   Specifies any expression that evaluates to a result type boolean. Two or more expressions may be combined
   together using the logical operators ( AND, OR ).
 
-### Examples
+## Examples
 
 ```sql
 CREATE TABLE person (id INT, name STRING, age INT);

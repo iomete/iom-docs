@@ -7,8 +7,6 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 The `TABLESAMPLE` statement is used to sample the table. It supports the following sampling methods:
 
 - `TABLESAMPLE(x ROWS)`: Sample the table down to the given number of rows.
@@ -18,7 +16,9 @@ The `TABLESAMPLE` statement is used to sample the table. It supports the followi
 
 **Note:** `TABLESAMPLE` returns the approximate number of rows or fraction requested.
 
-### Syntax
+---
+
+## Syntax
 
 ```postgresql
 TABLESAMPLE ({ integer_expression | decimal_expression } PERCENT)
@@ -26,7 +26,7 @@ TABLESAMPLE ({ integer_expression | decimal_expression } PERCENT)
     | TABLESAMPLE ( BUCKET integer_expression OUT OF integer_expression )
 ```
 
-### Examples
+## Examples
 
 ```sql
 SELECT * FROM test;

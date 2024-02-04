@@ -11,7 +11,7 @@ The INSERT INTO statement inserts new rows into a table. The inserted rows can b
 
 The table must not be a view or an external table. In order to truncate multiple partitions at once, the user can specify the partitions in partition_spec. If no partition_spec is specified it will remove all partitions in the table.
 
-## **Syntax**
+## Syntax
 
 ```sql
 INSERT INTO [ TABLE ] table_identifier [ partition_spec ]
@@ -21,8 +21,6 @@ INSERT INTO [ TABLE ] table_identifier [ partition_spec ]
 :::info
 When you INSERT INTO a table schema enforcement and evolution is supported. If a column’s data type cannot be safely cast to a table’s data type, a runtime exception is thrown. If **schema evolution** is enabled, new columns can exist as the last columns of your schema (or nested columns) for the schema to evolve.
 :::
-
-<br/>
 
 ## Parameters
 
@@ -39,13 +37,11 @@ When you INSERT INTO a table schema enforcement and evolution is supported. If a
   - A `TABLE` statement
   - A `FROM` statement
 
-<br/>
-
 ---
 
-<br/>
+## Examples
 
-## Single row insert using a VALUES clause
+### Single row insert using a VALUES clause
 
 Here's the shortest and easiest way to insert data into a table. You only have to specify the values, but you have to pass all values `in order`. If you have 10 columns, you have to specify 10 values.
 
@@ -76,13 +72,9 @@ VALUES (2, '2020-04-02 14:05:15.400', '2020-04-04 16:57:53.653', NULL );
 +-----+------------------------+--------------------------+-----------+
 ```
 
-<br/>
-
 ---
 
-<br/>
-
-## Multi-row insert using a VALUES clause
+### Multi-row insert using a VALUES clause
 
 You can insert multiple rows in one `INSERT` statement by having multiple sets of values enclosed in parentheses:
 
@@ -101,13 +93,9 @@ INSERT INTO sessions VALUES
 +-----+------------------------+--------------------------+-----------+
 ```
 
-<br/>
-
 ---
 
-<br/>
-
-## Multi-row insert using a SELECT statement
+### Multi-row insert using a SELECT statement
 
 You can insert multiple rows in one `INSERT` statement by selecting data from a different table. This is similar to a `CREATE TABLE AS` syntax :
 
@@ -190,13 +178,9 @@ SELECT * FROM sessions_dm;
 +-----+------------------------+--------------------------+-----------+
 ```
 
-<br/>
-
 ---
 
-<br/>
-
-## Insert with a column list
+### Insert with a column list
 
 ```sql
 INSERT INTO students (address, name, student_id) VALUES
@@ -210,13 +194,9 @@ SELECT * FROM students WHERE name = 'Kent Yao';
 +---------+----------------------+----------+
 ```
 
-<br/>
-
 ---
 
-<br/>
-
-## Insert with both a partition spec and a column list
+### Insert with both a partition spec and a column list
 
 ```sql
 INSERT INTO students PARTITION (student_id = 11215017) (address, name) VALUES

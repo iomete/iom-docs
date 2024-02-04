@@ -7,27 +7,25 @@ last_update:
   author: Vugar Dadalov
 ---
 
----
-
-### Description
-
 The CLUSTER BY clause is used to first repartition the data based on the input expressions and then sort the data within each partition. This is semantically equivalent to performing a <a href="./distribute-by-clause">DISTRIBUTE BY</a> followed by a <a href="./sort-by-clause">SORT BY</a>. This clause only ensures that the resultant rows are sorted within each partition and does not guarantee a total order of output.
 
-### Syntax
+---
+
+## Syntax
 
 ```mysql
 CLUSTER BY { expression [ , ... ] }
 ```
 
-### Parameters
+## Parameters
 
 - **expression**
 
   Specifies combination of one or more values, operators and SQL functions that results in a value.
 
-### Examples
+## Examples
 
-```mysql
+```sql
 CREATE TABLE person (name STRING, age INT);
 INSERT INTO person VALUES
     ('Zen Hui', 25),

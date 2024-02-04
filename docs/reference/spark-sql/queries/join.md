@@ -7,17 +7,17 @@ last_update:
   author: Vugar Dadalov
 ---
 
-### Description
-
 A SQL join is used to combine rows from two relations based on join criteria. The following section describes the overall join syntax and the sub-sections cover different types of joins along with examples.
 
-### Syntax
+---
+
+## Syntax
 
 ```sql
 relation { [ join_type ] JOIN relation [ join_criteria ] | NATURAL join_type JOIN relation }
 ```
 
-### Parameters
+## Parameters
 
 - ** relation**
 
@@ -47,7 +47,7 @@ relation { [ join_type ] JOIN relation [ join_criteria ] | NATURAL join_type JOI
 
   Specifies an expression with a return type of boolean.
 
-### Join Types
+## Join Types
 
 <h3>Inner Join</h3>
 
@@ -119,7 +119,7 @@ An anti join returns values from the left relation that has no match with the ri
 relation [ LEFT ] ANTI JOIN relation [ join_criteria ]
 ```
 
-### Examples
+## Examples
 
 ```sql
 -- Use employee and department tables to demonstrate different type of joins.
