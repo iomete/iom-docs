@@ -94,6 +94,7 @@ const sidebars = {
         "user-guide/sql-editor",
         "user-guide/data-catalog",
         "user-guide/users",
+        "user-guide/groups",
         "user-guide/roles",
         "user-guide/create-a-personal-access-token",
         "user-guide/private-docker-registry",
