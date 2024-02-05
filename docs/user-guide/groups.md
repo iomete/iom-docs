@@ -56,7 +56,11 @@ To assign a role to the group, click the `Assign role` button. You will see avai
 
 <Img src="/img/user-guide/groups/assigned-roles.png" alt="Assigned roles" maxWidth="600px"/>
 
-### Delete role
+:::info Effective roles
+Group roles will have an impact on the users within this group.
+:::
+
+### Delete group
 
 You can delete the group by using the `Delete group` button at the bottom.
 
