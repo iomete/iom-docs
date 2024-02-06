@@ -19,9 +19,6 @@ To view Global Spark Settings, navigate to the `Settings` menu item and switch t
 
 ## Add config
 
-To add new configuration item click to `Add config` button. You can remove a config item you want by clicking `Remove` button.
-After configuring all necessary Spark settings, click `Save changes`.
-
 To add a new configuration item, click on the `Add config` button. If you want to remove a configuration item, simply click on the <Trash size={20} /> button. Once you have configured all the necessary Spark settings, click on `Save changes`.
 
 <Img src="/img/user-guide/global-spark-settings/save.png" alt="Save spark setting" />
