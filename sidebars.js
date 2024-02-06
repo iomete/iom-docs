@@ -97,6 +97,7 @@ const sidebars = {
         "user-guide/groups",
         "user-guide/roles",
         "user-guide/create-a-personal-access-token",
+        "user-guide/global-spark-settings",
         "user-guide/private-docker-registry",
       ],
     },
