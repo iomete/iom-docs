@@ -1,0 +1,47 @@
+$TextLight: #858c9d;
+
+$IconCardBg: #f6f8fa;
+$BorderColor: #cfd6df;
+
+.Guides {
+  margin-top: 52px;
+
+  .MainCardContent {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .Card {
+    position: relative;
+    border: 1px solid $BorderColor;
+    height: 100%;
+  }
+
+  .GuidesCards {
+    gap: 24px 0;
+  }
+
+  .MainCardMedia {
+    background-color: $IconCardBg;
+    position: absolute;
+    right: 0;
+    top: 20;
+    height: 120px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.GuideHeader {
+  height: 72px;
+  background-color: $IconCardBg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.GuideCard {
+  height: 100%;
+}

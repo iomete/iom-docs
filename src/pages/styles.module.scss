@@ -1,80 +1,110 @@
-.HeroBg {
-  position: absolute;
-  top: 60px;
-  right: 0;
-  // background-color: #f1f7ff;
-  background-color: black;
-  z-index: -1;
-  height: 650px;
-  width: 100vw;
-}
+// .HeroBg {
+//   position: absolute;
+//   top: 60px;
+//   right: 0;
+//   // background-color: #f1f7ff;
+//   background-color: black;
+//   z-index: -1;
+//   height: 650px;
+//   width: 100vw;
+// }
 
-html[data-theme="dark"] .HeroBg {
-  background: #1d252f;
-}
+// html[data-theme="dark"] .HeroBg {
+//   background: #1d252f;
+// }
 
-// Header
-.IomHero {
-  align-items: center;
-  // color: var(--ifm-hero-text-color);
-  color: var(--ifm-color-emphasis-500);
+// // Header
+// .IomHero {
+//   align-items: center;
+//   // color: var(--ifm-hero-text-color);
+//   color: var(--ifm-color-emphasis-500);
 
-  display: flex;
-  justify-content: space-between;
+//   display: flex;
+//   justify-content: space-between;
 
-  img {
-    filter: invert(1) hue-rotate(-180deg);
+//   img {
+//     filter: invert(1) hue-rotate(-180deg);
+//   }
+// }
+
+// p {
+//   line-height: 33px;
+// }
+
+// .IomHeroText {
+//   max-width: 50%;
+// }
+
+// @media (max-width: 996px) {
+//   html[data-theme="dark"] .IomHeroText {
+//     p,
+//     h1 {
+//       color: var(--ifm-color-emphasis-500);
+//     }
+//   }
+
+//   .IomHeroText {
+//     p {
+//       color: black;
+//       font-size: 1.3rem;
+//     }
+
+//     h1 {
+//       color: black;
+//       font-size: 2.3rem;
+//       margin-bottom: 0;
+//     }
+//   }
+
+//   .HeroImg {
+//     visibility: hidden;
+//     display: none;
+//   }
+
+//   .HeroBg {
+//     display: none;
+//   }
+
+//   .IomHero {
+//     display: block;
+//     margin-bottom: 64px;
+//   }
+
+//   .IomHeroText {
+//     max-width: 100%;
+//   }
+
+//   .HeroContainer {
+//     padding: 14px;
+//   }
+// }
+
+$TextLight: #858c9d;
+
+.HeroContainer {
+  max-width: 1000px;
+  padding: 0;
+
+  h1 {
+    font-size: 26px !important;
+    margin: 8px 0;
+    line-height: 30px;
+  }
+
+  h2 {
+    font-size: 20px !important;
+    line-height: 24px;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 20px;
+    color: $TextLight;
   }
 }
 
-p {
-  line-height: 33px;
-}
-
-.IomHeroText {
-  max-width: 50%;
-}
-
-@media (max-width: 996px) {
-  html[data-theme="dark"] .IomHeroText {
-    p,
-    h1 {
-      color: var(--ifm-color-emphasis-500);
-    }
-  }
-
-  .IomHeroText {
-    p {
-      color: black;
-      font-size: 1.3rem;
-    }
-
-    h1 {
-      color: black;
-      font-size: 2.3rem;
-      margin-bottom: 0;
-    }
-  }
-
-  .HeroImg {
-    visibility: hidden;
-    display: none;
-  }
-
-  .HeroBg {
-    display: none;
-  }
-
-  .IomHero {
-    display: block;
-    margin-bottom: 64px;
-  }
-
-  .IomHeroText {
-    max-width: 100%;
-  }
-
+@media (max-width: 1400px) {
   .HeroContainer {
-    padding: 14px;
+    padding: 0 16px;
   }
 }
