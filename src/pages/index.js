@@ -9,6 +9,7 @@ import "./styles.module.scss";
 import Header from "./_hero_new/Header";
 import Guides from "./_hero_new/Guides";
 import GettingStarted from "./_hero_new/GettingStarted";
+import BlogPosts from "./_hero_new/BlogPosts";
 
 export default function Home() {
   return (
@@ -25,6 +26,8 @@ export default function Home() {
         <Guides />
 
         <GettingStarted />
+
+        <BlogPosts />
       </div>
     </Layout>
     // <Layout
