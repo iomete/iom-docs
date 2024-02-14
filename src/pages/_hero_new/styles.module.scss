@@ -1,7 +1,7 @@
 $TextLight: #858c9d;
 
-$IconCardBg: #f6f8fa;
-$BorderColor: #cfd6df;
+$IconCardBg: var(--ifm-color-emphasis-100); // #f6f8fa;
+$BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
 
 .Guides {
   margin-top: 52px;
@@ -24,8 +24,8 @@ $BorderColor: #cfd6df;
   .MainCardMedia {
     background-color: $IconCardBg;
     position: absolute;
-    right: 0;
-    top: 20;
+    right: 16px;
+    border-radius: 2px;
     height: 120px;
     width: 250px;
     display: flex;
@@ -40,8 +40,45 @@ $BorderColor: #cfd6df;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 16px;
+  border-radius: 2px;
 }
 
 .GuideCard {
   height: 100%;
+  border: 1px solid $BorderColor;
+}
+
+.GettingStarted {
+  margin-top: 52px;
+
+  .Card {
+    height: 230px;
+    border: 1px solid $BorderColor;
+    padding: 16px;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+}
+
+.CardContent {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.LakehouseImg {
+  width: 50%;
+
+  img {
+    width: 500px;
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+.GettingStartedRow {
+  .GettingStartedCol {
+    margin-bottom: 24px;
+  }
 }

@@ -8,6 +8,7 @@ import styles from "./styles.module.scss";
 import "./styles.module.scss";
 import Header from "./_hero_new/Header";
 import Guides from "./_hero_new/Guides";
+import GettingStarted from "./_hero_new/GettingStarted";
 
 export default function Home() {
   return (
@@ -22,6 +23,8 @@ export default function Home() {
         <Header />
 
         <Guides />
+
+        <GettingStarted />
       </div>
     </Layout>
     // <Layout
