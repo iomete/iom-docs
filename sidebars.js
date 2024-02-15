@@ -64,9 +64,7 @@ const sidebars = {
           type: "category",
           label: "On-Premises",
           collapsed: true,
-          items: [
-            "community-deployment/on-prem/install",
-          ],
+          items: ["community-deployment/on-prem/install"],
         },
         {
           type: "category",
@@ -75,6 +73,7 @@ const sidebars = {
           items: [
             "deployment/configure-custom-dns",
             "deployment/enable-tls",
+            "deployment/ldap-configuration",
             "deployment/backend-databases",
             "deployment/life-cycle-management",
           ],
