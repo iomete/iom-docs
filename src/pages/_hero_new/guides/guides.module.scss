@@ -1,0 +1,86 @@
+$TextLight: #858c9d;
+
+$IconCardBg: var(--ifm-color-emphasis-100); // #f6f8fa;
+$BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
+
+.Guides {
+  margin-top: 52px;
+
+  .GridContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+
+  .MainGridItem {
+    grid-column: span 4;
+
+    .Card {
+      position: relative;
+      border: 1px solid $BorderColor;
+      height: 100%;
+    }
+
+    .CardContent {
+      display: flex;
+      justify-content: space-between;
+
+      .CardText {
+        width: 50%;
+      }
+
+      .CardMedia {
+        background-color: $IconCardBg;
+        position: absolute;
+        right: 16px;
+        border-radius: 2px;
+        height: 120px;
+        width: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  .SecondGridItem {
+    grid-column: span 1;
+
+    .Card {
+      height: 100%;
+      border: 1px solid $BorderColor;
+    }
+
+    .CardHeader {
+      height: 72px;
+      background-color: $IconCardBg;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 16px;
+      border-radius: 2px;
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    .SecondGridItem {
+      grid-column: span 4;
+    }
+    .MainGridItem {
+      .CardContent {
+        .CardText {
+          width: 100%;
+        }
+        .CardMedia {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media screen and (min-width: 640px) and (max-width: 1024px) {
+    .SecondGridItem {
+      grid-column: span 2;
+    }
+  }
+}
