@@ -1,5 +1,5 @@
-import Heading from "@theme/Heading";
 import React from "react";
+import Heading from "@theme/Heading";
 import { latestBlogs } from "./consts";
 
 function BlogPosts() {

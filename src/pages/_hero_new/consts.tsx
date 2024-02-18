@@ -1,6 +1,12 @@
 import React, { ReactElement } from "react";
 
-import { HouseLine } from "@phosphor-icons/react";
+import {
+  DiscordLogo,
+  GithubLogo,
+  HouseLine,
+  SquareHalfBottom,
+  YoutubeLogo,
+} from "@phosphor-icons/react";
 
 export const guides = [
   {
@@ -185,5 +191,28 @@ export const latestBlogs = [
     date: "April 4, 2023",
     duration: "3 min read",
     icon: <img src="img/logo-white.svg" width={60} />,
+  },
+];
+
+export const communities = [
+  {
+    title: "Public Roadmap",
+    desc: "Watch 20 minute Youtube video on how ",
+    icon: <SquareHalfBottom size={32} />,
+  },
+  {
+    title: "Join us on Discord",
+    desc: "Watch 20 minute Youtube video on how ",
+    icon: <DiscordLogo size={32} />,
+  },
+  {
+    title: "Youtube Channel",
+    desc: "Watch 20 minute Youtube video on how ",
+    icon: <YoutubeLogo size={32} />,
+  },
+  {
+    title: "Github Repo",
+    desc: "Watch 20 minute Youtube video on how ",
+    icon: <GithubLogo size={32} />,
   },
 ];

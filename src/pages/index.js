@@ -10,6 +10,7 @@ import Header from "./_hero_new/Header";
 import Guides from "./_hero_new/Guides";
 import GettingStarted from "./_hero_new/GettingStarted";
 import BlogPosts from "./_hero_new/BlogPosts";
+import Community from "./_hero_new/Community";
 
 export default function Home() {
   return (
@@ -28,6 +29,8 @@ export default function Home() {
         <GettingStarted />
 
         <BlogPosts />
+
+        <Community />
       </div>
     </Layout>
     // <Layout
