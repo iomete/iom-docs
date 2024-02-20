@@ -4,21 +4,22 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
   margin-top: 52px;
 
   .Card {
-    height: 230px;
+    height: 250px;
     border: 1px solid $BorderColor;
     padding: 16px;
     overflow: hidden;
     border-radius: 4px;
+    position: relative;
   }
 
   .GridContainer {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(10, 1fr);
     gap: 2rem;
   }
 
   .Card_1 {
-    grid-column: span 6;
+    grid-column: span 8;
     .Content {
       display: flex;
       justify-content: space-between;
@@ -38,12 +39,56 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
 
   .Card_2 {
     grid-column: span 2;
+
+    .Card {
+      display: flex;
+      flex-direction: column;
+
+      .CardHeader {
+        background-color: var(--ifm-color-emphasis-100);
+        position: relative;
+        border-radius: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        margin-bottom: 16px;
+        p {
+          margin-bottom: 0;
+        }
+      }
+    }
   }
   .Card_3 {
-    grid-column: span 4;
+    grid-column: span 5;
+
+    .Connections {
+      width: 110%;
+      left: -15px;
+      position: absolute;
+
+      div {
+        width: 100%;
+        display: flex;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      button {
+        grid-column: span 1;
+        border: none;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 22px;
+        white-space: nowrap;
+        background-color: #f6f8fa;
+      }
+    }
   }
   .Card_4 {
-    grid-column: span 4;
+    grid-column: span 5;
   }
 
   @media screen and (max-width: 640px) {
@@ -51,20 +96,20 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
     .Card_2,
     .Card_3,
     .Card_4 {
-      grid-column: span 8;
+      grid-column: span 10;
     }
   }
 
   @media screen and (min-width: 640px) and (max-width: 1024px) {
     .Card_1 {
-      grid-column: span 8;
+      grid-column: span 7;
     }
     .Card_2 {
-      grid-column: span 2;
+      grid-column: span 3;
     }
     .Card_3,
     .Card_4 {
-      grid-column: span 3;
+      grid-column: span 5;
     }
   }
 }
