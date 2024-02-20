@@ -28,7 +28,7 @@ const glossaryPlugin = [
     postsPerPage: "ALL",
     showReadingTime: false,
   },
-]
+];
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -87,7 +87,12 @@ const config = {
         },
 
         theme: {
-          customCss: ["./src/css/custom.scss", require.resolve("./node_modules/@ionic-internal/ionic-ds/dist/tokens/tokens.css")],
+          customCss: [
+            "./src/css/custom.scss",
+            require.resolve(
+              "./node_modules/@ionic-internal/ionic-ds/dist/tokens/tokens.css"
+            ),
+          ],
         },
         googleTagManager: {
           containerId: "GTM-W4ZH33W",
@@ -211,21 +216,35 @@ const config = {
 
       imageZoom: {
         // CSS selector to apply the plugin to, defaults to '.markdown img'
-        selector: '.markdown img',
+        selector: ".markdown img",
         // Optional medium-zoom options
         // see: https://www.npmjs.com/package/medium-zoom#options
         options: {
           margin: 24,
-          background: 'rgba(0,0,0,0.6)',
+          background: "rgba(0,0,0,0.6)",
           scrollOffset: 100,
         },
-      }
+      },
     }),
   plugins: [
     "docusaurus-plugin-sass",
-    'plugin-image-zoom',
+    "plugin-image-zoom",
+
+    //tailwind
+    async function myPlugin(context, options) {
+      return {
+        name: "docusaurus-tailwindcss",
+        configurePostCss(postcssOptions) {
+          // Appends TailwindCSS and AutoPrefixer.
+          postcssOptions.plugins.push(require("tailwindcss"));
+          postcssOptions.plugins.push(require("autoprefixer"));
+          return postcssOptions;
+        },
+      };
+    },
+
     // Glossary for production only. Comment the next line and uncomment `glossaryPlugin` to activate both modes.
-    process.env.NODE_ENV === 'production' && glossaryPlugin,
+    process.env.NODE_ENV === "production" && glossaryPlugin,
     // glossaryPlugin,
   ].filter(Boolean),
 };
