@@ -48,37 +48,3 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
   height: 100%;
   border: 1px solid $BorderColor;
 }
-
-.GettingStarted {
-  margin-top: 52px;
-
-  .Card {
-    height: 230px;
-    border: 1px solid $BorderColor;
-    padding: 16px;
-    overflow: hidden;
-    border-radius: 4px;
-  }
-}
-
-.CardContent {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-}
-
-.LakehouseImg {
-  width: 50%;
-
-  img {
-    width: 500px;
-    position: absolute;
-    z-index: -1;
-  }
-}
-
-.GettingStartedRow {
-  .GettingStartedCol {
-    margin-bottom: 24px;
-  }
-}

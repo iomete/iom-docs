@@ -1,17 +1,17 @@
 import React from "react";
 import Heading from "@theme/Heading";
-import style from "./styles.module.scss";
+import style from "./resources.module.scss";
 import { DownloadSimple } from "@phosphor-icons/react";
 
-function GettingStarted() {
+function Resources() {
   return (
-    <div className={style.GettingStarted}>
+    <div className={style.Resources}>
       <Heading as="h2">Getting Started Resources</Heading>
 
-      <div className={`${style.GettingStartedRow} row`}>
-        <div className={`${style.GettingStartedCol} col col--9`}>
+      <div className={style.GridContainer}>
+        <div className={style.Card_1}>
           <div className={style.Card}>
-            <div className={style.CardContent}>
+            <div className={style.Content}>
               <div style={{ width: "40%" }}>
                 <h4>User Guides on using IOMETE Platform Console.</h4>
                 <p>
@@ -20,13 +20,14 @@ function GettingStarted() {
                 </p>
                 <p>From basics to advanced security settings.</p>
               </div>
-              <div className={style.LakehouseImg}>
+              <div className={style.Img}>
                 <img src="img/hero/lakehouses.png" alt="Lakahouses" />
               </div>
             </div>
           </div>
         </div>
-        <div className={`${style.GettingStartedCol} col col--3`}>
+
+        <div className={style.Card_2}>
           <div className={style.Card}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <div
@@ -53,7 +54,7 @@ function GettingStarted() {
           </div>
         </div>
 
-        <div className={`${style.GettingStartedCol} col col--6`}>
+        <div className={style.Card_3}>
           <div className={style.Card}>
             <div>
               <div>
@@ -307,7 +308,7 @@ function GettingStarted() {
           </div>
         </div>
 
-        <div className={`${style.GettingStartedCol} col col--6`}>
+        <div className={style.Card_4}>
           <div className={style.Card}>
             <div>
               <div>
@@ -332,4 +333,4 @@ function GettingStarted() {
   );
 }
 
-export default GettingStarted;
+export default Resources;

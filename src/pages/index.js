@@ -1,16 +1,13 @@
 import Layout from "@theme/Layout";
 
-import Heading from "@theme/Heading";
-import Img from "@site/src/components/Img";
-import Features from "./_hero_/Features";
 import styles from "./styles.module.scss";
 
 import "./styles.module.scss";
 import Header from "./_hero_new/Header";
 import Guides from "./_hero_new/Guides";
-import GettingStarted from "./_hero_new/GettingStarted";
 import BlogPosts from "./_hero_new/BlogPosts";
 import Community from "./_hero_new/Community";
+import Resources from "./_hero_new/resources";
 
 export default function Home() {
   return (
@@ -26,7 +23,7 @@ export default function Home() {
 
         <Guides />
 
-        <GettingStarted />
+        <Resources />
 
         <BlogPosts />
 
