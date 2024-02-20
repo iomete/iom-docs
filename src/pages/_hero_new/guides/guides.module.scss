@@ -19,6 +19,9 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
       position: relative;
       border: 1px solid $BorderColor;
       height: 100%;
+      padding: 16px;
+      overflow: hidden;
+      border-radius: 4px;
     }
 
     .CardContent {
@@ -49,6 +52,9 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
     .Card {
       height: 100%;
       border: 1px solid $BorderColor;
+      padding: 16px;
+      overflow: hidden;
+      border-radius: 4px;
     }
 
     .CardHeader {
@@ -57,7 +63,7 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 16px;
+      margin-bottom: 16px;
       border-radius: 2px;
     }
   }

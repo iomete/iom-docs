@@ -11,8 +11,8 @@ function Guides() {
 
       <div className={style.GridContainer}>
         <div className={style.MainGridItem}>
-          <div className={`${style.Card} card`}>
-            <div className={`${style.CardContent} card__body`}>
+          <div className={style.Card}>
+            <div className={style.CardContent}>
               <div className={style.CardText}>
                 <h4>Watch: How to run IOMETE Community Edition on AWS</h4>
                 <p>
@@ -42,14 +42,12 @@ function Guides() {
 
         {guides.map((guide, index) => (
           <div className={style.SecondGridItem} key={index}>
-            <div className={`${style.Card} card`}>
+            <div className={style.Card}>
               <div className={style.CardHeader}>{guide.icon}</div>
-              <div className="card__header">
-                <h4>{guide.title}</h4>
-              </div>
-              <div className="card__body">
-                <p>{guide.description}</p>
-              </div>
+
+              <h4>{guide.title}</h4>
+
+              <p>{guide.description}</p>
             </div>
           </div>
         ))}
