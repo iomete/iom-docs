@@ -12,7 +12,7 @@ function Resources() {
         <div className={style.Card_1}>
           <div className={style.Card}>
             <div className={style.Content}>
-              <div>
+              <div style={{ width: "40%" }}>
                 <h4>User Guides on using IOMETE Platform Console.</h4>
                 <p>
                   Learn how to create / manage various resources in IOMETE

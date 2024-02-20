@@ -4,7 +4,7 @@ import { latestBlogs } from "./consts";
 
 function BlogPosts() {
   return (
-    <div style={{ marginTop: 16 }}>
+    <div style={{ marginTop: 52 }}>
       <Heading as="h2">Latest Blog Posts</Heading>
 
       <div className="row">

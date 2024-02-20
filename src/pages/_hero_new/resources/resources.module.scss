@@ -10,12 +10,13 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
     overflow: hidden;
     border-radius: 4px;
     position: relative;
+    cursor: pointer;
   }
 
   .GridContainer {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 2rem;
+    gap: 24px;
   }
 
   .Card_1 {
@@ -30,7 +31,6 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
       width: 50%;
 
       img {
-        width: 500px;
         position: absolute;
         z-index: -1;
       }

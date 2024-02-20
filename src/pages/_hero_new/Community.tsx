@@ -4,7 +4,7 @@ import { communities } from "./consts";
 
 function Community() {
   return (
-    <div style={{ marginTop: 32 }}>
+    <div style={{ marginTop: 52 }}>
       <Heading as="h2">Community</Heading>
 
       <div className="row">

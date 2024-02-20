@@ -9,12 +9,11 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
   .GridContainer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
+    gap: 24px;
   }
 
   .MainGridItem {
     grid-column: span 4;
-
     .Card {
       position: relative;
       border: 1px solid $BorderColor;
@@ -22,6 +21,7 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
       padding: 16px;
       overflow: hidden;
       border-radius: 4px;
+      cursor: pointer;
     }
 
     .CardContent {
@@ -48,6 +48,7 @@ $BorderColor: var(--ifm-color-emphasis-200); //#cfd6df;
 
   .SecondGridItem {
     grid-column: span 1;
+    cursor: pointer;
 
     .Card {
       height: 100%;
