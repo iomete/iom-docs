@@ -35,7 +35,7 @@ function Resources() {
         </div>
         <div className="col-span-2">
           <Card>
-            <div className="bg-[#F6F8FA] flex justify-center items-center h-[72px] mb-4">
+            <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] flex justify-center items-center h-[72px] mb-4">
               <DownloadSimple size={32} />
             </div>
             <div>
@@ -58,7 +58,7 @@ function Resources() {
               </div>
               <div className="absolute w-[110%] left-[-16px]">
                 <div className="grid grid-cols-12 gap-4">
-                  <div className="bg-[#F6F8FA] col-span-4 flex items-center gap-1 py-3 px-[22px] h-10">
+                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-4 flex items-center gap-1 py-3 px-[22px] h-10">
                     <img
                       className="w-4"
                       src="img/hero/connections/power-bi.svg"
@@ -68,7 +68,7 @@ function Resources() {
                       Power BI
                     </span>
                   </div>
-                  <div className="bg-[#F6F8FA] col-span-5 flex items-center gap-1 py-3 px-[22px] h-10">
+                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-5 flex items-center gap-1 py-3 px-[22px] h-10">
                     <img
                       className="w-4"
                       src="img/hero/connections/tableau.svg"
@@ -78,7 +78,7 @@ function Resources() {
                       Tableau BI
                     </span>
                   </div>
-                  <div className="bg-[#F6F8FA] col-span-3 flex items-center gap-1 py-3 px-[22px] h-10">
+                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-3 flex items-center gap-1 py-3 px-[22px] h-10">
                     <img
                       className="w-4"
                       src="img/hero/connections/redash-bi.svg"
@@ -89,7 +89,7 @@ function Resources() {
                     </span>
                   </div>
 
-                  <div className="bg-[#F6F8FA] col-span-5 flex items-center gap-1 py-3 px-[22px] h-10">
+                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-5 flex items-center gap-1 py-3 px-[22px] h-10">
                     <img
                       className="w-4"
                       src="img/hero/connections/airflow.svg"
@@ -99,7 +99,7 @@ function Resources() {
                       Apache Airflow
                     </span>
                   </div>
-                  <div className="bg-[#F6F8FA] col-span-3 flex items-center gap-1 py-3 px-[22px] h-10">
+                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)]  col-span-3 flex items-center gap-1 py-3 px-[22px] h-10">
                     <img
                       className="w-4"
                       src="img/hero/connections/dbt.svg"
@@ -107,7 +107,7 @@ function Resources() {
                     />
                     <span className="text-[14px] whitespace-nowrap">dbt</span>
                   </div>
-                  <div className="bg-[#F6F8FA] col-span-4 flex items-center gap-1 py-3 px-[22px] h-10">
+                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-4 flex items-center gap-1 py-3 px-[22px] h-10">
                     <img
                       className="w-4"
                       src="img/hero/connections/prefect.svg"

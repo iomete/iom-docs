@@ -23,7 +23,7 @@ function Guides() {
                 </p>
               </div>
               <div>
-                <div className="bg-[#F6F8FA] absolute right-4  rounded-md h-[123px] w-[309px] flex justify-center items-center">
+                <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] absolute right-4 bottom-[-8px]  rounded-md h-[123px] w-[309px] flex justify-center items-center">
                   <svg
                     width="56"
                     height="56"
@@ -45,7 +45,7 @@ function Guides() {
         {guides.map((guide, index) => (
           <div className="col-span-1" key={index}>
             <Card url={guide.url}>
-              <div className="h-18 bg-[#F6F8FA] rounded-[3px] flex justify-center items-center mb-4 p-[18px]">
+              <div className="h-18 bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] rounded-[3px] flex justify-center items-center mb-4 p-[18px]">
                 {guide.icon}
               </div>
 

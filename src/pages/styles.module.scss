@@ -26,10 +26,10 @@ $TextLight: #858c9d;
     line-height: 26px;
     color: #3f434b;
   }
+}
 
-  .card-desc {
-    color: red !important;
-  }
+html[data-theme="dark"] h4 {
+  color: var(--ifm-color-emphasis-500);
 }
 
 @media (max-width: 1400px) {

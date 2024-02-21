@@ -10,7 +10,7 @@ interface Props {
 function Card({ children, url }: Props) {
   return (
     <Link to={url}>
-      <div className="p-4 border-solid border border-[#cfd6df] rounded-[3px] cursor-pointer h-full relative overflow-hidden shadow-sm hover:shadow-md">
+      <div className="p-4 border-solid border border-[#cfd6df] dark:border-[--ifm-color-emphasis-200] rounded-[3px] cursor-pointer h-full relative overflow-hidden shadow-sm hover:shadow-md">
         {children}
       </div>
     </Link>
