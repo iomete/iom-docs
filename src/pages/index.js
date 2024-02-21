@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import "./styles.module.scss";
 import Header from "./_hero_new/Header";
 import Guides from "./_hero_new/Guides";
+
 import BlogPosts from "./_hero_new/BlogPosts";
 import Community from "./_hero_new/Community";
 import Resources from "./_hero_new/resources";

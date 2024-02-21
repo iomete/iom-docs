@@ -13,8 +13,8 @@ export const guides = [
     title: "On-Premise Deployment Guide",
     description: "Watch 20 minute Youtube video on how",
     icon: <HouseLine size={32} />,
+    url: "/community-deployment/on-prem/install",
   },
-
   {
     title: "AWS Deployment Guide",
     description: "Watch 20 minute Youtube video on how",
@@ -65,6 +65,7 @@ export const guides = [
         </defs>
       </svg>
     ),
+    url: "/community-deployment/aws/install",
   },
   {
     title: "GCP Deployment Guide",
@@ -102,6 +103,7 @@ export const guides = [
         </defs>
       </svg>
     ),
+    url: "/community-deployment/gcp/install",
   },
   {
     title: "Azure Deployment Guide",
@@ -170,6 +172,7 @@ export const guides = [
         </defs>
       </svg>
     ),
+    url: "/community-deployment/azure/install",
   },
 ];
 

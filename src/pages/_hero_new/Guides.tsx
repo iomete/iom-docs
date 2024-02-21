@@ -1,27 +1,29 @@
 import React from "react";
-import Heading from "@theme/Heading";
 
-import style from "./guides.module.scss";
-import { guides } from "../consts";
+import "./styles.scss";
+
+import Card from "./Card";
+import { guides } from "./consts";
 
 function Guides() {
   return (
-    <div className={style.Guides}>
-      <Heading as="h2">Installation Guides</Heading>
-
-      <div className={style.GridContainer}>
-        <div className={style.MainGridItem}>
-          <div className={style.Card}>
-            <div className={style.CardContent}>
-              <div className={style.CardText}>
-                <h4>Watch: How to run IOMETE Community Edition on AWS</h4>
-                <p>
+    <div className="mt-[52px]">
+      <h2 className="mb-6">Installation Guides</h2>
+      <div className="grid grid-cols-4 gap-4">
+        <div className="col-span-4">
+          <Card url="https://www.youtube.com/@iomete">
+            <div className="flex justify-between h-[106px]">
+              <div className="w-[40%]">
+                <h4 className="mb-2">
+                  Watch: How to run IOMETE Community Edition on AWS
+                </h4>
+                <p className="card-desc">
                   Watch 20 minute Youtube video on how to run Community Edition
                   on AWS.
                 </p>
               </div>
               <div>
-                <div className={style.CardMedia}>
+                <div className="bg-[var(--ifm-color-emphasis-100)] absolute right-4  rounded-md h-[123px] w-[309px] flex justify-center items-center">
                   <svg
                     width="56"
                     height="56"
@@ -37,18 +39,20 @@ function Guides() {
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
 
         {guides.map((guide, index) => (
-          <div className={style.SecondGridItem} key={index}>
-            <div className={style.Card}>
-              <div className={style.CardHeader}>{guide.icon}</div>
+          <div className="col-span-1" key={index}>
+            <Card url={guide.url}>
+              <div className="h-18 bg-[#F6F8FA] rounded-[3px] flex justify-center items-center mb-4 p-[18px]">
+                {guide.icon}
+              </div>
 
-              <h4>{guide.title}</h4>
+              <h4 className="mb-4">{guide.title}</h4>
 
-              <p>{guide.description}</p>
-            </div>
+              <p className="card-desc">{guide.description}</p>
+            </Card>
           </div>
         ))}
       </div>
