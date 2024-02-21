@@ -17,7 +17,7 @@ function BlogPosts() {
                 {blog.title}
               </h3>
 
-              <p className="text-[#858C9D] text-xs leading-4">
+              <p className="text-[#858C9D] text-xs leading-4 mb-0">
                 {blog.date} · {blog.duration}
               </p>
             </div>

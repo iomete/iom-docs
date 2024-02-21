@@ -13,6 +13,7 @@
     border-radius: 6px;
     width: max-content;
     padding: 4px 8px;
+    display: flex;
   }
 
   .Title {
@@ -36,6 +37,11 @@
 
   p {
     margin-bottom: 0px;
+  }
+
+  .Iconx {
+    display: flex;
+    align-items: center;
   }
 
   .Iconx svg {

@@ -1,5 +1,10 @@
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  corePlugins: {
+    preflight: false,
+    container: false,
+  },
+  content: ["./src/pages/_hero_new/**"],
+
   theme: {
     fontFamily: {
       sans: ["Inter", "sans-serif"],

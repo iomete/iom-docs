@@ -17,7 +17,7 @@ function Guides() {
                 <h4 className="mb-2">
                   Watch: How to run IOMETE Community Edition on AWS
                 </h4>
-                <p className="card-desc">
+                <p className="card-desc mb-0">
                   Watch 20 minute Youtube video on how to run Community Edition
                   on AWS.
                 </p>
@@ -51,7 +51,7 @@ function Guides() {
 
               <h4 className="mb-4">{guide.title}</h4>
 
-              <p className="card-desc">{guide.description}</p>
+              <p className="card-desc mb-0">{guide.description}</p>
             </Card>
           </div>
         ))}

@@ -19,14 +19,14 @@ function Resources() {
                   Learn how to create / manage various resources in IOMETE
                   Platform.
                 </p>
-                <p className="card-desc">
+                <p className="card-desc mb-0">
                   From basics to advanced security settings.
                 </p>
               </div>
-              <div className="w-[50%]">
+              <div className="w-[50%] ">
                 <img
-                  className="absolute"
-                  src="img/hero/lakehouses.png"
+                  className="absolute h-[240px]"
+                  src="img/hero/lakehouses.svg"
                   alt="Lakahouses"
                 />
               </div>
@@ -40,7 +40,7 @@ function Resources() {
             </div>
             <div>
               <h4 className="mb-2">Loading Data</h4>
-              <p className="card-desc">
+              <p className="card-desc mb-0">
                 Tutorials on how to query data files from various sources.
               </p>
             </div>
@@ -132,9 +132,9 @@ function Resources() {
                   your data lakehouse.
                 </p>
               </div>
-              <div className="absolute bottom-0">
+              <div className="flex justify-center">
                 <img
-                  style={{ borderRadius: 2 }}
+                  className="absolute p-4 bottom-[-16px]"
                   src="img/hero/sql-quickstart.png"
                   alt="Lakahouses"
                 />

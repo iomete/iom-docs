@@ -11,11 +11,11 @@ function Community() {
         {communities.map((community, index) => (
           <div className="col-span-1" key={index}>
             <Card url={community.url}>
-              <div style={{ marginBottom: 18 }}>{community.icon}</div>
+              <div className="mb-4">{community.icon}</div>
 
               <h4 className="mb-2 text-base">{community.title}</h4>
 
-              <p className="card-desc">{community.desc}</p>
+              <p className="card-desc mb-0">{community.desc}</p>
             </Card>
           </div>
         ))}

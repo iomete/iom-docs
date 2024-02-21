@@ -38,7 +38,11 @@ $TextLight: #858c9d;
   }
 }
 
-a:hover {
+a {
   text-decoration: none !important;
   color: unset !important;
+
+  :hover {
+    text-decoration: none !important;
+  }
 }
