@@ -1,33 +1,27 @@
 import React from "react";
-import Heading from "@theme/Heading";
 import { latestBlogs } from "./consts";
+import Link from "@docusaurus/Link";
 
 function BlogPosts() {
   return (
-    <div style={{ marginTop: 52 }}>
-      <Heading as="h2">Latest Blog Posts</Heading>
+    <div className="mt-[52px]">
+      <h2 className="mb-6">Latest Blog Posts</h2>
 
-      <div className="row">
+      <div className="grid grid-cols-3 gap-6">
         {latestBlogs.map((blog, index) => (
-          <div className="col col--4" key={index}>
-            <div
-              className="col-demo"
-              style={{
-                backgroundColor: "black",
-                padding: 16,
-                borderRadius: 4,
-                marginBottom: 12,
-              }}
-            >
+          <Link className="col-span-1" key={index}>
+            <div className="bg-black p-4 rounded-[3px] cursor-pointer hover:shadow-xl">
               <div style={{ marginBottom: 32 }}>{blog.icon}</div>
 
-              <h3 style={{ color: "white" }}>{blog.title}</h3>
+              <h3 className="text-white mb-2.5 text-[20px] leading-6">
+                {blog.title}
+              </h3>
 
-              <p style={{ margin: 0 }}>
+              <p className="text-[#858C9D] text-xs leading-4">
                 {blog.date} · {blog.duration}
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
