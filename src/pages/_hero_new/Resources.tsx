@@ -3,6 +3,8 @@ import React from "react";
 import { DownloadSimple } from "@phosphor-icons/react";
 import Card from "./Card";
 
+import "./styles.scss";
+
 function Resources() {
   return (
     <div className="mt-[52px]">
@@ -57,8 +59,8 @@ function Resources() {
                 </p>
               </div>
               <div className="absolute w-[110%] left-[-16px]">
-                <div className="grid grid-cols-12 gap-4">
-                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-4 flex items-center gap-1 py-3 px-[22px] h-10">
+                <div className="grid grid-cols-12 gap-4 ">
+                  <div className="item bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-4 flex items-center gap-1 py-3 px-[22px] h-10 animate-slide-right">
                     <img
                       className="w-4"
                       src="img/hero/connections/power-bi.svg"
@@ -68,7 +70,7 @@ function Resources() {
                       Power BI
                     </span>
                   </div>
-                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-5 flex items-center gap-1 py-3 px-[22px] h-10">
+                  <div className="item bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-4 flex items-center gap-1 py-3 px-[22px] h-10 animate-slide-right">
                     <img
                       className="w-4"
                       src="img/hero/connections/tableau.svg"
@@ -78,7 +80,7 @@ function Resources() {
                       Tableau BI
                     </span>
                   </div>
-                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-3 flex items-center gap-1 py-3 px-[22px] h-10">
+                  <div className="item bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-4 flex items-center gap-1 py-3 px-[22px] h-10 animate-slide-right">
                     <img
                       className="w-4"
                       src="img/hero/connections/redash-bi.svg"
@@ -89,7 +91,7 @@ function Resources() {
                     </span>
                   </div>
 
-                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-5 flex items-center gap-1 py-3 px-[22px] h-10">
+                  <div className="item-reverse bg-[#F6F8FA]  dark:bg-[var(--ifm-color-emphasis-200)] col-span-5 flex items-center gap-1 py-3 px-[22px] h-10">
                     <img
                       className="w-4"
                       src="img/hero/connections/airflow.svg"
@@ -99,7 +101,7 @@ function Resources() {
                       Apache Airflow
                     </span>
                   </div>
-                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)]  col-span-3 flex items-center gap-1 py-3 px-[22px] h-10">
+                  <div className="item-reverse bg-[#F6F8FA]  dark:bg-[var(--ifm-color-emphasis-200)]  col-span-3 flex items-center gap-1 py-3 px-[22px] h-10">
                     <img
                       className="w-4"
                       src="img/hero/connections/dbt.svg"
@@ -107,7 +109,7 @@ function Resources() {
                     />
                     <span className="text-[14px] whitespace-nowrap">dbt</span>
                   </div>
-                  <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] col-span-4 flex items-center gap-1 py-3 px-[22px] h-10">
+                  <div className="item-reverse bg-[#F6F8FA]  dark:bg-[var(--ifm-color-emphasis-200)] col-span-4 flex items-center gap-1 py-3 px-[22px] h-10">
                     <img
                       className="w-4"
                       src="img/hero/connections/prefect.svg"

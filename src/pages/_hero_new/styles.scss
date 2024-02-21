@@ -4,3 +4,40 @@
   font-size: 14px;
   line-height: 24px;
 }
+
+.item {
+  animation-name: loop;
+  position: relative;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: 4000ms;
+  animation-duration: 4000ms;
+}
+
+@keyframes loop {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+}
+
+.item-reverse {
+  animation-name: loop-reverse;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: 4000ms;
+  animation-duration: 4000ms;
+}
+
+@keyframes loop-reverse {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-20px);
+  }
+}
