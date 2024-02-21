@@ -2,34 +2,34 @@ $TextLight: #858c9d;
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
-h1 {
-  font-weight: 500;
-  font-size: 26px !important;
-  line-height: 31.47px;
-  margin: 8px 0;
-  font-family: Inter, sans-serif;
-}
-
-h2 {
-  font-size: 20px !important;
-  line-height: 24px;
-  font-weight: 500;
-}
-
-h4 {
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 26px;
-  color: #3f434b;
-}
-
-.card-desc {
-  color: red !important;
-}
-
 .HeroContainer {
   max-width: 830px;
   padding: 0;
+
+  h1 {
+    font-weight: 500;
+    font-size: 26px !important;
+    line-height: 31.47px;
+    margin: 8px 0;
+    font-family: Inter, sans-serif;
+  }
+
+  h2 {
+    font-size: 20px !important;
+    line-height: 24px;
+    font-weight: 500;
+  }
+
+  h4 {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 26px;
+    color: #3f434b;
+  }
+
+  .card-desc {
+    color: red !important;
+  }
 }
 
 @media (max-width: 1400px) {

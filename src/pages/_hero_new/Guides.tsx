@@ -23,7 +23,7 @@ function Guides() {
                 </p>
               </div>
               <div>
-                <div className="bg-[var(--ifm-color-emphasis-100)] absolute right-4  rounded-md h-[123px] w-[309px] flex justify-center items-center">
+                <div className="bg-[#F6F8FA] absolute right-4  rounded-md h-[123px] w-[309px] flex justify-center items-center">
                   <svg
                     width="56"
                     height="56"
