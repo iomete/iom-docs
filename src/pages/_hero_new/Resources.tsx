@@ -11,10 +11,10 @@ function Resources() {
     <div className="mt-[52px]">
       <h2 className="mb-6">Getting Started Resources</h2>
       <div className="grid grid-cols-8 gap-4">
-        <div className="col-span-6">
+        <div className="col-span-8 sm:col-span-6">
           <Card>
-            <div className="flex justify-between relative">
-              <div style={{ width: "40%" }}>
+            <div className="flex justify-between relative flex-col sm:flex-row gap-6">
+              <div className="w-full sm:w-[45%]">
                 <h4 className="mb-2">
                   User Guides on using IOMETE Platform Console.
                 </h4>
@@ -26,9 +26,9 @@ function Resources() {
                   From basics to advanced security settings.
                 </p>
               </div>
-              <div className="w-[50%] ">
+              <div className="w-full sm:w-1/2 mb-[-28px] flex justify-center">
                 <img
-                  className="absolute h-[240px]"
+                  className="relative sm:absolute h-[240px]"
                   src="img/hero/lakehouses.svg"
                   alt="Lakahouses"
                 />
@@ -36,7 +36,7 @@ function Resources() {
             </div>
           </Card>
         </div>
-        <div className="col-span-2">
+        <div className="col-span-4 sm:col-span-2">
           <Card>
             <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] flex justify-center items-center h-[72px] mb-4">
               <DownloadSimple size={32} />
@@ -51,7 +51,7 @@ function Resources() {
         </div>
         <div className="col-span-4">
           <Card>
-            <div className="relative h-48">
+            <div className="h-auto sm:h-48">
               <div className="mb-4">
                 <h4 className="mb-2">Integrations and Connections</h4>
                 <p className="card-desc">
@@ -59,51 +59,50 @@ function Resources() {
                   Tools, integrate with dbt, Apache Airflow, etc.
                 </p>
               </div>
-              <div className="absolute w-[110%] left-[-16px]">
-                <div className="flex gap-3 flex-nowrap mb-3">
-                  {[...Array(10)]
-                    .flatMap(() => topConnections)
-                    .map((connection, index) => (
-                      <div
-                        key={index}
-                        className="item bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] rounded-[3px] flex items-center gap-2 py-3 px-6 h-10"
-                      >
-                        <img
-                          className="w-4"
-                          src={connection.imgSrc}
-                          alt={connection.name}
-                        />
-                        <span className="text-[14px] whitespace-nowrap pr-2">
-                          {connection.name}
-                        </span>
-                      </div>
-                    ))}
-                </div>
 
-                <div className="flex gap-3 flex-nowrap">
-                  {[...Array(10)]
-                    .flatMap(() => bottomConnections)
-                    .map((connection, index) => (
-                      <div
-                        key={index}
-                        className="item-reverse bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] rounded-[3px]  flex items-center gap-2 py-3 px-6 h-10"
-                      >
-                        <img
-                          className="w-4"
-                          src={connection.imgSrc}
-                          alt={connection.name}
-                        />
-                        <span className="text-[14px] whitespace-nowrap pr-2">
-                          {connection.name}
-                        </span>
-                      </div>
-                    ))}
-                </div>
+              <div className="flex gap-3 flex-nowrap mb-3">
+                {[...Array(10)]
+                  .flatMap(() => topConnections)
+                  .map((connection, index) => (
+                    <div
+                      key={index}
+                      className="item bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] rounded-[3px] flex items-center gap-2 py-3 px-6 h-10"
+                    >
+                      <img
+                        className="w-4"
+                        src={connection.imgSrc}
+                        alt={connection.name}
+                      />
+                      <span className="text-[14px] whitespace-nowrap pr-2">
+                        {connection.name}
+                      </span>
+                    </div>
+                  ))}
+              </div>
+
+              <div className="flex gap-3 flex-nowrap">
+                {[...Array(10)]
+                  .flatMap(() => bottomConnections)
+                  .map((connection, index) => (
+                    <div
+                      key={index}
+                      className="item-reverse bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] rounded-[3px]  flex items-center gap-2 py-3 px-6 h-10"
+                    >
+                      <img
+                        className="w-4"
+                        src={connection.imgSrc}
+                        alt={connection.name}
+                      />
+                      <span className="text-[14px] whitespace-nowrap pr-2">
+                        {connection.name}
+                      </span>
+                    </div>
+                  ))}
               </div>
             </div>
           </Card>
         </div>
-        <div className="col-span-4">
+        <div className="col-span-8 sm:col-span-4">
           <Card>
             <div>
               <div>
@@ -115,7 +114,7 @@ function Resources() {
               </div>
               <div className="flex justify-center">
                 <img
-                  className="absolute p-4 bottom-[-16px]"
+                  className="relative sm:absolute sm:p-4 bottom-[-16px]"
                   src="img/hero/sql-quickstart.png"
                   alt="Lakahouses"
                 />

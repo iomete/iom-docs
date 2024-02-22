@@ -9,7 +9,7 @@ function Community() {
 
       <div className="grid grid-cols-4 gap-6">
         {communities.map((community, index) => (
-          <div className="col-span-1" key={index}>
+          <div className="col-span-2 sm:col-span-1" key={index}>
             <Card url={community.url}>
               <div className="mb-4">{community.icon}</div>
 

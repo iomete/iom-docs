@@ -12,8 +12,8 @@ function Guides() {
       <div className="grid grid-cols-4 gap-4">
         <div className="col-span-4">
           <Card url="https://www.youtube.com/@iomete">
-            <div className="flex justify-between h-[106px]">
-              <div className="w-[40%]">
+            <div className="flex justify-between h-auto sm:h-[106px] flex-col sm:flex-row gap-6">
+              <div className="w-[100%] sm:w-[50%] ">
                 <h4 className="mb-2">
                   Watch: How to run IOMETE Community Edition on AWS
                 </h4>
@@ -23,7 +23,7 @@ function Guides() {
                 </p>
               </div>
               <div>
-                <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] absolute right-4 bottom-[-8px]  rounded-md h-[123px] w-[309px] flex justify-center items-center">
+                <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)]  mb-[-20px] rounded-md h-[153px] sm:h-[133px] w-full sm:w-[309px] flex justify-center items-center">
                   <svg
                     width="56"
                     height="56"
@@ -43,7 +43,7 @@ function Guides() {
         </div>
 
         {guides.map((guide, index) => (
-          <div className="col-span-1" key={index}>
+          <div className="col-span-2 sm:col-span-1 " key={index}>
             <Card url={guide.url}>
               <div className="h-18 bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] rounded-[3px] flex justify-center items-center mb-4 p-[18px]">
                 {guide.icon}
