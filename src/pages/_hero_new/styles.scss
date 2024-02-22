@@ -10,17 +10,16 @@
   position: relative;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  animation-direction: 4000ms;
-  animation-duration: 4000ms;
+  animation-direction: 40000ms;
+  animation-duration: 40000ms;
 }
 
 @keyframes loop {
-  0%,
-  100% {
-    transform: translateX(0);
+  0% {
+    transform: translateX(-300px);
   }
-  50% {
-    transform: translateX(20px);
+  100% {
+    transform: translateX(-10px);
   }
 }
 
@@ -28,16 +27,15 @@
   animation-name: loop-reverse;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  animation-direction: 4000ms;
-  animation-duration: 4000ms;
+  animation-direction: 40000ms;
+  animation-duration: 40000ms;
 }
 
 @keyframes loop-reverse {
-  0%,
-  100% {
-    transform: translateX(0);
+  0% {
+    transform: translateX(-10px);
   }
-  50% {
-    transform: translateX(-20px);
+  100% {
+    transform: translateX(-300px);
   }
 }

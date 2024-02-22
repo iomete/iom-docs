@@ -236,3 +236,33 @@ export const communities = [
     url: "https://github.com/iomete",
   },
 ];
+
+export const topConnections = [
+  {
+    name: "Power BI",
+    imgSrc: "img/hero/connections/power-bi.svg",
+  },
+  {
+    name: "Tableau BI",
+    imgSrc: "img/hero/connections/tableau.svg",
+  },
+  {
+    name: "Redash BI",
+    imgSrc: "img/hero/connections/redash-bi.svg",
+  },
+];
+
+export const bottomConnections = [
+  {
+    name: "Apache Airflow",
+    imgSrc: "img/hero/connections/airflow.svg",
+  },
+  {
+    name: "dbt",
+    imgSrc: "img/hero/connections/dbt.svg",
+  },
+  {
+    name: "Prefect",
+    imgSrc: "img/hero/connections/prefect.svg",
+  },
+];
