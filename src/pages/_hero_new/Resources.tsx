@@ -12,7 +12,7 @@ function Resources() {
       <h2 className="mb-6">Getting Started Resources</h2>
       <div className="grid grid-cols-8 gap-4">
         <div className="col-span-8 sm:col-span-6">
-          <Card>
+          <Card url="/user-guide/virtual-lakehouses">
             <div className="flex justify-between relative flex-col sm:flex-row gap-6">
               <div className="w-full sm:w-[45%]">
                 <h4 className="mb-2">
@@ -37,7 +37,7 @@ function Resources() {
           </Card>
         </div>
         <div className="col-span-4 sm:col-span-2">
-          <Card>
+          <Card url="/tutorials/read-files-from-aws-s3">
             <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] flex justify-center items-center h-[72px] mb-4">
               <DownloadSimple size={32} />
             </div>
@@ -50,7 +50,7 @@ function Resources() {
           </Card>
         </div>
         <div className="col-span-4">
-          <Card>
+          <Card url="/integrations/dbt/getting-started-with-iomete-dbt">
             <div className="h-auto sm:h-48">
               <div className="mb-4">
                 <h4 className="mb-2">Integrations and Connections</h4>
@@ -103,7 +103,7 @@ function Resources() {
           </Card>
         </div>
         <div className="col-span-8 sm:col-span-4">
-          <Card>
+          <Card url="/user-guide/sql-editor">
             <div>
               <div>
                 <h4 className="mb-2">SQL Quickstart</h4>

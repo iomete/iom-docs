@@ -9,7 +9,7 @@ function BlogPosts() {
 
       <div className="grid grid-cols-3 gap-6">
         {latestBlogs.map((blog, index) => (
-          <Link className="col-span-2 sm:col-span-1" key={index}>
+          <Link className="col-span-2 sm:col-span-1" key={index} to={blog.url}>
             <div className="bg-black p-4 rounded-[3px] cursor-pointer hover:shadow-xl">
               <div style={{ marginBottom: 32 }}>{blog.icon}</div>
 
