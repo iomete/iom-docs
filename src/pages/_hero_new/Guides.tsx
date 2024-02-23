@@ -23,7 +23,18 @@ function Guides() {
                 </p>
               </div>
               <div>
-                <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)]  mb-[-20px] rounded-md h-[153px] sm:h-[133px] w-full sm:w-[309px] flex justify-center items-center">
+                <div>
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src="https://www.youtube-nocookie.com/embed/gNtZrnKNg4Y?si=T3yaa88CRgwlNLrC"
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    className="rounded-t-md h-[153px] sm:h-[153px] w-full sm:w-[309px] max-h-[120px]"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                {/* <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)]  mb-[-20px] rounded-md h-[153px] sm:h-[133px] w-full sm:w-[309px] flex justify-center items-center">
                   <svg
                     width="56"
                     height="56"
@@ -36,7 +47,7 @@ function Guides() {
                       fill="#FF0000"
                     />
                   </svg>
-                </div>
+                </div> */}
               </div>
             </div>
           </Card>
