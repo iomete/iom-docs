@@ -29,7 +29,7 @@ function Resources() {
               <div className="w-full sm:w-1/2 mb-[-28px] flex justify-end sm:justify-center ml-[17px]">
                 <img
                   className="relative sm:absolute h-[240px]"
-                  src="img/hero/lakehouses.svg"
+                  src="/resources/img/hero/lakehouses.svg"
                   alt="Lakahouses"
                 />
               </div>
@@ -115,7 +115,7 @@ function Resources() {
               <div className="flex justify-center">
                 <img
                   className="relative sm:absolute sm:p-4 bottom-[-16px]"
-                  src="img/hero/sql-quickstart.png"
+                  src="/resources/img/hero/sql-quickstart.png"
                   alt="Lakahouses"
                 />
               </div>

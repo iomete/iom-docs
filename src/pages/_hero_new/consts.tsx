@@ -182,20 +182,20 @@ export const latestBlogs = [
     date: "Apr 4, 2023",
     duration: "3 min read",
     url: "/blog/apache-iceberg-delta-lake",
-    icon: <img src="img/logo-white.svg" width={60} />,
+    icon: <img src="/resources/img/logo-white.svg" width={60} />,
   },
   {
     title: "Data Warehouse to Lakehouse Evolution",
     date: "Jan 17, 2024",
     duration: "20 min read",
-    url: "/blog/from-data-warehouses-to-data-lakehouses",
+    url: "/resources/blog/from-data-warehouses-to-data-lakehouses",
     icon: <img src="img/logo-white.svg" width={60} />,
   },
   {
     title: "How to Build An On-prem Data Lakehouse",
     date: "April 4, 2023",
     duration: "3 min read",
-    url: "/blog/why-we-choose-to-be-the-on-premise-data-lakehouse",
+    url: "/resources/blog/why-we-choose-to-be-the-on-premise-data-lakehouse",
     icon: <img src="img/logo-white.svg" width={60} />,
   },
 ];
@@ -243,29 +243,29 @@ export const communities = [
 export const topConnections = [
   {
     name: "Power BI",
-    imgSrc: "img/hero/connections/power-bi.svg",
+    imgSrc: "/resources/img/hero/connections/power-bi.svg",
   },
   {
     name: "Tableau BI",
-    imgSrc: "img/hero/connections/tableau.svg",
+    imgSrc: "/resources/img/hero/connections/tableau.svg",
   },
   {
     name: "Redash BI",
-    imgSrc: "img/hero/connections/redash-bi.svg",
+    imgSrc: "/resources/img/hero/connections/redash-bi.svg",
   },
 ];
 
 export const bottomConnections = [
   {
     name: "Apache Airflow",
-    imgSrc: "img/hero/connections/airflow.svg",
+    imgSrc: "/resources/img/hero/connections/airflow.svg",
   },
   {
     name: "dbt",
-    imgSrc: "img/hero/connections/dbt.svg",
+    imgSrc: "/resources/img/hero/connections/dbt.svg",
   },
   {
     name: "Prefect",
-    imgSrc: "img/hero/connections/prefect.svg",
+    imgSrc: "/resources/img/hero/connections/prefect.svg",
   },
 ];
