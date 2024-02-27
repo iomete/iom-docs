@@ -11,7 +11,8 @@ module.exports = {
     },
     extend: {
       boxShadow: {
-        iom: "0px 5px 10px 0px #0000000A",
+        iom: "0px 5px 10px 0px rgba(0, 0, 0, 0.04)",
+        "iom-hover": "0px 5px 10px 0px rgba(0, 0, 0, 0.07)",
         "iom-dark": "0px 3px 5px 0px #363636",
       },
     },
