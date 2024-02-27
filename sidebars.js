@@ -64,9 +64,7 @@ const sidebars = {
           type: "category",
           label: "On-Premises",
           collapsed: true,
-          items: [
-            "community-deployment/on-prem/install",
-          ],
+          items: ["community-deployment/on-prem/install"],
         },
         {
           type: "category",
@@ -75,6 +73,7 @@ const sidebars = {
           items: [
             "deployment/configure-custom-dns",
             "deployment/enable-tls",
+            "deployment/ldap-configuration",
             "deployment/backend-databases",
             "deployment/life-cycle-management",
           ],
@@ -97,6 +96,8 @@ const sidebars = {
         "user-guide/groups",
         "user-guide/roles",
         "user-guide/create-a-personal-access-token",
+        "user-guide/global-spark-settings",
+        "user-guide/spark-catalogs",
         "user-guide/private-docker-registry",
       ],
     },
