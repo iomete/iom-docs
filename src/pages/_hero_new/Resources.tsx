@@ -13,8 +13,8 @@ function Resources() {
       <div className="grid grid-cols-8 gap-4">
         <div className="col-span-8 sm:col-span-6">
           <Card url="/user-guide/virtual-lakehouses">
-            <div className="flex justify-between relative flex-col sm:flex-row gap-6">
-              <div className="w-full sm:w-[45%]">
+            <div className="grid grid-cols-2 gap-4 h-full">
+              <div className="col-span-2 sm:col-span-1">
                 <h4 className="mb-2">
                   User Guides on using IOMETE Platform Console.
                 </h4>
@@ -26,10 +26,11 @@ function Resources() {
                   From basics to advanced security settings.
                 </p>
               </div>
-              <div className="w-full sm:w-1/2 mb-[-28px] flex justify-end sm:justify-center ml-[17px]">
+              <div className="relative min-h-48 col-span-2 sm:col-span-1">
                 <img
-                  className="relative sm:absolute h-[240px]"
-                  src="/resources/img/hero/lakehouses.svg"
+                  style={{ height: "calc(100% + 26px)" }}
+                  className="object-cover object-left-top absolute bottom-[-26px] right-[-26px] border-solid border border-[#cfd6df] dark:border-[#252526]"
+                  src="/resources/img/hero/lakehouses-console.svg"
                   alt="Lakahouses"
                 />
               </div>
@@ -38,7 +39,7 @@ function Resources() {
         </div>
         <div className="col-span-4 sm:col-span-2">
           <Card url="/tutorials/read-files-from-aws-s3">
-            <div className="bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] flex justify-center items-center h-[72px] mb-4">
+            <div className="bg-[#F6F8FA] dark:bg-[#1e1e1f] flex justify-center items-center h-[72px] mb-4">
               <DownloadSimple size={32} />
             </div>
             <div>
@@ -51,7 +52,7 @@ function Resources() {
         </div>
         <div className="col-span-4">
           <Card url="/integrations/dbt/getting-started-with-iomete-dbt">
-            <div className="h-auto sm:h-48">
+            <div className="h-auto">
               <div className="mb-4">
                 <h4 className="mb-2">Integrations and Connections</h4>
                 <p className="card-desc">
@@ -66,7 +67,7 @@ function Resources() {
                   .map((connection, index) => (
                     <div
                       key={index}
-                      className="item bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] rounded-[3px] flex items-center gap-2 py-3 px-6 h-10"
+                      className="item bg-[#F6F8FA] dark:bg-[#1e1e1f] rounded-[3px] flex items-center gap-2 py-3 px-6 h-10"
                     >
                       <img
                         className="w-4"
@@ -86,7 +87,7 @@ function Resources() {
                   .map((connection, index) => (
                     <div
                       key={index}
-                      className="item-reverse bg-[#F6F8FA] dark:bg-[var(--ifm-color-emphasis-200)] rounded-[3px]  flex items-center gap-2 py-3 px-6 h-10"
+                      className="item-reverse bg-[#F6F8FA] dark:bg-[#1e1e1f] rounded-[3px]  flex items-center gap-2 py-3 px-6 h-10"
                     >
                       <img
                         className="w-4"
@@ -105,21 +106,18 @@ function Resources() {
         <div className="col-span-8 sm:col-span-4">
           <Card url="/user-guide/sql-editor">
             <div>
-              <div>
-                <h4 className="mb-2">SQL Quickstart</h4>
-                <p className="card-desc">
-                  A quickstart guides to using SQL to query and process data in
-                  your data lakehouse.
-                </p>
-              </div>
-              <div className="flex justify-center">
-                <img
-                  className="relative sm:absolute sm:p-4 bottom-[-16px]"
-                  src="/resources/img/hero/sql-quickstart.png"
-                  alt="Lakahouses"
-                />
-              </div>
+              <h4 className="mb-2">SQL Quickstart</h4>
+              <p className="card-desc">
+                A quickstart guides to using SQL to query and process data in
+                your data lakehouse.
+              </p>
             </div>
+            <img
+              style={{ height: "calc(80% + 26px)" }}
+              className="object-cover object-left-top mb-[-26px]"
+              src="/resources/img/hero/code-sql.svg"
+              alt="SQL Quickstart"
+            />
           </Card>
         </div>
       </div>
