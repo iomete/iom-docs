@@ -188,15 +188,15 @@ export const latestBlogs = [
     title: "Data Warehouse to Lakehouse Evolution",
     date: "Jan 17, 2024",
     duration: "20 min read",
-    url: "/resources/blog/from-data-warehouses-to-data-lakehouses",
-    icon: <img src="img/logo-white.svg" width={60} />,
+    url: "/blog/from-data-warehouses-to-data-lakehouses",
+    icon: <img src="/resources/img/logo-white.svg" width={60} />,
   },
   {
     title: "How to Build An On-prem Data Lakehouse",
     date: "April 4, 2023",
     duration: "3 min read",
-    url: "/resources/blog/why-we-choose-to-be-the-on-premise-data-lakehouse",
-    icon: <img src="img/logo-white.svg" width={60} />,
+    url: "/blog/why-we-choose-to-be-the-on-premise-data-lakehouse",
+    icon: <img src="/resources/img/logo-white.svg" width={60} />,
   },
 ];
 
