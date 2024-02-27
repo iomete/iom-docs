@@ -6,6 +6,9 @@ html[data-theme="light"] {
   --ifm-dropdown-background-color: var(--token-secondary-bg-c);
 
   --navbar-icon-link-c: var(--c-indigo-60);
+
+  --navbar-text-color: #5a5f66;
+  --navbar-active-border-color: #000000;
 }
 
 html[data-theme="dark"] {
@@ -14,6 +17,8 @@ html[data-theme="dark"] {
   --navbar-separator-bg-c: var(--c-carbon-80);
 
   --navbar-icon-link-c: var(--c-white);
+  --navbar-text-color: var(--ifm-color-emphasis-500);
+  --navbar-active-border-color: var(--ifm-color-emphasis-900);
 }
 
 :root {
@@ -55,6 +60,8 @@ html[data-theme="dark"] {
 
             position: relative;
 
+            color: var(--navbar-text-color) !important;
+
             &::after {
               content: "";
               position: absolute;
@@ -67,10 +74,11 @@ html[data-theme="dark"] {
             }
 
             &--active {
-              color: var(--ifm-link-color);
+              color: var(--navbar-active-border-color) !important;
 
               &::after {
                 background: var(--ifm-link-color);
+                background-color: var(--navbar-active-border-color) !important;
               }
             }
           }
