@@ -9,6 +9,8 @@ html[data-theme="light"] {
 
   --navbar-text-color: #5a5f66;
   --navbar-active-border-color: #000000;
+
+  --search-kbd-color: #5a5f66;
 }
 
 html[data-theme="dark"] {
@@ -19,6 +21,8 @@ html[data-theme="dark"] {
   --navbar-icon-link-c: var(--c-white);
   --navbar-text-color: var(--ifm-color-emphasis-500);
   --navbar-active-border-color: var(--ifm-color-emphasis-900);
+
+  --search-kbd-color: var(--ifm-color-emphasis-700);
 }
 
 :root {
@@ -131,6 +135,27 @@ html[data-theme="dark"] {
 
           &[class^="iconExternalLink"] {
             display: none;
+          }
+        }
+      }
+
+      .DocSearch-Button {
+        border-radius: unset !important;
+
+        .DocSearch-Search-Icon {
+          width: 16px;
+          margin-top: -1px;
+        }
+
+        .DocSearch-Button-Keys {
+          border: none;
+          .DocSearch-Button-Key:first-child {
+            color: var(--search-kbd-color) !important;
+            font-size: 18px;
+          }
+          .DocSearch-Button-Key:last-child {
+            color: var(--search-kbd-color) !important;
+            font-size: 12px;
           }
         }
       }
