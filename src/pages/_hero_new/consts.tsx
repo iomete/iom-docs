@@ -11,13 +11,13 @@ import {
 export const guides = [
   {
     title: "On-Premise Deployment Guide",
-    description: "Watch 20 minute Youtube video on how",
+    description: "Setup IOMETE for On-Prem lakehouse",
     icon: <HouseLine size={32} />,
     url: "/community-deployment/on-prem/install",
   },
   {
     title: "AWS Deployment Guide",
-    description: "Watch 20 minute Youtube video on how",
+    description: "Setup IOMETE for AWS lakehouse",
     icon: (
       <svg
         width="61"
@@ -69,7 +69,7 @@ export const guides = [
   },
   {
     title: "GCP Deployment Guide",
-    description: "Watch 20 minute Youtube video on how",
+    description: "Setup IOMETE for GCP lakehouse",
     icon: (
       <svg
         width="45"
@@ -107,7 +107,7 @@ export const guides = [
   },
   {
     title: "Azure Deployment Guide",
-    description: "Watch 20 minute Youtube video on how",
+    description: "Setup IOMETE for Azure lakehouse",
     icon: (
       <svg
         width="36"
@@ -192,7 +192,7 @@ export const latestBlogs = [
     icon: <img src="img/logo-white.svg" width={60} />,
   },
   {
-    title: "How to Build An On-premise Data Lakehouse",
+    title: "How to Build An On-prem Data Lakehouse",
     date: "April 4, 2023",
     duration: "3 min read",
     url: "/blog/why-we-choose-to-be-the-on-premise-data-lakehouse",
@@ -203,7 +203,7 @@ export const latestBlogs = [
 export const communities = [
   {
     title: "Public Roadmap",
-    desc: "Watch 20 minute Youtube video on how ",
+    desc: "Check the future and ask a feature",
     icon: (
       <svg
         width="38"
@@ -222,19 +222,19 @@ export const communities = [
   },
   {
     title: "Join us on Discord",
-    desc: "Watch 20 minute Youtube video on how ",
+    desc: "Ask community version questions here",
     icon: <DiscordLogo size={32} />,
     url: "https://discord.gg/26GeyJx3Ut",
   },
   {
     title: "Youtube Channel",
-    desc: "Watch 20 minute Youtube video on how ",
+    desc: "We have some tutorials for you here",
     icon: <YoutubeLogo size={32} />,
     url: "https://www.youtube.com/@iomete",
   },
   {
     title: "Github Repo",
-    desc: "Watch 20 minute Youtube video on how ",
+    desc: "Useful examples, connectors & more",
     icon: <GithubLogo size={32} />,
     url: "https://github.com/iomete",
   },

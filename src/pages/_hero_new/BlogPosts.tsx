@@ -7,10 +7,10 @@ function BlogPosts() {
     <div className="mt-[52px]">
       <h2 className="mb-6">Latest Blog Posts</h2>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="flex gap-6 overflow-x-auto pb-3">
         {latestBlogs.map((blog, index) => (
-          <Link className="col-span-2 sm:col-span-1" key={index} to={blog.url}>
-            <div className="bg-black p-4 rounded-[3px] cursor-pointer hover:shadow-xl">
+          <Link key={index} to={blog.url} className="min-w-60">
+            <div className="bg-black p-4 rounded-[3px] cursor-pointer hover:shadow-xl h-[100%]">
               <div style={{ marginBottom: 32 }}>{blog.icon}</div>
 
               <h3 className="text-white mb-2.5 text-[20px] leading-6">

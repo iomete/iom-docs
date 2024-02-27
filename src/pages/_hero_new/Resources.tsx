@@ -26,7 +26,7 @@ function Resources() {
                   From basics to advanced security settings.
                 </p>
               </div>
-              <div className="w-full sm:w-1/2 mb-[-28px] flex justify-center">
+              <div className="w-full sm:w-1/2 mb-[-28px] flex justify-end sm:justify-center ml-[17px]">
                 <img
                   className="relative sm:absolute h-[240px]"
                   src="img/hero/lakehouses.svg"
