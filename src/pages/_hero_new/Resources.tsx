@@ -53,7 +53,7 @@ function Resources() {
         <div className="col-span-4">
           <Card url="/integrations/dbt/getting-started-with-iomete-dbt">
             <div className="h-auto">
-              <div className="mb-4">
+              <div className="mb-6">
                 <h4 className="mb-2">Integrations and Connections</h4>
                 <p className="card-desc">
                   Find step by step tutorials on how to connect various BI
@@ -61,40 +61,40 @@ function Resources() {
                 </p>
               </div>
 
-              <div className="flex gap-3 flex-nowrap mb-3">
+              <div className="flex gap-4 flex-nowrap mb-4">
                 {[...Array(10)]
                   .flatMap(() => topConnections)
                   .map((connection, index) => (
                     <div
                       key={index}
-                      className="item bg-[#F6F8FA] dark:bg-[#1e1e1f] rounded-[3px] flex items-center gap-2 py-3 px-6 h-10"
+                      className="item bg-[#F6F8FA] dark:bg-[#1e1e1f] rounded-[3px] flex items-center gap-2 py-3 px-6 h-12"
                     >
                       <img
-                        className="w-4"
+                        className="w-5 h-5"
                         src={connection.imgSrc}
                         alt={connection.name}
                       />
-                      <span className="text-[14px] whitespace-nowrap pr-2">
+                      <span className="text-[16px] whitespace-nowrap pr-2">
                         {connection.name}
                       </span>
                     </div>
                   ))}
               </div>
 
-              <div className="flex gap-3 flex-nowrap">
+              <div className="flex gap-4 flex-nowrap">
                 {[...Array(10)]
                   .flatMap(() => bottomConnections)
                   .map((connection, index) => (
                     <div
                       key={index}
-                      className="item-reverse bg-[#F6F8FA] dark:bg-[#1e1e1f] rounded-[3px]  flex items-center gap-2 py-3 px-6 h-10"
+                      className="item-reverse bg-[#F6F8FA] dark:bg-[#1e1e1f] rounded-[3px] flex items-center gap-2 py-3 px-6 h-12"
                     >
                       <img
-                        className="w-4"
+                        className="w-5 h-5"
                         src={connection.imgSrc}
                         alt={connection.name}
                       />
-                      <span className="text-[14px] whitespace-nowrap pr-2">
+                      <span className="text-[16px] whitespace-nowrap pr-2">
                         {connection.name}
                       </span>
                     </div>
