@@ -36,7 +36,7 @@ Following up, select “**Create Report**” and choose the name of the report, 
 After creating this the data starts to be loaded into an S3 bucket every hour, after 24 hours there would be 24 snapshots of the logs stored in this location.
 Data is available in the S3 bucket, providing an opportunity for analysis. You can use AWS Glue to crawl data(need to set up and configure), create a database then configure Athena and import the data into the database. It is a **_complicated_** process. Alternatively choosing **_IOMETE_**, you can start analyzing the data in a few simple steps.
 
-Open [app.iomete.com](http://app.iomete.com/) and select SQL Editor. (pic. 3), create a new file by clicking on “+”, we named the file “Parquet”.
+Open IOMETE console and select SQL Editor. (pic. 3), create a new file by clicking on “+”, we named the file “Parquet”.
 
 <!-- ![Screenshot 2022-12-09 at 02.36.32.png](AWS%20Cost%20&%20Usage%20Reports%20Data%20Processing%2041222eb656c243398b7f0a748b9ed0b2/Screenshot_2022-12-09_at_02.36.32.png) -->
 

@@ -36,7 +36,7 @@ For the sake of demo, we’ll use the IOMETE’s external tables capability, whi
 You can create external tables on flat files (CSV, JSON, ORC, Parquet, etc), as well as from JDBC sources. In this guide will use the JDBC external table
 :::
 
-Go to SQL editor in the [iomete app](https://app.iomete.com/editor) and create a new database and two external tables:
+Go to SQL editor and create a new database and two external tables:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS dbt_database;
