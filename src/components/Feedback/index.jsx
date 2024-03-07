@@ -30,14 +30,24 @@ const Feedback = ({ label }) => {
           <div className={styles.FeedbackCard}>
             <span>Did this page help you?</span>
 
-            <span title="Happy" data-doc-useful="yes" className={styles.Action} onClick={() => giveFeedback("yes")}>
+            <span
+              title="Happy"
+              data-doc-useful="yes"
+              className={styles.Action}
+              onClick={() => giveFeedback("yes")}
+            >
               <span className={styles.Iconx}>
                 <ThumbsUp size={18} weight="light" />
                 Yes
               </span>
             </span>
 
-            <span title="Disappointed" data-doc-useful="no" className={styles.Action} onClick={() => giveFeedback("no")}>
+            <span
+              title="Disappointed"
+              data-doc-useful="no"
+              className={styles.Action}
+              onClick={() => giveFeedback("no")}
+            >
               <span className={styles.Iconx}>
                 <ThumbsDown size={18} weight="light" />
                 No

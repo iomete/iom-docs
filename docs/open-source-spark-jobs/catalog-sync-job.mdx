@@ -1,0 +1,96 @@
+---
+title: Data Catalog Sync Job
+description: IOMETE's Data Catalog Sync Job allows you to effortlessly synchronize data to Data Catalog.
+last_update:
+  date: 03/07/2024
+  author: Nurlan Mammadov
+---
+
+import FlexButton from "@site/src/components/FlexButton";
+import Img from "@site/src/components/Img";
+import { Cpu, Plus } from "@phosphor-icons/react";
+
+---
+
+**IOMETE** offers the **Data Catalog Sync Job**, allowing you to synchronize data from multiple sources with the **IOMETE** Data Catalog. This centralization process simplifies the discovery, access, and management of your data for **analytical** and **ML/AI** workloads.
+
+## Installation
+
+### Automated Installation
+
+You can easily install the Data Catalog Sync Job through the **Spark Job Marketplace** in **IOMETE**. Just search for the job in the marketplace and click "Deploy" to get started.
+
+<Img src="/img/spark-job/data-catalog-deploy-job.png" alt="IOMETE Spark Jobs" />
+
+### Manual Installation
+
+Here's a simplified guide to manually installing the Data Catalog Sync Job:
+
+- In the left sidebar menu choose <FlexButton label='Spark Jobs'><Cpu size={20} color='#858c9c' weight="duotone"/></FlexButton>
+- Click on <FlexButton label='Create' primary><Plus size={16} /></FlexButton>
+
+<Img src="/img/spark-job/create-new-job.png" alt="IOMETE Spark Jobs" />
+
+Please specify the following parameters (these are examples, and you can customize them according to your preferences):
+
+- **Name:** `catalog-sync`
+- **schedule:** `0 * * * *`
+- **concurrency:** `FORBID`
+
+<div class="row">
+  <div class="col col--9">
+    <Img
+      src="/img/spark-job/catalog-sync-job-general.png"
+      alt="IOMETE Spark Jobs add General info"
+      maxWidth="600px"
+    />
+  </div>
+</div>
+
+- **Deployment:**
+
+  - **Docker image:** `iomete/iom-catalog-sync:latest`
+  - **Main Application File:** `spark-internal`
+  - **Main Class:** `com.iomete.catalogsync.App`
+
+    <div class="row">
+      <div class="col col--9">
+        <Img
+          src="/img/spark-job/catalog-sync-job-deployment.png"
+          alt="IOMETE Spark Jobs add Deployment config"
+          maxWidth="600px"
+        />
+      </div>
+    </div>
+
+  - **Instance Config:**
+
+    - **Driver Type:** `driver-small`
+    - **Executor Type:** `exec-small`
+    - **Executor Count:** `1`
+
+      <div class="row">
+        <div class="col col--9">
+          <Img
+            src="/img/spark-job/catalog-sync-job-instances.png"
+            alt="IOMETE Spark Jobs add config file"
+            maxWidth="600px"
+          />
+          <span>
+            And, hit the <FlexButton label="Create" primary></FlexButton>button.
+          </span>
+        </div>
+      </div>
+
+## **Run the job**
+
+You can trigger the job manually by clicking on the <FlexButton label='Run job' primary/> button.
+
+:::tip
+The job will be run based on the defined schedule. But, you can trigger the job manually by clicking on the **Run job** button.
+:::
+
+<Img
+  src="/img/spark-job/catalog-sync-job-details.png"
+  alt="IOMETE Run Job Manually"
+/>
