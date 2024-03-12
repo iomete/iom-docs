@@ -24,6 +24,15 @@
     line-height: 26px;
     color: #3f434b;
   }
+
+  a {
+    text-decoration: none !important;
+    color: unset !important;
+
+    :hover {
+      text-decoration: none !important;
+    }
+  }
 }
 
 html[data-theme="dark"] h4 {
@@ -33,14 +42,5 @@ html[data-theme="dark"] h4 {
 @media (max-width: 1400px) {
   .HeroContainer {
     padding: 0 16px;
-  }
-}
-
-a {
-  text-decoration: none !important;
-  color: unset !important;
-
-  :hover {
-    text-decoration: none !important;
   }
 }

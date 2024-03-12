@@ -89,6 +89,8 @@ const sidebars = {
       collapsed: false,
       items: [
         "user-guide/virtual-lakehouses",
+        "user-guide/spark-connect",
+
         // "user-guide/create-ssh-tunnel",
         "user-guide/sql-editor",
         "user-guide/data-catalog",
