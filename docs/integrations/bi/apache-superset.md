@@ -6,6 +6,8 @@ last_update:
   date: 10/31/2022
 ---
 
+import Img from "@site/src/components/Img";
+
 ![iomete superset](/img/guides/apache-superset-iomete/iomete-superset.png)
 
 Hi! In this guide, we will explain how to effortlessly integrate **IOMETE** with one of the most popular BI tools: [Apache Superset](https://superset.apache.org/).
@@ -68,13 +70,15 @@ We can now create a Datasource in Superset that can be used to connect the iomet
 
 For connection details, go to the [iomete app](https://app.iomete.com/), select the lakehouse you want to connect to, and in the **Connection details,** you will find all the required information.
 
-![iomete lakehouse connection details](/img/guides/bi-connections/connection-details.png)
+<Img
+src="/img/guides/power-bi/connection-details.png"
+alt="Iomete lakehouse connection"
+/>
 
-Some properties can be extracted from the connection string, as in the example below:
+Change hightlighted parameters:
 
-- Host: `us-east-1.iomete.com`
-- Account number: `00000000000`
-- Lakehouse name: `demo`
+- `access_token`: Generated Tokens are used instead of password for connecting to lakehouse.
+- Database: `default` database is specified in the connection string. If you want to use other database change it.
 
 ### Add a connection to Superset
 
@@ -82,13 +86,16 @@ Use the following connection string in “SQL Alchemy URI”, by going to Source
 
 ```
 # Connection template
-hive://{user}:{password}@{host}/{db}?account_number={account_number}&lakehouse={lakehouse_name}
-
-# example connection string with above values:
-hive://user1:user_pass@us-east-1.iomete.com/default?account_number=00000000000&lakehouse=demo
+iomete://admin:{accessToken}@dev.iomete.cloud/default?lakehouse=demo
 ```
 
-![superset add connection form](/img/guides/apache-superset-iomete/superset_iomete_connection.jpg)
+<!-- ![superset add connection form](/img/guides/apache-superset-iomete/superset_iomete_connection.jpg) -->
+
+<Img
+src="/img/guides/apache-superset-iomete/superset_iomete_connection-1.png"
+alt="Iomete lakehouse connection"
+maxWidth="500px"
+/>
 
 Then click “Test Connection”, which should give you an `OK` message. If not, please look at your terminal for error messages, and reach out for help.
 
@@ -98,7 +105,13 @@ Then click “Test Connection”, which should give you an `OK` message. If not,
 
 Once connected to iomete, we can add datasets from iomete to Superset and create charts.
 
-![Superset add dataset from iomete lakehouse](/img/guides/apache-superset-iomete/add-dataset.png)
+<!-- ![Superset add dataset from iomete lakehouse](/img/guides/apache-superset-iomete/add-dataset.png) -->
+
+<Img
+src="/img/guides/apache-superset-iomete/add-dataset.png"
+alt="Superset Add Dataset"
+maxWidth="500px"
+/>
 
 ### Create chart
 
