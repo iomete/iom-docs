@@ -40,7 +40,7 @@ IOMETE Community Edition is supported by the community. Feel free to join the [I
 Please clone the [IOMETE Community Edition Deployment on AWS](https://github.com/iomete/iomete-community-aws) and follow the instructions below.
 
 ### 1. Terraform
-Reference: https://registry.terraform.io/modules/iomete/data-plane-aws/aws/2.2.0
+Reference: https://registry.terraform.io/modules/iomete/iomete-data-plane/aws/1.9.0
 
 :::info The AWS user that will be used to run Terraform needs to have the following permissions
 - Create IAM roles
@@ -85,7 +85,7 @@ You can bring your own database, or use the one deployed by IOMETE.
 
 
 :::info
-This mysql database is for testing purpose only. **It is not recommended to use it in production**. For production, please use your own database that is optimized for production use.
+This postgresql database is for testing purpose only. **It is not recommended to use it in production**. For production, please use your own database that is optimized for production use.
 :::
 
 Add `bitnami` helm repo if you haven't done so.
@@ -94,15 +94,15 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 ```
 
-Deploy mysql database, and wait for it to be ready.
+Deploy postgresql database, and wait for it to be ready.
 ```shell
-helm upgrade --install -n iomete-system -f mysql/mysql-values.yaml mysql bitnami/mysql
+helm upgrade --install -n iomete-system -f postgresql-values.yaml postgresql bitnami/postgresql
 ```
 
-Wait for mysql pod to be ready. It takes about **~1 minute**
+Wait for postgresql pod to be ready. It takes about **~1 minute**
 
 ```shell
-kubectl get pods -n iomete-system -l app.kubernetes.io/name=mysql
+kubectl get pods -n iomete-system -l app.kubernetes.io/name=postgresql
 ```
 
 
@@ -123,9 +123,9 @@ helm repo update
 
 Deploy IOMETE Data Plane
 ```shell
-helm upgrade --install -n iomete-system iomete-dataplane \
+helm upgrade --install -n iomete-system iomete-data-plane \
   iomete/iomete-data-plane-community-aws \
-  -f data-plane-values.yaml --version 1.6.0
+  -f data-plane-values.yaml --version 1.9.0
 ```
 
 
