@@ -214,13 +214,13 @@ const config = {
         additionalLanguages: ["bash"],
       },
 
-      imageZoom: {
+      zoom: {
         // CSS selector to apply the plugin to, defaults to '.markdown img'
         selector: ".markdown img",
         // Optional medium-zoom options
         // see: https://www.npmjs.com/package/medium-zoom#options
-        options: {
-          margin: 24,
+        config: {
+          margin: 32,
           background: "rgba(0,0,0,0.6)",
           scrollOffset: 100,
         },
@@ -228,7 +228,7 @@ const config = {
     }),
   plugins: [
     "docusaurus-plugin-sass",
-    "plugin-image-zoom",
+    "docusaurus-plugin-image-zoom",
 
     //tailwind
     async function myPlugin(context, options) {
