@@ -13,12 +13,14 @@ IOMETE offers a feature to configure your own email server.
 
 ---
 
-## Configuration
+### Configuration
 
 To view Email Settings, navigate to the `Settings` menu item and switch to the `Email Settings` tab.
 Click on the <button class="button button--primary button-iom">Configure</button> button to get started.
 
 <Img src="/img/user-guide/email-settings/email-settings.png" alt="Email configuration" />
+
+### Configuration options
 
 After that, you'll see the following options for configuration.
 
@@ -30,6 +32,8 @@ After that, you'll see the following options for configuration.
 - **Password** Login Password
 
 <Img src="/img/user-guide/email-settings/email-settings-inputs.png" alt="Email configuration inputs" maxWidth="600px"/>
+
+### Test connection
 
 After filling in the input, you can test the connection by clicking the <button class="button button--default button-iom">Test connection</button> button.
 
