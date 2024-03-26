@@ -102,7 +102,7 @@ const sidebars = {
         "user-guide/spark-catalogs",
         "user-guide/private-docker-registry",
         "user-guide/email-settings",
-        "user-guide/ldap"
+        "user-guide/ldap-configuration"
       ],
     },
     {
