@@ -73,7 +73,6 @@ const sidebars = {
           items: [
             "deployment/configure-custom-dns",
             "deployment/enable-tls",
-            "deployment/ldap-configuration",
             "deployment/backend-databases",
             "deployment/life-cycle-management",
           ],
