@@ -101,7 +101,8 @@ const sidebars = {
         "user-guide/spark-catalogs",
         "user-guide/private-docker-registry",
         "user-guide/email-settings",
-        "user-guide/ldap-configuration"
+        "user-guide/ldap-configuration",
+        "user-guide/node-types"
       ],
     },
     {
