@@ -27,6 +27,7 @@ const sidebars = {
         "getting-started/what-is-iomete",
         "getting-started/platform-tour",
         "getting-started/architecture",
+        "getting-started/scalability",
       ],
     },
     {

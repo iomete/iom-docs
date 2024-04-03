@@ -1,0 +1,22 @@
+// styles.module.scss
+.VideoWrap {
+  // Add styles for VideoWrap if needed
+}
+
+.VideoContainer {
+  // Add styles for VideoContainer if needed
+}
+
+.VideoIframeContainer {
+  position: relative;
+  padding-bottom: 64.92335437330928%;
+  height: 0;
+}
+
+.VideoIframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
