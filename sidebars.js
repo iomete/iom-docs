@@ -26,6 +26,7 @@ const sidebars = {
       items: [
         "getting-started/what-is-iomete",
         "getting-started/platform-tour",
+        "getting-started/architecture",
       ],
     },
     {
