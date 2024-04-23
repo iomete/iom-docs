@@ -106,7 +106,32 @@ kubectl get pods -n iomete-system -l app.kubernetes.io/name=postgresql
 ```
 
 
-### 3. Deploy IOMETE Data Plane
+### 3. Deploy Data Plane Base
+
+Add, `iomete` helm repo if you haven't done so.
+```shell
+helm repo add iomete https://chartmuseum.iomete.com
+helm repo update
+```
+
+Install ssl certificate secret
+```shell
+./gencerts.sh -n iomete-system -s spark-operator-webhook -r spark-operator-webhook-certs
+```
+
+Retrieve Lakehouse Role ARN
+```shell
+kubectl get secret iomete-cloud-settings -n iomete-system -o jsonpath='{.data.settings}' | base64 --decode | jq ".storage_configuration.lakehouse_role_arn"
+```
+
+Update `data-plane-base-values.yaml` file with the IAM Role for IOMETE, and run the following command
+```shell
+helm upgrade --install -n iomete-system iomete-data-plane-base \
+  iomete/iomete-data-plane-base \
+  -f data-plane-base-values.yaml --version 1.9.3
+```
+
+### 4. Deploy IOMETE Data Plane
 
 
 The `data-plane-values.yaml` file houses the values for the IOMETE Data Plane helm chart. 
@@ -115,17 +140,11 @@ The `data-plane-values.yaml` file houses the values for the IOMETE Data Plane he
 You don't need to alter anything in this file for a default installation. However, if you want to tailor the installation to your needs (perhaps you're using your own database and distinct credentials), then you can modify the values within this file.
 :::
 
-Add, `iomete` helm repo if you haven't done so.
-```shell
-helm repo add iomete https://chartmuseum.iomete.com
-helm repo update
-```
-
 Deploy IOMETE Data Plane
 ```shell
 helm upgrade --install -n iomete-system iomete-data-plane \
   iomete/iomete-data-plane-community-aws \
-  -f data-plane-values.yaml --version 1.9.0
+  -f data-plane-values.yaml --version 1.9.3
 ```
 
 
