@@ -1,9 +1,15 @@
+// docusaurus-plugin-image-zoom
+
 .medium-zoom-overlay {
     z-index: 201;
 }
 
+[data-theme='light'] .medium-zoom-overlay {
+    background: rgba(0, 0, 0, 0.4) !important;
+}
+
 [data-theme='dark'] .medium-zoom-overlay {
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.2) !important;
 }
 
 .medium-zoom-image--opened {

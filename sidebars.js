@@ -26,6 +26,8 @@ const sidebars = {
       items: [
         "getting-started/what-is-iomete",
         "getting-started/platform-tour",
+        "getting-started/architecture",
+        "getting-started/scalability",
       ],
     },
     {
@@ -73,7 +75,6 @@ const sidebars = {
           items: [
             "deployment/configure-custom-dns",
             "deployment/enable-tls",
-            "deployment/ldap-configuration",
             "deployment/backend-databases",
             "deployment/life-cycle-management",
           ],
@@ -101,6 +102,9 @@ const sidebars = {
         "user-guide/global-spark-settings",
         "user-guide/spark-catalogs",
         "user-guide/private-docker-registry",
+        "user-guide/email-settings",
+        "user-guide/ldap-configuration",
+        "user-guide/node-types"
       ],
     },
     {
