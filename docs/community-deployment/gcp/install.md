@@ -34,19 +34,28 @@ IOMETE Community Edition is supported by the community. Feel free to join the [I
 
 ## Installation Steps
 
-Please clone the [IOMETE Community Edition Deployment on GCP](https://github.com/iomete/iomete-community-gcp) and follow the instructions below.
-
 ---
 ### 1. Run terraform
-Reference: https://registry.terraform.io/modules/iomete/iomete-data-plane/gcp/1.9.3
 
-First, check `terraform/gcp.tf` file, and update the values accordingly.
+#### Clone the repository
+
+Please clone the [IOMETE Community Edition Deployment on GCP](https://github.com/iomete/iomete-community-gcp) and follow the instructions below.
+
+#### Update the Terraform variables
+
+First, check [terraform/main.tf](https://github.com/iomete/iomete-community-gcp/blob/main/terraform/main.tf) file in the cloned repository, and update the values accordingly. Check here for the [Terraform variables](https://registry.terraform.io/modules/iomete/data-plane-google/google/latest).
+
+
+#### Run Terraform
 
 ```shell
 cd terraform
 terraform init --upgrade
 terraform apply
 ```
+
+
+Once Terraform deployment is complete, connect to the GKE cluster using the command provided in the output and proceed to the next step.
 
 :::info
 Once terraform is done, you will see the output similar to the following:
