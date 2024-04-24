@@ -25,7 +25,7 @@ IOMETE Community Edition is supported by the community. Feel free to join the [I
 :::
 
 :::info Prerequisites:
-- An GCP account with project.
+- An GCP account.
 - [gcloud CLI](https://cloud.google.com/sdk/docs/install)
 - Terraform CLI. For details on how to install, check [Install | Terraform | HashiCorp Developer](https://developer.hashicorp.com/terraform/install).
 - Kubectl. [Find Kubectl Install Tools here](https://kubernetes.io/docs/tasks/tools/).
@@ -43,14 +43,17 @@ Please clone the [IOMETE Community Edition Deployment on GCP](https://github.com
 
 #### Update the Terraform variables
 
-First, check [terraform/main.tf](https://github.com/iomete/iomete-community-gcp/blob/main/terraform/main.tf) file in the cloned repository, and update the values accordingly. Check here for the [Terraform variables](https://registry.terraform.io/modules/iomete/iomete-data-plane/gcp/latest).
+First, check [terraform/main.tf](https://github.com/iomete/iomete-community-gcp/blob/main/terraform/main.tf) file in the cloned repository, and update the values accordingly. 
+
+- Check here for the available [Terraform variables](https://registry.terraform.io/modules/iomete/iomete-data-plane/gcp/latest).
+- Check here for the [example deployment](https://github.com/iomete/terraform-gcp-iomete-data-plane/blob/v1.1.0/examples/example1/main.tf)
 
 
 #### Run Terraform
 
 ```shell
 cd terraform
-terraform init --upgrade
+terraform init -upgrade
 terraform apply
 ```
 
