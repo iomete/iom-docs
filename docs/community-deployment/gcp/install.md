@@ -26,7 +26,7 @@ IOMETE Community Edition is supported by the community. Feel free to join the [I
 
 :::info Prerequisites:
 - An GCP account with project.
-- `gcloud` CLI.
+- [gcloud CLI](https://cloud.google.com/sdk/docs/install)
 - Terraform CLI. For details on how to install, check [Install | Terraform | HashiCorp Developer](https://developer.hashicorp.com/terraform/install).
 - Kubectl. [Find Kubectl Install Tools here](https://kubernetes.io/docs/tasks/tools/).
 - Helm 3. [Details on installing Helm can be found here](https://helm.sh/docs/intro/install/).
@@ -36,10 +36,10 @@ IOMETE Community Edition is supported by the community. Feel free to join the [I
 
 Please clone the [IOMETE Community Edition Deployment on GCP](https://github.com/iomete/iomete-community-gcp) and follow the instructions below.
 
-### 1. Terraform
+---
+### 1. Run terraform
 Reference: https://registry.terraform.io/modules/iomete/iomete-data-plane/gcp/1.9.3
 
-#### 2. Run terraform
 First, check `terraform/gcp.tf` file, and update the values accordingly.
 
 ```shell
@@ -48,77 +48,58 @@ terraform init --upgrade
 terraform apply
 ```
 
-Once terraform is done, get the GKE cluster config using the following command:
+:::info
+Once terraform is done, you will see the output similar to the following:
 
 ```shell
-# Update Zone, Project, GKE cluster name accordingly.
-gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <project-id>
-
-# Example
-gcloud container clusters get-credentials gcp-community --zone us-central1-c --project iomete-project-1
+# This is an example output. Your output will be different.
+gke_connection_command = "gcloud container clusters get-credentials my-lakehouse-cluster --zone us-central1-c --project iom-prj1"
 ```
+Copy and run the command to connect to the GKE cluster using `kubectl`:
 
+```shell
+gcloud container clusters get-credentials my-lakehouse-cluster --zone us-central1-c --project iom-prj1
+```
+:::
+
+---
 ### 2. Prepare Database
 
-You can bring your own database, or use the one deployed by IOMETE.
-
+You can use your own database, or you can use the provided `postgresql` database for testing purposes.
 
 :::info
 This postgresql database is for testing purpose only. **It is not recommended to use it in production**. For production, please use your own database that is optimized for production use.
 :::
 
-Add `bitnami` helm repo if you haven't done so.
+Add `bitnami` helm repo:
 ```shell
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 ```
 
-Deploy postgresql database, and wait for it to be ready.
+Deploy postgresql database, and wait for it to be ready:`
 ```shell
-helm upgrade --install -n iomete-system -f postgresql-values.yaml postgresql bitnami/postgresql
+helm upgrade --install -n iomete-system \
+  -f postgresql/postgresql-values.yaml postgresql bitnami/postgresql
 ```
 
 Wait for postgresql pod to be ready. It takes about **~1 minute**
 
-```shell
-kubectl get pods -n iomete-system -l app.kubernetes.io/name=postgresql
-```
+---
+### 3. Deploy IOMETE Data Plane
 
-### 3. Deploy Data Plane Base
+Update the `data-plane-values.yaml` file with the correct values.  
+:::tip 
+You don't need to alter anything in this file for a default installation. However, if you want to tailor the installation to your needs (perhaps you're using your own database and distinct credentials), then you can modify the values within this file.
+:::
 
-Add, `iomete` helm repo if you haven't done so.
+Add, IOMETE helm repo:
 ```shell
 helm repo add iomete https://chartmuseum.iomete.com
 helm repo update
 ```
 
-Install ssl certificate secret
-```shell
-./gencerts.sh -n iomete-system -s spark-operator-webhook -r spark-operator-webhook-certs
-```
-
-Retrieve lakehouse service account from Kubernetes secret
-```shell
-kubectl get secret iomete-cloud-settings -n iomete-system -o jsonpath='{.data.settings}' | base64 --decode | jq ".storage_configuration.lakehouse_service_account"
-```
-
-Update `data-plane-base-values.yaml` file with the service account for IOMETE, and run the following command
-```shell
-helm upgrade --install -n iomete-system iomete-data-plane-base \
-  iomete/iomete-data-plane-base \
-  -f data-plane-base-values.yaml --version 1.9.3
-```
-
-### 4. Deploy IOMETE Data Plane
-
-The `data-plane-values.yaml` file houses the values for the IOMETE Data Plane helm chart. 
-
-:::tip
-You don't need to alter anything in this file for a default installation. However, if you want to tailor the installation to your needs (perhaps you're using your own database and distinct credentials), then you can modify the values within this file.
-:::
-
-
-Deploy IOMETE Data Plane
+Deploy IOMETE Data Plane:
 ```shell
 helm upgrade --install -n iomete-system iomete-data-plane \
   iomete/iomete-data-plane-community-gcp \
@@ -131,7 +112,16 @@ Wait for IOMETE Data Plane pods to be ready. It takes about **~6 minutes** to ge
 kubectl get pods -n iomete-system
 ```
 
+---
+### 4. Configure ISTIO Ingress Gateway
 
+Apply the following configuration for an HTTP gateway:
+```shell
+kubectl -n istio-system apply -f istio-ingress/resources/gateway-http.yaml
+```
+
+
+---
 ## How to use IOMETE Data Plane
 
 Once, IOMETE Data Plane is deployed, you can access the IOMETE Data Plane UI using the following command:
