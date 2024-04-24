@@ -43,7 +43,7 @@ Please clone the [IOMETE Community Edition Deployment on GCP](https://github.com
 
 #### Update the Terraform variables
 
-First, check [terraform/main.tf](https://github.com/iomete/iomete-community-gcp/blob/main/terraform/main.tf) file in the cloned repository, and update the values accordingly. Check here for the [Terraform variables](https://registry.terraform.io/modules/iomete/data-plane-google/google/latest).
+First, check [terraform/main.tf](https://github.com/iomete/iomete-community-gcp/blob/main/terraform/main.tf) file in the cloned repository, and update the values accordingly. Check here for the [Terraform variables](https://registry.terraform.io/modules/iomete/iomete-data-plane/gcp/latest).
 
 
 #### Run Terraform
