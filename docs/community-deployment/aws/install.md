@@ -51,7 +51,7 @@ Reference: https://registry.terraform.io/modules/iomete/iomete-data-plane/aws/1.
 See [Required Permissions to Deploy IOMETE on AWS](permissions) for more details.
 :::
 
-#### 1. Check `terraform/aws.tf` file, and update the values accordingly.
+#### 1. Check `terraform/main.tf` file, and update the values accordingly.
 
 :::tip Please also check the following specific settings
 - You have AWS named profiles, see [Using AWS Profiles](aws-advanced-settings#using-aws-profiles) for more details.
@@ -96,7 +96,9 @@ helm repo update
 
 Deploy postgresql database, and wait for it to be ready.
 ```shell
-helm upgrade --install -n iomete-system -f postgresql-values.yaml postgresql bitnami/postgresql
+helm upgrade --install -n iomete-system \
+  -f postgresql/postgresql-values.yaml \
+   postgresql bitnami/postgresql
 ```
 
 Wait for postgresql pod to be ready. It takes about **~1 minute**
@@ -106,33 +108,7 @@ kubectl get pods -n iomete-system -l app.kubernetes.io/name=postgresql
 ```
 
 
-### 3. Deploy Data Plane Base
-
-Add, `iomete` helm repo if you haven't done so.
-```shell
-helm repo add iomete https://chartmuseum.iomete.com
-helm repo update
-```
-
-Install ssl certificate secret
-```shell
-./gencerts.sh -n iomete-system -s spark-operator-webhook -r spark-operator-webhook-certs
-```
-
-Retrieve Lakehouse Role ARN
-```shell
-kubectl get secret iomete-cloud-settings -n iomete-system -o jsonpath='{.data.settings}' | base64 --decode | jq ".storage_configuration.lakehouse_role_arn"
-```
-
-Update `data-plane-base-values.yaml` file with the IAM Role for IOMETE, and run the following command
-```shell
-helm upgrade --install -n iomete-system iomete-data-plane-base \
-  iomete/iomete-data-plane-base \
-  -f data-plane-base-values.yaml --version 1.9.3
-```
-
-### 4. Deploy IOMETE Data Plane
-
+### 3. Deploy IOMETE Data Plane
 
 The `data-plane-values.yaml` file houses the values for the IOMETE Data Plane helm chart. 
 
@@ -140,7 +116,13 @@ The `data-plane-values.yaml` file houses the values for the IOMETE Data Plane he
 You don't need to alter anything in this file for a default installation. However, if you want to tailor the installation to your needs (perhaps you're using your own database and distinct credentials), then you can modify the values within this file.
 :::
 
-Deploy IOMETE Data Plane
+Add, IOMETE helm repo:
+```shell
+helm repo add iomete https://chartmuseum.iomete.com
+helm repo update
+```
+
+Deploy IOMETE Data Plane:
 ```shell
 helm upgrade --install -n iomete-system iomete-data-plane \
   iomete/iomete-data-plane-community-aws \
@@ -153,7 +135,16 @@ Wait for IOMETE Data Plane pods to be ready. It takes about **~6 minutes** to ge
 kubectl get pods -n iomete-system
 ```
 
+---
+### 4. Configure ISTIO Ingress Gateway
 
+Apply the following configuration for an HTTP gateway:
+```shell
+kubectl -n istio-system apply -f istio-ingress/resources/gateway-http.yaml
+```
+
+
+---
 ## How to use IOMETE Data Plane
 
 Once, IOMETE Data Plane is deployed, you can access the IOMETE Data Plane UI using the following command:
