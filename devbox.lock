@@ -1,0 +1,70 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "nodejs@18": {
+      "last_modified": "2024-04-19T17:36:04-04:00",
+      "plugin_version": "0.0.2",
+      "resolved": "github:NixOS/nixpkgs/92d295f588631b0db2da509f381b4fb1e74173c5#nodejs_18",
+      "source": "devbox-search",
+      "version": "18.20.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/c4cy6ivwvyccxb5cgvmibb48cz5kgbxh-nodejs-18.20.2",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/sl20inmjg0p9nbsqcbvrrynbxr0d4z4j-nodejs-18.20.2-libv8"
+            }
+          ],
+          "store_path": "/nix/store/c4cy6ivwvyccxb5cgvmibb48cz5kgbxh-nodejs-18.20.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/02sxkyivycayrw2qbf0vbln1vv2l75wg-nodejs-18.20.2",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/sl5gvfjjm6f0b818vnggkpadr1mcyfs3-nodejs-18.20.2-libv8"
+            }
+          ],
+          "store_path": "/nix/store/02sxkyivycayrw2qbf0vbln1vv2l75wg-nodejs-18.20.2"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/8j5ld9b8gciy0dfpnjbi98w76v05kia6-nodejs-18.20.2",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/bza5hfp4mb002mp12g33v5arcpyg223s-nodejs-18.20.2-libv8"
+            }
+          ],
+          "store_path": "/nix/store/8j5ld9b8gciy0dfpnjbi98w76v05kia6-nodejs-18.20.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/c9wp3qkbfkpx2vylglrmd4w0jwvm216z-nodejs-18.20.2",
+              "default": true
+            },
+            {
+              "name": "libv8",
+              "path": "/nix/store/1il1i3j9qch6hg6f7pp1753z95lappzv-nodejs-18.20.2-libv8"
+            }
+          ],
+          "store_path": "/nix/store/c9wp3qkbfkpx2vylglrmd4w0jwvm216z-nodejs-18.20.2"
+        }
+      }
+    }
+  }
+}

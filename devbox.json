@@ -1,0 +1,13 @@
+{
+  "packages": [
+    "nodejs@18"
+  ],
+  "shell": {
+    "init_hook": [
+      "yarn install"
+    ],
+    "scripts": {
+      "run": "yarn start"
+    }
+  }
+}
