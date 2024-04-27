@@ -1,5 +1,5 @@
 ---
-title: AWS Advanced Settings
+title: AWS Terraform Advanced Settings
 sidebar_label: Advanced Settings
 description: Learn about advanced AWS settings for IOMETE deployment, including EKS API, KMS, and Terraform state storage  
 last_update:

@@ -73,8 +73,8 @@ const sidebars = {
           label: "Advanced Settings",
           collapsed: true,
           items: [
+            "deployment/configure-ingress",
             "deployment/configure-custom-dns",
-            "deployment/enable-tls",
             "deployment/backend-databases",
             "deployment/life-cycle-management",
           ],

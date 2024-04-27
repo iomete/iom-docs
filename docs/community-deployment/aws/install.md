@@ -15,139 +15,200 @@ import GridBox from "@site/src/components/GridBox";
 import { Files, Database, Sparkle, Circuitry } from "@phosphor-icons/react";
 import YoutubeCard from "@site/src/components/YoutubeCard";
 
-You're about to install the **IOMETE Lakehouse Platform Community Edition on AWS**. The IOMETE Community Edition is **the most generous Data Lakehouse Platform** on the market. Enjoy the benefits of a data lakehouse platform with no restrictions on data volume, users, or queries.
+You're about to install the **IOMETE Lakehouse Platform Community Edition on AWS**. The IOMETE Community Edition is *
+*the most generous Data Lakehouse Platform** on the market. Enjoy the benefits of a data lakehouse platform with no
+restrictions on data volume, users, or queries.
 
-IOMETE Community Edition is supported by the community. Feel free to join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
+IOMETE Community Edition is supported by the community. Feel free to join
+the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
 
 :::tip Installing the IOMETE platform on AWS should take approximately 25 minutes
+
 - 15 minutes to create the infrastructure (EKS cluster, VPC, etc.) using Terraform
 - 5 minutes to install the IOMETE platform using Helm
-:::
-
-:::info Prerequisites:
-- An AWS account.
-- AWS CLI. See [AWS CLI getting started install](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-- Terraform CLI. For details on how to install, check [Install | Terraform | HashiCorp Developer](https://developer.hashicorp.com/terraform/install).
-- Kubectl. [Find Kubectl Install Tools here](https://kubernetes.io/docs/tasks/tools/).
-- Helm 3. [Details on installing Helm can be found here](https://helm.sh/docs/intro/install/).
-:::
+  :::
 
 <YoutubeCard link="https://www.youtube.com/embed/gNtZrnKNg4Y" title="Install IOMETE Community Edition on AWS: Free Data Lakehouse Tutorial" />
 
-
 ## Installation Steps
 
-Please clone the [IOMETE Community Edition Deployment on AWS](https://github.com/iomete/iomete-community-aws) and follow the instructions below.
+**Steps**
 
-### 1. Terraform
-Reference: https://registry.terraform.io/modules/iomete/iomete-data-plane/aws/1.9.0
+1. [Terraform](#1-terraform) - Create the necessary infrastructure on AWS for IOMETE to run.
+2. [Deploy IOMETE Data Plane](#2-deploy-iomete-data-plane) - Deploy the IOMETE Data Plane using Helm.
+3. [Configure Ingress Gateway](#3-configure-istio-ingress-gateway) - Configure the ISTIO Ingress Gateway to access the
+   IOMETE Data Plane UI.
 
-:::info The AWS user that will be used to run Terraform needs to have the following permissions
-- Create IAM roles
-- Create S3 buckets
-- Create EKS clusters
-- EC2 full access
+**Prerequisites**
 
-See [Required Permissions to Deploy IOMETE on AWS](permissions) for more details.
-:::
+- AWS CLI.
+  See [AWS CLI getting started install](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+- Terraform CLI. For details on how to install,
+  check [Install | Terraform | HashiCorp Developer](https://developer.hashicorp.com/terraform/install).
+- Kubectl. [Find Kubectl Install Tools here](https://kubernetes.io/docs/tasks/tools/).
+- Helm 3. [Details on installing Helm can be found here](https://helm.sh/docs/intro/install/).
 
-#### 1. Check `terraform/main.tf` file, and update the values accordingly.
+Please clone the [IOMETE Community Edition Deployment on AWS](https://github.com/iomete/iomete-community-aws) and follow
+the instructions below.
 
-:::tip Please also check the following specific settings
-- You have AWS named profiles, see [Using AWS Profiles](aws-advanced-settings#using-aws-profiles) for more details.
-- You want to restrict public access to the EKS API, see [Public Access Restriction](aws-advanced-settings#public-access-restriction) for more details.
-- You want to define additional administrators, see [Define additional administrators](aws-advanced-settings#define-additional-administrators) for more details.
-- Your AWS Account is using EBS encryption, see [EBS Encryption by Default](aws-advanced-settings#ebs-encryption-by-default) for more details.
-:::
+---
 
+## 1. Terraform
 
-#### 2. Run terraform
+Reference: https://registry.terraform.io/modules/iomete/iomete-data-plane/aws/latest
+
+Terraform is used to create the necessary infrastructure on AWS for IOMETE to run. It will create AWS resources like
+VPC, EKS cluster, Roles and Policies, etc.
+
+### Prepare Terraform Script
 
 ```shell
-cd terraform
+# 1. Create a directory (e.g. iomete-aws-deployment)
+mkdir iomete-aws-deployment
+
+# 2. Change to the directory
+cd iomete-aws-deployment
+
+# 3. Download the Terraform script setup
+wget https://raw.githubusercontent.com/iomete/terraform-aws-iomete-data-plane/main/examples/deployment-example/main.tf
+```
+
+The `main.tf` file you downloaded looks like this:
+
+```js reference showLineNumbers title="main.tf"
+https://github.com/iomete/terraform-aws-iomete-data-plane/blob/main/examples/deployment-example/main.tf
+```
+
+Update the `main.tf` file with the necessary variables.
+Required variables are **region**, **cluster_name**, and **lakehouse_bucket_name**.
+You can find the all
+available [input variables](https://registry.terraform.io/modules/iomete/iomete-data-plane/aws/latest?tab=inputs) in the
+module documentation.
+
+:::tip Please also check the following specific settings
+
+- You have AWS named profiles, see [Using AWS Profiles](aws-advanced-settings#using-aws-profiles) for more details.
+- You want to restrict public access to the EKS API,
+  see [Public Access Restriction](aws-advanced-settings#public-access-restriction) for more details.
+- You want to define additional administrators,
+  see [Define additional administrators](aws-advanced-settings#define-additional-administrators) for more details.
+- Your AWS Account is using EBS encryption,
+  see [EBS Encryption by Default](aws-advanced-settings#ebs-encryption-by-default) for more details.
+  :::
+
+### Apply Terraform
+
+Run following commands to apply the Terraform script, and create the necessary infrastructure on AWS:
+
+```shell showLineNumbers
 terraform init --upgrade
 terraform apply
 ```
 
-Once terraform is done, get the EKS cluster config using the following command:
+Please make sure that you have the necessary permissions to create the resources in your AWS account. Please see
+for [Required Permissions to Deploy IOMETE on AWS](permissions) for more details.
 
-```shell
-# Update AWS region and EKS cluster name accordingly.
-aws eks update-kubeconfig --region <region> --name <cluster_name>
+Once terraform apply is complete, you will see the output similar to the following:
 
-# Example
-aws eks update-kubeconfig --region us-east-1 --name lakehouse
+```shell showLineNumbers
+eks_update_kubeconfig_command = "aws eks update-kubeconfig --region us-east-1 --name test-deployment1"
 ```
 
-### 2. Prepare Database
+Copy and run the command to connect to the EKS cluster using `kubectl`:
 
-You can bring your own database, or use the one deployed by IOMETE.
+```shell showLineNumbers
+aws eks update-kubeconfig --region us-east-1 --name test-deployment1
+```
 
+At this point, your AWS infrastructure is ready for IOMETE Data Plane deployment. Continue to the next step to deploy
+IOMETE Data Plane.
+
+---
+
+## 2. Deploy IOMETE Data Plane
+
+### Prepare Database
+
+IOMETE requires a PostgreSQL database to store metadata and other information. Refer [Backend Databases](/deployment/backend-databases) for more details. 
+
+You can use your own database, or you can use the provided `postgresql` database. 
 
 :::info
-This postgresql database is for testing purpose only. **It is not recommended to use it in production**. For production, please use your own database that is optimized for production use.
+This postgresql database is for testing purpose only. For production, please use your own database that is optimized for production use.
 :::
 
 Add `bitnami` helm repo if you haven't done so.
-```shell
+
+```shell showLineNumbers
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 ```
 
 Deploy postgresql database, and wait for it to be ready.
+
 ```shell
 helm upgrade --install -n iomete-system \
-  -f postgresql/postgresql-values.yaml \
-   postgresql bitnami/postgresql
+  postgresql bitnami/postgresql \
+  -f https://raw.githubusercontent.com/iomete/iomete-deployment/main/database/postgresql/postgresql-values.yaml 
 ```
 
 Wait for postgresql pod to be ready. It takes about **~1 minute**
 
 ```shell
-kubectl get pods -n iomete-system -l app.kubernetes.io/name=postgresql
+kubectl get pods -n iomete-system \
+  -l app.kubernetes.io/name=postgresql --watch
 ```
 
-
-### 3. Deploy IOMETE Data Plane
-
-The `data-plane-values.yaml` file houses the values for the IOMETE Data Plane helm chart. 
-
-:::tip
-You don't need to alter anything in this file for a default installation. However, if you want to tailor the installation to your needs (perhaps you're using your own database and distinct credentials), then you can modify the values within this file.
-:::
+### Deploy IOMETE Data Plane Helm Chart
 
 Add, IOMETE helm repo:
+
 ```shell
 helm repo add iomete https://chartmuseum.iomete.com
 helm repo update
 ```
 
+See
+the [IOMETE Data Plane Helm - AWS Community Version](https://github.com/iomete/iomete-deployment/blob/main/aws/data-plane-helm/readme.md)
+for more details about available configurations.
+See here for
+the [data-plane-values.yaml](https://github.com/iomete/iomete-deployment/blob/main/aws/data-plane-helm/data-plane-values.yaml)
+
+:::tip
+You don't need to customize values for a default installation. However, if you want to tailor the installation to your
+needs (perhaps you're using your own database and distinct credentials), then you can override the default values.
+:::
+
 Deploy IOMETE Data Plane:
+
 ```shell
 helm upgrade --install -n iomete-system iomete-data-plane \
-  iomete/iomete-data-plane-community-aws \
-  -f data-plane-values.yaml --version 1.9.3
+  iomete/iomete-data-plane-community-aws --version 1.9.3 \
+  --set ingress.httpsEnabled=false
 ```
 
+Wait for IOMETE Data Plane pods to be ready. It takes about **~6 minutes** to get everything ready in the first time
+installation.
 
-Wait for IOMETE Data Plane pods to be ready. It takes about **~6 minutes** to get everything ready in the first time installation.
 ```shell
-kubectl get pods -n iomete-system
+kubectl get pods -n iomete-system --watch
 ```
 
 ---
-### 4. Configure ISTIO Ingress Gateway
 
-Apply the following configuration for an HTTP gateway:
-```shell
-kubectl -n istio-system apply -f istio-ingress/resources/gateway-http.yaml
-```
+## 3. Configure ISTIO Ingress Gateway
+
+Please follow the [Configure ISTIO Ingress Gateway](/deployment/configure-ingress) to configure the Ingress Gateway for
+IOMETE Data Plane to be able to access the UI.
 
 
 ---
-## How to use IOMETE Data Plane
 
-Once, IOMETE Data Plane is deployed, you can access the IOMETE Data Plane UI using the following command:
+## 4. Access IOMETE Data Plane
+
+Once, IOMETE Data Plane is deployed and ingress gateway is configured, you can access the IOMETE Data Plane UI.
+
+Get the external IP of the ISTIO Ingress Gateway:
 ```shell
 kubectl get svc istio-ingress -n istio-system
 ```
@@ -155,15 +216,15 @@ kubectl get svc istio-ingress -n istio-system
 From the output, copy the `EXTERNAL-IP` value, and open it in your browser `http://EXTERNAL-IP`
 
 :::info
-For the first time use username and password from `data-plane-values.yaml` file `adminUser` section. Default values are `admin` and `admin`. On your first login, you will be asked to change the temporary password.
+For the first time use username and password from the `adminUser` configuration (See [data-plane-values.yaml](https://github.com/iomete/iomete-deployment/blob/main/aws/data-plane-helm/data-plane-values.yaml)). Default values
+are `admin` and `admin`. On your first login, you will be asked to change the temporary password.
 :::
 
-**That's it!** You've successfully set up IOMETE using Terraform. If you encounter any issues or have any questions please join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
+**That's it!** You've successfully set up IOMETE data plane. If you encounter any issues or have any questions
+please join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
 
-:::note
-It's important to store your Terraform state file in a secure location to avoid losing it. If you lose the state file, you won't be able to manage the cluster with Terraform anymore. You can store the state file in a git repository, S3 bucket, or local folder. For more information on Terraform backends, please refer the FAQ below about saving terraform state in an external location.
-:::
 
+---
 ## Quickstart Resources
 
 Start using IOMETE with the following guides

@@ -59,6 +59,9 @@ const config = {
   // },
 
   // scripts: ["/js/heap.js"],
+  themes: [
+    'docusaurus-theme-github-codeblock'
+  ],
 
   presets: [
     [
@@ -132,7 +135,12 @@ const config = {
         { name: "twitter:site", content: "IOMETE Documentation" },
         { name: "twitter:image", content: "/resources/img/iomete-docs-og.png" },
       ],
-
+      codeblock: {
+        showGithubLink: true,
+        githubLinkLabel: 'View on GitHub',
+        showRunmeLink: false,
+        runmeLinkLabel: 'Checkout via Runme'
+      },
       navbar: {
         // title: 'My Site',
         logo: {
@@ -209,8 +217,8 @@ const config = {
       },
 
       prism: {
-        theme: prismThemes.github,
-        darkTheme: prismThemes.dracula,
+        theme: prismThemes.dracula,
+        // darkTheme: prismThemes.dracula,
         additionalLanguages: ["bash"],
       },
 
