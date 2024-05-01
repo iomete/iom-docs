@@ -16,7 +16,7 @@ import { Files, Database, Sparkle, Circuitry } from "@phosphor-icons/react";
 import YoutubeCard from "@site/src/components/YoutubeCard";
 
 You're about to install the **IOMETE Lakehouse Platform Community Edition on AWS**. The IOMETE Community Edition is *
-*the most generous Data Lakehouse Platform** on the market. Enjoy the benefits of a data lakehouse platform with no
+**the most generous Data Lakehouse Platform** on the market. Enjoy the benefits of a data lakehouse platform with no
 restrictions on data volume, users, or queries.
 
 IOMETE Community Edition is supported by the community. Feel free to join
