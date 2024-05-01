@@ -3,7 +3,7 @@ title: IOMETE Community Edition Deployment on GCP
 sidebar_label: Install
 description: This guide will explain how to deploy IOMETE on Google Cloud Services using the GCP and Terraform command line tools
 last_update:
-  date: 01/25/2024
+  date: 05/01/2024
   author: Vusal Dadalov
 ---
 
