@@ -28,8 +28,8 @@ In production environments, it is often required to isolate workloads, for examp
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-create.png"  alt="Create Lakehouse" />
 <br />
 
-**3.** Select driver, under the **Node driver** section.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-driver.png" alt="Lakehouse driver" maxWidth="500px" />
+**3.** Select driver, under the **Node driver** section. [Read more](./node-types.md) about node types.
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-driver-select.png" alt="Lakehouse driver select" maxWidth="500px" />
 
 :::info Node driver
 Spark driver is running all the time until lakehouse stopped manually. Driver is responsible for managing executors/workers and connections. If stopped, no connections could be established to the lakehouse.
@@ -64,7 +64,10 @@ Read more about spark executors [here](https://spark.apache.org/docs/latest/clu
 :::
 <br /> -->
 
-**6.** Set Auto suspend under **Auto suspend** section.
+**6.** Select volume, under the **Volume** section. [Read more](./volumes.md) about volumes.
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-volume-select.png" alt="Lakehouse executor select" maxWidth="500px" />
+
+**7.** Set Auto suspend under **Auto suspend** section.
 
 By clicking checkbox in the left side we can **disabled Auto suspend** functionality.
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-auto-suspend.png" alt="Lakehouse auto suspend" maxWidth="500px" />
@@ -75,7 +78,7 @@ Executors will be scaled down after the specified time of inactivity. Executors 
 
 <br />
 
-**7.** Click the **Create** button after adding a **description** to the **optional description field**.
+**8.** Click the **Create** button after adding a **description** to the **optional description field**.
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-description.png" alt="Lakehouse Description" maxWidth="500px" />
 <br />
 
