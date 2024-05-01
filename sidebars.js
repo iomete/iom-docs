@@ -104,7 +104,8 @@ const sidebars = {
         "user-guide/private-docker-registry",
         "user-guide/email-settings",
         "user-guide/ldap-configuration",
-        "user-guide/node-types"
+        "user-guide/node-types",
+        "user-guide/volumes",
       ],
     },
     {
