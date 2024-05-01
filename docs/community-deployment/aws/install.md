@@ -15,8 +15,7 @@ import GridBox from "@site/src/components/GridBox";
 import { Files, Database, Sparkle, Circuitry } from "@phosphor-icons/react";
 import YoutubeCard from "@site/src/components/YoutubeCard";
 
-You're about to install the **IOMETE Lakehouse Platform Community Edition on AWS**. The IOMETE Community Edition is *
-**the most generous Data Lakehouse Platform** on the market. Enjoy the benefits of a data lakehouse platform with no
+You're about to install the **IOMETE Lakehouse Platform Community Edition on AWS**. The IOMETE Community Edition is **the most generous Data Lakehouse Platform** on the market. Enjoy the benefits of a data lakehouse platform with no
 restrictions on data volume, users, or queries.
 
 IOMETE Community Edition is supported by the community. Feel free to join
@@ -47,9 +46,6 @@ the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support
   check [Install | Terraform | HashiCorp Developer](https://developer.hashicorp.com/terraform/install).
 - Kubectl. [Find Kubectl Install Tools here](https://kubernetes.io/docs/tasks/tools/).
 - Helm 3. [Details on installing Helm can be found here](https://helm.sh/docs/intro/install/).
-
-Please clone the [IOMETE Community Edition Deployment on AWS](https://github.com/iomete/iomete-community-aws) and follow
-the instructions below.
 
 ---
 
@@ -183,7 +179,7 @@ Deploy IOMETE Data Plane:
 
 ```shell
 helm upgrade --install -n iomete-system iomete-data-plane \
-  iomete/iomete-data-plane-community-aws --version 1.9.3 \
+  iomete/iomete-data-plane-community-aws --version 1.9 \
   --set ingress.httpsEnabled=false
 ```
 
