@@ -3,37 +3,26 @@ title: How to Uninstall IOMETE on GCP
 sidebar_label: Uninstall
 description: Step-by-step guide to uninstall IOMETE Data Plane, Kubernetes resources and GCP infrastructure for IOMETE users 
 last_update:
-    date: 10/07/2023
+    date: 05/01/2024
     author: Vusal Dadalov
 ---
 
-## 1. Uninstall IOMETE Data Plane
-
+## 1. Uninstall IOMETE Data Plane Helm
 :::info
 Make sure Kubectl is configured to use the correct cluster.
 :::
 
 ```shell
+# Delete Spark Applications
+kubectl -n iomete-system delete sparkapplications --all
+
 helm uninstall -n iomete-system iomete-data-plane
-
-# Delete other leftover resources
-kubectl delete helmrepositories -n iomete-system --all
 ```
 
-## 2. Uninstall MySQL database
+## 2. Uninstall terraform - GCP Infrastructure
 
-:::info
-If you deployed it using helm otherwise delete it using your own method.
-:::
-
+Change to the directory where the Terraform configuration files are located.
 ```shell
-helm uninstall -n iomete-system postgresql
-```
-
-## 3. Uninstall terraform - GCP Infrastructure
-
-```shell
-cd terraform
 terraform destroy
 ```
 

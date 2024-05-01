@@ -60,7 +60,10 @@ const sidebars = {
           type: "category",
           label: "GCP",
           collapsed: true,
-          items: ["community-deployment/gcp/install"],
+          items: [
+              "community-deployment/gcp/install",
+              "community-deployment/gcp/uninstall",
+          ],
         },
         {
           type: "category",
