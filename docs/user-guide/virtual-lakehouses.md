@@ -65,7 +65,7 @@ Read more about spark executors [here](https://spark.apache.org/docs/latest/clu
 <br /> -->
 
 **6.** Select volume, under the **Volume** section. [Read more](./volumes.md) about volumes.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-volume-select.png" alt="Lakehouse executor select" maxWidth="500px" />
+<Img src="/img/user-guide/virtual-lakehouse/lakehouse-volume-select.png" alt="Lakehouse volume select" maxWidth="500px" />
 
 **7.** Set Auto suspend under **Auto suspend** section.
 

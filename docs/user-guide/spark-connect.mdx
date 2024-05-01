@@ -31,10 +31,10 @@ In Apache Spark > 3.4, Spark Connect introduced a decoupled client-server archit
 />
 <br />
 
-**3.** Select driver, under the **Node driver** section.
+**3.** Select driver, under the **Node driver** section. [Read more](./node-types.md) about node types.
 
 <Img
-  src="/img/user-guide/spark-connect/node-driver.png"
+  src="/img/user-guide/spark-connect/cluster-driver-select.png"
   alt="Cluster Node Driver"
   maxWidth="500px"
 />
@@ -73,7 +73,15 @@ Keep **auto-suspend on** to minimize clusters costs.
 
 <br />
 
-**6.** Set Auto suspend under **Auto suspend** section.
+**6.** Select volume, under the **Volume** section. [Read more](./volumes.md) about volumes.
+
+<Img
+  src="/img/user-guide/virtual-lakehouse/lakehouse-volume-select.png"
+  alt="Cluster volume select"
+  maxWidth="500px"
+/>
+
+**7.** Set Auto suspend under **Auto suspend** section.
 
 By clicking checkbox in the left side we can **disabled Auto suspend** functionality.
 
@@ -89,7 +97,7 @@ Executors will be scaled down after the specified time of inactivity. Executors 
 
 <br />
 
-**7.** Click the <button className="button button--primary button-iom">Create</button> button after adding a **description** to the **optional description field**.
+**8.** Click the <button className="button button--primary button-iom">Create</button> button after adding a **description** to the **optional description field**.
 
 <Img
   src="/img/user-guide/spark-connect/cluster-desc.png"
