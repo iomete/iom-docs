@@ -9,7 +9,7 @@ last_update:
 import { Plus, Trash } from "@phosphor-icons/react";
 import Img from '@site/src/components/Img';
 
-IOMETE offers a feature for customization of storage capacity and type for individual workloads.
+IOMETE offers a feature for customization of Kubernetes Volume types attached to Spark workloads.
 
 ---
 
@@ -29,18 +29,18 @@ After that, you'll see the following options for configuration.
 
 There are 2 types:
 
-- **Host Path:** Mounts a directory directly from the host machine's filesystem into a pod.
-- **On Demand PVC:** Kubernetes automatically provisions storage when a request (PVC) is made, offering scalability and flexibility.
+- **Host Path:** Mounts a directory directly from the host (node) machine's filesystem into a pod.
+- **On Demand PVC:** You can mount a dynamically-created persistent volume claim per executor by using this OnDemand option.
 
 If selected type is **Host Path:**
 
-- **Host Path:** Direct storage access.
+- **Host Path:** Provide directory to mount.
   <Img src="/img/user-guide/volumes/host-path-create.png" alt="Host Path create" maxWidth="600px" />
 
 If selected type is **On Demand PVC:**
 
-- **Storage class name:** Name for storage class.
-- **Max size:** Maximum storage capacity requested in a PVC.
+- **Storage class name:** Name for storage class. Available list of storage classes can be retrieved with `kubectl get storageclass` command.
+- **Max size:** Maximum storage capacity requested in a PVC per executor.
 
   <Img src="/img/user-guide/volumes/on-demand-create.png" alt="On Demand PVC create" maxWidth="600px" />
 
