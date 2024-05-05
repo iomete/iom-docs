@@ -35,7 +35,7 @@ to the Lakehouse role.
 
 Below is an example of an **IAM policy template** that provides full access to the Glue Catalog for the `Lakehouse role`.
 
-```js
+```js showLineNumbers title="iomete-glue-catalog-policy.json"
 {
    "Version": "2012-10-17", 
     "Statement": [
@@ -60,7 +60,7 @@ Please replace `<region>` and `<aws-account-number>` with your AWS region and ac
 
 Here is an example of a policy that provides full access to the Glue Catalog for the Lakehouse role in the `us-east-1` region.
 
-```js
+```js showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
