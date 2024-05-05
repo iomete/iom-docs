@@ -61,8 +61,8 @@ const sidebars = {
           label: "GCP",
           collapsed: true,
           items: [
-              "community-deployment/gcp/install",
-              "community-deployment/gcp/uninstall",
+            "community-deployment/gcp/install",
+            "community-deployment/gcp/uninstall",
           ],
         },
         {
@@ -94,8 +94,7 @@ const sidebars = {
       items: [
         "user-guide/virtual-lakehouses",
         "user-guide/spark-connect",
-
-        // "user-guide/create-ssh-tunnel",
+        "user-guide/spark-jobs",
         "user-guide/sql-editor",
         "user-guide/data-catalog",
         "user-guide/users",
@@ -310,6 +309,7 @@ const sidebars = {
       label: "Open Source Spark Jobs",
       collapsed: false,
       items: [
+        "open-source-spark-jobs/getting-started",
         "open-source-spark-jobs/data-compaction-job",
         "open-source-spark-jobs/query-scheduler-job",
         "open-source-spark-jobs/catalog-sync-job",

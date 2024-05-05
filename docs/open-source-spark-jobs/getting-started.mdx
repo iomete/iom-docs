@@ -1,0 +1,100 @@
+---
+title: IOMETE Spark Jobs Marketplace
+sidebar_label: Getting Started
+description: Access the IOMETE Spark Jobs Marketplace where you can find a variety of pre-built ingestion jobs ready for deployment. These open-sourced ingestion jobs can be easily deployed to suit your specific data processing needs.
+last_update:
+  date: 05/03/2024
+  author: Nurlan Mammadov
+---
+
+import Img from "@site/src/components/Img";
+import Card from "@site/src/components/Card";
+import GridBox from "@site/src/components/GridBox";
+import { Cpu } from "@phosphor-icons/react";
+
+IOMETE offers access to its Spark Jobs Marketplace, an innovative platform featuring a variety of pre-built ingestion jobs ready for deployment. Explore this open-sourced marketplace to find ingestion solutions tailored to your specific data processing needs.
+
+---
+
+## Spark Jobs Marketplace
+
+To view and utilize all built-in jobs in IOMETE, navigate to the Spark Job page and scroll down to **Marketplace** section.
+
+{" "}
+
+<Img
+  src="/img/spark-job/marketplace/spark-jobs-marketplace.png"
+  alt="IOMETE Spark Jobs Marketplace"
+/>
+
+## Available jobs
+
+There is a list of all available built-in jobs.
+
+<GridBox>
+
+<Card
+  title="MySQL Database Replication Job"
+  icon={<Cpu />}
+  link="open-source-spark-jobs/mysql-database-replication-job"
+>
+  Seamlessly transfer your MySQL tables to IOMETE Lakehouse with our
+  easy-to-configure Spark Job.
+</Card>
+
+<Card
+  title="Query Scheduler Job"
+  icon={<Cpu />}
+  link="open-source-spark-jobs/query-scheduler-job"
+>
+  Effortlessly schedule your SQL query to be run in your data warehouse using
+  IOMETE's Query Scheduler Job.
+</Card>
+
+<Card
+  title="Data Compaction Job"
+  icon={<Cpu />}
+  link="open-source-spark-jobs/data-compaction-job"
+>
+  Over time, iceberg tables can slow down and may need data compaction to tidy
+  them up. IOMETE offers a built-in job to execute data compactions for each
+  table.
+</Card>
+
+<Card
+  title="Catalog Sync Job"
+  icon={<Cpu />}
+  link="open-source-spark-jobs/catalog-sync-job"
+>
+  Efficiently synchronize your data with the Data Catalog using IOMETE's Catalog
+  Sync Job.
+</Card>
+
+<Card
+  title="TPC-DS Generator Job"
+  icon={<Cpu />}
+  link="open-source-spark-jobs/catalog-sync-job"
+>
+  The TPC-DS generator is a tool designed for benchmarking and evaluating the
+  performance.
+</Card>
+
+<Card
+  title="Kafka to IOMETE Lakehouse Data Replication Job"
+  icon={<Cpu />}
+  link="open-source-spark-jobs/kafka-streaming-job"
+>
+  A configuration-based, ready-to-use Spark Streaming job for replicating data
+  from Kafka to the IOMETE Lakehouse.
+</Card>
+
+<Card
+  title="File Streaming"
+  icon={<Cpu />}
+  link="open-source-spark-jobs/file-streaming-job"
+>
+  A configuration-based, ready-to-use Spark Streaming job for replicating data
+  from File sources (a directory, S3 location, etc.) to the IOMETE Lakehouse.
+</Card>
+
+</GridBox>
