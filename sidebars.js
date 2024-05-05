@@ -176,6 +176,14 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "GCP",
+      collapsed: false,
+      items: [
+          "gcp/gcs-bucket-permissions",
+      ],
+    },
+    {
+      type: "category",
       label: "Misc",
       collapsed: false,
       items: ["user-guide/misc/datagrip-lakehouse-connection"],
