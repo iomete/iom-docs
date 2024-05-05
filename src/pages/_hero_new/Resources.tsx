@@ -13,20 +13,20 @@ function Resources() {
       <div className="grid grid-cols-8 gap-4">
         <div className="col-span-8 sm:col-span-6">
           <Card url="/user-guide/virtual-lakehouses">
-            <div className="grid grid-cols-2 gap-4 h-full">
+            <div className="grid h-full grid-cols-2 gap-4">
               <div className="col-span-2 sm:col-span-1">
                 <h4 className="mb-2">
                   User Guides on using IOMETE Platform Console.
                 </h4>
-                <p className="card-desc mb-4">
+                <p className="mb-4 card-desc">
                   Learn how to create / manage various resources in IOMETE
                   Platform.
                 </p>
-                <p className="card-desc mb-0">
+                <p className="mb-0 card-desc">
                   From basics to advanced security settings.
                 </p>
               </div>
-              <div className="relative min-h-48 col-span-2 sm:col-span-1">
+              <div className="relative col-span-2 min-h-48 sm:col-span-1">
                 <img
                   style={{ height: "calc(100% + 26px)" }}
                   className="object-cover object-left-top absolute bottom-[-26px] right-[-26px] border-solid border border-[#cfd6df] dark:border-[#252526]"
@@ -38,13 +38,13 @@ function Resources() {
           </Card>
         </div>
         <div className="col-span-4 sm:col-span-2">
-          <Card url="/tutorials/read-files-from-aws-s3">
+          <Card url="aws/read-files-from-aws-s3">
             <div className="bg-[#F6F8FA] dark:bg-[#1e1e1f] flex justify-center items-center h-[72px] mb-4">
               <DownloadSimple size={32} />
             </div>
             <div>
               <h4 className="mb-2">Loading Data</h4>
-              <p className="card-desc mb-0">
+              <p className="mb-0 card-desc">
                 Tutorials on how to query data files from various sources.
               </p>
             </div>
@@ -61,7 +61,7 @@ function Resources() {
                 </p>
               </div>
 
-              <div className="flex gap-4 flex-nowrap mb-4">
+              <div className="flex gap-4 mb-4 flex-nowrap">
                 {[...Array(10)]
                   .flatMap(() => topConnections)
                   .map((connection, index) => (

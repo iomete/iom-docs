@@ -41,7 +41,7 @@ By exporting the data directly to an S3 bucket, you can bypass the limitations o
 ### Exporting data to an S3 bucket
 
 :::info Prerequisite
-Before exporting data to an S3 bucket, ensure that IOMETE has read/write access to the S3 bucket you plan to export data to. Follow [this guide](/tutorials/external-s3-buckets-access) to provide the necessary permissions.
+Before exporting data to an S3 bucket, ensure that IOMETE has read/write access to the S3 bucket you plan to export data to. Follow [this guide](/aws/s3-bucket-permissions) to provide the necessary permissions.
 :::
 
 Let's assume that we want to export the result of the following query to an S3 bucket:

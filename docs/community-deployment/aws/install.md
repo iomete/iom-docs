@@ -125,9 +125,9 @@ IOMETE Data Plane.
 
 ### Prepare Database
 
-IOMETE requires a PostgreSQL database to store metadata and other information. Refer [Backend Databases](/deployment/backend-databases) for more details. 
+IOMETE requires a PostgreSQL database to store metadata and other information. Refer [Backend Databases](/deployment/backend-databases) for more details.
 
-You can use your own database, or you can use the provided `postgresql` database. 
+You can use your own database, or you can use the provided `postgresql` database.
 
 :::info
 This postgresql database is for testing purpose only. For production, please use your own database that is optimized for production use.
@@ -145,7 +145,7 @@ Deploy postgresql database, and wait for it to be ready.
 ```shell
 helm upgrade --install -n iomete-system \
   postgresql bitnami/postgresql \
-  -f https://raw.githubusercontent.com/iomete/iomete-deployment/main/database/postgresql/postgresql-values.yaml 
+  -f https://raw.githubusercontent.com/iomete/iomete-deployment/main/database/postgresql/postgresql-values.yaml
 ```
 
 Wait for postgresql pod to be ready. It takes about **~1 minute**
@@ -197,7 +197,6 @@ kubectl get pods -n iomete-system --watch
 Please follow the [Configure ISTIO Ingress Gateway](/deployment/configure-ingress) to configure the Ingress Gateway for
 IOMETE Data Plane to be able to access the UI.
 
-
 ---
 
 ## 4. Access IOMETE Data Plane
@@ -205,6 +204,7 @@ IOMETE Data Plane to be able to access the UI.
 Once, IOMETE Data Plane is deployed and ingress gateway is configured, you can access the IOMETE Data Plane UI.
 
 Get the external IP of the ISTIO Ingress Gateway:
+
 ```shell
 kubectl get svc istio-ingress -n istio-system
 ```
@@ -219,8 +219,8 @@ are `admin` and `admin`. On your first login, you will be asked to change the te
 **That's it!** You've successfully set up IOMETE data plane. If you encounter any issues or have any questions
 please join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
 
-
 ---
+
 ## Quickstart Resources
 
 Start using IOMETE with the following guides
@@ -231,7 +231,7 @@ Start using IOMETE with the following guides
 Read our guide on how to sync data from JDBC sources, like MySQL, PostgreSQL, and Oracle.
 </Card>
 
-<Card title="Querying Files in AWS S3" icon={<Files />} link="tutorials/read-files-from-aws-s3">
+<Card title="Querying Files in AWS S3" icon={<Files />} link="aws/read-files-from-aws-s3">
 If you have data files in AWS S3, you can directly query them using the S3 connector.
 </Card>
 

@@ -6,7 +6,8 @@ const cards = [
   {
     to: "community-deployment/overview",
     title: "Community Deployment",
-    description: "Learn how to deploy a community edition of IOMETE on Cloud or On-Premise.",
+    description:
+      "Learn how to deploy a community edition of IOMETE on Cloud or On-Premise.",
     label: "Getting Started",
   },
   {
@@ -19,13 +20,15 @@ const cards = [
   {
     to: "reference/sql-quick-start/sql-ddl-examples",
     title: "SQL Quickstart",
-    description: "A quickstart guides to using SQL to query and process data in your data lakehouse.",
+    description:
+      "A quickstart guides to using SQL to query and process data in your data lakehouse.",
     label: "Reference",
   },
   {
-    to: "tutorials/read-files-from-aws-s3",
+    to: "aws/read-files-from-aws-s3",
     title: "Loading Data",
-    description: "Tutorials on how to query data files in S3 and from operational databases using JDBC providers.",
+    description:
+      "Tutorials on how to query data files in S3 and from operational databases using JDBC providers.",
     label: "Tutorials",
   },
 ];
@@ -41,7 +44,12 @@ function Features() {
       <div className="row">
         {cards.map((card) => (
           <div className={`col col--3 ${styles.Column}`} key={card.to}>
-            <Card label={card.label} title={card.title} link={card.to} description={card.description}></Card>
+            <Card
+              label={card.label}
+              title={card.title}
+              link={card.to}
+              description={card.description}
+            ></Card>
           </div>
         ))}
       </div>
