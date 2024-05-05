@@ -58,16 +58,14 @@ of your bucket.
 
 ```js showLineNumbers
 {
-    "Version"
-:
-    "2012-10-17",
-        "Statement"
-:
-    [
+    "Version": "2012-10-17",
+    "Statement": [
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": ["<lakehouse_role>"]
+                "AWS": [
+                    "<lakehouse_role>"
+                ]
             },
             "Action": [
                 "s3:*Object",
@@ -88,21 +86,17 @@ This policy provides full read/write access to your bucket from the Lakehouse ro
 
 ```js showLineNumbers
 {
-    "Version"
-:
-    "2012-10-17",
-        "Statement"
-:
-    [
+    "Version": "2012-10-17",
+    "Statement": [
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": ["<lakehouse_role>"]
+                "AWS": [
+                    "<lakehouse_role>"
+                ]
             },
             "Action": [
-                // highlight-start
                 "s3:GetObject",
-                // highlight-end
                 "s3:ListBucket"
             ],
             "Resource": [
@@ -121,25 +115,21 @@ This policy provides read-only access to your bucket from the Lakehouse role.
 
 ```js showLineNumbers
 {
-    "Version"
-:
-    "2012-10-17",
-        "Statement"
-:
-    [
+    "Version": "2012-10-17",
+    "Statement": [
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": ["<lakehouse_role>"]
+                "AWS": [
+                    "<lakehouse_role>"
+                ]
             },
             "Action": [
                 "s3:GetObject",
                 "s3:ListBucket"
             ],
             "Resource": [
-                // highlight-start
                 "arn:aws:s3:::<your_bucket>/folder/*",
-                // highlight-end
                 "arn:aws:s3:::<your_bucket>"
             ]
         }
@@ -181,12 +171,8 @@ Here are some examples of IAM role policies that you can attach to the Lakehouse
 
 ```js showLineNumbers
 {
-    "Version"
-:
-    "2012-10-17",
-        "Statement"
-:
-    [
+    "Version": "2012-10-17",
+    "Statement": [
         {
             "Effect": "Allow",
             "Action": [
@@ -213,18 +199,12 @@ the Lakehouse role.
 
 ```js showLineNumbers
 {
-    "Version"
-:
-    "2012-10-17",
-        "Statement"
-:
-    [
+    "Version": "2012-10-17",
+    "Statement": [
         {
             "Effect": "Allow",
             "Action": [
-                // highlight-start
                 "s3:GetObject",
-                // highlight-end
                 "s3:ListBucket"
             ],
             "Resource": [
@@ -242,12 +222,8 @@ Only the highlighted line is different from the previous policy.
 
 ```js showLineNumbers
 {
-    "Version"
-:
-    "2012-10-17",
-        "Statement"
-:
-    [
+    "Version": "2012-10-17",
+    "Statement": [
         {
             "Effect": "Allow",
             "Action": [
@@ -255,9 +231,7 @@ Only the highlighted line is different from the previous policy.
                 "s3:ListBucket"
             ],
             "Resource": [
-                // highlight-start
                 "arn:aws:s3:::<your_bucket>/folder/*",
-                // highlight-end
                 "arn:aws:s3:::<your_bucket>"
             ]
         }

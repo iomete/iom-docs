@@ -167,6 +167,15 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "AWS",
+      collapsed: false,
+      items: [
+          "aws/s3-bucket-permissions",
+          "aws/glue-catalog-permissions",
+      ],
+    },
+    {
+      type: "category",
       label: "Misc",
       collapsed: false,
       items: ["user-guide/misc/datagrip-lakehouse-connection"],
@@ -333,11 +342,10 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "AWS S3",
+      label: "AWS",
       collapsed: false,
       items: [
-          "tutorials/read-files-from-aws-s3",
-          "tutorials/external-s3-buckets-access",
+          "aws/read-files-from-aws-s3",
       ],
     }
   ],
