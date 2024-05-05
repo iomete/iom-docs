@@ -322,10 +322,24 @@ const sidebars = {
   ],
 
   tutorials: [
-    "tutorials/read-files-from-aws-s3",
-    "tutorials/sync-data-from-jdbc-sources",
-    "tutorials/export-as-a-csv-file",
-    "tutorials/external-s3-buckets-access",
+    {
+      type: "category",
+      label: "Generic",
+      collapsed: false,
+      items: [
+          "tutorials/sync-data-from-jdbc-sources",
+          "tutorials/export-as-a-csv-file",
+      ],
+    },
+    {
+      type: "category",
+      label: "AWS S3",
+      collapsed: false,
+      items: [
+          "tutorials/read-files-from-aws-s3",
+          "tutorials/external-s3-buckets-access",
+      ],
+    }
   ],
 };
 
