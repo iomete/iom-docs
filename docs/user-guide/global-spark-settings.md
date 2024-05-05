@@ -27,11 +27,11 @@ To add a new configuration item, click on the `Add config` button. If you want t
 
 As you begin typing in the `Key` input, the autocomplete feature will suggest relevant Spark settings based on your input. These suggestions include common Spark configuration parameters. Users can easily discover and select appropriate Spark settings, even if they are not familiar with the complete list of available options.
 
-<div class="row">
-  <div class="col col--6">
+<div className="row">
+  <div className="col col--6">
 <Img src="/img/user-guide/global-spark-settings/autocomplete.png" alt="Autocomplete" maxWidth="400px"/>
   </div>
-  <div class="col col--6">
+  <div className="col col--6">
 <Img src="/img/user-guide/global-spark-settings/autocomplete-suggest.png" alt="Autocomplete suggest" maxWidth="400px" />
   </div>
 </div>

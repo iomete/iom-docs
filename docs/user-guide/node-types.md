@@ -17,7 +17,7 @@ IOMETE offers a feature for configuring node types, such as CPU and memory.
 
 To see the Node type list, go to the `Settings` menu and click on the `Node types` tab. You'll find built-in node types there. You can edit an existing node type or create a new one.
 
-<!-- Click on the <button class="button button--primary button-iom">Configure</button> button to get started. -->
+<!-- Click on the <button className="button button--primary button-iom">Configure</button> button to get started. -->
 
 <Img src="/img/user-guide/node-types/node-types.png" alt="Node types" />
 
@@ -48,6 +48,6 @@ The node type select dropdown looks like this.
 
 ### Delete node type
 
-To delete the node type, click the node type that you want to delete and in opened page simply click the <button class="button button--danger button--outline button-iom"><Trash size={16} /> Delete</button> button below the inputs. Afterward, you'll receive a confirmation message; click "Yes, delete" to confirm the deletion.
+To delete the node type, click the node type that you want to delete and in opened page simply click the <button className="button button--danger button--outline button-iom"><Trash size={16} /> Delete</button> button below the inputs. Afterward, you'll receive a confirmation message; click "Yes, delete" to confirm the deletion.
 
 <Img src="/img/user-guide/node-types/node-type-delete.png" alt="Node type delete" maxWidth="600px"/>

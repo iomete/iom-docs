@@ -29,11 +29,11 @@ Access tokens are an alternative to using passwords for authentication to IOMETE
 
 **5.** Click **Generate**. After genereting you should see
 
-  <div class="row">
-    <div class="col col--6">
+  <div className="row">
+    <div className="col col--6">
       <Img src="/img/user-guide/pat/access-token-create.png" alt="Access token create" maxWidth="305px"/>
     </div>
-    <div class="col col--6">
+    <div className="col col--6">
       <Img src="/img/user-guide/pat/access-token-created.png" alt="Access token created" maxWidth="400px"/>
     </div>
 </div>

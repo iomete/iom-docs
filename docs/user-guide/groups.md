@@ -39,11 +39,11 @@ By clicking the `Edit` button, you can edit the `Description`.
 
 To assign a user to the group, click the `Assign user` button. You will see available users in the opened dropdown. Click on the user you want to assign to the group.
 
-<div class="row">
-  <div class="col col--6">
+<div className="row">
+  <div className="col col--6">
     <Img src="/img/user-guide/groups/user-assign.png" alt="User assign" maxWidth="400px"/>
   </div>
-  <div class="col col--6">
+  <div className="col col--6">
     <Img src="/img/user-guide/groups/assigned-users.png" alt="Assigned users" maxWidth="400px"/>
   </div>
 </div>

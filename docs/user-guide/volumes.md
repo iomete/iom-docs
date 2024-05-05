@@ -17,7 +17,7 @@ IOMETE offers a feature for customization of Kubernetes Volume types attached to
 
 To see the Volume list, go to the `Settings` menu and click on the `Volumes` tab. You can edit an existing volume or create a new one.
 
-<!-- Click on the <button class="button button--primary button-iom">Configure</button> button to get started. -->
+<!-- Click on the <button className="button button--primary button-iom">Configure</button> button to get started. -->
 
 <Img src="/img/user-guide/volumes/volumes.png" alt="Volumes" />
 
@@ -55,6 +55,6 @@ Let's navigate to the [Lakehouse create](./virtual-lakehouses.md#create-a-new-la
 
 ### Delete volume
 
-To delete a volume, locate it in the volumes list, click the "Edit" button, and then click the <button class="button button--danger button--outline button-iom"><Trash size={16} /> Delete</button> button below the inputs. Afterward, you'll receive a confirmation message; click "Yes, delete" to confirm the deletion.
+To delete a volume, locate it in the volumes list, click the "Edit" button, and then click the <button className="button button--danger button--outline button-iom"><Trash size={16} /> Delete</button> button below the inputs. Afterward, you'll receive a confirmation message; click "Yes, delete" to confirm the deletion.
 
 <Img src="/img/user-guide/volumes/volume-delete.png" alt="Node type delete" maxWidth="600px"/>

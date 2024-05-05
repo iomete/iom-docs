@@ -21,11 +21,11 @@ The system initially generates **Admin** user with full permissions. Admin have 
 
 To create new user click the <button className="button button--primary button-iom"><Plus size={16}/>Create</button> button. Fill in all the fields and click submit. You'll receive a temporary password. Share the temporary password with the user, who will then be prompted to change it during their first login.
 
-<div class="row">
-  <div class="col col--6">
+<div className="row">
+  <div className="col col--6">
     <Img src="/img/user-guide/users/user-create-fill-inputs.png" alt="User create filled inputs" maxWidth="600px"/>
   </div>
-  <div class="col col--6">
+  <div className="col col--6">
     <Img src="/img/user-guide/users/user-created.png" alt="User create" maxWidth="600px"/>
   </div>
 </div>
@@ -33,11 +33,11 @@ To create new user click the <button className="button button--primary button-io
 Sign out, then attempt to sign in using the user's username or email and the provided password.
 After sign in you will be redirected `Update Password` page. Set a new password and click `Submit`.
 
-<div class="row">
-  <div class="col col--6">
+<div className="row">
+  <div className="col col--6">
     <Img src="/img/user-guide/users/signin.png" alt="User create filled inputs" maxWidth="600px"/>
   </div>
-  <div class="col col--6">
+  <div className="col col--6">
     <Img src="/img/user-guide/users/update-password.png" alt="User create" maxWidth="600px"/>
   </div>
 </div>
@@ -72,11 +72,11 @@ Effective roles depend on group memberships, not direct assignments to a user.
 
 The `Assigned groups` section displays the groups the user is in. You can add or remove the user from a group.
 
-<div class="row">
-  <div class="col col--6">
+<div className="row">
+  <div className="col col--6">
     <Img src="/img/user-guide/users/user-groups.png" alt="User groups" maxWidth="600px"/>
   </div>
-  <div class="col col--6">
+  <div className="col col--6">
     <Img src="/img/user-guide/users/user-group-assign.png" alt="User group assign" maxWidth="600px"/>
   </div>
 </div>

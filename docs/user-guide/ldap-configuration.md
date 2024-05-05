@@ -16,7 +16,7 @@ IOMETE offers an interface to configure your LDAP server.
 ## Configuration
 
 To view LDAP configuration page, navigate to the `LDAP` menu item and switch to the `LDAP` tab.
-Click on the <button class="button button--primary button-iom">Configure</button> button to get started.
+Click on the <button className="button button--primary button-iom">Configure</button> button to get started.
 
 <Img src="/img/user-guide/ldap/ldap-configuration.png" alt="LDAP configuration" />
 
@@ -72,7 +72,7 @@ Sync settings options include how often everything syncs: Full sync interval (se
 
 <Img src="/img/user-guide/ldap/ldap-sync-settings.png" alt="LDAP configuration sync settings"/>
 
-After filling in all the required information, click the <button class="button button--primary button-iom">**Create**</button> button.
+After filling in all the required information, click the <button className="button button--primary button-iom">**Create**</button> button.
 
 ## LDAP actions
 

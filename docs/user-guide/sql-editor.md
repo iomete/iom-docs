@@ -20,11 +20,11 @@ The worksheet is a document that stores SQL queries. These worksheets are organi
 
 You can create custom folders for better organization. Folders can be deleted, renamed, and modified, except for the system-generated 'Draft' folder, which remains fixed. Within folders, you have the flexibility to create, duplicate, delete, rename, and move worksheets.
 
-<div class="row">
-    <div class="col col--6">
+<div className="row">
+    <div className="col col--6">
       <Img src="/img/user-guide/sql-editor/folder-create.png" alt="SQL Editor - Folder create" maxWidth="400px"/>
     </div>
-    <div class="col col--6">
+    <div className="col col--6">
       <Img src="/img/user-guide/sql-editor/worksheet-menu.png" alt="SQL Editor - Worksheet menu" maxWidth="400px"/>
     </div>
   </div>
@@ -36,11 +36,11 @@ Database explorer panel is used to explore your database objects, which includes
 To view database objects, expand a database. Each object in the database explorer has a corresponding options menu <DotsThreeVertical size={16} weight="duotone"/>.
 You can also open the menu by right-clicking on the item.
 
-<div class="row">
-    <div class="col col--6">
+<div className="row">
+    <div className="col col--6">
       <Img src="/img/user-guide/sql-editor/db-menu.png" alt="SQL Editor - Database menu" maxWidth="400px"/>
     </div>
-    <div class="col col--6">
+    <div className="col col--6">
       <Img src="/img/user-guide/sql-editor/table-menu.png" alt="SQL Editor - Table menu" maxWidth="400px"/>
     </div>
 </div>
@@ -56,11 +56,11 @@ To select (or change) the Running lakehouse for a worksheet, click the `Select L
 To select (or change) the current database for a worksheet, click the `Select Database` dropdown in the upper-right corner of the query editor.
 You can also select **catalog** only.
 
-<div class="row">
-    <div class="col col--6">
+<div className="row">
+    <div className="col col--6">
       <Img src="/img/user-guide/sql-editor/lakehouse-select.png" alt="SQL Editor - Lakehouse select" maxWidth="400px"/>
     </div>
-    <div class="col col--6">
+    <div className="col col--6">
       <Img src="/img/user-guide/sql-editor/db-select.png" alt="SQL Editor - Database select" maxWidth="400px"/>
     </div>
 </div>
@@ -74,11 +74,11 @@ As you enter your script in the query editor, the autocomplete feature suggests:
 
 IOMETE tracks table aliases and suggests them as autocomplete options. For example, if you execute a query using `employees as e` or `employees e` as an alias, the next time you type `e`, the autocomplete feature suggests the alias as an option.
 
-  <div class="row">
-    <div class="col col--5">
+  <div className="row">
+    <div className="col col--5">
       <Img src="/img/user-guide/sql-editor/table-columns.png" alt="SQL Editor - Table columns" maxWidth="400px"/>
     </div>
-    <div class="col col--7">
+    <div className="col col--7">
       <Img src="/img/user-guide/sql-editor/autocomplete-table.png" alt="SQL Editor - Autocomplete tables" maxWidth="400px"/>
       <Img src="/img/user-guide/sql-editor/autocomplete-column.png" alt="SQL Editor - Autocomplete columns" maxWidth="400px"/>
     </div>
@@ -93,11 +93,11 @@ IOMETE tracks table aliases and suggests them as autocomplete options. For examp
 Use variables in your SQL queries by wrapping them in double curly braces, like `{{id}}` .
 It is necessary to declare a variable before using it. Specifying an expression for the initial value for the variable.After declaring the variable, you can see it in autocomplete.
 
-<div class="row">
-    <div class="col col--6">
+<div className="row">
+    <div className="col col--6">
       <Img src="/img/user-guide/sql-editor/variable-create.png" alt="SQL Editor - Variable create" maxWidth="400px"/>
     </div>
-    <div class="col col--6">
+    <div className="col col--6">
       <Img src="/img/user-guide/sql-editor/variable-autocomplete.png" alt="SQL Editor - Variable autocomplete" maxWidth="400px"/>
     </div>
 </div>

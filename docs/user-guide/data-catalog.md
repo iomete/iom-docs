@@ -59,11 +59,11 @@ The Details Page in the **IOMETE** Data Catalog provides a comprehensive view of
 
 View important table details like name, creation date, last update, and synchronization status. Access information on data provider, database, table type, owners, tags, and description. Effortlessly manage owners and tags.
 
-<div class="row">
-  <div class="col col--6">
+<div className="row">
+  <div className="col col--6">
   <Img src="/img/user-guide/data-catalog/add-owner.png" alt="Data Catalog add owner" maxWidth="400px"/>
   </div>
-  <div class="col col--6">
+  <div className="col col--6">
   <Img src="/img/user-guide/data-catalog/add-tag.png" alt="Data Catalog add tag" maxWidth="400px"/>
   </div>
 </div>

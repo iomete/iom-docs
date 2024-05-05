@@ -124,8 +124,8 @@ There are two ways to create a Spark Job in the IOMETE:
 
 **Using the IOMETE Control Plane UI**
 
-1.  Go to <button class="button button--default button-iom"><Cpu size={16} /> Spark Jobs</button> page
-2.  Click on <button class="button button--primary button-iom"><Plus size={16} /><b>Create</b></button>
+1.  Go to <button className="button button--default button-iom"><Cpu size={16} /> Spark Jobs</button> page
+2.  Click on <button className="button button--primary button-iom"><Plus size={16} /><b>Create</b></button>
 3.  Provide the following information:
     - `Name` : `sample-job`
     - `Docker image` : `iomete/sample-job:1.0.0`
@@ -135,12 +135,12 @@ There are two ways to create a Spark Job in the IOMETE:
 
 **Using the IOMETE Control Plane API**
 
-You can create a Spark job using the API. After entering the inputs, go to the bottom and click the <button class="button button--primary button-iom"><Code size={16} /></button> button next to the <button class="button button--primary button-iom">Create</button> button. You will see a CURL command.
+You can create a Spark job using the API. After entering the inputs, go to the bottom and click the <button className="button button--primary button-iom"><Code size={16} /></button> button next to the <button className="button button--primary button-iom">Create</button> button. You will see a CURL command.
 
 <Img src="/img/guides/spark-job/job-create-api.png" alt="Create Spark Job with API" maxWidth="520px"/>
 
 <!-- :::info CURL
-You can see <button class="button button--primary button-iom"><Code size={16} /></button> button for `Run job`, `Abort job`, `Get run list`,` Get job details`, `Delete job`, `Edit job`
+You can see <button className="button button--primary button-iom"><Code size={16} /></button> button for `Run job`, `Abort job`, `Get run list`,` Get job details`, `Delete job`, `Edit job`
 ::: -->
 
 <Img src="/img/guides/spark-job/job-create-api-example.png" alt="Create Spark Job with API" maxWidth="520px"/>
@@ -157,7 +157,7 @@ To run it from the UI, go to the `Spark Jobs` page, go to the details of job and
 
 <Img src="/img/guides/spark-job/job-run-btn.png" alt="Run Spark Job" maxWidth="520px"/>
 
-To run it from the API, click the <button class="button button--primary button-iom"><Code size={16} /></button> button next to the <button class="button button--primary button-iom">Run job</button> button.
+To run it from the API, click the <button className="button button--primary button-iom"><Code size={16} /></button> button next to the <button className="button button--primary button-iom">Run job</button> button.
 
 <Img src="/img/guides/spark-job/job-run-api.png" alt="Run Spark Job with API" maxWidth="520px"/>
 

@@ -44,11 +44,11 @@ Each permission includes the following access levels:
 
 To activate a specific access item, simply check the related checkbox. The default setting is **(All)** for each access item. However, you can customize options for everything except _Can list_ and _Can create_ as needed.
 
-<div class="row">
-  <div class="col col--8">
+<div className="row">
+  <div className="col col--8">
     <Img src="/img/user-guide/roles/role-create-filled.png"  alt="Role create inputs"  maxWidth="600px"/>
   </div>
-  <div class="col col--4">
+  <div className="col col--4">
     <Img src="/img/user-guide/roles/access-can-view.png"  alt="Role permission can view"  maxWidth="400px"/>
     <Img src="/img/user-guide/roles/access-can-attach.png"  alt="Role permission can attach"  maxWidth="400px"/>
   </div>
@@ -58,11 +58,11 @@ To activate a specific access item, simply check the related checkbox. The defau
 
 After creating a role, go to the user list and click on a user to whom you want to assign the role. First, remove any existing roles added by the system. Then, click the `Assign Role` button and choose the role we created.
 
-<div class="row">
-  <div class="col col--6">
+<div className="row">
+  <div className="col col--6">
     <Img src="/img/user-guide/roles/user-detail.png"  alt="Assign Role to user view"  maxWidth="600px"/>
   </div>
-  <div class="col col--6">
+  <div className="col col--6">
     <Img src="/img/user-guide/roles/role-assign-to-user.png"  alt="Assign Role to user"  maxWidth="600px"/>
   </div>
 </div>
