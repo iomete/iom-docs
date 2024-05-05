@@ -59,9 +59,7 @@ const config = {
   // },
 
   // scripts: ["/js/heap.js"],
-  themes: [
-    'docusaurus-theme-github-codeblock'
-  ],
+  themes: ["docusaurus-theme-github-codeblock"],
 
   presets: [
     [
@@ -72,11 +70,19 @@ const config = {
           routeBasePath: "/",
           sidebarPath: "./sidebars.js",
           breadcrumbs: false,
-          // autoCollapseCategories: false,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          // editUrl:
-          //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+
+          editUrl: ({ docPath }) => {
+            let match;
+            if ((match = docPath.match(/(.*)\.mdx/)) != null) {
+              return `https://github.com/iomete/iom-docs/edit/main/docs/${match[1]}.mdx`;
+            }
+
+            if ((match = docPath.match(/(.*)\.md/)) != null) {
+              return `https://github.com/iomete/iom-docs/edit/main/docs/${match[1]}.md`;
+            }
+
+            return "https://github.com/iomete/iom-docs";
+          },
         },
         blog: {
           blogSidebarCount: 0,
@@ -137,9 +143,9 @@ const config = {
       ],
       codeblock: {
         showGithubLink: true,
-        githubLinkLabel: 'View on GitHub',
+        githubLinkLabel: "View on GitHub",
         showRunmeLink: false,
-        runmeLinkLabel: 'Checkout via Runme'
+        runmeLinkLabel: "Checkout via Runme",
       },
       navbar: {
         // title: 'My Site',
