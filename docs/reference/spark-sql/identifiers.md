@@ -14,7 +14,7 @@ An identifier is a string used to identify a database object such as a table, vi
 
 ### Regular Identifier
 
-```json
+```js
 { letter | digit | '_' } [ , ... ]
 ```
 
@@ -22,8 +22,8 @@ An identifier is a string used to identify a database object such as a table, vi
 
 ### Delimited Identifier
 
-```json
-`c [ ... ]`
+```js
+`c [ ... ]`;
 ```
 
 ### Parameters

@@ -12,8 +12,8 @@ A string literal is used to specify a character string value.
 
 ### Syntax
 
-```json
-'char [ ... ]' | "char [ ... ]"
+```js
+"char [ ... ]" | "char [ ... ]";
 ```
 
 ### Parameters
@@ -52,7 +52,7 @@ A binary literal is used to specify a byte sequence value.
 
 ### Syntax
 
-```json
+```js
 X { 'num [ ... ]' | "num [ ... ]" }
 ```
 
@@ -122,7 +122,7 @@ A numeric literal is used to specify a fixed or floating-point number.
 
 ### Syntax
 
-```json
+```js
 [ + | - ] digit [ ... ] [ L | S | Y ]
 ```
 
@@ -177,25 +177,25 @@ SELECT 482S AS col;
 
 decimal literals:
 
-```json
+```js
 decimal_digits { [ BD ] | [ exponent BD ] } | digit [ ... ] [ exponent ] BD
 ```
 
 double literals:
 
-```json
+```js
 decimal_digits  { D | exponent [ D ] }  | digit [ ... ] { exponent [ D ] | [ exponent ] D }
 ```
 
 While decimal_digits is defined as
 
-```json
+```js
 [ + | - ] { digit [ ... ] . [ digit [ ... ] ] | . digit [ ... ] }
 ```
 
 and exponent is defined as
 
-```json
+```js
 E [ + | - ] digit [ ... ]
 ```
 
@@ -304,7 +304,7 @@ A Datetime literal is used to specify a datetime value.
 
 ### Syntax
 
-```json
+```js
 DATE { 'yyyy' |
        'yyyy-[m]m' |
        'yyyy-[m]m-[d]d' |
@@ -342,7 +342,7 @@ SELECT DATE '2011-11-11' AS col;
 
 ### Syntax
 
-```json
+```js
 TIMESTAMP { 'yyyy' |
             'yyyy-[m]m' |
             'yyyy-[m]m-[d]d' |
@@ -405,7 +405,7 @@ INTERVAL interval_string_value interval_unit TO interval_unit
 
 - **interval_value**
   **Syntax**:
-  ```json
+  ```js
   [ + | - ] number_value | '[ + | - ] number_value'
   ```
 - **interval_string_value**
@@ -413,9 +413,16 @@ INTERVAL interval_string_value interval_unit TO interval_unit
 
 - **interval_unit**
   **Syntax**:
-  ```json
-   YEAR[S] | MONTH[S] | WEEK[S] | DAY[S] | HOUR[S] | MINUTE[S] | SECOND[S] |
-   MILLISECOND[S] | MICROSECOND[S]
+  ```js
+  YEAR[S] |
+    MONTH[S] |
+    WEEK[S] |
+    DAY[S] |
+    HOUR[S] |
+    MINUTE[S] |
+    SECOND[S] |
+    MILLISECOND[S] |
+    MICROSECOND[S];
   ```
 
 ### Examples

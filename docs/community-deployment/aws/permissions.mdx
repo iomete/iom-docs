@@ -3,8 +3,8 @@ title: AWS Permissions for IOMETE's Data Plane
 sidebar_label: AWS Permissions
 description: Explore the complete guide to AWS permissions needed for running IOMETE's Data Plane Terraform Script.
 last_update:
-    date: 10/07/2023
-    author: Vusal Dadalov
+  date: 10/07/2023
+  author: Vusal Dadalov
 ---
 
 ## Overview
@@ -26,6 +26,7 @@ IOMETE only interacts with AWS resources that it creates. It does not modify or 
 ### VPC
 
 IOMETE creates a dedicated VPC for the resources it creates. This VPC contains the following resources:
+
 - Subnets
 - NAT
 - INTERNET GW
@@ -33,8 +34,8 @@ IOMETE creates a dedicated VPC for the resources it creates. This VPC contains t
 - EKS
 - EC2 instances
 
-
 ### EKS
+
 EKS cluster contains compute resources like: Lakehouse cluster, Spark driver and executers, and system services.
 
 ### S3 Lakehouse Buckets
@@ -42,6 +43,7 @@ EKS cluster contains compute resources like: Lakehouse cluster, Spark driver and
 IOMETE creates S3 buckets to store lakehouse data and cluster assets. These buckets are encrypted using KMS keys.
 
 ### SQS
+
 EKS Karpenter Module (kubernetes autoscaler) requires access to SQS to create and manage queues.
 
 ### CloudWatch
@@ -55,11 +57,11 @@ Can be disabled
 ### IAM Roles and policies
 
 Terraform creates IAM roles and policies to allow the EKS cluster to access to:
+
 - Lakehouse S3 buckets and objects
 - To create and manage EC2 resources for EKS Node Groups
 - To create and manage SQS queues for EKS Karpenter Module (kubernetes autoscaler)
 - KMS keys to encrypt S3 buckets
-
 
 ## Implementation Notes
 
@@ -71,7 +73,7 @@ IOMETE adds the tag `"iomete.com/managed": true` to each resource it creates. Th
 
 Here's an example policy statement that allows actions on resources only if they have the `iomete.com/managed` tag with a value of `true`:
 
-```json
+```js
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -90,8 +92,6 @@ Here's an example policy statement that allows actions on resources only if they
 ```
 
 You'll need to apply this condition to all relevant actions in the IAM policies that are needed by the IOMETE Terraform script.
-
-
 
 ### Controlling Access Using AWS Organizational Units (OUs) and AWS Organizations
 
@@ -113,7 +113,7 @@ Here's how you can apply this control:
 
 Below is an example of an SCP that restricts actions to only those resources tagged with `"iomete.com/managed": true`.
 
-```json
+```js
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -134,90 +134,85 @@ Below is an example of an SCP that restricts actions to only those resources tag
 
 **Note**: The exact details and implementation might vary based on the specific requirements and constraints of your organization's security policies.
 
-
-
-
 ## All permissions required by IOMETE resources
 
 Below are the permissions required by IOMETE's Data Plane. Hence, the user who will create IOMETE data-plane resources in AWS account need to have at least the following access privileges.
 
 ### Built-in AWS policies
 
-| Name | Description |
-| --- | --- |
-| AmazonEC2FullAccess | Manage Amazon EC2 resources and services, including VPC components and Load Balancers. |
-| AmazonEKSClusterPolicy | Perform operations related to creating and managing Amazon EKS clusters. |
-| AmazonS3FullAccess | Full access to Amazon S3 for managing Lakehouse buckets. |
-| CloudWatchLogsFullAccess | Full access to CloudWatch Logs for managing Data-plane logs. |
-| AmazonEKS_CNI_Policy | Permissions for the Amazon VPC CNI plugin used by Amazon EKS. |
-| AWSServiceRoleForAmazonEKSNodegroup | Permissions needed for the EKS Nodegroup service role. |
-
+| Name                                | Description                                                                            |
+| ----------------------------------- | -------------------------------------------------------------------------------------- |
+| AmazonEC2FullAccess                 | Manage Amazon EC2 resources and services, including VPC components and Load Balancers. |
+| AmazonEKSClusterPolicy              | Perform operations related to creating and managing Amazon EKS clusters.               |
+| AmazonS3FullAccess                  | Full access to Amazon S3 for managing Lakehouse buckets.                               |
+| CloudWatchLogsFullAccess            | Full access to CloudWatch Logs for managing Data-plane logs.                           |
+| AmazonEKS_CNI_Policy                | Permissions for the Amazon VPC CNI plugin used by Amazon EKS.                          |
+| AWSServiceRoleForAmazonEKSNodegroup | Permissions needed for the EKS Nodegroup service role.                                 |
 
 ### IAM
 
-| Name | Description |
-| --- | --- |
-| iam:CreateRole | Create a new IAM role. |
-| iam:TagRole | Add tags to an existing IAM role. |
-| iam:DeleteOpenIDConnectProvider | Delete an OpenID Connect identity provider. |
-| iam:DeleteRole | Delete an existing IAM role. |
-| iam:DeletePolicy | Delete an existing IAM policy. |
-| iam:DeleteRolePolicy | Delete an attached policy from an IAM role. |
-| iam:DetachRolePolicy | Detach a policy from an IAM role. |
-| iam:DeleteInstanceProfile | Delete an IAM instance profile. |
-| iam:RemoveRoleFromInstanceProfile | Remove a role from an instance profile. |
-| iam:TagOpenIDConnectProvider | Add tags to an OpenID Connect identity provider. |
-| iam:CreateInstanceProfile | Create a new IAM instance profile. |
-| iam:AddRoleToInstanceProfile | Attach a role to an instance profile. |
-| iam:TagInstanceProfile | Add tags to an instance profile. |
-| iam:CreateOpenIDConnectProvider | Create a new OpenID Connect identity provider. |
-| iam:PassRole | Pass a role to an AWS service. |
-| iam:TagPolicy | Add tags to an IAM policy. |
-| iam:CreatePolicy | Create a new IAM policy. |
-| iam:ListAttachedRolePolicies | List policies attached to an IAM role. |
-| iam:AttachRolePolicy | Attach a policy to an IAM role. |
-| iam:List* | List resources and information within IAM. |
-| iam:Get* | Retrieve information about IAM resources. |
-| iam:PutRolePolicy | Attach or update a policy to an IAM role. |
+| Name                              | Description                                      |
+| --------------------------------- | ------------------------------------------------ |
+| iam:CreateRole                    | Create a new IAM role.                           |
+| iam:TagRole                       | Add tags to an existing IAM role.                |
+| iam:DeleteOpenIDConnectProvider   | Delete an OpenID Connect identity provider.      |
+| iam:DeleteRole                    | Delete an existing IAM role.                     |
+| iam:DeletePolicy                  | Delete an existing IAM policy.                   |
+| iam:DeleteRolePolicy              | Delete an attached policy from an IAM role.      |
+| iam:DetachRolePolicy              | Detach a policy from an IAM role.                |
+| iam:DeleteInstanceProfile         | Delete an IAM instance profile.                  |
+| iam:RemoveRoleFromInstanceProfile | Remove a role from an instance profile.          |
+| iam:TagOpenIDConnectProvider      | Add tags to an OpenID Connect identity provider. |
+| iam:CreateInstanceProfile         | Create a new IAM instance profile.               |
+| iam:AddRoleToInstanceProfile      | Attach a role to an instance profile.            |
+| iam:TagInstanceProfile            | Add tags to an instance profile.                 |
+| iam:CreateOpenIDConnectProvider   | Create a new OpenID Connect identity provider.   |
+| iam:PassRole                      | Pass a role to an AWS service.                   |
+| iam:TagPolicy                     | Add tags to an IAM policy.                       |
+| iam:CreatePolicy                  | Create a new IAM policy.                         |
+| iam:ListAttachedRolePolicies      | List policies attached to an IAM role.           |
+| iam:AttachRolePolicy              | Attach a policy to an IAM role.                  |
+| iam:List\*                        | List resources and information within IAM.       |
+| iam:Get\*                         | Retrieve information about IAM resources.        |
+| iam:PutRolePolicy                 | Attach or update a policy to an IAM role.        |
 
-### SQS, Events  and KMS
+### SQS, Events and KMS
 
-| Name | Description |
-| --- | --- |
-| sqs:* | Perform all actions on Amazon SQS resources. |
-| events:* | Perform all actions on Amazon CloudWatch Events resources. |
-| kms:ListAliases | List the aliases associated with KMS keys. |
-| kms:DeleteAlias | Delete an alias associated with a KMS key. |
-| kms:TagResource | Add tags to a KMS key. |
-| kms:CreateKey | Create a new KMS key. |
-| kms:CreateAlias | Create an alias for a KMS key. |
+| Name            | Description                                                |
+| --------------- | ---------------------------------------------------------- |
+| sqs:\*          | Perform all actions on Amazon SQS resources.               |
+| events:\*       | Perform all actions on Amazon CloudWatch Events resources. |
+| kms:ListAliases | List the aliases associated with KMS keys.                 |
+| kms:DeleteAlias | Delete an alias associated with a KMS key.                 |
+| kms:TagResource | Add tags to a KMS key.                                     |
+| kms:CreateKey   | Create a new KMS key.                                      |
+| kms:CreateAlias | Create an alias for a KMS key.                             |
 
 ### EKS
 
-|  Name | Description |
-| --- | --- |
-| eks:CreateCluster | Create a new Amazon EKS cluster. |
-| eks:DescribeCluster | Retrieve details about an Amazon EKS cluster. |
-| eks:ListClusters | List all Amazon EKS clusters in the account. |
-| eks:ListUpdates | List available updates for an Amazon EKS cluster. |
-| eks:UpdateClusterVersion | Update the Kubernetes version of an EKS cluster. |
-| eks:UpdateClusterConfig | Update the configuration of an Amazon EKS cluster. |
-| eks:UpdateNodegroupConfig | Update the configuration of an EKS node group. |
-| eks:CreateNodegroup | Create a new EKS node group within a cluster. |
-| eks:DeleteNodegroup | Delete an EKS node group from a cluster. |
-| eks:DescribeNodegroup | Retrieve details about an EKS node group. |
-| eks:ListNodegroups | List all EKS node groups within a cluster. |
-| eks:DescribeUpdate | Retrieve details about a specific EKS update. |
-| eks:TagResource | Add tags to an Amazon EKS resource. |
-| eks:UntagResource | Remove tags from an Amazon EKS resource. |
-| eks:ListTagsForResource | List tags for an Amazon EKS resource. |
-| eks:CreateAddon | Create an addon for an Amazon EKS cluster. |
-| eks:DescribeAddon | Retrieve details about an addon for an EKS cluster. |
-| eks:DeleteAddon | Delete an addon from an EKS cluster. |
-| eks:ListAddons | List addons for an EKS cluster. |
-| eks:UpdateAddon | Update an addon for an EKS cluster. |
-| eks:DeleteCluster | Delete an Amazon EKS cluster. |
+| Name                      | Description                                               |
+| ------------------------- | --------------------------------------------------------- |
+| eks:CreateCluster         | Create a new Amazon EKS cluster.                          |
+| eks:DescribeCluster       | Retrieve details about an Amazon EKS cluster.             |
+| eks:ListClusters          | List all Amazon EKS clusters in the account.              |
+| eks:ListUpdates           | List available updates for an Amazon EKS cluster.         |
+| eks:UpdateClusterVersion  | Update the Kubernetes version of an EKS cluster.          |
+| eks:UpdateClusterConfig   | Update the configuration of an Amazon EKS cluster.        |
+| eks:UpdateNodegroupConfig | Update the configuration of an EKS node group.            |
+| eks:CreateNodegroup       | Create a new EKS node group within a cluster.             |
+| eks:DeleteNodegroup       | Delete an EKS node group from a cluster.                  |
+| eks:DescribeNodegroup     | Retrieve details about an EKS node group.                 |
+| eks:ListNodegroups        | List all EKS node groups within a cluster.                |
+| eks:DescribeUpdate        | Retrieve details about a specific EKS update.             |
+| eks:TagResource           | Add tags to an Amazon EKS resource.                       |
+| eks:UntagResource         | Remove tags from an Amazon EKS resource.                  |
+| eks:ListTagsForResource   | List tags for an Amazon EKS resource.                     |
+| eks:CreateAddon           | Create an addon for an Amazon EKS cluster.                |
+| eks:DescribeAddon         | Retrieve details about an addon for an EKS cluster.       |
+| eks:DeleteAddon           | Delete an addon from an EKS cluster.                      |
+| eks:ListAddons            | List addons for an EKS cluster.                           |
+| eks:UpdateAddon           | Update an addon for an EKS cluster.                       |
+| eks:DeleteCluster         | Delete an Amazon EKS cluster.                             |
 | eks:DescribeAddonVersions | Retrieve details about addon versions for an EKS cluster. |
-
 
 Should you have any further questions or require assistance, please do not hesitate to reach out to the IOMETE support team.

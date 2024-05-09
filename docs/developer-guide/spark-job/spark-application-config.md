@@ -48,7 +48,7 @@ The `Deployment Parameters` consists of several fields that help specify various
 
 **Example 1:** A simple PySpark application deployment configuration.
 
-```json
+```js
 {
   "image": "iomete/sample-job:1.0.0",
   "mainApplicationFile": "local:///app/job.py"
@@ -68,7 +68,7 @@ In addition, since this is a PySpark application, there's no need to specify the
 
 **Example 2:** Deploying Java spark application
 
-```json
+```js
 {
   "sparkVersion": "3.2.1",
   "mainClass": "org.apache.spark.examples.SparkPi",
@@ -166,7 +166,7 @@ The `instanceConfig` field in IOMETE specifies the configuration for both the `d
 
 For example, consider the following JSON config:
 
-```json
+```js
 {
   "instanceConfig": {
     "driverType": "r6g.large",
@@ -200,7 +200,7 @@ IOMETE also provides a wide range of configuration options for controlling the b
 
 Passing arguments to a Spark application can be done through the `args` field in the `Application Config`. This field takes an array of strings, where each string represents an argument.
 
-```json
+```js
 {
   "args": ["arg1", "arg2"]
 }
@@ -214,7 +214,7 @@ You can also specify environment variables for your Spark application using the 
 
 Here's an example env var config:
 
-```json
+```js
 {
   "envVars": {
     "APP_ENV": "production"
@@ -238,7 +238,7 @@ It's important to note that this feature only masks the value of the environment
 
 Here's an example:
 
-```json
+```js
 {
   "envVars": {
     "APP_ENV": "production",
@@ -259,7 +259,7 @@ To configure Spark, you can use the `sparkConf` field of the `Application Config
 
 For example, to set the `spark.ui.port`, `spark.eventLog.enabled`, and `spark.eventLog.dir` properties, use the following `sparkConf` field:
 
-```json
+```js
 {
   "sparkConf": {
     "spark.ui.port": "4045",
@@ -277,7 +277,7 @@ To add Hadoop configuration, you can use the `hadoopConf` field of the `Applicat
 
 Example:
 
-```json
+```js
 {
   "hadoopConf": {
     "fs.gs.project.id": "spark",
@@ -293,7 +293,7 @@ In addition to Spark and Hadoop configuration, you can also specify Java system 
 
 Java system options are specified as a single string containing one or more options separated by spaces. Here's an example:
 
-```json
+```js
 {
   "javaOptions": "-Dlog.level=INFO -XX:+UseG1GC"
 }
@@ -313,7 +313,7 @@ Spark applications often require additional files, such as jars and data files, 
 
 Example:
 
-```json
+```js
 {
   "deps": {
     "jars": ["s3a://my-bucket/spark-jars/my-lib.jar"],
@@ -333,7 +333,7 @@ Note that each package in the `packages` list must be of the form `groupId:artif
 
 Here's an example using IOMETE to specify these parameters:
 
-```json
+```js
 {
   "deps": {
     "repositories": [""],
@@ -352,7 +352,7 @@ Python support can be enabled by setting `mainApplicationFile` with the path to 
 
 Below is an example showing part of an `Application Config` with python:
 
-```json
+```js
 {
   "mainApplicationFile": "s3://my-bucket/my-app.py",
   "deps": {
@@ -405,7 +405,7 @@ Here is an example of a complete JSON configuration that includes all the availa
 The following example is not a correct configuration and is only for demonstration purposes. It includes all available fields for reference, but in practice some fields may be omitted or left with default values depending on your specific use case.
 :::
 
-```json
+```js
 {
   "name": "sample-job1",
   "template": {
