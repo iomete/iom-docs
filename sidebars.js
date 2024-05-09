@@ -184,6 +184,14 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "Kubernetes",
+      collapsed: false,
+      items: [
+        "k8s/private-docker-registry",
+      ],
+    },
+    {
+      type: "category",
       label: "Misc",
       collapsed: false,
       items: ["user-guide/misc/datagrip-lakehouse-connection"],
