@@ -1,7 +1,7 @@
 ---
 title: Apache Impala
 description: Organizations often ask, "How does Apache Ranger enhance the security of a data management system?" The answer lies in its capability to offer fine-grained access control and a comprehensive security policy management framework.
-slug: apache-ranger-data-security
+slug: apache-impala
 authors: aytan
 hide_table_of_contents: true
 tags: [Educational, Company]
