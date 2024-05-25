@@ -28,6 +28,7 @@ const sidebars = {
         "getting-started/platform-tour",
         "getting-started/architecture",
         "getting-started/scalability",
+        "getting-started/support",
       ],
     },
     {
