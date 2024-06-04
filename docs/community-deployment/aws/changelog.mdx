@@ -17,7 +17,7 @@ IOMETE Community Edition is supported by the community. Feel free to join the [I
 
 ## **Release 1.11.2**:
 
-- **Pod Security Context**: Added securityContext settings to all pods, ensuring that all resources are running as non-root users.
+- **Pod Security Context**: Added securityContext settings to all pods, ensuring that all resources are running as non-root users.  
   •	Note that Spark images requires root user only if using default hostPath volumes, which can be adjusted from Volume Settings in the IOMETE Console by choosing Dynamic PVC.  
   •	Currently, only Apache Ranger requires root user permissions, which will be addressed in a future release.  
 - **Eliminated Assets Bucket**: We have eliminated additional bucket created/used for assets, which was previously required for storing assets like 'sql query results', 'spark history data', etc. Now, assets are stored in the same bucket as the data lake.  
