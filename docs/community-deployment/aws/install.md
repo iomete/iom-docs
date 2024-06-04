@@ -179,7 +179,7 @@ Deploy IOMETE Data Plane:
 
 ```shell
 helm upgrade --install -n iomete-system iomete-data-plane \
-  iomete/iomete-data-plane-community-aws --version 1.11
+  iomete/iomete-data-plane-community-aws --version 1.12
 ```
 
 Wait for IOMETE Data Plane pods to be ready. It takes about **~6 minutes** to get everything ready in the first time
