@@ -109,6 +109,7 @@ const sidebars = {
         "user-guide/ldap-configuration",
         "user-guide/node-types",
         "user-guide/volumes",
+        "user-guide/api-reference",
       ],
     },
     {
@@ -170,26 +171,19 @@ const sidebars = {
       type: "category",
       label: "AWS",
       collapsed: false,
-      items: [
-          "aws/s3-bucket-permissions",
-          "aws/glue-catalog-permissions",
-      ],
+      items: ["aws/s3-bucket-permissions", "aws/glue-catalog-permissions"],
     },
     {
       type: "category",
       label: "GCP",
       collapsed: false,
-      items: [
-          "gcp/gcs-bucket-permissions",
-      ],
+      items: ["gcp/gcs-bucket-permissions"],
     },
     {
       type: "category",
       label: "Kubernetes",
       collapsed: false,
-      items: [
-        "k8s/private-docker-registry",
-      ],
+      items: ["k8s/private-docker-registry"],
     },
     {
       type: "category",
@@ -353,18 +347,16 @@ const sidebars = {
       label: "Generic",
       collapsed: false,
       items: [
-          "tutorials/sync-data-from-jdbc-sources",
-          "tutorials/export-as-a-csv-file",
+        "tutorials/sync-data-from-jdbc-sources",
+        "tutorials/export-as-a-csv-file",
       ],
     },
     {
       type: "category",
       label: "AWS",
       collapsed: false,
-      items: [
-          "aws/read-files-from-aws-s3",
-      ],
-    }
+      items: ["aws/read-files-from-aws-s3"],
+    },
   ],
 };
 
