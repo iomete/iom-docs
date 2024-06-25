@@ -4,6 +4,8 @@ sidebar_label: Database Drivers
 description: Learn how to add custom JDBC drivers to IOMETE Lakehouses.
 ---
 
+import Img from "@site/src/components/Img";
+
 By default, IOMETE includes MySQL, PostgreSQL, and Snowflake JDBC drivers. However, adding custom drivers, such as the MS SQL driver, Oracle is straightforward. Follow these steps to add MS SQL driver to IOMETE:
 
 ### Add Driver
@@ -23,6 +25,13 @@ Through the IOMETE Console:
      ```
      spark.jars s3a://lakehouse/spark-mssql-connector_2.12-1.2.0.jar
      ```
+
+See the image below for reference:
+
+<Img
+src="/img/database-drivers/mssql-driver.png"
+alt="Adding spark dependencies for MS SQL driver in IOMETE"
+/>
 
 ### Restart the Lakehouse
 
