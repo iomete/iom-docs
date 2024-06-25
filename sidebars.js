@@ -230,7 +230,7 @@ const sidebars = {
         "reference/sql-quick-start/iceberg-advanced-features",
         "reference/sql-quick-start/tables-from-jdbc-csv-json",
         "reference/sql-quick-start/query-federation",
-        "reference/sql-quick-start/mssql-datasource",
+        "reference/sql-quick-start/ms-sql-server-datasource",
       ],
     },
     {
