@@ -28,9 +28,7 @@ You can add the MS SQL driver using two methods:
    - Option 2: **Using JAR Files:**
      Upload the JAR file to the default lakehouse bucket specified during IOMETE installation. This could be S3, Minio, or Dell ECS instance. Then, add the JAR file path:
      ```
-     spark.jars s3a://lakehouse/spark-mssql-connector_2.12-1.2.0.jar
-     spark.executor.extraClassPath /opt/spark/work-dir
-     spark.driver.extraClassPath /opt/spark/work-dir
+     spark.jars s3a://lakehouse/spark-mssql-connector_2.12-1.2.0.jar, s3a://lakehouse/mssql-jdbc-11.2.3.jre11.jar
      ```
 
     <Img src="/img/database-drivers/mssql-driver-2.png" alt="Adding spark dependencies for MS SQL driver in IOMETE"/>
@@ -44,7 +42,7 @@ After adding the MS SQL driver dependencies, restart the lakehouses to make the 
 Once the dependencies are added and the lakehouse is restarted, you can connect to the MS SQL data source using the following syntax:
 
 ```sql
-CREATE TABLE IF NOT EXISTS ms_sql_demo_db
+CREATE TABLE ms_sql_demo_db
 USING com.microsoft.sqlserver.jdbc.spark
 OPTIONS (
     url "jdbc:sqlserver://host_name_or_ip;databaseName=db_name",
