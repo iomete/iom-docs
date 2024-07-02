@@ -189,7 +189,10 @@ const sidebars = {
       type: "category",
       label: "Misc",
       collapsed: false,
-      items: ["user-guide/misc/datagrip-lakehouse-connection"],
+      items: [
+        "user-guide/misc/datagrip-lakehouse-connection",
+        "user-guide/misc/nessie-integration",
+      ],
     },
   ],
   integrations: [
