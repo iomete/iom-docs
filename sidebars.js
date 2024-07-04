@@ -183,7 +183,10 @@ const sidebars = {
       type: "category",
       label: "Kubernetes",
       collapsed: false,
-      items: ["k8s/private-docker-registry"],
+      items: [
+          "k8s/private-docker-registry",
+          "k8s/spark-executor-shuffle-storage-options",
+      ],
     },
     {
       type: "category",
