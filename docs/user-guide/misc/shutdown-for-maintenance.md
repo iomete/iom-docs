@@ -29,7 +29,7 @@ If you are using external databases and cloud storage (like AWS S3), skip this s
 
 - **Scale Down PostgreSQL and Minio**
   ```sh
-  kubectl -n iomete-system scale deployment postgresql --replicas=0
+  kubectl -n iomete-system scale statefulset postgresql --replicas=0
   kubectl -n iomete-system scale deployment minio --replicas=0
   ```
 
@@ -44,7 +44,7 @@ If you are using external databases and cloud storage (like AWS S3), skip this s
 #### 4. Uninstall Data-Plane
 - Uninstall the data-plane using Helm.
   ```sh
-  helm uninstall data-plane -n iomete-system
+  helm uninstall -n iomete-system data-plane
   ```
 
 ### Steps to Restore IOMETE After Maintenance
@@ -52,25 +52,14 @@ If you are using external databases and cloud storage (like AWS S3), skip this s
 #### 1. Scale Up PostgreSQL and Minio Instances
 - **Scale Up PostgreSQL and Minio**
   ```sh
-  kubectl -n iomete-system scale deployment postgresql --replicas=1
+  kubectl -n iomete-system scale statefulset postgresql --replicas=1
   kubectl -n iomete-system scale deployment minio --replicas=1
-  ```
-
-- Verify that the data still persists:
-  ```sh
-  kubectl -n iomete-system exec -it <postgresql-pod-name> -- psql -U <postgresql-username>
-  # Check the databases and tables
-  ```
-
-  ```sh
-  mc ls myminio/mybucket/backup
-  # Verify files exist
   ```
 
 #### 2. Reinstall Data-Plane
 - Install the data-plane using the same version and the `values.yaml` file used in the previous installation (ignore this step if you used default values).
   ```sh
-  helm install data-plane iomete/data-plane -n iomete-system -f /path/to/values.yaml --version <iomete-version>
+  helm upgrade --install -n iomete-system data-plane iomete/iomete-data-plane-enterprise -f /path/to/values.yaml --version <iomete-version>
   ```
 
 ### Notes
