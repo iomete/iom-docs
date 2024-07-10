@@ -147,6 +147,7 @@ const sidebars = {
         "developer-guide/spark-job/spark-application-config",
         "developer-guide/spark-job/iomete-sdk",
         "developer-guide/spark-job/airflow",
+        "developer-guide/spark-job/nessie-integration",
       ],
     },
     {
@@ -194,7 +195,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "user-guide/misc/datagrip-lakehouse-connection",
-        "user-guide/misc/nessie-integration",
+        "user-guide/misc/shutdown-for-maintenance",
       ],
     },
   ],

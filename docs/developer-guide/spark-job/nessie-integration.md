@@ -4,8 +4,6 @@ sidebar_label: Nessie Library
 description: Learn how to add Nessie library to Spark Resources.
 ---
 
-import Img from "@site/src/components/Img";
-
 Starting from Data-Plane version `1.16.0`, we have added support for the Nessie catalog. The extension `org.projectnessie.spark.extensions.NessieSparkSessionExtensions` is included by default when deploying Spark resources. IOMETE's Spark version `3.5.1-v1` includes the Nessie jar library `nessie-spark-extensions-3.5_2.12` version `0.78.0`. For older Spark versions, you can add the Nessie dependency to your Spark resources to access and use the Nessie catalog.
 
 ## Adding Nessie Dependency
