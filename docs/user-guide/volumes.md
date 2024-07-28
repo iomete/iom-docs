@@ -1,6 +1,6 @@
 ---
 title: Volumes
-description: IOMETE offers a feature for configuring node types, such as CPU and memory.
+description: IOMETE offers a feature for customization of Kubernetes Volume types attached to Spark workloads.
 last_update:
   date: 05/01/2024
   author: Nurlan Mammadov
