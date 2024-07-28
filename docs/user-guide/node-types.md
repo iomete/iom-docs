@@ -52,8 +52,8 @@ When a user specifies a CPU and Memory for a node, IOMETE internally sets the dr
 
 Currently, it is not possible to change those values for the lakehouse. But for spark job you can override `spark.driver.cores` and `spark.executor.cores` values by adding them to spark config section.
 
-Both `spark.kubernetes.driver.request.cores` and `spark.kubernetes.driver.limit.cores` set to the same value ensures the driver and executor pods are getting the exact CPU allocated, avoiding resource contention and ensuring stable performance. 
-Similarly, `spark.kubernetes.executor.request.cores` and `spark.kubernetes.executor.limit.cores` are set to the same value.  
+Both `spark.kubernetes.{driver,executor}.request.cores` and `spark.kubernetes.{driver,executor}.limit.cores`  
+set to the same value ensures the driver and executor pods are getting the exact CPU allocated, avoiding resource contention and ensuring stable performance. 
 The same logic applies to the memory request and limit.
 
 
