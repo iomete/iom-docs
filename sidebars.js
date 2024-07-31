@@ -29,6 +29,7 @@ const sidebars = {
         "getting-started/architecture",
         "getting-started/scalability",
         "getting-started/support",
+        "getting-started/release-notes",
       ],
     },
     {
@@ -185,8 +186,8 @@ const sidebars = {
       label: "Kubernetes",
       collapsed: false,
       items: [
-          "k8s/private-docker-registry",
-          "k8s/spark-executor-shuffle-storage-options",
+        "k8s/private-docker-registry",
+        "k8s/spark-executor-shuffle-storage-options",
       ],
     },
     {
