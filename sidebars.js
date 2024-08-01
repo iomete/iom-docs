@@ -225,6 +225,12 @@ const sidebars = {
         "integrations/bi/redash",
       ],
     },
+    {
+      type: "category",
+      label: "DB Tools",
+      collapsed: false,
+      items: ["integrations/dbtools/dbeaver"],
+    },
   ],
 
   reference: [

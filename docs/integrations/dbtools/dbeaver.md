@@ -1,10 +1,9 @@
 ---
-title: JDBC Driver
-description: Use IOMETE JDBC Driver for seamless integration with Hive JDBC drivers. Compatible and easy-to-use, with Maven dependency. Get tips and support for <=2.3.9 version
-slug: /developer-guide/jdbc-driver
+title: DBeaver
+description: Use IOMETE JDBC Driver for seamless integration with DBeaver database tool.
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+  date: 08/01/2024
+  author: Fuad Musayev
 ---
 
 import Img from '@site/src/components/Img';
@@ -13,19 +12,6 @@ IOMETE warehouse JDBC endpoints are compatible with Hive JDBC drivers. But due t
 
 ## Download the Driver
 Visit our GitHub repository [iomete-artifacts](https://github.com/iomete/iomete-artifacts) and download the latest version of the Hive JDBC driver `hive-jdbc-3.1.3-standalone.jar`.
-
-## Using JDBC driver in Java project
-To use the JDBC driver in your Java project, include the driver as a library in your project. You can use Maven to include the driver in your project.
-
-```xml
-<dependency>
-    <groupId>org.apache.hive</groupId>
-    <artifactId>hive-jdbc</artifactId>
-    <version>3.1.3</version>
-    <scope>system</scope>
-    <systemPath>${project.basedir}/src/main/resources/hive-jdbc-3.1.3-standalone.jar</systemPath>
-</dependency>
-```
 
 ## Using JDBC driver for DBeaver connection
 
