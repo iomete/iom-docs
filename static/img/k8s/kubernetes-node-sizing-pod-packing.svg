@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" width="800" height="560">
+    <style>
+        .small-text { font: 12px Arial; }
+        .medium-text { font: 14px Arial; }
+        .large-text { font: 16px Arial; font-weight: bold; }
+        .title { font: bold 20px Arial; }
+    </style>
+
+    <!-- Title -->
+    <text x="400" y="30" class="title" text-anchor="middle">Kubernetes Node Sizing: Better Pod Packing Efficiency</text>
+
+    <!-- Small Nodes -->
+    <g transform="translate(50, 70)">
+        <rect x="0" y="0" width="300" height="380" fill="#e0e0e0" stroke="#000000" stroke-width="2"/>
+        <text x="150" y="400" class="large-text" text-anchor="middle">Small Nodes (4 CPU each)</text>
+
+        <!-- Node 1 -->
+        <g transform="translate(10, 10)">
+            <rect width="135" height="175" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+            <rect width="33.75" height="175" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+            <text x="16.875" y="90" class="small-text" text-anchor="middle" transform="rotate(-90, 16.875, 90)">1 CPU (OS)</text>
+            <rect x="33.75" width="101.25" height="87.5" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="84.375" y="50" class="medium-text" text-anchor="middle">2 CPU Pod</text>
+            <rect x="33.75" y="87.5" width="101.25" height="87.5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+            <text x="84.375" y="135" class="small-text" text-anchor="middle">1 CPU unused</text>
+        </g>
+
+        <!-- Node 2 -->
+        <g transform="translate(155, 10)">
+            <rect width="135" height="175" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+            <rect width="33.75" height="175" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+            <text x="16.875" y="90" class="small-text" text-anchor="middle" transform="rotate(-90, 16.875, 90)">1 CPU (OS)</text>
+            <rect x="33.75" width="101.25" height="87.5" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="84.375" y="50" class="medium-text" text-anchor="middle">2 CPU Pod</text>
+            <rect x="33.75" y="87.5" width="101.25" height="87.5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+            <text x="84.375" y="135" class="small-text" text-anchor="middle">1 CPU unused</text>
+        </g>
+
+        <!-- Node 3 -->
+        <g transform="translate(10, 195)">
+            <rect width="135" height="175" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+            <rect width="33.75" height="175" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+            <text x="16.875" y="90" class="small-text" text-anchor="middle" transform="rotate(-90, 16.875, 90)">1 CPU (OS)</text>
+            <rect x="33.75" width="101.25" height="87.5" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="84.375" y="50" class="medium-text" text-anchor="middle">2 CPU Pod</text>
+            <rect x="33.75" y="87.5" width="101.25" height="87.5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+            <text x="84.375" y="135" class="small-text" text-anchor="middle">1 CPU unused</text>
+        </g>
+
+        <!-- Node 4 -->
+        <g transform="translate(155, 195)">
+            <rect width="135" height="175" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+            <rect width="33.75" height="175" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+            <text x="16.875" y="90" class="small-text" text-anchor="middle" transform="rotate(-90, 16.875, 90)">1 CPU (OS)</text>
+            <rect x="33.75" width="101.25" height="87.5" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="84.375" y="50" class="medium-text" text-anchor="middle">2 CPU Pod</text>
+            <rect x="33.75" y="87.5" width="101.25" height="87.5" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+            <text x="84.375" y="135" class="small-text" text-anchor="middle">1 CPU unused</text>
+        </g>
+    </g>
+
+    <!-- Large Nodes -->
+    <g transform="translate(450, 70)">
+        <rect x="0" y="0" width="300" height="380" fill="#e0e0e0" stroke="#000000" stroke-width="2"/>
+        <text x="150" y="400" class="large-text" text-anchor="middle">Large Nodes (8 CPU each)</text>
+
+        <!-- Node 1 -->
+        <g transform="translate(10, 10)">
+            <rect width="280" height="175" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+            <rect width="35" height="175" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+            <text x="17.5" y="90" class="small-text" text-anchor="middle" transform="rotate(-90, 17.5, 90)">1 CPU (OS)</text>
+            <rect x="35" width="81.67" height="175" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="75.835" y="90" class="medium-text" text-anchor="middle" transform="rotate(-90, 75.835, 90)">2 CPU Pod</text>
+            <rect x="116.67" width="81.67" height="175" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="157.505" y="90" class="medium-text" text-anchor="middle" transform="rotate(-90, 157.505, 90)">2 CPU Pod</text>
+            <rect x="198.34" width="81.67" height="175" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="239.175" y="90" class="medium-text" text-anchor="middle" transform="rotate(-90, 239.175, 90)">2 CPU Pod</text>
+        </g>
+
+        <!-- Node 2 -->
+        <g transform="translate(10, 195)">
+            <rect width="280" height="175" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+            <rect width="35" height="175" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+            <text x="17.5" y="90" class="small-text" text-anchor="middle" transform="rotate(-90, 17.5, 90)">1 CPU (OS)</text>
+            <rect x="35" width="81.67" height="175" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="75.835" y="90" class="medium-text" text-anchor="middle" transform="rotate(-90, 75.835, 90)">2 CPU Pod</text>
+            <rect x="116.67" width="81.67" height="175" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="157.505" y="90" class="medium-text" text-anchor="middle" transform="rotate(-90, 157.505, 90)">2 CPU Pod</text>
+            <rect x="198.34" width="81.67" height="175" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="239.175" y="90" class="medium-text" text-anchor="middle" transform="rotate(-90, 239.175, 90)">2 CPU Pod</text>
+        </g>
+    </g>
+
+    <!-- Summary -->
+    <text x="200" y="490" class="medium-text" text-anchor="middle">Total: 4 pods (8 CPU used, 4 CPU wasted)</text>
+    <text x="600" y="490" class="medium-text" text-anchor="middle">Total: 6 pods (12 CPU used, 2 CPU for OS)</text>
+
+    <!-- Legend -->
+    <g transform="translate(50, 520)">
+        <rect x="0" y="0" width="20" height="20" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+        <text x="25" y="15" class="small-text">OS Reservation (1 CPU)</text>
+        <rect x="180" y="0" width="20" height="20" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+        <text x="205" y="15" class="small-text">2 CPU Pod</text>
+        <rect x="300" y="0" width="20" height="20" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+        <text x="325" y="15" class="small-text">Unused CPU</text>
+    </g>
+</svg>

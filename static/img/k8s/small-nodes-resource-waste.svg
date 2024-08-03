@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+    <!-- Small Nodes -->
+    <g transform="translate(50, 50)">
+        <rect x="0" y="0" width="300" height="300" fill="#e0e0e0" stroke="#000000" stroke-width="2"/>
+        <text x="150" y="320" font-family="Arial" font-size="16" text-anchor="middle">Multiple Small Nodes</text>
+
+        <!-- Node 1 -->
+        <rect x="10" y="10" width="85" height="135" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+        <rect x="15" y="15" width="75" height="25" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+        <text x="52.5" y="32" font-family="Arial" font-size="12" text-anchor="middle">OS</text>
+        <rect x="15" y="45" width="75" height="95" fill="#99ff99" stroke="#000000" stroke-width="1"/>
+        <text x="52.5" y="90" font-family="Arial" font-size="12" text-anchor="middle">Available</text>
+        <text x="52.5" y="106" font-family="Arial" font-size="12" text-anchor="middle">Resources</text>
+
+        <!-- Node 2 -->
+        <rect x="105" y="10" width="85" height="135" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+        <rect x="110" y="15" width="75" height="25" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+        <text x="147.5" y="32" font-family="Arial" font-size="12" text-anchor="middle">OS</text>
+        <rect x="110" y="45" width="75" height="95" fill="#99ff99" stroke="#000000" stroke-width="1"/>
+        <text x="147.5" y="90" font-family="Arial" font-size="12" text-anchor="middle">Available</text>
+        <text x="147.5" y="106" font-family="Arial" font-size="12" text-anchor="middle">Resources</text>
+
+        <!-- Node 3 -->
+        <rect x="200" y="10" width="85" height="135" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+        <rect x="205" y="15" width="75" height="25" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+        <text x="242.5" y="32" font-family="Arial" font-size="12" text-anchor="middle">OS</text>
+        <rect x="205" y="45" width="75" height="95" fill="#99ff99" stroke="#000000" stroke-width="1"/>
+        <text x="242.5" y="90" font-family="Arial" font-size="12" text-anchor="middle">Available</text>
+        <text x="242.5" y="106" font-family="Arial" font-size="12" text-anchor="middle">Resources</text>
+
+        <!-- Node 4 -->
+        <rect x="10" y="155" width="85" height="135" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+        <rect x="15" y="160" width="75" height="25" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+        <text x="52.5" y="177" font-family="Arial" font-size="12" text-anchor="middle">OS</text>
+        <rect x="15" y="190" width="75" height="95" fill="#99ff99" stroke="#000000" stroke-width="1"/>
+        <text x="52.5" y="235" font-family="Arial" font-size="12" text-anchor="middle">Available</text>
+        <text x="52.5" y="251" font-family="Arial" font-size="12" text-anchor="middle">Resources</text>
+
+        <!-- Node 5 -->
+        <rect x="105" y="155" width="85" height="135" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+        <rect x="110" y="160" width="75" height="25" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+        <text x="147.5" y="177" font-family="Arial" font-size="12" text-anchor="middle">OS</text>
+        <rect x="110" y="190" width="75" height="95" fill="#99ff99" stroke="#000000" stroke-width="1"/>
+        <text x="147.5" y="235" font-family="Arial" font-size="12" text-anchor="middle">Available</text>
+        <text x="147.5" y="251" font-family="Arial" font-size="12" text-anchor="middle">Resources</text>
+
+        <!-- Node 6 -->
+        <rect x="200" y="155" width="85" height="135" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+        <rect x="205" y="160" width="75" height="25" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+        <text x="242.5" y="177" font-family="Arial" font-size="12" text-anchor="middle">OS</text>
+        <rect x="205" y="190" width="75" height="95" fill="#99ff99" stroke="#000000" stroke-width="1"/>
+        <text x="242.5" y="235" font-family="Arial" font-size="12" text-anchor="middle">Available</text>
+        <text x="242.5" y="251" font-family="Arial" font-size="12" text-anchor="middle">Resources</text>
+    </g>
+
+    <!-- Large Nodes -->
+    <g transform="translate(450, 50)">
+        <rect x="0" y="0" width="300" height="300" fill="#e0e0e0" stroke="#000000" stroke-width="2"/>
+        <text x="150" y="320" font-family="Arial" font-size="16" text-anchor="middle">Fewer Large Nodes</text>
+
+        <!-- Node 1 -->
+        <rect x="10" y="10" width="280" height="135" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+        <rect x="15" y="15" width="270" height="20" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+        <text x="150" y="30" font-family="Arial" font-size="14" text-anchor="middle">OS</text>
+        <rect x="15" y="40" width="270" height="100" fill="#99ff99" stroke="#000000" stroke-width="1"/>
+        <text x="150" y="90" font-family="Arial" font-size="16" text-anchor="middle">Available Resources</text>
+
+        <!-- Node 2 -->
+        <rect x="10" y="155" width="280" height="135" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+        <rect x="15" y="160" width="270" height="20" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+        <text x="150" y="175" font-family="Arial" font-size="14" text-anchor="middle">OS</text>
+        <rect x="15" y="185" width="270" height="100" fill="#99ff99" stroke="#000000" stroke-width="1"/>
+        <text x="150" y="235" font-family="Arial" font-size="16" text-anchor="middle">Available Resources</text>
+    </g>
+
+    <!-- Legend -->
+    <g transform="translate(50, 400)">
+        <rect x="0" y="0" width="20" height="20" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+        <text x="25" y="15" font-family="Arial" font-size="14">OS Overhead</text>
+        <rect x="150" y="0" width="20" height="20" fill="#99ff99" stroke="#000000" stroke-width="1"/>
+        <text x="175" y="15" font-family="Arial" font-size="14">Available Resources</text>
+    </g>
+</svg>

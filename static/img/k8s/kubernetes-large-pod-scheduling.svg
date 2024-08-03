@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+    <style>
+        .small-text { font: 12px Arial; }
+        .medium-text { font: 14px Arial; }
+        .large-text { font: 16px Arial; font-weight: bold; }
+        .title { font: bold 20px Arial; }
+    </style>
+
+    <!-- Title -->
+    <text x="400" y="30" class="title" text-anchor="middle">Kubernetes Node Sizing: Scheduling Large Pods</text>
+
+    <!-- Small Nodes -->
+    <g transform="translate(50, 60)">
+        <rect x="0" y="0" width="300" height="180" fill="#e0e0e0" stroke="#000000" stroke-width="2"/>
+        <text x="150" y="200" class="large-text" text-anchor="middle">Small Nodes (4 CPU each)</text>
+
+        <!-- Node 1 -->
+        <g transform="translate(10, 10)">
+            <rect width="135" height="160" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+            <rect width="33.75" height="160" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+            <text x="16.875" y="85" class="small-text" text-anchor="middle" transform="rotate(-90, 16.875, 85)">1 CPU (OS)</text>
+            <rect x="33.75" width="101.25" height="160" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="84.375" y="85" class="medium-text" text-anchor="middle">3 CPU</text>
+            <text x="84.375" y="105" class="medium-text" text-anchor="middle">Available</text>
+        </g>
+
+        <!-- Node 2 -->
+        <g transform="translate(155, 10)">
+            <rect width="135" height="160" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+            <rect width="33.75" height="160" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+            <text x="16.875" y="85" class="small-text" text-anchor="middle" transform="rotate(-90, 16.875, 85)">1 CPU (OS)</text>
+            <rect x="33.75" width="101.25" height="160" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="84.375" y="85" class="medium-text" text-anchor="middle">3 CPU</text>
+            <text x="84.375" y="105" class="medium-text" text-anchor="middle">Available</text>
+        </g>
+
+        <!-- Unschedulable Pod -->
+        <g transform="translate(10, 180)">
+            <rect width="280" height="60" fill="#ff6666" stroke="#000000" stroke-width="2"/>
+            <text x="140" y="35" class="large-text" text-anchor="middle" fill="white">6 CPU Pod (Unschedulable)</text>
+        </g>
+    </g>
+
+    <!-- Large Nodes -->
+    <g transform="translate(450, 60)">
+        <rect x="0" y="0" width="300" height="180" fill="#e0e0e0" stroke="#000000" stroke-width="2"/>
+        <text x="150" y="200" class="large-text" text-anchor="middle">Large Node (8 CPU)</text>
+
+        <!-- Node 1 -->
+        <g transform="translate(10, 10)">
+            <rect width="280" height="160" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+            <rect width="35" height="160" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+            <text x="17.5" y="85" class="small-text" text-anchor="middle" transform="rotate(-90, 17.5, 85)">1 CPU (OS)</text>
+            <rect x="35" width="210" height="160" fill="#99ff99" stroke="#000000" stroke-width="1"/>
+            <text x="140" y="85" class="large-text" text-anchor="middle">6 CPU Pod</text>
+            <rect x="245" width="35" height="160" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+            <text x="262.5" y="85" class="small-text" text-anchor="middle" transform="rotate(-90, 262.5, 85)">1 CPU Available</text>
+        </g>
+    </g>
+
+    <!-- Legend -->
+    <g transform="translate(50, 350)">
+        <rect x="0" y="0" width="20" height="20" fill="#ff9999" stroke="#000000" stroke-width="1"/>
+        <text x="25" y="15" class="small-text">OS Reservation (1 CPU)</text>
+        <rect x="180" y="0" width="20" height="20" fill="#99ccff" stroke="#000000" stroke-width="1"/>
+        <text x="205" y="15" class="small-text">Available CPU</text>
+        <rect x="320" y="0" width="20" height="20" fill="#99ff99" stroke="#000000" stroke-width="1"/>
+        <text x="345" y="15" class="small-text">6 CPU Pod</text>
+        <rect x="440" y="0" width="20" height="20" fill="#ff6666" stroke="#000000" stroke-width="1"/>
+        <text x="465" y="15" class="small-text">Unschedulable Pod</text>
+    </g>
+</svg>
