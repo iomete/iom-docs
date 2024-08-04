@@ -189,6 +189,7 @@ const sidebars = {
         "k8s/private-docker-registry",
         "k8s/spark-executor-shuffle-storage-options",
         "k8s/sizing-nodes-in-kubernetes-for-iomete-installation",
+        "k8s/cpu-vs-vcpu",
       ],
     },
     {
