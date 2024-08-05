@@ -17,7 +17,9 @@ The IOMETE Platform interface is composed of the following sections:
 
   <Img src="/img/getting-started/platform-tour/dashboard-page.png" alt="Dashboards page"/>
 
-## Lakehouses page
+## Engine
+
+### Lakehouses page
 
 A **virtual lakehouse** is a cluster of compute resources that provide the required resources, such as CPU, memory to perform the querying processing.
 Before using the **SQL Editor**, you should create a lakehouse.
@@ -26,7 +28,25 @@ Before using the **SQL Editor**, you should create a lakehouse.
 
 For more details, see [Virtual Lakehouses](/docs/user-guide/virtual-lakehouses.md)
 
-## SQL Editor page
+### Spark Connect page
+
+**Spark Connect**, introduced in Apache Spark > 3.4, provides a decoupled client-server architecture for remote connectivity to Spark clusters using the DataFrame API. This separation allows Spark and its open ecosystem to be leveraged from various environments, including modern data applications, IDEs, Notebooks, and programming languages.
+
+<Img src="/img/getting-started/platform-tour/connect-cluster.png" alt="Connect cluster page"/>
+
+For more details, see [Spark Connect](/docs/user-guide/spark-connect.mdx)
+
+### Jupyter Kernels page
+
+Jupyter Notebook is a powerful tool for interactive data exploration and prototyping. By connecting to IOMETE's Jupyter Gateway you will be able to explore and analyze data stored in IOMETE's data lake directly from your local environment.
+
+<Img src="/img/getting-started/platform-tour/notebook-page.png" alt="Notebook page detail"/>
+
+For more details, see [Starting with Notebook](/docs/developer-guide/notebook/starting-with-notebook.mdx)
+
+## SQL
+
+### SQL Editor page
 
 The main components of the SQL Editor are highlighted below:
 
@@ -40,23 +60,48 @@ The main components of the SQL Editor are highlighted below:
 
 For more details, see [SQL Editor](/docs/user-guide/sql-editor.md)
 
-<!-- ## Connect clusters page
+### Query History page
 
-A **virtual lakehouse** is a cluster of compute resources that provide the required resources, such as CPU, memory to perform the querying processing.
+Query Histories track each query you run, adding it as a new item in the SQL history. You can revisit previous queries to view their results and reopen them in the active worksheet.
 
-<Img src="/img/getting-started/platform-tour/connect-cluster.png" alt="Connect clusters page"/> -->
+<Img src="/img/getting-started/platform-tour/query-history-page.png" alt="Query History  page"/>
 
-<!-- For more details, see [Connect clusters](/docs/user-guide/virtual-lakehouses.md). -->
+For more details, see [Query History](/user-guide/sql-editor#query-histories)
 
-## Spark Jobs page
+## Applications
+
+### Spark Applications page
+
+The Spark Applications page provides a centralized view of all Spark applications across various jobs, visualized with interactive charts. Users can filter applications by time range, user, status, or tags to efficiently monitor and analyze performance. This comprehensive view aids in tracking application progress, identifying issues, and optimizing resource usage.
+
+<Img src="/img/getting-started/platform-tour/spark-applications.png" alt="Spark Applications page"/>
+
+### Job Templates page
 
 IOMETE offers [PySpark quickstart template for AWS](https://github.com/iomete/spark-job-template) or [PySpark quickstart template for GCP](https://github.com/iomete/spark-job-template-gcp) helping you kickstart your first Spark Job. Follow the README instructions to use the template, which includes a sample job reading a CSV file from an S3 bucket, applying transformations, and writing the output to an Iceberg Table. Use it as a starting point for your custom jobs.
 
-<Img src="/img/getting-started/platform-tour/spark-jobs-page.png" alt="Spark jobs page"/>
+<Img src="/img/getting-started/platform-tour/job-templates.png" alt="Spark jobs page"/>
 
 For more details, see [Spark job](/docs/developer-guide/spark-job/getting-started.md)
 
-## Data security page
+## Governance
+
+### Search
+
+The data catalog interface offers metadata for all tables.
+You can easily filter by _Schemas_, _Table type_, _Provider_ and _Tags_, and use the search function to find what you need. Additionally, you have the option to bookmark tables for quick access.
+
+<Img src="/img/getting-started/platform-tour/catalog-search.png" alt="Data catalog page"/>
+
+### Data Explorer page
+
+The Catalog Explorer page allows you to view and manage all catalogs, namespaces, and tables with ease. You can register or snapshot tables and access detailed information, including table details, partition information, column data, and snapshots.
+
+<Img src="/img/getting-started/platform-tour/data-explorer-page.png" alt="Data Explorer page"/>
+
+<Img src="/img/getting-started/platform-tour/explorer-snapshots.png" alt="Data Explorer page"/>
+
+### Data security page
 
 Data security at IOMETE is maintained through access control using a user interface for consistent administration. Security admins set policies for databases, tables, and columns, managing permissions for groups or users. IOMETE offers the following types of data security.
 
@@ -65,22 +110,3 @@ Data security at IOMETE is maintained through access control using a user interf
 - **Row-level filtering** limits who can see certain rows in a database.
 
 For more details, see [Data security overview](/docs/user-guide/data-security/overview.mdx)
-
-## Data catalog page
-
-The data catalog interface offers metadata for all tables.
-You can easily filter by _Schemas_, _Table type_, _Provider_ and _Tags_, and use the search function to find what you need. Additionally, you have the option to bookmark tables for quick access.
-
-<Img src="/img/getting-started/platform-tour/data-catalog-page.png" alt="Data catalog page"/>
-
-In the detailed view of a table, you can view comprehensive information such as Created time, Updated time, Last sync time, Table type, Table owner, Tags, Description, and Columns. For more convenience, you can edit table tags, owner, and description. Similarly, you can edit column tags and descriptions. This user-friendly interface allows you to manage and customize the information according to your needs.
-
-<Img src="/img/getting-started/platform-tour/data-catalog-page-detail.png" alt="Data catalog page detail"/>
-
-## Notebook
-
-Jupyter Notebook is a powerful tool for interactive data exploration and prototyping. By connecting to IOMETE's Jupyter Gateway you will be able to explore and analyze data stored in IOMETE's data lake directly from your local environment.
-
-<Img src="/img/getting-started/platform-tour/notebook-page.png" alt="Notebook page detail"/>
-
-For more details, see [Starting with Notebook](/docs/developer-guide/notebook/starting-with-notebook.mdx)
