@@ -10,6 +10,10 @@ last_update:
 import Img from '@site/src/components/Img';
 
 
+## IOMETE Release 1.19.1  
+- Optimized performance of spark-operator for handling large numbers of Spark job submissions.  
+
+
 ## IOMETE Release 1.19.0  
 - Restuctured sidebar menu in the IOMETE Console.
   <Img src="/img/getting-started/release-notes/sidebar.png" alt="Sidebar"/>
