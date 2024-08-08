@@ -89,7 +89,7 @@ module documentation.
 - You want to define additional administrators,
   see [Define additional administrators](aws-advanced-settings#define-additional-administrators) for more details.
 - Your AWS Account is using EBS encryption,
-  see [EBS Encryption by Default](aws-advanced-settings#ebs-encryption-by-default) for more details.
+  see [EBS Encryption by Default](aws-advanced-settings#using-ebs-encryption) for more details.
   :::
 
 ### Apply Terraform
