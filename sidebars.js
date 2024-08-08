@@ -110,6 +110,7 @@ const sidebars = {
         "user-guide/ldap-configuration",
         "user-guide/node-types",
         "user-guide/volumes",
+        "user-guide/secrets",
         "user-guide/api-reference",
       ],
     },

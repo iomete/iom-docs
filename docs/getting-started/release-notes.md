@@ -11,6 +11,10 @@ import Img from '@site/src/components/Img';
 
 <!-- <div className="klaviyo-form-Yfg5Ly"></div> -->
 
+## IOMETE Patch 1.19.2
+
+- Added resource limits to kubernetes pod for new `spark-submit-service`
+
 ## IOMETE Release 1.19.1
 
 - Optimized performance of spark-operator for handling large numbers of Spark job submissions.
