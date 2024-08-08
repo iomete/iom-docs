@@ -8,9 +8,10 @@
 }
 
 html[data-theme='light'] {
-    --docsearch-searchbox-shadow: inset 0 0 0 1px var(--c-indigo-30);
-
-    --search-keys-border-c: var(--c-indigo-20);
+    & {
+        --docsearch-searchbox-shadow: inset 0 0 0 1px var(--c-indigo-30);
+        --search-keys-border-c: var(--c-indigo-20);
+    }
 
     .DocSearch-Button {
         &:hover {
@@ -20,9 +21,10 @@ html[data-theme='light'] {
 }
 
 html[data-theme='dark'] {
-    --docsearch-searchbox-shadow: inset 0 0 0 1px var(--c-gray-90);
-
-    --search-keys-border-c: var(--c-gray-80);
+    & {
+        --docsearch-searchbox-shadow: inset 0 0 0 1px var(--c-gray-90);
+        --search-keys-border-c: var(--c-gray-80);
+    }
 
     .DocSearch-Button {
         &:hover {
@@ -46,32 +48,38 @@ html[data-theme='dark'] {
     }
 
     .DocSearch-Button {
-        width: 100%;
-        min-width: 120px;
-        border-radius: 8px;
-        box-shadow: var(--docsearch-searchbox-shadow);
+        & {
+            width: 100%;
+            min-width: 120px;
+            border-radius: 8px;
+            box-shadow: var(--docsearch-searchbox-shadow);
+        }
 
         .DocSearch-Button-Keys {
-            min-width: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            & {
+                min-width: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
 
-            padding: 0.125rem;
-            border: 1px solid var(--search-keys-border-c);
-            border-radius: 6px;
+                padding: 0.125rem;
+                border: 1px solid var(--search-keys-border-c);
+                border-radius: 6px;
+            }
 
             .DocSearch-Button-Key {
-                position: static;
-                margin-inline-end: 0;
-                padding-block-end: 0;
+                & {
+                    position: static;
+                    margin-inline-end: 0;
+                    padding-block-end: 0;
 
-                width: auto;
+                    width: auto;
 
-                color: var(--c-indigo-50);
-                border-radius: 0;
+                    color: var(--c-indigo-50);
+                    border-radius: 0;
 
-                font-weight: 400;
+                    font-weight: 400;
+                }
 
                 // Targets the `CMD/CTRL` symbol
                 &:first-child {
@@ -99,16 +107,18 @@ html[data-theme='dark'] {
 }
 
 .DocSearch-Button {
-    --docsearch-searchbox-background: transparent;
-    --docsearch-searchbox-height: 2.25rem;
-    --docsearch-searchbox-focus-background: transparent;
+    & {
+        --docsearch-searchbox-background: transparent;
+        --docsearch-searchbox-height: 2.25rem;
+        --docsearch-searchbox-focus-background: transparent;
 
-    --docsearch-key-gradient: transparent;
-    --docsearch-key-shadow: none;
-    border-radius: 5px !important;
+        --docsearch-key-gradient: transparent;
+        --docsearch-key-shadow: none;
+        border-radius: 5px !important;
 
-    width: 100%;
-    min-width: 120px;
+        width: 100%;
+        min-width: 120px;
+    }
 
     .DocSearch-Search-Icon {
         color: var(--docsearch-muted-color) !important;
@@ -120,9 +130,11 @@ html[data-theme='dark'] {
 }
 
 html[data-theme='dark'] {
-    --docsearch-searchbox-shadow: inset 0 0 0 1px var(--c-gray-90);
+    & {
+        --docsearch-searchbox-shadow: inset 0 0 0 1px var(--c-gray-90);
 
-    --search-keys-border-c: var(--c-gray-80);
+        --search-keys-border-c: var(--c-gray-80);
+    }
 
     .DocSearch-Button {
         &:hover {

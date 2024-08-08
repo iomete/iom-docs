@@ -41,18 +41,21 @@ html[data-theme='dark'] {
 }
 
 .theme-admonition {
-    position: relative;
-    border: none;
+    & {
+        position: relative;
+        border: none;
 
-    --ifm-alert-color: var(--ifm-font-color-base);
-    --ifm-alert-padding-horizontal: 2rem;
-    --ifm-alert-padding-vertical: 1.5rem;
+        --ifm-alert-color: var(--ifm-font-color-base);
+        --ifm-alert-padding-horizontal: 2rem;
+        --ifm-alert-padding-vertical: 1.5rem;
+    }
 
     [class^='admonitionHeading_'] {
-        text-transform: capitalize;
-
-        font-size: 1rem;
-        line-height: 1.4;
+        & {
+            text-transform: capitalize;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
 
         [class^='admonitionIcon_'] {
             display: none;

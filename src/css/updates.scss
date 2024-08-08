@@ -3,8 +3,10 @@
 }
 
 .theme-doc-sidebar-container .menu {
-    padding: 1.15rem 1.15rem 2rem 1.15rem;
-    font-weight: 400;
+    & {
+        padding: 1.15rem 1.15rem 2rem 1.15rem;
+        font-weight: 400;
+    }
 
     ul.menu__list .menu__list-item {
         &>a {
@@ -34,11 +36,15 @@
 }
 
 .tabs {
-    border-bottom: 1px solid var(--ifm-table-border-color);
+    & {
+        border-bottom: 1px solid var(--ifm-table-border-color);
+    }
 
     &__item {
-        border-radius: 4px;
-        padding: 8px 16px;
+        & {
+            border-radius: 4px;
+            padding: 8px 16px;
+        }
 
         &--active {
             border-bottom-left-radius: 0;

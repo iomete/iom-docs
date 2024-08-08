@@ -4,17 +4,22 @@
 
 //overrides
 #__docusaurus {
+
   //#region ------------ DocItem -------------
-  display: flex;
-  justify-content: center;
-
-  [class*="docItemCol_"] {
-    max-width: initial;
-    min-width: 0;
-
+  & {
     display: flex;
     justify-content: center;
-    min-width: 0;
+  }
+
+  [class*="docItemCol_"] {
+    & {
+      max-width: initial;
+      min-width: 0;
+
+      display: flex;
+      justify-content: center;
+      min-width: 0;
+    }
 
     @media (min-width: 997px) {
       max-width: initial !important;
@@ -45,9 +50,9 @@
       }
     }
 
-    > .container {
-      > .row {
-        > .col {
+    >.container {
+      >.row {
+        >.col {
           //   display: flex;
           //   justify-content: center;
           //   min-width: 0;
@@ -68,7 +73,9 @@
     }
 
     .spacer {
-      flex-basis: 5rem;
+      & {
+        flex-basis: 5rem;
+      }
 
       @media (max-width: 996px) {
         display: none;

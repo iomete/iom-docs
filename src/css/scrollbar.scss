@@ -1,5 +1,7 @@
 .thin-scrollbar::-webkit-scrollbar {
-    width: 6px;
+    & {
+        width: 6px;
+    }
 
     &-track {
         background: unset;
@@ -7,9 +9,12 @@
     }
 
     &-thumb {
-        background: #ddd;
-        width: 2px;
-        visibility: hidden;
+        & {
+            background: #ddd;
+            width: 2px;
+            visibility: hidden;
+
+        }
 
         &:hover {
             background: rgba(0, 0, 0, 0.2);
@@ -19,7 +24,9 @@
 
 
 .theme-doc-sidebar-container {
-    border-right: 1px solid var(--ifm-table-border-color) !important;
+    & {
+        border-right: 1px solid var(--ifm-table-border-color) !important;
+    }
 
     &:hover .thin-scrollbar::-webkit-scrollbar-thumb {
         visibility: visible;

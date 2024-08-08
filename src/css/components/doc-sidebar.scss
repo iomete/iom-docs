@@ -32,16 +32,19 @@ html[data-theme="dark"] {
 //overrides
 #__docusaurus {
   .theme-doc-sidebar-container {
-    background: var(--token-primary-bg-c);
+    & {
+      background: var(--token-primary-bg-c);
 
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    border-inline-end: 1px solid var(--sidebar-border-c);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-inline-end: 1px solid var(--sidebar-border-c);
+    }
 
     [class^="sidebarViewport"] {
+
       // Targets the logo
-      > a {
+      >a {
         display: flex;
         align-items: center;
         height: var(--ifm-navbar-height);
@@ -53,16 +56,18 @@ html[data-theme="dark"] {
   }
 
   [class^="sidebar_"] {
-    position: static;
+    & {
+      position: static;
 
-    overflow-y: auto;
+      overflow-y: auto;
 
-    padding-inline-start: var(--sidebar-spacing-horizontal);
-    padding-inline-end: var(--sidebar-spacing-horizontal);
+      padding-inline-start: var(--sidebar-spacing-horizontal);
+      padding-inline-end: var(--sidebar-spacing-horizontal);
 
-    padding-block-start: 5rem;
+      padding-block-start: 5rem;
+    }
 
-    > .menu {
+    >.menu {
       overflow-x: initial;
       padding-block-end: 2rem;
       padding: 0;
@@ -73,28 +78,28 @@ html[data-theme="dark"] {
     display: none !important;
   }
 
-  .theme-doc-sidebar-item-category-level-1 > .menu__list {
+  .theme-doc-sidebar-item-category-level-1>.menu__list {
     /* removes indentation from first level categories */
     padding: 0;
   }
 
   .menu__list {
-    display: block !important;
-    transition: height 0.35s cubic-bezier(0.36, 0.66, 0.04, 1) 25ms !important;
-    will-change: initial !important;
+    & {
+      display: block !important;
+      transition: height 0.35s cubic-bezier(0.36, 0.66, 0.04, 1) 25ms !important;
+      will-change: initial !important;
 
-    margin-top: 0;
+      margin-top: 0;
+    }
 
-    .menu__list {
-      .menu__link--sublist {
-        margin-inline-start: calc(
-          -1 * (var(--dropdown-icon-width) + var(--dropdown-icon-gap))
-        );
+    .menu__list .menu__link--sublist {
+      & {
+        margin-inline-start: calc(-1 * (var(--dropdown-icon-width) + var(--dropdown-icon-gap)));
+      }
 
-        &::after {
-          // The chevron icon will have less opacity when it's not on the first level.
-          opacity: 0.6;
-        }
+      &::after {
+        // The chevron icon will have less opacity when it's not on the first level.
+        opacity: 0.6;
       }
     }
 
@@ -102,13 +107,11 @@ html[data-theme="dark"] {
       &:not(:first-child) {
         margin-block-start: 0;
       }
-      .menu__list {
-        .menu__link {
-          padding-inline-start: calc(
-            var(--dropdown-icon-width) + var(--dropdown-icon-gap)
-          );
-        }
+
+      .menu__list .menu__link {
+        padding-inline-start: calc(var(--dropdown-icon-width) + var(--dropdown-icon-gap));
       }
+
       &-collapsible {
         // This allows the item to be clickable across the entire width of the sidebar.
         display: block;
@@ -116,9 +119,7 @@ html[data-theme="dark"] {
     }
   }
 
-  .theme-doc-sidebar-item-category-level-1
-    > .menu__list
-    > .menu__list-item:last-of-type {
+  .theme-doc-sidebar-item-category-level-1>.menu__list>.menu__list-item:last-of-type {
     padding-block-end: 1rem;
   }
 
@@ -127,22 +128,25 @@ html[data-theme="dark"] {
   }
 
   .menu__link {
-    font-weight: 500;
-    font-size: 0.813rem;
-    line-height: 16px;
-    /* identical to box height */
+    & {
+      font-weight: 500;
+      font-size: 0.813rem;
+      line-height: 16px;
+      /* identical to box height */
 
-    display: flex;
-    align-items: center;
-    letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      letter-spacing: -0.01em;
 
-    transition: opacity 0.2s ease-out;
+      transition: opacity 0.2s ease-out;
+    }
 
     &:not(.menu__link--active:not(.menu__link--sublist)) {
       background: initial;
     }
 
     &:not(.menu__link--active):not(.menu__link--sublist) {
+
       &:hover,
       &:active,
       &:focus {
@@ -153,19 +157,20 @@ html[data-theme="dark"] {
 
   .menu__link--sublist,
   .menu__list-item-collapsible {
-    padding-inline-start: 0;
-    padding-inline-end: 0;
+    & {
+      padding-inline-start: 0;
+      padding-inline-end: 0;
 
-    margin-block-end: 0;
+      margin-block-end: 0;
 
-    display: flex;
-    align-items: center;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
+      display: flex;
+      align-items: center;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
 
     &::after {
-      background: var(--ifm-menu-link-sublist-icon) center /
-        var(--dropdown-icon-width) var(--dropdown-icon-height);
+      background: var(--ifm-menu-link-sublist-icon) center / var(--dropdown-icon-width) var(--dropdown-icon-height);
       background-repeat: no-repeat;
 
       min-width: auto;
@@ -182,7 +187,7 @@ html[data-theme="dark"] {
   }
 
   .theme-doc-sidebar-item-category-level-1 {
-    & > .menu__list-item-collapsible {
+    &>.menu__list-item-collapsible {
       .menu__link {
         color: var(--sidebar-category-c);
 

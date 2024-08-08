@@ -17,7 +17,7 @@ html[data-theme="dark"] {
   --code-block-bg-c: #2b343f;
 }
 
-:not(pre) > code {
+:not(pre)>code {
   position: relative;
   margin-block-start: -0.125rem;
   background-color: inherit;
@@ -42,6 +42,7 @@ html[data-theme="dark"] {
   //   border-radius: var(--ifm-code-border-radius);
   // }
 }
+
 code {
   border: none !important;
 
@@ -49,10 +50,8 @@ code {
 }
 
 // Overrides
-#__docusaurus {
-  [class*="codeBlockContainer_"] {
-    box-shadow: none;
-  }
+#__docusaurus [class*="codeBlockContainer_"] {
+  box-shadow: none;
 }
 
 /**
@@ -92,7 +91,7 @@ pre[class*="language-"] {
 }
 
 /* Inline code */
-:not(pre) > code[class*="language-"] {
+:not(pre)>code[class*="language-"] {
   padding: 0.15em 0.2em 0.05em;
   border-radius: 0.3em;
   border: 0.13em solid hsl(30, 20%, 40%);
@@ -122,7 +121,7 @@ pre[class*="language-"] {
 
 .token.tag.punctuation,
 .token.tag.class-name,
-.token.tag.punctuation + .token.tag:not(.attr-value):not([class*="language-"]) {
+.token.tag.punctuation+.token.tag:not(.attr-value):not([class*="language-"]) {
   color: #2b90ff;
 }
 
@@ -168,6 +167,7 @@ pre[class*="language-"] {
 .token.bold {
   font-weight: bold;
 }
+
 .token.italic {
   font-style: italic;
 }
