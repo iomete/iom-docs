@@ -1,45 +1,46 @@
 ---
-title: Virtual Lakehouses
-description: Learn how to create and manage virtual lakehouses in IOMETE, including cluster creation, scaling, and isolation of workloads for optimized performance and cost savings.
+title: Spark Connect Clusters
+description: Learn how to utilize the provided PySpark scripts and notebook to connect to a Spark Connect cluster hosted on IOMETE for efficient data processing and analysis.
 last_update:
-  date: 08/05/2024
+  date: 08/08/2024
   author: Vugar Dadalov
 ---
 
+import { GithubLogo } from "@phosphor-icons/react";
+import Card from "@site/src/components/Card";
 import GridBox from "@site/src/components/GridBox";
 import Img from '@site/src/components/Img';
 
-A virtual **lakehouse** is a cluster of compute resources that provide the required resources, such as CPU, memory to perform the querying processing. Table data files are stored in cloud data storage (S3) as a shared data storage that allows multiple virtual lakehouse clusters to share the same data while isolating compute. IOMETE uses Apache Spark as a data lakehouse query engine with ACID support
+In Apache Spark > 3.4, Spark Connect introduced a decoupled client-server architecture that allows remote connectivity to Spark clusters using the DataFrame API and unresolved logical plans as the protocol. The separation between client and server allows Spark and its open ecosystem to be leveraged from everywhere. It can be embedded in modern data applications, in IDEs, Notebooks and programming languages.
 
 ---
 
-:::info
-In production environments, it is often required to isolate workloads, for example, to avoid the overhead of batch ETL jobs on ad-hoc analytical queries. Since data is decoupled and shared from virtual lakehouse, it enables the creation of multiple lakehouse clusters to isolate the workloads and turn on/off clusters based on requirements to save costs. Cluster size can be defined based on requirements and workloads.
-:::
+## **Create a new Connect Cluster**
 
-## **Create a new Lakehouse**
+**1.** Go to the **Spark Connect** and click the `Create` button
 
-**1.** Go to the **Lakehouses** and click the `Create` button
-<Img src="/img/user-guide/virtual-lakehouse/lakehouses.png" alt="Lakehouses"/>
-<br />
+<Img src="/img/user-guide/spark-connect/clusters.png" alt="Spark Connect Clusters" />
 
-**2.** Give the new lakehouse a name under **Name**.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-create.png"  alt="Create" maxWidth="600px"/>
-<br />
+**2.** Give the new cluster a name under **Name**.
+<Img
+  src="/img/user-guide/spark-connect/cluster-create.png"
+  alt="Create"
+  maxWidth="600px"
+/>
 
 **3.** Select driver, under the **Node driver** section. Learn how to create a [custom Node type](./node-types.md).
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-driver-select.png" alt="Driver select" maxWidth="500px" />
 
 :::info Node driver
-The Node driver runs continuously, managing executors/workers, and connections until manually stopped. If it stops, no new connections to the lakehouse can be made. It acts as the control center, orchestrating all tasks.
+The Node driver runs continuously, managing executors/workers, and connections until manually stopped. If it stops, no new connections to the cluster can be made. It acts as the control center, orchestrating all tasks.
 :::
-<br />
 
+<br />
 **4.** Select the type of executor from the **Node executor** section and enter the number of executors in the **Executor count** section. Below these inputs, you'll see a real-time preview of Total **CPU and memory**. This helps you choose the right number and type of executors, ensuring you allocate enough resources for your workload. [Read more](https://spark.apache.org/docs/latest/cluster-overview.html) about spark executors.
 
 <GridBox>
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor-select.png" alt="Executor select" maxWidth="500px" />
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor.png" alt="Executor count" maxWidth="500px" />
+  <Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor-select.png" alt="Executor select" maxWidth="500px" />
+  <Img src="/img/user-guide/virtual-lakehouse/lakehouse-executor.png" alt="Executor count" maxWidth="500px" />
 </GridBox>
 
 :::info Node executor
@@ -47,8 +48,13 @@ The Node Executor is responsible for executing queries and processing data. It s
 :::
 <br />
 
-**5.** Select volume, under the **Volume** section. [Read more](./volumes.md) about volumes.
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-volume-select.png" alt="Volume select" maxWidth="500px" />
+**5.** Select volume, under the **Volume** section. [Read more](./volumes.md) about volumes.
+
+<Img
+  src="/img/user-guide/virtual-lakehouse/lakehouse-volume-select.png"
+  alt="Volume select"
+  maxWidth="500px"
+/>
 
 **6.** Set Auto suspend under **Auto suspend** section. By clicking checkbox in the left side we can **disabled Auto suspend** functionality.
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-auto-suspend.png" alt="Auto suspend" maxWidth="500px" />
@@ -64,30 +70,33 @@ Executors will be scaled down after the specified time of inactivity. Executors 
 
 <br />
 
-🎉 🎉🎉 **Tadaa**! The newly created **test-lakehouse** details view is shown.
+🎉 🎉🎉 **Tadaa**! The newly created **test-cluster** details view is shown.
 
-## **Lakehouse details**
+## **Cluster details**
 
-The Lakehouse Detail View in our application provides a comprehensive overview and management options for a specific lakehouse instance.
+The Cluster Detail View in our application provides a comprehensive overview and management options for a specific cluster instance.
 
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-info.png" alt="Lakehouse info" />
+<Img
+  src="/img/user-guide/spark-connect/cluster-details.png"
+  alt="Spark Connect Cluster info"
+/>
 
 ### Navigation buttons
 
 The header of the Detail View includes the following elements:
 
 1. **Spark UI link:** This link redirects users to the Spark UI for real-time metrics and logs.
-2. **Configure:** Opens the configuration settings for the lakehouse, enabling users to modify its parameters and settings.
-3. **Start:** Starts the lakehouse instance if it is not already running. If the instance is already running, this button will be replaced with `Restart` and `Terminate`.
-4. **Restart:** Restarts the lakehouse instance to apply new configurations or resolve issues by stopping and then starting it.
-5. **Terminate:** This button stops the lakehouse instance and terminates all associated processes and jobs. You can start the instance again if needed.
-6. **Delete:** Permanently deletes the lakehouse instance.
+2. **Configure:** Opens the configuration settings for the cluster, enabling users to modify its parameters and settings.
+3. **Start:** Starts the cluster instance if it is not already running. If the instance is already running, this button will be replaced with `Restart` and `Terminate`.
+4. **Restart:** Restarts the cluster instance to apply new configurations or resolve issues by stopping and then starting it.
+5. **Terminate:** This button stops the cluster instance and terminates all associated processes and jobs. You can start the instance again if needed.
+6. **Delete:** Permanently deletes the cluster instance.
 
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-navigation-buttons.png" alt="Start/Stop/Delete" />
+<Img src="/img/user-guide/spark-connect/cluster-navigation-buttons.png" alt="Start/Stop/Delete" />
 
 ### General informations
 
-Under the header, there is a card displaying the following information about the lakehouse.
+Under the header, there is a card displaying the following information about the Spark Connect.
 
 #### Auto suspend
 
@@ -128,18 +137,9 @@ You're only billed for Executors when they're in the `Running` state.
 
 ### Connections
 
-In this section we may observe various connections details in this part. **IOMETE** supports the following types of connections:
+In the **Connections** section, you can copy the **endpoint** for the connection.
 
-- Python Connection
-- JDBC Connection
-- [DBT Connection](/docs/integrations/dbt/getting-started-with-iomete-dbt.md)
-- [Tableau Connection](/docs/integrations/bi/tableau.md)
-- [Power BI Connection](/docs/integrations/bi/power-bi.md)
-- [Superset Connection](/docs/integrations/bi/apache-superset.md)
-- [Metabase Connection](/docs/integrations/bi/metabase.md)
-- [Redash Connection](/docs/integrations/bi/redash.md)
-
-<Img src="/img/user-guide/virtual-lakehouse/lakehouse-connections.png" alt="connections" />
+<Img src="/img/user-guide/spark-connect/cluster-connection.png" alt="Connections" />
 
 ### Spark logs
 
@@ -155,3 +155,14 @@ Kubernetes events are only stored for a duration of one hour by default. After t
 
 In this section we may check your lakehouse's **Start**/**Terminate** events.
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-activity.png" alt="Resource activity" maxWidth="600px" />
+
+---
+
+<Card
+title="Spark Connect Quickstart Guide"
+icon={<GithubLogo />}
+link="https://github.com/iomete/spark-connect-quickstart">
+Jumpstart your journey with Spark Connect by using our Quickstart Guide. This
+repository includes hands-on PySpark Python and notebook examples, along with
+detailed instructions on how to use Spark Connect in your projects.
+</Card>
