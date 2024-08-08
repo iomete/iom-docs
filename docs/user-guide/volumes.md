@@ -48,7 +48,7 @@ If selected type is **On Demand PVC:**
 
 ### Using volumes
 
-You can utilize node types in [Lakehouses](./virtual-lakehouses.md), [Spark Connect Clusters](./spark-connect.mdx) and [Spark Jobs](../developer-guide/spark-job/getting-started.md).
+You can utilize node types in [Lakehouses](./virtual-lakehouses.md), [Spark Connect Clusters](./spark-connect.md) and [Spark Jobs](../developer-guide/spark-job/getting-started.md).
 Let's navigate to the [Lakehouse create](./virtual-lakehouses.md#create-a-new-lakehouse) page. Here, you'l find options for `Volume` which include volume selections.
 
 <Img src="/img/user-guide/volumes/select-volume.png" alt="Lakehouse Volume select" maxWidth="600px"/>

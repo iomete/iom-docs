@@ -34,7 +34,7 @@ For more details, see [Virtual Lakehouses](/docs/user-guide/virtual-lakehouses.m
 
 <Img src="/img/getting-started/platform-tour/connect-cluster.png" alt="Connect cluster page"/>
 
-For more details, see [Spark Connect](/docs/user-guide/spark-connect.mdx)
+For more details, see [Spark Connect](/docs/user-guide/spark-connect.md)
 
 ### Jupyter Kernels page
 

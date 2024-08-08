@@ -34,7 +34,7 @@ To create new node type, click the <button className="button button--primary but
 
 ### Using node types
 
-You can utilize node types in [Lakehouses](./virtual-lakehouses.md), [Spark Connect Clusters](./spark-connect.mdx) and [Spark Jobs](../developer-guide/spark-job/getting-started.md).
+You can utilize node types in [Lakehouses](./virtual-lakehouses.md), [Spark Connect Clusters](./spark-connect.md) and [Spark Jobs](../developer-guide/spark-job/getting-started.md).
 Let's navigate to the [Lakehouse create](./virtual-lakehouses.md#create-a-new-lakehouse) page. Here, you'l find options for `Node driver` and `Node executor`, which include node type selections. You can also view the Total CPU and Memory based on the selected executor and executor count.
 
 <Img src="/img/user-guide/node-types/lakehouse-node-type-select.png" alt="Lakehouse Node type select" maxWidth="600px"/>
@@ -44,7 +44,8 @@ The node type select dropdown looks like this.
 
 ## Internal Implementation
 
-When a user specifies a CPU and Memory for a node, IOMETE internally sets the driver and executor resource parameters in the Spark Operator as described below:   
+When a user specifies a CPU and Memory for a node, IOMETE internally sets the driver and executor resource parameters in the Spark Operator as described below:
+
 - `cores`: Minimum is 1. When using more than 1000m we are adding the 50% overhead to gain performance for IO intensive operations. So, for example, 2000m CPU will be calculated as 3 cores.
 - `coreLimit`: Set to the specified CPU limit value.
 - `coreRequest`: Set to the specified CPU limit value.
@@ -53,9 +54,8 @@ When a user specifies a CPU and Memory for a node, IOMETE internally sets the dr
 Currently, it is not possible to change those values for the lakehouse. But for spark job you can override `spark.driver.cores` and `spark.executor.cores` values by adding them to spark config section.
 
 Both `spark.kubernetes.{driver,executor}.request.cores` and `spark.kubernetes.{driver,executor}.limit.cores`  
-set to the same value ensures the driver and executor pods are getting the exact CPU allocated, avoiding resource contention and ensuring stable performance. 
+set to the same value ensures the driver and executor pods are getting the exact CPU allocated, avoiding resource contention and ensuring stable performance.
 The same logic applies to the memory request and limit.
-
 
 ### Performance Benchmarking
 
