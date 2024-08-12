@@ -14,12 +14,12 @@ import Img from '@site/src/components/Img';
 
 ---
 
-## **IOMETE Spark Jobs UI**
+## **Spark Job Templates**
 
 <Img src="/img/user-guide/spark-jobs/spark-jobs.png" alt="Spark Jobs"/>
 <br />
 
-## **Creating Spark Jobs in IOMETE**
+## **Create a new Spark Job**
 
 There are two methods to create Spark jobs within the IOMETE platform:
 
