@@ -7,7 +7,7 @@ const Feedback = ({ label }) => {
   const [haveVoted, setHaveVoted] = useState(false);
   const useDom = useIsBrowser();
 
-  if (!useDom) return;
+  if (!useDom || !window.gtag) return;
 
   const giveFeedback = (value) => {
     if (window.gtag) {

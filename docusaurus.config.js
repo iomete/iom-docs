@@ -113,10 +113,10 @@ const config = {
         googleTagManager: {
           containerId: "GTM-W4ZH33W",
         },
-        // gtag: {
-        //   trackingID: "G-YMX75JE2MY",
-        //   anonymizeIP: false,
-        // },
+        gtag: {
+          trackingID: "G-YMX75JE2MY",
+          anonymizeIP: false,
+        },
         sitemap: {
           changefreq: "weekly",
           priority: 0.5,
