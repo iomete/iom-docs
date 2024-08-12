@@ -18,16 +18,21 @@
 }
 
 .CardLink :global(.card) {
-  box-shadow: none !important;
-  border: none !important;
+  & {
+    box-shadow: none !important;
+    border: none !important;
+    background-color: transparent;
+  }
 
   @media (min-width: 768px) {
     &.FeaturedCard {
-      flex-direction: row;
-      margin-bottom: 24px !important;
-      align-items: start !important;
+      & {
+        flex-direction: row;
+        margin-bottom: 24px !important;
+        align-items: start !important;
 
-      column-gap: 48px;
+        column-gap: 48px;
+      }
 
       .CardBody {
         max-width: 50%;
@@ -53,14 +58,15 @@
     }
   }
 
-  background-color: transparent;
-
   :global(.card__image img) {
     width: 100%;
   }
 
   :global(.card__body) {
-    padding: 0px 0px 56px 0px;
+    & {
+      padding: 0px 0px 56px 0px;
+    }
+
     .CardDate {
       font-size: 14px;
       font-weight: 500;
@@ -68,10 +74,13 @@
     }
 
     .CardTags {
-      color: var(--ifm-color-emphasis-700);
-      display: flex;
-      gap: 8px;
-      padding: 6px 0 12px 0;
+      & {
+        color: var(--ifm-color-emphasis-700);
+        display: flex;
+        gap: 8px;
+        padding: 6px 0 12px 0;
+      }
+
       small {
         background-color: var(--ifm-color-emphasis-200);
         font-size: 12px;
@@ -93,8 +102,10 @@
     }
 
     :global(.avatar) {
-      align-items: center;
-      column-gap: 8px;
+      & {
+        align-items: center;
+        column-gap: 8px;
+      }
 
       :global(.avatar__photo) {
         width: 24px;

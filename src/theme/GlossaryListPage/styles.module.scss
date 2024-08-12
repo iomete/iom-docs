@@ -11,18 +11,22 @@
 }
 
 .Tags {
-  cursor: pointer;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
+  & {
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
 
   .TagLink {
-    border-radius: 4px;
-    font-size: 12px;
-    padding: 4px 8px;
+    & {
+      border-radius: 4px;
+      font-size: 12px;
+      padding: 4px 8px;
 
-    color: var(--ifm-color-emphasis-800);
-    background-color: var(--ifm-color-emphasis-200);
+      color: var(--ifm-color-emphasis-800);
+      background-color: var(--ifm-color-emphasis-200);
+    }
 
     &.Active,
     &:hover {
@@ -33,27 +37,31 @@
 }
 
 .Search {
-  display: flex;
-  align-items: center;
-  max-width: 100%;
-  width: 100%;
-  position: relative;
+  & {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+  }
 
   input {
-    width: 100%;
-    padding: 12px;
+    & {
+      width: 100%;
+      padding: 12px;
 
-    @media (max-width: 768px) {
-      padding: 8px;
+      @media (max-width: 768px) {
+        padding: 8px;
+      }
+
+      padding-right: 32px;
+      border-radius: 5px;
+      border: 1px solid var(--ifm-color-emphasis-300);
+      background-color: transparent;
+
+      font-size: 18px;
+      outline: unset;
     }
-
-    padding-right: 32px;
-    border-radius: 5px;
-    border: 1px solid var(--ifm-color-emphasis-300);
-    background-color: transparent;
-
-    font-size: 18px;
-    outline: unset;
 
     &:hover,
     &:focus-visible {
@@ -74,7 +82,9 @@
 }
 
 .CardRow {
-  row-gap: 12px;
+  & {
+    row-gap: 12px;
+  }
 
   .CardLink,
   .CardLink:hover {
@@ -83,7 +93,9 @@
   }
 
   .CardLink .Card {
-    border-radius: 6px;
+    & {
+      border-radius: 6px;
+    }
 
     &:hover {
       background-color: var(--ifm-color-emphasis-100);

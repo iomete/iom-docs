@@ -84,7 +84,9 @@ html[data-theme="dark"] {
             }
 
             &--active {
-              color: var(--navbar-active-border-color) !important;
+              & {
+                color: var(--navbar-active-border-color) !important;
+              }
 
               &::after {
                 background: var(--ifm-link-color);
@@ -139,7 +141,9 @@ html[data-theme="dark"] {
         }
 
         svg {
-          margin-inline-start: 0.125rem;
+          & {
+            margin-inline-start: 0.125rem;
+          }
 
           &[class^="iconExternalLink"] {
             display: none;

@@ -1,8 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 .HeroContainer {
-  max-width: 830px !important;
-  padding: 0;
+  & {
+    max-width: 830px !important;
+    padding: 0;
+  }
 
   h1 {
     font-weight: 500;
@@ -26,8 +28,10 @@
   }
 
   a {
-    text-decoration: none !important;
-    color: unset !important;
+    & {
+      text-decoration: none !important;
+      color: unset !important;
+    }
 
     :hover {
       text-decoration: none !important;

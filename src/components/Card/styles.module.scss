@@ -3,14 +3,16 @@ html[data-theme="dark"] .Card:hover {
 }
 
 .Card {
-  background-color: var(--ifm-card-background-color);
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 4px;
+  & {
+    background-color: var(--ifm-card-background-color);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
 
-  padding: 20px 20px;
-  margin-bottom: 16px;
+    padding: 20px 20px;
+    margin-bottom: 16px;
 
-  cursor: pointer;
+    cursor: pointer;
+  }
 
   &:hover {
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04);
@@ -23,10 +25,12 @@ html[data-theme="dark"] .Card:hover {
   }
 
   .Wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 20px;
+    & {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 20px;
+    }
 
     .Icon {
       color: #0070f3;

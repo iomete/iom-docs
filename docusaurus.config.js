@@ -99,6 +99,7 @@ const config = {
           blogTitle: "IOMETE Blog",
           blogDescription:
             "Modern lakehouse platform. Save 5x over expensive alternatives | Built on Apache Iceberg and Apache Spark | Cloud, on premise and hybrid solutions.",
+          onUntruncatedBlogPosts: 'ignore'
         },
 
         theme: {

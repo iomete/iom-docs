@@ -1,12 +1,14 @@
 .Feedback {
-  // background-color: #f5f7f9;
-  margin-top: 48px;
-  padding: 12px;
-  border-radius: 6px;
+  & {
+    // background-color: #f5f7f9;
+    margin-top: 48px;
+    padding: 12px;
+    border-radius: 6px;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   .FeedbackCard {
     border: 1px solid var(--ifm-color-info-contrast-background);
@@ -25,10 +27,13 @@
   }
 
   .Action {
-    border: none;
-    cursor: pointer;
-    margin: 0 12px;
-    transform: scale(1);
+    & {
+      border: none;
+      cursor: pointer;
+      margin: 0 12px;
+      transform: scale(1);
+    }
+
     :hover {
       animation: anim 0.5s ease-in-out;
       -webkit-animation: anim 0.5s ease-in-out;
@@ -46,7 +51,6 @@
 
   .Iconx svg {
     color: var(--ifm-color-primary);
-
     margin-right: 6px;
     line-height: 22px;
     vertical-align: text-bottom;

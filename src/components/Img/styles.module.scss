@@ -1,6 +1,8 @@
 .imgContainer {
-  margin-bottom: 32px;
-  width: fit-content;
+  & {
+    margin-bottom: 32px;
+    width: fit-content;
+  }
 
   &.imgCentered {
     margin-left: auto;

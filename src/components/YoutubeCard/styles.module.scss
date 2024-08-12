@@ -14,10 +14,12 @@ object {
 
 // Give the video a 16:9 aspect ratio
 .VideoContainer {
-  position: relative;
-  overflow: hidden;
-  height: 0;
-  padding-bottom: 56.25%;
+  & {
+    position: relative;
+    overflow: hidden;
+    height: 0;
+    padding-bottom: 56.25%;
+  }
 
   iframe,
   object,
