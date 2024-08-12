@@ -3,7 +3,7 @@ title: Users
 description: Discover how to create and control user accounts, set permissions, and join a group.
 last_update:
   date: 03/02/2024
-  author: Vugar Dadalov
+  author: Nurlan Mammadov
 ---
 
 import { Plus } from "@phosphor-icons/react";
@@ -23,7 +23,7 @@ To create new user click the <button className="button button--primary button-io
 
 <div className="row">
   <div className="col col--6">
-    <Img src="/img/user-guide/users/user-create-fill-inputs.png" alt="User create filled inputs" maxWidth="600px"/>
+    <Img src="/img/user-guide/users/user-create-fill.png" alt="User create filled inputs" maxWidth="600px"/>
   </div>
   <div className="col col--6">
     <Img src="/img/user-guide/users/user-created.png" alt="User create" maxWidth="600px"/>
