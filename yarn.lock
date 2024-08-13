@@ -1233,7 +1233,7 @@
     "@docsearch/css" "3.6.1"
     algoliasearch "^4.19.1"
 
-"@docusaurus/core@^2.0.0-beta || ^3.0.0-alpha", "@docusaurus/core@^3.4.0", "@docusaurus/core@3.5.1":
+"@docusaurus/core@^2.0.0-beta || ^3.0.0-alpha", "@docusaurus/core@^3.5.1", "@docusaurus/core@3.5.1":
   version "3.5.1"
   resolved "https://registry.npmjs.org/@docusaurus/core/-/core-3.5.1.tgz"
   integrity sha512-N3+9IbGI2jbkiRc6ZbEnU9dC02nHQXi8ivM1VJldkPQyP7WlyHXS+NDhmL3rwaYOMbGH96X2LcKigCKg7pEEqg==
@@ -1355,7 +1355,7 @@
     vfile "^6.0.1"
     webpack "^5.88.1"
 
-"@docusaurus/module-type-aliases@^3.4.0", "@docusaurus/module-type-aliases@3.5.1":
+"@docusaurus/module-type-aliases@^3.5.1", "@docusaurus/module-type-aliases@3.5.1":
   version "3.5.1"
   resolved "https://registry.npmjs.org/@docusaurus/module-type-aliases/-/module-type-aliases-3.5.1.tgz"
   integrity sha512-SKKdA5RnvZr3pvFXkxtfsBVNgflRGa/bN1HbNi+1s0HNVYPuhB9DFC/CrKe2OoOfUXx7F7k2gg0Jg9gJYDy4rA==
@@ -1368,7 +1368,7 @@
     react-helmet-async "*"
     react-loadable "npm:@docusaurus/react-loadable@6.0.0"
 
-"@docusaurus/plugin-client-redirects@^3.4.0":
+"@docusaurus/plugin-client-redirects@^3.5.1":
   version "3.5.1"
   resolved "https://registry.npmjs.org/@docusaurus/plugin-client-redirects/-/plugin-client-redirects-3.5.1.tgz"
   integrity sha512-0At2RdS+7gDA25IMQROp4CcKx526jfER7bsna0EdWtPkC+rimSwxcxEHy0A+7xkBuUPh4SZNNuPVJAnYnvggrA==
@@ -1383,7 +1383,7 @@
     lodash "^4.17.21"
     tslib "^2.6.0"
 
-"@docusaurus/plugin-content-blog@^3.4.0", "@docusaurus/plugin-content-blog@3.5.1":
+"@docusaurus/plugin-content-blog@^3.5.1", "@docusaurus/plugin-content-blog@3.5.1":
   version "3.5.1"
   resolved "https://registry.npmjs.org/@docusaurus/plugin-content-blog/-/plugin-content-blog-3.5.1.tgz"
   integrity sha512-aPmrMV5cDa2QUZ+kPVJID5O6r+ZuLFtHEyneVl9AgryL/9ECudhtpTUdmdnmapnWfUzSSgqYRZ1JtydGLheSzw==
@@ -1502,7 +1502,7 @@
     sitemap "^7.1.1"
     tslib "^2.6.0"
 
-"@docusaurus/preset-classic@^3.4.0":
+"@docusaurus/preset-classic@^3.5.1":
   version "3.5.1"
   resolved "https://registry.npmjs.org/@docusaurus/preset-classic/-/preset-classic-3.5.1.tgz"
   integrity sha512-afDMZoNYxdloJ7qJJbd3Lmv9uYXKKsEAOtvnvu2945kqe1LUGIIwOo1nMAKgB9y21E5FEvWKnla0MvkMraumZA==
@@ -1600,21 +1600,7 @@
     fs-extra "^11.1.1"
     tslib "^2.6.0"
 
-"@docusaurus/types@*", "@docusaurus/types@^3.0.0", "@docusaurus/types@3.0.1":
-  version "3.0.1"
-  resolved "https://registry.npmjs.org/@docusaurus/types/-/types-3.0.1.tgz"
-  integrity sha512-plyX2iU1tcUsF46uQ01pAd4JhexR7n0iiQ5MSnBFX6M6NSJgDYdru/i1/YNPKOnQHBoXGLHv0dNT6OAlDWNjrg==
-  dependencies:
-    "@types/history" "^4.7.11"
-    "@types/react" "*"
-    commander "^5.1.0"
-    joi "^17.9.2"
-    react-helmet-async "^1.3.0"
-    utility-types "^3.10.0"
-    webpack "^5.88.1"
-    webpack-merge "^5.9.0"
-
-"@docusaurus/types@3.5.1":
+"@docusaurus/types@*", "@docusaurus/types@^3.0.0", "@docusaurus/types@^3.5.1", "@docusaurus/types@3.5.1":
   version "3.5.1"
   resolved "https://registry.npmjs.org/@docusaurus/types/-/types-3.5.1.tgz"
   integrity sha512-IXTGQBoXAGFliGF5Cn3F+gSGskgzAL8+4y6dDY1gcePA0r8WngHj8oovS1YPv+b9JOff32nv8YGGZITHOMXJsA==
@@ -8294,7 +8280,7 @@ svgo@^3.0.2, svgo@^3.2.0:
     csso "^5.0.5"
     picocolors "^1.0.0"
 
-tailwindcss@^3.4.8:
+tailwindcss@^3.4.9:
   version "3.4.9"
   resolved "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.4.9.tgz"
   integrity sha512-1SEOvRr6sSdV5IDf9iC+NU4dhwdqzF4zKKq3sAbasUWHEM6lsMhX+eNN5gkPx1BvLFEnZQEUFbXnGj8Qlp83Pg==

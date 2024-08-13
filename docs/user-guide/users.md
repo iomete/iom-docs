@@ -44,7 +44,7 @@ After sign in you will be redirected `Update Password` page. Set a new password 
 
 That's it! The user account is now ready.
 
-<Img src="/img/user-guide/users/users2.png" alt="Users" />
+<!-- <Img src="/img/user-guide/users/users2.png" alt="Users" /> -->
 
 ## Details
 
@@ -52,7 +52,6 @@ That's it! The user account is now ready.
 
 ### General informations
 
-The general information section includes `Name`, `Username`, `Email`, `Created at` and an `Edit` button.
 Click the `Edit` button to modify the `First name` and `Last name`.
 
 <Img src="/img/user-guide/users/user-edit.png" alt="User edit" maxWidth="400px"/>
@@ -64,19 +63,25 @@ Find out how to create and assign roles for [more details.](/user-guide/roles#ro
 
 <Img src="/img/user-guide/users/user-roles.png" alt="User roles" />
 
-:::info Effective roles
-Effective roles depend on group memberships, not direct assignments to a user.
-:::
-
 ### Assigned groups
 
 The `Assigned groups` section displays the groups the user is in. You can add or remove the user from a group.
 
-<div className="row">
+<Img src="/img/user-guide/users/user-groups.png" alt="User groups" />
+
+<!-- <div className="row">
   <div className="col col--6">
     <Img src="/img/user-guide/users/user-groups.png" alt="User groups" maxWidth="600px"/>
   </div>
   <div className="col col--6">
     <Img src="/img/user-guide/users/user-group-assign.png" alt="User group assign" maxWidth="600px"/>
   </div>
-</div>
+</div> -->
+
+### Effective roles
+
+<Img src="/img/user-guide/users/effective-roles.png" alt="User effective roles" />
+
+:::info Effective roles
+Effective roles depend on group memberships, not direct assignments to a user.
+:::
