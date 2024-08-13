@@ -24,11 +24,9 @@ In the role create page contains following inputs:
 
 - `Name`
 - `Description`
-- `Permissions` that covering areas such as Lakehouse, Spark Connect, Spark Jobs, Users, Groups, Roles, Data Security, and Data Catalog.
+- `Permissions` that covering areas such as **Lakehouse**, **Spark Connect**, **Spark Jobs**, **Jupyter Notebook**, **Data Governance**, **Settings**, **Secrets**.
 
 <Img src="/img/user-guide/roles/role-create.png"  alt="Role create" />
-
-<Img src="/img/user-guide/roles/add-permission.png"  alt="Role permission select"  maxWidth="400px"/>
 
 ### Permissions Overview
 
@@ -42,17 +40,9 @@ Each permission includes the following access levels:
 
 - **Can Attach**: Grants permission to attach roles to users, roles to groups, users to groups, etc.
 
-To activate a specific access item, simply check the related checkbox. The default setting is **(All)** for each access item. However, you can customize options for everything except _Can list_ and _Can create_ as needed.
+To activate a specific access item, simply check the related checkbox. The default setting is **(All)** for each access item. However, you can customize options for everything except _View_ and _Manage_ as needed.
 
-<div className="row">
-  <div className="col col--8">
-    <Img src="/img/user-guide/roles/role-create-filled.png"  alt="Role create inputs"  maxWidth="600px"/>
-  </div>
-  <div className="col col--4">
-    <Img src="/img/user-guide/roles/access-can-view.png"  alt="Role permission can view"  maxWidth="400px"/>
-    <Img src="/img/user-guide/roles/access-can-attach.png"  alt="Role permission can attach"  maxWidth="400px"/>
-  </div>
-</div>
+<Img src="/img/user-guide/roles/access-can-view.png"  alt="Role permission can view"  />
 
 ### Assign role
 
@@ -60,10 +50,10 @@ After creating a role, go to the user list and click on a user to whom you want 
 
 <div className="row">
   <div className="col col--6">
-    <Img src="/img/user-guide/roles/user-detail.png"  alt="Assign Role to user view"  maxWidth="600px"/>
+    <Img src="/img/user-guide/roles/user-details.png"  alt="Assign Role to user view"  maxWidth="800px"/>
   </div>
   <div className="col col--6">
-    <Img src="/img/user-guide/roles/role-assign-to-user.png"  alt="Assign Role to user"  maxWidth="600px"/>
+    <Img src="/img/user-guide/roles/user-assigned-roles.png"  alt="Assign Role to user"  maxWidth="800px"/>
   </div>
 </div>
 
