@@ -34,6 +34,35 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "Deployment",
+      collapsed: false,
+      items: [
+        {
+          type: "category",
+          label: "On-Premises",
+          collapsed: true,
+          items: [
+            "deployment/on-prem/install",
+            "deployment/on-prem/minio-deployment",
+            "deployment/on-prem/release-notes"
+          ],
+        },
+        {
+          type: "category",
+          label: "Advanced Settings",
+          collapsed: true,
+          items: [
+            "deployment/configure-ingress",
+            "deployment/configure-custom-dns",
+            "deployment/backend-databases",
+            "deployment/life-cycle-management",
+            "deployment/truststore",
+          ],
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Community Deployment",
       collapsed: false,
       items: [
@@ -66,24 +95,7 @@ const sidebars = {
             "community-deployment/gcp/install",
             "community-deployment/gcp/uninstall",
           ],
-        },
-        {
-          type: "category",
-          label: "On-Premises",
-          collapsed: true,
-          items: ["community-deployment/on-prem/install"],
-        },
-        {
-          type: "category",
-          label: "Advanced Settings",
-          collapsed: true,
-          items: [
-            "deployment/configure-ingress",
-            "deployment/configure-custom-dns",
-            "deployment/backend-databases",
-            "deployment/life-cycle-management",
-          ],
-        },
+        }
       ],
     },
   ],

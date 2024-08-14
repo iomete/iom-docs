@@ -1,5 +1,5 @@
 ---
-title: Configure ISTIO Ingress Gateway
+title: Configure ISTIO Ingress
 sidebar_label: Configure Ingress
 description: Configure ISTIO as an ingress controller on a Kubernetes cluster and configure it for use with IOMETE
 last_update:
@@ -7,14 +7,42 @@ last_update:
   author: Vusal Dadalov
 ---
 
-For AWS, GCP, and Azure deployments, terraform script is already deployed ISTIO as an ingress controller. You need to configure the ISTIO ingress gateway to access the IOMETE Data Plane UI.
+This guide walks you through the process of installing ISTIO as an ingress controller on a Kubernetes cluster and configuring it for use with IOMETE.
+
+## Deploying ISTIO
+
+:::note
+For AWS, GCP, and Azure deployments, terraform script is already deployed ISTIO as an ingress controller. If that's the case, you can skip this section.
+:::
+
+### Adding the ISTIO Helm Repository
+
+```shell
+helm repo add istio https://istio-release.storage.googleapis.com/charts
+helm repo update
+```
+
+### Deploy ISTIO Components via Helm
+
+Execute these commands to install the necessary ISTIO components:
+
+```shell
+helm upgrade --install -n istio-system base istio/base --version 1.17.2
+helm upgrade --install -n istio-system istiod istio/istiod --version 1.17.2
+helm upgrade --install -n istio-system istio-ingress istio/gateway --version 1.17.2
+```
 
 ## Configuring the Gateway
+
+You need to configure the ISTIO ingress gateway to access the IOMETE Data Plane UI.
 
 ---
 ### For HTTP (Non-TLS Mode)
 
 Apply the following configuration for an HTTP gateway:
+
+
+Required file: [gateway-http.yaml](https://github.com/iomete/iomete-deployment/blob/main/istio-ingress/gateway-http.yaml)
 
 ```shell showLineNumbers
 # Download the HTTP gateway configuration:
@@ -77,6 +105,8 @@ data:
 #### Deploy the HTTPS Gateway
 
 After creating the secret, apply the HTTPS gateway configuration. If you use a different secret name, update the `tls-secret` value in the gateway-https.yaml file.
+
+Required file: [gateway-https.yaml](https://github.com/iomete/iomete-deployment/blob/main/istio-ingress/gateway-https.yaml)
 
 ```shell showLineNumbers
 # Download the HTTPS gateway configuration:

@@ -13,7 +13,7 @@ export const guides = [
     title: "On-Premise Deployment Guide",
     description: "Setup IOMETE for On-Prem lakehouse",
     icon: <HouseLine size={32} />,
-    url: "/community-deployment/on-prem/install",
+    url: "/deployment/on-prem/install",
   },
   {
     title: "AWS Deployment Guide",
