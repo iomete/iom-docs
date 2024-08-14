@@ -55,6 +55,7 @@ const sidebars = {
             "deployment/configure-ingress",
             "deployment/configure-custom-dns",
             "deployment/backend-databases",
+            "deployment/postgresql-deployment",
             "deployment/life-cycle-management",
             "deployment/truststore",
           ],
