@@ -150,6 +150,7 @@ const sidebars = {
         "developer-guide/spark-job/iomete-sdk",
         "developer-guide/spark-job/airflow",
         "developer-guide/spark-job/nessie-integration",
+        "developer-guide/spark-job/spark-logging",
       ],
     },
     {
