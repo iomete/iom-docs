@@ -43,3 +43,21 @@ For the password field, you should use the Access Token key generated in the IOM
 After successfully connecting to the lakehouse, in the `Database Navigator` you can see the list of tables and views available in the lakehouse as in the screenshot below.
 
 <Img src="/img/database-drivers/dbeaver/explorer.png" alt="Database Navigator" />
+
+## Known issues
+
+Below is a list of known issues you may encounter when using DBeaver with the IOMETE JDBC driver. These issues are on our roadmap and will be addressed in future releases.
+
+:::note Schema Selection Error
+When selecting an active schema from the top menu, DBeaver may throw an error indicating that the schema is not found.  
+
+<Img src="/img/database-drivers/dbeaver/dbeaver-active-schema.png" alt="Selecting Active Schema" />
+<Img src="/img/database-drivers/dbeaver/dbeaver-error.png" alt="Schema not found error" />
+
+There are two ways to workaround this issue:
+1. Use the `USE` statement to switch between schemas.
+2. Using fully qualified table names, e.g. `catalog_name.schema_name.table_name`.
+
+<Img src="/img/database-drivers/dbeaver/dbeaver-approaches.png" alt="Approaches" />
+
+:::
