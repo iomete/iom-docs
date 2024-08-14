@@ -61,3 +61,16 @@ There are two ways to workaround this issue:
 <Img src="/img/database-drivers/dbeaver/dbeaver-approaches.png" alt="Approaches" />
 
 :::
+  
+
+:::note DBeaver Fully Qualified Table Names
+
+Currently, DBeaver does not include catalog in the fully qualified table names. This may cause issues when querying tables from different catalogs. Especially when working with Database Navigator, when you copy or drag tables to the SQL editor, DBeaver does not include the catalog name which cause the query to fail with TABLE_NOT_FOUND error.
+
+Similarly, you can workaround this issue by:
+1. Using the `USE` statement to switch when working with catalogs.
+2. Using fully qualified table names, e.g. `catalog_name.schema_name.table_name`.
+
+<Img src="/img/database-drivers/dbeaver/dbeaver-approaches.png" alt="Approaches" />
+
+:::
