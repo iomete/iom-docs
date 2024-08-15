@@ -62,6 +62,9 @@ Group roles will have an impact on the users within this group.
 
 ### Delete group
 
-You can delete the group by using the `Delete group` button at the bottom.
-
+You can delete the group by selecting `Delete` from the header actions dropdown
 <Img src="/img/user-guide/groups/group-delete.png" alt="Delete role" maxWidth="600px"/>
+
+or from the actions dropdown in the table section.
+
+<Img src="/img/user-guide/groups/table-group-delete.png" alt="Delete role" maxWidth="600px"/>
