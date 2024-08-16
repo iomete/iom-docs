@@ -2,13 +2,12 @@
 title: Data Compaction Job
 description: IOMETE provides built-in job to run data compactions for iceberg tables that slow down over the time and require to run data compaction to clean up tables
 last_update:
-  date: 08/24/2023
+  date: 08/16/2024
   author: Vugar Dadalov
 ---
 
 import FlexButton from "@site/src/components/FlexButton";
 import Img from "@site/src/components/Img";
-import { Cpu, Plus } from "@phosphor-icons/react";
 
 ---
 
@@ -22,30 +21,36 @@ IOMETE provides built-in job to run data compactions for each table. This job tr
 
 To enable data compaction spark job follow the next steps:
 
-1. In the left sidebar menu choose <FlexButton label='Spark Jobs'><Cpu size={20} color='#858c9c' weight="duotone"/></FlexButton>
-2. Click <FlexButton label='Create' primary><Plus size={16} /></FlexButton> for a new job
+1. Navigate to the `Job Templates`, then click the `Deploy` button on the **Data Compaction Job** card.
 
-<Img src="/img/spark-job/job-lis-create.png" alt="IOMETE Spark Jobs" />
+<Img
+  src="/img/spark-job/data-compaction/data-compaction-card.png"
+  alt="IOMETE Spark Jobs"
+/>
 
-3. Fill the form with below values:
+2. You will see the job creation page with all inputs filled.
 
-| Field name                                                                           | Value                               |
-| ------------------------------------------------------------------------------------ | ----------------------------------- |
-| Schedule (example will run job every Sunday at 12:00, feel free to change the value) | 0 12 \* \* SUN                      |
-| Docker image                                                                         | iomete/iomete_data_compaction:0.2.0 |
-| Main application file                                                                | local:///app/driver.py              |
-| Main class                                                                           | Leave empty                         |
-| Instance: Size (ICU) (feel free to increase)                                         | 2                                   |
+<Img
+  src="/img/spark-job/data-compaction/data-compaction-create-general.png"
+  alt="Create data compaction job"
+  maxWidth="550px"
+/>
 
-See example screenshot below
+**Job Configurations**
 
-<Img src="/img/spark-job/spark-job-data-compaction-deployment.png" alt="Create data compaction job" />
+<Img
+  src="/img/spark-job/data-compaction/data-compaction-create-conf.png"
+  alt="Data compaction job configurations"
+  maxWidth="550px"
+/>
 
-Job instance
+**Instance**
 
-<Img src="/img/spark-job/spark-job-instance.png" alt="Data compaction job instance" />
-
-<br />
+<Img
+  src="/img/spark-job/data-compaction/data-compaction-create-instance.png"
+  alt="Data compaction job instance"
+  maxWidth="550px"
+/>
 
 ### Github
 
