@@ -44,18 +44,23 @@ The node type select dropdown looks like this.
 
 ## Internal Implementation
 
-When a user specifies a CPU and Memory for a node, IOMETE internally sets the driver and executor resource parameters in the Spark Operator as described below:
+When a user specifies a CPU and Memory for a node, IOMETE internally sets the driver (`spark.driver`) and executor (`spark.executor`) parameters in the Spark as described below:
 
-- `cores`: Minimum is 1. When using more than 1000m we are adding the 50% overhead to gain performance for IO intensive operations. So, for example, 2000m CPU will be calculated as 3 cores.
-- `coreLimit`: Set to the specified CPU limit value.
-- `coreRequest`: Set to the specified CPU limit value.
-- `memory`: Set to the specified memory limit value.
+| Parameter     | Description                                                                                         |
+| ------------- | --------------------------------------------------------------------------------------------------- |
+| `cores`       | CPU * 1.5 (`spark.iomete.coreFactor=1.5`). The value is always rounded to the nearest whole number. |
+| `coreLimit`   | Set to the specified CPU limit value.                                                               |
+| `coreRequest` | Set to the specified CPU limit value.                                                               |
+| `memory`      | Set to the specified memory limit value.                                                            |
 
-Currently, it is not possible to change those values for the lakehouse. But for spark job you can override `spark.driver.cores` and `spark.executor.cores` values by adding them to spark config section.
 
-Both `spark.kubernetes.{driver,executor}.request.cores` and `spark.kubernetes.{driver,executor}.limit.cores`  
-set to the same value ensures the driver and executor pods are getting the exact CPU allocated, avoiding resource contention and ensuring stable performance.
-The same logic applies to the memory request and limit.
+:::note Core Factor
+The 50% overhead is the default value set by `spark.iomete.coreFactor=1.5`, which can be overridden globally (in **Global Spark Settings** page) or for each Spark job by setting the `spark.iomete.coreFactor` in the **Spark config** section. This parameter accepts a number in decimal format and is used as a multiplier to the actual CPU size.
+:::
+
+:::note Requests and Limits
+Both `spark.kubernetes.{driver,executor}.request.cores` and `spark.kubernetes.{driver,executor}.limit.cores` (also the **memory** config) are set to the same value. This ensures the driver and executor pods are getting the exact CPU allocated, avoiding resource contention and ensuring stable performance.
+:::
 
 ### Performance Benchmarking
 
