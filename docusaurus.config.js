@@ -59,12 +59,12 @@ const config = {
   // },
 
   // scripts: ["/js/heap.js"],
-  // scripts: [
-  //   {
-  //     src: 'https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=VWBbac',
-  //     async: true,
-  //   },
-  // ],
+  scripts: [
+    {
+      src: 'https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=VWBbac',
+      async: true,
+    },
+  ],
   themes: ["docusaurus-theme-github-codeblock"],
 
   presets: [
