@@ -9,7 +9,9 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-<div className="klaviyo-form-UjycyW"></div>
+<section className="doc-klaviyo">
+  <div className="klaviyo-form-UjycyW"></div>
+</section>
 
 ### 1.19.2
 

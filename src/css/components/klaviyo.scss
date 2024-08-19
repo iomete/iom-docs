@@ -1,0 +1,51 @@
+.doc-klaviyo {
+    & {
+        min-height: 196px;
+    }
+
+    form input[id^="email_"] {
+        border-radius: 4px !important;
+        // border-color: var(--ifm-blockquote-border-color) !important;
+        outline: unset !important;
+    }
+
+    button {
+        & {
+            border-radius: 4px !important;
+        }
+
+        &:hover {
+            background-color: var(--ifm-color-emphasis-900) !important;
+        }
+    }
+}
+
+
+html[data-theme='dark'] .doc-klaviyo form {
+    & {
+        background: var(--ifm-background-surface-color) !important;
+        border-color: var(--ifm-blockquote-border-color) !important;
+    }
+
+    p>span {
+        color: var(--ifm-color-emphasis-800) !important;
+    }
+
+    input[id^="email_"],
+    input[id^="email_"]:hover,
+    input[id^="email_"]:visited,
+    input[id^="email_"]:focus-visible {
+        border-color: var(--ifm-blockquote-border-color) !important;
+        color: var(--ifm-color-emphasis-600) !important;
+    }
+
+    button {
+        & {
+            background-color: var(--ifm-color-emphasis-200) !important;
+        }
+
+        &:hover {
+            background-color: var(--ifm-color-emphasis-300) !important;
+        }
+    }
+}
