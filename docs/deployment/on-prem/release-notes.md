@@ -8,12 +8,9 @@ last_update:
 ---
 
 import Img from '@site/src/components/Img';
+import ReleaseTitle from '@site/src/components/ReleaseTitle';
 
-<section className="doc-klaviyo">
-  <div className="klaviyo-form-UjycyW"></div>
-</section>
-
-### `1.20.0  Release`
+<ReleaseTitle version="1.20.0" date="August 26, 2024" title="Multi-Namespace, Secret Management" />
 
 - Centralized Secret Management: Users can now create and manage secrets centrally from the settings page and inject them into Spark applications. Supports integration with Kubernetes and HashiCorp Vault for storing secrets. Learn more [here](https://iomete.com/resources/user-guide/secrets).  
 - Added Logs Panel for Spark Connect.  
@@ -24,15 +21,13 @@ import Img from '@site/src/components/Img';
 - JDBC Catalog Support: Introduced support for JDBC Catalog, allowing connections to a wider array of databases.  
 - Catalog-Level Access Control: Security improvements now allow access control to be managed at the catalog level for more granular permissions management.  
 
-### `1.19.2  Patch`
 
-- Added resource limits to kubernetes pod for new `spark-submit-service`
-
-### `1.19.1  Patch`
+<ReleaseTitle version="1.19.2" date="August 5, 2024" title="Spark Submission Performance" />
 
 - Optimized performance of spark-operator for handling large numbers of Spark job submissions.
 
-### `1.19.0  Release`
+
+<ReleaseTitle version="1.19.0" date="July 31, 2024" title="Spark Applications, Reuse PVC Options" />
 
 - Restuctured sidebar menu in the IOMETE Console.
   <Img src="/img/getting-started/release-notes/sidebar.png" alt="Sidebar"/>
@@ -41,7 +36,8 @@ import Img from '@site/src/components/Img';
 - **Persistent Volume Claim (PVC) Options**: When creating a Volume, you can now choose the "Reuse Persistent Volume Claim" and "Wait to Reuse Persistent Volume Claim" options on a per-PVC basis. This feature allows for customized volume configurations for different lakehouse and Spark resources, providing greater flexibility and control over resource management.
   <Img src="/img/getting-started/release-notes/volumes-reusable-pvc.png" alt="PVC Volume"/>
 
-### `1.18.0  Release`
+
+<ReleaseTitle version="1.18.0" date="July 16, 2024" title="SQL Editor Improvements, Fixed Integrations" />
 
 - Fixed issue with `explain ...` sql statement.
 - Added cell expand to the SQL Editor result grid. You can double click on the cell with multi-line value to expand it.
@@ -49,7 +45,8 @@ import Img from '@site/src/components/Img';
 - Fixed issue with DBeaver and Power BI integrations.
 - UI / Design improvements in SQL Editor.
 
-### `1.17.0  Release`
+
+<ReleaseTitle version="1.17.0" date="July 8, 2024" title="Data Explorer, SQL Editor Improvements" />
 
 - Fixed issue where nessie catalog displayed wrong list of databases/tables in the SQL Explorer
 - Launched beta version of Data-Catalog Explorer (Available in the Data-Catalog menu: from right-top side choose Explorer)
@@ -64,7 +61,7 @@ import Img from '@site/src/components/Img';
 - Improved Cron editor in Spark Job configuration
 - Overall design improvements: slowly moving to a more compact design
 
-### `1.16.0  Release`
+<ReleaseTitle version="1.16.0" date="July 1, 2024" title="Nessie Catalog" />
 
 - 🆕 Added Nessie catalog support `Beta`
 - 🛠 Updated spark-operator with performance optimizations and bug fixes
@@ -77,7 +74,7 @@ import Img from '@site/src/components/Img';
 - 🐞 Resolved issue with "STARTING" status in Spark Jobs
   - Improves job status accuracy and monitoring
 
-### `1.15.0  Release`
+<ReleaseTitle version="1.15.0" date="June 24, 2024" title="Monitoring, Spark Operator, Job Management" />
 
 - 🛠 Spark Operator Enhancements:
   - Improved performance to handle ~1000 Spark Job submissions per minute
@@ -114,7 +111,7 @@ import Img from '@site/src/components/Img';
 
 - Implemented "Spark Jobs alive time" configuration
 
-### `1.14.0  Release`
+<ReleaseTitle version="1.14.0" date="June 13, 2024" title="Fixes for Audit and PowerBI" />
 
 - Ranger Audit now working as expected. Page added to Data Security section in IOMETE Console.
 - Fixed issue with PowerBI integration.
