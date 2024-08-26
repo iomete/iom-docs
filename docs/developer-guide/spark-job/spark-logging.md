@@ -119,3 +119,20 @@ appender.console.filter.1.regex = .*Thrift error occurred during processing of m
 appender.console.filter.1.onMatch = deny
 appender.console.filter.1.onMismatch = neutral
 ```
+
+
+## Troubleshooting
+
+### SLF4J StaticLoggerBinder Warning
+
+When running Spark applications, you may encounter the following warning messages related to SLF4J
+```
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+```
+
+This warning only happens in slf4j version 1.7.x (and earlier versions) and it indicates that the SLF4J binding is not found in the classpath. Which happens due to conflicting dependencies. By default Spark uses the slf4j version 2.0.x. To resolve this issue you can force spark to load the version 2.0.x before the other conflicting dependencies. You can do this by adding the following spark-conf configuration:
+```
+spark.driver.extraClassPath    /opt/spark/jars/slf4j-api-2.0.7.jar
+```
