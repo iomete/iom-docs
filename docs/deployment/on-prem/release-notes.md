@@ -10,6 +10,9 @@ last_update:
 import Img from '@site/src/components/Img';
 import ReleaseTitle from '@site/src/components/ReleaseTitle';
 
+<ReleaseTitle version="1.20.2" date="September 3, 2024" title="Fixed issues from previous release" />
+- Fixed issue with private docker repos not being visible on UI.
+
 <ReleaseTitle version="1.20.0" date="August 26, 2024" title="Multi-Namespace, Secret Management" />
 
 - Centralized Secret Management: Users can now create and manage secrets centrally from the settings page and inject them into Spark applications. Supports integration with Kubernetes and HashiCorp Vault for storing secrets. Learn more [here](https://iomete.com/resources/user-guide/secrets).  
