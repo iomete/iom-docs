@@ -10,8 +10,9 @@ last_update:
 import Img from '@site/src/components/Img';
 import ReleaseTitle from '@site/src/components/ReleaseTitle';
 
-<ReleaseTitle version="1.20.2" date="September 3, 2024" title="Fixed issues from previous release" />
+<ReleaseTitle version="1.20.2" date="September 3, 2024" title="Pause for Scheduled Job" />
 - Fixed issue with private docker repos not being visible on UI.
+- Added possibility to suspend Scheduled Spark applications.
 
 <ReleaseTitle version="1.20.0" date="August 26, 2024" title="Multi-Namespace, Secret Management" />
 
