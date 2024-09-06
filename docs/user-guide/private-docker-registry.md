@@ -6,14 +6,17 @@ last_update:
   author: Vugar Dadalov
 ---
 
-___
+---
 
+import Img from '@site/src/components/Img';
 
 ## Private Docker Registries
 
-While using **IOMETE** platform, at some point, you may required to use private docker registry, for example when creating spark job you may want to add a custom docker image stored in your private registry. 
+While using **IOMETE** platform, at some point, you may required to use private docker registry, for example when creating spark job you may want to add a custom docker image stored in your private registry.
 
-In this section we will demonstrate on how to integrate private docker registries into **IOMETE** and we will create sample Spark Job using image from private registry. Also we are going to cover some popular registries ( *AWS ECR, DigitalOcean, Quay.io, DockerHub, GCP / Google Container Registry*) with helpful resources.
+In this section we will demonstrate on how to integrate private docker registries into **IOMETE** and we will create sample Spark Job using image from private registry. Also we are going to cover some popular registries ( _AWS ECR, DigitalOcean, Quay.io, DockerHub, GCP / Google Container Registry_) with helpful resources.
+
+<Img src="/img/user-guide/docker-registries/docker-registries.png" alt="Email configuration" />
 
 Let's get started.
 
@@ -28,13 +31,15 @@ Adding private docker registry is similar to `docker login` command, you will ne
 `username` - account credentials
 `password` - account credentials
 
-After filling the form you should see a new line in *Docker Registries* table.
+<Img src="/img/user-guide/docker-registries/docker-registry-create.png" alt="Email configuration" />
 
-Now to use your private docker registry go to *Jobs* menu and create a new job. Under the *Deployment* section type in private repository to **Docker Image** field. And on the left side of *Docker Image* field you will see dropdown with list of your private docker registries added to **IOMETE** platform. Choose corresponding one from dropdown list.
+After filling the form you should see a new line in _Docker Registries_ table.
+
+Now to use your private docker registry go to _Jobs_ menu and create a new job. Under the _Deployment_ section type in private repository to **Docker Image** field. And on the left side of _Docker Image_ field you will see dropdown with list of your private docker registries added to **IOMETE** platform. Choose corresponding one from dropdown list.
 
 <!-- ![job from docker registry](/img/user-guide/job-form-docker-registry.png) -->
 
-Now Run the job to test. If username/password provided are correct you should see that job will successfully run.  
+Now Run the job to test. If username/password provided are correct you should see that job will successfully run.
 
 Below we will provide some helpful resources and detailed informations about popular Docker Container Registries.
 
@@ -56,7 +61,7 @@ aws ecr get-login-password --region [YOUR_REGION]
 ```
 
 **Host**: `[your_aws_account_id].dkr.ecr.[your_region].amazonaws.com`
-**Username**: `AWS` 
+**Username**: `AWS`
 **Password**: `[GENERATED_PASSWORD]`
 region - the ECR region, like `us-east-1`
 
@@ -70,7 +75,7 @@ For more information please refer to [https://docs.aws.amazon.com/AmazonECR/late
 
 ## DigitalOcean
 
-For Digital ocean you first need to create API Token. Navigating to **API** in the DigitalOcean control panel, under the section Token/Keys generate the token with Read access. Then use token for username and the password. 
+For Digital ocean you first need to create API Token. Navigating to **API** in the DigitalOcean control panel, under the section Token/Keys generate the token with Read access. Then use token for username and the password.
 
 **Host**: `registry.digitalocean.com`
 **Username**: `[token]`
@@ -78,7 +83,7 @@ For Digital ocean you first need to create API Token. Navigating to **API** in
 
 ## GCP
 
-**Host**: `gcr.io`  (United States, for other regions please refer to https://cloud.google.com/container-registry/docs/pushing-and-pulling)
+**Host**: `gcr.io` (United States, for other regions please refer to https://cloud.google.com/container-registry/docs/pushing-and-pulling)
 **Username**: `_json_key`
 **Password**: `[full GCP service account JSON]`
 
