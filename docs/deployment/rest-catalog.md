@@ -25,22 +25,22 @@ To install our Iceberg REST Catalog implementation, follow these steps.
 2. For the `values.yaml` file, provide the following set of properties:
     ```yaml showLineNumbers
     catalog:
-    name: catalog1 # the name of the Iceberg Catalog to use
-    warehouse: s3://lakehouse/data # the path in your lakehouse where you want table metadata for tables in your catalog to be stored
-    cacheEnabled: true # spark-setting to indicate if catalogs should be cached or not
-    clients: 50 # how many concurrent requests the catalog can handle
-    s3:
-      endpoint: http://minio:9000 # the s3 compatible service endpoint to connect to
-      region: us-east-1 # the s3 compatible service endpoint to connect to
-      pathStyleAccess: true # wether to use path-style URLs in your s3 compatible service or not
-      accessKeyId: minioadmin # access key id to your s3 compatible service
-      secretAccessKey: minioadmin # access key secret to your s3 compatible service
-    jdbc:
-      uri: jdbc:postgresql://postgresql:5432/iomete_iceberg_db # the jdbc url of your JDBC catalog this REST catalog will wrap around
-      useSSL: true # enables SSL/TLS encryption for JDBC connections
-      user: db_user # username to use for connections to the database
-      password: db_password # password to use for connections to the database
-      passwordSecret: {} # can be used instead of plain-text username/pass to get secrets from Kubernetes instead
+      name: catalog1 # the name of the Iceberg Catalog to use
+      warehouse: s3://lakehouse/data # the path in your lakehouse where you want table metadata for tables in your catalog to be stored
+      cacheEnabled: true # spark-setting to indicate if catalogs should be cached or not
+      clients: 50 # how many concurrent requests the catalog can handle
+      s3:
+        endpoint: http://minio:9000 # the s3 compatible service endpoint to connect to
+        region: us-east-1 # the s3 compatible service endpoint to connect to
+        pathStyleAccess: true # wether to use path-style URLs in your s3 compatible service or not
+        accessKeyId: minioadmin # access key id to your s3 compatible service
+        secretAccessKey: minioadmin # access key secret to your s3 compatible service
+      jdbc:
+        uri: jdbc:postgresql://postgresql:5432/iomete_iceberg_db # the jdbc url of your JDBC catalog this REST catalog will wrap around
+        useSSL: true # enables SSL/TLS encryption for JDBC connections
+        user: db_user # username to use for connections to the database
+        password: db_password # password to use for connections to the database
+        passwordSecret: {} # can be used instead of plain-text username/pass to get secrets from Kubernetes instead
     ```
 
 3. Then, use the following command to install  
