@@ -1,0 +1,59 @@
+.Parent {
+  color: var(--ifm-color-gray-100);
+  border: 1px solid var(--sidebar-border-c);
+  background: var(--ifm-color-gray-900);
+  padding: 12px 24px;
+}
+
+.H2 {
+  font-size: 1.5rem;
+
+  @media (min-width: 640px) {
+    font-size: 2rem;
+  }
+}
+
+.P {
+  color: var(--ifm-color-gray-500);
+}
+
+.NoSpam {
+  font-size: .875rem;
+  color: var(--ifm-color-gray-600);
+}
+
+.Thanks {
+  font-size: .875rem;
+  color: var(--ifm-color-success-light);
+}
+
+.FormContent {
+  display: flex;
+  gap: 12px;
+}
+
+.Input {
+  appearance: none;
+  border: 1px solid var(--ifm-color-gray-700);
+  outline: none;
+  border-radius: 4px;
+  color: var(--ifm-navbar-search-input-color);
+  cursor: text;
+  font-size: 1rem;
+  width: 100%;
+  padding-left: 12px;
+}
+
+.Input:hover {
+  outline: 1px solid var(--ifm-color-primary);
+}
+
+.Input:focus-visible {
+  outline: 1px solid var(--ifm-color-primary-light);
+}
+
+.Button {
+  border-radius: 4px;
+  height: 2.5rem;
+  color: var(--ifm-color-gray-100) !important;
+}

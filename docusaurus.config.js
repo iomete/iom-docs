@@ -58,8 +58,18 @@ const config = {
   //   locales: ['en'],
   // },
 
-  // scripts: ["/js/heap.js"],
   themes: ["docusaurus-theme-github-codeblock"],
+  // scripts: ["/resources/js/mailerlite.js"],
+  // scripts: [{
+  //   src: "/resources/js/mailerlite.js",
+  //   async: true
+  // }],
+  // scripts: [
+  //   {
+  //     src: 'https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=VWBbac',
+  //     async: true,
+  //   },
+  // ],
 
   presets: [
     [

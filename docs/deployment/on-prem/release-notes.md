@@ -8,7 +8,10 @@ last_update:
 ---
 
 import Img from '@site/src/components/Img';
+import Mailer from '@site/src/components/Mailer';
 import ReleaseTitle from '@site/src/components/ReleaseTitle';
+
+<Mailer/>
 
 <ReleaseTitle version="1.20.2" date="September 3, 2024" title="Pause for Scheduled Job" />
 - Fixed issue with private docker repos not being visible on UI.
@@ -16,20 +19,18 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
 
 <ReleaseTitle version="1.20.0" date="August 26, 2024" title="Multi-Namespace, Secret Management" />
 
-- Centralized Secret Management: Users can now create and manage secrets centrally from the settings page and inject them into Spark applications. Supports integration with Kubernetes and HashiCorp Vault for storing secrets. Learn more [here](https://iomete.com/resources/user-guide/secrets).  
-- Added Logs Panel for Spark Connect.  
-- Resolved an issue related to `tmpfs` storage.  
-- Spark Job API: Added the ability to override `instanceConfig` in the Spark job API.  
-- Multi-Namespace Support: Spark resources can now be deployed across different namespaces, enhancing multi-tenant and organizational capabilities.  
-- Iceberg REST Catalog Support: Added support for the Iceberg REST Catalog, expanding the range of catalog integrations.  
-- JDBC Catalog Support: Introduced support for JDBC Catalog, allowing connections to a wider array of databases.  
-- Catalog-Level Access Control: Security improvements now allow access control to be managed at the catalog level for more granular permissions management.  
-
+- Centralized Secret Management: Users can now create and manage secrets centrally from the settings page and inject them into Spark applications. Supports integration with Kubernetes and HashiCorp Vault for storing secrets. Learn more [here](https://iomete.com/resources/user-guide/secrets).
+- Added Logs Panel for Spark Connect.
+- Resolved an issue related to `tmpfs` storage.
+- Spark Job API: Added the ability to override `instanceConfig` in the Spark job API.
+- Multi-Namespace Support: Spark resources can now be deployed across different namespaces, enhancing multi-tenant and organizational capabilities.
+- Iceberg REST Catalog Support: Added support for the Iceberg REST Catalog, expanding the range of catalog integrations.
+- JDBC Catalog Support: Introduced support for JDBC Catalog, allowing connections to a wider array of databases.
+- Catalog-Level Access Control: Security improvements now allow access control to be managed at the catalog level for more granular permissions management.
 
 <ReleaseTitle version="1.19.2" date="August 5, 2024" title="Spark Submission Performance" />
 
 - Optimized performance of spark-operator for handling large numbers of Spark job submissions.
-
 
 <ReleaseTitle version="1.19.0" date="July 31, 2024" title="Spark Applications, Reuse PVC Options" />
 
@@ -40,7 +41,6 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
 - **Persistent Volume Claim (PVC) Options**: When creating a Volume, you can now choose the "Reuse Persistent Volume Claim" and "Wait to Reuse Persistent Volume Claim" options on a per-PVC basis. This feature allows for customized volume configurations for different lakehouse and Spark resources, providing greater flexibility and control over resource management.
   <Img src="/img/getting-started/release-notes/volumes-reusable-pvc.png" alt="PVC Volume"/>
 
-
 <ReleaseTitle version="1.18.0" date="July 16, 2024" title="SQL Editor Improvements, Fixed Integrations" />
 
 - Fixed issue with `explain ...` sql statement.
@@ -48,7 +48,6 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
 - Added import/download functionality to the worksheets in SQL Editor.
 - Fixed issue with DBeaver and Power BI integrations.
 - UI / Design improvements in SQL Editor.
-
 
 <ReleaseTitle version="1.17.0" date="July 8, 2024" title="Data Explorer, SQL Editor Improvements" />
 
@@ -81,6 +80,7 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
 <ReleaseTitle version="1.15.0" date="June 24, 2024" title="Monitoring, Spark Operator, Job Management" />
 
 - 🛠 Spark Operator Enhancements:
+
   - Improved performance to handle ~1000 Spark Job submissions per minute
   - Fixed conflict issues when submitting Spark jobs via API
   - Added comprehensive metrics to Spark run details view
@@ -88,6 +88,7 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
   - Integrated Kubernetes events for Spark Resources (Run, Lakehouse)
 
 - 🛠 Job Management Improvements:
+
   - Introduced Job retry policy
   - Spark run metrics now available during "running" state
   - Fixed issue where Spark UI occasionally failed to update
@@ -98,6 +99,7 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
   - Introduced option to re-trigger runs with the same configuration
 
 - 🆕 Monitoring and Logging:
+
   - Added support for Splunk logging
   - Implemented new System Config in UI Console
   - Added "Spark Jobs alive time" to new "System Config" page
@@ -106,11 +108,13 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
   - Spark job log view now auto-scrolls to bottom when new logs are added
 
 - 🎨 UI/UX Enhancements:
+
   - Added time filter to Job Runs
   - Displaying Scheduler Next Run information on UI
   - Added ID to Spark Run Details page
 
 - 🛠 Performance Optimizations:
+
   - Fixed long job names causing Spark driver service name conflicts
 
 - Implemented "Spark Jobs alive time" configuration
