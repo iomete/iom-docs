@@ -28,7 +28,7 @@ const sidebars = {
         "getting-started/platform-tour",
         "getting-started/architecture",
         "getting-started/scalability",
-        "getting-started/support"
+        "getting-started/support",
       ],
     },
     {
@@ -43,7 +43,7 @@ const sidebars = {
           items: [
             "deployment/on-prem/install",
             "deployment/on-prem/minio-deployment",
-            "deployment/on-prem/release-notes"
+            "deployment/on-prem/release-notes",
           ],
         },
         {
@@ -57,6 +57,7 @@ const sidebars = {
             "deployment/postgresql-deployment",
             "deployment/life-cycle-management",
             "deployment/truststore",
+            "deployment/rest-catalog",
           ],
         },
       ],
@@ -95,7 +96,7 @@ const sidebars = {
             "community-deployment/gcp/install",
             "community-deployment/gcp/uninstall",
           ],
-        }
+        },
       ],
     },
   ],
