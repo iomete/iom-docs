@@ -1,29 +1,35 @@
 .Parent {
   border: 1px solid var(--ifm-color-emphasis-300);
   background: var(--ifm-color-emphasis-100);
-  padding: 12px 24px;
+  padding: 20px 24px;
+  border-radius: 3px;
+  box-shadow: none;
 }
 
-.H2 {
-  font-size: 1.5rem;
-
-  @media (min-width: 640px) {
-    font-size: 2rem;
-  }
+.H4 {
+  font-size: 20px;
+  line-height: 26px;
+  margin-bottom: 0;
+  font-weight: 500;
 }
 
 .P {
-  color: var(--ifm-color-emphasis-800);
+  color: var(--ifm-color-emphasis-600);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .NoSpam {
-  font-size: .875rem;
-  color: var(--ifm-color-emphasis-700);
+  font-size: 14px;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0;
 }
 
 .Thanks {
-  font-size: .875rem;
+  font-size: 14px;
   color: var(--ifm-color-success);
+  margin-bottom: 0;
 }
 
 .FormContent {
@@ -33,7 +39,7 @@
 
 .Input {
   appearance: none;
-  border: 1px solid var(--ifm-color-gray-700);
+  border: 1px solid var(--ifm-color-gray-400);
   outline: none;
   border-radius: 4px;
   color: var(--ifm-navbar-search-input-color);
@@ -53,6 +59,7 @@
 
 .Button {
   border-radius: 4px;
+  font-weight: 500;
   height: 2.5rem;
   color: var(--ifm-color-gray-100) !important;
 }

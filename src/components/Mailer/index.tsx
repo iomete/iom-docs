@@ -32,7 +32,9 @@ const Mailer = () => {
 
   return (
     <div className={`card ${styles.Parent}`}>
-      <h2 className={styles.H2}>Get notified when we release new version!</h2>
+      <h4 className={styles.H4}>
+        Sign Up for Product Updates and Release Notes
+      </h4>
       <p className={styles.P}>
         You'll receive notifications about new features, improvements, and
         important updates.

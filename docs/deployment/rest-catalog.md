@@ -13,13 +13,17 @@ Apache Iceberg supports a REST Catalog, which provides a RESTful interface for m
   
 IOMETE currently offers a beta implementation of a REST Catalog that delegates to an underlying JDBC catalog. At present, it utilizes the Hadoop file system to access data in S3-compatible storage. Future versions will incorporate the newer S3FileIO implementation as well.  
 
+
 ## Installing REST Catalog Service in Kubernetes
 
-To install our Iceberg REST Catalog implementation, follow these steps.  
+List of resources to be installed:
+| Resource     | Name                                    | Version |
+| ------------ | --------------------------------------- | ------- |
+| Docker image | `iomete/iom-iceberg-rest-catalog:1.2.0` |         |
+| Helm Chart   | `iomete/iom-iceberg-rest-catalog`       | `1.2.0` |
 
-**List of resources to be installed:**
-- Docker image `iomete/iom-iceberg-rest-catalog:1.2.0`
-- Helm Chart `iomete/iom-iceberg-rest-catalog` with version `1.2.0`
+
+To install our Iceberg REST Catalog implementation, follow these steps.  
 
 1. Download the values.yaml file from the [IOMETE Deployment repository](https://github.com/iomete/iomete-deployment)
     ```bash showLineNumbers
