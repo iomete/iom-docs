@@ -17,6 +17,10 @@ IOMETE currently offers a beta implementation of a REST Catalog that delegates t
 
 To install our Iceberg REST Catalog implementation, follow these steps.  
 
+**List of resources to be installed:**
+- Docker image `iomete/iom-iceberg-rest-catalog:1.2.0`
+- Helm Chart `iomete/iom-iceberg-rest-catalog` with version `1.2.0`
+
 1. Download the values.yaml file from the [IOMETE Deployment repository](https://github.com/iomete/iomete-deployment)
     ```bash showLineNumbers
     wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/on-prem/helm/iom-iceberg-rest-catalog/values.yaml
