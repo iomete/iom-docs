@@ -1,7 +1,6 @@
 .Parent {
-  color: var(--ifm-color-gray-100);
-  border: 1px solid var(--sidebar-border-c);
-  background: var(--ifm-color-gray-900);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-color-emphasis-100);
   padding: 12px 24px;
 }
 
@@ -14,17 +13,17 @@
 }
 
 .P {
-  color: var(--ifm-color-gray-500);
+  color: var(--ifm-color-emphasis-800);
 }
 
 .NoSpam {
   font-size: .875rem;
-  color: var(--ifm-color-gray-600);
+  color: var(--ifm-color-emphasis-700);
 }
 
 .Thanks {
   font-size: .875rem;
-  color: var(--ifm-color-success-light);
+  color: var(--ifm-color-success);
 }
 
 .FormContent {
@@ -45,11 +44,11 @@
 }
 
 .Input:hover {
-  outline: 1px solid var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
 }
 
 .Input:focus-visible {
-  outline: 1px solid var(--ifm-color-primary-light);
+  border-color: var(--ifm-color-primary-light);
 }
 
 .Button {
