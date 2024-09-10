@@ -25,7 +25,7 @@ List of resources to be installed:
 
 To install our Iceberg REST Catalog implementation, follow these steps.  
 
-1. Download the values.yaml file from the [IOMETE Deployment repository](https://github.com/iomete/iomete-deployment)
+1. Download the values.yaml file from the [IOMETE Deployment repository](https://github.com/iomete/iomete-deployment/blob/main/on-prem/helm/iom-iceberg-rest-catalog/values.yaml)
     ```bash showLineNumbers
     wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/on-prem/helm/iom-iceberg-rest-catalog/values.yaml
     ```
