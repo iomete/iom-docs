@@ -19,8 +19,8 @@ IOMETE currently offers a beta implementation of a REST Catalog that delegates t
 List of resources to be installed:
 | Resource     | Name                                    | Version |
 | ------------ | --------------------------------------- | ------- |
-| Docker image | `iomete/iom-iceberg-rest-catalog:1.2.0` |         |
-| Helm Chart   | `iomete/iom-iceberg-rest-catalog`       | `1.2.0` |
+| Docker image | `iomete/iom-iceberg-rest-catalog`       | `1.2.0` |
+| Helm Chart   | `iomete/iom-iceberg-rest-catalog`       | `1.2.1` |
 
 
 To install our Iceberg REST Catalog implementation, follow these steps.  
@@ -33,8 +33,8 @@ To install our Iceberg REST Catalog implementation, follow these steps.
 2. For the `values.yaml` file, provide the following set of properties:
     ```yaml showLineNumbers
     catalog:
-      name: catalog1 # the name of the Iceberg Catalog to use
-      warehouse: s3://lakehouse/data # the path in your lakehouse where you want table metadata for tables in your catalog to be stored
+      name: demo_catalog # the name of the Iceberg Catalog to use
+      warehouse: s3://lakehouse/demo_catalog # the path in your lakehouse where you want table metadata for tables in your catalog to be stored
       cacheEnabled: true # spark-setting to indicate if catalogs should be cached or not
       clients: 50 # how many concurrent requests the catalog can handle
       s3:
@@ -49,6 +49,12 @@ To install our Iceberg REST Catalog implementation, follow these steps.
         user: db_user # username to use for connections to the database
         password: db_password # password to use for connections to the database
         passwordSecret: {} # can be used instead of plain-text username/pass to get secrets from Kubernetes instead
+      javaTrustStore:
+         enabled: false # enables the use of a truststore to connect over https to postgress/s3
+         secretName: java-truststore # name of the secret with the truststore.jks file
+         fileName: truststore.jks # the truststore file name
+         password: changeit # the password to allow the program to access the trust store
+         mountPath: /etc/ssl/iomete-certs # location where the certificates will be loaded
     ```
 
 3. Then, use the following command to install  
@@ -59,12 +65,25 @@ To install our Iceberg REST Catalog implementation, follow these steps.
 
     helm repo update iomete
 
-    helm upgrade --install -n iomete-system iceberg-rest-catalog iomete/iom-iceberg-rest-catalog -f /path/to/values.yaml
+    helm upgrade --install -n iomete-system <release name> iomete/iom-iceberg-rest-catalog -f /path/to/values.yaml --version <version number>
     ```
-    Replace `/path/to/values.yaml` with the path to your `values.yaml` file and `iomete-system` namespace if you are using a different namespace.
-
+   In here:
+    * Replace `/path/to/values.yaml` with the path to your `values.yaml` file.
+    * Change `iomete-system` namespace if you are using a different namespace. 
+    * Specify `<version number>` of the version you want to install.
+* The `<release name>` will designate both the service name and its accessible URL. 
+:::tip Recommendation
+We recommend selecting a `<release name>` value that reflects the catalog name, such as `demo-catalog-rest`. This ensures that the service is accessible within the Kubernetes cluster at a corresponding URL, like http://demo-catalog-rest/.
+:::
 
 ## Configuring the REST Catalog in IOMETE Console
+
+:::Prerequisites
+You will need to the following items set in the previous step to configure the catalog in the IOMETE Console:
+* The name of the catalog
+* The warehouse location set for this catalog
+* The URL the REST catalog runs on 
+:::
 
 To set up a REST catalog in the IOMETE Console, navigate to **Settings → Spark Catalog**. In the top right, click **Create** and select **Rest (Iceberg)** from the menu.
 
@@ -75,12 +94,19 @@ On the next page, provide the following information:
 - Name: The display name for this Catalog in the IOMETE Console
 - Warehouse: The path in the data lake for Spark jobs to use
 - Custom Credentials (Optional): The endpoint and credentials to connect to Dell ECS, MinIO or other S3-compatible storage.
-- URI: The URI of the Iceberg REST Catalog to connect to (e.g., http://iom-iceberg-rest-catalog:8181 for the IOMETE-installed version)
+- URI: The URI of the Iceberg REST Catalog to connect to (e.g. http://demo-catalog-rest)
 
 After filling in the details, click **Test Connection** to verify that the configuration is correct and has sufficient privileges to run various Apache Spark workloads using this REST Catalog.
 
 Once verified, click **Create** to finalize your catalog.
 
+:::tip Recommendation
+We recommend using the same name in the IOMETE Console and warehouse location to match the name of catalog set in the `values.yaml` during the rest-catalog installation.
+:::
+
 <Img src="/img/deployment/rest-catalog/rest-catalog-form.png" alt="Create Form"/>
 
+
 To test your setup, navigate to the **SQL Editor** page. Use the **Database explorer** to view the tables and views in your REST Catalog. You can then run queries against these tables and views to confirm the configuration is working correctly.
+
+<Img src="/img/deployment/rest-catalog/new-rest-catalog-in-sql-editor.png" alt="SQL Editor"/>
