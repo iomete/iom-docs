@@ -14,7 +14,7 @@ Apache Iceberg supports a REST Catalog, which provides a RESTful interface for m
 IOMETE currently offers a beta implementation of a REST Catalog that delegates to an underlying JDBC catalog. At present, it utilizes the Hadoop file system to access data in S3-compatible storage. Future versions will incorporate the newer S3FileIO implementation as well.  
 
 
-## Installing REST Catalog Service in Kubernetes
+## Installing REST Catalog Service in` Kubernetes
 
 List of resources to be installed:
 | Resource     | Name                                    | Version |
@@ -80,9 +80,9 @@ We recommend selecting a `<release name>` value that reflects the catalog name, 
 
 :::Prerequisites
 You will need to the following items set in the previous step to configure the catalog in the IOMETE Console:
-* The name of the catalog
-* The warehouse location set for this catalog
-* The URL the REST catalog runs on 
+* The name of the catalog.
+* The warehouse location set for this catalog.
+* The URL the REST catalog runs on.
 :::
 
 To set up a REST catalog in the IOMETE Console, navigate to **Settings → Spark Catalog**. In the top right, click **Create** and select **Rest (Iceberg)** from the menu.
@@ -91,10 +91,15 @@ To set up a REST catalog in the IOMETE Console, navigate to **Settings → Spark
 
 On the next page, provide the following information:
 
-- Name: The display name for this Catalog in the IOMETE Console
-- Warehouse: The path in the data lake for Spark jobs to use
+- Name: The display name for this Catalog in the IOMETE Console.
+- Warehouse: The path in the data lake for Spark jobs to use.
 - Custom Credentials (Optional): The endpoint and credentials to connect to Dell ECS, MinIO or other S3-compatible storage.
 - URI: The URI of the Iceberg REST Catalog to connect to (e.g. http://demo-catalog-rest)
+
+:::warning Important
+If the Spark operator runs in a different Kubernetes namespace from the REST catalog, use the FQDN format `<namespace>.svc.cluster.local` for the REST catalog URI (e.g., http://demo-catalog-rest.iomete-system.svc.cluster.local), replacing `<namespace>` with the namespace where the REST catalog is deployed. 
+Additionally, ensure that [network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) allow traffic from the Spark operator’s namespace to the namespace where the REST catalog is deployed.
+:::
 
 After filling in the details, click **Test Connection** to verify that the configuration is correct and has sufficient privileges to run various Apache Spark workloads using this REST Catalog.
 
