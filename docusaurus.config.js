@@ -59,7 +59,7 @@ const config = {
   // },
 
   themes: ["docusaurus-theme-github-codeblock"],
-  // scripts: ["/resources/js/mailerlite.js"],
+  scripts: ["/resources/js/intercom.js"],
   // scripts: [{
   //   src: "/resources/js/mailerlite.js",
   //   async: true
