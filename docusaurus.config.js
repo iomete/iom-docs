@@ -234,8 +234,8 @@ const config = {
       },
 
       prism: {
-        theme: prismThemes.github,
-        darkTheme: prismThemes.oneDark,
+        theme: prismThemes.dracula,
+        // darkTheme: prismThemes.dracula,
         additionalLanguages: ["bash"],
       },
 
