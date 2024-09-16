@@ -122,6 +122,7 @@ const sidebars = {
         "user-guide/email-settings",
         "user-guide/ldap-configuration",
         "user-guide/node-types",
+        "user-guide/node-type-sizing",
         "user-guide/volumes",
         "user-guide/secrets",
         "user-guide/api-reference",
