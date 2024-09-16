@@ -18,6 +18,7 @@
     "@docusaurus/plugin-client-redirects": "^3.5.1",
     "@docusaurus/plugin-content-blog": "^3.5.1",
     "@docusaurus/preset-classic": "^3.5.1",
+    "@docusaurus/theme-mermaid": "^3.5.2",
     "@ionic-internal/ionic-ds": "^8.0.0",
     "@mdx-js/react": "^3.0.1",
     "@phosphor-icons/react": "^2.1.7",

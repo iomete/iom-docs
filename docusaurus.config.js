@@ -58,7 +58,10 @@ const config = {
   //   locales: ['en'],
   // },
 
-  themes: ["docusaurus-theme-github-codeblock"],
+  themes: ["docusaurus-theme-github-codeblock", '@docusaurus/theme-mermaid'],
+  markdown: {
+    mermaid: true,
+  },
   scripts: ["/resources/js/intercom.js"],
   // scripts: [{
   //   src: "/resources/js/mailerlite.js",
@@ -152,6 +155,11 @@ const config = {
         { name: "twitter:site", content: "IOMETE Documentation" },
         { name: "twitter:image", content: "/resources/img/iomete-docs-og.png" },
       ],
+      mermaid: {
+        theme: {
+          light: 'neutral',
+        },
+      },
       codeblock: {
         showGithubLink: true,
         githubLinkLabel: "View on GitHub",
