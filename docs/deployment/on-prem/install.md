@@ -55,6 +55,9 @@ A dedicated namespace for IOMETE is recommended for better organization. Create 
 
 ```shell
 kubectl create namespace iomete-system
+
+# Label the namespace for IOMETE
+kubectl label namespace iomete-system iomete.com/managed=true
 ```
 
 :::tip
