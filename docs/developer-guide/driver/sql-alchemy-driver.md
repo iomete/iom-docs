@@ -32,6 +32,7 @@ connection = hive.connect(
     host="<host>",
     port="<port>",
     scheme="<https or http>",
+    data_plane="<data_plane_name>", # Optional, skip if using default data-plane
     lakehouse="<lakehouse_cluster_name>",
     database="default",
     username="<username>",
@@ -55,6 +56,7 @@ connection = hive.connect(
     host="<host>",
     port="<port>",
     scheme="<https or http>",
+    data_plane="<data_plane_name>", # Optional, skip if using default data-plane
     lakehouse="<lakehouse_cluster_name>",
     database="default",
     username="<username>",
@@ -100,7 +102,11 @@ from sqlalchemy.schema import *
 # iomete+https
 
 engine = create_engine(
-    'iomete+https://<username>:<personal_access_token>@<host>:<port>/<database>?lakehouse=<lakehouse_cluster_name>')
+    'iomete+https://<username>:<personal_access_token>@<host>:<port>/<database>?data_plane=<data_plane_name>&lakehouse=<lakehouse_cluster_name>')
+
+# or if using default data-plane
+# engine = create_engine(
+#     'iomete+https://<username>:<personal_access_token>@<host>:<port>/<database>?lakehouse=<lakehouse_cluster_name>')
 
 session = sessionmaker(bind=engine)()
 records = session.query(Table('my_awesome_data', MetaData(bind=engine), autoload=True)) \
