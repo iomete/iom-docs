@@ -41,9 +41,9 @@ wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/role-bindin
 
 export CP_NAMESPACE=iomete-system
 
-sed -i 's/{{control-plane-namespace}}/${CP_NAMESPACE}/g' role-binding-to-control-plane.yaml
+sed -i "s/{{control-plane-namespace}}/$CP_NAMESPACE/g" role-binding-to-control-plane.yaml
 #For macOS use the following command
-# sed -i '' 's/{{control-plane-namespace}}/${CP_NAMESPACE}/g' role-binding-to-control-plane.yaml
+# sed -i '' "s/{{control-plane-namespace}}/$CP_NAMESPACE/g" role-binding-to-control-plane.yaml
 
 kubectl apply -n data-plane-ns -f role-binding-to-control-plane.yaml
 ```
