@@ -48,6 +48,7 @@ const sidebars = {
             "deployment/configure-custom-dns",
             "deployment/backend-databases",
             "deployment/postgresql-deployment",
+            "deployment/mysql-deployment",
             "deployment/life-cycle-management",
             "deployment/truststore",
             "deployment/rest-catalog",

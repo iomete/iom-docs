@@ -130,7 +130,7 @@ wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/on-prem/exa
 # helm repo update iomete
 helm upgrade --install -n iomete-system data-plane \
   iomete/iomete-data-plane-enterprise \
-  -f example-data-plane-values.yaml --version 1.19
+  -f example-data-plane-values.yaml
 ```
 
 ### Configure ISTIO Ingress Gateway
