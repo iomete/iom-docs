@@ -36,21 +36,14 @@ const sidebars = {
       label: "Deployment",
       collapsed: false,
       items: [
-        {
-          type: "category",
-          label: "On-Premises",
-          collapsed: true,
-          items: [
-            "deployment/on-prem/install",
-            "deployment/on-prem/minio-deployment",
-            "deployment/on-prem/release-notes",
-          ],
-        },
+        "deployment/on-prem/install",
+        "deployment/on-prem/release-notes",
         {
           type: "category",
           label: "Advanced Settings",
           collapsed: true,
           items: [
+            "deployment/minio-deployment",
             "deployment/configure-ingress",
             "deployment/configure-custom-dns",
             "deployment/backend-databases",
@@ -58,6 +51,7 @@ const sidebars = {
             "deployment/life-cycle-management",
             "deployment/truststore",
             "deployment/rest-catalog",
+            "deployment/connect-namespace",
           ],
         },
       ],

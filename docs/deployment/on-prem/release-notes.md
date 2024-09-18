@@ -13,6 +13,13 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
 
 <Mailer/>
 
+<ReleaseTitle version="1.22.0" date="September 18, 2024" title="Changes in Deployment Process" />
+- The `data-plane-base` Helm chart has been deprecated and is no longer required for installation.  
+- `ClusterRole`, previously added for multi-namespace support, has been removed, and the system now uses only namespaced Roles.   
+- Spark-Operator is now deployed separately to each connected namespace.  
+- The process for connecting a new namespace has been updated. Please refer to the Advanced Deployment Guides for more information.  
+
+
 <ReleaseTitle version="1.20.2" date="September 3, 2024" title="Pause for Scheduled Job" />
 - Fixed issue with private docker repos not being visible on UI.
 - Added possibility to suspend Scheduled Spark applications.
