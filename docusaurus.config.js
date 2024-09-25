@@ -58,11 +58,11 @@ const config = {
   //   locales: ['en'],
   // },
 
-  themes: ["docusaurus-theme-github-codeblock", '@docusaurus/theme-mermaid'],
+  themes: ["docusaurus-theme-github-codeblock", "@docusaurus/theme-mermaid"],
   markdown: {
     mermaid: true,
   },
-  scripts: ["/resources/js/intercom.js"],
+  // scripts: ["/resources/js/intercom.js"],
   // scripts: [{
   //   src: "/resources/js/mailerlite.js",
   //   async: true
@@ -157,7 +157,7 @@ const config = {
       ],
       mermaid: {
         theme: {
-          light: 'neutral',
+          light: "neutral",
         },
       },
       codeblock: {
