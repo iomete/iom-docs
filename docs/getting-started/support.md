@@ -1,5 +1,5 @@
 ---
-title: IOMETE Support
+title: IOMETE Support Center
 sidebar_label: Support
 description: Get help and support for IOMETE, a state-of-the-art Data Lakehouse Platform for AI and Analytics. Learn how to get assistance, report issues, and access resources to enhance your IOMETE experience.
 last_update:
@@ -9,29 +9,52 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-We are committed to providing you with the best support and resources to help you get the most out of your IOMETE experience.
+We are dedicated to providing you with top-notch support and resources to ensure you get the most out of your IOMETE experience
 
-To get help, report issues, or provide feedback, please use the following resources:
-- [support@iomete.com](mailto:support@iomete.com)
-- [IOMETE Help Center](https://iomete.atlassian.net/servicedesk/customer/portals)
-- [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for community version support
+For assistance, reporting issues, or sharing feedback, please use the following resources:
+ 
+- #### Existing Users:
+    - To report issues or request new features, please file a ticket through our Support Portal (Jira Service Desk) [IOMETE Support Portal](https://iomete.atlassian.net/servicedesk/customer/portals)
+    - For general feedback or questions, reach out to us at [IOMETE Support](mailto:support@iomete.com)
 
-## Support Email
+- #### Prospective Users:
+  - If you’re new and want to learn more about IOMETE, book a [discovery call](https://calendly.com/iomete/iomete-discovery-call) or contact us at [IOMETE Info](mailto:info@iomete.com)
+    
 
-For any questions, issues, or feedback, you can directly reach out to our support team at [support@iomete.com](mailto:support@iomete.com). Emails to this address will be automatically logged in our support system and assigned to the appropriate team member for resolution. You will also receive an email confirmation with a ticket number for tracking purposes.
 
-## IOMETE Help Center
+## IOMETE Support Portal
 
-Please visit our [IOMETE Help Center](https://iomete.atlassian.net/servicedesk/customer/portals) to open a support ticket and track the status of your requests. Our support team will respond to your inquiries promptly and provide assistance to resolve any issues you may encounter.
 
-:::info
-The IOMETE Help Center requires you to sign up with your email.
+Visit the  [IOMETE Support Portal](https://iomete.atlassian.net/servicedesk/customer/portals) to submit a support ticket, and our team will respond promptly.
+
+:::info Why We Need Your Email Address
+The IOMETE Support Center requires you to sign up with your email because it allows our team to keep you informed about the status of your support ticket.
 :::
 
-<Img src="/img/getting-started/support/iomete-help-center.png" alt="IOMETE Help Center"/>
+Filing a support ticket is an easy three-step process
 
-## IOMETE Community Discord Server
+- #### Step 1: Enter your mail to login/signup
 
-Join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) to connect with other users, share knowledge, and get help with the community version of IOMETE.
 
-If you have any questions, issues, or feedback, please don't hesitate to reach out to us. We are here to help!
+<Img src="/img/getting-started/support/support_centre_login.png" alt="IOMETE Support Center Login"/>
+
+
+- #### Step 2: Choose the appropriate service ticket category, technical or general
+
+<Img src="/img/getting-started/support/support_centre_landing.png" alt="IOMETE Support Center Landing"/>
+
+
+- #### Step 3: Track the progress of your ticket
+
+<Img src="/img/getting-started/support/support_centre_requests.png" alt="IOMETE Support Center Request 1"/>
+
+You can access all your requests by clicking on requests as shown above to track all your requests:
+
+<Img src="/img/getting-started/support/support_centre_requests1.png" alt="IOMETE Support Center All Request"/>
+
+
+
+
+
+##### If you encounter any technical issues while submitting a ticket in the Support Portal, please contact us at [IOMETE Support](mailto:support@iomete.com).
+
