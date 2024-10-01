@@ -15,7 +15,7 @@ For assistance, reporting issues, or sharing feedback, please use the following 
  
 - #### Existing Users:
     - To report issues or request new features, please file a ticket through our Support Portal (Jira Service Desk) [IOMETE Support Portal](https://iomete.atlassian.net/servicedesk/customer/portals)
-    - For general feedback or questions, reach out to us at [IOMETE Support](mailto:support@iomete.com)
+    - For general feedback or questions, reach out to us at support@iomete.com
 
 - #### Prospective Users:
   - If you’re new and want to learn more about IOMETE, book a [discovery call](https://calendly.com/iomete/iomete-discovery-call) or contact us at [IOMETE Info](mailto:info@iomete.com)
@@ -56,5 +56,5 @@ You can access all your requests by clicking on requests as shown above to track
 
 
 
-##### If you encounter any technical issues while submitting a ticket in the Support Portal, please contact us at [IOMETE Support](mailto:support@iomete.com).
+##### If you encounter any technical issues while submitting a ticket in the Support Portal, please contact us at support@iomete.com.
 
