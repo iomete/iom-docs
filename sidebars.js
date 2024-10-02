@@ -211,6 +211,7 @@ const sidebars = {
       items: [
         "user-guide/misc/datagrip-lakehouse-connection",
         "user-guide/misc/shutdown-for-maintenance",
+        "user-guide/misc/jetbrains-datatgrip"
       ],
     },
   ],
