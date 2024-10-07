@@ -13,6 +13,65 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
 
 <Mailer/>
 
+<ReleaseTitle version="2.0.0" date="October 07, 2024" title="Major Upgrade with Integrated Security, Data Governance, and Enhanced Performance" />
+
+:::info
+This release introduces major architectural, functional, and user experience improvements to IOMETE, including significant changes to user and security management, data access and governance, and catalog performance.
+:::
+
+:::warning Major Release
+This is a major release with significant changes to the architecture and user experience. IOMETE 2.0.0 is not backward compatible with IOMETE 1.22.0 or earlier versions. We recommend reviewing the upgrade documentation carefully before proceeding.
+:::
+
+**User and Security Management Enhancements**
+
+### Keycloak Removal & LDAP Integration
+
+We have removed `Keycloak` and transitioned all its functionality—`user`, `group`, and `role` management, as well as `LDAP` and `SAML/OIDC Connect` support—directly into IOMETE. This shift centralizes control within IOMETE, enhancing security and simplifying management for large-scale deployments.
+
+Key Improvements:
+- Optimized LDAP support for large-scale user integrations, addressing performance issues experienced with Keycloak. 
+- Support for both user-based and group-based synchronization. 
+- Service accounts support (users without standard identifiers such as email or first name).
+
+This change improves performance and simplifies maintenance by reducing external dependencies.
+
+**Data Access and Governance Enhancements**
+
+### Ranger Removal & Integrated Policy Management
+
+We have removed Apache Ranger, fully integrating its data access policy management functionality within IOMETE. This offers better control, performance, and security while reducing the complexity of managing separate systems.
+
+Key Benefits:
+- Improved performance and streamlined management of data access policies.
+- Reduced security concerns by eliminating the dependency on open-source Ranger.
+
+### Tag-Based Access Control & Masking
+
+We are introducing Tag-Based Access Control and Tag-Based Masking, simplifying data governance within IOMETE by allowing policies to be triggered automatically based on tags.
+
+Key Features:
+- Dynamic Policy Activation: Automatically apply access or masking policies based on tags assigned to tables or columns.
+- Tag-Based Access Control: Define user or group access based on tags.
+- Tag-Based Masking: Dynamically apply data masking policies for sensitive data based on tags.
+
+This feature streamlines governance processes and provides a more efficient solution for large datasets.
+
+**Catalog and Performance Improvements**
+
+### Integrated Iceberg REST Catalog
+
+IOMETE now includes a fully integrated Iceberg REST Catalog, replacing the previous Iceberg JDBC catalog. This upgrade delivers enhanced performance, scalability, and security for Spark jobs, Lakehouse clusters, and SparkConnect clusters.
+
+Key Benefits:
+- Centralized Caching: Shared metadata cache across all Spark jobs and clusters, improving query resolution times and overall system performance.
+- Reduced Database Load: Pooled connections significantly reduce strain on the Postgres metadata database.
+- Integrated Authentication and Authorization: Supports token-based authentication, OpenConnect, OAuth, and ensures data access policies are enforced across REST catalog interactions.
+- Multi-Catalog Support: Manage multiple catalogs simultaneously for greater flexibility.
+- Openness and Interoperability: Aligns with IOMETE’s vision of openness, supporting external platforms like Dremio, Databricks, and Snowflake via standard Iceberg REST protocol.
+
+---
+
 <ReleaseTitle version="1.22.0" date="September 18, 2024" title="Changes in Deployment Process" />
 - The `data-plane-base` Helm chart has been deprecated and is no longer required for installation.  
 - `ClusterRole`, previously added for multi-namespace support, has been removed, and the system now uses only namespaced Roles.   
