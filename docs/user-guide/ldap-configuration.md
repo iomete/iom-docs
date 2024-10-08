@@ -15,34 +15,38 @@ IOMETE offers an interface to configure your LDAP server.
 
 ## Configuration
 
-To view LDAP configuration page, navigate to the `LDAP` menu item and switch to the `LDAP` tab.
-Click on the <button className="button button--primary button-iom">Configure</button> button to get started.
+To view LDAP configuration page, navigate to the `Settings` menu item and click to the `LDAP` tab under `IAM`.
 
-<Img src="/img/user-guide/ldap/ldap-configuration.png" alt="LDAP configuration" />
+<Img src="/img/user-guide/ldap/ldap-landing.png" alt="LDAP configuration" />
 
 On this page, you'll find configuration options divided into three parts:
 
 - [**General Options**](#general-options)
-- [**Sync Settings**](#sync-settings)
+- [**Group Settings**](#group-settings)
 - [**Attribute Mappings**](#attribute-mappings)
+- [**Sync Settings**](#sync-settings)
+
 
 ### General options
 
 The General Options include the following settings:
 
-- **Name:** Currently, only the name `ldap-iomete` is accepted.
-- **Enabled** If the provider is disabled, it won't be used for queries, and imported users will be read-only until the provider is re-enabled.
-- **Username LDAP attribute** Name of LDAP attribute, which is mapped as IOMETE username.
-- **RDN LDAP attribute** The LDAP attribute used as the top attribute in a typical user DN is called the RDN. It's usually the same as the Username LDAP attribute, but it doesn't have to be. For instance, in Active Directory, 'cn' is commonly used as the RDN attribute, even though the username attribute might be 'sAMAccountName'.
-- **UUID LDAP attribute** The LDAP attribute used as a unique identifier (UUID) for objects varies among LDAP server vendors. For most, it's 'entryUUID,' but for Active Directory, it's 'objectGUID.' If your LDAP server doesn't support UUID, you can use other unique attributes like 'uid' or 'entryDN' for LDAP users in the tree.
-- **User Object Classes** All user LDAP objectClass attributes are separated by commas, like 'inetOrgPerson, organizationalPerson'. IOMETE will write new users to LDAP with these object classes, and existing LDAP user records are only identified if they have all these object classes.
-- **Connection URL** Connection URL to your LDAP server
-- **Users DN** Here is the LDAP tree where your users are located: 'ou=users,dc=example,dc=com'. This is the parent DN of LDAP users. For instance, a typical user's DN might look like 'uid=john,ou=users,dc=example,dc=com'.
-- **Custom User LDAP Filter** Add an extra LDAP Filter to refine user search. Keep it blank if not needed. Start with '(' and end with ')' for correctness.
-- **Bind DN** LDAP admin DN, which IOMETE will use to access the LDAP server.
-- **Bind Credential** LDAP admin password. This field can get its value from the vault using the $\{vault.ID} format.
 
-<Img src="/img/user-guide/ldap/ldap-configuration-general-options.png" alt="LDAP configuration general inputs" maxWidth="500px"/>
+- **Connection URL**:
+  The URL to connect to your LDAP server, for example: ` ldap://openldap.infra.svc:389` 
+- **Bind DN**:
+  The distinguished name (DN) used for binding to the LDAP server, such as: `cn=admin,dc=iomete,dc=com`
+- **Bind Credential**:
+  The password for the Bind DN (admin). This can be stored securely in a vault using the $\{vault.ID} format.
+- **LDAP Searching and Updating** 
+  - **Users DN**:
+    The base distinguished name where the users are located in the LDAP directory, e.g.: ` ou=users,dc=iomete,dc=com`
+  - **User Object Classes**:
+    A comma-separated list of object classes that identify LDAP user objects, such as ` inetOrgPerson, organizationalPerson`
+  - **Custom User LDAP Filter (Optional)**:
+    Add a custom filter to refine user search. Use LDAP syntax starting with ( and ending with ).
+
+<Img src="/img/user-guide/ldap/ldap-general-info.png" alt="LDAP configuration general inputs" maxWidth="500px"/>
 
 :::info `Test connection`
 You can test a URL connection by clicking the `Test connection` button (located next to the Connection URL input) before saving your settings.
@@ -51,6 +55,29 @@ You can test a URL connection by clicking the `Test connection` button (located 
 :::info `Test authentication`
 You can test a URL authentication by clicking the `Test authentication` button (located next to the Bind Credential input) before saving your settings.
 :::
+
+### Group Settings
+
+**Group Searching and Updating**
+1. **Groups DN**:
+   Defines the LDAP tree where groups are located, for example: ` ou=groups,dc=iomete,dc=com`. 
+   This is the parent distinguished name (DN) of your LDAP groups.
+2. **Group Object Classes**:
+   A comma-separated list of object classes that identify LDAP group objects, for instance: ` groupOfNames`
+3. **Custom User LDAP Filter (Optional)**:
+   Add a custom filter to refine group searches. Use LDAP syntax, such as: ` (&(objectClass=groupOfNames)(cn={name}))`
+
+**Group and LDAP Attribute Mappings**
+- **Group Attribute (Optional)**:
+   Defines the attributes for LDAP group mapping in IOMETE. This can include:
+
+   ``` **name**: The group's common name (CN), typically mapped to the cn LDAP attribute.```
+   ``` **membership**: Defines the membership attribute, commonly member.```
+   ``` **membershipAttributeType**: Specifies the type of the membership attribute, typically DN (Distinguished Name).```
+
+
+<Img src="/img/user-guide/ldap/ldap-groups.png" alt="LDAP configuration groups" maxWidth="500px"/>
+
 
 ### Attribute mappings
 
@@ -61,7 +88,7 @@ The Attribute mappings include the following settings:
 - **firstName**
 - **lastName**
 
-<Img src="/img/user-guide/ldap/ldap-attribute-mappings.png" alt="LDAP configuration attribute mappings"/>
+<Img src="/img/user-guide/ldap/ldap-att-mapping.png" alt="LDAP configuration attribute mappings"/>
 
 ### Sync settings
 
@@ -77,20 +104,36 @@ After filling in all the required information, click the <button className="butt
 ## LDAP actions
 
 After creating LDAP, you will see action buttons on the left side below the input fields.
-<Img src="/img/user-guide/ldap/ldap-actions.png" alt="LDAP actions (Sync all users, Sync changed users, Remove imported users, Delete LDAP)"/>
+<Img src="/img/user-guide/ldap/ldap-action-new.png" alt="LDAP actions (Sync all users, Sync changed users, Remove imported users, Delete LDAP)"/>
 
-### Sync all users
+###   **Sync All Users**
 
-Clicking the `Sync all users` button in IOMETE makes sure that all user information from your LDAP server gets updated and matched with IOMETE's user database. This includes usernames, emails, group memberships, and other details.
+    Clicking the Sync all users button ensures that all user data from your LDAP server is synchronized with the IOMETE user database. This includes updating usernames, emails, group memberships, and any other user details.
 
-### Sync changed users
+###  **Sync Changed Users**
+    
+    Clicking Sync changed users updates only the information for users whose details have changed since the last synchronization. IOMETE will check for modifications such as new users, deleted users, or updated details, and apply those changes to its database.
 
-Clicking the `Sync changed users` button in IOMETE updates only the user information that has changed since the last synchronization. This means IOMETE checks for updates in your LDAP server and only updates the relevant changes (e.g., modified user details, new users, or deleted users) in its user database.
+###  **Sync All Groups**
 
-### Remove imported users
+    Clicking Sync all groups ensures that all group information from your LDAP server is synchronized with IOMETE. This includes group memberships and associated attributes.
 
-Clicking the `Remove imported users` button in IOMETE will remove any user accounts that were previously imported from the LDAP server.
+###  **Sync Changed Groups**
 
-### Delete LDAP
+    Clicking Sync changed groups updates only the group information that has changed since the last sync. IOMETE will only pull in modifications or new groups from LDAP.
 
-To delete the LDAP settings, simply click the `Delete LDAP` button below the inputs. Afterward, you'll receive a confirmation message; click "Yes, delete" to confirm the deletion.
+###  **Remove Imported Users**
+    
+    Click Remove imported users to delete any users that were previously imported from the LDAP server. This action will remove them from the IOMETE user database.
+
+###  **Remove Imported Groups**
+    
+    Click Remove imported groups to delete any groups that were previously imported from LDAP, removing them from IOMETE's group database.
+
+###  **Disable LDAP**
+    
+    Click Disable LDAP to stop LDAP synchronization and disable the LDAP provider. Users previously imported from LDAP will be set to read-only until LDAP is re-enabled.
+
+###  **Delete LDAP**
+    
+    To permanently remove the LDAP settings, click Delete LDAP. A confirmation message will appear; confirm the action by selecting "Yes, delete" to finalize the removal.
