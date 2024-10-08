@@ -15,15 +15,11 @@ A catalog serves as a centralized repository for storing metadata about data ass
 
 In the context of Apache Iceberg, the catalog functions as a robust metadata management system specifically designed for Iceberg tables, which are typically organized into namespaces. It oversees various aspects of metadata related to data storage and retrieval, including table schemas, partitions, and snapshots. Furthermore, it supports advanced features such as schema evolution and time travel.
 
-Iceberg provides several types of catalogs to cater to different data management needs:
+Iomete allows you to configure the Iceberg Catalogs:
 
-- [JDBC Catalog](https://iceberg.apache.org/docs/latest/jdbc/)
 - [REST Catalog](https://www.tabular.io/apache-iceberg-cookbook/getting-started-catalog-background/)
 - [AWS Glue Catalog](https://iceberg.apache.org/docs/1.5.1/nessie/)
-- [Hive Metastore](https://iceberg.apache.org/docs/latest/hive/#feature-support)
 - [Nessie Catalog](https://iceberg.apache.org/docs/1.5.1/nessie/)
-- Hadoop Catalog
-
 
 ---
 ## Current Capabilities
