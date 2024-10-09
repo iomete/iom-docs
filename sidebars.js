@@ -117,7 +117,7 @@ const sidebars = {
             "user-guide/groups",
             "user-guide/roles",
             "user-guide/ldap-configuration",
-            "user-guide/iam-sso"
+            "user-guide/iam-sso",
           ],
         },
         "user-guide/create-a-personal-access-token",
@@ -156,6 +156,7 @@ const sidebars = {
         "user-guide/data-security/row-level-filter",
         "user-guide/data-security/tag-based-access-policy",
         "user-guide/data-security/tag-based-data-masking",
+        "user-guide/data-security/data-security-api",
       ],
     },
     {
