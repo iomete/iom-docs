@@ -51,6 +51,7 @@ const sidebars = {
             "deployment/mysql-deployment",
             "deployment/life-cycle-management",
             "deployment/truststore",
+            "deployment/network-policies",
             "deployment/rest-catalog",
             "deployment/connect-namespace",
           ],
