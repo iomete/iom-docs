@@ -14,10 +14,10 @@
     "write-heading-ids": "docusaurus write-heading-ids"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.5.1",
-    "@docusaurus/plugin-client-redirects": "^3.5.1",
-    "@docusaurus/plugin-content-blog": "^3.5.1",
-    "@docusaurus/preset-classic": "^3.5.1",
+    "@docusaurus/core": "^3.5.2",
+    "@docusaurus/plugin-client-redirects": "^3.5.2",
+    "@docusaurus/plugin-content-blog": "^3.5.2",
+    "@docusaurus/preset-classic": "^3.5.2",
     "@docusaurus/theme-mermaid": "^3.5.2",
     "@ionic-internal/ionic-ds": "^8.0.0",
     "@mdx-js/react": "^3.0.1",
@@ -27,17 +27,17 @@
     "docusaurus-plugin-image-zoom": "^2.0.0",
     "docusaurus-plugin-sass": "^0.2.5",
     "docusaurus-theme-github-codeblock": "^2.0.2",
-    "prism-react-renderer": "^2.3.0",
+    "prism-react-renderer": "^2.4.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "sass": "^1.77.8"
+    "sass": "^1.79.5"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.5.1",
-    "@docusaurus/types": "^3.5.1",
+    "@docusaurus/module-type-aliases": "^3.5.2",
+    "@docusaurus/types": "^3.5.2",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.41",
-    "tailwindcss": "^3.4.9"
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13"
   },
   "browserslist": {
     "production": [

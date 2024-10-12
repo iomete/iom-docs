@@ -27,6 +27,8 @@ const glossaryPlugin = [
 
     postsPerPage: "ALL",
     showReadingTime: false,
+
+    onUntruncatedBlogPosts: "ignore",
   },
 ];
 
