@@ -13,6 +13,18 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
 
 <Mailer/>
 
+<ReleaseTitle version="2.0.1" date="October 14, 2024" title="Post-Major Release Patch" />
+
+**Improvements**  
+- Added out-of-the-box support for Oracle and Microsoft SQL Server JDBC drivers.  
+- Introduced the “Run as User” property in Spark job configuration, allowing user impersonation for special accounts (e.g., service accounts) when running Spark jobs.  
+
+**Bugs Fixed**  
+- Resolved an issue with LDAP sync that caused User, Group, and Role Mappings to be removed after synchronization.  
+- Fixed an issue in Jupyter Notebook where database queries returned no results.  
+- Resolved a failure when querying Iceberg metadata tables due to row-level filtering policies.  
+- Fixed LDAP login issue that occurred with case-sensitive usernames.  
+
 <ReleaseTitle version="2.0.0" date="October 07, 2024" title="Major Upgrade with Integrated Security, Data Governance, and Enhanced Performance" />
 
 :::info
