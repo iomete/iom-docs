@@ -17,9 +17,9 @@ To view available Node Types, go to the `Settings` menu and click on the `Node T
 
 <Img src="/img/user-guide/node-types/node-types.png" alt="Node types" />
 
-**Create new node**
+### Create new node
 
-To create new node type, click the <button className="button button--primary button-iom"><Plus size={16}/>Create</button> button. After that, you'll see the following options for configuration.
+When creating new node template, you'll see the following options for configuration.
 
 | **Field**             | **Description**                                                                                                                                        |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -32,37 +32,64 @@ To create new node type, click the <button className="button button--primary but
 
 <Img src="/img/user-guide/node-types/node-type-create.png" alt="Node type create" maxWidth="600px"/>
 
-### Using node types
-
-You can utilize node types in [Lakehouses](./virtual-lakehouses.md), [Spark Connect Clusters](./spark-connect.md) and [Spark Jobs](../developer-guide/spark-job/getting-started.md).
+After creating node template you can utilize them in [Lakehouses](./virtual-lakehouses.md), [Spark Connect Clusters](./spark-connect.md) and [Spark Jobs](../developer-guide/spark-job/getting-started.md).
 Let's navigate to the [Lakehouse create](./virtual-lakehouses.md#create-a-new-lakehouse) page. Here, you'l find options for `Node driver` and `Node executor`, which include node type selections. You can also view the Total CPU and Memory based on the selected executor and executor count.
 
 <Img src="/img/user-guide/node-types/lakehouse-node-type-select.png" alt="Lakehouse Node type select" maxWidth="600px"/>
 
-The node type select dropdown looks like this.
-<Img src="/img/user-guide/node-types/lakehouse-node-type-select-options.png" alt="Lakehouse Node type select options" maxWidth="600px"/>
 
 ## Internal Implementation
 
-When a user specifies a CPU and Memory for a node, IOMETE internally sets the driver (`spark.driver`) and executor (`spark.executor`) parameters in the Spark as described below:
+When configuring a Spark Resource (such as Lakehouse, Spark Job, or Connect), IOMETE automatically sets the following Spark configuration parameters based on the selected node type. The system calculates these parameters for both the driver and executor using a combination of the node's CPU and internal factors:  
 
-| Parameter     | Description                                                                                         |
-| ------------- | --------------------------------------------------------------------------------------------------- |
-| `cores`       | CPU * 1.5 (`spark.iomete.coreFactor=1.5`). The value is always rounded to the nearest whole number. |
-| `coreLimit`   | Set to the specified CPU limit value.                                                               |
-| `coreRequest` | Set to the specified CPU limit value.                                                               |
-| `memory`      | Set to the specified memory limit value.                                                            |
+**Default Spark Configuration Parameters (Driver)**  
+| **Property**                            | <div style={{width: '100px'}}>**Default**</div> | **Description**                                                                         |
+| --------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `spark.driver.cores`                    | `CPU * 1.5`                                     | The number of Spark cores is set to the node's CPU multiplied by the core factor (1.5). |
+| `spark.kubernetes.driver.request.cores` | `CPU`                                           | The Kubernetes CPU request is set to match the exact CPU of the selected node.          |
+| `spark.kubernetes.driver.limit.cores`   | `CPU * 1.0`                                     | The Kubernetes CPU limit is set to the node’s CPU multiplied by the limit factor (1.0). |
+
+**Default Spark Configuration Parameters (Executors)**
+| **Property**                              | <div style={{width: '100px'}}>**Default**</div> | **Description**                                                                         |
+| ----------------------------------------- | ----------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `spark.executor.cores`                    | `CPU * 1.5`                                     | The number of Spark cores is set to the node's CPU multiplied by the core factor (1.5). |
+| `spark.kubernetes.executor.request.cores` | `CPU`                                           | The Kubernetes CPU request is set to match the exact CPU of the selected node.          |
+| `spark.kubernetes.executor.limit.cores`   | `CPU * 1.0`                                     | The Kubernetes CPU limit is set to the node’s CPU multiplied by the limit factor (1.0). |
 
 
-:::note Core Factor
-The 50% overhead is the default value set by `spark.iomete.coreFactor=1.5`, which can be overridden globally (in **Global Spark Settings** page) or for each Spark job by setting the `spark.iomete.coreFactor` in the **Spark config** section. This parameter accepts a number in decimal format and is used as a multiplier to the actual CPU size.
-:::
+## Customizing Spark Configuration in IOMETE
+IOMETE provides flexibility to customize and manage these configuration parameters for Spark resources globally or per job template, allowing users to modify the core and limit factors, or even set static values if needed.
 
-:::note Requests and Limits
-Both `spark.kubernetes.{driver,executor}.request.cores` and `spark.kubernetes.{driver,executor}.limit.cores` (also the **memory** config) are set to the same value. This ensures the driver and executor pods are getting the exact CPU allocated, avoiding resource contention and ensuring stable performance.
-:::
+### Globally Modifying Core and Limit Factors
 
-### Performance Benchmarking
+The following properties can be used to modify the default multiply factors globally, or for specific job templates or lakehouses:  
+| **Property**                              | **Default Value** | **Description**                                                                    |
+| ----------------------------------------- | ----------------- | ---------------------------------------------------------------------------------- |
+| `spark.iomete.driver.core.factor`         | `1.5`             | Factor to multiply the node's CPU to calculate the number of Spark driver cores.   |
+| `spark.iomete.driver.core.limit.factor`   | `1.0`             | Factor to multiply the node's CPU to set the Kubernetes CPU limit for the driver.  |
+| `spark.iomete.executor.core.factor`       | `1.5`             | Factor to multiply the node's CPU to calculate the number of Spark executor cores. |
+| `spark.iomete.executor.core.limit.factor` | `1.0`             | Factor to multiply the node's CPU to set the Kubernetes CPU limit for executors.   |
+
+**Example**  
+For a node with `2 CPUs`, if the core limit factors are set to `2.0`, the final value for `spark.kubernetes.driver.core.limit` or `spark.kubernetes.executor.core.limit` will be `4 CPUs`.
+
+### Overriding with Static Values
+
+If you want to set static values for cores and limits, you can override the default factors by using the following properties: 
+| **Property**                       | **Example** | **Description**                                                                                  |
+| ---------------------------------- | ----------- | ------------------------------------------------------------------------------------------------ |
+| `spark.iomete.driver.cores`        | `4`         | Static value to set the number of Spark driver cores, overriding the factor-based calculation.   |
+| `spark.iomete.driver.core.limit`   | `1000m`     | Static value to set the Kubernetes CPU limit for the Spark driver.                               |
+| `spark.iomete.executor.cores`      | `6`         | Static value to set the number of Spark executor cores, overriding the factor-based calculation. |
+| `spark.iomete.executor.core.limit` | `2000m`     | Static value to set the Kubernetes CPU limit for Spark executors.                                |
+
+### Priority of Configuration
+The final configuration is determined based on the following priority:  
+1. Override values: If static override values are provided (e.g., `spark.iomete.driver.cores`), they take the highest priority.
+2. Factor properties: If override values are not set, IOMETE will use the custom factors (e.g., `spark.iomete.driver.core.factor`).
+3. Default values: If neither overrides nor factors are provided, IOMETE will use the default factors (`1.5` for cores and `1.0` for limits).
+
+## Performance Benchmarking
 
 Using less than 1 CPU, such as 300m, can significantly slow down Spark jobs due to throttling. Benchmarking results will demonstrate performance variations with different CPU configurations.
 

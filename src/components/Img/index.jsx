@@ -6,7 +6,7 @@ export default function Img({
   src,
   alt = "IOMETE",
   maxWidth = "max-content",
-  centered = true,
+  centered = false,
   borderless = false,
   style = {},
 }) {
@@ -17,7 +17,9 @@ export default function Img({
   } catch (_) {}
   return (
     <div
-      className={`${styles.imgContainer} ${centered && styles.imgCentered} ${borderless && styles.imgBorderless}`}
+      className={`${styles.imgContainer} ${centered && styles.imgCentered} ${
+        borderless && styles.imgBorderless
+      }`}
       style={{ maxWidth }}
     >
       <ThemedImage
