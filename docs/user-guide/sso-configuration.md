@@ -1,5 +1,6 @@
 ---
 title: SSO Configuration
+sidebar_label: Overview
 description: Learn how to integrate SSO authentication within the IOMETE Data Plane
 last_update:
   date: 03/26/2024

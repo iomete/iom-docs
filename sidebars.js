@@ -108,19 +108,6 @@ const sidebars = {
         "user-guide/spark-jobs",
         "user-guide/sql-editor",
         "user-guide/data-catalog",
-        {
-          type: "category",
-          label: "Identity and Account Management",
-          collapsed: true,
-          items: [
-            "user-guide/users",
-            "user-guide/groups",
-            "user-guide/roles",
-            "user-guide/ldap-configuration",
-            "user-guide/iam-sso",
-          ],
-        },
-
         "user-guide/create-a-personal-access-token",
         "user-guide/global-spark-settings",
         "user-guide/spark-catalogs",
@@ -131,13 +118,25 @@ const sidebars = {
         "user-guide/volumes",
         "user-guide/secrets",
         "user-guide/api-reference",
+      ],
+    },
+    {
+      type: "category",
+      label: "Identity and Account ",
+      collapsed: false,
+      items: [
+        "user-guide/users",
+        "user-guide/groups",
+        "user-guide/roles",
+        "user-guide/ldap-configuration",
         {
           type: "category",
-          label: "Single Sign On",
-          collapsed: true,
+          label: "SSO Configuration",
+          collapsed: false,
           items: [
-            "user-guide/sso-saml",
-            "user-guide/sso-oidc"
+            "user-guide/sso-configuration",
+            "user-guide/sso-configuration-saml",
+            "user-guide/sso-configuration-oidc"
           ],
         },
       ],
