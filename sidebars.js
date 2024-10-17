@@ -120,6 +120,7 @@ const sidebars = {
             "user-guide/iam-sso",
           ],
         },
+
         "user-guide/create-a-personal-access-token",
         "user-guide/global-spark-settings",
         "user-guide/spark-catalogs",
@@ -130,6 +131,15 @@ const sidebars = {
         "user-guide/volumes",
         "user-guide/secrets",
         "user-guide/api-reference",
+        {
+          type: "category",
+          label: "Single Sign On",
+          collapsed: true,
+          items: [
+            "user-guide/sso-saml",
+            "user-guide/sso-oidc"
+          ],
+        },
       ],
     },
     {
