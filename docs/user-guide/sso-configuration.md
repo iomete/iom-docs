@@ -25,9 +25,9 @@ Your identity provider (IdP) must support at least one of these protocols.
 
 Currently IOMETE provides SSO via Okta.
 
-#### 1. [Configure SSO with SAML 2.0](/user-guide/sso-saml)
+#### 1. [Configure SSO with SAML 2.0](/user-guide/sso-configuration-saml)
 
-#### 2. [Configure SSO with OIDC](/user-guide/sso-oidc)
+#### 2. [Configure SSO with OIDC](/user-guide/sso-configuration-oidc)
 
 The process is similar for any identity provider that supports OIDC or SAML 2.0.
 
