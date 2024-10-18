@@ -2,55 +2,69 @@
 title: SSO with SAML 2.0
 description: Learn how to integrate SAML SSO within the IOMETE Data Plane
 last_update:
-  date: 03/26/2024
+  date: 10/18/2024
   author: Vugar Dadalov
 ---
 
 import { Trash } from "@phosphor-icons/react";
 import Img from '@site/src/components/Img';
 
-IOMETE offers an interface to configure your SSO for authentication.
+The following guide explains how to use SAML 2.0 to authenticate users in the IOMETE account console. This is particularly useful for organizations looking to centralize user authentication and enhance security through Single Sign-On (SSO).
 
 ---
-# SAML 2.0
 
-The following instructions describe how to use SAML 2.0 to authenticate account console users.
+To begin, navigate to the `Settings` menu and switch to the `Single Sign-On` tab under `IAM`.
+You will see options for **SAML 2.0** and [OpenID connect](/user-guide/sso-configuration-oidc). Click on SAML to start the configuration.
 
+<Img src="/img/user-guide/sso/sso.png" alt="SSO configuration"/>
 
-1. View the account console SSO page and copy the SAML URL:
-   - As an account admin, log in to the IOMETE Console and click the **Settings** icon in the sidebar. 
-   - Click the **Single Sing-on** tab under **IAM**. 
-   - Choose **SAML 2.0**. 
-   - Copy the value in the **IOMETE Redirect URI** field. You will need the IOMETE SAML URL for a later step.
+## SAML configuration steps
 
-2. In another browser window or tab, create a IOMETE application in your identity provider:
-   - Go to your identity provider (IdP). 
-   - Create a new client application (web):
-     - Use your identity provider’s documentation as needed.
-     - For the SAML URL field (which might be called a redirect URL), use the IOMETE SAML URL that you copied from the IOMETE page. 
-   - IOMETE looks for the following fields during authentication. Ensure that your identity provider has the relevant attribute mappings. 
-     - username 
-     - email 
-     - firstName 
-     - lastName 
-   - Copy the following objects and fields from your new IOMETE application:
-     - **The x.509 certificate**: A digital certificate provided by your Identity Provider for securing communications between IOMETE and the Identity Provider 
-     - **The single-sign-on (SSO) UR**L for your identity provider. This is the URL that initiates SSO with your identity provider. It is also sometimes referred to as the SAML endpoint. 
-     - **The identity provider issuer**: This is the unique identifier for your SAML identity provider. This is sometimes referred to as the Entity ID or Issuer URL.
-     
-3. Set your IOMETE account to use your identity provider:
+Once on the SAML configuration page, follow these steps to integrate SAML 2.0 with your identity provider (IdP):
 
-<Img src="/img/user-guide/sso/saml2.0sso.png" alt="SAML configuration" />
+### 1. Retrieve the IOMETE Redirect URL
 
-   - Return to the browser tab or window with the IOMETE account console SSO page. 
-   - Type or paste the following fields from your identity provider’s IOMETE application: the single sign-on URL, the identity provider entity ID, and the x.509 Certificate. 
-   - Click **Save**. 
-   - Click **Enable SAML SSO** to enable single sign-on for your account. 
-   - Test IOMETE Console login with SSO. 
-   
-4. Grant users access to the IOMETE application in your identity provider. You might need to modify the access permissions for the application.
+On the SAML configuration page, you’ll find the **IOMETE redirect URL**. Copy this URL, as it will be required when setting up your application in the identity provider.
 
+<Img src="/img/user-guide/sso/saml.png" alt="SSO SAML configuration" maxWidth="500px" />
 
-:::info
-To prevent getting locked out of IOMETE during single sign-on testing, IOMETE recommends keeping the account console open in a different browser window.
+### 2. Set Up IOMETE in Your Identity Provider
+
+In a new browser window or tab, proceed to your identity provider and create an application for IOMETE. Follow these steps:
+
+- **Go to your Identity Provider (IdP)**: Open your IdP’s admin console. This could be services like Okta, Microsoft Entra ID, OneLogin, or others.
+- **Create a new client application**: When prompted, choose to create a new web client application. Use your provider's documentation for reference if needed.
+- **Input the IOMETE SAML URL**: In the SAML URL field (sometimes labeled as the `Redirect URL`), paste the IOMETE SAML redirect URL you copied earlier.
+- **Configure attribute mappings**: Ensure that the following fields are mapped in your IdP:
+  - `username`
+  - `email`
+  - `firstName`
+  - `lastName`
+- **Copy necessary information from your Identity Provider**: You will need to copy and save the following from your IdP:
+  - **The identity provider issuer**: This unique identifier is sometimes called the `Issuer URL` or `Entity ID`.
+  - **The single-sign-on (SSO) URL**: This is the URL used to initiate SSO. It is sometimes called the `SAML endpoint`.
+  - **The x.509 certificate**: This digital certificate is provided by your IdP to secure communication between IOMETE and your IdP.
+
+### 3. Configure SAML in IOMETE
+
+Return to the IOMETE SSO configuration page in your browser. Enter the following information from your IdP:
+
+- `Entity ID`
+- `Single Sign-On URL`
+- `x.509 Certificate`
+
+After inputting these details, follow these steps:
+
+- Click **`Save`** to store your settings.
+- Click **`Enable SAML SSO`** to activate Single Sign-On for your account.
+- Test logging into the IOMETE console using SSO to ensure it works as expected.
+
+<Img src="/img/user-guide/sso/saml-configured.png" alt="SSO SAML configuration" maxWidth="500px" />
+
+### 4. Grant User Access in the Identity Provider
+
+Once your SSO is configured, ensure that users are granted access to the IOMETE application in your IdP. Depending on your IdP, you might need to adjust the permissions for users to access the IOMETE application.
+
+:::info **Tip**  
+During the SSO testing phase, it’s recommended to keep the IOMETE account console open in a separate browser window. This will prevent you from being locked out while making changes.  
 :::
