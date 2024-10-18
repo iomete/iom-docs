@@ -23,20 +23,20 @@ To view LDAP configuration page, navigate to the `Settings` menu item and click 
 The General Options include the following settings:
 
 - **Connection URL**:
-  The URL to connect to your LDAP server, for example: `ldap://openldap.infra.svc:389`
+  The URL to connect to your LDAP server. Example: `ldap://openldap.infra.svc:389`
 - **Bind DN**:
-  The distinguished name (DN) used for binding to the LDAP server, such as: `cn=admin,dc=iomete,dc=com`
+  The distinguished name (DN) used for binding to the LDAP server. This Bind DN must have the necessary permissions on the LDAP directory. Example: `cn=admin,dc=iomete,dc=com`
 - **Bind Credential**:
   The password for the Bind DN (admin).
 
 <Img src="/img/user-guide/ldap/ldap-general-options.png" alt="LDAP configuration general options" maxWidth="600px"/>
 
 :::info `Test connection`
-You can test a URL connection by clicking the `Test connection` button (located next to the Connection URL input) before saving your settings.
+You can test a URL connection by clicking the `Test connection` button (located next to the Connection URL input) after entering the Connection URL, before saving your settings.
 :::
 
 :::info `Test authentication`
-You can test a URL authentication by clicking the `Test authentication` button (located next to the Bind Credential input) before saving your settings.
+You can test URL authentication by clicking the `Test authentication` button (located next to the Bind Credential input) after entering the Connection URL, Bind DN and Bind Credential, before saving your settings.
 :::
 
 ### User searching and updating
@@ -44,23 +44,23 @@ You can test a URL authentication by clicking the `Test authentication` button (
 Defines the LDAP query parameters for locating and filtering users in the directory.
 
 - **Users DN**:
-  The base distinguished name where the users are located in the LDAP directory, e.g.: ` ou=users,dc=iomete,dc=com`
+  The full DN where the users are located in the LDAP directory. Example: ` ou=users,dc=iomete,dc=com`.
 - **User Object Classes**:
-  A comma-separated list of object classes that identify LDAP user objects, such as ` inetOrgPerson, organizationalPerson`
-- **Custom User LDAP Filter** (Optional):
-  Add a custom filter to refine user search. Use LDAP syntax starting with ( and ending with ).
+  A comma-separated list of object classes that identify LDAP user objects. Example: `inetOrgPerson, organizationalPerson`.
+- **Custom User LDAP Filter** _(Optional)_:
+  Add a custom filter to refine user search. Use LDAP syntax starting with `(` and ending with `)`.
 
 <Img src="/img/user-guide/ldap/ldap-user-setting.png" alt="LDAP configuration user searching and updating" maxWidth="600px"/>
 
 ### User attribute mappings
 
-The attribute should be filled for all LDAP user records you want to import from LDAP to IOMETE.
-The Attribute mappings include the following settings:
+The LDAP attribute mapped as IOMETE refers to the correlation between LDAP attributes and the application's internal user model, ensuring user-related information is correctly retrieved or stored from the LDAP directory.
 
-- **username**: Default: `uid`
-- **email**: Default: `mail`
-- **firstName**: Default: `cn`
-- **lastName**: Default: `sn`
+- **username**:
+  LDAP attribute mapped as IOMETE username. Commonly `uid` for many LDAP servers, and `sAMAccountName` or `cn` for Active Directory. This attribute must be set for all LDAP users you want to import into IOMETE.
+- **email**: LDAP attribute mapped as IOMETE email. Typically `mail` for most LDAP servers.
+- **firstName**: LDAP attribute mapped as IOMETE first name. Default `cn` (Common name)
+- **lastName**: LDAP attribute mapped as IOMETE last name. Commonly `sn` (surname) in most LDAP servers.
 
 <Img src="/img/user-guide/ldap/ldap-user-attribute-mapping.png" alt="LDAP configuration user attribute mappings" maxWidth="600px"/>
 
@@ -73,17 +73,18 @@ Defines how LDAP groups are searched and mapped, including the DN base, object c
   This is the parent distinguished name (DN) of your LDAP groups.
 - **Group Object Classes**:
   A comma-separated list of object classes that identify LDAP group objects, for instance: ` groupOfNames`
-- **Custom User LDAP Filter (Optional)**:
+- **Custom User LDAP Filter** _(Optional)_:
   Add a custom filter to refine group searches. Use LDAP syntax, such as: ` (&(objectClass=groupOfNames)(cn={name}))`
 
 <Img src="/img/user-guide/ldap/ldap-group-setting.png" alt="LDAP configuration group searching and updating" maxWidth="600px"/>
 
-**Group attribute mappings**
+### Group attribute mappings
+
 The attribute should be filled for all LDAP group records you want to import from LDAP server.
 
-- **name**: The group's common name (CN), typically mapped to the cn LDAP attribute.
-- **membership**: Defines the membership attribute, commonly member.
-- **membershipAttributeType**: Specifies the type of the membership attribute. It can be either DN or UID.
+- **name**: The LDAP attribute used for group names and RDN is typically `cn`. For example, a group's DN might look like `cn=Group1,ou=groups,dc=example,dc=org`.
+- **membership**: The LDAP attribute used for group membership mapping is typically `member`.
+- **membershipAttributeType**: Specifies the type of the membership attribute. It can be either a `DN` (Distinguished Name) or a `UID` (User Identifier). DN represents the **full path** to the object in the directory, while UID refers to the **unique identifier** of the user, commonly used in systems like POSIX.
 
 <Img src="/img/user-guide/ldap/ldap-group-attribute-mapping.png" alt="LDAP configuration group attribute mappings" maxWidth="600px" />
 
