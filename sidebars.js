@@ -143,6 +143,27 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "Spark Catalogs ",
+      collapsed: false,
+      items: [
+        "user-guide/spark-catalogs-overview",
+        "user-guide/spark-catalogs-internal",
+        {
+          type: "category",
+          label: "External Catalogs",
+          collapsed: false,
+          items: [
+            "user-guide/spark-catalogs-external-overview",
+            "user-guide/spark-catalogs-external-jdbc",
+            "user-guide/spark-catalogs-external-rest",
+            "user-guide/spark-catalogs-external-glue",
+            "user-guide/spark-catalogs-external-nessie"
+          ],
+        },
+      ],
+    },
+    {
+      type: "category",
       label: "Data Sources",
       collapsed: false,
       items: [
