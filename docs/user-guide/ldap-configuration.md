@@ -26,7 +26,7 @@ The General Options include the following settings:
   The URL to connect to your LDAP server. Example: `ldap://openldap.infra.svc:389`
 - **Bind DN**:
   The distinguished name (DN) used for binding to the LDAP server. This Bind DN must have the necessary permissions on the LDAP directory. Example: `cn=admin,dc=iomete,dc=com`
-- **Bind Credential**:
+- **Bind credential**:
   The password for the Bind DN (admin).
 
 <Img src="/img/user-guide/ldap/ldap-general-options.png" alt="LDAP configuration general options" maxWidth="600px"/>
@@ -44,10 +44,10 @@ You can test URL authentication by clicking the `Test authentication` button (lo
 Defines the LDAP query parameters for locating and filtering users in the directory.
 
 - **Users DN**:
-  The full DN where the users are located in the LDAP directory. Example: ` ou=users,dc=iomete,dc=com`.
-- **User Object Classes**:
+  The full DN where the users are located in the LDAP directory. This DN is the parent of LDAP users. Example: ` ou=users,dc=iomete,dc=com`.
+- **User object classes**:
   A comma-separated list of object classes that identify LDAP user objects. Example: `inetOrgPerson, organizationalPerson`.
-- **Custom User LDAP Filter** _(Optional)_:
+- **Custom user LDAP filter** _(Optional)_:
   Add a custom filter to refine user search. Use LDAP syntax starting with `(` and ending with `)`.
 
 <Img src="/img/user-guide/ldap/ldap-user-setting.png" alt="LDAP configuration user searching and updating" maxWidth="600px"/>
@@ -71,9 +71,9 @@ Defines how LDAP groups are searched and mapped, including the DN base, object c
 - **Groups DN**:
   Defines the LDAP tree where groups are located, for example: ` ou=groups,dc=iomete,dc=com`.
   This is the parent distinguished name (DN) of your LDAP groups.
-- **Group Object Classes**:
+- **Group object classes**:
   A comma-separated list of object classes that identify LDAP group objects, for instance: ` groupOfNames`
-- **Custom User LDAP Filter** _(Optional)_:
+- **Custom group LDAP filter** _(Optional)_:
   Add a custom filter to refine group searches. Use LDAP syntax, such as: ` (&(objectClass=groupOfNames)(cn={name}))`
 
 <Img src="/img/user-guide/ldap/ldap-group-setting.png" alt="LDAP configuration group searching and updating" maxWidth="600px"/>
@@ -92,8 +92,7 @@ The attribute should be filled for all LDAP group records you want to import fro
 
 Sync settings options include how often everything syncs: Full sync interval (seconds) or Updated/New LDAP user sync interval (seconds).
 
-- **Periodic Full Sync** Should periodic full synchronization of LDAP users be enabled in IOMETE? If enabled, a number input field will appear below it to input the synchronization interval in seconds.
-- **Periodic Changed Users Sync** Should periodic synchronization of changed or newly created LDAP users be enabled in IOMETE? If yes, you'll see a number input field below to set the synchronization interval in seconds.
+- **Periodic full sync** Should periodic full synchronization of LDAP users be enabled in IOMETE? If enabled, a number input field will appear below it to input the synchronization interval in seconds.
 
 <Img src="/img/user-guide/ldap/ldap-sync-settings.png" alt="LDAP configuration sync settings" maxWidth="600px" />
 
@@ -104,29 +103,13 @@ After filling in all the required information, click the <button className="butt
 After creating LDAP, you will see action buttons on the left side below the input fields.
 <Img src="/img/user-guide/ldap/ldap-sync-actions.png" alt="LDAP actions (Sync all users, Sync changed users, Remove imported users, Delete LDAP)"  maxWidth="600px" />
 
-### **Sync all users**
+### **Sync all users and groups**
 
-    Clicking the Sync all users button ensures that all user data from your LDAP server is synchronized with the IOMETE user database. This includes updating usernames, emails, group memberships, and any other user details.
+    Clicking the `Sync all users and groups` button ensures that all user and group data from your LDAP server is synchronized with the IOMETE user and group database. This includes updating usernames, emails, group memberships, and any other user and group details.
 
-### **Sync changed users**
+### **Remove imported users and groups**
 
-    Clicking Sync changed users updates only the information for users whose details have changed since the last synchronization. IOMETE will check for modifications such as new users, deleted users, or updated details, and apply those changes to its database.
-
-### **Sync all groups**
-
-    Clicking Sync all groups ensures that all group information from your LDAP server is synchronized with IOMETE. This includes group memberships and associated attributes.
-
-### **Sync changed groups**
-
-    Clicking Sync changed groups updates only the group information that has changed since the last sync. IOMETE will only pull in modifications or new groups from LDAP.
-
-### **Remove imported users**
-
-    Click Remove imported users to delete any users that were previously imported from the LDAP server. This action will remove them from the IOMETE user database.
-
-### **Remove imported groups**
-
-    Click Remove imported groups to delete any groups that were previously imported from LDAP, removing them from IOMETE's group database.
+    Click `Remove imported users and groups` to delete any users and groups that were previously imported from the LDAP server. This action will remove them from the IOMETE user and group database.
 
 ### **Disable LDAP**
 
