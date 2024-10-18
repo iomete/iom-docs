@@ -113,10 +113,11 @@ To set up this connection, you must provide:
 IOMETE can connect to any of the existing Iceberg Catalogs you might already have
 
 - [REST Catalog](https://www.tabular.io/apache-iceberg-cookbook/getting-started-catalog-background/)
-- [AWS Glue Catalog](https://iceberg.apache.org/docs/1.5.1/nessie/)
+- [AWS Glue Catalog](https://iceberg.apache.org/docs/1.5.1/aws/#glue-catalog/)
 - [Nessie Catalog](https://iceberg.apache.org/docs/1.5.1/nessie/)
 
-Follow the instructions on each of screens to configure the catalog. For example if you would like to configure
+Follow the instructions on each of screens to configure the catalog. 
+For example if you would like to configure
 a pre-existing REST Catalog, like [Polaris](https://www.snowflake.com/en/blog/introducing-polaris-catalog/) or 
 [Unity Catalog](https://www.databricks.com/product/unity-catalog), you would need to provide:
 
