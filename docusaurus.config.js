@@ -64,18 +64,6 @@ const config = {
   markdown: {
     mermaid: true,
   },
-  // scripts: ["/resources/js/intercom.js"],
-  // scripts: [{
-  //   src: "/resources/js/mailerlite.js",
-  //   async: true
-  // }],
-  // scripts: [
-  //   {
-  //     src: 'https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=VWBbac',
-  //     async: true,
-  //   },
-  // ],
-
   presets: [
     [
       "classic",

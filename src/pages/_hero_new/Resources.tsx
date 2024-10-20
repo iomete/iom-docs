@@ -5,6 +5,7 @@ import Card from "./Card";
 
 import "./styles.scss";
 import { bottomConnections, topConnections } from "./consts";
+import { BASE_PATH } from "../../../consts";
 
 function Resources() {
   return (
@@ -30,7 +31,7 @@ function Resources() {
                 <img
                   style={{ height: "calc(100% + 26px)" }}
                   className="object-cover object-left-top absolute bottom-[-26px] right-[-26px] border-solid border border-[#cfd6df] dark:border-[#252526]"
-                  src="/resources/img/hero/lakehouses-console.svg"
+                  src={`${BASE_PATH}/img/hero/lakehouses-console.svg`}
                   alt="Lakahouses"
                 />
               </div>
@@ -115,7 +116,7 @@ function Resources() {
             <img
               style={{ height: "calc(80% + 26px)" }}
               className="object-cover object-left-top mb-[-26px]"
-              src="/resources/img/hero/code-sql.svg"
+              src={`${BASE_PATH}/img/hero/code-sql.svg`}
               alt="SQL Quickstart"
             />
           </Card>

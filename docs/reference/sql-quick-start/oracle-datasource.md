@@ -1,6 +1,6 @@
 ---
-title: Oracle Data Source  
-sidebar_label: Oracle Data Source  
+title: Oracle Data Source
+sidebar_label: Oracle Data Source
 description: Learn how to connect to Oracle from IOMETE Lakehouse.
 ---
 
@@ -11,6 +11,7 @@ By default, IOMETE includes MySQL, PostgreSQL, and Snowflake JDBC drivers. Howev
 ### Configure Oracle JDBC Driver
 
 Through the IOMETE Console:
+
 1. **Navigate to Settings:**  
    Go to the IOMETE Console, then proceed to `Settings -> Spark Settings (Global Spark Settings)`.
 
@@ -34,10 +35,10 @@ s3a://lakehouse/drivers/ojdbc8.jar
 
 2.3.
 Then, add the following configuration in the Global Spark Settings:
+
 ```shell lineNumbers
 spark.jars s3a://lakehouse/drivers/ojdbc8.jar
 ```
-
 
 ### Restart the Lakehouse
 
@@ -60,7 +61,7 @@ OPTIONS (
 ```
 
 :::info
-In addition to using the JDBC method to create individual tables, you can also create a Spark JDBC catalog. By setting up a Spark JDBC catalog, you will be able to connect to an entire database or schema and browse all the tables under that catalog without needing to write DDL statements for every table. This simplifies the process of managing multiple tables in your Oracle Data Source. For more details on setting up a Spark JDBC catalog, refer to the following [Spark Catalogs](/resources/user-guide/spark-catalogs) Documentation.
+In addition to using the JDBC method to create individual tables, you can also create a Spark JDBC catalog. By setting up a Spark JDBC catalog, you will be able to connect to an entire database or schema and browse all the tables under that catalog without needing to write DDL statements for every table. This simplifies the process of managing multiple tables in your Oracle Data Source. For more details on setting up a Spark JDBC catalog, refer to the following [Spark Catalogs](../../user-guide/spark-catalogs.md) Documentation.
 :::
 
 ### Important Parameters

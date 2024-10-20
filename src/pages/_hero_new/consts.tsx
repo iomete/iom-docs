@@ -1,12 +1,12 @@
-import React, { ReactElement } from "react";
+import React from "react";
 
 import {
   DiscordLogo,
   GithubLogo,
   HouseLine,
-  SquareHalfBottom,
   YoutubeLogo,
 } from "@phosphor-icons/react";
+import { BASE_PATH } from "../../../consts";
 
 export const guides = [
   {
@@ -182,21 +182,21 @@ export const latestBlogs = [
     date: "Apr 4, 2023",
     duration: "3 min read",
     url: "/blog/apache-iceberg-delta-lake",
-    icon: <img src="/resources/logo-white.svg" width={60} />,
+    icon: <img src={`${BASE_PATH}/logo-white.svg`} width={60} />,
   },
   {
     title: "Data Warehouse to Lakehouse Evolution",
     date: "Jan 17, 2024",
     duration: "20 min read",
     url: "/blog/from-data-warehouses-to-data-lakehouses",
-    icon: <img src="/resources/logo-white.svg" width={60} />,
+    icon: <img src={`${BASE_PATH}/logo-white.svg`} width={60} />,
   },
   {
     title: "How to Build An On-prem Data Lakehouse",
     date: "April 4, 2023",
     duration: "3 min read",
     url: "/blog/why-we-choose-to-be-the-on-premise-data-lakehouse",
-    icon: <img src="/resources/logo-white.svg" width={60} />,
+    icon: <img src={`${BASE_PATH}/logo-white.svg`} width={60} />,
   },
 ];
 
@@ -243,29 +243,29 @@ export const communities = [
 export const topConnections = [
   {
     name: "Power BI",
-    imgSrc: "/resources/img/hero/connections/power-bi.svg",
+    imgSrc: `${BASE_PATH}/img/hero/connections/power-bi.svg`,
   },
   {
     name: "Tableau BI",
-    imgSrc: "/resources/img/hero/connections/tableau.svg",
+    imgSrc: `${BASE_PATH}/img/hero/connections/tableau.svg`,
   },
   {
     name: "Redash BI",
-    imgSrc: "/resources/img/hero/connections/redash-bi.svg",
+    imgSrc: `${BASE_PATH}/img/hero/connections/redash-bi.svg`,
   },
 ];
 
 export const bottomConnections = [
   {
     name: "Apache Airflow",
-    imgSrc: "/resources/img/hero/connections/airflow.svg",
+    imgSrc: `${BASE_PATH}/img/hero/connections/airflow.svg`,
   },
   {
     name: "dbt",
-    imgSrc: "/resources/img/hero/connections/dbt.svg",
+    imgSrc: `${BASE_PATH}/img/hero/connections/dbt.svg`,
   },
   {
     name: "Prefect",
-    imgSrc: "/resources/img/hero/connections/prefect.svg",
+    imgSrc: `${BASE_PATH}/img/hero/connections/prefect.svg`,
   },
 ];

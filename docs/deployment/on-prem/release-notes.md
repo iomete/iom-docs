@@ -15,15 +15,17 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
 
 <ReleaseTitle version="2.0.1" date="October 14, 2024" title="Post-Major Release Patch" />
 
-**Improvements**  
-- Added out-of-the-box support for Oracle and Microsoft SQL Server JDBC drivers.  
-- Introduced the “Run as User” property in Spark job configuration, allowing user impersonation for special accounts (e.g., service accounts) when running Spark jobs.  
+**Improvements**
 
-**Bugs Fixed**  
-- Resolved an issue with LDAP sync that caused User, Group, and Role Mappings to be removed after synchronization.  
-- Fixed an issue in Jupyter Notebook where database queries returned no results.  
-- Resolved a failure when querying Iceberg metadata tables due to row-level filtering policies.  
-- Fixed LDAP login issue that occurred with case-sensitive usernames.  
+- Added out-of-the-box support for Oracle and Microsoft SQL Server JDBC drivers.
+- Introduced the “Run as User” property in Spark job configuration, allowing user impersonation for special accounts (e.g., service accounts) when running Spark jobs.
+
+**Bugs Fixed**
+
+- Resolved an issue with LDAP sync that caused User, Group, and Role Mappings to be removed after synchronization.
+- Fixed an issue in Jupyter Notebook where database queries returned no results.
+- Resolved a failure when querying Iceberg metadata tables due to row-level filtering policies.
+- Fixed LDAP login issue that occurred with case-sensitive usernames.
 
 <ReleaseTitle version="2.0.0" date="October 07, 2024" title="Major Upgrade with Integrated Security, Data Governance, and Enhanced Performance" />
 
@@ -42,8 +44,9 @@ This is a major release with significant changes to the architecture and user ex
 We have removed `Keycloak` and transitioned all its functionality—`user`, `group`, and `role` management, as well as `LDAP` and `SAML/OIDC Connect` support—directly into IOMETE. This shift centralizes control within IOMETE, enhancing security and simplifying management for large-scale deployments.
 
 Key Improvements:
-- Optimized LDAP support for large-scale user integrations, addressing performance issues experienced with Keycloak. 
-- Support for both user-based and group-based synchronization. 
+
+- Optimized LDAP support for large-scale user integrations, addressing performance issues experienced with Keycloak.
+- Support for both user-based and group-based synchronization.
 - Service accounts support (users without standard identifiers such as email or first name).
 
 This change improves performance and simplifies maintenance by reducing external dependencies.
@@ -55,6 +58,7 @@ This change improves performance and simplifies maintenance by reducing external
 We have removed Apache Ranger, fully integrating its data access policy management functionality within IOMETE. This offers better control, performance, and security while reducing the complexity of managing separate systems.
 
 Key Benefits:
+
 - Improved performance and streamlined management of data access policies.
 - Reduced security concerns by eliminating the dependency on open-source Ranger.
 
@@ -63,6 +67,7 @@ Key Benefits:
 We are introducing Tag-Based Access Control and Tag-Based Masking, simplifying data governance within IOMETE by allowing policies to be triggered automatically based on tags.
 
 Key Features:
+
 - Dynamic Policy Activation: Automatically apply access or masking policies based on tags assigned to tables or columns.
 - Tag-Based Access Control: Define user or group access based on tags.
 - Tag-Based Masking: Dynamically apply data masking policies for sensitive data based on tags.
@@ -76,6 +81,7 @@ This feature streamlines governance processes and provides a more efficient solu
 IOMETE now includes a fully integrated Iceberg REST Catalog, replacing the previous Iceberg JDBC catalog. This upgrade delivers enhanced performance, scalability, and security for Spark jobs, Lakehouse clusters, and SparkConnect clusters.
 
 Key Benefits:
+
 - Centralized Caching: Shared metadata cache across all Spark jobs and clusters, improving query resolution times and overall system performance.
 - Reduced Database Load: Pooled connections significantly reduce strain on the Postgres metadata database.
 - Integrated Authentication and Authorization: Supports token-based authentication, OpenConnect, OAuth, and ensures data access policies are enforced across REST catalog interactions.
@@ -91,14 +97,13 @@ Key Benefits:
 - The process for connecting a new namespace has been updated. Please refer to the Advanced Deployment Guides for more information.  
 - Added pagination to user related components on UI Console.
 
-
 <ReleaseTitle version="1.20.2" date="September 3, 2024" title="Pause for Scheduled Job" />
 - Fixed issue with private docker repos not being visible on UI.
 - Added possibility to suspend Scheduled Spark applications.
 
 <ReleaseTitle version="1.20.0" date="August 26, 2024" title="Multi-Namespace, Secret Management" />
 
-- Centralized Secret Management: Users can now create and manage secrets centrally from the settings page and inject them into Spark applications. Supports integration with Kubernetes and HashiCorp Vault for storing secrets. Learn more [here](https://iomete.com/resources/user-guide/secrets).
+- Centralized Secret Management: Users can now create and manage secrets centrally from the settings page and inject them into Spark applications. Supports integration with Kubernetes and HashiCorp Vault for storing secrets. Learn more [here](../../user-guide/secrets).
 - Added Logs Panel for Spark Connect.
 - Resolved an issue related to `tmpfs` storage.
 - Spark Job API: Added the ability to override `instanceConfig` in the Spark job API.
