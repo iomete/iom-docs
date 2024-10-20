@@ -11,9 +11,9 @@ const YoutubeCard = ({ link, title }) => {
           height="315"
           src={link}
           title={title}
-          frameborder="0"
+          // frameBorder="0"
           allow="accelerometer; autoplay; fullscreen; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
+        // allowFullScreen
         ></iframe>
       </div>
     </div>
