@@ -17,7 +17,7 @@ IOMETE offers an interface to configure your LDAP server.
 
 To view LDAP configuration page, navigate to the `Settings` menu item and click to the `LDAP` tab under `IAM`.
 
-<Img src="/img/user-guide/ldap/ldap-configuration.png" alt="LDAP configuration" />
+<Img src="/img/user-guide/iam/ldap/ldap-configuration.png" alt="LDAP configuration" />
 
 ### General options
 
@@ -30,7 +30,7 @@ The General Options include the following settings:
 - **Bind credential**:
   The password for the Bind DN (admin).
 
-<Img src="/img/user-guide/ldap/ldap-general-options.png" alt="LDAP configuration general options" maxWidth="600px"/>
+<Img src="/img/user-guide/iam/ldap/ldap-general-options.png" alt="LDAP configuration general options" maxWidth="600px"/>
 
 :::info `Test connection`
 You can test a URL connection by clicking the `Test connection` button (located next to the Connection URL input) after entering the Connection URL, before saving your settings.
@@ -51,7 +51,7 @@ Defines the LDAP query parameters for locating and filtering users in the direct
 - **Custom user LDAP filter** _(Optional)_:
   Add a custom filter to refine user search. Use LDAP syntax starting with `(` and ending with `)`.
 
-<Img src="/img/user-guide/ldap/ldap-user-setting.png" alt="LDAP configuration user searching and updating" maxWidth="600px"/>
+<Img src="/img/user-guide/iam/ldap/ldap-user-setting.png" alt="LDAP configuration user searching and updating" maxWidth="600px"/>
 
 ### User attribute mappings
 
@@ -63,7 +63,7 @@ The LDAP attribute mapped as IOMETE refers to the correlation between LDAP attri
 - **firstName**: LDAP attribute mapped as IOMETE first name. Default `cn` (Common name)
 - **lastName**: LDAP attribute mapped as IOMETE last name. Commonly `sn` (surname) in most LDAP servers.
 
-<Img src="/img/user-guide/ldap/ldap-user-attribute-mapping.png" alt="LDAP configuration user attribute mappings" maxWidth="600px"/>
+<Img src="/img/user-guide/iam/ldap/ldap-user-attribute-mapping.png" alt="LDAP configuration user attribute mappings" maxWidth="600px"/>
 
 ### Group searching and updating
 
@@ -77,7 +77,7 @@ Defines how LDAP groups are searched and mapped, including the DN base, object c
 - **Custom group LDAP filter** _(Optional)_:
   Add a custom filter to refine group searches. Use LDAP syntax, such as: ` (&(objectClass=groupOfNames)(cn={name}))`
 
-<Img src="/img/user-guide/ldap/ldap-group-setting.png" alt="LDAP configuration group searching and updating" maxWidth="600px"/>
+<Img src="/img/user-guide/iam/ldap/ldap-group-setting.png" alt="LDAP configuration group searching and updating" maxWidth="600px"/>
 
 ### Group attribute mappings
 
@@ -87,7 +87,7 @@ The attribute should be filled for all LDAP group records you want to import fro
 - **membership**: The LDAP attribute used for group membership mapping is typically `member`.
 - **membershipAttributeType**: Specifies the type of the membership attribute. It can be either a `DN` (Distinguished Name) or a `UID` (User Identifier). DN represents the **full path** to the object in the directory, while UID refers to the **unique identifier** of the user, commonly used in systems like POSIX.
 
-<Img src="/img/user-guide/ldap/ldap-group-attribute-mapping.png" alt="LDAP configuration group attribute mappings" maxWidth="600px" />
+<Img src="/img/user-guide/iam/ldap/ldap-group-attribute-mapping.png" alt="LDAP configuration group attribute mappings" maxWidth="600px" />
 
 ### Sync settings
 
@@ -95,14 +95,14 @@ Sync settings options include how often everything syncs: Full sync interval (se
 
 - **Periodic full sync** Should periodic full synchronization of LDAP users be enabled in IOMETE? If enabled, a number input field will appear below it to input the synchronization interval in seconds.
 
-<Img src="/img/user-guide/ldap/ldap-sync-settings.png" alt="LDAP configuration sync settings" maxWidth="600px" />
+<Img src="/img/user-guide/iam/ldap/ldap-sync-settings.png" alt="LDAP configuration sync settings" maxWidth="600px" />
 
 After filling in all the required information, click the <button className="button button--primary button-iom">**Create**</button> button.
 
 ## LDAP actions
 
 After creating LDAP, you will see action buttons on the left side below the input fields.
-<Img src="/img/user-guide/ldap/ldap-sync-actions.png" alt="LDAP actions (Sync all users, Sync changed users, Remove imported users, Delete LDAP)"  maxWidth="600px" />
+<Img src="/img/user-guide/iam/ldap/ldap-sync-actions.png" alt="LDAP actions (Sync all users, Sync changed users, Remove imported users, Delete LDAP)"  maxWidth="600px" />
 
 ### **Sync all users and groups**
 

@@ -16,7 +16,7 @@ Welcome to the documentation for Roles! This document aims to provide a comprehe
 
 The system initially generates some roles with full permissions. Users have the ability to create new role or duplicate existing role from role list.
 
-<Img src="/img/user-guide/roles/roles.png"  alt="Roles" />
+<Img src="/img/user-guide/iam/roles/roles.png"  alt="Roles" />
 
 ## Role create
 
@@ -27,7 +27,7 @@ In the role create page contains following inputs:
 - `Description`
 - `Permissions` that covering areas such as **Lakehouse**, **Spark Connect**, **Spark Jobs**, **Jupyter Notebook**, **Data Governance**, **Settings**, **Secrets**.
 
-<Img src="/img/user-guide/roles/role-create.png"  alt="Role create" />
+<Img src="/img/user-guide/iam/roles/role-create.png"  alt="Role create" />
 
 ### Permissions Overview
 
@@ -43,7 +43,7 @@ Each permission includes the following access levels:
 
 To activate a specific access item, simply check the related checkbox. The default setting is **(All)** for each access item. However, you can customize options for everything except _View_ and _Manage_ as needed.
 
-<Img src="/img/user-guide/roles/access-can-view.png"  alt="Role permission can view"  />
+<Img src="/img/user-guide/iam/roles/access-can-view.png"  alt="Role permission can view"  />
 
 ### Assign role
 
@@ -51,10 +51,10 @@ After creating a role, go to the user list and click on a user to whom you want 
 
 <div className="row">
   <div className="col col--6">
-    <Img src="/img/user-guide/roles/user-details.png"  alt="Assign Role to user view"  maxWidth="800px"/>
+    <Img src="/img/user-guide/iam/roles/user-details.png"  alt="Assign Role to user view"  maxWidth="800px"/>
   </div>
   <div className="col col--6">
-    <Img src="/img/user-guide/roles/user-assigned-roles.png"  alt="Assign Role to user"  maxWidth="800px"/>
+    <Img src="/img/user-guide/iam/roles/user-assigned-roles.png"  alt="Assign Role to user"  maxWidth="800px"/>
   </div>
 </div>
 
@@ -67,4 +67,4 @@ Groups can have roles assigned, and all users in a group automatically inherit t
 After being assigned the role, log in to the current user account. Navigate to the lakehouse list and click on `test-lakehouse`.
 You can view the lakehouse, but you can't manage it.
 
-<Img src="/img/user-guide/roles/lakehouse-manage-denied.png"  alt="Lakehouse can manage role"/>
+<Img src="/img/user-guide/iam/roles/lakehouse-manage-denied.png"  alt="Lakehouse can manage role"/>

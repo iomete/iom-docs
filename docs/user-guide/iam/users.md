@@ -16,7 +16,7 @@ Welcome to the documentation for Users! This document aims to provide a comprehe
 
 The system initially generates **Admin** user with full permissions. Admin have the ability to create new user.
 
-<Img src="/img/user-guide/users/users.png" alt="Users" />
+<Img src="/img/user-guide/iam/users/users.png" alt="Users" />
 
 ## User create
 
@@ -24,10 +24,10 @@ To create new user click the <button className="button button--primary button-io
 
 <div className="row">
   <div className="col col--6">
-    <Img src="/img/user-guide/users/user-create-fill.png" alt="User create filled inputs" maxWidth="600px"/>
+    <Img src="/img/user-guide/iam/users/user-create-fill.png" alt="User create filled inputs" maxWidth="600px"/>
   </div>
   <div className="col col--6">
-    <Img src="/img/user-guide/users/user-created.png" alt="User create" maxWidth="600px"/>
+    <Img src="/img/user-guide/iam/users/user-created.png" alt="User create" maxWidth="600px"/>
   </div>
 </div>
 
@@ -36,52 +36,52 @@ After sign in you will be redirected `Update Password` page. Set a new password 
 
 <div className="row">
   <div className="col col--6">
-    <Img src="/img/user-guide/users/signin.png" alt="User create filled inputs" maxWidth="600px"/>
+    <Img src="/img/user-guide/iam/users/signin.png" alt="User create filled inputs" maxWidth="600px"/>
   </div>
   <div className="col col--6">
-    <Img src="/img/user-guide/users/update-password.png" alt="User create" maxWidth="600px"/>
+    <Img src="/img/user-guide/iam/users/update-password.png" alt="User create" maxWidth="600px"/>
   </div>
 </div>
 
 That's it! The user account is now ready.
 
-<!-- <Img src="/img/user-guide/users/users2.png" alt="Users" /> -->
+<!-- <Img src="/img/user-guide/iam/users/users2.png" alt="Users" /> -->
 
 ## Details
 
-<Img src="/img/user-guide/users/user-details.png" alt="User details" />
+<Img src="/img/user-guide/iam/users/user-details.png" alt="User details" />
 
 ### General informations
 
 Click the `Edit` button to modify the `First name` and `Last name`.
 
-<Img src="/img/user-guide/users/user-edit.png" alt="User edit" maxWidth="400px"/>
+<Img src="/img/user-guide/iam/users/user-edit.png" alt="User edit" maxWidth="400px"/>
 
 ### Roles
 
 In the Roles section, view the Assigned role list. You have the ability to Assign or Remove roles for the user.
 Find out how to create and assign roles for [more details.](/user-guide/roles#role-create)
 
-<Img src="/img/user-guide/users/user-roles.png" alt="User roles" />
+<Img src="/img/user-guide/iam/users/user-roles.png" alt="User roles" />
 
 ### Assigned groups
 
 The `Assigned groups` section displays the groups the user is in. You can add or remove the user from a group.
 
-<Img src="/img/user-guide/users/user-groups.png" alt="User groups" />
+<Img src="/img/user-guide/iam/users/user-groups.png" alt="User groups" />
 
 <!-- <div className="row">
   <div className="col col--6">
-    <Img src="/img/user-guide/users/user-groups.png" alt="User groups" maxWidth="600px"/>
+    <Img src="/img/user-guide/iam/users/user-groups.png" alt="User groups" maxWidth="600px"/>
   </div>
   <div className="col col--6">
-    <Img src="/img/user-guide/users/user-group-assign.png" alt="User group assign" maxWidth="600px"/>
+    <Img src="/img/user-guide/iam/users/user-group-assign.png" alt="User group assign" maxWidth="600px"/>
   </div>
 </div> -->
 
 ### Effective roles
 
-<Img src="/img/user-guide/users/effective-roles.png" alt="User effective roles" />
+<Img src="/img/user-guide/iam/users/effective-roles.png" alt="User effective roles" />
 
 :::info Effective roles
 Effective roles depend on group memberships, not direct assignments to a user.

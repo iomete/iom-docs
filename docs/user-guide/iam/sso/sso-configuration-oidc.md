@@ -17,7 +17,7 @@ IOMETE offers an interface to configure your SSO with OpenID Connect (OIDC) for 
 
 To begin, log in to the IOMETE Console as an account admin. Click the `Settings` menu in the sidebar and navigate to the `Single Sign-On` tab under `IAM`. From there, choose **OpenID connect** to begin the configuration process.
 
-<Img src="/img/user-guide/sso/sso.png" alt="SSO configuration"/>
+<Img src="/img/user-guide/iam/sso/sso.png" alt="SSO configuration"/>
 
 ## OIDC configuration steps
 
@@ -27,7 +27,7 @@ Once on the OIDC configuration page, follow these steps to integrate OIDC with y
 
 On the OIDC configuration page, you’ll find the **IOMETE Redirect URI**. Copy this URL, as you will need it when setting up your application in the identity provider.
 
-<Img src="/img/user-guide/sso/oidc.png" alt="SSO OIDC configuration" maxWidth="500px" />
+<Img src="/img/user-guide/iam/sso/oidc.png" alt="SSO OIDC configuration" maxWidth="500px" />
 
 ### 2. Set up IOMETE in your identity provider
 
@@ -65,7 +65,7 @@ Once you’ve entered the required information, follow these steps:
 - Click **`Enable OIDC SSO`** to activate Single Sign-On for your account.
 - Test logging into the IOMETE console using OIDC to ensure everything is working as expected.
 
-<Img src="/img/user-guide/sso/oidc-configured.png" alt="SSO OIDC configuration" maxWidth="500px" />
+<Img src="/img/user-guide/iam/sso/oidc-configured.png" alt="SSO OIDC configuration" maxWidth="500px" />
 
 ### 4. Grant user access in the identity provider
 

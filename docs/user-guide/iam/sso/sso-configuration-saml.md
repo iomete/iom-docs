@@ -16,7 +16,7 @@ The following guide explains how to use SAML 2.0 to authenticate users in the IO
 To begin, navigate to the `Settings` menu and switch to the `Single Sign-On` tab under `IAM`.
 You will see options for **SAML 2.0** and [OpenID connect](/user-guide/sso-configuration-oidc). Click on SAML to start the configuration.
 
-<Img src="/img/user-guide/sso/sso.png" alt="SSO configuration"/>
+<Img src="/img/user-guide/iam/sso/sso.png" alt="SSO configuration"/>
 
 ## SAML configuration steps
 
@@ -26,7 +26,7 @@ Once on the SAML configuration page, follow these steps to integrate SAML 2.0 wi
 
 On the SAML configuration page, you’ll find the **IOMETE redirect URL**. Copy this URL, as it will be required when setting up your application in the identity provider.
 
-<Img src="/img/user-guide/sso/saml.png" alt="SSO SAML configuration" maxWidth="500px" />
+<Img src="/img/user-guide/iam/sso/saml.png" alt="SSO SAML configuration" maxWidth="500px" />
 
 ### 2. Set up IOMETE in your identity provider
 
@@ -59,7 +59,7 @@ After inputting these details, follow these steps:
 - Click **`Enable SAML SSO`** to activate Single Sign-On for your account.
 - Test logging into the IOMETE console using SSO to ensure it works as expected.
 
-<Img src="/img/user-guide/sso/saml-configured.png" alt="SSO SAML configuration" maxWidth="500px" />
+<Img src="/img/user-guide/iam/sso/saml-configured.png" alt="SSO SAML configuration" maxWidth="500px" />
 
 ### 4. Grant user access in the identity provider
 

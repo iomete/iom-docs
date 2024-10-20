@@ -30,7 +30,7 @@ See how to configure IOMETE's SSO with SAML and OIDC.
 
 #### 2. [OpenID connect (OIDC)](/user-guide/sso-configuration-oidc)
 
-<Img src="/img/user-guide/sso/sso.png" alt="SSO configuration"/>
+<Img src="/img/user-guide/iam/sso/sso.png" alt="SSO configuration"/>
 
 The process is similar for any identity provider that supports OIDC or SAML 2.0.
 
