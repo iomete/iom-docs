@@ -1,4 +1,5 @@
 ---
+slug: /user-guide/groups
 title: Groups
 description: Discover how to create and control groups, set permissions, and add a user.
 last_update:

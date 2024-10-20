@@ -1,4 +1,5 @@
 ---
+slug: /user-guide/sso-configuration
 title: SSO Configuration
 sidebar_label: Overview
 description: Learn how to integrate SSO authentication within the IOMETE Data Plane
@@ -7,7 +8,6 @@ last_update:
   author: Vugar Dadalov
 ---
 
-import { Trash } from "@phosphor-icons/react";
 import Img from '@site/src/components/Img';
 
 This article introduces SSO configurations in IOMETE.

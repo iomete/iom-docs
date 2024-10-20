@@ -1,4 +1,5 @@
 ---
+slug: /user-guide/sso-configuration-saml
 title: SSO with SAML 2.0
 description: Learn how to integrate SAML SSO within the IOMETE Data Plane
 last_update:
@@ -6,7 +7,6 @@ last_update:
   author: Vugar Dadalov
 ---
 
-import { Trash } from "@phosphor-icons/react";
 import Img from '@site/src/components/Img';
 
 The following guide explains how to use SAML 2.0 to authenticate users in the IOMETE account console. This is particularly useful for organizations looking to centralize user authentication and enhance security through Single Sign-On (SSO).

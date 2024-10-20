@@ -1,4 +1,5 @@
 ---
+slug: /user-guide/sso-configuration-oidc
 title: SSO with OIDC
 description: Learn how to integrate OIDC SSO within the IOMETE Data Plane
 last_update:
@@ -6,7 +7,6 @@ last_update:
   author: Vugar Dadalov
 ---
 
-import { Trash } from "@phosphor-icons/react";
 import Img from '@site/src/components/Img';
 
 IOMETE offers an interface to configure your SSO with OpenID Connect (OIDC) for authentication.

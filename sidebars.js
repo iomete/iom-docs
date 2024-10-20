@@ -125,18 +125,18 @@ const sidebars = {
       label: "Identity and Account ",
       collapsed: false,
       items: [
-        "user-guide/users",
-        "user-guide/groups",
-        "user-guide/roles",
-        "user-guide/ldap-configuration",
+        "user-guide/iam/users",
+        "user-guide/iam/groups",
+        "user-guide/iam/roles",
+        "user-guide/iam/ldap-configuration",
         {
           type: "category",
           label: "SSO Configuration",
           collapsed: false,
           items: [
-            "user-guide/sso-configuration",
-            "user-guide/sso-configuration-saml",
-            "user-guide/sso-configuration-oidc"
+            "user-guide/iam/sso/sso-configuration",
+            "user-guide/iam/sso/sso-configuration-saml",
+            "user-guide/iam/sso/sso-configuration-oidc"
           ],
         },
       ],

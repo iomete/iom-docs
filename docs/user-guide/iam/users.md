@@ -1,4 +1,5 @@
 ---
+slug: /user-guide/users
 title: Users
 description: Discover how to create and control user accounts, set permissions, and join a group.
 last_update:
