@@ -36,7 +36,7 @@ const glossaryPlugin = [
 const config = {
   title: "IOMETE",
   tagline: "First cloud-prem lakehouse",
-  favicon: "img/favicon.png",
+  favicon: "favicon.png",
 
   // Set the production url of your site here
   url: "https://iomete.com",
@@ -150,12 +150,12 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       metadata: [
-        { property: "og:image", content: "/resources/img/iomete-docs-og.png" },
+        { property: "og:image", content: "/resources/iomete-docs-og.png" },
         { property: "og:type", content: "article" },
         { property: "og:site_name", content: "IOMETE Documentation" },
         { name: "twitter:title", content: "IOMETE Documentation" },
         { name: "twitter:site", content: "IOMETE Documentation" },
-        { name: "twitter:image", content: "/resources/img/iomete-docs-og.png" },
+        { name: "twitter:image", content: "/resources/iomete-docs-og.png" },
       ],
       mermaid: {
         theme: {
@@ -172,8 +172,8 @@ const config = {
         // title: 'My Site',
         logo: {
           alt: "IOMETE",
-          src: `/img/logo-black.svg`,
-          srcDark: `/img/logo-white.svg`,
+          src: `/logo-black.svg`,
+          srcDark: `/logo-white.svg`,
           href: "https://iomete.com",
           target: "_self",
           height: 32,

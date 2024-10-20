@@ -27,8 +27,8 @@ function BlogListPageMetadata({ metadata }) {
 
       {metadata && <PageMetadata title={metadata.blogTitle} description={metadata.blogDescription} >
         {/* TODO put image to PageMetadata */}
-        <meta property="og:image" content={'img/iomete-blog-og.png'} />
-        <meta name="twitter:image" content={'img/iomete-blog-og.png'} />
+        <meta property="og:image" content={'iomete-blog-og.png'} />
+        <meta name="twitter:image" content={'iomete-blog-og.png'} />
       </PageMetadata>}
     </>
   );

@@ -182,21 +182,21 @@ export const latestBlogs = [
     date: "Apr 4, 2023",
     duration: "3 min read",
     url: "/blog/apache-iceberg-delta-lake",
-    icon: <img src="/resources/img/logo-white.svg" width={60} />,
+    icon: <img src="/resources/logo-white.svg" width={60} />,
   },
   {
     title: "Data Warehouse to Lakehouse Evolution",
     date: "Jan 17, 2024",
     duration: "20 min read",
     url: "/blog/from-data-warehouses-to-data-lakehouses",
-    icon: <img src="/resources/img/logo-white.svg" width={60} />,
+    icon: <img src="/resources/logo-white.svg" width={60} />,
   },
   {
     title: "How to Build An On-prem Data Lakehouse",
     date: "April 4, 2023",
     duration: "3 min read",
     url: "/blog/why-we-choose-to-be-the-on-premise-data-lakehouse",
-    icon: <img src="/resources/img/logo-white.svg" width={60} />,
+    icon: <img src="/resources/logo-white.svg" width={60} />,
   },
 ];
 
