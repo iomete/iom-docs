@@ -17,9 +17,10 @@ Select **Iceberg REST Catalog** from the **Managed Catalogs** section, and the f
 - **Name**: The name of the catalog.
 - **Warehouse**: The URL of an S3-compatible warehouse _(IOMETE only supports object stores compatible with Amazon S3 APIs)_.
 
-<Img src="/img/user-guide/spark-catalogs/rest-catalog-create.png" alt="Spark Catalog create" maxWidth="600px" />
+<Img src="/img/user-guide/spark-catalogs/internal-rest-catalog-create.png" alt="Spark Catalog create" maxWidth="600px" />
 
 ### [Optional] Configuring a different S3 Compatible Storage
+
 By default, IOMETE will use the S3 compatible storage and credentials that are configured by your administrator when installing IOMETE.
 If you wish to use different credentials or a different storage provider for this catalog,
 click on the `Enable Custom Credentials` checkbox. Then, you'll see additional input fields for your credentials.
@@ -36,13 +37,13 @@ You can configure Additional Properties that Catalog Properties that IOMETE will
 add Resource Tagging.
 
 1. Additional Properties (Optional)
-    - Customize Spark catalog behavior by adding key-value pairs.
-    - Click **Add property**
-    - Enter **Key** and **Value**
+   - Customize Spark catalog behavior by adding key-value pairs.
+   - Click **Add property**
+   - Enter **Key** and **Value**
 2. Resource Tags (Optional)
-    - Organize IOMETE resources with custom tags.
-    - Click **Add tag**
-      Enter **Key** and **Value**
+   - Organize IOMETE resources with custom tags.
+   - Click **Add tag**
+     Enter **Key** and **Value**
 
 <Img src="/img/user-guide/spark-catalogs/catalogs-additional.png" alt="Spark Catalogs" maxWidth="600px"/>
 
@@ -51,16 +52,14 @@ add Resource Tagging.
 After filling all inputs click `Test Connection` to test the setup. This will run a series of tests to validate connectivity
 and various permissions.
 
-<Img src="/img/user-guide/spark-catalogs/catalog-test-connection.png" alt="Test Connection" maxWidth="600px"/>
-
 Click `Create` or `Save` to save your settings. The new catalog will appear in catalog list.
 
-<Img src="/img/user-guide/spark-catalogs/catalog-landing.png" alt="Spark Catalogs" maxWidth="600px"/>
+<Img src="/img/user-guide/spark-catalogs/catalog-test-connection.png" alt="Test Connection" maxWidth="600px"/>
 
 :::note Edit & Delete
 Editing and deleting the `default` catalog is not permitted; you can only make changes to other catalogs.
 :::
 
-:::note Using a New Catalog
+:::note Using a new catalog
 Make sure to restart relevant Lakehouses and Spark Connect instances to ensure a newly created Catalog can be used
 :::

@@ -136,7 +136,7 @@ const sidebars = {
           items: [
             "user-guide/iam/sso/sso-configuration",
             "user-guide/iam/sso/sso-configuration-saml",
-            "user-guide/iam/sso/sso-configuration-oidc"
+            "user-guide/iam/sso/sso-configuration-oidc",
           ],
         },
       ],
@@ -146,18 +146,17 @@ const sidebars = {
       label: "Spark Catalogs ",
       collapsed: false,
       items: [
-        "user-guide/spark-catalogs-overview",
-        "user-guide/spark-catalogs-internal",
+        "user-guide/spark-catalogs/overview",
+        "user-guide/spark-catalogs/internal",
         {
           type: "category",
           label: "External Catalogs",
           collapsed: false,
           items: [
-            "user-guide/spark-catalogs-external-overview",
-            "user-guide/spark-catalogs-external-jdbc",
-            "user-guide/spark-catalogs-external-rest",
-            "user-guide/spark-catalogs-external-glue",
-            "user-guide/spark-catalogs-external-nessie"
+            "user-guide/spark-catalogs/external-jdbc",
+            "user-guide/spark-catalogs/external-rest",
+            "user-guide/spark-catalogs/external-glue",
+            "user-guide/spark-catalogs/external-nessie",
           ],
         },
       ],
@@ -251,7 +250,7 @@ const sidebars = {
       items: [
         "user-guide/misc/datagrip-lakehouse-connection",
         "user-guide/misc/shutdown-for-maintenance",
-        "user-guide/misc/jetbrains-datatgrip"
+        "user-guide/misc/jetbrains-datatgrip",
       ],
     },
   ],
