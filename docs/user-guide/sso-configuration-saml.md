@@ -22,25 +22,25 @@ You will see options for **SAML 2.0** and [OpenID connect](/user-guide/sso-confi
 
 Once on the SAML configuration page, follow these steps to integrate SAML 2.0 with your identity provider (IdP):
 
-### 1. Retrieve the IOMETE Redirect URL
+### 1. Retrieve the IOMETE redirect URL
 
 On the SAML configuration page, you’ll find the **IOMETE redirect URL**. Copy this URL, as it will be required when setting up your application in the identity provider.
 
 <Img src="/img/user-guide/sso/saml.png" alt="SSO SAML configuration" maxWidth="500px" />
 
-### 2. Set Up IOMETE in Your Identity Provider
+### 2. Set up IOMETE in your identity provider
 
 In a new browser window or tab, proceed to your identity provider and create an application for IOMETE. Follow these steps:
 
-- **Go to your Identity Provider (IdP)**: Open your IdP’s admin console. This could be services like Okta, Microsoft Entra ID, OneLogin, or others.
+- **Go to your identity provider (IdP)**: Open your IdP’s admin console. This could be services like Okta, Microsoft Entra ID, OneLogin, or others.
 - **Create a new client application**: When prompted, choose to create a new web client application. Use your provider's documentation for reference if needed.
-- **Input the IOMETE SAML URL**: In the SAML URL field (sometimes labeled as the `Redirect URL`), paste the IOMETE SAML redirect URL you copied earlier.
+- **Input the IOMETE SAML URL**: In the SAML URL field (sometimes labeled as the `redirect URL`), paste the IOMETE SAML redirect URL you copied earlier.
 - **Configure attribute mappings**: Ensure that the following fields are mapped in your IdP:
   - `username`
   - `email`
   - `firstName`
   - `lastName`
-- **Copy necessary information from your Identity Provider**: You will need to copy and save the following from your IdP:
+- **Copy necessary information from your identity provider**: You will need to copy and save the following from your IdP:
   - **The identity provider issuer**: This unique identifier is sometimes called the `Issuer URL` or `Entity ID`.
   - **The single-sign-on (SSO) URL**: This is the URL used to initiate SSO. It is sometimes called the `SAML endpoint`.
   - **The x.509 certificate**: This digital certificate is provided by your IdP to secure communication between IOMETE and your IdP.
@@ -61,7 +61,7 @@ After inputting these details, follow these steps:
 
 <Img src="/img/user-guide/sso/saml-configured.png" alt="SSO SAML configuration" maxWidth="500px" />
 
-### 4. Grant User Access in the Identity Provider
+### 4. Grant user access in the identity provider
 
 Once your SSO is configured, ensure that users are granted access to the IOMETE application in your IdP. Depending on your IdP, you might need to adjust the permissions for users to access the IOMETE application.
 
