@@ -8,7 +8,7 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-IOMETE allows users to create new catalogs that function as **Iceberg REST Catalogs**, managed internally by IOMETE. These catalogs are accessible externally via the path `/catalogs/<catalog name>` and integrate seamlessly with data security rules enforcing role-based access control (RBAC). A valid session or a [PAT token](create-a-personal-access-token.md) is required for authentication.
+IOMETE allows users to create new catalogs that function as **Iceberg REST Catalogs**, managed internally by IOMETE. These catalogs are accessible externally via the path `/catalogs/<catalog name>` and integrate seamlessly with data security rules enforcing role-based access control (RBAC). A valid session or a [PAT token](../create-a-personal-access-token.md) is required for authentication.
 
 <Img src="/img/user-guide/spark-catalogs/rest-catalog-sol.png" alt="Spark Rest Catalogs Solution" />
 
