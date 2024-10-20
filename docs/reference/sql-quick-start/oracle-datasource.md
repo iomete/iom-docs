@@ -61,7 +61,7 @@ OPTIONS (
 ```
 
 :::info
-In addition to using the JDBC method to create individual tables, you can also create a Spark JDBC catalog. By setting up a Spark JDBC catalog, you will be able to connect to an entire database or schema and browse all the tables under that catalog without needing to write DDL statements for every table. This simplifies the process of managing multiple tables in your Oracle Data Source. For more details on setting up a Spark JDBC catalog, refer to the following [Spark Catalogs](../../user-guide/spark-catalogs.md) Documentation.
+In addition to using the JDBC method to create individual tables, you can also create a Spark JDBC catalog. By setting up a Spark JDBC catalog, you will be able to connect to an entire database or schema and browse all the tables under that catalog without needing to write DDL statements for every table. This simplifies the process of managing multiple tables in your Oracle Data Source. For more details on setting up a Spark JDBC catalog, refer to the following [Spark Catalogs](../../user-guide/spark-catalogs/overview.mdx) Documentation.
 :::
 
 ### Important Parameters
