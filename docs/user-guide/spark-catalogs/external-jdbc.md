@@ -21,3 +21,5 @@ To set up this connection, you must provide:
 <Img src="/img/user-guide/spark-catalogs/create-jdbc-catalog.png" alt="Create JDBC Catalog" />
 
 Test the connection to ensure proper setup.
+
+For more details, refer to the [Iceberg JDBC Integration](https://iceberg.apache.org/docs/1.5.1/jdbc/#java-api).

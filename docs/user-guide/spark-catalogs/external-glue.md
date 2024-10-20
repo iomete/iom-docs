@@ -19,3 +19,7 @@ To set up the AWS Glue Catalog:
 Follow the on-screen instructions for AWS credentials and permissions setup.
 
 <Img src="/img/user-guide/spark-catalogs/create-external-glue-catalog.png" alt="Create AWS Glue Catalog" />
+
+Follow the on-screen instructions for setting up credentials and permissions.
+
+For more details, refer to the [AWS Glue Catalog documentation](https://iceberg.apache.org/docs/1.5.1/aws/#glue-catalog).
