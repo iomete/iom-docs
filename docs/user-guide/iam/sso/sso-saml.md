@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/sso-configuration-saml
+slug: /user-guide/single-sign-on/saml
 title: SSO with SAML 2.0
 description: Learn how to integrate SAML SSO within the IOMETE Data Plane
 last_update:

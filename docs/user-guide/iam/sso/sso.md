@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/sso-configuration
+slug: /user-guide/single-sign-on
 title: SSO Configuration
 sidebar_label: Overview
 description: Learn how to integrate SSO authentication within the IOMETE Data Plane

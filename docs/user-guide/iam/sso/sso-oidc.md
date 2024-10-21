@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/sso-configuration-oidc
+slug: /user-guide/single-sign-on/oidc
 title: SSO with OIDC
 description: Learn how to integrate OIDC SSO within the IOMETE Data Plane
 last_update:

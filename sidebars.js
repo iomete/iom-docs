@@ -133,9 +133,9 @@ const sidebars = {
           label: "SSO Configuration",
           collapsed: false,
           items: [
-            "user-guide/iam/sso/sso-configuration",
-            "user-guide/iam/sso/sso-configuration-saml",
-            "user-guide/iam/sso/sso-configuration-oidc",
+            "user-guide/iam/sso/sso",
+            "user-guide/iam/sso/sso-saml",
+            "user-guide/iam/sso/sso-oidc",
           ],
         },
       ],
