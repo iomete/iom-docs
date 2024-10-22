@@ -15,7 +15,7 @@ IOMETE offers an interface to configure your SSO with OpenID Connect (OIDC) for 
 
 ## Accessing the SSO configuration page
 
-To begin, log in to the IOMETE Console as an account admin. Click the `Settings` menu in the sidebar and navigate to the `Single Sign-On` tab under `IAM`. From there, choose **OpenID connect** to begin the configuration process.
+To begin, log in to the IOMETE Console as an account admin. Click the `Settings` menu in the sidebar and navigate to the `Single Sign-On` tab under `IAM`. You will see options for **OpenID connect** and [SAML 2.0](sso-saml.md). Click on SAML to start the configuration.
 
 <Img src="/img/user-guide/iam/sso/sso.png" alt="SSO configuration"/>
 
