@@ -26,9 +26,9 @@ IOMETE offers an interface to configure your single sign-on SSO for authenticati
 
 See how to configure IOMETE's SSO with SAML and OIDC.
 
-#### 1. [SAML 2.0](/user-guide/sso-configuration-saml)
+#### 1. [SAML 2.0](sso-saml.md)
 
-#### 2. [OpenID connect (OIDC)](/user-guide/sso-configuration-oidc)
+#### 2. [OpenID connect (OIDC)](sso-oidc.md)
 
 <Img src="/img/user-guide/iam/sso/sso.png" alt="SSO configuration"/>
 
@@ -39,10 +39,10 @@ IOMETE can function without any SSO enabled. But if enabling SSO, **only one** o
 If **SAML2.0** is enabled then **OIDC** cannot be enabled and vice versa.
 ::: -->
 
-<!-- You can read the instructions on how to configure SSO to the following identity providers:
+You can read the instructions on how to configure SSO to the following identity providers:
 
-Microsoft Entra ID (formerly Azure Active Directory)
+<!-- Microsoft Entra ID (formerly Azure Active Directory) -->
 
-Okta
+- #### [Okta](sso-okta.md)
 
-One Login -->
+<!-- One Login -->

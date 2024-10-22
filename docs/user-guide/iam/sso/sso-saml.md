@@ -14,7 +14,7 @@ The following guide explains how to use SAML 2.0 to authenticate users in the IO
 ---
 
 To begin, navigate to the `Settings` menu and switch to the `Single Sign-On` tab under `IAM`.
-You will see options for **SAML 2.0** and [OpenID connect](/user-guide/sso-configuration-oidc). Click on SAML to start the configuration.
+You will see options for **SAML 2.0** and [OpenID connect](sso-oidc.md). Click on SAML to start the configuration.
 
 <Img src="/img/user-guide/iam/sso/sso.png" alt="SSO configuration"/>
 
