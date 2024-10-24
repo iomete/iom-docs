@@ -98,7 +98,7 @@ After configuring SAML SSO, ensure users have access to the IOMETE app in Okta:
 
 ### Conclusion
 
-After successfully configuring Okta SSO with IOMETE, you can test the integration. Try logging out of the IOMETE page, and tada—you should see the Okta login page!
+After successfully configuring Okta SSO with IOMETE, you can test the integration. Try logging out of the IOMETE page, and you should see the Okta login page!
 
 <Img src="/img/user-guide/iam/sso/okta/okta-sign-in.png" alt="Okta signin page" maxWidth="300px" />
 

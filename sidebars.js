@@ -137,6 +137,7 @@ const sidebars = {
             "user-guide/iam/sso/sso-saml",
             "user-guide/iam/sso/sso-oidc",
             "user-guide/iam/sso/sso-okta",
+            "user-guide/iam/sso/sso-onelogin",
           ],
         },
       ],
