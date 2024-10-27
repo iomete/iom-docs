@@ -24,9 +24,8 @@ IOMETE offers an interface to configure your single sign-on SSO for authenticati
 
 See how to configure IOMETE's SSO with SAML and OIDC.
 
-### [SAML 2.0](sso-saml.md)
-
-### [OpenID connect (OIDC)](sso-oidc.md)
+- [SAML 2.0](sso-saml.md)
+- [OpenID connect (OIDC)](sso-oidc.md)
 
 <Img src="/img/user-guide/iam/sso/sso.png" alt="SSO configuration"/>
 
@@ -41,7 +40,8 @@ You can read the instructions on how to configure SSO to the following identity 
 
 <!-- Microsoft Entra ID (formerly Azure Active Directory) -->
 
-- ### [Okta](sso-okta.md)
-- ### [OneLogin](sso-onelogin.md)
+- [Okta](sso-okta.md)
+- [OneLogin](sso-onelogin.md)
+- [Microsoft Entra ID](sso-entra-id.md)
 
 <!-- One Login -->
