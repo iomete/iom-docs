@@ -13,6 +13,31 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
 
 <Mailer/>
 
+<ReleaseTitle version="2.1.0" date="October 31, 2024" title="Enhanced Control & Performance Release" />
+
+**New Features & Improvements**  
+
+- Improved performance of the Spark History Server, optimizing responsiveness and handling of large workloads.  
+- Added a new global Spark configuration, spark.sql.thriftserver.scheduler.pool, to resolve issues related to the FAIR Scheduler.  
+- Introduced a new Job Marketplace in the IOMETE Console, empowering users to share and explore Spark job templates. Admins can manage, curate, and publish templates directly to the marketplace for streamlined collaboration.   
+- Introduced the LOG_LEVEL environment variable, allowing users to independently set log levels for both Spark Jobs and Lakehouses.  
+- _Access Token Management Enhancements_: New System Config for Access Token expiration policy `access-token.lifetime` to set global expiration limits.  
+- _Access Token Management Enhancements_: Users can now set custom expiration times for Access Tokens directly in the UI Console.  
+- _Access Token Management Enhancements_: Added `lastUsed` field for Access Tokens to enhance tracking and security.  
+- Substantial optimizations to the Spark policy download process, ensuring smooth performance in large-scale deployments.  
+- Updated the Data-Compaction job to support catalog, database, and table filters, giving users greater control over data organization.  
+- Implemented the System for Cross-domain Identity Management (SCIM) API, facilitating simplified user provisioning and management.  
+- Updated Data-Compaction job to support catalog, database, table include/exclude filters.  
+- The Query Scheduler job now logs SQL query results, enabling easier debugging and tracking of job outcomes.  
+- _Data Security_: Added support for VIEWs, enhancing data access control options.  
+- Added a configurable Limit property (default value: 100) to the SQL Editor, giving users control over query results.  
+  <Img src="/img/getting-started/release-notes/query-limit.png" alt="SQL Limit"/>
+
+**Bugs Fixed**  
+- Resolved an issue where the Spark UI link was unresponsive from the SQL Editor page.  
+- _Data Security_: Fixed INSERT and DELETE permissions (also covering TRUNCATE operations).  
+
+
 <ReleaseTitle version="2.0.1" date="October 14, 2024" title="Post-Major Release Patch" />
 
 **Improvements**
