@@ -432,6 +432,12 @@ const sidebars = {
       collapsed: false,
       items: ["aws/read-files-from-aws-s3"],
     },
+    {
+      type: "category",
+      label: "Iceberg",
+      collapsed: false,
+        items: ["tutorials/compaction-cow-mor"],
+    }
   ],
 };
 
