@@ -254,6 +254,7 @@ const sidebars = {
         "user-guide/misc/datagrip-lakehouse-connection",
         "user-guide/misc/shutdown-for-maintenance",
         "user-guide/misc/jetbrains-datatgrip",
+        "user-guide/misc/troubleshooting-lakehouse-oom"
       ],
     },
   ],
