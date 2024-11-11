@@ -22,33 +22,34 @@ Table compaction plays a vital role in optimizing performance by consolidating s
 :::
 
 ### Create database and tables
-```
+``` javascript showLineNumbers
 create database db_compaction;
-CREATE TABLE db_compaction.copy_on_write_table (
-id BIGINT,
-name STRING,
-age INT,
-zipcode STRING,
-timestamp TIMESTAMP
-)
-TBLPROPERTIES (
-'write.update.mode' = 'copy-on-write',
-'write.merge.mode' = 'copy-on-write',
-'write.delete.mode' = 'copy-on-write'
-);
 
-CREATE TABLE db_compaction.merge_on_read_table (
-id BIGINT,
-name STRING,
-age INT,
-zipcode STRING,
-timestamp TIMESTAMP
+CREATE TABLE db_compaction.copy_on_write_table
+(
+    id        BIGINT,
+    name      STRING,
+    age       INT,
+    zipcode   STRING,
+    timestamp TIMESTAMP
 )
-TBLPROPERTIES (
-'write.update.mode' = 'merge-on-read',
-'write.merge.mode' = 'merge-on-read',
-'write.delete.mode' = 'merge-on-read'
-);
+    TBLPROPERTIES
+( 'write.update.mode' = 'copy-on-write',
+    'write.merge.mode' = 'copy-on-write',
+    'write.delete.mode' = 'copy-on-write');
+
+CREATE TABLE db_compaction.merge_on_read_table
+(
+    id        BIGINT,
+    name      STRING,
+    age       INT,
+    zipcode   STRING,
+    timestamp TIMESTAMP
+)
+    TBLPROPERTIES
+( 'write.update.mode' = 'merge-on-read',
+    'write.merge.mode' = 'merge-on-read',
+    'write.delete.mode' = 'merge-on-read');
 ```
 
 This action will create the specified location at the designated path.
@@ -58,32 +59,30 @@ This action will create the specified location at the designated path.
 ## Loading Data
 ### Insert Data
 
-```
+``` javascript showLineNumbers
 INSERT INTO db_compaction.copy_on_write_table (id, name, age, zipcode, timestamp)
-VALUES
-(1, 'Alice', 30, '111111', CAST('2023-10-10 10:00:00' AS TIMESTAMP)),
-(2, 'Bob', 25, '111111', CAST('2023-10-11 11:00:00' AS TIMESTAMP)),
-(3, 'Charlie', 35, '111111', CAST('2023-10-12 12:00:00' AS TIMESTAMP)),
-(4, 'David', 28, '111111', CAST('2023-10-13 13:00:00' AS TIMESTAMP)),
-(5, 'Eve', 32, '111111', CAST('2023-10-14 14:00:00' AS TIMESTAMP)),
-(6, 'Frank', 40, '111111', CAST('2023-10-15 15:00:00' AS TIMESTAMP)),
-(7, 'Grace', 22, '111111', CAST('2023-10-16 16:00:00' AS TIMESTAMP)),
-(8, 'Hank', 45, '111111', CAST('2023-10-17 17:00:00' AS TIMESTAMP)),
-(9, 'Ivy', 38, '111111', CAST('2023-10-18 18:00:00' AS TIMESTAMP)),
-(10, 'Jack', 29, '111111', CAST('2023-10-19 19:00:00' AS TIMESTAMP));
+VALUES (1, 'Alice', 30, '111111', CAST('2023-10-10 10:00:00' AS TIMESTAMP)),
+       (2, 'Bob', 25, '111111', CAST('2023-10-11 11:00:00' AS TIMESTAMP)),
+       (3, 'Charlie', 35, '111111', CAST('2023-10-12 12:00:00' AS TIMESTAMP)),
+       (4, 'David', 28, '111111', CAST('2023-10-13 13:00:00' AS TIMESTAMP)),
+       (5, 'Eve', 32, '111111', CAST('2023-10-14 14:00:00' AS TIMESTAMP)),
+       (6, 'Frank', 40, '111111', CAST('2023-10-15 15:00:00' AS TIMESTAMP)),
+       (7, 'Grace', 22, '111111', CAST('2023-10-16 16:00:00' AS TIMESTAMP)),
+       (8, 'Hank', 45, '111111', CAST('2023-10-17 17:00:00' AS TIMESTAMP)),
+       (9, 'Ivy', 38, '111111', CAST('2023-10-18 18:00:00' AS TIMESTAMP)),
+       (10, 'Jack', 29, '111111', CAST('2023-10-19 19:00:00' AS TIMESTAMP));
 
 INSERT INTO db_compaction.merge_on_read_table (id, name, age, zipcode, timestamp)
-VALUES
-(1, 'Alice', 30, '111111', CAST('2023-10-10 10:00:00' AS TIMESTAMP)),
-(2, 'Bob', 25, '111111', CAST('2023-10-11 11:00:00' AS TIMESTAMP)),
-(3, 'Charlie', 35, '111111', CAST('2023-10-12 12:00:00' AS TIMESTAMP)),
-(4, 'David', 28, '111111', CAST('2023-10-13 13:00:00' AS TIMESTAMP)),
-(5, 'Eve', 32, '111111', CAST('2023-10-14 14:00:00' AS TIMESTAMP)),
-(6, 'Frank', 40, '111111', CAST('2023-10-15 15:00:00' AS TIMESTAMP)),
-(7, 'Grace', 22, '111111', CAST('2023-10-16 16:00:00' AS TIMESTAMP)),
-(8, 'Hank', 45, '111111', CAST('2023-10-17 17:00:00' AS TIMESTAMP)),
-(9, 'Ivy', 38, '111111', CAST('2023-10-18 18:00:00' AS TIMESTAMP)),
-(10, 'Jack', 29, '111111', CAST('2023-10-19 19:00:00' AS TIMESTAMP));
+VALUES (1, 'Alice', 30, '111111', CAST('2023-10-10 10:00:00' AS TIMESTAMP)),
+       (2, 'Bob', 25, '111111', CAST('2023-10-11 11:00:00' AS TIMESTAMP)),
+       (3, 'Charlie', 35, '111111', CAST('2023-10-12 12:00:00' AS TIMESTAMP)),
+       (4, 'David', 28, '111111', CAST('2023-10-13 13:00:00' AS TIMESTAMP)),
+       (5, 'Eve', 32, '111111', CAST('2023-10-14 14:00:00' AS TIMESTAMP)),
+       (6, 'Frank', 40, '111111', CAST('2023-10-15 15:00:00' AS TIMESTAMP)),
+       (7, 'Grace', 22, '111111', CAST('2023-10-16 16:00:00' AS TIMESTAMP)),
+       (8, 'Hank', 45, '111111', CAST('2023-10-17 17:00:00' AS TIMESTAMP)),
+       (9, 'Ivy', 38, '111111', CAST('2023-10-18 18:00:00' AS TIMESTAMP)),
+       (10, 'Jack', 29, '111111', CAST('2023-10-19 19:00:00' AS TIMESTAMP));
 ```
 
 This will generate the data files in their designated locations.
