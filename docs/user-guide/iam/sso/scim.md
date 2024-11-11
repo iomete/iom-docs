@@ -347,18 +347,13 @@ Users listed in the `members` field will be associated with the specified group 
 Any pre-existing users not included in this list will be removed from the group.
 This approach ensures that the `members` field provides a complete, authoritative list of group members, facilitating both user assignments and removals in a single operation.
 
-:::important
-Manual assignments remain untouched.
-:::
-
 <br/>
 Before establishing mappings, IOMETE verifies each `member` in the members list to ensure they exist in the database.
 Although members are generally expected to be present in the database, missing entries are not considered blockers.
 IOMETE will skip over any non-existent members, log them for reference, and proceed with mapping only those members that do exist.
 
-IOMETE enforces that all existing members originate from the `IDP`.
-If a member exists in the database but has an origin other than `IDP`, 
-IOMETE treats the request as failed and returns a SCIM error response to the client, ensuring consistency in user origin compliance.
+IOMETE requires that all existing members originate from the `IDP`.
+If a member exists in the database but has an origin other than `IDP`, IOMETE skips that member, and log it for reference.
 
 ### SCIM Error Response
 Error response looks like below
