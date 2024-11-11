@@ -95,10 +95,11 @@ This will generate the data files in their designated locations.
 
 ### Update Data
 
-```
+``` javascript showLineNumbers
 UPDATE db_compaction.copy_on_write_table
 SET age = age + 1
 WHERE id IN (1, 2);
+
 UPDATE db_compaction.merge_on_read_table
 SET age = age + 1
 WHERE id IN (1, 2);
