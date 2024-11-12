@@ -57,6 +57,20 @@ Click the `Edit` button to modify the `First name` and `Last name`.
 
 <Img src="/img/user-guide/iam/users/user-edit.png" alt="User edit" maxWidth="400px"/>
 
+It is possible to delete a user, and reset their password. Application asks you to confirm user deletion.
+
+<Img src="/img/user-guide/iam/users/user-action-options.png" alt="User actions" />
+
+`New password` and `Confirm new passowrd` fields must match. Please ensure both entries are identical.
+If you'd like the user to update their password on their next login, make sure to toggle the `Temporary` field to `On` before saving.
+
+<Img src="/img/user-guide/iam/users/user-reset-password-modal.png" alt="User actions" maxWidth="400px"/>
+
+Regardless of the `Temporary` option selected, 
+the user will be prompted to enter the password set in the reset password modal on their next login. 
+If the `Temporary` option is enabled, they will also be required to update their password upon logging in.
+
+
 ### Roles
 
 In the Roles section, view the Assigned role list. You have the ability to Assign or Remove roles for the user.
