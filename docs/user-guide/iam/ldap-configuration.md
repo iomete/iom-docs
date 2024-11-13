@@ -119,3 +119,14 @@ After creating LDAP, you will see action buttons on the left side below the inpu
 ### **Delete LDAP**
 
     To permanently remove the LDAP settings, click Delete LDAP. A confirmation message will appear; confirm the action by selecting "Yes, delete" to finalize the removal.
+    
+### **Audit LDAP**
+
+To monitor LDAP operations, go to the `Settings` menu and select the `IAM Audit` tab under `IAM`. 
+Here, you can view detailed logs of who performed specific actions on LDAP and when. 
+
+<Img src="/img/user-guide/iam/ldap/ldap-audit.png" alt="LDAP audit logs" />
+
+To examine the payload of each action, click the `+` button on the left side of any entry. 
+
+<Img src="/img/user-guide/iam/ldap/ldap-audit-payload.png" alt="LDAP audit payload" />
