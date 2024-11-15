@@ -23,6 +23,8 @@ They are:
 By default, dbt models are materialized as `views`.
 :::
 
+/
+
 There are two options to configure the materialization.
 
 ### Option 1. Globally
