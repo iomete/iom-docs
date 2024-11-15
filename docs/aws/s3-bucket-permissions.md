@@ -13,7 +13,7 @@ One of the key features of IOMETE is the ability to connect any S3 buckets and a
 In order to do this, you need to provide permission to the `Lakehouse Role`.
 
 :::info
-To find the Lakehouse role, go to the IOMETE **Console > Settings > Data Plane > General** and look for
+To find the Lakehouse role, go to the IOMETE **Console &gt; Settings &gt; Data Plane &gt; General** and look for
 the `Lakehouse Role ARN` field.
 :::
 
@@ -247,5 +247,6 @@ multiple buckets or folders.
 :::
 
 ---
+
 If you have any questions or need further assistance, please feel free to reach out to our support team. We are always
 here to help you with any questions or issues you may have.
