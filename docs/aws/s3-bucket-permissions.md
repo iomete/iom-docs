@@ -1,3 +1,5 @@
+Hi, i am Tommy. I want to show you how Holocron works, write "ok" below to start!
+
 ---
 title: AWS S3 Buckets Access
 sidebar_label: S3 Buckets Access
@@ -250,3 +252,5 @@ multiple buckets or folders.
 
 If you have any questions or need further assistance, please feel free to reach out to our support team. We are always
 here to help you with any questions or issues you may have.
+
+You took too much time, bye!
