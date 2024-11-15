@@ -14,12 +14,12 @@ import Card from "@site/src/components/Card";
 import GridBox from "@site/src/components/GridBox";
 import { Files, Database, Sparkle, Circuitry } from "@phosphor-icons/react";
 
-
 ## Using AWS Profiles
 
 If you're using **named profiles** in the AWS Credentials file, you need to export the profile to the environment before running Terraform.
 
 For example, if you have the following profile in your AWS Credentials file (usually located at `~/.aws/credentials`):
+
 ```conf
 [default]
 ...
@@ -39,11 +39,12 @@ Then run Terraform as usual
 
 For detailed information see: [Named profiles for the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
 
-
 ## Public Access Restriction
+
 By default, the EKS API (Kubernetes cluster API) is accessible from anywhere. However, if you need to restrict public access to the EKS API for security or compliance reasons, follow these steps:
 
 Add the following code to the Terraform script:
+
 ```terraform
 module "data-plane-aws" {
    # omitting other parameters for brevity
@@ -57,17 +58,18 @@ To access the cluster, you need to specify `your_ip_range/mask`, which represent
 
 If you have any questions or need assistance, please don't hesitate to contact our support team.
 
-
 ## Define additional administrators
+
 AWS Key Management Service (KMS) is an Amazon Web Services product that allows administrators to create, delete and control keys that encrypt data stored in AWS databases and products.
 
 AWS KMS can be accessed within [AWS Identity and Access Management](https://www.techtarget.com/searchaws/definition/Amazon-Web-Services-AWS-Identity-and-Access-Management-IAM) by selecting the "Encryption Keys" section or by using the AWS KMS command-line interface or software development kit
 
-IOMETE customer-stack Terraform module will use or create a KMS key only who run the Terraform code if additional administrator ARN`s not added. (AWS KMS see:[https://docs.aws.amazon.com/kms/latest/developerguide/overview.html](https://docs.aws.amazon.com/kms/latest/developerguide/overview.html) )
+IOMETE customer-stack Terraform module will use or create a KMS key only who run the Terraform code if additional administrator ARN\`s not added. (AWS KMS see:<https://docs.aws.amazon.com/kms/latest/developerguide/overview.html> )
 
 Adding an additional administrator to the system will grant them access to manage Kubernetes resources in EKS. By default, only the creator of the resources has access to Kubernetes. To add additional administrators, include their user Amazon Resource Names (ARNs) when running the Terraform code. It is important to note that when adding additional ARNs, the creators must include their own ARNs in the list to ensure that they retain access to the resources.
 
 To add additional administrators, add the following code to the Terraform script:
+
 ```terraform
 module "data-plane-aws" {
    # omitting other parameters for brevity
@@ -80,8 +82,10 @@ Do not forget to add your user ARN to the list of additional administrators. Oth
 :::
 
 ## Saving terraform state
+
 Terraform's default behavior is to store its state file locally, which works well for individual projects. However, for team collaboration and to avoid losing the state file, it's advisable to use remote state storage.
 Here are some options for storing Terraform state remotely:
+
 - [**Terraform State in AWS S3**](https://developer.hashicorp.com/terraform/language/settings/backends/s3)
 - [**How to save in Terraform Cloud**](https://www.hashicorp.com/blog/using-terraform-cloud-remote-state-management)
 
@@ -97,8 +101,8 @@ This is necessary for the IOMETE data-plane to access to EBS storage, which allo
 
 Please follow these steps to add users to the KMS key policy:
 
-
 ### Identify the KMS key
+
 First you need to determine which key is used for encrypting EBS volumes, you can follow these instructions to find the appropriate key:
 
 1. Select the appropriate Region in the AWS Management Console.
@@ -108,7 +112,6 @@ First you need to determine which key is used for encrypting EBS volumes, you ca
 4. On the **EBS encryption** page, you will find the `Default encryption key` section.
    <Img src="/img/guides/how-to-install/kms-key.png" alt="KMS Console"/>
 5. Note down the key displayed as the **Default encryption key**.
-
 
 ### Add users to the KMS key policy
 
@@ -123,12 +126,15 @@ To add a user/role to a KMS key using the AWS Management Console, follow these s
 4. Locate the **Key details** section or navigate to the specific tab where the "Key users" tab is available.
 5. Click on the **Key users** tab.
 6. Click on "Add" and enter 'iomete' in the search/filter box to narrow down the list of available roles.
-<Img src="/img/guides/how-to-install/search.png" alt="KMS Console"/>
+
+   <Img src="/img/guides/how-to-install/search.png" alt="KMS Console"/>
 7. Add the following roles to the key policy:
+
 - `iomete-{cluster_id}-ng-eks-node-group-202...`
 - `KarpenterIRSA-iomete-{cluster_id}-202...`
 - `AmazonEKS_EBS_CSI_DriverRole-{cluster_id}`
   <Img src="/img/guides/how-to-install/kms-list.png" alt="KMS Console"/>
+
 8. Click on **Save changes** to save the modifications to the KMS key policy.
 
 Now, IOMETE Data Plane should be able to attach EBS volumes to the nodes.
