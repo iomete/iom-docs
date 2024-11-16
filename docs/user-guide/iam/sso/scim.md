@@ -1,6 +1,6 @@
 ---
 slug: /user-guide/single-sign-on/scim
-title: SCIM to provision
+title: SCIM
 description: Learn how to provision users and groups with SCIM standards
 last_update:
   date: 11/01/2024
