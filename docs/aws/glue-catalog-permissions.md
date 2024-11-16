@@ -10,7 +10,7 @@ last_update:
 In IOMETE, when you add `AWS Glue Catalog` as a catalog, you need to provide permission to the `Lakehouse Role` to access the Glue Catalog.
 
 :::info
-To find the Lakehouse role, go to the IOMETE **Console > Settings > Data Plane > General** and look for
+To find the Lakehouse role, go to the IOMETE **Console &gt; Settings &gt; Data Plane &gt; General** and look for
 the `Lakehouse Role ARN` field.
 :::
 
@@ -54,7 +54,6 @@ Below is an example of an **IAM policy template** that provides full access to t
 ```
 
 Please replace `<region>` and `<aws-account-number>` with your AWS region and account number respectively.
-
 
 **Example**
 
