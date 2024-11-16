@@ -1,7 +1,3 @@
-Hi, i am Tommy. I want to show you how Holocron works, write "ok" below to start!
-
-ok
-
 ---
 title: AWS S3 Buckets Access
 sidebar_label: S3 Buckets Access
