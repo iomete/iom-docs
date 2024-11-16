@@ -1,6 +1,6 @@
 Hi, i am Tommy. I want to show you how Holocron works, write "ok" below to start!
 
-"ok"
+ok
 
 ---
 title: AWS S3 Buckets Access
@@ -249,10 +249,3 @@ See highlighted lines for the difference from the previous policy.
 In the `Resource` field, you can specify multiple resources by separating them with a comma do provide access to
 multiple buckets or folders.
 :::
-
----
-
-If you have any questions or need further assistance, please feel free to reach out to our support team. We are always
-here to help you with any questions or issues you may have.
-
-You took too much time, bye!
