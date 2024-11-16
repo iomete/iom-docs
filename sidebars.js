@@ -140,6 +140,7 @@ const sidebars = {
             "user-guide/iam/sso/sso-onelogin",
             "user-guide/iam/sso/sso-entra-id",
             "user-guide/iam/sso/scim",
+            "user-guide/iam/sso/scim-okta",
           ],
         },
       ],

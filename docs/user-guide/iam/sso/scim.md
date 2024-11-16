@@ -185,7 +185,7 @@ Username value is expected to be in url as path variable. Based on this variable
 **If user does not exist in database, then request is considered as failed, and SCIM Error response is sent to client.**
 
 
-:::warning
+:::note Warning
 Please note that all group and role mappings associated with a deleted user will also be removed.
 :::
 <br/>
