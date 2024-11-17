@@ -252,8 +252,8 @@ const sidebars = {
       label: "Misc",
       collapsed: false,
       items: [
+        "user-guide/misc/datagrip-lakehouse-connection",
         "user-guide/misc/shutdown-for-maintenance",
-        "user-guide/misc/jetbrains-datatgrip",
         "user-guide/misc/troubleshooting-lakehouse-oom",
       ],
     },
@@ -436,7 +436,7 @@ const sidebars = {
       type: "category",
       label: "Iceberg",
       collapsed: false,
-        items: ["tutorials/compaction-cow-mor"],
+      items: ["tutorials/compaction-cow-mor"],
     }
   ],
 };
