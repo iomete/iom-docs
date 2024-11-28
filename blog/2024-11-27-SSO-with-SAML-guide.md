@@ -1,7 +1,7 @@
 ---
 title: A Beginner's Guide to Single Sign-On (SSO) with SAML
 description: Learn how SSO simplifies authentication with SAML for seamless and secure access
-slug: SSO-with-SAML-Guide
+slug: sso-with-saml-guide
 authors: abhishek
 hide_table_of_contents: true
 tags: [Educational, Engineering]
