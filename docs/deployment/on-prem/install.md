@@ -115,8 +115,9 @@ The generated file `spark-operator-webhook.yaml` contains cluster-level objects.
 
 ### Launching IOMETE Data Plane
 
-See the [IOMETE Data Plane Enterprise Helm](https://github.com/iomete/iomete-deployment/blob/main/on-prem/helm/iomete-data-plane-enterprise/readme.md) for more details about available configurations.
-See here for the [values.yaml](https://github.com/iomete/iomete-deployment/blob/main/on-prem/helm/iomete-data-plane-enterprise/values.yaml)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/iomete)](https://artifacthub.io/packages/search?repo=iomete)
+
+For more information about the available configurations, visit the [IOMETE Data Plane Enterprise](https://artifacthub.io/packages/helm/iomete/iomete-data-plane-enterprise) page on ArtifactHUB.  
 
 Required file: [example-data-plane-values.yaml](https://github.com/iomete/iomete-deployment/blob/main/on-prem/example-data-plane-values.yaml)
 

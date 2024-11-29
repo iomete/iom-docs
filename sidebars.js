@@ -52,7 +52,6 @@ const sidebars = {
             "deployment/life-cycle-management",
             "deployment/truststore",
             "deployment/network-policies",
-            "deployment/rest-catalog",
             "deployment/connect-namespace",
           ],
         },
@@ -437,7 +436,7 @@ const sidebars = {
       label: "Iceberg",
       collapsed: false,
       items: ["tutorials/compaction-cow-mor"],
-    }
+    },
   ],
 };
 
