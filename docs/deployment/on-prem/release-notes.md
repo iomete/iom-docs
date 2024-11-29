@@ -13,6 +13,25 @@ import ReleaseTitle from '@site/src/components/ReleaseTitle';
 
 <Mailer/>
 
+<ReleaseTitle version="2.2.0" date="November 29, 2024" title="Enhanced Spark Management, Security, and Usability" />
+
+- File and Artifact Upload in Spark Jobs. You can now directly upload files and artifacts to Spark Jobs within the IOMETE Console.  
+- Introduced a Single-Node Spark instance ideal for development and running small-scale jobs, offering a resource-efficient option.  
+  <Img src="/img/getting-started/release-notes/single-node.png" alt="Single Node"/>
+- Major Upgrade to Spark Operator. Upgraded the Spark Operator to version 2.0.2, enabling control over multiple data-plane namespaces. The Spark Operator and webhook can now be deployed exclusively to the controller namespace for improved management.  
+- Added a dedicated page for managing Streaming Jobs, providing better oversight and control over streaming operations.  
+- Introduced a Health page to overview the state of system components, enhancing system monitoring capabilities.  
+  <Img src="/img/getting-started/release-notes/health-page.png" alt="Health Page"/>
+- Any changes to Spark Catalogs are now fetched automatically within 10 seconds, eliminating the need to restart the lakehouse and Spark resources.  
+- Added a description field to Spark Catalogs for better documentation.  
+- Included necessary libraries to support the ClickHouse Catalog, expanding data source compatibility.  
+- Implemented more granular data security controls with separated database permissions.  
+- SSO Improvements. Relaxed mandatory validations for the SSO protocol to enhance compatibility and user experience.  
+- Admins can now change or reset users password directly within the platform.  
+- Introduced support for service accounts. Users can mark accounts as service accounts and create tokens for them, which can be used in Spark Jobs and other integrations.  
+- Cleaned up logs by removing unnecessary messages, improving log readability.  
+
+
 <ReleaseTitle version="2.1.0" date="October 31, 2024" title="Enhanced Control & Performance Release" />
 
 **New Features & Improvements**  
