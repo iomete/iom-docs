@@ -25,7 +25,7 @@ Before initiating the deployment, ensure your system meets the following prerequ
   - **Minimum Specs for Data Node:** 4 CPU cores and 32GB of RAM.
   - **Resource Allocation:**
     - **IOMETE System Node:** Requires 8 CPU cores and 16GB of RAM.
-    - **Spark Driver:** Utilizes the remaining CPU cores and memory.b v
+    - **Spark Driver:** Utilizes the remaining CPU cores and memory
 - **Node Configuration Tips:**
   - Opt for uniform node sizes to simplify management.
   - Larger nodes or VMs provide improved resource efficiency.
