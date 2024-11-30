@@ -18,7 +18,7 @@ iomete/iom-rest-catalog:2.2.0
 iomete/iom-health-checker:2.2.0
 iomete/spark:3.5.3-v2
 iomete/spark-py:3.5.3-v2
-iomete/spark-operator-v2:3.5.3-v1
+iomete/spark-operator:3.5.3-v2
 iomete/kernel-pyspark:3.5.3-v2
 iomete/kernel-spark-scala:3.5.3-v2
 iomete/iom-catalog-sync:1.13.0
@@ -50,23 +50,25 @@ kubectl delete secret spark-operator-webhook-certs -n {additional-namespace}
 
 ## Patch Webhook
 
-Update the webhook path to `/mutate--v1-pod`:
-```shell
-kubectl patch mutatingwebhookconfiguration spark-operator-iomete-system \
-  --type='json' \
-  -p='[{"op": "replace", "path": "/webhooks/0/clientConfig/service/path", "value": "/mutate--v1-pod"}]'
+This patch apply the following changes:
+1. Update the webhook path to `/mutate--v1-pod`
+2. Update the webhook namespace selector to `iomete.com/managed: "true"`
+3. Update the webhook scope to `Namespaced`
+
+Save this as yaml file iomete-webhook-patch.yaml
+```yaml
+- op: replace
+  path: /webhooks/0/clientConfig/service/path
+  value: /mutate--v1-pod
+- op: replace
+  path: /webhooks/0/namespaceSelector
+  value: {"matchLabels": {"iomete.com/managed": "true"}}
+- op: replace
+  path: /webhooks/0/rules/0/scope
+  value: "Namespaced"
 ```
 
-Update the webhook namespace selector to `iomete.com/managed: "true"`:
+Then run this command:
 ```shell
-kubectl patch mutatingwebhookconfiguration spark-operator-iomete-system \
-  --type='json' \
-  -p='[{"op": "replace", "path": "/webhooks/0/namespaceSelector", "value": {"matchLabels": {"iomete.com/managed": "true"}}}]'
-```
-
-Update the webhook scope to `Namespaced`:
-```shell
-kubectl patch mutatingwebhookconfiguration spark-operator-iomete-system \
-  --type='json' \
-  -p='[{"op": "replace", "path": "/webhooks/0/rules/0/scope", "value": "Namespaced"}]'
+kubectl patch mutatingwebhookconfiguration spark-operator-iomete-system --type=json --patch-file=iomete-webhook-patch.yaml
 ```
