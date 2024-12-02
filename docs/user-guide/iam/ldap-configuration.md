@@ -122,7 +122,7 @@ After creating LDAP, you will see action buttons on the left side below the inpu
     
 ### **Audit LDAP**
 
-Auditing LDAP operations, go to the `Settings` menu and select the `IAM Audit` tab under `IAM`. 
+Auditing LDAP operations, go to the `Settings` menu and select the `Event Logs` tab under `Administration`.
 Here, you can view detailed logs of who performed specific LDAP related actions and when.
 
 <Img src="/img/user-guide/iam/ldap/ldap-audit.png" alt="LDAP audit logs" />
