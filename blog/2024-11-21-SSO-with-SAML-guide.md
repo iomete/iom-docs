@@ -84,4 +84,4 @@ Back at the SP, several checks happen:
 Follow [this](https://iomete.com/resources/user-guide/single-sign-on/okta) in-depth guide and set up SSO in IOMETE with OKTA using SAML
 
 ## Conclusion
-SAML has become a go-to standard for Single Sign-On, offering both convenience and robust security in enterprise environments. By connecting Identity Providers like Okta with Service Providers such as Iomete, SAML enhances the user experience while maintaining strict security measures. Whether you're modernizing your organization's IT infrastructure or integrating new applications, SAML is a critical tool for efficient and secure user authentication.
+SAML has become a go-to standard for Single Sign-On, offering both convenience and robust security in enterprise environments. By connecting Identity Providers like Okta with Service Providers such as IOMETE, SAML enhances the user experience while maintaining strict security measures. Whether you're modernizing your organization's IT infrastructure or integrating new applications, SAML is a critical tool for efficient and secure user authentication.
