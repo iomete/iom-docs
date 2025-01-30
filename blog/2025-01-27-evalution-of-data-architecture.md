@@ -7,7 +7,7 @@ hide_table_of_contents: true
 tags: [Educational, Engineering]
 tags2: [Educational]
 coverImage: img/blog/2025-01-20-evolution-of-data-architecture/evolution-of-data-platform.png
-banner_description: Learn how SSO simplifies authentication with SAML for seamless and secure access
+banner_description: Traditional data warehouses face limitations in today's enterprise environment
 ---
 
 import Img from '@site/src/components/Img';
