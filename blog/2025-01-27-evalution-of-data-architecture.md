@@ -10,6 +10,8 @@ coverImage: img/blog/2025-01-20-evolution-of-data-architecture/evolution-of-data
 banner_description: Learn how SSO simplifies authentication with SAML for seamless and secure access
 ---
 
+import Img from '@site/src/components/Img';
+
 ## **Challenges of Traditional Data Warehouses**
 
 Traditional data warehouses, while providing robust performance and reliability, face several significant limitations in today's enterprise environment:
@@ -18,28 +20,27 @@ Traditional data warehouses, while providing robust performance and reliability,
 - **Data Type Limitations**: Most traditional warehouses primarily support structured data, making it difficult to incorporate the growing volume of semi-structured and unstructured data that drives modern analytics and AI workloads.
 - **Scaling Complexity**: Vertical scaling approaches common in traditional warehouses become prohibitively expensive at modern data volumes, often requiring complex sharding or federation strategies.
 
-![limitations of data warehouse](/img/blog/2025-01-20-evolution-of-data-architecture/limitations-of-data-warehouse.png)
+<Img src="/img/blog/2025-01-20-evolution-of-data-architecture/limitations-of-data-warehouse.png" alt="limitations of data warehouse" maxWidth="500px" centered borderless/>
 
 While data lakes addressed some warehouse limitations, they introduced their own challenges:
 
 - **Data Quality Issues**: The lack of schema enforcement and transaction support led to data quality problems and the creation of "data swamps."
 - **Performance Limitations**: Without optimized storage formats and query engines, data lakes often struggled to deliver the performance required for interactive analytics.
 - **Governance Challenges**: Early data lakes lacked robust governance capabilities, making it difficult to implement enterprise-grade security and compliance controls.
-    
-    ![challanges of datalakes](/img/blog/2025-01-20-evolution-of-data-architecture/challanges-of-datalakes.png)
-    
+
+<Img src="/img/blog/2025-01-20-evolution-of-data-architecture/challanges-of-datalakes.png" alt="challanges of datalakes" maxWidth="500px" centered borderless/>    
 
 ## **The Rise of Data Lakehouses**
 
 The data lakehouse represents a transformative advancement in enterprise data architecture, combining the flexibility and scalability of data lakes with the performance and reliability of traditional data warehouses. This architectural paradigm emerged in **response to growing enterprise needs** for a unified platform that **can handle diverse data types and workloads** while maintaining strict governance and performance standards.
 
-![evolution of data management systems](/img/blog/2025-01-20-evolution-of-data-architecture/evolution-of-data-management-systems.png)
+<Img src="/img/blog/2025-01-20-evolution-of-data-architecture/evolution-of-data-management-systems.png" alt="evolution of data management systems" maxWidth="500px" centered borderless/>
 
 ## **Understanding Data Lakehouses**
 
 A data lakehouse is an architectural pattern that creates a best-of-both-worlds solution for enterprise data management. It implements a data lake as the primary storage layer while adding a transactional metadata layer and performance optimizations that traditionally belonged to data warehouses. This architecture enables organizations to store all their data in a single platform while supporting diverse workloads ranging from business intelligence to machine learning.
 
-![data lakehouse explanation](/img/blog/2025-01-20-evolution-of-data-architecture/datalakehouse-architecture.png)
+<Img src="/img/blog/2025-01-20-evolution-of-data-architecture/datalakehouse-architecture.png" alt="data lakehouse explanation" maxWidth="500px" centered borderless/>
 
 ### **Unified Data Management**
 
@@ -64,14 +65,13 @@ The data lakehouse represents more than just a technological evolution – it's 
 
 IOMETE's implementation of the data lakehouse architecture provides enterprises with a clear path forward, **enabling them to modernize their data infrastructure** while maintaining the control and flexibility they require. This combination of modern architecture and enterprise capabilities positions organizations to build data platforms that will support their needs both today and in the future.
 
-
-![scalable data lakehouse](/img/blog/2025-01-20-evolution-of-data-architecture/scalable-datalakehouse.png)
+<Img src="/img/blog/2025-01-20-evolution-of-data-architecture/scalable-datalakehouse.png" alt="scalable data lakehouse" maxWidth="500px" centered borderless/>
 
 ## **IOMETE - Data Lakehouse Platform**
 
 IOMETE represents a fundamental shift in how enterprises can approach their data infrastructure needs. As a **self-hosted platform**, it uniquely combines the advanced capabilities of modern data lakehouses with the control and flexibility that **large organizations require**. This approach enables enterprises to maintain complete sovereignty over their data infrastructure while leveraging cutting-edge data management capabilities.
 
-![self-hosted lakehouse platform](/img/blog/2025-01-20-evolution-of-data-architecture/iomete-data-lakehouse.png)
+<Img src="/img/blog/2025-01-20-evolution-of-data-architecture/iomete-data-lakehouse.png" alt="self-hosted lakehouse platform" maxWidth="500px" centered borderless/>
 
 ## **Unmatched Scalability**
 
@@ -92,7 +92,7 @@ Data protection in IOMETE extends from storage through processing. The platform 
 
 Access control in IOMETE operates at multiple levels. The platform supports role-based access control (RBAC) at the system level and extends this to fine-grained access control at the data level. Organizations can implement **column-level security, row-level filtering, and dynamic data masking** to ensure users only access the data they need for their roles. Additionally, IOMETE's **tag-based access control** enables organizations to create dynamic access policies, significantly reducing the number of individual policies needed while improving scalability and efficiency of access management. This tag-based approach allows enterprises to maintain robust security controls even as their data infrastructure grows.
 
-![role-based access control (RBAC) enterprise](/img/blog/2025-01-20-evolution-of-data-architecture/access-control-data.png)
+<Img src="/img/blog/2025-01-20-evolution-of-data-architecture/access-control-data.png" alt="role-based access control (RBAC) enterprise" maxWidth="800px" centered borderless/>
 
 ## **Maximum Cost Efficiency**
 
@@ -115,7 +115,7 @@ IOMETE's approach to cost efficiency adapts to different deployment models, prov
 
 Across all deployment models, IOMETE's architecture enables efficient resource utilization through automated scaling and workload isolation. Organizations can implement different service levels for different workloads, ensuring critical operations receive necessary resources while optimizing costs for less time-sensitive tasks. The platform's flexibility allows enterprises to choose the most cost-effective deployment model for their specific needs while maintaining consistent management and capabilities.
 
-![data lakehouse for all deployments](/img/blog/2025-01-20-evolution-of-data-architecture/efficient-data-lakehouse.png)
+<Img src="/img/blog/2025-01-20-evolution-of-data-architecture/efficient-data-lakehouse.png" alt="data lakehouse for all deployments" maxWidth="500px" centered borderless/>
 
 ## **Simplified Deployment and Management**
 
