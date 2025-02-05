@@ -288,6 +288,12 @@ const sidebars = {
       collapsed: false,
       items: ["integrations/dbtools/dbeaver"],
     },
+    {
+      type: "category",
+      label: "Git",
+      collapsed: false,
+      items: ["integrations/git/git-integration"],
+    },
   ],
 
   reference: [
