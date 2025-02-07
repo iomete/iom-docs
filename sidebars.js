@@ -278,6 +278,7 @@ const sidebars = {
         "integrations/bi/apache-superset",
         "integrations/bi/power-bi",
         "integrations/bi/power-bi-odbc",
+        "integrations/bi/power-bi-arrow-flight",
         "integrations/bi/tableau",
         "integrations/bi/redash",
       ],
