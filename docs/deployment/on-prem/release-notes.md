@@ -9,9 +9,97 @@ last_update:
 
 import Img from '@site/src/components/Img';
 import Mailer from '@site/src/components/Mailer';
-import ReleaseTitle from '@site/src/components/ReleaseTitle';
+import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.1.2" date="Feb 07, 2025" title="Service Account Token Access Fix">
+  <ReleaseSection title="🛠️ Bug Fixes" />  
+  - Fixed an issue where users could not view access tokens for Service Accounts within the same LDAP group.
+</Release>
+
+<Release version="3.1.1" date="Feb 07, 2025" title="Data-Mesh, Arrow Flight, Git, Monitoring">
+  <ReleaseSection title="🚀 Domain-Centric Platform">  
+    - All resources, including Compute, Spark Jobs, Data Catalog, and SQL Workspace, are now organized by domains.  
+    - Each domain can manage its own resources, members, and user roles independently.  
+  </ReleaseSection>
+
+  <ReleaseSection title="🛠️ New Admin Portal">  
+    <ReleaseDescription>
+      A brand-new Admin Portal has been introduced to centralize management, including:
+    </ReleaseDescription>
+    - Domains and their resources  
+    - LDAP and SSO settings  
+    - User groups and role management  
+    - Compute configurations (node types, volumes, Docker registries)  
+    - Spark catalogs and data security policies  
+    - Audit and monitoring tools
+  </ReleaseSection>
+
+  <ReleaseSection title="🔥 Unified Compute Clusters">  
+    - Lakehouse and Spark Connect have been merged into a single Compute Cluster for improved efficiency. 
+      <Img src="/img/getting-started/release-notes/3.1.2/compute.png" alt="Compute" /> 
+  </ReleaseSection>
+
+  <ReleaseSection title="⚡ Arrow Flight JDBC/ODBC Support">  
+    - Added support for Arrow Flight JDBC/ODBC connections for faster and more efficient data transfer.  
+    - Introduced a custom IOMETE ODBC Driver over Arrow Flight protocol, enabling seamless integration with Power BI.  
+    - The IOMETE ODBC Driver now supports multi-catalog access, allowing users to view and interact with multiple Spark catalogs through a single connection. Previously, each connection was limited to a single catalog.  
+      <Img src="/img/getting-started/release-notes/3.1.2/arrow.png" alt="Arrow Flight" /> 
+  </ReleaseSection>
+
+  <ReleaseSection title="🎨 SQL Workspace Redesign">  
+    <ReleaseDescription>
+      The SQL Editor has been redesigned for improved usability and organization:  
+    </ReleaseDescription>
+    - Vertical tabs for seamless navigation between:
+      -	Worksheets
+      -	Database Explorer
+      -	Query History
+    - Sub-folder support in SQL Workspace for better file organization.  
+    - Shared Folders and Git Repositories integration, enabling enhanced collaboration and version control.  
+      <Img src="/img/getting-started/release-notes/3.1.2/sql.png" alt="SQL Workspace"/> 
+  </ReleaseSection>
+
+  <ReleaseSection title="🔗 GitLab Integration"> 
+    <ReleaseDescription>
+      Domain owners can now seamlessly integrate and manage GitLab repositories within their domains.
+    </ReleaseDescription>
+    - Adding repositories for collaborative development within the domain.  
+    - Viewing repository content and switching branches directly from the platform.  
+    - Commit and push functionality is planned for future releases.  
+  </ReleaseSection>
+
+  <ReleaseSection title="📖 Data Catalog Improvements">  
+    - The Data Catalog details page has been redesigned, now providing more comprehensive insights.  
+      <Img src="/img/getting-started/release-notes/3.1.2/data-catalog.png" alt="Data Catalog"/> 
+  </ReleaseSection>
+
+  <ReleaseSection title="🚀 Experimental Launch: Data Products"> 
+    <ReleaseDescription> 
+      The Data Products section has been introduced as an experimental feature, providing a structured way to package, manage, and share curated datasets across teams. This feature enables:  
+    </ReleaseDescription>
+
+    - Domain-driven data product creation, ensuring governance and ownership.  
+    - Enhanced discoverability, allowing users to find and reuse high-quality data assets.  
+    
+    This marks the first step towards self-service data sharing, with more enhancements planned in future releases.  
+  </ReleaseSection>
+
+  <ReleaseSection title="🔐 Centralized Security & Catalog Management">  
+    - Data Security and Spark Catalog Management are now fully centralized in the Admin Portal, streamlining governance and access control.  
+  </ReleaseSection>
+
+  <ReleaseSection title="📈 New Monitoring System">  
+    - A new Monitoring Chart has been introduced, powered by IOMETE-supported Prometheus/Grafana integration.  
+    - Pre-configured Grafana Dashboards for built-in monitoring and alerting.  
+  </ReleaseSection>
+
+  <ReleaseSection title="🔄 Service Account Improvements">  
+    - Restricted login access, preventing unauthorized usage.  
+    - Granular token visibility, ensuring that Service Account tokens can only be accessed and managed by members within the same group who hold appropriate roles.  
+  </ReleaseSection>
+</Release>
 
 <ReleaseTitle version="2.2.0" date="November 29, 2024" title="Enhanced Spark Management, Security, and Usability" />
 
