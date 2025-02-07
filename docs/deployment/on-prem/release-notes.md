@@ -18,7 +18,7 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
   - Fixed an issue where users could not view access tokens for Service Accounts within the same LDAP group.
 </Release>
 
-<Release version="3.1.1" date="Feb 07, 2025" title="Data-Mesh, Arrow Flight, Git, Monitoring">
+<Release version="3.0.2" date="Feb 03, 2025" title="Data-Mesh, Arrow Flight, Git, Monitoring">
   <ReleaseSection title="🚀 Domain-Centric Platform">  
     - All resources, including Compute, Spark Jobs, Data Catalog, and SQL Workspace, are now organized by domains.  
     - Each domain can manage its own resources, members, and user roles independently.  
