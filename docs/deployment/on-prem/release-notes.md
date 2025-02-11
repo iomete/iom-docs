@@ -13,6 +13,18 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+
+<Release version="3.1.3" date="Feb 11, 2025" title="Granular Admin Roles">
+  <ReleaseSection title="⚡ Improvements">
+  - Implemented Granular Admin Roles. Admins can now assign specific roles to users for more precise control over platform management.
+  - Deleting files from SQL Workspace now does soft delete, allowing users to recover files if needed.
+  </ReleaseSection>  
+  <ReleaseSection title="🛠️ Bug Fixes">
+  - Fixed migration issue with SQL Workspace.
+  - Added configuration property to NGINX Gateway, solving timeout issue with SQL Alchemy library when executing long-running quesries. 
+  </ReleaseSection> 
+</Release>
+
 <Release version="3.1.2" date="Feb 07, 2025" title="Service Account Token Access Fix">
   <ReleaseSection title="🛠️ Bug Fixes" />  
   - Fixed an issue where users could not view access tokens for Service Accounts within the same LDAP group.
