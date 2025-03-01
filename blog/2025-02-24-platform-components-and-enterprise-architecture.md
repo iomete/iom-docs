@@ -3,6 +3,7 @@ title: IOMETE Platform Components and Enterprise Architecture
 description: A centralized control plane for management and distributed data planes for processing
 authors: vusal
 tags2: [Educational, Technical]
+slug: iomete-platform-components-enterprise-architecture
 coverImage: /img/blog/thumbnails/3.png
 banner_description: A centralized control plane for management and distributed data planes for processing
 date: 02/24/2025

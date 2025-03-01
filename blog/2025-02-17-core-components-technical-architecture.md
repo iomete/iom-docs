@@ -3,6 +3,7 @@ title: IOMETE Core Components Technical Architecture
 description: IOMETE's architecture is built on four fundamental layers, each providing essential capabilities for enterprise data management
 authors: vusal
 tags2: [Educational, Technical]
+slug: iomete-core-components-technical-architecture
 coverImage: /img/blog/thumbnails/1.png
 banner_description: IOMETE's architecture is built on four fundamental layers for enterprise data management
 date: 02/17/2025
