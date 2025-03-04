@@ -8,46 +8,37 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-Starting with version 3.1.0 of the IOMETE platform, we now support Git integration, with GitLab as our initial Git provider. The initial support focuses on hosting SQL worksheets in Git repositories that can be accessed through the SQL editor tab within the platform. This document outlines the process for setting up the integration and accessing SQL files hosted on Git.
+Starting from version 3.1.0 of the IOMETE platform, we now support Git integration, with GitLab as our initial Git provider. The initial support focuses on hosting SQL worksheets in Git repositories that can be accessed through the SQL editor tab within the platform. This document outlines the process for setting up the integration and accessing SQL files hosted on Git.
 
 ## Registering a Git Repo
 
-To integrate a repository within the platform, first register it through the Git Integration tab. You can also access the Git Integration window directly from the SQL editor using the "Checkout Git Repo" button.
+To integrate a repository within the platform, first register it through the Git Integration tab or by using the "Checkout Git Repo" button directly from the SQL editor.
 
 <Img src="/img/integrations/git/git-integration/checkout-git-repo.png" alt="checkout repo"/>
 
-Click on add new and fill in the details requested.
+We can now fill in the details requested.
+
+Git Repository URL: The URL of the repository for the current configuration. eg. https://gitlab.com/namespace/project.git
+
 Name: The name that you want to be used in, used to display the specified repository.
 
-Provider: The Git provider in use. Currently only Gitlab is supported
+Provider: The Git provider in use. Currently only Gitlab is supported.
 
-Git Server URL: The URL of the Git provider (GitLab) for the current configuration. In most cases it would be https://gitlab.com , but when using a self-hosted GitLab instance, provide the URL of your self-hosted GitLab server.
+<Img src="/img/integrations/git/git-integration/create-git-folder.png" alt="create git folder"/>
 
-Project ID: Project ID of the repository that you want integrated. This can be retrieved from the Gitlab UI.
+## Select or create a token
 
-<Img src="/img/integrations/git/git-integration/project-id.png" alt="project id"/>
+Once all the repository related details are filled in, we need to provide the token via which we want to interact with git.
 
-Once all the details are filled in click on create to save the repo.
-
-<Img src="/img/integrations/git/git-integration/create-repo.png" alt="create repo"/>
-
-## Creating and Configuring a Token
-
-When we open the SQL Editor tab, we can now see that the integrated repo is visible in the repositories section.
-
-<Img src="/img/integrations/git/git-integration/sql-editor-tab.png" alt="sql editor tab"/>
-
-To browse Git repositories integrated within the platform, users must provide a GitLab access token with appropriate permissions for both platform access and repository browsing privileges for the specific registered repository.
-
-In the Git Integration Tab, register the token via which we want to access Git.
+If you don't have a token configured already we can create a new token by clicking on the Create new button inside token drop down.
 
 <Img src="/img/integrations/git/git-integration/create-token.png" alt="create token"/>
 
-Once this is done, navigate back to SQL and click on Configure token and choose the token from the list of registered tokens.
+Tokens can also be managed from the Git Integration tab.
 
-<Img src="/img/integrations/git/git-integration/configure-token.png" alt="configure token"/>
+Once the token is set click on the create button to register the repository.
 
-As soon as we configure the token, we can see the content of the git repo and execute the Sql queries present in them. 
+We can now see the content of the git repo and execute the Sql queries present in them. 
 
 <Img src="/img/integrations/git/git-integration/execute-sql.png" alt="execute sql"/>
 
