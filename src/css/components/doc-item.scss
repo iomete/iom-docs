@@ -4,7 +4,6 @@
 
 //overrides
 #__docusaurus {
-
   //#region ------------ DocItem -------------
   & {
     display: flex;
@@ -27,7 +26,8 @@
   }
 
   [class*="docItemContainer_"] {
-    max-width: var(--doc-item-container-width);
+    // max-width: var(--doc-item-container-width);
+    max-width: 69rem;
     flex-grow: 1;
     min-width: 0;
   }
@@ -50,9 +50,9 @@
       }
     }
 
-    >.container {
-      >.row {
-        >.col {
+    > .container {
+      > .row {
+        > .col {
           //   display: flex;
           //   justify-content: center;
           //   min-width: 0;

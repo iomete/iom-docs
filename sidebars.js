@@ -120,8 +120,8 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Identity and Account ",
-      collapsed: false,
+      label: "Identity and Account",
+      collapsed: true,
       items: [
         "user-guide/iam/users",
         "user-guide/iam/groups",
@@ -146,8 +146,8 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Spark Catalogs ",
-      collapsed: false,
+      label: "Spark Catalogs",
+      collapsed: true,
       items: [
         "user-guide/spark-catalogs/overview",
         "user-guide/spark-catalogs/internal",
@@ -166,8 +166,14 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "Spark Settings",
+      collapsed: true,
+      items: ["user-guide/spark-settings/overview"],
+    },
+    {
+      type: "category",
       label: "Data Sources",
-      collapsed: false,
+      collapsed: true,
       items: [
         "reference/data-sources/jdbc-sources",
         "reference/data-sources/snowflake-connector",
@@ -180,7 +186,7 @@ const sidebars = {
     {
       type: "category",
       label: "Data Security",
-      collapsed: false,
+      collapsed: true,
       items: [
         "user-guide/data-security/overview",
         "user-guide/data-security/access-policy",
@@ -194,7 +200,7 @@ const sidebars = {
     {
       type: "category",
       label: "Spark Jobs",
-      collapsed: false,
+      collapsed: true,
       items: [
         "developer-guide/spark-job/getting-started",
         "developer-guide/spark-job/spark-application-config",
@@ -207,7 +213,7 @@ const sidebars = {
     {
       type: "category",
       label: "Jupyter Notebook",
-      collapsed: false,
+      collapsed: true,
       items: [
         "developer-guide/notebook/starting-with-notebook",
         "developer-guide/notebook/using-vscode",
@@ -216,7 +222,7 @@ const sidebars = {
     {
       type: "category",
       label: "Client & Libraries",
-      collapsed: false,
+      collapsed: true,
       items: [
         "developer-guide/driver/sql-alchemy-driver",
         "developer-guide/driver/jdbc-driver",
@@ -225,19 +231,19 @@ const sidebars = {
     {
       type: "category",
       label: "AWS",
-      collapsed: false,
+      collapsed: true,
       items: ["aws/s3-bucket-permissions", "aws/glue-catalog-permissions"],
     },
     {
       type: "category",
       label: "GCP",
-      collapsed: false,
+      collapsed: true,
       items: ["gcp/gcs-bucket-permissions"],
     },
     {
       type: "category",
       label: "Kubernetes",
-      collapsed: false,
+      collapsed: true,
       items: [
         "k8s/private-docker-registry",
         "k8s/spark-executor-shuffle-storage-options",
@@ -249,7 +255,7 @@ const sidebars = {
     {
       type: "category",
       label: "Misc",
-      collapsed: false,
+      collapsed: true,
       items: [
         "user-guide/misc/datagrip-lakehouse-connection",
         "user-guide/misc/shutdown-for-maintenance",
