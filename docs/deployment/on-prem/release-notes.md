@@ -13,6 +13,44 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.2.0" date="Mar 10, 2025" title="Branding and Stability">
+  <ReleaseSection title="🧑‍🎨 Branding">
+  - Color schemes adjusted to match our new Branding Identity 🫶
+  - New Login Page with brand colors and our New Logo 🚀
+    <Img src="/img/getting-started/release-notes/3.2.0/login-page.png" alt="Login Page" />
+  </ReleaseSection> 
+  <ReleaseSection title="⚡️ Improvements">
+  - SQL Editor now has "View Logs" functionality to quickly access Compute logs without quitting the page and navigating to Compute / details / logs.
+    <Img src="/img/getting-started/release-notes/3.2.0/view-logs.png" alt="View Logs" />
+  - Logs Panel is now redesigned, highlighting log levels and keywords like WARN, ERROR, etc. for visual prominence. Made buttons "Scroll to Bottom" and "Copy" more accessible and user-friendly.
+    <Img src="/img/getting-started/release-notes/3.2.0/logs.png" alt="Logs" />
+  - Added special feature flag for controlling the export/download of SQL Query results into CSV. This enables Enterprise companies to implement enhanced security measures in preventing data breaches within their organizations.
+  - Added FeatureFlags into our Deployment Helm Values. Now features like Jupyter Notebooks, ArrowFlight, Data Products (Experimental), and Monitoring can be disabled individually.
+    <Img src="/img/getting-started/release-notes/3.2.0/feature-flags.png" alt="Feature Flags" />
+  - Removed the custom right-click context menu from the SQL Editor section and restored the standard browser context menu.
+  - Hiding non-relevant information from Data Catalog for non-Iceberg tables. Statistics, Partitions, Snapshots, etc. are now only available for Managed Iceberg Tables.
+    <Img src="/img/getting-started/release-notes/3.2.0/data-catalog.png" alt="Data Catalog" />
+  - Added Breadcrumbs and removed “Back” icons, for improving the navigation experience.
+    <Img src="/img/getting-started/release-notes/3.2.0/breadcrumb.png" alt="Breadcrumb" />
+  - Improved experience with Git integrations. Users can now add git integration from a single modal. Removed the project ID field for streamlined setup.
+    <Img src="/img/getting-started/release-notes/3.2.0/git.png" alt="Git" />
+  - Added “Reset Connection” to SQL Editor Menu. During Connection or network problems users can reset their existing connections and reconnect to Compute instance.
+    <Img src="/img/getting-started/release-notes/3.2.0/reset-conn.png" alt="Reset Conn" />
+  - Added Rename / Duplicate functionalities to SQL Worksheets
+    <Img src="/img/getting-started/release-notes/3.2.0/rename.png" alt="Rename" />
+  - Significant amount of vulnerabilities remediated across our systems for enhanced security. 
+  - Upgraded Spark Version to 3.5.4 (prev 3.5.3).
+  - Upgraded Apache Iceberg version from 1.6.1 to 1.7.1 in our Spark images.
+  - IOMETE is now switching to Azure Container Registry `iomete.azurecr.io/iomete` to enable image immutability and avoid limitations of docker hub.
+  - Set default `spark.sql.thriftServer.incrementalCollect=true` Spark config. Can be overridden from Global Spark Settings per domain.
+  </ReleaseSection>  
+  <ReleaseSection title="🛠️ Bug Fixes">
+  - Fixed hard-coded Kubernetes’s Cluster DNS (cluster.local) in some internal network calls
+  - Ticket CS-194 - resolved - ServiceAccount page was throwing an internal error when end-users within the same group attempted to access its tokens.
+  - CS-166, CS-178 - To address cases where artifacts added using --jars or --packages are not being loaded in the executor, we introduced the property `spark.executor.iomete.loadInitialUserArtifactsForEachSession`. Enabling this property for a compute cluster ensures that each session connecting to Spark will load these artifacts. Please note, this property is currently experimental.
+  - Auto-Complete issue fixed in Data Security Policy management page.
+  </ReleaseSection> 
+</Release>
 
 <Release version="3.1.3" date="Feb 11, 2025" title="Granular Admin Roles">
   <ReleaseSection title="⚡ Improvements">
