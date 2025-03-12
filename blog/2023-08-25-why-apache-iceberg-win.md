@@ -15,7 +15,7 @@ Apache Iceberg is an open source table format for huge analytic datasets. It is 
 
 <!-- truncate -->
 
-<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<!-- <MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard> -->
 
 Apache Iceberg is a table format that is quickly becoming the standard for storing and managing data lakes. It offers a number of advantages over other table formats, including:
 

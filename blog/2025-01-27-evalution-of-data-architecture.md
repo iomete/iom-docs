@@ -6,7 +6,7 @@ authors: vusal
 hide_table_of_contents: true
 tags: [Educational, Engineering]
 tags2: [Educational]
-coverImage: img/blog/2025-01-20-evolution-of-data-architecture/evolution-of-data-platform.png
+coverImage: /img/blog/thumbnails/3.png
 banner_description: Traditional data warehouses face limitations in today's enterprise environment
 ---
 

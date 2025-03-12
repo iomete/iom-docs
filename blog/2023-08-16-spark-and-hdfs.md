@@ -24,7 +24,7 @@ The short answer is yes. Spark does indeed have integration with HDFS, which pro
 
 Your observation about the naming convention of Spark binaries is correct. The presence of "hadoop" in the name, such as "spark-3.x.x-bin-hadoop3.x," indicates that the Spark distribution is compiled to work with a specific version of Hadoop, which includes the HDFS component. When you create a Dockerized Spark cluster with this distribution, it inherently includes HDFS support.
 
-<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<!-- <MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard> -->
 
 ## Advantages of Utilizing HDFS with Spark:
 

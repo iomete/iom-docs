@@ -41,7 +41,7 @@ While we believe that Apache Iceberg is the best choice for our use case, it is 
 
 However, Iceberg has recently added support for merge-on-read functionality, which is a huge step forward. This means that stream updates could cause a lot of small files because the default strategy is copy-on-write. But with the merge-on-read strategy, you will end up with fewer files, which is a huge improvement in streaming write (update/delete) performance.
 
-<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<!-- <MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard> -->
 
 ## **Conclusion**
 
