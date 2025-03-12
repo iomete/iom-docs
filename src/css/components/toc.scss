@@ -1,13 +1,15 @@
 html[data-theme="light"] {
-  --toc-separator-c: var(--c-indigo-20);
   --ifm-toc-link-color: var(--c-indigo-80);
   --ifm-toc-link-color-active: var(--c-indigo-60);
+  // --ifm-toc-link-color: var(--fluoro-900);
+  // --ifm-toc-link-color-active: var(--fluoro-700);
 }
 
 html[data-theme="dark"] {
-  --toc-separator-c: var(--c-carbon-90);
   --ifm-toc-link-color: var(--c-carbon-0);
   --ifm-toc-link-color-active: var(--c-carbon-40);
+  // --ifm-toc-link-color: var(--fluoro-700);
+  // --ifm-toc-link-color-active: var(--fluoro-900);
 }
 
 // :root {}

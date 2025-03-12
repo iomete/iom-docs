@@ -1,43 +1,49 @@
 html[data-theme='light'] {
-    --admonition-note-c-bg: var(--c-yellow-10);
-    --admonition-info-c-bg: var(--c-blue-0);
-    --admonition-tip-c-bg: var(--c-green-10);
-    --admonition-caution-c-bg: var(--c-orange-10);
-    --admonition-danger-c-bg: var(--c-red-0);
+    --admonition-note-bg: var(--stone-50);
+    --admonition-info-bg: var(--lake-50);
+    --admonition-tip-bg: var(--racing-50);
+    --admonition-caution-bg: var(--apricot-50);
+    --admonition-danger-bg: var(--reef-50);
 
-    --admonition-code-note-c-bg: var(--c-yellow-30);
-    --admonition-code-info-c-bg: var(--c-blue-10);
-    --admonition-code-tip-c-bg: var(--c-green-20);
-    --admonition-code-caution-c-bg: var(--c-orange-20);
-    --admonition-code-danger-c-bg: var(--c-red-10);
+    --admonition-code-note-bg: var(--stone-100);
+    --admonition-code-info-bg: var(--lake-100);
+    --admonition-code-tip-bg: var(--racing-100);
+    --admonition-code-caution-bg: var(--apricot-100);
+    --admonition-code-danger-bg: var(--reef-100);
+
+    --admonition-link-note-c: var(--stone-900);
+    --admonition-link-info-c: var(--lake-900);
+    --admonition-link-tip-c: var(--racing-900);
+    --admonition-link-caution-c: var(--apricot-900);
+    --admonition-link-danger-c: var(--reef-900);
 }
 
 html[data-theme='dark'] {
-    --admonition-note-c-bg: #241800;
-    --admonition-info-c-bg: #000d24;
-    --admonition-tip-c-bg: #00240a;
-    --admonition-caution-c-bg: #240b00;
-    --admonition-danger-c-bg: #240002;
+    --admonition-note-bg: var(--stone-900);
+    --admonition-info-bg: var(--lake-900);
+    --admonition-tip-bg: var(--racing-900);
+    --admonition-caution-bg: var(--apricot-900);
+    --admonition-danger-bg: var(--reef-900);
 
-    --admonition-code-note-c-bg: #3d2900;
-    --admonition-code-info-c-bg: #00163d;
-    --admonition-code-tip-c-bg: #003d11;
-    --admonition-code-caution-c-bg: #3d1200;
-    --admonition-code-danger-c-bg: #3d0003;
+    --admonition-code-note-bg: var(--stone-700);
+    --admonition-code-info-bg: var(--lake-700);
+    --admonition-code-tip-bg: var(--racing-700);
+    --admonition-code-caution-bg: var(--apricot-700);
+    --admonition-code-danger-bg: var(--reef-700);
+
+    --admonition-link-note-c: var(--stone-300);
+    --admonition-link-info-c: var(--lake-300);
+    --admonition-link-tip-c: var(--racing-300);
+    --admonition-link-caution-c: var(--apricot-300);
+    --admonition-link-danger-c: var(--reef-300);
 }
 
 :root {
-    --admonition-bar-note-c-bg: var(--c-yellow-80);
-    --admonition-bar-info-c-bg: var(--c-blue-80);
-    --admonition-bar-tip-c-bg: var(--c-green-80);
-    --admonition-bar-caution-c-bg: var(--c-orange-80);
-    --admonition-bar-danger-c-bg: var(--c-red-60);
-
-    --admonition-link-note-c: var(--c-yellow-90);
-    --admonition-link-info-c: var(--c-blue-90);
-    --admonition-link-tip-c: var(--c-green-90);
-    --admonition-link-caution-c: var(--c-orange-90);
-    --admonition-link-danger-c: var(--c-red-90);
+    --admonition-bar-note-bg: var(--stone-300);
+    --admonition-bar-info-bg: var(--lake-300);
+    --admonition-bar-tip-bg: var(--racing-300);
+    --admonition-bar-caution-bg: var(--apricot-300);
+    --admonition-bar-danger-bg: var(--reef-300);
 }
 
 .theme-admonition {
@@ -65,12 +71,12 @@ html[data-theme='dark'] {
     [class^='admonitionContent_'] {
         p {
             a {
-                color: var(--admonition-link-c);
+                color: var(--admonition-link);
                 text-decoration: underline;
             }
 
             code {
-                background: var(--admonition-code-c-bg);
+                background: var(--admonition-code-bg);
             }
         }
     }
@@ -83,43 +89,43 @@ html[data-theme='dark'] {
         top: 0;
         bottom: 0;
         width: 5px;
-        background: var(--admonition-bar-c-bg);
+        background: var(--admonition-bar-bg);
         border-radius: 4px 0 0 4px;
     }
 
     &-note {
-        --ifm-alert-background-color: var(--admonition-note-c-bg);
-        --admonition-bar-c-bg: var(--admonition-bar-note-c-bg);
-        --admonition-code-c-bg: var(--admonition-code-note-c-bg);
-        --admonition-link-c: var(--admonition-link-note-c);
+        --ifm-alert-background-color: var(--admonition-note-bg);
+        --admonition-bar-bg: var(--admonition-bar-note-bg);
+        --admonition-code-bg: var(--admonition-code-note-bg);
+        --admonition-link: var(--admonition-link-note-c);
     }
 
     &-info {
-        --ifm-alert-background-color: var(--admonition-info-c-bg);
-        --admonition-bar-c-bg: var(--admonition-bar-info-c-bg);
-        --admonition-code-c-bg: var(--admonition-code-info-c-bg);
-        --admonition-link-c: var(--admonition-link-info-c);
+        --ifm-alert-background-color: var(--admonition-info-bg);
+        --admonition-bar-bg: var(--admonition-bar-info-bg);
+        --admonition-code-bg: var(--admonition-code-info-bg);
+        --admonition-link: var(--admonition-link-info-c);
     }
 
     &-tip {
-        --ifm-alert-background-color: var(--admonition-tip-c-bg);
-        --admonition-bar-c-bg: var(--admonition-bar-tip-c-bg);
-        --admonition-code-c-bg: var(--admonition-code-tip-c-bg);
-        --admonition-link-c: var(--admonition-link-tip-c);
+        --ifm-alert-background-color: var(--admonition-tip-bg);
+        --admonition-bar-bg: var(--admonition-bar-tip-bg);
+        --admonition-code-bg: var(--admonition-code-tip-bg);
+        --admonition-link: var(--admonition-link-tip-c);
     }
 
     &-caution {
-        --ifm-alert-background-color: var(--admonition-caution-c-bg);
-        --admonition-bar-c-bg: var(--admonition-bar-caution-c-bg);
-        --admonition-code-c-bg: var(--admonition-code-caution-c-bg);
-        --admonition-link-c: var(--admonition-link-caution-c);
+        --ifm-alert-background-color: var(--admonition-caution-bg);
+        --admonition-bar-bg: var(--admonition-bar-caution-bg);
+        --admonition-code-bg: var(--admonition-code-caution-bg);
+        --admonition-link: var(--admonition-link-caution-c);
     }
 
     &-danger {
-        --ifm-alert-background-color: var(--admonition-danger-c-bg);
-        --admonition-bar-c-bg: var(--admonition-bar-danger-c-bg);
-        --admonition-code-c-bg: var(--admonition-code-danger-c-bg);
-        --admonition-link-c: var(--admonition-link-danger-c);
+        --ifm-alert-background-color: var(--admonition-danger-bg);
+        --admonition-bar-bg: var(--admonition-bar-danger-bg);
+        --admonition-code-bg: var(--admonition-code-danger-bg);
+        --admonition-link: var(--admonition-link-danger-c);
     }
 }
 
