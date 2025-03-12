@@ -1,0 +1,123 @@
+:root {
+  --fluoro-50: #f7ffcc;
+  --fluoro-100: #f0fcac;
+  --fluoro-200: #e8fa82;
+  --fluoro-300: #dff75e;
+  --fluoro-400: #d3f52c;
+  --fluoro-500: #c6e51c;
+  --fluoro-600: #b7cc3d;
+  --fluoro-700: #88991c;
+  --fluoro-800: #667302;
+  --fluoro-900: #53591e;
+
+  --stone-50: #f2eeeb;
+  --stone-100: #e8e1da;
+  --stone-200: #d6cac1;
+  --stone-300: #c9b9ad;
+  --stone-400: #b0a097;
+  --stone-500: #9e8b82;
+  --stone-600: #806e66;
+  --stone-700: #6b5851;
+  --stone-800: #54433e;
+  --stone-900: #473733;
+
+  --apricot-50: #faf3e3;
+  --apricot-100: #fceccc;
+  --apricot-200: #fcdca3;
+  --apricot-300: #f7c77e;
+  --apricot-400: #eba54b;
+  --apricot-500: #e39740;
+  --apricot-600: #d18538;
+  --apricot-700: #995b25;
+  --apricot-800: #85491c;
+  --apricot-900: #6b3b1b;
+
+  --lake-50: #e8f3fd;
+  --lake-100: #dce9fa;
+  --lake-200: #cbdcf8;
+  --lake-300: #b1c4f2;
+  --lake-400: #96a7eb;
+  --lake-500: #8292e0;
+  --lake-600: #707ecf;
+  --lake-700: #565f9c;
+  --lake-800: #424778;
+  --lake-900: #373a63;
+
+  --racing-50: #e8f7e8;
+  --racing-100: #d3e5d3;
+  --racing-200: #b8cdb8;
+  --racing-300: #a0b8a0;
+  --racing-400: #7b967b;
+  --racing-500: #617a61;
+  --racing-600: #4e664e;
+  --racing-700: #415441;
+  --racing-800: #344234;
+  --racing-900: #2d382d;
+
+  --reef-50: #faf2f0;
+  --reef-100: #fae1dc;
+  --reef-200: #fad0c8;
+  --reef-300: #f5beb3;
+  --reef-400: #fa9884;
+  --reef-500: #ed7e68;
+  --reef-600: #cf543c;
+  --reef-700: #b03e27;
+  --reef-800: #96311d;
+  --reef-900: #752414;
+
+  --geode-50: #f4f0f5;
+  --geode-100: #ebe4ed;
+  --geode-200: #e7dbea;
+  --geode-300: #d9c5dc;
+  --geode-400: #c8adcc;
+  --geode-500: #b997bd;
+  --geode-600: #a37ea6;
+  --geode-700: #7c5d7d;
+  --geode-800: #7c5d7d;
+  --geode-900: #523f52;
+
+  --base-50: #fcfcf8;
+  --base-100: #e6e6e2;
+  --base-200: #d0d0cd;
+  --base-300: #babab7;
+  --base-400: #a4a4a2;
+  --base-500: #8e8e8c;
+  --base-600: #737371;
+  --base-700: #626261;
+  --base-800: #4c4c4c;
+  --base-900: #363636;
+  --base-950: #202020;
+
+  --base-950--0: #20202000;
+  --base-950--20: #20202033;
+  --base-950--40: #20202066;
+  --base-950--60: #20202099;
+  --base-950--80: #202020cc;
+
+  --base-0--0: #fff0;
+  --base-0--20: #fff3;
+  --base-0--40: #fff6;
+  --base-0--60: #fff9;
+  --base-0--80: #fffc;
+  --base-50--0: #fcfcf800;
+  --base-50--20: #fcfcf833;
+  --base-50--40: #fcfcf866;
+  --base-50--60: #fcfcf899;
+  --base-50--80: #fcfcf8cc;
+
+  --_color---brand--danger: #ed7e68;
+  --_color---brand--warning: #e39740;
+  --_color---brand--success: #617a61;
+}
+
+html[data-theme="light"] {
+  --primary--background: var(--base-50);
+}
+
+html[data-theme="dark"] {
+  --primary--background: var(--base-950);
+}
+
+#__docusaurus {
+  background-color: var(--primary--background);
+}

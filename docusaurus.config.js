@@ -164,8 +164,8 @@ const config = {
           srcDark: `/logo-white.svg`,
           href: "https://iomete.com",
           target: "_self",
-          height: 32,
-          width: 82,
+          // height: 32,
+          width: 140,
         },
         items: [
           {
