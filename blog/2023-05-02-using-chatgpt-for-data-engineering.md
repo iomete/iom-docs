@@ -48,7 +48,7 @@ One of the most popular use cases for ChatGPT among data engineers is generating
 
 Data engineers also use ChatGPT to help them write SQL queries. ChatGPT is not great at generating complex SQL queries, but it can be helpful in generating simple queries that data engineers may not be familiar with. For example, if a data engineer knows what they want to do but doesn't know the correct syntax to do it, they can provide a prompt to ChatGPT, and it will generate the correct SQL query.
 
-<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<!-- <MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard> -->
 
 ## Writing Code
 

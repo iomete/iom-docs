@@ -3,7 +3,7 @@ title: Data Warehouse to Lakehouse Evolution
 description: Discover the evolution from data warehouses to lakehouses in this insightful blog post, exploring the changing landscape of data technology.
 authors: vusal
 tags2: [Educational, Technical]
-coverImage: /img/blog/from-data-warehouses-to-data-lakehouses/tech-trend-divergence-convergence.png
+coverImage: img/blog/thumbnails/3.png
 banner_description: Discover the evolution from data warehouses to lakehouses in this insightful blog post, exploring the changing landscape of data technology.
 date: 01/17/2024
 keywords:
