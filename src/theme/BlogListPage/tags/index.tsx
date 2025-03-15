@@ -8,7 +8,7 @@ export type Props = {
   activeTag?: string;
 };
 
-const tags = ["Release", "Educational", "Company", "Engineering"];
+const tags = ["Release", "Educational", "Company", "Engineering", "Technical"];
 
 interface IProps {
   selected?: string;
@@ -17,12 +17,19 @@ interface IProps {
 function Tags({ selected, onChange }: IProps) {
   return (
     <div className={styles.Tags}>
-      <div className={clsx(styles.TagLink, selected === "" && styles.Active)} onClick={() => onChange("")}>
+      <div
+        className={clsx(styles.TagLink, selected === "" && styles.Active)}
+        onClick={() => onChange("")}
+      >
         All
       </div>
 
       {tags.map((tag) => (
-        <div key={tag} className={clsx(styles.TagLink, tag === selected && styles.Active)} onClick={() => onChange(tag)}>
+        <div
+          key={tag}
+          className={clsx(styles.TagLink, tag === selected && styles.Active)}
+          onClick={() => onChange(tag)}
+        >
           {tag}
         </div>
       ))}

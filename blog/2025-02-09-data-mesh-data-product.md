@@ -3,11 +3,10 @@ title: Data as a Product for large enterprises
 description: The future of enterprise data isn't about making central teams bigger or processes more complex. It's about giving power back to the people who understand the data best, while providing the guardrails and tools they need to use that power effectively
 authors: vusal
 tags2: [Educational, Technical]
-coverImage: /img/blog/thumbnails/2.png
+coverImage: img/blog/thumbnails/2.png
 banner_description: data domain is a living workspace where teams can truly own their data
 date: 02/09/2025
 ---
-
 
 ## **Beyond the Monolithic Data Platform: Building a Self-Service Data Mesh for the Enterprise**
 
@@ -65,34 +64,34 @@ Here's what makes our approach different: Everything is designed for self-servic
 Want to create a new dataset? There's no need to write complex SQL or understand intricate system architectures. Our intuitive interface guides you through the process:
 
 1. **Start in Your Domain**
-    - Choose your domain workspace
-    - Select the type of data asset you want to create
-    - Use visual tools to define your data structure
+   - Choose your domain workspace
+   - Select the type of data asset you want to create
+   - Use visual tools to define your data structure
 2. **Develop and Test**
-    - Work freely in your private space
-    - Use visual data transformation tools
-    - Test and validate with immediate feedback
+   - Work freely in your private space
+   - Use visual data transformation tools
+   - Test and validate with immediate feedback
 3. **Share as a Data Product**
-    - Convert internal datasets to data products with a few clicks
-    - Automatically generate documentation templates
-    - Set up sharing and access controls visually
+   - Convert internal datasets to data products with a few clicks
+   - Automatically generate documentation templates
+   - Set up sharing and access controls visually
 
 ## **Real Benefits for Real Teams**
 
 This approach is already transforming how large enterprises work with data:
 
 1. **For Business Teams**
-    - Create and manage datasets without waiting for IT
-    - Experiment freely without breaking things for others
-    - Share data products confidently with other teams
+   - Create and manage datasets without waiting for IT
+   - Experiment freely without breaking things for others
+   - Share data products confidently with other teams
 2. **For Data Engineers**
-    - Focus on innovation instead of request management
-    - Build reliable, reusable data products
-    - Implement changes without fear of unknown impacts
+   - Focus on innovation instead of request management
+   - Build reliable, reusable data products
+   - Implement changes without fear of unknown impacts
 3. **For Data Architects**
-    - Design domain boundaries that make sense for your organization
-    - Implement governance that enables rather than restricts
-    - Scale data operations without scaling complexity
+   - Design domain boundaries that make sense for your organization
+   - Implement governance that enables rather than restricts
+   - Scale data operations without scaling complexity
 
 ## **Looking Forward**
 

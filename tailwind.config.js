@@ -3,11 +3,14 @@ module.exports = {
     preflight: false,
     container: false,
   },
-  content: ["./src/pages/_hero_new/**"],
+  content: ["./src/pages/_hero_new/**", "./src/theme/BlogListPage/**"],
   darkMode: ["selector", '[data-theme="dark"]'],
   theme: {
     fontFamily: {
       sans: ["Inter", "sans-serif"],
+      inter: ["Inter", "Palatino Linotype", "sans-serif"],
+      mono: ["Dmmono", "Palatino Linotype", "sans-serif"],
+      archivo: ["Archivo", "Palatino Linotype", "sans-serif"]
     },
     extend: {
       boxShadow: {

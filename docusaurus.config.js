@@ -61,6 +61,7 @@ const config = {
   // },
 
   themes: ["docusaurus-theme-github-codeblock", "@docusaurus/theme-mermaid"],
+
   markdown: {
     mermaid: true,
   },
@@ -249,6 +250,52 @@ const config = {
         },
       },
     }),
+  headTags: [
+    // Inter Variable
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preload',
+        href: 'https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a3594aabfa49cafb5d07e_InterVariable.ttf',
+        as: 'font',
+        type: 'font/ttf',
+        crossorigin: 'anonymous',
+      },
+    },
+    // Archivo Variable
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preload',
+        href: 'https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a361dee69de6073e991b4_Archivo-VariableFont_wdth,wght.ttf',
+        as: 'font',
+        type: 'font/ttf',
+        crossorigin: 'anonymous',
+      },
+    },
+    // DM Mono Medium
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preload',
+        href: 'https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a3657294bb48e01b67f05_DMMono-Medium.ttf',
+        as: 'font',
+        type: 'font/ttf',
+        crossorigin: 'anonymous',
+      },
+    },
+    // DM Mono Regular
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preload',
+        href: 'https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a3650d012930b8d8bd5b0_DMMono-Regular.ttf',
+        as: 'font',
+        type: 'font/ttf',
+        crossorigin: 'anonymous',
+      },
+    },
+  ],
   plugins: [
     "docusaurus-plugin-sass",
     "docusaurus-plugin-image-zoom",

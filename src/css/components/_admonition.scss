@@ -114,7 +114,8 @@ html[data-theme='dark'] {
         --admonition-link: var(--admonition-link-tip-c);
     }
 
-    &-caution {
+    &-caution,
+    &-warning {
         --ifm-alert-background-color: var(--admonition-caution-bg);
         --admonition-bar-bg: var(--admonition-bar-caution-bg);
         --admonition-code-bg: var(--admonition-code-caution-bg);
