@@ -19,7 +19,7 @@
       width: 100%;
       padding-right: 32px;
       border-radius: 5px;
-      border: 1px solid var(--ifm-color-emphasis-300);
+      border: 1px solid var(--base-300);
       background-color: var(--ifm-color-emphasis-0);
 
       font-size: 18px;
@@ -36,7 +36,7 @@
 
     &:hover,
     &:focus-visible {
-      border-color: var(--ifm-navbar-link-hover-color);
+      border-color: var(--base-500);
     }
 
     &::placeholder {

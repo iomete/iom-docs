@@ -26,12 +26,25 @@
 
   text-transform: capitalize;
 
-  color: var(--ifm-color-emphasis-700);
-  background-color: var(--ifm-color-emphasis-200);
+  color: var(--base-700);
+  background-color: var(--base-200);
 
   &.Active,
   &:hover {
     color: white;
-    background-color: var(--ifm-color-primary);
+    background-color: var(--base-800);
+  }
+}
+
+html[data-theme='dark'] {
+  .TagLink {
+    color: var(--base-200);
+    background-color: var(--base-800);
+  }
+
+  .TagLink.Active,
+  .TagLink:hover {
+    color: white;
+    background-color: var(--base-600);
   }
 }

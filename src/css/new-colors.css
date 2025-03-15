@@ -112,10 +112,12 @@
 
 html[data-theme="light"] {
   --primary--background: var(--base-50);
+  --primary--border: var(--base-200);
 }
 
 html[data-theme="dark"] {
   --primary--background: var(--base-950);
+  --primary--border: var(--base-800);
 }
 
 #__docusaurus {

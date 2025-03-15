@@ -27,10 +27,18 @@ interface PropsExtended extends Props {
 function Container(props: PropsExtended) {
   const baseUrl = useBaseUrl("/");
 
-  const featuredBlog = props.items.find((item) => (item.content.frontMatter as any).featured_blog);
-  const posts = [...props.items.filter((item) => !(item.content.frontMatter as any).featured_blog)];
+  const featuredBlog = props.items.find(
+    (item) => (item.content.frontMatter as any).featured_blog
+  );
+  const posts = [
+    ...props.items.filter(
+      (item) => !(item.content.frontMatter as any).featured_blog
+    ),
+  ];
 
-  const [searchState, setSearchState] = useState<{ word: string; tag: string }>({ word: "", tag: "" });
+  const [searchState, setSearchState] = useState<{ word: string; tag: string }>(
+    { word: "", tag: "" }
+  );
   const [filteredResults, setFilteredResults] = useState<Props["items"]>(posts);
 
   const onSearchChange = (val: string) => {
@@ -54,7 +62,10 @@ function Container(props: PropsExtended) {
         ].some((a) => a?.includes(lowerWord));
 
         if (lowerWord && searchState.tag) {
-          return searchMatch && item.content.frontMatter.tags2?.includes(searchState.tag);
+          return (
+            searchMatch &&
+            item.content.frontMatter.tags2?.includes(searchState.tag)
+          );
         }
 
         if (lowerWord) {
@@ -85,7 +96,7 @@ function Container(props: PropsExtended) {
         {filteredResults?.length ? (
           filteredResults.map((item, index) => {
             return (
-              <div className="col col--4" key={index}>
+              <div className="col col--4 pb-8" key={index}>
                 <Card {...(item.content as any)} />
               </div>
             );

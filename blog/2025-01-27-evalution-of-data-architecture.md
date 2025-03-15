@@ -6,7 +6,7 @@ authors: vusal
 hide_table_of_contents: true
 tags: [Educational, Engineering]
 tags2: [Educational]
-coverImage: /img/blog/thumbnails/3.png
+coverImage: img/blog/thumbnails/3.png
 banner_description: Traditional data warehouses face limitations in today's enterprise environment
 ---
 
@@ -28,7 +28,7 @@ While data lakes addressed some warehouse limitations, they introduced their own
 - **Performance Limitations**: Without optimized storage formats and query engines, data lakes often struggled to deliver the performance required for interactive analytics.
 - **Governance Challenges**: Early data lakes lacked robust governance capabilities, making it difficult to implement enterprise-grade security and compliance controls.
 
-<Img src="/img/blog/2025-01-20-evolution-of-data-architecture/challanges-of-datalakes.png" alt="challanges of datalakes" maxWidth="500px" centered borderless/>    
+<Img src="/img/blog/2025-01-20-evolution-of-data-architecture/challanges-of-datalakes.png" alt="challanges of datalakes" maxWidth="500px" centered borderless/>
 
 ## **The Rise of Data Lakehouses**
 
@@ -45,7 +45,6 @@ A data lakehouse is an architectural pattern that creates a best-of-both-worlds 
 ### **Unified Data Management**
 
 The data lakehouse eliminates the traditional separation between data lakes and data warehouses. It provides a single platform for storing and processing all enterprise data, whether structured, semi-structured, or unstructured. This unified approach significantly reduces data movement, improves consistency, and simplifies the overall data architecture.
-
 
 ### **ACID Transaction Support**
 
@@ -80,7 +79,6 @@ IOMETE's architecture is designed for **enterprise-scale operations**, capable o
 The scalability framework operates across multiple dimensions. Horizontal scaling allows organizations to add processing capacity as needed, while vertical scaling enables efficient handling of complex workloads. The platform's multi-cluster architecture supports geographical distribution of workloads, enabling global operations while maintaining local performance.
 
 Performance optimization in IOMETE occurs at multiple levels. The query engine implements sophisticated optimization techniques, including cost-based optimization and dynamic resource allocation. The storage layer utilizes advanced formats like Apache Iceberg, enabling efficient data access and management at scale.
- 
 
 ## **Enterprise-Grade Security and Privacy**
 
