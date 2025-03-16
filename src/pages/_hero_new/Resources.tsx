@@ -40,7 +40,7 @@ function Resources() {
         </div>
         <div className="col-span-4 sm:col-span-2">
           <Card url="aws/read-files-from-aws-s3">
-            <div className="bg-[#F6F8FA] dark:bg-[#1e1e1f] flex justify-center items-center h-[72px] mb-4">
+            <div className="bg-[var(--base-100)] dark:bg-[var(--base-900)] flex justify-center items-center h-[72px] mb-4">
               <DownloadSimple size={32} />
             </div>
             <div>
@@ -68,7 +68,7 @@ function Resources() {
                   .map((connection, index) => (
                     <div
                       key={index}
-                      className="item bg-[#F6F8FA] dark:bg-[#1e1e1f] rounded-[3px] flex items-center gap-2 py-3 px-6 h-12"
+                      className="item bg-[var(--base-100)] dark:bg-[var(--base-900)] rounded-[3px] flex items-center gap-2 py-3 px-6 h-12"
                     >
                       <img
                         className="w-5 h-5"
@@ -88,7 +88,7 @@ function Resources() {
                   .map((connection, index) => (
                     <div
                       key={index}
-                      className="item-reverse bg-[#F6F8FA] dark:bg-[#1e1e1f] rounded-[3px] flex items-center gap-2 py-3 px-6 h-12"
+                      className="item-reverse bg-[var(--base-100)] dark:bg-[var(--base-900)] rounded-[3px] flex items-center gap-2 py-3 px-6 h-12"
                     >
                       <img
                         className="w-5 h-5"

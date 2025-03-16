@@ -8,7 +8,7 @@ const tagsColorMap = {
   Engineering: "var(--geode-100)",
 };
 
-function CardTags({ tags }: { tags: string[] }) {
+function CardTags({ tags }: { tags: string[] | undefined }) {
   if (!tags) return null;
   return (
     <div className="flex gap-2 text-[var(--base-950)]">

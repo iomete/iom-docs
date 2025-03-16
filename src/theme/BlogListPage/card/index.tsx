@@ -28,7 +28,7 @@ function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
           </h3>
 
           {isFeatured && (
-            <p className="hidden md:block font-inter mt-8 pt-3 text-[--base-700] dark:text-[--base-400] border-0 border-t border-solid border-t-[var(--primary--border)]">
+            <p className="hidden md:block font-inter mt-8 pt-3 text-[--base-700] dark:text-[--base-400] border-0 border-t border-solid border-t-[var(--border-primary)]">
               {frontMatter.description}
             </p>
           )}
