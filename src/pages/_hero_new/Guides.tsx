@@ -40,7 +40,7 @@ function Guides() {
         {guides.map((guide, index) => (
           <div className="col-span-2 sm:col-span-1 " key={index}>
             <Card url={guide.url}>
-              <div className="h-18 bg-[#F6F8FA] dark:bg-[#1e1e1f] rounded-[3px] flex justify-center items-center mb-4 p-[18px]">
+              <div className="h-18 bg-[var(--text-nonary)] rounded-[3px] flex justify-center items-center mb-4 p-[18px]">
                 {guide.icon}
               </div>
 

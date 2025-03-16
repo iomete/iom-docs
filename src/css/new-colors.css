@@ -112,12 +112,36 @@
 
 html[data-theme="light"] {
   --primary--background: var(--base-50);
-  --primary--border: var(--base-200);
+  --border-primary: var(--base-200);
+  --border-secondary: var(--base-300);
+
+  --text-primary: var(--base-900);
+  --text-secondary: var(--base-800);
+  --text-tertiary: var(--base-700);
+  --text-quaternary: var(--base-600);
+  --text-quinary: var(--base-500);
+  --text-senary: var(--base-400);
+  --text-septenary: var(--base-300);
+  --text-octonary: var(--base-200);
+  --text-nonary: var(--base-100);
+  --text-denary: var(--base-100);
 }
 
 html[data-theme="dark"] {
   --primary--background: var(--base-950);
-  --primary--border: var(--base-800);
+  --border-primary: var(--base-800);
+  --border-secondary: var(--base-700);
+
+  --text-primary: var(--base-100);
+  --text-secondary: var(--base-200);
+  --text-tertiary: var(--base-300);
+  --text-quaternary: var(--base-400);
+  --text-quinary: var(--base-500);
+  --text-senary: var(--base-600);
+  --text-septenary: var(--base-700);
+  --text-octonary: var(--base-800);
+  --text-nonary: var(--base-900);
+  --text-denary: var(--base-950);
 }
 
 #__docusaurus {
