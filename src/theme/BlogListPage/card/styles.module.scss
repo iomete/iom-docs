@@ -9,10 +9,10 @@
 }
 
 .CardImg {
-  transition: opacity .2s ease;
+  transition: opacity 0.2s ease;
 }
 
-.CardLink :global(.card) {
+.CardLink :global(.blog) {
   & {
     box-shadow: none !important;
     border: none !important;
@@ -35,4 +35,13 @@
       }
     }
   }
+}
+
+:global(.blog) {
+  background-color: var(--ifm-card-background-color);
+  border-radius: 1px;
+  box-shadow: var(--ifm-global-shadow-lw);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }

@@ -9,10 +9,16 @@ function Header({ baseUrl }: IProps) {
   return (
     <div className={styles.Header}>
       <div className={styles.HeaderContent}>
-        <h1>Latest from IOMETE</h1>
+        <h1>IOMETE Blog</h1>
       </div>
       <div className={styles.BgImg}>
-        <svg width="330" height="505" viewBox="0 0 330 505" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="330"
+          height="505"
+          viewBox="0 0 330 505"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             opacity="0.7"
             d="M0 449.494V132.187C0 128.887 1.65006 125.917 4.45517 123.937L185.467 1.83205C192.232 -2.78812 201.638 1.83205 201.638 10.0824V327.224C201.638 330.525 199.988 333.495 197.182 335.475L16.1706 457.579C9.40536 462.2 0 457.579 0 449.329V449.494ZM34.8163 149.843V384.647C34.8163 392.732 44.2217 397.352 50.9869 392.897L162.201 317.819C165.006 316.004 166.656 312.869 166.656 309.569V74.7648C166.656 66.6795 157.251 62.0593 150.486 66.5145L39.2715 141.592C36.4664 143.407 34.8163 146.543 34.8163 149.843Z"

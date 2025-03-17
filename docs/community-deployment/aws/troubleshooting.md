@@ -7,7 +7,7 @@ last_update:
     author: Vusal Dadalov
 ---
 
-This document contains troubleshooting tips for IOMETE on AWS. This document will be updated as we discover new issues and solutions. Feel free to join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
+This document contains troubleshooting tips for IOMETE on AWS. This document will be updated as we discover new issues and solutions. Feel free to join the [IOMETE Community Server](https://community.iomete.com) for support and discussions.
 
 
 ## New AWS Account Related Issues

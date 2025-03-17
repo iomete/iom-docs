@@ -4,7 +4,8 @@ description: A centralized control plane for management and distributed data pla
 authors: vusal
 tags2: [Educational, Technical]
 slug: iomete-platform-components-enterprise-architecture
-coverImage: img/blog/thumbnails/3.png
+image: /img/blog/2025-02-24-platform-components-and-enterprise-architecture/cover.png
+coverImage: /img/blog/2025-02-24-platform-components-and-enterprise-architecture/cover.png
 banner_description: A centralized control plane for management and distributed data planes for processing
 date: 02/24/2025
 ---

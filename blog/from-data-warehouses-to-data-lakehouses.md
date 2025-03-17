@@ -240,5 +240,5 @@ Webinar video where I talk about the history of data lakehouses:
 Feel free to reach out to me on vusal@iomete.com if you have any questions or feedback. If you want to attend our next webinar about **How to build a Lakehouse Platform**, you can drop me an email.
 
 :::info Important News
-We are launching the IOMETE Community version soon. If you want to be the first to know about it, please join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut).
+We are launching the IOMETE Community version soon. If you want to be the first to know about it, please join the [IOMETE Community](https://community.iomete.com).
 :::

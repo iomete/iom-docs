@@ -76,6 +76,7 @@
   --geode-800: #7c5d7d;
   --geode-900: #523f52;
 
+  --base-0: #fff;
   --base-50: #fcfcf8;
   --base-100: #e6e6e2;
   --base-200: #d0d0cd;
@@ -111,10 +112,15 @@
 }
 
 html[data-theme="light"] {
-  --primary--background: var(--base-50);
+  --primary--background: var(--base-0);
+  --secondary--background: var(--stone-50);
+
   --border-primary: var(--base-200);
   --border-secondary: var(--base-300);
 
+  --primary--button: var(--base-950);
+
+  --text-stone-primary: var(--stone-700);
   --text-primary: var(--base-900);
   --text-secondary: var(--base-800);
   --text-tertiary: var(--base-700);
@@ -129,10 +135,15 @@ html[data-theme="light"] {
 
 html[data-theme="dark"] {
   --primary--background: var(--base-950);
+  --secondary--background: var(--base-900);
+
   --border-primary: var(--base-800);
   --border-secondary: var(--base-700);
 
-  --text-primary: var(--base-100);
+  --primary--button: var(--stone-600);
+
+  --text-stone-primary: var(--base-400);
+  --text-primary: var(--base-50);
   --text-secondary: var(--base-200);
   --text-tertiary: var(--base-300);
   --text-quaternary: var(--base-400);

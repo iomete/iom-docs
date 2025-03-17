@@ -19,7 +19,7 @@ You're about to install the **IOMETE Lakehouse Platform Community Edition on AWS
 restrictions on data volume, users, or queries.
 
 IOMETE Community Edition is supported by the community. Feel free to join
-the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
+the [IOMETE Community Server](https://community.iomete.com) for support and discussions.
 
 :::tip Installing the IOMETE platform on AWS should take approximately 25 minutes
 
@@ -216,7 +216,7 @@ are `admin` and `admin`. On your first login, you will be asked to change the te
 :::
 
 **That's it!** You've successfully set up IOMETE data plane. If you encounter any issues or have any questions
-please join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
+please join the [IOMETE Community Server](https://community.iomete.com) for support and discussions.
 
 ---
 

@@ -32,7 +32,7 @@ IOMETE Community Edition is completely free with no hidden costs. Your data rema
 
 ## Start Using IOMETE Community Edition
 
-IOMETE is compatible with several leading cloud service providers. Choose the platform that best suits your needs and follow the instructions to get started and join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
+IOMETE is compatible with several leading cloud service providers. Choose the platform that best suits your needs and follow the instructions to get started and join the [IOMETE Community Server](https://community.iomete.com) for support and discussions.
 
 <GridBox>
 
@@ -102,7 +102,7 @@ Refer to [IOMETE Pricing](https://iomete.com/pricing) for a detailed comparison.
 
 ### Support for Community Edition?
 
-IOMETE Community Edition is supported by the community. Feel free to join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut) for support and discussions.
+IOMETE Community Edition is supported by the community. Feel free to join the [IOMETE Community Server](https://community.iomete.com) for support and discussions.
 
 ### Dedicated Support?
 

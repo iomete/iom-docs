@@ -1,6 +1,5 @@
 .Parent {
-  border: 1px solid var(--ifm-color-emphasis-200);
-  background: var(--ifm-color-emphasis-100);
+  background: var(--secondary--background);
   padding: 20px 24px;
   border-radius: 3px;
   box-shadow: none;
@@ -10,19 +9,20 @@
   font-size: 20px;
   line-height: 26px;
   margin-bottom: 0;
-  font-weight: 500;
+  font-weight: 400;
+  color: var(--text-primary) !important;
 }
 
 .P {
-  color: var(--ifm-color-emphasis-600);
+  color: var(--text-stone-primary);
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
 }
 
 .NoSpam {
-  font-size: 14px;
-  color: var(--ifm-color-emphasis-600);
+  font-size: 12px;
+  color: var(--text-stone-primary);
   margin-bottom: 0;
 }
 
@@ -39,7 +39,7 @@
 
 .Input {
   appearance: none;
-  border: 1px solid var(--ifm-color-emphasis-300);
+  border: 1px solid var(--border-primary);
   outline: none;
   border-radius: 4px;
   color: var(--ifm-navbar-search-input-color);
@@ -47,14 +47,15 @@
   font-size: 1rem;
   width: 100%;
   padding-left: 12px;
+  background-color: transparent;
 }
 
 .Input:hover {
-  border-color: var(--ifm-color-primary);
+  border-color: var(--border-primary);
 }
 
 .Input:focus-visible {
-  border-color: var(--ifm-color-primary-light);
+  border-color: var(--border-primary);
 }
 
 .Button {
@@ -62,4 +63,6 @@
   font-weight: 500;
   height: 2.5rem;
   color: var(--ifm-color-gray-100) !important;
+  background-color: var(--primary--button);
+  border: none;
 }

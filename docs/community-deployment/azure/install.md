@@ -34,10 +34,10 @@ By joining the waiting list, you're not just reserving your spot for early acces
 
 ## Stay Connected and Supported
 
-As you anticipate the release of the Azure Community Edition, we invite you to join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut). Here, you'll find support, engage in discussions, and stay updated on all things IOMETE.
+As you anticipate the release of the Azure Community Edition, we invite you to join the [IOMETE Community Server](https://community.iomete.com). Here, you'll find support, engage in discussions, and stay updated on all things IOMETE.
 
 ## Frequently Asked Questions (FAQ)
 
-- **Support for Community Edition?** The Community Edition is supported by our vibrant community on Discord.
+- **Support for Community Edition?** The Community Edition is supported by our vibrant community.
 - **Differences between Cloud and On-Premise Deployments?** While the core experience remains consistent, cloud deployments use managed services like Azure Storage, whereas on-premise setups require manual infrastructure configuration.
 - **How to Get Enterprise Version?** For a more tailored solution with dedicated support, [schedule a call with us](https://calendly.com/iomete/iomete-discovery-call).

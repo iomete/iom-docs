@@ -37,10 +37,10 @@ By joining the waiting list, you're not just reserving your spot for early acces
 
 ## Stay Connected and Supported
 
-As you deploy the On-Premise Community Edition, we invite you to join the [IOMETE Community Discord Server](https://discord.gg/26GeyJx3Ut). This platform is an excellent resource for support, discussions, and the latest updates about IOMETE.
+As you deploy the On-Premise Community Edition, we invite you to join the [IOMETE Community Server](https://community.iomete.com). This platform is an excellent resource for support, discussions, and the latest updates about IOMETE.
 
 ## Frequently Asked Questions (FAQ)
 
-- **Support for Community Edition?** The Community Edition is supported by our vibrant community on Discord.
+- **Support for Community Edition?** The Community Edition is supported by our vibrant community.
 - **Differences in Deployment?** The On-Premise version offers more control over the infrastructure, differing from cloud deployments in its manual setup and storage solutions.
 - **How to Get Enterprise Version?** For a more tailored solution with dedicated support, [schedule a call with us](https://calendly.com/iomete/iomete-discovery-call).

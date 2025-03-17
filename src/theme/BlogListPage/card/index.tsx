@@ -13,7 +13,7 @@ function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
 
   return (
     <Link to={metadata.permalink} className={styles.CardLink}>
-      <div className={clsx("card", isFeatured && styles.FeaturedCard)}>
+      <div className={clsx("blog", isFeatured && styles.FeaturedCard)}>
         <div className="card__image">
           <img src={imgUrl} alt="Cover" className={`${styles.CardImg} `} />
         </div>

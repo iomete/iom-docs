@@ -1,7 +1,7 @@
 import React from "react";
 
 import {
-  DiscordLogo,
+  HandHeart,
   GithubLogo,
   HouseLine,
   YoutubeLogo,
@@ -221,10 +221,10 @@ export const communities = [
     url: "https://github.com/orgs/iomete/projects/2",
   },
   {
-    title: "Join us on Discord",
+    title: "Join our Community",
     desc: "Ask community version questions here",
-    icon: <DiscordLogo size={32} />,
-    url: "https://discord.gg/26GeyJx3Ut",
+    icon: <HandHeart size={32} />,
+    url: "https://community.iomete.com",
   },
   {
     title: "Youtube Channel",
