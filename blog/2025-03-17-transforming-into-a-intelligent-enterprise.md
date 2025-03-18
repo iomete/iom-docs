@@ -2,7 +2,7 @@
 title: Transforming Every Business into an Intelligent Enterprise
 description: what the world would look like if every organization could make truly intelligent decisions?
 tags2: [Educational, Technical]
-slug: iomete-platform-components-enterprise-architecture
+slug: enterprise-data-transformation
 coverImage: img/blog/thumbnails/3.png
 banner_description: what the world would look like if every organization could make truly intelligent decisions?
 date: 03/17/2025
