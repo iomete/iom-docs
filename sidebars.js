@@ -57,43 +57,6 @@ const sidebars = {
         },
       ],
     },
-    {
-      type: "category",
-      label: "Community Deployment",
-      collapsed: false,
-      items: [
-        "community-deployment/overview",
-        {
-          type: "category",
-          label: "AWS",
-          collapsed: true,
-          items: [
-            "community-deployment/aws/install",
-            "community-deployment/aws/permissions",
-            "community-deployment/aws/aws-advanced-settings",
-            "community-deployment/aws/troubleshooting",
-            "community-deployment/aws/data-plane-cost",
-            "community-deployment/aws/changelog",
-            "community-deployment/aws/uninstall",
-          ],
-        },
-        {
-          type: "category",
-          label: "Azure",
-          collapsed: true,
-          items: ["community-deployment/azure/install"],
-        },
-        {
-          type: "category",
-          label: "GCP",
-          collapsed: true,
-          items: [
-            "community-deployment/gcp/install",
-            "community-deployment/gcp/uninstall",
-          ],
-        },
-      ],
-    },
   ],
 
   guides: [
@@ -259,10 +222,19 @@ const sidebars = {
       items: [
         "user-guide/misc/datagrip-lakehouse-connection",
         "user-guide/misc/shutdown-for-maintenance",
-        "user-guide/misc/troubleshooting-lakehouse-oom",
+      ],
+    },
+    {
+      type: "category",
+      label: "Troubleshooting",
+      collapsed: true,
+      items: [
+        "troubleshooting/troubleshooting-lakehouse-oom",
+        "troubleshooting/sql-query-errors",
       ],
     },
   ],
+
   integrations: [
     {
       type: "category",
