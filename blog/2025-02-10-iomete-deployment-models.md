@@ -2,9 +2,9 @@
 title: IOMETE Deployment Models and Architecture
 description: IOMETE runs within the organization's data center, offering maximum control over the entire stack
 authors: vusal
-tags2: [Educational, Technical]
+tags2: [Technical, Educational]
 slug: iomete-deployment-models
-coverImage: img/blog/thumbnails/3.png
+coverImage: img/blog/2025-02-10-iomete-deployment-models/cover.png
 banner_description: IOMETE runs within the organization's data center, offering maximum control over the entire stack
 date: 02/10/2025
 ---

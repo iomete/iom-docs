@@ -2,8 +2,8 @@
 title: Data as a Product for large enterprises
 description: The future of enterprise data isn't about making central teams bigger or processes more complex. It's about giving power back to the people who understand the data best, while providing the guardrails and tools they need to use that power effectively
 authors: vusal
-tags2: [Educational, Technical]
-coverImage: img/blog/thumbnails/2.png
+tags2: [Technical, Educational]
+coverImage: img/blog/2025-02-09-data-mesh-data-product/cover.png
 banner_description: data domain is a living workspace where teams can truly own their data
 date: 02/09/2025
 ---
