@@ -3,7 +3,7 @@ title: Reimagining Product Design with AI
 description: Product design is one I put on from time to time. Usually this means firing up Figma or Balsamiq (wireframing tool)  and spending a week pushing around UI elements
 authors: vusal
 tags2: [Educational, Technical]
-slug: iomete-platform-components-enterprise-architecture
+slug: data-product-design-with-ai
 coverImage: img/blog/thumbnails/3.png
 banner_description: A centralized control plane for management and distributed data planes for processing
 date: 02/24/2025
