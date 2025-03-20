@@ -41,9 +41,7 @@ One noteworthy data warehousing solutions like Snowflake is IOMETE. Here are som
 5. **Data policy:** IOMETE allows you to create limitations on access for user based on rows, columns, provided tag name and masking.
 6. **Jupyter Notebook:** to explore and analyze data stored in IOMETE's data lake directly from your local environment.
 
-## How much you can save Snowflake costs?
 
-In general, we can say that [Snowflake and IOMETE](https://iomete.com/cases/augment-snowflake-with-iomete) together can reduce your cloud bills 50%. [Snowflake savings calculator](https://iomete.com/calculate/snowflake) can help you to get exact numbers on your cost optimization journey.
 
 ## The Need for Specialized Solutions
 
