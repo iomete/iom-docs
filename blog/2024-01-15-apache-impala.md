@@ -4,7 +4,7 @@ description: Organizations often ask, "How does Apache Ranger enhance the securi
 slug: apache-impala
 authors: aytan
 hide_table_of_contents: true
-tags: [Educational, Company]
+tags2: [Educational, Company]
 coverImage: img/blog/thumbnails/1.png
 banner_description: Transitioning from Apache Impala to IOMETE for Advanced Data Analytics
 ---

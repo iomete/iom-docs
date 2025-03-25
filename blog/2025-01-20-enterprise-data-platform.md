@@ -4,7 +4,6 @@ description: Explore how IOMETE simplifies enterprise-scale data management thro
 slug: building-enterprise-data-platform
 authors: vusal
 hide_table_of_contents: true
-tags: [Educational, Engineering]
 tags2: [Educational]
 coverImage: img/blog/2025-01-20-enterprise-data-platform/cover.png
 banner_description: Simplify and scale enterprise data management with IOMETE's intuitive, powerful platform.
@@ -41,11 +40,9 @@ Only with this deep understanding can you make informed decisions about what to 
 
 Perhaps the trickiest part of maintaining simplicity isn't technical – it's organizational. As our team grows, keeping everyone aligned with this vision of simplicity becomes increasingly challenging. It's not enough for individual developers to write clean code or designers to create clear interfaces. The entire team needs to share a commitment to making things simple and intuitive.
 
-We've found that this requires constant reinforcement. Every feature discussion, every code review, every design session needs to include the question: 
+We've found that this requires constant reinforcement. Every feature discussion, every code review, every design session needs to include the question:
 
-
-"How can we make this simpler?" 
-
+"How can we make this simpler?"
 
 It's about building a culture where complexity is seen as a challenge to be solved, not a reality to be accepted.
 

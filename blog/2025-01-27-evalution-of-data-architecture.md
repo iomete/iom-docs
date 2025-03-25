@@ -4,7 +4,6 @@ description: Discover the transformative journey from traditional data warehouse
 slug: evolution-of-data-architecture
 authors: vusal
 hide_table_of_contents: true
-tags: [Educational, Engineering]
 tags2: [Educational]
 coverImage: img/blog/2025-01-20-evolution-of-data-architecture/cover.png
 banner_description: Traditional data warehouses face limitations in today's enterprise environment
