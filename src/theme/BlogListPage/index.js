@@ -10,8 +10,11 @@ import Head from "@docusaurus/Head";
 
 import "./styles.scss";
 
-function BlogListPageMetadata({ metadata }) {
-  const canonicalUrl = "https://iomete.com/blog";
+function BlogListPageMetadata(props) {
+  const { metadata } = props;
+
+  const canonicalUrl = "https://iomete.com/blog" + (metadata.permalink || "");
+  const blogImage = "IOMETE-og-blog.png";
 
   return (
     <>
@@ -30,10 +33,9 @@ function BlogListPageMetadata({ metadata }) {
         <PageMetadata
           title={metadata.blogTitle}
           description={metadata.blogDescription}
+          image={blogImage}
         >
-          {/* TODO put image to PageMetadata */}
-          <meta property="og:image" content={"IOMETE-og-blog.png"} />
-          <meta name="twitter:image" content={"IOMETE-og-docs.png"} />
+          <meta property="twitter:description" content={metadata.blogDescription} />
         </PageMetadata>
       )}
     </>

@@ -4,7 +4,6 @@ description: Learn how SSO simplifies authentication with SAML for seamless and 
 slug: sso-with-saml-guide
 authors: abhishek
 hide_table_of_contents: true
-tags: [Educational, Engineering]
 tags2: [Educational]
 coverImage: img/blog/thumbnails/2.png
 banner_description: Learn how SSO simplifies authentication with SAML for seamless and secure access

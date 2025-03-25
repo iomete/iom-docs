@@ -4,7 +4,6 @@ description: Perform data analytics with IOMETE Spark Connect and PySpark using 
 slug: spark-connect-tutorial
 authors: abhishek
 hide_table_of_contents: true
-tags: [Educational, Engineering]
 tags2: [Educational]
 coverImage: img/blog/thumbnails/1.png
 banner_description: Perform data analytics with IOMETE Spark Connect and PySpark using PyCharm IDE
