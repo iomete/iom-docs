@@ -139,12 +139,12 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       metadata: [
-        { property: "og:image", content: "/resources/iomete-docs-og.png" },
+        { property: "og:image", content: "/resources/IOMETE-og-docs.png" },
         { property: "og:type", content: "article" },
         { property: "og:site_name", content: "IOMETE Documentation" },
         { name: "twitter:title", content: "IOMETE Documentation" },
         { name: "twitter:site", content: "IOMETE Documentation" },
-        { name: "twitter:image", content: "/resources/iomete-docs-og.png" },
+        { name: "twitter:image", content: "/resources/IOMETE-og-docs.png" },
       ],
       mermaid: {
         theme: {
