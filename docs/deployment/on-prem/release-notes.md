@@ -13,6 +13,54 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.4.0" date="Apr 9, 2025" title="Query Monitoring and System Improvements">
+  <ReleaseSection title="🔍 Query Monitoring">
+  - Added new query monitoring feature where users can view all running queries and their resource utilization. Active running queries are prioritized at the top for better visibility, with the rest sorted by time. Available in both Admin Panel and Domain page.  
+    <Img src="/img/getting-started/release-notes/3.4.0/query-monitoring.png" alt="Query Monitoring" />
+  </ReleaseSection>
+  <ReleaseSection title="🔄 API Improvements">
+  - Upgraded IOMETE API Reference tool to support V3 OpenAPI Specifications  
+  - Data Catalog v2 APIs implemented with extended fields:  
+    - New APIs for retrieving catalogs with metrics: `totalSchemaCount`, `totalTableCount`, `totalSizeInBytes`, `totalFiles`  
+    - New APIs to list databases with metrics: `totalTableCount`, `totalViewCount`, `totalSizeInBytes`, `totalFiles`, `failedTableCount`  
+    - New APIs for getting table details and metadata, making it easier to retrieve tables by name instead of ID 
+      <Img src="/img/getting-started/release-notes/3.4.0/data-catalog-v2.png" alt="Data Catalog new APIs" />  
+  - Added new APIs under IAM Service for checking if user or group exists and retrieving group members  
+    <Img src="/img/getting-started/release-notes/3.4.0/user-group-apis.png" alt="New user/group APIs" />  
+  - ⚠️ **Deprecation Notice**: Data Catalog v1 APIs and Connect Cluster Resource APIs are now deprecated and planned for removal in the next release  
+  </ReleaseSection>
+  <ReleaseSection title="⚡️ UI Improvements">
+  - Improved input formats on UI and API, now supporting spaces, uppercase characters, and increased length limits
+    - Special validation rules remain in place for:
+      - Spark catalogs (underscores only)
+      - Lakehouses (hyphens, max 53 length)
+      - Usernames
+  - Standardized UI titles for create actions across all pages
+  - Added warning on Data Security page to clarify access permissions when using predefined `{USER}` or `public` group
+    <Img src="/img/getting-started/release-notes/3.4.0/security-warning.png" alt="Security Warning" />
+  </ReleaseSection>
+  <ReleaseSection title="🛠️ Technical Details">
+  - Spark now launches with new listeners for monitoring and collecting metrics for running queries (requires restart)
+  - SQL Limit enforcer moved to Spark with fallback to previously used `iom-spark-connect` service, removing a potential bottleneck
+  - Removed default `autoBroadcastJoinThreshold` config (Spark default is 10mb)
+  - Moved spark-config configmap generation process from Helm to init-job for easier deployment process
+  - Added new metric to underlying database to track users' last login time
+  - Added new feature flags:
+    - `caseInsensitiveIcebergIdentifiers`: Makes all table and database names case insensitive in Iceberg REST Catalog
+    - `icebergRestCatalogStrictMode`: Enforces users to create database before creating tables
+  </ReleaseSection>
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Fixed security issue where expiration on policies was not working
+  - Restored Manage Catalog permission
+  - Fixed issue when creating multi-level database where the separator was replaced by non-UTF(01xf) character, causing problems on storage layer
+  - Fixed issue with pagination on Gitlab Repositories
+  - Fixed issue where job Resume was triggering jobs even if scheduling time passed
+  - Fixed issue with Helm where curly braces on `adminCredentials: {}` caused deployment failure
+  - Fixed access issue to systems underlying `default_cache_iceberg` virtual catalog
+  - Multiple additional bug fixes and improvements across the platform
+  </ReleaseSection>
+</Release>
+
 <Release version="3.2.0" date="Mar 10, 2025" title="Branding and Stability">
   <ReleaseSection title="🧑‍🎨 Branding">
   - Color schemes adjusted to match our new Branding Identity 🫶
