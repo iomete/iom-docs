@@ -21,7 +21,7 @@ Visit our GitHub repository [iomete-artifacts](https://github.com/iomete/iomete-
 3. Click on `New` to add a new driver.
 4. Set Driver Name as `IOMETE` and Driver Type `Hive`.
 5. Switch to the Libraries tab and click on `Add File`.
-6. Select the downloaded `hive-jdbc-3.1.3-standalone.jar` file and then in the `Driver class` section click `Find Class` (if it won't work try saving the newly created driver and edit again).
+6. Select the downloaded `hive-jdbc-4.0.1-standalone.jar` file and then in the `Driver class` section click `Find Class` (if it won't work try saving the newly created driver and edit again).
    <Img src="/img/database-drivers/dbeaver/driver-libs.png" alt="Add File" />
 7. Switch back to `Setting` tab and make sure that driver class name are filled correctly. (Should be done automatically)
    <Img src="/img/database-drivers/dbeaver/driver-settings.png" alt="Driver Settings" />

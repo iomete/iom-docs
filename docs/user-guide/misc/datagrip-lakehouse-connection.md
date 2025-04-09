@@ -25,7 +25,7 @@ Visit our GitHub repository [iomete-artifacts](https://github.com/iomete/iomete-
   2. Switch to the `Drivers` tab and click on the `+` button to add a new driver.
      ![datagrip registration2](/img/misc/register2.png)
 
-  3. Add the downloaded driver file (hive-jdbc-3.1.3-standalone.jar) , and make sure org.apache.hive.jdbc.HiveDriver is selected as the driver class. And, provide a name for the driver (e.g., IOMETE).
+  3. Add the downloaded driver file (hive-jdbc-4.0.1-standalone.jar) , and make sure org.apache.hive.jdbc.HiveDriver is selected as the driver class. And, provide a name for the driver (e.g., IOMETE).
      ![datagrip registration3](/img/misc/register3.png)
 
   4. From the `Options` tab, choose the dialect as `Apache Spark`, and optionally choose Icon.
