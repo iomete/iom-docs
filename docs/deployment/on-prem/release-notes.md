@@ -13,6 +13,47 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.5.0" date="Apr 29, 2025" title="Query Monitoring and System Improvements">
+  <ReleaseSection title="🔍 Activity Monitoring">
+  - Administrators can now cancel running queries directly from the IOMETE console
+  <Img src="/img/getting-started/release-notes/3.5.0/activity_monitoring_cancel_query.png" alt="Cancelling Queries" />
+  </ReleaseSection>
+
+  <ReleaseSection title="📢 Notifications">
+  - Administrators can now add an SMTP server integration on the IOMETE console to allow IOMETE to send e-mail notifications
+  <Img src="/img/getting-started/release-notes/3.5.0/smtp_integration.png" alt="SMTP Integration" />
+  - Users can add e-mail addresses to the configuration of a Spark job and select on which job events they wish to trigger an e-mail
+  <Img src="/img/getting-started/release-notes/3.5.0/job_notifications.png" alt="Job Notifications`" />
+  </ReleaseSection>
+
+  <ReleaseSection title="🛡️ Custom masking expressions">
+  - Next to our predefined masking rules, users can now configure custom masking expressions. In addition, we also support configuring under which conditions this custom masking expression should be applied.
+  <Img src="/img/getting-started/release-notes/3.5.0/custom_masking_expression.png" alt="Custom Masking" />
+  </ReleaseSection>
+
+  <ReleaseSection title="⚙️ Kubernetes workload isolations">
+  - Kubernetes administrators can configure dataplantolerations during IOMETE installation, allowing Spark workloads to be assigned to specific nodes.
+  - Priority Classes can also be configured during installation, 
+  </ReleaseSection>
+
+  <ReleaseSection title="🔄 API Improvements">
+  - Data security APIs verifies validity date windows are in correct format
+  - Catalog creation endpoint enforces that catalog names have lowercase alphanumeric characters an underscores only to match UI validation
+  - Catalog lookup and deletion APIs are now case-insensitive
+  </ReleaseSection>
+
+  <ReleaseSection title="🛠️ Technical Details">
+  - Added new feature flags:
+    - `priorityClasses`: enabling administrators to limit node allocation for workloads like compute, spark-job, and notebook, and manage resources more effectively across namespaces.
+    - `iometeSparkLivenessProbe`: adds a liveness probe as part of the default spark template to monitor if Compute Clusters and jobs are healthy and not in a zombie state. Requires all jobs and compute clusters to run `3.5.3-v10` or newer.
+  </ReleaseSection>
+
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Fixed Catalog sync Job breaking on Iceberg nested namespaces
+  - IOMETE Iceberg REST Catalog returning HTTP 500 instead of HTTP 503 if connection pool is saturated, preventing Iceberg clients from doing retries 
+  </ReleaseSection>
+</Release>
+
 <Release version="3.4.0" date="Apr 9, 2025" title="Query Monitoring and System Improvements">
   <ReleaseSection title="🔍 Query Monitoring">
   - Added new query monitoring feature where users can view all running queries and their resource utilization. Active running queries are prioritized at the top for better visibility, with the rest sorted by time. Available in both Admin Panel and Domain page.  
