@@ -46,6 +46,7 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
   - Added new feature flags:
     - `priorityClasses`: enabling administrators to limit node allocation for workloads like compute, spark-job, and notebook, and manage resources more effectively across namespaces.
     - `iometeSparkLivenessProbe`: adds a liveness probe as part of the default spark template to monitor if Compute Clusters and jobs are healthy and not in a zombie state. Requires all jobs and compute clusters to run `3.5.3-v10` or newer.
+  - When launching a compute cluster with AutoScale enabled, the system will now start with a single executor. Additional executors will automatically scale up based on demand, up to the defined maximum limit.
   </ReleaseSection>
 
   <ReleaseSection title="🐛 Bug Fixes">
