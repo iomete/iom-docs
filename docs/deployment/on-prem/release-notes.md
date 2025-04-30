@@ -13,6 +13,12 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.5.1" date="Apr 30, 2025" title="Patch Release">
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Scheduled Data Compaction jobs now support namespaces other than the default
+  </ReleaseSection>
+</Release>
+
 <Release version="3.5.0" date="Apr 29, 2025" title="Query Monitoring and System Improvements">
   <ReleaseSection title="🔍 Activity Monitoring">
   - Administrators can now cancel running queries directly from the IOMETE console
