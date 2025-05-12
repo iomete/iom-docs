@@ -61,6 +61,13 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
   </ReleaseSection>
 </Release>
 
+<Release version="3.4.2" date="May 11, 2025" title="Patch Release">
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Fixed iom-identity pod intermittently returning incorrect permissions on tag-mask policies
+  - Restored logging functionality for pod iom-socket
+  </ReleaseSection>
+</Release>
+
 <Release version="3.4.0" date="Apr 9, 2025" title="Query Monitoring and System Improvements">
   <ReleaseSection title="🔍 Query Monitoring">
   - Added new query monitoring feature where users can view all running queries and their resource utilization. Active running queries are prioritized at the top for better visibility, with the rest sorted by time. Available in both Admin Panel and Domain page.  
