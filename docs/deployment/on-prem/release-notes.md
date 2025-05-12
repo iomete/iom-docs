@@ -13,6 +13,13 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.4.2" date="May 11, 2025" title="Patch Release">
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Fixed iom-identity pod intermittently returning incorrect permissions on tag-mask policies
+  - Restored logging functionality for pod iom-socket
+  </ReleaseSection>
+</Release>
+
 <Release version="3.5.1" date="Apr 30, 2025" title="Patch Release">
   <ReleaseSection title="🐛 Bug Fixes">
   - Scheduled Data Compaction jobs now support namespaces other than the default
@@ -58,13 +65,6 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
   <ReleaseSection title="🐛 Bug Fixes">
   - Fixed Catalog sync Job breaking on Iceberg nested namespaces
   - IOMETE Iceberg REST Catalog returning HTTP 500 instead of HTTP 503 if connection pool is saturated, preventing Iceberg clients from doing retries 
-  </ReleaseSection>
-</Release>
-
-<Release version="3.4.2" date="May 11, 2025" title="Patch Release">
-  <ReleaseSection title="🐛 Bug Fixes">
-  - Fixed iom-identity pod intermittently returning incorrect permissions on tag-mask policies
-  - Restored logging functionality for pod iom-socket
   </ReleaseSection>
 </Release>
 
