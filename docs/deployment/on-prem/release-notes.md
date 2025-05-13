@@ -13,6 +13,31 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.6.0" date="May 12, 2025" title="Spark job archival and improvements">
+  <ReleaseSection title="🔍 Activity Monitoring">
+  - Spark job metrics can now be automatically archived to the IOMETE system table `activity_monitoring_spark_jobs` in Iceberg when feature flag `sparkJobArchival` is enabled. 
+  </ReleaseSection>
+
+  <ReleaseSection title="⚡️ UI Improvements">
+  - Removed the option to set the number of executors when running in single-node mode, as it is not applicable in driver-only configurations
+  - Fix bug that can prevent worksheet creation in SQL editor
+  </ReleaseSection>
+
+  <ReleaseSection title="🛠️ Technical Details">
+  - IOMETE Spark now treats all catalogs used in queries as case-insensitive. This behavior can be disabled by setting the Spark configuration `spark.iomete.lowercaseCatalogNames.enabled` to false at the cluster or global level.
+  - Added new feature flags:
+    - `sparkJobArchival`: If set, spark job statistics will be periodically archived to IOMETE system table `activity_monitoring_spark_jobs` in Iceberg
+  </ReleaseSection>
+
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Patch to automatically detect whether the SMTP port requires SSL
+  - Fixed an issue where some pods did not initiate leader election after losing leadership, causing IOMETE internal maintenance jobs to stop running
+  - Fixed an issue where the iom-identity pod intermittently returned incorrect permissions for tag-mask policies
+  - Fixed a permission enforcement issue in Spark Connect where queries using `spark.sql(...).explain(...)` did not correctly validate the permissions of the user issuing the request. This did not affect queries of the form `spark.sql("EXPLAIN ...")`
+  - Restored logging functionality for pod iom-socket
+  </ReleaseSection>
+</Release>
+
 <Release version="3.4.2" date="May 11, 2025" title="Patch Release">
   <ReleaseSection title="🐛 Bug Fixes">
   - Fixed iom-identity pod intermittently returning incorrect permissions on tag-mask policies
