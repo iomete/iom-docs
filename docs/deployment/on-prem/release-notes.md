@@ -30,10 +30,11 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
   </ReleaseSection>
 
   <ReleaseSection title="🐛 Bug Fixes">
-  - Patch to automatically detect whether the SMTP port requires SSL
-  - Fixed an issue where some pods did not initiate leader election after losing leadership, causing IOMETE internal maintenance jobs to stop running
-  - Fixed an issue where the iom-identity pod intermittently returned incorrect permissions for tag-mask policies
-  - Fixed a permission enforcement issue in Spark Connect where queries using `spark.sql(...).explain(...)` did not correctly validate the permissions of the user issuing the request. This did not affect queries of the form `spark.sql("EXPLAIN ...")`
+  - Patch to automatically detect whether SSL/TLS should be used based on the SMTP port
+  - Fixed issue where some pods did not initiate leader election after losing leadership, causing IOMETE internal maintenance jobs to stop running
+  - Fixed issue where Spark status events were intermittently not sent to the frontend due to leader election instability
+  - Fixed issue where the iom-identity pod intermittently returned incorrect permissions for tag-mask policies
+  - Fixed permission enforcement issue in Spark Connect where queries using `spark.sql(...).explain(...)` did not correctly validate the permissions of the user issuing the request. This did not affect queries of the form `spark.sql("EXPLAIN ...")`
   - Restored logging functionality for pod iom-socket
   </ReleaseSection>
 </Release>
