@@ -381,7 +381,10 @@ const sidebars = {
       type: "category",
       label: "Pyspark",
       collapsed: false,
-      items: ["reference/pyspark/pyspark-join"],
+      items: [
+        "reference/pyspark/pyspark-join",
+        "reference/pyspark/pyspark-spj"
+      ],
     },
     {
       type: "category",
