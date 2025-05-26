@@ -207,7 +207,7 @@ const config = {
           },
 
           {
-            href: "https://github.com/orgs/iomete/projects/2",
+            href: "https://github.com/orgs/iomete/projects/7",
             position: "right",
             className: "link-icon github-link",
             "aria-label": "GitHub repository",
