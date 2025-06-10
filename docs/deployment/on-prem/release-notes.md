@@ -13,6 +13,23 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.8.0" date="June 9, 2025" title="Spark 3.5.5-v1 available">
+  <ReleaseSection title="💥 IOMETE Spark">
+  - IOMETE Spark version `3.5.5-v1` is now available for testing! We recommend configuring it in the `docker.additionalSparkVersions` section of `values.yaml` during installation. This enables users to select this version as a custom image when setting up a lakehouse. You can also use it as the base image for your Spark jobs.
+  - We released a patch for IOMETE Spark `3.5.3-v14` that fixes an issue preventing it from starting correctly when feature flags for job archival were not enabled.
+  </ReleaseSection>
+
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Fixed a bug introduced in version `3.7.0` that prevented IOMETE from being installed from scratch if `docker.tagAliases` was not explicitly set in `values.yaml`.
+  - When users are not allowed to view certain columns in a table, the error message now correctly lists the columns they *do* have access to, instead of the generic "access denied" message previously shown in the SQL Editor.
+  - Improved the IOMETE REST Catalog to better handle high load and avoid out-of-memory errors.
+  - Added pagination to the LDAP sync job to prevent oversized requests and ensure all users, groups, and roles can be synchronized in manageable chunks.
+  - Made a small update to worksheet duplication to avoid naming conflicts when a duplicate already exists.
+  - Proper support has been added for `/` and `.` characters in secret names.
+  - Restored the `Runs as user` field in the Spark Applications section to indicate the privileges under which a job was executed.
+  </ReleaseSection>
+</Release>
+
 <Release version="3.7.0" date="May 26, 2025" title="Custom Spark labels and minor fixes">
   <ReleaseSection title="🔍 Activity Monitoring">
   - Users can now only view their own queries within a domain, enhancing data privacy and security.  
