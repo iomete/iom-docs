@@ -13,6 +13,18 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.8.1" date="June 9, 2025" title="Spark 3.5.5-v1 available">
+  <ReleaseSection title="📢 Notifications">
+  - We added the ability for users to select the type of security to use when connecting to their SMTP
+    <Img src="/img/getting-started/release-notes/3.8.1/smtp-configuration.png" alt="Configure SMTP" />
+  </ReleaseSection>
+
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Fixed a bug that users were not able to use the "restart" button for Compute clusters
+  - We added pagination to tables in the data explorer and data catalog
+  </ReleaseSection>
+</Release>
+
 <Release version="3.8.0" date="June 9, 2025" title="Spark 3.5.5-v1 available">
   <ReleaseSection title="💥 IOMETE Spark">
   - IOMETE Spark version `3.5.5-v1` is now available for testing! We recommend configuring it in the `docker.additionalSparkVersions` section of `values.yaml` during installation. This enables users to select this version as a custom image when setting up a lakehouse. You can also use it as the base image for your Spark jobs.
