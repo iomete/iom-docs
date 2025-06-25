@@ -29,6 +29,11 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
     <Img src="/img/getting-started/release-notes/3.9.0/compute-log-masking.png" alt="Compute log masking" />
   </ReleaseSection>
 
+  <ReleaseSection title="⚡️ UI Improvements">
+  - The SQL editor in the IOMETE console now supports multiple tabs. Each tab can be configured with a different compute/catalog/database combination.
+    <Img src="/img/getting-started/release-notes/3.9.0/sql-editor-tabs.png" alt="SQL Editor tabs" />
+  </ReleaseSection>
+
   <ReleaseSection title="🐛 Bug Fixes">
   - Fixed a bug in the IOMETE Console that prevented Jupyter kernel configurations from displaying.
   - Patched the logic behind the "Cancel" action in the SQL Editor to prevent it from hanging.
