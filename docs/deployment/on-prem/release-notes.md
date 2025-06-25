@@ -13,6 +13,44 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.9.0" date="June 25, 2025" title="Sensitive data improvements">
+  <ReleaseSection title="🔰 Sensitive data improvements on UI">
+  - Users can now mark variables in the global spark settings as 'sensitive', which shows them redacted on the UI going forward
+    <Img src="/img/getting-started/release-notes/3.9.0/spark-settings-masking.png" alt="Sensitive Spark Settings" />
+  - On installation, admins can specify `docker.sparkLogMaskingRegexes` in the `values.yaml` which will help mask sensitive data shown on the compute logs.
+    This should be specified as named key-value pairs, in the example below we mask passwords, vault tokens and ports:
+    ```yaml
+    docker:
+      sparkLogMaskingRegexes:
+        password_mask: "(?i)(password\\s*=\\s*)[^&\\s]+"
+        vault_token_mask: "(?i)(vault\\\\s*token\\\\s*[:=]\\\\s*)(s\\.[a-zA-Z0-9]{20,})"
+        port_mask: "(?i)(on\s+port\s+)(\d{2,5})"
+    ```
+    <Img src="/img/getting-started/release-notes/3.9.0/compute-log-masking.png" alt="Compute log masking" />
+  </ReleaseSection>
+
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Fixed a bug in the IOMETE Console that prevented Jupyter kernel configurations from displaying.
+  - Patched the logic behind the "Cancel" action in the SQL Editor to prevent it from hanging.
+  - The `iom-core` pod now dynamically reloads any `docker.tagAliases` defined in `values.yaml`, removing the need to restart the pod.
+  - Fixed issues that could prevent scheduled Spark applications from sending failure notifications.
+  </ReleaseSection>
+</Release>
+
+<Release version="3.8.2" date="June 24, 2025" title="Patch Release">
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Minor bug fix on the IOMETE console that prevented Jupyter kernel configuration from showing
+  </ReleaseSection>
+</Release>
+
+<Release version="3.7.3" date="June 24, 2025" title="Patch Release">
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Patched the logic behind the "Cancel" action in the SQL Editor to prevent it from hanging.
+  - The `iom-core` pod now dynamically reloads any `docker.tagAliases` defined in `values.yaml`, removing the need to restart the pod.
+  - Fixed issues that could prevent scheduled Spark applications from sending failure <notifications></notifications>
+  </ReleaseSection>  
+</Release>
+
 <Release version="3.8.1" date="June 9, 2025" title="Spark 3.5.5-v1 available">
   <ReleaseSection title="📢 Notifications">
   - We added the ability for users to select the type of security to use when connecting to their SMTP
