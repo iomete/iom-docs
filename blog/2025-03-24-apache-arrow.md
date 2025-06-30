@@ -1,5 +1,5 @@
 ---
-title: Apache Arrow
+title: Apache Arrow explained
 description: A deep dive into the Apache Arrow format—how it stores data, why it's so fast, and how it's transforming data interoperability across systems
 tags2: [Educational, Technical]
 slug: apache-arrow-format
