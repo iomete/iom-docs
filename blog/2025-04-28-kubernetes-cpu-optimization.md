@@ -4,7 +4,6 @@ description: Optimize Kubernetes resource management by understanding applicatio
 tags2: [Educational, Technical]
 slug: kubernetes-cpu-memory-optimize
 coverImage: img/blog/thumbnails/2.png
-banner_description: Optimize Kubernetes resource management by understanding application needs
 date: 03/28/2025
 authors: ruslan
 ---
