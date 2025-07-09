@@ -13,6 +13,13 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.9.1" date="July 4th, 2025" title="Sensitive Data Improvements">
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Fixed an issue where queries run from the SQL Editor were missing automatic `LIMIT` clauses. This was resolved by updating `defaultSparkVersion` in the default HELM chart (`v17`), as older Spark image versions did not enforce limits correctly.
+  - Removed unintended debug logging from the `iom-socket` pod to reduce log noise.
+  </ReleaseSection>
+</Release>
+
 <Release version="3.9.0" date="June 25, 2025" title="Sensitive data improvements">
   <ReleaseSection title="🔰 Sensitive data improvements on UI">
   - Users can now mark variables in the global spark settings as 'sensitive', which shows them redacted on the UI going forward
