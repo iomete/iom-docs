@@ -13,6 +13,18 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.9.2" date="July 14th, 2025" title="Patch release">
+  <ReleaseSection title="Job resource accounting using tags">
+  - Tags that are attached to the spark jobs will be propagated to the pod as labels, which could be used for resource management of jobs categorized by specific tags.
+     <Img src="/img/k8s/tag-pod-label-propagation.png" alt="Job Tag As a Pod Label" />
+  </ReleaseSection>
+  <ReleaseSection title="🐛 Bug Fixes">
+  - Move hard coded iom-openapi pod resources to values.yaml in chart.
+  - Access token renewal issue while executing SQL queries is fixed.
+  - Fixed bug where LDAP settings updates were not reflected in periodic LDAP sync.
+  </ReleaseSection>
+</Release>
+
 <Release version="3.9.1" date="July 4th, 2025" title="Patch release">
   <ReleaseSection title="🐛 Bug Fixes">
   - Fixed an issue where queries run from the SQL Editor were missing automatic `LIMIT` clauses. This was resolved by updating `defaultSparkVersion` in the default HELM chart (`v17`), as older Spark image versions did not enforce limits correctly.
