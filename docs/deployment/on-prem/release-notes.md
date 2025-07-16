@@ -13,6 +13,76 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.10.0" date="July 15, 2025" title="Job Orchestrator, LDAP Group Inheritance and Jupyter Containers">
+  <ReleaseSection title="🧩 Job Orchestrator [Beta]">
+    This is the beta release of our broader initiative to bring orchestration to IOMETE. To enable it, set the flag `jobOrchestrator.enabled` in `values.yaml`.
+    - <b>Priority-based Scheduling</b>: Users can now prioritize the scheduling of business-critical jobs over regular-priority jobs.
+      <Img src="/img/guides/spark-job/job-update-page.png" alt="Job Update Page" />
+    - <b>Resource-aware Execution</b>: Jobs are only submitted when there is sufficient cluster capacity, helping prevent failed or stuck jobs. 
+    - <b>Built-in observability</b>: We've added rich metrics to monitor queue state, job wait times, and scheduling patterns in real time.
+      <Img src="/img/guides/spark-job/job-metrics-monitoring-graphs.png" alt="Job Monitoring Graph" />
+    For an in-depth overview, check out the official [press release](/docs/developer-guide/spark-job/job-orchestrator.md).
+  </ReleaseSection>
+
+  <ReleaseSection title="📒 Jupyter Containers [Beta]">
+    Jupyter Containers is a powerful new feature that brings familiar Jupyter development environments directly into your IOMETE Platform. This enhancement enables data engineers and analysts to spin up dedicated, pre-configured Jupyter environments with just a few clicks.  
+    Key highlights:  
+    - Create isolated Jupyter containers with customizable resource allocation.  
+    - Each container comes with JupyterLab pre-installed and ready to use. Click "Open JupyterLab" to directly access Jupyter environment from IOMETE UI.  
+    - Pre-installed Spark libraries for immediate access to distributed computing.  
+    - Direct connectivity to IOMETE Compute clusters via Spark Connect.  
+    - Essential developer tools pre-installed: git, aws cli, sparksql-magic, pandas, other libraries and extensions.  
+    - Authentication: Use your IOMETE username as the default token. Optionally, setup a password to protect sensitive files within container.  
+    
+    Platform admins can enable it during installation by setting `jupyterContainers.enabled` in `values.yaml`.  
+    For more details please refer to Jupyter Container's user guide: [Jupyter Containers - Developer Guide](/docs/developer-guide/notebook/jupyter-containers.mdx).
+  </ReleaseSection>
+
+  <ReleaseSection title="👥 LDAP Group Inheritance">
+    - Group hierarchies synced from LDAP are now taken into account when evaluating Data Security policies. Groups inherit data policies from parent groups in the same way users inherit them.
+    - For example, in the diagram below, any data policies applied to the "Data Science Team" will also apply to the "ML Engineers" and "Data Analysts" groups — in addition to any policies directly assigned to those child groups.
+      <Img src="/img/getting-started/release-notes/3.10.0/ldap-group-inheritance.png" alt="LDAP Group Inheritance" />
+    - This behavior is enabled by default in IOMETE. It can be disabled by setting the feature flag `ldapGroupInheritance.enabled` to `false` in `values.yaml` during Helm installation.
+  </ReleaseSection>
+
+  <ReleaseSection title="💥 IOMETE Spark">
+    - Customers can now configure soft affinity rules for Spark driver pods to help distribute them across nodes and reduce the probability of most drivers ending up on the same node. This can be enabled by setting the flag `iometeSparkDriverAntiAffinity.enabled` to `true` in `values.yaml` during installation.
+  </ReleaseSection>
+
+  <ReleaseSection title="🔍 Activity Monitoring">
+    - We are releasing the beta of our own Spark Query Plan viewer. You no longer need to access the UI to view query plans! Enable this feature via `activityMonitoringQueryPlans.enabled` in `values.yaml` during installation.
+      <Img src="/img/getting-started/release-notes/3.10.0/query-monitoring-query-monitoring.png" maxWidth="700px" />
+      <Img src="/img/getting-started/release-notes/3.10.0/query-monitoring-query-plan.png" maxWidth="700px" />
+    - Improved visualization of shuffle metrics on the Query Monitoring Details page.
+    - Domain owners can now view and cancel all queries within their domain, while regular users can only see and cancel their own queries.
+      <Img src="/img/getting-started/release-notes/3.10.0/query-monitoring-domain-member-filter.png" alt="Query Monitoring filter by domain members" maxWidth="700px" />
+  </ReleaseSection>
+
+  <ReleaseSection title="🐛 Bug Fixes">
+    - Added support to configure the maximum allowed cookie size for HTTP requests. This is useful for customers encountering issues with large cookies. Set the value via `services.gateway.settings.maxCookieSize` in `values.yaml` (default: `128k`).
+    - Fixed an issue with access token renewal when executing SQL queries.
+    - Patched the data-plane init job to ensure the metastore starts correctly post-install when special characters are used in the PostgreSQL password.
+    - Fixed a bug where updates to LDAP settings were not reflected in periodic LDAP syncs.
+    - Minor fix to ensure the `iom-catalog` service consistently appears on the health check page.
+    - Git Repositories in sql editor now has support for subgroups in gitlab.
+    - Allow trailing semicolon in Iceberg CALL statements for better Spark SQL compatibility
+  </ReleaseSection>
+
+  <ReleaseSection title="⚡️ Other Improvements">
+    - Moved hardcoded `iom-openapi` pod resource settings into `values.yaml` in the Helm chart for easier customization.
+    - The number of applications shown on the Spark History summary page is now configurable. Set this in `values.yaml` under `services.sparkHistory.settings.maxApplications`.  
+      See the Spark property [`spark.history.ui.maxApplications`](https://spark.apache.org/docs/latest/monitoring.html) for more information.
+    - Added a new option in the SQL Editor’s Database Explorer to delete tables directly from the Iceberg REST Catalog. This is useful when a table is corrupted and Spark cannot delete it. The user must have `DROP TABLE` privileges to perform this operation.
+      <Img src="/img/getting-started/release-notes/3.10.0/delete-table-action.png" alt="Data explorer delete table" />
+      <Img src="/img/getting-started/release-notes/3.10.0/delete-table-confirmation-modal.png" alt="Data explorer delete table" />
+      <Img src="/img/getting-started/release-notes/3.10.0/delete-table-confirmation-modal-2.png" alt="Data explorer delete table" />
+    - Added a context menu with `Close` and `Close All` options to SQL Editor worksheet tabs for quickly closing the current or all tabs.
+      <Img src="/img/getting-started/release-notes/3.10.0/sql-tab-close-all.png" alt="SQL editor tab close all" />
+    - Tags attached to Spark jobs are now propagated to the corresponding Kubernetes pods as labels.This enables resource management or categorization based on job-specific tags.  
+      <Img src="/img/k8s/tag-pod-label-propagation.png" alt="Job Tag As a Pod Label" />
+  </ReleaseSection>
+</Release>
+
 <Release version="3.9.2" date="July 14th, 2025" title="Patch release">
   <ReleaseSection title="Job resource accounting using tags">
   - Tags that are attached to the spark jobs will be propagated to the pod as labels, which could be used for resource management of jobs categorized by specific tags.
@@ -410,10 +480,10 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
       The Data Products section has been introduced as an experimental feature, providing a structured way to package, manage, and share curated datasets across teams. This feature enables:  
     </ReleaseDescription>
 
-    - Domain-driven data product creation, ensuring governance and ownership.  
-    - Enhanced discoverability, allowing users to find and reuse high-quality data assets.  
-    
-    This marks the first step towards self-service data sharing, with more enhancements planned in future releases.  
+    - Domain-driven data product creation, ensuring governance and ownership.
+    - Enhanced discoverability, allowing users to find and reuse high-quality data assets.
+
+    This marks the first step towards self-service data sharing, with more enhancements planned in future releases.
 
   </ReleaseSection>
 

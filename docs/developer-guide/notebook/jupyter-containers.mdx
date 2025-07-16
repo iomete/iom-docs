@@ -1,0 +1,62 @@
+---
+title: Jupyter Containers (NEW)
+description: Jupyter Containers provide a powerful way to create dedicated, pre-configured Jupyter development environments within your IOMETE Data Lakehouse Platform. 
+slug: /developer-guide/jupyter-containers
+last_update:
+  date: 06/17/2025
+  author: Fuad Musayev
+---
+
+import Img from "@site/src/components/Img";
+
+Jupyter Containers provide a powerful way to create dedicated, pre-configured Jupyter development environments within your IOMETE Data Lakehouse Platform. 
+Each container comes with JupyterLab and essential data engineering tools pre-installed, enabling you to start working with your data immediately.  
+
+### Common Use Cases
+
+1. Data Exploration and Analysis: explore datasets to understand structure and patterns, create visualizations to identify trends and anomalies.  
+2. ETL Pipeline Development: prototype data transformation logic before production deployment, create documentation for complex data transformations.  
+3. Machine Learning and AI: model training and validation, hyperparameter tuning and experimentation, model performance analysis and visualization.
+
+### Creating a Jupyter Container
+
+1. Navigate to Jupyter Containers in your IOMETE console
+2. Configure Resources: Select CPU, memory, and storage based on your needs
+4. Launch Container: Click "Create Container" to spin up your environment
+
+### Accessing Jupyter Containers
+
+1. Open JupyterLab: Click the "Open JupyterLab" button in the UI
+2. First-time Login:
+   - Enter your username as the token (default token is your IOMETE username)
+   - Choose whether to create a password for future logins
+3. Start Working: You're now in the familiar JupyterLab interface!
+
+### Connecting to IOMETE Compute Clusters
+
+```python
+from pyspark.sql import SparkSession
+
+# Copy the connection string from the Compute's Connections tab (Spark Connect) in IOMETE UI.
+spark = SparkSession.builder.remote("sc://...").getOrCreate()
+
+print("> Query databases from the remote cluster")
+df = spark.sql("show databases")
+df.show()
+
+```
+
+### Working with Git and S3
+
+Your container includes Git and AWS CLI tools for seamless development workflows:
+
+```bash
+# Clone your project repository
+git clone https://github.com/your-org/data-project.git
+
+# Configure AWS CLI for S3-compatible storage
+aws configure
+
+# Upload results to S3
+aws s3 cp results.csv s3://your-bucket/analysis/
+```
