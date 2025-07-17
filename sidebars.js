@@ -171,6 +171,7 @@ const sidebars = {
         "developer-guide/spark-job/airflow",
         "developer-guide/spark-job/nessie-integration",
         "developer-guide/spark-job/spark-logging",
+        "developer-guide/spark-job/job-orchestrator",
       ],
     },
     {
@@ -180,6 +181,7 @@ const sidebars = {
       items: [
         "developer-guide/notebook/starting-with-notebook",
         "developer-guide/notebook/using-vscode",
+        "developer-guide/notebook/jupyter-containers",
       ],
     },
     {
@@ -383,7 +385,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "reference/pyspark/pyspark-join",
-        "reference/pyspark/pyspark-spj"
+        "reference/pyspark/pyspark-spj",
       ],
     },
     {

@@ -8,10 +8,82 @@ last_update:
 ---
 
 import Img from '@site/src/components/Img';
+import GridBox from '@site/src/components/GridBox';
 import Mailer from '@site/src/components/Mailer';
 import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.10.0" date="July 15, 2025" title="Job Orchestrator, LDAP Group Inheritance and Jupyter Containers">
+  <ReleaseSection title="🧩 Job Orchestrator [Beta]">
+    This is the beta release of our broader initiative to bring orchestration to IOMETE. To enable it, set the flag `jobOrchestrator.enabled` in `values.yaml`.
+    - <b>Priority-based Scheduling</b>: Users can now prioritize the scheduling of business-critical jobs over regular-priority jobs.
+      <Img src="/img/guides/spark-job/job-update-page.png" alt="Job Update Page" maxWidth="600px" centered />
+    - <b>Resource-aware Execution</b>: Jobs are only submitted when there is sufficient cluster capacity, helping prevent failed or stuck jobs. 
+    - <b>Built-in observability</b>: We've added rich metrics to monitor queue state, job wait times, and scheduling patterns in real time.
+      <Img src="/img/guides/spark-job/job-metrics-monitoring-graphs.png" alt="Job Monitoring Graph" />
+    For an in-depth overview, check out the official [press release](/docs/developer-guide/spark-job/job-orchestrator.md).
+  </ReleaseSection>
+
+  <ReleaseSection title="📒 Jupyter Containers [Beta]">
+    Jupyter Containers is a powerful new feature that brings familiar Jupyter development environments directly into your IOMETE Platform. This enhancement enables data engineers and analysts to spin up dedicated, pre-configured Jupyter environments with just a few clicks.  
+    Key highlights:  
+    - Create isolated Jupyter containers with customizable resource allocation.  
+    - Each container comes with JupyterLab pre-installed and ready to use. Click "Open JupyterLab" to directly access Jupyter environment from IOMETE UI.  
+    - Pre-installed Spark libraries for immediate access to distributed computing.  
+    - Direct connectivity to IOMETE Compute clusters via Spark Connect.  
+    - Essential developer tools pre-installed: git, aws cli, sparksql-magic, pandas, other libraries and extensions.  
+    - Authentication: Use your IOMETE username as the default token. Optionally, setup a password to protect sensitive files within container.  
+    
+    Platform admins can enable it during installation by setting `jupyterContainers.enabled` in `values.yaml`.  
+    For more details please refer to Jupyter Container's user guide: [Jupyter Containers - Developer Guide](/docs/developer-guide/notebook/jupyter-containers.mdx).
+  </ReleaseSection>
+
+  <ReleaseSection title="👥 LDAP Group Inheritance">
+    - Group hierarchies synced from LDAP are now taken into account when evaluating Data Security policies. Groups inherit data policies from parent groups in the same way users inherit them.
+    - For example, in the diagram below, any data policies applied to the "Data Science Team" will also apply to the "ML Engineers" and "Data Analysts" groups — in addition to any policies directly assigned to those child groups.
+      <Img src="/img/getting-started/release-notes/3.10.0/ldap-group-inheritance.png" alt="LDAP Group Inheritance" />
+    - This behavior is enabled by default in IOMETE. It can be disabled by setting the feature flag `ldapGroupInheritance.enabled` to `false` in `values.yaml` during Helm installation.
+  </ReleaseSection>
+
+  <ReleaseSection title="💥 IOMETE Spark">
+    - Customers can now configure soft affinity rules for Spark driver pods to help distribute them across nodes and reduce the probability of most drivers ending up on the same node. This can be enabled by setting the flag `iometeSparkDriverAntiAffinity.enabled` to `true` in `values.yaml` during installation.
+  </ReleaseSection>
+
+  <ReleaseSection title="🔍 Activity Monitoring">
+    - We are releasing the beta of our own Spark Query Plan viewer. You no longer need to access the UI to view query plans! Enable this feature via `activityMonitoringQueryPlans.enabled` in `values.yaml` during installation.
+    <Img src="/img/getting-started/release-notes/3.10.0/query-monitoring-plan.png" maxWidth="700px" centered />
+    - Improved visualization of shuffle metrics on the Query Monitoring Details page.
+    - Domain owners can now view and cancel all queries within their domain, while regular users can only see and cancel their own queries.
+      <Img src="/img/getting-started/release-notes/3.10.0/query-monitoring-domain-member-filter.png" alt="Query Monitoring filter by domain members" maxWidth="700px" />
+  </ReleaseSection>
+
+  <ReleaseSection title="🐛 Bug Fixes">
+    - Added support to configure the maximum allowed cookie size for HTTP requests. This is useful for customers encountering issues with large cookies. Set the value via `services.gateway.settings.maxCookieSize` in `values.yaml` (default: `128k`).
+    - Fixed an issue with access token renewal when executing SQL queries.
+    - Patched the data-plane init job to ensure the metastore starts correctly post-install when special characters are used in the PostgreSQL password.
+    - Fixed a bug where updates to LDAP settings were not reflected in periodic LDAP syncs.
+    - Minor fix to ensure the `iom-catalog` service consistently appears on the health check page.
+    - Git Repositories in sql editor now has support for subgroups in gitlab.
+    - Allow trailing semicolon in Iceberg CALL statements for better Spark SQL compatibility
+  </ReleaseSection>
+
+  <ReleaseSection title="⚡️ Other Improvements">
+  - Moved hardcoded `iom-openapi` pod resource settings into `values.yaml` in the Helm chart for easier customization.
+  - The number of applications shown on the Spark History summary page is now configurable. Set this in `values.yaml` under `services.sparkHistory.settings.maxApplications`.  
+    See the Spark property [`spark.history.ui.maxApplications`](https://spark.apache.org/docs/latest/monitoring.html) for more information.
+  - Added a new option in the SQL Editor’s Database Explorer to delete tables directly from the Iceberg REST Catalog. This is useful when a table is corrupted and Spark cannot delete it. The user must have `DROP TABLE` privileges to perform this operation.  
+    <GridBox>
+      <Img src="/img/getting-started/release-notes/3.10.0/delete-table-action.png" alt="Data explorer delete table" />
+      <Img src="/img/getting-started/release-notes/3.10.0/delete-table-confirm.png" alt="Data explorer delete table" />
+    </GridBox>
+
+  - Added a context menu with `Close` and `Close All` options to SQL Editor worksheet tabs for quickly closing the current or all tabs.
+  <Img src="/img/getting-started/release-notes/3.10.0/sql-tab-close-all.png" alt="SQL editor tab close all" maxWidth="700px" centered />
+  - Tags attached to Spark jobs are now propagated to the corresponding Kubernetes pods as labels.This enables resource management or categorization based on job-specific tags.  
+    <Img src="/img/k8s/tag-pod-label-propagation.png" alt="Job Tag As a Pod Label" />
+  </ReleaseSection>
+</Release>
 
 <Release version="3.9.2" date="July 14th, 2025" title="Patch release">
   <ReleaseSection title="Job resource accounting using tags">
@@ -410,10 +482,10 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
       The Data Products section has been introduced as an experimental feature, providing a structured way to package, manage, and share curated datasets across teams. This feature enables:  
     </ReleaseDescription>
 
-    - Domain-driven data product creation, ensuring governance and ownership.  
-    - Enhanced discoverability, allowing users to find and reuse high-quality data assets.  
-    
-    This marks the first step towards self-service data sharing, with more enhancements planned in future releases.  
+    - Domain-driven data product creation, ensuring governance and ownership.
+    - Enhanced discoverability, allowing users to find and reuse high-quality data assets.
+
+    This marks the first step towards self-service data sharing, with more enhancements planned in future releases.
 
   </ReleaseSection>
 
@@ -636,12 +708,12 @@ Key Benefits:
   Explorer)
 - Fixed "Invalid YeafOfEra" issue during Registration of Iceberg Tables.
 - SQL Editor: Database Explorer improvements
-    - Added partitions folder, you can view table partition columns.
-    - Added Iceberg View support. `view` folder now available for iceberg catalogs
-    - Improved error messaging in SQL Editor
-    - Added item "Open in explorer" to the right-context menu. You can open the selected table in the Data-Catalog
-      Explorer to view detailed information and snapshots
-    - Redesigned result charts
+  - Added partitions folder, you can view table partition columns.
+  - Added Iceberg View support. `view` folder now available for iceberg catalogs
+  - Improved error messaging in SQL Editor
+  - Added item "Open in explorer" to the right-context menu. You can open the selected table in the Data-Catalog
+    Explorer to view detailed information and snapshots
+  - Redesigned result charts
 - Added Spark / Iceberg / Scala version information to the Data-Plane Informatino page in the Settings menu
 - Improved Cron editor in Spark Job configuration
 - Overall design improvements: slowly moving to a more compact design
@@ -650,54 +722,54 @@ Key Benefits:
 
 - 🆕 Added Nessie catalog support `Beta`
 - 🛠 Updated spark-operator with performance optimizations and bug fixes
-    - Enhances overall system stability and efficiency
+  - Enhances overall system stability and efficiency
 - 🛠 Implemented stricter validation for Node Types:
-    - CPU: Minimum 300 milli-cores
-    - Memory: Minimum 900 MiB
-    - Ensures compliance with Spark requirements for optimal performance
+  - CPU: Minimum 300 milli-cores
+  - Memory: Minimum 900 MiB
+  - Ensures compliance with Spark requirements for optimal performance
 - 🎨 Various UI improvements for better user experience
 - 🐞 Resolved issue with "STARTING" status in Spark Jobs
-    - Improves job status accuracy and monitoring
+  - Improves job status accuracy and monitoring
 
 <ReleaseTitle version="1.15.0" date="June 24, 2024" title="Monitoring, Spark Operator, Job Management" />
 
 - 🛠 Spark Operator Enhancements:
 
-    - Improved performance to handle ~1000 Spark Job submissions per minute
-    - Fixed conflict issues when submitting Spark jobs via API
-    - Added comprehensive metrics to Spark run details view
-    - Implemented Timeline (beta) feature for tracking status changes
-    - Integrated Kubernetes events for Spark Resources (Run, Lakehouse)
+  - Improved performance to handle ~1000 Spark Job submissions per minute
+  - Fixed conflict issues when submitting Spark jobs via API
+  - Added comprehensive metrics to Spark run details view
+  - Implemented Timeline (beta) feature for tracking status changes
+  - Integrated Kubernetes events for Spark Resources (Run, Lakehouse)
 
 - 🛠 Job Management Improvements:
 
-    - Introduced Job retry policy
-    - Spark run metrics now available during "running" state
-    - Fixed issue where Spark UI occasionally failed to update
-    - Resolved Spark History redirection issue (now opens correct page on first load)
-    - Addressed Spark driver service name conflicts caused by long job names
-    - Implemented periodic garbage collection for failed jobs in Kubernetes
-    - Added support for job run tags and filtering by tag
-    - Introduced option to re-trigger runs with the same configuration
+  - Introduced Job retry policy
+  - Spark run metrics now available during "running" state
+  - Fixed issue where Spark UI occasionally failed to update
+  - Resolved Spark History redirection issue (now opens correct page on first load)
+  - Addressed Spark driver service name conflicts caused by long job names
+  - Implemented periodic garbage collection for failed jobs in Kubernetes
+  - Added support for job run tags and filtering by tag
+  - Introduced option to re-trigger runs with the same configuration
 
 - 🆕 Monitoring and Logging:
 
-    - Added support for Splunk logging
-    - Implemented new System Config in UI Console
-    - Added "Spark Jobs alive time" to new "System Config" page
-    - Separated Driver and Executor task durations
-    - Display summary of total running/complete/pending runs on Spark job page
-    - Spark job log view now auto-scrolls to bottom when new logs are added
+  - Added support for Splunk logging
+  - Implemented new System Config in UI Console
+  - Added "Spark Jobs alive time" to new "System Config" page
+  - Separated Driver and Executor task durations
+  - Display summary of total running/complete/pending runs on Spark job page
+  - Spark job log view now auto-scrolls to bottom when new logs are added
 
 - 🎨 UI/UX Enhancements:
 
-    - Added time filter to Job Runs
-    - Displaying Scheduler Next Run information on UI
-    - Added ID to Spark Run Details page
+  - Added time filter to Job Runs
+  - Displaying Scheduler Next Run information on UI
+  - Added ID to Spark Run Details page
 
 - 🛠 Performance Optimizations:
 
-    - Fixed long job names causing Spark driver service name conflicts
+  - Fixed long job names causing Spark driver service name conflicts
 
 - Implemented "Spark Jobs alive time" configuration
 
