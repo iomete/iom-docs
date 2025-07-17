@@ -8,6 +8,7 @@ last_update:
 ---
 
 import Img from '@site/src/components/Img';
+import GridBox from '@site/src/components/GridBox';
 import Mailer from '@site/src/components/Mailer';
 import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site/src/components/Release';
 
@@ -51,8 +52,7 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
   <ReleaseSection title="🔍 Activity Monitoring">
     - We are releasing the beta of our own Spark Query Plan viewer. You no longer need to access the UI to view query plans! Enable this feature via `activityMonitoringQueryPlans.enabled` in `values.yaml` during installation.
-      <Img src="/img/getting-started/release-notes/3.10.0/query-monitoring-query-monitoring.png" maxWidth="700px" />
-      <Img src="/img/getting-started/release-notes/3.10.0/query-monitoring-query-plan.png" maxWidth="700px" />
+    <Img src="/img/getting-started/release-notes/3.10.0/query-monitoring-plan.png" maxWidth="700px" centered />
     - Improved visualization of shuffle metrics on the Query Monitoring Details page.
     - Domain owners can now view and cancel all queries within their domain, while regular users can only see and cancel their own queries.
       <Img src="/img/getting-started/release-notes/3.10.0/query-monitoring-domain-member-filter.png" alt="Query Monitoring filter by domain members" maxWidth="700px" />
@@ -69,17 +69,19 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
   </ReleaseSection>
 
   <ReleaseSection title="⚡️ Other Improvements">
-    - Moved hardcoded `iom-openapi` pod resource settings into `values.yaml` in the Helm chart for easier customization.
-    - The number of applications shown on the Spark History summary page is now configurable. Set this in `values.yaml` under `services.sparkHistory.settings.maxApplications`.  
-      See the Spark property [`spark.history.ui.maxApplications`](https://spark.apache.org/docs/latest/monitoring.html) for more information.
-    - Added a new option in the SQL Editor’s Database Explorer to delete tables directly from the Iceberg REST Catalog. This is useful when a table is corrupted and Spark cannot delete it. The user must have `DROP TABLE` privileges to perform this operation.
+  - Moved hardcoded `iom-openapi` pod resource settings into `values.yaml` in the Helm chart for easier customization.
+  - The number of applications shown on the Spark History summary page is now configurable. Set this in `values.yaml` under `services.sparkHistory.settings.maxApplications`.  
+    See the Spark property [`spark.history.ui.maxApplications`](https://spark.apache.org/docs/latest/monitoring.html) for more information.
+  - Added a new option in the SQL Editor’s Database Explorer to delete tables directly from the Iceberg REST Catalog. This is useful when a table is corrupted and Spark cannot delete it. The user must have `DROP TABLE` privileges to perform this operation.  
+    <GridBox>
       <Img src="/img/getting-started/release-notes/3.10.0/delete-table-action.png" alt="Data explorer delete table" />
-      <Img src="/img/getting-started/release-notes/3.10.0/delete-table-confirmation-modal.png" alt="Data explorer delete table" />
-      <Img src="/img/getting-started/release-notes/3.10.0/delete-table-confirmation-modal-2.png" alt="Data explorer delete table" />
-    - Added a context menu with `Close` and `Close All` options to SQL Editor worksheet tabs for quickly closing the current or all tabs.
-      <Img src="/img/getting-started/release-notes/3.10.0/sql-tab-close-all.png" alt="SQL editor tab close all" />
-    - Tags attached to Spark jobs are now propagated to the corresponding Kubernetes pods as labels.This enables resource management or categorization based on job-specific tags.  
-      <Img src="/img/k8s/tag-pod-label-propagation.png" alt="Job Tag As a Pod Label" />
+      <Img src="/img/getting-started/release-notes/3.10.0/delete-table-confirm.png" alt="Data explorer delete table" />
+    </GridBox>
+
+  - Added a context menu with `Close` and `Close All` options to SQL Editor worksheet tabs for quickly closing the current or all tabs.
+  <Img src="/img/getting-started/release-notes/3.10.0/sql-tab-close-all.png" alt="SQL editor tab close all" maxWidth="700px" centered />
+  - Tags attached to Spark jobs are now propagated to the corresponding Kubernetes pods as labels.This enables resource management or categorization based on job-specific tags.  
+    <Img src="/img/k8s/tag-pod-label-propagation.png" alt="Job Tag As a Pod Label" />
   </ReleaseSection>
 </Release>
 
