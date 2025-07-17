@@ -17,7 +17,7 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
   <ReleaseSection title="🧩 Job Orchestrator [Beta]">
     This is the beta release of our broader initiative to bring orchestration to IOMETE. To enable it, set the flag `jobOrchestrator.enabled` in `values.yaml`.
     - <b>Priority-based Scheduling</b>: Users can now prioritize the scheduling of business-critical jobs over regular-priority jobs.
-      <Img src="/img/guides/spark-job/job-update-page.png" alt="Job Update Page" />
+      <Img src="/img/guides/spark-job/job-update-page.png" alt="Job Update Page" maxWidth="600px" centered />
     - <b>Resource-aware Execution</b>: Jobs are only submitted when there is sufficient cluster capacity, helping prevent failed or stuck jobs. 
     - <b>Built-in observability</b>: We've added rich metrics to monitor queue state, job wait times, and scheduling patterns in real time.
       <Img src="/img/guides/spark-job/job-metrics-monitoring-graphs.png" alt="Job Monitoring Graph" />
@@ -706,12 +706,12 @@ Key Benefits:
   Explorer)
 - Fixed "Invalid YeafOfEra" issue during Registration of Iceberg Tables.
 - SQL Editor: Database Explorer improvements
-    - Added partitions folder, you can view table partition columns.
-    - Added Iceberg View support. `view` folder now available for iceberg catalogs
-    - Improved error messaging in SQL Editor
-    - Added item "Open in explorer" to the right-context menu. You can open the selected table in the Data-Catalog
-      Explorer to view detailed information and snapshots
-    - Redesigned result charts
+  - Added partitions folder, you can view table partition columns.
+  - Added Iceberg View support. `view` folder now available for iceberg catalogs
+  - Improved error messaging in SQL Editor
+  - Added item "Open in explorer" to the right-context menu. You can open the selected table in the Data-Catalog
+    Explorer to view detailed information and snapshots
+  - Redesigned result charts
 - Added Spark / Iceberg / Scala version information to the Data-Plane Informatino page in the Settings menu
 - Improved Cron editor in Spark Job configuration
 - Overall design improvements: slowly moving to a more compact design
@@ -720,54 +720,54 @@ Key Benefits:
 
 - 🆕 Added Nessie catalog support `Beta`
 - 🛠 Updated spark-operator with performance optimizations and bug fixes
-    - Enhances overall system stability and efficiency
+  - Enhances overall system stability and efficiency
 - 🛠 Implemented stricter validation for Node Types:
-    - CPU: Minimum 300 milli-cores
-    - Memory: Minimum 900 MiB
-    - Ensures compliance with Spark requirements for optimal performance
+  - CPU: Minimum 300 milli-cores
+  - Memory: Minimum 900 MiB
+  - Ensures compliance with Spark requirements for optimal performance
 - 🎨 Various UI improvements for better user experience
 - 🐞 Resolved issue with "STARTING" status in Spark Jobs
-    - Improves job status accuracy and monitoring
+  - Improves job status accuracy and monitoring
 
 <ReleaseTitle version="1.15.0" date="June 24, 2024" title="Monitoring, Spark Operator, Job Management" />
 
 - 🛠 Spark Operator Enhancements:
 
-    - Improved performance to handle ~1000 Spark Job submissions per minute
-    - Fixed conflict issues when submitting Spark jobs via API
-    - Added comprehensive metrics to Spark run details view
-    - Implemented Timeline (beta) feature for tracking status changes
-    - Integrated Kubernetes events for Spark Resources (Run, Lakehouse)
+  - Improved performance to handle ~1000 Spark Job submissions per minute
+  - Fixed conflict issues when submitting Spark jobs via API
+  - Added comprehensive metrics to Spark run details view
+  - Implemented Timeline (beta) feature for tracking status changes
+  - Integrated Kubernetes events for Spark Resources (Run, Lakehouse)
 
 - 🛠 Job Management Improvements:
 
-    - Introduced Job retry policy
-    - Spark run metrics now available during "running" state
-    - Fixed issue where Spark UI occasionally failed to update
-    - Resolved Spark History redirection issue (now opens correct page on first load)
-    - Addressed Spark driver service name conflicts caused by long job names
-    - Implemented periodic garbage collection for failed jobs in Kubernetes
-    - Added support for job run tags and filtering by tag
-    - Introduced option to re-trigger runs with the same configuration
+  - Introduced Job retry policy
+  - Spark run metrics now available during "running" state
+  - Fixed issue where Spark UI occasionally failed to update
+  - Resolved Spark History redirection issue (now opens correct page on first load)
+  - Addressed Spark driver service name conflicts caused by long job names
+  - Implemented periodic garbage collection for failed jobs in Kubernetes
+  - Added support for job run tags and filtering by tag
+  - Introduced option to re-trigger runs with the same configuration
 
 - 🆕 Monitoring and Logging:
 
-    - Added support for Splunk logging
-    - Implemented new System Config in UI Console
-    - Added "Spark Jobs alive time" to new "System Config" page
-    - Separated Driver and Executor task durations
-    - Display summary of total running/complete/pending runs on Spark job page
-    - Spark job log view now auto-scrolls to bottom when new logs are added
+  - Added support for Splunk logging
+  - Implemented new System Config in UI Console
+  - Added "Spark Jobs alive time" to new "System Config" page
+  - Separated Driver and Executor task durations
+  - Display summary of total running/complete/pending runs on Spark job page
+  - Spark job log view now auto-scrolls to bottom when new logs are added
 
 - 🎨 UI/UX Enhancements:
 
-    - Added time filter to Job Runs
-    - Displaying Scheduler Next Run information on UI
-    - Added ID to Spark Run Details page
+  - Added time filter to Job Runs
+  - Displaying Scheduler Next Run information on UI
+  - Added ID to Spark Run Details page
 
 - 🛠 Performance Optimizations:
 
-    - Fixed long job names causing Spark driver service name conflicts
+  - Fixed long job names causing Spark driver service name conflicts
 
 - Implemented "Spark Jobs alive time" configuration
 
