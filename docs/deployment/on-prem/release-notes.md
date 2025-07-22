@@ -14,6 +14,17 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.10.1" date="July 22nd, 2025" title="Patch Release">
+  <ReleaseSection title="🐛 Bug Fixes">
+    - Fixed an issue where column descriptions and tags were being unintentionally overridden by the catalog-sync job.  
+      - Descriptions will now be preserved if already present.  
+      - Tags from the sync job will be merged with existing tags instead of replacing them.
+    - Added validations of tags and label names based on the rules mentioned [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set).
+      - It has been implemented in API level, so that integrated tools to be validated as well.
+      - It has been implemented in UI level as well, so the users to be informed about valid syntax formats.
+  </ReleaseSection>
+</Release>
+
 <Release version="3.10.0" date="July 15, 2025" title="Job Orchestrator, LDAP Group Inheritance and Jupyter Containers">
   <ReleaseSection title="🧩 Job Orchestrator [Beta]">
     This is the beta release of our broader initiative to bring orchestration to IOMETE. To enable it, set the flag `jobOrchestrator.enabled` in `values.yaml`.
