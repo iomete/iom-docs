@@ -26,6 +26,9 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
     - Fixed an issue where column descriptions and tags were being unintentionally overridden by the catalog-sync job.  
       - Descriptions will now be preserved if already present.  
       - Tags from the sync job will be merged with existing tags instead of replacing them.
+    - Added validations of tags and label names based on the rules mentioned [here](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set).
+      - It has been implemented in API level, so that integrated tools to be validated as well.
+      - It has been implemented in UI level as well, so the users to be informed about valid syntax formats.
   </ReleaseSection>
 </Release>
 
