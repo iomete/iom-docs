@@ -21,6 +21,13 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
   </ReleaseSection>
 </Release>
 
+<Release version="3.10.1" date="July 22nd, 2025" title="Patch Release">
+  <ReleaseSection title="🐛 Bug Fixes">
+    - Fixed an issue where column descriptions and tags were being unintentionally overridden by the catalog-sync job.  
+      - Descriptions will now be preserved if already present.  
+      - Tags from the sync job will be merged with existing tags instead of replacing them.
+  </ReleaseSection>
+</Release>
 
 <Release version="3.10.0" date="July 15, 2025" title="Job Orchestrator, LDAP Group Inheritance and Jupyter Containers">
   <ReleaseSection title="🧩 Job Orchestrator [Beta]">
