@@ -14,6 +14,12 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.10.2" date="August 3, 2025" title="Patch Release">
+  <ReleaseSection title="🐛 Bug Fixes">
+  </ReleaseSection>
+</Release>
+
+
 <Release version="3.9.3" date="July 23, 2025" title="Patch Release">
   <ReleaseSection title="🐛 Bug Fixes">
   - Patched `antiAffinity` rules, customers can now configure soft affinity rules for Spark driver pods to help distribute them across nodes and reduce the probability of most drivers ending up on the same node. This can be enabled by setting the flag `iometeSparkDriverAntiAffinity.enabled` to true in values.yaml during installation.
