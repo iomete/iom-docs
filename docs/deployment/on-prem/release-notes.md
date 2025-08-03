@@ -16,6 +16,9 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Release version="3.10.2" date="August 3, 2025" title="Patch Release">
   <ReleaseSection title="🐛 Bug Fixes">
+    - Fixed an issue where the `spark.dynamicAllocation.enabled` flag was always set to false.
+    - Fixed an issue where the `spark.executor.instances` was set to 1 even when dynamic allocation was disabled.
+    - Fixed an issue where the user failed to query the view when they lack the permission to the underlying table, even if the user has a permission to the view. 
   </ReleaseSection>
 </Release>
 
