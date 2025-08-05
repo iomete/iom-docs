@@ -76,12 +76,15 @@ Set `jobOrchestrator.enabled: false` in your Helm values to disable orchestratio
 Before disabling the flag, please move all jobs back to the `Legacy` flow at once by using  this API endpoint:
 
 ```bash
-curl --location 'https://<IOMETE_URL>/api/v1/domains/default/spark/jobs/migrate-from-prefect' \
+curl --location 'https://<IOMETE_URL>/api/v1/domains/<DOMAIN_NAME>/spark/jobs/migrate-from-prefect' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Bearer <TOKEN>' \
 --data '{}'
 ```
-_Replace `<IOMETE_URL>` with your actual IOMETE instance URL and `<TOKEN>` with your authentication token._
+Please replace: 
+- `<IOMETE_URL>` with your actual IOMETE instance URL
+- `<DOMAIN_NAME>` with the actual domain name.
+- `<TOKEN>` with your authentication token.
 :::
 
 ---
@@ -116,6 +119,9 @@ If you have your own **Prometheus** installation, add this scrape configuration:
       regex: iom-job-orchestrator-metrics-exporter
       action: keep
 ```
+:::note
+By default, metrics from the `iom-job-orchestrator-metrics-exporter` are exposed on port `8000`.
+:::
 
 ---
 
