@@ -28,8 +28,18 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
     - Added support for downloading logs from external logging systems including Splunk, Loki, and EFK.
   </ReleaseSection>
 
+  <ReleaseSection title="Job Orchestrator">
+    - Job Priority Restrictions:
+        - Only Domain Admins can upgrade jobs to HIGH priority.
+        - Regular users can manage NORMAL jobs, edit HIGH, and downgrade to NORMAL.
+        - Existing jobs and normal operations remain unaffected.
+    - Worker Deployment Changes: Workers moved to respective data planes, reduced resource usage, and added per-namespace configurations.
+    - Spark Job Quota Enhancements: Added PriorityClass quota support; system now applies the most restrictive limit across namespace and job-specific quotas for CPU, Memory, and Pods.
+  </ReleaseSection>
+
   <ReleaseSection title="⚡️ Other Improvements">
     - Implemented exposing the token management operations in the API / swagger.
+    - We have added support to be able to filter based on Tags in all the job listing pages.
   </ReleaseSection>
  
   <ReleaseSection title="🐛 Bug Fixes">
