@@ -19,6 +19,7 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
     - Implemented Priority Class Mappings, which enables to configure priority classes mappings in helm charts.
     - Built Executor Logs feature enabling real-time viewing of compute and Spark job executor logs in the UI.
     - Added support for downloading logs from external logging systems including Splunk, Loki, and EFK.
+    - Implemented exposing the token management operations in the API / swagger.
   </ReleaseSection>
 </Release>
 
