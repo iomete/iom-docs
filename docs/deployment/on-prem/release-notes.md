@@ -26,6 +26,25 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
   <ReleaseSection title="Log Management">
     - Built Executor Logs feature enabling real-time viewing of compute and Spark job executor logs in the UI.
     - Added support for downloading logs from external logging systems including Splunk, Loki, and EFK.
+    - **Hybrid Log Retrieval with Kubernetes Hot Storage**
+      - We have added **hot storage** support, allowing recent logs to be served directly from Kubernetes for lower latency, and automatically falling back to external storage like Splunk, Loki, or EFK when the query range exceeds the configured threshold.
+      - **Helm configuration** (`values.yaml`):
+        ```yaml
+         logging:
+          source: "splunk"          # kubernetes | loki | elasticsearch | splunk
+
+          hotStorage:
+            enabled: true
+            source: "kubernetes"    # currently only kubernetes is supported
+            maxRange: "24h"         # e.g., "6h", "24h", "3d"
+        ```
+      - **Examples**
+        - Query last 6h with maxRange: "24h" → served from Kubernetes.
+        - Query last 3d with maxRange: "24h" → served from external (Splunk/Loki/Elasticsearch).
+      - **Notes & tips**
+        - Ensure Kubernetes log retention covers your `maxRange`; otherwise older pod logs won’t be available in hot storage.
+        - If `hotStorage.enabled: false`, all requests use the external integration.
+        - Time range evaluation is based on the query window; there’s no partial split per line/chunk.
   </ReleaseSection>
 
   <ReleaseSection title="Job Orchestrator">
@@ -60,6 +79,7 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
  
   <ReleaseSection title="🐛 Bug Fixes">
     - Fixed an issue where resources quotas in the homepage picked up the priority class quota instead of the namespace quota.
+    - Fixed an issue where the USE command on a catalog failed with access_denied when the user had access to only specific databases, by adding proper catalog-level USE privilege support.
   </ReleaseSection>
 </Release>
 
