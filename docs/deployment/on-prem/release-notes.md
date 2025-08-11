@@ -74,7 +74,7 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
         <Img src="/img/getting-started/release-notes/3.11.0/sql-composed-chart.png" alt="SQL Composed Chart" />
   </ReleaseSection>
 
-  <ReleaseSection title="Parent–Child Relationship for Groups">
+  <ReleaseSection title="Parent-Child Relationship for Groups">
       - On the **Group Details** page, users can now see both their **directly assigned** and **parent** groups.
       - Added two tabs:
         - **Sub groups** (Inheriting to)
