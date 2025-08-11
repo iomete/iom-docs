@@ -14,6 +14,12 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.11.0" date="August 11, 2025" title="PriorityClass Mappings, ">
+  <ReleaseSection title="🐛 Bug Fixes">
+    - Implemented Priority Class Mappings, which enables to configure priority classes mappings in helm charts.
+  </ReleaseSection>
+</Release>
+
 <Release version="3.10.2" date="August 3, 2025" title="Patch Release">
   <ReleaseSection title="🐛 Bug Fixes">
     - Fixed an issue where the `spark.dynamicAllocation.enabled` flag was always set to false.
