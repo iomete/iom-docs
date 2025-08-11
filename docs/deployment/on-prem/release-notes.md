@@ -56,7 +56,6 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
   <ReleaseSection title="⚡️ Other Improvements">
     - Implemented exposing the token management operations in the API / swagger.
-    - We have added support to be able to filter based on Tags in all the job listing pages.
   </ReleaseSection>
  
   <ReleaseSection title="🐛 Bug Fixes">
