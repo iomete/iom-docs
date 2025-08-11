@@ -36,17 +36,22 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
     - Worker Deployment Changes: Workers moved to respective data planes, reduced resource usage, and added per-namespace configurations.
     - Spark Job Quota Enhancements: Added PriorityClass quota support; system now applies the most restrictive limit across namespace and job-specific quotas for CPU, Memory, and Pods.
   </ReleaseSection>
-  
-  <ReleaseSection title="New SQL chart types">
+
+  <ReleaseSection title="🏷️ Tag Filtering on Spark/Streaming Job List">
+      You can **search** and **filter** the Spark/Streaming job list by **resource tags**.
+      <Img src="/img/getting-started/release-notes/3.11.0/job-filter-by-tag.png" alt="Job Filter By Tag" />
+  </ReleaseSection>
+
+  <ReleaseSection title="New SQL Chart Types">
       You can now visualize SQL query results with:  
       - **Pie Charts**
-        <Img src="/img/getting-started/release-notes/3.11.0/sql-pie-chart.png" alt="LDAP Group Inheritance" />
+        <Img src="/img/getting-started/release-notes/3.11.0/sql-pie-chart.png" alt="SQL Pie Chart" />
       - **Scatter Plots**
-        <Img src="/img/getting-started/release-notes/3.11.0/sql-scatter-chart.png" alt="LDAP Group Inheritance" />
+        <Img src="/img/getting-started/release-notes/3.11.0/sql-scatter-chart.png" alt="SQL Scatter Chart" />
       - **Treemaps**
-        <Img src="/img/getting-started/release-notes/3.11.0/sql-treemap-chart.png" alt="LDAP Group Inheritance" />
+        <Img src="/img/getting-started/release-notes/3.11.0/sql-treemap-chart.png" alt="SQL Treemap Chart" />
       - **Composed Charts**
-        <Img src="/img/getting-started/release-notes/3.11.0/sql-composed-chart.png" alt="LDAP Group Inheritance" />
+        <Img src="/img/getting-started/release-notes/3.11.0/sql-composed-chart.png" alt="SQL Composed Chart" />
   </ReleaseSection>
 
   <ReleaseSection title="⚡️ Other Improvements">
