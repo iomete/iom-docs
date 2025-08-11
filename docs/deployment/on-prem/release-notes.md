@@ -36,6 +36,18 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
     - Worker Deployment Changes: Workers moved to respective data planes, reduced resource usage, and added per-namespace configurations.
     - Spark Job Quota Enhancements: Added PriorityClass quota support; system now applies the most restrictive limit across namespace and job-specific quotas for CPU, Memory, and Pods.
   </ReleaseSection>
+  
+  <ReleaseSection title="New SQL chart types">
+      You can now visualize SQL query results with:  
+      - **Pie Charts**
+        <Img src="/img/getting-started/release-notes/3.11.0/sql-pie-chart.png" alt="LDAP Group Inheritance" />
+      - **Scatter Plots**
+        <Img src="/img/getting-started/release-notes/3.11.0/sql-scatter-chart.png" alt="LDAP Group Inheritance" />
+      - **Treemaps**
+        <Img src="/img/getting-started/release-notes/3.11.0/sql-treemap-chart.png" alt="LDAP Group Inheritance" />
+      - **Composed Charts**
+        <Img src="/img/getting-started/release-notes/3.11.0/sql-composed-chart.png" alt="LDAP Group Inheritance" />
+  </ReleaseSection>
 
   <ReleaseSection title="⚡️ Other Improvements">
     - Implemented exposing the token management operations in the API / swagger.
@@ -55,7 +67,6 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
     - Disabled `delete table` button in database explorer within SQL Editor sidebar.
   </ReleaseSection>
 </Release>
-
 
 <Release version="3.9.3" date="July 23, 2025" title="Patch Release">
   <ReleaseSection title="🐛 Bug Fixes">
@@ -139,12 +150,13 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
       <Img src="/img/getting-started/release-notes/3.10.0/delete-table-confirm.png" alt="Data explorer delete table" />
     </GridBox>
 
-  - Added a context menu with `Close` and `Close All` options to SQL Editor worksheet tabs for quickly closing the current or all tabs.
+    - Added a context menu with `Close` and `Close All` options to SQL Editor worksheet tabs for quickly closing the current or all tabs.
+
   <Img src="/img/getting-started/release-notes/3.10.0/sql-tab-close-all.png" alt="SQL editor tab close all" maxWidth="700px" centered />
-  - Tags attached to Spark jobs are now propagated to the corresponding Kubernetes pods as labels.This enables resource management or categorization based on job-specific tags.  
-    <Img src="/img/k8s/tag-pod-label-propagation.png" alt="Job Tag As a Pod Label" />
+    - Tags attached to Spark jobs are now propagated to the corresponding Kubernetes pods as labels.This enables resource management or categorization based on job-specific tags.  
+   <Img src="/img/k8s/tag-pod-label-propagation.png" alt="Job Tag As a Pod Label" />
   </ReleaseSection>
-</Release>
+  </Release>
 
 <Release version="3.9.2" date="July 14th, 2025" title="Patch release">
   <ReleaseSection title="Job resource accounting using tags">
