@@ -15,6 +15,10 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 <Mailer/>
 
 <Release version="3.11.0" date="August 11, 2025" title="PriorityClass Mappings, Log Management">
+  <ReleaseSection title="💥 IOMETE Spark">
+    - Spark version spark-3.5.5 is a default version set.
+  </ReleaseSection>
+
   <ReleaseSection title="PriorityClass Mappings">
     - Implemented Priority Class Mappings, which enables to configure priority classes mappings in helm charts.
   </ReleaseSection>
