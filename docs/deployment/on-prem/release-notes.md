@@ -16,6 +16,7 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Release version="3.11.0" date="August 11, 2025" title="PriorityClass Mappings, ">
   <ReleaseSection title="🐛 Bug Fixes">
+    - Fixed an issue where resources quotas in the homepage picked up the priority class quota instead of the namespace quota.
     - Implemented Priority Class Mappings, which enables to configure priority classes mappings in helm charts.
     - Built Executor Logs feature enabling real-time viewing of compute and Spark job executor logs in the UI.
     - Added support for downloading logs from external logging systems including Splunk, Loki, and EFK.
