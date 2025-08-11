@@ -37,6 +37,7 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
     - Spark Job Quota Enhancements: Added PriorityClass quota support; system now applies the most restrictive limit across namespace and job-specific quotas for CPU, Memory, and Pods.
   </ReleaseSection>
 
+
   <ReleaseSection title="🏷️ Tag Filtering on Spark/Streaming Job List">
       You can **search** and **filter** the Spark/Streaming job list by **resource tags**.
       <Img src="/img/getting-started/release-notes/3.11.0/job-filter-by-tag.png" alt="Job Filter By Tag" />
