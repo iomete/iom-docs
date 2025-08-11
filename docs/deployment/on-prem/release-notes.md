@@ -45,6 +45,7 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
         - Ensure Kubernetes log retention covers your `maxRange`; otherwise older pod logs won’t be available in hot storage.
         - If `hotStorage.enabled: false`, all requests use the external integration.
         - Time range evaluation is based on the query window; there’s no partial split per line/chunk.
+
   </ReleaseSection>
 
   <ReleaseSection title="Job Orchestrator">
@@ -71,6 +72,20 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
         <Img src="/img/getting-started/release-notes/3.11.0/sql-treemap-chart.png" alt="SQL Treemap Chart" />
       - **Composed Charts**
         <Img src="/img/getting-started/release-notes/3.11.0/sql-composed-chart.png" alt="SQL Composed Chart" />
+  </ReleaseSection>
+
+  <ReleaseSection title="Parent–Child Relationship for Groups">
+      - On the **Group Details** page, users can now see both their **directly assigned** and **parent** groups.
+      - Added two tabs:
+        - **Sub groups** (Inheriting to)
+        - **Parent groups** (Inherited from)
+      - Same updates applied to **Domain Group Members**.
+
+      *Note: Currently, group relationships apply only to LDAP members.*
+
+      <Img src="/img/getting-started/release-notes/3.11.0/sub-groups.png" alt="Sub groups" maxWidth="700px" centered />
+      <Img src="/img/getting-started/release-notes/3.11.0/parent-groups.png" alt="Parent groups" maxWidth="700px" centered />
+
   </ReleaseSection>
 
   <ReleaseSection title="⚡️ Other Improvements">
