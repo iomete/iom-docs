@@ -23,10 +23,13 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
     - Built Executor Logs feature enabling real-time viewing of compute and Spark job executor logs in the UI.
     - Added support for downloading logs from external logging systems including Splunk, Loki, and EFK.
   </ReleaseSection>
+
+  <ReleaseSection title="⚡️ Other Improvements">
+    - Implemented exposing the token management operations in the API / swagger.
+  </ReleaseSection>
  
   <ReleaseSection title="🐛 Bug Fixes">
     - Fixed an issue where resources quotas in the homepage picked up the priority class quota instead of the namespace quota.
-    - Implemented exposing the token management operations in the API / swagger.
   </ReleaseSection>
 </Release>
 
