@@ -14,6 +14,39 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
 
 <Mailer/>
 
+<Release version="3.11.0" date="August 11, 2025" title="PriorityClass Mappings, Log Management">
+  <ReleaseSection title="💥 IOMETE Spark">
+    - Spark version spark-3.5.5 is a default version set.
+  </ReleaseSection>
+
+  <ReleaseSection title="PriorityClass Mappings">
+    - Implemented Priority Class Mappings, which enables to configure priority classes mappings in helm charts.
+  </ReleaseSection>
+  
+  <ReleaseSection title="Log Management">
+    - Built Executor Logs feature enabling real-time viewing of compute and Spark job executor logs in the UI.
+    - Added support for downloading logs from external logging systems including Splunk, Loki, and EFK.
+  </ReleaseSection>
+
+  <ReleaseSection title="Job Orchestrator">
+    - Job Priority Restrictions:
+        - Only Domain Admins can upgrade jobs to HIGH priority.
+        - Regular users can manage NORMAL jobs, edit HIGH, and downgrade to NORMAL.
+        - Existing jobs and normal operations remain unaffected.
+    - Worker Deployment Changes: Workers moved to respective data planes, reduced resource usage, and added per-namespace configurations.
+    - Spark Job Quota Enhancements: Added PriorityClass quota support; system now applies the most restrictive limit across namespace and job-specific quotas for CPU, Memory, and Pods.
+  </ReleaseSection>
+
+  <ReleaseSection title="⚡️ Other Improvements">
+    - Implemented exposing the token management operations in the API / swagger.
+    - We have added support to be able to filter based on Tags in all the job listing pages.
+  </ReleaseSection>
+ 
+  <ReleaseSection title="🐛 Bug Fixes">
+    - Fixed an issue where resources quotas in the homepage picked up the priority class quota instead of the namespace quota.
+  </ReleaseSection>
+</Release>
+
 <Release version="3.10.2" date="August 3, 2025" title="Patch Release">
   <ReleaseSection title="🐛 Bug Fixes">
     - Fixed an issue where the `spark.dynamicAllocation.enabled` flag was always set to false.
