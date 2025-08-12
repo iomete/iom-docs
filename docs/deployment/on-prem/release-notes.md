@@ -26,25 +26,6 @@ import { Release, ReleaseTitle, ReleaseSection, ReleaseDescription } from '@site
   <ReleaseSection title="Log Management">
     - Built Executor Logs feature enabling real-time viewing of compute and Spark job executor logs in the UI.
     - Added support for downloading logs from external logging systems including Splunk, Loki, and EFK.
-    - **Hybrid Log Retrieval with Kubernetes Hot Storage**
-      - We have added **hot storage** support, allowing recent logs to be served directly from Kubernetes for lower latency, and automatically falling back to external storage like Splunk, Loki, or EFK when the query range exceeds the configured threshold.
-      - **Helm configuration** (`values.yaml`):
-        ```yaml
-         logging:
-          source: "splunk"          # kubernetes | loki | elasticsearch | splunk
-
-          hotStorage:
-            enabled: true
-            source: "kubernetes"    # currently only kubernetes is supported
-            maxRange: "24h"         # e.g., "6h", "24h", "3d"
-        ```
-      - **Examples**
-        - Query last 6h with maxRange: "24h" → served from Kubernetes.
-        - Query last 3d with maxRange: "24h" → served from external (Splunk/Loki/Elasticsearch).
-      - **Notes & tips**
-        - Ensure Kubernetes log retention covers your `maxRange`; otherwise older pod logs won’t be available in hot storage.
-        - If `hotStorage.enabled: false`, all requests use the external integration.
-        - Time range evaluation is based on the query window; there’s no partial split per line/chunk.
 
   </ReleaseSection>
 
