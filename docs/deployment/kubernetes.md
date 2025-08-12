@@ -7,8 +7,6 @@ last_update:
   author: Vusal Dadalov
 ---
 
-## Kubernetes Setup for IOMETE
-
 IOMETE requires a Kubernetes cluster to run. For production environments, use your company's existing production-ready Kubernetes cluster. If you don't have access to a Kubernetes cluster or need something quick for demos and proof-of-concepts, we recommend [k3s](https://docs.k3s.io/) Kubernetes Cluster.
 
 ## Why k3s?
