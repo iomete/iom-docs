@@ -53,6 +53,7 @@ const sidebars = {
             "deployment/truststore",
             "deployment/network-policies",
             "deployment/connect-namespace",
+            "deployment/kubernetes",
           ],
         },
       ],
