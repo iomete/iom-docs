@@ -5,7 +5,7 @@ const SECTION_TYPES = {
   'improvements': { emoji: '⚡', title: 'Improvements' },
   'bug-fixes': { emoji: '🐛', title: 'Bug Fixes' },
   'breaking-changes': { emoji: '⚠️', title: 'Breaking Changes' },
-  'deprecations': { emoji: '📖', title: 'Deprecations' }
+  'deprecations': { emoji: '🗑️', title: 'Deprecations' }
 };
 
 const Release = ({ version, date, children }) => (
