@@ -8,12 +8,12 @@ const SECTION_TYPES = {
   'deprecations': { emoji: '📖', title: 'Deprecations' }
 };
 
-const Release = ({ version, date, title, children }) => (
+const Release = ({ version, date, children }) => (
   <article className={styles.releaseContainer}>
     <div className={styles.releaseHeader}>
       <div className={styles.releaseDate}>{date}</div>
       <h2 id={`v${version}`} className={styles.releaseTitle}>
-        v{version}: {title}
+        v{version}
       </h2>
     </div>
     {children}

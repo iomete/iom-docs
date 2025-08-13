@@ -14,7 +14,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="3.11.0" date="August 11, 2025" title="PriorityClass Mappings, Log Management">
+<Release version="3.11.0" date="August 11, 2025">
   <NewFeatures>
     - **IOMETE Spark**: Spark version spark-3.5.5 is a default version set.
     - **PriorityClass Mappings**: Implemented Priority Class Mappings, which enables to configure priority classes mappings in helm charts.
@@ -57,7 +57,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.10.2" date="August 3, 2025" title="Patch Release">
+<Release version="3.10.2" date="August 3, 2025">
   <BugFixes>
     - Fixed an issue where the `spark.dynamicAllocation.enabled` flag was always set to false.
     - Fixed an issue where the `spark.executor.instances` was set to 1 even when dynamic allocation was disabled.
@@ -66,14 +66,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.9.3" date="July 23, 2025" title="Patch Release">
+<Release version="3.9.3" date="July 23, 2025">
   <BugFixes>
   - Patched `antiAffinity` rules, customers can now configure soft affinity rules for Spark driver pods to help distribute them across nodes and reduce the probability of most drivers ending up on the same node. This can be enabled by setting the flag `iometeSparkDriverAntiAffinity.enabled` to true in values.yaml during installation.
   - The iom-core pod now dynamically reloads any `docker.tagAliases` defined in `values.yaml`, removing the need to restart the pod.  
   </BugFixes>
 </Release>
 
-<Release version="3.10.1" date="July 22nd, 2025" title="Patch Release">
+<Release version="3.10.1" date="July 22nd, 2025">
   <BugFixes>
     - Fixed an issue where column descriptions and tags were being unintentionally overridden by the catalog-sync job.  
       - Descriptions will now be preserved if already present.  
@@ -84,7 +84,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.10.0" date="July 15, 2025" title="Job Orchestrator, LDAP Group Inheritance and Jupyter Containers">
+<Release version="3.10.0" date="July 15, 2025">
   <NewFeatures>
     - **Job Orchestrator [Beta]**: This is the beta release of our broader initiative to bring orchestration to IOMETE. To enable it, set the flag `jobOrchestrator.enabled` in `values.yaml`.
       - **Priority-based Scheduling**: Users can now prioritize the scheduling of business-critical jobs over regular-priority jobs.
@@ -145,7 +145,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.9.2" date="July 14th, 2025" title="Patch release">
+<Release version="3.9.2" date="July 14th, 2025">
   <Improvements>
     - **Job resource accounting using tags**: Tags that are attached to the spark jobs will be propagated to the pod as labels, which could be used for resource management of jobs categorized by specific tags.
        <Img src="/img/k8s/tag-pod-label-propagation.png" alt="Job Tag As a Pod Label" />
@@ -158,14 +158,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.9.1" date="July 4th, 2025" title="Patch release">
+<Release version="3.9.1" date="July 4th, 2025">
   <BugFixes>
     - Fixed an issue where queries run from the SQL Editor were missing automatic `LIMIT` clauses. This was resolved by updating `defaultSparkVersion` in the default HELM chart (`v17`), as older Spark image versions did not enforce limits correctly.
     - Removed unintended debug logging from the `iom-socket` pod to reduce log noise.
   </BugFixes>
 </Release>
 
-<Release version="3.9.0" date="June 25, 2025" title="Sensitive data improvements">
+<Release version="3.9.0" date="June 25, 2025">
   <NewFeatures>
     - **Sensitive data improvements on UI**: Users can now mark variables in the global spark settings as 'sensitive', which shows them redacted on the UI going forward
       <Img src="/img/getting-started/release-notes/3.9.0/spark-settings-masking.png" alt="Sensitive Spark Settings" />
@@ -194,13 +194,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.8.2" date="June 24, 2025" title="Patch Release">
+<Release version="3.8.2" date="June 24, 2025">
   <BugFixes>
     - Minor bug fix on the IOMETE console that prevented Jupyter kernel configuration from showing
   </BugFixes>
 </Release>
 
-<Release version="3.7.3" date="June 24, 2025" title="Patch Release">
+<Release version="3.7.3" date="June 24, 2025">
   <BugFixes>
     - Patched the logic behind the "Cancel" action in the SQL Editor to prevent it from hanging.
     - The `iom-core` pod now dynamically reloads any `docker.tagAliases` defined in `values.yaml`, removing the need to restart the pod.
@@ -208,7 +208,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>  
 </Release>
 
-<Release version="3.8.1" date="June 9, 2025" title="Spark 3.5.5-v1 available">
+<Release version="3.8.1" date="June 9, 2025">
   <NewFeatures>
     - **Notifications**: We added the ability for users to select the type of security to use when connecting to their SMTP
       <Img src="/img/getting-started/release-notes/3.8.1/smtp-configuration.png" alt="Configure SMTP" />
@@ -220,7 +220,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.8.0" date="June 9, 2025" title="Spark 3.5.5-v1 available">
+<Release version="3.8.0" date="June 9, 2025">
   <NewFeatures>
     - **IOMETE Spark**: IOMETE Spark version `3.5.5-v1` is now available for testing! We recommend configuring it in the `docker.additionalSparkVersions` section of `values.yaml` during installation. This enables users to select this version as a custom image when setting up a lakehouse. You can also use it as the base image for your Spark jobs.
     - We released a patch for IOMETE Spark `3.5.3-v14` that fixes an issue preventing it from starting correctly when feature flags for Activity Monitoring were not enabled.
@@ -237,7 +237,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.7.0" date="May 26, 2025" title="Custom Spark labels and minor fixes">
+<Release version="3.7.0" date="May 26, 2025">
   <NewFeatures>
     - **Activity Monitoring**: 
       - Users can now only view their own queries within a domain, enhancing data privacy and security.  
@@ -294,7 +294,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 </Release>
 
-<Release version="3.6.0" date="May 12, 2025" title="Spark job archival and improvements">
+<Release version="3.6.0" date="May 12, 2025">
   <NewFeatures>
     - **Activity Monitoring**: Spark job metrics can now be automatically archived to the IOMETE system table `activity_monitoring_spark_jobs` in Iceberg when feature flag `sparkJobArchival` is enabled.
     - **Spark Job Archival**: Added new feature flags to archive spark job statistics. If set, spark job statistics will be periodically archived to IOMETE system table `activity_monitoring_spark_jobs` in Iceberg
@@ -317,20 +317,20 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.4.2" date="May 11, 2025" title="Patch Release">
+<Release version="3.4.2" date="May 11, 2025">
   <BugFixes>
     - Fixed iom-identity pod intermittently returning incorrect permissions on tag-mask policies
     - Restored logging functionality for pod iom-socket
   </BugFixes>
 </Release>
 
-<Release version="3.5.1" date="Apr 30, 2025" title="Patch Release">
+<Release version="3.5.1" date="Apr 30, 2025">
   <BugFixes>
     - Scheduled Data Compaction jobs now support namespaces other than the default
   </BugFixes>
 </Release>
 
-<Release version="3.5.0" date="Apr 29, 2025" title="Query Monitoring and System Improvements">
+<Release version="3.5.0" date="Apr 29, 2025">
   <NewFeatures>
     - **Activity Monitoring**: Administrators can now cancel running queries directly from the IOMETE console
       <Img src="/img/getting-started/release-notes/3.5.0/activity_monitoring_cancel_query.png" alt="Cancelling Queries" />
@@ -364,7 +364,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.4.0" date="Apr 9, 2025" title="Query Monitoring and System Improvements">
+<Release version="3.4.0" date="Apr 9, 2025">
   <NewFeatures>
     - **Query Monitoring**: Added new query monitoring feature where users can view all running queries and their resource utilization. Active running queries are prioritized at the top for better visibility, with the rest sorted by time. Available in both Admin Panel and Domain page.
       <Img src="/img/getting-started/release-notes/3.4.0/query-monitoring.png" alt="Query Monitoring" />
@@ -416,7 +416,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Deprecations>
 </Release>
 
-<Release version="3.2.0" date="Mar 10, 2025" title="Branding and Stability">
+<Release version="3.2.0" date="Mar 10, 2025">
   <NewFeatures>
     - **Branding**: 
       - Color schemes adjusted to match our new Branding Identity
@@ -458,7 +458,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.1.3" date="Feb 11, 2025" title="Granular Admin Roles">
+<Release version="3.1.3" date="Feb 11, 2025">
   <Improvements>
     - Implemented Granular Admin Roles. Admins can now assign specific roles to users for more precise control over platform management.
     - Deleting files from SQL Workspace now does soft delete, allowing users to recover files if needed.
@@ -470,13 +470,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="3.1.2" date="Feb 07, 2025" title="Service Account Token Access Fix">
+<Release version="3.1.2" date="Feb 07, 2025">
   <BugFixes>
     - Fixed an issue where users could not view access tokens for Service Accounts within the same LDAP group.
   </BugFixes>
 </Release>
 
-<Release version="3.0.2" date="Feb 03, 2025" title="Data-Mesh, Arrow Flight, Git, Monitoring">
+<Release version="3.0.2" date="Feb 03, 2025">
   <NewFeatures>
     - **Domain-Centric Platform**: All resources, including Compute, Spark Jobs, Data Catalog, and SQL Workspace, are now organized by domains. Each domain can manage its own resources, members, and user roles independently.
     - **New Admin Portal**: A brand-new Admin Portal has been introduced to centralize management, including:
@@ -525,7 +525,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Improvements>
 </Release>
 
-<Release version="2.2.0" date="November 29, 2024" title="Enhanced Spark Management, Security, and Usability">
+<Release version="2.2.0" date="November 29, 2024">
   <NewFeatures>
     - **File and Artifact Upload in Spark Jobs**: You can now directly upload files and artifacts to Spark Jobs within the IOMETE Console.
     - **Single-Node Spark Instance**: Introduced a Single-Node Spark instance ideal for development and running small-scale jobs, offering a resource-efficient option.  
@@ -548,7 +548,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Improvements>
 </Release>
 
-<Release version="2.1.0" date="October 31, 2024" title="Enhanced Control & Performance Release">
+<Release version="2.1.0" date="October 31, 2024">
   <NewFeatures>
     - **Job Marketplace**: Introduced a new Job Marketplace in the IOMETE Console, empowering users to share and explore Spark job templates. Admins can manage, curate, and publish templates directly to the marketplace for streamlined collaboration.
     - **LOG_LEVEL Environment Variable**: Introduced the LOG_LEVEL environment variable, allowing users to independently set log levels for both Spark Jobs and Lakehouses.
@@ -578,7 +578,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="2.0.1" date="October 14, 2024" title="Post-Major Release Patch">
+<Release version="2.0.1" date="October 14, 2024">
   <Improvements>
     - **Database Driver Support**: Added out-of-the-box support for Oracle and Microsoft SQL Server JDBC drivers.
     - **User Impersonation**: Introduced the "Run as User" property in Spark job configuration, allowing user impersonation for special accounts (e.g., service accounts) when running Spark jobs.
@@ -592,7 +592,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="2.0.0" date="October 07, 2024" title="Major Upgrade with Integrated Security, Data Governance, and Enhanced Performance">
+<Release version="2.0.0" date="October 07, 2024">
     :::info
     This release introduces major architectural, functional, and user experience improvements to IOMETE, including significant changes to user and security management, data access and governance, and catalog performance.
     :::
@@ -638,7 +638,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </NewFeatures>
 </Release>
 
-<Release version="1.22.0" date="September 18, 2024" title="Changes in Deployment Process">
+<Release version="1.22.0" date="September 18, 2024">
   <BreakingChanges>
     - **Deployment Process Changes**: 
       - The `data-plane-base` Helm chart has been deprecated and is no longer required for installation.  
@@ -652,7 +652,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Improvements>
 </Release>
 
-<Release version="1.20.2" date="September 3, 2024" title="Pause for Scheduled Job">
+<Release version="1.20.2" date="September 3, 2024">
   <NewFeatures>
     - **Scheduled Job Suspension**: Added possibility to suspend Scheduled Spark applications.
   </NewFeatures>
@@ -662,7 +662,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="1.20.0" date="August 26, 2024" title="Multi-Namespace, Secret Management">
+<Release version="1.20.0" date="August 26, 2024">
   <NewFeatures>
     - **Centralized Secret Management**: Users can now create and manage secrets centrally from the settings page and inject them into Spark applications. Supports integration with Kubernetes and HashiCorp Vault for storing secrets. Learn more [here](../../user-guide/secrets).
     - **Multi-Namespace Support**: Spark resources can now be deployed across different namespaces, enhancing multi-tenant and organizational capabilities.
@@ -681,13 +681,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="1.19.2" date="August 5, 2024" title="Spark Submission Performance">
+<Release version="1.19.2" date="August 5, 2024">
   <Improvements>
     - **Spark Operator Performance**: Optimized performance of spark-operator for handling large numbers of Spark job submissions.
   </Improvements>
 </Release>
 
-<Release version="1.19.0" date="July 31, 2024" title="Spark Applications, Reuse PVC Options">
+<Release version="1.19.0" date="July 31, 2024">
   <NewFeatures>
     - **Spark Applications**: Introduced a new Spark Applications page featuring a zoomable timeline chart. This enhancement allows for easy tracking and visualization of applications across all Spark jobs.  
       <Img src="/img/getting-started/release-notes/spark-apps.png" alt="Spark Applications"/>
@@ -701,7 +701,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Improvements>
 </Release>
 
-<Release version="1.18.0" date="July 16, 2024" title="SQL Editor Improvements, Fixed Integrations">
+<Release version="1.18.0" date="July 16, 2024">
   <Improvements>
     - **SQL Editor Enhancements**: 
       - Added cell expand to the SQL Editor result grid. You can double click on the cell with multi-line value to expand it.
@@ -715,7 +715,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="1.17.0" date="July 8, 2024" title="Data Explorer, SQL Editor Improvements">
+<Release version="1.17.0" date="July 8, 2024">
   <NewFeatures>
     - **Data-Catalog Explorer**: Launched beta version of Data-Catalog Explorer (Available in the Data-Catalog menu: from right-top side choose Explorer)
   </NewFeatures>
@@ -738,7 +738,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="1.16.0" date="July 1, 2024" title="Nessie Catalog">
+<Release version="1.16.0" date="July 1, 2024">
   <NewFeatures>
     - **Nessie Catalog Support**: Added Nessie catalog support `Beta`
   </NewFeatures>
@@ -759,7 +759,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="1.15.0" date="June 24, 2024" title="Monitoring, Spark Operator, Job Management">
+<Release version="1.15.0" date="June 24, 2024">
   <Improvements>
     - **Spark Operator Enhancements**: 
       - Improved performance to handle ~1000 Spark Job submissions per minute
@@ -795,7 +795,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
-<Release version="1.14.0" date="June 13, 2024" title="Fixes for Audit and PowerBI">
+<Release version="1.14.0" date="June 13, 2024">
   <BugFixes>
     - **Ranger Audit**: Ranger Audit now working as expected. Page added to Data Security section in IOMETE Console.
     - Fixed issue with PowerBI integration.
