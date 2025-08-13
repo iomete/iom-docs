@@ -1,36 +1,69 @@
-import React from "react";
+import styles from "./styles.module.scss";
 
-const ReleaseTitle = ({ version, date, title }) => {
-  return (
-    <div style={{ marginTop: 48 }}>
-      <span style={{ color: "var(--ifm-color-gray-700)" }}>{date}</span>
-      <h2 style={{ marginTop: 0, fontWeight: "bold" }}>
-        {version}: {title}
+const SECTION_TYPES = {
+  'new-features': { emoji: '🚀', title: 'New Features' },
+  'improvements': { emoji: '⚡', title: 'Improvements' },
+  'bug-fixes': { emoji: '🐛', title: 'Bug Fixes' },
+  'breaking-changes': { emoji: '⚠️', title: 'Breaking Changes' },
+  'deprecations': { emoji: '📖', title: 'Deprecations' }
+};
+
+const Release = ({ version, date, title, children }) => (
+  <article className={styles.releaseContainer}>
+    <div className={styles.releaseHeader}>
+      <div className={styles.releaseDate}>{date}</div>
+      <h2 id={`v${version}`} className={styles.releaseTitle}>
+        v{version}: {title}
       </h2>
+    </div>
+    {children}
+  </article>
+);
+
+const ReleaseSection = ({ type, title, children }) => {
+  const sectionInfo = type ? SECTION_TYPES[type] : null;
+  const displayTitle = sectionInfo ? `${sectionInfo.emoji} ${sectionInfo.title}` : title;
+  
+  return (
+    <div className={styles.releaseSection}>
+      <h3 className={styles.sectionTitle}>{displayTitle}</h3>
+      <div className={styles.sectionContent}>{children}</div>
     </div>
   );
 };
 
-const ReleaseSection = ({ title, children }) => {
-  return (
-    <>
-      <p style={{ marginBottom: "2px", fontWeight: "bold" }}>{title}</p>
-      <div>{children}</div>
-    </>
-  );
-};
 
-const ReleaseDescription = ({ children }) => {
-  return <div className="release-description">{children}</div>;
-};
+// Helper components
+const NewFeatures = ({ children }) => (
+  <ReleaseSection type="new-features">{children}</ReleaseSection>
+);
 
-const Release = ({ version, date, title, children }) => {
-  return (
-    <article>
-      <ReleaseTitle version={version} date={date} title={title} />
-      {children}
-    </article>
-  );
-};
+const Improvements = ({ children }) => (
+  <ReleaseSection type="improvements">{children}</ReleaseSection>
+);
 
-export { Release, ReleaseSection, ReleaseDescription };
+const BugFixes = ({ children }) => (
+  <ReleaseSection type="bug-fixes">{children}</ReleaseSection>
+);
+
+const BreakingChanges = ({ children }) => (
+  <ReleaseSection type="breaking-changes">{children}</ReleaseSection>
+);
+
+const Deprecations = ({ children }) => (
+  <ReleaseSection type="deprecations">{children}</ReleaseSection>
+);
+
+const ReleaseDescription = ({ children }) => (
+  <div className="release-description">{children}</div>
+);
+
+export { 
+  Release,
+  ReleaseDescription,
+  NewFeatures,
+  Improvements,
+  BugFixes,
+  BreakingChanges,
+  Deprecations
+};
