@@ -33,4 +33,4 @@ const Release = ({ version, date, title, children }) => {
   );
 };
 
-export { Release, ReleaseTitle, ReleaseSection, ReleaseDescription };
+export { Release, ReleaseSection, ReleaseDescription };
