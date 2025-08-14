@@ -204,7 +204,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <BugFixes>
     - Patched the logic behind the "Cancel" action in the SQL Editor to prevent it from hanging.
     - The `iom-core` pod now dynamically reloads any `docker.tagAliases` defined in `values.yaml`, removing the need to restart the pod.
-    - Fixed issues that could prevent scheduled Spark applications from sending failure notifications.
+    - Fixed issues that could prevent scheduled Spark applications from sending failure.
   </BugFixes>  
 </Release>
 
