@@ -14,6 +14,28 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.11.1" date="August 24, 2025">
+  <NewFeatures>
+    - **Hybrid Log Retrieval with Kubernetes Hot Storage**:
+      - We have added **hot storage** support, allowing recent logs to be served directly from Kubernetes whenever pod logs are available, and the system automatically falls back to external storage like Splunk, Loki, or EFK if pod logs are not found.
+      - **Helm configuration** (`values.yaml`):
+        ```yaml
+        logging:
+          source: "splunk"          # splunk | loki | elasticsearch
+          hotStorage:
+            enabled: true
+            source: "kubernetes"    # currently only kubernetes is supported
+        ```
+      - **Notes**:
+        - Ensure Kubernetes log retention is configured to cover the time ranges you care about; once pods are gone, logs will only be available in external storage.
+        - If `hotStorage.enabled: false`, all requests use the external integration.
+  </NewFeatures>
+  <BugFixes>
+    - Fixed missing YAML document separator (`---`) that caused both `spark-log-masking-regexes` and `priority-class-mappings` ConfigMaps to be invalid and not created during Helm upgrades.
+    - Fixed an issue where the `useSparkConnectForDbExplorer` feature flag was not respected in the frontend, causing DB Explorer to use v2 APIs (using compute cluster for metadata retrieval) instead of the intended Spark Connect service.
+  </BugFixes>
+</Release>
+
 <Release version="3.11.0" date="August 11, 2025">
   <NewFeatures>
     - **IOMETE Spark**: Spark version spark-3.5.5 is a default version set.
