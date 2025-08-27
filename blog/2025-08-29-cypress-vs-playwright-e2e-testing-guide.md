@@ -42,15 +42,18 @@ test("User can login successfully", async ({ page }) => {
 
 In 2021, we chose **Cypress** because it was the most popular E2E testing tool with great community support. However, as our needs evolved, we migrated to **Playwright** for better browser support and stability:
 
-**Cypress:**
+**[Cypress](https://www.cypress.io/):**
 
-- ✅ Easy setup, great debugging
-- ❌ Limited browser support, parallelization challenges
+- ✅ Easy setup, great debugging with time-travel feature
+- ❌ Limited browser support (Chrome-family only, no Safari/WebKit)
+- ❌ Parallelization requires paid Cypress Cloud or complex setup
+- ❌ Tests run inside the browser (can't test multiple tabs/windows)
+- ❌ No native mobile testing support
 
-**Playwright:**
+**[Playwright](https://playwright.dev/):**
 
 - ✅ Full browser support (Chrome, Firefox, Safari)
-- ✅ Parallel execution, better CI stability
+- ✅ Parallel execution, faster CI/CD pipelines
 - ✅ Open-source with video recording and trace viewer
 - ✅ Smart locator strategies (role, label, text)
 - ⚠️ Developer-only tool
@@ -60,7 +63,7 @@ In 2021, we chose **Cypress** because it was the most popular E2E testing tool w
 - ✅ AI-powered self-healing selectors
 - ✅ Non-technical team members can contribute
 - ❌ $200-500/month pricing
-- ❌ Limited flexibility for complex scenarios
+- ❌ Limited flexibility for complex scenarios (API mocking, conditional logic, database setup)
 
 ### Smart Locator Strategies
 
@@ -86,7 +89,7 @@ This approach makes tests more resilient to code changes.
 - You want tests to run on your own computers/servers
 - You need full control over test execution
 
-We chose Playwright because our engineering team could maintain it, and we needed complex test flows that no-code tools couldn't handle.
+We chose Playwright because our engineering team could maintain it, and we needed complex test flows that no-code tools are hard to manage.
 
 **Choose No-Code Tools if:**
 
