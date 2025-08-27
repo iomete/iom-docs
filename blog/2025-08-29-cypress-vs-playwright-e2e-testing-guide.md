@@ -195,4 +195,4 @@ This filters out temporary issues from real bugs.
 - **API Testing:** ~20% – verifies business logic & data integrity
 - **E2E UI Testing:** ~10% – focused on critical user flows
 
-<Img src="/img/blog/2025-08-29-e2e-testing-cypress-playwright/testing-pyramid-recommended.png" alt="Testing pyramid" maxWidth="700px" centered />
+<Img src="/img/blog/2025-08-29-cypress-vs-playwright-e2e-testing-guide/testing-pyramid-recommended.png" alt="Testing pyramid" maxWidth="700px" centered />

@@ -1,12 +1,12 @@
 ## Img component
 
-| Property      | Requirement | Type       |   Default   | Description             |
-| ------------- | ----------- | ---------- | :---------: | ----------------------- |
-| src           | mandatory   | string     |      -      | Image source            |
-| alt           | optional    | string     |      -      | Alternative text (SEO). |
-| centered      | optional    | true/false |    false    | Center the image.       |
-| maxWidth (px) | optional    | string     | max-content | Set max width.          |
-| borderless    | optional    | true/false |    false    | Remove image border.    |
+| Property      | Requirement | Type       |   Default   | Description                                                             |
+| ------------- | ----------- | ---------- | :---------: | ----------------------------------------------------------------------- |
+| src           | mandatory   | string     |      -      | Image source                                                            |
+| alt           | optional    | string     |      -      | Alternative text for accessibility (screen readers); also used for SEO. |
+| centered      | optional    | true/false |    false    | Center the image.                                                       |
+| maxWidth (px) | optional    | string     | max-content | Set max width.                                                          |
+| borderless    | optional    | true/false |    false    | Remove image border.                                                    |
 
 ```jsx
 import Img from "@site/src/components/Img";
