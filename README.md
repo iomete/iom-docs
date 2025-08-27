@@ -39,30 +39,6 @@ hideFeedback:true
 
 ---
 
-### Img component
-
-| Property      | Requirements | Type       |   Default   | Description                  |
-| ------------- | ------------ | ---------- | :---------: | ---------------------------- |
-| src           | mandatory    | string     |      -      | Image source                 |
-| alt           | optional     | string     |      -      | Image alternative (for SEO). |
-| centered      | optional     | true/false |    false    | Make centered image.         |
-| maxWidth (px) | optional     | string     | max-content | Set max width.               |
-| borderless    | optional     | true/false |    false    | Make img borderless          |
-
-```jsx
-import Img from "@site/src/components/Img";
-
-<Img
-  src="source.png"
-  alt="Alternative text"
-  maxWidth="256px"
-  centered
-  borderless
-/>;
-```
-
----
-
 ### Mini Card component
 
 ```jsx
