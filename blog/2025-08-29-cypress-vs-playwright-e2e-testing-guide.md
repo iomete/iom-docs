@@ -38,9 +38,9 @@ test("User can login successfully", async ({ page }) => {
 
 ---
 
-## Our Journey: Cypress → Playwright
+## Our Journey: Cypress → Playwright at IOMETE
 
-In 2021, we chose **Cypress** because it was the most popular E2E testing tool with great community support. However, as our needs evolved, we migrated to **Playwright** for better browser support and stability:
+In 2021, we at IOMETE (a modern data lakehouse platform) chose **Cypress** because it was the most popular E2E testing tool with great community support. However, as our platform's complexity grew, we migrated to **Playwright** for better browser support and stability:
 
 **[Cypress](https://www.cypress.io/):**
 
@@ -89,7 +89,7 @@ This approach makes tests more resilient to code changes.
 - You want tests to run on your own computers/servers
 - You need full control over test execution
 
-We chose Playwright because our engineering team could maintain it, and we needed complex test flows that no-code tools are hard to manage.
+At IOMETE, we chose Playwright because our engineering team could maintain it, and we needed complex test flows for our data platform that no-code tools are hard to manage.
 
 **Choose No-Code Tools if:**
 
@@ -98,22 +98,18 @@ We chose Playwright because our engineering team could maintain it, and we neede
 - You want minimal maintenance with AI-powered self-healing tests
 - Quick test creation matters more than customization
 
-Popular examples include **Testim** and **BugBug.io** - tools where you record your actions and they create tests automatically.
+Popular examples include [Reflect.run](https://reflect.run) and [BugBug.io](https://bugbug.io) - tools where you record your actions and they create tests automatically.
 
-**Our Hybrid Approach:**
+**IOMETE's Current Approach:**
 
-We use both approaches strategically:
-
-- **80% Playwright tests** for complex technical scenarios that need precise control
-- **20% no-code tests** for critical business flows that product managers want to monitor
-
-This combination gives us developer flexibility while allowing non-technical team members to contribute.
+We've fully migrated to Playwright for all our E2E tests. While we continuously evaluate no-code tools for potential future use, Playwright currently meets all our data platform testing needs with its flexibility and powerful features.
 
 ---
 
 ## Best Practices for Reducing Flakiness
 
-**What is flakiness?** It's when a test passes sometimes and fails other times without any code changes - like a light switch that works randomly. This is frustrating and reduces trust in your tests.
+**What is flakiness?**<br/>
+It's when a test passes sometimes and fails other times without any code changes - like a light switch that works randomly. This is frustrating and reduces trust in your tests.
 
 **1. Smart Waiting:**
 
@@ -129,7 +125,7 @@ await page.getByRole("progressbar").waitFor({ state: "hidden" });
 
 **2. Stable Locators:**
 
-**What are stable locators?** These are ways to find page elements that won't break when the design changes. Think of it like addressing a letter - using a person's name is more reliable than describing what they're wearing.
+**What are stable locators?**<br/> These are ways to find page elements that won't break when the design changes. Think of it like addressing a letter - using a person's name is more reliable than describing what they're wearing.
 
 ```javascript
 // ❌ Bad - CSS classes change frequently
@@ -186,12 +182,12 @@ This filters out temporary issues from real bugs.
 
 ---
 
-## Key Takeaways
+## Key Takeaways from IOMETE's Testing Journey
 
 - **Invest heavily** in Unit (70%) and API tests (20%) for stability
 - **Keep E2E minimal** (10%) — focus only on critical user flows
 - **Choose tools** that match your team's skills and maintenance capacity
-- **Playwright works** for us, but we continuously evaluate no-code alternatives
+- **Playwright works** for IOMETE's complex data platform, but we continuously evaluate no-code alternatives
 
 ### Recommended Test Distribution
 
