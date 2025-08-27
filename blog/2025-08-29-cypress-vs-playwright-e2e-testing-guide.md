@@ -8,7 +8,16 @@ authors: vugar
 
 import Img from '@site/src/components/Img';
 
-## What is E2E Testing?
+## Understanding Different Types of Testing
+
+Before diving into E2E testing, let's understand the testing landscape:
+
+- **Unit Tests**: Test individual functions or components in isolation (fastest, most focused)
+- **API Tests**: Verify backend endpoints work correctly without the UI - testing the "brain" of your application
+- **Integration Tests**: Check that different modules or services work together properly
+- **E2E Tests**: Simulate complete user journeys through the entire application stack
+
+### What is E2E Testing?
 
 End-to-End (E2E) testing simulates **real user interactions** to verify that the entire system — frontend, backend, and integrations — works together as expected. For example, an E2E test might log in a user, submit a form, and confirm the result appears correctly.
 
@@ -178,7 +187,6 @@ This filters out temporary issues from real bugs.
 | Flakiness      | < 1%         | < 2%         | < 3%        | < 5%                |
 | Run Frequency  | Every commit | Every commit | Every PR    | Nightly             |
 
-**API Tests** verify that your backend services work correctly - testing the "brain" of your application without the UI.
 
 ---
 
