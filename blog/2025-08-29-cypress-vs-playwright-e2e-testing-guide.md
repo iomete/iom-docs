@@ -100,6 +100,7 @@ Popular examples include **Testim** and **BugBug.io** - tools where you record y
 **Our Hybrid Approach:**
 
 We use both approaches strategically:
+
 - **80% Playwright tests** for complex technical scenarios that need precise control
 - **20% no-code tests** for critical business flows that product managers want to monitor
 
@@ -147,6 +148,7 @@ await page.getByTestId("complex-widget").click();
 **3. Test Isolation:**
 
 Each test should be completely independent - like separate experiments in a lab. This means:
+
 - Tests don't depend on each other
 - Each test creates its own test data
 - If one test fails, others still run
@@ -159,8 +161,8 @@ Sometimes tests fail due to temporary issues (network glitches, slow servers). R
 
 ```javascript
 export default {
-  retries: 2,  // Try up to 3 times total
-  use: { trace: "on-first-retry" },  // Record what happened on retry
+  retries: 2, // Try up to 3 times total
+  use: { trace: "on-first-retry" }, // Record what happened on retry
 };
 ```
 
@@ -194,4 +196,4 @@ This filters out temporary issues from real bugs.
 - **API Testing:** ~20% – verifies business logic & data integrity
 - **E2E UI Testing:** ~10% – focused on critical user flows
 
-<Img src="/img/blog/2025-08-15-e2e-testing-cypress-playwright/testing-pyramid-recommended.png" alt="Testing pyramid" maxWidth="700px" centered />
+<Img src="/img/blog/2025-08-29-e2e-testing-cypress-playwright/testing-pyramid-recommended.png" alt="Testing pyramid" maxWidth="700px" centered />
