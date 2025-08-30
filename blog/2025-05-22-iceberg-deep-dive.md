@@ -36,7 +36,7 @@ Now, let's explore how Iceberg's metadata evolves as we perform operations on a 
 
 ### **Creating a Table**
 
-```
+```sql
 CREATE DATABASE IF NOT EXISTS demo_db;
 CREATE TABLE demo_db.cow_table (
     id        BIGINT,
@@ -55,12 +55,11 @@ After running this command, let's examine what files were created in the file sy
 
 <Img src="/img/blog/2025-05-22-iceberg-deep-dive/create-minio.png" alt="create MinIO" centered borderless/>
 
-
 The `metadata.json` file is the initial table metadata file. No snapshots, manifests, or data files exist yet because we haven't inserted any data.
 
 ### **Inserting Data**
 
-```
+```sql
 INSERT INTO demo_db.cow_table (id, name, age, zipcode, timestamp)
 VALUES (1, 'Alice', 30, '111111', CAST('2023-10-10 10:00:00' AS TIMESTAMP)),
        (2, 'Bob', 25, '111111', CAST('2023-10-11 11:00:00' AS TIMESTAMP)),
@@ -80,7 +79,7 @@ Let's look at the current state of the table:
 
 <Img src="/img/blog/2025-05-22-iceberg-deep-dive/insert-snapshot.png" alt="insert snapshot" centered borderless/>
 
-```
+```Shell
 {
   "added-data-files": "3",
   "added-files-size": "4473",
@@ -110,7 +109,6 @@ Let's look at the data folder now:
 
 <Img src="/img/blog/2025-05-22-iceberg-deep-dive/insert-data-minio.png" alt="insert data MinIO" centered borderless/>
 
-
 As we can see, there are 3 new data files created after the insert operation, consistent with the snapshot summary.
 
 The current state of the table can be represented as below:
@@ -126,7 +124,7 @@ The current state of the table can be represented as below:
 
 ### **Updating Data**
 
-```
+```sql
 UPDATE demo_db.cow_table
 SET age = age + 1
 WHERE id IN (1, 2);
@@ -134,11 +132,13 @@ WHERE id IN (1, 2);
 
 After running the command, let's look at the current state of the table:
 
-`SELECT * FROM demo_db.cow_table.snapshots;`
+```sql
+SELECT * FROM demo_db.cow_table.snapshots;
+```
 
 <Img src="/img/blog/2025-05-22-iceberg-deep-dive/update-snapshot.png" alt="update-snapshot" centered borderless/>
 
-```
+```Shell
 {
   "added-data-files": "1",
   "added-files-size": "1522",
@@ -189,15 +189,19 @@ The current state of the table can be represented as below:
 
 ### **Deleting Data**
 
-`DELETE FROM demo_db.cow_table WHERE id IN (1, 2);`
+```sql
+DELETE FROM demo_db.cow_table WHERE id IN (1, 2);
+```
 
 After running the command, let's look at the current state of the table:
 
-`SELECT * FROM demo_db.cow_table.snapshots;`
+```sql
+SELECT * FROM demo_db.cow_table.snapshots;
+```
 
 <Img src="/img/blog/2025-05-22-iceberg-deep-dive/delete-snapshot.png" alt="delete snapshot" centered borderless/>
 
-```
+```Shell
 {
   "added-data-files": "1",
   "added-files-size": "1449",

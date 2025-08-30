@@ -8,13 +8,11 @@ date: 08/29/2025
 authors: abhishek
 ---
 
-import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
-
 
 # Lakehouse Architecture in 2025: Why Control and Cost Matter More Than Ever
 
-You’ve heard the sales pitch: *“Managed, serverless, infinite scale. Pay only for what you use.”*  
+You’ve heard the sales pitch: _“Managed, serverless, infinite scale. Pay only for what you use.”_  
 It’s tempting — spin up a SaaS lakehouse, connect your dashboards, and let the magic happen.
 
 But when you talk to teams who’ve been operating one at scale for a year or two, the tone changes.
@@ -82,7 +80,7 @@ This matters because cost control is already a universal pain point. **Flexera�
 
 ## One engine vs. many: the hidden complexity tax
 
-It’s easy to think that once the *format war* is over, you can mix and match engines freely for BI, ETL, and ML.  
+It’s easy to think that once the _format war_ is over, you can mix and match engines freely for BI, ETL, and ML.  
 In practice, more engines often mean more complexity — not more flexibility.
 
 - **Security overhead**: every engine needs its own governance and access rules.
@@ -106,14 +104,14 @@ When you put these principles into a real-world comparison, the picture is clear
 
 ### Feature Comparison Table
 
-| **Feature**                | **Databricks (SaaS)** | **Snowflake (SaaS)** | **Dremio Cloud / Software** | **Cloudera CDP (Hybrid)** | **IOMETE (Self-Hosted)** |
-|---------------------------|------------------------|------------------------|------------------------------|----------------------------|---------------------------|
-| **Control Plane Location** | Vendor-hosted          | Vendor-hosted          | Vendor or self-hosted        | Customer or vendor-hosted  | **Fully self-hosted**     |
-| **Cost Leverage**          | Spot for workers only  | None                   | Yes (self-hosted)            | Yes                        | **Full - spot, reserved, hybrid** |
-| **Governance Control**     | Vendor-managed         | Vendor-managed         | Moderate (self-hosted)       | Enterprise-grade           | **Full in-infra integration** |
-| **Data Sovereignty**       | Vendor environment     | Vendor environment     | Better in self-hosted        | Full control               | **Full control**          |
-| **Engine**                 | Spark + Photon         | Single proprietary engine | Arrow-based engine         | Multi-engine (Hive/Impala/Spark) | **Single-engine Apache Spark (all workloads)** |
-| **Table Format**           | Delta + Iceberg (GA)   | Native Table Format + Iceberg (GA) | Iceberg           | Iceberg                    | Iceberg                   |
+| **Feature**                | **Databricks (SaaS)** | **Snowflake (SaaS)**               | **Dremio Cloud / Software** | **Cloudera CDP (Hybrid)**        | **IOMETE (Self-Hosted)**                       |
+| -------------------------- | --------------------- | ---------------------------------- | --------------------------- | -------------------------------- | ---------------------------------------------- |
+| **Control Plane Location** | Vendor-hosted         | Vendor-hosted                      | Vendor or self-hosted       | Customer or vendor-hosted        | **Fully self-hosted**                          |
+| **Cost Leverage**          | Spot for workers only | None                               | Yes (self-hosted)           | Yes                              | **Full - spot, reserved, hybrid**              |
+| **Governance Control**     | Vendor-managed        | Vendor-managed                     | Moderate (self-hosted)      | Enterprise-grade                 | **Full in-infra integration**                  |
+| **Data Sovereignty**       | Vendor environment    | Vendor environment                 | Better in self-hosted       | Full control                     | **Full control**                               |
+| **Engine**                 | Spark + Photon        | Single proprietary engine          | Arrow-based engine          | Multi-engine (Hive/Impala/Spark) | **Single-engine Apache Spark (all workloads)** |
+| **Table Format**           | Delta + Iceberg (GA)  | Native Table Format + Iceberg (GA) | Iceberg                     | Iceberg                          | Iceberg                                        |
 
 ---
 
@@ -129,4 +127,3 @@ In regulated sectors like finance, healthcare, government, and telecom, control 
 It’s not about replacing Databricks, Snowflake, Cloudera, or Dremio everywhere — it’s about putting yourself in a position where **you choose what runs where**.
 
 That’s what true architectural control means.
-
