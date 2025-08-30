@@ -1,6 +1,6 @@
 piet:
   name: Piet Jan de Bruin
-  title: Cofounder IOMETE
+  title: Co-founder IOMETE
   # url: https://www.linkedin.com/in/pietjandebruin
   image_url: /avatars/piet.png
 
@@ -48,3 +48,8 @@ ruslan:
   title: DevOps Engineer @ IOMETE
   url: https://www.linkedin.com/in/rbutdayev/
   image_url: /avatars/ruslan.jpeg
+alokh:
+  name: Alokh Pullanikkatt
+  title: Software Engineer @ IOMETE
+  url: https://www.linkedin.com/in/alokh-pullanikkatt/
+  image_url: /avatars/alokh.png
