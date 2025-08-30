@@ -1,6 +1,6 @@
 ---
 title: Understanding Cloud Repatriation The Shift Back to On-Premises Infrastructure
-description: Product design is one I put on from time to time. Usually this means firing up Figma or Balsamiq (wireframing tool)  and spending a week pushing around UI elements
+description: Cloud repatriation is the process of relocating public cloud-based resources to alternative environments, such as on-premises servers, private data centers, or hybrid setups
 authors: piet
 tags2: [Educational, Technical]
 slug: cloud-repatriation
