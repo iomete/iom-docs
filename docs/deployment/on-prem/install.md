@@ -83,7 +83,7 @@ Admin permission required to install the command below as it installs cluster-le
 ```shell
 wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/iomete-crds.yaml
 
-kubectl apply -f iomete-crds.yaml
+kubectl apply --server-side -f iomete-crds.yaml
 ```
 
 ### Create Service Account and Role
