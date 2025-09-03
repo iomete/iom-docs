@@ -17,18 +17,23 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="3.11.1" date="August 24, 2025">
   <NewFeatures>
     - **Hybrid Log Retrieval with Kubernetes Hot Storage**:
-      - We have added **hot storage** support, allowing recent logs to be served directly from Kubernetes whenever pod logs are available, and the system automatically falls back to external storage like Splunk, Loki, or EFK if pod logs are not found.
-      - **Helm configuration** (`values.yaml`):
+      - We have added **hot storage** support, allowing recent logs to be served directly from Kubernetes whenever pod logs are available, and the system automatically falls back to external storage like Splunk, Loki, or Elasticsearch if pod logs are not found.
+      - This configuration is only valid when using external log sources (Splunk, Loki, or Elasticsearch). Kubernetes cannot be used as a log source together with hot storage.
+      - **Helm configuration example for Splunk** (`values.yaml`):
         ```yaml
         logging:
           source: "splunk"          # splunk | loki | elasticsearch
+          splunkSettings:
+            endpoint: "https://splunk.example.com"
+            token: "bearer-token"   # bearer token created in Splunk Settings -> Tokens
+            indexName: "main"
           hotStorage:
             enabled: true
             source: "kubernetes"    # currently only kubernetes is supported
         ```
       - **Notes**:
         - Ensure Kubernetes log retention is configured to cover the time ranges you care about; once pods are gone, logs will only be available in external storage.
-        - If `hotStorage.enabled: false`, all requests use the external integration.
+        - If `hotStorage.enabled: false`, all requests use the external integration if configured.
   </NewFeatures>
   <BugFixes>
     - Fixed missing YAML document separator (`---`) that caused both `spark-log-masking-regexes` and `priority-class-mappings` ConfigMaps to be invalid and not created during Helm upgrades.
