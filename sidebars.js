@@ -80,6 +80,7 @@ const sidebars = {
         "user-guide/volumes",
         "user-guide/secrets",
         "user-guide/api-reference",
+        "user-guide/register-table",
       ],
     },
     {
