@@ -24,14 +24,14 @@ Their legacy Oracle data warehouse ran on a powerful server with 64 CPUs and 500
 
 To establish a performance baseline, we executed approximately 50 reports of varying complexity on both systems. These reports represented their production workload and ranged from simple aggregations to complex multi-table joins. When run sequentially, the total execution time for all reports was:
 
-|  | **Total Execution Time** |
-| --- | --- |
+|            | **Total Execution Time**            |
+| ---------- | ----------------------------------- |
 | **Oracle** | 24315 seconds (~6 hours 45 minutes) |
-| **IOMETE** | 1246 seconds (~20 minutes) |
+| **IOMETE** | 1246 seconds (~20 minutes)          |
 
 Despite Spark's impressive overall performance—completing all reports nearly **20x faster** than Oracle—the customer wasn't entirely satisfied with the results. The reason? Oracle actually outperformed Spark on 17 individual reports.
 
-This might seem contradictory at first glance: how could Spark be 20 times faster overall while losing on a third of the queries? The answer lies in the performance characteristics of each system. Spark excelled at complex, resource-intensive queries that previously took tens of minutes on Oracle, reducing them to mere seconds or minutes. However, Oracle maintained its advantage on lightweight, simple queries thanks to the B+Tree indexes on the tables. 
+This might seem contradictory at first glance: how could Spark be 20 times faster overall while losing on a third of the queries? The answer lies in the performance characteristics of each system. Spark excelled at complex, resource-intensive queries that previously took tens of minutes on Oracle, reducing them to mere seconds or minutes. However, Oracle maintained its advantage on lightweight, simple queries thanks to the B+Tree indexes on the tables.
 
 In the next steps will reproduce similar case with synthetic data, and apply different techniques to improve the query performance of Spark.
 
@@ -40,34 +40,30 @@ In the next steps will reproduce similar case with synthetic data, and apply dif
 Our performance analysis centered on two critical tables that appeared in nearly every query: `inventory` and `catalog_items`. Each table contained approximately 30 million rows and occupied roughly 400MB when stored as Parquet files on disk. To conduct meaningful performance comparisons, we replicated these table characteristics in our test environment, creating equivalent `inventory` and `catalog_items` iceberg tables that would serve as the foundation for our tests.
 
 - catalog_items
-    
-    ```sql
-    CREATE OR REPLACE TABLE catalog_items AS
-    SELECT /*+ REPARTITION(5) */
-      id                                                              AS item_id,
-      CONCAT('Item_', item_id)                                        AS item_name,
-      CONCAT('Category_', item_id % 10)                               AS category,
-      ROUND(RAND() * 100, 2)                                          AS price,
-      item_id % 2 = 0                                                 AS in_stock,
-      CONCAT('Desc_', SUBSTRING(SHA1(CAST(item_id AS STRING)), 1, 8)) AS description,
-      CONCAT('Brand_', item_id % 50)                                  AS brand,
-      UPPER(SUBSTRING(SHA1(CAST(item_id * 17 AS STRING)), 1, 5))      AS sku_code
-    FROM range(30000000);
-    ```
-    
+  ```sql
+  CREATE OR REPLACE TABLE catalog_items AS
+  SELECT /*+ REPARTITION(5) */
+    id                                                              AS item_id,
+    CONCAT('Item_', item_id)                                        AS item_name,
+    CONCAT('Category_', item_id % 10)                               AS category,
+    ROUND(RAND() * 100, 2)                                          AS price,
+    item_id % 2 = 0                                                 AS in_stock,
+    CONCAT('Desc_', SUBSTRING(SHA1(CAST(item_id AS STRING)), 1, 8)) AS description,
+    CONCAT('Brand_', item_id % 50)                                  AS brand,
+    UPPER(SUBSTRING(SHA1(CAST(item_id * 17 AS STRING)), 1, 5))      AS sku_code
+  FROM range(30000000);
+  ```
 - inventory
-    
-    ```sql
-    CREATE OR REPLACE TABLE inventory AS
-    SELECT /*+ REPARTITION(3) */
-      id AS item_id,
-      CAST(RAND() * 1000 AS INT) AS quantity_available,
-      date_add(current_date(), CAST(rand() * -365 AS INT)) AS last_updated,
-      CONCAT('Warehouse_', item_id % 5) AS location,
-      CONCAT('Note_', SUBSTRING(SHA1(CAST(item_id + 99 AS STRING)), 1, 6)) AS notes
-    FROM range(30000000); 
-    ```
-    
+  ```sql
+  CREATE OR REPLACE TABLE inventory AS
+  SELECT /*+ REPARTITION(3) */
+    id AS item_id,
+    CAST(RAND() * 1000 AS INT) AS quantity_available,
+    date_add(current_date(), CAST(rand() * -365 AS INT)) AS last_updated,
+    CONCAT('Warehouse_', item_id % 5) AS location,
+    CONCAT('Note_', SUBSTRING(SHA1(CAST(item_id + 99 AS STRING)), 1, 6)) AS notes
+  FROM range(30000000);
+  ```
 
 To ensure our testing environment accurately mirrors production conditions, we repartitioned the data to generate Parquet files with sizes comparable to those in the live system.
 
@@ -88,7 +84,6 @@ Traditional relational databases like Oracle excel at this type of selective que
 
 <Img src="/img/blog/2025-09-04-oracle-migration-to-spark/oracle-query-execution-plan1.png" alt="Oracle query executiom plan" centered borderless/>
 
-
 ## Step 1: Baseline - 7.3s
 
 The query took **7.3s** to finish in Spark. When we check Spark UI it is obvious that reading **catalog_items** table (Stage Id 1852) is the most dominant stage, which took **6s** alone. It is as expected, but the unexpected part is its parallelism. It has been processed by only 5 tasks even though executors have 48 cores in total.
@@ -105,7 +100,7 @@ We will focus on the slowest stage - 1852 in this step, and try to make it faste
 INSERT OVERWRITE catalog_items
 SELECT /*+ REPARTITION(48) */
   *
-FROM catalog_items; 
+FROM catalog_items;
 
 -- Using the new catalog_items_smaller_files table
 -- Duration: 3.5s
@@ -142,7 +137,7 @@ FROM catalog_items AS ci
 JOIN inventory AS inv USING(item_id);
 
 -- Duration: 1.2s
-SELECT 
+SELECT
   *
 FROM inventory_catalog AS inv
 WHERE location = 'Warehouse_3'
@@ -164,7 +159,7 @@ According to the [documentation](https://parquet.apache.org/docs/file-format/met
 
 The reason is that the data was written to the table in a random distribution. For example, rows with location = Warehouse_3 can be scattered across any file. Even if a file contains no rows for Warehouse_3, it might still contain rows for Warehouse_2 and Warehouse_5. In such cases, the stored statistics might show:
 
-```
+```bash
 min = Warehouse_2
 max = Warehouse_5
 ```
@@ -187,10 +182,10 @@ ALTER TABLE inventory_catalog WRITE ORDERED BY (location, last_updated);
 INSERT OVERWRITE inventory_catalog
 SELECT
   *
-FROM inventory_catalog;  
+FROM inventory_catalog;
 
 -- Duration: 0.5s
-SELECT 
+SELECT
   *
 FROM inventory_catalog AS inv
 WHERE location = 'Warehouse_3'
@@ -201,7 +196,6 @@ WHERE location = 'Warehouse_3'
 The report query finished even faster - in 0.5 seconds! Lets review the query execution metrics.
 
 <Img src="/img/blog/2025-09-04-oracle-migration-to-spark/spark-query-result7.png" alt="spark query result" centered borderless/>
-
 
 The query skipped 23 out of 25, and read only 2 parquet files!
 
