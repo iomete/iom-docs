@@ -14,6 +14,15 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.12" date="September 22, 2025">
+  <NewFeatures>
+    
+  </NewFeatures>
+  <BugFixes>
+    
+  </BugFixes>
+</Release>
+
 <Release version="3.11.1" date="August 24, 2025">
   <NewFeatures>
     - **Hybrid Log Retrieval with Kubernetes Hot Storage**:
