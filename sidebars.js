@@ -107,6 +107,8 @@ const sidebars = {
             "user-guide/iam/sso/scim-okta",
           ],
         },
+
+        "user-guide/iam/ras/ras",
       ],
     },
     {
