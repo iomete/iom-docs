@@ -81,6 +81,7 @@ const sidebars = {
         "user-guide/secrets",
         "user-guide/api-reference",
         "user-guide/register-table",
+        "user-guide/storage-configs",
       ],
     },
     {
