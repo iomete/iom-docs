@@ -21,12 +21,12 @@ Create, Edit, and Enable/Disable operations are only accessible to **domain owne
 <Img src="/img/user-guide/storage-configs/storage-config-list.png" alt="Storage Configs List" />
 
 The storage configs list shows:
-- **Name**: The identifier for your storage configuration
-- **Status**: Current connection status (Enabled/Disabled)
-- **Storage provider**: The type of storage backend (e.g., `S3`)
-- **Endpoint URL**: The storage service endpoint
-- **Bucket**: The target storage bucket
-- **Base path**: The path prefix within the bucket
+- **Name**: The identifier for your storage configuration.
+- **Status**: Current connection status (Enabled/Disabled).
+- **Storage provider**: The type of storage backend (e.g., `S3`).
+- **Endpoint URL**: The storage service endpoint.
+- **Bucket**: The target storage bucket.
+- **Base path**: The path prefix within the bucket.
 
 ## Creating Storage Configs
 
@@ -42,19 +42,19 @@ When creating a storage config, you'll need to provide the following information
 - **Name**: A unique identifier for your storage configuration. Use descriptive names that reflect the purpose or environment (e.g., `analytics`, `data-events`, `production-storage`).
 
 **Storage Provider Details:**
-- **Storage provider**: Currently supports S3-compatible storage providers
-- **Region**: The geographic region where your storage bucket is located (e.g., `us-east-1`)
-- **Endpoint URL**: The storage service endpoint URL. For AWS S3, use `https://s3.amazonaws.com` or region-specific endpoints
-- **Bucket**: The name of the storage bucket where data will be stored
-- **Base path**: The path prefix within the bucket to organize data (e.g., `/data/warehouse`, `/analytics/team_data`)
+- **Storage provider**: Currently supports S3-compatible storage providers.
+- **Region**: The geographic region where your storage bucket is located (e.g., `us-east-1`).
+- **Endpoint URL**: The storage service endpoint URL. For AWS S3, use `https://s3.amazonaws.com` or region-specific endpoints.
+- **Bucket**: The name of the storage bucket where data will be stored.
+- **Base path**: The path prefix within the bucket to organize data (e.g., `/data/warehouse`, `/analytics/team_data`).
 
 **Authentication:**
-- **Access key**: The access key ID for authentication with the storage provider
-- **Secret key**: The secret access key corresponding to the access key ID
+- **Access key**: The access key ID for authentication with the storage provider.
+- **Secret key**: The secret access key corresponding to the access key ID.
 
 **Advanced Configuration:**
-- **Resource Bundle**: Select the predefined resource bundles to manage the storage config accesses
-- **Resource tags**: Custom key-value pairs for resource organization and management. Click **Add tag** to include metadata tags for categorization
+- **Resource Bundle**: Select the predefined [resource bundles](./storage-configs.md) to manage the storage config accesses.
+- **Resource tags**: Custom key-value pairs for resource organization and management. Click **Add tag** to include metadata tags for categorization.
 
 :::warning Storage Config Restrictions
 The combination of **Bucket + Base Path** must be unique across all storage configurations, regardless of the Endpoint URL. This ensures data isolation and prevents conflicts between different storage configs.
@@ -71,10 +71,10 @@ When your configuration is correct, you'll see a success message confirming the 
 <Img src="/img/user-guide/storage-configs/storage-config-test-connection-success.png" alt="Storage Config Test Success" />
 
 The test validates:
-- Network connectivity to the endpoint
-- Authentication with provided credentials
-- Access permissions to the specified bucket
-- Ability to read and write data in the base path
+- Network connectivity to the endpoint.
+- Authentication with provided credentials.
+- Access permissions to the specified bucket.
+- Ability to read and write data in the base path.
 
 ### Failed Connection
 
@@ -83,20 +83,20 @@ If there are issues with your configuration, the test will show specific error d
 <Img src="/img/user-guide/storage-configs/storage-config-test-connection-fail.png" alt="Storage Config Test Failure" />
 
 Common connection failures include:
-- **Invalid credentials**: Check your access key and secret key
-- **Network issues**: Verify the endpoint URL and network connectivity
-- **Permission errors**: Ensure the credentials have appropriate bucket permissions
-- **Bucket access**: Confirm the bucket exists and is accessible
-- **Region mismatch**: Verify the region setting matches your bucket's location
+- **Invalid credentials**: Check your access key and secret key.
+- **Network issues**: Verify the endpoint URL and network connectivity.
+- **Permission errors**: Ensure the credentials have appropriate bucket permissions.
+- **Bucket access**: Confirm the bucket exists and is accessible.
+- **Region mismatch**: Verify the region setting matches your bucket's location.
 
 ## Managing Storage Configs
 
 Once created, storage configurations can be edited and managed from the Storage Configs list. Each configuration shows its current status and provides options for:
 
-- **Editing**: Modify configuration parameters
-- **Testing**: Re-test connections after changes
-- **Enabling/Disabling**: Control whether the storage config is active
-- **Permission Management**: Configure access levels (Current only `Consume` managed via Resource Bundles)
+- **Editing**: Modify configuration parameters.
+- **Testing**: Re-test connections after changes.
+- **Enabling/Disabling**: Control whether the storage config is active.
+- **Permission Management**: Configure access levels (Current only `Consume` managed via Resource Bundles).
 
 ## Using Storage Configs
 
@@ -106,6 +106,4 @@ Storage configurations can be used in various places throughout the IOMETE platf
 - **Job Artifacts Storage**: Store and access job artifacts and outputs (Future)
 - **Audit and History Logs**: Persistent storage for system audit trails and historical data (Future)
 
-Currently, the only usage is for [**workspaces**](./sql-editor.md#worksheets) to store worksheets in different storage locations within the SQL editor. Additional use cases are planned for future releases.
-
-Select the appropriate storage config when creating data resources to ensure data is stored in the correct location with proper access controls.
+Currently, the only usage is for [**workspaces**](./workspaces.md) to store worksheets in different storage locations within the SQL editor. Additional use cases are planned for future releases.
