@@ -82,6 +82,7 @@ const sidebars = {
         "user-guide/api-reference",
         "user-guide/register-table",
         "user-guide/storage-configs",
+        "user-guide/workspaces",
       ],
     },
     {
