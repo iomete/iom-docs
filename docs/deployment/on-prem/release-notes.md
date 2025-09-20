@@ -16,7 +16,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="3.12" date="September 22, 2025">
   <NewFeatures>
-    
+    - **Storage Configurations**: 
+      - Configure external storage backends with secure authentication.  
+      - Onboard resources to these storages and manage access through resource bundles. 
+      <Img src="/img/user-guide/storage-configs/storage-config-list.png" alt="Storage Configurations" />
+      See the [Storage Configs documentation](docs/user-guide/storage-configs.md) for details.
+    - **Workspaces**:
+      - Organize SQL worksheets into custom workspaces with folder hierarchies.  
+      - Assign dedicated storages to workspaces via storage configs for data isolation & compliance.
+      - Control access through resource bundles, restricting view/write permissions for specific users or groups. 
+      <Img src="/img/user-guide/workspaces/workspace-list.png" alt="Workspaces" />
+      Learn more in the [Workspaces documentation](docs/user-guide/workspaces.md).
   </NewFeatures>
   <BugFixes>
     
