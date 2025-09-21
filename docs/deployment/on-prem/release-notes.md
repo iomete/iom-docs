@@ -31,10 +31,30 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <Improvements>
     - **Access Token Expiry Notifications**: Added support for configurable notifications when access tokens are nearing expiry. Two notification levels are available: *WARNING* and *CRITICAL*. Administrators can define how many days in advance of a token’s expiry the notification should be sent to its owner(s). These settings are configurable in the *System Config* screen using the properties: `access-tokens.notifications.warning` and `access-tokens.notifications.critical`.
+    - **Domain Creation Enhancements**:
+      - Users no longer need to provide a *Display Name* when creating a domain.  
+        - The system now automatically uses the Domain ID as the display name.  
+        - Users can still update the display name if they prefer a different name.
+      <Img src="/img/user-guide/domain/domain-create.png" alt="Domain Create Page" maxWidth="45rem" centered />
+      - Domain IDs now support hyphens (`-`), aligning with conventions already used elsewhere in the platform.
+      - **Benefit**: Makes domain creation easier and more consistent, reducing friction during setup.
+    - **Resource Quota Enforcement**:
+      - Added threshold checks for *Compute Clusters*, *Spark Jobs*, and *Jupyter Containers*.  
+      - Users can no longer create or update these resources if doing so would exceed:
+        - Namespace-level resource quotas  
+        - Or quota limits defined for the **priority class** of the resource (if configured)
+      - **Benefit**: Prevents creation of resources that cannot actually run due to quota breaches, ensuring more predictable behavior.
+    - **Prevent Spark Job Starvation (New Deployment Flow)**:  
+      - Introduced Weighted Round Robin (WRR) scheduling between high- and normal-priority jobs, configurable via `job-orchestrator.queue.high.scheduling-share-percentage` system config.
+      - With this configuration, instead of scheduling only high-priority jobs until the high-priority queue is empty, the system allocates 90% of slots to high-priority jobs and 10% to normal-priority jobs by default. This ensures normal-priority jobs still progress and prevents starvation, while high-priority jobs continue to receive preference.
+      - Config updates are applied automatically every minute, and admins can adjust the config at any time to match their requirements.
   </Improvements>
 
   <BugFixes>
-    
+    - **Global Spark Settings**: Fixed an issue where settings marked as *secret* were incorrectly saved as masked values (`*******`) instead of preserving the original value.
+    - **IOM-Catalog Service**: Fixed an OOM issue in the catalog service that occurred during export of tags-related metadata. 
+      - **Cause**: Entire tags metadata was being loaded into memory leading to crashes.  
+      - **Solution**: Optimized export to filter metadata at the database level and process only what’s required, preventing excessive memory usage.
   </BugFixes>
 </Release>
 
