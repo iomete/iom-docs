@@ -30,17 +30,18 @@ Users can see all workspaces for which they have any level of permission (`VIEW`
 To create a new workspace:
 
 1. Click the three-dot menu <DotsThreeVertical size={16} weight="duotone"/> next to **Worksheets** in the SQL Editor.
-2. Select **New Workspace** from the menu.
+2. Select **New workspace** from the menu.
 3. Fill in the workspace details in the dialog.
 
-<Img src="/img/user-guide/workspaces/workspace-create-button.png" alt="Create Workspace Button" />
-<Img src="/img/user-guide/workspaces/workspace-create-dialog.png" alt="Create Workspace Dialog" />
+<Img src="/img/user-guide/workspaces/workspace-create-button.png" alt="Create Workspace Button" maxWidth="600px" centered />
+<Img src="/img/user-guide/workspaces/workspace-create-dialog.png" alt="Create Workspace Dialog" maxWidth="600px" centered />
 
 ### Workspace Configuration
 
 When creating a workspace, you need to configure:
 
 **Basic Information:**
+
 - **Name**: A unique identifier for your workspace. Choose descriptive names that reflect the workspace purpose (e.g., "Data Analytics", "Marketing Reports")
 
 :::warning Workspace Name Uniqueness
@@ -48,15 +49,16 @@ The workspace name must be unique across the entire IOMETE instance to ensure th
 :::
 
 **Storage Configuration:**
+
 - **Storage Config**: Select from available [storage configurations](./storage-configs.md) based on your permissions. Only storage configs that you have access to through resource bundles will be visible in the dropdown.
 
 **Access Control:**
+
 - **Resource Bundle**: Select the required [resource bundle](./workspaces.md) to manage workspace access permissions
 
 :::warning Access Control
 Only **domain owners** can create workspaces. The selected resource bundle determines who can access the workspace and what level of permissions they have.
 :::
-
 
 ## Managing Folders
 
@@ -67,11 +69,17 @@ Folders help organize worksheets within workspaces. You can create hierarchical 
 To create a new folder:
 
 1. Right-click on a workspace or existing folder.
-2. Select **New Folder** from the context menu (visible only if you have `PUT` permission).
+2. Select **New folder** from the context menu (visible only if you have `PUT` permission).
 3. Enter a name for the folder and confirm.
 
-<Img src="/img/user-guide/workspaces/workspace-folder-access.png" alt="Folder Context Menu" />
-<Img src="/img/user-guide/workspaces/workspace-folder-disabled-access.png" alt="Folder Context Menu Disabled" />
+<div class="row">
+    <div class="col col--6">
+      <Img src="/img/user-guide/workspaces/workspace-folder-access.png" alt="Folder Context Menu" />
+    </div>
+    <div class="col col--6">
+      <Img src="/img/user-guide/workspaces/workspace-folder-disabled-access.png" alt="Folder Context Menu Disabled" />
+    </div>
+  </div>
 
 The folder will be created inside the selected workspace or parent folder..
 
@@ -111,7 +119,7 @@ Worksheets are SQL documents that contain your queries and scripts. They can be 
 To create a new worksheet:
 
 1. Right-click on a workspace or folder.
-2. Select **New Worksheet**.
+2. Select **New worksheet**.
 3. Enter a name for the worksheet and confirm.
 
 ### Moving Worksheets
@@ -137,6 +145,7 @@ The worksheet will be permanently removed.
 Workspace access is controlled through [resource bundle](./workspaces.md) and follows a hierarchical permission model:
 
 ### Workspace
+
 - **CREATE**: Only Domain Owners can create new workspaces
 
 ### Folders & Worksheets
@@ -146,10 +155,12 @@ Workspace access is controlled through [resource bundle](./workspaces.md) and fo
 **Bundle-based Access**: Permissions are assigned to selected people or groups through resource bundles
 
 #### VIEW Permission
+
 - View all folders and worksheets inside the workspace
 - Execute the contents of worksheets
 
 #### PUT Permission
+
 - Create new folders and worksheets inside the workspace.
 - Rename and duplicate existing worksheets.
 - Move folders and worksheets within the same workspace or from other workspaces (where they have `PUT` access).
