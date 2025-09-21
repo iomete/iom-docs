@@ -28,6 +28,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       <Img src="/img/user-guide/workspaces/workspace-list.png" alt="Workspaces" />
       Learn more in the [Workspaces documentation](docs/user-guide/workspaces.md).
   </NewFeatures>
+
+  <Improvements>
+    - **Access Token Expiry Notifications**: Added support for configurable notifications when access tokens are nearing expiry. Two notification levels are available: *WARNING* and *CRITICAL*. Administrators can define how many days in advance of a token’s expiry the notification should be sent to its owner(s). These settings are configurable in the *System Config* screen using the properties: `access-tokens.notifications.warning` and `access-tokens.notifications.critical`.
+  </Improvements>
+
   <BugFixes>
     
   </BugFixes>
