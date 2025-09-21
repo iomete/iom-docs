@@ -14,7 +14,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="3.12" date="September 22, 2025">
+<Release version="3.12.0" date="September 22, 2025">
   <NewFeatures>
     - **Storage Configurations**: 
       - Configure external storage backends with secure authentication.  
