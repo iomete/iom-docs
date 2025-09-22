@@ -69,6 +69,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark Operator Submit Service**: Fixed a memory leak issue in the spark operator submit service that occurred when submitting large numbers of Spark jobs.
       - **Cause**: The spark operator submit service was not properly cleaning up in memory error tracking logs after job submission.
       - **Solution**: Implemented proper cleanup of error tracking logs in memory after job submission.
+    - **SQL Editor Worksheets**: Fix disappeared words in the worksheet that occurred when navigating to another worksheet and back.
+      - **Cause**: The S3 upload was causing truncation when UTF-8 characters required multiple bytes (e.g., accented characters, emojis).
+      - **Solution**: Fixed by calculating actual UTF-8 byte length instead of character count to ensure complete file uploads.
   </BugFixes>
 </Release>
 
