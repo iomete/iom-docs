@@ -53,7 +53,7 @@ When creating a storage config, you'll need to provide the following information
 - **Secret key**: The secret access key corresponding to the access key ID.
 
 **Advanced Configuration:**
-- **Resource Bundle**: Select the predefined [resource bundles](./storage-configs.md) to manage the storage config accesses.
+- **Resource Bundle**: Select the predefined [resource bundles](./iam/ras/ras.md) to manage the storage config accesses.
 - **Resource tags**: Custom key-value pairs for resource organization and management. Click **Add tag** to include metadata tags for categorization.
 
 :::warning Storage Config Restrictions

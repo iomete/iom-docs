@@ -54,7 +54,7 @@ The workspace name must be unique across the entire IOMETE instance to ensure th
 
 **Access Control:**
 
-- **Resource Bundle**: Select the required [resource bundle](./workspaces.md) to manage workspace access permissions
+- **Resource Bundle**: Select the required [resource bundle](./iam/ras/ras.md) to manage workspace access permissions
 
 :::warning Access Control
 Only **domain owners** can create workspaces. The selected resource bundle determines who can access the workspace and what level of permissions they have.
@@ -142,7 +142,7 @@ The worksheet will be permanently removed.
 
 ## Access Permissions
 
-Workspace access is controlled through [resource bundle](./workspaces.md) and follows a hierarchical permission model:
+Workspace access is controlled through [resource bundle](./iam/ras/ras.md) and follows a hierarchical permission model:
 
 ### Workspace
 
