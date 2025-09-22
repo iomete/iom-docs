@@ -14,6 +14,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.11.2" date="September 22, 2025">
+  <BugFixes>
+  - Fixed users not being able to turn off sending events to Spark History in their Spark jobs. We corrected that we always overwrote setting `spark.eventLog.enabled` to `true`   
+  </BugFixes>
+</Release>
+
 <Release version="3.11.1" date="August 24, 2025">
   <NewFeatures>
     - **Hybrid Log Retrieval with Kubernetes Hot Storage**:
