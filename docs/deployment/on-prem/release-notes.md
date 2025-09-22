@@ -52,10 +52,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Namespace-level resource quotas  
         - Or quota limits defined for the **priority class** of the resource (if configured)
       - **Benefit**: Prevents creation of resources that cannot actually run due to quota breaches, ensuring more predictable behavior.
-    - **Prevent Spark Job Starvation (New Deployment Flow)**:  
-      - Introduced Weighted Round Robin (WRR) scheduling between high- and normal-priority jobs, configurable via `job-orchestrator.queue.high.scheduling-share-percentage` system config.
-      - With this configuration, instead of scheduling only high-priority jobs until the high-priority queue is empty, the system allocates 90% of slots to high-priority jobs and 10% to normal-priority jobs by default. This ensures normal-priority jobs still progress and prevents starvation, while high-priority jobs continue to receive preference.
-      - Config updates are applied automatically every minute, and admins can adjust the config at any time to match their requirements.
+    - **Job Orchestrator (New Spark Deployment Flow)**:  
+        - **Prevent Job Starvation**:  
+          - Introduced Weighted Round Robin (WRR) scheduling between high- and normal-priority jobs, configurable via `job-orchestrator.queue.high.scheduling-share-percentage` system config.
+          - With this configuration, instead of scheduling only high-priority jobs until the high-priority queue is empty, the system allocates 90% of slots to high-priority jobs and 10% to normal-priority jobs by default. This ensures normal-priority jobs still progress and prevents starvation, while high-priority jobs continue to receive preference.
+          - Config updates are applied automatically every minute, and admins can adjust the config at any time to match their requirements.
+        - **Queued Jobs Visibility**:  
+          - Queued jobs are now visible in the IOMETE console on both the Spark Applications listing page and within individual job runs page.
+          - Users can also abort queued jobs when needed, providing better control over job management.
     - **JVM Memory Management**: Optimized JVM memory management for the control plane service to maximise the utilisation of allocated memory.
     - **Spark Connect RestClient**: Added liveness and readiness probes to the Spark Connect RestClient to ensure it is healthy and responsive.
     - **Spark Operator Submit Service**: Implemented metrics endpoint for tracking job submission and JVM metrics.
