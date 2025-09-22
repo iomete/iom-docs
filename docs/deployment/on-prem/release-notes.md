@@ -56,6 +56,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Introduced Weighted Round Robin (WRR) scheduling between high- and normal-priority jobs, configurable via `job-orchestrator.queue.high.scheduling-share-percentage` system config.
       - With this configuration, instead of scheduling only high-priority jobs until the high-priority queue is empty, the system allocates 90% of slots to high-priority jobs and 10% to normal-priority jobs by default. This ensures normal-priority jobs still progress and prevents starvation, while high-priority jobs continue to receive preference.
       - Config updates are applied automatically every minute, and admins can adjust the config at any time to match their requirements.
+    - **JVM Memory Management**: Optimized JVM memory management for the control plane service to maximise the utilisation of allocated memory.
+    - **Spark Connect RestClient**: Added liveness and readiness probes to the Spark Connect RestClient to ensure it is healthy and responsive.
+    - **Spark Operator Submit Service**: Implemented metrics endpoint for tracking job submission and JVM metrics.
   </Improvements>
 
   <BugFixes>
@@ -63,6 +66,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **IOM-Catalog Service**: Fixed an OOM issue in the catalog service that occurred during export of tags-related metadata. 
       - **Cause**: Entire tags metadata was being loaded into memory leading to crashes.  
       - **Solution**: Optimized export to filter metadata at the database level and process only what’s required, preventing excessive memory usage.
+    - **Spark Operator Submit Service**: Fixed a memory leak issue in the spark operator submit service that occurred when submitting large numbers of Spark jobs.
+      - **Cause**: The spark operator submit service was not properly cleaning up in memory error tracking logs after job submission.
+      - **Solution**: Implemented proper cleanup of error tracking logs in memory after job submission.
   </BugFixes>
 </Release>
 
