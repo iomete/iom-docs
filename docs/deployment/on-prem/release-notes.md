@@ -19,6 +19,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 Upgrade with caution. Core Authorization System has changed to RAS, in case you enable it (via helm feature flag) you will have to perform the migration Spark Job from [IOMETE Marketplace](https://github.com/iomete/iomete-marketplace-jobs)
 :::
   <NewFeatures>
+  - **Spark ArrowFlight S3 Offload (ArrowFetch mode)**
+      - We’re introducing ArrowFetch, a powerful new way to export large datasets.
+      This feature leverages direct export from Spark executors to S3, eliminating the driver bottleneck and enabling faster, more scalable, and memory-safe exports.
+      With ArrowFetch, you can accelerate exports of big and huge datasets, making it especially valuable for external clients such as BI tools, QA tools, and enterprise data pipelines.
+      To enable this feature, set the configuration: `spark.iomete.arrow.flight.sql.arrowFetch=true`
+      and provide the required S3 settings as shown in the documentation.
+  <Img src="/img/user-guide/spark-arrow/arrowfetch.png" alt="ArrowFetch configurations" maxWidth="650px" centered /> 
   - **Resource Authorization System (RAS) - Resource Bundles**
       - We're excited to introduce **Resource Bundles**, a powerful new feature that revolutionizes how you organize and manage access to your IOMETE resources. Resource Bundles allow you to group related resources — such as compute clusters, storage configurations, and workspaces — into logical collections with centralized permission management.
       - With Resource Bundles, you can now streamline access control by granting permissions to users and groups at the resource bundle level eliminating the need to manage role based permissions. The system supports flexible ownership models, allowing resource bundles to be owned by individual users or groups, with automatic inheritance through group hierarchies. You can easily transfer assets between resource bundles, set granular permissions for different resource types, and maintain organized, secure access to your platform resources.
