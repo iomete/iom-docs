@@ -22,19 +22,29 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - See here for detailed information: [Resource Authorization System Documentation](/docs/user-guide/iam/ras/ras.md)
 
    <Img src="/img/user-guide/iam/ras/bundle-list.png" alt="Resource Bundle List" maxWidth="1000px" centered />
-     
 
-    - **Storage Configurations**: 
-      - Configure external storage backends with secure authentication.  
-      - Onboard resources to these storages and manage access through resource bundles. 
+    - **Storage Configurations**:
+      - Configure external storage backends with secure authentication.
+      - Onboard resources to these storages and manage access through resource bundles.
       <Img src="/img/user-guide/storage-configs/storage-config-list.png" alt="Storage Configurations" />
       See the [Storage Configs documentation](docs/user-guide/storage-configs.md) for details.
     - **Workspaces**:
-      - Organize SQL worksheets into custom workspaces with folder hierarchies.  
+      - Organize SQL worksheets into custom workspaces with folder hierarchies.
       - Assign dedicated storages to workspaces via storage configs for data isolation & compliance.
-      - Control access through resource bundles, restricting view/write permissions for specific users or groups. 
+      - Control access through resource bundles, restricting view/write permissions for specific users or groups.
       <Img src="/img/user-guide/workspaces/workspace-list.png" alt="Workspaces" />
       Learn more in the [Workspaces documentation](docs/user-guide/workspaces.md).
+
+    - **NFS Volume Support**:
+
+      We’ve added support for **NFS (Network File System)** as a new volume type.
+      With this update, users can now mount external NFS shares directly into their workloads.
+      When creating a new volume, simply select **NFS**, provide the **server address** and **exported path**, and the system will handle the rest.
+
+       <Img src="/img/getting-started/release-notes/3.12.0/volume-nfs.png" alt="NFS Volume" />
+
+Learn more in the [Workspaces documentation](docs/user-guide/workspaces.md).
+
   </NewFeatures>
 
   <Improvements>
@@ -127,7 +137,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       <Img src="/img/getting-started/release-notes/3.11.0/sql-scatter-chart.png" alt="SQL Scatter Chart" />
       <Img src="/img/getting-started/release-notes/3.11.0/sql-treemap-chart.png" alt="SQL Treemap Chart" />
       <Img src="/img/getting-started/release-notes/3.11.0/sql-composed-chart.png" alt="SQL Composed Chart" />
-    - **Parent-Child Relationship for Groups**: 
+    - **Parent-Child Relationship for Groups**:
       - On the **Group Details** page, users can now see both their **directly assigned** and **parent** groups.
       - Added two tabs:
         - **Sub groups** (Inheriting to)
@@ -136,6 +146,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - ***Note**: Currently, group relationships apply only to LDAP members.*
       <Img src="/img/getting-started/release-notes/3.11.0/sub-groups.png" alt="Sub groups" maxWidth="700px" centered />
       <Img src="/img/getting-started/release-notes/3.11.0/parent-groups.png" alt="Parent groups" maxWidth="700px" centered />
+
   </NewFeatures>
 
   <Improvements>
@@ -192,16 +203,16 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         <Img src="/img/guides/spark-job/job-metrics-monitoring-graphs.png" alt="Job Monitoring Graph" />
       For an in-depth overview, check out the official [press release](/docs/developer-guide/spark-job/job-orchestrator.md).
 
-    - **Jupyter Containers [Beta]**: Jupyter Containers is a powerful new feature that brings familiar Jupyter development environments directly into your IOMETE Platform. This enhancement enables data engineers and analysts to spin up dedicated, pre-configured Jupyter environments with just a few clicks.  
-      Key highlights:  
-      - Create isolated Jupyter containers with customizable resource allocation.  
-      - Each container comes with JupyterLab pre-installed and ready to use. Click "Open JupyterLab" to directly access Jupyter environment from IOMETE UI.  
-      - Pre-installed Spark libraries for immediate access to distributed computing.  
-      - Direct connectivity to IOMETE Compute clusters via Spark Connect.  
-      - Essential developer tools pre-installed: git, aws cli, sparksql-magic, pandas, other libraries and extensions.  
-      - Authentication: Use your IOMETE username as the default token. Optionally, setup a password to protect sensitive files within container.  
-      
-      Platform admins can enable it during installation by setting `jupyterContainers.enabled` in `values.yaml`.  
+    - **Jupyter Containers [Beta]**: Jupyter Containers is a powerful new feature that brings familiar Jupyter development environments directly into your IOMETE Platform. This enhancement enables data engineers and analysts to spin up dedicated, pre-configured Jupyter environments with just a few clicks.
+      Key highlights:
+      - Create isolated Jupyter containers with customizable resource allocation.
+      - Each container comes with JupyterLab pre-installed and ready to use. Click "Open JupyterLab" to directly access Jupyter environment from IOMETE UI.
+      - Pre-installed Spark libraries for immediate access to distributed computing.
+      - Direct connectivity to IOMETE Compute clusters via Spark Connect.
+      - Essential developer tools pre-installed: git, aws cli, sparksql-magic, pandas, other libraries and extensions.
+      - Authentication: Use your IOMETE username as the default token. Optionally, setup a password to protect sensitive files within container.
+
+      Platform admins can enable it during installation by setting `jupyterContainers.enabled` in `values.yaml`.
       For more details please refer to Jupyter Container's user guide: [Jupyter Containers - Developer Guide](/docs/developer-guide/notebook/jupyter-containers.mdx).
 
     - **LDAP Group Inheritance**: Group hierarchies synced from LDAP are now taken into account when evaluating Data Security policies. Groups inherit data policies from parent groups in the same way users inherit them.
@@ -214,6 +225,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Improved visualization of shuffle metrics on the Query Monitoring Details page.
       - Domain owners can now view and cancel all queries within their domain, while regular users can only see and cancel their own queries.
         <Img src="/img/getting-started/release-notes/3.10.0/query-monitoring-domain-member-filter.png" alt="Query Monitoring filter by domain members" maxWidth="700px" />
+
   </NewFeatures>
 
   <Improvements>
@@ -709,10 +721,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       This change improves performance and simplifies maintenance by reducing external dependencies.
 
     - **Ranger Removal**: We have removed Apache Ranger, fully integrating its data access policy management functionality within IOMETE. This offers better control, performance, and security while reducing the complexity of managing separate systems.
-      
+
       Key Benefits:
       - Improved performance and streamlined management of data access policies.
       - Reduced security concerns by eliminating the dependency on open-source Ranger.
+
   </BreakingChanges>
 
   <NewFeatures>
@@ -733,6 +746,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Integrated Authentication and Authorization: Supports token-based authentication, OpenConnect, OAuth, and ensures data access policies are enforced across REST catalog interactions.
       - Multi-Catalog Support: Manage multiple catalogs simultaneously for greater flexibility.
       - Openness and Interoperability: Aligns with IOMETE's vision of openness, supporting external platforms like Dremio, Databricks, and Snowflake via standard Iceberg REST protocol.
+
   </NewFeatures>
 </Release>
 
