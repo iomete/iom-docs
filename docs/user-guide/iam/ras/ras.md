@@ -47,8 +47,7 @@ Follow these steps to create a new resource bundle:
 
 1. **Navigate to Resource Bundle Management**
    - Open the IOMETE Console
-   - Go to the **Other** section in Domain page
-   - Click on **Bundles** in the navigation menu
+   - Click on **Resource Bundles** in the navigation menu
 
 
 2. **Start Resource Bundle Creation**
