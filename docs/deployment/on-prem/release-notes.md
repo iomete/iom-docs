@@ -17,11 +17,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="3.12.0" date="September 22, 2025">
   <NewFeatures>
   - **Resource Authorization System (RAS) - Resource Bundles**
-      -  We're excited to introduce **Resource Bundles**, a powerful new feature that revolutionizes how you organize and manage access to your IOMETE resources. Resource Bundles allow you to group related resources — such as compute clusters, storage configurations, and workspaces — into logical collections with centralized permission management.
+      - We're excited to introduce **Resource Bundles**, a powerful new feature that revolutionizes how you organize and manage access to your IOMETE resources. Resource Bundles allow you to group related resources — such as compute clusters, storage configurations, and workspaces — into logical collections with centralized permission management.
       - With Resource Bundles, you can now streamline access control by granting permissions to users and groups at the resource bundle level eliminating the need to manage role based permissions. The system supports flexible ownership models, allowing resource bundles to be owned by individual users or groups, with automatic inheritance through group hierarchies. You can easily transfer assets between resource bundles, set granular permissions for different resource types, and maintain organized, secure access to your platform resources.
+      - See here for detailed information: [Resource Authorization System Documentation](/docs/user-guide/iam/ras/ras.md)
+
+   <Img src="/img/user-guide/iam/ras/bundle-list.png" alt="Resource Bundle List" maxWidth="1000px" centered />
      
-  <!-- <Img src="/path/to/bundle/image" alt="Resource Bundle List" maxWidth="45rem" centered /> -->
-     See here for detailed information: [Resource Bundle Documentation URL - TO BE ADDED]
 
     - **Storage Configurations**: 
       - Configure external storage backends with secure authentication.  
