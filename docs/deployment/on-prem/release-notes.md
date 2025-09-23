@@ -14,6 +14,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.12.1" date="September 23, 2025">
+  <BugFixes>
+  - Fixed compute cluster single-node cluster creation failure due to resource quota validation issue.
+  </BugFixes>
+</Release>
+
 <Release version="3.12.0" date="September 22, 2025">
 :::caution **Caution**  
 Upgrade with caution. Core Authorization System has changed to RAS, in case you enable it (via helm feature flag) you will have to perform the migration Spark Job from [IOMETE Marketplace](https://github.com/iomete/iomete-marketplace-jobs/tree/main/ras-onboarding)
