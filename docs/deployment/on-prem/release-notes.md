@@ -66,6 +66,8 @@ Learn more in the [Workspaces documentation](docs/user-guide/workspaces.md).
       <Img src="/img/user-guide/domain/domain-create.png" alt="Domain Create Page" maxWidth="45rem" centered />
       - Domain IDs now support hyphens (`-`), aligning with conventions already used elsewhere in the platform.
       - **Benefit**: Makes domain creation easier and more consistent, reducing friction during setup.
+    - **Spark Applications**
+      - We added the namespace column to the *Spark Applications* page inline with the *Job Templates* and *Streaming Jobs* pages 
     - **Resource Quota Enforcement**:
       - Added threshold checks for *Compute Clusters*, *Spark Jobs*, and *Jupyter Containers*.  
       - Users can no longer create or update these resources if doing so would exceed:
