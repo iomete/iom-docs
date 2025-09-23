@@ -45,15 +45,20 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
       <Img src="/img/user-guide/workspaces/workspace-list.png" alt="Workspaces" />
       Learn more in the [Workspaces documentation](docs/user-guide/workspaces.md).
 
+    - **EmptyDir Volume Support**
+
+      We've added support for **EmptyDir** as a new volume type.
+      With EmptyDir it will be possible to isolate different workloads, automatic post-cleanup, defining usage 
+      limits while using node local disk which is not possible with Host Path volume type.
+      <Img src="/img/user-guide/volumes/emptydir-create.png" alt="On Demand PVC create" maxWidth="600px" />
+      Check [documentation](docs/user-guide/volumes.md#emptydir)
+
     - **NFS Volume Support**:
 
       We’ve added support for **NFS (Network File System)** as a new volume type.
       With this update, users can now mount external NFS shares directly into their workloads.
       When creating a new volume, simply select **NFS**, provide the **server address** and **exported path**, and the system will handle the rest.
-
-       <Img src="/img/getting-started/release-notes/3.12.0/volume-nfs.png" alt="NFS Volume" />
-
-Learn more in the [Workspaces documentation](docs/user-guide/workspaces.md).
+      <Img src="/img/getting-started/release-notes/3.12.0/volume-nfs.png" alt="NFS Volume" />
 
   </NewFeatures>
 
@@ -85,6 +90,7 @@ Learn more in the [Workspaces documentation](docs/user-guide/workspaces.md).
     - **JVM Memory Management**: Optimized JVM memory management for the control plane service to maximise the utilisation of allocated memory.
     - **Spark Connect RestClient**: Added liveness and readiness probes to the Spark Connect RestClient to ensure it is healthy and responsive.
     - **Spark Operator Submit Service**: Implemented metrics endpoint for tracking job submission and JVM metrics.
+    - **Spark Overhead Memory Customization**: Spark overhead memory is now customizable within the pod memory limits.
   </Improvements>
 
   <BugFixes>
