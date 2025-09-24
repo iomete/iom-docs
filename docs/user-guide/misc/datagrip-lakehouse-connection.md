@@ -13,7 +13,7 @@ IOMETE warehouse JDBC endpoints are compatible with Hive JDBC drivers. But due t
 
 ### Download the Driver
 
-Visit our GitHub repository [iomete-artifacts](https://github.com/iomete/iomete-artifacts) and download the latest version of the Hive JDBC driver hive-jdbc-3.1.3-standalone.jar.
+Visit our GitHub repository [iomete-artifacts](https://github.com/iomete/iomete-artifacts) and download the latest version of the Hive JDBC driver hive-jdbc-4.0.1-standalone.jar.
 
 ### Using JDBC driver for DataGrip connection
 
