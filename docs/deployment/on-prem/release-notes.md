@@ -17,7 +17,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="3.12.1" date="September 23, 2025">
   <BugFixes>
   - @Fuad => NFS fix
-  - @Alokh => Storage test problem
+  - Removed validation which required connection tests to pass while creating storage configs
   - @Soltan + @Vugar => RAS/UI problems
   - @Altay => Spark/Arrowflight
   - @Altay => RAS authorization for Spark
