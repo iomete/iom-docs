@@ -16,6 +16,16 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="3.12.1" date="September 23, 2025">
   <BugFixes>
+  - @Fuad => NFS fix
+  - @Alokh => Storage test problem
+  - @Soltan + @Vugar => RAS/UI problems
+  - @Altay => Spark/Arrowflight
+  - @Altay => RAS authorization for Spark
+  </BugFixes>
+</Release>
+
+<Release version="3.12.1" date="September 23, 2025">
+  <BugFixes>
   - Fixed compute cluster single-node cluster creation failure due to resource quota validation issue.
   </BugFixes>
 </Release>
