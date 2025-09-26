@@ -31,8 +31,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   - **SQL Database Explorer**
     - Fixed manual scrollbar dragging issue.
-  - @Altay => Spark/Arrowflight
-  - @Altay => RAS authorization for Spark
+    - Resolved an issue where queries with LIMIT over the ArrowFlight protocol still triggered a full table scan.
+    - Removed an unnecessary bucket-level permission check in ArrowFetch that was causing incorrect “access denied” errors.
   </BugFixes>
 </Release>
 
