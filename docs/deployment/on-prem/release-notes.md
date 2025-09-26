@@ -18,7 +18,19 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <BugFixes>
   - @Fuad => NFS fix
   - Removed validation which required connection tests to pass while creating storage configs
-  - @Soltan + @Vugar => RAS/UI problems
+  - **Resource Bundle list**
+    - Fixed issue where the **Archive** button did not work in the dropdown menu.
+
+  - **Resource Bundle Form**
+    - Made the **Description** field optional.
+    - Set the default **Owner** type to **Group**.
+
+  - **Resource Bundle Detail – Permissions Form**
+    - Set the default **Actor** type to **Group**.
+    - Removed the **Permission Preview** page.
+
+  - **SQL Database Explorer**
+    - Fixed manual scrollbar dragging issue.
   - @Altay => Spark/Arrowflight
   - @Altay => RAS authorization for Spark
   </BugFixes>
@@ -64,7 +76,7 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
     - **EmptyDir Volume Support**
 
       We've added support for **EmptyDir** as a new volume type.
-      With EmptyDir it will be possible to isolate different workloads, automatic post-cleanup, defining usage 
+      With EmptyDir it will be possible to isolate different workloads, automatic post-cleanup, defining usage
       limits while using node local disk which is not possible with Host Path volume type.
       <Img src="/img/user-guide/volumes/emptydir-create.png" alt="On Demand PVC create" maxWidth="600px" />
       Check [documentation](docs/user-guide/volumes.md#emptydir)
