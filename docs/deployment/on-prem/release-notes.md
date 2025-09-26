@@ -14,7 +14,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="3.12.1" date="September 23, 2025">
+<Release version="3.12.2" date="September 25, 2025">
   <BugFixes>
   - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
   - Removed validation which required connection tests to pass while creating storage configs
@@ -29,8 +29,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - Set the default **Actor** type to **Group**.
     - Removed the **Permission Preview** page.
 
-  - **SQL Database Explorer**
-    - Fixed manual scrollbar dragging issue.
+  - **SQL Editor**
+    - Fixed manual scrollbar dragging issue in Database Explorer.
     - Resolved an issue where queries with LIMIT over the ArrowFlight protocol still triggered a full table scan.
     - Removed an unnecessary bucket-level permission check in ArrowFetch that was causing incorrect “access denied” errors.
   </BugFixes>
