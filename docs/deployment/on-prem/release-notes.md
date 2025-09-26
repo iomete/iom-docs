@@ -16,7 +16,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="3.12.1" date="September 23, 2025">
   <BugFixes>
-  - @Fuad => NFS fix
+  - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
   - Removed validation which required connection tests to pass while creating storage configs
   - **Resource Bundle list**
     - Fixed issue where the **Archive** button did not work in the dropdown menu.
