@@ -9,6 +9,7 @@ last_update:
 
 import Img from '@site/src/components/Img';
 import Question from "@site/src/components/Question";
+import FAQSection from '@site/src/components/FAQSection';
 
 import Card from "@site/src/components/Card";
 import GridBox from "@site/src/components/GridBox";
@@ -57,57 +58,37 @@ On-premise Community Edition Deployment
 ---
 ## Frequently Asked Questions (FAQ)
 
-### Can I run IOMETE on a single node?
-
-**Yes.** IOMETE can run on a single node for development and testing. Details are available on the [single node deployment page](https://github.com/iomete/iomete-community/blob/main/kubernetes/local-k3s-guide.md).
-
-### Does IOMETE run entirely within my infrastructure?
-
-**Yes.** IOMETE operates entirely within your infrastructure and does not transmit data to external cloud services.
-
-### Is internet connectivity required for IOMETE?
-
-**By default, yes.** IOMETE needs an internet connection to download necessary docker images.
-
-:::info air-gapped environments
-For air-gapped (no-internet access clusters) environments, contact us for assistance.
-:::
-
-### Differences between cloud and on-premise deployments?
-
-IOMETE provides a unified experience across cloud and on-premise deployments.
-However, there are some differences due to the nature of the environments:
-
-:::info Installation
-
-- **Cloud:** Uses terraform for infrastructure setup and helm charts for IOMETE installation.
-- **On-premise:** Manual infrastructure setup with helpful deployment scripts, followed by helm chart installation.
-  :::
-
-:::info Object Storage
-
-- **Cloud:** Utilizes managed services like AWS S3, Azure Blob Storage, Google Cloud Storage.
-- **On-premise:** Requires setting up S3 compatible storages like [MinIO](https://min.io/), [DELL ECS](https://www.delltechnologies.com/en-us/storage/ecs/index.htm), etc.
-  :::
-
-:::info Auto Scaling
-
-- **Cloud:** Built-in auto-scaling features to optimize resource usage.
-- **On-premise:** Typically static resource allocation, but dynamic scaling can be utilized.
-  :::
-
-### Differences between Community and Enterprise versions?
-
-Refer to [IOMETE Pricing](https://iomete.com/pricing) for a detailed comparison.
-
-### Support for Community Edition?
-
-IOMETE Community Edition is supported by the community. Feel free to join the [IOMETE Community Server](https://community.iomete.com) for support and discussions.
-
-### Dedicated Support?
-
-Dedicated support is available for Enterprise customers. Enterprise customers receive dedicated support via Slack or MS Teams, including full maintenance and updates.
-
-### How to get Enterprise Version?
-
-Schedule a call [here](https://calendly.com/iomete/iomete-discovery-call) to discuss your requirements and obtain a quote.
+<FAQSection faqs={[
+  {
+    question: "Can I run IOMETE on a single node?",
+    answer: "Yes. IOMETE can run on a single node for development and testing. Details are available on the single node deployment page."
+  },
+  {
+    question: "Does IOMETE run entirely within my infrastructure?",
+    answer: "Yes. IOMETE operates entirely within your infrastructure and does not transmit data to external cloud services."
+  },
+  {
+    question: "Is internet connectivity required for IOMETE?",
+    answer: "By default, yes. IOMETE needs an internet connection to download necessary docker images. For air-gapped (no-internet access clusters) environments, contact us for assistance."
+  },
+  {
+    question: "Differences between cloud and on-premise deployments?",
+    answer: "IOMETE provides a unified experience across cloud and on-premise deployments. However, there are some differences: Cloud uses terraform for infrastructure setup and helm charts for IOMETE installation, while on-premise requires manual infrastructure setup with helpful deployment scripts. Cloud utilizes managed services like AWS S3, Azure Blob Storage, Google Cloud Storage, while on-premise requires setting up S3 compatible storages like MinIO, DELL ECS, etc. Cloud has built-in auto-scaling features, while on-premise typically uses static resource allocation."
+  },
+  {
+    question: "Differences between Community and Enterprise versions?",
+    answer: "Refer to IOMETE Pricing page for a detailed comparison between Community and Enterprise versions."
+  },
+  {
+    question: "Support for Community Edition?",
+    answer: "IOMETE Community Edition is supported by the community. Feel free to join the IOMETE Community Server for support and discussions."
+  },
+  {
+    question: "Dedicated Support?",
+    answer: "Dedicated support is available for Enterprise customers. Enterprise customers receive dedicated support via Slack or MS Teams, including full maintenance and updates."
+  },
+  {
+    question: "How to get Enterprise Version?",
+    answer: "Schedule a call to discuss your requirements and obtain a quote."
+  }
+]} />

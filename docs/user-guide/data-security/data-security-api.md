@@ -214,10 +214,17 @@ The IOMETE Data Security API uses standard HTTP error codes to indicate request 
 **403 Forbidden**: The user does not have permission to perform the requested action.  
 **500 Internal Server Error**: A server error occurred.
 
+import FAQSection from '@site/src/components/FAQSection';
+
 ## FAQs
 
-**How do I revoke access?**  
-To revoke access, you can either delete the policy or modify it to remove the user or group from the `allowPolicyItems`.
-
-**What happens if conflicting policies exist?**  
-The policy with higher priority (`HIGH`) will override policies with `NORMAL` priority.
+<FAQSection faqs={[
+  {
+    question: "How do I revoke access?",
+    answer: "To revoke access, you can either delete the policy or modify it to remove the user or group from the allowPolicyItems."
+  },
+  {
+    question: "What happens if conflicting policies exist?",
+    answer: "The policy with higher priority (HIGH) will override policies with NORMAL priority."
+  }
+]} />
