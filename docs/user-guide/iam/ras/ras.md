@@ -121,9 +121,6 @@ To modify or remove existing permissions:
    - Click the **Delete** button next to the permission you want to remove
    - Confirm the removal when prompted
 
-:::info **Note**
-**Super admin**, **domain managers (admins)**, and **domain owners** have full authorization and can access Resource Bundle resources without being explicitly added to the actor list.
-:::
 
 ## Managing Resource Bundle Assets
 
