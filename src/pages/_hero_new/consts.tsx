@@ -178,25 +178,19 @@ export const guides = [
 
 export const latestBlogs = [
   {
-    title: "Apache Iceberg vs Delta Lake case study",
-    date: "Apr 4, 2023",
-    duration: "3 min read",
-    url: "/blog/apache-iceberg-delta-lake",
-    icon: <img src={`${BASE_PATH}/logo-white.svg`} width={60} />,
+    title: "Data as a Product for large enterprises",
+    date: "Feb 9, 2025",
+    url: "/blog/2025/02/09/data-mesh-data-product",
   },
   {
-    title: "Data Warehouse to Lakehouse Evolution",
-    date: "Jan 17, 2024",
-    duration: "20 min read",
-    url: "/blog/from-data-warehouses-to-data-lakehouses",
-    icon: <img src={`${BASE_PATH}/logo-white.svg`} width={60} />,
+    title: "Copy-on-Write Tables in Apache Iceberg",
+    date: "May 22, 2025",
+    url: "/blog/iceberg-copy-on-write-deep-dive",
   },
   {
-    title: "How to Build An On-prem Data Lakehouse",
-    date: "April 4, 2023",
-    duration: "3 min read",
-    url: "/blog/why-we-choose-to-be-the-on-premise-data-lakehouse",
-    icon: <img src={`${BASE_PATH}/logo-white.svg`} width={60} />,
+    title: "Apache Arrow explained",
+    date: "Mar 24, 2025",
+    url: "/blog/apache-arrow-format",
   },
 ];
 
