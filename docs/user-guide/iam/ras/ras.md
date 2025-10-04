@@ -22,6 +22,7 @@ RAS helps you:
 - **Control access** by granting specific permissions to users and groups
 - **Maintain security** by ensuring only authorized users can access sensitive resources
 - **Simplify administration** through centralized permission management
+- **Enforce ownership** by requiring all resources to belong to a Resource Bundle
 
 <Img src="/img/user-guide/iam/ras/bundle-list.png" alt="Resource Bundle List" maxWidth="800px" />
 
@@ -119,6 +120,10 @@ To modify or remove existing permissions:
 3. **Remove Permissions**
    - Click the **Delete** button next to the permission you want to remove
    - Confirm the removal when prompted
+
+:::info **Note**
+**Super admin**, **domain managers (admins)**, and **domain owners** have full authorization and can access Resource Bundle resources without being explicitly added to the actor list.
+:::
 
 ## Managing Resource Bundle Assets
 
