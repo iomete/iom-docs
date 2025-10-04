@@ -11,7 +11,7 @@ import Img from '@site/src/components/Img';
 IOMETE warehouse JDBC endpoints are compatible with Hive JDBC drivers. But due to recent SSL issues, we have released a fixed version of the driver. If you wish to use the JDBC driver must download it from our GitHub repository and include it as a library in their project.
 
 ## Download the Driver
-Visit our GitHub repository [iomete-artifacts](https://github.com/iomete/iomete-artifacts) and download the latest version of the Hive JDBC driver `hive-jdbc-3.1.3-standalone.jar`.
+Visit our GitHub repository [iomete-artifacts](https://github.com/iomete/iomete-artifacts) and download the latest version of the Hive JDBC driver `hive-jdbc-4.0.1-standalone.jar`.
 
 ## Using JDBC driver for DBeaver connection
 
