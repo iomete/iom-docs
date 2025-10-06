@@ -22,6 +22,7 @@ RAS helps you:
 - **Control access** by granting specific permissions to users and groups
 - **Maintain security** by ensuring only authorized users can access sensitive resources
 - **Simplify administration** through centralized permission management
+- **Enforce ownership** by requiring all resources to belong to a Resource Bundle
 
 <Img src="/img/user-guide/iam/ras/bundle-list.png" alt="Resource Bundle List" maxWidth="800px" />
 
@@ -67,49 +68,6 @@ Follow these steps to create a new resource bundle:
 
 
 <Img src="/img/user-guide/iam/ras/create-bundle.png" alt="Create Resource Bundle" maxWidth="800px" />
-
-## Managing Resource Bundle Assets
-
-### Adding Resources to Your Resource Bundle
-
-Once you have a resource bundle, you can add resources to it:
-
-**Create New Resource (Compute)**
-- Click the **New Compute Cluster** button in **Compute** page  
-- From the resource bundle list, select a resource bundle to add compute
-
-
-<Img src="/img/user-guide/iam/ras/compute-create-bundle.png" alt="Create Compute with Bundle" maxWidth="800px" />
-
-
-### Viewing Resource Bundle Contents
-
-To see what resources are in a resource bundle:
-
-1. Open the resource bundle from the resource bundle list
-2. The **Resources** section shows all resources grouped by type
-3. Each resource displays its name and current status
-
-<Img src="/img/user-guide/iam/ras/bundle-assets.png" alt="Bundle Resources" maxWidth="800px" />
-
-### Transferring Assets Between Resource Bundles
-
-You can move assets from one resource bundle to another:
-
-1. **Open Source Resource Bundle**
-   - Navigate to the resource bundle containing the assets you want to move
-   - Go to the **Resources** tab
-
-2. **Initiate Transfer**
-   - Select the assets you want to transfer
-   - Click **Transfer**
-   - Choose the **Destination Resource Bundle** from the dropdown
-   - Confirm the transfer
-
-
-:::info **Note**  
-Only resource bundle owners can transfer assets out of their resource bundles.
-:::
 
 ## Setting Up Permissions
 
@@ -163,6 +121,49 @@ To modify or remove existing permissions:
    - Click the **Delete** button next to the permission you want to remove
    - Confirm the removal when prompted
 
+
+## Managing Resource Bundle Assets
+
+### Adding Resources to Your Resource Bundle
+
+Once you have a resource bundle, you can add resources to it:
+
+**Create New Resource (Compute)**
+- Click the **New Compute Cluster** button in **Compute** page
+- From the resource bundle list, select a resource bundle to add compute
+
+
+<Img src="/img/user-guide/iam/ras/compute-create-bundle.png" alt="Create Compute with Bundle" maxWidth="800px" />
+
+
+### Viewing Resource Bundle Contents
+
+To see what resources are in a resource bundle:
+
+1. Open the resource bundle from the list
+2. The **Resources** section shows all resources grouped by type
+3. Each resource displays its id and name
+
+<Img src="/img/user-guide/iam/ras/bundle-assets.png" alt="Bundle Resources" maxWidth="800px" />
+
+### Transferring Assets Between Resource Bundles
+
+You can move assets from one resource bundle to another:
+
+1. **Open Source Resource Bundle**
+   - Navigate to the resource bundle containing the assets you want to move
+   - Go to the **Resources** tab
+
+2. **Initiate Transfer**
+   - Select the assets you want to transfer
+   - Click **Transfer**
+   - Choose the **Destination Resource Bundle** from the dropdown
+   - Confirm the transfer
+
+
+:::info **Note**  
+Only resource bundle owners can transfer assets out of their resource bundles.
+:::
 
 ## Resource Bundle Administration
 
