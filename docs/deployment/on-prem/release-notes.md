@@ -29,10 +29,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - Set the default **Actor** type to **Group**.
     - Removed the **Permission Preview** page.
 
-  - **SQL Editor**
-    - Fixed manual scrollbar dragging issue in Database Explorer.
+  - **Spark (ArrowFlight)**
     - Resolved an issue where queries with LIMIT over the ArrowFlight protocol still triggered a full table scan.
     - Removed an unnecessary bucket-level permission check in ArrowFetch that was causing incorrect “access denied” errors.
+
+  - **SQL Editor**
+    - Fixed manual scrollbar dragging issue in Database Explorer.
   </BugFixes>
 </Release>
 
