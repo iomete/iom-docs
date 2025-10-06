@@ -14,6 +14,19 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.x.x" date="unknown">
+    <NewFeatures>
+      - **Resource Quota Validations**: Introduced comprehensive quota validations across **Spark Jobs**, **Compute Instances**, and **Jupyter Workspaces** to ensure requested resources are compared against defined **maximum quotas** before creation or deployment.  
+        - For **Spark Jobs** using the new **Job Orchestrator** flow, these validations are now used to manage job queuing when quota limits are reached.  
+        - **New Quota Resources Added**:  
+          - **CPU** (requests)  
+          - **Memory** (requests)  
+          - **Storage** (general & storage-class-specific)  
+          - **PersistentVolumeClaims (PVCs)** (general & storage-class-specific)  
+        - **Dashboard Update**: Job Orchestrator dashboards now display updated quota utilization insights.
+    </NewFeatures>
+</Release>
+
 <Release version="3.12.1" date="September 23, 2025">
   <BugFixes>
   - Fixed compute cluster single-node cluster creation failure due to resource quota validation issue.
