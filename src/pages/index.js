@@ -20,7 +20,7 @@ export default function Home() {
       <div className={`container mt-[52px] ${styles.HeroContainer}`}>
         <Header />
 
-        <Guides />
+        {/* <Guides /> */}
 
         <Resources />
 

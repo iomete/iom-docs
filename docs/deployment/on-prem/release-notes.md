@@ -14,6 +14,30 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.12.2" date="September 25, 2025">
+  <BugFixes>
+  - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
+  - Removed validation which required connection tests to pass while creating storage configs
+  - **Resource Bundle list**
+    - Fixed issue where the **Archive** button did not work in the dropdown menu.
+
+  - **Resource Bundle Form**
+    - Made the **Description** field optional.
+    - Set the default **Owner** type to **Group**.
+
+  - **Resource Bundle Detail – Permissions Form**
+    - Set the default **Actor** type to **Group**.
+    - Removed the **Permission Preview** page.
+
+  - **Spark (ArrowFlight)**
+    - Resolved an issue where queries with LIMIT over the ArrowFlight protocol still triggered a full table scan.
+    - Removed an unnecessary bucket-level permission check in ArrowFetch that was causing incorrect “access denied” errors.
+
+  - **SQL Editor**
+    - Fixed manual scrollbar dragging issue in Database Explorer.
+  </BugFixes>
+</Release>
+
 <Release version="3.12.1" date="September 23, 2025">
   <BugFixes>
   - Fixed compute cluster single-node cluster creation failure due to resource quota validation issue.
@@ -54,7 +78,7 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
     - **EmptyDir Volume Support**
 
       We've added support for **EmptyDir** as a new volume type.
-      With EmptyDir it will be possible to isolate different workloads, automatic post-cleanup, defining usage 
+      With EmptyDir it will be possible to isolate different workloads, automatic post-cleanup, defining usage
       limits while using node local disk which is not possible with Host Path volume type.
       <Img src="/img/user-guide/volumes/emptydir-create.png" alt="On Demand PVC create" maxWidth="600px" />
       Check [documentation](docs/user-guide/volumes.md#emptydir)
