@@ -14,6 +14,15 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.x.x" date="unknown">
+    <BugFixes>
+      - **Spark Jobs**: Fixed an issue where jobs could be created or updated with type **SCHEDULED** without providing a schedule, causing broken entries in the Jobs UI.  
+        - **Cause**: Missing validation allowed `SCHEDULED` jobs to be created without a schedule.  
+        - **Fix**: Added validation requiring a schedule when creating or updating `SCHEDULED` jobs. If missing, the API now throws an error.  
+        - **Migration**: Existing invalid jobs are automatically corrected by changing their type to **MANUAL**.
+    </BugFixes>
+</Release>
+
 <Release version="3.12.1" date="September 23, 2025">
   <BugFixes>
   - Fixed compute cluster single-node cluster creation failure due to resource quota validation issue.
