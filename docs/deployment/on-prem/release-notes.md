@@ -14,6 +14,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.x.x" date="unknown">
+  <BugFixes>
+    - **Spark Jobs**: Fixed an issue where Spark jobs configured with the **Restart Policy = Always** failed to restart and got stuck in the *Failing* state.  
+      - **Cause**: Missing configuration of default values for `onFailureRetryInterval` and `onSubmissionFailureRetryInterval`, which are mandatory when using the *Always* restart policy.  
+      - **Fix**: Added default configurations for these intervals to ensure jobs correctly restart as per user-defined restart policies.
+  </BugFixes>
+</Release>
+
 <Release version="3.12.1" date="September 23, 2025">
   <BugFixes>
   - Fixed compute cluster single-node cluster creation failure due to resource quota validation issue.
