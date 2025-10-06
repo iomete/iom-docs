@@ -14,6 +14,16 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.x.x" date="unknown">
+  <Improvements>
+    - **Resource Quotas Visualization**:  
+      - Added resource quota visualization to both the *Admin Portal → Namespaces* page and the *Domain Home Page*, showing usage for Compute Clusters, Spark Jobs, and (if enabled) Jupyter Containers at the namespace level.
+      - These visualizations appear only when Priority Classes are enabled in helm chart.
+      - Also moved the *tooltip* to the right side and aligned *values* inside the tooltip to the right for better readability.
+      <Img src="/img/user-guide/resource-quotas/home-page.png" alt="Home Page" maxWidth="800px" centered />
+  </Improvements>
+</Release>
+
 <Release version="3.12.1" date="September 23, 2025">
   <BugFixes>
   - Fixed compute cluster single-node cluster creation failure due to resource quota validation issue.
