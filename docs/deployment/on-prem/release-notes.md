@@ -14,6 +14,16 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.x.x" date="unknown">
+  <Improvements>
+    - **External Grafana Dashboard Configuration**:  
+      - Added support for configuring external Grafana dashboard URLs via system configuration with given properties 
+        - `external-grafana.service-availability.dashboard-url` 
+        - `external-grafana.alerting-rules.dashboard-url`  
+      - This allows monitoring links to work seamlessly even when Grafana is hosted externally.
+  </Improvements>
+</Release>
+
 <Release version="3.12.2" date="September 25, 2025">
   <BugFixes>
   - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
