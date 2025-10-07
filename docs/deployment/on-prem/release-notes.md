@@ -14,6 +14,15 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.x.x" date="unknown">
+  <Improvements>
+    - **Spark Images for Spark Jobs**:  
+      - Added support for selecting configurable IOMETE Spark images when creating Spark Jobs, with available versions defined via the `docker.defaultSparkVersion` and `docker.additionalSparkVersions` fields in the Helm chart’s `values.yaml` file.  
+      - Image options are shown dynamically based on the chosen application type — *Python* displays Python based images, while *JVM* displays JVM based images.
+      <Img src="/img/user-guide/spark-jobs/spark-image.png" alt="Spark Image List" maxWidth="800px" centered />  
+  </Improvements>
+</Release>
+
 <Release version="3.12.2" date="September 25, 2025">
   <BugFixes>
   - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
