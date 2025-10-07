@@ -14,6 +14,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.x.x" date="unknown">
+    <Improvements>
+      - **Spark Job Metrics Link**:  
+        - Updated Grafana links on the Job Run page to include a **5-minute time buffer** around job duration to account for ingestion delays.  
+        - Added **`var-app_id`** and **`var-job_id`** query parameters for precise filtering directly from the console.
+    </Improvements>
+</Release>
+
 <Release version="3.12.2" date="September 25, 2025">
   <BugFixes>
   - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
