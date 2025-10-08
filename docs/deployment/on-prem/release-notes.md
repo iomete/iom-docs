@@ -14,6 +14,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.x.x" date="unknown">
+    <Improvements>
+      - **Query Performance Optimization**:  
+        - Optimized SQL queries for filtering Spark applications by resource tags.
+        - Achieved a **90–95% reduction in query response times** through significant query plan improvements.
+    </Improvements>
+</Release>
+
 <Release version="3.12.2" date="September 25, 2025">
   <BugFixes>
   - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
