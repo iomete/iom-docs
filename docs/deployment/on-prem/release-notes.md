@@ -14,6 +14,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.x.x" date="unknown">
+  <BugFixes>
+  - **Streaming Jobs**
+    - Fixed issue where streaming job status remained outdated during startup or execution timeouts because only the Spark application status was being updated.
+  </BugFixes>
+</Release>
+
 <Release version="3.12.2" date="September 25, 2025">
   <BugFixes>
   - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
