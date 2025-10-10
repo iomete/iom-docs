@@ -14,6 +14,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.13.0" date="September 25, 2025">
+    <NewFeatures>
+    </NewFeatures>
+
+    <Improvements>
+    </Improvements>
+
+    <BugFixes>
+    </BugFixes>
+</Release>
+
 <Release version="3.12.2" date="September 25, 2025">
   <BugFixes>
   - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
