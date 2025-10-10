@@ -72,7 +72,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - **Cause**: Missing configuration of default values for `onFailureRetryInterval` and `onSubmissionFailureRetryInterval`, which are mandatory when using the **Always** restart policy.  
         - **Fix**: Added default configurations for these intervals to ensure jobs correctly restart as per user-defined restart policies.
       - **Streaming Job Status Fix**: Fixed an issue where streaming job status remained outdated during startup or execution timeouts because only the Spark application status was being updated.
-      - **Deployment Flow Renamed**: Renamed the deployment flow from **Prefect** to **Priority-Based** to make it clearer which scheduling mechanism is being used.
   </BugFixes>
 </Release>
 
