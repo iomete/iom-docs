@@ -34,6 +34,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Resource Create/Edit Page**: Displayed the *storage class name* for *On-Demand PVC* volumes, making it easier for users to identify which storage class will be used for each volume.
           <Img src="/img/user-guide/spark-jobs/on-demand-pvc.png" alt="On Demand PVC" maxWidth="800px" centered />
     </Improvements>
+  <BugFixes>
+    - Renamed the deployment flow from *Prefect* to *Priority-Based* to make it clearer which scheduling mechanism is being used.
+  </BugFixes>
 </Release>
 
 <Release version="3.12.1" date="September 23, 2025">
