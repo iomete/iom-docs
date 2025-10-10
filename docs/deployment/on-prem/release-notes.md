@@ -31,31 +31,32 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - `external-grafana.alerting-rules.dashboard-url`  
       - This allows monitoring links to work seamlessly even when Grafana is hosted externally.
     - **Resource Quotas Visualization**:  
-      - Added resource quota visualization to both the *Admin Portal → Namespaces* page and the *Domain Home Page*, showing usage for Compute Clusters, Spark Jobs, and (if enabled) Jupyter Containers at the namespace level.
+      - Added resource quota visualization to both the **Admin Portal → Namespaces** page and the **Domain Home Page**, showing usage for Compute Clusters, Spark Jobs, and (if enabled) Jupyter Containers at the namespace level.
       - These visualizations appear only when Priority Classes are enabled in helm chart.
-      - Also moved the *tooltip* to the right side and aligned *values* inside the tooltip to the right for better readability.
+      - Also moved the **tooltip** to the right side and aligned **values** inside the tooltip to the right for better readability.
       <Img src="/img/user-guide/home-page/resource-quota.png" alt="Home Page" maxWidth="800px" centered />
     - **Resource Quota Enforcement**:
       - **All Resources**:
-        - Introduced *volume-based threshold checks* in addition to existing quota checks for *Compute Clusters*, *Spark Jobs*, and *Jupyter Containers*.
-        - Added *frontend validations* so users can instantly see if their resource requests exceed quotas before submitting.
+        - Introduced **volume-based threshold checks** in addition to existing quota checks for **Compute Clusters**, **Spark Jobs**, and **Jupyter Containers**.
+        - Added **frontend validations** so users can instantly see if their resource requests exceed quotas before submitting.
           <Img src="/img/user-guide/spark-jobs/quota-validation-frontend.png" alt="Resource Quota Validation" maxWidth="800px" centered />
-        - Added a *Resource Allocation Summary* on create/edit pages to show how much of each resource will be used versus maximum limits.
+        - Added a **Resource Allocation Summary** on create/edit pages to show how much of each resource will be used versus maximum limits.
           <Img src="/img/user-guide/spark-jobs/quota-summary.png" alt="Resource Quota Summary" maxWidth="800px" centered />
-        - Quotas continue to be enforced at both the *namespace* and *priority-class* levels (when configured).
+        - Quotas continue to be enforced at both the **namespace** and **priority-class** levels (when configured).
       - **Spark Job**:
-        - For jobs using the new *Job Orchestrator* flow, additional quota checks have been added to further improve *job queuing* when limits are reached. This ensures consistent quota enforcement across both *job creation/update* and *job scheduling*.
+        - For jobs using the new **Job Orchestrator** flow, additional quota checks have been added to further improve **job queuing** when limits are reached. This ensures consistent quota enforcement across both **job creation/update** and **job scheduling**.
           - CPU (requests)
           - Memory (requests)
           - Storage (general & storage-class-specific)
           - PersistentVolumeClaims (PVCs) (general & storage-class-specific)
-        - *Grafana Dashboard Update*: Job Orchestrator dashboards now display updated quota utilization insights.
-    - **Resource Create/Edit Page**: Displayed the *storage class name* for *On-Demand PVC* volumes, making it easier for users to identify which storage class will be used for each volume.
+        - **Grafana Dashboard Update**: Job Orchestrator dashboards now display updated quota utilization insights.
+    - **Resource Create/Edit Page**: Displayed the **storage class name** for **On-Demand PVC** volumes, making it easier for users to identify which storage class will be used for each volume.
       <Img src="/img/user-guide/spark-jobs/on-demand-pvc.png" alt="On Demand PVC" maxWidth="800px" centered />
     - **Spark Images for Spark Jobs**:  
       - Added support for selecting configurable IOMETE Spark images when creating Spark Jobs, with available versions defined via the `docker.defaultSparkVersion` and `docker.additionalSparkVersions` fields in the Helm chart’s `values.yaml` file.  
-      - Image options are shown dynamically based on the chosen application type — *Python* displays Python based images, while *JVM* displays JVM based images.
+      - Image options are shown dynamically based on the chosen application type — **Python** displays Python based images, while **JVM** displays JVM based images.
       <Img src="/img/user-guide/spark-jobs/spark-image.png" alt="Spark Image List" maxWidth="800px" centered /> 
+    - **Deployment Flow Renamed**: Renamed the deployment flow from **Prefect** to **Priority-Based** to make it clearer which scheduling mechanism is being used.
   </Improvements>
 
   <BugFixes>
@@ -67,11 +68,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
             - **Note: If missing, the API now throws an error.**
         - **Migration**: Existing invalid jobs are automatically corrected by changing their type to **MANUAL**.
       - **Restart Policy Fix**:
-        - Fixed an issue where Spark jobs configured with the **Restart Policy = Always** failed to restart and got stuck in the *Failing* state.  
-        - **Cause**: Missing configuration of default values for `onFailureRetryInterval` and `onSubmissionFailureRetryInterval`, which are mandatory when using the *Always* restart policy.  
+        - Fixed an issue where Spark jobs configured with the **Restart Policy = Always** failed to restart and got stuck in the **Failing** state.  
+        - **Cause**: Missing configuration of default values for `onFailureRetryInterval` and `onSubmissionFailureRetryInterval`, which are mandatory when using the **Always** restart policy.  
         - **Fix**: Added default configurations for these intervals to ensure jobs correctly restart as per user-defined restart policies.
       - **Streaming Job Status Fix**: Fixed an issue where streaming job status remained outdated during startup or execution timeouts because only the Spark application status was being updated.
-      - **Deployment Flow Renamed**: Renamed the deployment flow from *Prefect* to *Priority-Based* to make it clearer which scheduling mechanism is being used.
+      - **Deployment Flow Renamed**: Renamed the deployment flow from **Prefect** to **Priority-Based** to make it clearer which scheduling mechanism is being used.
   </BugFixes>
 </Release>
 
