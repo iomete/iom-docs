@@ -15,114 +15,30 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Mailer/>
 
 <Release version="3.x.x" date="unknown">
-    <NewFeatures>
-      - **Resource Quota Validations**: Introduced comprehensive quota validations across **Spark Jobs**, **Compute Instances**, and **Jupyter Workspaces** to ensure requested resources are compared against defined **maximum quotas** before creation or deployment.  
-        - For **Spark Jobs** using the new **Job Orchestrator** flow, these validations are now used to manage job queuing when quota limits are reached.  
-        - **New Quota Resources Added**:  
-          - **CPU** (requests)  
-          - **Memory** (requests)  
-          - **Storage** (general & storage-class-specific)  
-          - **PersistentVolumeClaims (PVCs)** (general & storage-class-specific)  
-        - **Dashboard Update**: Job Orchestrator dashboards now display updated quota utilization insights.
-    </NewFeatures>
+    <Improvements>
+    - **Resource Quota Enforcement**:
+      - **All Resources**:
+        - Introduced *volume-based threshold checks* in addition to existing quota checks for *Compute Clusters*, *Spark Jobs*, and *Jupyter Containers*.
+        - Added *frontend validations* so users can instantly see if their resource requests exceed quotas before submitting.
+          <Img src="/img/user-guide/spark-jobs/quota-validation-frontend.png" alt="Resource Quota Validation" maxWidth="800px" centered />
+        - Added a *Resource Allocation Summary* on create/edit pages to show how much of each resource will be used versus maximum limits.
+          <Img src="/img/user-guide/spark-jobs/quota-summary.png" alt="Resource Quota Summary" maxWidth="800px" centered />
+        - Quotas continue to be enforced at both the *namespace* and *priority-class* levels (when configured).
+      - **Spark Job**:
+        - For jobs using the new *Job Orchestrator* flow, additional quota checks have been added to further improve *job queuing* when limits are reached. This ensures consistent quota enforcement across both *job creation/update* and *job scheduling*.
+          - CPU (requests)
+          - Memory (requests)
+          - Storage (general & storage-class-specific)
+          - PersistentVolumeClaims (PVCs) (general & storage-class-specific)
+        - *Grafana Dashboard Update*: Job Orchestrator dashboards now display updated quota utilization insights.
+    - **Resource Create/Edit Page**: Displayed the *storage class name* for *On-Demand PVC* volumes, making it easier for users to identify which storage class will be used for each volume.
+          <Img src="/img/user-guide/spark-jobs/on-demand-pvc.png" alt="On Demand PVC" maxWidth="800px" centered />
+    </Improvements>
 </Release>
 
 <Release version="3.12.1" date="September 23, 2025">
   <BugFixes>
   - Fixed compute cluster single-node cluster creation failure due to resource quota validation issue.
-  </BugFixes>
-</Release>
-
-<Release version="3.12.0" date="September 22, 2025">
-:::caution **Caution**  
-Upgrade with caution. Core Authorization System has changed to RAS, in case you enable it (via helm feature flag) you will have to perform the migration Spark Job from [IOMETE Marketplace](https://github.com/iomete/iomete-marketplace-jobs/tree/main/ras-onboarding)
-:::
-  <NewFeatures>
-  - **Spark ArrowFlight S3 Offload (ArrowFetch mode)**
-      - We’re introducing ArrowFetch, a powerful new way to export large datasets.
-      This feature leverages direct export from Spark executors to S3, eliminating the driver bottleneck and enabling faster, more scalable, and memory-safe exports.
-      With ArrowFetch, you can accelerate exports of big and huge datasets, making it especially valuable for external clients such as BI tools, QA tools, and enterprise data pipelines.
-      To enable this feature, set the configuration: `spark.iomete.arrow.flight.sql.arrowFetch=true`
-      and provide the required S3 settings as shown in the documentation.
-  <Img src="/img/user-guide/spark-arrow/arrowfetch.png" alt="ArrowFetch configurations" maxWidth="650px" centered /> 
-  - **Resource Authorization System (RAS) - Resource Bundles**
-      - We're excited to introduce **Resource Bundles**, a powerful new feature that revolutionizes how you organize and manage access to your IOMETE resources. Resource Bundles allow you to group related resources — such as compute clusters, storage configurations, and workspaces — into logical collections with centralized permission management.
-      - With Resource Bundles, you can now streamline access control by granting permissions to users and groups at the resource bundle level eliminating the need to manage role based permissions. The system supports flexible ownership models, allowing resource bundles to be owned by individual users or groups, with automatic inheritance through group hierarchies. You can easily transfer assets between resource bundles, set granular permissions for different resource types, and maintain organized, secure access to your platform resources.
-      - See here for detailed information: [Resource Authorization System Documentation](/docs/user-guide/iam/ras/ras.md)
-
-   <Img src="/img/user-guide/iam/ras/bundle-list.png" alt="Resource Bundle List" maxWidth="1000px" centered />
-
-    - **Storage Configurations**:
-      - Configure external storage backends with secure authentication.
-      - Onboard resources to these storages and manage access through resource bundles.
-      <Img src="/img/user-guide/storage-configs/storage-config-list.png" alt="Storage Configurations" />
-      See the [Storage Configs documentation](docs/user-guide/storage-configs.md) for details.
-    - **Workspaces**:
-      - Organize SQL worksheets into custom workspaces with folder hierarchies.
-      - Assign dedicated storages to workspaces via storage configs for data isolation & compliance.
-      - Control access through resource bundles, restricting view/write permissions for specific users or groups.
-      <Img src="/img/user-guide/workspaces/workspace-list.png" alt="Workspaces" />
-      Learn more in the [Workspaces documentation](docs/user-guide/workspaces.md).
-
-    - **EmptyDir Volume Support**
-
-      We've added support for **EmptyDir** as a new volume type.
-      With EmptyDir it will be possible to isolate different workloads, automatic post-cleanup, defining usage 
-      limits while using node local disk which is not possible with Host Path volume type.
-      <Img src="/img/user-guide/volumes/emptydir-create.png" alt="On Demand PVC create" maxWidth="600px" />
-      Check [documentation](docs/user-guide/volumes.md#emptydir)
-
-    - **NFS Volume Support**:
-
-      We’ve added support for **NFS (Network File System)** as a new volume type.
-      With this update, users can now mount external NFS shares directly into their workloads.
-      When creating a new volume, simply select **NFS**, provide the **server address** and **exported path**, and the system will handle the rest.
-      <Img src="/img/getting-started/release-notes/3.12.0/volume-nfs.png" alt="NFS Volume" />
-
-  </NewFeatures>
-
-  <Improvements>
-    - **Access Token Expiry Notifications**: Added support for configurable notifications when access tokens are nearing expiry. Two notification levels are available: *WARNING* and *CRITICAL*. Administrators can define how many days in advance of a token’s expiry the notification should be sent to its owner(s). These settings are configurable in the *System Config* screen using the properties: `access-tokens.notifications.warning` and `access-tokens.notifications.critical`.
-    - **Domain Creation Enhancements**:
-      - Users no longer need to provide a *Display Name* when creating a domain.  
-        - The system now automatically uses the Domain ID as the display name.  
-        - Users can still update the display name if they prefer a different name.
-      <Img src="/img/user-guide/domain/domain-create.png" alt="Domain Create Page" maxWidth="45rem" centered />
-      - Domain IDs now support hyphens (`-`), aligning with conventions already used elsewhere in the platform.
-      - **Benefit**: Makes domain creation easier and more consistent, reducing friction during setup.
-    - **Spark Applications**
-      - We added the namespace column to the *Spark Applications* page inline with the *Job Templates* and *Streaming Jobs* pages 
-    - **Resource Quota Enforcement**:
-      - Added threshold checks for *Compute Clusters*, *Spark Jobs*, and *Jupyter Containers*.  
-      - Users can no longer create or update these resources if doing so would exceed:
-        - Namespace-level resource quotas  
-        - Or quota limits defined for the **priority class** of the resource (if configured)
-      - **Benefit**: Prevents creation of resources that cannot actually run due to quota breaches, ensuring more predictable behavior.
-    - **Job Orchestrator (New Spark Deployment Flow)**:  
-        - **Prevent Job Starvation**:  
-          - Introduced Weighted Round Robin (WRR) scheduling between high- and normal-priority jobs, configurable via `job-orchestrator.queue.high.scheduling-share-percentage` system config.
-          - With this configuration, instead of scheduling only high-priority jobs until the high-priority queue is empty, the system allocates 90% of slots to high-priority jobs and 10% to normal-priority jobs by default. This ensures normal-priority jobs still progress and prevents starvation, while high-priority jobs continue to receive preference.
-          - Config updates are applied automatically every minute, and admins can adjust the config at any time to match their requirements.
-        - **Queued Jobs Visibility**:  
-          - Queued jobs are now visible in the IOMETE console on both the Spark Applications listing page and within individual job runs page.
-          - Users can also abort queued jobs when needed, providing better control over job management.
-    - **JVM Memory Management**: Optimized JVM memory management for the control plane service to maximise the utilisation of allocated memory.
-    - **Spark Connect RestClient**: Added liveness and readiness probes to the Spark Connect RestClient to ensure it is healthy and responsive.
-    - **Spark Operator Submit Service**: Implemented metrics endpoint for tracking job submission and JVM metrics.
-    - **Spark Overhead Memory Customization**: Spark overhead memory is now customizable within the pod memory limits.
-  </Improvements>
-
-  <BugFixes>
-    - **Global Spark Settings**: Fixed an issue where settings marked as *secret* were incorrectly saved as masked values (`*******`) instead of preserving the original value.
-    - **IOM-Catalog Service**: Fixed an OOM issue in the catalog service that occurred during export of tags-related metadata. 
-      - **Cause**: Entire tags metadata was being loaded into memory leading to crashes.  
-      - **Solution**: Optimized export to filter metadata at the database level and process only what’s required, preventing excessive memory usage.
-    - **Spark Operator Submit Service**: Fixed a memory leak issue in the spark operator submit service that occurred when submitting large numbers of Spark jobs.
-      - **Cause**: The spark operator submit service was not properly cleaning up in memory error tracking logs after job submission.
-      - **Solution**: Implemented proper cleanup of error tracking logs in memory after job submission.
-    - **SQL Editor Worksheets**: Fix disappeared words in the worksheet that occurred when navigating to another worksheet and back.
-      - **Cause**: The S3 upload was causing truncation when UTF-8 characters required multiple bytes (e.g., accented characters, emojis).
-      - **Solution**: Fixed by calculating actual UTF-8 byte length instead of character count to ensure complete file uploads.
   </BugFixes>
 </Release>
 
@@ -174,7 +90,7 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
       <Img src="/img/getting-started/release-notes/3.11.0/sql-scatter-chart.png" alt="SQL Scatter Chart" />
       <Img src="/img/getting-started/release-notes/3.11.0/sql-treemap-chart.png" alt="SQL Treemap Chart" />
       <Img src="/img/getting-started/release-notes/3.11.0/sql-composed-chart.png" alt="SQL Composed Chart" />
-    - **Parent-Child Relationship for Groups**:
+    - **Parent-Child Relationship for Groups**: 
       - On the **Group Details** page, users can now see both their **directly assigned** and **parent** groups.
       - Added two tabs:
         - **Sub groups** (Inheriting to)
@@ -183,7 +99,6 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
       - ***Note**: Currently, group relationships apply only to LDAP members.*
       <Img src="/img/getting-started/release-notes/3.11.0/sub-groups.png" alt="Sub groups" maxWidth="700px" centered />
       <Img src="/img/getting-started/release-notes/3.11.0/parent-groups.png" alt="Parent groups" maxWidth="700px" centered />
-
   </NewFeatures>
 
   <Improvements>
@@ -240,16 +155,16 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
         <Img src="/img/guides/spark-job/job-metrics-monitoring-graphs.png" alt="Job Monitoring Graph" />
       For an in-depth overview, check out the official [press release](/docs/developer-guide/spark-job/job-orchestrator.md).
 
-    - **Jupyter Containers [Beta]**: Jupyter Containers is a powerful new feature that brings familiar Jupyter development environments directly into your IOMETE Platform. This enhancement enables data engineers and analysts to spin up dedicated, pre-configured Jupyter environments with just a few clicks.
-      Key highlights:
-      - Create isolated Jupyter containers with customizable resource allocation.
-      - Each container comes with JupyterLab pre-installed and ready to use. Click "Open JupyterLab" to directly access Jupyter environment from IOMETE UI.
-      - Pre-installed Spark libraries for immediate access to distributed computing.
-      - Direct connectivity to IOMETE Compute clusters via Spark Connect.
-      - Essential developer tools pre-installed: git, aws cli, sparksql-magic, pandas, other libraries and extensions.
-      - Authentication: Use your IOMETE username as the default token. Optionally, setup a password to protect sensitive files within container.
-
-      Platform admins can enable it during installation by setting `jupyterContainers.enabled` in `values.yaml`.
+    - **Jupyter Containers [Beta]**: Jupyter Containers is a powerful new feature that brings familiar Jupyter development environments directly into your IOMETE Platform. This enhancement enables data engineers and analysts to spin up dedicated, pre-configured Jupyter environments with just a few clicks.  
+      Key highlights:  
+      - Create isolated Jupyter containers with customizable resource allocation.  
+      - Each container comes with JupyterLab pre-installed and ready to use. Click "Open JupyterLab" to directly access Jupyter environment from IOMETE UI.  
+      - Pre-installed Spark libraries for immediate access to distributed computing.  
+      - Direct connectivity to IOMETE Compute clusters via Spark Connect.  
+      - Essential developer tools pre-installed: git, aws cli, sparksql-magic, pandas, other libraries and extensions.  
+      - Authentication: Use your IOMETE username as the default token. Optionally, setup a password to protect sensitive files within container.  
+      
+      Platform admins can enable it during installation by setting `jupyterContainers.enabled` in `values.yaml`.  
       For more details please refer to Jupyter Container's user guide: [Jupyter Containers - Developer Guide](/docs/developer-guide/notebook/jupyter-containers.mdx).
 
     - **LDAP Group Inheritance**: Group hierarchies synced from LDAP are now taken into account when evaluating Data Security policies. Groups inherit data policies from parent groups in the same way users inherit them.
@@ -262,7 +177,6 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
       - Improved visualization of shuffle metrics on the Query Monitoring Details page.
       - Domain owners can now view and cancel all queries within their domain, while regular users can only see and cancel their own queries.
         <Img src="/img/getting-started/release-notes/3.10.0/query-monitoring-domain-member-filter.png" alt="Query Monitoring filter by domain members" maxWidth="700px" />
-
   </NewFeatures>
 
   <Improvements>
@@ -758,11 +672,10 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
       This change improves performance and simplifies maintenance by reducing external dependencies.
 
     - **Ranger Removal**: We have removed Apache Ranger, fully integrating its data access policy management functionality within IOMETE. This offers better control, performance, and security while reducing the complexity of managing separate systems.
-
+      
       Key Benefits:
       - Improved performance and streamlined management of data access policies.
       - Reduced security concerns by eliminating the dependency on open-source Ranger.
-
   </BreakingChanges>
 
   <NewFeatures>
@@ -783,7 +696,6 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
       - Integrated Authentication and Authorization: Supports token-based authentication, OpenConnect, OAuth, and ensures data access policies are enforced across REST catalog interactions.
       - Multi-Catalog Support: Manage multiple catalogs simultaneously for greater flexibility.
       - Openness and Interoperability: Aligns with IOMETE's vision of openness, supporting external platforms like Dremio, Databricks, and Snowflake via standard Iceberg REST protocol.
-
   </NewFeatures>
 </Release>
 
