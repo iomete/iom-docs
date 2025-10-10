@@ -14,14 +14,25 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="3.13.0" date="September 25, 2025">
+<Release version="3.13.0" date="October 13, 2025">
     <NewFeatures>
     </NewFeatures>
 
     <Improvements>
+      - **Query Performance Optimization**:  
+        - Optimized SQL queries for filtering Spark applications by resource tags.
+        - Achieved a **90–95% reduction in query response times** through significant query plan improvements.
+      - **Spark Job Metrics Link**:  
+        - Updated Grafana links on the Job Run page to include a **5-minute time buffer** around job duration to account for ingestion delays.  
+        - Added **`var-app_id`** and **`var-job_id`** query parameters for precise filtering directly from the console.
     </Improvements>
 
     <BugFixes>
+      - **Spark Jobs**: Fixed an issue where jobs could be created or updated with type **SCHEDULED** without providing a schedule, causing broken entries in the Jobs UI.  
+        - **Cause**: Missing validation allowed `SCHEDULED` jobs to be created without a schedule.  
+        - **Fix**: Added validation requiring a schedule when creating or updating `SCHEDULED` jobs.
+            - **Note: If missing, the API now throws an error.**
+        - **Migration**: Existing invalid jobs are automatically corrected by changing their type to **MANUAL**.
     </BugFixes>
 </Release>
 
