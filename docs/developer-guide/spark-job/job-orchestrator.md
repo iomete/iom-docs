@@ -53,12 +53,12 @@ This will deploy the orchestrator server, workers, and metrics exporter componen
 #### Then at a Job Level
 1. Navigate to **Spark Jobs** and create a new job or configure an existing one.
 2. Go to **Advanced Settings** section
-3. Change **Deployment Flow** from `Legacy` to `Prefect`
+3. Change **Deployment Flow** from `Legacy` to `Priority-Based`
 4. Select your **Priority**:
    - **High** - for time-sensitive, business-critical tasks
    - **Normal** - for regular data processing workloads
 
-<Img src="/img/guides/spark-job/job-update-page.png" alt="Job Update Page" />
+<Img src="/img/guides/spark-job/job-update-page-renamed.png" alt="Job Update Page" />
 
 :::tip
 Start by testing the orchestrator with non-critical jobs before migrating production workloads.
@@ -164,6 +164,6 @@ please refer to https://go.microsoft.com/fwlink/?linkid=2301063
 
 **Quick Fix:**
 1. Navigate to the problematic job's configuration page
-2. Change the **Deployment Flow** from `Prefect` to `Legacy`
+2. Change the **Deployment Flow** from `Priority-Based` to `Legacy`
 3. This removes the job from the orchestrator queue and allows other jobs to proceed
 4. Debug the problematic job separately before re-enabling orchestration
