@@ -19,13 +19,16 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </NewFeatures>
 
   <Improvements>
+    - **Jupyter Containers**:
+        - Implemented automatic sign-in when launching a new Jupyter Container instance, removing the need for manual authentication.
+        - Added persistent storage support for Jupyter Container instances using **PVC** and **NFS**. Volume attachment is now **optional** — users can choose to launch temporary Jupyter Containers without any volume attached.
+        - Onboarded Jupyter Containers to the [RAS framework](/docs/user-guide/iam/ras/ras.md), enabling management through resource bundles.  You can now streamline access control by granting permissions to users and groups at the resource bundle level.
     - **Query Performance Optimization**:
       - Optimized SQL queries for filtering Spark applications by resource tags.
       - Achieved a **90–95% reduction in query response times** through significant query plan improvements.
     - **Resource Bundle Dashboard**:
-      - Added search and sort support for the resource bundle listing dashboard, making it easier to find and organize resource bundles.
-      - Show created by information on resource bundle details page for better visibility of bundle ownership.
-    - **Spark Job Metrics Link**:  
+      - Added search and sort functionality to the resource bundle listing dashboard to improve resource bundle discovery and organization.
+    - **Spark Job Metrics Link**:
       - Updated Grafana links on the Job Run page to include a **5-minute time buffer** around job duration to account for ingestion delays.  
       - Added **`var-app_id`** and **`var-job_id`** query parameters for precise filtering directly from the console.
     - **External Grafana Dashboard**:  
@@ -60,6 +63,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Image options are shown dynamically based on the chosen application type — **Python** displays Python based images, while **JVM** displays JVM based images.
       <Img src="/img/user-guide/spark-jobs/spark-image.png" alt="Spark Image List" maxWidth="800px" centered /> 
     - **Deployment Flow Renamed**: Renamed the deployment flow from **Prefect** to **Priority-Based** to make it clearer which scheduling mechanism is being used.
+    - **Spark Job Access Management**: Onboarded Spark Jobs to the [RAS framework](/docs/user-guide/iam/ras/ras.md), enabling management through resource bundles. You can now streamline access control by granting permissions to users and groups at the resource bundle level eliminating the need to manage role based permissions
+    - **SQL Editor CSV Export permission**: CSV export functionality in the SQL Editor is now role-based. A new permission has been added to roles to control access to exporting result sets as CSV files.
+    <Img src="/img/user-guide/iam/roles/sql-export.png" alt="SQL Editor CSV Export" maxWidth="800px" centered />
   </Improvements>
 
   <BugFixes>
