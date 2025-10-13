@@ -19,9 +19,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </NewFeatures>
 
   <Improvements>
-    - **Query Performance Optimization**:  
+    - **Query Performance Optimization**:
       - Optimized SQL queries for filtering Spark applications by resource tags.
       - Achieved a **90–95% reduction in query response times** through significant query plan improvements.
+    - **Resource Bundle Dashboard**:
+      - Added search and sort support for the resource bundle listing dashboard, making it easier to find and organize resource bundles.
+      - Show created by information on resource bundle details page for better visibility of bundle ownership.
     - **Spark Job Metrics Link**:  
       - Updated Grafana links on the Job Run page to include a **5-minute time buffer** around job duration to account for ingestion delays.  
       - Added **`var-app_id`** and **`var-job_id`** query parameters for precise filtering directly from the console.
