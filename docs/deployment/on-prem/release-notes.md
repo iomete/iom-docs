@@ -84,8 +84,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Removed validation which required connection tests to pass while creating storage configs
     - **SQL Editor**:
       - Fixed an issue where selected database was not being propagated when connecting via Arrow Flight.
+      - Fixed an issue where appending a query tag to the end of the SQL statement caused a syntax error.
     - **Access Token Expiry Notifications**:
       - Fixed an issue where system-managed tokens were being incorrectly included in expiry notifications.
+    - **Spark History**:
+      - Fixed the issue where clicking "Spark UI" to access Spark History sometimes resulted in "Application not found" error. To enable this optimization, set the following values:
+        - spark.history.provider=org.apache.spark.deploy.history.IometeFsHistoryProvider
+        - spark.history.fs.update.interval=2147000000 (large number, nearly Int.MAX_VALUE)
   </BugFixes>
 </Release>
 
