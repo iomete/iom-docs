@@ -82,6 +82,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - **Fix**: Added default configurations for these intervals to ensure jobs correctly restart as per user-defined restart policies.
       - **Streaming Job Status Fix**: Fixed an issue where streaming job status remained outdated during startup or execution timeouts because only the Spark application status was being updated.
       - Removed validation which required connection tests to pass while creating storage configs
+    - **SQL Editor**:
+      - Fixed an issue where selected database was not being propagated when connecting via Arrow Flight.
+    - **Access Token Expiry Notifications**:
+      - Fixed an issue where system-managed tokens were being incorrectly included in expiry notifications.
   </BugFixes>
 </Release>
 
