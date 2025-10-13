@@ -23,23 +23,22 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Implemented automatic sign-in when launching a new Jupyter Container instance, removing the need for manual authentication.
         - Added persistent storage support for Jupyter Container instances using **PVC** and **NFS**. Volume attachment is now **optional** — users can choose to launch temporary Jupyter Containers without any volume attached.
         - Onboarded Jupyter Containers to the [RAS framework](/docs/user-guide/iam/ras/ras.md), enabling management through resource bundles.  You can now streamline access control by granting permissions to users and groups at the resource bundle level.
-    - **Query Performance Optimization**:
+    - **Spark Applications filtering optimizations in UI**:
       - Optimized SQL queries for filtering Spark applications by resource tags.
-      - Achieved a **90–95% reduction in query response times** through significant query plan improvements.
-    - **Resource Bundle Dashboard**:
-      - Added search and sort functionality to the resource bundle listing dashboard to improve resource bundle discovery and organization.
+    - **Resource Bundles**:
+      - Added search and sort functionality to the resource bundle listing dashboard to improve resource bundle user experience.
     - **Spark Job Metrics Link**:
-      - Updated Grafana links on the Job Run page to include a **5-minute time buffer** around job duration to account for ingestion delays.  
+      - Updated Grafana links on the Job Run page to include a **5-minute time buffer** around job duration to account for ingestion delays.
       - Added **`var-app_id`** and **`var-job_id`** query parameters for precise filtering directly from the console.
-    - **External Grafana Dashboard**:  
+    - **External Grafana Dashboard**:
       - Added support for configuring external Grafana dashboard URLs via system configuration with given properties 
-        - `external-grafana.service-availability.dashboard-url` 
-        - `external-grafana.alerting-rules.dashboard-url`  
+        - `external-grafana.service-availability.dashboard-url`
+        - `external-grafana.alerting-rules.dashboard-url`
       - This allows monitoring links to work seamlessly even when Grafana is hosted externally.
-    - **Resource Quotas Visualization**:  
+    - **Resource Quotas Visualization enhancements**:
       - Added resource quota visualization to both the **Admin Portal → Namespaces** page and the **Domain Home Page**, showing usage for Compute Clusters, Spark Jobs, and (if enabled) Jupyter Containers at the namespace level.
       - These visualizations appear only when Priority Classes are enabled in helm chart.
-      - Also moved the **tooltip** to the right side and aligned **values** inside the tooltip to the right for better readability.
+      - Moved the **tooltip** to the right side and aligned **values** inside the tooltip to the right for better readability.
       <Img src="/img/user-guide/home-page/resource-quota.png" alt="Home Page" maxWidth="800px" centered />
     - **Resource Quota Enforcement**:
       - **All Resources**:
@@ -58,15 +57,19 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - **Grafana Dashboard Update**: Job Orchestrator dashboards now display updated quota utilization insights.
     - **Resource Create/Edit Page**: Displayed the **storage class name** for **On-Demand PVC** volumes, making it easier for users to identify which storage class will be used for each volume.
       <Img src="/img/user-guide/spark-jobs/on-demand-pvc.png" alt="On Demand PVC" maxWidth="800px" centered />
-    - **Spark Images for Spark Jobs**:  
+    - **Spark Images for Spark Jobs**:
       - Added support for selecting configurable IOMETE Spark images when creating Spark Jobs, with available versions defined via the `docker.defaultSparkVersion` and `docker.additionalSparkVersions` fields in the Helm chart’s `values.yaml` file.  
       - Image options are shown dynamically based on the chosen application type — **Python** displays Python based images, while **JVM** displays JVM based images.
       <Img src="/img/user-guide/spark-jobs/spark-image.png" alt="Spark Image List" maxWidth="800px" centered /> 
-    - **Deployment Flow Renamed**: Renamed the deployment flow from **Prefect** to **Priority-Based** to make it clearer which scheduling mechanism is being used.
+    - **Deployment Flow Renamed**: Renamed the deployment flow from **Prefect** to **Priority-Based**.
     - **Spark Job Access Management**: Onboarded Spark Jobs to the [RAS framework](/docs/user-guide/iam/ras/ras.md), enabling management through resource bundles. You can now streamline access control by granting permissions to users and groups at the resource bundle level eliminating the need to manage role based permissions
     - **SQL Editor CSV Export permission**: CSV export functionality in the SQL Editor is now role-based. A new permission has been added to roles to control access to exporting result sets as CSV files.
     <Img src="/img/user-guide/iam/roles/sql-export.png" alt="SQL Editor CSV Export" maxWidth="800px" centered />
     - **Admins are now fully authorized users in RAS**: **Super Admin**, **Domain Manager Admins** and **Domain Owners** have full authorization within the [RAS framework](/docs/user-guide/iam/ras/ras.md).
+    - **Spark/Arrowflight**: 
+      - Added possibility to override the content-type for the Arrow file format when uploading data to S3 (Offload mode enabled). For overriding you can set spark configuration per compute or on a global level `spark.iomete.arrow.flight.sql.arrowFetch.storage.s3.contentTypeOverride`.
+      - Onboarded Spark to new RAS Authorization. Now external clients using JDBC/ODBC or Spark Connect will have to have a `consume` rights on RAS in order to utilize Spark.
+  
   </Improvements>
 
   <BugFixes>
@@ -75,12 +78,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Fixed an issue where jobs could be created or updated with type **SCHEDULED** without providing a schedule, causing broken entries in the Jobs UI.  
         - **Cause**: Missing validation allowed `SCHEDULED` jobs to be created without a schedule.  
         - **Fix**: Added validation requiring a schedule when creating or updating `SCHEDULED` jobs.
-            - **Note: If missing, the API now throws an error.**
+            - **Note/Important: If missing, the API now throws an error.**
         - **Migration**: Existing invalid jobs are automatically corrected by changing their type to **MANUAL**.
       - **Restart Policy Fix**:
-        - Fixed an issue where Spark jobs configured with the **Restart Policy = Always** failed to restart and got stuck in the **Failing** state.  
-        - **Cause**: Missing configuration of default values for `onFailureRetryInterval` and `onSubmissionFailureRetryInterval`, which are mandatory when using the **Always** restart policy.  
-        - **Fix**: Added default configurations for these intervals to ensure jobs correctly restart as per user-defined restart policies.
+        - Fixed an issue where Spark jobs configured with the **Restart Policy = Always** failed to restart and got stuck in the **Failing** state.
       - **Streaming Job Status Fix**: Fixed an issue where streaming job status remained outdated during startup or execution timeouts because only the Spark application status was being updated.
       - Removed validation which required connection tests to pass while creating storage configs
     - **SQL Editor**:
