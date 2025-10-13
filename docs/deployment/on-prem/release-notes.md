@@ -66,6 +66,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark Job Access Management**: Onboarded Spark Jobs to the [RAS framework](/docs/user-guide/iam/ras/ras.md), enabling management through resource bundles. You can now streamline access control by granting permissions to users and groups at the resource bundle level eliminating the need to manage role based permissions
     - **SQL Editor CSV Export permission**: CSV export functionality in the SQL Editor is now role-based. A new permission has been added to roles to control access to exporting result sets as CSV files.
     <Img src="/img/user-guide/iam/roles/sql-export.png" alt="SQL Editor CSV Export" maxWidth="800px" centered />
+    - **Admins are now fully authorized users in RAS**: **Super Admin**, **Domain Manager Admins** and **Domain Owners** have full authorization within the [RAS framework](/docs/user-guide/iam/ras/ras.md).
   </Improvements>
 
   <BugFixes>
