@@ -15,9 +15,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Mailer/>
 
 <Release version="3.13.0" date="October 13, 2025">
-  <NewFeatures>
-  </NewFeatures>
-
   <Improvements>
     - **Jupyter Containers**:
         - Implemented automatic sign-in when launching a new Jupyter Container instance, removing the need for manual authentication.
