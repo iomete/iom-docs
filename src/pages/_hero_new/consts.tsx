@@ -212,7 +212,7 @@ export const communities = [
         />
       </svg>
     ),
-    url: "https://github.com/orgs/iomete/projects/7",
+    url: "https://iomete.com/roadmap",
   },
   {
     title: "Join our Community",
