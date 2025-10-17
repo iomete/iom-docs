@@ -46,9 +46,51 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 ---
 
-## Release Notes
+## Recent Releases
 
 <Release name="Data Compaction Job" version="1.2.11" date="October 20, 2025">
+  <NewFeatures>
+    - **Time-based Snapshot Expiration**: 
+        - Added support to expire snapshots based on time filters, enabling efficient management of historical data.
+            - Use static filters: `where: "date >= '2025-01-01'"`
+            - Use dynamic filters: `where: "date <= CURRENT_DATE - 30"`
+        - Example configuration:
+        ```JSON
+        {
+            catalog: "spark_catalog",
+
+            // Compact recent data (works best with partition column)
+            rewrite_data_files: {
+                // Static date filter
+                where: "date >= '2025-01-01'"
+
+                // Dynamic filters (recommended - no manual date updates needed)
+                // where: "date <= CURRENT_DATE - 30"                         // Data older than 30 days
+                // where: "date <= CURRENT_DATE - 7"                          // Data older than 7 days
+                // where: "date <= add_months(CURRENT_DATE, -6)"              // Data older than 6 months
+                // where: "date <= trunc(CURRENT_DATE, 'MM')"                 // Data before current month
+                // where: "event_time <= CURRENT_TIMESTAMP - INTERVAL 1 DAY"  // Data older than 1 day
+            }
+
+            // Table-specific filters
+            table_overrides: {
+                analytics.events: {
+                    rewrite_data_files: {
+                        where: "event_date <= CURRENT_DATE - 14"
+                    }
+                }
+            }
+        }
+        ```
+  </NewFeatures>
+
   <Improvements>
+    - **Selective Operation Execution**: Added support for fine-grained control over compaction operations through an `enabled` flag at both global and table-specific levels. You can now selectively enable or disable specific operations.
   </Improvements>
+
+  <BugFixes>
+    - **Table Name Resolution**: 
+        - Fixed an issue where table names provided without a database prefix (e.g., `my_table` instead of `db.my_table`) in `table_include`, `table_exclude`, or `table_overrides` would incorrectly run on the entire database.
+        - The job now correctly resolves such tables using the `databases` parameter, ensuring targeted execution.
+  </BugFixes>
 </Release>
