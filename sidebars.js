@@ -37,7 +37,15 @@ const sidebars = {
       collapsed: false,
       items: [
         "deployment/on-prem/install",
-        "deployment/on-prem/release-notes",
+        {
+          type: 'category',
+          label: 'Release Notes',
+          collapsed: false,
+          items: [
+            'deployment/on-prem/release-notes/index',
+            'deployment/on-prem/release-notes/marketplace-jobs',
+          ],
+        },
         {
           type: "category",
           label: "Advanced Settings",

@@ -1,0 +1,44 @@
+.jobContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+.versionBadge {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+
+  .version {
+    display: inline-block;
+    padding: 0px 6px;
+    background-color: #0070f3;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .comingSoon {
+    display: inline-block;
+    padding: 4px 12px;
+    background-color: var(--ifm-color-gray-300);
+    color: var(--ifm-color-gray-700);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+}
+
+html[data-theme="dark"] {
+  .versionBadge .comingSoon {
+    background-color: var(--ifm-color-gray-700);
+    color: var(--ifm-color-gray-300);
+  }
+}

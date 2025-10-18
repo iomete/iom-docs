@@ -8,17 +8,22 @@ const SECTION_TYPES = {
   'deprecations': { emoji: '🗑️', title: 'Deprecations' }
 };
 
-const Release = ({ version, date, children }) => (
-  <article className={styles.releaseContainer}>
-    <div className={styles.releaseHeader}>
-      <div className={styles.releaseDate}>{date}</div>
-      <h2 id={`v${version}`} className={styles.releaseTitle}>
-        v{version}
-      </h2>
-    </div>
-    {children}
-  </article>
-);
+const Release = ({ name, version, date, children }) => {
+  const displayVersion = name ? `${name} - v${version}` : `v${version}`;
+  const idVersion = name ? `${name.toLowerCase().replace(/\s+/g, '-')}-v${version}` : `v${version}`;
+
+  return (
+    <article className={styles.releaseContainer}>
+      <div className={styles.releaseHeader}>
+        <div className={styles.releaseDate}>{date}</div>
+        <h2 id={idVersion} className={styles.releaseTitle}>
+          {displayVersion}
+        </h2>
+      </div>
+      {children}
+    </article>
+  );
+};
 
 const ReleaseSection = ({ type, title, children }) => {
   const sectionInfo = type ? SECTION_TYPES[type] : null;

@@ -1,6 +1,6 @@
 ---
 title: IOMETE Release Notes
-sidebar_label: Release Notes
+sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 last_update:
   date: 07/31/2024
