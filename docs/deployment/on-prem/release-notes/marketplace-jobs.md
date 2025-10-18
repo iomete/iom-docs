@@ -51,37 +51,32 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release name="Data Compaction Job" version="1.2.11" date="October 20, 2025">
   <NewFeatures>
     - **Time-based Snapshot Expiration**: 
-        - Added support to expire snapshots based on time filters, enabling efficient management of historical data.
-            - Use static filters: `where: "date >= '2025-01-01'"`
-            - Use dynamic filters: `where: "date <= CURRENT_DATE - 30"`
-        - Example configuration:
-        ```JSON
-        {
-            catalog: "spark_catalog",
+      - Added support to remove Iceberg snapshots older than a set number of days using `expire_snapshot.older_than_days`.
+      - Works together with `retain_last`. If both are set, we keep snapshots that match either rule. We always keep at least 1 snapshot.
+      - Config examples:
+        ```
+        // Remove snapshots older than 7 days (keep at least 1)
+        expire_snapshot: { older_than_days: 7 }
 
-            // Compact recent data (works best with partition column)
-            rewrite_data_files: {
-                // Static date filter
-                where: "date >= '2025-01-01'"
+        // Keep last 3 OR anything newer than 7 days (whichever is more)
+        expire_snapshot: { retain_last: 3, older_than_days: 7 }
 
-                // Dynamic filters (recommended - no manual date updates needed)
-                // where: "date <= CURRENT_DATE - 30"                         // Data older than 30 days
-                // where: "date <= CURRENT_DATE - 7"                          // Data older than 7 days
-                // where: "date <= add_months(CURRENT_DATE, -6)"              // Data older than 6 months
-                // where: "date <= trunc(CURRENT_DATE, 'MM')"                 // Data before current month
-                // where: "event_time <= CURRENT_TIMESTAMP - INTERVAL 1 DAY"  // Data older than 1 day
-            }
-
-            // Table-specific filters
-            table_overrides: {
-                analytics.events: {
-                    rewrite_data_files: {
-                        where: "event_date <= CURRENT_DATE - 14"
-                    }
-                }
-            }
+        // Table-specific override
+        table_overrides: {
+          production.critical_table: {
+            expire_snapshot: { retain_last: 10, older_than_days: 30 }
+          }
         }
         ```
+      - Retention rules:
+
+        | Configuration | Behavior |
+        |---------------|----------|
+        | None specified | Keeps 1 snapshot (default) |
+        | Only `retain_last` | Keeps the last N snapshots |
+        | Only `older_than_days` | Removes snapshots older than N days (minimum 1 snapshot always kept) |
+        | Both specified | Keeps snapshots matching EITHER condition (maximum retention) |
+
   </NewFeatures>
 
   <Improvements>
