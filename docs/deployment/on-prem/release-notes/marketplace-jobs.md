@@ -48,7 +48,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 ## Recent Releases
 
-<Release name="Data Compaction Job" version="1.2.11" date="October 20, 2025">
+<Release name="Data Compaction Job" version="1.2.11" date="October 21, 2025">
   <NewFeatures>
     - **Time-based Snapshot Expiration**: 
       - Added support to remove Iceberg snapshots older than a set number of days using `expire_snapshot.older_than_days`.
