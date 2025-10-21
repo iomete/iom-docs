@@ -81,7 +81,23 @@
   // --ifm-global-shadow-lw: none;
 
   --ifm-code-padding-horizontal: 0.3rem;
-  line-height: 2;
+  line-height: 1.6;
+
+  --ifm-table-cell-padding: 0.3rem 0.75rem !important; // 0.75rem original
+
+  table thead tr {
+    border-bottom: none;
+  }
+
+  table {
+    width: 100%;
+    display: table; /* override any block/max-content quirks */
+    table-layout: auto;
+  }
+
+  table th {
+    text-align: left !important;
+  }
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -263,7 +279,7 @@ pre[class*="language-"] {
 
     .menu__link--sublist-caret:after,
     .menu__caret:before {
-      background-size: 1.3rem;
+      background-size: 1.1rem;
     }
   }
 }
