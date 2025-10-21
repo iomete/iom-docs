@@ -903,7 +903,7 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
 
 <Release version="1.20.0" date="August 26, 2024">
   <NewFeatures>
-    - **Centralized Secret Management**: Users can now create and manage secrets centrally from the settings page and inject them into Spark applications. Supports integration with Kubernetes and HashiCorp Vault for storing secrets. Learn more [here](../../user-guide/secrets).
+    - **Centralized Secret Management**: Users can now create and manage secrets centrally from the settings page and inject them into Spark applications. Supports integration with Kubernetes and HashiCorp Vault for storing secrets. Learn more [here](docs/user-guide/secrets.md).
     - **Multi-Namespace Support**: Spark resources can now be deployed across different namespaces, enhancing multi-tenant and organizational capabilities.
     - **Iceberg REST Catalog Support**: Added support for the Iceberg REST Catalog, expanding the range of catalog integrations.
     - **JDBC Catalog Support**: Introduced support for JDBC Catalog, allowing connections to a wider array of databases.
