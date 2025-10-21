@@ -85,7 +85,21 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <BugFixes>
     - **Table Name Resolution**: 
-        - Fixed an issue where table names provided without a database prefix (e.g., `my_table` instead of `db.my_table`) in `table_include`, `table_exclude`, or `table_overrides` would incorrectly run on the entire database.
-        - The job now correctly resolves such tables using the `databases` parameter, ensuring targeted execution.
+      - Fixed an issue where table names provided without a database prefix (e.g., `my_table` instead of `db.my_table`) in `table_include`, `table_exclude`, or `table_overrides` would incorrectly run on the entire database.
+      - The job now correctly resolves such tables using the `databases` parameter, ensuring targeted execution.
+    - **Rewrite Data Files with WHERE Filter**: 
+      - Fixed an issue where the `where` filter failed due to incorrect string handling.
+      - The job now correctly wraps SQL expressions, allowing compaction with both static and dynamic date filters.
+      - Config examples:
+        ```
+          rewrite_data_files: {
+            // Static date filter
+            where: "date >= '2025-01-01'"
+
+            // Dynamic filters (recommended - no manual date updates needed)
+            // where: "date <= CURRENT_DATE - 30"                         // Data older than 30 days
+            // where: "event_time <= CURRENT_TIMESTAMP - INTERVAL 1 DAY"  // Data older than 1 day
+          }
+        ```
   </BugFixes>
 </Release>
