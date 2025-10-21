@@ -14,6 +14,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.x.x" date="unknown">
+  <Improvements>
+    - **Spark Job Filtering Enhancements**:
+      - Added job user filter to Spark job runs and listing pages, enabling users to filter jobs by the user under which they were executed.
+      - Improved time-based filtering to include running jobs that started before the selected time window, ensuring active jobs remain visible regardless of when they were initiated.
+  </Improvements>
+</Release>
+
 <Release version="3.13.0" date="October 13, 2025">
   <Improvements>
     - **Jupyter Containers**:
