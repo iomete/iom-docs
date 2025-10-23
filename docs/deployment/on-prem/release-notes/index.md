@@ -14,6 +14,248 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.14.0" date="October 27, 2025">
+  {/*
+    =============================================================================
+    RELEASE 3.14.0 - COMPLETE COMMIT DETAILS BY CONTRIBUTOR  
+    =============================================================================
+    
+    Abhishek Pathania
+      KOTLIN:
+      - Creating/updating notification settings for Spark Jobs failed with a Jackson error when parsing eventTypes
+    
+    Altay
+      SPARK:
+      - fix for the arrowflight and spark security authorization exception (#211)
+      - Unit test fixes and adding ranger to configurations to be able to run… (#218)
+
+    Aslan Bakirov
+      KOTLIN:
+      - Upgrade spark in jupyter containers (#1240)
+    
+    azsefi
+      SPARK:
+      - Use app_id from env (#212)
+
+    Fuad Musayev
+      KOTLIN:
+      - Added stale data cleanup logic (#1231)
+        - Added transactional annotation to docker alias list
+        - SSO login - fixing issues
+        - SSO login improvements
+        - SSO login log changed to debug
+        - SSO login logs
+        INFRA:
+        - Increased sync-timeout of spark-operator
+        - Spark operator bump to 4.0.3
+
+    garayevs
+      KOTLIN:
+      - Add copy API (#1238)
+        - Add priorityClassName to deployment (#1230)
+        - Bugfix Copy-To Worksheet/Folder (#1247)
+        - IE-100 / S3 Location of Worksheets (#1234)
+        - Keep files after copy
+        - Load tag aliases only if image has alias
+        - Resolve write permission issue in PVC and NFS by adding fsGroup (#1232)
+
+    Mammad Mammadli
+      CONSOLE:
+        - Add alias for admin/hooks
+        - Add docker tag alias management (#445)
+        - call bundle asset count from details
+        - feat: improve Docker tag alias UI and user experience
+        - fix: improve Docker tag alias validation and UX
+        - fix: improve scrolling to new Docker tag alias row
+        - fix: resolve Docker tag alias list state management issues
+        - Implement create flow for docker image
+        - Implement delete functionality for docker image
+        - Implement edit and delete docker tag alias
+        - Implement editing for docker image
+        - Implement getting all docker images service
+        - Implement onSearch for DataTableV2.tsx
+        - implement proper structure for spark versions and docker images
+        - make new rows persist after hitting save button
+        - Migrate all DataTable with v2 (#425)
+        - refactor: rename Docker Images to Docker Settings across the application
+        - refactor: reorganize Docker tag alias UI into global and domain sections
+        - remove notifications on actions
+        - Remove unncessary delete notification
+        - Rename docker registries with docker images
+        - rename the permission name
+
+    Mateus Aubin
+      SPARK:
+      - build(arrow-server): add newly required ENV_ARGS (#215)
+        - build(arrow-server): fix scalastyle complaints (#214)
+
+    Nurlan Mammadov
+      CONSOLE:
+        -   feat: add conditional rendering for Spark Job permissions based on onboardSparkJobRas
+        -   feat: replace popconfirm with modal confirmation for compute deletion
+        -   fix: enable SSO OIDC delete button by removing unused access denied tooltip
+        -   fix: handle non-array data in namespace quotas by resource type
+        -   fix: show volume warning message during Jupyter container creation if volume not selected
+        -   refactor: simplify StorageConfigForm and TestConnection components
+        -  fix: handle undefined domainData in GeneralInfo component
+        - fix: `Storage class name` added to `Volume` details in details view:
+        - fix: add back button to ErrorResult component in StorageConfigCreate
+        - fix: handle empty data case in ResourceQuotasByType component
+        - refactor: combine namespace quota components into unified tabbed interface
+
+
+    Shashank Chaudhary
+      KOTLIN:
+        - Added support to filter on "Job User" for Job runs page(Overall + per Job) & Job listing(Streaming + Template) in both V1 and V2 APIs (#1236)
+        - Fixed bug to multiply the total storage required per executor (#1215)
+        - Include running Spark jobs in search results regardless of start time (#1241)
+
+    Sourabh Jajoria
+      KOTLIN:
+        - Adding TTL based cache expiry to system-config to solve pod cache invalidation issue (#1227)
+        - Adding validations to ensure tags added to docker image versions are unique in domain (#1233)
+        - Creating a new service to manage docker tag aliases (#1239)
+        - Dashboard enablement to manage docker image tag (#1198)
+        - Pe 144/migrating spark tag alias resolution to database managed (#1243)
+        - Updating docker image migration version to avoid conflict (#1228)
+        - Updating error messages for docker image management (#1235)
+      INFRA:
+        - Adding /docker route to iom-core to support docker configuration via dashboard (#252)
+
+    Vugar Dadalov
+      CONSOLE:
+      - feat: add 'Run as user' column to job list and update filters (V1)
+        - feat: add baseUrl prop to SparkJobForm and SparkJobFormSubmit components
+        - feat: add copy options to FolderNodeMenu and WorksheetNodeMenu for folder and worksheet data
+        - feat: add delete action to SparkJobForm and SparkStreamingJobForm components
+        - feat: add jobUser (Run as user) parameter to various Spark (V2) app and job components for enhanced filtering
+        - feat: add sparkAppsTimeline query key and update useSparkAppTimeline to accept jobUser parameter for enhanced filtering
+        - feat: add storage provider options and update StorageConfigForm and columns for improved selection and display
+        - feat: refactor move and copy functionality to use unified payload structure across components
+        - feat: update copy options in FolderNodeMenu and WorksheetNodeMenu to use fullPath instead of path and storagePath
+        - fix: add danger prop to Abort button in SparkAppAbortAction component
+        - fix: adjust icon margin in FolderNodeMenuCopyItems for better alignment
+        - fix: disable buttons when user lacks management permissions in SparkJobFormSubmit
+        - fix: simplify className assignment for visibility in FolderNodeMenuCopyItems
+        - fix: update button properties to set block to false in SparkJobCreate and SparkStreamingJobCreate components
+        - fix: update Marketplace button to disable based on marketplace management permissions
+
+    =============================================================================
+  */}
+
+  <NewFeatures>
+    {/* Review: Mammad Mammadli, Sourabh Jajoria */}
+    - **Docker Settings Management**:
+      - Introduced centralized Docker Settings management in the Admin Portal, replacing the previous Docker Registries configuration.
+      - Admins can now manage Docker images and their versions directly from the IOMETE Console.
+      - Added support for configuring custom Docker images for Spark Jobs and Compute Clusters.
+      <Img src="/img/getting-started/release-notes/3.14.0/docker-settings.png" alt="Docker Settings" maxWidth="800px" centered />
+
+    {/* Review: Mammad Mammadli, Sourabh Jajoria, Fuad Musayev */}
+    - **Docker Tag Alias Management**:
+      - Added UI-based management for Docker tag aliases, enabling admins to create, edit, and delete aliases directly from the Console.
+      - Docker tag aliases can now be managed at both global (Admin Portal) and domain levels.
+      - Tag aliases are now stored in the database rather than Helm chart configuration, allowing dynamic updates without pod restarts.
+      - Added validation to ensure tag aliases are unique within each domain.
+      <Img src="/img/getting-started/release-notes/3.14.0/docker-tag-aliases.png" alt="Docker Tag Aliases" maxWidth="800px" centered />
+
+    {/* Review: Vugar Dadalov, garayevs */}
+    - **Worksheet and Folder Copy Functionality**:
+      - Users can now copy worksheets and folders within SQL Workspace with improved payload structure.
+      - Added copy options to folder and worksheet context menus for enhanced usability.
+      - Files are retained after copy operations for better data management.
+  </NewFeatures>
+
+  <Improvements>
+    {/* Review: Vugar Dadalov, Shashank Chaudhary */}
+    - **Spark Job Filtering Enhancements**:
+      - Added "Run as user" column to Job Template and Streaming Job listing pages.
+      - Implemented filtering by "Job User" (Run as user) for both Job Runs and Job Listings in V1 and V2 APIs.
+      - Updated Spark Applications timeline to support filtering by job user for enhanced visibility.
+
+    {/* Review: Vugar Dadalov, garayevs */}
+    - **SQL Workspace Improvements**:
+      - Worksheets now display their S3 storage location for better transparency.
+      - Added copy functionality with improved path handling using `fullPath` instead of `path` and `storagePath`.
+
+    {/* Review: Vugar Dadalov, Nurlan Mammadov */}
+    - **Storage Configuration Enhancements**:
+      - Added storage provider options to Storage Config form for improved selection and display.
+      - Simplified StorageConfigForm and TestConnection components for better maintainability.
+      - Added back button to ErrorResult component in StorageConfigCreate for improved navigation.
+
+    {/* Review: Nurlan Mammadov */}
+    - **Resource Management**:
+      - Combined namespace quota components into a unified tabbed interface for better organization.
+      - Added `Storage class name` to Volume details view for improved visibility.
+      - Improved handling of non-array data in namespace quotas by resource type.
+
+    {/* Review: Fuad Musayev */}
+    - **Spark Operator Upgrade**: Upgraded Spark Operator to version 4.0.3 with improved performance and stability.
+
+    {/* Review: Aslan Bakirov, garayevs, rcjverhoef */}
+    - **Jupyter Container Improvements**:
+      - Upgraded Spark version in Jupyter Containers for better compatibility.
+      - Resolved write permission issues in PVC and NFS volumes by adding `fsGroup` configuration.
+      - Updated Jupyter kernel directory paths for improved organization.
+
+    {/* Review: Altay, Mateus Aubin, rcjverhoef */}
+    - **Spark ArrowFlight Enhancements**:
+      - Arrow Flight server can now run on `iom-spark-connect` for improved scalability.
+      - Fixed ArrowFlight authorization exceptions for better security enforcement.
+      - Reverted `iom-spark-connect` mainClass to `SparkConnect` for stability.
+
+    {/* Review: Sourabh Jajoria, Fuad Musayev */}
+    - **System Configuration**:
+      - Added TTL-based cache expiry to system-config to resolve pod cache invalidation issues.
+      - Stale data cleanup logic implemented for improved system hygiene.
+
+    {/* Review: Mammad Mammadli, Nurlan Mammadov, Vugar Dadalov */}
+    - **UI/UX Improvements**:
+      - Migrated all DataTable components to DataTableV2 for improved performance and consistency.
+      - Replaced popconfirm with modal confirmation for compute deletion to prevent accidental deletions.
+      - Added conditional rendering for Spark Job permissions based on `onboardSparkJobRas` feature flag.
+      - Standardized button behavior across Spark Job and Marketplace forms.
+      - Improved Docker tag alias UI with better validation and user experience.
+
+    {/* Review: garayevs, rcjverhoef, rocco.verhoef */}
+    - **Infrastructure**:
+      - Added `priorityClassName` to deployments for better resource management.
+      - Helm plugin `iom-list-images` can now discover images via annotations.
+      - Chart version updated to 13.0.0.
+      - Spark version updated to 3.5.5-v7-rc1.
+  </Improvements>
+
+  <BugFixes>
+    {/* Review: Shashank Chaudhary, Vugar Dadalov */}
+    - **Spark Job Issues**:
+      - Fixed Jackson parsing error when creating or updating notification settings for Spark Jobs due to eventTypes parsing failure.
+      - Fixed issue where running Spark jobs were not included in search results when filtering by time range.
+      - Fixed multiplication bug in total storage calculation per executor.
+
+    {/* Review: Sourabh Jajoria */}
+    - **SSO Login Improvements**:
+      - Fixed various SSO login issues with improved error handling and logging.
+      - SSO login logs changed to debug level to reduce log noise.
+
+    {/* Review: Vugar Dadalov */}
+    - **Jupyter Container Fixes**:
+      - Fixed volume warning message display during Jupyter Container creation when no volume is selected.
+
+    {/* Review: Mammad Mammadli, Nurlan Mammadov */}
+    - **UI Fixes**:
+      - Fixed SSO OIDC delete button by removing unused access denied tooltip.
+      - Fixed handling of undefined `domainData` in GeneralInfo component.
+      - Fixed empty data case handling in ResourceQuotasByType component.
+      - Improved scrolling behavior when adding new Docker tag alias rows.
+      - Resolved Docker tag alias list state management issues.
+
+    {/* Review: Vugar Dadalov, garayevs */}
+    - **Worksheet and Folder Operations**:
+      - Fixed Copy-To Worksheet/Folder functionality with improved payload structure.
+  </BugFixes>
+</Release>
+
 
 
 <Release version="3.13.1" date="October 28, 2025">
