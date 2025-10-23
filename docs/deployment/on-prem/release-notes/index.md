@@ -103,13 +103,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - fix: handle empty data case in ResourceQuotasByType component
         - refactor: combine namespace quota components into unified tabbed interface
 
-
-    Shashank Chaudhary
-      KOTLIN:
-        - Added support to filter on "Job User" for Job runs page(Overall + per Job) & Job listing(Streaming + Template) in both V1 and V2 APIs (#1236)
-        - Fixed bug to multiply the total storage required per executor (#1215)
-        - Include running Spark jobs in search results regardless of start time (#1241)
-
     Sourabh Jajoria
       KOTLIN:
         - Adding TTL based cache expiry to system-config to solve pod cache invalidation issue (#1227)
@@ -149,7 +142,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Introduced centralized Docker Settings management in the Admin Portal, replacing the previous Docker Registries configuration.
       - Admins can now manage Docker images and their versions directly from the IOMETE Console.
       - Added support for configuring custom Docker images for Spark Jobs and Compute Clusters.
-      <Img src="/img/getting-started/release-notes/3.14.0/docker-settings.png" alt="Docker Settings" maxWidth="800px" centered />
 
     {/* Review: Mammad Mammadli, Sourabh Jajoria, Fuad Musayev */}
     - **Docker Tag Alias Management**:
@@ -157,7 +149,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Docker tag aliases can now be managed at both global (Admin Portal) and domain levels.
       - Tag aliases are now stored in the database rather than Helm chart configuration, allowing dynamic updates without pod restarts.
       - Added validation to ensure tag aliases are unique within each domain.
-      <Img src="/img/getting-started/release-notes/3.14.0/docker-tag-aliases.png" alt="Docker Tag Aliases" maxWidth="800px" centered />
 
     {/* Review: Vugar Dadalov, garayevs */}
     - **Worksheet and Folder Copy Functionality**:
@@ -167,11 +158,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </NewFeatures>
 
   <Improvements>
-    {/* Review: Vugar Dadalov, Shashank Chaudhary */}
     - **Spark Job Filtering Enhancements**:
       - Added "Run as user" column to Job Template and Streaming Job listing pages.
-      - Implemented filtering by "Job User" (Run as user) for both Job Runs and Job Listings in V1 and V2 APIs.
-      - Updated Spark Applications timeline to support filtering by job user for enhanced visibility.
+      - Implemented filtering by "Job User" (Run as user) for both Job Runs and Job Listings.
+      - Improved time-based filtering to include running jobs that started before the selected time window, ensuring active jobs remain visible regardless of when they were initiated.
 
     {/* Review: Vugar Dadalov, garayevs */}
     - **SQL Workspace Improvements**:
@@ -222,11 +212,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Improvements>
 
   <BugFixes>
-    {/* Review: Shashank Chaudhary, Vugar Dadalov */}
+    {/* Review: Vugar Dadalov */}
     - **Spark Job Issues**:
       - Fixed Jackson parsing error when creating or updating notification settings for Spark Jobs due to eventTypes parsing failure.
       - Fixed issue where running Spark jobs were not included in search results when filtering by time range.
-      - Fixed multiplication bug in total storage calculation per executor.
 
     {/* Review: Sourabh Jajoria */}
     - **SSO Login Improvements**:
