@@ -174,6 +174,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark Job Issues**:
       - Fixed Jackson parsing error when creating or updating notification settings for Spark Jobs due to eventTypes parsing failure.
       - Fixed issue where running Spark jobs were not included in search results when filtering by time range.
+      - Fixed a bug causing the Spark History Server to occasionally fail to load job details.
 
     {/* Review: Fuad Musayev */}
     - **SSO Login Improvements**:
