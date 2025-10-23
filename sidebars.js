@@ -82,6 +82,7 @@ const sidebars = {
         "user-guide/create-a-personal-access-token",
         "user-guide/global-spark-settings",
         "user-guide/private-docker-registry",
+        "user-guide/docker-tag-aliases",
         "user-guide/email-settings",
         "user-guide/node-types",
         "user-guide/node-type-sizing",
