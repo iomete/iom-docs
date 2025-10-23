@@ -14,7 +14,7 @@ Docker Tag Aliases allow you to define and manage custom aliases for Docker imag
 
 To view Docker Tag Aliases, navigate to the **Settings** menu item, switch to the **Docker Settings** tab, and then select the **Docker Tag Aliases** tab.
 
-<Img src="/img/user-guide/docker-tag-aliases/docker-tag-aliases.png" alt="Docker Tag Aliases" />
+<Img src="/img/user-guide/docker-tag-aliases/docker-tag-alias.png" alt="Docker Tag Aliases" />
 
 ---
 
@@ -32,8 +32,6 @@ Global aliases are predefined aliases managed by system administrators. These ar
 - Provide standardized version references across the entire platform
 - Ensure consistency across different domains and environments
 
-<Img src="/img/user-guide/docker-tag-aliases/global-aliases.png" alt="Global aliases" />
-
 ### Domain Aliases
 
 Domain aliases are custom aliases that you can create and manage within your specific domain. Use these to define your own tag mappings for easier version management and deployment flexibility.
@@ -43,8 +41,6 @@ Domain aliases are custom aliases that you can create and manage within your spe
 - Provide flexibility for domain-specific versioning
 - Can be modified or deleted as needed
 - Ideal for custom deployments and version control strategies
-
-<Img src="/img/user-guide/docker-tag-aliases/domain-aliases.png" alt="Domain aliases" />
 
 ---
 
@@ -61,7 +57,7 @@ To add a new tag alias:
 5. Enter the corresponding Docker tag/version (e.g., `3.9.1`, `2.1.0`)
 6. Click **Save** to save the tag alias
 
-<Img src="/img/user-guide/docker-tag-aliases/add-tag-alias.png" alt="Add new tag alias" />
+<Img src="/img/user-guide/docker-tag-aliases/docker-tag-alias-create.png" alt="Add new tag alias" />
 
 ### Changing an Alias Value
 
@@ -73,7 +69,7 @@ If you want to update the tag version for an existing alias:
 4. Enter the new tag version
 5. Click **Save**
 
-<Img src="/img/user-guide/docker-tag-aliases/change-alias.png" alt="Change alias value" />
+<Img src="/img/user-guide/docker-tag-aliases/docker-tag-alias-edit.png" alt="Change alias value" />
 
 ### Deleting a Tag Alias
 
@@ -89,7 +85,7 @@ To delete a tag alias:
 Deleting this alias may affect Spark Jobs, Compute Clusters, and Streaming Jobs that reference it. Ensure no active resources are using the alias before deletion.
 :::
 
-<Img src="/img/user-guide/docker-tag-aliases/delete-alias.png" alt="Delete alias" />
+<Img src="/img/user-guide/docker-tag-aliases/docker-tag-alias-delete.png" alt="Delete alias" />
 
 ---
 
@@ -120,8 +116,6 @@ iomete.azurecr.io/iomete/spark-py:3.9.1
    - Example: `myregistry.io/custom-spark:${latest}`
 4. Save and run the job
 
-<Img src="/img/user-guide/docker-tag-aliases/use-in-spark-job.png" alt="Use tag alias in Spark job" />
-
 ### Benefits
 
 - **Easy version management**: Update the alias mapping once to affect all jobs using that alias
@@ -138,28 +132,3 @@ iomete.azurecr.io/iomete/spark-py:3.9.1
 3. **Test before updating**: When changing an alias value, test with a single job before updating production workloads
 4. **Avoid frequent changes**: Establish a process for updating aliases to prevent unexpected behavior
 5. **Monitor dependencies**: Before deleting an alias, check which resources reference it
-
----
-
-## Example Use Cases
-
-### Scenario 1: Development and Production Environments
-
-Create separate aliases for different environments:
-- `dev-latest` → `3.9.1-dev`
-- `staging-latest` → `3.9.0`
-- `prod-stable` → `3.8.5`
-
-### Scenario 2: Feature Testing
-
-Test new features without changing production jobs:
-- `stable` → `3.9.1`
-- `experimental` → `4.0.0-beta`
-- `legacy` → `3.7.2`
-
-### Scenario 3: Custom Application Versions
-
-Manage multiple versions of custom applications:
-- `etl-job-latest` → `2.3.1`
-- `ml-pipeline-stable` → `1.5.0`
-- `data-sync-current` → `3.1.2`
