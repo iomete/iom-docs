@@ -193,17 +193,15 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     {/* Review: Fuad Musayev */}
     - **Spark Operator Upgrade**: Upgraded Spark Operator to version 4.0.3 with improved performance and stability.
 
-    {/* Review: Aslan Bakirov, garayevs, rcjverhoef */}
+    {/* Review: Aslan Bakirov, garayevs */}
     - **Jupyter Container Improvements**:
       - Upgraded Spark version in Jupyter Containers for better compatibility.
       - Resolved write permission issues in PVC and NFS volumes by adding `fsGroup` configuration.
-      - Updated Jupyter kernel directory paths for improved organization.
 
-    {/* Review: Altay, Mateus Aubin, rcjverhoef */}
+    {/* Review: Altay, Mateus Aubin */}
     - **Spark ArrowFlight Enhancements**:
       - Arrow Flight server can now run on `iom-spark-connect` for improved scalability.
       - Fixed ArrowFlight authorization exceptions for better security enforcement.
-      - Reverted `iom-spark-connect` mainClass to `SparkConnect` for stability.
 
     {/* Review: Sourabh Jajoria, Fuad Musayev */}
     - **System Configuration**:
@@ -218,12 +216,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Standardized button behavior across Spark Job and Marketplace forms.
       - Improved Docker tag alias UI with better validation and user experience.
 
-    {/* Review: garayevs, rcjverhoef, rocco.verhoef */}
+    {/* Review: garayevs */}
     - **Infrastructure**:
       - Added `priorityClassName` to deployments for better resource management.
-      - Helm plugin `iom-list-images` can now discover images via annotations.
-      - Chart version updated to 13.0.0.
-      - Spark version updated to 3.5.5-v7-rc1.
   </Improvements>
 
   <BugFixes>
