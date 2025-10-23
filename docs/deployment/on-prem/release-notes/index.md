@@ -45,16 +45,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Increased sync-timeout of spark-operator
         - Spark operator bump to 4.0.3
 
-    garayevs
-      KOTLIN:
-      - Add copy API (#1238)
-        - Add priorityClassName to deployment (#1230)
-        - Bugfix Copy-To Worksheet/Folder (#1247)
-        - IE-100 / S3 Location of Worksheets (#1234)
-        - Keep files after copy
-        - Load tag aliases only if image has alias
-        - Resolve write permission issue in PVC and NFS by adding fsGroup (#1232)
-
     Mammad Mammadli
       CONSOLE:
         - Add alias for admin/hooks
@@ -125,12 +115,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Introduced UI-based management for Docker tag aliases in the Console, allowing domain users to create, edit, and delete aliases without modifying Helm configurations.
       - Domain-level tag aliases are now stored in the database and can be updated dynamically without pod restarts, while global tag aliases continue to be managed via Helm chart configuration.
       - Unique alias validation within each domain prevents conflicts and maintains consistency across Spark resources.
-
-    {/* Review: Vugar Dadalov, garayevs */}
-    - **Worksheet and Folder Copy Functionality**:
-      - Users can now copy worksheets and folders within SQL Workspace with improved payload structure.
-      - Added copy options to folder and worksheet context menus for enhanced usability.
-      - Files are retained after copy operations for better data management.
   </NewFeatures>
 
   <Improvements>
@@ -139,10 +123,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Implemented filtering by "Job User" (Run as user) for both Job Runs and Job Listings.
       - Improved time-based filtering to include running jobs that started before the selected time window, ensuring active jobs remain visible regardless of when they were initiated.
 
-    {/* Review: Vugar Dadalov, garayevs */}
+    {/* Review: Vugar Dadalov */}
     - **SQL Workspace Improvements**:
-      - Worksheets now display their S3 storage location for better transparency.
-      - Added copy functionality with improved path handling using `fullPath` instead of `path` and `storagePath`.
+      - Added `Copy name` and `Copy full path` options for worksheets and folders
+      - Added `Copy to` functionality to copy worksheets and folders from one location to another
+
 
     {/* Review: Vugar Dadalov, Nurlan Mammadov */}
     - **Storage Configuration Enhancements**:
@@ -159,10 +144,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     {/* Review: Fuad Musayev */}
     - **Spark Operator Upgrade**: Upgraded Spark Operator to version 4.0.3 with improved performance and stability.
 
-    {/* Review: Aslan Bakirov, garayevs */}
+    {/* Review: Aslan Bakirov */}
     - **Jupyter Container Improvements**:
       - Upgraded Spark version in Jupyter Containers for better compatibility.
-      - Resolved write permission issues in PVC and NFS volumes by adding `fsGroup` configuration.
+      - Improved Jupyter Containers deployment to respect priority class threshold
 
     {/* Review: Altay, Mateus Aubin */}
     - **Spark ArrowFlight Enhancements**:
@@ -182,9 +167,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Standardized button behavior across Spark Job and Marketplace forms.
       - Improved Docker tag alias UI with better validation and user experience.
 
-    {/* Review: garayevs */}
-    - **Infrastructure**:
-      - Added `priorityClassName` to deployments for better resource management.
   </Improvements>
 
   <BugFixes>
@@ -210,9 +192,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Improved scrolling behavior when adding new Docker tag alias rows.
       - Resolved Docker tag alias list state management issues.
 
-    {/* Review: Vugar Dadalov, garayevs */}
-    - **Worksheet and Folder Operations**:
-      - Fixed Copy-To Worksheet/Folder functionality with improved payload structure.
   </BugFixes>
 </Release>
 
