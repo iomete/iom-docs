@@ -71,7 +71,7 @@ If you want to update the tag version for an existing alias:
 
 <Img src="/img/user-guide/docker-tag-aliases/docker-tag-alias-edit.png" alt="Change alias value" />
 
-### Deleting a Tag Alias
+<!-- ### Deleting a Tag Alias
 
 To delete a tag alias:
 
@@ -85,7 +85,7 @@ To delete a tag alias:
 Deleting this alias may affect Spark Jobs, Compute Clusters, and Streaming Jobs that reference it. Ensure no active resources are using the alias before deletion.
 :::
 
-<Img src="/img/user-guide/docker-tag-aliases/docker-tag-alias-delete.png" alt="Delete alias" />
+<Img src="/img/user-guide/docker-tag-aliases/docker-tag-alias-delete.png" alt="Delete alias" /> -->
 
 ---
 
