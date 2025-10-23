@@ -20,10 +20,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     RELEASE 3.14.0 - COMPLETE COMMIT DETAILS BY CONTRIBUTOR  
     =============================================================================
     
-    Abhishek Pathania
-      KOTLIN:
-      - Creating/updating notification settings for Spark Jobs failed with a Jackson error when parsing eventTypes
-    
     Altay
       SPARK:
       - fix for the arrowflight and spark security authorization exception (#211)
