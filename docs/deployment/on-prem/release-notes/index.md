@@ -88,25 +88,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - fix: add back button to ErrorResult component in StorageConfigCreate
         - fix: handle empty data case in ResourceQuotasByType component
         - refactor: combine namespace quota components into unified tabbed interface
-
-    Vugar Dadalov
-      CONSOLE:
-      - feat: add 'Run as user' column to job list and update filters (V1)
-        - feat: add baseUrl prop to SparkJobForm and SparkJobFormSubmit components
-        - feat: add copy options to FolderNodeMenu and WorksheetNodeMenu for folder and worksheet data
-        - feat: add delete action to SparkJobForm and SparkStreamingJobForm components
-        - feat: add jobUser (Run as user) parameter to various Spark (V2) app and job components for enhanced filtering
-        - feat: add sparkAppsTimeline query key and update useSparkAppTimeline to accept jobUser parameter for enhanced filtering
-        - feat: add storage provider options and update StorageConfigForm and columns for improved selection and display
-        - feat: refactor move and copy functionality to use unified payload structure across components
-        - feat: update copy options in FolderNodeMenu and WorksheetNodeMenu to use fullPath instead of path and storagePath
-        - fix: add danger prop to Abort button in SparkAppAbortAction component
-        - fix: adjust icon margin in FolderNodeMenuCopyItems for better alignment
-        - fix: disable buttons when user lacks management permissions in SparkJobFormSubmit
-        - fix: simplify className assignment for visibility in FolderNodeMenuCopyItems
-        - fix: update button properties to set block to false in SparkJobCreate and SparkStreamingJobCreate components
-        - fix: update Marketplace button to disable based on marketplace management permissions
-
     =============================================================================
   */}
 
@@ -120,14 +101,23 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <Improvements>
     - **Spark Job Filtering Enhancements**:
       - Added "Run as user" column to Job Template and Streaming Job listing pages.
-      - Implemented filtering by "Job User" (Run as user) for both Job Runs and Job Listings.
+          <Img src="/img/getting-started/release-notes/3.14.0/spark-job-template-run-as-user.png" alt="Job Templates | run as user" />
+      - Implemented filtering by "Job User" (Run as user) for both Job Template Applications and Spark applications.
+          <Img src="/img/getting-started/release-notes/3.14.0/spark-applications-run-as-user.png" alt="Spark applications | run as user" />
       - Improved time-based filtering to include running jobs that started before the selected time window, ensuring active jobs remain visible regardless of when they were initiated.
 
-    {/* Review: Vugar Dadalov */}
     - **SQL Workspace Improvements**:
-      - Added `Copy name` and `Copy full path` options for worksheets and folders
       - Added `Copy to` functionality to copy worksheets and folders from one location to another
+      - Added `Copy name` and `Copy full path` options for worksheets and folders
 
+      <div class="row">
+        <div class="col col--6">
+          <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-to.png" alt="SQL editor | workspace copy to" maxWidth="500px" />
+        </div>
+        <div class="col col--6">
+          <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-name.png" alt="SQL editor | workspace copy name" maxWidth="500px" />
+        </div>
+      </div>
 
     {/* Review: Vugar Dadalov, Nurlan Mammadov */}
     - **Storage Configuration Enhancements**:
