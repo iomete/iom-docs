@@ -103,18 +103,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - fix: handle empty data case in ResourceQuotasByType component
         - refactor: combine namespace quota components into unified tabbed interface
 
-    Sourabh Jajoria
-      KOTLIN:
-        - Adding TTL based cache expiry to system-config to solve pod cache invalidation issue (#1227)
-        - Adding validations to ensure tags added to docker image versions are unique in domain (#1233)
-        - Creating a new service to manage docker tag aliases (#1239)
-        - Dashboard enablement to manage docker image tag (#1198)
-        - Pe 144/migrating spark tag alias resolution to database managed (#1243)
-        - Updating docker image migration version to avoid conflict (#1228)
-        - Updating error messages for docker image management (#1235)
-      INFRA:
-        - Adding /docker route to iom-core to support docker configuration via dashboard (#252)
-
     Vugar Dadalov
       CONSOLE:
       - feat: add 'Run as user' column to job list and update filters (V1)
@@ -137,18 +125,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   */}
 
   <NewFeatures>
-    {/* Review: Mammad Mammadli, Sourabh Jajoria */}
-    - **Docker Settings Management**:
-      - Introduced centralized Docker Settings management in the Admin Portal, replacing the previous Docker Registries configuration.
-      - Admins can now manage Docker images and their versions directly from the IOMETE Console.
-      - Added support for configuring custom Docker images for Spark Jobs and Compute Clusters.
-
-    {/* Review: Mammad Mammadli, Sourabh Jajoria, Fuad Musayev */}
     - **Docker Tag Alias Management**:
-      - Added UI-based management for Docker tag aliases, enabling admins to create, edit, and delete aliases directly from the Console.
-      - Docker tag aliases can now be managed at both global (Admin Portal) and domain levels.
-      - Tag aliases are now stored in the database rather than Helm chart configuration, allowing dynamic updates without pod restarts.
-      - Added validation to ensure tag aliases are unique within each domain.
+      - Introduced UI-based management for Docker tag aliases in the Console, allowing domain users to create, edit, and delete aliases without modifying Helm configurations.
+      - Domain-level tag aliases are now stored in the database and can be updated dynamically without pod restarts, while global tag aliases continue to be managed via Helm chart configuration.
+      - Unique alias validation within each domain prevents conflicts and maintains consistency across Spark resources.
 
     {/* Review: Vugar Dadalov, garayevs */}
     - **Worksheet and Folder Copy Functionality**:
@@ -193,7 +173,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Arrow Flight server can now run on `iom-spark-connect` for improved scalability.
       - Fixed ArrowFlight authorization exceptions for better security enforcement.
 
-    {/* Review: Sourabh Jajoria, Fuad Musayev */}
+    {/* Review: Fuad Musayev */}
     - **System Configuration**:
       - Added TTL-based cache expiry to system-config to resolve pod cache invalidation issues.
       - Stale data cleanup logic implemented for improved system hygiene.
@@ -217,7 +197,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Fixed Jackson parsing error when creating or updating notification settings for Spark Jobs due to eventTypes parsing failure.
       - Fixed issue where running Spark jobs were not included in search results when filtering by time range.
 
-    {/* Review: Sourabh Jajoria */}
+    {/* Review: Fuad Musayev */}
     - **SSO Login Improvements**:
       - Fixed various SSO login issues with improved error handling and logging.
       - SSO login logs changed to debug level to reduce log noise.
