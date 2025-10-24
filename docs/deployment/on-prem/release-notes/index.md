@@ -49,6 +49,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Remove unncessary delete notification
         - Rename docker registries with docker images
         - rename the permission name
+        - feat: enhance docker image selection for private registries
 
     Mateus Aubin
       SPARK:
@@ -99,10 +100,16 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         </div>
       </div>
 
-    - Data-Catalog Stale Data Cleanup. Added automatic stale data cleanup logic in the Data-Catalog (Data-Explorer) service.  
-      - By default, all data not synced within 14 days will be automatically deleted.  
-      - The retention period can be configured using the environment variable STALE_DATA_RETENTION_DAYS (applies to iom-catalog-service).  
-      - Note: Data-Catalog Search will not be automatically cleaned — to refresh the indexed data, manually delete it using "Clean search" button and perform a full re-sync.  
+    - **Docker tag alias improvement**:
+      - Suggesting `tag aliases` on docker images in private registries.
+
+      <Img src="/img/getting-started/release-notes/3.14.0/docker-tag-alias.png" alt="Docker tag alias" centered />
+
+
+    - Data-Catalog Stale Data Cleanup. Added automatic stale data cleanup logic in the Data-Catalog (Data-Explorer) service.
+      - By default, all data not synced within 14 days will be automatically deleted.
+      - The retention period can be configured using the environment variable STALE_DATA_RETENTION_DAYS (applies to iom-catalog-service).
+      - Note: Data-Catalog Search will not be automatically cleaned — to refresh the indexed data, manually delete it using "Clean search" button and perform a full re-sync.
 
     {/* Review: Vugar Dadalov, Nurlan Mammadov */}
     - **Storage Configuration Enhancements**:
