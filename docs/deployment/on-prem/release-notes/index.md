@@ -25,10 +25,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - fix for the arrowflight and spark security authorization exception (#211)
       - Unit test fixes and adding ranger to configurations to be able to run… (#218)
 
-    Aslan Bakirov
-      KOTLIN:
-      - Upgrade spark in jupyter containers (#1240)
-
     Mammad Mammadli
       CONSOLE:
         - Add alias for admin/hooks
@@ -120,7 +116,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Added `Storage class name` to Volume details view for improved visibility.
       - Improved handling of non-array data in namespace quotas by resource type.
 
-    {/* Review: Aslan Bakirov */}
     - **Jupyter Container Improvements**:
       - Upgraded Spark version in Jupyter Containers for better compatibility.
       - Improved Jupyter Containers deployment to respect priority class threshold
