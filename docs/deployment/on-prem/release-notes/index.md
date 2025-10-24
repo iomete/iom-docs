@@ -33,18 +33,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       SPARK:
       - Use app_id from env (#212)
 
-    Fuad Musayev
-      KOTLIN:
-      - Added stale data cleanup logic (#1231)
-        - Added transactional annotation to docker alias list
-        - SSO login - fixing issues
-        - SSO login improvements
-        - SSO login log changed to debug
-        - SSO login logs
-        INFRA:
-        - Increased sync-timeout of spark-operator
-        - Spark operator bump to 4.0.3
-
     Mammad Mammadli
       CONSOLE:
         - Add alias for admin/hooks
@@ -119,6 +107,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         </div>
       </div>
 
+    - Data-Catalog Stale Data Cleanup. Added automatic stale data cleanup logic in the Data-Catalog (Data-Explorer) service.  
+      - By default, all data not synced within 14 days will be automatically deleted.  
+      - The retention period can be configured using the environment variable STALE_DATA_RETENTION_DAYS (applies to iom-catalog-service).  
+      - Note: Data-Catalog Search will not be automatically cleaned — to refresh the indexed data, manually delete it using "Clean search" button and perform a full re-sync.  
+
     {/* Review: Vugar Dadalov, Nurlan Mammadov */}
     - **Storage Configuration Enhancements**:
       - Added storage provider options to Storage Config form for improved selection and display.
@@ -131,9 +124,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Added `Storage class name` to Volume details view for improved visibility.
       - Improved handling of non-array data in namespace quotas by resource type.
 
-    {/* Review: Fuad Musayev */}
-    - **Spark Operator Upgrade**: Upgraded Spark Operator to version 4.0.3 with improved performance and stability.
-
     {/* Review: Aslan Bakirov */}
     - **Jupyter Container Improvements**:
       - Upgraded Spark version in Jupyter Containers for better compatibility.
@@ -143,11 +133,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark ArrowFlight Enhancements**:
       - Arrow Flight server can now run on `iom-spark-connect` for improved scalability.
       - Fixed ArrowFlight authorization exceptions for better security enforcement.
-
-    {/* Review: Fuad Musayev */}
-    - **System Configuration**:
-      - Added TTL-based cache expiry to system-config to resolve pod cache invalidation issues.
-      - Stale data cleanup logic implemented for improved system hygiene.
 
     {/* Review: Mammad Mammadli, Nurlan Mammadov, Vugar Dadalov */}
     - **UI/UX Improvements**:
@@ -165,11 +150,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Fixed Jackson parsing error when creating or updating notification settings for Spark Jobs due to eventTypes parsing failure.
       - Fixed issue where running Spark jobs were not included in search results when filtering by time range.
       - Fixed a bug causing the Spark History Server to occasionally fail to load job details.
-
-    {/* Review: Fuad Musayev */}
-    - **SSO Login Improvements**:
-      - Fixed various SSO login issues with improved error handling and logging.
-      - SSO login logs changed to debug level to reduce log noise.
 
     {/* Review: Vugar Dadalov */}
     - **Jupyter Container Fixes**:
