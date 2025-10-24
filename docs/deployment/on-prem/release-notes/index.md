@@ -140,7 +140,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     {/* Review: Vugar Dadalov */}
     - **Spark Job Issues**:
       - Fixed issue where running Spark jobs were not included in search results when filtering by time range.
-      - Fixed a bug causing the Spark History Server to occasionally fail to load job details.
 
     {/* Review: Vugar Dadalov */}
     - **Jupyter Container Fixes**:
