@@ -66,27 +66,23 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Added `Copy to` functionality to copy worksheets and folders from one location to another
       - Added `Copy name` and `Copy full path` options for worksheets and folders
 
-      <div class="row">
-        <div class="col col--6">
-          <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-to.png" alt="SQL editor | workspace copy to" maxWidth="400px" />
+        <div class="row">
+          <div class="margin-right--md">
+            <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-to.png" alt="SQL editor | workspace copy to" maxWidth="360px" />
+          </div>
+          <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-name.png" alt="SQL editor | workspace copy name" maxWidth="360px" />
         </div>
-        <div class="col col--6">
-          <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-name.png" alt="SQL editor | workspace copy name" maxWidth="400px" />
-        </div>
-      </div>
 
       - Currently supports opening the menu with both right-click and the three-dots button in Workspaces and Database Explorers.
-      <div class="row">
-        <div class="col col--6">
-          <Img src="/img/getting-started/release-notes/3.14.0/sql-db-right-click-menu.png" alt="SQL editor | database explorer menu" maxWidth="400px" />
+        <div class="row">
+          <div class="margin-right--md">
+            <Img src="/img/getting-started/release-notes/3.14.0/sql-db-right-click-menu.png" alt="SQL editor | database explorer menu" maxWidth="360px" />
+          </div>
+          <Img src="/img/getting-started/release-notes/3.14.0/sql-worksheet-right-click-menu.png" alt="SQL editor | workspace menu" maxWidth="360px" />
         </div>
-        <div class="col col--6">
-          <Img src="/img/getting-started/release-notes/3.14.0/sql-worksheet-right-click-menu.png" alt="SQL editor | workspace menu" maxWidth="400px" />
-        </div>
-      </div>
 
 
-    - **Spark driver and executor logs view**
+    - **Spark driver and executor logs view**:
       - Improved log download functionality by separating it into `Visible logs` and `All logs`.
 
         **Visible logs** downloads the logs currently shown based on applied filters.
@@ -98,7 +94,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Docker tag alias improvement**:
       - Suggesting `tag aliases` on docker images in private registries.
 
-      <Img src="/img/getting-started/release-notes/3.14.0/docker-tag-alias.png" alt="Docker tag alias" centered />
+        <Img src="/img/getting-started/release-notes/3.14.0/docker-tag-alias.png" alt="Docker tag alias" maxWidth="700px" />
 
 
     - Data-Catalog Stale Data Cleanup. Added automatic stale data cleanup logic in the Data-Catalog (Data-Explorer) service.
@@ -135,25 +131,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Fixed ArrowFlight authorization exceptions for better security enforcement.
 
   </Improvements>
-
-  <BugFixes>
-    {/* Review: Vugar Dadalov */}
-    - **Spark Job Issues**:
-      - Fixed issue where running Spark jobs were not included in search results when filtering by time range.
-
-    {/* Review: Vugar Dadalov */}
-    - **Jupyter Container Fixes**:
-      - Fixed volume warning message display during Jupyter Container creation when no volume is selected.
-
-    {/* Review: Mammad Mammadli, Nurlan Mammadov */}
-    - **UI Fixes**:
-      - Fixed SSO OIDC delete button by removing unused access denied tooltip.
-      - Fixed handling of undefined `domainData` in GeneralInfo component.
-      - Fixed empty data case handling in ResourceQuotasByType component.
-      - Improved scrolling behavior when adding new Docker tag alias rows.
-      - Resolved Docker tag alias list state management issues.
-
-  </BugFixes>
 </Release>
 
 
