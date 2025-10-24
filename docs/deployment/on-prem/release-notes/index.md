@@ -28,10 +28,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     Aslan Bakirov
       KOTLIN:
       - Upgrade spark in jupyter containers (#1240)
-    
-    azsefi
-      SPARK:
-      - Use app_id from env (#212)
 
     Mammad Mammadli
       CONSOLE:
