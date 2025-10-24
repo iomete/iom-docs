@@ -25,32 +25,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - fix for the arrowflight and spark security authorization exception (#211)
       - Unit test fixes and adding ranger to configurations to be able to run… (#218)
 
-    Mammad Mammadli
-      CONSOLE:
-        - Add alias for admin/hooks
-        - Add docker tag alias management (#445)
-        - call bundle asset count from details
-        - feat: improve Docker tag alias UI and user experience
-        - fix: improve Docker tag alias validation and UX
-        - fix: improve scrolling to new Docker tag alias row
-        - fix: resolve Docker tag alias list state management issues
-        - Implement create flow for docker image
-        - Implement delete functionality for docker image
-        - Implement edit and delete docker tag alias
-        - Implement editing for docker image
-        - Implement getting all docker images service
-        - Implement onSearch for DataTableV2.tsx
-        - implement proper structure for spark versions and docker images
-        - make new rows persist after hitting save button
-        - Migrate all DataTable with v2 (#425)
-        - refactor: rename Docker Images to Docker Settings across the application
-        - refactor: reorganize Docker tag alias UI into global and domain sections
-        - remove notifications on actions
-        - Remove unncessary delete notification
-        - Rename docker registries with docker images
-        - rename the permission name
-        - feat: enhance docker image selection for private registries
-
     Mateus Aubin
       SPARK:
       - build(arrow-server): add newly required ENV_ARGS (#215)
