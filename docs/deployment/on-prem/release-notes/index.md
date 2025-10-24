@@ -14,6 +14,125 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.14.0" date="October 27, 2025">
+  {/*
+    =============================================================================
+    RELEASE 3.14.0 - COMPLETE COMMIT DETAILS BY CONTRIBUTOR  
+    =============================================================================
+    
+    Altay
+      SPARK:
+      - fix for the arrowflight and spark security authorization exception (#211)
+      - Unit test fixes and adding ranger to configurations to be able to run… (#218)
+
+    Mateus Aubin
+      SPARK:
+      - build(arrow-server): add newly required ENV_ARGS (#215)
+        - build(arrow-server): fix scalastyle complaints (#214)
+
+    Nurlan Mammadov
+      CONSOLE:
+        -   feat: add conditional rendering for Spark Job permissions based on onboardSparkJobRas
+        -   feat: replace popconfirm with modal confirmation for compute deletion
+        -   fix: enable SSO OIDC delete button by removing unused access denied tooltip
+        -   fix: handle non-array data in namespace quotas by resource type
+        -   fix: show volume warning message during Jupyter container creation if volume not selected
+        -   refactor: simplify StorageConfigForm and TestConnection components
+        -  fix: handle undefined domainData in GeneralInfo component
+        - fix: `Storage class name` added to `Volume` details in details view:
+        - fix: add back button to ErrorResult component in StorageConfigCreate
+        - fix: handle empty data case in ResourceQuotasByType component
+        - refactor: combine namespace quota components into unified tabbed interface
+    =============================================================================
+
+\*/}
+
+  <NewFeatures>
+    - **Docker Tag Alias Management**:
+      - Introduced UI-based management for Docker tag aliases in the Console, allowing domain users to create, edit, and delete aliases without modifying Helm configurations.
+      - Domain-level tag aliases are now stored in the database and can be updated dynamically without pod restarts, while global tag aliases continue to be managed via Helm chart configuration.
+      - Unique alias validation within each domain prevents conflicts and maintains consistency across Spark resources.
+  </NewFeatures>
+
+  <Improvements>
+    - **Spark Job Filtering Enhancements**:
+      - Added "Run as user" column to Job Template and Streaming Job listing pages.
+          <Img src="/img/getting-started/release-notes/3.14.0/spark-job-template-run-as-user.png" alt="Job Templates | run as user" />
+      - Implemented filtering by "Job User" (Run as user) for both Job Template Applications and Spark applications.
+          <Img src="/img/getting-started/release-notes/3.14.0/spark-applications-run-as-user.png" alt="Spark applications | run as user" />
+      - Improved time-based filtering to include running jobs that started before the selected time window, ensuring active jobs remain visible regardless of when they were initiated.
+
+    - **SQL Workspace Improvements**:
+      - Added `Copy to` functionality to copy worksheets and folders from one location to another
+      - Added `Copy name` and `Copy full path` options for worksheets and folders
+
+        <div class="row">
+          <div class="margin-right--md">
+            <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-to.png" alt="SQL editor | workspace copy to" maxWidth="360px" />
+          </div>
+          <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-name.png" alt="SQL editor | workspace copy name" maxWidth="360px" />
+        </div>
+
+      - Currently supports opening the menu with both right-click and the three-dots button in Workspaces and Database Explorers.
+        <div class="row">
+          <div class="margin-right--md">
+            <Img src="/img/getting-started/release-notes/3.14.0/sql-db-right-click-menu.png" alt="SQL editor | database explorer menu" maxWidth="360px" />
+          </div>
+          <Img src="/img/getting-started/release-notes/3.14.0/sql-worksheet-right-click-menu.png" alt="SQL editor | workspace menu" maxWidth="360px" />
+        </div>
+
+
+    - **Spark driver and executor logs view**:
+      - Improved log download functionality by separating it into `Visible logs` and `All logs`.
+
+        **Visible logs** downloads the logs currently shown based on applied filters.
+
+**All logs** downloads the complete log set without filters. (This may take a few minutes if the log size is large.)
+
+      <Img src="/img/getting-started/release-notes/3.14.0/spark-logs-download-button.png" alt="Spark logs download" />
+
+    - **Docker tag alias improvement**:
+      - Suggesting `tag aliases` on docker images in private registries.
+
+        <Img src="/img/getting-started/release-notes/3.14.0/docker-tag-alias.png" alt="Docker tag alias" maxWidth="700px" />
+
+
+    - Data-Catalog Stale Data Cleanup. Added automatic stale data cleanup logic in the Data-Catalog (Data-Explorer) service.
+      - By default, all data not synced within 14 days will be automatically deleted.
+      - The retention period can be configured using the environment variable STALE_DATA_RETENTION_DAYS (applies to iom-catalog-service).
+      - Note: Data-Catalog Search will not be automatically cleaned — to refresh the indexed data, manually delete it using "Clean search" button and perform a full re-sync.
+
+    {/* Review: Vugar Dadalov, Nurlan Mammadov */}
+    - **Storage Configuration Enhancements**:
+      - Added storage provider options to Storage Config form for improved selection and display.
+      - Simplified StorageConfigForm and TestConnection components for better maintainability.
+      - Added back button to ErrorResult component in StorageConfigCreate for improved navigation.
+
+    {/* Review: Nurlan Mammadov */}
+    - **Resource Management**:
+      - Combined namespace quota components into a unified tabbed interface for better organization.
+
+        <GridBox>
+          <Img src="/img/getting-started/release-notes/3.14.0/namespace-quotas.png" alt="Namespace Quotas" />
+          <Img src="/img/getting-started/release-notes/3.14.0/resource-compute-quotas.png" alt="Resource Compute Quotas" />
+        </GridBox>
+
+      - Added `Storage class name` to Volume details view for improved visibility.
+         <Img src="/img/getting-started/release-notes/3.14.0/volume-details.png" alt="Volume Details" maxWidth="600px"/>
+      - Improved handling of non-array data in namespace quotas by resource type.
+
+    - **Jupyter Container Improvements**:
+      - Upgraded Spark version in Jupyter Containers for better compatibility.
+      - Improved Jupyter Containers deployment to respect priority class threshold
+
+    {/* Review: Altay, Mateus Aubin */}
+    - **Spark ArrowFlight Enhancements**:
+      - Arrow Flight server can now run on `iom-spark-connect` for improved scalability.
+      - Fixed ArrowFlight authorization exceptions for better security enforcement.
+
+  </Improvements>
+</Release>
+
 <Release version="3.13.0" date="October 13, 2025">
   <Improvements>
     - **Jupyter Containers**:
@@ -95,25 +214,28 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="3.12.2" date="September 25, 2025">
   <BugFixes>
-  - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
-  - Removed validation which required connection tests to pass while creating storage configs
-  - **Resource Bundle list**
-    - Fixed issue where the **Archive** button did not work in the dropdown menu.
+      - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
+      - Removed validation which required connection tests to pass while creating storage configs
+      - **Resource Bundle list**
+        - Fixed issue where the **Archive** button did not work in the dropdown menu.
 
-  - **Resource Bundle Form**
-    - Made the **Description** field optional.
-    - Set the default **Owner** type to **Group**.
+    - **Resource Bundle Form**
 
-  - **Resource Bundle Detail – Permissions Form**
-    - Set the default **Actor** type to **Group**.
-    - Removed the **Permission Preview** page.
+      - Made the **Description** field optional.
+      - Set the default **Owner** type to **Group**.
 
-  - **Spark (ArrowFlight)**
-    - Resolved an issue where queries with LIMIT over the ArrowFlight protocol still triggered a full table scan.
-    - Removed an unnecessary bucket-level permission check in ArrowFetch that was causing incorrect “access denied” errors.
+    - **Resource Bundle Detail – Permissions Form**
 
-  - **SQL Editor**
-    - Fixed manual scrollbar dragging issue in Database Explorer.
+      - Set the default **Actor** type to **Group**.
+      - Removed the **Permission Preview** page.
+
+    - **Spark (ArrowFlight)**
+
+      - Resolved an issue where queries with LIMIT over the ArrowFlight protocol still triggered a full table scan.
+      - Removed an unnecessary bucket-level permission check in ArrowFetch that was causing incorrect “access denied” errors.
+
+    - **SQL Editor** - Fixed manual scrollbar dragging issue in Database Explorer.
+
   </BugFixes>
 </Release>
 
