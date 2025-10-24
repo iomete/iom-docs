@@ -67,12 +67,31 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       <div class="row">
         <div class="col col--6">
-          <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-to.png" alt="SQL editor | workspace copy to" maxWidth="500px" />
+          <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-to.png" alt="SQL editor | workspace copy to" maxWidth="400px" />
         </div>
         <div class="col col--6">
-          <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-name.png" alt="SQL editor | workspace copy name" maxWidth="500px" />
+          <Img src="/img/getting-started/release-notes/3.14.0/sql-workspace-copy-name.png" alt="SQL editor | workspace copy name" maxWidth="400px" />
         </div>
       </div>
+
+      - Currently supports opening the menu with both right-click and the three-dots button in Workspaces and Database Explorers.
+      <div class="row">
+        <div class="col col--6">
+          <Img src="/img/getting-started/release-notes/3.14.0/sql-db-right-click-menu.png" alt="SQL editor | database explorer menu" maxWidth="400px" />
+        </div>
+        <div class="col col--6">
+          <Img src="/img/getting-started/release-notes/3.14.0/sql-worksheet-right-click-menu.png" alt="SQL editor | workspace menu" maxWidth="400px" />
+        </div>
+      </div>
+
+
+    - **Spark driver and executor logs view**
+      - Improved log download functionality by separating it into `Visible logs` and `All logs`. 
+      
+        **Visible logs** downloads the logs currently shown based on applied filters.
+  **All logs** downloads the complete log set without filters. (This may take a few minutes if the log size is large.)
+
+      <Img src="/img/getting-started/release-notes/3.14.0/spark-logs-download-button.png" alt="Spark logs download" />
 
     - **Docker tag alias improvement**:
       - Suggesting `tag aliases` on docker images in private registries.
@@ -105,21 +124,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark ArrowFlight Enhancements**:
       - Arrow Flight server can now run on `iom-spark-connect` for improved scalability.
       - Fixed ArrowFlight authorization exceptions for better security enforcement.
-
-    {/* Review: Mammad Mammadli, Nurlan Mammadov, Vugar Dadalov */}
-    - **UI/UX Improvements**:
-      - Migrated all DataTable components to DataTableV2 for improved performance and consistency.
-      - Replaced popconfirm with modal confirmation for compute deletion to prevent accidental deletions.
-      - Added conditional rendering for Spark Job permissions based on `onboardSparkJobRas` feature flag.
-      - Standardized button behavior across Spark Job and Marketplace forms.
-      - Improved Docker tag alias UI with better validation and user experience.
-
   </Improvements>
 
   <BugFixes>
     {/* Review: Vugar Dadalov */}
     - **Spark Job Issues**:
-      - Fixed Jackson parsing error when creating or updating notification settings for Spark Jobs due to eventTypes parsing failure.
       - Fixed issue where running Spark jobs were not included in search results when filtering by time range.
       - Fixed a bug causing the Spark History Server to occasionally fail to load job details.
 
