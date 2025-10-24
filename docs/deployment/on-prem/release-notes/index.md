@@ -44,7 +44,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - fix: handle empty data case in ResourceQuotasByType component
         - refactor: combine namespace quota components into unified tabbed interface
     =============================================================================
-  */}
+
+\*/}
 
   <NewFeatures>
     - **Docker Tag Alias Management**:
@@ -86,10 +87,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 
     - **Spark driver and executor logs view**
-      - Improved log download functionality by separating it into `Visible logs` and `All logs`. 
-      
+      - Improved log download functionality by separating it into `Visible logs` and `All logs`.
+
         **Visible logs** downloads the logs currently shown based on applied filters.
-  **All logs** downloads the complete log set without filters. (This may take a few minutes if the log size is large.)
+
+**All logs** downloads the complete log set without filters. (This may take a few minutes if the log size is large.)
 
       <Img src="/img/getting-started/release-notes/3.14.0/spark-logs-download-button.png" alt="Spark logs download" />
 
@@ -113,7 +115,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     {/* Review: Nurlan Mammadov */}
     - **Resource Management**:
       - Combined namespace quota components into a unified tabbed interface for better organization.
+
+        <GridBox>
+          <Img src="/img/getting-started/release-notes/3.14.0/namespace-quotas.png" alt="Namespace Quotas" />
+          <Img src="/img/getting-started/release-notes/3.14.0/resource-compute-quotas.png" alt="Resource Compute Quotas" />
+        </GridBox>
+
       - Added `Storage class name` to Volume details view for improved visibility.
+         <Img src="/img/getting-started/release-notes/3.14.0/volume-details.png" alt="Volume Details" maxWidth="600px"/>
       - Improved handling of non-array data in namespace quotas by resource type.
 
     - **Jupyter Container Improvements**:
@@ -124,6 +133,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark ArrowFlight Enhancements**:
       - Arrow Flight server can now run on `iom-spark-connect` for improved scalability.
       - Fixed ArrowFlight authorization exceptions for better security enforcement.
+
   </Improvements>
 
   <BugFixes>
@@ -239,25 +249,28 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="3.12.2" date="September 25, 2025">
   <BugFixes>
-  - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
-  - Removed validation which required connection tests to pass while creating storage configs
-  - **Resource Bundle list**
-    - Fixed issue where the **Archive** button did not work in the dropdown menu.
+      - Improved NFS validation, to ensure multiple NFS storages can exists and be used for different workloads
+      - Removed validation which required connection tests to pass while creating storage configs
+      - **Resource Bundle list**
+        - Fixed issue where the **Archive** button did not work in the dropdown menu.
 
-  - **Resource Bundle Form**
-    - Made the **Description** field optional.
-    - Set the default **Owner** type to **Group**.
+    - **Resource Bundle Form**
 
-  - **Resource Bundle Detail – Permissions Form**
-    - Set the default **Actor** type to **Group**.
-    - Removed the **Permission Preview** page.
+      - Made the **Description** field optional.
+      - Set the default **Owner** type to **Group**.
 
-  - **Spark (ArrowFlight)**
-    - Resolved an issue where queries with LIMIT over the ArrowFlight protocol still triggered a full table scan.
-    - Removed an unnecessary bucket-level permission check in ArrowFetch that was causing incorrect “access denied” errors.
+    - **Resource Bundle Detail – Permissions Form**
 
-  - **SQL Editor**
-    - Fixed manual scrollbar dragging issue in Database Explorer.
+      - Set the default **Actor** type to **Group**.
+      - Removed the **Permission Preview** page.
+
+    - **Spark (ArrowFlight)**
+
+      - Resolved an issue where queries with LIMIT over the ArrowFlight protocol still triggered a full table scan.
+      - Removed an unnecessary bucket-level permission check in ArrowFetch that was causing incorrect “access denied” errors.
+
+    - **SQL Editor** - Fixed manual scrollbar dragging issue in Database Explorer.
+
   </BugFixes>
 </Release>
 
