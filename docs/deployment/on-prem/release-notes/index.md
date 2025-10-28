@@ -20,7 +20,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Prevent Queue Head Blocking**:
         - Introduced timeout-based handling for job runs blocked at the queue head due to quota limits.
         - The system now tracks elapsed wait time and automatically retries or cancels runs once thresholds are reached, preventing indefinite queue blocking.  
-        - Controlled by system configs:
+        - Configurable via the following system properties:
           - `job-orchestrator.queue.head-timeout-seconds` *(default: 3600)* – defines how long a run may wait for quota before timing out.  
           - `job-orchestrator.queue.head-retry-count` *(default: 0)* – specifies how many times the run may be rescheduled after timeout before final cancellation.
   </Improvements>
