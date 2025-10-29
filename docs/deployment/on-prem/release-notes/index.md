@@ -14,6 +14,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+
+
+<Release version="3.13.1" date="October 28, 2025">
+  <Improvements>
+  - Added support for optional bundle in Spark Job creation via API call. Spark Job is added to default resource bundle if no bundle id is provided in request payload
+  </Improvements>
+  <BugFixes>
+  - Fixed Spark Job logs permission issue
+  </BugFixes>
+</Release>
+
 <Release version="3.13.0" date="October 13, 2025">
   <Improvements>
     - **Jupyter Containers**:
