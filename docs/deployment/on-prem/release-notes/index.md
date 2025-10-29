@@ -14,6 +14,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="X.x.x" date="unknown">
+  <BugFixes>
+    - **Spark Applications**:
+      - Fixed startup timeout logic to properly abort Spark applications when driver is running but executors stuck in PENDING state due to resource quota violations or fragmentation.
+  </BugFixes>
+</Release>
+
 <Release version="3.13.0" date="October 13, 2025">
   <Improvements>
     - **Jupyter Containers**:
