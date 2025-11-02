@@ -23,6 +23,7 @@ IOMETE is a cutting-edge Data Lakehouse Platform that revolutionizes how organiz
 - **User-Friendly**: IOMETE offers a user-friendly interface and is compatible with popular BI tools and data science platforms, making it accessible to both technical and non-technical users.
 
 - **Flexible Deployment**: You can deploy IOMETE anywhere, whether it's on-premises, in the cloud, or in a hybrid environment, providing you with the flexibility to choose the environment that suits your needs.
+  <Img src="/img/getting-started/deployment-flexibility.png" alt="IOMETE Deployment Flexibility"/>
 
 ## Understanding Data Lakehouse
 
@@ -46,7 +47,7 @@ This means you can perform operations like ACID transactions, updates, deletes, 
 IOMETE utilizes a decoupled compute and storage architecture, which allows for the independent scaling of compute and storage. To put it simply, IOMETE acts as the computation, management, and governance layer that connects to the storage layer.
 IOMETE's architecture is designed to provide optimal performance and flexibility for data processing.
 
-<Img src="/img/getting-started/iomete-high-level-overview.png" alt="IOMETE Architecture High-Level Overview"/>
+<Img src="/img/getting-started/architecture.png" alt="IOMETE Architecture High-Level Overview"/>
 
 Let's take a closer look at its components:
 
