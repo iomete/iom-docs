@@ -15,38 +15,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Mailer/>
 
 <Release version="3.14.0" date="October 27, 2025">
-  {/*
-    =============================================================================
-    RELEASE 3.14.0 - COMPLETE COMMIT DETAILS BY CONTRIBUTOR  
-    =============================================================================
-    
-    Altay
-      SPARK:
-      - fix for the arrowflight and spark security authorization exception (#211)
-      - Unit test fixes and adding ranger to configurations to be able to run… (#218)
-
-    Mateus Aubin
-      SPARK:
-      - build(arrow-server): add newly required ENV_ARGS (#215)
-        - build(arrow-server): fix scalastyle complaints (#214)
-
-    Nurlan Mammadov
-      CONSOLE:
-        -   feat: add conditional rendering for Spark Job permissions based on onboardSparkJobRas
-        -   feat: replace popconfirm with modal confirmation for compute deletion
-        -   fix: enable SSO OIDC delete button by removing unused access denied tooltip
-        -   fix: handle non-array data in namespace quotas by resource type
-        -   fix: show volume warning message during Jupyter container creation if volume not selected
-        -   refactor: simplify StorageConfigForm and TestConnection components
-        -  fix: handle undefined domainData in GeneralInfo component
-        - fix: `Storage class name` added to `Volume` details in details view:
-        - fix: add back button to ErrorResult component in StorageConfigCreate
-        - fix: handle empty data case in ResourceQuotasByType component
-        - refactor: combine namespace quota components into unified tabbed interface
-    =============================================================================
-
-\*/}
-
   <NewFeatures>
     - **Docker Tag Alias Management**:
       - Introduced UI-based management for Docker tag aliases in the Console, allowing domain users to create, edit, and delete aliases without modifying Helm configurations.
@@ -85,30 +53,24 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark driver and executor logs view**:
       - Improved log download functionality by separating it into `Visible logs` and `All logs`.
 
-        **Visible logs** downloads the logs currently shown based on applied filters.
-
-**All logs** downloads the complete log set without filters. (This may take a few minutes if the log size is large.)
-
-      <Img src="/img/getting-started/release-notes/3.14.0/spark-logs-download-button.png" alt="Spark logs download" />
+        **Visible logs** downloads the logs currently shown based on applied filters. **All logs** downloads the complete log set without filters. (This may take a few minutes if the log size is large.)
+        <Img src="/img/getting-started/release-notes/3.14.0/spark-logs-download-button.png" alt="Spark logs download" />
 
     - **Docker tag alias improvement**:
       - Suggesting `tag aliases` on docker images in private registries.
-
         <Img src="/img/getting-started/release-notes/3.14.0/docker-tag-alias.png" alt="Docker tag alias" maxWidth="700px" />
 
-
-    - Data-Catalog Stale Data Cleanup. Added automatic stale data cleanup logic in the Data-Catalog (Data-Explorer) service.
+    - **Data-Catalog Stale Data Cleanup**:
+      - Added automatic stale data cleanup logic in the Data-Catalog (Data-Explorer) service.
       - By default, all data not synced within 14 days will be automatically deleted.
       - The retention period can be configured using the environment variable STALE_DATA_RETENTION_DAYS (applies to iom-catalog-service).
       - Note: Data-Catalog Search will not be automatically cleaned — to refresh the indexed data, manually delete it using "Clean search" button and perform a full re-sync.
 
-    {/* Review: Vugar Dadalov, Nurlan Mammadov */}
     - **Storage Configuration Enhancements**:
       - Added storage provider options to Storage Config form for improved selection and display.
       - Simplified StorageConfigForm and TestConnection components for better maintainability.
       - Added back button to ErrorResult component in StorageConfigCreate for improved navigation.
 
-    {/* Review: Nurlan Mammadov */}
     - **Resource Management**:
       - Combined namespace quota components into a unified tabbed interface for better organization.
 
@@ -122,14 +84,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Improved handling of non-array data in namespace quotas by resource type.
 
     - **Jupyter Container Improvements**:
-      - Upgraded Spark version in Jupyter Containers for better compatibility.
       - Improved Jupyter Containers deployment to respect priority class threshold
-
-    {/* Review: Altay, Mateus Aubin */}
-    - **Spark ArrowFlight Enhancements**:
-      - Arrow Flight server can now run on `iom-spark-connect` for improved scalability.
-      - Fixed ArrowFlight authorization exceptions for better security enforcement.
-
   </Improvements>
 </Release>
 
