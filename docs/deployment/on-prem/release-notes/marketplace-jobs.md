@@ -12,8 +12,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 ## Latest Versions
 
 | Name                 | Image                  | Version | Link                                                                       |
-| -------------------- | ---------------------- | ------- | -------------------------------------------------------------------------- |
-| Data Compaction      | iomete_data_compaction | 1.2.11  | [Open ↗](/resources/open-source-spark-jobs/data-compaction-job)            |
+| -------------------- | ---------------------- |---------| -------------------------------------------------------------------------- |
+| Data Compaction      | iomete_data_compaction | 1.2.12  | [Open ↗](/resources/open-source-spark-jobs/data-compaction-job)            |
 | File Streaming       | iomete_file_streaming  | 0.3.0   | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
 | Catalog Sync         | iom-catalog-sync       | 4.3.3   | [Open ↗](/resources/open-source-spark-jobs/catalog-sync-job)               |
 | MySQL Sync           | iomete_mysql_sync      | 3.0.0   | [Open ↗](/resources/open-source-spark-jobs/mysql-database-replication-job) |
@@ -22,6 +22,19 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 ---
 
 ## Recent Releases
+<Release name="Data Compaction Job" version="1.2.12" date="November 3, 2025">
+    <NewFeatures>
+        - Implemented table-level locking system to prevent concurrent compaction operations on the same table
+        - Config examples:
+          ```
+              lock {
+                enabled = true
+                ttl_seconds = 172800  # 48 hours (covers 1-day worst-case + buffer)
+              }
+          ```
+    </NewFeatures>
+</Release>
+
 
 <Release name="Data Compaction Job" version="1.2.11" date="October 21, 2025">
   <NewFeatures>
