@@ -20,6 +20,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Introduced UI-based management for Docker tag aliases in the Console, allowing domain users to create, edit, and delete aliases without modifying Helm configurations.
       - Domain-level tag aliases are now stored in the database and can be updated dynamically without pod restarts, while global tag aliases continue to be managed via Helm chart configuration.
       - Unique alias validation within each domain prevents conflicts and maintains consistency across Spark resources.
+    - **Ranger Audit events**:
+      - Added internal HTTP sender for Ranger Audit events
   </NewFeatures>
 
   <Improvements>
