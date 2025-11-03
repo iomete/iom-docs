@@ -86,6 +86,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Jupyter Container Improvements**:
       - Improved Jupyter Containers deployment to respect priority class threshold
   </Improvements>
+
+  <BugFixes>
+    - Fixed an issue where test connection in create/edit catalog and create/edit storage config was not working properly.
+  </BugFixes>
 </Release>
 
 
