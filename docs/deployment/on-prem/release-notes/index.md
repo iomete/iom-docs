@@ -14,6 +14,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.14.1" date="November 5, 2025">
+    <Improvements>
+        - Users can now add resources to resource bundles where they are the owner or listed as an actor.
+    </Improvements>
+</Release>
+
 <Release version="3.14.0" date="October 27, 2025">
   <NewFeatures>
     - **Docker Tag Alias Management**:
@@ -94,6 +100,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 </Release>
 
+<Release version="3.13.2" date="November 5, 2025">
+    <Improvements>
+        - Users can now add resources to resource bundles where they are the owner or listed as an actor.
+    </Improvements>
+</Release>
 
 
 <Release version="3.13.1" date="October 28, 2025">
