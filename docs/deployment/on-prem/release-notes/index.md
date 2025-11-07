@@ -14,6 +14,16 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="X.x.x" date="unknown">
+  <Improvements>
+    - **Job Orchestrator (New Spark Deployment Flow)**:
+      - **Scheduling Reliability**:
+        - Enhanced job scheduling to automatically retry jobs that were incorrectly scheduled due to stale resource quota data.
+        - When a job fails to start because of actual quota violations detected after scheduling, the system now recognizes this as a transient error and retries the job automatically.
+        - Reduces job failures caused by timing mismatches between quota checks and actual resource allocation.
+  </Improvements>
+</Release>
+
 <Release version="3.14.1" date="November 5, 2025">
     <Improvements>
         - Users can now add resources to resource bundles where they are the owner or listed as an actor.
