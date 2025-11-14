@@ -14,6 +14,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="X.x.x" date="unknown">
+  <Improvements>
+    - **Spark Job Orchestration (Priority-Based Deployment Flow)**:
+      - Optimized job execution workflow - manual and retry runs now reuse existing deployments instead of creating duplicates
+
+      :::important Configuration Update Required
+      **Action Required for Existing Jobs**: For jobs using Priority-Based deployment flow where cron schedule was never configured, you must update the job configuration once to properly create the deployment. This is a one-time action per job.
+      :::
+  </Improvements>
+</Release>
+
 <Release version="3.14.1" date="November 5, 2025">
     <Improvements>
         - Users can now add resources to resource bundles where they are the owner or listed as an actor.
