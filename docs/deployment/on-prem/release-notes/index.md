@@ -16,7 +16,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="X.x.x" date="unknown">
   <Improvements>
-    - **Job Orchestrator (New Spark Deployment Flow)**:
+    - **Spark Job Orchestration (Priority-Based Deployment Flow)**:
       - **Scheduling Reliability**:
         - Enhanced job scheduling to automatically retry jobs that were incorrectly scheduled due to stale resource quota data.
         - When a job fails to start because of actual quota violations detected after scheduling, the system now recognizes this as a transient error and retries the job automatically.
