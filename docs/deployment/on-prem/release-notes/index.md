@@ -16,7 +16,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="3.x.x" date="unknown">
   <Improvements>
-    - **Job Orchestrator (New Spark Deployment Flow)**:  
+    - **Spark Job Orchestration (Priority-Based Deployment Flow)**:  
       - **Prevent Queue Head Blocking**:
         - Introduced timeout-based handling for job runs blocked at the queue head due to quota limits.
         - The system now tracks elapsed wait time and automatically retries or cancels runs once thresholds are reached, preventing indefinite queue blocking.  
