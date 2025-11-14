@@ -14,6 +14,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="X.x.x" date="unknown">
+  <Improvements>
+    - **Spark Job Orchestration (Priority-Based Deployment Flow)**:
+      - Added consistent propagation of `Run as user` and custom job tags for all scheduled Spark jobs.
+  </Improvements>
+</Release>
+
 <Release version="3.14.1" date="November 5, 2025">
     <Improvements>
         - Users can now add resources to resource bundles where they are the owner or listed as an actor.
