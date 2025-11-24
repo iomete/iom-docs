@@ -18,11 +18,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <Improvements>
     - **Spark Job Orchestration (Priority-Based Deployment Flow)**:  
       - **Prevent Queue Head Blocking**:
-        - Introduced timeout-based handling for job runs blocked at the queue head due to quota limits.
-        - The system now tracks elapsed wait time and automatically retries or cancels runs once thresholds are reached, preventing indefinite queue blocking.  
+        - Jobs blocked at queue head due to quota limits are now automatically retried or cancelled after configurable thresholds.
         - Configurable via the following system properties:
-          - `job-orchestrator.queue.head-timeout-seconds` *(default: 3600)* – defines how long a run may wait for quota before timing out.  
-          - `job-orchestrator.queue.head-retry-count` *(default: 0)* – specifies how many times the run may be rescheduled after timeout before final cancellation.
+          - `job-orchestrator.queue.head-timeout-seconds` *(default: 3600)* – wait time before timeout
+          - `job-orchestrator.queue.head-retry-count` *(default: 0)* – retry attempts before cancellation
       - **Batch Job Deployments**:
           - Jobs are now validated and deployed in batches, improving deployment speed during job bursts.
           - Batch size is configurable via Helm chart: `jobOrchestrator.settings.batchSize`.
@@ -31,17 +30,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
           - Added visibility for queue timeout retries, cancellation reasons, and reschedule events.
         <Img src="/img/guides/spark-job/job-queue-reason.png" alt="Job queue visibility" />
       - **Scheduling Reliability**:
-        - Enhanced job scheduling to automatically retry jobs that were incorrectly scheduled due to stale resource quota data.
-        - When a job fails to start because of actual quota violations detected after scheduling, the system now recognizes this as a transient error and retries the job automatically.
-        - Reduces job failures caused by timing mismatches between quota checks and actual resource allocation.
+        - Jobs incorrectly scheduled due to stale quota data are now automatically retried.
+        - Reduces failures from timing mismatches between quota checks and resource allocation.
       - **Cleanup & Maintenance**:
         - Added periodic cleanup for completed queue runs and logs to prevent unbounded data growth.
         - Configurable via Helm chart: `jobOrchestrator.settings.jobRunCleanup`.
-      - Added consistent propagation of `Run as user` and custom job tags for all scheduled Spark jobs.
-      - Optimized job execution workflow - manual and retry runs now reuse existing deployments instead of creating duplicates
+      - **Other Improvements**:
+        - Consistent propagation of `Run as user` and custom tags for scheduled Spark jobs.
+        - Manual and retry runs now reuse existing deployments instead of creating duplicates.
 
       :::important Configuration Update Required
-      **Action Required for Existing Jobs**: For jobs using `Priority-Based` deployment flow where cron schedule was never configured, you must update the job configuration once to properly create the deployment. This is a one-time action per job.
+      Jobs using `Priority-Based` deployment flow without a configured cron schedule require a one-time configuration update to initialize the deployment.
       :::
   </Improvements>
   <BugFixes>
