@@ -14,6 +14,42 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.15.0" date="unknown">
+  <Improvements>
+    - **Spark Job Orchestration (Priority-Based Deployment Flow)**:  
+      - **Prevent Queue Head Blocking**:
+        - Introduced timeout-based handling for job runs blocked at the queue head due to quota limits.
+        - The system now tracks elapsed wait time and automatically retries or cancels runs once thresholds are reached, preventing indefinite queue blocking.  
+        - Configurable via the following system properties:
+          - `job-orchestrator.queue.head-timeout-seconds` *(default: 3600)* – defines how long a run may wait for quota before timing out.  
+          - `job-orchestrator.queue.head-retry-count` *(default: 0)* – specifies how many times the run may be rescheduled after timeout before final cancellation.
+      - **Batch Job Deployments**:
+          - Jobs are now validated and deployed in batches, improving deployment speed during job bursts.
+          - Batch size is configurable via Helm chart: `jobOrchestrator.settings.batchSize`.
+      - **Job Queue Visibility**:
+          - Job details now show the specific resource blocking deployment (CPU, memory, pods, or storage) when a job is waiting in the queue.
+          - Added visibility for queue timeout retries, cancellation reasons, and reschedule events.
+        <Img src="/img/guides/spark-job/job-queue-reason.png" alt="Job queue visibility" />
+      - **Scheduling Reliability**:
+        - Enhanced job scheduling to automatically retry jobs that were incorrectly scheduled due to stale resource quota data.
+        - When a job fails to start because of actual quota violations detected after scheduling, the system now recognizes this as a transient error and retries the job automatically.
+        - Reduces job failures caused by timing mismatches between quota checks and actual resource allocation.
+      - **Cleanup & Maintenance**:
+        - Added periodic cleanup for completed queue runs and logs to prevent unbounded data growth.
+        - Configurable via Helm chart: `jobOrchestrator.settings.jobRunCleanup`.
+      - Added consistent propagation of `Run as user` and custom job tags for all scheduled Spark jobs.
+      - Optimized job execution workflow - manual and retry runs now reuse existing deployments instead of creating duplicates
+
+      :::important Configuration Update Required
+      **Action Required for Existing Jobs**: For jobs using `Priority-Based` deployment flow where cron schedule was never configured, you must update the job configuration once to properly create the deployment. This is a one-time action per job.
+      :::
+  </Improvements>
+  <BugFixes>
+    - **Spark Applications**:
+      - Fixed startup timeout logic to properly abort Spark applications when driver is running but executors stuck in `PENDING` state due to resource quota violations or fragmentation.
+  </BugFixes>
+</Release>
+
 <Release version="3.14.1" date="November 5, 2025">
     <Improvements>
         - Users can now add resources to resource bundles where they are the owner or listed as an actor.
