@@ -1,6 +1,6 @@
 import Img from '@site/src/components/Img';
 
-# Job Orchestrator [Beta]
+# Job Orchestrator
 
 ## Overview
 
@@ -43,10 +43,11 @@ You can opt in or out at the **system level** or **individual job level**, allow
 ### How to Enable
 
 #### Enable First at the System Level
-In your Helm `values.yaml`, set:
+In your Helm `values.yaml`, enable the feature:
 ```yaml
-jobOrchestrator:
-  enabled: true
+features:
+  jobOrchestrator:
+    enabled: true
 ```
 This will deploy the orchestrator server, workers, and metrics exporter components across your IOMETE deployment.
 
@@ -70,10 +71,10 @@ Start by testing the orchestrator with non-critical jobs before migrating produc
 Change `Deployment Flow` back to `Legacy` in the job's advanced settings to opt out of orchestration for specific jobs.
 
 #### At the system level
-Set `jobOrchestrator.enabled: false` in your Helm values to disable orchestration platform-wide.
+Set `features.jobOrchestrator.enabled: false` in your Helm values to disable orchestration platform-wide.
 
 :::note
-Before disabling the flag, please move all jobs back to the `Legacy` flow at once by using  this API endpoint:
+Before disabling the flag, please move all jobs back to the `Legacy` flow at once by using this API endpoint:
 
 ```bash
 curl --location 'https://<IOMETE_URL>/api/v1/domains/<DOMAIN_NAME>/spark/jobs/migrate-from-prefect' \
@@ -83,9 +84,91 @@ curl --location 'https://<IOMETE_URL>/api/v1/domains/<DOMAIN_NAME>/spark/jobs/mi
 ```
 Please replace: 
 - `<IOMETE_URL>` with your actual IOMETE instance URL
-- `<DOMAIN_NAME>` with the actual domain name.
-- `<TOKEN>` with your authentication token.
+- `<DOMAIN_NAME>` with the actual domain name
+- `<TOKEN>` with your authentication token
 :::
+
+---
+
+## Configuration
+
+### Helm Chart Settings
+
+Configure orchestrator settings in your `values.yaml`:
+
+```yaml
+services:
+  jobOrchestrator:
+    settings:
+      # Maximum jobs deployed in a single batch
+      batchSize: 20
+      # Job run cleanup configuration
+      jobRunCleanup:
+        enabled: true
+        # Retention period in seconds (default: 30 days)
+        retentionPeriod: 2592000
+```
+
+#### Settings Reference
+
+| Setting | Default | Since | Description |
+|----------|---------|-------|-------------|
+| `settings.batchSize` | 20 | 3.15.0 | Maximum jobs validated and deployed per batch. |
+| `settings.jobRunCleanup.enabled` | true | 3.15.0 | Enable periodic cleanup of completed queue runs and logs. |
+| `settings.jobRunCleanup.retentionPeriod` | 2592000 | 3.15.0 | Retention period in seconds (30 days). Older runs are automatically deleted. |
+
+### System Properties
+
+Configure queue behavior via **Admin Portal → System Configuration**:
+
+| Property | Default | Since | Description |
+|----------|---------|-------|-------------|
+| `job-orchestrator.queue.high.scheduling-share-percentage` | 90 | 3.12.0 | Percentage of scheduling slots allocated to high-priority jobs. Remaining slots go to normal-priority jobs. |
+| `job-orchestrator.queue.head-timeout-seconds` | 3600 | 3.15.0 | Time (seconds) a job can remain blocked at queue head before timeout action. |
+| `job-orchestrator.queue.head-retry-count` | 0 | 3.15.0 | Number of retry attempts before cancelling a blocked job. Set to 0 for immediate cancellation after timeout. |
+
+---
+
+## Advanced Features
+
+### Weighted Round Robin Scheduling [3.12.0+]
+
+To prevent normal-priority job starvation, the orchestrator uses Weighted Round Robin (WRR) scheduling between priority queues.
+
+**Default behavior (90/10 split):**
+- 90% of scheduling slots go to high-priority jobs
+- 10% go to normal-priority jobs
+
+This ensures normal-priority jobs still progress even when the high-priority queue is busy.
+
+### Queue Head Blocking Prevention [3.15.0+]
+
+Jobs blocked at the queue head due to quota limits are now automatically retried or cancelled after configurable thresholds. This prevents a single resource-intensive job from indefinitely blocking the entire queue.
+
+**How it works:**
+1. When a job at queue head cannot be scheduled due to quota limits, the timeout counter starts.
+2. After `head-timeout-seconds` elapses, the system retries scheduling (if `head-retry-count > 0`).
+3. After exhausting retries, the job is automatically cancelled with a clear reason.
+
+### Job Queue Visibility [3.15.0+]
+
+Job details now show the specific resource blocking deployment when a job is waiting in the queue:
+- **CPU** - Insufficient CPU quota
+- **Memory** - Insufficient memory quota
+- **Pods** - Pod count limit reached
+- **Storage** - Storage quota exceeded
+
+The UI also displays queue timeout retries, cancellation reasons, and reschedule events.
+
+<Img src="/img/guides/spark-job/job-queue-reason.png" alt="Job queue visibility" />
+
+### Scheduling Reliability [3.15.0+]
+
+Jobs incorrectly scheduled due to stale quota data are now automatically retried. This reduces failures caused by timing mismatches between quota checks and actual resource allocation.
+
+### Cleanup & Maintenance [3.15.0+]
+
+The orchestrator automatically cleans up completed queue runs and logs to prevent unbounded data growth. Configure retention via `jobRunCleanup` settings in Helm values.
 
 ---
 
@@ -127,42 +210,54 @@ By default, metrics from the `iom-job-orchestrator-metrics-exporter` are exposed
 
 ## How to Troubleshoot Common Issues
 
-### 1. Prefect Server Won't Start - PostgreSQL Extension Error
+### 1. Job Orchestrator Won't Start - PostgreSQL Extension Error
 
 **Error Message:**
 ```text
-sqlalchemy.exc.DBAPIError: (sqlalchemy.dialects.postgresql.asyncpg.Error) 
-<class 'asyncpg.exceptions.FeatureNotSupportedError'>: extension "pg_trgm" 
+sqlalchemy.exc.DBAPIError: (sqlalchemy.dialects.postgresql.asyncpg.Error)
+<class 'asyncpg.exceptions.FeatureNotSupportedError'>: extension "pg_trgm"
 is not allow-listed for users in Azure Database for PostgreSQL
-HINT: to learn how to allow an extension or see the list of allowed extensions, 
+HINT: to learn how to allow an extension or see the list of allowed extensions,
 please refer to https://go.microsoft.com/fwlink/?linkid=2301063
 [SQL: CREATE EXTENSION IF NOT EXISTS pg_trgm;]
 (Background on this error at: https://sqlalche.me/e/20/dbapi)
 ```
 
-**Cause:** Prefect uses the `pg_trgm` extension for partial string search functionality in the database.
+**Cause:** The Job Orchestrator uses the `pg_trgm` extension for partial string search functionality in the database.
 
-**Solution:** Enable the extension in your PostgreSQL database: 
-🔗 [Allow extensions in Azure PostgreSQL](https://go.microsoft.com/fwlink/?linkid=2301063)
+**Solution:** Enable the extension in your PostgreSQL database:
+[Allow extensions in Azure PostgreSQL](https://go.microsoft.com/fwlink/?linkid=2301063)
 
 ### 2. Jobs Stuck in Queue Due to Resource Constraints
 
 **Problem:** Jobs remain queued even when cluster appears to have available resources.
 
 **Potential Causes:**
-- First job in queue requires more resources than currently available.
-  - FIFO processing means subsequent jobs wait for the first job to complete.
-- Resource fragmentation across different node types.
+- First job in queue requires more resources than currently available
+- Resource fragmentation across different node types
+- Quota limits blocking deployment
 
-**Solutions:**
-- Check resource requirements of the first job in queue.
-- Monitor cluster capacity through Grafana dashboards.
-- Consider adjusting job resource requirements or scaling cluster capacity.
-- Temporarily change problematic jobs to `Legacy` deployment flow to unblock the queue.
+**Automatic Handling (3.15.0+):**
+
+Starting from version 3.15.0, the orchestrator automatically handles blocked jobs:
+1. Jobs blocked at queue head are monitored via `head-timeout-seconds` (default: 1 hour)
+2. After timeout, the system retries based on `head-retry-count` setting
+3. If retries are exhausted, the job is automatically cancelled with a clear reason
+4. The UI shows which resource (CPU, memory, pods, storage) is blocking deployment
+
+**Manual Solutions:**
+- Check the job details page to see which resource is blocking deployment
+- Monitor cluster capacity through Grafana dashboards
+- Adjust job resource requirements or scale cluster capacity
+- Temporarily change problematic jobs to `Legacy` deployment flow
 
 ### 3. All Jobs Stuck Due to One Problematic Job
 
-**Quick Fix:**
+:::info Automatic Resolution (3.15.0+)
+With Queue Head Blocking Prevention enabled, this issue is now handled automatically. Jobs that cannot be scheduled are retried or cancelled after the configured timeout, preventing queue blockage.
+:::
+
+**Manual Fix (if needed):**
 1. Navigate to the problematic job's configuration page
 2. Change the **Deployment Flow** from `Priority-Based` to `Legacy`
 3. This removes the job from the orchestrator queue and allows other jobs to proceed
