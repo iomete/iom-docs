@@ -158,12 +158,12 @@ This means your new data scientist, just hired by HR, will be able to log into I
 
 ---
 
-### **That's It. Hit 'Save', then 'Enable LDAP' and You're Done.**
+### **That's It. Hit `Save`, then `Enable LDAP` and You're Done.**
 
 Click the "Create" button at the bottom of the page.
 
 You've just automated your user management.
 
-If you're feeling impatient and want to see it work *right now*, look on the left side of the screen. You'll see a new set of action buttons. Just click **"Sync all users"** to run your first sync manually.
+If you're feeling impatient and want to see it work *right now*, look on the left side of the screen. You'll see a new set of action buttons. Just click **`Sync all users`** to run your first sync manually.
 
 Congratulations. You just saved yourself hours of future work.
