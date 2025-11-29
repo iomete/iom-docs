@@ -117,13 +117,12 @@ So, in the **"Group searching and updating"** section, let's set this up:
 
 Now, in the **"Custom group LDAP filter"** box, you're going to put something like this:
 
-:::info
-
- (|
-  (cn=engineers) (memberOf:1.2.840.113556.1.4.1941:=cn=engineers,ou=groups,dc=iomete,dc=com) ) |
-| :---- 
-
-:::
+```bash
+(|
+(cn=engineers)
+(memberOf:1.2.840.113556.1.4.1941:=cn=engineers,ou=groups,dc=iomete,dc=com)
+)
+```
 
 Let's quickly break down why this filter is so smart:
 
