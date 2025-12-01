@@ -14,6 +14,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.14.2" date="December 1, 2025">
+    <Improvements>
+        - We have patched various outstanding security vulnerabilities in iom services
+        - We switched over to Alpine Linux for our iom services as our base image to reduce memory footprint
+        - Various libraries have been upgraded to a recent or the latest version
+    </Improvements>
+</Release>
+
 <Release version="3.14.1" date="November 5, 2025">
     <Improvements>
         - Users can now add resources to resource bundles where they are the owner or listed as an actor.
