@@ -16,9 +16,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="3.14.2" date="December 1, 2025">
     <Improvements>
-        - We have patched various outstanding security vulnerabilities in iom services
-        - We switched over to Alpine Linux for our iom services as our base image to reduce memory footprint
-        - Various libraries have been upgraded to a recent or the latest version
+        - We have patched various outstanding security vulnerabilities in iom services.
+        - We switched over to Alpine Linux for our iom services as our base image to reduce memory footprint.
+        - Various libraries have been upgraded to a recent or the latest version.
+        - Added basic authentication that allows us to authenticate with splunk for log fetching. Now, pulling logs from splunk for executors and drivers in IOMETE UI is possible. 
     </Improvements>
 </Release>
 
