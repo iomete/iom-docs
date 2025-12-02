@@ -51,7 +51,7 @@ SET spark.hadoop.fs.s3a.bucket.<bucket-name>.secret.key=<password>;
 
 **At the compute cluster level (UI):** 1. Open **Compute Cluster → Configure** (terminate cluster in case it is already running). 2. Go to **Spark Config**. 3. Add your S3 endpoint, access key, and secret key. 4. Save and start the cluster.
 
-<Img src="/img/blog/2025-10-20-raw-data-to-real-time-insights/spark-config-analytics.png" alt="spark config analytics" centered borderless/>
+<Img src="/img/blog/2025-10-20-raw-data-to-real-time-insights/spark-config-analytics.png" alt="spark config analytics" centered/>
 
 ## **Step 1: Create a database**
 
@@ -61,7 +61,7 @@ Open the **SQL Editor** and create a new worksheet. To keep things organized, we
 
 This ensures that all tables you create in the following steps will live inside the `nyc` database, making your project easier to manage.
 
-<Img src="/img/blog/2025-10-20-raw-data-to-real-time-insights/create-sql-database.png" alt="Create SQL database" centered borderless/>
+<Img src="/img/blog/2025-10-20-raw-data-to-real-time-insights/create-sql-database.png" alt="Create SQL database" centered/>
 
 ## **Step 2: Raw files → Iceberg tables**
 
@@ -221,7 +221,7 @@ ORDER BY pickup_hour;
 ```
 
 
-<Img src="/img/blog/2025-10-20-raw-data-to-real-time-insights/query-insight.png" alt="query insigts" centered borderless/>
+<Img src="/img/blog/2025-10-20-raw-data-to-real-time-insights/query-insight.png" alt="query insigts" centered/>
 
 
 ### Which pick-up zones bring in the most revenue?
@@ -234,7 +234,7 @@ ORDER BY revenue DESC
 limit 5;
 ```
 
-<Img src="/img/blog/2025-10-20-raw-data-to-real-time-insights/query-results.png" alt="query results" centered borderless/>
+<Img src="/img/blog/2025-10-20-raw-data-to-real-time-insights/query-results.png" alt="query results" centered/>
 
 ### Do riders tip more at night?
 
@@ -245,7 +245,7 @@ GROUP BY pickup_hour
 ORDER BY pickup_hour;
 ```
 
-<Img src="/img/blog/2025-10-20-raw-data-to-real-time-insights/query-end-result.png" alt="query end results" centered borderless/>
+<Img src="/img/blog/2025-10-20-raw-data-to-real-time-insights/query-end-result.png" alt="query end results" centered/>
 
 
 ## **End result**

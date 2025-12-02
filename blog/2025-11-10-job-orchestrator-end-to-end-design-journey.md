@@ -39,8 +39,6 @@ While this worked for smaller workloads, it broke down at scale:
 
 The Spark Operator was a great executor, but it wasn’t a true orchestrator.
 
----
-
 ## Our Design Goals
 
 To fix this, we laid down a few simple but critical goals:
@@ -50,12 +48,10 @@ To fix this, we laid down a few simple but critical goals:
 - **Capacity-aware job submission**: Don’t launch jobs if the cluster doesn’t have room to run them.
 - **Visibility & monitoring**: Real dashboards for job metrics, queue wait times, and cluster utilization.
 
----
-
 ## New System Components
 
 
-<Img src="/img/blog/2025-10-10-job-orchestrator-end-to-end-design-journey/orchestrator-components-light.png" alt="Job Orchestrator Components Light" centered borderless/>
+<Img src="/img/blog/2025-11-10-job-orchestrator-end-to-end-design-journey/orchestrator-components.png" alt="Job Orchestrator Components Light" centered />
 
 We broke the solution into distinct components:
 
@@ -69,13 +65,9 @@ We introduced two levels of queues:
 Inside each level, jobs are processed **FIFO (first-in, first-out)**.  
 Each namespace gets its own isolated queues, so workloads from one team can’t overwhelm others.
 
----
-
 ### 2. Submitter & The Capacity Checker
 
 The submitter is the engine that continuously polls queues and decides which job to run next. But before it launches anything, it calls in the Capacity Checker — a safeguard that ensures we don’t submit jobs the cluster can’t handle.
-
----
 
 ### 3. Metrics Plane
 
@@ -91,8 +83,6 @@ On top of that, we wanted dashboards to track:
 - Resource consumption by job & namespace
 - Patterns in queue wait times and job bottlenecks
 
----
-
 ## Architecture and Design Choices
 
 ### Capacity Checker
@@ -104,8 +94,6 @@ The question we had to answer was:
 
 We explored multiple approaches:
 
----
-
 ### 1. Kubernetes API-based checks
 
 This was the simplest solution: query Kubernetes directly to calculate available CPU and memory. If the cluster had enough for the driver + executors, the job could be submitted.  
@@ -115,8 +103,6 @@ It was easy to implement, with no extra moving parts, and it worked with existin
 ⚠️ It’s only a snapshot in time. Resources could disappear between the check and the actual submission — leading to occasional race conditions.
 
 This trade-off was acceptable for an MVP: solve 80% of the problem quickly, then iterate.
-
----
 
 ### 2. Dry-run submissions
 
@@ -129,8 +115,6 @@ Unlike raw API checks, this respects Kubernetes scheduling constraints like tain
 
 We liked the accuracy, but the extra complexity made us park this as a **future option**.
 
----
-
 ### 3. Placeholder pods
 
 A clever but heavier idea is to create lightweight pods (similar to [YuniKorn](https://yunikorn.apache.org/)) that request the same resources as the Spark job (driver + executors). If these placeholders got scheduled, we knew the real job would too. Once confirmed, delete the placeholders and launch the actual Spark job.  
@@ -141,8 +125,6 @@ Placeholder pods don’t just check resources; they actually **reserve** them, m
 
 This felt too heavy for our first iteration, but it remains an attractive long-term option for bulletproof scheduling.
 
----
-
 ### Final MVP Choice
 
 We decided on **Kubernetes API-based checks** as our first step. It gave us:
@@ -151,16 +133,12 @@ We decided on **Kubernetes API-based checks** as our first step. It gave us:
 - Enough reliability to prevent the majority of deadlocks.
 - A baseline we can evolve toward dry-runs or placeholders later.
 
----
-
 ## Job Orchestrator
 
 Parallel to designing the capacity checker, we also had to decide:  
 **“What system will orchestrate our jobs end-to-end?”**
 
 We compared four main options:
-
----
 
 ### 1. Spark Operator
 
@@ -171,8 +149,6 @@ The most lightweight option was to stick with Spark Operator and build queuing l
 
 We ruled this out as the operator is a great executor, but not an orchestrator.
 
----
-
 ### 2. Kubernetes Volcano
 
 We considered going all-in on [Volcano](https://volcano.sh/en/), a batch scheduler built for AI/ML and Spark workloads.
@@ -181,8 +157,6 @@ We considered going all-in on [Volcano](https://volcano.sh/en/), a batch schedul
 ⚠️ Doesn’t handle time-based scheduling (cron-like jobs). Lacks job history and user-facing dashboards. More of a low-level scheduler than a full orchestrator.
 
 Volcano was tempting for raw scheduling, but it didn’t give us orchestration, monitoring, or retries.
-
----
 
 ### 3. Prefect
 
@@ -193,8 +167,6 @@ A Python-based orchestration system [(Prefect)](https://www.prefect.io/) that wa
 
 Despite trade-offs, Prefect was a great MVP choice as it solved 70% of our problems with minimal setup.
 
----
-
 ### 4. Custom Setup
 
 A DIY path was to use message queues (like [RabbitMQ](https://www.rabbitmq.com/), etc) for priority queues and DLQs, build a custom submitter, and wire everything to Spark Operator.
@@ -204,15 +176,11 @@ A DIY path was to use message queues (like [RabbitMQ](https://www.rabbitmq.com/)
 
 This was the most flexible but also the heaviest lift, not right for MVP.
 
----
-
 ### Final Choice
 
 We chose **Prefect** for the MVP. It gave us orchestration, retries, and observability without a huge investment.
 
 The philosophy was simple: **don’t reinvent the wheel where we don’t have to.**
-
----
 
 ## Final Design
 
@@ -230,20 +198,12 @@ The final Job Orchestrator design combines:
 - Transparency for engineers debugging stuck jobs.  
 - A flexible foundation for supporting future workloads.
 
+<Img src="/img/blog/2025-11-10-job-orchestrator-end-to-end-design-journey/orchestrator-final.png" alt="Job Orchestrator Final" />
 
-<Img src="/img/blog/2025-10-10-job-orchestrator-end-to-end-design-journey/orchestrator-components-dark.png" alt="Job Orchestrator Architecture 1" centered borderless/>
-
-
-<!-- <Img src="/img/blog/2025-10-10-job-orchestrator-end-to-end-design-journey/orchestrator-architecture-1.png" alt="Job Orchestrator Architecture 1" centered borderless/> -->
-
-<Img src="/img/blog/2025-10-10-job-orchestrator-end-to-end-design-journey/orchestrator-architecture-2.png.png" alt="Job Orchestrator Architecture 2" centered borderless/>
-
----
+<Img src="/img/blog/2025-11-10-job-orchestrator-end-to-end-design-journey/orchestrator-architecture.png" alt="Job Orchestrator Architecture" />
 
 ## Conclusion
 
 We started with simple solutions (API-based capacity checks, Prefect for orchestration) and avoided over-engineering. The result is a system that not only works today, but also leaves room for future growth — DLQs, preemption, multi-job support, and cost intelligence.
 
 👉 Want to dive deeper on Spark Jobs in IOMETE: [Spark Jobs Guide](https://iomete.com/resources/developer-guide/spark-job/getting-started)
-
----

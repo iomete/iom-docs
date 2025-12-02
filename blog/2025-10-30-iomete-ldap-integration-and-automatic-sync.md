@@ -56,7 +56,7 @@ Open up your IOMETE console, head to **Admin Portal \> IAM**, and click the **LD
 
 Let's look at this page. The first three fields are just for "getting in the door." This is where you paste in your **Connection URL**, **Bind DN**, and **Bind Credential**.
 
-<Img src="/img/blog/2025-10-30-iomete-ldap-integration-and-automatic-sync/ldap-configuration.png" alt="IOMETE LDAP integration and automatic sync" centered borderless/>
+<Img src="/img/blog/2025-10-30-iomete-ldap-integration-and-automatic-sync/ldap-configuration.png" alt="IOMETE LDAP integration and automatic sync" centered/>
 
 Before you move on, do yourself a favor and click the **"Test connection"** and **"Test authentication"** buttons. Once you see those two green success messages, you know you're live. That's the first big hurdle, and you're already past it.
 
@@ -68,7 +68,7 @@ The next two sections, **"User searching"** and **"Group searching,"** are that 
 
 You'll also see a box for **"User object classes."** That's just a fancy way of telling IOMETE to *only* sync *people*, not printers or conference rooms. The magic words are almost always `inetOrgPerson,organizationalPerson`.
 
-<Img src="/img/blog/2025-10-30-iomete-ldap-integration-and-automatic-sync/user-searching-and-updating.png" alt="user searching and updating" centered borderless/>
+<Img src="/img/blog/2025-10-30-iomete-ldap-integration-and-automatic-sync/user-searching-and-updating.png" alt="user searching and updating" centered/>
 
 ---
 
@@ -83,12 +83,10 @@ For 99% of setups, this is the golden ticket. Just fill it in exactly like this:
 * **firstName** \-\> `cn`  
 * **lastName** \-\> `sn`
 
-<Img src="/img/blog/2025-10-30-iomete-ldap-integration-and-automatic-sync/user-attribute-mappings.png" alt="user attribute and mappings" centered borderless/>
+<Img src="/img/blog/2025-10-30-iomete-ldap-integration-and-automatic-sync/user-attribute-mappings.png" alt="user attribute and mappings" centered/>
 
 
 This is the most critical part. Getting that `sAMAccountName` right is the key to the whole thing.
-
----
 
 ### **The Real Magic: Syncing Your Teams (And All Their Nested Groups)**
 
@@ -113,7 +111,7 @@ So, in the **"Group searching and updating"** section, let's set this up:
 1. First, check the box to **enable Group searching and updating**.  
 2. Just like before, paste in your **Groups DN** path (e.g., `ou=groups,dc=mycompany,dc=com`).
 
-<Img src="/img/blog/2025-10-30-iomete-ldap-integration-and-automatic-sync/ldap-group-searching-and-updating.png" alt="group searching and updating" centered borderless/>
+<Img src="/img/blog/2025-10-30-iomete-ldap-integration-and-automatic-sync/ldap-group-searching-and-updating.png" alt="group searching and updating" centered/>
 
 Now, in the **"Custom group LDAP filter"** box, you're going to put something like this:
 
@@ -140,8 +138,6 @@ Finally, just fill in the **Group Attribute Mappings**:
 
 And that's it. You've now mapped your users *and* your complete, nested team structure.
 
----
-
 And now, for the grand finale. The whole reason we're doing this.
 
 Scroll all the way down to the bottom to **"Sync settings."** This is where we put the whole thing on autopilot.
@@ -154,9 +150,8 @@ You've got one timer here. Here's what it means in plain English:
 
 This means your new data scientist, just hired by HR, will be able to log into IOMETE with the right permissions *before they even finish their onboarding call*.
 
-<Img src="/img/blog/2025-10-30-iomete-ldap-integration-and-automatic-sync/defines-the-ldap-query.png" alt="define LDAP query" centered borderless/>
+<Img src="/img/blog/2025-10-30-iomete-ldap-integration-and-automatic-sync/defines-the-ldap-query.png" alt="define LDAP query" centered/>
 
----
 
 ### **That's It. Hit `Save`, then `Enable LDAP` and You're Done.**
 
