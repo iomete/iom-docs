@@ -1,6 +1,6 @@
 ---
 title: The Complete Guide to IOMETE's LDAP Integration and Automatic Sync
-description: Learn how to seamlessly integrate LDAP with IOMETE to automate user provisioning, enable role-based access, and keep your platform always in sync with your organization’s directory
+description: Learn how to seamlessly integrate LDAP with IOMETE to automate user provisioning, enable role-based access, and keep your platform always in sync with your organization's directory
 slug: ldap-integration-and-automatic-sync
 authors: Soltan
 hide_table_of_contents: true
@@ -160,7 +160,7 @@ This means your new data scientist, just hired by HR, will be able to log into I
 
 ### **That's It. Hit `Save`, then `Enable LDAP` and You're Done.**
 
-Click the "Create" button at the bottom of the page.
+Click the `Save` button at the bottom of the page.
 
 You've just automated your user management.
 
