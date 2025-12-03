@@ -14,6 +14,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.14.3" date="December 2, 2025">
+    <BugFixes>
+        - Fixed compatibility issue stemming from latest version bump of AWS S3 jars. 
+          AWS is now always doing checksums against request/response. This fails on Dell ECS as there is some compatibility issue.
+    </BugFixes>
+</Release>
+
 <Release version="3.14.2" date="December 1, 2025">
     <Improvements>
         - We have patched various outstanding security vulnerabilities in iom services.
