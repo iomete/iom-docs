@@ -4,8 +4,9 @@ description: Why Gartner's Market Guide matters, what it says about the lakehous
 slug: iomete-gartner-market-guide-2025
 authors: aytan
 tags2: [Announcement, Company]
+featured_blog: true
 date: 12/05/2025
-coverImage: img/blog/thumbnails/0.png
+coverImage: img/blog/thumbnails/2.png
 ---
 
 import Img from '@site/src/components/Img';
