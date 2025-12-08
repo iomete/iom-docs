@@ -42,26 +42,26 @@ When only one executor is busy, it usually means:
 
 ## The Tuning Knobs That Actually Matter
 
-### 1) `max-file-group-size-bytes`
+### 1. `max-file-group-size-bytes`
 
 - Controls how large a file group can become.
 - Larger groups → fewer rewrite tasks → more serialization.
 - Smaller groups → more tasks → higher parallelism.
 - Typical starting point: 512 MB–2 GB per group, adjusted to storage throughput.
 
-### 2) `shuffle-partitions-per-file`
+### 2. `shuffle-partitions-per-file`
 
 - Sets how many Spark shuffle partitions Iceberg allocates per input file.
 - Increases intra-group parallelism: a group with three files and this set to four yields 12 shuffle partitions.
 - One of the few ways to add parallelism inside a single file group.
 
-### 3) `max-concurrent-file-group-rewrites`
+### 3. `max-concurrent-file-group-rewrites`
 
 - Defines how many file groups are rewritten in parallel.
 - Default is often 1, which serializes rewrites.
 - Raising to 4–16 dramatically speeds small groups, but too high can overwhelm object storage, exhaust Spark memory, or trigger commit retries.
 
-### 4) Core Spark Shuffle Settings
+### 4. Core Spark Shuffle Settings
 
 - `spark.sql.shuffle.partitions`: Parallelism of repartition/sort stages. Too low is slow; too high adds memory pressure.
 - `spark.sql.adaptive.enabled`: AQE can merge or reduce partitions to avoid skew.
