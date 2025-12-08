@@ -5,7 +5,7 @@ slug: iomete-job-orchestrator-design
 authors: Shashank
 hide_table_of_contents: true
 tags2: [Engineering, Technical]
-coverImage: img/blog/thumbnails/3.png
+coverImage: img/blog/thumbnails/structure-5.png
 ---
 
 import Img from '@site/src/components/Img';
