@@ -28,14 +28,6 @@ Before using the **SQL Editor**, you should create a lakehouse.
 
 For more details, see [Virtual Lakehouses](/docs/user-guide/virtual-lakehouses.md)
 
-### Spark Connect page
-
-**Spark Connect**, introduced in Apache Spark > 3.4, provides a decoupled client-server architecture for remote connectivity to Spark clusters using the DataFrame API. This separation allows Spark and its open ecosystem to be leveraged from various environments, including modern data applications, IDEs, Notebooks, and programming languages.
-
-<Img src="/img/getting-started/platform-tour/connect-cluster.png" alt="Connect cluster page"/>
-
-For more details, see [Spark Connect](/docs/user-guide/spark-connect.md)
-
 ### Jupyter Kernels page
 
 Jupyter Notebook is a powerful tool for interactive data exploration and prototyping. By connecting to IOMETE's Jupyter Gateway you will be able to explore and analyze data stored in IOMETE's data lake directly from your local environment.
