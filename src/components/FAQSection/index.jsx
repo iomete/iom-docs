@@ -4,21 +4,18 @@ import Question from "../Question";
 import "./style.scss";
 
 const FAQSection = ({ faqs }) => {
-  // Generate FAQ schema markup; prefer explicit answerText when answers are JSX.
+  // Generate FAQ schema markup
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": faqs.map(faq => {
-      const answerText = typeof faq.answer === "string" ? faq.answer : (faq.answerText || "");
-      return {
+    "mainEntity": faqs.map(faq => ({
         "@type": "Question",
         "name": faq.question,
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": answerText
+          "text": faq.answer
         }
-      };
-    })
+      }))
   };
 
   return (

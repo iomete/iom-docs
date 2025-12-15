@@ -238,7 +238,7 @@ If you're evaluating options for your AI infrastructure, consider starting with 
 <FAQSection faqs={[
   {
     question: "What is local enterprise AI development?",
-    answerText: "Local enterprise AI development means building, training, and running AI models inside your own infrastructure—on-premise, private cloud, or hybrid—without sending data to external AI SaaS platforms. This approach is used by organizations with strict data privacy, compliance, or cost-control requirements.",
+    answer: "Local enterprise AI development means building, training, and running AI models inside your own infrastructure—on-premise, private cloud, or hybrid—without sending data to external AI SaaS platforms. This approach is used by organizations with strict data privacy, compliance, or cost-control requirements.",
     answerContent: (
       <>
         <p>Local enterprise AI development means <strong>building, training, and running AI models inside your own infrastructure</strong>—on-premise, private cloud, or hybrid—without sending data to external AI SaaS platforms. This approach is used by organizations with strict data privacy, compliance, or cost-control requirements.</p>
@@ -247,7 +247,7 @@ If you're evaluating options for your AI infrastructure, consider starting with 
   },
   {
     question: "How can enterprises build AI without sending data to third-party services?",
-    answerText: "Enterprises build AI locally by using a self-hosted data and compute platform that runs inside their environment. Training data, feature engineering, model training, and inference all execute where the data resides, eliminating external data movement. Platforms like IOMETE make this practical by combining distributed processing, open table formats, and Kubernetes-based compute.",
+    answer: "Enterprises build AI locally by using a self-hosted data and compute platform that runs inside their environment. Training data, feature engineering, model training, and inference all execute where the data resides, eliminating external data movement. Platforms like IOMETE make this practical by combining distributed processing, open table formats, and Kubernetes-based compute.",
     answerContent: (
       <>
         <p>Enterprises build AI locally by using a <strong>self-hosted data and compute platform</strong> that runs inside their environment. Training data, feature engineering, model training, and inference all execute where the data resides, eliminating external data movement.</p>
@@ -257,7 +257,7 @@ If you're evaluating options for your AI infrastructure, consider starting with 
   },
   {
     question: "Why do regulated industries avoid cloud-only AI services?",
-    answerText: "Cloud-only AI services require data to leave the organization’s security boundary. This creates challenges for: Data residency laws; Regulatory audits; Intellectual property protection; Long-term cost predictability. As a result, regulated industries often prefer self-hosted AI architectures.",
+    answer: "Cloud-only AI services require data to leave the organization’s security boundary. This creates challenges for: Data residency laws; Regulatory audits; Intellectual property protection; Long-term cost predictability. As a result, regulated industries often prefer self-hosted AI architectures.",
     answerContent: (
       <>
         <p>Cloud-only AI services require data to leave the organization’s security boundary. This creates challenges for:</p>
@@ -273,7 +273,7 @@ If you're evaluating options for your AI infrastructure, consider starting with 
   },
   {
     question: "What infrastructure is needed for local AI development?",
-    answerText: "A production-grade local AI setup typically includes: Object storage or on-prem storage; Distributed compute (for example, Kubernetes); A scalable processing engine (such as Apache Spark); Transactional table formats for datasets. IOMETE packages these components into a unified lakehouse platform.",
+    answer: "A production-grade local AI setup typically includes: Object storage or on-prem storage; Distributed compute (for example, Kubernetes); A scalable processing engine (such as Apache Spark); Transactional table formats for datasets. IOMETE packages these components into a unified lakehouse platform.",
     answerContent: (
       <>
         <p>A production-grade local AI setup typically includes:</p>
@@ -289,7 +289,7 @@ If you're evaluating options for your AI infrastructure, consider starting with 
   },
   {
     question: "Can machine learning models be trained directly on lakehouse data?",
-    answerText: "Yes. Modern lakehouse architectures allow data scientists to train ML models directly on analytical tables without copying data into separate systems. This reduces data duplication and simplifies governance. IOMETE supports this pattern using Apache Spark and Apache Iceberg.",
+    answer: "Yes. Modern lakehouse architectures allow data scientists to train ML models directly on analytical tables without copying data into separate systems. This reduces data duplication and simplifies governance. IOMETE supports this pattern using Apache Spark and Apache Iceberg.",
     answerContent: (
       <>
         <p>Yes. Modern lakehouse architectures allow data scientists to <strong>train ML models directly on analytical tables</strong> without copying data into separate systems. This reduces data duplication and simplifies governance.</p>
@@ -299,7 +299,7 @@ If you're evaluating options for your AI infrastructure, consider starting with 
   },
   {
     question: "How do enterprises run batch inference at scale?",
-    answerText: "Batch inference is typically executed as distributed jobs that score millions of records at once and write predictions back to storage. This approach is common for churn prediction, risk scoring, and forecasting workloads. Platforms like IOMETE enable batch inference using the same infrastructure as analytics and model training.",
+    answer: "Batch inference is typically executed as distributed jobs that score millions of records at once and write predictions back to storage. This approach is common for churn prediction, risk scoring, and forecasting workloads. Platforms like IOMETE enable batch inference using the same infrastructure as analytics and model training.",
     answerContent: (
       <>
         <p>Batch inference is typically executed as <strong>distributed jobs</strong> that score millions of records at once and write predictions back to storage. This approach is common for churn prediction, risk scoring, and forecasting workloads.</p>
@@ -309,7 +309,7 @@ If you're evaluating options for your AI infrastructure, consider starting with 
   },
   {
     question: "How is data governance handled in local AI systems?",
-    answerText: "Local AI platforms rely on: Fine-grained access controls; Data masking and row-level security; Audit logs; Metadata and lineage tracking. This allows organizations to explain which data trained a model, who accessed it, and when, which is critical for compliance and audits.",
+    answer: "Local AI platforms rely on: Fine-grained access controls; Data masking and row-level security; Audit logs; Metadata and lineage tracking. This allows organizations to explain which data trained a model, who accessed it, and when, which is critical for compliance and audits.",
     answerContent: (
       <>
         <p>Local AI platforms rely on:</p>
@@ -325,7 +325,7 @@ If you're evaluating options for your AI infrastructure, consider starting with 
   },
   {
     question: "How does local AI compare to managed AI platforms like Databricks?",
-    answerText: "The primary difference is control. Managed platforms prioritize convenience, while local platforms prioritize: Data sovereignty; On-prem or air-gapped deployments; Predictable infrastructure costs; Independence from external control planes. IOMETE is designed for organizations that require the latter.",
+    answer: "The primary difference is control. Managed platforms prioritize convenience, while local platforms prioritize: Data sovereignty; On-prem or air-gapped deployments; Predictable infrastructure costs; Independence from external control planes. IOMETE is designed for organizations that require the latter.",
     answerContent: (
       <>
         <p>The primary difference is <strong>control</strong>.</p>
@@ -342,7 +342,7 @@ If you're evaluating options for your AI infrastructure, consider starting with 
   },
   {
     question: "Can existing BI and analytics tools work with local AI platforms?",
-    answerText: "Yes. When a platform exposes standard SQL and Spark interfaces, BI tools can query AI outputs directly from storage without special connectors. IOMETE follows this open-standard approach.",
+    answer: "Yes. When a platform exposes standard SQL and Spark interfaces, BI tools can query AI outputs directly from storage without special connectors. IOMETE follows this open-standard approach.",
     answerContent: (
       <>
         <p>Yes. When a platform exposes <strong>standard SQL and Spark interfaces</strong>, BI tools can query AI outputs directly from storage without special connectors.</p>
@@ -352,7 +352,7 @@ If you're evaluating options for your AI infrastructure, consider starting with 
   },
   {
     question: "Who typically adopts local AI platforms?",
-    answerText: "Local AI platforms are commonly adopted by: Healthcare and life sciences organizations; Financial services firms; Government and defense teams; Enterprises with sensitive customer data. These teams prioritize control, compliance, and long-term ownership over SaaS-only AI solutions.",
+    answer: "Local AI platforms are commonly adopted by: Healthcare and life sciences organizations; Financial services firms; Government and defense teams; Enterprises with sensitive customer data. These teams prioritize control, compliance, and long-term ownership over SaaS-only AI solutions.",
     answerContent: (
       <>
         <p>Local AI platforms are commonly adopted by:</p>
