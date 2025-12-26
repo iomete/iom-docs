@@ -39,7 +39,7 @@ Envelope encryption uses two different keys: a **Data Encryption Key (DEK)** and
 
 Since the DEK itself is just data, it can also be encrypted. The KEK is used to encrypt the DEK. The encrypted DEK is then stored as metadata alongside the data encrypted with that DEK. When it comes time to rotate keys, only the KEK is rotated. This means you only need to re-encrypt the DEK for each object, rather than re-encrypting the underlying data itself.
 
-<Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/image3.png" alt="Envelope encryption with DEKs wrapped by KEKs" centered />
+<Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/envelope-encryption-dek-kek.png" alt="Envelope encryption with DEKs wrapped by KEKs" centered />
 
 ## Managing Encryption Keys
 
@@ -70,7 +70,7 @@ In this approach, the object store is connected directly to a KMS system. While 
 
 For Iceberg tables, this means all your Parquet data files, manifest files, and metadata files are encrypted transparently. No special configuration is needed; you just write to an encrypted bucket and Iceberg works normally.
 
-<Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/image5.png" alt="Platform-managed server-side encryption with KMS" centered />
+<Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/platform-managed-sse-kms.png" alt="Platform-managed server-side encryption with KMS" centered />
 
 **What it protects against:** Physical disk theft, improper hardware disposal, or someone gaining access to the storage layer without proper credentials. Without access to the object storage service itself, encrypted data remains unreadable.
 
@@ -88,7 +88,7 @@ This approach gives you more granular control. The object store still handles th
 
 For Iceberg on S3-compatible storage, SSE-KMS is configured at the compute layer via Iceberg’s [S3FileIO](https://iceberg.apache.org/docs/1.4.0/aws/#s3-server-side-encryption). Query engines such as Spark or Trino configure Iceberg’s S3 access with a specific SSE-KMS mode and KMS key, which is then applied when writing objects. At runtime, each engine instance or catalog is typically configured with a single active write key, meaning all newly written objects use that key. As a result, all objects that a given engine instance needs to read must be decryptable using that key. Managing multiple keys therefore requires careful separation of jobs, catalogs, or engine instances.
 
-<Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/image4.png" alt="Customer-specified keys with SSE-KMS" centered />
+<Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/customer-specified-keys-sse-kms.png" alt="Customer-specified keys with SSE-KMS" centered />
 
 **What it protects against:** Everything that platform-managed keys protect, plus compromised IAM credentials (if the attacker lacks KMS permissions), overly broad storage permissions, and insider threats from users who have storage access but not key access.
 
@@ -106,7 +106,7 @@ This is the most hands-on and operationally demanding form of server-side encryp
 
 For Iceberg on S3-compatible storage, SSE-C is also configured at the [S3FileIO](https://iceberg.apache.org/docs/nightly/encryption/) layer by selecting `s3.sse.type = custom`. Unlike SSE-KMS, the compute engine must be provided with the raw encryption key at startup. The engine does not retrieve keys from a KMS; it simply passes the supplied key to the object store on every read and write. This requires a secure mechanism to inject the correct key into each job or cluster at startup. All engine instances that need to access the data must be configured with the same key.
 
-<Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/image1.png" alt="Customer-supplied keys with SSE-C" centered />
+<Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/customer-supplied-keys-sse-c.png" alt="Customer-supplied keys with SSE-C" centered />
 
 **What it protects against:** Everything that customer-specified keys protect against, plus scenarios where encryption key management must be kept entirely outside the storage system’s trust boundary. This includes concerns about provider-level compromise, legal or regulatory constraints that prohibit storage providers from having any ability to decrypt data, or a deliberate architectural choice to avoid placing both data and key control within the same platform.
 
@@ -132,7 +132,7 @@ USING iceberg
 TBLPROPERTIES ('encryption.key-id' = '<master-key-id>');
 ```
 
-<Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/image2.png" alt="Client-side encryption with table-level keys" centered />
+<Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/client-side-encryption-table-keys.png" alt="Client-side encryption with table-level keys" centered />
 
 **Advantages:** Maximum confidentiality by ensuring the storage provider never has access to plaintext data or encryption keys under any circumstances. This is necessary when the storage system itself must be excluded from the trust boundary.
 

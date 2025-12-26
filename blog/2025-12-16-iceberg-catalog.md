@@ -44,7 +44,7 @@ For our restaurant analogy, think of this as a **single waiter maintaining the b
 
 This approach has its limitations: when hundreds of customers try to check or update reservations simultaneously, the waiter can become a bottleneck. Long wait times and delays are inevitable since all actions must pass through a single person. This illustrates how traditional databases provide strong transactional guarantees, but can struggle to scale under heavy concurrent access. Similarly, when a concierge service places multiple reservations across multiple days for their exclusive clientele, the waiter becomes unavailable for other customers for quite a while.
 
-<Img src="/img/blog/2025-12-16-Iceberg-catalog/image1.png" alt="Traditional database waiter controlling reservation book" centered />
+<Img src="/img/blog/2025-12-16-Iceberg-catalog/traditional-db-waiter-reservation-book.png" alt="Traditional database waiter controlling reservation book" centered />
 
 ## Iceberg’s approach
 
@@ -58,7 +58,7 @@ The update is accepted only if no one else has modified the master list in the m
 
 This setup ensures that everyone sees a consistent view of the reservations while allowing multiple customers to update independently. The only coordination required is agreement on which version the master list points to as "current."
 
-<Img src="/img/blog/2025-12-16-Iceberg-catalog/image2.png" alt="Iceberg model with immutable sheets and a master list" centered />
+<Img src="/img/blog/2025-12-16-Iceberg-catalog/iceberg-model-immutable-sheets-master-list.png" alt="Iceberg model with immutable sheets and a master list" centered />
 
 ## How this enables massive scale
 
@@ -92,7 +92,7 @@ For example, it is not uncommon to use a traditional database as the implementat
 
 The combination of write-once, immutable files and strong ACID guarantees when updating the pointer to the current metadata file is how Iceberg achieves ACID semantics.
 
-<Img src="/img/blog/2025-12-16-Iceberg-catalog/image3.png" alt="Iceberg catalog coordinating metadata pointers" centered />
+<Img src="/img/blog/2025-12-16-Iceberg-catalog/iceberg-catalog-coordinating-metadata-pointers.png" alt="Iceberg catalog coordinating metadata pointers" centered />
 
 ## Conclusion
 
