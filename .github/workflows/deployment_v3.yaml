@@ -16,10 +16,10 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
-          cache: "npm"
-      - run: npm install --no-audit --no-progress -s --no-fund
-      - run: npm run build
+          node-version: 20
+          cache: "yarn"
+      - run: yarn install --no-progress --frozen-lockfile
+      - run: yarn build
       #https://github.com/Reggionick/s3-deploy
       #https://stackoverflow.com/questions/18774069/amazon-cloudfront-cache-control-no-cache-header-has-no-effect-after-24-hours
       - name: S3 Upload
