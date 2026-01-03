@@ -87,6 +87,7 @@ const sidebars = {
         "user-guide/node-type-sizing",
         "user-guide/volumes",
         "user-guide/secrets",
+        "user-guide/secrets-v2",
         "user-guide/api-reference",
         "user-guide/register-table",
         "user-guide/storage-configs",
