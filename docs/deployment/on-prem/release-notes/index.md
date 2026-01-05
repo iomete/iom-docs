@@ -449,6 +449,20 @@ Vugar Dadalov
 
 -->
   <NewFeatures>
+    - **Event Ingest Service**:
+      - Introducing a high-performance event ingestion service built in Rust, designed for efficient event streaming and storage to Iceberg tables.
+      - The service exposes `/ingest` API for event ingestion.
+      - **Configuration**:
+        - To enable the Event Ingest service, set the following feature flag:
+          ```yaml
+          eventIngest:
+            enabled: true
+          ```
+        - To enable Ranger audit logs to send events to the Event Ingest service and persist them in Iceberg tables:
+          ```yaml
+          dataAccessAudit:
+            enabled: true
+          ```
   </NewFeatures>
   <Improvements>
     - **Spark Job Orchestration (Priority-Based Deployment Flow)**:  
