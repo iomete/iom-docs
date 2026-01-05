@@ -14,6 +14,515 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.15.0" date="January 5th, 2026">
+<!--
+Abhishek Pathania
+  kotlin:
+      01e0a409f 2025-10-28 Abhishek Pathania Add job orchestrator queue configs in system configs (#1302)
+      5c7f085eb 2025-11-14 Abhishek Pathania Add job user and tags to job (#1391)
+      01dc8c459 2025-11-07 Abhishek Pathania Auto retry quota failed jobs (#1332)
+      264deadfa 2025-11-12 Abhishek Pathania Fix manual run handling for Prefect-managed Spark jobs (#1377)
+      bea9ec12b 2025-11-18 Abhishek Pathania Fix Prefect retry visibility and tag propagation for scheduled jobs. (#1448)
+      39c43b0c0 2025-10-30 Abhishek Pathania Fix startup timeout not being enforced due to executor state (#1307)
+      f6df37582 2025-11-14 Abhishek Pathania Retry run handling for prefect cancelled jobs (#1387)
+      81c0c95db 2025-11-17 Abhishek Pathania Revert executor changes as this is working as expected (Fix updateJob API transactional issue) (#1401)
+      7db628eed 2025-11-13 Abhishek Pathania Sync status from Prefect for manual runs (#1385)
+  infra:
+      -
+  iom-console:
+      -
+
+alokhp
+  kotlin:
+      6364d7a7b 2025-12-11 alokhp fix: add support for md5 checksum for ECS compatability (#1616)
+      923d418f7 2025-11-17 alokhp fix: compaction zorder operation failure (#1436)
+      055755140 2025-10-21 alokhp fix: failing test in PojoSchemaMapperTest.kt (#1267)
+      43d22addb 2025-11-28 alokhp fix: support for splunk basic auth as well for log fetching (#1511)
+      1a5eb774e 2025-10-30 alokhp fix: test connection fix that works with minio and ecs (#1311)
+      713cbea8e 2025-12-23 alokhp Revert "fix: add support for md5 checksum for ECS compatability (#1616)" (#1674)
+  infra:
+      9bf711f9 2025-10-25 alokhp chore: add feature flag s3ChecksumValidationDisabled (#258)
+      139dbcbf 2025-10-30 alokhp Revert "chore: add feature flag s3ChecksumValidationDisabled (#258)"
+  iom-console:
+      -
+
+Altay
+  kotlin:
+      545e365e4 2025-12-30 Altay fix for driver nfs volume to not override the existing attached volumes (#1773)
+      ed35026c2 2025-10-21 Altay fixing failing test after removing some strong validations in code for the token length (#1266)
+  infra:
+      b8988c69 2025-10-31 Altay bump proxy version (#262)
+      184c3b6e 2025-11-21 Altay bumped proxy version and also set proper resources (#323)
+  iom-console:
+      -
+
+Aslan Bakirov
+  kotlin:
+      911df413d 2025-11-25 Aslan Bakirov Ab/add release tag (#1359)
+      0b3e974f0 2025-10-21 Aslan Bakirov Add common and cloud-storages-lib to the CI (#1193)
+      a90f0efe5 2025-10-25 Aslan Bakirov Fix test connection issue (#1278)
+      26df71bac 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:s3 in /iom-rest-catalog (#1289)" (#1304)
+      015b4200d 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:sts in /iom-core (#1296)" (#1303)
+  infra:
+      236acb27 2025-11-20 Aslan Bakirov Add alerts and contact points for dell (#320)
+      125e9cd4 2025-11-25 Aslan Bakirov Add new alerts (#325)
+      ac8f4085 2025-12-17 Aslan Bakirov Add new dashboards (#357)
+      2278033c 2025-12-18 Aslan Bakirov Add new dashboards (#360)
+      94203b7f 2025-11-25 Aslan Bakirov Add release tag in other repos (#273)
+      ae118366 2025-12-09 Aslan Bakirov Add rust-monorepo to release pipeline (#351)
+      c75c6b42 2025-12-07 Aslan Bakirov Add trustore volume (#345)
+      4efcb1d4 2025-12-18 Aslan Bakirov bump the chart version (#361)
+      8754d674 2025-11-04 Aslan Bakirov Dell Prod Dashboards (#268)
+      caae6fa6 2025-11-10 Aslan Bakirov Fix deployment of papyrus (#278)
+      26afb977 2025-11-17 Aslan Bakirov Image url fixup (#307)
+      5ad061ef 2025-12-03 Aslan Bakirov New dash (#340)
+      eb228f27 2025-12-18 Aslan Bakirov New dashboards (#359)
+      3d8699ef 2025-11-10 Aslan Bakirov Remove wierd characters (#272)
+      c1706d32 2025-11-18 Aslan Bakirov Update chart version (#313)
+      cc3f57af 2025-11-17 Aslan Bakirov Update ns dashboard (#308)
+      20587d6d 2025-11-25 Aslan Bakirov Update version (#326)
+      f7f2b6fc 2025-11-27 Aslan Bakirov Upgrade iom-socket version (#329)
+  iom-console:
+      8142d6e21 2025-11-25 Aslan Bakirov Add release tag (#492)
+
+azsefi
+  kotlin:
+      738f38959 2025-12-21 azsefi feat(core/volumes): Use selected volume for driver as well (#1667)
+      175140ed5 2025-10-22 azsefi fix(iom-core/token): expiration should be null for 'never' expiration (#1272)
+      8c7463235 2025-11-17 azsefi Handle getViews on empty spark_catalog schema (#1433)
+  infra:
+      af16ac9e 2025-11-10 azsefi Add iom-event-ingest monitoring (#261)
+      45c2acd1 2025-11-28 azsefi Add Papyrus/Loader monitoring (#331)
+  iom-console:
+      -
+
+
+Fuad Musayev
+  kotlin:
+      035c1d0af 2025-12-15 Fuad Musayev Added classification tags service (#1625)
+      8f36eab21 2025-12-12 Fuad Musayev Added notification validation and readmes (#1618)
+      ccb11f93b 2025-10-24 Fuad Musayev Added s3fs library to docker
+      0d709aa61 2025-10-24 Fuad Musayev Added sample jupyter-notebooks
+      398380d4a 2025-12-01 Fuad Musayev Added write-enable=false (#1556)
+      0cf4cf851 2025-11-21 Fuad Musayev Bump jupyter-container base image (#1460)
+      fed70908f 2025-11-05 Fuad Musayev Changes in docker image of Jupyter Container
+      bf74dda69 2025-10-23 Fuad Musayev Image size adjusted for login page
+      189b1b645 2025-12-05 Fuad Musayev In app notification (#1577)
+      beec5768e 2025-12-27 Fuad Musayev Jc docker (#1743)
+      b0dde3f49 2025-12-27 Fuad Musayev JC: Added export venv to .profile (#1744)
+      891b8bedb 2025-12-06 Fuad Musayev Local Storage Interface implemented for UI (#1581)
+      568b85076 2025-10-23 Fuad Musayev Login Redesign
+      903e2b860 2025-10-23 Fuad Musayev Login Redesign: Fluro SSO button
+      c3136e8fa 2025-10-23 Fuad Musayev Login Redesign: image moved to META-INF
+      f6a6a5887 2025-11-01 Fuad Musayev Moved openapi ui to core service
+      944b2a765 2025-12-12 Fuad Musayev Removed annotation from identity client in common (#1622)
+      03409c786 2025-11-02 Fuad Musayev Removed deprecated ConnectClusters logic, as it is moved to Compute
+      0265faa1b 2025-11-01 Fuad Musayev Renamed module iom-health-checker to iom-monitoring
+      a5a71eb3b 2025-11-01 Fuad Musayev Renamed module iom-health-checker to iom-monitoring. Part 2: Github Actions updated
+      7cc2dd18a 2025-11-01 Fuad Musayev Small adjustment in swagger initializer
+      07b984b33 2025-12-10 Fuad Musayev User notifications (#1617)
+  infra:
+      c939d634 2025-10-23 Fuad Musayev Added login img path to identity in nginx conf
+      c5c974db 2025-12-06 Fuad Musayev Added new notification endpoint (#344)
+      187dbc71 2025-10-23 Fuad Musayev Adjusted login img path to identity in nginx conf
+      e377a9e5 2025-11-19 Fuad Musayev Bump iom-gateway (2.0.1) and spark operator (4.0.4) (#318)
+      68511b25 2026-01-05 Fuad Musayev Bump jupyter to 2.0.0 image
+      69b23811 2025-11-21 Fuad Musayev Bump jupyter-container image (1.2.0) (#322)
+      3f63119d 2025-12-10 Fuad Musayev Dev install (#352)
+      209ca08c 2025-11-19 Fuad Musayev Moving iom-gateway image to alpine-slim image (#316)
+      3ebc1c51 2025-11-03 Fuad Musayev Remove services jupyter kernels, presidio, openapi, etc. from Data Plane Enterprise
+      fd4f6fda 2025-11-05 Fuad Musayev Removed data-product and jupyter-kernels (old) feature flags
+      9e9ddcfa 2025-12-25 Fuad Musayev Rolling back to 1.1.0 image for jupyter
+      e89b8fab 2025-12-12 Fuad Musayev Typesense bump to 29 + new endpoint in gateway (#355)
+      7317462a 2025-12-13 Fuad Musayev Upgraded grafana to 11.6.8 (#354)
+  iom-console:
+      728501545 2025-12-07 Fuad Musayev Added column type based icons to database explorer (#557)
+      37456668a 2025-11-01 Fuad Musayev Fixed data-catalog statBadge having 0%
+      5f98c6e5f 2025-11-08 Fuad Musayev Import now supports ipynb, dash files
+      e57b12c4c 2025-12-07 Fuad Musayev Improved readability and added icon on SparkJobScheduleDetail component (#559)
+      7868d56fe 2025-12-11 Fuad Musayev Notifications - some improvements (#570)
+      b11e52fe8 2025-12-11 Fuad Musayev Notifications - title changes (#572)
+      50511311d 2025-11-02 Fuad Musayev Plan details - style adjustments
+      e5abf4b9d 2025-11-02 Fuad Musayev Small design touches to React Flow
+      689617116 2025-11-08 Fuad Musayev Some icons updated
+
+garayevs
+  kotlin:
+      885e269ce 2025-12-20 garayevs Add prefect deployment ids filter parameter
+      17acf73a8 2025-10-27 garayevs Add Spark Jobs to RAS through different channel
+      2d62b969c 2025-11-04 garayevs Allow users to add resources to bundles they are member of
+      bf09c58b8 2025-11-28 garayevs BugFix / Add domain level access token management API
+      d60029344 2025-12-05 garayevs Create annotation to log events
+      892834d10 2025-11-28 garayevs Create common function to log actions async
+      8978fa6c4 2025-10-27 garayevs Create Jupyter Container API layer for OpenAPI documentation
+      5f2547052 2025-11-26 garayevs Create permission for access token management (#1505)
+      9b722d2cf 2025-12-19 garayevs Create worksheet schedule
+      321175cad 2025-10-29 garayevs CS 107 Add `delete` and `move` authorization to workspaces (#1279)
+      12987ad63 2025-10-24 garayevs CS-125 Put sample notebooks in Jupyter Container
+      5960dcebc 2025-12-19 garayevs Delete schedule
+      8d2bb0a1a 2025-10-23 garayevs Display Sign in with SSO button (#1275)
+      add340a37 2025-12-20 garayevs Get schedule list and details
+      13c1d7e50 2025-11-25 garayevs IE-154 :: Check if identities added already exist in the domain
+      8003378b9 2025-11-12 garayevs Improve search in Resources tab of Bundle page (#1379)
+      5a3497b73 2025-10-22 garayevs Install Java in JC docker image (#1273)
+      5247e5379 2025-12-01 garayevs Log data security ops in firehose
+      0d349c088 2025-12-02 garayevs Log IAM actions in Firehose
+      2733eefef 2025-12-01 garayevs Log RAS actions in Firehose
+      7da95cc16 2025-12-19 garayevs Move schedule logic to iom-core from iom-sql
+      cf1188057 2025-12-19 garayevs Pause and resume schedule
+      bdd9fe4f3 2025-10-27 garayevs Replace authz service with with correct ones for Spark Jobs
+      0e84bdc67 2025-10-22 garayevs Separate Jupyter Containers in 2 tabs: My, Shared with me
+      7a6e356dc 2025-11-25 garayevs Show compute list with pagination
+      da4a05ab7 2025-10-28 garayevs Test Containers in iom-core
+  infra:
+      -
+  iom-console:
+      -
+
+Mammad Mammadli
+  kotlin:
+      -
+  infra:
+      -
+  iom-console:
+      a8b83eb3d 2025-12-02 Mammad Mammadli Adapt endpoints for service accounts for create, delete (#550)
+      b05a96614 2025-12-03 Mammad Mammadli bring back search functionality (#552)
+      b75269af4 2025-11-28 Mammad Mammadli change bundle assets with new structured endpoint (#532)
+      b5f6ea5b3 2025-10-23 Mammad Mammadli chore: disable deleting for deleting alias (#462)
+      f3336cab6 2025-12-11 Mammad Mammadli disable highlighting of SQL editor (#573)
+      a79f0f51f 2025-10-30 Mammad Mammadli feat: add Jupyter notebook support to SQL editor
+      d7fe76898 2025-11-19 Mammad Mammadli feat: add resource type filter to bundle members (#515)
+      89ade8c52 2025-10-31 Mammad Mammadli feat: enhance bundle permissions with single selection and smart filtering
+      0f41ee649 2025-10-23 Mammad Mammadli feat: enhance docker image selection for private registries
+      680beb7db 2025-10-29 Mammad Mammadli feat: filter asset type permissions based on selected actors' existing permissions
+      f504d7b8b 2025-10-22 Mammad Mammadli feat: implement API versioning with feature toggle support
+      731231d38 2025-12-09 Mammad Mammadli feat: implement basic notifications page (#534)
+      9fb17eb43 2025-11-28 Mammad Mammadli Fix broken Compute edit page (#519)
+      222429590 2025-12-17 Mammad Mammadli fix failing test (#588)
+      8e4f4bd73 2025-11-10 Mammad Mammadli fix failing tests
+      3ebd97162 2025-12-02 Mammad Mammadli Fix namespace test failures and split namespace pages per version (#548)
+      5c657094b 2025-11-05 Mammad Mammadli fix: invalidate correct query key for bundle resource assets
+      bfb79bb00 2025-10-21 Mammad Mammadli fix: pagination not working when sorting is applied in query monitoring
+      5ed8051c0 2025-11-03 Mammad Mammadli fix: resolve placeholder visibility and form reset issues in bundle permissions
+      20697533c 2025-11-03 Mammad Mammadli fix: update bundle permission form tests to match new disabled behavior
+      9c5ac4354 2025-12-01 Mammad Mammadli IE-156/separate admin domain access (#542)
+      60842ad57 2025-11-28 Mammad Mammadli Implement ButtonGroup component (#513)
+      cd3a76523 2025-10-31 Mammad Mammadli implement global uuid interface
+      303593658 2025-11-27 Mammad Mammadli Implement permission management for access token (#535)
+      efb2f8a63 2025-11-14 Mammad Mammadli increase maxThreads (#505)
+      fa40a2cc0 2025-12-17 Mammad Mammadli Increase tests (#584)
+      b14d2d9ce 2025-11-04 Mammad Mammadli install jupyter and enable
+      ef0ac4218 2025-11-03 Mammad Mammadli Make some cleanups
+      463884ba1 2025-11-24 Mammad Mammadli New endpoints for Secret management (#508)
+      eed269224 2025-11-18 Mammad Mammadli Pe 159/bundle permission improvement (#502)
+      1114dacbd 2025-12-03 Mammad Mammadli PE-199/migrate namespaces to v2 (#549)
+      cf7b2ca37 2025-12-11 Mammad Mammadli PE-229/Notification settings (#569)
+      5415f0fcb 2025-11-10 Mammad Mammadli Redirect to bundle details after creating
+      daa7cf691 2025-10-21 Mammad Mammadli redirect to specific jupyter
+      72d52f78a 2025-11-20 Mammad Mammadli refactor: remove forceUpdate pattern from BundlePermissionManager (#520)
+      5e315fd73 2025-12-09 Mammad Mammadli remove caching from namespaces list (#567)
+      65c9932e8 2025-11-04 Mammad Mammadli REmove flag for Jupyter
+      ac91a4f82 2025-11-10 Mammad Mammadli remove redundant comments
+      c55ec3e35 2025-11-16 Mammad Mammadli Removed parsing to json since it's going to be parsed inside package (#509)
+      92fe9cb3f 2025-11-10 Mammad Mammadli revert changes on pr.yml
+      f89becf0b 2025-11-10 Mammad Mammadli run all tests
+      c571ef226 2025-10-21 Mammad Mammadli send request to v2 on compute log download
+      3dc7fe547 2025-11-03 Mammad Mammadli Show loading on BundlePermissionForm
+      d56d68b40 2025-11-28 Mammad Mammadli Split endpoints for access token into 2 parts domain/admin (#540)
+      e1eb2450e 2025-10-29 Mammad Mammadli test: add comprehensive unit tests for BundlePermissionCreate and BundlePermissionEdit
+      76431a03a 2025-10-29 Mammad Mammadli test: add comprehensive unit tests for BundlePermissionForm components
+      a5e060cab 2025-11-07 Mammad Mammadli update config
+      6a76060a2 2025-11-09 Mammad Mammadli Update eslint config
+      03e41c68c 2025-12-13 Mammad Mammadli update html data-theme for dark/light theme (#574)
+      1e1181bee 2025-11-25 Mammad Mammadli update packages (#531)
+      74b3a85eb 2025-11-05 Mammad Mammadli update yarn.lock
+      ab9ac062b 2025-11-06 Mammad Mammadli update yarn.lock
+      fa9f53152 2025-10-21 Mammad Mammadli update yarn.lock
+
+Nurlan Mammadov
+  kotlin:
+      -
+  infra:
+      -
+  iom-console:
+      86959f1dc 2025-10-22 Nurlan Mammadov feat: add My/Shared view filter to Jupyter containers list
+      de7bcd0c4 2025-11-03 Nurlan Mammadov feat: implement BI dashboard feature with widget management and real-time query execution
+      153601d45 2025-11-17 Nurlan Mammadov feat: set Runs tab as default active tab on job view pages (#511)
+      ad033260d 2025-10-28 Nurlan Mammadov fix: add domain context support for Docker registry API endpoints
+      cec909eb2 2025-11-26 Nurlan Mammadov fix: update border colors for SQL header split components (#533)
+      6866f9612 2025-11-03 Nurlan Mammadov Key features: - Dashboard-level error handling: Show full-page alert for invalid dashboard JSON - Widget-level error handling: Display config errors inside widget boundary - Safe JSON parsing with validation helpers (parseDashboardContent, validateWidgetConfig) - Empty dashboard support: Create default empty dashboard when content is blank - WidgetConfigError component: Shows config errors with reset option - Maintains widget chrome (title, actions) even with config errors - Error priority: Loading → Config Error → Query Error → Empty → Success
+      3e7b35d09 2025-12-17 Nurlan Mammadov Refactor dashboard-view for improved maintainability and reduced complexity (#582)
+      6ec688067 2025-11-20 Nurlan Mammadov refactor: enforce legacy deployment flow for streaming jobs (#517)
+      1886d4ead 2025-12-17 Nurlan Mammadov Add loading states to General Info page (#583)
+      c46f9947b 2025-11-16 Nurlan Mammadov feat: add chart configuration modal for dashboard widgets (#507)
+      a11124adc 2025-11-18 Nurlan Mammadov - jupyterContainers feature flag removed (#512)
+      7bb577c7a 2025-12-17 Nurlan Mammadov Add segment colors customization to treemap chart (#586)
+      2ab18c5bf 2025-11-17 Nurlan Mammadov Add showRegardingObjectKindFilter prop to K8sEvents component (default: true). (#510)
+      3bef966c7 2025-12-15 Nurlan Mammadov Dashboard improvements (#566)
+      17ab1a16f 2025-11-03 Nurlan Mammadov feat: add Big Number chart with extensive customization and chart enhancements
+      39145266c 2025-11-03 Nurlan Mammadov feat: add editable text and textarea components for dashboard metadata updates
+      70b068cb8 2025-11-07 Nurlan Mammadov feat: add ph id to HugeIcon components (#488)
+      23e269d75 2025-11-15 Nurlan Mammadov Feat/bi improvements (#506)
+      0b885f20b 2025-11-20 Nurlan Mammadov Feat/compute create new UI (#518)
+      19992d90f 2025-11-24 Nurlan Mammadov Feat/jupyter container tabbed form (#521)
+      e9edca2a8 2025-11-26 Nurlan Mammadov Feat/sql compute inline actions (#529)
+      692b8d526 2025-12-20 Nurlan Mammadov Feat/sql editor reusable component (#590)
+      209457ffb 2025-11-28 Nurlan Mammadov Fix ErrorResult text overflow for long error messages (#541)
+      0aa16c34f 2025-12-15 Nurlan Mammadov Fix whitespace handling in domain user filter labels (#581)
+      d30a82964 2025-11-27 Nurlan Mammadov fix: add delay to spark job retry success callbacks for better UX (#538)
+      761d2e0fc 2025-11-03 Nurlan Mammadov fix: add missing react-grid-layout and react-resizable dependencies
+      ae35c9f39 2025-11-03 Nurlan Mammadov fix: add missing react-grid-layout dependencies
+      75ea81748 2025-11-07 Nurlan Mammadov fix: enable navigation for enqueued spark apps and show driver messages (#489)
+      6ea9564d0 2025-11-11 Nurlan Mammadov fix: make Spark app names always clickable in job and streaming job lists
+      e37765187 2025-11-03 Nurlan Mammadov fix: prevent persisting query results with type-safe serialization
+      fad9e219f 2025-11-06 Nurlan Mammadov Fix/convert phosphor icons to hugeiocns (#487)
+      1b9d7e165 2025-11-12 Nurlan Mammadov Fix/sql editor icons and chart issues (#499)
+      5ad63fcab 2025-11-11 Nurlan Mammadov refactor: remove Jupyter notebook permissions from role creation
+
+rbhokre
+  kotlin:
+      fbcae940a 2025-11-17 rbhokre Add additional flight server headers for flight request handling in db explorer (#1434)
+      3b6fa1c28 2025-12-09 rbhokre add an internal SQL query executor service that uses Apache Arrow Flight for executing SQL queries for internal services (#1612)
+      fa054cf93 2025-12-02 rbhokre Add Arrow Flight–based endpoints for Iceberg table registration to enable Spark Disconnect migration (#1562)
+      cbfe861aa 2025-12-03 rbhokre Add Arrow Flight–based endpoints for snapshotting parquet tables to enable Spark Disconnect migration (#1564)
+      903f25013 2025-12-11 rbhokre feat(audit): integrate iom-sql service for audit data retrieval via Arrow Flight (#1613)
+      7d9e48867 2025-11-14 rbhokre Fix api paths for sql db explorer endpoints and add admin API endpoints (#1388)
+      8c214ffac 2025-11-11 rbhokre Integration with Arrow Flight to power DB Explorer functionality
+      206338cc3 2025-10-22 rbhokre Refactor `SparkAppServiceTest`: (#1271)
+      cd6ccd6bf 2025-11-11 rbhokre Refactor Arrow Flight authentication in iom-sql to use system-generated tokens with flight creds caching, and migrate all cache implementations from Guava to Caffeine.
+      551f68d5d 2025-12-04 rbhokre Refactor SqlExecutor to remove spark connect rest client dependency (#1567)
+      96127dc93 2025-11-14 rbhokre Refactor: Add Admin API's for catalog listing with full domain coverage (#1389)
+      874e642a8 2025-12-04 rbhokre Spark disconnect migrate table ref and snapshot from the legacy implementation to use Arrow Flight (#1572)
+      6b84b823d 2025-11-18 rbhokre table partition extraction from flight response for dbExplorer (#1439)
+  infra:
+      562443f0 2025-11-13 rbhokre Add new sql endpoints to nginx and revert removing useSparkConnectForDbExplorer flag (#286)
+      cbe597d3 2025-11-19 rbhokre Add schema path to admin API routes in nginx configuration (#319)
+      660507a0 2025-12-19 rbhokre Enable listing metadata authorization using ranger in iom Spark connect cluster (#362)
+      aa46096f 2025-11-17 rbhokre fix additional space in config that went un-noticed (#306)
+      417f3ac4 2025-11-14 rbhokre fix: REVERT SQL service route in nginx configuration (#294)
+      d9f5c433 2025-11-11 rbhokre introduce feature flag `arrowFlightForDbExplorer` (#269)
+      90949014 2025-11-19 rbhokre Remove default domain configuration from Spark connect driver (#317)
+      e264429c 2025-11-17 rbhokre Revert "revert iom_spark_connect mainClass to SparkConnect and remove… (#303)
+      b95bf086 2025-12-09 rbhokre spark-disconnect related changes (#348)
+  iom-console:
+      -
+
+rcjverhoef
+  kotlin:
+      2bd133a35 2025-11-12 rcjverhoef bump quarkus and gradle (#1376)
+      64b0b098b 2025-11-18 rcjverhoef bump socket client dependencies (#1440)
+      2ae40c34a 2025-11-19 rcjverhoef cloud-lib-storages: bump azure-identity (#1456)
+      55b93591e 2025-10-30 rcjverhoef fetch the jupyter container base image from config map (#1310)
+      e494d61b5 2025-11-19 rcjverhoef iom-rest-catalog: bump iceberg versions to resolve netty vulnerabilities (#1444)
+      ef3867018 2025-11-05 rcjverhoef iom-rest-catalog: remove hadoop-aws dependency (#1336)
+      73228a8ae 2025-11-20 rcjverhoef iom-sql: add hive-server jar + test-case to validate we can run queries (#1458)
+      4de9a143b 2025-11-19 rcjverhoef iom-sql: bump hive jdbc (#1447)
+      6f72bccb7 2025-11-18 rcjverhoef iom-sql: disallow user to access query results for queries they don't own (#1443)
+      a8048cda8 2025-11-19 rcjverhoef iom-sql: force jetty 9.4.57.v20241219 (#1446)
+      c97fc3a20 2025-11-19 rcjverhoef iom-sql: force netty 4.1.125.Final (#1445)
+      e946368d6 2025-11-19 rcjverhoef iom-sql: force parquet-arrow-version (#1451)
+      9ef2474ad 2025-10-31 rcjverhoef iom-sql: minor adjustments to BI-dashboard contract (#1316)
+      3fe70480d 2025-11-20 rcjverhoef iom-sql: move to hide-jdbc-standalone (#1459)
+      77a3c20f2 2025-11-18 rcjverhoef iom-sql: remove dashboard endpoints (#1442)
+      2fafd27b2 2025-11-19 rcjverhoef iom-sql: remove duplicated dependencies (#1452)
+      1cd66795c 2025-11-19 rcjverhoef iom-sql: remove spark dependency (#1455)
+      1d6fa59eb 2025-10-31 rcjverhoef iom-sql: switch bi-dashboards to use map/dict instead of list of widgets (#1313)
+      0bd70fcef 2025-10-22 rcjverhoef Make dashboards url consistent with worksheet url (#1268)
+      93f056c0d 2025-11-05 rcjverhoef move docker base images to use jre instead of jdk (#1335)
+      5d2b4d986 2025-11-17 rcjverhoef remove pinned netty version (#1435)
+      e312698ae 2025-11-06 rcjverhoef Rocco/revert rename of iom health checker (#1340)
+      e6c2db967 2025-10-23 rcjverhoef small refactor for workspace
+      7ce404ab8 2025-11-06 rcjverhoef switch docker containers to use 21-jre-alpine (#1339)
+      ca70c8a77 2025-11-17 rcjverhoef upgrade dependabot settings (#1402)
+  infra:
+      840a683b 2025-11-14 rcjverhoef add cpu optimized nodes for iom-console tests (#295)
+      2b7d8d61 2025-11-14 rcjverhoef add dns to release environment (#291)
+      0100f225 2025-11-13 rcjverhoef add istio as ingress (#290)
+      e2b0061e 2025-11-04 rcjverhoef create reusable steps for scanning vulnerabilities (#265)
+      3666ead5 2025-11-05 rcjverhoef create reusable steps for scanning vulnerabilities part 2 (#266)
+      cae1fc0c 2025-11-12 rcjverhoef disable release env in TF cloud to save $$$ (#282)
+      ffcd0348 2025-11-12 rcjverhoef disable release env in TF cloud to save $$$ (#283)
+      55a226a3 2025-12-02 rcjverhoef don't put AWS CHECKSUM vars inside if idiot (#336)
+      b1468bb6 2025-11-13 rcjverhoef forgot to rebase and missed the tenant (#289)
+      93a1dcdc 2025-11-25 rcjverhoef iomete-github-bot setup as github app (#324)
+      c1916a32 2025-11-14 rcjverhoef iomete-github-bot webhook bot installation (#298)
+      d19107bb 2025-11-13 rcjverhoef patching up the external-secret-sync (#287)
+      48c70de5 2025-11-10 rcjverhoef reinstall github-arc-runner-sets (#276)
+      7e1aaad9 2025-11-10 rcjverhoef remove github-arc-runner-sets (#275)
+      5d7db8c8 2025-11-17 rcjverhoef remove splunk reference from pentest environment (#302)
+      b74f0833 2025-11-17 rcjverhoef rename env to pentest (#304)
+      22f50b97 2025-11-11 rcjverhoef revert iom_monitoring to iom_health_check part 2 (I missed a spot) (#279)
+      67763396 2025-11-07 rcjverhoef revert iom-monitoring back to iom-health-checker (#270)
+      0bc88bdd 2025-11-13 rcjverhoef Rocco/terraform release env ingress (#288)
+      6184c257 2025-10-24 rcjverhoef scan releases for vulnerabilities (phase 1) (#257)
+      34c4fa40 2025-12-02 rcjverhoef set checksum checks for AWS S3 to 'when_required' for iceberg-rest-catalog via env variables (#333)
+      afc8f029 2025-11-17 rcjverhoef setup penetration test environment in TF Cloud (#301)
+      52ab7855 2025-11-17 rcjverhoef Setup weekly vulnerability scans (#292)
+      2fb1d00f 2025-11-12 rcjverhoef spin down last parts of release env (#284)
+      f3e3df5f 2025-11-14 rcjverhoef tearing down release environment - part 1 (#296)
+      afb6d4b6 2025-11-14 rcjverhoef tearing down release environment - stage 2 (#297)
+      4e767d92 2025-11-12 rcjverhoef Terraform cloud release environment (#281)
+      7910e2dd 2025-11-13 rcjverhoef update terraform to allow syncing secrets for istio ingress from a Azure Vault (#285)
+  iom-console:
+      ee93b161d 2025-11-14 rcjverhoef switch github actions to use fast-runner group (#504)
+
+rocco.verhoef
+  kotlin:
+      88f7d7dfa 2025-11-05 rocco.verhoef temporary rename to iom-health-checker
+  infra:
+      15200472 2025-10-24 rocco.verhoef add test action for publishing vulnerability reports
+      5335bbeb 2025-10-31 rocco.verhoef Revert "Added job orchestrator batch size configurability (#260)"
+      b33da5ea 2025-10-31 rocco.verhoef set dev to spark-3.5.5-v7
+      b9e8873a 2025-10-29 rocco.verhoef update promote step to correctly tag release
+  iom-console:
+      -
+
+Shahriyar Novruzov
+  kotlin:
+      33032ff83 2025-12-16 Shahriyar Novruzov Unified endpoint for token validation (#1652)
+      941330d28 2025-12-19 Shahriyar Novruzov Expose Authorization API (#1665)
+      d7efac366 2025-12-08 Shahriyar Novruzov Spark config for event-ingest service (#1580)
+  infra:
+      83e787cc 2025-12-08 Shahriyar Novruzov adjust securityContext (#346)
+      12276abe 2025-12-04 Shahriyar Novruzov iom-event-ingest to helm (#335)
+      222049f7 2025-12-05 Shahriyar Novruzov mount java truststore (#342)
+      82c0d416 2025-12-09 Shahriyar Novruzov volumeClaimTemplates instead of PersistentVolumeClaim (#350)
+  iom-console:
+      -
+
+Shashank Chaudhary
+  kotlin:
+      537cab41a 2025-10-28 Shashank Chaudhary Added batch validation for spark jobs with cumulative quota tracking (#1300)
+      653643345 2025-11-11 Shashank Chaudhary Added job quota(queued)/failure reason visibility in console for prefect runs (#1357)
+      631914a0c 2025-11-18 Shashank Chaudhary Exposes Job Orchestrator as domain-scoped REST API (#1437)
+      53ea2c282 2025-11-12 Shashank Chaudhary Fix manual job run errors for Prefect jobs failing pre-Spark-launch (#1381)
+      d4c24a916 2025-10-30 Shashank Chaudhary Moved the batch deployable API out of the domain (#1314)
+      640e84724 2025-11-07 Shashank Chaudhary Sending proper failure messages from batch deployable validation API (#1331)
+      1f98ef56b 2025-11-12 Shashank Chaudhary Validate context status relevance before displaying error messages (#1382)
+  infra:
+      98b5949f 2025-11-17 Shashank Chaudhary Added cleanup config env variables (#305)
+      6032978a 2025-10-31 Shashank Chaudhary Added job orchestrator batch size configurability (#260)
+      d3b95ff4 2025-11-19 Shashank Chaudhary Added jobs orchestrator route in gateway config (#315)
+      247eeda9 2025-10-31 Shashank Chaudhary Added quotes to fix adding integer value to the env (#263)
+      4f841bf4 2025-11-04 Shashank Chaudhary Added the default batchSize value removed in PR revert :shrug: (#264)
+      b881ef62 2025-11-07 Shashank Chaudhary Dell Job Orchestrator Dashboard JSON Update (#271)
+      d14a25d9 2025-11-18 Shashank Chaudhary Updated batch size and query seconds (#311)
+      e0fdf7b9 2025-11-19 Shashank Chaudhary Updated dev values to use latest image version for prefect (#314)
+      af0b1e1f 2025-11-21 Shashank Chaudhary Updated Job Orchestrator Metrics Exporter to 1.3.0 with security updates (#321)
+      161b23ad 2025-11-18 Shashank Chaudhary Updated Prefect server, worker & post-install image versions (#312)
+  iom-console:
+      -
+
+Sourabh Jajoria
+  kotlin:
+      24eea8ef2 2025-12-02 Sourabh Jajoria Accessing vault secrets in the domain dashboard (#1514)
+      8e1c69f28 2025-11-18 Sourabh Jajoria Adding Secrets V2 service to iom-core (#1378)
+      bf6fc7fbc 2025-12-11 Sourabh Jajoria Changing API contracts as per inputs from team. (#1619)
+      d615d75af 2025-10-22 Sourabh Jajoria Fixing failed test for leaderelectortest (#1269)
+      bdcc54052 2025-12-17 Sourabh Jajoria Fixing legacy secret resolution logic in Jupyter containers. (#1655)
+      4586f91b2 2025-12-05 Sourabh Jajoria Making global scope secretsv2 compatible with legacy secrets (#1579)
+      0f2fef1a6 2025-11-26 Sourabh Jajoria Namespace resource bundle (#1500)
+      80e21aaae 2025-12-01 Sourabh Jajoria Pe 195/namespace listing endpoint v2 to give resource bundle link along with namespace (#1509)
+      c8e395e97 2025-12-12 Sourabh Jajoria Pe 240/secret v2 new dropdown based secrets resolution (#1621)
+      59d5fc567 2025-12-05 Sourabh Jajoria SecretsV2 secret resolution logic (#1565)
+      5f5f5c5f4 2025-12-05 Sourabh Jajoria Test endpoint for vault configurations (#1569)
+      cd0144082 2025-10-27 Sourabh Jajoria Updating validation conditions for domain id and name to match UI information being shown to user (#1277)
+      c89a90ad5 2025-11-28 Sourabh Jajoria Vault configuration support to access secrets from customer vault (#1496)
+  infra:
+      09ef9ee6 2025-11-26 Sourabh Jajoria Adding a feature flag for secrets management rollout (#328)
+      0923ee28 2025-12-02 Sourabh Jajoria Whitelist secrets end-point for admin APIs (#334)
+      25bb8a55 2025-12-03 Sourabh Jajoria Whitelisting vault-configs path for iom-core (#338)
+  iom-console:
+      -
+
+Tural Sadigov
+  kotlin:
+      cb2f1a240 2025-11-14 Tural Sadigov Data size calculation (#1390)
+      10825d778 2025-11-23 Tural Sadigov Dependabot auto merge (#1454)
+      e44479c92 2025-11-24 Tural Sadigov disable cronjob (#1497)
+      335f5e889 2025-11-17 Tural Sadigov Revert "build(deps): bump io.quarkus:quarkus-test-common in /common (#1432)" (#1441)
+      999476130 2025-11-25 Tural Sadigov simplification (#1498)
+      7c65e2b68 2025-12-05 Tural Sadigov Tural/mask compute secrets (#1578)
+  infra:
+      6798e264 2025-12-05 Tural Sadigov $ s fixed in .values, editted values for dev (#343)
+      b65d701b 2025-12-02 Tural Sadigov checkout fix (#337)
+      246a8082 2025-12-03 Tural Sadigov new alerts (#341)
+      1cd5c00c 2025-12-03 Tural Sadigov Operational support quota (#339)
+      35d09ca0 2025-11-17 Tural Sadigov Spark history change (#309)
+      1deda596 2025-11-19 Tural Sadigov Spark history change (#310)
+  iom-console:
+      -
+
+Ujjawal Khare
+  kotlin:
+      d777f3110 2025-12-18 Ujjawal Khare 071 migration - delete column only if exists (#1668)
+      38050a348 2025-11-12 Ujjawal Khare actor details resp changed (#1380)
+      22c3b1d07 2025-11-27 Ujjawal Khare Compute namespace authorization access for user added (#1508)
+      f902c0375 2025-11-13 Ujjawal Khare delete actor permissions to delete all assetType permissions (#1384)
+      359bf70f1 2025-11-27 Ujjawal Khare Feat: Spark job authorization for namespace (#1507)
+      16fbcbf55 2025-12-04 Ujjawal Khare Fix for new namespace bundle owner
+      0ec80c07e 2025-11-29 Ujjawal Khare fix namespace utilization api access in namespace v2 api
+      c5b92eceb 2025-11-28 Ujjawal Khare Jupyter Namespace Authorization (#1510)
+      2172f6829 2025-12-03 Ujjawal Khare Namespace bundle-asset-owner to be same as bundle owner (#1568)
+      92fb61e71 2025-11-29 Ujjawal Khare Namespace removal resource bundle management (#1519)
+      20b718478 2025-11-28 Ujjawal Khare Namespace resource bundle creation on namespace addition (#1515)
+      8b2a5319a 2025-11-14 Ujjawal Khare Pe 127/optimize resource bundle detailed page be v2 (#1386)
+      bf376498e 2025-11-11 Ujjawal Khare Pe 160/feat/resource bundles permissions v2 api (#1374)
+      6cb19183b 2025-12-17 Ujjawal Khare prefect_job_id to orchestration_id (#1654)
+      5cfd8bde9 2025-11-27 Ujjawal Khare RAS namespace authorization core logic (#1504)
+      8d85c0350 2025-11-28 Ujjawal Khare Resource Bundle archival name change (#1512)
+      5f506a7d3 2025-11-17 Ujjawal Khare Resource bundles Members api total number of actors count fix (#1400)
+      12013bbdb 2025-11-13 Ujjawal Khare Update permission enabled to accept extra resource types (#1383)
+  infra:
+      108e601e 2025-12-08 Ujjawal Khare Namespace bundle default value change for dev clusters (#347)
+      473a7ddd 2025-12-05 Ujjawal Khare Namespace feature flag description
+      e6f73ca4 2025-11-26 Ujjawal Khare Namespace RAS feature flag introduction (#327)
+  iom-console:
+      -
+
+Vugar Dadalov
+  kotlin:
+      -
+  infra:
+      -
+  iom-console:
+      e149201dc 2025-12-05 Vugar Dadalov Add ArrowFlight API endpoints and update queries for conditional access (#553)
+      82830959d 2025-12-05 Vugar Dadalov Add secrets management functionality with admin support (#551)
+      8f92f26be 2025-12-18 Vugar Dadalov antd upgraded to v6.1.1 and fixed deprecated (#589)
+      ec5e6b2f5 2025-12-15 Vugar Dadalov Enable `Manage Marketplace` permission always (#575)
+      a39662db0 2025-11-24 Vugar Dadalov feat: add CatalogMetricCard and LiveDataRatioChart components; update Statistics to utilize new components and enhance data display (#523)
+      18881448f 2025-10-27 Vugar Dadalov feat: add truncateCellValue utility function and corresponding tests
+      6876494ef 2025-10-23 Vugar Dadalov feat: implement file download functionality with customizable filenames
+      3953798e9 2025-10-24 Vugar Dadalov feat: Implement right-click open menu in SQL database and workspace views. (#458)
+      7257613c9 2025-11-27 Vugar Dadalov fix: change queryClient.resetQueries to queryClient.invalidateQueries in useCatalogs function (#539)
+      ed253a3e6 2025-10-24 Vugar Dadalov fix: correct 'Runs as user' title to 'Run as user' in multiple components; enhance tree data handling in FolderNodeMenu and WorksheetNodeMenu (#464)
+      077473c49 2025-10-24 Vugar Dadalov fix: correct API URL in fetchTokenData function for token refresh request
+      35e986e33 2025-11-12 Vugar Dadalov fix: correct link path to saved last page in AdminLayout (#500)
+      3e7457e36 2025-10-27 Vugar Dadalov fix: enhance truncateCellValue function to handle boolean and number inputs in tests
+      0bc8b2cba 2025-11-27 Vugar Dadalov fix: remove unused TEST route and refactor redirect logic in RootRouter (#537)
+      fabd5ddbb 2025-11-19 Vugar Dadalov fix: replace refetch with forceRefresh in Column component and tests (#514)
+      9031392ce 2025-11-19 Vugar Dadalov fix: update schemaCatalogsAdmin API URL for admin access (#516)
+      15b162c18 2025-11-27 Vugar Dadalov fix: update titles and descriptions in CatalogMetricCard usage for clarity (#536)
+      6eba7bffa 2025-11-25 Vugar Dadalov forceRefresh bug fixed in SQL DB explorer and Data security create page (#530)
+      b26c8e674 2025-12-07 Vugar Dadalov Implement test connection functionality for vaults (#556)
+      64faca5d4 2025-12-17 Vugar Dadalov PE-242/integrate-secrets-management-for-spark-job (#585)
+      08de85fe3 2025-12-12 Vugar Dadalov Refactor Secrets and Vaults components for improved routing and layout; add Vault Integrations path and enhance styling (#560)
+      fd50ece21 2025-11-12 Vugar Dadalov refactor: implement AdminLayout and MainLayout, update routing and local storage management (#498)
+      198afbee6 2025-11-18 Vugar Dadalov refactor: update API URLs and remove unused compute references across SQL components (#501)
+      c1d778121 2025-10-31 Vugar Dadalov refactor: update sidebar styles and structure for improved layout and consistency (#478)
+      568485bb0 2025-12-05 Vugar Dadalov Remove delete button functionality from secrets and vault forms (#554)
+      887423b44 2025-12-07 Vugar Dadalov UI-42/implement-secret-v2-in-password-input (#555)
+      d37570c25 2025-12-07 Vugar Dadalov Update Statistics component to always display current percentage card (#558)
+
+-->
+    <NewFeatures>
+    </NewFeatures>
+    <BugFixes>
+    </BugFixes>
+    <Improvements>
+    </Improvements>
+</Release>
+
 <Release version="3.14.3" date="December 2, 2025">
     <BugFixes>
         - Fixed compatibility issue stemming from latest version bump of AWS S3 jars. 
