@@ -14,14 +14,32 @@ Secrets Management V2 is the central, supported way to store credentials in IOME
 
 ## Secrets management overview
 
-- A unified secrets catalogue spans admin, global, and domain scopes so every workload uses the same secure references.
-- The Secrets UI captures the secret key plus its source (Kubernetes store or Vault integration); the value is fetched securely at runtime.
-- Spark jobs, compute clusters, notebooks, Storage Configs, Email, and LDAP all tap into this catalogue through the same “Use existing / Create new” selector.
+Managing credentials across multiple workloads, teams, and environments is complex. Hardcoded passwords, scattered configuration files, and inconsistent secret storage create security risks and operational overhead. Secrets V2 solves this by providing a centralized, multi-backend secrets management system that keeps sensitive values out of your configurations while giving every IOMETE component secure, unified access to credentials.
+
+### Key concepts
+
+**Scopes** determine who can access secrets. Secrets are isolated across three levels—**Domain** for team-specific credentials, **Global** for shared resources across domains, and **Admin** for platform control-plane secrets. This ensures teams only see what they own while admins maintain platform-wide security.
+
+**Backends** define where secret values are stored. IOMETE supports **Kubernetes** secret stores (managed automatically per domain) and **HashiCorp Vault** integrations (customer-managed). You can use one or both backends simultaneously, giving you flexibility to align with your organization's security policies.
+
+**Secret references** are how IOMETE tracks credentials. Instead of storing actual values in databases or configurations, IOMETE stores only the secret key and its source (Kubernetes or Vault). The actual value is fetched securely at runtime, ensuring sensitive data never appears in logs, UIs, or persistent storage.
+
+### Unified experience
+
+Every IOMETE feature uses the same secrets catalogue. Whether you're configuring a Spark job, launching a compute cluster, setting up a Jupyter notebook, connecting storage, configuring email, or integrating LDAP—they all present the same "Use existing secret / Create new secret" selector. This unified approach means:
+
+- Define credentials once, reuse them everywhere
+- Consistent security practices across all workloads
+- Simple migration path from legacy secret management
+- Single source of truth for all sensitive configuration
 
 <Img src="/img/user-guide/secretsv2/secrets_v2_settings_domain.png" alt="Secrets Domain Secrets" />
 
-The screenshot above shows the **Domain** experience (`Settings → Secret Settings → Secrets`). Domain users can toggle between domain-scoped and global secrets from here. Admin users have their own console (shown later) for platform-wide credentials.
+The screenshot above shows the **Domain** experience (`Settings → Secret Settings → Secrets`). Domain users can toggle between domain-scoped and global secrets from this interface. Admin users have their own console (shown later) for managing platform-wide credentials.
 
+This centralized approach replaces the legacy `${secrets.key}` placeholder pattern with an object-based system that supports multiple backends, fine-grained access control, and seamless integration across the platform.
+
+---
 
 ## Core capabilities
 
@@ -34,14 +52,17 @@ The screenshot above shows the **Domain** experience (`Settings → Secret Setti
 
 ## Secret scopes & isolation
 
+IOMETE enforces strict isolation between teams and platform components through a three-tier scoping system. Each scope determines who can access secrets and where they're stored, ensuring teams operate independently while platform administrators maintain control over shared and system-level credentials.
+
 | Scope | Typical use | Backing object |
 | --- | --- | --- |
 | **Domain** | Team-specific workloads and connectors | `iomete-secret-store-{domain}` (Kubernetes) or any Vault config bound to the domain |
 | **Global** | Shared credentials across domains | `iomete-secret-store` |
 | **Admin** | Control-plane only secrets | `iomete-secret-store-admin` |
 
-Each secret is represented by its key plus a source (Kubernetes secret store or Vault configuration), making it clear how the value is managed. Scopes apply uniformly across Kubernetes and Vault so that domain operators only see what they own.
+Each secret is represented by its key plus a source (Kubernetes secret store or Vault configuration), making it clear how the value is managed. Scopes apply uniformly across both Kubernetes and Vault backends, so domain operators only see secrets they own, while global secrets remain accessible across domains. Admin secrets are visible only to platform administrators and never appear in domain or global contexts.
 
+---
 
 ## Secret backends
 
@@ -63,6 +84,8 @@ Bring your own Vault by defining per-domain configurations (available only under
 3. Use **Test connection** to validate access before saving.
 4. Save the configuration. Secret selectors throughout the UI now display keys from both Kubernetes and Vault.
 
+<Img src="/img/user-guide/secretsv2/vault_create.png" alt="Vault Configuration" />
+
 Kubernetes and Vault can be used simultaneously. Even if the platform operates entirely on Kubernetes secrets, domain operators can add Vault configurations for selective workloads, and vice versa.
 
 :::info
@@ -71,7 +94,7 @@ Secrets V2 does not write to Vault; manage Vault data directly through your exis
 
 ## Feature flag
 
-- **Secrets V2** is controlled through the `secretsV2` feature flag. Ensure it is turned on in your Helm values so object-based secrets, Vault integrations, and the new APIs are available.
+**Secrets V2** is controlled through the `secretsV2` feature flag. Ensure it is turned on in your Helm values so object-based secrets, Vault integrations, and the new APIs are available.
 
 ```yaml
 features:
@@ -79,6 +102,7 @@ features:
     enabled: true
 ```
 
+---
 
 ## Managing secrets in the console
 
@@ -103,6 +127,7 @@ Selectors in Spark, Compute, Jupyter, Storage, Email, and LDAP forms surface the
 <Img src="/img/user-guide/secretsv2/secrets_v2_dropdown.png" alt="Secrets dropdown" />
 <Img src="/img/user-guide/secretsv2/secrets_v2_dropdown_use_existing.png" alt="Use existing secret modal" />
 
+---
 
 ## Where secrets are used
 
@@ -117,12 +142,14 @@ Every workflow exposes a **Secret** selector so you can reuse stored credentials
 
 `${secrets.key}` legacy placeholders remain supported for backward compatibility (see [Secrets V1](./secrets.md)), but the selector is the recommended path.
 
+---
 
 ## Migration notes
 
 - Legacy `${secrets.key}` placeholders and Secrets V1 entries continue to work; there is no forced cutover.
 - Migrating to the Secrets V2 selector experience is recommended so you benefit from Vault integrations, scoped governance, and future enhancements without additional changes later.
 
+---
 
 ## Secret resolution at runtime
 
@@ -131,6 +158,7 @@ Every workflow exposes a **Secret** selector so you can reuse stored credentials
 - Access checks respect domain scope (Domain vs Global vs Admin) and any Vault path/namespace policies.
 - Secrets are resolved at deployment time. Rotate a value by updating it in Kubernetes or Vault and redeploying the associated job, cluster, or integration.
 
+---
 
 ## Key benefits
 
@@ -140,11 +168,18 @@ Every workflow exposes a **Secret** selector so you can reuse stored credentials
 - Pluggable backends with first-class support for HashiCorp Vault.
 - Safe by default—no plaintext exposure in the UI, APIs, or logs.
 
+---
 
 ## Security practices & notes
 
-- Databases only store secret references (`SecretKeyWithSource`), never the resolved value.
-- Domain isolation is enforced via per-domain Kubernetes objects and Vault path policies.
-- Vault credentials are stored in dedicated Kubernetes secrets and never exposed via APIs.
-- Access to domain secrets is guarded by domain-level permissions; admin secrets require admin privileges.
-- IOMETE currently reads from Vault but does not create/update Vault secrets on your behalf.
+Secrets V2 is designed with security-first principles to protect sensitive credentials across your platform:
+
+- **No plaintext storage**: Databases only store secret references (`SecretKeyWithSource`), never the resolved value.
+- **Strict isolation**: Domain isolation is enforced via per-domain Kubernetes objects and Vault path policies.
+- **Protected credentials**: Vault credentials are stored in dedicated Kubernetes secrets and never exposed via APIs.
+- **Permission-based access**: Access to domain secrets is guarded by domain-level permissions; admin secrets require admin privileges.
+- **Read-only Vault integration**: IOMETE currently reads from Vault but does not create/update Vault secrets on your behalf.
+
+:::warning Security best practices
+Always rotate secrets regularly and ensure proper access controls are configured for your Kubernetes cluster and Vault instances. Never commit secret values to version control or expose them in logs.
+:::
