@@ -16,22 +16,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   
 <Release version="3.15.0" date="January 5th, 2026">
 <!--
-Abhishek Pathania
-  kotlin:
-      01e0a409f 2025-10-28 Abhishek Pathania Add job orchestrator queue configs in system configs (#1302)
-      5c7f085eb 2025-11-14 Abhishek Pathania Add job user and tags to job (#1391)
-      01dc8c459 2025-11-07 Abhishek Pathania Auto retry quota failed jobs (#1332)
-      264deadfa 2025-11-12 Abhishek Pathania Fix manual run handling for Prefect-managed Spark jobs (#1377)
-      bea9ec12b 2025-11-18 Abhishek Pathania Fix Prefect retry visibility and tag propagation for scheduled jobs. (#1448)
-      39c43b0c0 2025-10-30 Abhishek Pathania Fix startup timeout not being enforced due to executor state (#1307)
-      f6df37582 2025-11-14 Abhishek Pathania Retry run handling for prefect cancelled jobs (#1387)
-      81c0c95db 2025-11-17 Abhishek Pathania Revert executor changes as this is working as expected (Fix updateJob API transactional issue) (#1401)
-      7db628eed 2025-11-13 Abhishek Pathania Sync status from Prefect for manual runs (#1385)
-  infra:
-      -
-  iom-console:
-      -
-
 alokhp
   kotlin:
       6364d7a7b 2025-12-11 alokhp fix: add support for md5 checksum for ECS compatability (#1616)
@@ -387,29 +371,6 @@ Shahriyar Novruzov
       12276abe 2025-12-04 Shahriyar Novruzov iom-event-ingest to helm (#335)
       222049f7 2025-12-05 Shahriyar Novruzov mount java truststore (#342)
       82c0d416 2025-12-09 Shahriyar Novruzov volumeClaimTemplates instead of PersistentVolumeClaim (#350)
-  iom-console:
-      -
-
-Shashank Chaudhary
-  kotlin:
-      537cab41a 2025-10-28 Shashank Chaudhary Added batch validation for spark jobs with cumulative quota tracking (#1300)
-      653643345 2025-11-11 Shashank Chaudhary Added job quota(queued)/failure reason visibility in console for prefect runs (#1357)
-      631914a0c 2025-11-18 Shashank Chaudhary Exposes Job Orchestrator as domain-scoped REST API (#1437)
-      53ea2c282 2025-11-12 Shashank Chaudhary Fix manual job run errors for Prefect jobs failing pre-Spark-launch (#1381)
-      d4c24a916 2025-10-30 Shashank Chaudhary Moved the batch deployable API out of the domain (#1314)
-      640e84724 2025-11-07 Shashank Chaudhary Sending proper failure messages from batch deployable validation API (#1331)
-      1f98ef56b 2025-11-12 Shashank Chaudhary Validate context status relevance before displaying error messages (#1382)
-  infra:
-      98b5949f 2025-11-17 Shashank Chaudhary Added cleanup config env variables (#305)
-      6032978a 2025-10-31 Shashank Chaudhary Added job orchestrator batch size configurability (#260)
-      d3b95ff4 2025-11-19 Shashank Chaudhary Added jobs orchestrator route in gateway config (#315)
-      247eeda9 2025-10-31 Shashank Chaudhary Added quotes to fix adding integer value to the env (#263)
-      4f841bf4 2025-11-04 Shashank Chaudhary Added the default batchSize value removed in PR revert :shrug: (#264)
-      b881ef62 2025-11-07 Shashank Chaudhary Dell Job Orchestrator Dashboard JSON Update (#271)
-      d14a25d9 2025-11-18 Shashank Chaudhary Updated batch size and query seconds (#311)
-      e0fdf7b9 2025-11-19 Shashank Chaudhary Updated dev values to use latest image version for prefect (#314)
-      af0b1e1f 2025-11-21 Shashank Chaudhary Updated Job Orchestrator Metrics Exporter to 1.3.0 with security updates (#321)
-      161b23ad 2025-11-18 Shashank Chaudhary Updated Prefect server, worker & post-install image versions (#312)
   iom-console:
       -
 
