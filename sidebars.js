@@ -75,7 +75,6 @@ const sidebars = {
       collapsed: false,
       items: [
         "user-guide/virtual-lakehouses",
-        "user-guide/spark-connect",
         "user-guide/spark-jobs",
         "user-guide/sql-editor",
         "user-guide/data-catalog",

@@ -18,9 +18,9 @@ This website is built using [Docusaurus 2](https://docusaurus.io/), a modern sta
 
 5. Run `cd iom-docs`
 
-6. Run `npm install`
+6. Run `yarn`
 
-7. Run `npm run start`
+7. Run `yarn start`
    - The project should be running on port 3000 and will be opened in the browser.
 
 ---
@@ -34,32 +34,6 @@ If you want to hide rating feedback
 ---
 title: Doc title
 hideFeedback:true
----
-```
-
----
-
-### Img component
-
-| Property      | Requirements | Type       |   Default   | Description                  |
-| ------------- | ------------ | ---------- | :---------: | ---------------------------- |
-| src           | mandatory    | string     |      -      | Image source                 |
-| alt           | optional     | string     |      -      | Image alternative (for SEO). |
-| centered      | optional     | true/false |    false    | Make centered image.         |
-| maxWidth (px) | optional     | string     | max-content | Set max width.               |
-| borderless    | optional     | true/false |    false    | Make img borderless          |
-
-```jsx
-import Img from "@site/src/components/Img";
-
-<Img
-  src="source.png"
-  alt="Alternative text"
-  maxWidth="256px"
-  centered
-  borderless
-/>;
-```
 
 ---
 
@@ -79,8 +53,8 @@ import MiniCard from "@site/src/components/MiniCard";
 
 https://github.com/signcl/docusaurus-prince-pdf
 
-`npm run build`
-`npm run serve`
+`yarn build`
+`yarn serve`
 `npx docusaurus-prince-pdf -u http://localhost:3000/docs/guides --include-index`
 
 ---

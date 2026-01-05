@@ -183,9 +183,12 @@ html[data-theme="dark"] .discord-link:before {
     no-repeat;
 }
 
-//navbar search button
 .navbar-search {
   width: 220px;
+  margin-right: 12px;
+  &>button:not(:hover) {
+    box-shadow: none!important;
+  }
 }
 
 .blog-list-item {

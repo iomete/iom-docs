@@ -68,6 +68,5 @@ If we dive deeper into the IOMETE services, we can see the following components:
 ### Workloads
 
 - **Lakehouse Clusters:** Lakehouse Clusters are the clusters that provide SQL interface that can be connected from any SQL client, BI tools (e.g., Tableau, PowerBI), DBT, or any other tool that supports JDBC/ODBC. See [Lakehouses](../user-guide/virtual-lakehouses).
-- **Spark Connect Clusters:** Spark Connect Clusters are the clusters that provide remote Spark endpoints. Using the connection, you can connect to Spark from anywhere and execute Spark code (DataFrames, SQL, etc.). See [Spark Connect Clusters](../user-guide/spark-connect).
 - **Spark Jobs:** Spark Jobs are the Spark jobs that are submitted to the Spark Engine for execution. See [Spark Jobs](../developer-guide/spark-job/getting-started).
 - **Jupyter Remote Kernel:** Jupyter Remote Kernel is the Jupyter Kernel that can be connected from any Jupyter Notebook to execute code remotely (e.g., ML training, data processing). See [Jupyter Remote Kernel](../developer-guide/getting-started-with-jupyter-notebook).

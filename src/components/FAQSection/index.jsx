@@ -9,13 +9,13 @@ const FAQSection = ({ faqs }) => {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": faqs.map(faq => ({
-      "@type": "Question",
-      "name": faq.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.answer
-      }
-    }))
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
   };
 
   return (
@@ -26,10 +26,10 @@ const FAQSection = ({ faqs }) => {
         </script>
       </Head>
       <section className="faq-section">
-        <h2>Frequently Asked Questions (FAQ)</h2>
+        <h2>Frequently Asked Questions</h2>
         {faqs.map((faq, index) => (
           <Question key={index} title={faq.question}>
-            {faq.answer}
+            {faq.answerContent || faq.answer}
           </Question>
         ))}
       </section>
