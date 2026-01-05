@@ -413,28 +413,6 @@ Shashank Chaudhary
   iom-console:
       -
 
-Sourabh Jajoria
-  kotlin:
-      24eea8ef2 2025-12-02 Sourabh Jajoria Accessing vault secrets in the domain dashboard (#1514)
-      8e1c69f28 2025-11-18 Sourabh Jajoria Adding Secrets V2 service to iom-core (#1378)
-      bf6fc7fbc 2025-12-11 Sourabh Jajoria Changing API contracts as per inputs from team. (#1619)
-      d615d75af 2025-10-22 Sourabh Jajoria Fixing failed test for leaderelectortest (#1269)
-      bdcc54052 2025-12-17 Sourabh Jajoria Fixing legacy secret resolution logic in Jupyter containers. (#1655)
-      4586f91b2 2025-12-05 Sourabh Jajoria Making global scope secretsv2 compatible with legacy secrets (#1579)
-      0f2fef1a6 2025-11-26 Sourabh Jajoria Namespace resource bundle (#1500)
-      80e21aaae 2025-12-01 Sourabh Jajoria Pe 195/namespace listing endpoint v2 to give resource bundle link along with namespace (#1509)
-      c8e395e97 2025-12-12 Sourabh Jajoria Pe 240/secret v2 new dropdown based secrets resolution (#1621)
-      59d5fc567 2025-12-05 Sourabh Jajoria SecretsV2 secret resolution logic (#1565)
-      5f5f5c5f4 2025-12-05 Sourabh Jajoria Test endpoint for vault configurations (#1569)
-      cd0144082 2025-10-27 Sourabh Jajoria Updating validation conditions for domain id and name to match UI information being shown to user (#1277)
-      c89a90ad5 2025-11-28 Sourabh Jajoria Vault configuration support to access secrets from customer vault (#1496)
-  infra:
-      09ef9ee6 2025-11-26 Sourabh Jajoria Adding a feature flag for secrets management rollout (#328)
-      0923ee28 2025-12-02 Sourabh Jajoria Whitelist secrets end-point for admin APIs (#334)
-      25bb8a55 2025-12-03 Sourabh Jajoria Whitelisting vault-configs path for iom-core (#338)
-  iom-console:
-      -
-
 Tural Sadigov
   kotlin:
       cb2f1a240 2025-11-14 Tural Sadigov Data size calculation (#1390)
@@ -487,7 +465,6 @@ Vugar Dadalov
       -
   iom-console:
       e149201dc 2025-12-05 Vugar Dadalov Add ArrowFlight API endpoints and update queries for conditional access (#553)
-      82830959d 2025-12-05 Vugar Dadalov Add secrets management functionality with admin support (#551)
       8f92f26be 2025-12-18 Vugar Dadalov antd upgraded to v6.1.1 and fixed deprecated (#589)
       ec5e6b2f5 2025-12-15 Vugar Dadalov Enable `Manage Marketplace` permission always (#575)
       a39662db0 2025-11-24 Vugar Dadalov feat: add CatalogMetricCard and LiveDataRatioChart components; update Statistics to utilize new components and enhance data display (#523)
@@ -504,14 +481,9 @@ Vugar Dadalov
       9031392ce 2025-11-19 Vugar Dadalov fix: update schemaCatalogsAdmin API URL for admin access (#516)
       15b162c18 2025-11-27 Vugar Dadalov fix: update titles and descriptions in CatalogMetricCard usage for clarity (#536)
       6eba7bffa 2025-11-25 Vugar Dadalov forceRefresh bug fixed in SQL DB explorer and Data security create page (#530)
-      b26c8e674 2025-12-07 Vugar Dadalov Implement test connection functionality for vaults (#556)
-      64faca5d4 2025-12-17 Vugar Dadalov PE-242/integrate-secrets-management-for-spark-job (#585)
-      08de85fe3 2025-12-12 Vugar Dadalov Refactor Secrets and Vaults components for improved routing and layout; add Vault Integrations path and enhance styling (#560)
       fd50ece21 2025-11-12 Vugar Dadalov refactor: implement AdminLayout and MainLayout, update routing and local storage management (#498)
       198afbee6 2025-11-18 Vugar Dadalov refactor: update API URLs and remove unused compute references across SQL components (#501)
       c1d778121 2025-10-31 Vugar Dadalov refactor: update sidebar styles and structure for improved layout and consistency (#478)
-      568485bb0 2025-12-05 Vugar Dadalov Remove delete button functionality from secrets and vault forms (#554)
-      887423b44 2025-12-07 Vugar Dadalov UI-42/implement-secret-v2-in-password-input (#555)
       d37570c25 2025-12-07 Vugar Dadalov Update Statistics component to always display current percentage card (#558)
 
 -->
