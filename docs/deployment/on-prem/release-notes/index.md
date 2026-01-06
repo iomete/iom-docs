@@ -256,6 +256,57 @@ Vugar Dadalov
             ```
           - To migrate existing namespaces to use namespace resource bundles, follow the [instructions]
             (https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md.
+    
+    - 📊 **BI Dashboards**
+      - We're excited to introduce **BI Dashboards** — a powerful new feature that allows you to create interactive dashboards directly from your SQL query results within the IOMETE platform.            
+        <Img src="/img/getting-started/release-notes/3.15.0/dashboards.png" alt="IOMETE Dashboards" />
+
+      - **Create and manage Dashboards**
+        - You can now organize your data visualizations into dashboards for better insights and reporting. Create new dashboards directly from the workspace sidebar by right-clicking on any folder and selecting **New dashboard**.
+        <Img src="/img/getting-started/release-notes/3.15.0/create-dashboard.png" alt="Create dashboard" maxWidth="200px" />
+
+      
+      - **Add Charts to Dashboards**
+        - Transform your SQL query results into visual charts and add them to dashboards with just a few clicks:
+
+          - Run your SQL query and switch to the **Chart** view
+          - Configure your chart by selecting **X** and **Y** axis fields
+          - Click **Add** to dashboard to save the visualization
+
+            <Img src="/img/getting-started/release-notes/3.15.0/add-to-dashboard.png" alt="Create dashboard"  />
+           
+      
+      - **Widget Configuration**
+        - When adding a chart to a dashboard, you can customize:
+          - Widget name — Give your visualization a descriptive title
+          - Description — Add optional context about what the data represents
+          - Target dashboard — Browse and select from existing dashboards
+           <GridBox>
+              <Img src="/img/getting-started/release-notes/3.15.0/dashboard-name-and-browse.png" alt="Create dashboard"  />
+              <Img src="/img/getting-started/release-notes/3.15.0/select-dashboard-to-add.png" alt="Create dashboard"  />
+            </GridBox>
+            
+      - **Your Widget, Live on the Dashboard** 🎉
+          
+        <Img src="/img/getting-started/release-notes/3.15.0/dashboards.png" alt="IOMETE | Dashboards"  maxWidth="800px" />
+
+        - Once you've selected a dashboard and clicked Add, your chart instantly appears on the dashboard — ready to deliver insights. View all your widgets together in a unified layout, with each visualization displaying real-time data from your SQL queries. Mix and match different chart types like **bar** charts, **pie** charts, **treemaps**, and other charts to build comprehensive reporting views.
+
+    - **Widget Actions**
+      - Each widget on a dashboard includes a context menu with the following options:
+
+        - View as table — Switch between chart and tabular data views
+        - Configure chart — Modify chart settings and appearance
+        - Edit SQL — Jump back to the underlying query
+        - Rename — Update the widget title
+        - Remove — Delete the widget from the dashboard
+    
+          <Img src="/img/getting-started/release-notes/3.15.0/widget-actions.png" alt="Dashboard widget actions" maxWidth="600px"  />
+
+        - **Auto-Sync Indicators**
+          - Widgets display a "Last sync" timestamp showing when the data was last refreshed, helping you track data freshness across your dashboard.
+      
+
   </NewFeatures>
   <Improvements>
     - **Spark Job Orchestration (Priority-Based Deployment Flow)**:  
