@@ -62,17 +62,6 @@ Aslan Bakirov
   iom-console:
       8142d6e21 2025-11-25 Aslan Bakirov Add release tag (#492)
 
-azsefi
-  kotlin:
-      738f38959 2025-12-21 azsefi feat(core/volumes): Use selected volume for driver as well (#1667)
-      175140ed5 2025-10-22 azsefi fix(iom-core/token): expiration should be null for 'never' expiration (#1272)
-      8c7463235 2025-11-17 azsefi Handle getViews on empty spark_catalog schema (#1433)
-  infra:
-      af16ac9e 2025-11-10 azsefi Add iom-event-ingest monitoring (#261)
-      45c2acd1 2025-11-28 azsefi Add Papyrus/Loader monitoring (#331)
-  iom-console:
-      -
-
 
 Mammad Mammadli
   kotlin:
@@ -321,6 +310,10 @@ Tural Sadigov
       - Fixed startup timeout logic to properly abort Spark applications when driver is running but executors stuck in `PENDING` state due to resource quota violations or fragmentation.
     - **Maintenance**:
       - Fixed ordering of Spark Extensions to enable zorder sorting in rewrite data files operation
+    - **Token**:
+      - Fixed expiration date of access tokens with `never` expiration
+    - **SQL Editor**:
+      - Fixed failing database browser loading empty database
   </BugFixes>
 </Release>
 
