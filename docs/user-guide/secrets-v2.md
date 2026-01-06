@@ -60,7 +60,7 @@ IOMETE enforces strict isolation between teams and platform components through a
 | **Global** | Shared credentials across domains | `iomete-secret-store` |
 | **Admin** | Control-plane only secrets | `iomete-secret-store-admin` |
 
-Each secret is represented by its key plus a source (Kubernetes secret store or Vault configuration), making it clear how the value is managed. Scopes apply uniformly across both Kubernetes and Vault backends, so domain operators only see secrets they own, while global secrets remain accessible across domains. Admin secrets are visible only to platform administrators and never appear in domain or global contexts.
+Scopes apply uniformly across both Kubernetes and Vault backends. Each secret is represented by its key plus a source, making it clear how the value is managed.
 
 ---
 
@@ -72,13 +72,17 @@ Kubernetes is the default backend for Secrets V2. Each domain has its own opaque
 
 ### HashiCorp Vault
 
+:::warning Vault requirements
+IOMETE requires HashiCorp Vault with KV Secrets Engine v2. Ensure your Vault instance is configured with the KV v2 engine before proceeding.
+:::
+
 Bring your own Vault by defining per-domain configurations (available only under **Domain Settings → Secret Settings → Vault Integrations**):
 
 1. Navigate to **Domain Settings → Vault configurations**.
 2. Provide the required fields:
-   - **Name** – A human-readable identifier for the Vault integration. This name is used to distinguish between multiple Vault configurations.
+   - **Name** – A human-readable identifier for the Vault integration (e.g., `vault-prod-finance`). This name is used to distinguish between multiple Vault configurations.
    - **Host** – Vault base URL (including scheme and optional port).
-   - **Path** – The location inside Vault where secrets are stored.
+   - **Path** – The location inside Vault where secrets are stored (e.g., `/v1/secret/data/production`).
    - **HashiCorp namespace** (optional) – Vault Enterprise namespace if you are not using the root namespace.
    - **Authentication method** – AppRole (with role ID and secret ID) or token-based authentication.
 3. Use **Test connection** to validate access before saving.
@@ -122,7 +126,7 @@ Configuration screens support both plaintext values and secure references:
 - Choose **Create new secret** to define a secret inline; it will be saved to the appropriate scope before being referenced.
 - Once selected, the configuration keeps only the secret key + source metadata. The platform resolves the value securely at runtime.
 
-Selectors in Spark, Compute, Jupyter, Storage, Email, and LDAP forms surface these stored keys along with their source (`KUBERNETES` or `VAULT`) so you can wire them into workloads safely. All references are stored behind the scenes (for example, as `envSecrets`, `sparkConfSecrets`, or `storageSecret`), so the UI simply asks you to choose a secret from the dropdown.
+Selectors in Spark, Compute, Jupyter, Storage, Email, and LDAP forms surface these stored keys along with their source (`KUBERNETES` or `VAULT`) so you can wire them into workloads safely. The UI simply asks you to choose a secret from the dropdown.
 
 <Img src="/img/user-guide/secretsv2/secrets_v2_dropdown.png" alt="Secrets dropdown" />
 <Img src="/img/user-guide/secretsv2/secrets_v2_dropdown_use_existing.png" alt="Use existing secret modal" />
@@ -164,7 +168,6 @@ Every workflow exposes a **Secret** selector so you can reuse stored credentials
 
 - Centralized management across workloads and domains, regardless of backend.
 - Separation between configuration and secret values; selectors keep sensitive data out of configs.
-- Strong isolation via domain scoping, Vault namespaces, and access controls.
 - Pluggable backends with first-class support for HashiCorp Vault.
 - Safe by default—no plaintext exposure in the UI, APIs, or logs.
 
@@ -174,8 +177,7 @@ Every workflow exposes a **Secret** selector so you can reuse stored credentials
 
 Secrets V2 is designed with security-first principles to protect sensitive credentials across your platform:
 
-- **No plaintext storage**: Databases only store secret references (`SecretKeyWithSource`), never the resolved value.
-- **Strict isolation**: Domain isolation is enforced via per-domain Kubernetes objects and Vault path policies.
+- **No plaintext storage**: Databases only store secret references, never the resolved value.
 - **Protected credentials**: Vault credentials are stored in dedicated Kubernetes secrets and never exposed via APIs.
 - **Permission-based access**: Access to domain secrets is guarded by domain-level permissions; admin secrets require admin privileges.
 - **Read-only Vault integration**: IOMETE currently reads from Vault but does not create/update Vault secrets on your behalf.
