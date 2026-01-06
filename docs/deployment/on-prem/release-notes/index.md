@@ -13,22 +13,15 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
-  
+
+<Release version="3.15.1" date="January 5th, 2026">
+    <BugFixes>
+        - Downgraded all AWS S3 SDK library versions to fix compatibility issues with S3-compatible storage providers.
+    </BugFixes>
+</Release>
+
 <Release version="3.15.0" date="January 5th, 2026">
 <!--
-alokhp
-  kotlin:
-      6364d7a7b 2025-12-11 alokhp fix: add support for md5 checksum for ECS compatability (#1616)
-      923d418f7 2025-11-17 alokhp fix: compaction zorder operation failure (#1436)
-      055755140 2025-10-21 alokhp fix: failing test in PojoSchemaMapperTest.kt (#1267)
-      43d22addb 2025-11-28 alokhp fix: support for splunk basic auth as well for log fetching (#1511)
-      1a5eb774e 2025-10-30 alokhp fix: test connection fix that works with minio and ecs (#1311)
-      713cbea8e 2025-12-23 alokhp Revert "fix: add support for md5 checksum for ECS compatability (#1616)" (#1674)
-  infra:
-      9bf711f9 2025-10-25 alokhp chore: add feature flag s3ChecksumValidationDisabled (#258)
-      139dbcbf 2025-10-30 alokhp Revert "chore: add feature flag s3ChecksumValidationDisabled (#258)"
-  iom-console:
-      -
 
 Altay
   kotlin:
@@ -296,6 +289,8 @@ Tural Sadigov
       - **Cleanup & Maintenance**:
         - Added periodic cleanup for completed queue runs and logs to prevent unbounded data growth.
         - Configurable via Helm chart: `jobOrchestrator.settings.jobRunCleanup`.
+      - **Splunk Integration**:
+        - Added support for basic auth for log fetching when Executor log fetching is enabled
       - **Other Improvements**:
         - Consistent propagation of `Run as user` and custom tags for scheduled Spark jobs.
         - Manual and retry runs now reuse existing deployments instead of creating duplicates.
@@ -324,6 +319,8 @@ Tural Sadigov
   <BugFixes>
     - **Spark Applications**:
       - Fixed startup timeout logic to properly abort Spark applications when driver is running but executors stuck in `PENDING` state due to resource quota violations or fragmentation.
+    - **Maintenance**:
+      - Fixed ordering of Spark Extensions to enable zorder sorting in rewrite data files operation
   </BugFixes>
 </Release>
 
