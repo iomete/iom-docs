@@ -122,47 +122,7 @@ Mammad Mammadli
       74b3a85eb 2025-11-05 Mammad Mammadli update yarn.lock
       ab9ac062b 2025-11-06 Mammad Mammadli update yarn.lock
       fa9f53152 2025-10-21 Mammad Mammadli update yarn.lock
-
-Nurlan Mammadov
-  kotlin:
-      -
-  infra:
-      -
-  iom-console:
-      86959f1dc 2025-10-22 Nurlan Mammadov feat: add My/Shared view filter to Jupyter containers list
-      de7bcd0c4 2025-11-03 Nurlan Mammadov feat: implement BI dashboard feature with widget management and real-time query execution
-      153601d45 2025-11-17 Nurlan Mammadov feat: set Runs tab as default active tab on job view pages (#511)
-      ad033260d 2025-10-28 Nurlan Mammadov fix: add domain context support for Docker registry API endpoints
-      cec909eb2 2025-11-26 Nurlan Mammadov fix: update border colors for SQL header split components (#533)
-      6866f9612 2025-11-03 Nurlan Mammadov Key features: - Dashboard-level error handling: Show full-page alert for invalid dashboard JSON - Widget-level error handling: Display config errors inside widget boundary - Safe JSON parsing with validation helpers (parseDashboardContent, validateWidgetConfig) - Empty dashboard support: Create default empty dashboard when content is blank - WidgetConfigError component: Shows config errors with reset option - Maintains widget chrome (title, actions) even with config errors - Error priority: Loading → Config Error → Query Error → Empty → Success
-      3e7b35d09 2025-12-17 Nurlan Mammadov Refactor dashboard-view for improved maintainability and reduced complexity (#582)
-      6ec688067 2025-11-20 Nurlan Mammadov refactor: enforce legacy deployment flow for streaming jobs (#517)
-      1886d4ead 2025-12-17 Nurlan Mammadov Add loading states to General Info page (#583)
-      c46f9947b 2025-11-16 Nurlan Mammadov feat: add chart configuration modal for dashboard widgets (#507)
-      a11124adc 2025-11-18 Nurlan Mammadov - jupyterContainers feature flag removed (#512)
-      7bb577c7a 2025-12-17 Nurlan Mammadov Add segment colors customization to treemap chart (#586)
-      2ab18c5bf 2025-11-17 Nurlan Mammadov Add showRegardingObjectKindFilter prop to K8sEvents component (default: true). (#510)
-      3bef966c7 2025-12-15 Nurlan Mammadov Dashboard improvements (#566)
-      17ab1a16f 2025-11-03 Nurlan Mammadov feat: add Big Number chart with extensive customization and chart enhancements
-      39145266c 2025-11-03 Nurlan Mammadov feat: add editable text and textarea components for dashboard metadata updates
-      70b068cb8 2025-11-07 Nurlan Mammadov feat: add ph id to HugeIcon components (#488)
-      23e269d75 2025-11-15 Nurlan Mammadov Feat/bi improvements (#506)
-      0b885f20b 2025-11-20 Nurlan Mammadov Feat/compute create new UI (#518)
-      19992d90f 2025-11-24 Nurlan Mammadov Feat/jupyter container tabbed form (#521)
-      e9edca2a8 2025-11-26 Nurlan Mammadov Feat/sql compute inline actions (#529)
-      692b8d526 2025-12-20 Nurlan Mammadov Feat/sql editor reusable component (#590)
-      209457ffb 2025-11-28 Nurlan Mammadov Fix ErrorResult text overflow for long error messages (#541)
-      0aa16c34f 2025-12-15 Nurlan Mammadov Fix whitespace handling in domain user filter labels (#581)
-      d30a82964 2025-11-27 Nurlan Mammadov fix: add delay to spark job retry success callbacks for better UX (#538)
-      761d2e0fc 2025-11-03 Nurlan Mammadov fix: add missing react-grid-layout and react-resizable dependencies
-      ae35c9f39 2025-11-03 Nurlan Mammadov fix: add missing react-grid-layout dependencies
-      75ea81748 2025-11-07 Nurlan Mammadov fix: enable navigation for enqueued spark apps and show driver messages (#489)
-      6ea9564d0 2025-11-11 Nurlan Mammadov fix: make Spark app names always clickable in job and streaming job lists
-      e37765187 2025-11-03 Nurlan Mammadov fix: prevent persisting query results with type-safe serialization
-      fad9e219f 2025-11-06 Nurlan Mammadov Fix/convert phosphor icons to hugeiocns (#487)
-      1b9d7e165 2025-11-12 Nurlan Mammadov Fix/sql editor icons and chart issues (#499)
-      5ad63fcab 2025-11-11 Nurlan Mammadov refactor: remove Jupyter notebook permissions from role creation
-
+      
 
 Tural Sadigov
   kotlin:
