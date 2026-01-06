@@ -322,33 +322,6 @@ Tural Sadigov
   iom-console:
       -
 
-Ujjawal Khare
-  kotlin:
-      d777f3110 2025-12-18 Ujjawal Khare 071 migration - delete column only if exists (#1668)
-      38050a348 2025-11-12 Ujjawal Khare actor details resp changed (#1380)
-      22c3b1d07 2025-11-27 Ujjawal Khare Compute namespace authorization access for user added (#1508)
-      f902c0375 2025-11-13 Ujjawal Khare delete actor permissions to delete all assetType permissions (#1384)
-      359bf70f1 2025-11-27 Ujjawal Khare Feat: Spark job authorization for namespace (#1507)
-      16fbcbf55 2025-12-04 Ujjawal Khare Fix for new namespace bundle owner
-      0ec80c07e 2025-11-29 Ujjawal Khare fix namespace utilization api access in namespace v2 api
-      c5b92eceb 2025-11-28 Ujjawal Khare Jupyter Namespace Authorization (#1510)
-      2172f6829 2025-12-03 Ujjawal Khare Namespace bundle-asset-owner to be same as bundle owner (#1568)
-      92fb61e71 2025-11-29 Ujjawal Khare Namespace removal resource bundle management (#1519)
-      20b718478 2025-11-28 Ujjawal Khare Namespace resource bundle creation on namespace addition (#1515)
-      8b2a5319a 2025-11-14 Ujjawal Khare Pe 127/optimize resource bundle detailed page be v2 (#1386)
-      bf376498e 2025-11-11 Ujjawal Khare Pe 160/feat/resource bundles permissions v2 api (#1374)
-      6cb19183b 2025-12-17 Ujjawal Khare prefect_job_id to orchestration_id (#1654)
-      5cfd8bde9 2025-11-27 Ujjawal Khare RAS namespace authorization core logic (#1504)
-      8d85c0350 2025-11-28 Ujjawal Khare Resource Bundle archival name change (#1512)
-      5f506a7d3 2025-11-17 Ujjawal Khare Resource bundles Members api total number of actors count fix (#1400)
-      12013bbdb 2025-11-13 Ujjawal Khare Update permission enabled to accept extra resource types (#1383)
-  infra:
-      108e601e 2025-12-08 Ujjawal Khare Namespace bundle default value change for dev clusters (#347)
-      473a7ddd 2025-12-05 Ujjawal Khare Namespace feature flag description
-      e6f73ca4 2025-11-26 Ujjawal Khare Namespace RAS feature flag introduction (#327)
-  iom-console:
-      -
-
 Vugar Dadalov
   kotlin:
       -
@@ -393,6 +366,18 @@ Vugar Dadalov
           dataAccessAudit:
             enabled: true
           ```
+    - **Namespace Resource Bundles**
+        - A namespace resource bundle will be created automatically for each namespace when namespace is created.
+        - Domain owner can give namespace access to the users in the namespace bundle.
+        - The user can view quota and utilization and deploy resources only within namespaces they are authorized to access.
+        - **Configuration**:
+          - To enable namespace resource bundles:
+            ```yaml
+            onboardNamespaceMappingRas:
+              enabled: true
+            ```
+          - To migrate existing namespaces to use namespace resource bundles, follow the [instructions]
+            (https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md.
   </NewFeatures>
   <Improvements>
     - **Spark Job Orchestration (Priority-Based Deployment Flow)**:  
