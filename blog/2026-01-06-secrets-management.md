@@ -5,7 +5,7 @@ slug: secrets-management
 authors: sourabh
 hide_table_of_contents: true
 tags2: [Technical, Educational]
-coverImage: img/blog/thumbnails/5.png
+coverImage: img/blog/thumbnails/darkRacing.png
 ---
 
 import Img from '@site/src/components/Img';
@@ -16,7 +16,7 @@ The traditional approach leads to predictable problems. Credentials get hardcode
 
 Domain isolation becomes inconsistent when some systems use permission tables while others rely on manual discipline. Compliance audits flag plaintext secrets. There's no audit trail showing who accessed which credentials or when they were last rotated. And the painful truth: rotating a compromised credential means updating code, redeploying jobs, and hoping you found all the places it was used.
 
-IOMETE's secrets management solves this by centralizing credential management across the entire platform. One catalog, multiple backends, strong isolation, and backward compatibility with existing systems.
+IOMETE's secrets management solves this by centralizing credential management across the entire platform. One catalog, multiple backends, and strong isolation.
 
 ---
 
@@ -30,7 +30,7 @@ Three-tier scoping provides the right level of isolation for different use cases
 
 The architecture separates configuration from secrets. When you configure a Spark job or storage integration, you don't paste credential values. Instead, you select a secret reference from a dropdown showing available secrets and their source (Kubernetes or Vault). The configuration stores only the secret key and source metadata. When the job runs or the integration connects, the platform fetches the actual value securely, injects it into the runtime environment, and never persists it.
 
-This approach delivers immediate benefits. You have a single source of truth for each credential, referenced across multiple workloads without duplication. Secret rotation happens in one place, and dependent services pick up the new value on their next deployment. Customer-managed Vault support means enterprises can leverage their existing security infrastructure while gaining IOMETE's unified credential management. And critically, the system maintains backward compatibility with legacy `${secrets.key}` patterns, allowing gradual migration at your own pace.
+This approach delivers immediate benefits. You have a single source of truth for each credential, referenced across multiple workloads without duplication. Secret rotation happens in one place, and dependent services pick up the new value on their next deployment. Customer-managed Vault support means enterprises can leverage their existing security infrastructure while gaining IOMETE's unified credential management.
 
 <Img src="/img/blog/2026-01-06-secrets-management/secrets_v2_settings_domain.png" alt="IOMETE Secrets Management Dashboard" />
 
@@ -60,15 +60,11 @@ The three-tier scoping system enforces strict boundaries between teams and platf
 
 ### Secret Backends
 
-Secrets V2 supports two storage backends, each serving different operational needs.
+IOMETE's secrets management supports two storage backends, each serving different operational needs.
 
 **Kubernetes** is the default backend, IOMETE-managed and immediately available. Each domain gets its own Kubernetes secret object named `iomete-secret-store-{domain}`. Global secrets live in `iomete-secret-store`, and admin secrets in `iomete-secret-store-admin`. Individual secret keys are stored as base64-encoded fields within these objects. You create, rotate, and delete secrets through the IOMETE dashboard, and the platform handles the Kubernetes API interactions. No setup required, no external dependencies—it works out of the box.
 
 **HashiCorp Vault** provides customer-managed secret storage for enterprises with existing Vault infrastructure. IOMETE integrates with Vault using the KV Secrets Engine v2, supporting both token-based and AppRole authentication methods. You configure per-domain Vault connections through the dashboard, specifying your Vault endpoint, secret path, and authentication credentials. IOMETE maintains read-only access to your Vault—you control policies, path organization, and access rules. The platform caches Vault tokens to minimize authentication overhead while respecting your configured time-to-live settings.
-
-<Img src="/img/blog/2026-01-06-secrets-management/vault_create.png" alt="Vault Configuration in IOMETE" />
-
-Vault integration setup requires just a few fields—endpoint, path, namespace, and authentication method—making it straightforward to connect your existing Vault infrastructure.
 
 Why support both? Start with Kubernetes for immediate functionality and simple workflows. Graduate to Vault as compliance requirements grow or when you need to integrate IOMETE with company-wide credential management. Use both simultaneously—Kubernetes for development secrets, Vault for production credentials—with different workloads pulling from whichever backend makes sense.
 
@@ -152,12 +148,6 @@ Vault credentials themselves receive special protection. When you configure a Va
 
 The read-only Vault integration maintains your security boundaries. IOMETE reads secrets from your Vault paths but can't create, update, or delete Vault secrets. You manage your Vault data using your existing tools and processes. IOMETE simply consumes what you choose to make available.
 
-### Backward Compatibility
-
-Legacy `${secrets.key}` placeholder patterns continue to work. Existing Spark jobs, notebooks, and configurations using the old syntax don't break when you enable Secrets V2. The platform recognizes these patterns and resolves them using global Kubernetes secrets, maintaining continuity while you gradually adopt the new selector-based approach.
-
-This allows migration at your pace. Enable Secrets V2, start using it for new workloads, and gradually update existing configurations as you touch them for other reasons. No forced cutover, no big-bang migration, no disruption to running systems.
-
 ---
 
 ## Getting Started
@@ -200,6 +190,10 @@ For teams with existing Vault infrastructure, connecting IOMETE takes a few addi
 
 Navigate to `Domain Settings → Vault Configurations`. Click to add a new configuration. Provide your Vault endpoint URL (e.g., `https://vault.company.com`), the secret path where IOMETE should look for credentials (e.g., `/v1/secret/data/production`), and choose your authentication method—token-based for simplicity or AppRole for better security. Enter the required credentials.
 
+<Img src="/img/blog/2026-01-06-secrets-management/vault_create.png" alt="Vault Configuration in IOMETE" />
+
+Vault integration setup requires just a few fields—endpoint, path, namespace, and authentication method—making it straightforward to connect your existing Vault infrastructure.
+
 Click "Test connection" to verify IOMETE can authenticate and access your Vault paths. If the test succeeds, save the configuration. Secrets stored in your configured Vault paths now appear in the secret selector dropdowns throughout IOMETE, marked with `VAULT` as the source. You select and use them exactly like Kubernetes secrets—the platform handles the backend differences transparently.
 
 ---
@@ -208,7 +202,7 @@ Click "Test connection" to verify IOMETE can authenticate and access your Vault 
 
 IOMETE's secrets management transforms credential management from a scattered, error-prone process into a centralized, secure, and auditable system. Whether you're managing a handful of secrets in Kubernetes or integrating with enterprise Vault infrastructure, IOMETE provides the foundation for secure credential handling at scale.
 
-One catalog serves all credentials across Spark jobs, notebooks, storage configurations, email integrations, and LDAP connections. Flexible backends support both IOMETE-managed Kubernetes secrets and customer-managed Vault instances, adapting to your security requirements as they evolve. Strong isolation through domain scoping and permission controls ensures teams access only their own credentials while sharing common resources appropriately. Simple migration with backward compatibility means you can adopt IOMETE's secrets management gradually without disrupting existing workflows.
+One catalog serves all credentials across Spark jobs, notebooks, storage configurations, email integrations, and LDAP connections. Flexible backends support both IOMETE-managed Kubernetes secrets and customer-managed Vault instances, adapting to your security requirements as they evolve. Strong isolation through domain scoping and permission controls ensures teams access only their own credentials while sharing common resources appropriately.
 
 The architectural choice to separate configuration from secrets—storing references instead of values—eliminates entire classes of security vulnerabilities. Credentials don't leak into version control, databases, or logs. Rotation becomes a one-place operation rather than a multi-hour hunt through configurations. Compliance audits find centralized, protected credential storage instead of scattered plaintext values.
 
