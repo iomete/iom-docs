@@ -207,7 +207,7 @@ Tural Sadigov
             ```
           - To migrate existing namespaces to use namespace resource bundles, follow the [instructions](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md).
     
-    - 📊 **BI Dashboards**
+    - 📊 **BI Dashboards** `BETA`
       - We're excited to introduce **BI Dashboards** — a powerful new feature that allows you to create interactive dashboards directly from your SQL query results within the IOMETE platform.            
         <Img src="/img/getting-started/release-notes/3.15.0/dashboards.png" alt="IOMETE Dashboards" />
 
