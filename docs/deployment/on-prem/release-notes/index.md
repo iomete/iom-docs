@@ -130,39 +130,6 @@ Fuad Musayev
       e5abf4b9d 2025-11-02 Fuad Musayev Small design touches to React Flow
       689617116 2025-11-08 Fuad Musayev Some icons updated
 
-garayevs
-  kotlin:
-      885e269ce 2025-12-20 garayevs Add prefect deployment ids filter parameter
-      17acf73a8 2025-10-27 garayevs Add Spark Jobs to RAS through different channel
-      2d62b969c 2025-11-04 garayevs Allow users to add resources to bundles they are member of
-      bf09c58b8 2025-11-28 garayevs BugFix / Add domain level access token management API
-      d60029344 2025-12-05 garayevs Create annotation to log events
-      892834d10 2025-11-28 garayevs Create common function to log actions async
-      8978fa6c4 2025-10-27 garayevs Create Jupyter Container API layer for OpenAPI documentation
-      5f2547052 2025-11-26 garayevs Create permission for access token management (#1505)
-      9b722d2cf 2025-12-19 garayevs Create worksheet schedule
-      321175cad 2025-10-29 garayevs CS 107 Add `delete` and `move` authorization to workspaces (#1279)
-      12987ad63 2025-10-24 garayevs CS-125 Put sample notebooks in Jupyter Container
-      5960dcebc 2025-12-19 garayevs Delete schedule
-      8d2bb0a1a 2025-10-23 garayevs Display Sign in with SSO button (#1275)
-      add340a37 2025-12-20 garayevs Get schedule list and details
-      13c1d7e50 2025-11-25 garayevs IE-154 :: Check if identities added already exist in the domain
-      8003378b9 2025-11-12 garayevs Improve search in Resources tab of Bundle page (#1379)
-      5a3497b73 2025-10-22 garayevs Install Java in JC docker image (#1273)
-      5247e5379 2025-12-01 garayevs Log data security ops in firehose
-      0d349c088 2025-12-02 garayevs Log IAM actions in Firehose
-      2733eefef 2025-12-01 garayevs Log RAS actions in Firehose
-      7da95cc16 2025-12-19 garayevs Move schedule logic to iom-core from iom-sql
-      cf1188057 2025-12-19 garayevs Pause and resume schedule
-      bdd9fe4f3 2025-10-27 garayevs Replace authz service with with correct ones for Spark Jobs
-      0e84bdc67 2025-10-22 garayevs Separate Jupyter Containers in 2 tabs: My, Shared with me
-      7a6e356dc 2025-11-25 garayevs Show compute list with pagination
-      da4a05ab7 2025-10-28 garayevs Test Containers in iom-core
-  infra:
-      -
-  iom-console:
-      -
-
 Mammad Mammadli
   kotlin:
       -
@@ -393,6 +360,8 @@ Vugar Dadalov
       :::important Configuration Update Required
       Jobs using `Priority-Based` deployment flow without a configured cron schedule require a one-time configuration update to initialize the deployment.
       :::
+    - **Access token manage permission**: Access token management functionality is now role-based.
+    <Img src="/img/user-guide/iam/roles/access-token-permission.png" alt="Access Token Manage" maxWidth="800px" centered />
   </Improvements>
   <BugFixes>
     - **Spark Applications**:
