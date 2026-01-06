@@ -197,37 +197,6 @@ Tural Sadigov
       1cd5c00c 2025-12-03 Tural Sadigov Operational support quota (#339)
       35d09ca0 2025-11-17 Tural Sadigov Spark history change (#309)
       1deda596 2025-11-19 Tural Sadigov Spark history change (#310)
-  iom-console:
-      -
-
-Vugar Dadalov
-  kotlin:
-      -
-  infra:
-      -
-  iom-console:
-      e149201dc 2025-12-05 Vugar Dadalov Add ArrowFlight API endpoints and update queries for conditional access (#553)
-      8f92f26be 2025-12-18 Vugar Dadalov antd upgraded to v6.1.1 and fixed deprecated (#589)
-      ec5e6b2f5 2025-12-15 Vugar Dadalov Enable `Manage Marketplace` permission always (#575)
-      a39662db0 2025-11-24 Vugar Dadalov feat: add CatalogMetricCard and LiveDataRatioChart components; update Statistics to utilize new components and enhance data display (#523)
-      18881448f 2025-10-27 Vugar Dadalov feat: add truncateCellValue utility function and corresponding tests
-      6876494ef 2025-10-23 Vugar Dadalov feat: implement file download functionality with customizable filenames
-      3953798e9 2025-10-24 Vugar Dadalov feat: Implement right-click open menu in SQL database and workspace views. (#458)
-      7257613c9 2025-11-27 Vugar Dadalov fix: change queryClient.resetQueries to queryClient.invalidateQueries in useCatalogs function (#539)
-      ed253a3e6 2025-10-24 Vugar Dadalov fix: correct 'Runs as user' title to 'Run as user' in multiple components; enhance tree data handling in FolderNodeMenu and WorksheetNodeMenu (#464)
-      077473c49 2025-10-24 Vugar Dadalov fix: correct API URL in fetchTokenData function for token refresh request
-      35e986e33 2025-11-12 Vugar Dadalov fix: correct link path to saved last page in AdminLayout (#500)
-      3e7457e36 2025-10-27 Vugar Dadalov fix: enhance truncateCellValue function to handle boolean and number inputs in tests
-      0bc8b2cba 2025-11-27 Vugar Dadalov fix: remove unused TEST route and refactor redirect logic in RootRouter (#537)
-      fabd5ddbb 2025-11-19 Vugar Dadalov fix: replace refetch with forceRefresh in Column component and tests (#514)
-      9031392ce 2025-11-19 Vugar Dadalov fix: update schemaCatalogsAdmin API URL for admin access (#516)
-      15b162c18 2025-11-27 Vugar Dadalov fix: update titles and descriptions in CatalogMetricCard usage for clarity (#536)
-      6eba7bffa 2025-11-25 Vugar Dadalov forceRefresh bug fixed in SQL DB explorer and Data security create page (#530)
-      fd50ece21 2025-11-12 Vugar Dadalov refactor: implement AdminLayout and MainLayout, update routing and local storage management (#498)
-      198afbee6 2025-11-18 Vugar Dadalov refactor: update API URLs and remove unused compute references across SQL components (#501)
-      c1d778121 2025-10-31 Vugar Dadalov refactor: update sidebar styles and structure for improved layout and consistency (#478)
-      d37570c25 2025-12-07 Vugar Dadalov Update Statistics component to always display current percentage card (#558)
-
 -->
   <NewFeatures>
     - **Event Ingest Service**:
@@ -254,8 +223,7 @@ Vugar Dadalov
             onboardNamespaceMappingRas:
               enabled: true
             ```
-          - To migrate existing namespaces to use namespace resource bundles, follow the [instructions]
-            (https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md.
+          - To migrate existing namespaces to use namespace resource bundles, follow the [instructions](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md).
     
     - 📊 **BI Dashboards**
       - We're excited to introduce **BI Dashboards** — a powerful new feature that allows you to create interactive dashboards directly from your SQL query results within the IOMETE platform.            
@@ -345,6 +313,13 @@ Vugar Dadalov
           enabled: true
         ```
       - **Data Security Policy Enforcement**: This update also enables **Data Security policy enforcement** within the Database Explorer. Metadata listings are now filtered based on active policies, ensuring users only see resources they are authorized to access. The above flag needs to be enabled to have this functionality.
+    
+    - **Data Explorer - Snapshot Storage Visibility**
+      - Enhanced **Storage Footprint** with unified metric cards for size and file count.
+      - Added **Live vs Historical** snapshot ratio visualization.
+
+      <Img src="/img/getting-started/release-notes/3.15.0/data-explorer-snapshoot-footpring.png" alt="Data Explorer |Snapshoot footpring" />
+      
   </Improvements>
   <BugFixes>
     - **Spark Applications**:
