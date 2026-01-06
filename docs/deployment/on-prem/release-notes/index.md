@@ -291,19 +291,6 @@ rbhokre
   iom-console:
       -
 
-Shahriyar Novruzov
-  kotlin:
-      33032ff83 2025-12-16 Shahriyar Novruzov Unified endpoint for token validation (#1652)
-      941330d28 2025-12-19 Shahriyar Novruzov Expose Authorization API (#1665)
-      d7efac366 2025-12-08 Shahriyar Novruzov Spark config for event-ingest service (#1580)
-  infra:
-      83e787cc 2025-12-08 Shahriyar Novruzov adjust securityContext (#346)
-      12276abe 2025-12-04 Shahriyar Novruzov iom-event-ingest to helm (#335)
-      222049f7 2025-12-05 Shahriyar Novruzov mount java truststore (#342)
-      82c0d416 2025-12-09 Shahriyar Novruzov volumeClaimTemplates instead of PersistentVolumeClaim (#350)
-  iom-console:
-      -
-
 Tural Sadigov
   kotlin:
       cb2f1a240 2025-11-14 Tural Sadigov Data size calculation (#1390)
