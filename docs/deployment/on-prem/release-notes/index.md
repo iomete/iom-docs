@@ -230,33 +230,6 @@ Nurlan Mammadov
       1b9d7e165 2025-11-12 Nurlan Mammadov Fix/sql editor icons and chart issues (#499)
       5ad63fcab 2025-11-11 Nurlan Mammadov refactor: remove Jupyter notebook permissions from role creation
 
-rbhokre
-  kotlin:
-      fbcae940a 2025-11-17 rbhokre Add additional flight server headers for flight request handling in db explorer (#1434)
-      3b6fa1c28 2025-12-09 rbhokre add an internal SQL query executor service that uses Apache Arrow Flight for executing SQL queries for internal services (#1612)
-      fa054cf93 2025-12-02 rbhokre Add Arrow Flight–based endpoints for Iceberg table registration to enable Spark Disconnect migration (#1562)
-      cbfe861aa 2025-12-03 rbhokre Add Arrow Flight–based endpoints for snapshotting parquet tables to enable Spark Disconnect migration (#1564)
-      903f25013 2025-12-11 rbhokre feat(audit): integrate iom-sql service for audit data retrieval via Arrow Flight (#1613)
-      7d9e48867 2025-11-14 rbhokre Fix api paths for sql db explorer endpoints and add admin API endpoints (#1388)
-      8c214ffac 2025-11-11 rbhokre Integration with Arrow Flight to power DB Explorer functionality
-      206338cc3 2025-10-22 rbhokre Refactor `SparkAppServiceTest`: (#1271)
-      cd6ccd6bf 2025-11-11 rbhokre Refactor Arrow Flight authentication in iom-sql to use system-generated tokens with flight creds caching, and migrate all cache implementations from Guava to Caffeine.
-      551f68d5d 2025-12-04 rbhokre Refactor SqlExecutor to remove spark connect rest client dependency (#1567)
-      96127dc93 2025-11-14 rbhokre Refactor: Add Admin API's for catalog listing with full domain coverage (#1389)
-      874e642a8 2025-12-04 rbhokre Spark disconnect migrate table ref and snapshot from the legacy implementation to use Arrow Flight (#1572)
-      6b84b823d 2025-11-18 rbhokre table partition extraction from flight response for dbExplorer (#1439)
-  infra:
-      562443f0 2025-11-13 rbhokre Add new sql endpoints to nginx and revert removing useSparkConnectForDbExplorer flag (#286)
-      cbe597d3 2025-11-19 rbhokre Add schema path to admin API routes in nginx configuration (#319)
-      660507a0 2025-12-19 rbhokre Enable listing metadata authorization using ranger in iom Spark connect cluster (#362)
-      aa46096f 2025-11-17 rbhokre fix additional space in config that went un-noticed (#306)
-      417f3ac4 2025-11-14 rbhokre fix: REVERT SQL service route in nginx configuration (#294)
-      d9f5c433 2025-11-11 rbhokre introduce feature flag `arrowFlightForDbExplorer` (#269)
-      90949014 2025-11-19 rbhokre Remove default domain configuration from Spark connect driver (#317)
-      e264429c 2025-11-17 rbhokre Revert "revert iom_spark_connect mainClass to SparkConnect and remove… (#303)
-      b95bf086 2025-12-09 rbhokre spark-disconnect related changes (#348)
-  iom-console:
-      -
 
 Tural Sadigov
   kotlin:
@@ -362,6 +335,14 @@ Vugar Dadalov
       :::
     - **Access token manage permission**: Access token management functionality is now role-based.
     <Img src="/img/user-guide/iam/roles/access-token-permission.png" alt="Access Token Manage" maxWidth="800px" centered />
+
+    - **Database Explorer Improvements**: 
+        - We have added a feature flag `arrowFlightForDbExplorer` to run Database Explorer on the **Arrow Flight** protocol. This improvement significantly enhances performance for large metadata sets.
+        ```yaml
+        arrowFlightForDbExplorer:
+          enabled: true
+        ```
+      - **Data Security Policy Enforcement**: This update also enables **Data Security policy enforcement** within the Database Explorer. Metadata listings are now filtered based on active policies, ensuring users only see resources they are authorized to access. The above flag needs to be enabled to have this functionality.
   </Improvements>
   <BugFixes>
     - **Spark Applications**:
