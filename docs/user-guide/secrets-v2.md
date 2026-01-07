@@ -6,7 +6,7 @@ last_update:
   date: 12/31/2025
   author: Sourabh Jajoria
 ---
-
+// TODO This is doc written by docusaurus. Analyze and give feedback.
 import Img from '@site/src/components/Img';
 
 Secrets Management V2 is the central, supported way to store credentials in IOMETE. It keeps sensitive values out of configs and databases while letting every team reference them through the same UI.
@@ -18,7 +18,10 @@ Managing credentials across multiple workloads, teams, and environments is compl
 
 ### Key concepts
 
-**Scopes** determine who can access secrets. Secrets are isolated across three levels—**Domain** for team-specific credentials, **Global** for shared resources across domains, and **Admin** for platform control-plane secrets. This ensures teams only see what they own while admins maintain platform-wide security.
+**Scopes** determine who can access secrets. Secrets are isolated across three levels
+- **Domain**: for team-specific credentials
+- **Global**: for shared resources across domains
+- **Admin**: for platform control-plane secrets. This ensures teams only see what they own while admins maintain platform-wide security.
 
 **Backends** define where secret values are stored. IOMETE supports **Kubernetes** secret stores (managed automatically per domain) and **HashiCorp Vault** integrations (customer-managed). You can use one or both backends simultaneously, giving you flexibility to align with your organization's security policies.
 
