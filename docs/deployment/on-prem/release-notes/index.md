@@ -23,16 +23,36 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="3.15.0" date="January 5th, 2026">
 <!--
 
-Altay
+Aslan Bakirov
   kotlin:
-      545e365e4 2025-12-30 Altay fix for driver nfs volume to not override the existing attached volumes (#1773)
-      ed35026c2 2025-10-21 Altay fixing failing test after removing some strong validations in code for the token length (#1266)
+      911df413d 2025-11-25 Aslan Bakirov Ab/add release tag (#1359)
+      0b3e974f0 2025-10-21 Aslan Bakirov Add common and cloud-storages-lib to the CI (#1193)
+      a90f0efe5 2025-10-25 Aslan Bakirov Fix test connection issue (#1278)
+      26df71bac 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:s3 in /iom-rest-catalog (#1289)" (#1304)
+      015b4200d 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:sts in /iom-core (#1296)" (#1303)
   infra:
-      b8988c69 2025-10-31 Altay bump proxy version (#262)
-      184c3b6e 2025-11-21 Altay bumped proxy version and also set proper resources (#323)
+      236acb27 2025-11-20 Aslan Bakirov Add alerts and contact points for dell (#320)
+      125e9cd4 2025-11-25 Aslan Bakirov Add new alerts (#325)
+      ac8f4085 2025-12-17 Aslan Bakirov Add new dashboards (#357)
+      2278033c 2025-12-18 Aslan Bakirov Add new dashboards (#360)
+      94203b7f 2025-11-25 Aslan Bakirov Add release tag in other repos (#273)
+      ae118366 2025-12-09 Aslan Bakirov Add rust-monorepo to release pipeline (#351)
+      c75c6b42 2025-12-07 Aslan Bakirov Add trustore volume (#345)
+      4efcb1d4 2025-12-18 Aslan Bakirov bump the chart version (#361)
+      8754d674 2025-11-04 Aslan Bakirov Dell Prod Dashboards (#268)
+      caae6fa6 2025-11-10 Aslan Bakirov Fix deployment of papyrus (#278)
+      26afb977 2025-11-17 Aslan Bakirov Image url fixup (#307)
+      5ad061ef 2025-12-03 Aslan Bakirov New dash (#340)
+      eb228f27 2025-12-18 Aslan Bakirov New dashboards (#359)
+      3d8699ef 2025-11-10 Aslan Bakirov Remove wierd characters (#272)
+      c1706d32 2025-11-18 Aslan Bakirov Update chart version (#313)
+      cc3f57af 2025-11-17 Aslan Bakirov Update ns dashboard (#308)
+      20587d6d 2025-11-25 Aslan Bakirov Update version (#326)
+      f7f2b6fc 2025-11-27 Aslan Bakirov Upgrade iom-socket version (#329)
   iom-console:
-      -
-      
+      8142d6e21 2025-11-25 Aslan Bakirov Add release tag (#492)
+
+
 Mammad Mammadli
   kotlin:
       -
@@ -109,6 +129,17 @@ Mammad Mammadli
           dataAccessAudit:
             enabled: true
           ```
+
+    - **Platform Event/Audit Logging**:
+      - Important: Above mentioned **Event Ingest Service** should be enabled.
+      - Introduced event/audit logging for platform activities, including:
+        - User actions across identity management
+        - User actions across resource bundles
+        - User actions across data security
+      - Events include: user, group, and role management operations, resource bundle changes, data security policy updates (access policies, masking policies, row filter policies)
+      - Events stored in managed iceberg catalog: `spark_catalog.iomete_system_db.platform_event_logs` with format:
+        - user_id, occured_at, service, action, success and payload
+
     - **Namespace Resource Bundles**
         - A namespace resource bundle will be created automatically for each namespace when namespace is created.
         - Domain owner can give namespace access to the users in the namespace bundle.
@@ -269,6 +300,10 @@ Mammad Mammadli
       - Fixed expiration date of access tokens with `never` expiration
     - **SQL Editor**:
       - Fixed failing database browser loading empty database
+    - **Spark / Iceberg**
+      - Fixed a regression introduced in Iceberg v1.8.0 that prevented creating views on file-based sources (CSV, Parquet, ORC). The previous behavior has been restored.  
+        **Spark version:** 3.5.5-v9  
+        **Iceberg version:** 1.9.3
   </BugFixes>
 </Release>
 
