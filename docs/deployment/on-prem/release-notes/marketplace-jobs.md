@@ -42,6 +42,30 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     </Improvements>
 </Release>
 
+<Release name="Useful SQL tools" version="1.0.0" date="January 7, 2026">
+    <NewFeatures>
+      This is not a Docker image release, but rather a release of a set of useful SQL tools for managing and querying Iceberg tables in IOMETE. See sql scripts in the GitHub repository: [iomete/iomete-marketplace-jobs/sql-tools](https://github.com/iomete/iomete-marketplace-jobs/tree/main/useful-sql-tools)
+      
+      Currently, these tools include:
+      
+        - Creation of iomete_spark_audit_external_table to audit Spark jobs. From this table, one can query
+          - run time (using eventTime column)
+          - run date (using day column)
+          - user (using user column)
+          - job/query id (using eventId column)
+
+        - Creation of view for Daily jobs counts for a particular day of interest (day has to be hardcoded). This will create table stats for that day like below:
+
+          <Img src="/img/getting-started/release-notes/3.15.0/stats.png" alt="Schema Metadata"  />
+
+        - Query that filters Spark jobs for multiple days. This query can last for some time depending on how much data accumulated on each day, and how many days is being queried:
+
+          <Img src="/img/getting-started/release-notes/3.15.0/multiple-days.png" alt="Schema Metadata"  />
+
+        - Query that helps track IOMete Database Objects Definitions (DDL) Change Tracking and Audit Capability
+    </NewFeatures>
+</Release>
+
 
 <Release name="Data Compaction Job" version="1.2.12" date="November 3, 2025">
     <NewFeatures>
