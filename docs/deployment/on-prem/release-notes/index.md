@@ -43,6 +43,7 @@ Aslan Bakirov
   infra:
       236acb27 2025-11-20 Aslan Bakirov Add alerts and contact points for dell (#320)
       125e9cd4 2025-11-25 Aslan Bakirov Add new alerts (#325)
+      246a8082 2025-12-03 Tural Sadigov new alerts (#341)
       ac8f4085 2025-12-17 Aslan Bakirov Add new dashboards (#357)
       2278033c 2025-12-18 Aslan Bakirov Add new dashboards (#360)
       94203b7f 2025-11-25 Aslan Bakirov Add release tag in other repos (#273)
@@ -123,22 +124,6 @@ Mammad Mammadli
       ab9ac062b 2025-11-06 Mammad Mammadli update yarn.lock
       fa9f53152 2025-10-21 Mammad Mammadli update yarn.lock
       
-
-Tural Sadigov
-  kotlin:
-      cb2f1a240 2025-11-14 Tural Sadigov Data size calculation (#1390)
-      10825d778 2025-11-23 Tural Sadigov Dependabot auto merge (#1454)
-      e44479c92 2025-11-24 Tural Sadigov disable cronjob (#1497)
-      335f5e889 2025-11-17 Tural Sadigov Revert "build(deps): bump io.quarkus:quarkus-test-common in /common (#1432)" (#1441)
-      999476130 2025-11-25 Tural Sadigov simplification (#1498)
-      7c65e2b68 2025-12-05 Tural Sadigov Tural/mask compute secrets (#1578)
-  infra:
-      6798e264 2025-12-05 Tural Sadigov $ s fixed in .values, editted values for dev (#343)
-      b65d701b 2025-12-02 Tural Sadigov checkout fix (#337)
-      246a8082 2025-12-03 Tural Sadigov new alerts (#341)
-      1cd5c00c 2025-12-03 Tural Sadigov Operational support quota (#339)
-      35d09ca0 2025-11-17 Tural Sadigov Spark history change (#309)
-      1deda596 2025-11-19 Tural Sadigov Spark history change (#310)
 -->
   <NewFeatures>
     - **Event Ingest Service**:
@@ -263,6 +248,47 @@ Tural Sadigov
       - Added **Live vs Historical** snapshot ratio visualization.
 
       <Img src="/img/getting-started/release-notes/3.15.0/data-explorer-snapshoot-footpring.png" alt="Data Explorer |Snapshoot footpring" />
+
+    - **Data Explorer - Snapshot Storage Visibility - Backend**
+      Added new metrics to track Iceberg table and database sizes including all snapshots:
+        - Number of files for an Iceberg table including all snapshots (so showing true number of files for a table if they look into their storage)
+        - Total size of an Iceberg table including all snapshots
+        - Total DB/schema size including all snapshots
+      
+          <Img src="/img/getting-started/release-notes/3.15.0/new-metrics.png" alt="New Metrics" />
+
+    - **Spark History Update Interval**: 
+      - Changed Spark History Server update interval from 30 seconds to a very large value to prevent frequent filesystem scans while serving the Spark UI.
+        ```yaml
+          # Spark History Server - Services that stores Spark Job's History and Metrics
+          sparkHistory:
+            ...
+            settings:
+              updateInterval: "2147000000s"
+            ...
+        ```
+      - Updated Spark History Server configuration to replace the default history provider with the custom IOMETE filesystem-based history provider (*org.apache.spark.deploy.history.IometeFsHistoryProvider*) for reading and serving Spark application event logs.
+
+    - **New Priority Class**
+      - Added new priority class `iomete-operational-support` to support extra pods running in data-planes for operational support tasks within IOMETE platform.
+        - spark-proxy-server-**namespace**
+        - prefect-worker-**namespace**
+
+        ```yaml
+        ...
+        priorityClassMappings:
+          iomete-compute: "iomete-compute"
+          iomete-spark-job: "iomete-spark-job"
+          iomete-notebook: "iomete-notebook"
+          iomete-operational-support: "iomete-operational-support"
+        ...
+        ```
+    - **Compute Secret Masking**
+      - Compute secrets were previously not masked, while Spark job secrets were. Added the same masking capability to compute resources to enhance security.
+        <Img src="/img/getting-started/release-notes/3.15.0/secret.png" alt="Secret Masking" />
+
+
+
       
   </Improvements>
   <BugFixes>
