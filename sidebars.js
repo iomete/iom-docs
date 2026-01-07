@@ -76,7 +76,17 @@ const sidebars = {
       items: [
         "user-guide/virtual-lakehouses",
         "user-guide/spark-jobs",
-        "user-guide/sql-editor",
+        {
+          type: "category",
+          label: "SQL Editor",
+          collapsed: true,
+          items: [
+            "user-guide/sql-editor/worksheets",
+            "user-guide/sql-editor/database-explorer",
+            "user-guide/sql-editor/query-history",
+            "user-guide/sql-editor/dashboards",
+          ],
+        },
         "user-guide/data-catalog",
         "user-guide/create-a-personal-access-token",
         "user-guide/global-spark-settings",

@@ -1,7 +1,7 @@
 ---
-title: SQL Editor overview
-sidebar_label: SQL Editor
-description: Explore the SQL Editor in IOMETE with this guide, unraveling the intricacies of querying for a seamless and efficient data exploration experience.
+title: Worksheets
+sidebar_label: Worksheets
+description: Learn how to use worksheets in IOMETE SQL Editor for querying and exploring your data.
 last_update:
   date: 01/22/2024
   author: Vugar Dadalov
@@ -10,13 +10,9 @@ last_update:
 import { Database, DotsThreeVertical, DownloadSimple, LinkSimple, ChartBar, ChatTeardropDots } from "@phosphor-icons/react";
 import Img from "@site/src/components/Img";
 
-The SQL Editor is where you run queries on your dataset and get results.
+The worksheet is a document that stores SQL queries. These worksheets are organized in folders, and the system automatically creates a default **Draft** folder. In this folder, you'll find worksheets with helpful SQL query hints to make writing queries easier.
 
 <Img src="/img/user-guide/sql-editor/sql-editor.png" alt="SQL Editor"/>
-
-## Worksheets
-
-The worksheet is a document that stores SQL queries. These worksheets are organized in folders, and the system automatically creates a default **Draft** folder. In this folder, you'll find worksheets with helpful SQL query hints to make writing queries easier.
 
 You can create custom folders for better organization. Folders can be deleted, renamed, and modified, except for the system-generated 'Draft' folder, which remains fixed. Within folders, you have the flexibility to create, duplicate, delete, rename, and move worksheets.
 
@@ -28,22 +24,6 @@ You can create custom folders for better organization. Folders can be deleted, r
       <Img src="/img/user-guide/sql-editor/worksheet-menu.png" alt="SQL Editor - Worksheet menu" maxWidth="400px"/>
     </div>
   </div>
-
-## Database explorer
-
-Database explorer panel is used to explore your database objects, which includes **namespaces, tables, views,** and their **columns** (even complex columns), and partitions.
-
-To view database objects, expand a database. Each object in the database explorer has a corresponding options menu <DotsThreeVertical size={16} weight="duotone"/>.
-You can also open the menu by right-clicking on the item.
-
-<div className="row">
-    <div className="col col--6">
-      <Img src="/img/user-guide/sql-editor/db-menu.png" alt="SQL Editor - Database menu" maxWidth="400px"/>
-    </div>
-    <div className="col col--6">
-      <Img src="/img/user-guide/sql-editor/table-menu.png" alt="SQL Editor - Table menu" maxWidth="400px"/>
-    </div>
-</div>
 
 ## Querying data
 
@@ -158,12 +138,6 @@ When clicking the filter icon, you can see available filters.
 <Img src="/img/user-guide/sql-editor/sql-editor-result-filter-1.png" maxWidth="360px" alt="SQL Editor - Query result filter"/>
 
 <Img src="/img/user-guide/sql-editor/sql-editor-result-filter-contains-1.png" alt="SQL Editor - Query result filter"/>
-
-## Query Histories
-
-When you run a query, it is tracked as a new item in the SQL history. You can use the SQL history to go back to previous queries so that you can see query results and open queries in the active worksheet.
-
-<Img src="/img/user-guide/sql-editor/query-history.png" alt="SQL Editor - Query histories"/>
 
 <!-- ## IOMETE AI Assistant
 
