@@ -50,7 +50,7 @@ The main components of the SQL Editor are highlighted below:
 
 <Img src="/img/getting-started/platform-tour/sql-editor-page.png" alt="SQL Editor page"/>
 
-For more details, see [SQL Editor](/docs/user-guide/sql-editor.md)
+For more details, see [SQL Editor](/docs/user-guide/sql-editor/worksheets)
 
 ### Query History page
 
