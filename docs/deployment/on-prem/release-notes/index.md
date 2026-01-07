@@ -32,38 +32,7 @@ Altay
       184c3b6e 2025-11-21 Altay bumped proxy version and also set proper resources (#323)
   iom-console:
       -
-
-Aslan Bakirov
-  kotlin:
-      911df413d 2025-11-25 Aslan Bakirov Ab/add release tag (#1359)
-      0b3e974f0 2025-10-21 Aslan Bakirov Add common and cloud-storages-lib to the CI (#1193)
-      a90f0efe5 2025-10-25 Aslan Bakirov Fix test connection issue (#1278)
-      26df71bac 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:s3 in /iom-rest-catalog (#1289)" (#1304)
-      015b4200d 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:sts in /iom-core (#1296)" (#1303)
-  infra:
-      236acb27 2025-11-20 Aslan Bakirov Add alerts and contact points for dell (#320)
-      125e9cd4 2025-11-25 Aslan Bakirov Add new alerts (#325)
-      246a8082 2025-12-03 Tural Sadigov new alerts (#341)
-      ac8f4085 2025-12-17 Aslan Bakirov Add new dashboards (#357)
-      2278033c 2025-12-18 Aslan Bakirov Add new dashboards (#360)
-      94203b7f 2025-11-25 Aslan Bakirov Add release tag in other repos (#273)
-      ae118366 2025-12-09 Aslan Bakirov Add rust-monorepo to release pipeline (#351)
-      c75c6b42 2025-12-07 Aslan Bakirov Add trustore volume (#345)
-      4efcb1d4 2025-12-18 Aslan Bakirov bump the chart version (#361)
-      8754d674 2025-11-04 Aslan Bakirov Dell Prod Dashboards (#268)
-      caae6fa6 2025-11-10 Aslan Bakirov Fix deployment of papyrus (#278)
-      26afb977 2025-11-17 Aslan Bakirov Image url fixup (#307)
-      5ad061ef 2025-12-03 Aslan Bakirov New dash (#340)
-      eb228f27 2025-12-18 Aslan Bakirov New dashboards (#359)
-      3d8699ef 2025-11-10 Aslan Bakirov Remove wierd characters (#272)
-      c1706d32 2025-11-18 Aslan Bakirov Update chart version (#313)
-      cc3f57af 2025-11-17 Aslan Bakirov Update ns dashboard (#308)
-      20587d6d 2025-11-25 Aslan Bakirov Update version (#326)
-      f7f2b6fc 2025-11-27 Aslan Bakirov Upgrade iom-socket version (#329)
-  iom-console:
-      8142d6e21 2025-11-25 Aslan Bakirov Add release tag (#492)
-
-
+      
 Mammad Mammadli
   kotlin:
       -
