@@ -14,6 +14,299 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.15.1" date="January 5th, 2026">
+    <BugFixes>
+        - Downgraded all AWS S3 SDK library versions to fix compatibility issues with S3-compatible storage providers.
+    </BugFixes>
+</Release>
+
+<Release version="3.15.0" date="January 5th, 2026">
+<!--
+
+Aslan Bakirov
+  kotlin:
+      911df413d 2025-11-25 Aslan Bakirov Ab/add release tag (#1359)
+      0b3e974f0 2025-10-21 Aslan Bakirov Add common and cloud-storages-lib to the CI (#1193)
+      a90f0efe5 2025-10-25 Aslan Bakirov Fix test connection issue (#1278)
+      26df71bac 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:s3 in /iom-rest-catalog (#1289)" (#1304)
+      015b4200d 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:sts in /iom-core (#1296)" (#1303)
+  infra:
+      236acb27 2025-11-20 Aslan Bakirov Add alerts and contact points for dell (#320)
+      125e9cd4 2025-11-25 Aslan Bakirov Add new alerts (#325)
+      ac8f4085 2025-12-17 Aslan Bakirov Add new dashboards (#357)
+      2278033c 2025-12-18 Aslan Bakirov Add new dashboards (#360)
+      94203b7f 2025-11-25 Aslan Bakirov Add release tag in other repos (#273)
+      ae118366 2025-12-09 Aslan Bakirov Add rust-monorepo to release pipeline (#351)
+      c75c6b42 2025-12-07 Aslan Bakirov Add trustore volume (#345)
+      4efcb1d4 2025-12-18 Aslan Bakirov bump the chart version (#361)
+      8754d674 2025-11-04 Aslan Bakirov Dell Prod Dashboards (#268)
+      caae6fa6 2025-11-10 Aslan Bakirov Fix deployment of papyrus (#278)
+      26afb977 2025-11-17 Aslan Bakirov Image url fixup (#307)
+      5ad061ef 2025-12-03 Aslan Bakirov New dash (#340)
+      eb228f27 2025-12-18 Aslan Bakirov New dashboards (#359)
+      3d8699ef 2025-11-10 Aslan Bakirov Remove wierd characters (#272)
+      c1706d32 2025-11-18 Aslan Bakirov Update chart version (#313)
+      cc3f57af 2025-11-17 Aslan Bakirov Update ns dashboard (#308)
+      20587d6d 2025-11-25 Aslan Bakirov Update version (#326)
+      f7f2b6fc 2025-11-27 Aslan Bakirov Upgrade iom-socket version (#329)
+  iom-console:
+      8142d6e21 2025-11-25 Aslan Bakirov Add release tag (#492)
+
+
+Mammad Mammadli
+  kotlin:
+      -
+  infra:
+      -
+  iom-console:
+      a8b83eb3d 2025-12-02 Mammad Mammadli Adapt endpoints for service accounts for create, delete (#550)
+      b05a96614 2025-12-03 Mammad Mammadli bring back search functionality (#552)
+      b75269af4 2025-11-28 Mammad Mammadli change bundle assets with new structured endpoint (#532)
+      b5f6ea5b3 2025-10-23 Mammad Mammadli chore: disable deleting for deleting alias (#462)
+      f3336cab6 2025-12-11 Mammad Mammadli disable highlighting of SQL editor (#573)
+      a79f0f51f 2025-10-30 Mammad Mammadli feat: add Jupyter notebook support to SQL editor
+      d7fe76898 2025-11-19 Mammad Mammadli feat: add resource type filter to bundle members (#515)
+      89ade8c52 2025-10-31 Mammad Mammadli feat: enhance bundle permissions with single selection and smart filtering
+      0f41ee649 2025-10-23 Mammad Mammadli feat: enhance docker image selection for private registries
+      680beb7db 2025-10-29 Mammad Mammadli feat: filter asset type permissions based on selected actors' existing permissions
+      f504d7b8b 2025-10-22 Mammad Mammadli feat: implement API versioning with feature toggle support
+      731231d38 2025-12-09 Mammad Mammadli feat: implement basic notifications page (#534)
+      9fb17eb43 2025-11-28 Mammad Mammadli Fix broken Compute edit page (#519)
+      222429590 2025-12-17 Mammad Mammadli fix failing test (#588)
+      8e4f4bd73 2025-11-10 Mammad Mammadli fix failing tests
+      3ebd97162 2025-12-02 Mammad Mammadli Fix namespace test failures and split namespace pages per version (#548)
+      5c657094b 2025-11-05 Mammad Mammadli fix: invalidate correct query key for bundle resource assets
+      bfb79bb00 2025-10-21 Mammad Mammadli fix: pagination not working when sorting is applied in query monitoring
+      5ed8051c0 2025-11-03 Mammad Mammadli fix: resolve placeholder visibility and form reset issues in bundle permissions
+      20697533c 2025-11-03 Mammad Mammadli fix: update bundle permission form tests to match new disabled behavior
+      9c5ac4354 2025-12-01 Mammad Mammadli IE-156/separate admin domain access (#542)
+      60842ad57 2025-11-28 Mammad Mammadli Implement ButtonGroup component (#513)
+      cd3a76523 2025-10-31 Mammad Mammadli implement global uuid interface
+      303593658 2025-11-27 Mammad Mammadli Implement permission management for access token (#535)
+      efb2f8a63 2025-11-14 Mammad Mammadli increase maxThreads (#505)
+      fa40a2cc0 2025-12-17 Mammad Mammadli Increase tests (#584)
+      b14d2d9ce 2025-11-04 Mammad Mammadli install jupyter and enable
+      ef0ac4218 2025-11-03 Mammad Mammadli Make some cleanups
+      463884ba1 2025-11-24 Mammad Mammadli New endpoints for Secret management (#508)
+      eed269224 2025-11-18 Mammad Mammadli Pe 159/bundle permission improvement (#502)
+      1114dacbd 2025-12-03 Mammad Mammadli PE-199/migrate namespaces to v2 (#549)
+      cf7b2ca37 2025-12-11 Mammad Mammadli PE-229/Notification settings (#569)
+      5415f0fcb 2025-11-10 Mammad Mammadli Redirect to bundle details after creating
+      daa7cf691 2025-10-21 Mammad Mammadli redirect to specific jupyter
+      72d52f78a 2025-11-20 Mammad Mammadli refactor: remove forceUpdate pattern from BundlePermissionManager (#520)
+      5e315fd73 2025-12-09 Mammad Mammadli remove caching from namespaces list (#567)
+      65c9932e8 2025-11-04 Mammad Mammadli REmove flag for Jupyter
+      ac91a4f82 2025-11-10 Mammad Mammadli remove redundant comments
+      c55ec3e35 2025-11-16 Mammad Mammadli Removed parsing to json since it's going to be parsed inside package (#509)
+      92fe9cb3f 2025-11-10 Mammad Mammadli revert changes on pr.yml
+      f89becf0b 2025-11-10 Mammad Mammadli run all tests
+      c571ef226 2025-10-21 Mammad Mammadli send request to v2 on compute log download
+      3dc7fe547 2025-11-03 Mammad Mammadli Show loading on BundlePermissionForm
+      d56d68b40 2025-11-28 Mammad Mammadli Split endpoints for access token into 2 parts domain/admin (#540)
+      e1eb2450e 2025-10-29 Mammad Mammadli test: add comprehensive unit tests for BundlePermissionCreate and BundlePermissionEdit
+      76431a03a 2025-10-29 Mammad Mammadli test: add comprehensive unit tests for BundlePermissionForm components
+      a5e060cab 2025-11-07 Mammad Mammadli update config
+      6a76060a2 2025-11-09 Mammad Mammadli Update eslint config
+      03e41c68c 2025-12-13 Mammad Mammadli update html data-theme for dark/light theme (#574)
+      1e1181bee 2025-11-25 Mammad Mammadli update packages (#531)
+      74b3a85eb 2025-11-05 Mammad Mammadli update yarn.lock
+      ab9ac062b 2025-11-06 Mammad Mammadli update yarn.lock
+      fa9f53152 2025-10-21 Mammad Mammadli update yarn.lock
+      
+-->
+  <NewFeatures>
+    - **Event Ingest Service**:
+      - Introducing a high-performance event ingestion service built in Rust, designed for efficient event streaming and storage to Iceberg tables.
+      - The service exposes `/ingest` API for event ingestion.
+      - **Configuration**:
+        - To enable the Event Ingest service, set the following feature flag:
+          ```yaml
+          eventIngest:
+            enabled: true
+          ```
+        - To enable Ranger audit logs to send events to the Event Ingest service and persist them in Iceberg tables:
+          ```yaml
+          dataAccessAudit:
+            enabled: true
+          ```
+
+    - **Platform Event/Audit Logging**:
+      - Important: Above mentioned **Event Ingest Service** should be enabled.
+      - Introduced event/audit logging for platform activities, including:
+        - User actions across identity management
+        - User actions across resource bundles
+        - User actions across data security
+      - Events include: user, group, and role management operations, resource bundle changes, data security policy updates (access policies, masking policies, row filter policies)
+      - Events stored in managed iceberg catalog: `spark_catalog.iomete_system_db.platform_event_logs` with format:
+        - user_id, occured_at, service, action, success and payload
+
+    - **Namespace Resource Bundles**
+        - A namespace resource bundle will be created automatically for each namespace when namespace is created.
+        - Domain owner can give namespace access to the users in the namespace bundle.
+        - The user can view quota and utilization and deploy resources only within namespaces they are authorized to access.
+        - **Configuration**:
+          - To enable namespace resource bundles:
+            ```yaml
+            onboardNamespaceMappingRas:
+              enabled: true
+            ```
+          - To migrate existing namespaces to use namespace resource bundles, follow the [instructions](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md).
+    
+    - 📊 **BI Dashboards** `BETA`
+      - We're excited to introduce **BI Dashboards** — a powerful new feature that allows you to create interactive dashboards directly from your SQL query results within the IOMETE platform.            
+        <Img src="/img/getting-started/release-notes/3.15.0/dashboards.png" alt="IOMETE Dashboards" />
+
+      - **Create and manage Dashboards**
+        - You can now organize your data visualizations into dashboards for better insights and reporting. Create new dashboards directly from the workspace sidebar by right-clicking on any folder and selecting **New dashboard**.
+        <Img src="/img/getting-started/release-notes/3.15.0/create-dashboard.png" alt="Create dashboard" maxWidth="200px" />
+
+      
+      - **Add Charts to Dashboards**
+        - Transform your SQL query results into visual charts and add them to dashboards with just a few clicks:
+
+          - Run your SQL query and switch to the **Chart** view
+          - Configure your chart by selecting **X** and **Y** axis fields
+          - Click **Add** to dashboard to save the visualization
+
+            <Img src="/img/getting-started/release-notes/3.15.0/add-to-dashboard.png" alt="Create dashboard"  />
+           
+      
+      - **Widget Configuration**
+        - When adding a chart to a dashboard, you can customize:
+          - Widget name — Give your visualization a descriptive title
+          - Description — Add optional context about what the data represents
+          - Target dashboard — Browse and select from existing dashboards
+           <GridBox>
+              <Img src="/img/getting-started/release-notes/3.15.0/dashboard-name-and-browse.png" alt="Create dashboard"  />
+              <Img src="/img/getting-started/release-notes/3.15.0/select-dashboard-to-add.png" alt="Create dashboard"  />
+            </GridBox>
+            
+      - **Your Widget, Live on the Dashboard** 🎉
+          
+        <Img src="/img/getting-started/release-notes/3.15.0/dashboards.png" alt="IOMETE | Dashboards"  maxWidth="800px" />
+
+        - Once you've selected a dashboard and clicked Add, your chart instantly appears on the dashboard — ready to deliver insights. View all your widgets together in a unified layout, with each visualization displaying real-time data from your SQL queries. Mix and match different chart types like **bar** charts, **pie** charts, **treemaps**, and other charts to build comprehensive reporting views.
+
+    - **Widget Actions**
+      - Each widget on a dashboard includes a context menu with the following options:
+
+        - View as table — Switch between chart and tabular data views
+        - Configure chart — Modify chart settings and appearance
+        - Edit SQL — Jump back to the underlying query
+        - Rename — Update the widget title
+        - Remove — Delete the widget from the dashboard
+    
+          <Img src="/img/getting-started/release-notes/3.15.0/widget-actions.png" alt="Dashboard widget actions" maxWidth="600px"  />
+
+        - **Auto-Sync Indicators**
+          - Widgets display a "Last sync" timestamp showing when the data was last refreshed, helping you track data freshness across your dashboard.
+      
+
+  </NewFeatures>
+  <Improvements>
+    - **Spark Job Orchestration (Priority-Based Deployment Flow)**:  
+      - **Prevent Queue Head Blocking**:
+        - Jobs blocked at queue head due to quota limits are now automatically retried or cancelled after configurable thresholds.
+        - Configurable via the following system properties:
+          - `job-orchestrator.queue.head-timeout-seconds` *(default: 3600)* – wait time before timeout
+          - `job-orchestrator.queue.head-retry-count` *(default: 0)* – retry attempts before cancellation
+      - **Batch Job Deployments**:
+          - Jobs are now validated and deployed in batches, improving deployment speed during job bursts.
+          - Batch size is configurable via Helm chart: `jobOrchestrator.settings.batchSize`.
+      - **Job Queue Visibility**:
+          - Job details now show the specific resource blocking deployment (CPU, memory, pods, or storage) when a job is waiting in the queue.
+          - Added visibility for queue timeout retries, cancellation reasons, and reschedule events.
+        <Img src="/img/guides/spark-job/job-queue-reason.png" alt="Job queue visibility" />
+      - **Scheduling Reliability**:
+        - Jobs incorrectly scheduled due to stale quota data are now automatically retried.
+        - Reduces failures from timing mismatches between quota checks and resource allocation.
+      - **Cleanup & Maintenance**:
+        - Added periodic cleanup for completed queue runs and logs to prevent unbounded data growth.
+        - Configurable via Helm chart: `jobOrchestrator.settings.jobRunCleanup`.
+      - **Splunk Integration**:
+        - Added support for basic auth for log fetching when Executor log fetching is enabled
+      - **Other Improvements**:
+        - Consistent propagation of `Run as user` and custom tags for scheduled Spark jobs.
+        - Manual and retry runs now reuse existing deployments instead of creating duplicates.
+
+      :::important Configuration Update Required
+      Jobs using `Priority-Based` deployment flow without a configured cron schedule require a one-time configuration update to initialize the deployment.
+      :::
+    - **Access token manage permission**: Access token management functionality is now role-based.
+    <Img src="/img/user-guide/iam/roles/access-token-permission.png" alt="Access Token Manage" maxWidth="800px" centered />
+
+    - **Database Explorer Improvements**: 
+        - We have added a feature flag `arrowFlightForDbExplorer` to run Database Explorer on the **Arrow Flight** protocol. This improvement significantly enhances performance for large metadata sets.
+        ```yaml
+        arrowFlightForDbExplorer:
+          enabled: true
+        ```
+      - **Data Security Policy Enforcement**: This update also enables **Data Security policy enforcement** within the Database Explorer. Metadata listings are now filtered based on active policies, ensuring users only see resources they are authorized to access. The above flag needs to be enabled to have this functionality.
+    
+    - **Data Explorer - Snapshot Storage Visibility**
+      - Enhanced **Storage Footprint** with unified metric cards for size and file count.
+      - Added **Live vs Historical** snapshot ratio visualization.
+
+      <Img src="/img/getting-started/release-notes/3.15.0/data-explorer-snapshoot-footpring.png" alt="Data Explorer |Snapshoot footpring" />
+
+    - **Data Explorer - Snapshot Storage Visibility - Backend**
+      Added new metrics to track Iceberg table and database sizes including all snapshots:
+        - Number of files for an Iceberg table including all snapshots (so showing true number of files for a table if they look into their storage)
+        - Total size of an Iceberg table including all snapshots
+        - Total DB/schema size including all snapshots
+      
+          <Img src="/img/getting-started/release-notes/3.15.0/new-metrics.png" alt="New Metrics" />
+
+    - **Spark History Update Interval**: 
+      - Changed Spark History Server update interval from 30 seconds to a very large value to prevent frequent filesystem scans while serving the Spark UI.
+        ```yaml
+          # Spark History Server - Services that stores Spark Job's History and Metrics
+          sparkHistory:
+            ...
+            settings:
+              updateInterval: "2147000000s"
+            ...
+        ```
+      - Updated Spark History Server configuration to replace the default history provider with the custom IOMETE filesystem-based history provider (*org.apache.spark.deploy.history.IometeFsHistoryProvider*) for reading and serving Spark application event logs.
+
+    - **New Priority Class**
+      - Added new priority class `iomete-operational-support` to support extra pods running in data-planes for operational support tasks within IOMETE platform.
+        - spark-proxy-server-**namespace**
+        - prefect-worker-**namespace**
+
+        ```yaml
+        ...
+        priorityClassMappings:
+          iomete-compute: "iomete-compute"
+          iomete-spark-job: "iomete-spark-job"
+          iomete-notebook: "iomete-notebook"
+          iomete-operational-support: "iomete-operational-support"
+        ...
+        ```
+    - **Compute Secret Masking**
+      - Compute secrets were previously not masked, while Spark job secrets were. Added the same masking capability to compute resources to enhance security.
+        <Img src="/img/getting-started/release-notes/3.15.0/secret.png" alt="Secret Masking" />
+
+
+
+      
+  </Improvements>
+  <BugFixes>
+    - **Spark Applications**:
+      - Fixed startup timeout logic to properly abort Spark applications when driver is running but executors stuck in `PENDING` state due to resource quota violations or fragmentation.
+    - **Maintenance**:
+      - Fixed ordering of Spark Extensions to enable zorder sorting in rewrite data files operation
+    - **Token**:
+      - Fixed expiration date of access tokens with `never` expiration
+    - **SQL Editor**:
+      - Fixed failing database browser loading empty database
+    - **Spark / Iceberg**
+      - Fixed a regression introduced in Iceberg v1.8.0 that prevented creating views on file-based sources (CSV, Parquet, ORC). The previous behavior has been restored.  
+        **Spark version:** 3.5.5-v9  
+        **Iceberg version:** 1.9.3
+  </BugFixes>
+</Release>
+
 <Release version="3.14.3" date="December 2, 2025">
     <BugFixes>
         - Fixed compatibility issue stemming from latest version bump of AWS S3 jars. 

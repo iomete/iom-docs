@@ -15,13 +15,58 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | -------------------- | ---------------------- |---------| -------------------------------------------------------------------------- |
 | Data Compaction      | iomete_data_compaction | 1.2.12  | [Open ↗](/resources/open-source-spark-jobs/data-compaction-job)            |
 | File Streaming       | iomete_file_streaming  | 0.3.0   | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
-| Catalog Sync         | iom-catalog-sync       | 4.3.3   | [Open ↗](/resources/open-source-spark-jobs/catalog-sync-job)               |
+| Catalog Sync         | iom-catalog-sync       | 4.3.5   | [Open ↗](/resources/open-source-spark-jobs/catalog-sync-job)               |
 | MySQL Sync           | iomete_mysql_sync      | 3.0.0   | [Open ↗](/resources/open-source-spark-jobs/mysql-database-replication-job) |
 | Kafka Iceberg Stream | kafka-iceberg-stream   | 1.2.0   | [Open ↗](/resources/open-source-spark-jobs/kafka-streaming-job)            |
 
 ---
 
 ## Recent Releases
+
+<Release name="Catalog Sync Job" version="4.3.5" date="January 7, 2026">
+    <Improvements>
+      Added new metrics to track Iceberg table and database sizes including all snapshots:
+        - Number of files for an Iceberg table including all snapshots (so showing true number of files for a table if they look into their storage)
+        - Total size of an Iceberg table including all snapshots
+        - Total DB/schema size including all snapshots
+      
+          <Img src="/img/getting-started/release-notes/3.15.0/new-metrics.png" alt="New Metrics" />
+
+      These metrics are new columns in the existing tables in iomete_catalog_db:
+        - **table_metadata**: *total_table_nums_files*, *total_table_size_in_bytes*
+        - **schema_metadata**: *total_db_size_in_bytes*
+          <GridBox>
+            <Img src="/img/getting-started/release-notes/3.15.0/table-metadata.png" alt="Table Metadata"  />
+            <Img src="/img/getting-started/release-notes/3.15.0/schema-metadata.png" alt="Schema Metadata"  />
+          </GridBox>
+    </Improvements>
+</Release>
+
+<Release name="Useful SQL tools" version="1.0.0" date="January 7, 2026">
+    <NewFeatures>
+      This is not a Docker image release, but rather a release of a set of useful SQL tools for managing and querying Iceberg tables in IOMETE. See sql scripts in the GitHub repository: [iomete/iomete-marketplace-jobs/sql-tools](https://github.com/iomete/iomete-marketplace-jobs/tree/main/useful-sql-tools)
+      
+      Currently, these tools include:
+      
+        - Creation of iomete_spark_audit_external_table to audit Spark jobs. From this table, one can query
+          - run time (using eventTime column)
+          - run date (using day column)
+          - user (using user column)
+          - job/query id (using eventId column)
+
+        - Creation of view for Daily jobs counts for a particular day of interest (day has to be hardcoded). This will create table stats for that day like below:
+
+          <Img src="/img/getting-started/release-notes/3.15.0/stats.png" alt="Schema Metadata"  />
+
+        - Query that filters Spark jobs for multiple days. This query can last for some time depending on how much data accumulated on each day, and how many days is being queried:
+
+          <Img src="/img/getting-started/release-notes/3.15.0/multiple-days.png" alt="Schema Metadata"  />
+
+        - Query that helps track IOMete Database Objects Definitions (DDL) Change Tracking and Audit Capability
+    </NewFeatures>
+</Release>
+
+
 <Release name="Data Compaction Job" version="1.2.12" date="November 3, 2025">
     <NewFeatures>
         - Implemented table-level locking system to prevent concurrent compaction operations on the same table
