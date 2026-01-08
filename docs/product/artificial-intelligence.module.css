@@ -1,0 +1,106 @@
+.impactGrid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  align-items: start;
+}
+
+.bodyText {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.bulletList {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--text-secondary);
+  display: grid;
+  gap: 0.4rem;
+}
+
+.featureStack {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.featureBlock {
+  padding: 1.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--border-primary);
+  background: var(--primary--background);
+}
+
+.blockTitle {
+  margin: 0 0 1.2rem;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.subGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.subSection {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.subTitle {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.stepGrid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.stepCard {
+  padding: 1.4rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-primary);
+  background: var(--primary--background);
+}
+
+.stepTitle {
+  margin: 0 0 0.6rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.stepBody {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.ctaRow {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.6rem;
+  border-radius: 999px;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.ctaPrimary:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+}

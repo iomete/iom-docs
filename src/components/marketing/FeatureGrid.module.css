@@ -1,0 +1,39 @@
+@import "./marketingTokens.module.css";
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.card {
+  padding: 1.4rem;
+  border-radius: var(--mk-radius-md);
+  border: 1px solid var(--mk-border);
+  background: var(--mk-bg);
+  color: var(--mk-text);
+  box-shadow: var(--mk-shadow-sm);
+  font-family: var(--mk-font-body);
+  line-height: var(--mk-body-line);
+}
+
+.icon {
+  margin-bottom: 0.75rem;
+  color: var(--mk-text);
+}
+
+.title {
+  margin: 0 0 0.6rem;
+  font-size: 1.1rem;
+  color: var(--mk-text-strong);
+  font-family: var(--mk-font-heading);
+  font-weight: 400;
+}
+
+.description {
+  margin: 0;
+  color: var(--mk-text);
+  font-size: var(--mk-body-size);
+  line-height: var(--mk-body-line);
+  letter-spacing: var(--mk-body-letter);
+}
