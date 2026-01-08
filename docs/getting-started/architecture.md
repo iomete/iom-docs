@@ -45,7 +45,7 @@ If we dive deeper into the IOMETE services, we can see the following components:
 
 - **2. Core Service:** Core Service is the main service that manages metadata, scheduling, and orchestration of workloads.
 - **3. IAM Service:** IAM Service is responsible for managing users, groups, and permissions, as well as managing other IDP integrations, such as LDAP, SAML, etc. See [Identity and Access Management](../user-guide/users).
-- **4. SQL Service:** SQL Service provides REST API for SQL and also provides a backend for the SQL Editor. See [SQL Editor](../user-guide/sql-editor).
+- **4. SQL Service:** SQL Service provides REST API for SQL and also provides a backend for the SQL Editor. See [SQL Editor](../user-guide/sql-editor/worksheets).
 - **5. Catalog Service:** Catalog Service is a backend service for Data Catalog. Which provides metadata management, data discovery, tagging, and lineage.
 - **6. Spark Operator:** Spark Operator is a Kubernetes operator that manages all Spark Workloads. It schedules, monitors, and manages the lifecycle of Spark clusters.
 

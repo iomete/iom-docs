@@ -105,7 +105,7 @@ function Resources() {
           </Card>
         </div>
         <div className="col-span-8 sm:col-span-4">
-          <Card url="/user-guide/sql-editor">
+          <Card url="/user-guide/sql-editor/worksheets">
             <div>
               <h4 className="mb-2">SQL Quickstart</h4>
               <p className="card-desc">
