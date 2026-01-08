@@ -50,7 +50,7 @@ The main components of the SQL Editor are highlighted below:
 
 <Img src="/img/getting-started/platform-tour/sql-editor-page.png" alt="SQL Editor page"/>
 
-For more details, see [SQL Editor](/docs/user-guide/sql-editor/worksheets)
+For more details, see [SQL Editor](/user-guide/sql-editor/worksheets)
 
 ### Query History page
 
@@ -58,7 +58,7 @@ Query Histories track each query you run, adding it as a new item in the SQL his
 
 <Img src="/img/getting-started/platform-tour/query-history-page.png" alt="Query History  page"/>
 
-For more details, see [Query History](/user-guide/sql-editor#query-histories)
+For more details, see [Query History](/user-guide/sql-editor/query-history)
 
 ## Applications
 
