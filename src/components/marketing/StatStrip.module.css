@@ -1,0 +1,30 @@
+.strip {
+  padding: 1.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--border-primary);
+  background: var(--primary--background);
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.stat {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.value {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.label {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
