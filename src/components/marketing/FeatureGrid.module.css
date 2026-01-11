@@ -2,19 +2,25 @@
 
 .grid {
   display: grid;
-  gap: 1.5rem;
+  gap: 0;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  border: 1px solid var(--mk-border);
 }
 
 .card {
-  padding: 1.4rem;
-  border-radius: var(--mk-radius-md);
-  border: 1px solid var(--mk-border);
-  background: var(--mk-bg);
+  padding: 0.75rem 1rem;
+  border: none;
+  border-right: 1px solid var(--mk-border);
+  border-bottom: 1px solid var(--mk-border);
+  background: var(--mk-surface);
   color: var(--mk-text);
-  box-shadow: var(--mk-shadow-sm);
+  box-shadow: none;
   font-family: var(--mk-font-body);
   line-height: var(--mk-body-line);
+}
+
+.card:last-child {
+  border-right: none;
 }
 
 .icon {

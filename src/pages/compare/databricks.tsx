@@ -236,46 +236,19 @@ export default function CompareDatabricksPage() {
             background={quadrant(comparisonSections.length + 2)}
           >
             <div className={styles.tableWrap}>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th scope="col">Feature</th>
-                    <th scope="col">Databricks</th>
-                    <th scope="col">IOMETE</th>
-                    <th scope="col">Notes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {featureRows.map((row, idx) => (
-                    <tr key={row.feature} className={idx % 2 === 0 ? styles.tableHighlight : ""}>
-                      <td>{row.feature}</td>
-                      <td>{row.databricks}</td>
-                      <td>{row.iomete}</td>
-                      <td>{row.notes}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              <div className={styles.mobileTable}>
+              <div className={styles.tableOverflow}>
+                <div className={styles.headerRow}>
+                  <div className={styles.headerCol}>Feature</div>
+                  <div className={styles.headerCol}>Databricks</div>
+                  <div className={styles.headerCol}>IOMETE</div>
+                  <div className={styles.headerCol}>Notes</div>
+                </div>
                 {featureRows.map((row) => (
-                  <div key={row.feature} className={styles.mobileRow}>
-                    <div className={styles.mobileField}>
-                      <span className={styles.mobileLabel}>Feature</span>
-                      <span className={styles.mobileValue}>{row.feature}</span>
-                    </div>
-                    <div className={styles.mobileField}>
-                      <span className={styles.mobileLabel}>Databricks</span>
-                      <span className={styles.mobileValue}>{row.databricks}</span>
-                    </div>
-                    <div className={styles.mobileField}>
-                      <span className={styles.mobileLabel}>IOMETE</span>
-                      <span className={styles.mobileValue}>{row.iomete}</span>
-                    </div>
-                    <div className={styles.mobileField}>
-                      <span className={styles.mobileLabel}>Notes</span>
-                      <span className={styles.mobileNotes}>{row.notes}</span>
-                    </div>
+                  <div key={row.feature} className={styles.itemRow}>
+                    <div className={`${styles.itemCol} ${styles.itemColFirst}`}>{row.feature}</div>
+                    <div className={styles.itemCol}>{row.databricks}</div>
+                    <div className={`${styles.itemCol} ${styles.itemColIomete}`}>{row.iomete}</div>
+                    <div className={styles.itemCol}>{row.notes}</div>
                   </div>
                 ))}
               </div>

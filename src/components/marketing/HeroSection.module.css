@@ -49,34 +49,38 @@
 }
 
 .button {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
   justify-content: center;
-  padding: 0.75rem 1.35rem;
-  border-radius: var(--mk-radius-md);
-  font-weight: 600;
-  font-size: 0.95rem;
+  align-items: center;
+  height: 2.25rem;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  white-space: nowrap;
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  border: 1px solid transparent;
+  transition: all 0.3s;
 }
 
 .primary {
-  background: var(--mk-btn-dark-bg);
-  color: var(--mk-btn-dark-text);
+  background-color: var(--mk-fluoro-400);
+  color: var(--mk-base-950);
 }
 
 .primary:hover {
-  background: var(--mk-btn-dark-hover-bg);
+  background-color: var(--mk-fluoro-500);
   text-decoration: none;
 }
 
 .secondary {
-  background: var(--mk-btn-fluoro-bg);
-  color: var(--mk-btn-fluoro-text);
-  border: 1px solid transparent;
+  background-color: var(--mk-base-950);
+  color: var(--mk-base-50);
 }
 
 .secondary:hover {
-  background: var(--mk-btn-fluoro-hover-bg);
+  background-color: var(--mk-base-800);
   text-decoration: none;
 }
