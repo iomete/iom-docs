@@ -15,22 +15,35 @@ IOMETE secrets management is the central, supported way to store credentials in 
 
 Managing credentials across multiple workloads, teams, and environments is complex. Hardcoded passwords, scattered configuration files, and inconsistent secret storage create security risks and operational overhead. IOMETE's secrets management solves this by providing a centralized, multi-backend secrets management system that keeps sensitive values out of your configurations while giving every IOMETE component secure, unified access to credentials.
 
+
 ### Key concepts
 
-**Scopes** determine who can access secrets. Secrets are isolated across three levels—**Domain** for team-specific credentials, **Global** for shared resources across domains, and **Admin** for platform control-plane secrets. This ensures teams only see what they own while admins maintain platform-wide security.
+**Scopes** determine secret access through three isolated levels, ensuring the principle of least privilege across the platform:
 
-**Backends** define where secret values are stored. IOMETE supports **Kubernetes** secret stores (managed automatically per domain) and **HashiCorp Vault** integrations (customer-managed). You can use one or both backends simultaneously, giving you flexibility to align with your organization's security policies.
+* **[Admin secrets](#admin-secrets):** Provides access to platform control-plane secrets, allowing for centralized security management.
+* **Global:** Used for shared resources and credentials that need to be accessible across all domains.
+* **Domain:** Reserved for team-specific credentials. Secrets are isolated to ensure teams only access the resources they own.
 
-**Secret references** are how IOMETE tracks credentials. Instead of storing actual values in databases or configurations, IOMETE stores only the secret key and its source (Kubernetes or Vault). The actual value is fetched securely at runtime, ensuring sensitive data never appears in logs, UIs, or persistent storage.
+
+> *This hierarchy ensures strict isolation between functional teams while maintaining high-level administrative oversight.*
+
+### Admin secrets
+
+To manage Admin or Global secrets, navigate to `Admin page` > `Settings` > `Secrets`.
+
+<Img src="/img/user-guide/secretsv2/admin-secrets.png" alt="Admin Secrets" />
+
+<Img src="/img/user-guide/secretsv2/admin-secret-create.png" alt="Admin Secret create" maxWidth="500px" centered/>
 
 ### Unified experience
 
-Every IOMETE feature uses the same secrets catalogue. Whether you're configuring a Spark job, launching a compute cluster, setting up a Jupyter notebook, connecting storage, configuring email, or integrating LDAP—they all present the same "Use existing secret / Create new secret" selector. This unified approach means:
+Every IOMETE feature integrates with the same **Secrets Catalogue**. Whether you are configuring a Spark job, a Jupyter notebook, or email settings, you will always see the same interface: **`Use existing secret`** or **`Create new secret`**.
 
-- Define credentials once, reuse them everywhere
-- Consistent security practices across all workloads
-- Simple migration path from legacy secret management
-- Single source of truth for all sensitive configuration
+**Key Benefits:**
+* **Define Once, Reuse Everywhere:** No need to re-enter credentials for different tasks.
+* **Consistency:** Unified security practices across all workloads.
+* **Single Source of Truth:** One central place for all sensitive configurations.
+* **Easy Migration:** Simple path to move away from legacy secret management.
 
 <Img src="/img/user-guide/secretsv2/secrets_v2_settings_domain.png" alt="Secrets Domain Secrets" />
 
@@ -64,6 +77,14 @@ Scopes apply uniformly across both Kubernetes and Vault backends. Each secret is
 ---
 
 ## Secret backends
+
+Backends define where secrets live. IOMETE supports **[Kubernetes](#kubernetes)** (automated) and **[HashiCorp Vault](#hashicorp-vault)** (customer-managed), which can be used simultaneously.
+
+:::note Secret References
+To keep data safe, IOMETE never stores actual passwords in its database. It only stores a **reference**:
+* **Runtime Fetching:** Values are retrieved only when needed at runtime.
+* **No Leaks:** Sensitive data never appears in logs, UIs, or permanent storage.
+:::
 
 ### Kubernetes
 
