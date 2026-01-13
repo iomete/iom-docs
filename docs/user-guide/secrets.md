@@ -31,9 +31,34 @@ Managing credentials across multiple workloads, teams, and environments is compl
 
 To manage Admin or Global secrets, navigate to `Admin page` > `Settings` > `Secrets`.
 
+
 <Img src="/img/user-guide/secretsv2/admin-secrets.png" alt="Admin Secrets" />
 
-<Img src="/img/user-guide/secretsv2/admin-secret-create.png" alt="Admin Secret create" maxWidth="500px" centered/>
+Click to `New Admin Secret` button to create a new Secret.
+The Create Secret form includes the following fields:
+
+<div className="row">
+  <div className="col col--5">
+    **Secret key:** The unique identifier for the secret. This name remains visible in the list after saving.
+    
+    **Secret value:** The sensitive content of the secret. For security purposes, once the secret is saved, the value can never be viewed again.
+  </div>
+  <div className="col col--7">
+    <Img src="/img/user-guide/secretsv2/admin-secret-create.png" alt="Admin Secret create" maxWidth="400px" />
+  </div>
+</div>
+
+After clicking `Create`, the secret is created and will appear in the list. Note that only the `Secret key` is visible in the table.
+Each item includes an Actions button on the right side with the following options:
+- **Edit** - Update the secret value.
+- **Delete** - Permanently remove the secret.
+
+<Img src="/img/user-guide/secretsv2/admin-secrets-created.png" alt="Admin Secrets with created" maxWidth="700px" />
+
+:::warning Be aware
+Before deleting a secret, ensure it is no longer in use. Deleting an active secret may cause jobs or actions to fail.
+:::
+
 
 ### Unified experience
 
