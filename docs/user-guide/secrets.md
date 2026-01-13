@@ -59,6 +59,11 @@ Each item includes an Actions button on the right side with the following option
 Before deleting a secret, ensure it is no longer in use. Deleting an active secret may cause jobs or actions to fail.
 :::
 
+#### Admin Global Secrets
+
+Global Secrets function the same as regular secrets but with an expanded scope that **allows you to share credentials across all domains**. These are managed exclusively through the **Admin page**, making them accessible to any resource regardless of the domain to which it belongs.
+
+<Img src="/img/user-guide/secretsv2/admin-global-secrets.png" alt="Admin Global Secrets"/>
 
 ### Unified experience
 
