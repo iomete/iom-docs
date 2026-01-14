@@ -47,8 +47,10 @@ IOMETE uses a three-tier scoping system to enforce strict isolation and the prin
 ## Admin Secrets
 
 To manage Admin or Global secrets, navigate to **Admin page** → **Settings** → **Secrets**.
+<!-- Vault-backed keys appear automatically after Vault configuration; their values remain in Vault but are selectable in IOMETE. -->
+<!-- Use the delete action in the table to remove unneeded Kubernetes keys. Vault keys are managed externally. -->
 
-<Img src="/img/user-guide/secretsv2/admin-secrets.png" alt="Admin Secrets" />
+<Img src="/img/user-guide/secrets/admin-secrets.png" alt="Admin Secrets" />
 
 ### Create Admin Secret
 
@@ -61,7 +63,7 @@ Click the `New Admin Secret` button to create a new secret. The creation form in
     **Secret value:** The sensitive content of the secret. For security purposes, once the secret is saved, the value can never be viewed again.
   </div>
   <div className="col col--7">
-    <Img src="/img/user-guide/secretsv2/admin-secret-create.png" alt="Admin Secret create" maxWidth="400px" />
+    <Img src="/img/user-guide/secrets/admin-secret-create.png" alt="Admin Secret create" maxWidth="400px" />
   </div>
 </div>
 
@@ -72,7 +74,7 @@ Each item includes an **Actions** button on the right side with the following op
 - **Edit:** Update the secret value.
 - **Delete:** Permanently remove the secret.
 
-<Img src="/img/user-guide/secretsv2/admin-secrets-created.png" alt="Admin Secrets with created" maxWidth="700px" />
+<Img src="/img/user-guide/secrets/admin-secrets-created.png" alt="Admin Secrets with created" maxWidth="700px" />
 
 :::warning Be aware
 Before deleting a secret, ensure it is no longer in use. Deleting an active secret may cause jobs or actions to fail.
@@ -82,7 +84,7 @@ Before deleting a secret, ensure it is no longer in use. Deleting an active secr
 
 Global Secrets function the same as regular secrets but with an expanded scope that **allows you to share credentials across all domains**. These are managed exclusively through the **Admin page**, making them accessible to any resource regardless of the domain to which it belongs.
 
-<Img src="/img/user-guide/secretsv2/admin-global-secrets.png" alt="Admin Global Secrets"/>
+<Img src="/img/user-guide/secrets/admin-global-secrets.png" alt="Admin Global Secrets"/>
 
 :::info legacy secrets
 Existing legacy secrets entries appear automatically under the Global tab.
@@ -94,7 +96,7 @@ Existing legacy secrets entries appear automatically under the Global tab.
 
 To manage Domain secrets, navigate to **Settings** → **Secret Settings** → **Secrets**.
 
-<Img src="/img/user-guide/secretsv2/domain-secrets.png" alt="Domain Secrets List" />
+<Img src="/img/user-guide/secrets/domain-secrets.png" alt="Domain Secrets List" />
 
 ### Creating a Domain Secret
 
@@ -109,21 +111,7 @@ You can view Global Secrets by switching to the **Global Secrets** tab. Within a
 
 You can utilize Global Secrets alongside Domain Secrets to streamline credential management for resources used across the entire platform.
 
-<Img src="/img/user-guide/secretsv2/domain-global-secrets.png" alt="Domain Global Secrets Tab" />
-
-### Usage in Workloads
-
-Every IOMETE feature integrates with the same **Secrets Catalogue**, providing a unified experience across the platform. Whether you are configuring a Spark Job, a Jupyter Notebook, or a Compute Cluster, you can securely reference credentials without exposing them in plain text.
-
-#### Example: Compute Environment Variables
-
-When setting up environment variables for a Compute cluster, you don't need to type sensitive passwords manually. Instead, you can:
-
-1. Click the **More** options button (`:`) located on the right side of the input field.
-2. Choose **"Use existing secret"** to pick a key from your catalogue.
-3. Or select **"Create new secret"** to add a new credential on the fly.
-
-<Img src="/img/user-guide/secretsv2/domain-secret-spark-env-var.png" alt="Domain Secret usage" maxWidth="600px" centered />
+<Img src="/img/user-guide/secrets/domain-global-secrets.png" alt="Domain Global Secrets Tab" />
 
 :::info Isolation Note
 A secret created in **Domain A** is completely invisible to **Domain B**. This ensures that different teams can use the same **Secret Key** (e.g., `DB_PASSWORD`) without any risk of conflict or unauthorized access.
@@ -139,7 +127,7 @@ IOMETE Secrets Management is a "read-only" integration for Vault. It does not wr
 
 To manage Vault configurations, navigate to **Settings** → **Secret Settings** → **Vault Integrations**.
 
-<Img src="/img/user-guide/secretsv2/vault-integrations.png" alt="Vault Integrations" />
+<Img src="/img/user-guide/secrets/vault-integrations.png" alt="Vault Integrations" />
 
 ### Create Vault Configuration
 
@@ -153,11 +141,51 @@ To manage Vault configurations, navigate to **Settings** → **Secret Settings**
 3. Click **Test Connection** to validate that IOMETE can communicate with Vault and access the specified path.
 4. **Save** the configuration. Once saved, secret selectors throughout the IOMETE UI will display keys from both Kubernetes and Vault.
 
-<Img src="/img/user-guide/secretsv2/vault-config-create.png" alt="Vault Configuration Create" maxWidth="600px" centered />
+<Img src="/img/user-guide/secrets/vault-config-create.png" alt="Vault Configuration Create" maxWidth="600px" centered />
 
 :::warning Vault Requirements
 IOMETE specifically requires the **HashiCorp Vault KV Secrets Engine Version 2 (v2)**. Ensure your mount path is configured as KV v2 before proceeding, as version 1 is not supported.
 :::
+
+
+## Usage in Workloads
+
+Every IOMETE feature integrates with a unified **Secrets Catalogue**. Whether you are configuring a specific resource or platform settings, you can securely reference credentials without exposing them in plain text.
+
+The secret selector is available across all platform surfaces that require sensitive values, including:
+- **Spark & Compute:** Environment variables and Spark configuration entries.
+- **Jupyter Notebooks:** Environment variable rows.
+- **Storage Configs:** S3, MinIO, and other cloud storage credentials.
+- **System Settings:** Email (SMTP) and LDAP integration bind credentials.
+
+### How to Reference a Secret
+Configuration inputs allow you to switch between plaintext values and secure references seamlessly. 
+
+#### Example: Compute Environment Variables
+When setting up environment variables, you don't need to type passwords manually:
+
+1. Click the **More** options button (`:`) on the right side of the input field.
+2. Choose **"Use existing secret"** to select from stored secrets.
+3. Or select **"Create new secret"** to define a secret inline; it will be saved to your current scope automatically.
+
+Once selected, the UI displays the secret key and its source (**KUBERNETES** or **VAULT**). The platform resolves the actual value securely only at runtime.
+
+<Img src="/img/user-guide/secrets/domain-secret-spark-env-var.png" alt="Domain Secret usage" maxWidth="600px" centered />
+
+<div className="row">
+  <div className="col col--6">
+    <Img src="/img/user-guide/secrets/secret-selection.png" alt="Use existing secret dropdown" />
+  </div>
+  <div className="col col--6">
+    <Img src="/img/user-guide/secrets/secret-create-inline.png" alt="Cecret Create Inline" />
+  </div>
+</div>
+
+
+:::note Legacy Compatibility
+While the selector is the recommended path, legacy `${secrets.key}` placeholders remain supported for backward compatibility.
+:::
+---
 
 
 ## Secret backends
@@ -185,46 +213,6 @@ features:
   secretsV2:
     enabled: true
 ```
-
----
-
-## Managing secrets in the console
-
-<Img src="/img/user-guide/secretsv2/secrets_v2_settings_admin.png" alt="Secrets Admin View" />
-
-The admin console contains separate tabs for Admin secrets and Global secrets, while domain operators see Domain and Global tabs. Vault configuration remains in the domain dashboard for now.
-
-1. Go to **Settings → Secrets** and choose a scope.
-2. Click **Create secret** to define a new key/value pair. The value is stored directly in the Kubernetes secret for that scope.
-3. Vault-backed keys appear automatically after Vault configuration; their values remain in Vault but are selectable in IOMETE.
-4. Use the delete action in the table to remove unneeded Kubernetes keys. Vault keys are managed externally.
-5. Existing legacy secrets entries appear automatically under the **Global** tab.
-
-Configuration screens support both plaintext values and secure references:
-
-- Choose **Use existing secret** to select from stored secrets.
-- Choose **Create new secret** to define a secret inline; it will be saved to the appropriate scope before being referenced.
-- Once selected, the configuration keeps only the secret key + source metadata. The platform resolves the value securely at runtime.
-
-Selectors in Spark, Compute, Jupyter, Storage, Email, and LDAP forms surface these stored keys along with their source (`KUBERNETES` or `VAULT`) so you can wire them into workloads safely. The UI simply asks you to choose a secret from the dropdown.
-
-<Img src="/img/user-guide/secretsv2/secrets_v2_dropdown.png" alt="Secrets dropdown" />
-<Img src="/img/user-guide/secretsv2/secrets_v2_dropdown_use_existing.png" alt="Use existing secret modal" />
-
----
-
-## Where secrets are used
-
-Every workflow exposes a **Secret** selector so you can reuse stored credentials without worrying about underlying fields:
-
-- **Spark Jobs & Compute**: Environment variables and Spark config entries let you choose "Use existing secret" or "Create new secret" right from the form.
-- **Jupyter notebooks**: Environment variable rows include the same dropdown for referencing existing secrets while you migrate notebooks.
-- **Storage Configs**: Secret-key inputs have a selector so you can attach stored S3/MinIO credentials.
-- **Email settings**: SMTP password fields allow selecting secrets instead of storing passwords inline.
-- **LDAP integrations**: Bind credential inputs expose the selector so you can reuse a stored secret for LDAP binds.
-- **Other services**: Any surface that previously required sensitive values now offers the same dropdown experience.
-
-`${secrets.key}` legacy placeholders remain supported for backward compatibility, but the selector is the recommended path.
 
 ---
 
