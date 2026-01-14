@@ -87,30 +87,27 @@ You can utilize Global Secrets alongside Domain Secrets to streamline credential
 
 
 ### Usage in Workloads
-Because these secrets are domain-scoped, they can be referenced in IOMETE Spark Jobs, Compute clusters, Jupyter notebooks, and Storage Configs. Any resource within that domain that requires a password can use these secrets without needing to specify a complex path.
+
+Every IOMETE feature integrates with the same **Secrets Catalogue**, providing a unified experience across the platform. Whether you are configuring a Spark Job, a Jupyter Notebook, or a Compute Cluster, you can securely reference credentials without exposing them in plain text.
+
+#### Example: Compute Environment Variables
+When setting up environment variables for a Compute cluster, you don't need to type sensitive passwords manually. Instead, you can:
+1. Select **"Secret"** as the value type.
+2. Choose **"Use existing secret"** to pick a key from your catalogue.
+3. Or select **"Create new secret"** to add a new credential on the fly.
+
+<Img src="/img/user-guide/secretsv2/domain-secret-spark-env-var.png" alt="Domain Secret usage" maxWidth="600px" centered />
+
+**Key Benefits:**
+* **Define Once, Reuse Everywhere:** Reference the same secret across different tasks without re-entering credentials.
+* **Consistency:** Maintain unified security practices across all workloads.
+* **Single Source of Truth:** Manage all sensitive configurations from one central location.
+* **Streamlined Access:** Reference secrets easily within your domain without needing to specify complex paths.
 
 :::info Isolation Note
 A secret created in **Domain A** is completely invisible to **Domain B**. This ensures that different teams can use the same **Secret Key** (e.g., `DB_PASSWORD`) without any risk of conflict or unauthorized access.
 :::
 
-
-### Unified experience
-
-Every IOMETE feature integrates with the same **Secrets Catalogue**. Whether you are configuring a Spark job, a Jupyter notebook, or email settings, you will always see the same interface: **`Use existing secret`** or **`Create new secret`**.
-
-**Key Benefits:**
-* **Define Once, Reuse Everywhere:** No need to re-enter credentials for different tasks.
-* **Consistency:** Unified security practices across all workloads.
-* **Single Source of Truth:** One central place for all sensitive configurations.
-* **Easy Migration:** Simple path to move away from legacy secret management.
-
-<Img src="/img/user-guide/secretsv2/secrets_v2_settings_domain.png" alt="Secrets Domain Secrets" />
-
-The screenshot above shows the **Domain** experience (`Settings → Secret Settings → Secrets`). Domain users can toggle between domain-scoped and global secrets from this interface. Admin users have their own console (shown later) for managing platform-wide credentials.
-
-This centralized approach replaces the legacy `${secrets.key}` placeholder pattern with an object-based system that supports multiple backends, fine-grained access control, and seamless integration across the platform.
-
----
 
 ## Core capabilities
 

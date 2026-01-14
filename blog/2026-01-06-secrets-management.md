@@ -32,7 +32,7 @@ The architecture separates configuration from secrets. When you configure a Spar
 
 This approach delivers immediate benefits. You have a single source of truth for each credential, referenced across multiple workloads without duplication. Secret rotation happens in one place, and dependent services pick up the new value on their next deployment. Customer-managed Vault support means enterprises can leverage their existing security infrastructure while gaining IOMETE's unified credential management.
 
-<Img src="/img/blog/2026-01-06-secrets-management/secrets_v2_settings_domain.png" alt="IOMETE Secrets Management Dashboard" />
+<Img src="/img/user-guide/secretsv2/domain-secrets.png" alt="IOMETE Secrets Management Dashboard" />
 
 The secrets management dashboard provides a centralized view of all credentials across domain and global scopes, with clear indicators of each secret's source (Kubernetes or Vault).
 
