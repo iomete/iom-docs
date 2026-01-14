@@ -8,34 +8,31 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-IOMETE secrets management is the central, supported way to store credentials in IOMETE. It keeps sensitive values out of configs and databases while letting every team reference them through the same UI.
+IOMETE Secrets Management provides a centralized, secure way to store credentials. By keeping sensitive values out of configuration files and databases, it ensures security while allowing teams to reference credentials through a unified UI.
 
+___
 
-## Secrets management overview
+Managing credentials across multiple workloads, teams, and environments is often complex. Hardcoding passwords or scattering configuration files creates significant security risks and operational overhead. IOMETE addresses these challenges with a **multi-backend secrets management system**. This architecture keeps sensitive data out of your configurations while providing every IOMETE component with secure, unified access to the credentials they need.
 
-Managing credentials across multiple workloads, teams, and environments is complex. Hardcoded passwords, scattered configuration files, and inconsistent secret storage create security risks and operational overhead. IOMETE's secrets management solves this by providing a centralized, multi-backend secrets management system that keeps sensitive values out of your configurations while giving every IOMETE component secure, unified access to credentials.
-
-
-### Key concepts
+## Key Concepts
 
 **Scopes** determine secret access through three isolated levels, ensuring the principle of least privilege across the platform:
 
-* **[Admin secrets](#admin-secrets):** Provides access to platform control-plane secrets, allowing for centralized security management.
-* **Global:** Used for shared resources and credentials that need to be accessible across all domains.
-* **Domain:** Reserved for team-specific credentials. Secrets are isolated to ensure teams only access the resources they own.
+* **[Admin Secrets](#admin-secrets):** Provides access to platform control-plane secrets, allowing for centralized security management.
+* **[Global Secrets](#admin-global-secrets):** Shared credentials accessible across all domains.
+* **[Domain Secrets](#domain-secrets):** Team-specific credentials isolated to ensure teams only access their own resources.
 
 
 > *This hierarchy ensures strict isolation between functional teams while maintaining high-level administrative oversight.*
 
-### Admin secrets
+## Admin Secrets
 
-To manage Admin or Global secrets, navigate to `Admin page` > `Settings` > `Secrets`.
-
+To manage Admin or Global secrets, navigate to **Admin page** > **Settings** > **Secrets**.
 
 <Img src="/img/user-guide/secretsv2/admin-secrets.png" alt="Admin Secrets" />
 
-Click to `New Admin Secret` button to create a new Secret.
-The Create Secret form includes the following fields:
+### Create Admin Secret
+Click the `New Admin Secret` button to create a new secret. The creation form includes the following fields:
 
 <div className="row">
   <div className="col col--5">
@@ -48,10 +45,11 @@ The Create Secret form includes the following fields:
   </div>
 </div>
 
-After clicking `Create`, the secret is created and will appear in the list. Note that only the `Secret key` is visible in the table.
-Each item includes an Actions button on the right side with the following options:
-- **Edit** - Update the secret value.
-- **Delete** - Permanently remove the secret.
+After clicking `Create`, the secret is created and will appear in the list. Note that only the **Secret key** is visible in the table.
+
+Each item includes an **Actions** button on the right side with the following options:
+* **Edit:** Update the secret value.
+* **Delete:** Permanently remove the secret.
 
 <Img src="/img/user-guide/secretsv2/admin-secrets-created.png" alt="Admin Secrets with created" maxWidth="700px" />
 
@@ -59,11 +57,42 @@ Each item includes an Actions button on the right side with the following option
 Before deleting a secret, ensure it is no longer in use. Deleting an active secret may cause jobs or actions to fail.
 :::
 
-#### Admin Global Secrets
+### Admin Global Secrets
 
 Global Secrets function the same as regular secrets but with an expanded scope that **allows you to share credentials across all domains**. These are managed exclusively through the **Admin page**, making them accessible to any resource regardless of the domain to which it belongs.
 
 <Img src="/img/user-guide/secretsv2/admin-global-secrets.png" alt="Admin Global Secrets"/>
+
+## Domain Secrets
+
+**Domain Secrets** are scoped to a specific domain. They are ideal for team-level credentials, ensuring that sensitive data is accessible only to the workloads and users within that particular domain.
+
+To manage Domain secrets, navigate to **Settings** > **Secret Settings** > **Secrets**.
+
+<Img src="/img/user-guide/secretsv2/domain-secrets.png" alt="Domain Secrets List" />
+
+### Creating a Domain Secret
+Click the **New Domain Secret** button. The form requires the same fields as [Admin Secrets](#create-admin-secrets):
+
+* **Secret Key:** The name used to reference the secret within this domain.
+* **Secret Value:** The encrypted content, which becomes write-only upon saving.
+
+### Domain Global Secrets
+
+You can view Global Secrets by switching to the **Global Secrets** tab. Within a domain, Global Secrets are **read-only**; they can only be managed via the [Admin Global Secrets](#admin-global-secrets). 
+
+You can utilize Global Secrets alongside Domain Secrets to streamline credential management for resources used across the entire platform.
+
+<Img src="/img/user-guide/secretsv2/domain-global-secrets.png" alt="Domain Global Secrets Tab" />
+
+
+### Usage in Workloads
+Because these secrets are domain-scoped, they can be referenced in IOMETE Spark Jobs, Compute clusters, Jupyter notebooks, and Storage Configs. Any resource within that domain that requires a password can use these secrets without needing to specify a complex path.
+
+:::info Isolation Note
+A secret created in **Domain A** is completely invisible to **Domain B**. This ensures that different teams can use the same **Secret Key** (e.g., `DB_PASSWORD`) without any risk of conflict or unauthorized access.
+:::
+
 
 ### Unified experience
 
