@@ -1,0 +1,56 @@
+---
+title: Prose UI
+sidebar_label: prose-ui
+description: prose ui
+last_update:
+  date: 01/01/2026
+  author: Fuad Musayev
+---
+
+import "@prose-ui/style/prose-ui.css";
+
+
+import { Callout, Card, Cards, CodeBlock, CodeGroup, Frame, Heading, Image, Link, InlineMath, BlockMath, Caption, Subtitle, Steps, Step, Tabs, Tab, parseBoolean } from '@prose-ui/react'
+
+<div className="prose-ui light">
+
+<Callout variant="note" title="Note"> The note callout is a subtle callout used to provide supplementary information or tips. It helps users gain additional insights without distracting from the main content.</Callout>
+<Callout variant="info" title="Info"> The note callout is a subtle callout used to provide supplementary information or tips. It helps users gain additional insights without distracting from the main content. </Callout>
+<Callout variant="tip" title="Tip"> The note callout is a subtle callout used to provide supplementary information or tips. It helps users gain additional insights without distracting from the main content. </Callout>
+<Callout variant="warning" title="Warning"> The note callout is a subtle callout used to provide supplementary information or tips. It helps users gain additional insights without distracting from the main content. </Callout>
+<Callout variant="danger" title="Danger"> The note callout is a subtle callout used to provide supplementary information or tips. It helps users gain additional insights without distracting from the main content. </Callout>
+
+
+<CodeBlock language="js" title="Code block title" showLineNumbers>{`
+const x = "Hello world";
+console.log(x);
+`.trim()}</CodeBlock>
+
+
+```js title="Code block title" showLineNumbers
+const x = "Hello world"
+```
+
+
+
+{/* <CodeGroup>
+
+```typescript title='Random'
+const roll = (sides: number) => Math.ceil(Math.random() * sides)
+```
+
+```javascript title='Random'
+const roll = (sides) => Math.ceil(Math.random() * sides)
+```
+
+```typescript title='Format'
+const total = (n: number) => `$${n.toFixed(2)}`
+```
+
+```javascript title='Format'
+const total = (n) => `$${n.toFixed(2)}`
+```
+
+</CodeGroup> */}
+
+</div>

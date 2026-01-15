@@ -24,6 +24,7 @@ const sidebars = {
       label: "Overview",
       collapsed: false,
       items: [
+        "getting-started/prose-ui",
         "getting-started/what-is-iomete",
         "getting-started/platform-tour",
         "getting-started/architecture",
@@ -38,12 +39,12 @@ const sidebars = {
       items: [
         "deployment/on-prem/install",
         {
-          type: 'category',
-          label: 'Release Notes',
+          type: "category",
+          label: "Release Notes",
           collapsed: false,
           items: [
-            'deployment/on-prem/release-notes/index',
-            'deployment/on-prem/release-notes/marketplace-jobs',
+            "deployment/on-prem/release-notes/index",
+            "deployment/on-prem/release-notes/marketplace-jobs",
           ],
         },
         {

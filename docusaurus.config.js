@@ -61,7 +61,6 @@ const config = {
   // },
 
   themes: ["docusaurus-theme-github-codeblock", "@docusaurus/theme-mermaid"],
-
   markdown: {
     mermaid: true,
   },
@@ -103,9 +102,7 @@ const config = {
         theme: {
           customCss: [
             "./src/css/custom.scss",
-            require.resolve(
-              "./node_modules/@ionic-internal/ionic-ds/dist/tokens/tokens.css"
-            ),
+            require.resolve("./node_modules/@ionic-internal/ionic-ds/dist/tokens/tokens.css"),
           ],
         },
         googleTagManager: {
@@ -310,6 +307,11 @@ const config = {
     process.env.NODE_ENV === "production" && glossaryPlugin,
     // glossaryPlugin,
   ].filter(Boolean),
+
+  customFields: {
+    htmlClassName: "light",
+  },
+  clientModules: [require.resolve("./src/clientModules/htmlClass.js")],
 };
 
 export default config;

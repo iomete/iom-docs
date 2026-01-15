@@ -186,8 +186,8 @@ html[data-theme="dark"] .discord-link:before {
 .navbar-search {
   width: 220px;
   margin-right: 12px;
-  &>button:not(:hover) {
-    box-shadow: none!important;
+  & > button:not(:hover) {
+    box-shadow: none !important;
   }
 }
 
