@@ -10,8 +10,16 @@ export default (function () {
   const html = document.documentElement;
 
   const ensure = () => {
-    if (!html.classList.contains(htmlClassName)) {
-      html.classList.add(htmlClassName);
+    if (Array.isArray(htmlClassName)) {
+      htmlClassName.forEach((className) => {
+        if (!html.classList.contains(className)) {
+          html.classList.add(className);
+        }
+      });
+    } else {
+      if (!html.classList.contains(htmlClassName)) {
+        html.classList.add(htmlClassName);
+      }
     }
   };
 

@@ -309,7 +309,7 @@ const config = {
   ].filter(Boolean),
 
   customFields: {
-    htmlClassName: "light",
+    htmlClassName: ["light", "prose-ui"],
   },
   clientModules: [require.resolve("./src/clientModules/htmlClass.js")],
 };
