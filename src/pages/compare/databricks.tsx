@@ -272,9 +272,9 @@ export default function CompareDatabricksPage() {
               Tell us your requirements (deployment model, governance constraints, and workloads) and we’ll map the
               best architecture.
             </p>
-            <Link className={styles.ctaAction} to="https://iomete.com/contact-us">
+            <a className={styles.ctaAction} href="https://iomete.com/contact-us">
               Get in touch
-            </Link>
+            </a>
           </div>
         </div>
       </div>

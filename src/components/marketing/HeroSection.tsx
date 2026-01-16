@@ -32,14 +32,26 @@ export default function HeroSection({
         {primaryCta || secondaryCta ? (
           <div className={styles.actions}>
             {primaryCta ? (
-              <Link className={`${styles.button} ${styles.primary}`} to={primaryCta.href}>
-                {primaryCta.label}
-              </Link>
+              primaryCta.href.startsWith('http') ? (
+                <a className={`${styles.button} ${styles.primary}`} href={primaryCta.href}>
+                  {primaryCta.label}
+                </a>
+              ) : (
+                <Link className={`${styles.button} ${styles.primary}`} to={primaryCta.href}>
+                  {primaryCta.label}
+                </Link>
+              )
             ) : null}
             {secondaryCta ? (
-              <Link className={`${styles.button} ${styles.secondary}`} to={secondaryCta.href}>
-                {secondaryCta.label}
-              </Link>
+              secondaryCta.href.startsWith('http') ? (
+                <a className={`${styles.button} ${styles.secondary}`} href={secondaryCta.href}>
+                  {secondaryCta.label}
+                </a>
+              ) : (
+                <Link className={`${styles.button} ${styles.secondary}`} to={secondaryCta.href}>
+                  {secondaryCta.label}
+                </Link>
+              )
             ) : null}
           </div>
         ) : null}
