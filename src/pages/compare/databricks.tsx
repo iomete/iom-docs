@@ -153,8 +153,8 @@ export default function CompareDatabricksPage() {
           eyebrow="Platform comparison"
           title="IOMETE vs Databricks"
           subtitle="A comparative view of two modern data platforms, focused on deployment control, sovereignty, open standards, and enterprise operations."
-          primaryCta={{ label: "Talk to an expert", href: "/get-in-touch" }}
-          secondaryCta={{ label: "See deployment options", href: "/product/deployment" }}
+          primaryCta={{ label: "Get in touch", href: "https://iomete.com/contact-us" }}
+          secondaryCta={{ label: "See deployment options", href: "https://iomete.com/product/deployment" }}
         />
 
         <div className={styles.content}>
@@ -272,8 +272,8 @@ export default function CompareDatabricksPage() {
               Tell us your requirements (deployment model, governance constraints, and workloads) and we’ll map the
               best architecture.
             </p>
-            <Link className={styles.ctaAction} to="/get-in-touch">
-              Talk to an expert
+            <Link className={styles.ctaAction} to="https://iomete.com/contact-us">
+              Get in touch
             </Link>
           </div>
         </div>

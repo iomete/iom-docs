@@ -13,4 +13,4 @@ We just published a focused comparison of IOMETE and Databricks, centered on dep
 - Read it here: [IOMETE vs Databricks](/compare/databricks)
 - Highlights: self-hosted & hybrid options, Iceberg-first approach, and a clear feature-by-feature table.
 
-If you want a side-by-side walkthrough tailored to your requirements, [talk to an expert](/get-in-touch).
+If you want a side-by-side walkthrough tailored to your requirements, [get in touch](https://iomete.com/contact-us).
