@@ -9,6 +9,8 @@ date: 01/17/2026
 coverImage: img/blog/thumbnails/1.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 # Why 2026 Is the Year Enterprises Move From SaaS to Self-Hosted Data Lakehouses
 
 The data infrastructure landscape just hit a regulatory wall.
@@ -165,61 +167,91 @@ If you're still running critical workloads on SaaS platforms in 2026, you're not
 
 ## Frequently Asked Questions
 
-<details>
-<summary>What does "data sovereignty" actually mean in practice?</summary>
-
-Data sovereignty means your data is governed by the laws of the jurisdiction where it originates or resides, and that you—not a third-party vendor—control who can access it and under what legal framework. It's different from data residency, which only refers to physical storage location. In production environments running platforms like IOMETE, sovereignty means you hold encryption keys, manage authentication, control patch cycles, and maintain audit logs entirely within your infrastructure, whether that's on-premise, in a private cloud, or in an air-gapped network.
-
-</details>
-
-<details>
-<summary>Can self-hosted platforms really handle the same scale as Snowflake or Databricks?</summary>
-
-Yes. The underlying technology—Apache Iceberg for table format, Apache Spark for compute, and object storage for data—is the same foundational stack that powers both SaaS and self-hosted lakehouses. The difference is who operates it. Organizations running IOMETE on Kubernetes clusters routinely process petabyte-scale datasets with the same query performance and concurrency as SaaS platforms, but with complete operational control and predictable infrastructure costs.
-
-</details>
-
-<details>
-<summary>How do you handle compliance in a self-hosted environment?</summary>
-
-Compliance becomes simpler, not harder. When you control the deployment environment, you choose which standards apply—SOC 2, HIPAA, FedRAMP, ISO 27001—and you own the attestation process. For DORA compliance, you can demonstrate operational resilience by controlling failover procedures and backup strategies directly. For the EU AI Act, you have direct access to audit logs showing exactly where training data came from and who accessed it. In IOMETE deployments, compliance teams work directly with infrastructure logs rather than relying on vendor-provided audit interfaces with export limitations.
-
-</details>
-
-<details>
-<summary>What happens if you need to migrate from a SaaS platform?</summary>
-
-Migration follows a standard pattern: export data from the SaaS platform to object storage (S3, Azure Blob, or on-premise MinIO), convert it to Apache Iceberg tables, and point your query engines at the new catalog. Because Iceberg is an open standard, the same SQL queries work across platforms. Organizations migrating to IOMETE typically run dual environments during the transition—keeping the SaaS platform for critical workloads while validating the self-hosted environment—then cut over once performance and governance are verified.
-
-</details>
-
-<details>
-<summary>Is self-hosted infrastructure really cheaper than SaaS?</summary>
-
-For serious workloads, yes. SaaS platforms apply a 3x to 5x markup on underlying cloud costs. A typical enterprise spending $2 million annually on Snowflake credits might pay $100K for IOMETE licensing (200 vCPUs at $500/year) plus $500K in direct infrastructure costs, saving $1.4 million per year. The savings come from eliminating vendor markup, using existing cloud discounts, and avoiding consumption-based billing spikes. Organizations already operating Kubernetes clusters find the incremental cost of adding a self-hosted lakehouse is minimal compared to SaaS alternatives.
-
-</details>
-
-<details>
-<summary>Can you run self-hosted lakehouses in air-gapped environments?</summary>
-
-Yes. Air-gapped deployments—common in defense, intelligence, and highly secure industries—require zero internet connectivity. SaaS platforms cannot operate in these environments by design. Self-hosted platforms like IOMETE can be fully deployed and operated in isolated networks, with all components running on controlled infrastructure. This meets zero-trust architecture requirements and ensures classified or sensitive data never touches external networks.
-
-</details>
-
-<details>
-<summary>How do you handle updates and patches without vendor support?</summary>
-
-You control the update schedule. Self-hosted platforms let you test new versions in staging environments, validate compatibility with your workloads, and promote to production only when ready. This eliminates the risk of breaking production during vendor-scheduled updates. Organizations running IOMETE maintain separate development, staging, and production clusters, allowing thorough testing before any changes reach critical systems. For security patches, you apply them on your timeline based on risk assessment, not vendor schedules.
-
-</details>
-
-<details>
-<summary>What's the operational overhead compared to managed SaaS?</summary>
-
-If you're already running Kubernetes—and most enterprises are—the incremental overhead is minimal. Self-hosted lakehouses handle cluster provisioning, auto-scaling, and workload isolation automatically within Kubernetes. You're not managing bare-metal servers or wrestling with distributed systems from scratch. The operational model is similar to running any other containerized application: define resource requirements, deploy via Helm charts, and monitor through standard observability tools. Organizations running IOMETE report that operational overhead is comparable to managing other Kubernetes workloads, not the infrastructure-heavy burden of legacy on-premise systems.
-
-</details>
+<FAQSection faqs={[
+  {
+    question: "What does \"data sovereignty\" actually mean in practice?",
+    answer: "Data sovereignty means your data is governed by the laws of the jurisdiction where it originates or resides, and that you—not a third-party vendor—control who can access it and under what legal framework. It's different from data residency, which only refers to physical storage location.",
+    answerContent: (
+      <>
+        <p>Data sovereignty means your data is governed by the laws of the jurisdiction where it originates or resides, and that you—not a third-party vendor—control who can access it and under what legal framework. It's different from <strong>data residency</strong>, which only refers to physical storage location.</p>
+        <p>In production environments running platforms like IOMETE, sovereignty means you hold encryption keys, manage authentication, control patch cycles, and maintain audit logs entirely within your infrastructure, whether that's on-premise, in a private cloud, or in an air-gapped network.</p>
+      </>
+    )
+  },
+  {
+    question: "Can self-hosted platforms really handle the same scale as Snowflake or Databricks?",
+    answer: "Yes. The underlying technology—Apache Iceberg for table format, Apache Spark for compute, and object storage for data—is the same foundational stack that powers both SaaS and self-hosted lakehouses. The difference is who operates it.",
+    answerContent: (
+      <>
+        <p>Yes. The underlying technology—<strong>Apache Iceberg</strong> for table format, <strong>Apache Spark</strong> for compute, and object storage for data—is the same foundational stack that powers both SaaS and self-hosted lakehouses. The difference is who operates it.</p>
+        <p>Organizations running IOMETE on Kubernetes clusters routinely process petabyte-scale datasets with the same query performance and concurrency as SaaS platforms, but with complete operational control and predictable infrastructure costs.</p>
+      </>
+    )
+  },
+  {
+    question: "How do you handle compliance in a self-hosted environment?",
+    answer: "Compliance becomes simpler, not harder. When you control the deployment environment, you choose which standards apply—SOC 2, HIPAA, FedRAMP, ISO 27001—and you own the attestation process.",
+    answerContent: (
+      <>
+        <p>Compliance becomes simpler, not harder. When you control the deployment environment, you choose which standards apply—<strong>SOC 2, HIPAA, FedRAMP, ISO 27001</strong>—and you own the attestation process.</p>
+        <p>For DORA compliance, you can demonstrate operational resilience by controlling failover procedures and backup strategies directly. For the EU AI Act, you have direct access to audit logs showing exactly where training data came from and who accessed it.</p>
+        <p>In IOMETE deployments, compliance teams work directly with infrastructure logs rather than relying on vendor-provided audit interfaces with export limitations.</p>
+      </>
+    )
+  },
+  {
+    question: "What happens if you need to migrate from a SaaS platform?",
+    answer: "Migration follows a standard pattern: export data from the SaaS platform to object storage (S3, Azure Blob, or on-premise MinIO), convert it to Apache Iceberg tables, and point your query engines at the new catalog. Because Iceberg is an open standard, the same SQL queries work across platforms.",
+    answerContent: (
+      <>
+        <p>Migration follows a standard pattern: export data from the SaaS platform to object storage (S3, Azure Blob, or on-premise MinIO), convert it to Apache Iceberg tables, and point your query engines at the new catalog. Because Iceberg is an open standard, the same SQL queries work across platforms.</p>
+        <p>Organizations migrating to IOMETE typically run <strong>dual environments</strong> during the transition—keeping the SaaS platform for critical workloads while validating the self-hosted environment—then cut over once performance and governance are verified.</p>
+      </>
+    )
+  },
+  {
+    question: "Is self-hosted infrastructure really cheaper than SaaS?",
+    answer: "For serious workloads, yes. SaaS platforms apply a 3x to 5x markup on underlying cloud costs. A typical enterprise spending $2 million annually on Snowflake credits might pay $100K for IOMETE licensing plus $500K in direct infrastructure costs, saving $1.4 million per year.",
+    answerContent: (
+      <>
+        <p>For serious workloads, yes. SaaS platforms apply a <strong>3x to 5x markup</strong> on underlying cloud costs.</p>
+        <p>A typical enterprise spending $2 million annually on Snowflake credits might pay $100K for IOMETE licensing (200 vCPUs at $500/year) plus $500K in direct infrastructure costs, saving <strong>$1.4 million per year</strong>.</p>
+        <p>The savings come from eliminating vendor markup, using existing cloud discounts, and avoiding consumption-based billing spikes. Organizations already operating Kubernetes clusters find the incremental cost of adding a self-hosted lakehouse is minimal compared to SaaS alternatives.</p>
+      </>
+    )
+  },
+  {
+    question: "Can you run self-hosted lakehouses in air-gapped environments?",
+    answer: "Yes. Air-gapped deployments—common in defense, intelligence, and highly secure industries—require zero internet connectivity. SaaS platforms cannot operate in these environments by design. Self-hosted platforms like IOMETE can be fully deployed and operated in isolated networks.",
+    answerContent: (
+      <>
+        <p>Yes. <strong>Air-gapped deployments</strong>—common in defense, intelligence, and highly secure industries—require zero internet connectivity. SaaS platforms cannot operate in these environments by design.</p>
+        <p>Self-hosted platforms like IOMETE can be fully deployed and operated in isolated networks, with all components running on controlled infrastructure. This meets zero-trust architecture requirements and ensures classified or sensitive data never touches external networks.</p>
+      </>
+    )
+  },
+  {
+    question: "How do you handle updates and patches without vendor support?",
+    answer: "You control the update schedule. Self-hosted platforms let you test new versions in staging environments, validate compatibility with your workloads, and promote to production only when ready. This eliminates the risk of breaking production during vendor-scheduled updates.",
+    answerContent: (
+      <>
+        <p>You control the update schedule. Self-hosted platforms let you test new versions in staging environments, validate compatibility with your workloads, and promote to production only when ready. This eliminates the risk of breaking production during vendor-scheduled updates.</p>
+        <p>Organizations running IOMETE maintain separate <strong>development, staging, and production clusters</strong>, allowing thorough testing before any changes reach critical systems. For security patches, you apply them on your timeline based on risk assessment, not vendor schedules.</p>
+      </>
+    )
+  },
+  {
+    question: "What's the operational overhead compared to managed SaaS?",
+    answer: "If you're already running Kubernetes—and most enterprises are—the incremental overhead is minimal. Self-hosted lakehouses handle cluster provisioning, auto-scaling, and workload isolation automatically within Kubernetes.",
+    answerContent: (
+      <>
+        <p>If you're already running <strong>Kubernetes</strong>—and most enterprises are—the incremental overhead is minimal. Self-hosted lakehouses handle cluster provisioning, auto-scaling, and workload isolation automatically within Kubernetes.</p>
+        <p>You're not managing bare-metal servers or wrestling with distributed systems from scratch. The operational model is similar to running any other containerized application: define resource requirements, deploy via Helm charts, and monitor through standard observability tools.</p>
+        <p>Organizations running IOMETE report that operational overhead is comparable to managing other Kubernetes workloads, not the infrastructure-heavy burden of legacy on-premise systems.</p>
+      </>
+    )
+  }
+]} />
 
 ---
 
