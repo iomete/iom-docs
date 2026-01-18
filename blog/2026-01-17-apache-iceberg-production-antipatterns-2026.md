@@ -3,8 +3,8 @@ title: Apache Iceberg Production Anti-Patterns - What Breaks in 2026 (And How to
 description: The small files problem, metadata bloat, and catalog fragmentation are breaking Iceberg deployments in production. Learn the anti-patterns that cause query planning failures, OOM errors, and unbounded storage costs—and the operational patterns that prevent them.
 slug: apache-iceberg-production-antipatterns-2026
 authors: aytan
-tags2: [Apache Iceberg, production issues, small files, metadata bloat, compaction, catalog wars, lakehouse operations]
-hide_table_of_contents: false
+tags2: ["Technical", "Company"]
+hide_table_of_contents: true
 date: 01/17/2026
 coverImage: img/blog/thumbnails/2.png
 ---

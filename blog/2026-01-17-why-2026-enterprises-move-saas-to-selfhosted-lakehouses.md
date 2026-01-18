@@ -1,10 +1,10 @@
 ---
-title: Why 2026 Is the Year Enterprises Move From SaaS to Self-Hosted Data Lakehouses
+title: Why 2026 Is the Year Enterprises Move From SaaS to Self-Hosted Data Lakehouses?
 description: Regulatory enforcement, data sovereignty requirements, and cost economics are driving enterprises away from Snowflake and Databricks toward self-hosted lakehouse architectures. Learn why DORA, the EU AI Act, and the US CLOUD Act make self-hosted the only viable option for regulated industries.
 slug: why-2026-enterprises-move-saas-to-selfhosted-lakehouses
 authors: aytan
-tags2: [data sovereignty, self-hosted, compliance, DORA, EU AI Act, Apache Iceberg, Kubernetes, lakehouse architecture]
-hide_table_of_contents: false
+tags2: ["Technical", "Company"]
+hide_table_of_contents: true
 date: 01/17/2026
 coverImage: img/blog/thumbnails/1.png
 ---

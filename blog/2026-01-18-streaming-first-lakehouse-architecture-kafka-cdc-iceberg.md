@@ -4,7 +4,7 @@ description: Batch ETL is dying. Streaming-first lakehouses built on Kafka, Debe
 slug: streaming-first-lakehouse-architecture-kafka-cdc-iceberg
 authors: aytan
 tags2: [streaming, Apache Kafka, CDC, Debezium, Apache Iceberg, real-time analytics, lakehouse, Flink]
-hide_table_of_contents: false
+hide_table_of_contents: true
 date: 01/18/2026
 coverImage: img/blog/thumbnails/2.png
 ---

@@ -3,8 +3,8 @@ title: Data Sovereignty Compliance in 2026 - DORA, AI Act, and Why Your SaaS Pla
 description: DORA entered enforcement in January 2025. The EU AI Act hits full application in August 2026. Financial institutions, healthcare, and government are repatriating data to meet operational resilience requirements that SaaS platforms cannot provide. Learn what compliance actually requires and why self-hosted infrastructure is the only viable path.
 slug: data-sovereignty-compliance-2026-dora-ai-act
 authors: aytan
-tags2: [DORA, EU AI Act, data sovereignty, compliance, financial services, operational resilience, self-hosted, GDPR]
-hide_table_of_contents: false
+tags2: ["Technical", "Company"]
+hide_table_of_contents: true
 date: 01/18/2026
 coverImage: img/blog/thumbnails/1.png
 ---
