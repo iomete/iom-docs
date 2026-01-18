@@ -94,13 +94,25 @@ The combination of write-once, immutable files and strong ACID guarantees when u
 
 <Img src="/img/blog/2025-12-16-Iceberg-catalog/iceberg-catalog-coordinating-metadata-pointers.png" alt="Iceberg catalog coordinating metadata pointers" centered />
 
+:::info Explore Catalog Options
+
+IOMETE supports multiple catalog implementations for different use cases:
+
+- **[Spark Catalogs Overview](/docs/user-guide/spark-catalogs/overview)** - Compare catalog types and choose the right one
+- **[External Glue Catalog](/docs/user-guide/spark-catalogs/external-glue)** - Integrate with AWS Glue Data Catalog
+- **[External Nessie Catalog](/docs/user-guide/spark-catalogs/external-nessie)** - Use Nessie for Git-like data versioning
+- **[External JDBC Catalog](/docs/user-guide/spark-catalogs/external-jdbc)** - Connect to JDBC-based catalogs
+- **[External REST Catalog](/docs/user-guide/spark-catalogs/external-rest)** - Configure REST catalog endpoints
+
+:::
+
 ## Conclusion
 
-Iceberg’s approach to transactions is deceptively simple: instead of coordinating reads and writes through a central service, it relies on immutable files and a minimal atomic operation updating the pointer to the current metadata file. All data and metadata files are written independently and never modified after the fact. Consistency is enforced not by locking files, but by atomically agreeing on which snapshot represents the current state of the table.
+Iceberg's approach to transactions is deceptively simple: instead of coordinating reads and writes through a central service, it relies on immutable files and a minimal atomic operation updating the pointer to the current metadata file. All data and metadata files are written independently and never modified after the fact. Consistency is enforced not by locking files, but by atomically agreeing on which snapshot represents the current state of the table.
 
 This design allows many writers to operate concurrently, while readers always see a consistent snapshot of the data. If two writers race, only one metadata update succeeds; the other retries based on the new state. Atomicity, consistency, isolation, and durability emerge from this pattern without requiring all reads and writes to go through a central service.
 
-In this article, we intentionally simplified the model using copy-on-write and avoided optimizations such as manifest pruning, incremental updates, and deletes. In the next article, we’ll make this concrete by walking through a hands-on example, inspecting the actual Iceberg files on disk, and seeing how these concepts play out in practice.
+In this article, we intentionally simplified the model using copy-on-write and avoided optimizations such as manifest pruning, incremental updates, and deletes. In the next article, we'll make this concrete by walking through a hands-on example, inspecting the actual Iceberg files on disk, and seeing how these concepts play out in practice.
 
 ## Frequently Asked Questions
 

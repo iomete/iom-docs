@@ -13,6 +13,16 @@ import Img from '@site/src/components/Img';
 
 Apache Iceberg brings warehouse-grade reliability to data lakes through immutable data files, versioned metadata, and snapshot isolation. Disaster recovery hinges on understanding how storage, metadata, and the catalog work together. This guide focuses on the Iceberg components that matter for recovery and the native procedures like register_table and snapshot rollbacks that restore service quickly.
 
+:::tip Essential Resources
+
+Before diving into disaster recovery scenarios, familiarize yourself with these core Iceberg capabilities:
+
+- **[Time Travel in Iceberg](/docs/reference/iceberg-tables/time-travel)** - Query historical snapshots and implement point-in-time recovery
+- **[Iceberg Maintenance](/docs/reference/iceberg-tables/maintenance)** - Manage snapshots, metadata, and table health
+- **[Getting Started with Iceberg](/docs/reference/iceberg-tables/getting-started)** - Understand Iceberg fundamentals and table structure
+
+:::
+
 ## Understanding Iceberg's Architecture for Disaster Recovery
 
 ## The Critical Components

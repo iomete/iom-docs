@@ -34,6 +34,14 @@ The benefits are immediate:
 * **The "Set It and Forget It" Magic:** This is the best part. IOMETE doesn't just sync once. You can set it to **automatically poll** your LDAP server every few minutes or hours. A new hire is added to the "Data-Scientists" group in Active Directory? They get the right permissions in IOMETE before they even open their laptop. No tickets, no manual work.
 
 
+:::tip Related Resources
+Streamline your identity and access management:
+- [LDAP Configuration Guide](/docs/user-guide/iam/ldap-configuration) - Detailed setup instructions
+- [IAM Users](/docs/user-guide/iam/users) - User management
+- [IAM Groups](/docs/user-guide/iam/groups) - Group management and permissions
+- [SSO Configuration](/docs/user-guide/iam/sso/sso) - Single sign-on setup
+:::
+
 ### **Part 2: The "Guide" (Let's Get This Done Over One Coffee)**
 
 Alright, so you're sold on the "why." You're ready to make this someone else's problem.
@@ -162,3 +170,11 @@ You've just automated your user management.
 If you're feeling impatient and want to see it work *right now*, look on the left side of the screen. You'll see a new set of action buttons. Just click **`Sync all users`** to run your first sync manually.
 
 Congratulations. You just saved yourself hours of future work.
+
+:::info Next Steps
+Enhance your identity management setup:
+- [IAM Roles](/docs/user-guide/iam/roles) - Configure role-based permissions
+- [SSO with Okta](/docs/user-guide/iam/sso/sso-okta) - Okta integration guide
+- [SSO with Entra ID](/docs/user-guide/iam/sso/sso-entra-id) - Microsoft Entra ID integration
+- [SCIM Provisioning](/docs/user-guide/iam/sso/scim) - Automate user lifecycle management
+:::

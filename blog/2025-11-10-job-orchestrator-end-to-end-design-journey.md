@@ -12,8 +12,16 @@ import Img from '@site/src/components/Img';
 
 ## Introduction
 
-Spark has become the engine of the modern data platform — fast, scalable, and proven.  
+Spark has become the engine of the modern data platform — fast, scalable, and proven.
 But engines need more than horsepower; they need control systems. Without the right orchestration, even the best engine stalls.
+
+:::tip Related Resources
+Master Spark job orchestration with IOMETE:
+- [Spark Jobs Getting Started](/docs/developer-guide/spark-job/getting-started) - Quick start guide
+- [Job Orchestrator Documentation](/docs/developer-guide/spark-job/job-orchestrator) - Complete orchestration guide
+- [Airflow Integration](/docs/developer-guide/spark-job/airflow) - Integrate with Apache Airflow
+- [IOMETE SDK](/docs/developer-guide/spark-job/iomete-sdk) - Python SDK for job management
+:::
 
 At IOMETE, we faced exactly this challenge. Spark jobs had grown in number and complexity, but our orchestration system couldn’t keep up. Business-critical jobs were delayed by trivial ones, deadlocks left jobs hanging indefinitely, and users had little visibility into what was really happening behind the scenes.
 
@@ -206,4 +214,10 @@ The final Job Orchestrator design combines:
 
 We started with simple solutions (API-based capacity checks, Prefect for orchestration) and avoided over-engineering. The result is a system that not only works today, but also leaves room for future growth — DLQs, preemption, multi-job support, and cost intelligence.
 
-👉 Want to dive deeper on Spark Jobs in IOMETE: [Spark Jobs Guide](https://iomete.com/resources/developer-guide/spark-job/getting-started)
+:::info Learn More
+Explore advanced Spark job capabilities:
+- [Spark Application Configuration](/docs/developer-guide/spark-job/spark-application-config) - Fine-tune your jobs
+- [Spark Debugging](/docs/developer-guide/spark-job/spark-debugging) - Troubleshoot job issues
+- [Spark Logging](/docs/developer-guide/spark-job/spark-logging) - Monitor job execution
+- [Nessie Integration](/docs/developer-guide/spark-job/nessie-integration) - Version control for data
+:::

@@ -42,6 +42,16 @@ Apache Iceberg is a table format that is quickly becoming the standard for stori
 
 These are just a few of the reasons why Apache Iceberg is the winning table format. If you are looking for a table format that offers strong performance, scalability, and flexibility, then Apache Iceberg is the best choice.
 
+:::info Learn More
+
+Ready to get started with Apache Iceberg and IOMETE?
+
+- **[Getting Started with Iceberg](/docs/reference/iceberg-tables/getting-started)** - Begin working with Iceberg tables in minutes
+- **[What is IOMETE?](/docs/getting-started/what-is-iomete)** - Discover the data lakehouse platform built on Iceberg
+- **[IOMETE Architecture](/docs/getting-started/architecture)** - Understand how IOMETE leverages Iceberg at scale
+
+:::
+
 **Further reading**
 
 Check out the [Ultimate Guide to Apache Iceberg](https://iomete.com/the-ultimate-guide-to-apache-iceberg).

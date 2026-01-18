@@ -11,6 +11,14 @@ banner_description: Simplify and scale enterprise data management with IOMETE's 
 
 Have you ever noticed how the simplest things are often the hardest to create? It's a paradox I've been wrestling with lately as the co-founder of IOMETE, where we're building an enterprise data platform that handles petabytes of data and serves thousands of users across hundreds of business units. Making something this complex feel simple and intuitive isn't just challenging – it's an art form that requires deep expertise and unwavering commitment.
 
+:::tip Explore IOMETE
+Discover how IOMETE simplifies enterprise data management:
+- [What is IOMETE](/docs/getting-started/what-is-iomete) - Platform introduction
+- [Platform Architecture](/docs/getting-started/architecture) - Design principles
+- [Data Security Overview](/docs/user-guide/data-security/overview) - Enterprise-grade security
+- [IAM and Access Control](/docs/user-guide/iam/users) - User and permission management
+:::
+
 ## **The Simplicity Paradox**
 
 Here's the thing about simplicity: saying "let's make it simple" is easy. Actually doing it? That's where things get interesting. When you're building a platform that needs to handle petabyte-scale data while maintaining enterprise-grade security and governance, every feature you add brings layers of complexity. Each new capability introduces new interactions, new potential failure points, new things for users to learn.
@@ -65,3 +73,11 @@ You know you're on the right track when customers describe your platform as "lig
 But here's what makes it truly worthwhile: when we get it right, when we manage to make something complex feel simple and natural, it's incredibly rewarding. Because ultimately, that's what great technology should do – it should make powerful capabilities accessible to everyone who needs them.
 
 The art of making things simple might be complex, but it's a complexity worth mastering. After all, isn't that what progress is all about? Taking something complex and making it feel effortless?
+
+:::info Get Started
+Experience IOMETE's simplicity firsthand:
+- [Platform Tour](/docs/getting-started/platform-tour) - Interactive walkthrough
+- [Community Deployment](/docs/community-deployment/overview) - Free self-hosted edition
+- [Virtual Lakehouses](/docs/user-guide/virtual-lakehouses) - Simple compute isolation
+- [IAM Roles](/docs/user-guide/iam/roles) - Easy permission management
+:::

@@ -11,6 +11,14 @@ coverImage: img/blog/thumbnails/1.png
 
 Snowflake has gained prominence as a cloud-native data warehouse platform, offering strong performance for analytical workloads. The platform comparison reveals different architectural approaches to enterprise data management.
 
+:::tip Discover IOMETE
+Explore IOMETE as a self-hosted alternative to Snowflake:
+- [What is IOMETE](/docs/getting-started/what-is-iomete) - Platform overview
+- [Platform Architecture](/docs/getting-started/architecture) - Architectural approach
+- [Virtual Lakehouses](/docs/user-guide/virtual-lakehouses) - Flexible compute model
+- [Deployment Models](/docs/community-deployment/overview) - Self-hosted options
+:::
+
 Like Databricks, Snowflake **operates exclusively as a SaaS platform**. Its architecture separates storage and compute, providing excellent scalability for query workloads. However, this architecture also means organizations are **locked into Snowflake's ecosystem** and pricing model. IOMETE provides similar separation of storage and compute while maintaining deployment flexibility and cost control.
 
 Snowflake's pricing model is based on credits, which provide predictable costs but limit optimization opportunities. Organizations cannot leverage existing cloud relationships or implement advanced cost optimization strategies. IOMETE's approach enables organizations to optimize costs across multiple dimensions, from infrastructure selection to resource utilization.
@@ -108,3 +116,11 @@ The choice between these platforms often depends on organizational requirements 
 - **Operational Control**: Organizations that require complete control over their data infrastructure typically prefer IOMETE's approach, while those prioritizing operational simplicity might lean toward Databricks or Snowflake.
 
 Through this analysis, we see that while all three platforms provide sophisticated data management capabilities, their approaches differ significantly in ways that materially impact enterprise adoption decisions.
+
+:::info Learn More
+Dive deeper into IOMETE's capabilities:
+- [Data Security](/docs/user-guide/data-security/overview) - Enterprise security features
+- [IAM and Access Control](/docs/user-guide/iam/roles) - Identity management
+- [Kubernetes Deployment](/docs/deployment/kubernetes) - Self-hosted deployment
+- [Platform Scalability](/docs/getting-started/scalability) - Scale with confidence
+:::

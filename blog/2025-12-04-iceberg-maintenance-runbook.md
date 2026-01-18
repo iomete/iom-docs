@@ -12,6 +12,14 @@ import FAQSection from '@site/src/components/FAQSection';
 
 Keeping Iceberg tables fast and consistent requires understanding how metadata layers work and running maintenance in the right order. This runbook explains the mental model, the safe lifecycle (expire snapshots -> remove orphan files -> rewrite manifests), common failure modes, and how IOMETE automates the entire pipeline for regulated, self-hosted environments.
 
+:::tip Related Documentation
+Learn more about Apache Iceberg in IOMETE:
+- [Iceberg Getting Started Guide](/docs/reference/iceberg-tables/getting-started) - Introduction to working with Iceberg tables
+- [Iceberg Maintenance Operations](/docs/reference/iceberg-tables/maintenance) - Comprehensive maintenance guide
+- [Iceberg Procedures](/docs/reference/iceberg-tables/iceberg-procedures) - All available procedures and syntax
+- [Data Compaction Job](/docs/open-source-spark-jobs/data-compaction-job) - Automate Iceberg maintenance with Spark jobs
+:::
+
 ## Mental model how Iceberg metadata actually works
 
 Iceberg metadata is layered, immutable, and versioned. Before touching retention or cleanup settings, know what each layer holds:

@@ -12,6 +12,15 @@ date: 02/10/2025
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
 
+:::tip Related Resources
+Choose the right deployment model for your needs:
+- [Community Deployment Overview](/docs/community-deployment/overview) - Self-hosted options
+- [Kubernetes Deployment](/docs/deployment/kubernetes) - Production-ready setup
+- [AWS Installation](/docs/community-deployment/aws/install) - Deploy on AWS
+- [Azure Installation](/docs/community-deployment/azure/install) - Deploy on Azure
+- [On-Premises Installation](/docs/community-deployment/on-prem/install) - Deploy on-prem
+:::
+
 ## **On-Premises Deployment**
 
 In an on-premises deployment, IOMETE operates entirely within the organization's data center infrastructure. This model provides maximum control over the entire stack and is ideal for organizations with strict data sovereignty requirements or existing data center investments.
@@ -109,3 +118,11 @@ IOMETE's architecture supports hybrid and multi-cloud deployments, enabling orga
 - Flexible resource allocation
 
 <Img src="/img/blog/2025-02-10-iomete-deployment-models/iomete-deployment-options.png" alt="IOMETE deployment options" maxWidth="500px" centered borderless/>
+
+:::info Learn More About Deployment
+Explore deployment configurations and best practices:
+- [Platform Architecture](/docs/getting-started/architecture) - Core concepts
+- [Configure Custom DNS](/docs/deployment/configure-custom-dns) - Custom domain setup
+- [Configure Ingress](/docs/deployment/configure-ingress) - Ingress configuration
+- [Backend Databases](/docs/deployment/backend-databases) - Database options
+:::

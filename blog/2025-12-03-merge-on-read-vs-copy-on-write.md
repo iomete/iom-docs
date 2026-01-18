@@ -28,6 +28,16 @@ To choose correctly, you need a clear mental model of how Iceberg applies MERGE 
 
 **TL;DR:** MOR shines for frequent, small updates or streaming upserts—until delete files pile up.
 
+:::tip Deep Dive Resources
+
+To make informed decisions about MOR vs COW for your workloads:
+
+- **[Iceberg Write Operations](/docs/reference/iceberg-tables/writes)** - Understand write modes, update strategies, and performance trade-offs
+- **[Iceberg Maintenance](/docs/reference/iceberg-tables/maintenance)** - Master compaction, snapshot management, and table optimization
+- **[Compaction Tutorial](/docs/tutorials/compaction-cow-mor)** - Step-by-step guide to compacting both CoW and MoR tables
+
+:::
+
 ## Why MOR read performance degrades
 
 Each delete file adds another layer of filtering the engine must apply at read time. When delete files accumulate faster than compaction rewrites them, scans become CPU-bound and spill-heavy.

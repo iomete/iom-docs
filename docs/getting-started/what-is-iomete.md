@@ -49,6 +49,8 @@ IOMETE's architecture is designed to provide optimal performance and flexibility
 
 <Img src="/img/getting-started/architecture.png" alt="IOMETE Architecture High-Level Overview"/>
 
+For a detailed explanation of IOMETE's architecture and components, see the [Architecture Guide](./architecture.md).
+
 Let's take a closer look at its components:
 
 ### Storage Layer
@@ -96,29 +98,31 @@ IOMETE seamlessly handles structured, semi-structured, and unstructured data for
 
 And, IOMETE uses these Lakehouse Storage formats offering you the best integration options for managing your data.
 
-- Apache Iceberg
+- [Apache Iceberg](/docs/reference/iceberg-tables/getting-started) (recommended)
 - Apache Hudi
 - Delta Lake
 
+IOMETE primarily uses Apache Iceberg as its default table format, providing ACID transactions, schema evolution, and time travel capabilities. Learn more in our [Iceberg Getting Started Guide](/docs/reference/iceberg-tables/getting-started).
+
 ### Compute Layer
 
-IOMETE runs on Kubernetes, providing Lakehouse Clusters that expose SQL endpoints for querying large-scale data. You can connect various BI and data science tools, such as Tableau and Jupyter, to IOMETE to perform complex analytics tasks.
+IOMETE runs on Kubernetes, providing [Virtual Lakehouses](/docs/user-guide/virtual-lakehouses) (compute clusters) that expose SQL endpoints for querying large-scale data. You can connect various BI and data science tools, such as [Tableau](/docs/integrations/bi/tableau) and [Jupyter Notebooks](/docs/developer-guide/notebook/starting-with-notebook), to IOMETE to perform complex analytics tasks.
 
-The platform also includes additional services like Spark Jobs, Advanced Data Access Control, Data Catalog, and a Jupyter Notebook Service. IOMETE utilizes Apache Spark, a widely adopted open-source data processing engine, known for its speed and versatility.
+The platform also includes additional services like [Spark Jobs](/docs/user-guide/spark-jobs), [Advanced Data Access Control](/docs/user-guide/data-security/overview), [Data Catalog](/docs/user-guide/data-catalog), and a [Jupyter Notebook Service](/docs/developer-guide/notebook/starting-with-notebook). IOMETE utilizes Apache Spark, a widely adopted open-source data processing engine, known for its speed and versatility.
 
 ## Key Features
 
 IOMETE offers a wide range of features to enhance your data engineering experience. Here are some key highlights:
 
-- **Query Federation Engine**: Seamlessly query data from multiple sources, including relational and NoSQL databases, and flat files without the need for complex ETL pipelines.
+- **Query Federation Engine**: Seamlessly query data from [multiple sources](/docs/reference/data-sources/jdbc-sources), including relational and NoSQL databases, and flat files without the need for complex ETL pipelines.
 
-- **Data Catalog**: Maintain a centralized repository for dataset metadata, promoting collaboration and resource sharing.
+- **Data Catalog**: Maintain a [centralized repository for dataset metadata](/docs/user-guide/data-catalog), promoting collaboration and resource sharing.
 
-- **Central Data Access Control**: Manage access control policies for all datasets, including selective masking for sensitive fields, built on Apache Ranger.
+- **Central Data Access Control**: Manage [access control policies](/docs/user-guide/data-security/overview) for all datasets, including selective masking for sensitive fields, built on Apache Ranger.
 
-- **Integration with External Tools**: Easily integrate with external tools, including Apache Airflow and BI tools like Tableau and PowerBI.
+- **Integration with External Tools**: Easily integrate with external tools, including [Apache Airflow](/docs/developer-guide/spark-job/airflow) and BI tools like [Tableau](/docs/integrations/bi/tableau) and [Power BI](/docs/integrations/bi/power-bi).
 
-- **BI Tool Integration**: Effortlessly work with major BI tools for comprehensive business intelligence experiences.
+- **BI Tool Integration**: Effortlessly work with [major BI tools](/docs/integrations/bi/metabase) for comprehensive business intelligence experiences.
 
 - **Exceptional Performance**: Benefit from optimizations and modern technologies that deliver superior performance compared to competitors.
 
@@ -128,9 +132,19 @@ IOMETE offers a wide range of features to enhance your data engineering experien
 
 Rest assured that IOMETE prioritizes your data security and privacy. The platform operates entirely within your infrastructure, ensuring that no data is sent outside of your organization. This approach guarantees complete security and privacy for your sensitive data.
 
+Learn more about IOMETE's comprehensive security features:
+- [Data Security Overview](/docs/user-guide/data-security/overview) - Central access control, masking, and policies
+- [Identity and Access Management](/docs/user-guide/iam/roles) - User roles and permissions
+- [SSO Configuration](/docs/user-guide/iam/sso/sso) - Single Sign-On integration
+
 ## Multi-Region Support
 
 IOMETE Enterprise Edition offers a control plane and multi-data plane architecture. This means you can deploy IOMETE across multiple regions and manage them from a single control plane. This feature is invaluable for disaster recovery, high availability, and multi-region deployments.
+
+Explore deployment options:
+- [Deployment Overview](/docs/community-deployment/overview) - Community edition deployment
+- [Kubernetes Deployment](/docs/deployment/kubernetes) - Enterprise Kubernetes setup
+- [Scalability Guide](./scalability) - Understanding IOMETE's scalability features
 
 ## Benefits of Using IOMETE
 
@@ -192,5 +206,25 @@ Before diving deeper into IOMETE, familiarize yourself with the key terms and co
 - **Built-in SQL Editor**: Features syntax highlighting and auto-completion for writing SQL queries.
 
 - **Integration with External Tools**: Supports integration with tools like Apache Airflow and BI tools, enhancing extensibility and existing infrastructure compatibility.
+
+## Next Steps
+
+Ready to get started with IOMETE? Here are some recommended next steps:
+
+1. **Understand the Architecture**: Read the [Architecture Guide](./architecture) to learn about IOMETE's components and design
+2. **Take a Platform Tour**: Explore the [Platform Tour](./platform-tour) to see IOMETE in action
+3. **Deploy IOMETE**: Follow our [Deployment Guides](/docs/community-deployment/overview) for your environment
+4. **Create Your First Lakehouse**: Learn how to create and configure [Virtual Lakehouses](/docs/user-guide/virtual-lakehouses)
+5. **Work with Iceberg Tables**: Get started with [Apache Iceberg](/docs/reference/iceberg-tables/getting-started)
+6. **Run Spark Jobs**: Learn to create and schedule [Spark Jobs](/docs/developer-guide/spark-job/getting-started)
+7. **Integrate BI Tools**: Connect your favorite [BI tools](/docs/integrations/bi/tableau) to IOMETE
+8. **Configure Security**: Set up [data security](/docs/user-guide/data-security/overview) and [IAM](/docs/user-guide/iam/roles)
+
+## Related Resources
+
+- **Blog**: [Data Lakehouse Architecture Explained](/blog/datalakehouse-architecture-new)
+- **Blog**: [Why Apache Iceberg Wins](/blog/why-apache-iceberg-win)
+- **Blog**: [Enterprise Data Platform Guide](/blog/enterprise-data-platform)
+- **Support**: Need help? Visit our [Support page](./support)
 
 This documentation provides a clear understanding of what IOMETE is and the benefits it offers. Feel free to explore the platform further, and don't hesitate to reach out if you have any questions or need additional guidance on using IOMETE for your data management and analytics needs.

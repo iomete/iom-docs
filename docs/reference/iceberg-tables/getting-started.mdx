@@ -9,6 +9,8 @@ last_update:
 
 **IOMETE** uses [Apache Spark](https://spark.apache.org/) as a compute engine, with [Apache Iceberg](https://iceberg.apache.org/) provider with additional optimization and packaging.
 
+This guide covers the essentials of working with Apache Iceberg tables in IOMETE. For a broader overview, see [What is IOMETE?](/docs/getting-started/what-is-iomete) and [Architecture](/docs/getting-started/architecture).
+
 ---
 
 ## Apache Iceberg
@@ -44,6 +46,8 @@ Iceberg supports the full range of SQL DDL commands, including:
 - [ALTER TABLE](https://iceberg.apache.org/spark-ddl/#alter-table)
 - [DROP TABLE](https://iceberg.apache.org/spark-ddl/#drop-table)
 
+For comprehensive DDL syntax and examples, see our [Iceberg DDL Guide](./ddl).
+
 <br />
 
 ### Writing
@@ -62,6 +66,8 @@ MERGE INTO local.db.target t USING (SELECT * FROM updates) u ON t.id = u.id
 WHEN MATCHED THEN UPDATE SET t.count = t.count + u.count
 WHEN NOT MATCHED THEN INSERT *
 ```
+
+For detailed write operation examples, see our [Iceberg Writes Guide](./writes).
 
 <br />
 
@@ -83,3 +89,28 @@ SELECT * FROM default.table1.snapshots
 | ----------------------- | -------------- | --------- | --------- | -------------------------------------------------- |
 | 2019-02-08 03:29:51.215 | 57897183625154 | null      | append    | s3://.../table/metadata/snap-57897183625154-1.avro |
 | ...                     | ...            | ...       | ...       | ...                                                |
+
+For more query examples and metadata tables, see our [Iceberg Queries Guide](./queries).
+
+## Learn More
+
+### Core Iceberg Documentation
+- **[Iceberg DDL Operations](./ddl)** - Complete guide to DDL commands
+- **[Iceberg Write Operations](./writes)** - INSERT, UPDATE, DELETE, MERGE operations
+- **[Iceberg Query Operations](./queries)** - SELECT queries and metadata tables
+- **[Iceberg Time Travel](./time-travel)** - Query historical data and snapshots
+- **[Iceberg Maintenance](./maintenance)** - Optimize and maintain your tables
+- **[Iceberg Procedures](./iceberg-procedures)** - System procedures for table management
+
+### Related Resources
+- **[SQL Quick Start](/docs/reference/sql-quick-start/sql-ddl-examples)** - Quick reference for common operations
+- **[Virtual Lakehouses](/docs/user-guide/virtual-lakehouses)** - Create and manage compute clusters
+- **[Spark Jobs](/docs/user-guide/spark-jobs)** - Run batch processing jobs
+- **[Data Compaction Job](/docs/open-source-spark-jobs/data-compaction-job)** - Automate table optimization
+
+### Practical Guides
+- **Tutorial**: [Iceberg Compaction (CoW vs MoR)](/docs/tutorials/compaction-cow-mor)
+- **Blog**: [Iceberg Maintenance Runbook](/blog/iceberg-maintenance-runbook)
+- **Blog**: [Iceberg Deep Dive](/blog/iceberg-deep-dive)
+- **Blog**: [Why Apache Iceberg Wins](/blog/why-apache-iceberg-win)
+- **Blog**: [Iceberg Disaster Recovery](/blog/iceberg-disaster-recovery)

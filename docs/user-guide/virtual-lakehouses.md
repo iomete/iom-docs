@@ -9,12 +9,12 @@ last_update:
 import GridBox from "@site/src/components/GridBox";
 import Img from '@site/src/components/Img';
 
-A virtual **lakehouse** is a cluster of compute resources that provide the required resources, such as CPU, memory to perform the querying processing. Table data files are stored in cloud data storage (S3) as a shared data storage that allows multiple virtual lakehouse clusters to share the same data while isolating compute. IOMETE uses Apache Spark as a data lakehouse query engine with ACID support
+A virtual **lakehouse** is a cluster of compute resources that provide the required resources, such as CPU, memory to perform the querying processing. Table data files are stored in cloud data storage (S3) as a shared data storage that allows multiple virtual lakehouse clusters to share the same data while isolating compute. [IOMETE](/docs/getting-started/what-is-iomete.md) uses Apache Spark as a data lakehouse query engine with ACID support. To learn more about how virtual lakehouses fit into IOMETE's overall architecture, see the [Architecture guide](/docs/getting-started/architecture.md)
 
 ---
 
 :::info
-In production environments, it is often required to isolate workloads, for example, to avoid the overhead of batch ETL jobs on ad-hoc analytical queries. Since data is decoupled and shared from virtual lakehouse, it enables the creation of multiple lakehouse clusters to isolate the workloads and turn on/off clusters based on requirements to save costs. Cluster size can be defined based on requirements and workloads.
+In production environments, it is often required to isolate workloads, for example, to avoid the overhead of batch ETL jobs on ad-hoc analytical queries. Since data is decoupled and shared from virtual lakehouse, it enables the creation of multiple lakehouse clusters to isolate the workloads and turn on/off clusters based on requirements to save costs. Cluster size can be defined based on requirements and workloads. You can further organize your resources using [Workspaces](./workspaces.md).
 :::
 
 ## **Create a new Lakehouse**
@@ -31,7 +31,7 @@ In production environments, it is often required to isolate workloads, for examp
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-driver-select.png" alt="Driver select" maxWidth="500px" />
 
 :::info Node driver
-The Node driver runs continuously, managing executors/workers, and connections until manually stopped. If it stops, no new connections to the lakehouse can be made. It acts as the control center, orchestrating all tasks.
+The Node driver runs continuously, managing executors/workers, and connections until manually stopped. If it stops, no new connections to the lakehouse can be made. It acts as the control center, orchestrating all tasks. The driver is a critical component of IOMETE's [compute architecture](/docs/getting-started/architecture.md).
 :::
 <br />
 
@@ -43,7 +43,7 @@ The Node driver runs continuously, managing executors/workers, and connections u
 </GridBox>
 
 :::info Node executor
-The Node Executor is responsible for executing queries and processing data. It scales automatically based on the auto-suspend parameter, ensuring efficient resource usage.
+The Node Executor is responsible for executing queries and processing data. It scales automatically based on the auto-suspend parameter, ensuring efficient resource usage. You can customize executor behavior using [Spark Settings](./spark-settings/overview.md).
 :::
 <br />
 
@@ -76,8 +76,8 @@ The Lakehouse Detail View in our application provides a comprehensive overview a
 
 The header of the Detail View includes the following elements:
 
-1. **Spark UI link:** This link redirects users to the Spark UI for real-time metrics and logs.
-2. **Configure:** Opens the configuration settings for the lakehouse, enabling users to modify its parameters and settings.
+1. **Spark UI link:** This link redirects users to the Spark UI for real-time metrics and logs. The Spark UI provides detailed insights into query execution and performance. Virtual lakehouses serve as the execution environment for [Spark Jobs](./spark-jobs.md).
+2. **Configure:** Opens the configuration settings for the lakehouse, enabling users to modify its parameters and settings using [Spark Settings](./spark-settings/overview.md).
 3. **Start:** Starts the lakehouse instance if it is not already running. If the instance is already running, this button will be replaced with `Restart` and `Terminate`.
 4. **Restart:** Restarts the lakehouse instance to apply new configurations or resolve issues by stopping and then starting it.
 5. **Terminate:** This button stops the lakehouse instance and terminates all associated processes and jobs. You can start the instance again if needed.
@@ -128,16 +128,18 @@ You're only billed for Executors when they're in the `Running` state.
 
 ### Connections
 
-In this section we may observe various connections details in this part. **IOMETE** supports the following types of connections:
+In this section we may observe various connections details. Virtual lakehouses can be accessed through multiple connection methods, each requiring proper authentication using [Personal Access Tokens](./create-a-personal-access-token.md). **IOMETE** supports the following types of connections:
 
 - Python Connection
-- JDBC Connection
+- [JDBC Connection](/docs/developer-guide/driver/jdbc-driver.mdx) - Use the JDBC driver for programmatic access
 - [DBT Connection](/docs/integrations/dbt/getting-started-with-iomete-dbt.md)
-- [Tableau Connection](/docs/integrations/bi/tableau.md)
-- [Power BI Connection](/docs/integrations/bi/power-bi.md)
+- [Tableau Connection](/docs/integrations/bi/tableau.md) - Connect your lakehouse to Tableau for visualization
+- [Power BI Connection](/docs/integrations/bi/power-bi.md) - Integrate with Power BI for business intelligence
 - [Superset Connection](/docs/integrations/bi/apache-superset.md)
-- [Metabase Connection](/docs/integrations/bi/metabase.md)
+- [Metabase Connection](/docs/integrations/bi/metabase.md) - Connect to Metabase for analytics
 - [Redash Connection](/docs/integrations/bi/redash.md)
+
+For more details on connection configuration, see [Connection Options](/docs/guides/connection-options.md). You can also use the [SQL Editor](./sql-editor/worksheets.md) to run queries directly against your lakehouse.
 
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-connections.png" alt="connections" />
 
@@ -155,3 +157,42 @@ Kubernetes events are only stored for a duration of one hour by default. After t
 
 In this section we may check your lakehouse's **Start**/**Terminate** events.
 <Img src="/img/user-guide/virtual-lakehouse/lakehouse-activity.png" alt="Resource activity" maxWidth="600px" />
+
+---
+
+## Related Documentation
+
+Explore these related user guides to learn more about IOMETE features:
+
+- **[Architecture](/docs/getting-started/architecture.md)** - Understand IOMETE's compute and storage architecture
+- **[What is IOMETE](/docs/getting-started/what-is-iomete.md)** - Learn about the IOMETE platform and its capabilities
+- **[Node Types](./node-types.md)** - Configure and customize node types for your lakehouses
+- **[Workspaces](./workspaces.md)** - Organize your resources with workspaces
+- **[Volumes](./volumes.md)** - Manage data volumes for your lakehouses
+- **[Spark Jobs](./spark-jobs.md)** - Execute Spark jobs on your virtual lakehouses
+- **[Spark Settings](./spark-settings/overview.md)** - Configure Spark settings for optimal performance
+- **[SQL Editor](./sql-editor/worksheets.md)** - Query your data using the built-in SQL editor
+- **[Personal Access Tokens](./create-a-personal-access-token.md)** - Set up authentication for API and programmatic access
+
+## Next Steps
+
+Get started with these practical guides:
+
+- **[JDBC Driver](/docs/developer-guide/driver/jdbc-driver.mdx)** - Connect to your lakehouse using JDBC
+- **[Connection Options](/docs/guides/connection-options.md)** - Configure connection parameters for your use case
+- **[Tableau Integration](/docs/integrations/bi/tableau.md)** - Visualize your lakehouse data in Tableau
+- **[Power BI Integration](/docs/integrations/bi/power-bi.md)** - Connect Power BI to your lakehouse
+- **[Metabase Integration](/docs/integrations/bi/metabase.md)** - Set up Metabase for data exploration
+- **[Apache Superset Integration](/docs/integrations/bi/apache-superset.md)** - Create dashboards with Superset
+- **[Redash Integration](/docs/integrations/bi/redash.md)** - Build visualizations with Redash
+- **[DBT Integration](/docs/integrations/dbt/getting-started-with-iomete-dbt.md)** - Transform your data with dbt
+
+## Related Articles
+
+Learn more from these blog posts:
+
+- **[The Rise of the Serverless Lakehouse Platform](/blog/the-rise-of-the-serverless-lakehouse-platform)** - Understanding the evolution from data warehouse to serverless lakehouse
+- **[Data Warehouses vs Data Lakehouses](/blog/data-warehouses-vs-data-lakehouses)** - Compare traditional data warehouses with modern lakehouse architecture
+- **[Data Lake Benefits 2023](/blog/data-lake-benefits-2023)** - Explore the benefits of implementing a data lakehouse architecture
+- **[Data Mesh with IOMETE](/blog/data-mesh-iomete)** - Learn how to implement data mesh principles with IOMETE
+- **[Apache Iceberg vs Delta Lake](/blog/apache-iceberg-delta-lake)** - Why IOMETE chose Apache Iceberg for the lakehouse architecture

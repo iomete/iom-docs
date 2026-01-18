@@ -12,6 +12,17 @@ import FAQSection from '@site/src/components/FAQSection';
 
 Compaction questions come up in almost every production Iceberg deployment. The pattern is familiar: one Spark executor is busy doing all the work while the rest sit idle. Jobs take hours, costs spike, and downstream pipelines fall behind. This guide demystifies how Iceberg compaction actually works, why it sometimes behaves serially, which tuning levers matter, and how IOMETE automates the hard parts for regulated, enterprise-scale environments.
 
+:::info Related Documentation
+
+For comprehensive guidance on Iceberg maintenance and compaction:
+
+- **[Iceberg Maintenance Operations](/docs/reference/iceberg-tables/maintenance)** - Complete guide to table maintenance, optimization, and cleanup
+- **[Data Compaction Job](/docs/open-source-spark-jobs/data-compaction-job)** - Automate compaction with IOMETE's built-in jobs
+- **[Iceberg Procedures](/docs/reference/iceberg-tables/iceberg-procedures)** - Use stored procedures for rewrite operations and optimization
+- **[Compaction Tutorial](/docs/tutorials/compaction-cow-mor)** - Hands-on tutorial for compacting CoW and MoR tables
+
+:::
+
 ## How Iceberg Compaction Works (and Why It Differs From Typical Spark Jobs)
 
 Compaction is really two jobs in one:

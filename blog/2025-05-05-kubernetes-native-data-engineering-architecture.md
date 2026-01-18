@@ -21,7 +21,15 @@ Platforms like **IOMETE** exemplify this evolution. As a Spark-based lakehouse d
 
 This article walks through everything you need to know about Kubernetes-native deployment in a data engineering context: the architectural patterns, the ecosystem of tools, deployment techniques, real-world practices, and the role platforms like IOMETE play in helping teams go from legacy-bound to cloud-native.
 
-Whether you’re modernizing a Cloudera stack, scaling dbt transformations, or deploying real-time ML pipelines, Kubernetes-native deployment isn’t just a trend — it’s your future-ready foundation.
+Whether you're modernizing a Cloudera stack, scaling dbt transformations, or deploying real-time ML pipelines, Kubernetes-native deployment isn't just a trend — it's your future-ready foundation.
+
+:::tip Related Resources
+Explore IOMETE's Kubernetes-native architecture:
+- [Kubernetes Deployment Guide](/docs/deployment/kubernetes) - Deploy on Kubernetes
+- [Platform Architecture](/docs/getting-started/architecture) - Understanding IOMETE's architecture
+- [Virtual Lakehouses](/docs/user-guide/virtual-lakehouses) - Isolated compute environments
+- [Spark Jobs on Kubernetes](/docs/developer-guide/spark-job/getting-started) - Run Spark workloads
+:::
 
 ---
 
@@ -47,6 +55,14 @@ In the world of data engineering, this means:
 
 ### **Kubernetes-Native ≠ Lift-and-Shift**
 
-It’s important to distinguish between **Kubernetes-compatible** and **Kubernetes-native**. Running Spark in Docker doesn't make it Kubernetes-native. Using Helm to manage Spark jobs that auto-scale with native events? That’s native.
+It's important to distinguish between **Kubernetes-compatible** and **Kubernetes-native**. Running Spark in Docker doesn't make it Kubernetes-native. Using Helm to manage Spark jobs that auto-scale with native events? That's native.
 
-In the next section, we’ll dig into why forward-looking data teams are moving to Kubernetes — and how it helps align infrastructure with modern data demands.
+In the next section, we'll dig into why forward-looking data teams are moving to Kubernetes — and how it helps align infrastructure with modern data demands.
+
+:::info Dive Deeper
+Learn more about Kubernetes deployment:
+- [What is IOMETE](/docs/getting-started/what-is-iomete) - Platform overview
+- [Connect Namespace](/docs/deployment/connect-namespace) - Multi-namespace deployments
+- [Network Policies](/docs/deployment/network-policies) - Secure your deployment
+- [Kubernetes Monitoring](/docs/k8s/monitoring) - Monitor cluster health
+:::

@@ -4,7 +4,9 @@ sidebar_label: Overview
 description: Data security at IOMETE ensures controlled access via a user interface. Admins manage permissions for groups/users on databases, tables and columns.
 ---
 
-Data security at IOMETE maintains access control using a user interface for consistent administration. Security admins set policies for databases, tables, and columns, managing permissions for groups or users.
+Data security at IOMETE maintains access control using a user interface for consistent administration. Security admins set policies for databases, tables, and columns, managing permissions for [groups](/docs/user-guide/iam/groups) or [users](/docs/user-guide/iam/users).
+
+IOMETE's comprehensive security framework is built on Apache Ranger for data access policies and Open Policy Agent (OPA) for control policies, providing enterprise-grade security controls across your data platform. Learn more about the [platform's security architecture](/docs/getting-started/architecture#security).
 
 <hr />
 
@@ -12,7 +14,7 @@ IOMETE has two types of policies: &nbsp; [resource-based](#resource-based-polici
 
 ### Resource-based policies
 
-Resource-based policies in IOMETE offers a powerful mechanism for enforcing security controls based on the resources being accessed. These policies cover three key areas:
+Resource-based policies in IOMETE offer a powerful mechanism for enforcing security controls based on the resources being accessed. These policies are managed through Apache Ranger and integrate seamlessly with [IAM roles](/docs/user-guide/iam/roles) and the [Resource Access System (RAS)](/docs/user-guide/iam/ras/ras). These policies cover three key areas:
 
 <table>
   <thead>
@@ -55,7 +57,7 @@ Resource-based policies in IOMETE offers a powerful mechanism for enforcing secu
 
 ### Tag-based policies
 
-Tag-based policies in IOMETE allow administrators to manage access controls to resources based on assigned **tags**. Instead of defining policies for individual resources, administrators group resources with similar characteristics under a common tag and apply access controls to the entire tag. This simplifies policy management and allows users or groups to access all resources sharing the same tag with consistent access permissions.
+Tag-based policies in IOMETE allow administrators to manage access controls to resources based on assigned **tags**. Instead of defining policies for individual resources, administrators group resources with similar characteristics under a common tag and apply access controls to the entire tag. This simplifies policy management and allows [users](/docs/user-guide/iam/users) or [groups](/docs/user-guide/iam/groups) to access all resources sharing the same tag with consistent access permissions. Tag-based policies are particularly useful for implementing data classification schemes and applying security controls at scale.
 
 <table>
   <thead>
@@ -86,3 +88,85 @@ Tag-based policies in IOMETE allow administrators to manage access controls to r
     </tr>
   </tbody>
 </table>
+
+---
+
+## Programmatic Access
+
+For automation and integration purposes, IOMETE provides comprehensive API access to security features. Use the [Data Security API](/docs/user-guide/data-security/data-security-api) to programmatically manage access policies, data masking rules, and row-level filters.
+
+---
+
+## Related Documentation
+
+### Identity and Access Management
+
+Effective data security requires proper identity and access management. IOMETE provides comprehensive IAM features:
+
+- **[IAM Users](/docs/user-guide/iam/users)** - Create and manage individual user accounts
+- **[IAM Groups](/docs/user-guide/iam/groups)** - Organize users into groups for easier permission management
+- **[IAM Roles](/docs/user-guide/iam/roles)** - Define roles with specific permissions and assign them to users or groups
+- **[Resource Access System (RAS)](/docs/user-guide/iam/ras/ras)** - Advanced resource-level access control and authorization framework
+
+### Authentication and Single Sign-On
+
+Streamline user authentication and enhance security with SSO integration:
+
+- **[SSO Configuration](/docs/user-guide/iam/sso/sso)** - Overview of Single Sign-On options
+- **[SAML SSO](/docs/user-guide/iam/sso/sso-saml)** - Configure SAML-based authentication
+- **[Okta SSO](/docs/user-guide/iam/sso/sso-okta)** - Integrate with Okta
+- **[Entra ID SSO](/docs/user-guide/iam/sso/sso-entra-id)** - Connect with Microsoft Entra ID (Azure AD)
+- **[OneLogin SSO](/docs/user-guide/iam/sso/sso-onelogin)** - Set up OneLogin integration
+- **[LDAP Configuration](/docs/user-guide/iam/ldap-configuration)** - Integrate with enterprise LDAP directories
+
+### Platform Architecture
+
+Understand how security is built into the platform architecture:
+
+- **[Architecture Overview](/docs/getting-started/architecture)** - Platform architecture and security components
+- **[Security Layer](/docs/getting-started/architecture#security)** - Detailed view of security services including Data Access Policies (Apache Ranger) and Control Policies (OPA)
+
+---
+
+## Next Steps
+
+### Setting Up Security for Your Organization
+
+1. **Configure Identity Management**
+   - Set up [SSO integration](/docs/user-guide/iam/sso/sso) or [LDAP](/docs/user-guide/iam/ldap-configuration) for centralized authentication
+   - Create [IAM users](/docs/user-guide/iam/users) and organize them into [groups](/docs/user-guide/iam/groups)
+   - Define [roles](/docs/user-guide/iam/roles) based on job functions and responsibilities
+
+2. **Implement Data Access Controls**
+   - Create [Access Policies](/docs/user-guide/data-security/access-policy) to control who can access databases, tables, and columns
+   - Set up [Data Masking](/docs/user-guide/data-security/data-masking) to protect sensitive information
+   - Configure [Row-Level Filters](/docs/user-guide/data-security/row-level-filter) for fine-grained data access
+
+3. **Apply Tag-Based Security (Advanced)**
+   - Implement [Tag-Based Access Policies](/docs/user-guide/data-security/tag-based-access-policy) for scalable security management
+   - Configure [Tag-Based Data Masking](/docs/user-guide/data-security/tag-based-data-masking) for sensitive data classification
+
+4. **Automate with APIs**
+   - Use the [Data Security API](/docs/user-guide/data-security/data-security-api) to integrate security management into your workflows
+
+### Security Best Practices
+
+- **Principle of Least Privilege**: Grant users only the minimum permissions they need to perform their tasks
+- **Regular Access Reviews**: Periodically review and audit user access permissions using the [RAS](/docs/user-guide/iam/ras/ras) system
+- **Use Groups Over Individual Permissions**: Assign permissions to [groups](/docs/user-guide/iam/groups) rather than individual [users](/docs/user-guide/iam/users) for easier management
+- **Implement Defense in Depth**: Use multiple layers of security (authentication, authorization, masking, filtering)
+- **Tag Sensitive Data**: Use [tag-based policies](/docs/user-guide/data-security/tag-based-access-policy) to consistently protect sensitive data across your platform
+- **Monitor and Audit**: Regularly review access logs and security events to detect and respond to potential threats
+
+---
+
+## Related Articles
+
+Explore in-depth articles about data security and platform architecture:
+
+- **[Data Platform Security](/blog/data-platform-security)** - Deep dive into IOMETE's Resource Access Management (RAS) system and authorization architecture
+- **[Apache Ranger Data Security Guide](/blog/apache-ranger-data-security)** - Understanding Apache Ranger's role in data governance and fine-grained access control
+- **[SSO with SAML Guide](/blog/sso-with-saml-guide)** - Beginner's guide to Single Sign-On with SAML protocol
+- **[Secure Data Processing Architecture](/blog/secure-data-processing)** - Building secure data processing architectures for regulated industries
+- **[LDAP Integration and Automatic Sync](/blog/iomete-ldap-integration-and-automatic-sync)** - Enterprise directory integration best practices
+- **[Platform Components and Enterprise Architecture](/blog/iomete-platform-components-enterprise-architecture)** - Understanding IOMETE's enterprise security framework

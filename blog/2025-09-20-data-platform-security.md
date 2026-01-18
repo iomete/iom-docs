@@ -15,6 +15,15 @@ In today's data-driven enterprise landscape, managing who can access what resour
 
 Resource Access Management (RAS) represents a sophisticated approach to authorization that addresses these challenges through intelligent resource grouping, fine-grained permission controls, and extensible architecture. At its core, RAS moves beyond simple role-based access control to provide context-aware authorization decisions that consider not just who is making the request, but what they're trying to access, how they're trying to access it, and under what circumstances.
 
+:::tip Related Resources
+Learn more about IOMETE's comprehensive security features:
+- [Data Security Overview](/docs/user-guide/data-security/overview) - Complete guide to data protection
+- [Access Policies](/docs/user-guide/data-security/access-policy) - Fine-grained access control
+- [Data Masking](/docs/user-guide/data-security/data-masking) - Protect sensitive data
+- [Row-Level Filtering](/docs/user-guide/data-security/row-level-filter) - Granular data access control
+- [IAM Roles](/docs/user-guide/iam/roles) - Role-based access management
+:::
+
 ---
 
 ## The Challenge of Modern Data Platform Authorization
@@ -178,6 +187,13 @@ This single policy document enables:
 **Dynamic Resource Discovery**: When Carol adds the new "campaign-ml-models" compute cluster to this bundle, Emma automatically gains the same access level without any additional configuration. The policy applies to all compute assets within the bundle, making resource management seamless.
 
 **Granular Control**: Frank, with only ["view"] permissions, can see cluster status and monitor job execution in real-time, but cannot connect to run his own analysis or modify any settings. This precise control ensures everyone gets exactly the access they need for their role in the project.
+
+:::info Learn More About Security
+Explore IOMETE's complete security ecosystem:
+- [SSO Configuration](/docs/user-guide/iam/sso/sso) - Single sign-on integration
+- [Tag-Based Access Policies](/docs/user-guide/data-security/tag-based-access-policy) - Advanced access control
+- [Data Security API](/docs/user-guide/data-security/data-security-api) - Programmatic security management
+:::
 
 ---
 
