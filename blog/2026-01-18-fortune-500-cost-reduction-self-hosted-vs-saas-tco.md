@@ -254,7 +254,7 @@ Self-hosted platforms run on Kubernetes. If your organization doesn't operate Ku
 
 **2. Your workloads are small and intermittent**
 
-Startups with <5TB data and <10 users running occasional queries might pay less on Snowflake's consumption-based pricing than self-hosted infrastructure. The break-even point is typically 50-100TB and 50+ users.
+Startups with less than 5TB data and fewer than 10 users running occasional queries might pay less on Snowflake's consumption-based pricing than self-hosted infrastructure. The break-even point is typically 50-100TB and 50+ users.
 
 **3. You prioritize vendor-managed infrastructure**
 
