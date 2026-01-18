@@ -3,7 +3,7 @@ title: "Streaming-First Lakehouse Architecture: Why 2026 Is the Year Real-Time C
 description: Batch ETL is dying. Streaming-first lakehouses built on Kafka, Debezium CDC, and Apache Iceberg deliver sub-minute data freshness without the operational complexity of dual architectures. Learn why organizations are consolidating real-time streams and analytical storage into unified Iceberg tables—and how to avoid the small files, metadata bloat, and compaction disasters that break streaming pipelines in production.
 slug: streaming-first-lakehouse-architecture-kafka-cdc-iceberg
 authors: aytan
-tags2: [streaming, Apache Kafka, CDC, Debezium, Apache Iceberg, real-time analytics, lakehouse, Flink]
+tags2: ["Technical", "Company"]
 hide_table_of_contents: true
 date: 01/18/2026
 coverImage: img/blog/thumbnails/2.png
