@@ -26,18 +26,7 @@
   /* Layout */
   --mk-container: 77rem;
 
-  /* UI */
-  --mk-radius-sm: 8px;
-  --mk-radius-md: 12px;
-  --mk-radius-lg: 16px;
-
-  --mk-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
-  --mk-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --mk-shadow-lg: 0 10px 10px rgba(0, 0, 0, 0.1);
-
 
   /* Table */
   --mk-table-head-bg: #fcfcf8;
-  --mk-row-hover: #d0d0cd1a;
-  --mk-row-alt: rgba(255, 255, 255, 0.6);
 }
