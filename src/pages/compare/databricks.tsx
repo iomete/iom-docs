@@ -138,7 +138,7 @@ const featureRows = [
   },
 ];
 
-const quadrantBackgrounds = ["var(--mk-base-0)", "var(--mk-stone-50)", "var(--mk-lake-100)", "var(--mk-base-50)"];
+const quadrantBackgrounds = ["var(--base-0)", "var(--stone-50)", "var(--lake-100)", "var(--base-50)"];
 
 const quadrant = (index: number) => quadrantBackgrounds[index % quadrantBackgrounds.length];
 

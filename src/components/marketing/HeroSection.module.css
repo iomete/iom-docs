@@ -66,21 +66,21 @@
 }
 
 .primary {
-  background-color: var(--mk-fluoro-400);
-  color: var(--mk-base-950);
+  background-color: var(--fluoro-400);
+  color: var(--base-950);
 }
 
 .primary:hover {
-  background-color: var(--mk-fluoro-500);
+  background-color: var(--fluoro-500);
   text-decoration: none;
 }
 
 .secondary {
-  background-color: var(--mk-base-950);
-  color: var(--mk-base-50);
+  background-color: var(--base-950);
+  color: var(--base-50);
 }
 
 .secondary:hover {
-  background-color: var(--mk-base-800);
+  background-color: var(--base-800);
   text-decoration: none;
 }
