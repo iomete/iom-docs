@@ -291,7 +291,9 @@ const sidebars = {
       type: "category",
       label: "DB Tools",
       collapsed: false,
-      items: ["integrations/dbtools/dbeaver"],
+      items: ["integrations/dbtools/dbeaver",
+        "integrations/dbtools/dataiku"
+      ],
     },
     {
       type: "category",
