@@ -2,7 +2,7 @@
 title: Dataiku
 description: Connect Dataiku to IOMETE using the Arrow Flight SQL JDBC Driver.
 last_update:
-  date: 01/21/2026
+  date: 2026-01-21
   author: Altay Aliyev
 ---
 
