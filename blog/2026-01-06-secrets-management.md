@@ -32,7 +32,7 @@ The architecture separates configuration from secrets. When you configure a Spar
 
 This approach delivers immediate benefits. You have a single source of truth for each credential, referenced across multiple workloads without duplication. Secret rotation happens in one place, and dependent services pick up the new value on their next deployment. Customer-managed Vault support means enterprises can leverage their existing security infrastructure while gaining IOMETE's unified credential management.
 
-<Img src="/img/blog/2026-01-06-secrets-management/secrets_v2_settings_domain.png" alt="IOMETE Secrets Management Dashboard" />
+<Img src="/img/user-guide/secrets/domain-secrets.png" alt="IOMETE Secrets Management Dashboard" />
 
 The secrets management dashboard provides a centralized view of all credentials across domain and global scopes, with clear indicators of each secret's source (Kubernetes or Vault).
 
@@ -178,9 +178,9 @@ Find any configuration that requires a credential—a Spark job's environment va
 
 When you deploy the workload or test the connection, the platform retrieves the secret value from the specified backend and injects it where needed. You never see the actual value in the configuration again—just the reference.
 
-<Img src="/img/blog/2026-01-06-secrets-management/secrets_v2_dropdown.png" alt="Secret Selector Dropdown" />
+<Img src="/img/user-guide/secrets/domain-secret-spark-env-var.png" alt="Secret Selector Dropdown" />
 
-<Img src="/img/blog/2026-01-06-secrets-management/secrets_v2_dropdown_use_existing.png" alt="Use Existing Secret Modal" />
+<Img src="/img/user-guide/secrets/secret-selection.png" alt="Use Existing Secret Modal" />
 
 The unified secret selector appears consistently across all IOMETE services, showing available secrets with their source clearly marked.
 
@@ -190,7 +190,7 @@ For teams with existing Vault infrastructure, connecting IOMETE takes a few addi
 
 Navigate to `Domain Settings → Vault Configurations`. Click to add a new configuration. Provide your Vault endpoint URL (e.g., `https://vault.company.com`), the secret path where IOMETE should look for credentials (e.g., `/v1/secret/data/production`), and choose your authentication method—token-based for simplicity or AppRole for better security. Enter the required credentials.
 
-<Img src="/img/blog/2026-01-06-secrets-management/vault_create.png" alt="Vault Configuration in IOMETE" />
+<Img src="/img/blog/2026-01-06-secrets-management/vault-config-create.png" alt="Vault Configuration Create"  maxWidth="600px" centered />
 
 Vault integration setup requires just a few fields—endpoint, path, namespace, and authentication method—making it straightforward to connect your existing Vault infrastructure.
 
