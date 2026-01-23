@@ -3,9 +3,11 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 
 import FeatureGrid from "../../components/marketing/FeatureGrid";
+import FeatureGrid2 from "../../components/marketing/FeatureGrid2";
 import HeroSection from "../../components/marketing/HeroSection";
 import Section from "../../components/marketing/Section";
 import styles from "./databricks.module.css";
+import Section2 from "../../components/marketing/Section2";
 
 const comparisonSections = [
   {
@@ -158,7 +160,7 @@ export default function CompareDatabricksPage() {
         />
 
         <div className={styles.content}>
-          <Section title="Introduction" background={quadrant(0)}>
+          <Section2 title="Introduction" background={quadrant(0)}>
             <div className={styles.intro}>
               <p>
                 Both IOMETE and Databricks provide data lakehouse capabilities. This page focuses on
@@ -167,14 +169,14 @@ export default function CompareDatabricksPage() {
                 modern architectures (including Data Mesh).
               </p>
             </div>
-          </Section>
+          </Section2>
 
-          <Section
+          <Section2
             title="IOMETE is a strong fit when you prioritize"
             description="Where deployment flexibility, control, and open standards are non-negotiable."
             background={quadrant(1)}
           >
-            <FeatureGrid
+            <FeatureGrid2
               items={[
                 {
                   title: "Deployment flexibility",
@@ -206,7 +208,7 @@ export default function CompareDatabricksPage() {
                 },
               ]}
             />
-          </Section>
+          </Section2>
 
           {comparisonSections.map((section, idx) => (
             <Section
