@@ -11,8 +11,7 @@ type SectionProps = {
   background?: string;
 };
 
-// Shared section wrapper with consistent spacing and optional banded background.
-export default function Section({
+export default function Section2({
   title,
   description,
   children,
@@ -20,7 +19,7 @@ export default function Section({
   className,
   background,
 }: SectionProps) {
-  const sectionClassName = `py-20 max-[720px]:py-10 bg-[var(--base-50)] font-inter text-[var(--base-700)] ${
+  const sectionClassName = `py-8 rounded max-[720px]:py-10 bg-[var(--base-50)] font-inter text-[var(--base-700)] ${
     tone === "subtle" ? "bg-white border-t border-b border-[var(--base-200)]" : ""
   } ${className ?? ""}`;
 

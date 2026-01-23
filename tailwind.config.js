@@ -3,7 +3,11 @@ module.exports = {
     preflight: false,
     container: false,
   },
-  content: ["./src/pages/_hero_new/**", "./src/theme/BlogListPage/**"],
+  content: [
+    "./src/pages/_hero_new/**",
+    "./src/theme/BlogListPage/**",
+    "./src/components/marketing/**/*.{tsx,jsx}"
+  ],
   darkMode: ["selector", '[data-theme="dark"]'],
   theme: {
     fontFamily: {
