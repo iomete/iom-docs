@@ -54,7 +54,7 @@ Clicking on a schedule’s name or selecting **View** (in action menu) navigates
 2.  **Runs:** Automatically opens upon navigation. It lists historical executions, showing the status, start time, end time, and namespace for each run.
 <Img src="/img/user-guide/sql-editor/scheduling/schedule-runs.png" alt="Schedules Runs View" centered />
 3.  **SQL:** Displays the actual SQL queries currently scheduled.
-<Img src="/img/user-guide/sql-editor/scheduling/schedule-run-details.png" alt="Schedule Run Details View" centered />
+<Img src="/img/user-guide/sql-editor/scheduling/schedule-sql.png" alt="Schedule SQL View" centered />
 
 
 ### Run Details
