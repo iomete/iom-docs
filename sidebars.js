@@ -85,6 +85,7 @@ const sidebars = {
             "user-guide/sql-editor/database-explorer",
             "user-guide/sql-editor/query-history",
             "user-guide/sql-editor/dashboards",
+            "user-guide/sql-editor/scheduling",
           ],
         },
         "user-guide/data-catalog",
