@@ -1,0 +1,40 @@
+/**
+ * IOMETE Documentation - Custom Styles
+ * This file imports comparison page styles and can include other custom styles
+ */
+
+/* Import comparison page styles */
+@import './iomete-comparison.css';
+
+/* Additional custom styles for your Docusaurus site can go here */
+
+/* Root variables (can override Docusaurus defaults) */
+:root {
+  --ifm-color-primary: #2d382d;
+  --ifm-color-primary-dark: #1f2920;
+  --ifm-color-primary-darker: #1a2319;
+  --ifm-color-primary-darkest: #0e1310;
+  --ifm-color-primary-light: #415441;
+  --ifm-color-primary-lighter: #4e664e;
+  --ifm-color-primary-lightest: #617a61;
+
+  --ifm-font-family-base: 'Inter', 'Palatino Linotype', system-ui, -apple-system, sans-serif;
+  --ifm-heading-font-family: 'Archivo', 'Palatino Linotype', system-ui, -apple-system, sans-serif;
+  --ifm-font-family-monospace: 'DM Mono', 'Courier New', monospace;
+}
+
+/* Dark mode overrides (if you use dark mode) */
+[data-theme='dark'] {
+  --ifm-color-primary: #a0b8a0;
+  --ifm-color-primary-dark: #8da78d;
+  --ifm-color-primary-darker: #849d84;
+  --ifm-color-primary-darkest: #6d826d;
+  --ifm-color-primary-light: #b3c9b3;
+  --ifm-color-primary-lighter: #bcd3bc;
+  --ifm-color-primary-lightest: #d3e5d3;
+}
+
+/* Ensure comparison pages render correctly */
+.markdown > .comparison-page {
+  max-width: 100%;
+}

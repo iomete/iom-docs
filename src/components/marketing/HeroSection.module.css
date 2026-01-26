@@ -1,0 +1,86 @@
+@import "./marketingTokens.module.css";
+
+.hero {
+  padding: 5rem 0 4rem;
+  background: var(--mk-surface);
+  border-bottom: 1px solid var(--mk-border);
+  font-family: var(--mk-font-body);
+  color: var(--mk-text);
+}
+
+.inner {
+  max-width: var(--mk-container);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mk-text);
+  font-family: var(--mk-font-eyebrow);
+}
+
+.title {
+  margin: 0 0 1rem;
+  font-size: clamp(var(--mk-h1-size), 5vw, 48px);
+  line-height: var(--mk-h1-line);
+  color: var(--mk-text-strong);
+  font-family: var(--mk-font-heading);
+  font-weight: var(--mk-h1-weight);
+}
+
+.subtitle {
+  max-width: 720px;
+  margin: 0;
+  font-size: var(--mk-body-size);
+  line-height: var(--mk-body-line);
+  letter-spacing: var(--mk-body-letter);
+  color: var(--mk-text);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.25rem;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.3s;
+}
+
+.primary {
+  background-color: var(--fluoro-400);
+  color: var(--base-950);
+}
+
+.primary:hover {
+  background-color: var(--fluoro-500);
+  text-decoration: none;
+}
+
+.secondary {
+  background-color: var(--base-950);
+  color: var(--base-50);
+}
+
+.secondary:hover {
+  background-color: var(--base-800);
+  text-decoration: none;
+}
