@@ -26,7 +26,7 @@ IOMETE's secrets management is a centralized secrets catalog that spans every IO
 
 The system supports two backend storage options that can be used independently or simultaneously. IOMETE-managed Kubernetes secret stores provide immediate functionality with zero configuration—secrets are automatically organized per domain in Kubernetes objects. For enterprises with existing HashiCorp Vault infrastructure, IOMETE integrates seamlessly with customer-managed Vault instances, respecting your existing policies and namespaces while maintaining read-only access.
 
-Three-tier scoping provides the right level of isolation for different use cases. Domain-scoped secrets keep team-specific credentials isolated—the finance team's AWS keys remain invisible to the marketing team. Global secrets enable sharing of common resources like company-wide SMTP servers across all domains. Admin secrets protect platform control-plane credentials, visible only to platform administrators.
+Two-tier scoping provides the right level of isolation for different use cases. Domain-scoped secrets keep team-specific credentials isolated—the finance team's AWS keys remain invisible to the marketing team. Global secrets enable sharing of common resources like company-wide SMTP servers across all domains.
 
 The architecture separates configuration from secrets. When you configure a Spark job or storage integration, you don't paste credential values. Instead, you select a secret reference from a dropdown showing available secrets and their source (Kubernetes or Vault). The configuration stores only the secret key and source metadata. When the job runs or the integration connects, the platform fetches the actual value securely, injects it into the runtime environment, and never persists it.
 
@@ -44,25 +44,22 @@ Understanding how IOMETE organizes and resolves credentials helps you use it eff
 
 ### Secret Scopes & Isolation
 
-The three-tier scoping system enforces strict boundaries between teams and platform components.
+The two-tier scoping system enforces strict boundaries between teams while enabling shared resources.
 
 **Domain** scopes hold team-specific credentials. When the analytics team creates a secret for their S3 bucket, it exists in the `analytics` domain scope. Only users with permissions in that domain can see or use it. The marketing team working in a different domain sees only their own secrets. This isolation is enforced at the platform layer and backed by separate Kubernetes secret objects or Vault path restrictions.
 
-**Global** scopes enable credential sharing across domains. Common resources like company SMTP servers, shared data lake credentials, or centralized logging endpoints fit here. Any domain can reference global secrets, but only platform administrators can create or modify them. This prevents individual teams from accidentally or intentionally modifying shared infrastructure credentials.
-
-**Admin** scopes protect platform control-plane secrets. Monitoring API keys, platform-level service credentials, and other infrastructure secrets live here. They're visible only in admin dashboards and never appear in domain contexts, ensuring teams can't accidentally reference or expose platform-critical credentials.
+**Global** scopes enable credential sharing across domains. Common resources like company SMTP servers, shared data lake credentials, or centralized logging endpoints fit here. Any domain can reference global secrets, enabling teams to use shared infrastructure credentials without duplication.
 
 | Scope | Use Case | Example |
 |-------|----------|---------|
 | Domain | S3 bucket for analytics team | `aws-analytics-secret-key` |
 | Global | Shared email server | `smtp-company-password` |
-| Admin | Platform monitoring API | `datadog-api-key` |
 
 ### Secret Backends
 
 IOMETE's secrets management supports two storage backends, each serving different operational needs.
 
-**Kubernetes** is the default backend, IOMETE-managed and immediately available. Each domain gets its own Kubernetes secret object named `iomete-secret-store-{domain}`. Global secrets live in `iomete-secret-store`, and admin secrets in `iomete-secret-store-admin`. Individual secret keys are stored as base64-encoded fields within these objects. You create, rotate, and delete secrets through the IOMETE dashboard, and the platform handles the Kubernetes API interactions. No setup required, no external dependencies—it works out of the box.
+**Kubernetes** is the default backend, IOMETE-managed and immediately available. Each domain gets its own Kubernetes secret object named `iomete-secret-store-{domain}`. Global secrets live in `iomete-secret-store`. Individual secret keys are stored as base64-encoded fields within these objects. You create, rotate, and delete secrets through the IOMETE dashboard, and the platform handles the Kubernetes API interactions. No setup required, no external dependencies—it works out of the box.
 
 **HashiCorp Vault** provides customer-managed secret storage for enterprises with existing Vault infrastructure. IOMETE integrates with Vault using the KV Secrets Engine v2, supporting both token-based and AppRole authentication methods. You configure per-domain Vault connections through the dashboard, specifying your Vault endpoint, secret path, and authentication credentials. IOMETE maintains read-only access to your Vault—you control policies, path organization, and access rules. The platform caches Vault tokens to minimize authentication overhead while respecting your configured time-to-live settings.
 
