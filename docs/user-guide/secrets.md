@@ -69,6 +69,8 @@ You can view Global Secrets by switching to the **Global Secrets** tab. Within a
 
 You can utilize Global Secrets alongside Domain Secrets to streamline credential management for resources used across the entire platform.
 
+<Img src="/img/user-guide/secrets/domain-global-secrets.png" alt="Domain Global Secrets Tab" />
+
 :::info Isolation Note
 A secret created in **Domain A** is completely invisible to **Domain B**. This ensures that different teams can use the same **Secret Key** (e.g., `DB_PASSWORD`) without any risk of conflict or unauthorized access.
 :::
