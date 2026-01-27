@@ -1,6 +1,6 @@
 ---
-title: Scaling Machine Learning: From Your Laptop to the IOMETE Lakehouse
-description: We've all been there: You write a scikit-learn script on your laptop, it works beautifully on a sample of data, and then - BAM - you try to run it on the full dataset and see the dreaded out of memory error.
+title: "Scaling Machine Learning: From Your Laptop to the IOMETE Lakehouse"
+description: "We've all been there: You write a scikit-learn script on your laptop, it works beautifully on a sample of data, and then - BAM - you try to run it on the full dataset and see the dreaded out of memory error."
 slug: scaling-machine-learning-laptop-to-iomete-lakehouse
 authors: aytan
 hide_table_of_contents: true
