@@ -75,6 +75,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "user-guide/virtual-lakehouses",
+        "user-guide/event-stream",
         "user-guide/spark-jobs",
         {
           type: "category",
