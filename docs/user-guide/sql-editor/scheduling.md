@@ -72,6 +72,11 @@ By navigating to the **Tasks** tab within the Run Details page, you can see the 
 Each query counts as a single task. If your schedule contains two queries, each run will generate two tasks.
 :::
 
+### Run Graph
+The **Graph** tab provides a visual representation of the query execution flow, showing how individual tasks relate to each other within a run.
+
+<Img src="/img/user-guide/sql-editor/scheduling/schedule-run-graph.png" alt="Schedule Run Graph View" centered />
+
 ## Editing a Schedule
 
 To modify an existing schedule:
