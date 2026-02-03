@@ -14,6 +14,15 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.16.0" date="February 9th, 2026">
+    <NewFeatures>
+    </NewFeatures>
+    <Improvements>
+    </Improvements>
+    <BugFixes>
+    </BugFixes>
+</Release>
+
 <Release version="3.15.1" date="January 5th, 2026">
     <BugFixes>
         - Downgraded all AWS S3 SDK library versions to fix compatibility issues with S3-compatible storage providers.
@@ -21,99 +30,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 </Release>
 
 <Release version="3.15.0" date="January 5th, 2026">
-<!--
-
-Aslan Bakirov
-  kotlin:
-      911df413d 2025-11-25 Aslan Bakirov Ab/add release tag (#1359)
-      0b3e974f0 2025-10-21 Aslan Bakirov Add common and cloud-storages-lib to the CI (#1193)
-      a90f0efe5 2025-10-25 Aslan Bakirov Fix test connection issue (#1278)
-      26df71bac 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:s3 in /iom-rest-catalog (#1289)" (#1304)
-      015b4200d 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:sts in /iom-core (#1296)" (#1303)
-  infra:
-      236acb27 2025-11-20 Aslan Bakirov Add alerts and contact points for dell (#320)
-      125e9cd4 2025-11-25 Aslan Bakirov Add new alerts (#325)
-      ac8f4085 2025-12-17 Aslan Bakirov Add new dashboards (#357)
-      2278033c 2025-12-18 Aslan Bakirov Add new dashboards (#360)
-      94203b7f 2025-11-25 Aslan Bakirov Add release tag in other repos (#273)
-      ae118366 2025-12-09 Aslan Bakirov Add rust-monorepo to release pipeline (#351)
-      c75c6b42 2025-12-07 Aslan Bakirov Add trustore volume (#345)
-      4efcb1d4 2025-12-18 Aslan Bakirov bump the chart version (#361)
-      8754d674 2025-11-04 Aslan Bakirov Dell Prod Dashboards (#268)
-      caae6fa6 2025-11-10 Aslan Bakirov Fix deployment of papyrus (#278)
-      26afb977 2025-11-17 Aslan Bakirov Image url fixup (#307)
-      5ad061ef 2025-12-03 Aslan Bakirov New dash (#340)
-      eb228f27 2025-12-18 Aslan Bakirov New dashboards (#359)
-      3d8699ef 2025-11-10 Aslan Bakirov Remove wierd characters (#272)
-      c1706d32 2025-11-18 Aslan Bakirov Update chart version (#313)
-      cc3f57af 2025-11-17 Aslan Bakirov Update ns dashboard (#308)
-      20587d6d 2025-11-25 Aslan Bakirov Update version (#326)
-      f7f2b6fc 2025-11-27 Aslan Bakirov Upgrade iom-socket version (#329)
-  iom-console:
-      8142d6e21 2025-11-25 Aslan Bakirov Add release tag (#492)
-
-
-Mammad Mammadli
-  kotlin:
-      -
-  infra:
-      -
-  iom-console:
-      a8b83eb3d 2025-12-02 Mammad Mammadli Adapt endpoints for service accounts for create, delete (#550)
-      b05a96614 2025-12-03 Mammad Mammadli bring back search functionality (#552)
-      b75269af4 2025-11-28 Mammad Mammadli change bundle assets with new structured endpoint (#532)
-      b5f6ea5b3 2025-10-23 Mammad Mammadli chore: disable deleting for deleting alias (#462)
-      f3336cab6 2025-12-11 Mammad Mammadli disable highlighting of SQL editor (#573)
-      a79f0f51f 2025-10-30 Mammad Mammadli feat: add Jupyter notebook support to SQL editor
-      d7fe76898 2025-11-19 Mammad Mammadli feat: add resource type filter to bundle members (#515)
-      89ade8c52 2025-10-31 Mammad Mammadli feat: enhance bundle permissions with single selection and smart filtering
-      0f41ee649 2025-10-23 Mammad Mammadli feat: enhance docker image selection for private registries
-      680beb7db 2025-10-29 Mammad Mammadli feat: filter asset type permissions based on selected actors' existing permissions
-      f504d7b8b 2025-10-22 Mammad Mammadli feat: implement API versioning with feature toggle support
-      731231d38 2025-12-09 Mammad Mammadli feat: implement basic notifications page (#534)
-      9fb17eb43 2025-11-28 Mammad Mammadli Fix broken Compute edit page (#519)
-      222429590 2025-12-17 Mammad Mammadli fix failing test (#588)
-      8e4f4bd73 2025-11-10 Mammad Mammadli fix failing tests
-      3ebd97162 2025-12-02 Mammad Mammadli Fix namespace test failures and split namespace pages per version (#548)
-      5c657094b 2025-11-05 Mammad Mammadli fix: invalidate correct query key for bundle resource assets
-      bfb79bb00 2025-10-21 Mammad Mammadli fix: pagination not working when sorting is applied in query monitoring
-      5ed8051c0 2025-11-03 Mammad Mammadli fix: resolve placeholder visibility and form reset issues in bundle permissions
-      20697533c 2025-11-03 Mammad Mammadli fix: update bundle permission form tests to match new disabled behavior
-      9c5ac4354 2025-12-01 Mammad Mammadli IE-156/separate admin domain access (#542)
-      60842ad57 2025-11-28 Mammad Mammadli Implement ButtonGroup component (#513)
-      cd3a76523 2025-10-31 Mammad Mammadli implement global uuid interface
-      303593658 2025-11-27 Mammad Mammadli Implement permission management for access token (#535)
-      efb2f8a63 2025-11-14 Mammad Mammadli increase maxThreads (#505)
-      fa40a2cc0 2025-12-17 Mammad Mammadli Increase tests (#584)
-      b14d2d9ce 2025-11-04 Mammad Mammadli install jupyter and enable
-      ef0ac4218 2025-11-03 Mammad Mammadli Make some cleanups
-      463884ba1 2025-11-24 Mammad Mammadli New endpoints for Secret management (#508)
-      eed269224 2025-11-18 Mammad Mammadli Pe 159/bundle permission improvement (#502)
-      1114dacbd 2025-12-03 Mammad Mammadli PE-199/migrate namespaces to v2 (#549)
-      cf7b2ca37 2025-12-11 Mammad Mammadli PE-229/Notification settings (#569)
-      5415f0fcb 2025-11-10 Mammad Mammadli Redirect to bundle details after creating
-      daa7cf691 2025-10-21 Mammad Mammadli redirect to specific jupyter
-      72d52f78a 2025-11-20 Mammad Mammadli refactor: remove forceUpdate pattern from BundlePermissionManager (#520)
-      5e315fd73 2025-12-09 Mammad Mammadli remove caching from namespaces list (#567)
-      65c9932e8 2025-11-04 Mammad Mammadli REmove flag for Jupyter
-      ac91a4f82 2025-11-10 Mammad Mammadli remove redundant comments
-      c55ec3e35 2025-11-16 Mammad Mammadli Removed parsing to json since it's going to be parsed inside package (#509)
-      92fe9cb3f 2025-11-10 Mammad Mammadli revert changes on pr.yml
-      f89becf0b 2025-11-10 Mammad Mammadli run all tests
-      c571ef226 2025-10-21 Mammad Mammadli send request to v2 on compute log download
-      3dc7fe547 2025-11-03 Mammad Mammadli Show loading on BundlePermissionForm
-      d56d68b40 2025-11-28 Mammad Mammadli Split endpoints for access token into 2 parts domain/admin (#540)
-      e1eb2450e 2025-10-29 Mammad Mammadli test: add comprehensive unit tests for BundlePermissionCreate and BundlePermissionEdit
-      76431a03a 2025-10-29 Mammad Mammadli test: add comprehensive unit tests for BundlePermissionForm components
-      a5e060cab 2025-11-07 Mammad Mammadli update config
-      6a76060a2 2025-11-09 Mammad Mammadli Update eslint config
-      03e41c68c 2025-12-13 Mammad Mammadli update html data-theme for dark/light theme (#574)
-      1e1181bee 2025-11-25 Mammad Mammadli update packages (#531)
-      74b3a85eb 2025-11-05 Mammad Mammadli update yarn.lock
-      ab9ac062b 2025-11-06 Mammad Mammadli update yarn.lock
-      fa9f53152 2025-10-21 Mammad Mammadli update yarn.lock
-      
--->
   <NewFeatures>
     - **Event Ingest Service**:
       - Introducing a high-performance event ingestion service built in Rust, designed for efficient event streaming and storage to Iceberg tables.
