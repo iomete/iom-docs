@@ -49,6 +49,9 @@ kubectl create namespace iomete-system
 
 # Label the namespace for IOMETE
 kubectl label namespace iomete-system iomete.com/managed=true
+
+# We also need spark-resources namespace
+kubectl create namespace spark-resources
 ```
 
 :::tip
@@ -92,6 +95,11 @@ Required file: [service-account.yaml](https://github.com/iomete/iomete-deploymen
 wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/service-account.yaml
 
 kubectl apply -n iomete-system -f service-account.yaml
+
+# give cluster-admin role to the lakehouse service account
+kubectl create clusterrolebinding iomete-full-admin-binding \
+  --clusterrole=cluster-admin \
+  --serviceaccount=iomete-system:lakehouse-service-account
 ```
 
 ### Generating webhook certificates
