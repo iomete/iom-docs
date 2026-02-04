@@ -4,7 +4,17 @@ sidebar_label: Overview
 description: Data security at IOMETE ensures controlled access via a user interface. Admins manage permissions for groups/users on databases, tables and columns.
 ---
 
+import Img from "@site/src/components/Img";
+
 Data security at IOMETE maintains access control using a user interface for consistent administration. Security admins set policies for databases, tables, and columns, managing permissions for groups or users.
+
+<hr />
+
+<Img
+  src="/img/user-guide/data-security/data-security-overview.png"
+  alt="Data Security overview"
+  borderless
+/>
 
 <hr />
 
@@ -86,3 +96,17 @@ Tag-based policies in IOMETE allow administrators to manage access controls to r
     </tr>
   </tbody>
 </table>
+
+### Data Classifications (Tags)
+
+Data Classifications help you label tables and columns (for example: PII, Confidential, Financial). These labels are used by security and masking policies.  
+Because classifications directly affect data access and visibility, they now follow a request and approval workflow.
+
+Key notes:
+
+- Classifications must be predefined by admins or security teams
+- Users without administrative priveledges cannot create new classifications
+- Adding or removing a classification requires approval
+- Every change is tracked through Classification Requests
+
+This prevents accidental exposure of sensitive data and avoids breaking pipelines due to unexpected policy changes.

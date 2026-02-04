@@ -1,0 +1,150 @@
+---
+title: Classifications - Best Practices
+description: Data security at IOMETE ensures controlled access via a user interface. Admins manage permissions for groups/users on databases, tables and columns.
+---
+
+import Img from "@site/src/components/Img";
+
+These guidelines help keep your classification system clean, predictable, and safe.
+
+---
+
+## 1. Use Clear, Standardized Classification Names
+
+Treat classifications as long-lived contracts between data producers, consumers, and security policies.
+
+### Recommended naming style
+
+Use **UPPER_SNAKE_CASE** for consistency:
+
+- `PII`
+- `PHI`
+- `CONFIDENTIAL`
+- `INTERNAL`
+- `PUBLIC`
+- `FINANCIAL`
+- `CUSTOMER_DATA`
+
+Avoid:
+
+- Spaces (`Customer Data`)
+- Vague names (`Sensitive`, `Important`)
+- Duplicates (`PII_DATA`, `PERSONAL_INFO`, etc.)
+
+One concept = one classification.
+
+---
+
+## 2. Write Descriptions for Humans, Not Systems
+
+Every classification should have a clear description explaining:
+
+- What type of data it represents
+- Examples
+- Expected security behavior
+
+Example:
+
+**PII**
+
+> Personally identifiable information such as email, phone number, name, or address. Data with this classification is masked for non-authorized users.
+
+Good descriptions reduce incorrect requests and speed up approvals.
+
+---
+
+## 3. Prefer Column-Level Classification When Possible
+
+Apply classifications at the **column level** instead of the table level whenever feasible.
+
+Why:
+
+- More precise masking
+- Fewer accidental access restrictions
+- Better support for mixed-sensitivity tables
+
+Use table-level classifications only when _most or all_ columns share the same sensitivity.
+
+---
+
+## 4. Keep Classification Sets Small
+
+Start with a minimal set of classifications and expand only when needed.
+
+Typical core set:
+
+- `PUBLIC`
+- `INTERNAL`
+- `CONFIDENTIAL`
+- `PII`
+
+Add specialized classifications later (for example `FINANCIAL`, `HEALTH`) once governance maturity increases.
+
+Too many classifications create confusion and inconsistent usage.
+
+---
+
+## 5. Design Security Rules Around Classifications (Not Tables)
+
+Security and masking policies should primarily depend on classifications, not hardcoded table names.
+
+This gives you:
+
+- Automatic enforcement on new data
+- Less policy maintenance
+- Consistent behavior across domains
+
+Example approach:
+
+- Any column with `PII` → masked for non-privileged users
+- Any table with `CONFIDENTIAL` → accessible only to specific groups
+
+This allows teams to focus on classifying data, while policies apply automatically behind the scenes.
+
+---
+
+## 6. Treat Classification Changes as High-Risk Operations
+
+Adding or removing a classification can:
+
+- Grant access to sensitive data
+- Remove access from pipelines
+- Change masking behavior
+
+That’s why all changes go through approval.
+
+Operational guidance:
+
+- Always review impacted assets before approving
+- Use rejection comments to educate users
+- Encourage users to classify thoughtfully, not experimentally
+
+---
+
+## 7. Use Requests as an Audit and Learning Tool
+
+Classification Requests provide valuable signals:
+
+- Which datasets are frequently changing sensitivity
+- Where users are unsure
+- Common misclassifications
+
+Review this regularly to improve:
+
+- Documentation
+- Classification definitions
+- Security rules
+
+---
+
+## Summary
+
+A good classification system:
+
+- Uses clear, stable names
+- Applies mostly at column level
+- Drives security through policies, not manual rules
+- Keeps approval intentional and reviewable
+- Starts small and evolves over time
+
+When done right, teams can safely self-serve classification while security remains centralized and predictable.
