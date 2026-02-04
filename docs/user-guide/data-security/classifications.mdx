@@ -1,0 +1,326 @@
+---
+title: Classifications
+description: Data security at IOMETE ensures controlled access via a user interface. Admins manage permissions for groups/users on databases, tables and columns.
+---
+
+import Img from "@site/src/components/Img";
+
+## Overview
+
+Data Classifications help you label tables and columns (for example: `PII`, `Confidential`, `Financial`). These labels are used by security and masking policies.
+
+Because classifications directly affect data access and visibility, they now follow a **request and approval workflow**.
+
+Key changes:
+
+- Classifications must be **predefined by admins or security teams**
+- Users **cannot create new classifications**
+- Adding or removing a classification requires **approval**
+- Every change is tracked through **Classification Requests**
+
+This prevents accidental exposure of sensitive data and avoids breaking pipelines due to unexpected policy changes.
+
+---
+
+## What Changed
+
+Previously, users could freely create and apply tags in the Data Catalog.
+
+Now:
+
+- Tags are replaced by **Classification** Tags
+- Only admins can create and manage classifications
+- Users can still apply classifications — but only through a **request**
+- Admins review and approve or reject those requests
+
+Why this matters:
+
+Each classification may be connected to:
+
+- Tag-based security policies
+- Masking rules
+- Tag-based masking
+
+Adding or removing a classification can:
+
+- Grant access to sensitive data
+- Remove access from users
+- Change how data is masked
+
+So every change must be reviewed.
+
+---
+
+## Roles and Responsibilities
+
+### Domain Members
+
+- Browse existing classifications
+- Request to add or remove classifications on tables or columns
+- Track and manage classification requests
+
+### Admins / Security Admins
+
+- Create and manage classifications
+- Review classification requests
+- Approve or reject requests
+- See where each classification is used across data assets
+
+---
+
+## Classifications (Admin Portal)
+
+Classifications are managed from the **Admin Portal → Data Security → Classifications**.
+
+<Img
+  src="/img/user-guide/data-security/admin-classifications.png"
+  alt="Data Classifications in Admin Portal"
+  borderless
+/>
+
+Each classification includes:
+
+- Name
+- Description
+- Usage count (how many assets use it)
+- List of attached tables and columns
+
+Admins use this area to:
+
+- Create classifications
+- Understand impact before making changes
+- See where sensitive labels are applied
+
+<Img
+  src="/img/user-guide/data-security/admin-classification-details.png"
+  alt="Data Classification details in Admin Portal"
+  borderless
+/>
+
+---
+
+## Browsing Classifications inside Domain (Data Catalog)
+
+All users can view available classifications from the **Classifications tab** in the Data Catalog.
+
+This is a read-only view.
+
+You can:
+
+- Search classifications
+- Read descriptions
+- Understand what each classification represents
+
+<Img
+  src="/img/user-guide/data-security/domain-classifications.png"
+  alt="Classifications in Data Catalog"
+  borderless
+/>
+
+---
+
+## Requesting Classification Changes (Users)
+
+Domain members can request to:
+
+- Add a classification to a table or column
+- Remove a classification from a table or column
+
+### How to submit a request
+
+1. Open a table or column in the Data Catalog
+2. Choose the classification action (add or remove)
+3. Submit the request
+
+The change is **not applied immediately**.
+
+Instead, a request is created for admin review.
+
+<Img
+  src="/img/user-guide/data-security/request-add.png"
+  alt="Assing a Classification to table"
+  borderless
+/>
+
+<Img
+  src="/img/user-guide/data-security/request-add-column.png"
+  alt="Assing a Classification to column"
+  borderless
+/>
+
+<Img
+  src="/img/user-guide/data-security/view-pending.png"
+  alt="View Pending request"
+  borderless
+/>
+
+---
+
+## Classification Requests
+
+All requests are visible in the **Classification Requests** tab.
+
+Users can:
+
+- Track request status (Pending / Approved / Rejected)
+- View reviewer comments
+- Cancel pending requests
+
+Admins can:
+
+- Review requests
+- Approve or reject
+- Add comments explaining decisions
+
+This creates a clear audit trail for every classification change.
+
+<Img
+  src="/img/user-guide/data-security/view-pendings.png"
+  alt="View Pending request"
+  borderless
+/>
+
+---
+
+## Approval Flow (Admins)
+
+When a request is submitted:
+
+1. Admins or Security Admins receive it
+2. They review the affected assets and classification
+3. They approve or reject the request
+4. If approved, the classification is applied automatically
+5. If rejected, the requester sees the reason
+
+This ensures sensitive changes are always reviewed.
+
+<Img
+  src="/img/user-guide/data-security/admin-view.png"
+  alt="View Pending request in Admin Portal"
+  borderless
+/>
+
+<Img
+  src="/img/user-guide/data-security/request-details.png"
+  alt="View Request details in Admin Portal"
+  borderless
+/>
+
+---
+
+## API Changes
+
+Data Catalog APIs have been updated to support:
+
+- Classifications
+- Request / approval workflow
+- Usage tracking
+
+**[PLACEHOLDER — Updated Data Catalog API documentation]**
+
+---
+
+## Example Workflow: Classifying PII Data
+
+This example shows how a typical PII classification flows from discovery to enforcement.
+
+**Scenario:**
+
+A data analyst discovers that a customer table contains personally identifiable information (PII), such as email addresses and phone numbers. That data must be classified so masking and access controls can apply.
+
+---
+
+### Step 1 — User Identifies Sensitive Columns
+
+1. Open the table in the Data Catalog.
+2. Review column contents (for example: `email`, `phone_number`).
+3. Select the relevant columns.
+4. Request to apply the **PII** classification.
+
+At this point, nothing changes yet. A request is created for review.
+
+<Img
+  src="/img/user-guide/data-security/request-add-column.png"
+  alt="View Request details in Admin Portal"
+  borderless
+/>
+
+---
+
+### Step 2 — Classification Request Is Created
+
+The system creates a Classification Request that includes:
+
+- Requested classification (PII)
+- Target assets (table / columns)
+- Requester
+- Justification
+- Timestamp
+
+The requester can track progress in **Classification Requests**.
+
+<Img
+  src="/img/user-guide/data-security/view-pendings.png"
+  alt="View Pending request"
+  borderless
+/>
+
+---
+
+### Step 3 — Admin Reviews the Request
+
+An Admin or Security Admin opens the request and reviews:
+
+- Which columns are affected
+- Whether PII is appropriate
+- Downstream impact (masking rules, access policies)
+
+They can:
+
+- Approve the request
+- Reject the request with a comment
+
+Example rejection comment:
+
+> “Phone number column confirmed, but email is already masked by another policy. Please verify.”
+
+---
+
+### Step 4 — Classification Is Applied Automatically
+
+If approved:
+
+- The PII classification is attached to the selected columns
+- Existing security and masking policies linked to PII take effect immediately
+
+Typical outcomes:
+
+- Unauthorized users lose access to raw values
+- Masking is applied automatically
+- Audit trail is updated
+
+No manual policy changes are required.
+
+---
+
+### Step 5 — User Sees Final Status
+
+The requester sees the request marked **Approved** (or **Rejected**) along with reviewer comments.
+
+<Img
+  src="/img/user-guide/data-security/request-approved.png"
+  alt="Request marked approved with comments"
+  borderless
+/>
+
+---
+
+import Card from "@site/src/components/Card";
+
+<Card
+  title="Best Practices for Data Classification"
+  link="user-guide/data-security/classification-best-practices"
+>
+  Follow our best practices guide to keep your classification system clean,
+  predictable, and safe.
+</Card>

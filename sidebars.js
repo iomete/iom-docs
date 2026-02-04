@@ -38,12 +38,12 @@ const sidebars = {
       items: [
         "deployment/on-prem/install",
         {
-          type: 'category',
-          label: 'Release Notes',
+          type: "category",
+          label: "Release Notes",
           collapsed: false,
           items: [
-            'deployment/on-prem/release-notes/index',
-            'deployment/on-prem/release-notes/marketplace-jobs',
+            "deployment/on-prem/release-notes/index",
+            "deployment/on-prem/release-notes/marketplace-jobs",
           ],
         },
         {
@@ -184,6 +184,8 @@ const sidebars = {
         "user-guide/data-security/tag-based-access-policy",
         "user-guide/data-security/tag-based-data-masking",
         "user-guide/data-security/data-security-api",
+        "user-guide/data-security/classifications",
+        "user-guide/data-security/classification-best-practices",
       ],
     },
     {
@@ -293,9 +295,7 @@ const sidebars = {
       type: "category",
       label: "DB Tools",
       collapsed: false,
-      items: ["integrations/dbtools/dbeaver",
-        "integrations/dbtools/dataiku"
-      ],
+      items: ["integrations/dbtools/dbeaver", "integrations/dbtools/dataiku"],
     },
     {
       type: "category",
