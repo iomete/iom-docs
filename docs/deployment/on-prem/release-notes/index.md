@@ -17,40 +17,86 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="3.16.0" date="February 9th, 2026">
     <NewFeatures>
     ---
-      ## Introducing Data Classifications (with Approval Workflow)
-      We’ve upgraded Data Governance with Data Classifications — replacing free-form tags with centrally managed, approval-based classification labels.
+      - **Introducing Data Classifications (with Approval Workflow)**
+        
+        We’ve upgraded Data Governance with Data Classifications — replacing free-form tags with centrally managed, approval-based classification labels.
 
-      **What’s new**  
+        **What’s new**  
 
-      - **Classifications replace tags**  
-        Classifications are now predefined by Admin / Security teams and include descriptions plus usage visibility.
+        - **Classifications replace tags**  
+          Classifications are now predefined by Admin / Security teams and include descriptions plus usage visibility.
 
-      - **Request & approval workflow**  
-        Adding or removing a classification on tables or columns now requires approval. This prevents accidental data exposure and unexpected pipeline breaks.
+        - **Request & approval workflow**  
+          Adding or removing a classification on tables or columns now requires approval. This prevents accidental data exposure and unexpected pipeline breaks.
 
-      - **User-driven, admin-controlled**  
-        Users can request classification changes directly from the Data Catalog. Admins review, approve, or reject these requests with comments.
+        - **User-driven, admin-controlled**  
+          Users can request classification changes directly from the Data Catalog. Admins review, approve, or reject these requests with comments.
 
-      - **Full visibility & audit trail**  
-        All requests are tracked in Classification Requests, with status, history, and reviewer feedback.
+        - **Full visibility & audit trail**  
+          All requests are tracked in Classification Requests, with status, history, and reviewer feedback.
 
-      - **Automatic policy enforcement**  
-        Once approved, existing security and masking policies tied to classifications apply immediately — no manual policy updates required.
+        - **Automatic policy enforcement**  
+          Once approved, existing security and masking policies tied to classifications apply immediately — no manual policy updates required.
 
-      **Why this matters**
+        **Why this matters**
 
-        Classifications often drive access control and masking. This change ensures sensitive operations are reviewed, governed, and auditable by design.
+          Classifications often drive access control and masking. This change ensures sensitive operations are reviewed, governed, and auditable by design.
 
-      📄 Learn more
-      1. Main documentation: [Data Classifications Documentation](/user-guide/data-security/classifications)
-      2. Best practices & example workflows: [Data Classification Best Practices](/user-guide/data-security/classification-best-practices)
+        📄 Learn more
+        1. Main documentation: [Data Classifications Documentation](/user-guide/data-security/classifications)
+        2. Best practices & example workflows: [Data Classification Best Practices](/user-guide/data-security/classification-best-practices)
 
 
-      ## New Grafana Dashboards
 
-      - Event Stream Dashboard: Details to fill in
-      - Event Stream Proxy Dashboard: Details to fill in
-      - Compute Proxy Dashboard: Details to fill in
+      - **Query Scheduling `BETA`**
+
+        You can now schedule SQL queries directly from the SQL Editor. This feature enables automated query execution on custom intervals with full monitoring and management capabilities.
+
+        <Img src="/img/user-guide/sql-editor/scheduling/create-schedule.png" alt="Create Schedule Modal" maxWidth="600px" centered />
+
+        :::warning Beta Feature
+        This feature is currently in beta and should not be used in production environments.
+        :::
+
+        **Key capabilities:**
+        - **Schedule from SQL Editor** — Create schedules directly from any worksheet using the Schedule icon
+        - **Flexible intervals** — Define schedules using simple intervals or advanced Cron syntax
+        - **Run as user** — Execute queries as yourself or a designated Service Account
+        - **Parameter support** — Configure query parameters at schedule time
+        - **Centralized management** — View and manage all schedules from the new Schedules menu in the Workspace section
+        - **Run history & monitoring** — Track execution history with detailed run information, task breakdowns, and execution graphs
+
+        📄 Learn more: [Query Scheduling Documentation](/user-guide/sql-editor/scheduling)
+
+
+      - **Event Streams `BETA`**
+
+        Introducing a real-time event ingestion service that receives events via HTTP requests and continuously writes them to Apache Iceberg tables in near real-time. No need to manage complex infrastructure like Kafka.
+
+        <Img src="/img/user-guide/event-stream/connect.png" alt="Event Stream Connect" maxWidth="600px" centered />
+
+        :::warning Beta Feature
+        This feature is currently in beta and should not be used in production environments.
+        :::
+
+        **Key capabilities:**
+        - **Simple HTTP API** — Send events via POST requests with JSON data; no client libraries required
+        - **Batch support** — Optimized for high throughput with batch event sending
+        - **Near real-time** — Events appear in Iceberg tables immediately after ingestion
+        - **Multi-language support** — Ready-to-use code snippets in cURL, Python, Java, JavaScript, Go, and more
+        - **Scalable deployment** — Configurable replicas, CPU/memory allocation, and persistent volumes
+        - **Full observability** — Real-time logs and Kubernetes events monitoring
+
+        Once created, connect to your Event Stream using the provided endpoint and code snippets:
+
+        📄 Learn more: [Event Stream Documentation](/user-guide/event-stream)
+
+
+      - **New Grafana Dashboards**
+
+        - Event Stream Dashboard: Details to fill in
+        - Event Stream Proxy Dashboard: Details to fill in
+        - Compute Proxy Dashboard: Details to fill in
 
     </NewFeatures>
     <Improvements>
