@@ -44,8 +44,15 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       📄 Learn more
       1. Main documentation: [Data Classifications Documentation](/user-guide/data-security/classifications)
       2. Best practices & example workflows: [Data Classification Best Practices](/user-guide/data-security/classification-best-practices)
-    </NewFeatures>
 
+
+      ## New Grafana Dashboards
+
+      - Event Stream Dashboard: Details to fill in
+      - Event Stream Proxy Dashboard: Details to fill in
+      - Compute Proxy Dashboard: Details to fill in
+
+    </NewFeatures>
     <Improvements>
     ---
 
