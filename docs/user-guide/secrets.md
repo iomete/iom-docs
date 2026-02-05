@@ -84,7 +84,7 @@ Users need **Use** permission to see Vault keys in secret selector dropdowns. Wi
 
 ## Global Secrets
 
-**Global Secrets** are **read-only** credentials available across all domains for platform-wide use. Currently managed via Kubernetes only.
+**Global Secrets** are **read-only** credentials available across all domains for platform-wide use. They can only be managed directly in Kubernetes editing in Console will be added in a future update.
 
 <Img src="/img/user-guide/secrets/domain-global-secrets.png" alt="Domain Global Secrets Tab" />
 
@@ -105,7 +105,7 @@ When configuring environment variables or credentials:
 
 - Click the **More** options button (`:`) on the right side of the input field.
 - Choose **"Use existing secret"** to select from stored secrets.
-- Or select **"Create new secret"** to define a secret inline; it will be saved to your current scope automatically.
+- Or select **"Create new secret"** to define a secret inline; it will be saved to your current domain automatically.
 
 Once selected, the UI displays the secret key and its source (**KUBERNETES** or **VAULT**). Values are resolved securely at runtime.
 
@@ -129,7 +129,7 @@ While the selector is the recommended approach, legacy `${secrets.key}` placehol
 ## Secret Backends
 
 IOMETE supports two backends that can be used simultaneously:
-- **Kubernetes** (default): Secrets stored in opaque Secret objects (`iomete-secret-store-{domain}` for domain, `iomete-secret-store` for global)
+- **Kubernetes** (default): Secrets stored in opaque Secret objects (`iomete-secret-store-{domain}` for domain, `iomete-secret-store` for global) within the same namespace as the data-plane installation
 - **HashiCorp Vault**: Customer-managed, read-only integration
 
 
@@ -142,12 +142,6 @@ features:
   secretsV2:
     enabled: true
 ```
-
----
-
-## Programmatic Access
-
-For custom automation or external integrations, access Vault secrets directly via the [Vault API](https://www.vaultproject.io/api). Ensure you respect IOMETE's scope boundaries (Domain/Global).
 
 ---
 
