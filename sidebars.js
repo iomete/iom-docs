@@ -132,6 +132,7 @@ const sidebars = {
         },
 
         "user-guide/iam/ras/ras",
+        "user-guide/iam/domain-authorization",
       ],
     },
     {
