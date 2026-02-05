@@ -47,7 +47,27 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     </NewFeatures>
 
     <Improvements>
-      ---
+    ---
+
+      ## Hive Metastore Upgrade (Hive 4.0.0)
+
+      We have completed a major upgrade of the Hive Metastore to **Hive 4.0.0**. This release addresses multiple security vulnerabilities while maintaining full compatibility with **Spark 3.5.5**.
+
+      ### What’s included
+      - Upgrade of the Hive Metastore to Hive **4.0.0**
+      - Security and dependency updates
+      - No changes to existing Spark images or production workloads
+      - New metastore image version: **metastore:7.1.1**
+
+      ### Compatibility
+      - Fully compatible with **Spark 3.5.5**
+      - Existing Spark jobs continue to run without interruption
+      - No restart or update of compute workloads is required
+
+      ### Impact
+      - This is a **backward-compatible** upgrade
+      - No user action is needed
+      - No expected changes to query behavior or performance
     </Improvements>
     
     <BugFixes>
