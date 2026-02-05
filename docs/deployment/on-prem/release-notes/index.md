@@ -16,10 +16,42 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="3.16.0" date="February 9th, 2026">
     <NewFeatures>
+    ---
+      ## Introducing Data Classifications (with Approval Workflow)
+      We’ve upgraded Data Governance with Data Classifications — replacing free-form tags with centrally managed, approval-based classification labels.
+
+      **What’s new**  
+
+      - **Classifications replace tags**  
+        Classifications are now predefined by Admin / Security teams and include descriptions plus usage visibility.
+
+      - **Request & approval workflow**  
+        Adding or removing a classification on tables or columns now requires approval. This prevents accidental data exposure and unexpected pipeline breaks.
+
+      - **User-driven, admin-controlled**  
+        Users can request classification changes directly from the Data Catalog. Admins review, approve, or reject these requests with comments.
+
+      - **Full visibility & audit trail**  
+        All requests are tracked in Classification Requests, with status, history, and reviewer feedback.
+
+      - **Automatic policy enforcement**  
+        Once approved, existing security and masking policies tied to classifications apply immediately — no manual policy updates required.
+
+      **Why this matters**
+
+        Classifications often drive access control and masking. This change ensures sensitive operations are reviewed, governed, and auditable by design.
+
+      📄 Learn more
+      1. Main documentation: [Data Classifications Documentation](/user-guide/data-security/classifications)
+      2. Best practices & example workflows: [Data Classification Best Practices](/user-guide/data-security/classification-best-practices)
     </NewFeatures>
+
     <Improvements>
+      ---
     </Improvements>
+    
     <BugFixes>
+      ---
     </BugFixes>
 </Release>
 
