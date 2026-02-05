@@ -98,6 +98,22 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Event Stream Proxy Dashboard: Details to fill in
         - Compute Proxy Dashboard: Details to fill in
 
+      - **Secrets Management**
+
+        Centralized secrets management with Domain and Global scoping, supporting Kubernetes and HashiCorp Vault backends simultaneously.
+
+        **What's new:**
+        - **HashiCorp Vault integration** — Use Vault (KV v2) alongside Kubernetes secrets with App Role or Token authentication
+        - **RAS-enabled Vault configuration** — Fine-grained access control for Vault integrations via Resource Authorization System
+        - **Secret selector UI** — Pick or create secrets directly from configuration fields
+        - **Workload integration** — Secrets available in Spark jobs, Compute, Jupyter notebooks, and Storage configurations
+
+        :::info Feature Flag
+        Enable in Helm values: `features.secretsV2.enabled: true`
+        :::
+
+        📄 Learn more: [Secrets Management Documentation](/user-guide/secrets)
+
     </NewFeatures>
     <Improvements>
     ---
