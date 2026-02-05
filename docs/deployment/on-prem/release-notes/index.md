@@ -52,7 +52,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
         You can now schedule SQL queries directly from the SQL Editor. This feature enables automated query execution on custom intervals with full monitoring and management capabilities.
 
-        <Img src="/img/user-guide/sql-editor/scheduling/create-schedule.png" alt="Create Schedule Modal" maxWidth="600px" centered />
+        <Img src="/img/user-guide/sql-editor/scheduling/create-schedule.png" alt="Create Schedule Modal" maxWidth="800px" centered />
 
         :::warning Beta Feature
         This feature is currently in beta and should not be used in production environments.
@@ -73,7 +73,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
         Introducing a real-time event ingestion service that receives events via HTTP requests and continuously writes them to Apache Iceberg tables in near real-time. No need to manage complex infrastructure like Kafka.
 
-        <Img src="/img/user-guide/event-stream/connect.png" alt="Event Stream Connect" maxWidth="600px" centered />
+        <Img src="/img/user-guide/event-stream/connect.png" alt="Event Stream Connect" maxWidth="800px" centered />
 
         :::warning Beta Feature
         This feature is currently in beta and should not be used in production environments.
