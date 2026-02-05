@@ -1,6 +1,6 @@
 ---
 title: Secrets Management
-description: Centralized, multi-backend secrets management in IOMETE
+description: Securely store and use credentials in IOMETE
 last_update:
   date: 01/08/2026
   author: Sourabh Jajoria
@@ -8,156 +8,106 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-IOMETE Secrets Management provides a centralized, secure way to store credentials. By keeping sensitive values out of configuration files and databases, it ensures security while allowing teams to reference credentials through a unified UI.
-
----
-
-Managing credentials across multiple workloads, teams, and environments is often complex. Hardcoding passwords or scattering configuration files creates significant security risks and operational overhead. IOMETE addresses these challenges with a **multi-backend secrets management system**. This architecture keeps sensitive data out of your configurations while providing every IOMETE component with secure, unified access to the credentials they need.
-
-## Core Capabilities
-
-- **Unified Secrets Service:** A single API mediates all read and write operations across every product surface.
-- **Multiple Backends:** Support for simultaneous use of IOMETE-managed Kubernetes stores and customer-managed HashiCorp Vault instances.
-- **Scoped Access:** Secrets are isolated per domain, with a specialized Global scope for shared credentials.
-- **Full Coverage:** Integrated support across Spark Jobs, Compute clusters, Jupyter notebooks, Storage Configs, Email, and LDAP.
-- **Backward Compatibility:** Legacy `${secrets.key}` placeholders remain supported, ensuring a smooth transition during migration.
-
-## Secret Scopes & Isolation
-
-IOMETE uses a two-tier scoping system to enforce strict isolation and the principle of least privilege. These scopes determine secret access and storage location, allowing teams to manage their own credentials while sharing common resources when needed.
-
-- **[Global Secrets](#global-secrets):** Shared credentials accessible across all domains.
-  - **Backing object:** `iomete-secret-store`
-- **[Domain Secrets](#domain-secrets):** Team-specific credentials isolated to ensure teams only access their own resources.
-  - **Backing object:** `iomete-secret-store-{domain}` (Kubernetes) or any Vault config bound to the domain
-
-### Scope Principles
-
-- **Isolation:** Secrets in one Domain are completely invisible to others, preventing credential leakage between teams.
-- **Unified Backends:** Scopes apply uniformly across both Kubernetes and Vault backends.
-- **Visibility:** Each secret is represented by its key plus a source, providing clear visibility into how the value is managed.
-
-> _This hierarchy ensures strict isolation between functional teams while enabling shared credentials through the Global scope._
-
-
-## Global Secrets
-
-**Global Secrets** are shared credentials accessible across all domains. They are useful for credentials that need to be used by multiple teams or across the entire platform.
-
-:::info Legacy Secrets
-Existing legacy secrets entries appear automatically under the Global scope.
-:::
+Store passwords, API keys, and credentials securely, then reference them in workloads without exposing sensitive values.
 
 ## Domain Secrets
 
-**Domain Secrets** are scoped to a specific domain. They are ideal for team-level credentials, ensuring that sensitive data is accessible only to the workloads and users within that particular domain.
-
-To manage Domain secrets, navigate to **Settings** → **Secret Settings** → **Secrets**.
+**Domain Secrets** are scoped to a specific domain—only authorized users and workloads within that domain can access them.
 
 <Img src="/img/user-guide/secrets/domain-secrets.png" alt="Domain Secrets List" />
 
-### Creating a Domain Secret
+### Create Secret
 
 Click the **New Domain Secret** button. The form requires the following fields:
 
-- **Secret Key:** The name used to reference the secret within this domain.
-- **Secret Value:** The encrypted content, which becomes write-only upon saving.
+- **Secret key:** The name used to reference the secret within this domain.
+- **Secret value:** The sensitive content of the secret. For security purposes, once the secret is saved, the value can never be viewed again.
 
-### Viewing Global Secrets
+<Img src="/img/user-guide/secrets/domain-secret-create.png" alt="Admin Secret create" maxWidth="500px" />
 
-You can view Global Secrets by switching to the **Global Secrets** tab. Within a domain, Global Secrets are **read-only**.
+After clicking **`Create`**, the secret will appear in the list with the following details:
 
-You can utilize Global Secrets alongside Domain Secrets to streamline credential management for resources used across the entire platform.
+- **Secret key**
+- **Source**: `IOMETE managed` (Kubernetes) or `Vault`
+- **Actions**: Use the button on the right to **Edit** or **Delete**.
 
-<Img src="/img/user-guide/secrets/domain-global-secrets.png" alt="Domain Global Secrets Tab" />
+<Img src="/img/user-guide/secrets/domain-secret-created.png" alt="Domain Secrets with created" maxWidth="700px" />
 
-:::info Isolation Note
-A secret created in **Domain A** is completely invisible to **Domain B**. This ensures that different teams can use the same **Secret Key** (e.g., `DB_PASSWORD`) without any risk of conflict or unauthorized access.
+:::warning Be aware
+Before deleting a secret, ensure it is no longer in use. Deleting an active secret may cause jobs or actions to fail.
 :::
 
-## Vault Integrations (HashiCorp Vault)
 
-IOMETE supports the simultaneous use of Kubernetes and HashiCorp Vault. Even if your platform operates primarily on Kubernetes secrets, domain operators can add Vault configurations for selective workloads, and vice versa.
+### Vault Integrations (HashiCorp Vault)
 
-:::info
-IOMETE Secrets Management is a "read-only" integration for Vault. It does not write data to Vault; you should continue to manage your Vault data directly through your existing HashiCorp tooling.
-:::
+IOMETE supports HashiCorp Vault alongside Kubernetes. Vault integration is **read-only**—manage Vault data via your existing HashiCorp tools.
 
-To manage Vault configurations, navigate to **Settings** → **Secret Settings** → **Vault Integrations**.
+Navigate to **Settings** → **Secret Settings** → **Vault Integrations**.
 
 <Img src="/img/user-guide/secrets/vault-integrations.png" alt="Vault Integrations" />
 
 ### Create Vault Configuration
 
-1. Click the **`+ New Vault`** button.
-2. **Select a Resource Bundle:** Choose a [resource bundle](./iam/ras/ras.md) from the dropdown to control access to this Vault configuration.
-3. Complete the following fields:
-   - **Name:** A human-readable identifier (e.g., `vault-prod-finance`). This name distinguishes between multiple Vault integrations within the UI.
-   - **Host:** The Vault base URL, including the scheme and port (e.g., `https://vault.example.com:8200`).
-   - **Path:** The mount point and path for the KV v2 secrets engine (e.g., `/v1/secret/data/production`). Note that for KV v2, the path typically includes the `/data/` segment.
-   - **HashiCorp Namespace (Optional):** Required for Vault Enterprise users to specify a namespace other than the root.
-   - **Authentication Method:** Select between **AppRole** (requires Role ID and Secret ID) or **Token-based** authentication. AppRole is recommended for machine-to-machine integrations.
-4. Click **Test Connection** to validate that IOMETE can communicate with Vault and access the specified path.
-5. **Save** the configuration. Once saved, secret selectors throughout the IOMETE UI will display keys from both Kubernetes and Vault.
+Click **`+ New Vault`** to create Vault config.
 
-<Img src="/img/user-guide/secrets/vault-config-create.png" alt="Vault Configuration Create" maxWidth="600px" centered />
+- **Name:** A unique identifier (e.g., `vault-prod-finance`).
+- **Resource bundle:** Select a [resource bundle](./iam/ras/ras.md) to define access control for this integration.
+- **Host:** The Vault base URL (e.g., `https://vault.example.com:8200`).
+- **Path:** The KV v2 mount point (e.g., `/v1/secret/data/production`). *Note: KV v2 paths typically require the `/data/` segment.*
+- **HashiCorp namespace** _(Optional)_: Required for Vault Enterprise users specifying non-root namespaces.
+- **Authentication method:** Choose **App role** (recommended) or **Token**.
+- Click **Test Connection**, then click **Create**.
 
-:::warning Vault Requirements
-IOMETE specifically requires the **HashiCorp Vault KV Secrets Engine Version 2 (v2)**. Ensure your mount path is configured as KV v2 before proceeding, as version 1 is not supported.
+<Img src="/img/user-guide/secrets/vault-config-create.png" alt="Vault Configuration Create" maxWidth="700px"  />
+
+Once saved, secret selectors throughout IOMETE will aggregate keys from both Kubernetes and Vault.
+
+<Img src="/img/user-guide/secrets/domain-secrets-of-vault.png" alt="Domain Vault Secrets"  />
+
+:::warning Requirements
+- **Vault Version:** Requires **HashiCorp Vault KV Secrets Engine v2**. Version 1 is not supported.
+- **Vault secrets are read-only** in IOMETE—edit them via your Vault tools.
 :::
 
 ### Vault Access Control
 
-Vault configurations are integrated with IOMETE's [Resource Authorization System (RAS)](./iam/ras/ras.md) to provide fine-grained access control.
-
-#### Required Permissions
+Vault access is controlled via [RAS (Resource Authorization System)](./iam/ras/ras.md):
 
 | Permission | Capability |
 |------------|------------|
-| **View** | View Vault configuration details and settings |
-| **Update** | Modify Vault configuration settings (host, path, credentials) |
-| **Use** | List and select secret keys from the Vault configuration in workloads |
+| **View** | View Vault configuration details |
+| **Update** | Modify Vault configuration (host, path, credentials) |
+| **Use** | List and select secret keys in workloads |
 
-:::info Permission Requirements
-- **Managing configurations:** Users need both **View** and **Update** permissions on the Vault configuration's resource bundle to make changes.
-- **Consuming secrets:** Users need the **Use** permission to see and select secret keys from the Vault configuration when configuring workloads.
+Users need **Use** permission to see Vault keys in secret selector dropdowns. Without it, keys from that Vault won't appear.
+
+
+## Global Secrets
+
+**Global Secrets** are **read-only** credentials available across all domains for platform-wide use. They can only be managed directly in Kubernetes editing in Console will be added in a future update.
+
+<Img src="/img/user-guide/secrets/domain-global-secrets.png" alt="Domain Global Secrets Tab" />
+
+:::info Legacy Support
+Existing legacy secrets are automatically mapped to the Global scope.
 :::
-
-#### Secret Key Visibility
-
-Secret key listing from a Vault configuration is restricted based on the **Use** permission:
-
-- Users with **Use** permission can see and select keys from that Vault in secret selector dropdowns.
-- Users without **Use** permission will not see keys from that Vault configuration.
-
-For more information on managing resource bundle permissions, see the [Resource Authorization System documentation](./iam/ras/ras.md).
-
 
 ## Usage in Workloads
 
-Every IOMETE feature integrates with a unified **Secrets Catalogue**. Whether you are configuring a specific resource or platform settings, you can securely reference credentials without exposing them in plain text.
-
-The secret selector is available across all platform surfaces that require sensitive values, including:
-- **Spark & Compute:** Environment variables and Spark configuration entries.
-- **Jupyter Notebooks:** Environment variable rows.
-- **Storage Configs:** S3, MinIO, and other cloud storage credentials.
-- **System Settings:** Email (SMTP) and LDAP integration bind credentials.
-
-:::info Access Control
-Authorization is enforced through the [Resource Authorization System (RAS)](./iam/ras/ras.md) when creating or updating configurations for Spark, Jupyter, Compute, and Storage resources. Users must have the **Use** permission on any Vault configuration they wish to reference.
-:::
+Secrets can be used in:
+- **Spark & Compute:** Environment variables and Spark configuration
+- **Jupyter Notebooks:** Environment variables
+- **Storage Configs:** S3, MinIO, and other cloud credentials
 
 ### How to Reference a Secret
-Configuration inputs allow you to switch between plaintext values and secure references seamlessly. 
 
-#### Example: Compute Environment Variables
-When setting up environment variables, you don't need to type passwords manually:
+When configuring environment variables or credentials:
 
-1. Click the **More** options button (`:`) on the right side of the input field.
-2. Choose **"Use existing secret"** to select from stored secrets.
-3. Or select **"Create new secret"** to define a secret inline; it will be saved to your current scope automatically.
+- Click the **More** options button (`:`) on the right side of the input field.
+- Choose **"Use existing secret"** to select from stored secrets.
+- Or select **"Create new secret"** to define a secret inline; it will be saved to your current domain automatically.
 
-Once selected, the UI displays the secret key and its source (**KUBERNETES** or **VAULT**). The platform resolves the actual value securely only at runtime.
+Once selected, the UI displays the secret key and its source (**KUBERNETES** or **VAULT**). Values are resolved securely at runtime.
 
 <Img src="/img/user-guide/secrets/domain-secret-spark-env-var.png" alt="Domain Secret usage" maxWidth="600px" centered />
 
@@ -170,32 +120,22 @@ Once selected, the UI displays the secret key and its source (**KUBERNETES** or 
   </div>
 </div>
 
-
 :::note Legacy Compatibility
-While the selector is the recommended path, legacy `${secrets.key}` placeholders remain supported for backward compatibility.
+While the selector is the recommended approach, legacy `${secrets.key}` placeholders remain supported for backward compatibility.
 :::
+
 ---
 
+## Secret Backends
 
-## Secret backends
-
-Backends define where secrets live. IOMETE supports **[Kubernetes](#kubernetes)** (automated) and **[HashiCorp Vault](#hashicorp-vault)** (customer-managed), which can be used simultaneously.
-
-:::note Secret References
-To keep data safe, IOMETE never stores actual passwords in its database. It only stores a **reference**:
-
-- **Runtime Fetching:** Values are retrieved only when needed at runtime.
-- **No Leaks:** Sensitive data never appears in logs, UIs, or permanent storage.
-:::
-
-### Kubernetes
-
-Kubernetes is the default backend for secrets management. Each domain has its own opaque Secret object named `iomete-secret-store-{domain}`, with individual keys stored as base64-encoded fields. Global secrets are stored in `iomete-secret-store`, and Vault credentials per domain reside in `iomete-vault-credentials-{domain}`. Use the Secrets dashboard to create, rotate, or delete entries.
+IOMETE supports two backends that can be used simultaneously:
+- **Kubernetes** (default): Secrets stored in opaque Secret objects (`iomete-secret-store-{domain}` for domain, `iomete-secret-store` for global) within the same namespace as the data-plane installation
+- **HashiCorp Vault**: Customer-managed, read-only integration
 
 
-## Feature flag
+## Feature Flag
 
-**Secrets management** is controlled through the `secretsV2` feature flag. Ensure it is turned on in your Helm values so object-based secrets, Vault integrations, and the new APIs are available.
+Enable secrets management in your Helm values:
 
 ```yaml
 features:
@@ -205,91 +145,24 @@ features:
 
 ---
 
-## Advanced usage: Programmatic access
-
-While the secrets selector interface is the recommended approach for most use cases, you can also access secrets programmatically within Spark applications using the backend-specific SDK or API.
-
-### Accessing Vault secrets via API
-
-When utilizing HashiCorp Vault as your secret backend, you can use the Vault API for direct access and management of IOMETE secrets. This is useful for:
-
-- Custom automation workflows
-- Integration with external systems
-- Advanced secret rotation strategies
-- Programmatic secret management outside IOMETE UI
-
-For detailed instructions on using the Vault API, please refer to the [HashiCorp Vault API documentation](https://www.vaultproject.io/api).
-
-:::note
-When accessing secrets programmatically, ensure you respect the same scope and permission boundaries enforced by the IOMETE platform (Domain/Global).
-:::
-
----
-
 ## Migration from legacy secrets
 
-The current secrets management system represents a significant evolution in how IOMETE handles credentials, but we've maintained backward compatibility to ensure smooth transitions.
+Legacy `${secrets.key}` placeholders are still supported but lack scope isolation and multi-backend support. To migrate:
 
-### Legacy placeholder pattern
-
-The original secrets approach used `${secrets.key}` placeholders in configuration fields. These placeholders were resolved at runtime by fetching values from the configured backend. This pattern:
-
-- Required manual placeholder syntax
-- Lacked scope isolation
-- Provided limited visibility into which secrets were in use
-- Did not support multiple backends simultaneously
-
-### Modern selector approach
-
-The modern approach introduces an object-based system with:
-
-- **UI-driven selectors**: Choose "Use existing secret" or "Create new secret" from dropdowns
-- **Multi-scope support**: Domain and Global isolation
-- **Multi-backend support**: Use Kubernetes and Vault simultaneously
-- **Better governance**: Clear visibility of secret sources and usage
-
-### Migration strategy
-
-1. **No forced cutover**: Legacy `${secrets.key}` placeholders continue to work
-2. **Incremental migration**: Migrate workloads one at a time using the new selector
-3. **Legacy secrets visible**: Existing legacy entries automatically appear under the **Global** scope
-4. **Recommended approach**: Use selectors for all new configurations
-
-:::tip Migration recommendation
-While legacy placeholders remain supported for backward compatibility, migrating to the secrets selector experience is strongly recommended. This ensures you benefit from Vault integrations, scoped governance, and future enhancements without requiring additional changes later.
-:::
+1. **No forced cutover**: Existing placeholders continue to work
+2. **Incremental migration**: Update workloads one at a time using the new selector
+3. **Legacy secrets visible**: Existing entries appear under the **Global** scope
+4. **Recommended**: Use selectors for all new configurations
 
 ---
 
-## Secret resolution at runtime
+## Security
 
-- When a workload launches, the control plane fetches each secret from its declared source (Kubernetes store or Vault integration) and injects the value into the runtime environment.
-- Resolved values are never persisted in database, logs, or user-visible metadata.
-- Access checks respect domain scope (Domain vs Global), [resource bundle permissions](./iam/ras/ras.md) for Vault configurations, and any Vault path/namespace policies.
-- Secrets are resolved at deployment time. Rotate a value by updating it in Kubernetes or Vault and redeploying the associated job, cluster, or integration.
+- **No plaintext storage**: Databases store only references—values are fetched at runtime.
+- **Protected credentials**: Vault credentials stored in dedicated Kubernetes secrets, never exposed via APIs.
+- **Scoped access**: Domain secrets guarded by domain permissions; Vault access enforced through [RAS](./iam/ras/ras.md).
+- **Rotation**: Update secrets in Kubernetes or Vault, then redeploy workloads.
 
----
-
-## Key benefits
-
-- Centralized management across workloads and domains, regardless of backend.
-- Separation between configuration and secret values; selectors keep sensitive data out of configs.
-- Pluggable backends with first-class support for HashiCorp Vault.
-- Safe by default—no plaintext exposure in the UI, APIs, or logs.
-
----
-
-## Security practices & notes
-
-IOMETE secrets management is designed with security-first principles to protect sensitive credentials across your platform:
-
-- **No plaintext storage**: Databases only store secret references, never the resolved value.
-- **Protected credentials**: Vault credentials are stored in dedicated Kubernetes secrets and never exposed via APIs.
-- **Permission-based access**: Access to domain secrets is guarded by domain-level permissions.
-- **RAS-enforced Vault access**: Vault secret consumption is enforced through the [Resource Authorization System (RAS)](./iam/ras/ras.md). Users must have appropriate permissions on the Vault configuration's resource bundle.
-- **Read-only Vault integration**: IOMETE currently reads from Vault but does not create/update Vault secrets on your behalf.
-- **Authorization enforcement**: All domain-level create and update operations that leverage the secrets model (Spark jobs, Jupyter notebooks, Compute clusters, Storage configurations) enforce authorization checks through RAS.
-
-:::warning Security best practices
-Always rotate secrets regularly and ensure proper access controls are configured for your Kubernetes cluster and Vault instances. Never commit secret values to version control or expose them in logs.
+:::warning Best practices
+Rotate secrets regularly. Never commit secret values to version control.
 :::

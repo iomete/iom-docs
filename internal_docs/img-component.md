@@ -34,13 +34,13 @@ Use [TinyPNG website](https://tinypng.com/) or the API to reduce image size.
   npm install -g tinypng-cli
   ```
 
-- Get your API key from [TinyPNG Developers](https://tinify.com/developers).
+- Get your API key from [TinyPNG Dashboard API](https://tinify.com/dashboard/api).
 
 ### Usage
 
 TinyPNG CLI supports two ways to provide your API key:
 
-1. Save it in a `.tinypng` file in your home directory.
+1. Save it in a `.tinypng` file in your computer home directory.
 2. Pass it as an option (`-k {API_KEY}`).
 
 #### Single file:
