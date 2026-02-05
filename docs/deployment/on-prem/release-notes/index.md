@@ -277,6 +277,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Total DB/schema size including all snapshots
       
           <Img src="/img/getting-started/release-notes/3.15.0/new-metrics.png" alt="New Metrics" />
+      :::important Catalog Sync Update Required
+         The Catalog Sync job needs to run with a newer version (4.3.5) for the new fields to be visible. 
+         Refer : [Marketplace Release Notes](/docs/deployment/on-prem/release-notes/marketplace-jobs.md) for more information.
+      :::
 
     - **Spark History Update Interval**: 
       - Changed Spark History Server update interval from 30 seconds to a very large value to prevent frequent filesystem scans while serving the Spark UI.
