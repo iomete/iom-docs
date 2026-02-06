@@ -1,0 +1,32 @@
+:global(:root) {
+  /* Colors (from iomete.com/roadmap) */
+  --mk-bg: #ffffff;
+  --mk-surface: #fcfcf8;
+  --mk-text: #626261;
+  --mk-text-strong: #202020;
+  --mk-border: #d0d0cd;
+
+  /* Type */
+  --mk-font-body: Inter, "Palatino Linotype", sans-serif;
+  --mk-font-heading: Archivo, "Palatino Linotype", sans-serif;
+  --mk-font-eyebrow: Dmmono, "Palatino Linotype", sans-serif;
+
+  --mk-h1-size: 36px;
+  --mk-h1-line: 43.2px;
+  --mk-h1-weight: 300;
+
+  --mk-h2-size: 28px;
+  --mk-h2-line: 35px;
+  --mk-h2-weight: 300;
+
+  --mk-body-size: 14px;
+  --mk-body-line: 18.2px;
+  --mk-body-letter: -0.14px;
+
+  /* Layout */
+  --mk-container: 77rem;
+
+
+  /* Table */
+  --mk-table-head-bg: #fcfcf8;
+}

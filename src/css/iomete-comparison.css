@@ -1,0 +1,80 @@
+/**
+ * IOMETE Comparison Page Styles
+ * Styles specific to product comparison pages (e.g., vs Databricks)
+ */
+
+/* Comparison page container */
+.comparison-page {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Comparison section grid */
+.comparison-section {
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* Comparison cards */
+.comparison-cards {
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.comparison-card {
+  padding: 0.75rem 1rem;
+  border-right: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color);
+  line-height: 1.6;
+}
+
+.comparison-card:last-child {
+  border-right: none;
+}
+
+/* Comparison table */
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  margin-bottom: 1.5rem;
+}
+
+.comparison-table thead {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  text-align: left;
+}
+
+.comparison-table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .comparison-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-card {
+    border-right: none;
+    border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  }
+
+  .comparison-card:last-child {
+    border-bottom: none;
+  }
+}
