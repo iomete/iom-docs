@@ -145,14 +145,262 @@ features:
 
 ---
 
-## Migration from legacy secrets
+## API Migration Guide
 
-Legacy `${secrets.key}` placeholders are still supported but lack scope isolation and multi-backend support. To migrate:
+Secrets V2 replaces inline `${secrets.key}` placeholders with structured secret references in API payloads. Existing placeholders continue to work as migration is incremental, so you can update workloads one at a time.
 
-1. **No forced cutover**: Existing placeholders continue to work
-2. **Incremental migration**: Update workloads one at a time using the new selector
-3. **Legacy secrets visible**: Existing entries appear under the **Global** scope
-4. **Recommended**: Use selectors for all new configurations
+### Secret Object
+
+All secret references in API payloads use a `secretObject` to identify the secret and its backend:
+
+```json
+{
+  "key": "secret_key_in_store",
+  "source": { "type": "KUBERNETES | VAULT", "id": "secret-domain | vault-config-id" }
+}
+```
+
+| Field | Description |
+|---|---|
+| `key` | Secret key stored in the backend |
+| `source.type` | `KUBERNETES` — IOMETE-managed secret store, `VAULT` — HashiCorp Vault integration |
+| `source.id` | `secret-domain` (domain name) when Kubernetes, `vault-config-id` (Vault configuration ID) when Vault |
+
+---
+
+### Compute
+
+**Endpoint:** `POST/PUT /api/v2/domains/{domain}/compute`
+
+**Before** — inline placeholders in `envVars` and `sparkConf`:
+
+```json
+{
+  "envVars": {
+    "DB_PASSWORD": "${secrets.db_password}"
+  },
+  "sparkConf": {
+    "spark.hadoop.fs.s3a.secret.key": "${secrets.warehouse_path}"
+  }
+}
+```
+
+**After** — plain values in `envVars`/`sparkConf`, secrets in dedicated arrays:
+
+```json
+{
+  "envVars": {
+    "APP_MODE": "production"
+  },
+  "envSecrets": [
+    {
+      "key": "DB_PASSWORD",
+      "secretObject": {
+        "key": "db_password",
+        "source": { "type": "KUBERNETES", "id": "secret-domain" }
+      }
+    },
+    {
+      "key": "API_TOKEN",
+      "secretObject": {
+        "key": "api_token",
+        "source": { "type": "VAULT", "id": "vault-config-id" }
+      }
+    }
+  ],
+  "sparkConf": {
+    "spark.executor.memory": "4g"
+  },
+  "sparkConfSecrets": [
+    {
+      "key": "spark.hadoop.fs.s3a.secret.key",
+      "secretObject": {
+        "key": "warehouse_path",
+        "source": { "type": "KUBERNETES", "id": "secret-domain" }
+      }
+    },
+    {
+      "key": "spark.hadoop.fs.s3a.access.key",
+      "secretObject": {
+        "key": "s3_access_key",
+        "source": { "type": "VAULT", "id": "vault-config-id" }
+      }
+    }
+  ]
+}
+```
+
+---
+
+### Spark Jobs
+
+**Endpoints:**
+- `POST/PUT /api/v2/domains/{domain}/spark/jobs`
+- `POST/PUT /api/v2/domains/{domain}/spark/streaming/jobs`
+- `POST/PUT /api/v2/domains/{domain}/sdk/spark/jobs`
+
+All three job types use the same structure under `template`.
+
+**Before** — inline placeholders in `template.envVars` and `template.sparkConf`:
+
+```json
+{
+  "template": {
+    "envVars": {
+      "API_KEY": "${secrets.api_key}"
+    },
+    "sparkConf": {
+      "spark.hadoop.fs.s3a.access.key": "${secrets.s3_access_key}"
+    }
+  }
+}
+```
+
+**After** — use `template.envSecrets` and `template.sparkConfSecrets`:
+
+```json
+{
+  "template": {
+    "envVars": {
+      "APP_MODE": "production"
+    },
+    "envSecrets": [
+      {
+        "key": "API_KEY",
+        "secretObject": {
+          "key": "api_key",
+          "source": { "type": "KUBERNETES", "id": "secret-domain" }
+        }
+      },
+      {
+        "key": "API_TOKEN",
+        "secretObject": {
+          "key": "api_token",
+          "source": { "type": "VAULT", "id": "vault-config-id" }
+        }
+      }
+    ],
+    "sparkConf": {
+      "spark.executor.memory": "4g"
+    },
+    "sparkConfSecrets": [
+      {
+        "key": "spark.hadoop.fs.s3a.access.key",
+        "secretObject": {
+          "key": "s3_access_key",
+          "source": { "type": "KUBERNETES", "id": "secret-domain" }
+        }
+      },
+      {
+        "key": "spark.hadoop.fs.s3a.secret.key",
+        "secretObject": {
+          "key": "s3_secret_key",
+          "source": { "type": "VAULT", "id": "vault-config-id" }
+        }
+      }
+    ]
+  }
+}
+```
+
+---
+
+### Jupyter Containers
+
+**Endpoint:** `POST/PUT /api/v1/domains/{domain}/jupyter-containers`
+
+**Before** — inline placeholders in `config.envVars`:
+
+```json
+{
+  "config": {
+    "envVars": {
+      "DB_PASSWORD": "${secrets.db_password}"
+    }
+  }
+}
+```
+
+**After** — add `config.envSecrets` alongside `config.envVars`:
+
+```json
+{
+  "config": {
+    "envVars": {
+      "APP_MODE": "production"
+    },
+    "envSecrets": [
+      {
+        "key": "DB_PASSWORD",
+        "secretObject": {
+          "key": "db_password",
+          "source": { "type": "KUBERNETES", "id": "secret-domain" }
+        }
+      },
+      {
+        "key": "API_TOKEN",
+        "secretObject": {
+          "key": "api_token",
+          "source": { "type": "VAULT", "id": "vault-config-id" }
+        }
+      }
+    ]
+  }
+}
+```
+
+---
+
+### Storage Configs
+
+**Endpoint:** `POST/PUT /api/v1/domains/{domain}/storage-configs`
+
+**Before** — plaintext value in `secretKey`:
+
+```json
+{
+  "secretKey": "my-plaintext-secret-value"
+}
+```
+
+**After** — use the new `storageSecret` field with `SecretKeyWithSource`.
+
+Using Kubernetes:
+
+```json
+{
+  "storageSecret": {
+    "key": "s3_secret_key",
+    "source": { "type": "KUBERNETES", "id": "secret-domain" }
+  }
+}
+```
+
+Using Vault:
+
+```json
+{
+  "storageSecret": {
+    "key": "s3_secret_key",
+    "source": { "type": "VAULT", "id": "vault-config-id" }
+  }
+}
+```
+
+:::note
+When both `secretKey` and `storageSecret` are provided, `storageSecret` takes precedence. You can keep `secretKey` as a fallback during migration.
+:::
+
+---
+
+### Migration Checklist
+
+- **No forced cutover** — existing `${secrets.key}` placeholders continue to work.
+- **Incremental migration** — update workloads one at a time; V1 and V2 references can coexist.
+- **Legacy secrets visible** — existing entries appear under the **Global** scope.
+- **Feature flag** — ensure `features.secretsV2.enabled: true` is set in your Helm values.
+- **Create secrets first** — secrets must exist in the target domain or global scope before workloads reference them.
+- **Recommended** — use structured secret references for all new configurations.
 
 ---
 
