@@ -118,9 +118,76 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
         📄 Learn more: [Secrets Management Documentation](/user-guide/secrets)
 
+      - **Access Delegation for Iceberg REST Catalog**
+
+        The Iceberg REST Catalog now supports [access delegation](https://iceberg.apache.org/spec/#access-delegation), eliminating the need to configure external compute engines (Spark, Trino, Starburst, etc.) with long-lived, bucket-wide S3 credentials. Instead, the catalog handles data access on behalf of clients — they only need a catalog-level access token.
+
+        IOMETE implements both modes defined by the Iceberg REST specification:
+
+        - **Credential Vending (STS)** — The catalog issues temporary, scoped AWS STS credentials per table. Permissions are derived from Apache Ranger policies (`SELECT` → read-only, `INSERT`/`DELETE` → read-write). Credentials are short-lived and automatically scoped to the table's S3 path.
+        - **Remote Signing** — The catalog signs S3 requests on behalf of clients using presigned URLs. Credentials never leave the server.
+
+        Both modes are disabled by default. They can be enabled globally via System Configs (`iceberg-catalog.vended-credentials.enabled` / `iceberg-catalog.remote-signing.enabled`) or per catalog via additional catalog properties.
+
+        📄 Learn more: [Iceberg REST Catalog — Access Delegation](/user-guide/spark-catalogs/internal#access-delegation)
+
+      - **Enterprise Catalog**
+
+        A new IOMETE-managed catalog type with auto-configured connection properties. Enterprise Catalogs automatically set up REST endpoint, storage type, and internal routing — no manual configuration required beyond name and warehouse.
+
+        📄 Learn more: [Enterprise Catalog Documentation](/user-guide/spark-catalogs/enterprise)
+
+      - **Access Token Suspension**
+
+        Access tokens can now be **suspended** to immediately block all requests using that token, without deleting it. A suspended token can be reactivated at any time to restore access — no service restart or redeployment required.
+
+        📄 Learn more: [Access Tokens — Suspending and Reactivating](/user-guide/create-a-personal-access-token#suspending-and-reactivating-tokens)
+
     </NewFeatures>
     <Improvements>
     ---
+
+      ## Per-Token Rate Limiting for REST Catalog
+
+      Access tokens for the Iceberg REST Catalog can now be configured with a **max requests per second (maxRPS)** to prevent individual clients from overwhelming the service. When enabled, IOMETE deploys a dedicated rate limiter pod alongside the REST catalog.
+
+      :::info Enable via Helm
+      ```yaml
+      features:
+        ratelimiter:
+          enabled: true
+      ```
+      :::
+
+      📄 Learn more: [Access Tokens](/user-guide/create-a-personal-access-token) · [Iceberg REST Catalog — Rate Limiting](/user-guide/spark-catalogs/internal#rate-limiting)
+
+      ## Concurrency Limiting for REST Catalog
+
+      The REST catalog now supports a configurable maximum number of concurrent requests to prevent pod overload. When the limit is exceeded, the catalog returns **HTTP 503 Service Unavailable**.
+
+      ```yaml
+      # Helm values
+      services:
+        restCatalog:
+          settings:
+            maxConcurrentRequests: 10000  # default
+      ```
+
+      📄 Learn more: [Iceberg REST Catalog — Operational Settings](/user-guide/spark-catalogs/internal#operational-settings)
+
+      ## Client Request Tracking for REST Catalog
+
+      When enabled, HTTP metrics for the REST catalog are tagged with the access token name and user ID, giving per-client visibility into request rates, latency, and error rates in Grafana.
+
+      ```yaml
+      # Helm values
+      services:
+        restCatalog:
+          settings:
+            serviceAccountRequestTracking: true
+      ```
+
+      📄 Learn more: [Iceberg REST Catalog — Client Request Tracking](/user-guide/spark-catalogs/internal#client-request-tracking)
 
       ## Hive Metastore Upgrade (Hive 4.0.0)
 
