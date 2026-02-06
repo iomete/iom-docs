@@ -54,15 +54,20 @@ IOMETE supports both **internally managed catalogs** and **external catalogs** t
 
 These are the catalogs managed internally by the IOMETE system.
 
-### Internal Spark Catalogs
+### IOMETE Managed Catalogs
 
-An internally managed Iceberg catalog using a REST API connection. It is fully managed within the IOMETE platform and provides an easy way to manage metadata through the Iceberg REST API.
+Catalogs managed internally by the IOMETE platform. These catalogs integrate with Data Security for RBAC and are accessible by both IOMETE workloads and external compute engines.
 
 <GridBox>
 
-<Card title="Iceberg Rest Catalog" link="user-guide/spark-catalogs/internal">
-  Seamlessly transfer your MySQL tables to IOMETE Lakehouse with our
-  easy-to-configure Spark Job.
+<Card title="Iceberg REST Catalog" link="user-guide/spark-catalogs/internal">
+  A fully managed Iceberg REST Catalog with support for external access,
+  access delegation (credential vending and remote signing), and operational controls.
+</Card>
+
+<Card title="Enterprise Catalog" link="user-guide/spark-catalogs/enterprise">
+  A streamlined catalog type for internal IOMETE workloads with
+  auto-configured connection properties.
 </Card>
 
 </GridBox>
@@ -123,35 +128,6 @@ In the given image, we have already created some databases and tables inside the
   maxWidth="600px"
 />
 
-## Connecting to the IOMETE REST Catalog from External Applications
-
-IOMETE exposes the Iceberg REST URL at the subpath `/catalogs/<catalog name>` on the same domain as the IOMETE console.
-For instance, you wish to query a catalog named `my_catalog` if your console is available on https://console.iomete.internal, then
-you can utilize tools like cURL, Postman, or others to send requests to https://console.iomete.internal/catalogs/my_catalog/v1/config.
-All REST endpoints are compliant with the [Iceberg REST OpenAPI specification](https://github.com/apache/iceberg/blob/apache-iceberg-1.6.1/open-api/rest-catalog-open-api.yaml).
-
-To connect to the REST Catalog via PySpark, the following configuration will enable the connection. Be sure to fill in the required fields.
-If you are using HTTPS with certificates, you will also need to provide a valid truststore and its associated password.
-
-```shell
-pyspark \
-    --conf spark.sql.catalog.spark_catalog.uri="<http|https>://<url running IOMETE console>/catalogs/my_catalog" \
-    --conf spark.sql.catalog.spark_catalog.token="<(personal) access token>" \
-    --conf spark.sql.catalog.spark_catalog=org.apache.iceberg.spark.SparkCatalog \
-    --conf spark.sql.catalog.spark_catalog.warehouse="<path-to-your-s3-compatible warehouse>" \
-    --conf spark.sql.defaultCatalog=spark_catalog \
-    --conf spark.sql.catalog.spark_catalog.catalog-impl=org.apache.iceberg.rest.RESTCatalog \
-    --conf spark.sql.catalog.spark_catalog.s3.endpoint="<s3 compatible storage endpoint>" \
-    --conf spark.sql.catalog.spark_catalog.s3.client.region="<region for your s3 compatible storage, default it us-east1>" \
-    --conf spark.sql.catalog.spark_catalog.s3.access-key-id="<access key for your s3 compatible storage>" \
-    --conf spark.sql.catalog.spark_catalog.s3.secret-access-key="<secret key for your s3 compatible storage>" \
-    --conf spark.sql.catalog.spark_catalog.s3.path-style-access=true \
-    --conf "spark.driver.extraJavaOptions=-Djavax.net.ssl.trustStore=<path-to-truststore> -Djavax.net.ssl.trustStorePassword=<truststore password>" \
-    --conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions \
-    --packages org.apache.iceberg:iceberg-spark-extensions-3.4_2.12:1.6.1,org.apache.iceberg:iceberg-spark-runtime-3.4_2.12:1.6.1,org.apache.iceberg:iceberg-aws-bundle:1.6.1,software.amazon.awssdk:s3:2.27.21
-```
-
-:::note Access token
-Please mind that you will require a valid session or [PAT token](../create-a-personal-access-token.md) pass authentication.
-Additionally, the user associated with the token must have the necessary [Access Policies](../../user-guide/data-security/access-policy.mdx) on the catalog, namespace, and table you wish to operate on.
+:::tip Connecting from External Applications
+For details on connecting external compute engines (PySpark, Starburst, Teradata) to IOMETE catalogs, see the [Iceberg REST Catalog](./internal.md#connecting-from-external-applications) documentation.
 :::
