@@ -100,6 +100,7 @@ const sidebars = {
         "user-guide/volumes",
         "user-guide/secrets",
         "user-guide/api-reference",
+        "user-guide/db-explorer-api-migration",
         "user-guide/register-table",
         "user-guide/storage-configs",
         "user-guide/workspaces",
