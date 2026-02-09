@@ -211,12 +211,12 @@ All secret references in API payloads use a `secretObject` to identify the secre
   },
   "sparkConfSecrets": [
     {
-        "key": "API_TOKEN",
-        "secretObject": {
-          "key": "api_token",
-          "source": { "type": "VAULT", "id": "vault-config-id" }
-        }
+      "key": "API_TOKEN",
+      "secretObject": {
+        "key": "api_token",
+        "source": { "type": "VAULT", "id": "vault-config-id" }
       }
+    }
   ]
 }
 ```
@@ -232,8 +232,60 @@ All secret references in API payloads use a `secretObject` to identify the secre
 - `POST/PUT /api/v2/domains/{domain}/spark/streaming/jobs`
 - `POST/PUT /api/v2/domains/{domain}/sdk/spark/jobs`
 
-- All three job types use the same structure as [Compute](#compute), nested under `template`.
-- Use `template.envSecrets` and `template.sparkConfSecrets` alongside `template.envVars` and `template.sparkConf`.
+- All three job types use the same structure under `template`.
+
+<Tabs>
+  <TabItem value="V1" label="V1 — Inline Placeholders" default>
+
+```json
+{
+  "template": {
+    "envVars": {
+      "API_KEY": "${secrets.api_key}"
+    },
+    "sparkConf": {
+      "spark.hadoop.fs.s3a.access.key": "${secrets.s3_access_key}"
+    }
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="V2" label="V2 — SecretObject">
+
+```json
+{
+  "template": {
+    "envVars": {
+      "APP_MODE": "production"
+    },
+    "envSecrets": [
+      {
+        "key": "API_TOKEN",
+        "secretObject": {
+          "key": "api_token",
+          "source": { "type": "VAULT", "id": "vault-config-id" }
+        }
+      }
+    ],
+    "sparkConf": {
+      "spark.executor.memory": "4g"
+    },
+    "sparkConfSecrets": [
+      {
+        "key": "spark.hadoop.fs.s3a.access.key",
+        "secretObject": {
+          "key": "s3_access_key",
+          "source": { "type": "KUBERNETES", "id": "secret-domain" }
+        }
+      }
+    ]
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
 
 ### Jupyter Containers
 
@@ -262,21 +314,21 @@ All secret references in API payloads use a `secretObject` to identify the secre
       "APP_MODE": "production"
     },
     "envSecrets": [
-        {
-          "key": "DB_PASSWORD",
-          "secretObject": {
-            "key": "db_password",
-            "source": { "type": "KUBERNETES", "id": "secret-domain" }
-          }
-        },
-        {
-          "key": "API_TOKEN",
-          "secretObject": {
-            "key": "api_token",
-            "source": { "type": "VAULT", "id": "vault-config-id" }
-          }
+      {
+        "key": "DB_PASSWORD",
+        "secretObject": {
+          "key": "db_password",
+          "source": { "type": "KUBERNETES", "id": "secret-domain" }
         }
-      ]
+      },
+      {
+        "key": "API_TOKEN",
+        "secretObject": {
+          "key": "api_token",
+          "source": { "type": "VAULT", "id": "vault-config-id" }
+        }
+      }
+    ]
   }
 }
 ```
