@@ -16,34 +16,24 @@ Access tokens are an alternative to using passwords for authentication to IOMETE
 
 ### Create new access token
 
-**1.** Navigate to **Settings** menu
+To manage access tokens navigate to **Settings** -> **Access Tokens** tab. To create new access token click **`Generate new token`** button.
 
-**2.** Click **Access Tokens** tab
-
-**3.** Click **Generate new token**
 
 <Img src="/img/user-guide/pat/access-tokens.png"
   alt="Access tokens"/>
 
-**4.** Under **Token name**, give the token a name.
 
-**5.** Click **Generate**. After genereting you should see
+In the form includes following fields:
 
-  <div className="row">
-    <div className="col col--6">
-      <Img src="/img/user-guide/pat/access-token-create.png" alt="Access token create" maxWidth="305px"/>
-    </div>
-    <div className="col col--6">
-      <Img src="/img/user-guide/pat/access-token-created.png" alt="Access token created" maxWidth="400px"/>
-    </div>
-</div>
+- **Token name**: A descriptive name for the token to identify its purpose.
+- **Max RPS**: (Optional) Maximum requests per second allowed for this token.
+- **Expiration**: (Optional) Set an expiration date for the token to enhance security.
 
-**6.** Click **Done**.
+<Img src="/img/user-guide/pat/access-token-create-rps.png" alt="Access token create with" maxWidth="500px"/>
 
-**7.** We can see generated token in list view.
+Once you filled inputs click to `Generate`. That is it! You have successfully created an access token. You can copy the token value and use it for authentication in your API requests.
 
-<Img src="/img/user-guide/pat/access-token-list.png"
-  alt="Access token list"/>
+<Img src="/img/user-guide/pat/access-tokens-rps.png" alt="Access token rps"/>
 
 :::success How to use Access Token
 **IOMETE API** can be accessed through code or CLI tools using the Access Token. You should send the API token in the HTTP header `X-API-Token`. Below we provided simple example written in Python.
@@ -72,7 +62,11 @@ Access tokens can be **suspended** to immediately block all requests using that 
 - Revoking access during an investigation
 - Rotating access without recreating tokens
 
+<Img src="/img/user-guide/pat/access-token-suspend.png" alt="Access token suspend"/>
+
 A suspended token can be **reactivated** at any time to restore access. No service restart or redeployment is required.
+
+<Img src="/img/user-guide/pat/access-token-activate.png" alt="Access token activate"/>
 
 ### Rate Limiting (maxRPS)
 
@@ -82,6 +76,10 @@ A suspended token can be **reactivated** at any time to restore access. No servi
 Each access token can have a **maximum requests per second (maxRPS)** configured. When set, the token is rate-limited at the [Iceberg REST Catalog](/user-guide/spark-catalogs/internal#rate-limiting) level.
 
 This is useful for controlling external client throughput and preventing any single client from overwhelming the catalog.
+
+<Img src="/img/user-guide/pat/access-token-create-rps.png" alt="Access token create with" maxWidth="500px"/>
+<Img src="/img/user-guide/pat/access-tokens-rps.png" alt="Access token rps"/>
+
 
 :::note
 Rate limiting requires the `features.ratelimiter.enabled` Helm flag to be set to `true`. See the [Iceberg REST Catalog — Rate Limiting](/user-guide/spark-catalogs/internal#rate-limiting) documentation for details.
