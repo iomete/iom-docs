@@ -120,16 +120,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       - **Access Delegation for Iceberg REST Catalog**
 
-        The Iceberg REST Catalog now supports [access delegation](https://iceberg.apache.org/spec/#access-delegation), eliminating the need to configure external compute engines (Spark, Trino, Starburst, etc.) with long-lived, bucket-wide S3 credentials. Instead, the catalog handles data access on behalf of clients — they only need a catalog-level access token.
+        The Iceberg REST Catalog now supports [access delegation](https://iceberg.apache.org/spec/#access-delegation), eliminating the need to configure external compute engines (Spark, Trino, Starburst, etc.) with long-lived, bucket-wide credentials. Instead, the catalog handles data access on behalf of clients — they only need a catalog-level access token.
 
         IOMETE implements both modes defined by the Iceberg REST specification:
 
-        - **Credential Vending (STS)** — The catalog issues temporary, scoped AWS STS credentials per table. Permissions are derived from Apache Ranger policies (`SELECT` → read-only, `INSERT`/`DELETE` → read-write). Credentials are short-lived and automatically scoped to the table's S3 path.
-        - **Remote Signing** — The catalog signs S3 requests on behalf of clients using presigned URLs. Credentials never leave the server.
+        - **Credential Vending** — The catalog issues temporary, scoped credentials per table. Permissions are derived from Apache Ranger policies (`SELECT` → read-only, `INSERT`/`DELETE` → read-write). Credentials are short-lived and automatically scoped to the table's path.
+        - **Remote Signing** — The catalog signs requests on behalf of clients using presigned requests. Credentials never leave the server.
 
         Both modes are disabled by default. They can be enabled globally via System Configs (`iceberg-catalog.vended-credentials.enabled` / `iceberg-catalog.remote-signing.enabled`) or per catalog via additional catalog properties.
 
         📄 Learn more: [Iceberg REST Catalog — Access Delegation](/user-guide/spark-catalogs/internal#access-delegation)
+        📝 Deep dive with our blog post: [Access Delegation in Apache Iceberg](/blog/iceberg-access-delegation)
 
       - **Enterprise Catalog**
 
@@ -139,7 +140,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       - **Access Token Suspension**
 
-        Access tokens can now be **suspended** to immediately block all requests using that token, without deleting it. A suspended token can be reactivated at any time to restore access — no service restart or redeployment required.
+        Access tokens can now be **suspended** to immediately block all requests using that PAT token, without deleting it. A suspended token can be reactivated at any time to restore access — no service restart or redeployment required.
 
         📄 Learn more: [Access Tokens — Suspending and Reactivating](/user-guide/create-a-personal-access-token#suspending-and-reactivating-tokens)
 

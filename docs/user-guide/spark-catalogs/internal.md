@@ -112,16 +112,16 @@ If the IOMETE console uses HTTPS with certificates not in your JVM's default tru
 Access delegation is available starting with IOMETE 3.16.0.
 :::
 
-Without access delegation, external clients must provide their own static S3 credentials to read data from Iceberg tables. Static credentials are difficult to rotate, cannot be scoped per-table, and pose a security risk if leaked.
+Without access delegation, external clients must be configured with their own (static) S3 credentials to read data from Iceberg tables. Static credentials are difficult to rotate, cannot be scoped per-table, and pose a security risk if leaked.
 
 **Access delegation** allows the REST catalog to handle data access on behalf of clients, so they only need a catalog-level access token. The Iceberg REST specification defines two access delegation modes, both implemented by IOMETE:
 
-| Mode | How it works | Credentials leave the server? |
-|---|---|---|
-| **Credential Vending** | Catalog issues temporary, scoped AWS STS credentials per table | Yes — client receives short-lived AWS credentials |
-| **Remote Signing** | Catalog signs S3 requests on behalf of the client via presigned URLs | No — credentials never leave the server |
+| Mode | How it works                                                            | Credentials leave the server? |
+|---|-------------------------------------------------------------------------|---|
+| **Credential Vending** | Catalog issues temporary, scoped credentials per table                  | Yes — client receives short-lived credentials |
+| **Remote Signing** | Catalog signs requests on behalf of the client via presigned requests | No — credentials never leave the server |
 
-Both modes enforce [Data Security](/user-guide/data-security/overview) policies. Permissions are derived from Apache Ranger:
+Both modes enforce [Data Security](/user-guide/data-security/overview) policies. Permissions are derived from the configured data governance rules:
 - `SELECT` privilege → read-only S3 access
 - `INSERT` / `DELETE` privileges → read-write S3 access
 
@@ -138,6 +138,9 @@ Access delegation settings can be configured globally via **System Configs** and
 | `iceberg-catalog.vended-credentials.sts.role-arn` | IAM role ARN for STS AssumeRole | — |
 | `iceberg-catalog.vended-credentials.sts.external-id` | External ID for confused deputy protection | — |
 | `iceberg-catalog.vended-credentials.sts.kms-enabled` | Include KMS permissions for SSE-KMS encrypted buckets | `false` |
+
+To use this, your S3 compatible storage must have an equivalent of the [STS AssumeRole](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html). The credentials configured in IOMETE to connect to your object store must
+allow IOMETE to call [STS AssumeRole](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) to be able to issue temporary credentials.
 
 #### Remote Signing
 
@@ -172,9 +175,10 @@ You can override global settings on individual catalogs by adding these as **Add
 
 ## Operational Settings
 
-### Bulkhead Protection
+### Overload Protection
 
 The REST catalog enforces a maximum number of concurrent requests to prevent pod overload. When the limit is exceeded, the catalog returns **HTTP 503 Service Unavailable**.
+This can be used to protect the service from denial of service type attacks.
 
 ```yaml
 # Helm values
@@ -197,7 +201,7 @@ services:
 ```
 
 :::warning High-Cardinality Labels
-Enabling request tracking adds per-client labels (`iomete_user_id`, `iomete_pat`) to HTTP metrics. These are high-cardinality labels — most metrics backends (Prometheus, Mimir, Thanos) are sensitive to label cardinality and can experience performance degradation or increased storage costs. Only enable this if you have a limited number of access tokens and your metrics infrastructure can handle the additional cardinality.
+Enabling request tracking adds per-client labels (`iomete_user_id`, `iomete_pat`) to HTTP metrics. These are high-cardinality labels — most metrics backends (Prometheus, Mimir, Thanos, Datadog) are sensitive to label cardinality and can experience performance degradation or increased storage costs. Only enable this if you have a limited number of access tokens and your metrics infrastructure can handle the additional cardinality.
 :::
 
 ### Rate Limiting
