@@ -216,7 +216,45 @@ Data Catalog APIs have been updated to support:
 - Request / approval workflow
 - Usage tracking
 
-**[PLACEHOLDER — Updated Data Catalog API documentation]**
+### New APIs (Added in 3.16.x)
+
+A complete new set of endpoints for managing classification tags and change requests has been introduced:
+
+| Admin scope                                                           |
+| --------------------------------------------------------------------- |
+| `/api/v1/admin/governance/classification-requests`                    |
+| `/api/v1/admin/governance/classification-requests/{id}`               |
+| `/api/v1/admin/governance/classification-requests/{requestId}/review` |
+| `/api/v1/admin/governance/classification-tags`                        |
+| `/api/v1/admin/governance/classification-tags/{tagId}`                |
+| `/api/v1/admin/governance/classification-tags/{tagId}/assets`         |
+| `/api/v1/admin/governance/classification-tags/name/{tagName}`         |
+| `/api/v1/admin/governance/classification-tags/name/{tagName}/assets`  |
+
+| Domain scope                                                                                                    |
+| --------------------------------------------------------------------------------------------------------------- |
+| `/api/v1/domains/{domainId}/governance/classification-requests`                                                 |
+| `/api/v1/domains/{domainId}/governance/classification-requests/{id}`                                            |
+| `/api/v1/domains/{domainId}/governance/classification-requests/{requestId}/cancel`                              |
+| `/api/v1/domains/{domainId}/governance/classification-requests/catalog/{catalog}/schema/{schema}/table/{table}` |
+| `/api/v1/domains/{domainId}/governance/classification-tags`                                                     |
+
+These APIs enable:
+
+- Creating and reviewing classification change requests
+- Managing classification tags (CRUD + asset lookup)
+- Domain-level submission and cancellation of requests
+
+### Removed APIs (in 3.16.x)
+
+|        | Removed v2 Data Catalog APIs                                                       |
+| ------ | ---------------------------------------------------------------------------------- |
+| DELETE | `/api/v2/domains/{domain}/data-catalog/search/clear`                               |
+| PUT    | `/api/v2/domains/{domain}/data-catalog/tables/{id}/tags`                           |
+| DELETE | `/api/v2/domains/{domain}/data-catalog/tables/{id}/tags/{tag}`                     |
+| PUT    | `/api/v2/domains/{domain}/data-catalog/tables/{tableId}/columns/{name}/tags`       |
+| DELETE | `/api/v2/domains/{domain}/data-catalog/tables/{tableId}/columns/{name}/tags/{tag}` |
+| POST   | `/api/v2/domains/{domain}/data-catalog/tags`                                       |
 
 ---
 
