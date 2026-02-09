@@ -73,6 +73,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
         Introducing a real-time event ingestion service that receives events via HTTP requests and continuously writes them to Apache Iceberg tables in near real-time. No need to manage complex infrastructure like Kafka.
 
+        :::caution
+        Event Streams requires `statefulsets` and `statefulsets/scale` permissions (apiGroup: `apps`) in the `iomete-lakehouse-role`. Update your ClusterRole before using this feature.
+        :::
+
         <Img src="/img/user-guide/event-stream/connect.png" alt="Event Stream Connect" maxWidth="800px" centered />
 
         :::warning Beta Feature
