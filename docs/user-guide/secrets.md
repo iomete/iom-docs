@@ -7,6 +7,8 @@ last_update:
 ---
 
 import Img from '@site/src/components/Img';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 Store passwords, API keys, and credentials securely, then reference them in workloads without exposing sensitive values.
 
@@ -37,7 +39,6 @@ After clicking **`Create`**, the secret will appear in the list with the followi
 Before deleting a secret, ensure it is no longer in use. Deleting an active secret may cause jobs or actions to fail.
 :::
 
-
 ### Vault Integrations (HashiCorp Vault)
 
 IOMETE supports HashiCorp Vault alongside Kubernetes. Vault integration is **read-only**—manage Vault data via your existing HashiCorp tools.
@@ -53,7 +54,7 @@ Click **`+ New Vault`** to create Vault config.
 - **Name:** A unique identifier (e.g., `vault-prod-finance`).
 - **Resource bundle:** Select a [resource bundle](./iam/ras/ras.md) to define access control for this integration.
 - **Host:** The Vault base URL (e.g., `https://vault.example.com:8200`).
-- **Path:** The KV v2 mount point (e.g., `/v1/secret/data/production`). *Note: KV v2 paths typically require the `/data/` segment.*
+- **Path:** The KV v2 mount point (e.g., `/v1/secret/data/production`). _Note: KV v2 paths typically require the `/data/` segment._
 - **HashiCorp namespace** _(Optional)_: Required for Vault Enterprise users specifying non-root namespaces.
 - **Authentication method:** Choose **App role** (recommended) or **Token**.
 - Click **Test Connection**, then click **Create**.
@@ -65,22 +66,22 @@ Once saved, secret selectors throughout IOMETE will aggregate keys from both Kub
 <Img src="/img/user-guide/secrets/domain-secrets-of-vault.png" alt="Domain Vault Secrets"  />
 
 :::warning Requirements
+
 - **Vault Version:** Requires **HashiCorp Vault KV Secrets Engine v2**. Version 1 is not supported.
 - **Vault secrets are read-only** in IOMETE—edit them via your Vault tools.
-:::
+  :::
 
 ### Vault Access Control
 
 Vault access is controlled via [RAS (Resource Authorization System)](./iam/ras/ras.md):
 
-| Permission | Capability |
-|------------|------------|
-| **View** | View Vault configuration details |
+| Permission | Capability                                           |
+| ---------- | ---------------------------------------------------- |
+| **View**   | View Vault configuration details                     |
 | **Update** | Modify Vault configuration (host, path, credentials) |
-| **Use** | List and select secret keys in workloads |
+| **Use**    | List and select secret keys in workloads             |
 
 Users need **Use** permission to see Vault keys in secret selector dropdowns. Without it, keys from that Vault won't appear.
-
 
 ## Global Secrets
 
@@ -95,6 +96,7 @@ Existing legacy secrets are automatically mapped to the Global scope.
 ## Usage in Workloads
 
 Secrets can be used in:
+
 - **Spark & Compute:** Environment variables and Spark configuration
 - **Jupyter Notebooks:** Environment variables
 - **Storage Configs:** S3, MinIO, and other cloud credentials
@@ -129,9 +131,9 @@ While the selector is the recommended approach, legacy `${secrets.key}` placehol
 ## Secret Backends
 
 IOMETE supports two backends that can be used simultaneously:
+
 - **Kubernetes** (default): Secrets stored in opaque Secret objects (`iomete-secret-store-{domain}` for domain, `iomete-secret-store` for global) within the same namespace as the data-plane installation
 - **HashiCorp Vault**: Customer-managed, read-only integration
-
 
 ## Feature Flag
 
@@ -156,23 +158,25 @@ All secret references in API payloads use a `secretObject` to identify the secre
 ```json
 {
   "key": "secret_key_in_store",
-  "source": { "type": "KUBERNETES | VAULT", "id": "secret-domain | vault-config-id" }
+  "source": {
+    "type": "KUBERNETES | VAULT",
+    "id": "<domain-name or vault-config-id>"
+  }
 }
 ```
 
-| Field | Description |
-|---|---|
-| `key` | Secret key stored in the backend |
-| `source.type` | `KUBERNETES` — IOMETE-managed secret store, `VAULT` — HashiCorp Vault integration |
-| `source.id` | `secret-domain` (domain name) when Kubernetes, `vault-config-id` (Vault configuration ID) when Vault |
-
----
+| Field         | Description                                                |
+| ------------- | ---------------------------------------------------------- |
+| `key`         | Secret key name in the store                               |
+| `source.type` | `KUBERNETES` (IOMETE-managed) or `VAULT` (HashiCorp Vault) |
+| `source.id`   | Domain name for Kubernetes, or Vault config ID for Vault   |
 
 ### Compute
 
 **Endpoint:** `POST/PUT /api/v2/domains/{domain}/compute`
 
-**Before** — inline placeholders in `envVars` and `sparkConf`:
+<Tabs>
+  <TabItem value="V1" label="V1 — Inline Placeholders" default>
 
 ```json
 {
@@ -185,7 +189,8 @@ All secret references in API payloads use a `secretObject` to identify the secre
 }
 ```
 
-**After** — plain values in `envVars`/`sparkConf`, secrets in dedicated arrays:
+  </TabItem>
+  <TabItem value="V2" label="V2 — SecretObject">
 
 ```json
 {
@@ -199,13 +204,6 @@ All secret references in API payloads use a `secretObject` to identify the secre
         "key": "db_password",
         "source": { "type": "KUBERNETES", "id": "secret-domain" }
       }
-    },
-    {
-      "key": "API_TOKEN",
-      "secretObject": {
-        "key": "api_token",
-        "source": { "type": "VAULT", "id": "vault-config-id" }
-      }
     }
   ],
   "sparkConf": {
@@ -213,16 +211,9 @@ All secret references in API payloads use a `secretObject` to identify the secre
   },
   "sparkConfSecrets": [
     {
-      "key": "spark.hadoop.fs.s3a.secret.key",
+      "key": "API_TOKEN",
       "secretObject": {
-        "key": "warehouse_path",
-        "source": { "type": "KUBERNETES", "id": "secret-domain" }
-      }
-    },
-    {
-      "key": "spark.hadoop.fs.s3a.access.key",
-      "secretObject": {
-        "key": "s3_access_key",
+        "key": "api_token",
         "source": { "type": "VAULT", "id": "vault-config-id" }
       }
     }
@@ -230,18 +221,21 @@ All secret references in API payloads use a `secretObject` to identify the secre
 }
 ```
 
----
+  </TabItem>
+</Tabs>
 
 ### Spark Jobs
 
 **Endpoints:**
+
 - `POST/PUT /api/v2/domains/{domain}/spark/jobs`
 - `POST/PUT /api/v2/domains/{domain}/spark/streaming/jobs`
 - `POST/PUT /api/v2/domains/{domain}/sdk/spark/jobs`
 
-All three job types use the same structure under `template`.
+- All three job types use the same structure under `template`.
 
-**Before** — inline placeholders in `template.envVars` and `template.sparkConf`:
+<Tabs>
+  <TabItem value="V1" label="V1 — Inline Placeholders" default>
 
 ```json
 {
@@ -256,7 +250,8 @@ All three job types use the same structure under `template`.
 }
 ```
 
-**After** — use `template.envSecrets` and `template.sparkConfSecrets`:
+  </TabItem>
+  <TabItem value="V2" label="V2 — SecretObject">
 
 ```json
 {
@@ -265,13 +260,6 @@ All three job types use the same structure under `template`.
       "APP_MODE": "production"
     },
     "envSecrets": [
-      {
-        "key": "API_KEY",
-        "secretObject": {
-          "key": "api_key",
-          "source": { "type": "KUBERNETES", "id": "secret-domain" }
-        }
-      },
       {
         "key": "API_TOKEN",
         "secretObject": {
@@ -290,26 +278,21 @@ All three job types use the same structure under `template`.
           "key": "s3_access_key",
           "source": { "type": "KUBERNETES", "id": "secret-domain" }
         }
-      },
-      {
-        "key": "spark.hadoop.fs.s3a.secret.key",
-        "secretObject": {
-          "key": "s3_secret_key",
-          "source": { "type": "VAULT", "id": "vault-config-id" }
-        }
       }
     ]
   }
 }
 ```
 
----
+  </TabItem>
+</Tabs>
 
 ### Jupyter Containers
 
 **Endpoint:** `POST/PUT /api/v1/domains/{domain}/jupyter-containers`
 
-**Before** — inline placeholders in `config.envVars`:
+<Tabs>
+  <TabItem value="V1" label="V1 — Inline Placeholders" default>
 
 ```json
 {
@@ -321,7 +304,8 @@ All three job types use the same structure under `template`.
 }
 ```
 
-**After** — add `config.envSecrets` alongside `config.envVars`:
+  </TabItem>
+  <TabItem value="V2" label="V2 — SecretObject">
 
 ```json
 {
@@ -349,13 +333,15 @@ All three job types use the same structure under `template`.
 }
 ```
 
----
+  </TabItem>
+</Tabs>
 
 ### Storage Configs
 
 **Endpoint:** `POST/PUT /api/v1/domains/{domain}/storage-configs`
 
-**Before** — plaintext value in `secretKey`:
+<Tabs>
+  <TabItem value="V1" label="V1 — Inline Placeholders" default>
 
 ```json
 {
@@ -363,22 +349,19 @@ All three job types use the same structure under `template`.
 }
 ```
 
-**After** — use the new `storageSecret` field with `SecretKeyWithSource`.
-
-Using Kubernetes:
+  </TabItem>
+  <TabItem value="V2" label="V2 — SecretObject">
 
 ```json
+// Using Kubernetes:
 {
   "storageSecret": {
     "key": "s3_secret_key",
     "source": { "type": "KUBERNETES", "id": "secret-domain" }
   }
 }
-```
 
-Using Vault:
-
-```json
+// Using Vault:
 {
   "storageSecret": {
     "key": "s3_secret_key",
@@ -387,22 +370,26 @@ Using Vault:
 }
 ```
 
+  </TabItem>
+</Tabs>
+
 :::note
 When both `secretKey` and `storageSecret` are provided, `storageSecret` takes precedence. You can keep `secretKey` as a fallback during migration.
 :::
 
----
-
 ### Migration Checklist
 
-- **No forced cutover** — existing `${secrets.key}` placeholders continue to work.
-- **Incremental migration** — update workloads one at a time; V1 and V2 references can coexist.
-- **Legacy secrets visible** — existing entries appear under the **Global** scope.
-- **Feature flag** — ensure `features.secretsV2.enabled: true` is set in your Helm values.
-- **Create secrets first** — secrets must exist in the target domain or global scope before workloads reference them.
-- **Recommended** — use structured secret references for all new configurations.
+**Before you start:**
 
----
+- Ensure `features.secretsV2.enabled: true` is set in your Helm values.
+- Create secrets in the target domain or global scope before workloads reference them.
+
+**During migration:**
+
+- Update workloads one at a time — V1 and V2 references can coexist.
+- Existing `${secrets.key}` placeholders continue to work, no forced cutover.
+- Legacy secrets appear under the **[Global](#global-secrets)** scope.
+- Use structured secret references for all new configurations.
 
 ## Security
 
