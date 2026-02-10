@@ -91,6 +91,10 @@ Admins use this area to:
 - Understand impact before making changes
 - See where sensitive labels are applied
 
+Permission requirements:
+
+- "Administration Manager" or "Data Security and Audit Manager" admin role is required to manage classifications.
+
 <Img
   src="/img/user-guide/data-security/admin-classification-details.png"
   alt="Data Classification details in Admin Portal"
@@ -183,6 +187,10 @@ This creates a clear audit trail for every classification change.
 ---
 
 ## Approval Flow (Admins)
+
+Permission requirements:
+
+- "Administration Manager" or "Data Security and Audit Manager" admin role is required to approve classification requests.
 
 When a request is submitted:
 
@@ -362,3 +370,208 @@ import Card from "@site/src/components/Card";
   Follow our best practices guide to keep your classification system clean,
   predictable, and safe.
 </Card>
+
+---
+
+Below is a **migration guide** for users who automated “add/remove tag” via the old Data Catalog tag endpoints and now must use the **Classification Tag + Approval workflow**.
+
+## Migration Guide: Data Catalog Tags → Classification Tags (3.15.x → 3.16.x)
+
+### Before (3.15.x)
+
+Automation could **directly mutate tags** on tables/columns via Data Catalog endpoints, e.g.:
+
+- **PUT** `/api/v2/domains/{domain}/data-catalog/tables/{id}/tags`
+- **DELETE** `/api/v2/domains/{domain}/data-catalog/tables/{id}/tags/{tag}`
+- (and similar column tag mutation endpoints)
+
+### Now (3.16.x)
+
+Tagging is **request-based** and may require approval:
+
+1. Tags are managed as **Classification Tags**
+2. Adding/removing a tag is done by creating a **Classification Change Request**
+3. The request is **reviewed** (approve/reject) by an admin
+4. Automation must handle **async status + approval flow**
+
+---
+
+### Endpoint mapping (Old → New)
+
+**Old (direct mutation):**
+
+- **PUT** `/api/v2/domains/{domain}/data-catalog/tables/{id}/tags` (add)
+- **DELETE** `/api/v2/domains/{domain}/data-catalog/tables/{id}/tags/{tag}` (remove)
+
+**New (request workflow):**
+
+- **POST** `/api/v1/domains/{domainId}/governance/classification-requests`
+  with `requestType: ADD | REMOVE`, plus target identifiers (`catalogName`, `schemaName`, `tableName`, optional `columnName`)
+
+### Review/Approval (Admin)
+
+- **PUT** `/api/v1/admin/governance/classification-requests/{requestId}/review`
+  with `status: APPROVED | REJECTED | ...`
+
+### Track request status
+
+- **GET** `/api/v1/domains/{domainId}/governance/classification-requests` (list)
+- **GET** `/api/v1/domains/{domainId}/governance/classification-requests/{id}` (details)
+- **PUT** `/api/v1/domains/{domainId}/governance/classification-requests/{requestId}/cancel` (cancel)
+
+### Manage Classification Tags (Admin + visibility)
+
+- **POST** `/api/v1/admin/governance/classification-tags` (create)
+- **GET** `/api/v1/admin/governance/classification-tags` (list)
+- **GET** `/api/v1/domains/{domainId}/governance/classification-tags` (domain list)
+
+---
+
+## Recommended automation flow (example)
+
+This is a practical end-to-end flow for **tagging a table**, **getting approval**, and **checking the status**.
+
+### Step 0 — Ensure the classification tag exists (Admin)
+
+If you previously created arbitrary “tags” on the fly, you now typically want to **pre-create** classification tags.
+
+**POST** `/api/v1/admin/governance/classification-tags`
+
+```json
+{
+  "name": "pii",
+  "description": "Personally Identifiable Information"
+}
+```
+
+(Optional) Admin can list tags:
+
+- **GET** `/api/v1/admin/governance/classification-tags`
+
+---
+
+### Step 1 — Submit a tagging request (Domain automation)
+
+Create a request to **ADD** a classification tag.
+
+**POST** `/api/v1/domains/{domainId}/governance/classification-requests`
+
+```json
+{
+  "requestType": "ADD",
+  "tagName": "PII",
+  "catalogName": "spark_catalog",
+  "schemaName": "default",
+  "tableName": "customers",
+  "columnName": null,
+  "justification": "Contains customer identifiers; must be classified as PII."
+}
+```
+
+Notes for automation:
+
+- Treat this as an **async operation**: the tag is not guaranteed to be active until approved.
+- Save the returned request identifier (the request object includes an `id`).
+
+---
+
+### Step 2 — Poll request status (Domain automation)
+
+Automation should periodically query the request status until terminal:
+
+Terminal statuses: `APPROVED`, `REJECTED`, `CANCELLED`
+Non-terminal: `IN_REVIEW`
+
+**GET** `/api/v1/domains/{domainId}/governance/classification-requests/{id}`
+
+Example response shape (high level; your spec defines fields like `status`, timestamps, and metadata):
+
+```json
+{
+  "id": "756989a1-f078-43d5-80c5-f626bb0e3290",
+  "status": "IN_REVIEW",
+  "classificationTagName": "PII",
+  "classificationTagId": "d73d03f4-3d61-4b82-9711-4e3e0250dbc7",
+  "requestType": "ADD",
+  "recordKey": "spark_catalog.default.customers",
+  "catalogName": "spark_catalog",
+  "schemaName": "default",
+  "tableName": "customers",
+  "columnName": null,
+  "createdAt": "2026-02-11T10:00:00Z",
+  "requestedByUserId": "fuad",
+  "requestedFromDomainId": "sales_domain"
+}
+```
+
+Alternative: list requests by table:
+
+- **GET** `/api/v1/domains/{domainId}/governance/classification-requests/catalog/{catalog}/schema/{schema}/table/{table}`
+
+---
+
+### Step 3 — Approve/Reject the request (Admin)
+
+When ready, an admin reviews the request:
+
+**PUT** `/api/v1/admin/governance/classification-requests/{requestId}/review`
+
+```json
+{
+  "status": "APPROVED",
+  "comment": "Approved: confirmed PII data elements."
+}
+```
+
+If rejected:
+
+```json
+{
+  "status": "REJECTED",
+  "comment": "Rejected: no evidence of PII in the dataset."
+}
+```
+
+---
+
+### Step 4 — Confirm the tag is applied
+
+After approval, you should confirm the “asset-tag relationship” in one of these ways:
+
+#### Option A (recommended): Validate via request status
+
+If your service applies the tag as part of request approval, then:
+
+- `status == APPROVED` implies the tag change is effective (this is the simplest automation contract).
+
+#### Option B: Query tag assets (Admin endpoints)
+
+Admins can query assets linked to a tag:
+
+- **GET** `/api/v1/admin/governance/classification-tags/{tagId}/assets`
+- **GET** `/api/v1/admin/governance/classification-tags/name/{tagName}/assets`
+
+(Use this if your automation must _prove_ association beyond status.)
+
+---
+
+### Remove a tag (migration example)
+
+**Old (3.15.x):**
+
+- **DELETE** `/api/v2/domains/{domain}/data-catalog/tables/{id}/tags/{tag}`
+
+**New (3.16.x):**
+**POST** `/api/v1/domains/{domainId}/governance/classification-requests` with `requestType: REMOVE`
+
+```json
+{
+  "requestType": "REMOVE",
+  "tagName": "pii",
+  "catalogName": "spark_catalog",
+  "schemaName": "default",
+  "tableName": "customers",
+  "columnName": null,
+  "justification": "Dataset no longer contains PII after anonymization rollout."
+}
+```
