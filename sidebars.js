@@ -84,6 +84,7 @@ const sidebars = {
           items: [
             "user-guide/sql-editor/worksheets",
             "user-guide/sql-editor/database-explorer",
+            "user-guide/sql-editor/database-explorer-api-migration",
             "user-guide/sql-editor/query-history",
             "user-guide/sql-editor/dashboards",
             "user-guide/sql-editor/scheduling",
@@ -100,7 +101,6 @@ const sidebars = {
         "user-guide/volumes",
         "user-guide/secrets",
         "user-guide/api-reference",
-        "user-guide/db-explorer-api-migration",
         "user-guide/register-table",
         "user-guide/storage-configs",
         "user-guide/workspaces",
