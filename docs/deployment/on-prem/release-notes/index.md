@@ -55,7 +55,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         <Img src="/img/user-guide/sql-editor/scheduling/create-schedule.png" alt="Create Schedule Modal" maxWidth="800px" centered />
 
         :::warning Beta Feature
-        This feature is currently in beta and should not be used in production environments.
+        This is a beta feature and may be unstable.
         :::
 
         **Key capabilities:**
@@ -80,7 +80,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         <Img src="/img/user-guide/event-stream/connect.png" alt="Event Stream Connect" maxWidth="800px" centered />
 
         :::warning Beta Feature
-        This feature is currently in beta and should not be used in production environments.
+        This is a beta feature and may be unstable.
         :::
 
         **Key capabilities:**
