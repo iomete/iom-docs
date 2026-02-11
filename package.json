@@ -22,7 +22,7 @@
     "@ionic-internal/ionic-ds": "^8.0.0",
     "@mdx-js/react": "^3.1.1",
     "@phosphor-icons/react": "^2.1.10",
-    "axios": "^1.13.2",
+    "axios": "^1.13.5",
     "clsx": "^2.1.1",
     "docusaurus-plugin-image-zoom": "^3.0.1",
     "docusaurus-plugin-sass": "^0.2.6",
