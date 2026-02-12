@@ -96,12 +96,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         📄 Learn more: [Event Stream Documentation](/user-guide/event-stream)
 
 
-      - **New Grafana Dashboards**
-
-        - Event Stream Dashboard: Details to fill in
-        - Event Stream Proxy Dashboard: Details to fill in
-        - Compute Proxy Dashboard: Details to fill in
-
       - **Secrets Management**
 
         Centralized secrets management with Domain and Global scoping, supporting Kubernetes and HashiCorp Vault backends simultaneously.
@@ -189,6 +183,19 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       ```
 
       📄 Learn more: [Iceberg REST Catalog — Client Request Tracking](/user-guide/spark-catalogs/internal#client-request-tracking)
+      
+      - **New Grafana Dashboards**
+
+      We have added new Grafana dashboards for monitoring the health and performance of IOMETE services, including:
+
+
+        - External Traffic Dashboard: This works if service account request trackingis enabled for REST Catalog and shows the traffic coming to REST Catalog from different service accounts (see above for how to enable this feature). 
+        - Compute Proxy Dashboard: This dashboard is for admins of IOMETE to keep track of various metrics in compute proxy server. 
+        - Event Stream Proxy Dashboard
+      
+      Monitoring Chart is kept outside of IOMETE: 
+        - name: `iomete-monitoring-chart`
+        - version: `2.2.4`
 
       ## Hive Metastore Upgrade (Hive 4.0.0)
 

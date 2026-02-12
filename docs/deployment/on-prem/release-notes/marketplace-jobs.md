@@ -18,6 +18,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | Catalog Sync         | iom-catalog-sync       | 4.3.5   | [Open ↗](/resources/open-source-spark-jobs/catalog-sync-job)               |
 | MySQL Sync           | iomete_mysql_sync      | 3.0.0   | [Open ↗](/resources/open-source-spark-jobs/mysql-database-replication-job) |
 | Kafka Iceberg Stream | kafka-iceberg-stream   | 1.2.0   | [Open ↗](/resources/open-source-spark-jobs/kafka-streaming-job)            |
+| TPC-DS Iceberg Generator | tpcds-iceberg-generator | 3.5.5   | Use job-templates in IOMETE       |
 
 ---
 
