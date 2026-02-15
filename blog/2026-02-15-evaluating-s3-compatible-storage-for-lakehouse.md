@@ -13,7 +13,7 @@ import FAQSection from '@site/src/components/FAQSection';
 
 # Evaluating S3-Compatible Object Storage for Your Data Lakehouse
 
-Choosing object storage for a self-hosted lakehouse is one of the hardest decisions to reverse. Every Parquet file, every Iceberg manifest, every piece of metadata lives in the object store. Spark reads from it, Trino queries against it, Flink writes to it in real time. If the storage layer fails, stalls, or disappears; everything above it stops.
+Choosing object storage for a self-hosted lakehouse is one of the hardest decisions to reverse. Every Parquet file, every Iceberg manifest, and every piece of metadata lives in the object store. Spark reads from it and Flink writes to it in real time. If the storage layer fails, stalls, or disappears; everything above it stops.
 
 This is especially true for on-premises and private cloud deployments. Public cloud users get S3, GCS, or ADLS as managed services. Self-hosted teams have to choose, deploy, and operate their own storage layer. For years, that choice was easy: MinIO. It was fast, well-documented, and Kubernetes-friendly that most teams could work with.
 
@@ -27,7 +27,7 @@ This article evaluates the realistic alternatives with a practical assessment of
 
 A data lakehouse decouples compute from storage. This is the core architectural principle that makes it different from traditional data warehouses, where storage and compute are welded together inside a single system.
 
-In a lakehouse, open table formats like [Apache Iceberg](https://iceberg.apache.org/) sit between compute engines and the storage layer. Iceberg handles the hard parts (ACID transactions, schema evolution, time travel, partition pruning) by maintaining metadata that points to data files in object storage. The compute engines (Spark, Trino, Flink, Presto) read that metadata, then go directly to the object store for the actual data.
+In a lakehouse, open table formats like [Apache Iceberg](https://iceberg.apache.org/) sit between compute engines and the storage layer. Iceberg handles the hard parts (ACID transactions, schema evolution, time travel, partition pruning) by maintaining metadata that points to data files in object storage. The compute engines (Spark, Flink, IOMETE, Trino) read that metadata, then go directly to the object store for the actual data.
 
 This architecture is powerful, but it creates a hard dependency. The object store isn't just "where files go." It's the system of record. Every Parquet file, every manifest, every metadata file lives there. If the object store loses data, Iceberg's ACID guarantees don't help — the data is gone. If the object store is slow, every query is slow. If the object store can't handle concurrent access from dozens of Spark executors, your entire pipeline backs up.
 
@@ -40,7 +40,7 @@ For cloud-managed deployments, this is someone else's problem. AWS guarantees 99
 
 Getting this wrong is expensive. Migrating petabytes of data between storage systems is a multi-week project that risks downtime and data loss. Choosing a storage layer that can't scale forces a painful re-architecture later.
 
-{/* [IMAGE: Architecture diagram showing the lakehouse stack — compute engines (Spark, Trino, Flink) at the top, Apache Iceberg in the middle handling metadata/transactions, and S3-compatible object storage at the base as the durability layer. Arrows showing data flow between layers.] */}
+<Img src="/img/blog/2026-02-15-evaluating-s3-compatible-storage-for-lakehouse/storage-layer.png" alt="Storage layer" />
 
 ---
 
@@ -93,7 +93,7 @@ How many active contributors does the project have? Is development concentrated 
 
 ---
 
-## Why MinIO Is No Longer an Option
+## Why MinIO Is No Longer an Option?
 
 For years, MinIO was the default self-hosted S3-compatible object store. Fast, simple, Kubernetes-friendly, and widely adopted across on-prem lakehouse deployments.
 
@@ -143,8 +143,6 @@ Ceph is the heavyweight in this comparison, and that's both its greatest strengt
 
 Enterprise deployments at scale (100+ TB), multi-tenant environments, organizations that need block and file storage alongside object storage, and teams that already have Ceph expertise or are willing to invest in it.
 
-{/* [IMAGE: Ceph architecture diagram showing the stack: RADOS (distributed object store) at the base, with RGW (S3/Swift gateway), RBD (block), and CephFS (file) interfaces above it. Show Rook operator managing the deployment on Kubernetes.] */}
-
 ---
 
 ### [SeaweedFS](https://github.com/seaweedfs/seaweedfs)
@@ -176,8 +174,6 @@ SeaweedFS is the closest thing to a drop-in MinIO replacement that's both produc
 #### Best For
 
 Teams looking for a production-ready, Apache 2.0 licensed, high-throughput alternative to MinIO. Particularly strong for workloads with many small files and for organizations that want cloud tiering (keeping hot data local, cold data in the cloud).
-
-{/* [IMAGE: SeaweedFS architecture diagram showing master servers managing volume servers, with the S3 gateway/filer layer on top. Show how files are packed into volumes for O(1) access.] */}
 
 ---
 
@@ -213,8 +209,6 @@ Garage occupies a unique niche: it's built for small-to-medium self-hosted deplo
 
 Small-to-medium self-hosted deployments (under 50TB), teams with nodes in multiple physical locations, edge computing scenarios, and organizations that prioritize operational simplicity over maximum throughput.
 
-{/* [IMAGE: Garage's multi-site replication model — show 3 nodes at different physical locations with data automatically replicated between them. Emphasize the simplicity: single binary per node, no external dependencies.] */}
-
 ---
 
 ### [RustFS](https://github.com/rustfs/rustfs)
@@ -249,8 +243,6 @@ RustFS is the most direct MinIO replacement on this list. It's also the one that
 
 Dev/test environments and evaluation. The closest architectural successor to MinIO, but not production-ready today. Worth revisiting as the project matures over the next 6-12 months.
 
-{/* [IMAGE: RustFS benchmark comparison chart — show small-object (4KB) performance advantage vs MinIO, alongside the large-object (20MB+) performance gap. Honest, data-driven visual.] */}
-
 ---
 
 ## Side-by-Side Comparison
@@ -269,8 +261,6 @@ Here's how the five options compare across the evaluation criteria that matter f
 | **Production maturity** | Archived | Very high | High | Medium | Not production-ready |
 | **Governance** | Single company (archived) | Linux Foundation | Single maintainer | Cooperative (Deuxfleurs) | Community (early) |
 | **Active development** | No | Yes (very active) | Yes (active) | Yes (active) | Yes (very active) |
-
-{/* [IMAGE: Styled version of this comparison matrix — designed as a clean, readable visual with color-coded ratings. Could use green/yellow/red indicators instead of text ratings.] */}
 
 ---
 
@@ -314,8 +304,6 @@ There's no single best option. The right choice depends on your scale, team, exi
 **Looking for the "next MinIO" →** Watch RustFS. The project has momentum and the right architecture (Rust, Apache 2.0, MinIO migration tooling), but it's not production-ready today. Set a reminder to re-evaluate in 6-12 months. In the meantime, deploy something proven.
 
 **No ops team, budget available →** Consider hardware appliances (Dell ObjectScale, NetApp StorageGRID, Pure FlashBlade). Let the vendor handle storage operations while your team focuses on the lakehouse itself.
-
-{/* [IMAGE: Decision flowchart — start with "What's your scale?" branching to different recommendations based on TB range, then sub-branches for team size, license requirements, and deployment model. Clean, easy-to-follow visual.] */}
 
 ---
 
