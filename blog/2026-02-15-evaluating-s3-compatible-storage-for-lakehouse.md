@@ -9,7 +9,6 @@ date: "02/15/2026"
 ---
 
 import Img from '@site/src/components/Img';
-import FAQSection from '@site/src/components/FAQSection';
 
 # Evaluating S3-Compatible Object Storage for Your Data Lakehouse
 
