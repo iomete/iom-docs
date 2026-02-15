@@ -1,6 +1,6 @@
 ---
 title: "Evaluating S3-Compatible Object Storage for Your Data Lakehouse"
-description: "A detailed comparison of self-hosted S3-compatible storage systems for data lakehouses — Ceph RGW, SeaweedFS, Garage, and RustFS — after MinIO's transition to maintenance mode"
+description: "A detailed comparison of self-hosted S3-compatible storage systems for data lakehouses"
 slug: "evaluating-s3-compatible-storage-for-lakehouse"
 authors: "Shashank"
 tags2: ["Technical", "Engineering"]
