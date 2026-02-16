@@ -102,7 +102,9 @@ Through 2025, the company behind MinIO gradually shifted its focus toward AIStor
 
 If you're already running MinIO in production and it's stable, there's no emergency. The binary still works. Your data is safe. But you're now running software that will receive no new features, no performance improvements, no compatibility updates for newer S3 API extensions, and no community-driven bug fixes. Security patches are evaluated but not guaranteed.
 
-For new deployments, MinIO is no longer a viable option. And for existing deployments, it's worth starting to plan a migration timeline.
+For new deployments, the open-source MinIO is no longer a viable option. And for existing deployments, it's worth starting to plan a migration timeline.
+
+> **Note:** The MinIO team now offers [AIStor](https://www.min.io/product/aistor), a commercial subscription product built on the same foundation. A free single-node tier exists for development, but any production lakehouse deployment requires the paid enterprise subscription for multi-node distributed storage. If you're open to a commercial license and want to stay in the MinIO ecosystem, AIStor is worth evaluating, but it's no longer an open-source option.
 
 ---
 
