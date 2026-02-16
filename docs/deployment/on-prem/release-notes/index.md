@@ -95,6 +95,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
         📄 Learn more: [Event Stream Documentation](/user-guide/event-stream)
 
+        **Internal Usage:**
+        Event Streams are also used internally by IOMETE for platform audit logs and Ranger data access audit logs. The required system tables must be created before deployment if they don't already exist.
+
+        📄 System Tables: [System Tables Documentation](/user-guide/system-tables)
+
 
       - **Secrets Management**
 
