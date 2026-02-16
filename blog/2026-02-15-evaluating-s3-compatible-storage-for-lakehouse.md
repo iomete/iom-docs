@@ -14,11 +14,13 @@ import Img from '@site/src/components/Img';
 
 Choosing object storage for a self-hosted lakehouse is one of the hardest decisions to reverse. Every Parquet file, every Iceberg manifest, and every piece of metadata lives in the object store. Spark reads from it and Flink writes to it in real time. If the storage layer fails, stalls, or disappears; everything above it stops.
 
-This is especially true for on-premises and private cloud deployments. Public cloud users get S3, GCS, or ADLS as managed services. Self-hosted teams have to choose, deploy, and operate their own storage layer. For years, that choice was easy: MinIO. It was fast, well-documented, and Kubernetes-friendly that most teams could work with.
+This is especially true for on-premises and private cloud deployments. Public cloud users get S3, GCS, or ADLS as managed services. Self-hosted teams have to choose, deploy, and operate their own storage layer. For years, that choice was easy: MinIO. It was fast, well-documented, and Kubernetes-friendly, and something most teams could work with.
 
 That changed in late 2025, when [MinIO](https://www.min.io/) entered maintenance mode and was subsequently archived. If you're running a self-hosted lakehouse or planning to build one, the storage layer question is suddenly wide open again.
 
 This article evaluates the realistic alternatives with a practical assessment of what each option means for teams running lakehouse workloads on their own infrastructure.
+
+<!-- truncate -->
 
 ---
 
@@ -26,7 +28,7 @@ This article evaluates the realistic alternatives with a practical assessment of
 
 A data lakehouse decouples compute from storage. This is the core architectural principle that makes it different from traditional data warehouses, where storage and compute are welded together inside a single system.
 
-In a lakehouse, open table formats like [Apache Iceberg](https://iceberg.apache.org/) sit between compute engines and the storage layer. Iceberg handles the hard parts (ACID transactions, schema evolution, time travel, partition pruning) by maintaining metadata that points to data files in object storage. The compute engines (Spark, Flink, IOMETE, Trino) read that metadata, then go directly to the object store for the actual data.
+In a lakehouse, open table formats like [Apache Iceberg](https://iceberg.apache.org/) sit between compute engines and the storage layer. Iceberg handles the hard parts (ACID transactions, schema evolution, time travel, partition pruning) by maintaining metadata that points to data files in object storage. Compute engines like Spark, Flink, and Trino — or lakehouse platforms like IOMETE — read that metadata, then go directly to the object store for the actual data.
 
 This architecture is powerful, but it creates a hard dependency. The object store isn't just "where files go." It's the system of record. Every Parquet file, every manifest, every metadata file lives there. If the object store loses data, Iceberg's ACID guarantees don't help — the data is gone. If the object store is slow, every query is slow. If the object store can't handle concurrent access from dozens of Spark executors, your entire pipeline backs up.
 
@@ -214,7 +216,7 @@ Small-to-medium self-hosted deployments (under 50TB), teams with nodes in multip
 
 ### [RustFS](https://github.com/rustfs/rustfs)
 
-**What it is**: A high-performance S3-compatible object store built in Rust, explicitly positioning itself as the open-source successor to MinIO. The project emerged in response to MinIO's maintenance mode announcement.
+A high-performance S3-compatible object store built in Rust, explicitly positioning itself as the open-source successor to MinIO. The project emerged in response to MinIO's maintenance mode announcement.
 
 RustFS is the most direct MinIO replacement on this list. It's also the one that requires the most caution.
 
@@ -232,7 +234,7 @@ RustFS is the most direct MinIO replacement on this list. It's also the one that
 
 #### Trade-offs
 
-**Not production-ready.** Key features including distributed mode, lifecycle management, and KMS are marked **"Under Testing"** in the project's [own README](https://github.com/rustfs/rustfs). For any lakehouse deployment beyond a single node, this is a blocker. Distributed mode is under active testing. The project explicitly warns that it has not survived the "thousand edge cases" that production workloads generate. For a lakehouse storage layer  where data loss is catastrophic, this is a significant concern.
+**Not production-ready.** Key features including distributed mode, lifecycle management, and KMS are marked **"Under Testing"** in the project's [own README](https://github.com/rustfs/rustfs). For any lakehouse deployment beyond a single node, this is a blocker. Distributed mode is under active testing. The project explicitly warns that it has not survived the "thousand edge cases" that production workloads generate. For a lakehouse storage layer where data loss is catastrophic, this is a significant concern.
 
 **Large-object performance lags.** [Community benchmarks](https://github.com/rustfs/rustfs/issues/73) show MinIO roughly 2x faster for 20MB+ objects. [Optimizations are underway](https://github.com/rustfs/rustfs/issues/158), but lakehouse workloads mix small metadata files with large Parquet files and both need to be fast.
 
