@@ -11,18 +11,32 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 ## Latest Versions
 
-| Name                 | Image                  | Version | Link                                                                       |
-| -------------------- | ---------------------- |---------| -------------------------------------------------------------------------- |
-| Data Compaction      | iomete_data_compaction | 1.2.12  | [Open ↗](/resources/open-source-spark-jobs/data-compaction-job)            |
-| File Streaming       | iomete_file_streaming  | 0.3.0   | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
-| Catalog Sync         | iom-catalog-sync       | 4.3.5   | [Open ↗](/resources/open-source-spark-jobs/catalog-sync-job)               |
-| MySQL Sync           | iomete_mysql_sync      | 3.0.0   | [Open ↗](/resources/open-source-spark-jobs/mysql-database-replication-job) |
-| Kafka Iceberg Stream | kafka-iceberg-stream   | 1.2.0   | [Open ↗](/resources/open-source-spark-jobs/kafka-streaming-job)            |
-| TPC-DS Iceberg Generator | tpcds-iceberg-generator | 3.5.5   | Use job-templates in IOMETE       |
+| Name                     | Image                   | Version | Link                                                                       |
+| ------------------------ | ----------------------- | ------- | -------------------------------------------------------------------------- |
+| Data Compaction          | iomete_data_compaction  | 1.2.12  | [Open ↗](/resources/open-source-spark-jobs/data-compaction-job)            |
+| File Streaming           | iomete_file_streaming   | 0.3.0   | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
+| Catalog Sync             | iom-catalog-sync        | 5.0.0   | [Open ↗](/resources/open-source-spark-jobs/catalog-sync-job)               |
+| MySQL Sync               | iomete_mysql_sync       | 3.0.0   | [Open ↗](/resources/open-source-spark-jobs/mysql-database-replication-job) |
+| Kafka Iceberg Stream     | kafka-iceberg-stream    | 1.2.0   | [Open ↗](/resources/open-source-spark-jobs/kafka-streaming-job)            |
+| TPC-DS Iceberg Generator | tpcds-iceberg-generator | 3.5.5   | Use job-templates in IOMETE                                                |
 
 ---
 
 ## Recent Releases
+
+<Release name="Catalog Sync Job" version="5.0.0" date="February 16, 2026">
+    <Improvements>
+      As part of IOMETE Release 3.16.x and our move toward a unified metadata collection experience, we have updated the Catalog Sync Job to ensure full compatibility with this release.  
+      What’s New: 
+      - ✅ Aligned with the unified metadata collection framework introduced in IOMETE 3.16.x
+      - ✅ Improved consistency in metadata synchronization workflows
+      
+      **Compatibility**  
+      This version of the Catalog Sync Job is fully compatible with IOMETE Release 3.16.x.  
+
+      We recommend upgrading to this version when running IOMETE 3.16.x to ensure optimal performance and metadata consistency.
+    </Improvements>
+</Release>
 
 <Release name="Catalog Sync Job" version="4.3.5" date="January 7, 2026">
     <Improvements>
