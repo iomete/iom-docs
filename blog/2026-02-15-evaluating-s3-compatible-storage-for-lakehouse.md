@@ -1,10 +1,10 @@
 ---
 title: "Evaluating S3-Compatible Object Storage for Your Data Lakehouse"
-description: "A detailed comparison of self-hosted S3-compatible storage systems for data lakehouses"
+description: "MinIO is archived. Compare the best self-hosted S3-compatible object storage for your data lakehouse in 2026: Ceph RGW, SeaweedFS, Garage, and RustFS — with Kubernetes support, licensing, and production readiness."
 slug: "evaluating-s3-compatible-storage-for-lakehouse"
 authors: "Shashank"
 tags2: ["Technical", "Engineering"]
-coverImage: "img/blog/thumbnails/structure-1.png"
+coverImage: "img/blog/thumbnails/lightstone.png"
 date: "02/15/2026"
 ---
 
@@ -26,7 +26,7 @@ This article evaluates the realistic alternatives with a practical assessment of
 
 ## The Role of Object Storage in a Data Lakehouse
 
-A data lakehouse decouples compute from storage. This is the core architectural principle that makes it different from traditional data warehouses, where storage and compute are welded together inside a single system.
+A [data lakehouse](/blog/data-warehouses-vs-data-lakehouses) decouples compute from storage. This is the core architectural principle that makes it different from traditional data warehouses, where storage and compute are welded together inside a single system.
 
 In a lakehouse, open table formats like [Apache Iceberg](https://iceberg.apache.org/) sit between compute engines and the storage layer. Iceberg handles the hard parts (ACID transactions, schema evolution, time travel, partition pruning) by maintaining metadata that points to data files in object storage. Compute engines like Spark, Flink, and Trino — or lakehouse platforms like IOMETE — read that metadata, then go directly to the object store for the actual data.
 
@@ -41,7 +41,7 @@ For cloud-managed deployments, this is someone else's problem. AWS guarantees 99
 
 Getting this wrong is expensive. Migrating petabytes of data between storage systems is a multi-week project that risks downtime and data loss. Choosing a storage layer that can't scale forces a painful re-architecture later.
 
-<Img src="/img/blog/2026-02-15-evaluating-s3-compatible-storage-for-lakehouse/storage-layer.png" alt="Storage layer" />
+<Img src="/img/blog/2026-02-15-evaluating-s3-compatible-storage-for-lakehouse/storage-layer.png" alt="Data lakehouse architecture diagram showing S3-compatible object storage as the foundation layer, with Apache Iceberg handling metadata and compute engines like Spark and Trino on top" />
 
 ---
 
@@ -60,7 +60,7 @@ Iceberg and the compute engines that sit on top of it use specific S3 API operat
 - **Conditional writes** — atomic commits to the metadata layer
 - **Versioning** — snapshot isolation and time travel
 - **Server-side encryption (SSE)** — data-at-rest encryption for compliance
-- **Presigned URLs** — access delegation without sharing long-lived credentials
+- **Presigned URLs** — [access delegation](/blog/iceberg-access-delegation) without sharing long-lived credentials
 
 An object store that implements 80% of the S3 API will work in demos but will break in production.
 
@@ -78,7 +78,7 @@ Data loss in a lakehouse is catastrophic. Unlike a database where you can replay
 
 ### Kubernetes-Native Deployment
 
-Most modern on-prem lakehouse deployments run on Kubernetes. The object store should integrate cleanly - through operators, Helm charts, CSI drivers, or a combination. "Works in Docker" is not the same as "operates well in Kubernetes." You need automated scaling, rolling upgrades, persistent volume management, and monitoring integration.
+Most modern [on-prem lakehouse deployments](/blog/on-premise-case-study) run on Kubernetes. The object store should integrate cleanly - through operators, Helm charts, CSI drivers, or a combination. "Works in Docker" is not the same as "operates well in Kubernetes." You need automated scaling, rolling upgrades, persistent volume management, and monitoring integration.
 
 ### Operational Complexity
 
@@ -267,7 +267,7 @@ Here's how the five options compare across the evaluation criteria that matter f
 
 ---
 
-## Hardware-Based S3-Compatible Storage
+## Hardware-Based S3-Compatible Storage Appliances
 
 Not every organization wants to run a software-defined storage system. Some prefer to buy storage as an appliance, hardware with S3 compatibility built in, managed by the vendor.
 
@@ -292,7 +292,7 @@ For lakehouse deployments, hardware-based S3 storage works well as the bottom la
 
 ---
 
-## Which One Should You Choose?
+## Which S3-Compatible Storage Should You Choose?
 
 There's no single best option. The right choice depends on your scale, team, existing infrastructure, and tolerance for operational complexity.
 
