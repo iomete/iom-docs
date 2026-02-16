@@ -151,7 +151,15 @@ CREATE TABLE analytics.events.sales (
     price DOUBLE
 );
 ```
+:::info
+Additional metadata columns (`__id__`, `__ts__`, `__write_id__`) will be added automatically by the system.
+:::
 
+| Field          | Description                                               |
+|----------------|-----------------------------------------------------------|
+| `__id__`       | Unique event identifier (auto-generated UUID)             |
+| `__ts__`       | Event ingestion timestamp (auto-generated)                |
+| `__write_id__` | Write batch identifier for data organization              |
 ---
 
 ## Sending Events
