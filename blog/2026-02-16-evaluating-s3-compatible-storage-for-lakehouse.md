@@ -5,7 +5,7 @@ slug: "evaluating-s3-compatible-storage-for-lakehouse"
 authors: "Shashank"
 tags2: ["Technical", "Engineering"]
 coverImage: "img/blog/thumbnails/lightstone.png"
-date: "02/15/2026"
+date: "02/16/2026"
 ---
 
 import Img from '@site/src/components/Img';
@@ -41,7 +41,7 @@ For cloud-managed deployments, this is someone else's problem. AWS guarantees 99
 
 Getting this wrong is expensive. Migrating petabytes of data between storage systems is a multi-week project that risks downtime and data loss. Choosing a storage layer that can't scale forces a painful re-architecture later.
 
-<Img src="/img/blog/2026-02-15-evaluating-s3-compatible-storage-for-lakehouse/storage-layer.png" alt="Data lakehouse architecture diagram showing S3-compatible object storage as the foundation layer, with Apache Iceberg handling metadata and compute engines like Spark and Trino on top" />
+<Img src="/img/blog/2026-02-16-evaluating-s3-compatible-storage-for-lakehouse/storage-layer.png" alt="Data lakehouse architecture diagram showing S3-compatible object storage as the foundation layer, with Apache Iceberg handling metadata and compute engines like Spark and Trino on top" />
 
 ---
 
