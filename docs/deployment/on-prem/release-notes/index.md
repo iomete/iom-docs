@@ -152,7 +152,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - **IOMETE workload access** — available to Lakehouses, Spark jobs, and Jupyter notebooks
 
         :::warning Preview Feature
-        This feature is intended for evaluation and feedback — not production-ready. Breaking changes may occur before general availability. Share feedback with your IOMETE representative.
+        This is a preview feature and is not production-ready. Breaking changes may occur before general availability.
         :::
 
         📄 Learn more: [Enterprise Catalog Documentation](/user-guide/spark-catalogs/enterprise)
