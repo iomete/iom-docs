@@ -144,7 +144,16 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       - **Enterprise Catalog**
 
-        A new IOMETE-managed catalog type with auto-configured connection properties. Enterprise Catalogs automatically set up REST endpoint, storage type, and internal routing — no manual configuration required beyond name and warehouse.
+        A new **preview** IOMETE-managed catalog that simplifies multi-format table management. Enterprise Catalog is a format-agnostic catalog supporting **Iceberg, Parquet, JSON, CSV, ORC, Avro**, and **Text** — with Delta Lake and Hudi planned.
+
+        **Key features:**
+        - **Single catalog for multiple formats** — no need for separate catalogs per format
+        - **Auto-configured** — connection properties, storage, and internal routing require no manual setup (name + warehouse only)
+        - **IOMETE workload access** — available to Lakehouses, Spark jobs, and Jupyter notebooks
+
+        :::warning Preview Feature
+        This feature is intended for evaluation and feedback — not production-ready. Breaking changes may occur before general availability. Share feedback with your IOMETE representative.
+        :::
 
         📄 Learn more: [Enterprise Catalog Documentation](/user-guide/spark-catalogs/enterprise)
 
