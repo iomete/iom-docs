@@ -4,7 +4,7 @@ description: "MinIO is archived. Compare the best self-hosted S3-compatible obje
 slug: "evaluating-s3-compatible-storage-for-lakehouse"
 authors: "Shashank"
 tags2: ["Technical", "Engineering"]
-coverImage: "img/blog/thumbnails/lightstone.png"
+coverImage: "img/blog/thumbnails/structure-2.png"
 date: "02/16/2026"
 ---
 
