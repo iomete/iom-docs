@@ -272,9 +272,9 @@ Here's how the five options compare across the evaluation criteria that matter f
 Not every organization wants to run a software-defined storage system. Some prefer to buy storage as an appliance, hardware with S3 compatibility built in, managed by the vendor.
 
 **Common options include:**
+- **[Pure Storage FlashBlade](https://www.purestorage.com/products/unstructured-data-storage/flashblade-s.html)** — Flash-based storage with S3 API support, designed for high-performance analytics and AI workloads.
 - **[Dell ObjectScale](https://www.dell.com/en-us/shop/storage-servers-and-networking-for-business/sf/objectscale)** (formerly ECS) — Enterprise object storage with S3 API, multi-site replication, and integrated data protection.
 - **[NetApp StorageGRID](https://www.netapp.com/storagegrid/)** — Software-defined object storage that runs on NetApp hardware or commodity servers, with strong S3 compliance and information lifecycle management.
-- **[Pure Storage FlashBlade](https://www.purestorage.com/products/unstructured-data-storage/flashblade-s.html)** — Flash-based storage with S3 API support, designed for high-performance analytics and AI workloads.
 
 **When this makes sense:**
 - Your organization has an existing hardware vendor relationship with enterprise support contracts.
@@ -306,7 +306,7 @@ There's no single best option. The right choice depends on your scale, team, exi
 
 **Looking for the "next MinIO" →** Watch RustFS. The project has momentum and the right architecture (Rust, Apache 2.0, MinIO migration tooling), but it's not production-ready today. Set a reminder to re-evaluate in 6-12 months. In the meantime, deploy something proven.
 
-**No ops team, budget available →** Consider hardware appliances (Dell ObjectScale, NetApp StorageGRID, Pure FlashBlade). Let the vendor handle storage operations while your team focuses on the lakehouse itself.
+**No ops team, budget available →** Consider hardware appliances (Pure FlashBlade, Dell ObjectScale, NetApp StorageGRID). Let the vendor handle storage operations while your team focuses on the lakehouse itself.
 
 ---
 
