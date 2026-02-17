@@ -41,17 +41,22 @@ The Schedules list provides an overview of all your scheduled jobs, displaying:
 *   **Compute resource** used
 *   **Run as user**
 *   **Schedule Interval**
+*   **Activity** sparkline showing recent run history
 *   **Status** (Active or Paused)
 
 <Img src="/img/user-guide/sql-editor/scheduling/schedule-list.png" alt="Schedules List View" centered />
 
+Hovering over the activity sparkline reveals a tooltip with the run name, status, duration, and start time.
+
+<Img src="/img/user-guide/sql-editor/scheduling/schedule-list-activity-hover.png" alt="Schedule Activity Hover Tooltip" centered />
+
 ## Monitoring Runs and Details
 
-Clicking on a schedule’s name or selecting **View** (in action menu) navigates you to the details page. This page contains three specific tabs:
+Clicking on a schedule's name or selecting **View** (in action menu) navigates you to the details page. This page contains three tabs:
 
 1.  **Details:** Displays information including ID, status, run as user, infrastructure configuration, and metadata.
 <Img src="/img/user-guide/sql-editor/scheduling/schedule-details.png" alt="Schedules Details View" centered />
-2.  **Runs:** Automatically opens upon navigation. It lists historical executions, showing the status, start time, end time, and namespace for each run.
+2.  **Runs:** Automatically opens upon navigation. It lists historical executions, showing the status, start time, end time, and namespace for each run. You can filter runs by time range (e.g., "Last 1 hour"), status, and search by run name.
 <Img src="/img/user-guide/sql-editor/scheduling/schedule-runs.png" alt="Schedules Runs View" centered />
 3.  **SQL:** Displays the actual SQL queries currently scheduled.
 <Img src="/img/user-guide/sql-editor/scheduling/schedule-sql.png" alt="Schedule SQL View" centered />
@@ -61,10 +66,12 @@ Clicking on a schedule’s name or selecting **View** (in action menu) navigates
 
 To investigate a specific execution, click on the **Run Name** or **ID** in the Runs tab. This opens the **Run Details** page, providing a detailed view of that specific execution instance.
 
+A visual timeline chart at the top of the page shows query execution across time, giving you a quick overview of how tasks were scheduled and how long each one took.
+
 <Img src="/img/user-guide/sql-editor/scheduling/schedule-run-details.png" alt="Schedule Run Details View" centered />
 
 ### Viewing Run Tasks
-By navigating to the **Tasks** tab within the Run Details page, you can see the individual queries executed within that run.
+By navigating to the **Tasks** tab within the Run Details page, you can see the individual queries executed within that run. Clicking a task bar in the timeline opens a side panel displaying the task's State, Task Run ID, Duration, and Start/End Time.
 
 <Img src="/img/user-guide/sql-editor/scheduling/schedule-run-tasks.png" alt="Schedule Run Tasks View" centered />
 

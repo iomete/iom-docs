@@ -23,3 +23,7 @@ You can also open the menu by right-clicking on the item.
       <Img src="/img/user-guide/sql-editor/table-menu.png" alt="SQL Editor - Table menu" maxWidth="400px"/>
     </div>
 </div>
+
+:::info v3.16.0 API Migration
+See the [Database Explorer API Migration](./database-explorer-api-migration.md) to update your API integrations.
+:::
