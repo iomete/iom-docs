@@ -58,11 +58,11 @@ def generate_spark_data(spark, rows=10_000_000):
     return df
 ```
 
-**The Portable Path:** You can choose to generate this on the fly or generate separately, upload to your S3 bucket and read it directly from there. A test data is also provided here: [https://github.com/iomete/iomete-ml-quickstart/test_data](https://github.com/iomete/iomete-ml-quickstart/test_data)
+**The Portable Path:** You can choose to generate this on the fly or generate separately, upload to your S3 bucket and read it directly from there. A test data is also provided here: [https://github.com/iomete/iomete-ml-quickstart/tree/main/test_data](https://github.com/iomete/iomete-ml-quickstart/tree/main/test_data)
 
 ## ⚖️ The Big Trade-off: When should you use Spark?
 
-Before we dive into the code, let’s talk about the elephant in the room: **Spark isn't always faster for "small data”.**
+Before we dive into the code, let’s talk about the elephant in the room: **Spark isn't always faster for `small data`.**
 
 ## ⚖️ The "Spark Tax": Understanding the Overhead
 
