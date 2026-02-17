@@ -23,7 +23,7 @@ In this guide, we’ll explore how to move your Machine Learning (ML) workloads 
 
 To demo the power of ML training on IOMETE, we generate synthetic data including three feature columns (x’s below) using a random uniform distribution, and a "Target" (the label we want to predict) using a non-linear mathematical function:
 
-<Img src="/img/blog/2026-01-27-ml-blog/synthetic-data-target-formula.png" alt="Scaling Machine Learning: From Your Laptop to the IOMETE Lakehouse" maxWidth="800px" centered borderless />
+<Img src="/img/blog/2026-01-27-ml-blog/synthetic-data-target-formula.png" alt="synthetic data target formula" maxWidth="800px" centered borderless />
 
 
 _(Where epsilon is random Gaussian noise to make the target a little bit stochastic)_
@@ -133,20 +133,20 @@ What does it actually look like when model is training? We ran the **10 Million 
 When the training starts, you'll see a massive spike in CPU and Memory across all executors. Unlike a local run where one CPU hits 100% and stays there, Spark orchestrates the load across the entire cluster.
 
 
-<Img src="/img/blog/2026-01-27-ml-blog/spark-executors-task-load.png" alt="Scaling Machine Learning: From Your Laptop to the IOMETE Lakehouse" maxWidth="800px" centered borderless />
+<Img src="/img/blog/2026-01-27-ml-blog/spark-executors-task-load.png" alt="spark executors task load" maxWidth="800px" centered borderless />
 
 
 ### 2. Parallel Execution
 
 In the Spark UI, you can see the "Stages" of the job. Notice how the data is split into many small tasks. If one worker finishes early, it immediately grabs another task, ensuring no CPU time is wasted.
 
-<Img src="/img/blog/2026-01-27-ml-blog/spark-ui-stages.png" alt="Scaling Machine Learning: From Your Laptop to the IOMETE Lakehouse" maxWidth="800px" centered borderless />
+<Img src="/img/blog/2026-01-27-ml-blog/spark-ui-stages.png" alt="Spark UI stages" maxWidth="800px" centered borderless />
 
 ### 3. Distributed Training Metrics
 
 Once finished, the logs will print various cost/loss metrics. Because Spark's RandomForestRegressor is distributed, it aggregates the "wisdom" of hundreds of trees built on different executors to give you one final, highly accurate model.
 
-<Img src="/img/blog/2026-01-27-ml-blog/spark-model-metrics.png" alt="Scaling Machine Learning: From Your Laptop to the IOMETE Lakehouse" maxWidth="800px" centered borderless />
+<Img src="/img/blog/2026-01-27-ml-blog/spark-model-metrics.png" alt="Spark model metrics" maxWidth="800px" centered borderless />
 
 ## 🏗️ Project Structure & Next Steps
 
