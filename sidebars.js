@@ -104,6 +104,7 @@ const sidebars = {
         "user-guide/register-table",
         "user-guide/storage-configs",
         "user-guide/workspaces",
+        "user-guide/system-tables",
       ],
     },
     {
