@@ -58,8 +58,8 @@ Spark jobs, and Jupyter notebooks.
 
 ## Architecture
 
-Enterprise Catalog is built as a **wrapper on top of
-[Iceberg REST Catalog](./internal.md)**:
+Enterprise Catalog is built as a wrapper on top of the
+[Iceberg REST Catalog](./internal.md):
 
 - For **Iceberg tables**, it delegates to the underlying Iceberg REST Catalog
   infrastructure
@@ -101,8 +101,7 @@ Provide the following:
 - **Name** — A unique name for the catalog
 - **Warehouse** — The S3-compatible warehouse URL for table storage
 
-Basic settings are automatically configured by the platform — you only need to
-provide overrides, if any.
+All other settings are automatically configured by the platform. Any values provided are treated as overrides — none are required.
 
 ### Validating and Saving
 
@@ -126,6 +125,20 @@ platform and on applications.
   needed
 - **IOMETE workload access** — Available to Lakehouses, Spark jobs, and Jupyter
   notebooks
+
+## Known Issues
+
+The following issues are present in the current preview release and will be addressed in future releases:
+
+- **CSV table queries fail when `TBLPROPERTIES` collide with CSV option names** — Providing table properties whose keys match CSV datasource option names causes queries to fail. For example, `TBLPROPERTIES ('comment' = 'table description')` produces `comment cannot be more than one character`. This happens because all `TBLPROPERTIES` are forwarded to the CSV datasource layer. Avoid setting properties whose keys match CSV option names — including `comment`, `sep`, `quote`, `escape`, `header`, and `multiLine` — until this is resolved.
+- **Non-Iceberg tables are treated as external tables** — Regardless of how a table is created, all non-Iceberg tables are treated as external. This has the following implications:
+  - `UPDATE`, `DELETE`, `MERGE`, `TRUNCATE` — These operations are not supported on non-Iceberg tables
+  - `PURGE` — Dropping a table does not delete the underlying data files from storage
+  - Table lifecycle behavior may differ from what is expected for managed tables
+
+These are known limitations under active development. If you encounter additional issues, please [open a ticket](https://iomete.atlassian.net/servicedesk/customer/portals) on our support portal or contact your IOMETE representative.
+
+---
 
 ## Planned Features
 
