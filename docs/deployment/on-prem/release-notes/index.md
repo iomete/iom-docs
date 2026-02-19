@@ -21,21 +21,21 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         
         We’ve upgraded Data Governance with Data Classifications — replacing free-form tags with centrally managed, approval-based classification labels.
 
-        **What’s new**  
+        **What’s new**
 
-        - **Classifications replace tags**  
+        - **Classifications replace tags**
           Classifications are now predefined by Admin / Security teams and include descriptions plus usage visibility.
 
-        - **Request & approval workflow**  
+        - **Request & approval workflow**
           Adding or removing a classification on tables or columns now requires approval. This prevents accidental data exposure and unexpected pipeline breaks.
 
-        - **User-driven, admin-controlled**  
+        - **User-driven, admin-controlled**
           Users can request classification changes directly from the Data Catalog. Admins review, approve, or reject these requests with comments.
 
-        - **Full visibility & audit trail**  
+        - **Full visibility & audit trail**
           All requests are tracked in Classification Requests, with status, history, and reviewer feedback.
 
-        - **Automatic policy enforcement**  
+        - **Automatic policy enforcement**
           Once approved, existing security and masking policies tied to classifications apply immediately — no manual policy updates required.
 
         **Why this matters**
@@ -213,17 +213,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       ```
 
       📄 Learn more: [Iceberg REST Catalog — Client Request Tracking](/user-guide/spark-catalogs/internal#client-request-tracking)
-      
+
       ## **New Grafana Dashboards**
 
       We have added new Grafana dashboards for monitoring the health and performance of IOMETE services, including:
 
 
-        - **External Traffic Dashboard**: If service account request tracking is enabled for REST Catalog, this dashboard shows the traffic coming to REST Catalog from different service accounts (see above for how to enable this feature). 
-        - **Compute Proxy Dashboard**: This dashboard is for admins of IOMETE to keep track of various metrics in compute proxy server. 
+        - **External Traffic Dashboard**: If service account request tracking is enabled for REST Catalog, this dashboard shows the traffic coming to REST Catalog from different service accounts (see above for how to enable this feature).
+        - **Compute Proxy Dashboard**: This dashboard is for admins of IOMETE to keep track of various metrics in compute proxy server.
         - **Event Stream Proxy Dashboard**
-      
-      Monitoring Chart is kept outside of IOMETE: 
+
+      Monitoring Chart is kept outside of IOMETE:
         - **name**: `iomete-monitoring-chart`
         - **version**: `2.2.4`
 
@@ -253,16 +253,19 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Implemented max cap for log lines captured in InMemoryLogStorage
         - Enhanced cleanup for URLClassLoaders created by spark submit operations.
     </Improvements>
-    
+
     <BugFixes>
       ---
     </BugFixes>
+
 </Release>
 
 <Release version="3.15.2" date="February 19th, 2026">
-    <BugFixes>
-        - Move/Delete worksheets in My Workspace issue is resolved.
-    </BugFixes>
+  <BugFixes>
+    - Move/Delete worksheets in My Workspace issue is resolved.
+    - Fix issue with Streaming Job  download all logs
+  </BugFixes>
+
 </Release>
 
 <Release version="3.15.1" date="January 5th, 2026">
@@ -309,16 +312,16 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
               enabled: true
             ```
           - To migrate existing namespaces to use namespace resource bundles, follow the [instructions](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md).
-    
+
     - 📊 **BI Dashboards** `BETA`
-      - We're excited to introduce **BI Dashboards** — a powerful new feature that allows you to create interactive dashboards directly from your SQL query results within the IOMETE platform.            
+      - We're excited to introduce **BI Dashboards** — a powerful new feature that allows you to create interactive dashboards directly from your SQL query results within the IOMETE platform.
         <Img src="/img/getting-started/release-notes/3.15.0/dashboards.png" alt="IOMETE Dashboards" />
 
       - **Create and manage Dashboards**
         - You can now organize your data visualizations into dashboards for better insights and reporting. Create new dashboards directly from the workspace sidebar by right-clicking on any folder and selecting **New dashboard**.
         <Img src="/img/getting-started/release-notes/3.15.0/create-dashboard.png" alt="Create dashboard" maxWidth="200px" />
 
-      
+
       - **Add Charts to Dashboards**
         - Transform your SQL query results into visual charts and add them to dashboards with just a few clicks:
 
@@ -327,8 +330,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
           - Click **Add** to dashboard to save the visualization
 
             <Img src="/img/getting-started/release-notes/3.15.0/add-to-dashboard.png" alt="Create dashboard"  />
-           
-      
+
+
       - **Widget Configuration**
         - When adding a chart to a dashboard, you can customize:
           - Widget name — Give your visualization a descriptive title
@@ -338,9 +341,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
               <Img src="/img/getting-started/release-notes/3.15.0/dashboard-name-and-browse.png" alt="Create dashboard"  />
               <Img src="/img/getting-started/release-notes/3.15.0/select-dashboard-to-add.png" alt="Create dashboard"  />
             </GridBox>
-            
+
       - **Your Widget, Live on the Dashboard** 🎉
-          
+
         <Img src="/img/getting-started/release-notes/3.15.0/dashboards.png" alt="IOMETE | Dashboards"  maxWidth="800px" />
 
         - Once you've selected a dashboard and clicked Add, your chart instantly appears on the dashboard — ready to deliver insights. View all your widgets together in a unified layout, with each visualization displaying real-time data from your SQL queries. Mix and match different chart types like **bar** charts, **pie** charts, **treemaps**, and other charts to build comprehensive reporting views.
@@ -353,12 +356,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Edit SQL — Jump back to the underlying query
         - Rename — Update the widget title
         - Remove — Delete the widget from the dashboard
-    
+
           <Img src="/img/getting-started/release-notes/3.15.0/widget-actions.png" alt="Dashboard widget actions" maxWidth="600px"  />
 
         - **Auto-Sync Indicators**
           - Widgets display a "Last sync" timestamp showing when the data was last refreshed, helping you track data freshness across your dashboard.
-      
 
   </NewFeatures>
   <Improvements>
@@ -393,14 +395,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Access token manage permission**: Access token management functionality is now role-based.
     <Img src="/img/user-guide/iam/roles/access-token-permission.png" alt="Access Token Manage" maxWidth="800px" centered />
 
-    - **Database Explorer Improvements**: 
+    - **Database Explorer Improvements**:
         - We have added a feature flag `arrowFlightForDbExplorer` to run Database Explorer on the **Arrow Flight** protocol. This improvement significantly enhances performance for large metadata sets.
         ```yaml
         arrowFlightForDbExplorer:
           enabled: true
         ```
       - **Data Security Policy Enforcement**: This update also enables **Data Security policy enforcement** within the Database Explorer. Metadata listings are now filtered based on active policies, ensuring users only see resources they are authorized to access. The above flag needs to be enabled to have this functionality.
-    
+
     - **Data Explorer - Snapshot Storage Visibility**
       - Enhanced **Storage Footprint** with unified metric cards for size and file count.
       - Added **Live vs Historical** snapshot ratio visualization.
@@ -412,14 +414,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Number of files for an Iceberg table including all snapshots (so showing true number of files for a table if they look into their storage)
         - Total size of an Iceberg table including all snapshots
         - Total DB/schema size including all snapshots
-      
+
           <Img src="/img/getting-started/release-notes/3.15.0/new-metrics.png" alt="New Metrics" />
       :::important Catalog Sync Update Required
-         The Catalog Sync job needs to run with a newer version (4.3.5) for the new fields to be visible. 
+         The Catalog Sync job needs to run with a newer version (4.3.5) for the new fields to be visible.
          Refer : [Marketplace Release Notes](/docs/deployment/on-prem/release-notes/marketplace-jobs.md) for more information.
       :::
 
-    - **Spark History Update Interval**: 
+    - **Spark History Update Interval**:
       - Changed Spark History Server update interval from 30 seconds to a very large value to prevent frequent filesystem scans while serving the Spark UI.
         ```yaml
           # Spark History Server - Services that stores Spark Job's History and Metrics
@@ -449,9 +451,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Compute secrets were previously not masked, while Spark job secrets were. Added the same masking capability to compute resources to enhance security.
         <Img src="/img/getting-started/release-notes/3.15.0/secret.png" alt="Secret Masking" />
 
-
-
-      
   </Improvements>
   <BugFixes>
     - **Spark Applications**:
@@ -564,6 +563,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
     - **Jupyter Container Improvements**:
       - Improved Jupyter Containers deployment to respect priority class threshold
+
   </Improvements>
 
   <BugFixes>
@@ -576,7 +576,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Users can now add resources to resource bundles where they are the owner or listed as an actor.
     </Improvements>
 </Release>
-
 
 <Release version="3.13.1" date="October 28, 2025">
   <Improvements>
