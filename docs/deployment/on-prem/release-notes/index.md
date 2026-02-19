@@ -14,6 +14,277 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.16.0" date="February 9th, 2026">
+    <NewFeatures>
+    ---
+      - **Introducing Data Classifications (with Approval Workflow)**
+        
+        We’ve upgraded Data Governance with Data Classifications — replacing free-form tags with centrally managed, approval-based classification labels.
+
+        **What’s new**
+
+        - **Classifications replace tags**
+          Classifications are now predefined by Admin / Security teams and include descriptions plus usage visibility.
+
+        - **Request & approval workflow**
+          Adding or removing a classification on tables or columns now requires approval. This prevents accidental data exposure and unexpected pipeline breaks.
+
+        - **User-driven, admin-controlled**
+          Users can request classification changes directly from the Data Catalog. Admins review, approve, or reject these requests with comments.
+
+        - **Full visibility & audit trail**
+          All requests are tracked in Classification Requests, with status, history, and reviewer feedback.
+
+        - **Automatic policy enforcement**
+          Once approved, existing security and masking policies tied to classifications apply immediately — no manual policy updates required.
+
+        **Why this matters**
+
+          Classifications often drive access control and masking. This change ensures sensitive operations are reviewed, governed, and auditable by design.
+
+        📄 Learn more
+        1. Main documentation: [Data Classifications Documentation](/user-guide/data-security/classifications)
+        2. Best practices & example workflows: [Data Classification Best Practices](/user-guide/data-security/classification-best-practices)
+
+
+
+      - **Query Scheduling `BETA`**
+
+        You can now schedule SQL queries directly from the SQL Editor. This feature enables automated query execution on custom intervals with full monitoring and management capabilities.
+
+        <Img src="/img/user-guide/sql-editor/scheduling/create-schedule.png" alt="Create Schedule Modal" maxWidth="800px" centered />
+
+        :::warning Beta Feature
+        This is a beta feature and may be unstable.
+        :::
+
+        **Key capabilities:**
+        - **Schedule from SQL Editor** — Create schedules directly from any worksheet using the Schedule icon
+        - **Flexible intervals** — Define schedules using simple intervals or advanced Cron syntax
+        - **Run as user** — Execute queries as yourself or a designated Service Account
+        - **Parameter support** — Configure query parameters at schedule time
+        - **Centralized management** — View and manage all schedules from the new Schedules menu in the Workspace section
+        - **Run history & monitoring** — Track execution history with detailed run information, task breakdowns, and execution graphs
+
+        📄 Learn more: [Query Scheduling Documentation](/user-guide/sql-editor/scheduling)
+
+
+      - **Event Streams `BETA`**
+
+        Introducing a real-time event ingestion service that receives events via HTTP requests and continuously writes them to Apache Iceberg tables in near real-time. No need to manage complex infrastructure like Kafka.
+
+        :::caution
+        Event Streams requires `statefulsets` and `statefulsets/scale` permissions (apiGroup: `apps`) in the `iomete-lakehouse-role`. Update your Role before using this feature.
+        :::
+
+        <Img src="/img/user-guide/event-stream/connect.png" alt="Event Stream Connect" maxWidth="800px" centered />
+
+        :::warning Beta Feature
+        This is a beta feature and may be unstable.
+        :::
+
+        **Key capabilities:**
+        - **Simple HTTP API** — Send events via POST requests with JSON data; no client libraries required
+        - **Batch support** — Optimized for high throughput with batch event sending
+        - **Near real-time** — Events appear in Iceberg tables immediately after ingestion
+        - **Multi-language support** — Ready-to-use code snippets in cURL, Python, Java, JavaScript, Go, and more
+        - **Scalable deployment** — Configurable replicas, CPU/memory allocation, and persistent volumes
+        - **Full observability** — Real-time logs and Kubernetes events monitoring
+
+        Once created, connect to your Event Stream using the provided endpoint and code snippets:
+
+        📄 Learn more: [Event Stream Documentation](/user-guide/event-stream)
+
+        **Internal Usage:**
+        Event Streams are also used internally by IOMETE for platform audit logs and Ranger data access audit logs. The required system tables must be created before deployment if they don't already exist.
+
+        📄 System Tables: [System Tables Documentation](/user-guide/system-tables)
+
+
+      - **Secrets Management**
+
+        Centralized secrets management with Domain and Global scoping, supporting Kubernetes and HashiCorp Vault backends simultaneously.
+
+        **What's new:**
+        - **HashiCorp Vault integration** — Use Vault (KV v2) alongside Kubernetes secrets with App Role or Token authentication
+        - **RAS-enabled Vault configuration** — Fine-grained access control for Vault integrations via Resource Authorization System
+        - **Secret selector UI** — Pick or create secrets directly from configuration fields
+        - **Workload integration** — Secrets available in Spark jobs, Compute, Jupyter notebooks, and Storage configurations
+
+        :::info Feature Flag
+        Enable in Helm values: `features.secretsV2.enabled: true`
+        :::
+
+        📄 Learn more: [Secrets Management Documentation](/user-guide/secrets)
+
+      - **Domain Authorization using RAS**
+
+        Domain authorization will now use **RAS** instead of legacy domain role mappings.
+
+        **What’s new**
+        - Access is granted with granular permissions directly to users and groups.
+        - Domain ownership supports both users and groups.
+        - Zero-trust default: no implicit access; permissions must be explicitly granted.
+
+        **Upgrade path**
+        - New environments: enable `domainLevelBundleAuthorization` feature flag.
+        - Existing environments: run the [migration job](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md), then enable `domainLevelBundleAuthorization` feature flag.
+        - Verify feature/module status from `GET /api/v1/modules`.
+
+        📄 Learn more: [Domain Authorization Documentation](/user-guide/iam/ras/domain-authorization)
+
+      - **Access Delegation for Iceberg REST Catalog**
+
+        The Iceberg REST Catalog now supports [access delegation](https://iceberg.apache.org/spec/#access-delegation), eliminating the need to configure external compute engines (Spark, Trino, Starburst, etc.) with long-lived, bucket-wide credentials. Instead, the catalog handles data access on behalf of clients — they only need a catalog-level access token.
+
+        IOMETE implements both modes defined by the Iceberg REST specification:
+
+        - **Credential Vending** — The catalog issues temporary, scoped credentials per table. Permissions are derived from Apache Ranger policies (`SELECT` → read-only, `INSERT`/`DELETE` → read-write). Credentials are short-lived and automatically scoped to the table's path.
+        - **Remote Signing** — The catalog signs requests on behalf of clients using presigned requests. Credentials never leave the server.
+
+        Both modes are disabled by default. They can be enabled globally via System Configs (`iceberg-catalog.vended-credentials.enabled` / `iceberg-catalog.remote-signing.enabled`) or per catalog via additional catalog properties.
+
+        📄 Learn more: [Iceberg REST Catalog — Access Delegation](/user-guide/spark-catalogs/internal#access-delegation)
+        📝 Deep dive with our blog post: [Access Delegation in Apache Iceberg](/blog/iceberg-access-delegation)
+
+      - **Enterprise Catalog**
+
+        A new **preview** IOMETE-managed catalog that simplifies multi-format table management. Enterprise Catalog is a format-agnostic catalog supporting **Iceberg, Parquet, JSON, CSV, ORC, Avro**, and **Text** — with Delta Lake and Hudi planned.
+
+        **Key features:**
+        - **Single catalog for multiple formats** — no need for separate catalogs per format
+        - **Auto-configured** — connection properties, storage, and internal routing require no manual setup (name + warehouse only)
+        - **IOMETE workload access** — available to Lakehouses, Spark jobs, and Jupyter notebooks
+
+        :::warning Preview Feature
+        This is a preview feature and is not production-ready. Breaking changes may occur before general availability.
+        :::
+
+        📄 Learn more: [Enterprise Catalog Documentation](/user-guide/spark-catalogs/enterprise)
+
+      - **Access Token Suspension**
+
+        Access tokens can now be **suspended** to immediately block all requests using that PAT token, without deleting it. A suspended token can be reactivated at any time to restore access — no service restart or redeployment required.
+
+        📄 Learn more: [Access Tokens — Suspending and Reactivating](/user-guide/create-a-personal-access-token#suspending-and-reactivating-tokens)
+
+    </NewFeatures>
+    <Improvements>
+    ---
+
+      ## Per-Token Rate Limiting for REST Catalog
+
+      Access tokens for the Iceberg REST Catalog can now be configured with a **max requests per second (maxRPS)** to prevent individual clients from overwhelming the service. When enabled, IOMETE deploys a dedicated rate limiter pod alongside the REST catalog.
+
+      :::info Enable via Helm
+      ```yaml
+      features:
+        ratelimiter:
+          enabled: true
+      ```
+      :::
+
+      📄 Learn more: [Access Tokens](/user-guide/create-a-personal-access-token) · [Iceberg REST Catalog — Rate Limiting](/user-guide/spark-catalogs/internal#rate-limiting)
+
+      ## Concurrency Limiting for REST Catalog
+
+      The REST catalog now supports a configurable maximum number of concurrent requests to prevent pod overload. When the limit is exceeded, the catalog returns **HTTP 503 Service Unavailable**.
+
+      ```yaml
+      # Helm values
+      services:
+        restCatalog:
+          settings:
+            maxConcurrentRequests: 10000  # default
+      ```
+
+      📄 Learn more: [Iceberg REST Catalog — Operational Settings](/user-guide/spark-catalogs/internal#operational-settings)
+
+      ## Client Request Tracking for REST Catalog
+
+      When enabled, HTTP metrics for the REST catalog are tagged with the access token name and user ID, giving per-client visibility into request rates, latency, and error rates in Grafana.
+
+      ```yaml
+      # Helm values
+      services:
+        restCatalog:
+          settings:
+            serviceAccountRequestTracking: true
+      ```
+
+      📄 Learn more: [Iceberg REST Catalog — Client Request Tracking](/user-guide/spark-catalogs/internal#client-request-tracking)
+
+      ## **New Grafana Dashboards**
+
+      We have added new Grafana dashboards for monitoring the health and performance of IOMETE services, including:
+
+
+        - **External Traffic Dashboard**: If service account request tracking is enabled for REST Catalog, this dashboard shows the traffic coming to REST Catalog from different service accounts (see above for how to enable this feature).
+        - **Compute Proxy Dashboard**: This dashboard is for admins of IOMETE to keep track of various metrics in compute proxy server.
+        - **Event Stream Proxy Dashboard**
+
+      Monitoring Chart is kept outside of IOMETE:
+        - **name**: `iomete-monitoring-chart`
+        - **version**: `2.2.4`
+
+      ## Hive Metastore Upgrade (Hive 4.0.0)
+
+      We have completed a major upgrade of the Hive Metastore to **Hive 4.0.0**. This release addresses multiple security vulnerabilities while maintaining full compatibility with **Spark 3.5.5**.
+
+      ### What’s included
+      - Upgrade of the Hive Metastore to Hive **4.0.0**
+      - Security and dependency updates
+      - No changes to existing Spark images or production workloads
+      - New metastore image version: **metastore:7.1.1**
+
+      ### Compatibility
+      - Fully compatible with **Spark 3.5.5**
+      - Existing Spark jobs continue to run without interruption
+      - No restart or update of compute workloads is required
+
+      ### Impact
+      - This is a **backward-compatible** upgrade
+      - No user action is needed
+      - No expected changes to query behavior or performance
+
+      ## Spark Submit Service Improved Memory Management
+
+        - Implemented TTL for Job logs in InMemorLogStorage for job submission logs
+        - Implemented max cap for log lines captured in InMemoryLogStorage
+        - Enhanced cleanup for URLClassLoaders created by spark submit operations.
+
+      ## Access Policy Patch Support
+
+      New PATCH endpoints for access policies let admins append or remove individual resources and policy items without resending the full policy. Two endpoints are available:
+
+      - **`PATCH /access/policy/{policyId}/resources`** — Add or remove a resource entry from a policy
+      - **`PATCH /access/policy/{policyId}/policy-items`** — Add or remove allow/deny policy items (users, groups, roles, and their access permissions)
+
+      ## Spark & ArrowFlight
+
+      **Spark version:** 3.5.5-v10  
+      **Iceberg version:** 1.9.3
+
+      - Added support for **Bind Variables** in JDBC ArrowFlight connections to Spark Compute
+      - Spark UI now correctly displays SQL queries executed via ArrowFlight JDBC
+      - Enhanced error handling for ArrowFlight JDBC exceptions
+
+    </Improvements>
+
+    <BugFixes>
+      - Fixed an issue where Database Explorer did not fully enforce data permission policies
+    </BugFixes>
+
+</Release>
+
+<Release version="3.15.2" date="February 19th, 2026">
+  <BugFixes>
+    - Move/Delete worksheets in My Workspace issue is resolved.
+    - Fix issue with Streaming Job  download all logs
+  </BugFixes>
+
+</Release>
+
 <Release version="3.15.1" date="January 5th, 2026">
     <BugFixes>
         - Downgraded all AWS S3 SDK library versions to fix compatibility issues with S3-compatible storage providers.
@@ -21,99 +292,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 </Release>
 
 <Release version="3.15.0" date="January 5th, 2026">
-<!--
-
-Aslan Bakirov
-  kotlin:
-      911df413d 2025-11-25 Aslan Bakirov Ab/add release tag (#1359)
-      0b3e974f0 2025-10-21 Aslan Bakirov Add common and cloud-storages-lib to the CI (#1193)
-      a90f0efe5 2025-10-25 Aslan Bakirov Fix test connection issue (#1278)
-      26df71bac 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:s3 in /iom-rest-catalog (#1289)" (#1304)
-      015b4200d 2025-10-28 Aslan Bakirov Revert "build(deps): bump software.amazon.awssdk:sts in /iom-core (#1296)" (#1303)
-  infra:
-      236acb27 2025-11-20 Aslan Bakirov Add alerts and contact points for dell (#320)
-      125e9cd4 2025-11-25 Aslan Bakirov Add new alerts (#325)
-      ac8f4085 2025-12-17 Aslan Bakirov Add new dashboards (#357)
-      2278033c 2025-12-18 Aslan Bakirov Add new dashboards (#360)
-      94203b7f 2025-11-25 Aslan Bakirov Add release tag in other repos (#273)
-      ae118366 2025-12-09 Aslan Bakirov Add rust-monorepo to release pipeline (#351)
-      c75c6b42 2025-12-07 Aslan Bakirov Add trustore volume (#345)
-      4efcb1d4 2025-12-18 Aslan Bakirov bump the chart version (#361)
-      8754d674 2025-11-04 Aslan Bakirov Dell Prod Dashboards (#268)
-      caae6fa6 2025-11-10 Aslan Bakirov Fix deployment of papyrus (#278)
-      26afb977 2025-11-17 Aslan Bakirov Image url fixup (#307)
-      5ad061ef 2025-12-03 Aslan Bakirov New dash (#340)
-      eb228f27 2025-12-18 Aslan Bakirov New dashboards (#359)
-      3d8699ef 2025-11-10 Aslan Bakirov Remove wierd characters (#272)
-      c1706d32 2025-11-18 Aslan Bakirov Update chart version (#313)
-      cc3f57af 2025-11-17 Aslan Bakirov Update ns dashboard (#308)
-      20587d6d 2025-11-25 Aslan Bakirov Update version (#326)
-      f7f2b6fc 2025-11-27 Aslan Bakirov Upgrade iom-socket version (#329)
-  iom-console:
-      8142d6e21 2025-11-25 Aslan Bakirov Add release tag (#492)
-
-
-Mammad Mammadli
-  kotlin:
-      -
-  infra:
-      -
-  iom-console:
-      a8b83eb3d 2025-12-02 Mammad Mammadli Adapt endpoints for service accounts for create, delete (#550)
-      b05a96614 2025-12-03 Mammad Mammadli bring back search functionality (#552)
-      b75269af4 2025-11-28 Mammad Mammadli change bundle assets with new structured endpoint (#532)
-      b5f6ea5b3 2025-10-23 Mammad Mammadli chore: disable deleting for deleting alias (#462)
-      f3336cab6 2025-12-11 Mammad Mammadli disable highlighting of SQL editor (#573)
-      a79f0f51f 2025-10-30 Mammad Mammadli feat: add Jupyter notebook support to SQL editor
-      d7fe76898 2025-11-19 Mammad Mammadli feat: add resource type filter to bundle members (#515)
-      89ade8c52 2025-10-31 Mammad Mammadli feat: enhance bundle permissions with single selection and smart filtering
-      0f41ee649 2025-10-23 Mammad Mammadli feat: enhance docker image selection for private registries
-      680beb7db 2025-10-29 Mammad Mammadli feat: filter asset type permissions based on selected actors' existing permissions
-      f504d7b8b 2025-10-22 Mammad Mammadli feat: implement API versioning with feature toggle support
-      731231d38 2025-12-09 Mammad Mammadli feat: implement basic notifications page (#534)
-      9fb17eb43 2025-11-28 Mammad Mammadli Fix broken Compute edit page (#519)
-      222429590 2025-12-17 Mammad Mammadli fix failing test (#588)
-      8e4f4bd73 2025-11-10 Mammad Mammadli fix failing tests
-      3ebd97162 2025-12-02 Mammad Mammadli Fix namespace test failures and split namespace pages per version (#548)
-      5c657094b 2025-11-05 Mammad Mammadli fix: invalidate correct query key for bundle resource assets
-      bfb79bb00 2025-10-21 Mammad Mammadli fix: pagination not working when sorting is applied in query monitoring
-      5ed8051c0 2025-11-03 Mammad Mammadli fix: resolve placeholder visibility and form reset issues in bundle permissions
-      20697533c 2025-11-03 Mammad Mammadli fix: update bundle permission form tests to match new disabled behavior
-      9c5ac4354 2025-12-01 Mammad Mammadli IE-156/separate admin domain access (#542)
-      60842ad57 2025-11-28 Mammad Mammadli Implement ButtonGroup component (#513)
-      cd3a76523 2025-10-31 Mammad Mammadli implement global uuid interface
-      303593658 2025-11-27 Mammad Mammadli Implement permission management for access token (#535)
-      efb2f8a63 2025-11-14 Mammad Mammadli increase maxThreads (#505)
-      fa40a2cc0 2025-12-17 Mammad Mammadli Increase tests (#584)
-      b14d2d9ce 2025-11-04 Mammad Mammadli install jupyter and enable
-      ef0ac4218 2025-11-03 Mammad Mammadli Make some cleanups
-      463884ba1 2025-11-24 Mammad Mammadli New endpoints for Secret management (#508)
-      eed269224 2025-11-18 Mammad Mammadli Pe 159/bundle permission improvement (#502)
-      1114dacbd 2025-12-03 Mammad Mammadli PE-199/migrate namespaces to v2 (#549)
-      cf7b2ca37 2025-12-11 Mammad Mammadli PE-229/Notification settings (#569)
-      5415f0fcb 2025-11-10 Mammad Mammadli Redirect to bundle details after creating
-      daa7cf691 2025-10-21 Mammad Mammadli redirect to specific jupyter
-      72d52f78a 2025-11-20 Mammad Mammadli refactor: remove forceUpdate pattern from BundlePermissionManager (#520)
-      5e315fd73 2025-12-09 Mammad Mammadli remove caching from namespaces list (#567)
-      65c9932e8 2025-11-04 Mammad Mammadli REmove flag for Jupyter
-      ac91a4f82 2025-11-10 Mammad Mammadli remove redundant comments
-      c55ec3e35 2025-11-16 Mammad Mammadli Removed parsing to json since it's going to be parsed inside package (#509)
-      92fe9cb3f 2025-11-10 Mammad Mammadli revert changes on pr.yml
-      f89becf0b 2025-11-10 Mammad Mammadli run all tests
-      c571ef226 2025-10-21 Mammad Mammadli send request to v2 on compute log download
-      3dc7fe547 2025-11-03 Mammad Mammadli Show loading on BundlePermissionForm
-      d56d68b40 2025-11-28 Mammad Mammadli Split endpoints for access token into 2 parts domain/admin (#540)
-      e1eb2450e 2025-10-29 Mammad Mammadli test: add comprehensive unit tests for BundlePermissionCreate and BundlePermissionEdit
-      76431a03a 2025-10-29 Mammad Mammadli test: add comprehensive unit tests for BundlePermissionForm components
-      a5e060cab 2025-11-07 Mammad Mammadli update config
-      6a76060a2 2025-11-09 Mammad Mammadli Update eslint config
-      03e41c68c 2025-12-13 Mammad Mammadli update html data-theme for dark/light theme (#574)
-      1e1181bee 2025-11-25 Mammad Mammadli update packages (#531)
-      74b3a85eb 2025-11-05 Mammad Mammadli update yarn.lock
-      ab9ac062b 2025-11-06 Mammad Mammadli update yarn.lock
-      fa9f53152 2025-10-21 Mammad Mammadli update yarn.lock
-      
--->
   <NewFeatures>
     - **Event Ingest Service**:
       - Introducing a high-performance event ingestion service built in Rust, designed for efficient event streaming and storage to Iceberg tables.
@@ -151,16 +329,16 @@ Mammad Mammadli
               enabled: true
             ```
           - To migrate existing namespaces to use namespace resource bundles, follow the [instructions](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md).
-    
+
     - 📊 **BI Dashboards** `BETA`
-      - We're excited to introduce **BI Dashboards** — a powerful new feature that allows you to create interactive dashboards directly from your SQL query results within the IOMETE platform.            
+      - We're excited to introduce **BI Dashboards** — a powerful new feature that allows you to create interactive dashboards directly from your SQL query results within the IOMETE platform.
         <Img src="/img/getting-started/release-notes/3.15.0/dashboards.png" alt="IOMETE Dashboards" />
 
       - **Create and manage Dashboards**
         - You can now organize your data visualizations into dashboards for better insights and reporting. Create new dashboards directly from the workspace sidebar by right-clicking on any folder and selecting **New dashboard**.
         <Img src="/img/getting-started/release-notes/3.15.0/create-dashboard.png" alt="Create dashboard" maxWidth="200px" />
 
-      
+
       - **Add Charts to Dashboards**
         - Transform your SQL query results into visual charts and add them to dashboards with just a few clicks:
 
@@ -169,8 +347,8 @@ Mammad Mammadli
           - Click **Add** to dashboard to save the visualization
 
             <Img src="/img/getting-started/release-notes/3.15.0/add-to-dashboard.png" alt="Create dashboard"  />
-           
-      
+
+
       - **Widget Configuration**
         - When adding a chart to a dashboard, you can customize:
           - Widget name — Give your visualization a descriptive title
@@ -180,9 +358,9 @@ Mammad Mammadli
               <Img src="/img/getting-started/release-notes/3.15.0/dashboard-name-and-browse.png" alt="Create dashboard"  />
               <Img src="/img/getting-started/release-notes/3.15.0/select-dashboard-to-add.png" alt="Create dashboard"  />
             </GridBox>
-            
+
       - **Your Widget, Live on the Dashboard** 🎉
-          
+
         <Img src="/img/getting-started/release-notes/3.15.0/dashboards.png" alt="IOMETE | Dashboards"  maxWidth="800px" />
 
         - Once you've selected a dashboard and clicked Add, your chart instantly appears on the dashboard — ready to deliver insights. View all your widgets together in a unified layout, with each visualization displaying real-time data from your SQL queries. Mix and match different chart types like **bar** charts, **pie** charts, **treemaps**, and other charts to build comprehensive reporting views.
@@ -195,12 +373,11 @@ Mammad Mammadli
         - Edit SQL — Jump back to the underlying query
         - Rename — Update the widget title
         - Remove — Delete the widget from the dashboard
-    
+
           <Img src="/img/getting-started/release-notes/3.15.0/widget-actions.png" alt="Dashboard widget actions" maxWidth="600px"  />
 
         - **Auto-Sync Indicators**
           - Widgets display a "Last sync" timestamp showing when the data was last refreshed, helping you track data freshness across your dashboard.
-      
 
   </NewFeatures>
   <Improvements>
@@ -235,14 +412,14 @@ Mammad Mammadli
     - **Access token manage permission**: Access token management functionality is now role-based.
     <Img src="/img/user-guide/iam/roles/access-token-permission.png" alt="Access Token Manage" maxWidth="800px" centered />
 
-    - **Database Explorer Improvements**: 
+    - **Database Explorer Improvements**:
         - We have added a feature flag `arrowFlightForDbExplorer` to run Database Explorer on the **Arrow Flight** protocol. This improvement significantly enhances performance for large metadata sets.
         ```yaml
         arrowFlightForDbExplorer:
           enabled: true
         ```
       - **Data Security Policy Enforcement**: This update also enables **Data Security policy enforcement** within the Database Explorer. Metadata listings are now filtered based on active policies, ensuring users only see resources they are authorized to access. The above flag needs to be enabled to have this functionality.
-    
+
     - **Data Explorer - Snapshot Storage Visibility**
       - Enhanced **Storage Footprint** with unified metric cards for size and file count.
       - Added **Live vs Historical** snapshot ratio visualization.
@@ -254,14 +431,14 @@ Mammad Mammadli
         - Number of files for an Iceberg table including all snapshots (so showing true number of files for a table if they look into their storage)
         - Total size of an Iceberg table including all snapshots
         - Total DB/schema size including all snapshots
-      
+
           <Img src="/img/getting-started/release-notes/3.15.0/new-metrics.png" alt="New Metrics" />
       :::important Catalog Sync Update Required
-         The Catalog Sync job needs to run with a newer version (4.3.5) for the new fields to be visible. 
+         The Catalog Sync job needs to run with a newer version (4.3.5) for the new fields to be visible.
          Refer : [Marketplace Release Notes](/docs/deployment/on-prem/release-notes/marketplace-jobs.md) for more information.
       :::
 
-    - **Spark History Update Interval**: 
+    - **Spark History Update Interval**:
       - Changed Spark History Server update interval from 30 seconds to a very large value to prevent frequent filesystem scans while serving the Spark UI.
         ```yaml
           # Spark History Server - Services that stores Spark Job's History and Metrics
@@ -291,9 +468,6 @@ Mammad Mammadli
       - Compute secrets were previously not masked, while Spark job secrets were. Added the same masking capability to compute resources to enhance security.
         <Img src="/img/getting-started/release-notes/3.15.0/secret.png" alt="Secret Masking" />
 
-
-
-      
   </Improvements>
   <BugFixes>
     - **Spark Applications**:
@@ -406,6 +580,7 @@ Mammad Mammadli
 
     - **Jupyter Container Improvements**:
       - Improved Jupyter Containers deployment to respect priority class threshold
+
   </Improvements>
 
   <BugFixes>
@@ -418,7 +593,6 @@ Mammad Mammadli
         - Users can now add resources to resource bundles where they are the owner or listed as an actor.
     </Improvements>
 </Release>
-
 
 <Release version="3.13.1" date="October 28, 2025">
   <Improvements>
