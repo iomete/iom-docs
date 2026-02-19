@@ -252,6 +252,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Implemented TTL for Job logs in InMemorLogStorage for job submission logs
         - Implemented max cap for log lines captured in InMemoryLogStorage
         - Enhanced cleanup for URLClassLoaders created by spark submit operations.
+
+      ## Access Policy Patch Support
+
+      New PATCH endpoints for access policies let admins append or remove individual resources and policy items without resending the full policy. Two endpoints are available:
+
+      - **`PATCH /access/policy/{policyId}/resources`** — Add or remove a resource entry from a policy
+      - **`PATCH /access/policy/{policyId}/policy-items`** — Add or remove allow/deny policy items (users, groups, roles, and their access permissions)
+
     </Improvements>
 
     <BugFixes>
