@@ -259,6 +259,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     </BugFixes>
 </Release>
 
+<Release version="3.15.2" date="February 19th, 2026">
+    <BugFixes>
+        - Move/Delete worksheets in My Workspace issue is resolved.
+    </BugFixes>
+</Release>
+
 <Release version="3.15.1" date="January 5th, 2026">
     <BugFixes>
         - Downgraded all AWS S3 SDK library versions to fix compatibility issues with S3-compatible storage providers.
