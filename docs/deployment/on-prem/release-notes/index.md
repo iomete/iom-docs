@@ -246,6 +246,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - This is a **backward-compatible** upgrade
       - No user action is needed
       - No expected changes to query behavior or performance
+
+      ## Spark Submit Service Improved Memory Management
+
+        - Implemented TTL for Job logs in InMemorLogStorage for job submission logs
+        - Implemented max cap for log lines captured in InMemoryLogStorage
+        - Enhanced cleanup for URLClassLoaders created by spark submit operations.
     </Improvements>
     
     <BugFixes>
