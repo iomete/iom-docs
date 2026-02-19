@@ -260,10 +260,19 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **`PATCH /access/policy/{policyId}/resources`** — Add or remove a resource entry from a policy
       - **`PATCH /access/policy/{policyId}/policy-items`** — Add or remove allow/deny policy items (users, groups, roles, and their access permissions)
 
+      ## Spark & ArrowFlight
+
+      **Spark version:** 3.5.5-v10  
+      **Iceberg version:** 1.9.3
+
+      - Added support for **Bind Variables** in JDBC ArrowFlight connections to Spark Compute
+      - Spark UI now correctly displays SQL queries executed via ArrowFlight JDBC
+      - Enhanced error handling for ArrowFlight JDBC exceptions
+
     </Improvements>
 
     <BugFixes>
-      ---
+      - Fixed an issue where Database Explorer did not fully enforce data permission policies
     </BugFixes>
 
 </Release>
