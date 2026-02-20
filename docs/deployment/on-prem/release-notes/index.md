@@ -281,6 +281,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <BugFixes>
     - Move/Delete worksheets in My Workspace issue is resolved.
     - Fix issue with Streaming Job  download all logs
+    - Fixed an issue where streaming jobs were incorrectly killed during idle periods when executors scaled to zero.
   </BugFixes>
 
 </Release>
