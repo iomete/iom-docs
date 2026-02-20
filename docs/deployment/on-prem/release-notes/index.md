@@ -128,7 +128,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
         **Upgrade path**
         - New environments: enable `domainLevelBundleAuthorization` feature flag.
-        - Existing environments: run the [migration job](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md), then enable `domainLevelBundleAuthorization` feature flag.
+        - Existing environments: run the [ras-onboarding v1.0.5 migration job](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md), then enable `domainLevelBundleAuthorization` feature flag.
         - Verify feature/module status from `GET /api/v1/modules`.
 
         📄 Learn more: [Domain Authorization Documentation](/user-guide/iam/ras/domain-authorization)
