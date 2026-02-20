@@ -14,6 +14,15 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.16.1" date="February 20th, 2026">
+  <BugFixes>
+    - Downgraded all AWS S3 SDK library versions due compatibility with Dell ECS
+    - Introduced feature flag for new Scheduling functionality
+  </BugFixes>
+
+</Release>
+
+
 <Release version="3.16.0" date="February 9th, 2026">
     <NewFeatures>
     ---
