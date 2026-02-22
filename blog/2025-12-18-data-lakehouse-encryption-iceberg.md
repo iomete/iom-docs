@@ -1,6 +1,6 @@
 ---
 title: "Data Lakehouse Encryption: Encrypting Data at Rest in Apache Iceberg"
-description: "How Iceberg-based lakehouses secure data at rest across SSE-S3, SSE-KMS, SSE-C, and client-side encryption—and how IOMETE runs it in production."
+description: "How Iceberg-based lakehouses secure data at rest across SSE-S3, SSE-KMS, SSE-C, and client-side encryption. Learn how IOMETE runs it in production."
 slug: "data-lakehouse-encryption-iceberg"
 authors: "rocco"
 tags2: ["Security", "Technical"]
@@ -110,11 +110,11 @@ For Iceberg on S3-compatible storage, SSE-C is also configured at the [S3FileIO]
 
 **What it protects against:** Everything that customer-specified keys protect against, plus scenarios where encryption key management must be kept entirely outside the storage system’s trust boundary. This includes concerns about provider-level compromise, legal or regulatory constraints that prohibit storage providers from having any ability to decrypt data, or a deliberate architectural choice to avoid placing both data and key control within the same platform.
 
-**Advantages:** Complete control over encryption keys. The storage provider never sees your keys, not even in encrypted form. This can be a hard requirement for certain classified, sovereign, or highly regulated environments, or in deployments where key management is intentionally owned by a separate team or system outside the storage platform.
+**Advantages:** Complete control over encryption keys. The storage provider never stores your keys or connects to your KMS. Keys are supplied per-request and discarded after use. This can be a hard requirement for certain classified, sovereign, or highly regulated environments, or in deployments where key management is intentionally owned by a separate team or system outside the storage platform.
 
 **Downsides:** Operational complexity is very high. You must securely generate, store, distribute, and supply encryption keys with every request. Lose the key and the data is permanently bricked, with no recovery possible. Key rotation requires re-encrypting all data, often involving a full re-upload. Many tools and services, especially analytics and BI engines, do not support SSE-C at all.
 
-**Important to understand:** The storage system has zero knowledge of your keys. Every read and write must include the correct key, or the operation fails. This shifts complete responsibility for key management, availability, and disaster recovery onto your systems.
+**Important to understand:** You provide the encryption key with every request. The storage system uses it to encrypt or decrypt, then discards it. If you provide the wrong key or no key, the operation fails. This shifts complete responsibility for key management, availability, and disaster recovery onto your systems.
 
 **When to use:** When you are using a third-party storage vendor and cannot or will not give them access to your KMS. This setup is uncommon and usually limited due to its heavy operational burden.
 
@@ -150,7 +150,7 @@ Encrypting data at rest is critical for protecting sensitive information in data
 | ----- | ----- | ----- | ----- |
 | SSE: Platform-Managed Keys | Low | Minimal | General-purpose workloads; meets most compliance needs; data is encrypted transparently by the object store |
 | SSE: Customer-Specified Keys | Medium | Moderate | Multi-tenant workloads, regulatory requirements, auditability; allows key-level isolation; must manage KMS permissions and track keys |
-| SSE: Customer-Supplied Keys | High | High | Strong separation of key and storage trust boundaries; storage provider never sees keys; operationally demanding |
+| SSE: Customer-Supplied Keys | High | High | Strong separation of key and storage trust boundaries; storage provider never stores keys; operationally demanding |
 | Client-Side Encryption | Maximum | Extreme | Zero-trust setups where storage must never see plaintext; all encryption/decryption and key management handled by applications and clients; interoperability challenges and high operational overhead |
 
 When choosing a method, consider your security requirements, regulatory obligations, trust boundaries, and operational capabilities. For most cloud and on-prem Iceberg deployments, SSE-KMS (or the cloud-equivalent CMEK) strikes a practical balance between security, control, and manageability.
