@@ -54,7 +54,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         📄 Learn more
         1. Main documentation: [Data Classifications Documentation](/user-guide/data-security/classifications)
         2. Best practices & example workflows: [Data Classification Best Practices](/user-guide/data-security/classification-best-practices)
-
+        3. Migration Guides: [Guide](/user-guide/data-security/classifications#migration-guide-data-catalog-tags--classification-tags-315x--316x)
 
 
       - **Query Scheduling `BETA`**
@@ -176,6 +176,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         Access tokens can now be **suspended** to immediately block all requests using that PAT token, without deleting it. A suspended token can be reactivated at any time to restore access — no service restart or redeployment required.
 
         📄 Learn more: [Access Tokens — Suspending and Reactivating](/user-guide/create-a-personal-access-token#suspending-and-reactivating-tokens)
+
+      - **New Feature: Multi-Cluster Deployment**
+
+        IOMETE v3.16.x introduces support for multi-cluster deployment, enabling organizations to distribute their data lakehouse workloads across multiple data centers and geographic regions for improved resilience, scalability, and enabling the unified control across multiple Kubernetes clusters.
+
+        :::warning Important: Migration Planning Required
+        Multi-cluster/region deployment is a significant architectural change. We strongly recommend working with your FDEs/Support team before enabling this feature. Each migration plan must be individually designed based on your existing infrastructure, data volumes, and business requirements.
+        :::
 
     </NewFeatures>
     <Improvements>
