@@ -179,7 +179,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       - **New Feature: Multi-Cluster Deployment**
 
-        IOMETE v3.16.x introduces support for multi-cluster deployment, enabling organizations to distribute their data lakehouse workloads across multiple data centers and geographic regions for improved resilience, scalability, and enabling the unifed control across multiple Kubernetes clusters.
+        IOMETE v3.16.x introduces support for multi-cluster deployment, enabling organizations to distribute their data lakehouse workloads across multiple data centers and geographic regions for improved resilience, scalability, and enabling the unified control across multiple Kubernetes clusters.
 
         :::warning Important: Migration Planning Required
         Multi-cluster/region deployment is a significant architectural change. We strongly recommend working with your FDEs/Support team before enabling this feature. Each migration plan must be individually designed based on your existing infrastructure, data volumes, and business requirements.
