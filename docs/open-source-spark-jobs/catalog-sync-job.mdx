@@ -1,9 +1,9 @@
 ---
 title: Data Catalog Sync Job
-description: IOMETE's Data Catalog Sync Job allows you to effortlessly synchronize data to Data Catalog.
+description: The Data Catalog Sync Job indexes tables across all catalogs, making them searchable and manageable in the Data Catalog.
 last_update:
-  date: 03/07/2024
-  author: Nurlan Mammadov
+  date: 02/24/2026
+  author: Fuad Musayev
 ---
 
 import FlexButton from "@site/src/components/FlexButton";
@@ -12,44 +12,51 @@ import { Cpu, Plus } from "@phosphor-icons/react";
 
 ---
 
-**IOMETE** offers the **Data Catalog Sync Job**, allowing you to synchronize data from multiple sources with the **IOMETE** Data Catalog. This centralization process simplifies the discovery, access, and management of your data for **analytical** and **ML/AI** workloads.
+The **Data Catalog Sync Job** scans all catalogs in your IOMETE environment and indexes their tables. Once indexed, tables appear in the **Data Catalog** page where you can:
+
+- Add documentation and descriptions
+- Assign owners
+- Define classifications
+- Configure maintenance properties
+
+**Latest version:** `5.0.0` (requires IOMETE `3.16.x` or later)
 
 ## Installation
 
-### Automated Installation
+### From the Marketplace
 
-You can easily install the Data Catalog Sync Job through the **Spark Job Marketplace** in **IOMETE**. Just search for the job in the marketplace and click "Deploy" to get started.
+Search for **Data Catalog Sync** in the **Spark Job Marketplace** and click **Deploy**.
 
-<Img src="/img/spark-job/data-catalog-deploy-job.png" alt="IOMETE Spark Jobs" />
+<Img
+  src="/img/spark-job/data-catalog-deploy-job.png"
+  alt="Deploy Data Catalog Sync from Marketplace"
+/>
 
-### Manual Installation
+### Manual Setup
 
-Here's a simplified guide to manually installing the Data Catalog Sync Job:
+1. Go to <FlexButton label='Spark Jobs'><Cpu size={20} color='#858c9c' weight="duotone"/></FlexButton> in the sidebar
+2. Click <FlexButton label='Create' primary><Plus size={16} /></FlexButton>
 
-- In the left sidebar menu choose <FlexButton label='Spark Jobs'><Cpu size={20} color='#858c9c' weight="duotone"/></FlexButton>
-- Click on <FlexButton label='Create' primary><Plus size={16} /></FlexButton>
+<Img src="/img/spark-job/create-new-job.png" alt="Create new Spark Job" />
 
-<Img src="/img/spark-job/create-new-job.png" alt="IOMETE Spark Jobs" />
-
-Please specify the following parameters (these are examples, and you can customize them according to your preferences):
+Fill in the following fields:
 
 - **Name:** `catalog-sync`
-- **schedule:** `0 * * * *`
-- **concurrency:** `FORBID`
+- **Schedule:** `0 * * * *` (runs every hour)
+- **Concurrency:** `FORBID`
 
 <div className="row">
   <div className="col col--9">
     <Img
       src="/img/spark-job/catalog-sync-job-general.png"
-      alt="IOMETE Spark Jobs add General info"
+      alt="Catalog Sync Job general settings"
       maxWidth="600px"
     />
   </div>
 </div>
 
 - **Deployment:**
-
-  - **Docker image:** `iomete/iom-catalog-sync:1.8.0`
+  - **Docker image:** `iomete/iom-catalog-sync:5.0.0`
   - **Main Application File:** `spark-internal`
   - **Main Class:** `com.iomete.catalogsync.App`
 
@@ -57,14 +64,13 @@ Please specify the following parameters (these are examples, and you can customi
       <div className="col col--9">
         <Img
           src="/img/spark-job/catalog-sync-job-deployment.png"
-          alt="IOMETE Spark Jobs add Deployment config"
+          alt="Catalog Sync Job deployment settings"
           maxWidth="600px"
         />
       </div>
     </div>
 
   - **Instance Config:**
-
     - **Driver Type:** `driver-small`
     - **Executor Type:** `exec-small`
     - **Executor Count:** `1`
@@ -73,24 +79,242 @@ Please specify the following parameters (these are examples, and you can customi
         <div className="col col--9">
           <Img
             src="/img/spark-job/catalog-sync-job-instances.png"
-            alt="IOMETE Spark Jobs add config file"
+            alt="Catalog Sync Job instance settings"
             maxWidth="600px"
           />
           <span>
-            And, hit the <FlexButton label="Create" primary></FlexButton>button.
+            Click <FlexButton label="Create" primary></FlexButton> to save the
+            job.
           </span>
         </div>
       </div>
 
-## **Run the job**
+## Running the Job
 
-You can trigger the job manually by clicking on the <FlexButton label='Run job' primary/> button.
-
-:::tip
-The job will be run based on the defined schedule. But, you can trigger the job manually by clicking on the **Run job** button.
-:::
+The job runs automatically based on its schedule. To trigger it manually, click <FlexButton label='Run job' primary/>.
 
 <Img
   src="/img/spark-job/catalog-sync-job-details.png"
-  alt="IOMETE Run Job Manually"
+  alt="Run Catalog Sync Job manually"
 />
+
+## Deleted Tables
+
+When a table is dropped from a catalog, it is not removed from the Data Catalog index. Instead, it is marked as **deleted** and hidden from the default view.
+
+To see deleted tables, use the **Deleted** toggle in the Data Catalog UI. This lets you review what was removed and when.
+
+<Img
+  src="/img/spark-job/data-catalog-deleted.png"
+  alt="Catalog Sync Job general settings"
+/>
+
+:::note
+Deleted entries are currently kept indefinitely. Automatic cleanup of
+old deleted entries is planned for a future release.
+:::
+
+## Exclusion Rules
+
+Not every catalog needs to be indexed. For example, you may want to skip:
+
+- An external catalog (e.g., Oracle) with millions of tables that would clutter search results
+- Catalogs or schemas containing sensitive data that shouldn't appear in the Data Catalog
+- Personal or sandbox environments used for development
+
+You can configure exclusion rules in the job configuration to skip specific catalogs, namespaces (schemas/databases), or tables during sync.
+
+### Default Rule
+
+The default rule applies at **all levels** — catalogs, schemas, and tables. If an asset has a matching property, it is excluded from indexing.
+
+```json
+{
+  "exclusion_rules": {
+    "default_rule": {
+      "filter_by_properties": {
+        "iomete.governance.index": "false"
+      }
+    }
+  }
+}
+```
+
+With this rule in place, setting the property `iomete.governance.index=false` on any catalog, schema, or table will exclude it from the sync.
+
+This is the simplest setup — define one rule and apply it wherever needed using properties.
+
+### Excluding Catalogs
+
+Catalogs can be excluded **by name**, **by property**, or both.
+
+#### By name
+
+List catalog names directly. These catalogs will always be skipped, regardless of their properties:
+
+```json
+{
+  "exclusion_rules": {
+    "catalogs": {
+      "names": ["sandbox_dev", "legacy_warehouse", "user_personal_spaces"]
+    }
+  }
+}
+```
+
+#### By property
+
+Set the `iomete.governance.index` property to `false` on the catalog in the **Admin Portal** when creating or editing it.
+
+{/* TODO: Add screenshot of setting catalog property in Admin Portal */}
+
+Then add the corresponding filter:
+
+```json
+{
+  "exclusion_rules": {
+    "catalogs": {
+      "filter_by_properties": {
+        "iomete.governance.index": "false"
+      }
+    }
+  }
+}
+```
+
+#### Combining both
+
+You can use names and properties together. A catalog is excluded if it matches **either** condition:
+
+```json
+{
+  "exclusion_rules": {
+    "catalogs": {
+      "names": ["sandbox_dev", "legacy_warehouse"],
+      "filter_by_properties": {
+        "iomete.governance.index": "false"
+      }
+    }
+  }
+}
+```
+
+### Excluding Namespaces (Schemas/Databases)
+
+Namespaces are excluded by property. To mark a namespace for exclusion, set the property using SQL:
+
+```sql
+ALTER DATABASE my_catalog.my_schema SET DBPROPERTIES ('iomete.governance.index' = 'false');
+```
+
+To verify the property:
+
+```sql
+DESCRIBE DATABASE EXTENDED my_catalog.my_schema;
+```
+
+To remove the property later (re-enable indexing):
+
+```sql
+ALTER DATABASE my_catalog.my_schema SET DBPROPERTIES ('iomete.governance.index' = 'true');
+```
+
+Then add the exclusion rule:
+
+```json
+{
+  "exclusion_rules": {
+    "schemas": {
+      "filter_by_properties": {
+        "iomete.governance.index": "false"
+      }
+    }
+  }
+}
+```
+
+### Excluding Tables
+
+Tables work the same way as namespaces — set a property on the table, then define the matching rule.
+
+```sql
+ALTER TABLE my_catalog.my_schema.my_table SET TBLPROPERTIES ('iomete.governance.index' = 'false');
+```
+
+To verify the property:
+
+```sql
+SHOW TBLPROPERTIES my_catalog.my_schema.my_table;
+```
+
+To remove the property later:
+
+```sql
+ALTER TABLE my_catalog.my_schema.my_table UNSET TBLPROPERTIES ('iomete.governance.index');
+```
+
+Then add the exclusion rule:
+
+```json
+{
+  "exclusion_rules": {
+    "tables": {
+      "filter_by_properties": {
+        "iomete.governance.index": "false"
+      }
+    }
+  }
+}
+```
+
+#### Multiple properties (OR logic)
+
+When multiple properties are defined in a table exclusion rule, a table is excluded if **any one** of the properties matches:
+
+```json
+{
+  "exclusion_rules": {
+    "tables": {
+      "filter_by_properties": {
+        "iomete.governance.index": "false",
+        "hidden": "true"
+      }
+    }
+  }
+}
+```
+
+Here, a table is excluded if `iomete.governance.index` is `false` **or** `hidden` is `true`. It does not need to match both.
+
+### Full Example
+
+A complete configuration using all exclusion levels:
+
+```json
+{
+  "exclusion_rules": {
+    "catalogs": {
+      "names": ["sandbox_dev", "legacy_warehouse", "user_personal_spaces"],
+      "filter_by_properties": {
+        "iomete.governance.index": "false"
+      }
+    },
+    "schemas": {
+      "filter_by_properties": {
+        "iomete.governance.index": "false"
+      }
+    },
+    "tables": {
+      "filter_by_properties": {
+        "iomete.governance.index": "false",
+        "hidden": "true"
+      }
+    },
+    "default_rule": {
+      "filter_by_properties": {
+        "iomete.governance.index": "false"
+      }
+    }
+  }
+}
+```
