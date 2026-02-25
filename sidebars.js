@@ -62,6 +62,7 @@ const sidebars = {
             "deployment/network-policies",
             "deployment/connect-namespace",
             "deployment/kubernetes",
+            "deployment/multi-cluster-setup",
           ],
         },
       ],
