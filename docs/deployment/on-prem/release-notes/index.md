@@ -19,7 +19,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - Fixed an issue where event consumption from Kubernetes resources (including Spark applications) was not working appropriately due to a bug in initialization, causing jobs to remain stuck in "enqueued" state despite Spark applications running successfully.
     - Fixed Database Explorer unable to load databases in SQL Editor because of Jackson `InvalidDefinitionException` when deserializing `GeneralCatalog` instances.
     - Fixed an issue in DB Explorer where opening namespaces for JDBC-backed catalogs could fail.
-    - Fixed Jupyter Container feature flag check
+    - Fixed Jupyter Container feature flag check.
+    - Fixed case-insensitive namespace handling in the Iceberg REST catalog to prevent duplicate databases from being created under different casings.
+    - Fixed credential vending to allow external compute access to tables when users have column-level permissions insteadof full table access.
   </BugFixes>
 
   <Improvements>
@@ -30,6 +32,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="3.15.3" date="February 25th, 2026">
   <BugFixes>
     - Fixed Jupyter Container feature flag check
+    - Fixed case-insensitive namespace handling in the Iceberg REST catalog to prevent duplicate databases from being created under different casings.
   </BugFixes>
 
 </Release>
