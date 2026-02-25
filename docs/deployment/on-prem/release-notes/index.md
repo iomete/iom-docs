@@ -185,6 +185,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         Multi-cluster/region deployment is a significant architectural change. We strongly recommend working with your FDEs/Support team before enabling this feature. Each migration plan must be individually designed based on your existing infrastructure, data volumes, and business requirements.
         :::
 
+        📄 Learn more: [Multi-Cluster Setup](/deployment/multi-cluster-setup)
+
     </NewFeatures>
     <Improvements>
     ---
