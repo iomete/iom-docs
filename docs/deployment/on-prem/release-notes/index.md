@@ -22,6 +22,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - Fixed Jupyter Container feature flag check.
     - Fixed case-insensitive namespace handling in the Iceberg REST catalog to prevent duplicate databases from being created under different casings.
     - Fixed credential vending to allow external compute access to tables when users have column-level permissions insteadof full table access.
+    - Fixed an issue where system spark extension were being overridden by the extensions provided in spark config for both compute and spark jobs. Post fix, the spark config extensions get appended to the system spark extensions. 
+    - Fixed an issue where LIMIT was being enforced to INSERT queries that contained CTE (WITH clause) executed via the SQL editor.
   </BugFixes>
 
   <Improvements>
@@ -33,6 +35,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <BugFixes>
     - Fixed Jupyter Container feature flag check
     - Fixed case-insensitive namespace handling in the Iceberg REST catalog to prevent duplicate databases from being created under different casings.
+    - Fixed an issue where system spark extension were being overridden by the extensions provided in spark config for both compute and spark jobs. Post fix, the spark config extensions get appended to the system spark extensions. 
+    - Fixed an issue where LIMIT was being enforced to INSERT queries that contained CTE (WITH clause) executed via the SQL editor.
   </BugFixes>
 
 </Release>
