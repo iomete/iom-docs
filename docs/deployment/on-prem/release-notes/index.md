@@ -3,7 +3,7 @@ title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 last_update:
-  date: 07/31/2024
+  date: 02/25/2026
   author: Fuad Musayev
 ---
 
@@ -17,6 +17,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="3.16.2" date="February 25th, 2026">
   <BugFixes>
     - Fixed an issue where event consumption from Kubernetes resources (including Spark applications) was not working appropriately due to a bug in initialization, causing jobs to remain stuck in "enqueued" state despite Spark applications running successfully.
+    - Fixed Database Explorer unable to load databases in SQL Editor because of Jackson `InvalidDefinitionException` when deserializing `GeneralCatalog` instances.
     - Fixed an issue in DB Explorer where opening namespaces for JDBC-backed catalogs could fail.
     - Fixed Jupyter Container feature flag check
   </BugFixes>
