@@ -17,7 +17,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="3.16.2" date="February 25th, 2026">
   <BugFixes>
     - Fixed an issue where event consumption from Kubernetes resources (including Spark applications) was not working appropriately due to a bug in initialization, causing jobs to remain stuck in "enqueued" state despite Spark applications running successfully.
-    - Fixed an issue where opening catalog namespaces could fail for JDBC-backed catalogs in the DB explorer.
+    - Fixed an issue in DB Explorer where opening namespaces for JDBC-backed catalogs could fail.
     - Fixed Jupyter Container feature flag check
   </BugFixes>
 
