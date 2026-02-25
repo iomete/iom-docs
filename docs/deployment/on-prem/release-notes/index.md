@@ -14,6 +14,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.16.2" date="February 25th, 2026">
+  <BugFixes>
+    - Fixed an issue where event consumption from Kubernetes resources (including Spark applications) was not working appropriately due to a bug in initialization, causing jobs to remain stuck in "enqueued" state despite Spark applications running successfully.
+  </BugFixes>
+</Release>
+
 <Release version="3.16.1" date="February 20th, 2026">
   <BugFixes>
     - Downgraded all AWS S3 SDK library versions due compatibility with Dell ECS
