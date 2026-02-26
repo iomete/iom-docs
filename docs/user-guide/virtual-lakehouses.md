@@ -1,6 +1,6 @@
 ---
 title: Compute Clusters
-description: Create and manage Apache Spark compute clusters that provide isolated CPU and memory resources for query processing while sharing data stored in cloud object storage.
+description: Create and manage Apache Spark compute clusters that provide isolated CPU and memory resources for query processing while sharing data stored in object storage.
 sidebar_label: Compute Clusters
 last_update:
   date: 02/26/2026
