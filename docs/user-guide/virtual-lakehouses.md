@@ -3,8 +3,8 @@ title: Compute Clusters
 description: Create and manage Apache Spark compute clusters that provide isolated CPU and memory resources for query processing while sharing data stored in cloud object storage.
 sidebar_label: Compute Clusters
 last_update:
-  date: 02/25/2026
-  author: IOMETE Team
+  date: 02/26/2026
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
