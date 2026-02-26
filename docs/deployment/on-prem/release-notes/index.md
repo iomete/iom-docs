@@ -3,7 +3,7 @@ title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 last_update:
-  date: 07/31/2024
+  date: 02/25/2026
   author: Fuad Musayev
 ---
 
@@ -13,6 +13,34 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.16.2" date="February 25th, 2026">
+  <BugFixes>
+    - Fixed an issue where event consumption from Kubernetes resources (including Spark applications) was not working appropriately due to a bug in initialization, causing jobs to remain stuck in "enqueued" state despite Spark applications running successfully.
+    - Fixed Database Explorer unable to load databases in SQL Editor because of Jackson `InvalidDefinitionException` when deserializing `GeneralCatalog` instances.
+    - Fixed an issue in DB Explorer where opening namespaces for JDBC-backed catalogs could fail.
+    - Fixed Jupyter Container feature flag check.
+    - Fixed case-insensitive namespace handling in the Iceberg REST catalog to prevent duplicate databases from being created under different casings.
+    - Fixed credential vending to allow external compute access to tables when users have column-level permissions insteadof full table access.
+    - Fixed an issue where system spark extension were being overridden by the extensions provided in spark config for both compute and spark jobs. Post fix, the spark config extensions get appended to the system spark extensions. 
+    - Fixed an issue where LIMIT was being enforced to INSERT queries that contained CTE (WITH clause) executed via the SQL editor.
+  </BugFixes>
+
+  <Improvements>
+    - Created dedicated worker for query scheduling
+    - Added global system configs for Iceberg client-side table metadata caching (`cache-enabled`, `cache.expiration-interval-ms`, `cache.case-sensitive`). See [Iceberg REST Catalog - Client-Side Cache](/user-guide/spark-catalogs/internal#client-side-cache).
+  </Improvements>
+</Release>
+
+<Release version="3.15.3" date="February 25th, 2026">
+  <BugFixes>
+    - Fixed Jupyter Container feature flag check
+    - Fixed case-insensitive namespace handling in the Iceberg REST catalog to prevent duplicate databases from being created under different casings.
+    - Fixed an issue where system spark extension were being overridden by the extensions provided in spark config for both compute and spark jobs. Post fix, the spark config extensions get appended to the system spark extensions. 
+    - Fixed an issue where LIMIT was being enforced to INSERT queries that contained CTE (WITH clause) executed via the SQL editor.
+  </BugFixes>
+
+</Release>
 
 <Release version="3.16.1" date="February 20th, 2026">
   <BugFixes>
