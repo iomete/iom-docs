@@ -28,6 +28,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <Improvements>
     - Created dedicated worker for query scheduling
+    - Added global system configs for Iceberg client-side table metadata caching (`cache-enabled`, `cache.expiration-interval-ms`, `cache.case-sensitive`). See [Iceberg REST Catalog - Client-Side Cache](/user-guide/spark-catalogs/internal#client-side-cache).
   </Improvements>
 </Release>
 

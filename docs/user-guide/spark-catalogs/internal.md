@@ -3,7 +3,7 @@ title: Iceberg REST Catalog
 sidebar_label: Iceberg REST Catalog
 description: Configure and manage IOMETE-managed Iceberg REST Catalogs, including external access, credentials vending, remote signing, and operational settings.
 last_update:
-  date: 02/07/2026
+  date: 02/26/2026
   author: Rocco Verhoef
 ---
 
@@ -170,6 +170,48 @@ You can override global settings on individual catalogs by adding these as **Add
 |---|---|---|
 | `remote-signing.token-ttl` | Global token TTL | — |
 | `remote-signing.s3.region` | — | `s3.client.region` |
+
+#### Client-Side Cache
+
+:::info New in 3.16.2
+Global system configs for client-side caching were added in IOMETE 3.16.2.
+:::
+
+Compute engines (Spark, Trino, Flink, etc.) cache Iceberg table metadata locally to reduce catalog lookups and improve performance. Previously, these cache settings had to be configured per-catalog. With these global system configs, you can now configure caching behavior for all Iceberg catalogs at once. Individual catalogs can still override these defaults via additional catalog properties. See the [Iceberg CatalogProperties documentation](https://iceberg.apache.org/javadoc/latest/org/apache/iceberg/CatalogProperties.html) for more details.
+
+| System Config | Description | Default |
+|---|---|---|
+| `iceberg-catalog.cache-enabled` | Controls whether the catalog will cache table entries upon load. If `cache.expiration-interval-ms` is set to `0`, caching is disabled regardless of this setting. | `true` |
+| `iceberg-catalog.cache.expiration-interval-ms` | Duration in milliseconds after which cached catalog entries expire. `0` disables caching entirely, `-1` disables expiration (entries only expire on refresh). | `30000` |
+| `iceberg-catalog.cache.case-sensitive` | Controls whether cache keys are case-sensitive. Set to `false` when using case-insensitive identifiers to prevent cache misses due to casing differences. | `true` |
+
+:::tip Case-Insensitive Identifiers
+If you have enabled case-insensitive identifiers (`features.caseInsensitiveIcebergIdentifiers.enabled: true` in Helm values), you should also set `iceberg-catalog.cache.case-sensitive` to `false` in System Configs. This ensures the cache correctly handles identifiers regardless of casing and prevents duplicate cache entries for the same table.
+:::
+
+---
+
+## Case-Insensitive Identifiers
+
+IOMETE supports case-insensitive Iceberg table and database names. When enabled, identifiers like `MyDatabase.MyTable` and `mydatabase.mytable` are treated as equivalent.
+
+This is a platform-level setting configured via Helm values:
+
+```yaml
+# Helm values
+features:
+  caseInsensitiveIcebergIdentifiers:
+    enabled: false  # default
+```
+
+When enabled:
+- All Iceberg namespace and table names are normalized to lowercase
+- Queries using different casings resolve to the same objects
+- Prevents duplicate databases/tables from being created with different casings
+
+:::warning Configuration Consistency
+When enabling case-insensitive identifiers, also configure the client-side cache to be case-insensitive by setting `iceberg-catalog.cache.case-sensitive` to `false` in System Configs. See [Client-Side Cache](#client-side-cache) for details.
+:::
 
 ---
 
