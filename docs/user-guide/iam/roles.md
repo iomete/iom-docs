@@ -10,6 +10,10 @@ last_update:
 import { Plus } from "@phosphor-icons/react";
 import Img from '@site/src/components/Img';
 
+:::info New: Domain Authorization
+Starting from **IOMETE version 3.16.x**, the `domainLevelBundleAuthorization` feature flag enables a new permission model based on [Domain Authorization](/user-guide/iam/ras/domain-authorization). When enabled, domain access is managed through granular **Resource Bundle** permissions instead of role assignments. If this feature is active in your environment, refer to the [Domain Authorization](/user-guide/iam/ras/domain-authorization) guide for managing permissions.
+:::
+
 Welcome to the documentation for Roles! This document aims to provide a comprehensive guide to understanding roles within data plane.
 
 ---
