@@ -260,8 +260,6 @@ To reconfigure a cluster, the driver must be `STOPPED` or `FAILED`. While the cl
 
 After saving, the cluster may show an amber **Restart required** label in the list. Starting or restarting the cluster applies the new settings and clears the label.
 
-{/* SOURCE GAP: FormSparkInstance component not read — exact field-level validation rules for executor count, volume, and deployment type toggle in edit mode not confirmed from source; verify in UI */}
-
 ### Starting a Cluster
 
 Click **Start** in the header or the list row ellipsis menu. There's no confirmation dialog. The driver moves from `STOPPED` to `STARTING`, then to `ACTIVE`. **Start** is only enabled when the driver is `STOPPED` with no other operation pending.
