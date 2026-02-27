@@ -4,7 +4,7 @@ description: Browse, search, and revisit every SQL query you have run in the IOM
 sidebar_label: Query History
 last_update:
   date: 02/27/2026
-  author: Vugar Dadalov
+  author: Abhishek Pathania
 ---
 
 import Img from "@site/src/components/Img";
