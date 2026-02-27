@@ -14,7 +14,7 @@ A compute cluster provides dedicated CPU and memory resources, powered by Apache
 Because storage and compute are decoupled, you can right-size each cluster for its specific workload, whether batch ETL, interactive analytics, or a dedicated BI connection. When a cluster is no longer needed, you can shut it down to stop compute costs.
 
 
-<Img src="/img/user-guide/virtual-lakehouses/overview.png" alt="Virtual Lakehouses -- Compute list page" />
+<Img src="/img/user-guide/virtual-lakehouses/overview.png" alt="Compute Clusters" />
 
 ## Viewing the Cluster List
 
@@ -304,7 +304,7 @@ Permissions are granted to users or groups and enforced at two levels:
   The **Create Compute** permission allows a user to create new clusters. Administrators assign this either directly through member permissions or indirectly through a domain bundle. See [Domain Authorization](/user-guide/iam/ras/domain-authorization) for configuration details.
 
 - **Resource level**  
-  Per-cluster permissions (`VIEW`, `EXECUTE`, `UPDATE`, `DELETE`) are inherited from the cluster’s assigned resource bundle. The cluster list displays only clusters where you have at least `VIEW` permission. See [Resource Bundles](/user-guide/ras/resource-bundles) to manage bundle-based access control.
+  Per-cluster permissions (`VIEW`, `EXECUTE`, `CONSUME`, `UPDATE`, `DELETE`) are inherited from the cluster’s assigned resource bundle. The `CONSUME` permission allows a user to submit queries against the cluster. The cluster list displays only clusters where you have at least `VIEW` permission. See [Resource Bundles](/user-guide/ras/resource-bundles) to manage bundle-based access control.
 
 ## Related Resources
 
