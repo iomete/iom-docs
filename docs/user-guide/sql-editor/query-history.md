@@ -160,6 +160,7 @@ COMPLETED → RESULT_EXPIRED  (result data expired in object storage)
 
 | Status | Icon color | Description |
 |--------|-----------|-------------|
+| `SUBMITTED` | Blue | The query has been submitted and is waiting to execute |
 | `RUNNING` | Green | The query is currently executing |
 | `COMPLETED` | Gray | The query finished successfully and results are available |
 | `CANCELLING` | Orange | A cancel request has been sent; waiting for confirmation |
@@ -168,7 +169,7 @@ COMPLETED → RESULT_EXPIRED  (result data expired in object storage)
 | `RESULT_EXPIRED` | Orange | The query completed previously, but result data is no longer available |
 
 :::warning Expired Results
-When a query's result data has expired, you see: *"The results data has been expired. Please re-run query."* Run the query again from a worksheet to generate fresh results.
+When a query's result data has expired, you see: *"The result data has expired. Please re-run the query."* Run the query again from a worksheet to generate fresh results.
 :::
 
 ## Real-Time Status Updates
