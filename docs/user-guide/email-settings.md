@@ -4,7 +4,7 @@ description: Configure a global SMTP server so IOMETE can send transactional and
 sidebar_label: Email Configuration
 last_update:
   date: 02/27/2026
-  author: Claude
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
