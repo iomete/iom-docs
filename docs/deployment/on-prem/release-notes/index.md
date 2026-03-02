@@ -30,6 +30,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - Created dedicated worker for query scheduling
     - Added global system configs for Iceberg client-side table metadata caching (`cache-enabled`, `cache.expiration-interval-ms`, `cache.case-sensitive`). See [Iceberg REST Catalog - Client-Side Cache](/user-guide/spark-catalogs/internal#client-side-cache).
   </Improvements>
+
+      **Spark version:** 3.5.5-v11  
+      **Iceberg version:** 1.9.3
+
 </Release>
 
 <Release version="3.15.3" date="February 25th, 2026">
@@ -39,6 +43,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - Fixed an issue where system spark extension were being overridden by the extensions provided in spark config for both compute and spark jobs. Post fix, the spark config extensions get appended to the system spark extensions. 
     - Fixed an issue where LIMIT was being enforced to INSERT queries that contained CTE (WITH clause) executed via the SQL editor.
   </BugFixes>
+
+      **Spark version:** 3.5.5-v11  
+      **Iceberg version:** 1.9.3
 
 </Release>
 
