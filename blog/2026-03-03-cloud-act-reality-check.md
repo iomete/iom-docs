@@ -56,7 +56,7 @@ Cloud providers are aware of this problem. Trusted Execution Environments (TEEs)
 
 ## Final Thoughts
 
-Cloud platforms are powerful tools that have lowered costs, accelerated development, and made operational life easier for most organizations. None of that changes. But sovereignty is a spectrum, and where your organization sits on it determines how much the trade-offs in this article actually matter to you.
+Cloud platforms are powerful tools that have lowered costs, accelerated development, and made operational life easier for most organizations. None of that changes. But sovereignty is a spectrum, and where your organization sits on it determines how much the trade-offs in this article actually matter to you. Cloud providers describe this as a shared responsibility model. Sovereignty, however, is one responsibility you cannot delegate: if the provider controls the infrastructure, they remain in your trust boundary regardless of contractual assurances.
 
 For most organizations, provider-managed encryption combined with solid IAM policies is sufficient. The CLOUD Act is a real legal instrument, but the actual number of orders targeting private sector data is largely unknown: many are sealed, and providers often challenge or narrow overbroad requests in court. The opacity makes risk assessment difficult, which is precisely why some regulated organizations prefer technical controls over legal ones. Customer-managed keys add meaningful isolation. Running compute outside the cloud provider's environment removes the trust dependency entirely, at the cost of operational complexity and egress fees.
 
