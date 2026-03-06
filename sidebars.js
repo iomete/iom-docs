@@ -92,6 +92,7 @@ const sidebars = {
           ],
         },
         "user-guide/data-catalog",
+        "user-guide/table-maintenance",
         "user-guide/create-a-personal-access-token",
         "user-guide/global-spark-settings",
         "user-guide/private-docker-registry",
