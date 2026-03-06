@@ -12,8 +12,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 ## Latest Versions
 
 | Name                     | Image                   | Version | Link                                                                       |
-| ------------------------ | ----------------------- | ------- | -------------------------------------------------------------------------- |
-| Data Compaction          | iomete_data_compaction  | 1.2.12  | [Open ↗](/resources/open-source-spark-jobs/data-compaction-job)            |
+| ------------------------ | ----------------------- |---------| -------------------------------------------------------------------------- |
+| Data Compaction          | iomete_data_compaction  | 1.2.13  | [Open ↗](/resources/open-source-spark-jobs/data-compaction-job)            |
 | File Streaming           | iomete_file_streaming   | 0.3.0   | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
 | Catalog Sync             | iom-catalog-sync        | 5.0.0   | [Open ↗](/resources/open-source-spark-jobs/catalog-sync-job)               |
 | MySQL Sync               | iomete_mysql_sync       | 3.0.0   | [Open ↗](/resources/open-source-spark-jobs/mysql-database-replication-job) |
@@ -23,6 +23,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 ---
 
 ## Recent Releases
+
+<Release name="Data Compaction Job" version="1.2.13" date="March 6, 2026">
+  <BugFixes>
+    - **Rewrite data files sort-order SQL error**: Fixed an issue where using `strategy: sort` with a `sort_order` config would fail with a `missing STRING at ','` error.
+  </BugFixes>
+</Release>
 
 <Release name="Catalog Sync Job" version="5.0.0" date="February 16, 2026">
     <Improvements>
