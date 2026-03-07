@@ -167,4 +167,4 @@ This run now removes the update snapshot which had pointers to the older files t
 
 
 ### Merge On Read (MOR)
-<Img src="/img/tutorial/compaction-cow-mor/compaction-run2-mor-fs.png" alt="compaction-run2-mor-fs"/> 
+<Img src="/img/tutorial/compaction-cow-mor/compaction-run2-mor-fs.png" alt="compaction-run2-mor-fs"/>
