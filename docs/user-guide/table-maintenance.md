@@ -369,14 +369,18 @@ The archival batch size is `500` records per cycle and archival runs hourly by d
 <FAQSection faqs={[
   {
     question: "I saved my configuration but nothing changed. Why?",
-    answer: "Configuration changes take up to 1 minute to propagate. The detection pipeline caches table configuration with a 1-minute TTL, so newly saved settings won't apply until the next cache refresh."
+    answerContent: (
+      <>
+        <p>Configuration changes can take up to 1 minute to take effect. The detection pipeline caches table configuration with a 1-minute TTL, so newly saved settings apply after the next cache refresh.</p>
+      </>
+    )
   },
   {
     question: "Why can't I configure maintenance for my catalog?",
     answerContent: (
       <>
-        <p>Maintenance only works with IOMETE-managed internal Iceberg REST catalogs. Unsupported types include <code>spark_catalog</code>, external catalogs (not owned by IOMETE), non-Iceberg catalogs, and non-REST Iceberg implementations.</p>
-        <p>If your catalog falls into one of these categories, you'll need to use a different catalog. See the <a href="#prerequisites">Prerequisites</a> section for the full list of requirements.</p>
+        <p>Maintenance is supported only for IOMETE-managed internal Iceberg REST catalogs. Unsupported catalog types include <code>spark_catalog</code>, external catalogs (not managed by IOMETE), non-Iceberg catalogs, and non-REST Iceberg implementations.</p>
+        <p>If your catalog does not fall into one of these categories, use a supported catalog type. See the <a href="#prerequisites">Prerequisites</a> section for the full requirements.</p>
       </>
     )
   },
@@ -384,8 +388,8 @@ The archival batch size is `500` records per cycle and archival runs hourly by d
     question: "Why are maintenance controls disabled?",
     answerContent: (
       <>
-        <p>The catalog doesn't have an owner domain assigned. All maintenance resources (compute clusters and service accounts) are scoped to the owner domain, so one must be set before any controls become active.</p>
-        <p>Go to the catalog's <strong>Permissions</strong> tab and assign an owner domain.</p>
+        <p>The catalog might not have an owner domain assigned. All maintenance resources (compute clusters and service accounts) are scoped to the owner domain, so one must be assigned before maintenance can be configured.</p>
+        <p>See <a href="#catalog-owner-domain">Catalog Owner Domain</a> to assign one.</p>
       </>
     )
   },
@@ -393,7 +397,7 @@ The archival batch size is `500` records per cycle and archival runs hourly by d
     question: "Why can't I enable table maintenance?",
     answerContent: (
       <>
-        <p>Table maintenance requires catalog-level maintenance to be enabled first. It acts as a master switch: even if individual operations are configured at the table level, they won't run until the catalog switch is on.</p>
+        <p>Catalog-level maintenance must be enabled before table maintenance can be turned on. The catalog setting acts as a master switch: table-level operations will not run until catalog maintenance is enabled.</p>
         <p>See <a href="#configuring-catalog-level-maintenance">Configuring Catalog-Level Maintenance</a>.</p>
       </>
     )
@@ -412,9 +416,9 @@ The archival batch size is `500` records per cycle and archival runs hourly by d
     answerContent: (
       <>
         <p>Yes, in two ways:</p>
-        <p><strong>Commit failures.</strong> Iceberg uses optimistic concurrency control. Maintenance operations read and rewrite files, then attempt to commit a new snapshot. If concurrent writes modify the same table in the meantime, that commit can fail because the snapshot has changed. For metadata-only conflicts, Iceberg may retry automatically. For data conflicts (e.g., compaction and a streaming writer touching the same partition simultaneously), the operation may fail entirely and gets retried by the maintenance service on the next cycle.</p>
-        <p><strong>Metric discrepancies.</strong> Before-and-after metrics are captured at job start and job completion. If concurrent writes commit between those two points, the "before" snapshot may no longer reflect the actual table state when the operation ran, and the "after" metrics may include changes from those writes rather than just the maintenance run itself. This is expected behavior on high-write-frequency tables and doesn't indicate a problem.</p>
-        <p>Both situations are uncommon under normal write loads but are more likely on tables with continuous streaming ingestion.</p>
+        <p><strong>Commit failures.</strong> Iceberg uses optimistic concurrency control. Maintenance operations rewrite files and attempt to commit a new snapshot. If concurrent writes modify the table before the commit completes, the operation may fail because the snapshot has changed. Iceberg may automatically retry metadata-only conflicts, but data conflicts (for example, compaction overlapping with streaming writes to the same partition) can cause the operation to fail. The maintenance service retries the operation on the next cycle.</p>
+        <p><strong>Metric discrepancies.</strong> Before-and-after metrics are captured at job start and completion. If concurrent writes occur during the run, the recorded metrics may reflect those writes in addition to the maintenance operation. This is expected behavior for tables with frequent writes.</p>
+        <p>Both cases are uncommon under normal workloads but are more likely for tables with continuous streaming ingestion.</p>
       </>
     )
   },
@@ -422,7 +426,7 @@ The archival batch size is `500` records per cycle and archival runs hourly by d
     question: "Why did a pending job fail without ever running?",
     answerContent: (
       <>
-        <p>Jobs that remain in <code>PENDING</code> for more than <strong>24 hours</strong> are automatically failed by the system. This prevents stale jobs from accumulating indefinitely.</p>
+        <p>Jobs that remain in <code>PENDING</code> for more than <strong>24 hours</strong> are automatically marked as failed. This prevents stale jobs from accumulating.</p>
       </>
     )
   },
@@ -430,8 +434,8 @@ The archival batch size is `500` records per cycle and archival runs hourly by d
     question: "Why isn't the history table updating automatically?",
     answerContent: (
       <>
-        <p>The history table doesn't auto-refresh, so job status changes (such as a run moving from <code>PENDING</code> to <code>RUNNING</code> to <code>COMPLETED</code>) aren't pushed to the page automatically. Use the <strong>Refresh</strong> button to reload the latest status.</p>
-        <p>Real-time updates are planned for a future release.</p>
+        <p>The history table does not auto-refresh. Status changes (for example <code>PENDING</code> → <code>RUNNING</code> → <code>COMPLETED</code>) are not pushed to the page automatically.</p>
+        <p>Use the <strong>Refresh</strong> button to load the latest job status. Real-time updates are planned for a future release.</p>
       </>
     )
   },
@@ -439,8 +443,8 @@ The archival batch size is `500` records per cycle and archival runs hourly by d
     question: "Does the system retry failed maintenance operations?",
     answerContent: (
       <>
-        <p>Yes. When a maintenance operation fails (for example, due to a commit conflict from concurrent writes), the system automatically puts it back to <code>PENDING</code> and retries it. Up to <strong>3 retries</strong> are attempted, giving transient issues like concurrent write conflicts time to resolve.</p>
-        <p>If all 3 retries are exhausted, the operation moves to <code>FAILED</code> and won't be retried automatically. You can see the retry count in the History tab by enabling the <strong>Retries</strong> column through the column visibility controls.</p>
+        <p>Yes. When a maintenance operation fails (for example due to commit conflicts from concurrent writes), the system automatically returns the job to <code>PENDING</code> and retries it.</p>
+        <p>Up to <strong>3 retries</strong> are attempted. If all retries fail, the operation moves to <code>FAILED</code> and is not retried automatically. You can view the retry count in the History tab by enabling the <strong>Retries</strong> column.</p>
       </>
     )
   },
@@ -448,9 +452,9 @@ The archival batch size is `500` records per cycle and archival runs hourly by d
     question: "Why are some files skipped during orphan file cleanup?",
     answerContent: (
       <>
-        <p>If your Iceberg table is written by a Flink streaming job, orphan cleanup automatically skips files that belong to that job. Flink stores in-progress checkpoint data as temporary metadata files before committing them to a snapshot. These files aren't yet referenced by any snapshot, so they look like orphans, but deleting them would corrupt the Flink job's state.</p>
-        <p>To prevent this, IOMETE reads the <code>flink.job-id</code> from the table's snapshot summaries and excludes metadata files whose names match that job ID. These files are identified as orphans but are marked ineligible for deletion. This exclusion applies only to metadata files; data files written by Flink are not affected.</p>
-        <p>This is safe and expected behavior when Flink and orphan cleanup run concurrently on the same table.</p>
+        <p>If the table is written by a Flink streaming job, orphan cleanup skips files belonging to that job. Flink temporarily stores checkpoint data as metadata files before committing them to a snapshot. These files may appear unreferenced but deleting them would corrupt the Flink job state.</p>
+        <p>To prevent this, IOMETE reads the <code>flink.job-id</code> from snapshot summaries and excludes metadata files whose names match that job ID. These files are identified as orphan candidates but marked ineligible for deletion.</p>
+        <p>This exclusion applies only to metadata files. Data files written by Flink are not affected.</p>
       </>
     )
   }
