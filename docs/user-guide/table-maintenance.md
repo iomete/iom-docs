@@ -10,32 +10,32 @@ last_update:
 import Img from '@site/src/components/Img';
 import FAQSection from '@site/src/components/FAQSection';
 
-Iceberg tables naturally accumulate metadata and file overhead as they grow. Frequent writes create many small files, every commit adds a snapshot, failed or interrupted jobs leave orphan files behind, and manifests expand with each operation. Over time, this increases storage usage and slows down query planning and execution.
+As Iceberg tables grow, they accumulate metadata and file overhead. Frequent writes create many small files. Every commit adds a snapshot, failed or interrupted jobs leave orphan files, and manifest files grow with each operation. Over time, this increases storage usage and slows query planning and execution.
 
-**Table Maintenance** is an automated background service that continuously keeps tables healthy. It runs a **detect → evaluate → execute** pipeline:
+**Table Maintenance** is an automated background service that keeps tables healthy. It follows a **detect → evaluate → execute** pipeline:
 
 * **Detect** tables that have changed.
 * **Evaluate** whether maintenance is required based on configurable thresholds.
 * **Execute** the appropriate Iceberg maintenance procedures.
 
-Default rules are defined once at the catalog level, with the option to override them for individual tables. Each run records before/after metrics so you can see what changed, and you can trigger any operation manually when needed.
+Default rules are defined at the catalog level and can be overridden for individual tables. Each run records before-and-after metrics so you can see what changed, and you can trigger any operation manually when needed.
 
 
 ## How Table Maintenance Works
 
-IOMETE runs a background detection pipeline that continuously monitors your Iceberg tables for changes. Every few minutes, the pipeline identifies tables that have been modified, evaluates whether they require maintenance based on metrics such as file sizes, snapshot age, delete-file ratios, and manifest counts, and automatically runs the necessary maintenance operations when required.
+IOMETE runs a background detection pipeline that continuously monitors Iceberg tables for changes. Every few minutes, the pipeline identifies modified tables, evaluates whether they require maintenance based on metrics such as file sizes, snapshot age, delete-file ratios, and manifest counts, and automatically runs the required maintenance operations.
 
 Configuration follows a two-level inheritance model:
 
-- **Catalog level**: sets defaults for every table in a qualifying catalog. You also specify the compute cluster and service account that runs all jobs for that catalog.
-- **Table level**: each table can override any catalog-level setting or inherit it. By default, all tables inherit the operation settings and their advanced properties.
+- **Catalog level**: defines defaults for all tables in the catalog. You also specify the compute cluster and service account that runs all jobs for that catalog.
+- **Table level**: each table can override any catalog-level setting or inherit it. By default, tables inherit operation settings and advanced properties.
 
 Automatic maintenance only runs when a table meets the configured conditions. If a table does not meet those conditions but maintenance is still required, the operation can be triggered manually. See [Manually Triggering an Operation](#manually-triggering-an-operation).
 
 :::info Key Behaviors
-- **Catalog as master switch**: catalog-level maintenance must be enabled before any table in it can run maintenance. Trying to enable table maintenance while the catalog is disabled returns an error.
-- **Tables don't auto-inherit the enabled state**: even when catalog maintenance is on, each table must be explicitly enabled. This is a deliberate V1 safeguard. Individual operation settings (e.g., rewrite data files, expire snapshots) do inherit normally.
-- **Cooldown between runs**: after each successful run, the system enforces a **60-minute cooldown** before the same table and operation can be picked up again. This prevents redundant back-to-back executions on frequently-updated tables. Manual triggers bypass the cooldown and run immediately.
+- **Catalog as master switch**: catalog-level maintenance must be enabled before any table in it can run maintenance. Enabling table maintenance while catalog maintenance is disabled is not allowed.
+- **Tables don't auto-inherit the enabled state**: even when catalog maintenance is on, each table must be explicitly enabled. This is a deliberate V1 safeguard. Individual operation settings (e.g., rewrite data files, expire snapshots) still inherit normally.
+- **Cooldown between runs**: after each successful run, the system enforces a **60-minute cooldown** before the same table and operation can be picked up again. This prevents redundant back-to-back executions on frequently updated tables. Manual triggers bypass the cooldown and run immediately.
 :::
 
 
@@ -73,11 +73,11 @@ Maintenance controls are disabled until an owner domain is assigned. See [Catalo
 
 ### Step 2: Configuring Resources
 
-The maintenance service needs a compute cluster and a service account to run operations.
+The maintenance service requires a compute cluster and a service account to run operations.
 
 1. In the **Resources** section, select a **Compute** cluster from the dropdown. The list shows clusters that belong to the catalog's owner domain.
 2. Select a **Service Account** from the dropdown. The list shows all service accounts in the domain.
-3. Click **Save** to save the resource configuration.
+3. Click **Save** to apply the resource configuration.
 
 <Img src="/img/user-guide/table-maintenance/configure-resources.png" alt="Catalog Maintenance Resources section with Compute cluster and Service Account dropdowns"/>
 
@@ -105,7 +105,7 @@ Rewrite Data Files and Rewrite Manifest Files run as Spark SQL jobs on the confi
 
 ### Step 3: Configuring Operations
 
-1. Toggle **Enable maintenance** to ON. This is the master switch for the entire catalog.
+1. Toggle **Enable maintenance** to **ON**. This is the master switch for the entire catalog.
 2. For each of the four operations, set the toggle to **Enabled** or **Disabled**:
    - **Expire Snapshots**: removes old snapshots to free storage and improve metadata performance.
    - **Rewrite Data Files**: compacts small files and optimizes data layout for better query performance.
@@ -118,7 +118,7 @@ Rewrite Data Files and Rewrite Manifest Files run as Spark SQL jobs on the confi
 
 ## Configuring Table-Level Maintenance
 
-Table-level settings override catalog defaults for a specific Iceberg table. This is useful when a table has different compaction needs — for example, a high-volume streaming table that needs more aggressive compaction than the catalog default.
+Table-level settings override catalog defaults for a specific table. This is useful when a table has different compaction requirements — for example, a high-volume streaming table that needs more aggressive compaction than the catalog default.
 
 1. Go to **Data Catalog**, open a catalog, and navigate to an Iceberg table.
 2. Click the **Maintenance** tab. The **Configuration** sub-tab opens by default.
@@ -155,7 +155,7 @@ To assign an owner domain:
 
 ## Advanced Operation Properties
 
-Each operation card has an **Advanced Settings** section where you can override individual properties. Add properties one at a time using the **Add Property** dropdown. To revert a property to its inherited default, click the `❌` button next to it.
+Each operation card includes an **Advanced Settings** section for overriding individual properties. Add properties using the **Add Property** dropdown. To revert a property to its inherited default, click the `❌` button next to it.
 
 <Img src="/img/user-guide/table-maintenance/operation-advanced-props.png" alt="Operation card with Advanced Settings panel expanded showing property input fields"/>
 
@@ -166,7 +166,7 @@ _Validation errors display inline below each field. If an error is inside a coll
 <details>
 <summary>**Rewrite Data Files**</summary>
 
-As data arrives in small batches (through streaming, frequent appends, or small updates), tables accumulate many tiny data files. Each file adds query-planning overhead, and reading dozens of small files is far less efficient than reading a few large ones.
+As data arrives in small batches (through streaming, frequent appends, or small updates), tables accumulate many tiny data files. Each file adds query-planning overhead, and reading dozens of small files is far less efficient than reading a few larger files.
 
 This operation combines small files into larger ones, targeting an optimal file size. The result is shorter query-planning time and better I/O throughput.
 
@@ -220,7 +220,7 @@ Expiring snapshots removes anything beyond a retention window, freeing the refer
 
 Failed writes, aborted jobs, and certain table operations can leave files on storage that aren't referenced by any snapshot. These "orphan" files consume storage without serving any purpose. This operation scans the entire table storage location and removes unreferenced files.
 
-Because it's a full scan, it **runs on its own cron schedule** rather than triggering on every table change.
+Because this operation performs a full scan, it **runs on its own cron schedule** instead of triggering on every table change.
 
 | Property | Type | Default | Description                                                                                 |
 |---|---|---|---------------------------------------------------------------------------------------------|
@@ -229,7 +229,7 @@ Because it's a full scan, it **runs on its own cron schedule** rather than trigg
 
 Orphan cleanup has several built-in safety mechanisms:
 
-- **Minimum retention period**: the backend enforces a minimum retention of 3 days. If the configured `Older Than` value is below this minimum, the run fails with a non-retryable error.
+- **Minimum retention period**: the backend enforces a minimum retention period of 3 days.. If the configured `Older Than` value is below this minimum, the run fails with a non-retryable error.
 - **Orphan percentage threshold**: if orphan files exceed 30% of total files, the operation aborts to prevent accidental mass deletion. This typically indicates a misconfiguration or a concurrent operation.
 - **Batched deletion**: files are deleted in batches with a cooldown between each batch to avoid overwhelming storage.
 - **Flink file exclusion**: files matching an active Flink job's checkpoint pattern (`flink.job-id.*`) are automatically skipped, even if they appear unreferenced.
@@ -238,7 +238,7 @@ Orphan cleanup has several built-in safety mechanisms:
 
 :::info Execution Model
 - **Rewrite Data Files** and **Rewrite Manifest Files** run as Spark SQL jobs on your configured compute cluster.
-- **Expire Snapshots** and **Cleanup Orphan Files** run directly on the `iom-maintenance` service. No compute cluster is needed, but they consume service CPU and memory. If either is slow or causing service degradation, tune the service resources under [Resource Defaults](#resource-defaults).
+- **Expire Snapshots** and **Cleanup Orphan Files** run directly on the `iom-maintenance` service. No compute cluster is needed, but they consume service CPU and memory. If either operation becomes slow or causes service degradation, tune the service resources under [Resource Defaults](#resource-defaults).
 :::
 
 ### How Property Values Are Resolved
@@ -275,7 +275,7 @@ The maintenance settings that read from Iceberg properties:
 
 ## Viewing Maintenance History
 
-The **History** sub-tab lists every maintenance run for a table, including before/after metrics for completed runs. It's the fastest way to see what ran, why it ran, and what changed.
+The **History** sub-tab lists every maintenance run for a table, including before/after metrics for completed runs. It’s the quickest way to see what ran, why it ran, and what changed.
 
 <Img src="/img/user-guide/table-maintenance/table-history-list.png" alt="Maintenance History tab showing a list of maintenance runs with time range, operation type, and status filters"/>
 
@@ -305,7 +305,7 @@ The **History** sub-tab lists every maintenance run for a table, including befor
 
 ## Manually Triggering an Operation
 
-Run any maintenance operation on demand without waiting for the automated schedule. This is useful when testing your configuration or addressing an urgent performance issue.
+Run any maintenance operation on demand without waiting for the automated cycle. This is useful when testing your configuration or addressing an urgent performance issue.
 
 1. Go to the table's **Table Maintenance > History** sub-tab.
 2. Click the **Trigger** button in the table header.
