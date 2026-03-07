@@ -44,13 +44,13 @@ Automatic maintenance only runs when a table meets the configured conditions. If
 Before configuring table maintenance, confirm:
 
 - The catalog meets all of these criteria (not every catalog supports automated maintenance):
-  - Catalog type is `Iceberg`
+  - Catalog type is `ICEBERG`
   - Catalog subtype is `REST`
-  - Catalog classification is `Internal` (IOMETE-managed)
+  - Catalog classification is `INTERNAL` (IOMETE-managed)
   - Catalog isn't in the excluded list (the built-in `spark_catalog` is excluded)
-  - TODO: Add image of the specific catalog
+<Img src="/img/user-guide/table-maintenance/iceberg-rest-catalog.png" alt="Spark Catalogs list highlighting an internal Iceberg REST catalog eligible for maintenance"/>
 - The catalog has an [owner domain](#catalog-owner-domain) assigned. All maintenance resources (compute cluster, service account) are scoped to it.
-  - TODO: Add image of the specific catalog showing the catalog owner
+<Img src="/img/user-guide/table-maintenance/catalog-owner-set.png" alt="Catalog Permissions tab showing an owner domain assigned"/>
 - You're a domain owner of the catalog's owner domain, or a platform administrator.
 - The `iom-maintenance` service is deployed. If it isn't, ask your platform administrator to enable it in Helm (see [Feature Flag](#feature-flag)).
 
@@ -64,9 +64,12 @@ Catalog-level maintenance sets the default behavior for all tables in a catalog.
 2. Open a qualifying catalog (see [Prerequisites](#prerequisites)).
 3. Click the **Maintenance** tab.
 
-TODO: Add image showing the maintenance tab
+<Img src="/img/user-guide/table-maintenance/catalog-maintenance-tab-unconfigured.png" alt="Catalog Maintenance tab in unconfigured state with empty Resources and Operations sections"/>
 
+:::info Owner domain required
 Maintenance controls are disabled until an owner domain is assigned. See [Catalog Owner Domain](#catalog-owner-domain) to assign one.
+<Img src="/img/user-guide/table-maintenance/missing-owner-error-maintenance-tab.png" alt="Catalog Maintenance tab showing the owner domain missing alert with the Assign owner link"/>
+:::
 
 ### Step 2: Configuring Resources
 
@@ -76,9 +79,9 @@ The maintenance service needs a compute cluster and a service account to run ope
 2. Select a **Service Account** from the dropdown. The list shows all service accounts in the domain.
 3. Click **Save** to save the resource configuration.
 
-Once resources are saved, the **Maintenance Operations** section becomes active.
+<Img src="/img/user-guide/table-maintenance/configure-resources.png" alt="Catalog Maintenance Resources section with Compute cluster and Service Account dropdowns"/>
 
-TODO: Add image showing the resource part
+Once resources are saved, the **Maintenance Operations** section becomes active.
 
 :::warning Resource Requirements
 - The compute cluster must be active when a maintenance job runs. If it's stopped or disabled, the operation fails.
@@ -111,7 +114,7 @@ Rewrite Data Files and Rewrite Manifest Files run as Spark SQL jobs on the confi
 3. To configure operation-specific thresholds, expand **Advanced Settings** on any enabled operation card and add the properties you want to override. See [Advanced Operation Properties](#advanced-operation-properties) for all available options.
 4. Click **Save Operations** to save. Click **Reset** to discard unsaved changes.
 
-TODO: Add image showing the operations
+<Img src="/img/user-guide/table-maintenance/configure-catalog-config.png" alt="Catalog Maintenance Operations section showing four operation toggles with Advanced Settings"/>
 
 ## Configuring Table-Level Maintenance
 
@@ -120,7 +123,7 @@ Table-level settings override catalog defaults for a specific Iceberg table. Thi
 1. Go to **Data Catalog**, open a catalog, and navigate to an Iceberg table.
 2. Click the **Maintenance** tab. The **Configuration** sub-tab opens by default.
 
-TODO: Add image showing the table maintenance page
+<Img src="/img/user-guide/table-maintenance/table-maintenance-tab-unconfigured.png" alt="Table Maintenance Configuration tab showing the Enable maintenance toggle and four operation cards in default state"/>
 
 3. Use the **Enable maintenance** toggle to enable or disable maintenance for this table.
 4. For each operation, choose one of three states:
@@ -130,7 +133,7 @@ TODO: Add image showing the table maintenance page
 5. To configure operation-specific thresholds, expand **Advanced Settings** on any enabled operation card and add the properties you want to override. See [Advanced Operation Properties](#advanced-operation-properties) for all available options.
 6. Click **Save Changes** to save. Click **Reset** to discard unsaved changes.
 
-:::warning Table Maintenance Defaults
+:::info Table Maintenance Defaults
 - Tables are disabled for maintenance by default. You must explicitly enable each one (V1 rollout safeguard).
 - Table maintenance can't be enabled while catalog-level maintenance is disabled.
 :::
@@ -147,16 +150,16 @@ To assign an owner domain:
 3. Go to the **Permissions** tab.
 4. Click the `⋮` (three-dot menu) next to the domain and select **Set as catalog owner**.
 
-TODO: Add image showing the Permissions tab with the owner domain field
+<Img src="/img/user-guide/table-maintenance/assign-catalog-owner.png" alt="Domain list with vertical three-dot menu open showing the Set as catalog owner option"/>
 
 
 ## Advanced Operation Properties
 
 Each operation card has an **Advanced Settings** section where you can override individual properties. Add properties one at a time using the **Add Property** dropdown. To revert a property to its inherited default, click the `❌` button next to it.
 
-Validation errors display inline below each field. If an error is inside a collapsed **Advanced Settings** panel, the panel expands automatically and the page scrolls to the first invalid field.
+<Img src="/img/user-guide/table-maintenance/operation-advanced-props.png" alt="Operation card with Advanced Settings panel expanded showing property input fields"/>
 
-TODO: Add image showing one open advanced setting and dropdown
+_Validation errors display inline below each field. If an error is inside a collapsed **Advanced Settings** panel, the panel expands automatically and the page scrolls to the first invalid field._
 
 ### Operations
 
@@ -274,7 +277,7 @@ The maintenance settings that read from Iceberg properties:
 
 The **History** sub-tab lists every maintenance run for a table, including before/after metrics for completed runs. It's the fastest way to see what ran, why it ran, and what changed.
 
-TODO: Add image showing the history list
+<Img src="/img/user-guide/table-maintenance/table-history-list.png" alt="Maintenance History tab showing a list of maintenance runs with time range, operation type, and status filters"/>
 
 1. Go to the table's **Table Maintenance** tab.
 2. Click the **History** sub-tab.
@@ -284,13 +287,11 @@ TODO: Add image showing the history list
     - **Operation type**: filter to a specific operation.
     - **Status**: filter by status (All, Pending, Running, Completed, etc.)
 4. To see metrics for a completed run, click to expand a **Completed** row that has metric data. The expanded row shows a metrics table with **Before** and **After** values.
-TODO: Add image showing expanded completed entry
+<Img src="/img/user-guide/table-maintenance/table-history-completed-entry.png" alt="Expanded completed maintenance run row showing before and after metrics table"/>
 5. To see the error message for a failed run, hover over the **Failed** status badge.
-TODO: Add image showing failure message entry
-
-The **Reason** column shows why an operation was scheduled: which threshold condition was met (small average file size, high delete-file ratio, snapshot count exceeded retention, etc.) or whether it was a manual trigger.
-
-TODO: Add image showing reason
+<Img src="/img/user-guide/table-maintenance/table-history-failed-entry.png" alt="Maintenance History failed run with error message tooltip visible on hover over the Failed status badge"/>
+6. The **Reason** column shows why an operation was scheduled: which threshold condition was met (small average file size, high delete-file ratio, snapshot count exceeded retention, etc.) or whether it was a manual trigger.
+<Img src="/img/user-guide/table-maintenance/table-history-reason-entry.png" alt="Maintenance History row with the Reason column showing the threshold condition that triggered the run"/>
 
 ### Metrics Per Operation
 
@@ -308,12 +309,10 @@ Run any maintenance operation on demand without waiting for the automated schedu
 
 1. Go to the table's **Table Maintenance > History** sub-tab.
 2. Click the **Trigger** button in the table header.
+<Img src="/img/user-guide/table-maintenance/table-history-trigger-button.png" alt="Maintenance History tab with the Trigger button highlighted in the table header"/>
 3. In the modal, select the operation type from the dropdown.
+<Img src="/img/user-guide/table-maintenance/trigger-dialog.png" alt="Trigger maintenance operation dialog with a Select operation dropdown and Cancel and Trigger buttons"/>
 4. Click **Trigger** to confirm.
-
-TODO: Add image showing the button above table
-
-<Img src="/img/user-guide/table-maintenance/trigger-dialog.png" alt="Trigger maintenance operation dialog with a Select operation dropdown and Cancel and Trigger buttons" maxWidth="500px" />
 
 The operation is queued immediately and shows up in the history list with a `PENDING` status. The history list refreshes automatically after the trigger succeeds.
 
