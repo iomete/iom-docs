@@ -229,7 +229,7 @@ Because this operation performs a full scan, it **runs on its own cron schedule*
 
 Orphan cleanup has several built-in safety mechanisms:
 
-- **Minimum retention period**: the backend enforces a minimum retention period of 3 days.. If the configured `Older Than` value is below this minimum, the run fails with a non-retryable error.
+- **Minimum retention period**: the backend enforces a minimum retention period of 3 days. If the configured `Older Than` value is below this minimum, the run fails with a non-retryable error.
 - **Orphan percentage threshold**: if orphan files exceed 30% of total files, the operation aborts to prevent accidental mass deletion. This typically indicates a misconfiguration or a concurrent operation.
 - **Batched deletion**: files are deleted in batches with a cooldown between each batch to avoid overwhelming storage.
 - **Flink file exclusion**: files matching an active Flink job's checkpoint pattern (`flink.job-id.*`) are automatically skipped, even if they appear unreferenced.
@@ -295,7 +295,7 @@ The **History** sub-tab lists every maintenance run for a table, including befor
 
 ### Metrics Per Operation
 
-| Operation | Metrics(before/after) |
+| Operation | Metrics (before/after) |
 |---|---|
 | Rewrite Data Files | Data File Count, Total File Size |
 | Expire Snapshots | Snapshot Count |
@@ -380,7 +380,7 @@ The archival batch size is `500` records per cycle and archival runs hourly by d
     answerContent: (
       <>
         <p>Maintenance is supported only for IOMETE-managed internal Iceberg REST catalogs. Unsupported catalog types include <code>spark_catalog</code>, external catalogs (not managed by IOMETE), non-Iceberg catalogs, and non-REST Iceberg implementations.</p>
-        <p>If your catalog does not fall into one of these categories, use a supported catalog type. See the <a href="#prerequisites">Prerequisites</a> section for the full requirements.</p>
+        <p>If your catalog falls into one of these categories, you'll need to use a supported catalog type. See the <a href="#prerequisites">Prerequisites</a> section for the full requirements.</p>
       </>
     )
   },
@@ -443,7 +443,7 @@ The archival batch size is `500` records per cycle and archival runs hourly by d
     question: "Does the system retry failed maintenance operations?",
     answerContent: (
       <>
-        <p>Yes. When a maintenance operation fails (for example due to commit conflicts from concurrent writes), the system automatically returns the job to <code>PENDING</code> and retries it.</p>
+        <p>Yes. When a maintenance operation fails (for example, due to commit conflicts from concurrent writes), the system automatically returns the job to <code>PENDING</code> and retries it.</p>
         <p>Up to <strong>3 retries</strong> are attempted. If all retries fail, the operation moves to <code>FAILED</code> and is not retried automatically. You can view the retry count in the History tab by enabling the <strong>Retries</strong> column.</p>
       </>
     )
