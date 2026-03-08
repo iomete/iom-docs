@@ -127,7 +127,7 @@ We can now perform compaction on this table, as we have two snapshots available.
 
 <Img src="/img/tutorial/compaction-cow-mor/compaction-config.png" alt="compaction-config"/>
 
-:::info More details on the configuration available in the compaction job can be found [here.](https://github.com/iomete/data-compaction-job/blob/main/README.md#additional-configurations)
+:::info More details on the configuration available in the compaction job can be found [here.](https://github.com/iomete/iomete-marketplace-jobs/tree/main/data-compaction-job/#additional-configurations)
 :::
 
 The system tables provide detailed insights into the actions taken during compaction.
