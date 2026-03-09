@@ -327,3 +327,24 @@ def send_with_retry(events, max_retries=3):
 | Service not starting | Review Kubernetes events for resource issues (CPU/memory limits) |
 | Slow ingestion | Increase batch size; add more replicas; attach persistent volume |
 | Connection refused | Verify Event Stream status is Active with ready replicas (e.g., 2/2) |
+
+---
+
+## Advanced Configuration
+
+Event Stream uses sensible defaults that work well for most use cases. However, for specific scenarios, you can override these settings using environment variables before starting or creating an Event Stream.
+
+:::info
+These are advanced configuration options. The default values are optimized for typical workloads and should not need modification in most cases.
+:::
+
+### Environment Variables
+
+| Variable | Default | Min | Max | Description |
+| --- | --- | --- | --- | --- |
+| `RUST_LOG` | `info` | - | - | Log level for the ingestion service. Valid values: `trace`, `debug`, `info`, `warn`, `error`. Use `debug` or `trace` for troubleshooting. |
+| `WRITE_PARTITION_SIZE_IN_BYTES` | `100000000` (100 MB) | 50 MB | 200 MB | Maximum write partition size in bytes before creating a new partition. Increase for higher throughput workloads. |
+| `CATALOG_REFRESH_INTERVAL_MINUTES` | `5` | 2 | 15 | How often (in minutes) to refresh catalog configurations from the API. Lower values detect catalog changes faster but increase API calls. |
+| `INCREMENTAL_COMPACTION_THRESHOLD` | `20` | 10 | 50 | Number of files processed before triggering incremental compaction. Lower values compact more frequently, improving query performance but using more resources. |
+| `HEALTH_PENDING_FILES_PER_TABLE` | `20` | 10 | 30 | Pending files per table threshold for health checks. The service reports unhealthy if any table exceeds this limit, triggering backpressure. |
+| `EMPTY_FOLDER_TTL_DAYS` | `10` | 10 | 30 | Minimum age (in days) before empty folders are eligible for cleanup. |
