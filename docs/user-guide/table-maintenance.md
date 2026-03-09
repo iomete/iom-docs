@@ -23,7 +23,7 @@ Default rules are defined at the catalog level and can be overridden for individ
 
 ## How Table Maintenance Works
 
-IOMETE runs a background detection pipeline that continuously monitors Iceberg tables for changes. Every few minutes, the pipeline identifies modified tables, evaluates whether they require maintenance based on metrics such as file sizes, snapshot age, delete-file ratios, and manifest counts, and automatically runs the required maintenance operations.
+IOMETE runs a background detection pipeline that continuously monitors Iceberg tables for changes. Every few minutes, the pipeline identifies modified tables and evaluates whether they require maintenance based on metrics such as file sizes, snapshot age, delete-file ratios, and manifest counts. If a table meets the conditions, the pipeline automatically runs the required maintenance operations.
 
 Configuration follows a two-level inheritance model:
 
@@ -34,7 +34,7 @@ Automatic maintenance only runs when a table meets the configured conditions. If
 
 :::info Key Behaviors
 - **Catalog as master switch**: catalog-level maintenance must be enabled before any table in it can run maintenance. Enabling table maintenance while catalog maintenance is disabled is not allowed.
-- **Tables don't auto-inherit the enabled state**: even when catalog maintenance is on, each table must be explicitly enabled. This is a deliberate V1 safeguard. Individual operation settings (e.g., rewrite data files, expire snapshots) still inherit normally.
+- **Tables don't auto-inherit the enabled state**: even when catalog maintenance is on, each table must be explicitly enabled. This is a deliberate V1 safeguard. Individual operation settings (e.g., Rewrite Data Files, Expire Snapshots) still inherit normally.
 - **Cooldown between runs**: after each successful run, the system enforces a **60-minute cooldown** before the same table and operation can be picked up again. This prevents redundant back-to-back executions on frequently updated tables. Manual triggers bypass the cooldown and run immediately.
 :::
 
@@ -60,7 +60,9 @@ Catalog-level maintenance sets the default behavior for all tables in a catalog.
 
 ### Step 1: Opening the Catalog Maintenance Tab
 
-1. Go to **Admin Console > Spark Catalogs** (or **Domain > Settings > Spark Catalogs**).
+1. Go to the Spark Catalogs page:
+   - **Platform Admins**: Admin Portal > Spark Catalogs
+   - **Domain Admins**: Domain > Settings > Spark Catalogs
 2. Open a qualifying catalog (see [Prerequisites](#prerequisites)).
 3. Click the **Maintenance** tab.
 
@@ -85,7 +87,7 @@ Once resources are saved, the **Maintenance Operations** section becomes active.
 
 :::warning Resource Requirements
 - The compute cluster must be active when a maintenance job runs. If it's stopped or disabled, the operation fails.
-- The service account must have `CONSUME` permission on the chosen compute cluster, otherwise saving the resource configuration fails.
+- The service account must have `CONSUME` permission on the chosen compute cluster. Otherwise, saving the resource configuration fails.
 - Reassigning the owner domain for a catalog disables maintenance and clears all configured resources. Re-enable maintenance and reconfigure resources after the change.
 :::
 
@@ -120,18 +122,21 @@ Rewrite Data Files and Rewrite Manifest Files run as Spark SQL jobs on the confi
 
 Table-level settings override catalog defaults for a specific table. This is useful when a table has different compaction requirements — for example, a high-volume streaming table that needs more aggressive compaction than the catalog default.
 
-1. Go to **Data Catalog**, open a catalog, and navigate to an Iceberg table.
-2. Click the **Maintenance** tab. The **Configuration** sub-tab opens by default.
+1. Go to **Governance > Data Catalog** from the side panel.
+2. Find and open the table details page:
+   - **Data Catalog tab**: Search for the table by name and click it.
+   - **Data Explorer tab**: Navigate through Catalog > Database > Table.
+3. Click the **Maintenance** tab. The **Configuration** sub-tab opens by default.
 
 <Img src="/img/user-guide/table-maintenance/table-maintenance-tab-unconfigured.png" alt="Table Maintenance Configuration tab showing the Enable maintenance toggle and four operation cards in default state"/>
 
-3. Use the **Enable maintenance** toggle to enable or disable maintenance for this table.
-4. For each operation, choose one of three states:
+4. Use the **Enable maintenance** toggle to enable or disable maintenance for this table.
+5. For each operation, choose one of three states:
    - **Inherit**: uses the catalog-level setting. The card shows the inherited state, for example _"Enabled (Inherited from Catalog)"_.
    - **Enabled**: explicitly enables this operation for this table, regardless of the catalog setting.
    - **Disabled**: explicitly disables this operation for this table.
-5. To configure operation-specific thresholds, expand **Advanced Settings** on any enabled operation card and add the properties you want to override. See [Advanced Operation Properties](#advanced-operation-properties) for all available options.
-6. Click **Save Changes** to save. Click **Reset** to discard unsaved changes.
+6. To configure operation-specific thresholds, expand **Advanced Settings** on any enabled operation card and add the properties you want to override. See [Advanced Operation Properties](#advanced-operation-properties) for all available options.
+7. Click **Save Changes** to save. Click **Reset** to discard unsaved changes.
 
 :::info Table Maintenance Defaults
 - Tables are disabled for maintenance by default. You must explicitly enable each one (V1 rollout safeguard).
@@ -145,7 +150,7 @@ Every catalog that uses maintenance must have an **owner domain** assigned. The 
 
 To assign an owner domain:
 
-1. Open the catalog in **Admin Console > Spark Catalogs**.
+1. Open the catalog in **Admin Portal > Spark Catalogs**.
 2. Select the catalog.
 3. Go to the **Permissions** tab.
 4. Click the `⋮` (three-dot menu) next to the domain and select **Set as catalog owner**.
@@ -184,7 +189,7 @@ This operation combines small files into larger ones, targeting an optimal file 
 | Delete Ratio Threshold | Double | 0.3                  | Ratio of delete entries to data rows that triggers compaction.                                                                                  |
 | Partial Progress Enabled | Boolean | false                | Commits progress incrementally instead of all at once. Useful for very large tables.                                                            |
 | Partial Progress Max Commits | Integer | 10                   | Max number of incremental commits per run.                                                                                                      |
-| Partial Progress Max Failed Commits | Integer | 10                   | Maximum amount of commits that this rewrite is allowed to produce if partial progress is enabled.                                               |
+| Partial Progress Max Failed Commits | Integer | 10                   | Maximum number of commits that this rewrite is allowed to produce if partial progress is enabled.                                               |
 | Max File Group Size Bytes | Long | 100 GB | Largest amount of data that should be rewritten in a single file group.                                                                         |
 | Remove Dangling Deletes | Boolean | false                | Remove delete files that no longer reference any data rows.                                                                                     |
 
@@ -206,7 +211,7 @@ Each snapshot references data files through manifest files. Over time the manife
 
 Every write, update, or delete creates a new Iceberg snapshot. Over time, hundreds of snapshots pile up, each retaining references to old data files. This bloats metadata and prevents old data files from being garbage collected.
 
-Expiring snapshots removes anything beyond a retention window, freeing the referenced data files for cleanup.
+Expiring snapshots removes those beyond a retention window, freeing the referenced data files for cleanup.
 
 | Property | Type | Default | Description |
 |---|---|---|---|
@@ -279,18 +284,22 @@ The **History** sub-tab lists every maintenance run for a table, including befor
 
 <Img src="/img/user-guide/table-maintenance/table-history-list.png" alt="Maintenance History tab showing a list of maintenance runs with time range, operation type, and status filters"/>
 
-1. Go to the table's **Table Maintenance** tab.
-2. Click the **History** sub-tab.
-3. Use the filters at the top to narrow results:
-    - **Time range**: a date-range picker (maximum range is 30 days)
+1. Go to **Governance > Data Catalog** from the side panel.
+2. Find and open the table details page:
+   - **Data Catalog tab**: Search for the table by name and click it.
+   - **Data Explorer tab**: Navigate through Catalog > Database > Table.
+3. Go to the **Table Maintenance** tab.
+4. Click the **History** sub-tab.
+5. Use the filters at the top to narrow results:
+    - **Time range**: a date-range picker (maximum range is 30 days).
     - **Triggered by**: filter by the username who triggered the run.
-    - **Operation type**: filter to a specific operation.
-    - **Status**: filter by status (All, Pending, Running, Completed, etc.)
-4. To see metrics for a completed run, click to expand a **Completed** row that has metric data. The expanded row shows a metrics table with **Before** and **After** values.
+    - **Operation type**: filter by a specific operation.
+    - **Status**: filter by status (All, Pending, Running, Completed, etc.).
+6. To see metrics for a completed run, click to expand a **Completed** row that has metric data. The expanded row shows a metrics table with **Before** and **After** values.
 <Img src="/img/user-guide/table-maintenance/table-history-completed-entry.png" alt="Expanded completed maintenance run row showing before and after metrics table"/>
-5. To see the error message for a failed run, hover over the **Failed** status badge.
+7. To see the error message for a failed run, hover over the **Failed** status badge.
 <Img src="/img/user-guide/table-maintenance/table-history-failed-entry.png" alt="Maintenance History failed run with error message tooltip visible on hover over the Failed status badge"/>
-6. The **Reason** column shows why an operation was scheduled: which threshold condition was met (small average file size, high delete-file ratio, snapshot count exceeded retention, etc.) or whether it was a manual trigger.
+8. The **Reason** column shows why an operation was scheduled: which threshold condition was met (small average file size, high delete-file ratio, snapshot count exceeded retention, etc.) or whether it was a manual trigger.
 <Img src="/img/user-guide/table-maintenance/table-history-reason-entry.png" alt="Maintenance History row with the Reason column showing the threshold condition that triggered the run"/>
 
 ### Metrics Per Operation
@@ -307,12 +316,16 @@ The **History** sub-tab lists every maintenance run for a table, including befor
 
 Run any maintenance operation on demand without waiting for the automated cycle. This is useful when testing your configuration or addressing an urgent performance issue.
 
-1. Go to the table's **Table Maintenance > History** sub-tab.
-2. Click the **Trigger** button in the table header.
+1. Go to **Governance > Data Catalog** from the side panel.
+2. Find and open the table details page:
+   - **Data Catalog tab**: Search for the table by name and click it.
+   - **Data Explorer tab**: Navigate through Catalog > Database > Table.
+3. Go to the **Table Maintenance > History** sub-tab.
+4. Click the **Trigger** button in the table header.
 <Img src="/img/user-guide/table-maintenance/table-history-trigger-button.png" alt="Maintenance History tab with the Trigger button highlighted in the table header"/>
-3. In the modal, select the operation type from the dropdown.
+5. In the modal, select the operation type from the dropdown.
 <Img src="/img/user-guide/table-maintenance/trigger-dialog.png" alt="Trigger maintenance operation dialog with a Select operation dropdown and Cancel and Trigger buttons"/>
-4. Click **Trigger** to confirm.
+6. Click **Trigger** to confirm.
 
 The operation is queued immediately and shows up in the history list with a `PENDING` status. The history list refreshes automatically after the trigger succeeds.
 
@@ -344,12 +357,16 @@ services:
   maintenance:
     resources:
       requests:
-        memory: "200Mi"
-        cpu: "1000m"
+        memory: "1000Mi"
+        cpu: "2000m"
       limits:
         memory: "1000Mi"
         cpu: "2000m"
 ```
+
+:::warning Requests and limits must match
+Set `requests` and `limits` to the same values. Mismatched values can cause maintenance operations to run in loops.
+:::
 
 ### Archival Configuration
 
@@ -408,6 +425,14 @@ The archival batch size is `500` records per cycle and archival runs hourly by d
       <>
         <p>This usually means the table doesn't exist in the selected catalog, or your account doesn't have the required permissions to access it.</p>
         <p>Verify the table exists, confirm you're looking in the right catalog, and check that you're a member of the catalog's owner domain or a platform administrator.</p>
+      </>
+    )
+  },
+  {
+    question: "What happens if the catalog owner domain is changed?",
+    answerContent: (
+      <>
+        <p>Reassigning the owner domain disables maintenance and clears all configured resources (compute clusters and service accounts). After the change, you must re-enable maintenance and reconfigure resources under the new owner domain.</p>
       </>
     )
   },
