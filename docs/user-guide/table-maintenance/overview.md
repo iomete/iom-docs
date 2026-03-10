@@ -33,7 +33,7 @@ Automatic maintenance only runs when a table meets the configured conditions. If
 
 :::info Key Behaviors
 - **Catalog as master switch**: catalog-level maintenance must be enabled before any table in it can run maintenance. Enabling table maintenance while catalog maintenance is disabled is not allowed.
-- **Tables don't auto-inherit the enabled state**: even when catalog maintenance is on, each table must be explicitly enabled. This is a deliberate V1 safeguard. Individual operation settings (e.g., Rewrite Data Files, Expire Snapshots) still inherit normally.
+- **Tables don't auto-inherit the enabled state**: even when catalog maintenance is on, each table must be explicitly enabled. This is a deliberate beta safeguard. Individual operation settings (e.g., Rewrite Data Files, Expire Snapshots) still inherit normally.
 - **Cooldown between runs**: after each successful run, the system enforces a **60-minute cooldown** before the same table and operation can be picked up again. This prevents redundant back-to-back executions on frequently updated tables. Manual triggers bypass the cooldown and run immediately.
 :::
 

@@ -74,7 +74,7 @@ Because this operation performs a full scan, it **runs on its own cron schedule*
 Orphan cleanup has several built-in safety mechanisms:
 
 - **Minimum retention period**: the backend enforces a minimum retention period of 3 days. If the configured `Older Than` value is below this minimum, the run fails with a non-retryable error.
-- **Orphan percentage threshold**: if orphan files exceed 30% of total files, the operation aborts to prevent accidental mass deletion. This typically indicates a misconfiguration or a concurrent operation.
+- **Orphan percentage threshold**: the operation aborts if orphan files exceed 30% of total files, to prevent against accidental mass deletion. When this happens, check for misconfiguration or data corruption first, then run `remove_orphan_files` manually via the SQL Editor.
 - **Batched deletion**: files are deleted in batches with a cooldown between each batch to avoid overwhelming storage.
 - **Flink file exclusion**: files matching an active Flink job's checkpoint pattern (`flink.job-id.*`) are automatically skipped, even if they appear unreferenced.
 

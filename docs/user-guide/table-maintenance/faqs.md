@@ -100,12 +100,21 @@ import FAQSection from '@site/src/components/FAQSection';
     )
   },
   {
+    question: "Orphan cleanup aborted — orphan percentage threshold exceeded. What should I do?",
+    answerContent: (
+      <>
+        <p>The operation aborts if orphan files exceed 30% of total files. This safeguard prevents accidental mass deletion.</p>
+        <p>First, check for misconfiguration or data corruption — a high orphan ratio is unusual under normal conditions. Once verified, run <code>remove_orphan_files</code> manually via the SQL Editor to clean up the files directly.</p>
+      </>
+    )
+  },
+  {
     question: "Why are some files skipped during orphan file cleanup?",
     answerContent: (
       <>
-        <p>If the table is written by a Flink streaming job, orphan cleanup skips files belonging to that job. Flink temporarily stores checkpoint data as metadata files before committing them to a snapshot. These files may appear unreferenced but deleting them would corrupt the Flink job state.</p>
-        <p>To prevent this, IOMETE reads the <code>flink.job-id</code> from snapshot summaries and excludes metadata files whose names match that job ID. These files are identified as orphan candidates but marked ineligible for deletion.</p>
-        <p>This exclusion applies only to metadata files. Data files written by Flink are not affected.</p>
+        <p>There are two common reasons:</p>
+        <p><strong>1. File is newer than the retention period.</strong> Orphan cleanup only deletes files older than the configured <code>Older Than</code> threshold (minimum 3 days). Files newer than this are skipped even if they appear unreferenced — they may belong to in-progress operations that haven't committed yet.</p>
+        <p><strong>2. File belongs to an active Flink job.</strong> If the table is written by a Flink streaming job, orphan cleanup skips files belonging to that job. Flink temporarily stores checkpoint data as metadata files before committing them to a snapshot. These files may appear unreferenced but deleting them would corrupt the Flink job state. IOMETE reads the <code>flink.job-id</code> from snapshot summaries and excludes metadata files whose names match that job ID. This exclusion applies only to metadata files — data files written by Flink are not affected.</p>
       </>
     )
   }
