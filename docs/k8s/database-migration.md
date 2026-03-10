@@ -8,7 +8,6 @@ last_update:
 ---
 
 import Img from '@site/src/components/Img';
-import { Star } from "@phosphor-icons/react";
 
 When you need to migrate your IOMETE database while keeping the IOMETE Control Plane intact, you can follow the steps outlined in this guide. This process involves
 - Understanding control plane setup
@@ -22,7 +21,7 @@ When you need to migrate your IOMETE database while keeping the IOMETE Control P
 We define namespace variable and obtain running state of the control plane to understand which components are running and which are not. IOMETE has many resources, 
 but components that have access to the database correspond to three categories of k8s resources:
 - Deployments
-- Statefulsets
+- StatefulSets
 - SparkApplication
 
 For first two categories, we can check the status of the control plane by running the following command:
@@ -41,11 +40,12 @@ You should see an output similar to the following where all deployments and stat
 For the SparkApplications, we can check the status by running the following command:
 
 ```bash title="Check IOMETE Control Plane Status - SparkApplications" showLineNumbers
+NAMESPACE="iomete-system"
 kubectl get sparkapplication iom-spark-connect  -n $NAMESPACE 
 ```
 This will list single SparkApplication named `iom-spark-connect` that is deployed as part of the IOMETE Control Plane and has access to the database. You should see an output similar to the following:
 
-<Img src="/img/k8s/iom-spark-connect.png" alt="IOM-SPARK-CONMNECT"/>
+<Img src="/img/k8s/iom-spark-connect.png" alt="IOM-SPARK-CONNECT"/>
 
 
 ## Downscaling IOMETE to Remove Connections to the Database
@@ -103,7 +103,7 @@ At this point, you can proceed with migrating the database to a new location. Th
 
 After the database has been migrated to the new location, you will need to update the IOMETE Control Plane to point to the new database location. This involves updating the values.yaml files used for the data plane components to reflect the new database connection details.
 
-```yaml # Example values file snippet for data plane components
+```yaml title="Example values file snippet for data plane components"
 ...
 database:
   type: postgresql
