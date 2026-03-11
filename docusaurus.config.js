@@ -309,6 +309,9 @@ const config = {
     // Glossary for production only. Comment the next line and uncomment `glossaryPlugin` to activate both modes.
     process.env.NODE_ENV === "production" && glossaryPlugin,
     // glossaryPlugin,
+
+    // Generate llms.txt and llms-full.txt at build time
+    require("./plugins/llms-txt-plugin"),
   ].filter(Boolean),
 };
 
