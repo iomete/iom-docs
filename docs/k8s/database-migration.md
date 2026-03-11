@@ -26,7 +26,7 @@ but components that have access to the database correspond to three categories o
 
 For first two categories, we can check the status of the control plane by running the following command:
 
-```bash title="Check IOMETE Control Plane Status - Deployments and Statefulsets" showLineNumbers
+```bash title="Check IOMETE Control Plane Status - Deployments and StatefulSets" showLineNumbers
 NAMESPACE="iomete-system"
 kubectl get deployments,statefulsets \
   -n $NAMESPACE \
@@ -34,10 +34,10 @@ kubectl get deployments,statefulsets \
 ```
 You should see an output similar to the following where all deployments and statefulsets that are labeled with `app.kubernetes.io/name=iomete-data-plane-enterprise` during IOMETE installation are listed:
 
-<Img src="/img/k8s/iomete-current-state.png" alt="Deployments and Statefulsets"/>
+<Img src="/img/k8s/iomete-current-state.png" alt="Deployments and StatefulSets"/>
 
 
-For the SparkApplications, we can check the status by running the following command:
+For the single SparkApplication that comes with IOMETE deployment, we can check the status by running the following command:
 
 ```bash title="Check IOMETE Control Plane Status - SparkApplications" showLineNumbers
 NAMESPACE="iomete-system"
@@ -54,11 +54,11 @@ This will list single SparkApplication named `iom-spark-connect` that is deploye
 While deployments and statefulsets can be downscaled all the way down to 0, we cannot do the same for SparkApplications as executor count has to be at least 1. Therefore, we will delete the single SparkApplication, iom-spark-connect, and recreate it automatically by helm after the database migration is complete.
 :::
 
-### Downscaling Deployments and Statefulsets
+### Downscaling Deployments and StatefulSets
 
 To downscale the deployments and statefulsets, we can run the following command:
 
-```bash title="Downscale IOMETE Deployments and Statefulsets" showLineNumbers
+```bash title="Downscale IOMETE Deployments and StatefulSets" showLineNumbers
 NAMESPACE="iomete-system"
 kubectl scale deployments,statefulsets \
   -n $NAMESPACE \
@@ -71,7 +71,7 @@ This will downscale all deployments and statefulsets that are labeled with `app.
 
 You should see an output similar to the following where all deployments and statefulsets that are scaled down to 0 replica if you run the command from the previous section again:
 
-```bash title="Check IOMETE Control Plane Status - Deployments and Statefulsets" showLineNumbers
+```bash title="Check IOMETE Control Plane Status - Deployments and StatefulSets" showLineNumbers
 NAMESPACE="iomete-system"
 kubectl get deployments,statefulsets \
   -n $NAMESPACE \
