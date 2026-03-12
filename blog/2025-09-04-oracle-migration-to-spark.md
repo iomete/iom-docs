@@ -18,7 +18,7 @@ In this post, we'll share our real-world experience migrating Oracle queries to 
 
 ## Overview
 
-One of our customers recently undertook a significant migration from their traditional Oracle data warehouse to a modern lakehouse architecture built on IOMETE. While modernizing their data platform was a key objective, they had an equally important requirement: ensuring their existing reports maintained or improved their performance levels.
+One of our customers recently undertook a significant migration from their traditional Oracle [data warehouse](/glossary/data-warehouse) to a modern [lakehouse architecture](/glossary/data-lakehouse) built on IOMETE. While modernizing their data platform was a key objective, they had an equally important requirement: ensuring their existing reports maintained or improved their performance levels.
 
 Their legacy Oracle data warehouse ran on a powerful server with 64 CPUs and 500GB of RAM. In contrast, the new IOMETE Spark cluster was configured with 4 executors, each allocated 8 CPUs and 40GB of RAM—totaling 32 CPUs and 160GB of RAM across the cluster.
 
@@ -37,7 +37,7 @@ In the next steps will reproduce similar case with synthetic data, and apply dif
 
 ## Step 0: Building Testing Environment
 
-Our performance analysis centered on two critical tables that appeared in nearly every query: `inventory` and `catalog_items`. Each table contained approximately 30 million rows and occupied roughly 400MB when stored as Parquet files on disk. To conduct meaningful performance comparisons, we replicated these table characteristics in our test environment, creating equivalent `inventory` and `catalog_items` iceberg tables that would serve as the foundation for our tests.
+Our performance analysis centered on two critical tables that appeared in nearly every query: `inventory` and `catalog_items`. Each table contained approximately 30 million rows and occupied roughly 400MB when stored as [Parquet](/glossary/parquet) files on disk. To conduct meaningful performance comparisons, we replicated these table characteristics in our test environment, creating equivalent `inventory` and `catalog_items` iceberg tables that would serve as the foundation for our tests.
 
 - catalog_items
   ```sql
@@ -147,7 +147,7 @@ WHERE location = 'Warehouse_3'
 
 The denormalized table delivered immediate results: query execution time dropped to **1.2 seconds**—a 6x improvement over the original 7.3-second performance. While this 1.2-second response time meets customer acceptance criteria, we'll implement additional optimizations in the next step to further close the gap with Oracle's sub-500ms baseline.
 
-## Step 4: Z-Order
+## Step 4: [Z-Order](/blog/z-order-sorting)
 
 We’ve already achieved sufficient performance, but will try to optimize further. Lets check the execution metrics of the execution plan of the **Step 3**:
 

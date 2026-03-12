@@ -10,7 +10,7 @@ banner_description: key steps in building an effective on-premise Data Lakehouse
 coverImage: img/blog/thumbnails/3.png
 ---
 
-In the world of big data and analytics, the concept of a Data Lakehouse combines the flexibility and scalability of a data lake (great for unstructured/raw data and ML/AI) with the benefits of a traditional data warehouse (great for structured data and BI).
+In the world of big data and analytics, the concept of a [Data Lakehouse](/glossary/data-lakehouse) combines the flexibility and scalability of a data lake (great for unstructured/raw data and ML/AI) with the benefits of a traditional [data warehouse](/glossary/data-warehouse) (great for structured data and BI).
 
 <!-- truncate -->
 
@@ -27,7 +27,7 @@ Before diving into the construction of a Data Lakehouse, it's crucial to underst
 The first step in building an on-premise Data Lakehouse is assessing your organization’s specific data needs and infrastructure requirements.
 
 - **Data Volume and Variety:** Consider the volume and variety of data your organization handles. This will determine the scale and complexity of your Data Lakehouse.
-- **Compliance and Security: **Identify the compliance requirements and security protocols necessary for your data, which are crucial for on-premise solutions.
+- **Compliance and [Security](/glossary/data-security): **Identify the compliance requirements and security protocols necessary for your data, which are crucial for on-premise solutions.
 
 **Step 2: Choosing the Right Hardware and Software**
 
@@ -45,7 +45,7 @@ Integrating and ingesting data from various sources into your Data Lakehouse is 
 - **Data Sources:** Identify all the potential data sources, including internal databases, applications, and external data streams.
 - **Ingestion Tools:** Implement tools that can handle the ingestion of data in real-time or in batches, depending on your operational needs.
 
-**Step 4: Implementing Data Governance and Quality Controls**
+**Step 4: Implementing [Data Governance](/glossary/data-governance) and Quality Controls**
 
 Data governance and quality control are essential to ensure the data in your Data Lakehouse is accurate, consistent, and secure.
 

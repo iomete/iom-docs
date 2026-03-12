@@ -74,8 +74,8 @@ Customer retention is a good thing, but it depends on how one achieves it. If af
 
 Our idea of a healthy relationship is that customers stay with us because we are the best alternative. Therefore we designed our proposition in such a way that the customer can always leave with no strings attached:
 
-- Our data format is Apache Parquet, an open source format so customers can always access their data.
-- Our platform is built on Apache Iceberg and Apache Spark, two leading open source projects.
+- Our data format is [Apache Parquet](/glossary/parquet), an open source format so customers can always access their data.
+- Our platform is built on [Apache Iceberg](/reference/iceberg-tables/getting-started) and [Apache Spark](/glossary/apache-spark), two leading open source projects.
 - The customer's data is stored under their own AWS account. The IOMETE platform accesses the data in the customer account to run queries, but the customer owns her data, 100%, at all times.
 
 ## The Data Cloud needs a Challenge(r)...

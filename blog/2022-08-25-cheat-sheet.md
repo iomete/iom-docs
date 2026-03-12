@@ -14,13 +14,13 @@ featured_content: Apache Iceberg is a high-performance format for huge analytic 
 
 import MiniCard from "@site/src/components/MiniCard";
 
-Apache Iceberg is a high-performance format for huge analytic tables. It has built-in metadata tables for inspection and procedures for data compaction and table maintenance. Also, its snapshot architecture making it easy time-travel over data versions.
+[Apache Iceberg](/reference/iceberg-tables/getting-started) is a high-performance format for huge analytic tables. It has built-in metadata tables for inspection and procedures for data compaction and [table maintenance](/reference/iceberg-tables/maintenance). Also, its snapshot architecture making it easy time-travel over data versions.
 
 <!-- <MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard> -->
 
 <!-- truncate -->
 
-In the lakehouse platform, we are using Apache Iceberg with Apache Spark. Even though Apache Iceberg has great [documentation](https://iceberg.apache.org/docs/latest/getting-started) for working with Spark SQL, we have created a helpful cheat sheet for quick access to the most popular commands.
+In the [data lakehouse](/glossary/data-lakehouse) platform, we are using Apache Iceberg with [Apache Spark](/glossary/apache-spark). Even though Apache Iceberg has great [documentation](https://iceberg.apache.org/docs/latest/getting-started) for working with Spark SQL, we have created a helpful cheat sheet for quick access to the most popular commands.
 
 We included DDL operations for creating databases and tables, altering table structures, basic read / write queries, SQL queries for time travel. In the third column we included base Apache Iceberg SQL procedures with arguments that are most likely to be used.
 

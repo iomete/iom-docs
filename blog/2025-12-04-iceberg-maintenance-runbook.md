@@ -10,13 +10,13 @@ date: 12/04/2025
 
 import FAQSection from '@site/src/components/FAQSection';
 
-Keeping Iceberg tables fast and consistent requires understanding how metadata layers work and running maintenance in the right order. This runbook explains the mental model, the safe lifecycle (expire snapshots -> remove orphan files -> rewrite manifests), common failure modes, and how IOMETE automates the entire pipeline for regulated, self-hosted environments.
+Keeping [Iceberg](/blog/cheat-sheet-for-apache-iceberg) tables fast and consistent requires understanding how metadata layers work and running maintenance in the right order. This runbook explains the mental model, the safe lifecycle (expire snapshots -> remove orphan files -> rewrite manifests), common failure modes, and how IOMETE automates the entire pipeline for regulated, self-hosted environments.
 
 ## Mental model how Iceberg metadata actually works
 
 Iceberg metadata is layered, immutable, and versioned. Before touching retention or cleanup settings, know what each layer holds:
 
-1. **Snapshots**: Complete, immutable versions of the table. Each write creates a snapshot with a manifest list pointer, operation summary, timestamp, and ID - enabling time travel and rollback.
+1. **Snapshots**: Complete, immutable versions of the table. Each write creates a snapshot with a manifest list pointer, operation summary, timestamp, and ID - enabling [time travel](/reference/iceberg-tables/time-travel) and rollback.
 2. **Manifest lists**: One per snapshot, listing all manifest files plus partition boundary statistics for pruning.
 3. **Manifest files**: List data and delete files with paths, partition values, column-level stats, and add/delete markers.
 4. **Metadata files (v1.metadata.json, v2.metadata.json, ...)**: Every commit writes a new metadata file with schema, partition specs, snapshot history, sort order, properties, and the current snapshot pointer. Old files remain until their snapshots expire.
@@ -46,7 +46,7 @@ Running tasks out of order risks data loss, broken time travel, or lingering orp
    `CALL system.expire_snapshots('table', older_than_timestamp, retain_last => N);`
 2. **Remove orphan files**: After expiration, delete files not referenced by any metadata (data files, delete files, manifests, obsolete metadata).  
    `CALL system.remove_orphan_files('table');`
-3. **Rewrite manifests (manifest compaction)**: Consolidate fragmented manifests to reduce planning overhead and metadata bloat.  
+3. **Rewrite manifests (manifest compaction)**: Consolidate fragmented manifests to reduce planning overhead and metadata bloat. See the [Iceberg table maintenance reference](/reference/iceberg-tables/maintenance) for full syntax details.
    `CALL system.rewrite_manifests('table');`
 
 Why this order works:
@@ -59,7 +59,7 @@ Why this order works:
 
 - **Oversized manifest lists**: Symptoms include slow planning and excessive object storage GETs. Fix with `rewrite_manifests`.
 - **Snapshot leaks**: Long-running jobs or aggressive retention settings prevent expiration. Fix by scheduling expiration and compaction more aggressively.
-- **Delete-file bloat (MOR workloads)**: Delete files pile up faster than compaction. Fix with delete-file rewrites, regular compaction, and shorter snapshot retention.
+- **Delete-file bloat ([MOR workloads](/blog/merge-on-read-vs-copy-on-write))**: Delete files pile up faster than compaction. Fix with delete-file rewrites, regular [compaction](/blog/iceberg-compaction-slow), and shorter snapshot retention.
 
 ## Failure patterns from aggressive settings
 

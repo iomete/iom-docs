@@ -24,9 +24,9 @@ IOMETE's architecture is built on four fundamental layers, each providing essent
 
 The storage layer forms the foundation of IOMETE's architecture. It implements a multi-tier storage strategy that combines the cost-effectiveness of object storage with high-performance data access patterns.
 
-At its core, the storage layer uses object storage (such as MinIO for on-premises deployments or native cloud storage services) to provide the primary data repository. This is enhanced by Apache Iceberg, which provides ACID transactions, schema evolution, and time travel capabilities. The metadata store maintains table schemas, statistics, and optimization information, enabling efficient query planning and execution.
+At its core, the storage layer uses object storage (such as MinIO for on-premises deployments or native cloud storage services) to provide the primary data repository. This is enhanced by [Apache Iceberg](/blog/cheat-sheet-for-apache-iceberg), which provides [ACID transactions](/glossary/acid-transactions), schema evolution, and [time travel](/reference/iceberg-tables/time-travel) capabilities. The metadata store maintains table schemas, statistics, and optimization information, enabling efficient query planning and execution.
 
-The storage layer implements sophisticated data organization strategies, including data clustering, partitioning, and compaction. These capabilities ensure optimal performance while maintaining storage efficiency. The layer also handles data lifecycle management, automatically moving data between storage tiers based on access patterns and organizational policies.
+The storage layer implements sophisticated data organization strategies, including data clustering, partitioning, and [compaction](/reference/iceberg-tables/maintenance). These capabilities ensure optimal performance while maintaining storage efficiency. The layer also handles data lifecycle management, automatically moving data between storage tiers based on access patterns and organizational policies.
 
 ## **Compute Layer**
 
@@ -42,7 +42,7 @@ IOMETE's compute layer provides the processing capabilities needed for diverse e
 
 ## **Data Mesh Layer**
 
-IOMETE implements a comprehensive data mesh architecture that enables organizational scaling of data initiatives. The data mesh layer provides the tools and capabilities needed to implement domain-oriented, distributed data ownership while maintaining global governance and interoperability.
+IOMETE implements a comprehensive [data mesh](/blog/data-mesh) architecture that enables organizational scaling of data initiatives. The data mesh layer provides the tools and capabilities needed to implement domain-oriented, distributed data ownership while maintaining global governance and interoperability.
 
 **Domain Management** supports the creation and management of data domains, allowing organizations to align data ownership with business domains. It provides the tools needed to define domain boundaries, responsibilities, and interfaces.
 
@@ -52,11 +52,11 @@ IOMETE implements a comprehensive data mesh architecture that enables organizati
 
 **The Self-Service Portal** provides a unified interface for discovering, understanding, and accessing data products across domains. It implements sophisticated search and discovery mechanisms while enforcing organizational security policies.
 
-## **Governance Layer**
+## **[Data Governance](/glossary/data-governance) Layer**
 
 The governance layer implements enterprise-grade controls while enabling efficient data utilization. It provides comprehensive capabilities for securing and managing data across the organization.
 
-**Access Control** implements fine-grained security policies at multiple levels. It supports role-based access control (RBAC), attribute-based access control (ABAC), and row/column-level security. The system integrates with enterprise identity providers and implements sophisticated authentication and authorization mechanisms.
+**Access Control** implements fine-grained [data security](/glossary/data-security) policies at multiple levels. It supports role-based access control (RBAC), attribute-based access control (ABAC), and row/column-level security. The system integrates with enterprise identity providers and implements sophisticated authentication and authorization mechanisms.
 
 **The Data Catalog** provides a unified view of all data assets across the organization. It maintains comprehensive metadata, including technical specifications, business context, and usage information. The catalog implements sophisticated search and discovery mechanisms while respecting security boundaries.
 

@@ -11,7 +11,7 @@ coverImage: img/blog/thumbnails/2.png
 
 import MiniCard from "@site/src/components/MiniCard";
 
-Apache Iceberg supports Z-ORDER sorting during compaction (rewrite_data_files), but not during normal inserts or as a create table configuration.
+[Apache Iceberg](/blog/cheat-sheet-for-apache-iceberg) supports Z-ORDER sorting during [compaction](/reference/iceberg-tables/maintenance) (rewrite_data_files), but not during normal inserts or as a create table configuration.
 
 <!-- truncate -->
 

@@ -10,11 +10,11 @@ date: "02/09/2026"
 
 import Img from '@site/src/components/Img';
 
-In most lakehouse deployments today, every compute engine needs credentials to reach the object store. That often means injecting long-lived cloud credentials directly into Spark, Trino, Flink, and a proliferating zoo of batch and streaming jobs. Many organizations end up sharing the same static keys across dozens or hundreds of workloads. Generating per-job credentials improves security somewhat, but the operational overhead quickly explodes at scale.
+In most [lakehouse](/glossary/data-lakehouse) deployments today, every compute engine needs credentials to reach the object store. That often means injecting long-lived cloud credentials directly into Spark, Trino, Flink, and a proliferating zoo of batch and streaming jobs. Many organizations end up sharing the same static keys across dozens or hundreds of workloads. Generating per-job credentials improves security somewhat, but the operational overhead quickly explodes at scale.
 
 Worse still, these credentials are typically massively over-privileged. Bucket-wide read/write access remains common because native IAM policies don't understand Iceberg concepts like tables, snapshots, partitions, or query intent. A single compromised key can therefore expose the entire lakehouse. At scale, key rotation, access auditing, and enforcing true least privilege all become brittle and error-prone.
 
-This problem is a direct consequence of one of Iceberg's greatest strengths: the clean separation of compute and storage. Apache Iceberg is now the de facto table format powering modern lakehouses, replacing the tightly coupled architectures of traditional data warehouses and Hadoop-era data lakes. We cover that evolution in more detail in [this article](/blog/from-data-warehouses-to-data-lakehouses).
+This problem is a direct consequence of one of Iceberg's greatest strengths: the clean separation of compute and storage. [Apache Iceberg](/blog/why-apache-iceberg-is-winning-table-format) is now the de facto table format powering modern lakehouses, replacing the tightly coupled architectures of traditional [data warehouses](/glossary/data-warehouse) and Hadoop-era data lakes. We cover that evolution in more detail in [this article](/blog/from-data-warehouses-to-data-lakehouses).
 
 The decoupling maximizes throughput by letting multiple independent engines read and write the same data concurrently, with no need to route everything through a central choke-point service. It also preserves full ACID guarantees, as covered in [this article](/blog/apache-iceberg-acid-transactions-catalog). But it means every engine needs its own path to the object store. Traditionally, that path has been paved with static credentials.
 
@@ -29,7 +29,7 @@ In many lakehouse deployments today, storage access looks a bit like a hostel th
 
 Access delegation moves lakehouse access to a hotel-style model. There is a front desk where you check in. It knows your reservation, what extra services you booked, and how long you are allowed to stay. Guests do not get permanent access to the building. Instead, access is granted dynamically, scoped to exactly what they booked, and their access automatically expires.
 
-In an Iceberg-based platform, that front desk is the Iceberg REST Catalog. Authorization decisions are delegated to the REST Catalog, which enforces governance rules and issues storage access according to your data governance rules.
+In an Iceberg-based platform, that front desk is the Iceberg REST Catalog. Authorization decisions are delegated to the REST Catalog, which enforces governance rules and issues storage access according to your [data governance](/glossary/data-governance) rules.
 
 ## The Data Governance Layer and Storage Layer Mismatch
 Most modern lakehouse platforms include a data governance layer. This is where organizations define what users and services are allowed to do with which datasets. These rules are usually expressed in terms of table-level operations, such as *SELECT*, *INSERT*, *CREATE TABLE*, and similar SQL semantics.
@@ -73,7 +73,7 @@ The compute engine then uses the signed request to access the object store direc
 
 ## Choosing the Right Approach for Your Lakehouse
 
-Static credentials remain common in lakehouse deployments, but the rest of the industry moved past them years ago. We moved away from them for databases, APIs, and service-to-service communication. OIDC, workload identity, and short-lived tokens are now the norm. Spark, Trino, and Flink should not be the exception.
+Static credentials remain common in lakehouse deployments, but the rest of the industry moved past them years ago. We moved away from them for databases, APIs, and service-to-service communication. OIDC, workload identity, and short-lived tokens are now the norm. [Spark](/glossary/apache-spark), Trino, and Flink should not be the exception.
 
 Credential vending is a practical middle ground. There is some overhead: every table access requires a round-trip to the catalog to mint scoped, temporary credentials. But the compute engine can only touch what it was explicitly granted. If a credential leaks, the blast radius is typically one table, for a few minutes. No path for privilege escalation, no rotation panic.
 
@@ -93,4 +93,4 @@ To sum this up:
 
 ## Access Delegation in IOMETE
 
-Starting with release 3.16.0, IOMETE supports both credential vending and remote signing for S3-compatible storage. Compute engines not managed by the IOMETE platform, such as your own Spark, Trino, or Flink deployments, can connect to IOMETE's REST Catalog and access data without long-lived storage credentials. Your governance policies are enforced at the catalog level, with least-privilege access out of the box.
+Starting with release 3.16.0, IOMETE supports both credential vending and remote signing for [S3-compatible storage](/blog/evaluating-s3-compatible-storage-for-lakehouse). Compute engines not managed by the IOMETE platform, such as your own Spark, Trino, or Flink deployments, can connect to IOMETE's REST Catalog and access data without long-lived storage credentials. Your governance policies are enforced at the catalog level, with least-privilege access out of the box.

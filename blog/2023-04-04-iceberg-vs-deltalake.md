@@ -18,7 +18,7 @@ When it comes to storing and managing large amounts of data, the choice of techn
 
 ## **Engine Agnostic**
 
-Its engine agnostic nature and complete independence from Apache Spark is one of the reasons we selected Apache Iceberg. This means that Iceberg can be used with any engine, including Apache Spark, Apache Flink, Apache Presto, and others. This is a big advantage over Delta Lake, which is tightly coupled with Apache Spark.
+Its engine agnostic nature and complete independence from Apache Spark is one of the reasons we selected Apache Iceberg. This means that Iceberg can be used with any engine, including [Apache Spark](/glossary/apache-spark), Apache Flink, Apache Presto, and others. This is a big advantage over Delta Lake, which is tightly coupled with Apache Spark.
 
 In the beginning, Delta Lake's tight coupling provided a competitive advantage, as it could take advantage of many Spark optimizations. However, Iceberg has closed that gap over the last few years.. With Iceberg, we have the flexibility to choose the best engine for our specific use case.
 
@@ -38,10 +38,10 @@ Many vendors are already baking Iceberg support. For example, DuckDB, Snowflake,
 
 While we believe that Apache Iceberg is the best choice for our use case, it is important to note that it does have some limitations. One of the main limitations was streaming support, which was a bit behind other engines like Delta Lake and Hudi.
 
-However, Iceberg has recently added support for merge-on-read functionality, which is a huge step forward. This means that stream updates could cause a lot of small files because the default strategy is copy-on-write. But with the merge-on-read strategy, you will end up with fewer files, which is a huge improvement in streaming write (update/delete) performance.
+However, Iceberg has recently added support for [merge-on-read](/blog/merge-on-read-vs-copy-on-write) functionality, which is a huge step forward. This means that stream updates could cause a lot of small files because the default strategy is copy-on-write. But with the merge-on-read strategy, you will end up with fewer files, which is a huge improvement in streaming write (update/delete) performance.
 
 <!-- <MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard> -->
 
 ## **Conclusion**
 
-In conclusion, Apache Iceberg is a great open-source project and is becoming a standard in the industry. At IOMETE, we are big fans of Apache Iceberg. Our main product is a fully managed lakehouse platform based on Apache Spark + Iceberg. With the IOMETE Lakehouse Platform, you can set up a lakehouse platform in a few minutes and get all the amazing functionalities like Virtual Lakehouse Clusters, Spark Job Service, Notebook service, Advanced Data Access Control, and many other functionalities. If you want to learn more [book a discovery call](https://calendly.com/iomete/iomete-discovery-call) with us. If you want to reach more about Apache Iceberg you can access the [Ultimate Guide to Apache Iceberg](https://iomete.com/the-ultimate-guide-to-apache-iceberg).
+In conclusion, Apache Iceberg is a great open-source project and is becoming a standard in the industry. At IOMETE, we are big fans of Apache Iceberg. Our main product is a fully managed [lakehouse platform](/glossary/data-lakehouse) based on Apache Spark + Iceberg. With the IOMETE Lakehouse Platform, you can set up a lakehouse platform in a few minutes and get all the amazing functionalities like Virtual Lakehouse Clusters, Spark Job Service, Notebook service, Advanced Data Access Control, and many other functionalities. If you want to learn more [book a discovery call](https://calendly.com/iomete/iomete-discovery-call) with us. If you want to reach more about Apache Iceberg you can access the [Ultimate Guide to Apache Iceberg](https://iomete.com/the-ultimate-guide-to-apache-iceberg).

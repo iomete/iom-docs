@@ -8,7 +8,7 @@ banner_description: data domain is a living workspace where teams can truly own 
 date: 02/09/2025
 ---
 
-## **Beyond the Monolithic Data Platform: Building a Self-Service Data Mesh for the Enterprise**
+## **Beyond the Monolithic Data Platform: Building a Self-Service [Data Mesh](/blog/data-mesh) for the Enterprise**
 
 Here's a pattern we've consistently observed while working with large enterprises: As organizations scale, their data challenges grow exponentially. We're not talking about the typical problems that any company faces with data – we're talking about the unique challenges that emerge when you have thousands of users across hundreds of business units, all needing to work with data in sophisticated ways.
 
@@ -29,7 +29,7 @@ This debt manifests in familiar ways:
 
 - Monolithic data platforms where every change requires central team approval
 - Unclear ownership of datasets leading to quality issues
-- Brittle pipelines where changes in one place cause cascading failures
+- Brittle [data pipelines](/glossary/data-pipelines) where changes in one place cause cascading failures
 - Shadow IT where teams build unofficial solutions out of frustration
 - Documentation that's always out of date because it's everyone's (and therefore no one's) responsibility
 
@@ -90,7 +90,7 @@ This approach is already transforming how large enterprises work with data:
    - Implement changes without fear of unknown impacts
 3. **For Data Architects**
    - Design domain boundaries that make sense for your organization
-   - Implement governance that enables rather than restricts
+   - Implement [data governance](/glossary/data-governance) that enables rather than restricts
    - Scale data operations without scaling complexity
 
 ## **Looking Forward**

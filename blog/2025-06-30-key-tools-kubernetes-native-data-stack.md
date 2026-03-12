@@ -20,7 +20,7 @@ The success of Kubernetes-native deployment in data engineering depends heavily 
 
 ### **Apache Airflow on Kubernetes**
 
-**Apache Airflow** remains one of the most widely adopted workflow orchestration tools in the data ecosystem. Its flexibility in defining DAGs (Directed Acyclic Graphs) for complex data pipelines makes it a natural fit for Kubernetes — especially when paired with the **KubernetesExecutor**.
+**Apache Airflow** remains one of the most widely adopted workflow [orchestration](/glossary/orchestration) tools in the data ecosystem. Its flexibility in defining DAGs (Directed Acyclic Graphs) for complex data pipelines makes it a natural fit for Kubernetes — especially when paired with the **KubernetesExecutor**.
 
 **Why KubernetesExecutor?**
 
@@ -30,7 +30,7 @@ The success of Kubernetes-native deployment in data engineering depends heavily 
 
 **How IOMETE fits in:**
 
-IOMETE integrates seamlessly with Airflow through its SQL endpoints and Spark job APIs. Spark jobs triggered in Airflow can target IOMETE compute clusters, using Spark Connect or Apache Arrow Flight for fast transport. Workload monitoring and job history are available in IOMETE’s UI, while Airflow retains orchestration logic.
+IOMETE integrates seamlessly with Airflow through its SQL endpoints and [Spark job](/user-guide/spark-jobs) APIs. Spark jobs triggered in Airflow can target IOMETE compute clusters, using [Spark Connect](/blog/spark-connect-tutorial) or [Apache Arrow](/blog/apache-arrow-format) Flight for fast transport. Workload monitoring and job history are available in IOMETE’s UI, while Airflow retains orchestration logic.
 
 **YAML snippet:**
 
@@ -44,7 +44,7 @@ This configuration enables Airflow to fully utilize Kubernetes-native scheduling
 
 ### **Apache Spark Operator**
 
-Deploying Spark applications on Kubernetes traditionally involved writing complex shell scripts or managing custom resources manually. The **Apache Spark Operator** solves this with Kubernetes-native CRDs (`SparkApplication`) that declaratively define jobs.
+Deploying [Apache Spark](/glossary/apache-spark) applications on Kubernetes traditionally involved writing complex shell scripts or managing custom resources manually. The **Apache Spark Operator** solves this with Kubernetes-native CRDs (`SparkApplication`) that declaratively define jobs.
 
 **Key Features:**
 
@@ -84,7 +84,7 @@ The **Flink Kubernetes Operator** enables:
 - Savepoint management for checkpoint recovery  
 - High availability via Kubernetes-native primitives
 
-While IOMETE’s core runtime is based on Spark, it complements Flink workloads by providing a unified storage and metadata layer — particularly using **Apache Iceberg** tables written to object storage, which can be shared between batch (Spark) and streaming (Flink) pipelines.
+While IOMETE’s core runtime is based on Spark, it complements Flink workloads by providing a unified storage and metadata layer — particularly using **[Apache Iceberg](/blog/cheat-sheet-for-apache-iceberg)** tables written to object storage, which can be shared between batch (Spark) and streaming (Flink) pipelines.
 
 ---
 
@@ -113,7 +113,7 @@ This modularity exemplifies the “composable data stack” philosophy: each ser
 
 ### **Other Essential Tools in the Stack**
 
-- **MinIO**: S3-compatible object store, often used with IOMETE in on-prem deployments  
+- **MinIO**: S3-compatible object store, often used with IOMETE in [on-prem deployments](/blog/how-to-build-on-prem-data-lakehouse)  
 - **Prometheus + Grafana**: Monitoring and alerting across Spark jobs, Airflow DAGs, and cluster health  
 - **Cert-Manager + Vault**: Manage TLS, secrets, and authentication across services  
 - **KEDA (Kubernetes Event-driven Autoscaler)**: Used for scaling jobs based on queue lengths, Kafka topics, or custom metrics
@@ -126,7 +126,7 @@ These tools form the foundation of Kubernetes-native data platforms. When deploy
 
 - End-to-end declarative infrastructure  
 - Autoscaling for both batch and stream processing  
-- Unified governance, logging, and monitoring  
+- Unified [governance](/glossary/data-governance), logging, and monitoring  
 - Elastic, cloud-agnostic operations across teams
 
 **IOMETE’s advantage** is in how it packages many of these capabilities — from Spark compute to catalog governance — into a unified, Kubernetes-native platform. It doesn’t replace these tools but acts as a glue layer that simplifies integration and speeds up delivery for data teams.

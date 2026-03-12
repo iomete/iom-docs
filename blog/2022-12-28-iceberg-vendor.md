@@ -14,7 +14,7 @@ banner_description: We’re pleased to announce that IOMETE is now featured as o
 
 <!-- truncate -->
 
-We’re pleased to announce that IOMETE is now featured as one of the few vendors that supports the Apache Iceberg table format. Apache Iceberg is a modern open table format for analytic datasets.
+We’re pleased to announce that IOMETE is now featured as one of the few vendors that supports the [Apache Iceberg](/reference/iceberg-tables/getting-started) table format. Apache Iceberg is a modern open table format for analytic datasets.
 
 Check it out on the [Apache Iceberg Foundation’s website](https://iceberg.apache.org/vendors/)
 

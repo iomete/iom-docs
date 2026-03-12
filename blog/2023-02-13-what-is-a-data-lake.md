@@ -16,7 +16,7 @@ banner_description: Learn the benefits of data lakes and how to implement them i
 
 ## Introduction
 
-A [data lake](https://aws.amazon.com/big-data/datalakes-and-analytics/) is a data repository where all enterprise data is stored, including structured data from relational databases or data warehouses, unstructured or semi-structured data (such as CSV files, log files, emails, and documents), and digital content (such as images, audio files, and video files). In this article we will cover the basics of data lakes.
+A [data lake](https://aws.amazon.com/big-data/datalakes-and-analytics/) is a data repository where all enterprise data is stored, including structured data from relational databases or [data warehouses](/glossary/data-warehouse), unstructured or semi-structured data (such as CSV files, log files, emails, and documents), and digital content (such as images, audio files, and video files). In this article we will cover the basics of data lakes.
 
 ## **Data lakes**
 
@@ -42,7 +42,7 @@ There are several benefits to using a data lake:
 1. One source of truth for analytical use cases: A data lake provides a centralized repository for storing all your data, structured and unstructured, in one place. This makes it easy to store and manage large amounts of data.
 2. Flexibility: Data lakes allow you to store data in its raw, unprocessed form. This means that you can store data without worrying about the structure or how you will use it, making it possible to store data for later analysis and uncover insights that you might not have found otherwise. This makes data lakes perfect for ML and AI uses cases.
 3. Scalability: Data lakes are designed to store large amounts of data, making it easy to scale up as your data grows.
-4. Cost-effective: Data lakes can be more cost-effective than traditional data warehousing solutions for certain use cases as costly ETL can be mostly avoided. You can durably store a nearly unlimited amount of data using Amazon S3, Azure Data Lake, Minio, and Google Cloud Storage.
+4. Cost-effective: Data lakes can be more cost-effective than traditional data warehousing solutions for certain use cases as costly [ETL](/glossary/extract-transform-load) can be mostly avoided. You can durably store a nearly unlimited amount of data using Amazon S3, Azure Data Lake, Minio, and Google Cloud Storage.
 5. Enhanced analytics: A data lake makes it possible to perform a wide range of analytics on your data, including batch processing, real-time stream processing and interactive analysis. This makes it easier to gain insights and make data-driven decisions.
 
 ## **When is the right time to use a data lake?**
@@ -51,4 +51,4 @@ Data lakes are typically introduced when organizations need scalable, flexible, 
 
 ## **How IOMETE can help you?**
 
-IOMETE provides a “data lake on steroids”: the data lakehouse. The IOMETE data lakehouse combines the best of data lakes and data warehouses. It combines the scalability and flexibility of a data lake with the structure and organization of a data warehouse. It allows organizations to store large amounts of raw data in a cost-effective way and perform analytics on that data - including machine learning and AI - while also providing a structured environment for BI use cases.
+IOMETE provides a “data lake on steroids”: the [data lakehouse](/glossary/data-lakehouse). The IOMETE data lakehouse combines the best of data lakes and data warehouses. It combines the scalability and flexibility of a data lake with the structure and organization of a data warehouse. It allows organizations to store large amounts of raw data in a cost-effective way and perform analytics on that data - including machine learning and AI - while also providing a structured environment for BI use cases.

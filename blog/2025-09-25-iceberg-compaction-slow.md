@@ -10,18 +10,18 @@ date: 12/02/2025
 
 import FAQSection from '@site/src/components/FAQSection';
 
-Compaction questions come up in almost every production Iceberg deployment. The pattern is familiar: one Spark executor is busy doing all the work while the rest sit idle. Jobs take hours, costs spike, and downstream pipelines fall behind. This guide demystifies how Iceberg compaction actually works, why it sometimes behaves serially, which tuning levers matter, and how IOMETE automates the hard parts for regulated, enterprise-scale environments.
+Compaction questions come up in almost every production [Iceberg](/blog/cheat-sheet-for-apache-iceberg) deployment. The pattern is familiar: one Spark executor is busy doing all the work while the rest sit idle. Jobs take hours, costs spike, and downstream pipelines fall behind. This guide demystifies how Iceberg compaction actually works, why it sometimes behaves serially, which tuning levers matter, and how IOMETE automates the hard parts for regulated, enterprise-scale environments.
 
 ## How Iceberg Compaction Works (and Why It Differs From Typical Spark Jobs)
 
 Compaction is really two jobs in one:
 
 - **File grouping:** Iceberg analyzes manifests to decide which small files belong together based on thresholds and clustering strategy.
-- **Rewrite:** Spark reads each file group, applies delete files, optionally sorts or Z-orders, and writes out new files.
+- **Rewrite:** Spark reads each file group, applies delete files, optionally sorts or [Z-orders](/blog/z-order-sorting), and writes out new files.
 
 Each file group becomes one logical unit of work. Iceberg creates one Spark task per group, not per file.
 
-### Copy-on-Write (COW) vs Merge-on-Read (MOR)
+### [Copy-on-Write](/blog/iceberg-copy-on-write-deep-dive) (COW) vs [Merge-on-Read](/blog/merge-on-read-vs-copy-on-write) (MOR)
 
 - **COW rewrite:** Recreate data files fully, producing new files without relying on delete files later.
 - **MOR rewrite:** Combine data files and apply delete files in place; layout depends on pending deletes.
@@ -78,7 +78,7 @@ Large-partition compaction (including Z-order) is the top source of OOM in Spark
 
 ## How IOMETE Automates, Observes, and Scales Compaction
 
-Enterprises need predictable, observable maintenance—especially in regulated sectors with strict operational controls. IOMETE is built for that with self-hosted deployments, full data sovereignty, and enterprise-grade performance guarantees.
+Enterprises need predictable, observable [maintenance](/reference/iceberg-tables/maintenance)—especially in regulated sectors with strict operational controls. IOMETE is built for that with self-hosted deployments, full [data sovereignty](/blog/data-residency-vs-data-sovereignty), and enterprise-grade performance guarantees.
 
 - **Automated compaction orchestration:** Detects small-file buildup, creates workload-aware file groups, and schedules compaction automatically to avoid the “one busy executor” anti-pattern.
 - **Deep observability into table health:** Exposes file counts, file-size histograms, compaction backlog, SLA alerts, delete-file impact, and snapshot growth so operators gain visibility missing in typical open-source setups.

@@ -27,7 +27,7 @@ IOMETE steps in as a modern solution that addresses some of the inherent limitat
 
 - **Enhanced Scalability:** IOMETE scales more effectively to handle larger and more complex data sets.
 - **Flexibility:** It offers better support for a variety of data formats and sources.
-- **Advanced Analytics Capabilities:** IOMETE integrates newer technologies for machine learning and real-time analytics.
+- **Advanced Analytics Capabilities:** IOMETE integrates newer technologies for machine learning and [real-time analytics](/glossary/real-time-analytics).
 
 ## Why Transition to IOMETE?
 
@@ -39,7 +39,7 @@ IOMETE steps in as a modern solution that addresses some of the inherent limitat
 
 Transitioning from Impala to IOMETE might present challenges such as:
 
-- **Data Migration:** Ensuring smooth and secure transfer of data from Impala to IOMETE.
+- **Data Migration:** Ensuring smooth and secure transfer of data from Impala to [IOMETE](/getting-started/what-is-iomete).
 - **Learning Curve:** Teams need to familiarize themselves with IOMETE's functionalities and best practices.
 - **Integration with Existing Systems:** Ensuring compatibility and seamless integration with existing data systems and workflows.
 

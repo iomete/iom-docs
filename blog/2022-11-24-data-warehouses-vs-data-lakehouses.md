@@ -13,7 +13,7 @@ banner_description: let’s explore the journey from warehouse to lakehouses and
 import Img from '@site/src/components/Img';
 import Iframe from '@site/src/components/Iframe';
 
-Data is a key differential in the new era of “Data is the new Oil”. Most people are familiar with data warehouses as a solution. As of today, data lakes & data lakehouses are considered the most popular data warehouse alternatives.Understanding the history, reasons for evolution, and value new solutions provide would allow us to bring information into perspective and the need for them. In this article, let’s explore the journey from warehouse to lakehouses and what are the main differences.
+Data is a key differential in the new era of “Data is the new Oil”. Most people are familiar with [data warehouses](/glossary/data-warehouse) as a solution. As of today, data lakes & [data lakehouses](/glossary/data-lakehouse) are considered the most popular data warehouse alternatives.Understanding the history, reasons for evolution, and value new solutions provide would allow us to bring information into perspective and the need for them. In this article, let’s explore the journey from warehouse to lakehouses and what are the main differences.
 
 <!-- truncate -->
 
@@ -49,7 +49,7 @@ Data analytics started to investigate the value of data that is not being proces
 
 ## What is a data lake?
 
-Data lakes can store massive amounts of data which can serve several purposes such as real lakes. Data lake is a storage repositories that can store large amounts of structured, unstructured, and semi-structured data. On a data lake, data from disparate sources can be stored and processed with appropriate technologies. The ability to access the same data for various purposes as data is stored in its original format provides opportunities to execute Reporting and ETL at the same time, which is a big advantage.
+Data lakes can store massive amounts of data which can serve several purposes such as real lakes. Data lake is a storage repositories that can store large amounts of structured, unstructured, and semi-structured data. On a data lake, data from disparate sources can be stored and processed with appropriate technologies. The ability to access the same data for various purposes as data is stored in its original format provides opportunities to execute Reporting and [ETL](/glossary/extract-transform-load) at the same time, which is a big advantage.
 
 ## Disadvantages of data lake?
 
@@ -71,7 +71,7 @@ ETL - the process of transforming data while delivering data from source to dest
 ELT - the process of loading data in original format for various consumption needs
 :::
 
-Data lakehouse was able to provide data using table formats such as Iceberg, which provided a new level of abstraction. Data was decoupled from metadata, where the data structures themselves can keep changing over time. So the data is now stored in more efficient formats such as parquet, Avro, or ORC with table formats such as Iceberg providing the metadata required for IOMETE **\*\***(or similar) **\*\***to provide analytics on top of data. Now there is a lesser need for some layers such as staging in traditional DWH, as the data itself can be processed only when required through the stages once the data is stored in its original format.
+Data lakehouse was able to provide data using table formats such as [Iceberg](/reference/iceberg-tables/getting-started), which provided a new level of abstraction. Data was decoupled from metadata, where the data structures themselves can keep changing over time. So the data is now stored in more efficient formats such as [parquet](/glossary/parquet), Avro, or ORC with table formats such as Iceberg providing the metadata required for IOMETE **\*\***(or similar) **\*\***to provide analytics on top of data. Now there is a lesser need for some layers such as staging in traditional DWH, as the data itself can be processed only when required through the stages once the data is stored in its original format.
 
 ## **Advantages of Data Lakehouses**
 

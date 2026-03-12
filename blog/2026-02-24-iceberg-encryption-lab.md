@@ -142,7 +142,7 @@ no_enc/test/metadata/6b8017ab-b069-4fe3-a0e0-1449db4a5747-m0.avro
 no_enc/test/metadata/snap-5598329974827976532-1-6b8017ab-b069-4fe3-a0e0-1449db4a5747.avro
 ```
 
-You will see the usual Iceberg layout: Parquet data file + metadata and manifest files. First, let’s examine the metadata of the data file. Then we download the data file and peek at the Parquet data it holds:
+You will see the usual Iceberg layout: [Parquet](/glossary/parquet) data file + metadata and manifest files. First, let’s examine the metadata of the data file. Then we download the data file and peek at the Parquet data it holds:
 
 ```shell
 $ # Display the metadata of the parquet data files in bucket no-encryption
@@ -1005,7 +1005,7 @@ We walked through five encryption approaches, from no encryption through SSE-S3,
 
 The main takeaway: there's no single right answer. SSE-S3 is effortless but gives you no key control. SSE-KMS adds isolation at the cost of complexity. SSE-C and CSE give you full control but shift the operational burden entirely to your side. The [cheat sheet](#encryption-cheat-sheet) at the top summarizes the tradeoffs.
 
-At IOMETE, we specialize in on-premises lakehouses with full data sovereignty. If that's what you're building, [let's talk](https://iomete.com/contact).
+At IOMETE, we specialize in on-premises lakehouses with full [data sovereignty](/blog/data-residency-vs-data-sovereignty). If that's what you're building, [let's talk](https://iomete.com/contact).
 
 ## Appendix
 

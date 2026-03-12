@@ -19,7 +19,7 @@ Resource Access Management (RAS) represents a sophisticated approach to authoriz
 
 ## The Challenge of Modern Data Platform Authorization
 
-Modern data platforms like IOMETE encompass a diverse ecosystem of resources: compute instances that process data, Spark jobs that execute analytics workflows, secrets that store sensitive configuration data, worksheets for collaborative analysis, and countless other assets. Each of these resource types has unique characteristics, usage patterns, and security requirements.
+Modern [data platforms](https://iomete.com/product/data-platform/platform-overview) like IOMETE encompass a diverse ecosystem of resources: compute instances that process data, [Spark jobs](/user-guide/spark-jobs) that execute analytics workflows, secrets that store sensitive configuration data, worksheets for collaborative analysis, and countless other assets. Each of these resource types has unique characteristics, usage patterns, and security requirements.
 
 Traditional authorization approaches often fall short because they:
 
@@ -84,7 +84,7 @@ When users interact with platform resources, RAS provides real-time authorizatio
   - When attempting to copy a Spark job, the SparkJob API validates copy permissions through RAS  
   - Before accessing sensitive configuration data, the Secrets API confirms read permissions  
 
-- **Group-Based Authorization**: For scenarios requiring group membership validation, RAS provides `isMemberOf` API calls that integrate seamlessly with existing LDAP and identity provider systems.  
+- **Group-Based Authorization**: For scenarios requiring group membership validation, RAS provides `isMemberOf` API calls that integrate seamlessly with existing [LDAP](/blog/ldap-integration-and-automatic-sync) and identity provider systems.  
 
 ### 4. Dynamic Access Control
 
@@ -111,7 +111,7 @@ Authorization decisions happen in real-time, often multiple times per user reque
 - **Optimized Data Structures**: The JSON policy format is designed for fast parsing and evaluation  
 
 ### Comprehensive Audit Trail
-Every authorization decision is logged, providing a complete audit trail for compliance and security analysis. This includes not just successful access grants, but also denied requests, helping organizations understand both legitimate usage patterns and potential security threats.
+Every authorization decision is logged, providing a complete audit trail for compliance and [data governance](/glossary/data-governance) analysis. This includes not just successful access grants, but also denied requests, helping organizations understand both legitimate usage patterns and potential security threats.
 
 ---
 

@@ -13,13 +13,13 @@ import FAQSection from '@site/src/components/FAQSection';
 
 # Apache Iceberg Production Anti-Patterns: What Breaks in 2026 (And How to Fix It)
 
-Apache Iceberg has become the table format of choice for modern data lakehouses. Spark, Trino, Flink, Snowflake, Databricks—everyone supports it. The specification is solid. The features are powerful. Time travel, schema evolution, ACID transactions on object storage—it all works exactly as advertised.
+[Apache Iceberg](/blog/why-apache-iceberg-is-winning-table-format) has become the table format of choice for modern [data lakehouses](/glossary/data-lakehouse). Spark, Trino, Flink, Snowflake, Databricks—everyone supports it. The specification is solid. The features are powerful. [Time travel](/reference/iceberg-tables/time-travel), schema evolution, [ACID transactions](/glossary/acid-transactions) on object storage—it all works exactly as advertised.
 
 Until it doesn't.
 
 The problem isn't the format. It's how teams operate it in production. Iceberg tables that start fast degrade over weeks or months. Query planning times balloon from milliseconds to minutes. Coordinators run out of memory. Storage costs spike. And the root cause is almost always the same: operational anti-patterns that accumulate silently until they break something critical.
 
-This isn't about edge cases. These are the production failures happening right now in 2026, across streaming pipelines, analytical workloads, and batch ETL jobs. If you're running Iceberg at scale, you've either hit these issues already or you're about to.
+This isn't about edge cases. These are the production failures happening right now in 2026, across [streaming pipelines](/blog/streaming-first-lakehouse-architecture-kafka-cdc-iceberg), analytical workloads, and batch [ETL](/glossary/extract-transform-load) jobs. If you're running Iceberg at scale, you've either hit these issues already or you're about to.
 
 <!-- truncate -->
 
@@ -31,7 +31,7 @@ The most common production failure in Iceberg deployments is file explosion. Tab
 
 Here's how it happens:
 
-You're running a streaming pipeline. Kafka events land every 10 seconds, and you commit to your Iceberg table after each micro-batch. Each commit writes a handful of small Parquet files—maybe 500KB to 2MB each. Over a few days, you've generated 25,000 commits and 100,000 small data files.
+You're running a streaming pipeline. Kafka events land every 10 seconds, and you commit to your [Iceberg table](/reference/iceberg-tables/getting-started) after each micro-batch. Each commit writes a handful of small [Parquet](/glossary/parquet) files—maybe 500KB to 2MB each. Over a few days, you've generated 25,000 commits and 100,000 small data files.
 
 Now a user runs a `SELECT` query. Iceberg's query planner needs to open metadata for every potentially relevant file, evaluate partition pruning, check column statistics, and build an execution plan. With 100,000 files, that's 100,000 metadata reads. Each read has a fixed cost—object storage latency, HTTP overhead, deserialization. The query planning phase that used to take 200 milliseconds now takes 45 seconds.
 
@@ -41,7 +41,7 @@ The real damage isn't performance—it's metadata bloat. Every commit generates 
 
 This happened in a real Dell Federal deployment running streaming IoT data. The table had 45 million data files. Metadata size reached 5TB—larger than the actual data. Query coordinators were running out of memory just loading file statistics. Planning a simple aggregation query triggered OOM errors because the system tried to materialize metadata for millions of files in one shot.
 
-The fix isn't subtle. You need compaction.
+The fix isn't subtle. You need [compaction](/blog/iceberg-compaction-slow).
 
 ### How to Fix It: Compaction as a First-Class Operation
 
@@ -106,7 +106,7 @@ The safe operational order is:
 3. **Remove orphan files** → Clean up unreferenced data and metadata
 4. **Rewrite manifests** → Consolidate metadata structure
 
-Running these out of order can leave orphaned data, corrupt time travel, or trigger race conditions with concurrent writes. IOMETE automates this lifecycle with workload-aware policies that adjust maintenance frequency based on snapshot velocity, small-file growth, and observed query patterns.
+Running these out of order can leave orphaned data, corrupt time travel, or trigger race conditions with concurrent writes. IOMETE automates this lifecycle with workload-aware policies that adjust [maintenance](/blog/iceberg-maintenance-runbook) frequency based on snapshot velocity, small-file growth, and observed query patterns.
 
 ---
 
@@ -333,7 +333,7 @@ The difference isn't the technology. It's how you operate it.
     answer: "It depends on your read-to-write ratio. Copy-on-Write (CoW) rewrites entire data files when rows change, which eliminates delete files but increases write cost. Merge-on-Read (MoR) writes small delete files, which is faster for writes but slower for reads.",
     answerContent: (
       <>
-        <p>It depends on your read-to-write ratio. <strong>Copy-on-Write (CoW)</strong> rewrites entire data files when rows change, which eliminates delete files but increases write cost. <strong>Merge-on-Read (MoR)</strong> writes small delete files, which is faster for writes but slower for reads.</p>
+        <p>It depends on your read-to-write ratio. <strong><a href="/blog/iceberg-copy-on-write-deep-dive">Copy-on-Write (CoW)</a></strong> rewrites entire data files when rows change, which eliminates delete files but increases write cost. <strong>Merge-on-Read (MoR)</strong> writes small delete files, which is faster for writes but slower for reads. See our detailed <a href="/blog/merge-on-read-vs-copy-on-write">MoR vs CoW comparison</a>.</p>
         <p>For read-heavy analytical workloads, CoW is better. For write-heavy CDC pipelines with frequent updates, MoR with periodic compaction is more efficient.</p>
         <p>Organizations running IOMETE can configure write mode per table based on workload characteristics.</p>
       </>
@@ -378,6 +378,6 @@ The difference isn't the technology. It's how you operate it.
 
 ## About IOMETE
 
-IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, Apache Spark, and Kubernetes. It runs entirely within your infrastructure—on-premise, in your VPC, or in air-gapped environments—giving you complete control over data sovereignty, compliance, and cost. With automated Iceberg maintenance, table health monitoring, and workload-aware optimization policies, IOMETE eliminates the operational burden of running production lakehouse workloads at scale.
+IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, [Apache Spark](/glossary/apache-spark), and [Kubernetes](/blog/kubernetes-native-data-engineering-architecture). It runs entirely within your infrastructure—[on-premise](/blog/how-to-build-on-prem-data-lakehouse), in your VPC, or in air-gapped environments—giving you complete control over [data sovereignty](/blog/data-residency-vs-data-sovereignty), compliance, and cost. With automated Iceberg maintenance, table health monitoring, and workload-aware optimization policies, IOMETE eliminates the operational burden of running production lakehouse workloads at scale.
 
 Learn more at [iomete.com](https://iomete.com) or [schedule a demo](https://iomete.com/contact-us) to see how IOMETE handles Iceberg operations in production environments.

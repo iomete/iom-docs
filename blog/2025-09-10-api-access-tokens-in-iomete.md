@@ -12,7 +12,7 @@ import Img from '@site/src/components/Img';
 
 ## A Technical Overview of Secure, Flexible, and Automated Token-Based Access
 
-Modern data platforms must balance accessibility with security. APIs are the bridge connecting users, systems, and applications—but without effective controls, they can quickly become entry points for risk. This is where **access tokens** play an essential role.
+Modern [data platforms](https://iomete.com/product/data-platform/platform-overview) must balance accessibility with security. APIs are the bridge connecting users, systems, and applications—but without effective controls, they can quickly become entry points for risk. This is where **access tokens** play an essential role.
 
 At IOMETE, tokens serve as secure, flexible keys that govern how users and applications interact with the platform. They ensure that every request is authenticated, every action authorized, and no unnecessary access persists longer than intended. This article offers a technical deep dive into what tokens are, why they matter, and how the IOMETE platform automates managing their lifecycle.
 
@@ -30,7 +30,7 @@ IOMETE’s access tokens follow familiar industry patterns such as OAuth 2.0 and
 * **Expiring tokens:** Limit exposure if a token is compromised, reducing the window for misuse;  
 * **Revocation:** Allows administrators to immediately disable a token if necessary;  
 * **Principle of least privilege:** Scope tokens tightly, granting permissions to only what’s truly needed;  
-* **Audit trails and compliance:** Every token leaves a record, supporting governance standards like GDPR, HIPAA, or SOC 2\.  
+* **Audit trails and compliance:** Every token leaves a record, supporting [data governance](/glossary/data-governance) standards like GDPR, HIPAA, or SOC 2\.  
 
 Think of access tokens like an office badge instead of a physical key. A key is permanent—you can only open the doors it was cut for, and if it’s lost, you have to replace the locks. A badge, on the other hand, can be programmed with different access levels and set to expire when you no longer need it. If it’s lost, it’s simple to deactivate and issue a new one.
 
@@ -42,7 +42,7 @@ Security that works in theory must also scale in practice. Managing tokens is ab
 
 Administrators can configure token lifetimes to match various risk profiles and use cases:
 
-* **Short-lived tokens:** Used for non-critical tasks like launching ephemeral Spark applications, Streaming jobs, executing ad hoc API queries, or interacting with Jupyter environments.  
+* **Short-lived tokens:** Used for non-critical tasks like launching ephemeral [Spark](/glossary/apache-spark) applications, Streaming jobs, executing ad hoc API queries, or interacting with Jupyter environments.  
 * **Long-lived tokens:** Designed for automation and integrations—where uninterrupted service is critical.
 
 While end users may set expiry intervals for their own tokens, administrators can enforce maximum policies for added control. This flexible approach supports both organizational governance and day-to-day productivity.
@@ -53,7 +53,7 @@ Not all use cases require the same kind of oversight and management, and IOMETE 
 
 * **User Access Tokens:** These tokens impersonate an individual user, directly inheriting their identity and permissions. Any action executed with a user token is treated as if the user performed it themselves. This makes them ideal for scenarios such as interactive API queries, testing, or ad hoc programmatic actions on behalf of a specific account.    
     
-* **Service Account Access Tokens:** In contrast, service accounts are intended for long-running or automated processes that must operate independently of any individual. Rather than being tied to a single user, service accounts are linked to groups (typically LDAP-managed). This mitigates the risk of disruption in case of expiry or user status changes—such as going on vacation or leaving the organization. Service account tokens ensure stability while preserving strong access governance.  
+* **Service Account Access Tokens:** In contrast, service accounts are intended for long-running or automated processes that must operate independently of any individual. Rather than being tied to a single user, service accounts are linked to groups (typically [LDAP](/blog/ldap-integration-and-automatic-sync)-managed). This mitigates the risk of disruption in case of expiry or user status changes—such as going on vacation or leaving the organization. Service account tokens ensure stability while preserving strong access governance.  
 
 This separation reinforces security best practices, while simplifying administration by aligning tokens closely with their intended purpose.  
 

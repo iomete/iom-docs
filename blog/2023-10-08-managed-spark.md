@@ -11,7 +11,7 @@ coverImage: img/blog/thumbnails/0.png
 
 import MiniCard from "@site/src/components/MiniCard";
 
-As a managed Spark platform, IOMETE provides users with access to Apache Spark, a unified analytics engine that can handle large-scale data processing. Our customers can focus on their data analytics workloads, while we take care of all the infrastructure and management tasks associated with running Spark.
+As a managed Spark platform, IOMETE provides users with access to [Apache Spark](/glossary/apache-spark), a unified analytics engine that can handle large-scale data processing. Our customers can focus on their data analytics workloads, while we take care of all the infrastructure and management tasks associated with running Spark.
 
 <!-- truncate -->
 
@@ -37,7 +37,7 @@ As a managed Spark platform, IOMETE provides users with access to Apache Spark, 
 
 - Improved Performance: IOMETE is designed to deliver high performance for all types of data analytics workloads. By leveraging modern open-source technologies like Apache Spark, IOMETE can handle large volumes of data with ease.
 - Reduced Costs: IOMETE's elastically scalable clusters and pay-as-you-go pricing model help organizations reduce their data processing costs.
-- Simplified Data Management: IOMETE's unified data lakehouse platform simplifies data management by providing a single platform for storing, processing, and analyzing data.
+- Simplified Data Management: IOMETE's unified [data lakehouse](/glossary/data-lakehouse) platform simplifies data management by providing a single platform for storing, processing, and analyzing data.
 
 ### Use Cases for Managed Spark
 
@@ -45,7 +45,7 @@ IOMETE can be used for a wide range of data analytics use cases, including:
 
 - Reporting and Analytics: IOMETE can generate reports and insights from large volumes of data, such as customer data, sales data, and operational data.
 - Machine Learning: IOMETE can train and deploy machine learning models for tasks like predictive analytics, fraud detection, and customer segmentation.
-- Real-Time Data Processing: IOMETE can process real-time data streams from IoT devices, social media, and other sources.
+- Real-Time Data Processing: IOMETE can process [real-time data](/glossary/real-time-analytics) streams from IoT devices, social media, and other sources.
 
 ## Example Use Case: A Leading Telecommunications Provider
 

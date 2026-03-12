@@ -12,7 +12,7 @@ banner_description: Data Governance is a concept that entered our lives with Big
 
 ![Data Governance for modern data stack](/img/blog/2022-10-04-data-governace/data-governance-for-modern-data-stack.png)
 
-Buzzwords in big data is a lot… “Data Mesh”, “Reverse ETL” , “Data Lakehouse 2.0” and “Data Governance”. Data Governance is different than any other term. It refers to the central processes and policies governing(managing) the management of enterprise data assets. Its primary aim is to identify key data and information, manage these assets effectively, and measure the success of these efforts in achieving business goals.
+Buzzwords in big data is a lot… “[Data Mesh](/blog/data-mesh)”, “Reverse ETL” , “[Data Lakehouse](/glossary/data-lakehouse) 2.0” and “Data Governance”. Data Governance is different than any other term. It refers to the central processes and policies governing(managing) the management of enterprise data assets. Its primary aim is to identify key data and information, manage these assets effectively, and measure the success of these efforts in achieving business goals.
 
 ### **Purpose of Data Governance**
 
@@ -31,7 +31,7 @@ The journey towards effective data governance begins with understanding the need
 
 ![prioritize data management](/img/blog/2022-10-04-data-governace/prioritize-data-management.jpeg)
 
-As the diagram shows, there are multiple layers in the data governance process established under executive and board leadership. The data governance committee, data administrators, data architects and programmers, database and system administrators, and the access control system surround the technical data warehouse and analysis platform. At first glance, these layers may seem hierarchical, but if applied properly, the layers complement each other efficiently. When put together effectively, these data management layers provide data analysts with efficient and robust results.
+As the diagram shows, there are multiple layers in the data governance process established under executive and board leadership. The data governance committee, data administrators, data architects and programmers, database and system administrators, and the access control system surround the technical [data warehouse](/glossary/data-warehouse) and analysis platform. At first glance, these layers may seem hierarchical, but if applied properly, the layers complement each other efficiently. When put together effectively, these data management layers provide data analysts with efficient and robust results.
 
 From the high-level guidance and aspirations of the executive and board layers to the low-level, embedded technology of the information system that supports EDW (enterprise data warehouse), each layer plays an important role in data management.
 
@@ -53,11 +53,11 @@ Speaking of roles, it is worth mentioning that. The number of roles in EDWH need
 
 ## IOMETE - the modern data stack for data governance
 
-IOMETE platform also covered security of data inside data policies module. In this module admin of console can create different policies for company.
+IOMETE platform also covered [security of data](/user-guide/data-security/overview) inside data policies module. In this module admin of console can create different policies for company.
 
 ![IOMETE data governance](/img/blog/2022-10-04-data-governace/iomete-data-governance.png)
 
 IOMETE platform enhances data governance with its data policies module, allowing for the creation of different policies for various teams within a company.
 
 Conclusion: Understanding the Scope of Data Governance
-Data Governance is not just about data management or stewardship; it's about strategy, roles, organization, and policies. It's a core component that connects various disciplines like data quality, metadata management, and data security. Understanding the distinction between data governance, data management, and master data management (MDM) is crucial for organizations aiming to harness the full potential of their data assets.
+Data Governance is not just about data management or stewardship; it's about strategy, roles, organization, and policies. It's a core component that connects various disciplines like data quality, metadata management, and [data security](/glossary/data-security). Understanding the distinction between data governance, data management, and master data management (MDM) is crucial for organizations aiming to harness the full potential of their data assets.

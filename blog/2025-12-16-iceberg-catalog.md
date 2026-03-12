@@ -11,13 +11,13 @@ date: 12/16/2025
 import Img from '@site/src/components/Img';
 import FAQSection from '@site/src/components/FAQSection';
 
-Data warehouses have been around for decades. They were designed to run analytics on structured data and provide the strong [ACID](https://en.wikipedia.org/wiki/ACID) guarantees enterprises traditionally associate with relational databases.
+[Data warehouses](/glossary/data-warehouse) have been around for decades. They were designed to run analytics on structured data and provide the strong [ACID](https://en.wikipedia.org/wiki/ACID) guarantees enterprises traditionally associate with relational databases.
 
 Over the last decade, data lakes emerged to handle the scale and variety of semi-structured and unstructured data that traditional data warehouses were not built to manage. While data lakes offered flexibility and scalability, they typically lacked the transactional guarantees enterprises depend on for analytics and governance.
 
-Modern data lakehouse architectures aim to combine these two approaches: they provide strong ACID guarantees while also scaling to handle structured, semi-structured, and unstructured data in a single system.
+Modern [data lakehouse](/glossary/data-lakehouse) architectures aim to combine these two approaches: they provide strong ACID guarantees while also scaling to handle structured, semi-structured, and unstructured data in a single system.
 
-At IOMETE, our data lakehouse platform has Apache Iceberg at its core, and we run it in production across customers with tens of thousands of concurrent jobs operating on multi-petabyte data lakes. Understanding the underlying concurrency model is essential to operating Iceberg reliably at enterprise scale.
+At IOMETE, our data lakehouse platform has [Apache Iceberg](/blog/cheat-sheet-for-apache-iceberg) at its core, and we run it in production across customers with tens of thousands of concurrent jobs operating on multi-petabyte data lakes. Understanding the underlying concurrency model is essential to operating Iceberg reliably at enterprise scale.
 
 In this four-part series, we explore how Iceberg enables transactional guarantees in a lakehouse environment. This first article focuses on a simplified, beginner-friendly introduction to the core concepts behind Iceberg’s consistency model.
 
@@ -68,7 +68,7 @@ Iceberg optimizes for read and write throughput by aligning its access model wit
 
 This design also cleanly separates “compute” from “storage”. In a traditional database system, a single server must be sized for peak load. With Iceberg, additional compute resources can be added during peak hours to handle writes. The storage scales independently from the instances handling the reads/writes.
 
-As a trade-off, Iceberg accepts that writers may need to retry commits when contention occurs. Failed commits can leave behind stale files (aka [orphan files](https://iceberg.apache.org/docs/latest/maintenance/#delete-orphan-files)), which are later cleaned up through maintenance operations. Additionally, every system interacting with an Iceberg table must implement Iceberg’s semantics. In practice, this is already handled by most major engines, including Spark, Trino, and Snowflake.
+As a trade-off, Iceberg accepts that writers may need to retry commits when contention occurs. Failed commits can leave behind stale files (aka [orphan files](https://iceberg.apache.org/docs/latest/maintenance/#delete-orphan-files)), which are later cleaned up through maintenance operations. Additionally, every system interacting with an Iceberg table must implement Iceberg’s semantics. In practice, this is already handled by most major engines, including [Spark](/glossary/apache-spark), Trino, and Snowflake.
 
 This setup allows Iceberg to scale horizontally: thousands of writers can work simultaneously, with the only coordination required being agreement on which snapshot is marked as "current”. That decision requires strong guarantees, and this is where the Iceberg Catalog comes into play.
 
@@ -100,7 +100,7 @@ Iceberg’s approach to transactions is deceptively simple: instead of coordinat
 
 This design allows many writers to operate concurrently, while readers always see a consistent snapshot of the data. If two writers race, only one metadata update succeeds; the other retries based on the new state. Atomicity, consistency, isolation, and durability emerge from this pattern without requiring all reads and writes to go through a central service.
 
-In this article, we intentionally simplified the model using copy-on-write and avoided optimizations such as manifest pruning, incremental updates, and deletes. In the next article, we’ll make this concrete by walking through a hands-on example, inspecting the actual Iceberg files on disk, and seeing how these concepts play out in practice.
+In this article, we intentionally simplified the model using [copy-on-write](/blog/iceberg-copy-on-write-deep-dive) and avoided optimizations such as manifest pruning, incremental updates, and deletes. In the next article, we’ll make this concrete by walking through a hands-on example, inspecting the actual Iceberg files on disk, and seeing how these concepts play out in practice.
 
 ## Frequently Asked Questions
 

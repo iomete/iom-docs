@@ -69,7 +69,7 @@ Deep dive into the world of data analytics using IOMETE Spark Connect with PySpa
 
 ## Perform EDA
 
-This example walks through a common data analysis workflow for social media data. By creating a sample Twitter dataset and performing hashtag analysis, sentiment analysis, and user activity analysis, users will learn how to extract valuable insights from real-world social media data using Apache Spark. You can checkout the complete code [here](https://github.com/iomete/spark-connect-quickstart/tree/main/eda).
+This example walks through a common data analysis workflow for social media data. By creating a sample Twitter dataset and performing hashtag analysis, sentiment analysis, and user activity analysis, users will learn how to extract valuable insights from real-world social media data using [Apache Spark](/glossary/apache-spark). You can checkout the complete code [here](https://github.com/iomete/spark-connect-quickstart/tree/main/eda).
 
 - Open `example.py` and import the required dependencies.
   ```
