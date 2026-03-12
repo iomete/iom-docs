@@ -11,7 +11,8 @@ This is the auto-generated full documentation index. For a curated overview with
 `;
 
 function resolveDocUrl(docId) {
-  return `${SITE_URL}/${docId}`;
+  const normalized = docId.replace(/\/index$/, "");
+  return `${SITE_URL}/${normalized}`;
 }
 
 function readFrontmatter(docsDir, docId) {
