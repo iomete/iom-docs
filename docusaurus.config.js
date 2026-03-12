@@ -310,7 +310,7 @@ const config = {
     process.env.NODE_ENV === "production" && glossaryPlugin,
     // glossaryPlugin,
 
-    // Generate llms.txt and llms-full.txt at build time
+    // Generate llms-full.txt at build time
     require("./plugins/llms-txt-plugin"),
   ].filter(Boolean),
 };
