@@ -20,15 +20,15 @@ A Market Guide from Gartner is not a ranking or a purchase recommendation. Inste
 For IOMETE, being listed in the Market Guide for Data Lakehouse Platforms is more than a badge - it's confirmation that the lakehouse category has matured to the point where analysts are formally tracking it and defining its boundaries. For customers, this means lakehouse is no longer a fringe trend: it’s become part of the standard data-platform conversation.
 
 ## What “lakehouse” means (per Gartner + IOMETE’s view)
-In Gartner’s frame - and how IOMETE executes it - a data lakehouse brings together:
+In Gartner’s frame - and how IOMETE executes it - a [data lakehouse](/glossary/data-lakehouse) brings together:
 
 - The scalability, flexibility and cost-effectiveness of a data lake (raw storage, open data formats, object storage)
 
-- With data-warehousing capabilities: structured tables, ACID semantics, data governance, SQL access, analytics readiness, and operational reliability
+- With data-warehousing capabilities: structured tables, [ACID semantics](/glossary/acid-transactions), [data governance](/glossary/data-governance), SQL access, analytics readiness, and operational reliability
 
-For many enterprises - especially those constrained by compliance, data sovereignty or long-term cost predictability - a self-hosted lakehouse becomes the logical sweet spot.
+For many enterprises - especially those constrained by compliance, [data sovereignty](/blog/data-residency-vs-data-sovereignty) or long-term cost predictability - a self-hosted lakehouse becomes the logical sweet spot.
 
-IOMETE delivers exactly that: a lakehouse platform that can run on-prem, in private cloud or hybrid environments - giving enterprises total control over data, performance, and cost, while avoiding vendor lock-in or SaaS-tax exposure.
+IOMETE delivers exactly that: a lakehouse platform that can run [on-prem](/blog/on-prem-vs-cloud-data-lakehouse), in private cloud or hybrid environments - giving enterprises total control over data, performance, and cost, while avoiding vendor lock-in or SaaS-tax exposure.
 
 ## What Gartner’s inclusion - and our inclusion - signals about the state of the market
 
@@ -58,7 +58,7 @@ If you’re evaluating your next generation data platform, here are some questio
 
 - Does your workload require flexibility: hybrid cloud, on-prem, cloud-migration-friendly architecture?
 
-- Do you want to avoid multiple silos (data lakes, data warehouses, ETL silos) and unify pipelines, storage, and compute under one roof?
+- Do you want to avoid multiple silos (data lakes, [data warehouses](/glossary/data-warehouse), [ETL](/glossary/extract-transform-load) silos) and unify pipelines, storage, and compute under one roof?
 
 - Do you value future-proofing (data, AI, analytics, governance) over short-term convenience?
 
@@ -66,7 +66,7 @@ If the answer to many of these is “yes,” a self-hosted lakehouse platform bu
 
 ## Why IOMETE believes in this shift - and how we’re positioned
 
-- We build a truly self-hosted lakehouse: you control where your data lives and how it’s managed.
+- We build a truly [self-hosted lakehouse](/blog/how-to-build-on-prem-data-lakehouse): you control where your data lives and how it’s managed.
 
 - We support hybrid, private cloud, on-prem deployments - no vendor lock-in, no SaaS-tax.
 

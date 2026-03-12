@@ -13,7 +13,7 @@ import Img from '@site/src/components/Img';
 
 ## **Challenges of Traditional Data Warehouses**
 
-Traditional data warehouses, while providing robust performance and reliability, face several significant limitations in today's enterprise environment:
+Traditional [data warehouses](/glossary/data-warehouse), while providing robust performance and reliability, face several significant limitations in today's enterprise environment:
 
 - **Storage Costs**: The proprietary storage formats and infrastructure requirements of traditional warehouses lead to substantially higher storage costs compared to modern alternatives.
 - **Data Type Limitations**: Most traditional warehouses primarily support structured data, making it difficult to incorporate the growing volume of semi-structured and unstructured data that drives modern analytics and AI workloads.
@@ -31,7 +31,7 @@ While data lakes addressed some warehouse limitations, they introduced their own
 
 ## **The Rise of Data Lakehouses**
 
-The data lakehouse represents a transformative advancement in enterprise data architecture, combining the flexibility and scalability of data lakes with the performance and reliability of traditional data warehouses. This architectural paradigm emerged in **response to growing enterprise needs** for a unified platform that **can handle diverse data types and workloads** while maintaining strict governance and performance standards.
+The [data lakehouse](/glossary/data-lakehouse) represents a transformative advancement in enterprise data architecture, combining the flexibility and scalability of data lakes with the performance and reliability of traditional data warehouses. This architectural paradigm emerged in **response to growing enterprise needs** for a unified platform that **can handle diverse data types and workloads** while maintaining strict governance and performance standards.
 
 <Img src="/img/blog/2025-01-20-evolution-of-data-architecture/evolution-of-data-management-systems.png" alt="evolution of data management systems" maxWidth="500px" centered borderless/>
 
@@ -45,13 +45,13 @@ A data lakehouse is an architectural pattern that creates a best-of-both-worlds 
 
 The data lakehouse eliminates the traditional separation between data lakes and data warehouses. It provides a single platform for storing and processing all enterprise data, whether structured, semi-structured, or unstructured. This unified approach significantly reduces data movement, improves consistency, and simplifies the overall data architecture.
 
-### **ACID Transaction Support**
+### **[ACID Transaction](/glossary/acid-transactions) Support**
 
-Modern data lakehouses implement transactional guarantees through table formats like Apache Iceberg, which IOMETE uses as its foundation. These formats ensure data consistency and reliability while enabling concurrent reads and writes at scale. This capability brings warehouse-grade reliability to lake-based architectures.
+Modern data lakehouses implement transactional guarantees through table formats like [Apache Iceberg](/blog/cheat-sheet-for-apache-iceberg), which IOMETE uses as its foundation. These formats ensure data consistency and reliability while enabling concurrent reads and writes at scale. This capability brings warehouse-grade reliability to lake-based architectures.
 
 ### **Schema Enforcement and Governance**
 
-Unlike traditional data lakes, data lakehouses enforce schema on write while maintaining schema evolution capabilities. This approach ensures data quality without sacrificing flexibility. The platform implements comprehensive governance controls, including column-level security, audit logging, and lineage tracking.
+Unlike traditional data lakes, data lakehouses enforce schema on write while maintaining schema evolution capabilities. This approach ensures data quality without sacrificing flexibility. The platform implements comprehensive [data governance](/glossary/data-governance) controls, including column-level security, audit logging, and lineage tracking.
 
 ### **Performance Optimization**
 
@@ -61,7 +61,7 @@ Data lakehouses incorporate sophisticated performance optimizations, including c
 
 The data lakehouse represents more than just a technological evolution – it's a fundamental rethinking of how enterprises manage and extract value from their data. As organizations continue to gather more data and deploy more sophisticated analytics and AI workloads, the unified approach of the data lakehouse becomes increasingly crucial.
 
-IOMETE's implementation of the data lakehouse architecture provides enterprises with a clear path forward, **enabling them to modernize their data infrastructure** while maintaining the control and flexibility they require. This combination of modern architecture and enterprise capabilities positions organizations to build data platforms that will support their needs both today and in the future.
+IOMETE's implementation of the [data lakehouse architecture](/blog/datalakehouse-architecture-in-2025) provides enterprises with a clear path forward, **enabling them to modernize their data infrastructure** while maintaining the control and flexibility they require. This combination of modern architecture and enterprise capabilities positions organizations to build data platforms that will support their needs both today and in the future.
 
 <Img src="/img/blog/2025-01-20-evolution-of-data-architecture/scalable-datalakehouse.png" alt="scalable data lakehouse" maxWidth="500px" centered borderless/>
 
@@ -73,7 +73,7 @@ IOMETE represents a fundamental shift in how enterprises can approach their data
 
 ## **Unmatched Scalability**
 
-IOMETE's architecture is designed for **enterprise-scale operations**, capable of **handling petabytes of data** while maintaining consistent performance. The platform achieves this through a modern, **cloud-native architecture built on Kubernetes**, enabling true elastic scaling of resources.
+IOMETE's architecture is designed for **enterprise-scale operations**, capable of **handling petabytes of data** while maintaining consistent performance. The platform achieves this through a modern, **cloud-native architecture built on [Kubernetes](/blog/kubernetes-native-data-engineering-architecture)**, enabling true elastic scaling of resources.
 
 The scalability framework operates across multiple dimensions. Horizontal scaling allows organizations to add processing capacity as needed, while vertical scaling enables efficient handling of complex workloads. The platform's multi-cluster architecture supports geographical distribution of workloads, enabling global operations while maintaining local performance.
 
@@ -81,7 +81,7 @@ Performance optimization in IOMETE occurs at multiple levels. The query engine i
 
 ## **Enterprise-Grade Security and Privacy**
 
-Security in IOMETE goes beyond basic access controls to provide a comprehensive security framework designed for enterprise requirements. The platform's security architecture starts with its self-hosted nature, giving organizations **complete control over their security perimeter** and data sovereignty.
+Security in IOMETE goes beyond basic access controls to provide a comprehensive security framework designed for enterprise requirements. The platform's security architecture starts with its self-hosted nature, giving organizations **complete control over their security perimeter** and [data sovereignty](/blog/data-residency-vs-data-sovereignty).
 
 The security framework implements multiple layers of protection. At the infrastructure level, IOMETE integrates with existing enterprise security systems and protocols, ensuring consistent security policies across the organization. The platform supports sophisticated authentication mechanisms, including integration with enterprise identity providers and single sign-on systems.
 
@@ -95,7 +95,7 @@ Access control in IOMETE operates at multiple levels. The platform supports role
 
 IOMETE's approach to cost efficiency adapts to different deployment models, providing unique cost advantages for both on-premises and cloud environments.
 
-**For on-premises deployments**:
+**For [on-premises deployments](/blog/how-to-build-on-prem-data-lakehouse)**:
 
 - Maximizes existing infrastructure investments and data center resources
 - Eliminates ongoing cloud operational costs and data transfer fees

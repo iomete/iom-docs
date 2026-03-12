@@ -23,12 +23,12 @@ It’s not about features they don’t like. It’s about **things they didn’t
 
 ## The aha moment: the control plane is the real lock-in
 
-When most people compare Databricks, Snowflake, Dremio, Cloudera, or IOMETE, they focus on engines, pricing, and performance. But the bigger story — and the one few talk about — is where the **control plane** lives.
+When most people compare [Databricks](/blog/databricks-alternatives), [Snowflake](/blog/snowflake-iomete), Dremio, [Cloudera](/blog/cloudera-alternatives), or IOMETE, they focus on engines, pricing, and performance. But the bigger story — and the one few talk about — is where the **control plane** lives.
 
 In a **vendor-hosted SaaS lakehouse**, the control plane - the system that holds your catalogs, governance rules, audit logs, and cluster definitions, lives in the vendor’s environment. That choice has long-term consequences:
 
 - **Cost leverage disappears**: You can’t apply your reserved or spot instance policies, and you’re limited to whatever “optimization” features the vendor decides to expose.
-- **Governance is outsourced**: Your access rules, masking logic, and audit trails live outside your security perimeter, making compliance slower and riskier.
+- **[Governance](/glossary/data-governance) is outsourced**: Your access rules, masking logic, and audit trails live outside your security perimeter, making compliance slower and riskier.
 - **Incident response slows down**: Operational telemetry is gated by their APIs and SLAs, adding latency to every high-severity investigation.
 - **Multi-cloud flexibility is gone**: You can’t easily route workloads to the cheapest or most compliant location because the orchestration logic is hard-wired into the vendor’s environment.
 
@@ -54,7 +54,7 @@ That’s no longer true. Today, the market has quietly converged:
 - **Snowflake** supports both managed and externally managed Iceberg.
 - **IOMETE** is Iceberg-native across all workloads (SQL, ETL, ML, streaming) on a single Spark engine.
 
-Iceberg brings ACID transactions, schema evolution, and time travel — but the real shift is **engine independence**. Once your data sits in Iceberg, you can query it with any compatible engine without rewriting a single byte.
+Iceberg brings [ACID transactions](/glossary/acid-transactions), schema evolution, and [time travel](/reference/iceberg-tables/time-travel) — but the real shift is **engine independence**. Once your data sits in Iceberg, you can query it with any compatible engine without rewriting a single byte.
 
 That’s a strategic advantage: your data layer is no longer a reason to stay with one vendor.  
 But that only solves half the lock-in problem. The bigger question is: **who decides how and where your compute runs?**  
@@ -89,7 +89,7 @@ In practice, more engines often mean more complexity — not more flexibility.
 
 Over time, this “multi-engine tax” compounds — slowing teams down and making optimizations harder to share.
 
-**IOMETE’s approach:** one engine for every workload. Apache Spark handles SQL, ETL, streaming, and ML, all on Iceberg tables.  
+**IOMETE’s approach:** one engine for every workload. [Apache Spark](/glossary/apache-spark) handles SQL, [ETL](/glossary/extract-transform-load), streaming, and ML, all on Iceberg tables.  
 One security model. One set of performance optimizations. One operational playbook.
 
 > **Roadmap note:** IOMETE will soon add **Apache Arrow DataFusion Comet** as an optional accelerator for Spark — replacing parts of Spark’s execution engine with native, vectorized operators, bypassing JVM garbage collection, and reducing CPU overhead. The result: faster queries, lower memory pressure, and better hardware utilization, without losing Spark’s API compatibility.
@@ -109,7 +109,7 @@ When you put these principles into a real-world comparison, the picture is clear
 | **Control Plane Location** | Vendor-hosted         | Vendor-hosted                      | Vendor or self-hosted       | Customer or vendor-hosted        | **Fully self-hosted**                          |
 | **Cost Leverage**          | Spot for workers only | None                               | Yes (self-hosted)           | Yes                              | **Full - spot, reserved, hybrid**              |
 | **Governance Control**     | Vendor-managed        | Vendor-managed                     | Moderate (self-hosted)      | Enterprise-grade                 | **Full in-infra integration**                  |
-| **Data Sovereignty**       | Vendor environment    | Vendor environment                 | Better in self-hosted       | Full control                     | **Full control**                               |
+| **[Data Sovereignty](/blog/data-residency-vs-data-sovereignty)**       | Vendor environment    | Vendor environment                 | Better in self-hosted       | Full control                     | **Full control**                               |
 | **Engine**                 | Spark + Photon        | Single proprietary engine          | Arrow-based engine          | Multi-engine (Hive/Impala/Spark) | **Single-engine Apache Spark (all workloads)** |
 | **Table Format**           | Delta + Iceberg (GA)  | Native Table Format + Iceberg (GA) | Iceberg                     | Iceberg                          | Iceberg                                        |
 
@@ -117,10 +117,10 @@ When you put these principles into a real-world comparison, the picture is clear
 
 ## The Lakehouse Without the Trade-Offs
 
-In regulated sectors like finance, healthcare, government, and telecom, control isn’t optional. The same is true if you’re running hybrid deployments or chasing every ounce of cost efficiency. **IOMETE** delivers both control and agility — something SaaS lakehouses and heavyweight hybrid stacks can’t do at the same time.
+In regulated sectors like finance, healthcare, government, and telecom, control isn’t optional. The same is true if you’re running [hybrid deployments](/blog/cloud-prem-lakehouse) or chasing every ounce of cost efficiency. **IOMETE** delivers both control and agility — something SaaS lakehouses and heavyweight hybrid stacks can’t do at the same time.
 
 - **You keep the control plane**: governance, catalogs, metadata, audit logs, and cluster definitions stay in your environment. No vendor lock-in.
-- **You keep cost leverage**: run on-prem where it’s cheaper, or in cloud with your own reserved/spot mix.
+- **You keep cost leverage**: run [on-prem](/blog/how-to-build-on-prem-data-lakehouse) where it’s cheaper, or in cloud with your own reserved/spot mix.
 - **You keep architectural simplicity**: one engine (Apache Spark) for SQL, ETL, streaming, and ML, all on Iceberg. No sprawling multi-engine complexity.
 - **You keep your options open**: Iceberg tables mean you’re never tied to one engine or one vendor.
 

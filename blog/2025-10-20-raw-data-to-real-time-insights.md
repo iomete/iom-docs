@@ -10,14 +10,14 @@ coverImage: img/blog/thumbnails/2.png
 
 import Img from '@site/src/components/Img';
 
-Setting up your first pipeline doesn’t have to mean days of setup or hours of configuration. With IOMETE, you can go from a raw file to actionable insights in minutes. To prove it, we’ll walk through an example with NYC taxi rides — a dataset big enough to be real, but simple enough to reason with.
+Setting up your first [data pipeline](/glossary/data-pipelines) doesn’t have to mean days of setup or hours of configuration. With IOMETE, you can go from a raw file to actionable insights in minutes. To prove it, we’ll walk through an example with NYC taxi rides — a dataset big enough to be real, but simple enough to reason with.
 
 ### Prerequisites
 
 Before you start, make sure you have:
 
 - A working setup of IOMETE
-- Access to a running compute cluster and permissions to configure it
+- Access to a running [compute cluster](/user-guide/virtual-lakehouses) and permissions to configure it
 - Permissions to execute SQL queries, and to create databases and tables
 
 If you don’t already have a running setup, you can ask your infrastructure team to follow the [IOMETE on-prem installation guide.](https://iomete.com/resources/deployment/on-prem/install)
@@ -65,7 +65,7 @@ This ensures that all tables you create in the following steps will live inside 
 
 ## **Step 2: Raw files → Iceberg tables**
 
-We’ll use the Parquet and CSV files to create Iceberg tables, as working directly with files isn’t user-friendly — you’d need to remember file paths, deal with inconsistent schemas, and even face latency issues if the files live in external storage.
+We’ll use the [Parquet](/glossary/parquet) and CSV files to create [Iceberg tables](/reference/iceberg-tables/getting-started), as working directly with files isn’t user-friendly — you’d need to remember file paths, deal with inconsistent schemas, and even face latency issues if the files live in external storage.
 
 ```sql
 -- Trips

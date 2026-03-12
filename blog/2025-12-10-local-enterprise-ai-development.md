@@ -14,7 +14,7 @@ import FAQSection from '@site/src/components/FAQSection';
 
 A 2025 Cloudera survey of nearly 1,500 IT leaders revealed that 53% of organizations rank data privacy as their top concern when implementing AI. The challenge is clear: enterprises want AI capabilities, but not at the cost of losing control over sensitive data.
 
-Local AI development solves this problem. You keep your data within your infrastructure while building production-grade AI systems. IOMETE's self-hosted lakehouse platform makes this practical for teams of any size.
+Local AI development solves this problem. You keep your data within your infrastructure while building production-grade AI systems. IOMETE's self-hosted [data lakehouse](/glossary/data-lakehouse) platform makes this practical for teams of any size.
 
 ## Why Enterprises Need Local AI Development
 
@@ -45,11 +45,11 @@ Storage connects to your existing infrastructure:
 - On-premise systems (MinIO, HDFS, NFS)
 - Hybrid configurations across multiple backends
 
-Compute runs on Kubernetes, giving you elastic scaling without infrastructure management overhead.
+Compute runs on [Kubernetes](/blog/kubernetes-data-engineering-benefits), giving you elastic scaling without infrastructure management overhead.
 
 ### Apache Spark and Iceberg Foundation
 
-The platform builds on Apache Spark for distributed processing and Apache Iceberg for table management. This combination handles petabyte-scale datasets with ACID transactions and time travel capabilities.
+The platform builds on [Apache Spark](/glossary/apache-spark) for distributed processing and [Apache Iceberg](/blog/cheat-sheet-for-apache-iceberg) for table management. This combination handles petabyte-scale datasets with [ACID transactions](/glossary/acid-transactions) and [time travel](/reference/iceberg-tables/time-travel) capabilities.
 
 For AI workloads, this means:
 - Process training data at scale without memory constraints
@@ -61,7 +61,7 @@ For AI workloads, this means:
 
 ### Connecting to Your Lakehouse
 
-Spark Connect enables remote connections from your local development environment. You write code in familiar tools while IOMETE handles distributed execution.
+[Spark Connect](/blog/spark-connect-tutorial) enables remote connections from your local development environment. You write code in familiar tools while IOMETE handles distributed execution.
 
 Here's how to establish a connection:
 
@@ -212,7 +212,7 @@ This code runs locally but executes across your IOMETE cluster. Your data stays 
 
 ### Granular Access Controls
 
-IOMETE implements Apache Ranger for fine-grained permissions. You control access at multiple levels:
+IOMETE implements [Apache Ranger](/blog/apache-ranger-data-security) for fine-grained permissions. You control access at multiple levels:
 - Table-level: who can query which datasets
 - Column-level: mask sensitive fields like SSN or salary
 - Row-level: filter data based on user attributes
@@ -223,7 +223,7 @@ Data scientists see only what they need. Sensitive columns get masked automatica
 
 The built-in data catalog tracks metadata across your entire lakehouse. You can search for datasets, understand schemas, and trace data lineage from source to model.
 
-This matters for AI governance. When regulators ask how you trained a model, you can show exactly which data went into it, who accessed it, and when.
+This matters for AI [data governance](/glossary/data-governance). When regulators ask how you trained a model, you can show exactly which data went into it, who accessed it, and when.
 
 ## Conclusion
 

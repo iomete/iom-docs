@@ -44,7 +44,7 @@ Simply manage IOMETE permissions through the Access Control System. Detailed rol
 
 ## Improved dashboard
 
-The improved dashboard makes it easy to analyze your tasks and discover pain points. With the Grafana tool one can easily optimize spark jobs.
+The improved dashboard makes it easy to analyze your tasks and discover pain points. With the Grafana tool one can easily optimize [spark jobs](/user-guide/spark-jobs).
 
 ![IOMETE dashboard](/img/blog/2022-09-21-new-features/improved-dashboard.jpeg)
 

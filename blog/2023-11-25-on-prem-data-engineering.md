@@ -11,7 +11,7 @@ banner_description: Embracing IOMETE's Innovative Approach
 coverImage: img/blog/thumbnails/0.png
 ---
 
-In an era where cloud computing often grabs the spotlight, IOMETE is pioneering a transformative approach with its modern on-premise data lakehouse solution. IOMETE challenges the prevalent narrative, showcasing that on-premise environments can match, and at times surpass, the dynamism and effectiveness of cloud services in the realm of data engineering and ML/AI.
+In an era where cloud computing often grabs the spotlight, IOMETE is pioneering a transformative approach with its modern on-premise [data lakehouse](/glossary/data-lakehouse) solution. IOMETE challenges the prevalent narrative, showcasing that on-premise environments can match, and at times surpass, the dynamism and effectiveness of cloud services in the realm of data engineering and ML/AI.
 
 <!-- truncate -->
 
@@ -21,7 +21,7 @@ The allure of IOMETE's on-premise solutions lies in its ability to integrate sea
 
 **Security and Control**
 
-With IOMETE's on-premise data lakehouse solution customers maintain full ownership of their data. Since IOMETE is deployed within the trust perimeter of the customer it provides maximum data security and control, which are critical for businesses dealing with sensitive data or operating under stringent regulatory requirements, providing businesses with the peace of mind that comes with superior data protection and compliance.
+With IOMETE's on-premise data lakehouse solution customers maintain full ownership of their data. Since IOMETE is deployed within the trust perimeter of the customer it provides maximum [data security](/glossary/data-security) and control, which are critical for businesses dealing with sensitive data or operating under stringent regulatory requirements, providing businesses with the peace of mind that comes with superior data protection and compliance.
 
 **Cost-Effectiveness**
 
@@ -43,7 +43,7 @@ IOMETE is not just about transitioning ML/AI and real-time analytics to on-premi
 
 **Real-Time Analytics and AI**
 
-The cornerstone of IOMETE’s innovative approach is its ability to enable real-time analytics and ML/AI capabilities in an on-premise setting. This technology allows businesses to process and analyze data instantly, providing immediate insights for swift and informed decision-making.
+The cornerstone of IOMETE’s innovative approach is its ability to enable [real-time analytics](/glossary/real-time-analytics) and ML/AI capabilities in an on-premise setting. This technology allows businesses to process and analyze data instantly, providing immediate insights for swift and informed decision-making.
 
 **Enabling AI at Scale**
 

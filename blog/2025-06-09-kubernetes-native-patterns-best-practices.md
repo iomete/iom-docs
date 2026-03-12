@@ -36,7 +36,7 @@ Stateless services, like dbt runners or Airflow schedulers, don’t retain data 
 
 Stateful systems (e.g. Spark driver pods, ClickHouse nodes, or metadata services) require stable identities and persistent storage. These use **StatefulSets** with **PersistentVolumeClaims (PVCs)** to maintain continuity across Pod lifecycles.
 
-**In IOMETE**, Spark compute clusters are deployed using patterns similar to StatefulSets — ensuring persistent execution context for long-running transformations and interactive SQL endpoints, even as compute scales up or down.
+**In IOMETE**, [Spark](/glossary/apache-spark) compute clusters are deployed using patterns similar to StatefulSets — ensuring persistent execution context for long-running transformations and interactive SQL endpoints, even as compute scales up or down.
 
 ---
 
@@ -100,7 +100,7 @@ Manual deployment of pipelines leads to drift, inconsistency, and brittle system
 
 **IOMETE use case**:
 
-Spark SQL endpoints, batch ETL pipelines, and compute clusters in IOMETE can be configured declaratively. This makes them ideal for GitOps workflows — where all infrastructure changes are tracked, auditable, and reproducible.
+Spark SQL endpoints, batch [ETL](/glossary/extract-transform-load) pipelines, and compute clusters in IOMETE can be configured declaratively. This makes them ideal for GitOps workflows — where all infrastructure changes are tracked, auditable, and reproducible.
 
 ---
 
@@ -121,7 +121,7 @@ A data platform without observability is like flying blind. Kubernetes-native en
 
 **1. Misconfigured Requests/Limits**
 
-Failing to set CPU/memory requests and limits can lead to evictions or resource starvation.
+Failing to set [CPU/memory requests and limits](/blog/kubernetes-cpu-memory-optimize) can lead to evictions or resource starvation.
 
 **Fix**: Always set conservative resource requests and cap maximum usage with limits.
 
@@ -146,7 +146,7 @@ Kubernetes-native deployment isn’t a one-size-fits-all solution — it’s a d
 When done right, it enables:
 
 * **Highly resilient and observable pipelines**  
-* **Fine-grained control over security, cost, and resource usage**  
+* **Fine-grained control over [data security](/glossary/data-security), cost, and resource usage**  
 * **True self-service data platform delivery**
 
 Platforms like **IOMETE** simplify this journey. They implement best practices out of the box — from namespaced multi-tenancy to auto-scaling Spark jobs — helping engineering teams move fast without breaking governance or stability.

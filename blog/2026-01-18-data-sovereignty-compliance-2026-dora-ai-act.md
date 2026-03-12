@@ -37,11 +37,11 @@ The five pillars of DORA map directly to infrastructure control:
 
 Financial entities must establish internal governance and control frameworks for ICT risk management. This includes identifying risks, protecting systems, detecting threats, responding to incidents, and recovering operations.
 
-Here's the problem: if your data lakehouse runs on Snowflake or Databricks, you don't control the infrastructure. You can't implement your own threat detection systems. You can't configure custom failover procedures. You're dependent on the vendor's risk management framework, which is designed for their operational needs, not yours.
+Here's the problem: if your [data lakehouse](/glossary/data-lakehouse) runs on Snowflake or Databricks, you don't control the infrastructure. You can't implement your own threat detection systems. You can't configure custom failover procedures. You're dependent on the vendor's risk management framework, which is designed for their operational needs, not yours.
 
 DORA requires ongoing monitoring of ICT risks, including risks from third-party providers. But SaaS platforms don't expose the level of infrastructure visibility needed for real-time risk assessment. You can't see resource utilization across their clusters. You can't monitor network traffic for anomalies. You can't audit patch cycles or configuration changes.
 
-In self-hosted environments running platforms like IOMETE, you deploy your own monitoring stack—Prometheus, Grafana, custom dashboards tracking every metric that matters. You integrate with your existing SIEM systems. You control alerting thresholds and incident escalation procedures. That's what operational independence looks like.
+In self-hosted environments running platforms like IOMETE, you deploy your own monitoring stack—Prometheus, Grafana, custom dashboards tracking every metric that matters. See the [IOMETE platform security](/blog/data-platform-security) approach for more details. You integrate with your existing SIEM systems. You control alerting thresholds and incident escalation procedures. That's what operational independence looks like.
 
 ### 2. Incident Reporting
 
@@ -59,9 +59,9 @@ DORA requires regular testing of resilience capabilities. This includes vulnerab
 
 You cannot conduct meaningful resilience testing on a SaaS platform. You don't control the attack surface. You can't simulate infrastructure failures. You can't test failover procedures because you don't control the failover mechanisms. The vendor might run their own tests, but those results aren't yours to present to regulators.
 
-Self-hosted platforms let you test everything. Simulate node failures in your Kubernetes cluster. Kill pods mid-query and verify that jobs recover gracefully. Introduce network latency and measure query degradation. Run chaos engineering experiments that would be impossible on shared SaaS infrastructure.
+Self-hosted platforms let you test everything. Simulate node failures in your [Kubernetes](/blog/kubernetes-native-data-engineering-architecture) cluster. Kill pods mid-query and verify that jobs recover gracefully. Introduce network latency and measure query degradation. Run chaos engineering experiments that would be impossible on shared SaaS infrastructure.
 
-Organizations running IOMETE conduct regular DR drills where entire data centers fail over to backup regions. They document recovery time objectives (RTO) and recovery point objectives (RPO) based on actual test results, not vendor SLAs. That's what resilience testing means under DORA.
+Organizations running IOMETE conduct regular [DR drills](/blog/iceberg-disaster-recovery) where entire data centers fail over to backup regions. They document recovery time objectives (RTO) and recovery point objectives (RPO) based on actual test results, not vendor SLAs. That's what resilience testing means under DORA.
 
 ### 4. Third-Party ICT Risk Management
 
@@ -132,7 +132,7 @@ DORA and the AI Act are EU regulations, but data sovereignty is a global concern
 
 **China's PIPL** (Personal Information Protection Law) requires local storage for personal data, with cross-border transfers only allowed to government-approved jurisdictions.
 
-**The US CLOUD Act** allows American authorities to compel disclosure of data held by US-based providers, regardless of where that data is physically stored.
+**The US [CLOUD Act](/blog/cloud-act-reality-check)** allows American authorities to compel disclosure of data held by US-based providers, regardless of where that data is physically stored.
 
 These laws create irreconcilable conflicts for SaaS platforms. Snowflake and Databricks are US-based companies. If EU regulators demand proof that US authorities cannot access EU citizen data, SaaS vendors cannot provide it. The CLOUD Act explicitly gives US law enforcement the power to demand data from US companies, even data stored in EU data centers.
 
@@ -168,7 +168,7 @@ This isn't just better compliance. It's the only viable path to compliance for r
 
 The migration from SaaS to self-hosted isn't future planning. It's happening right now:
 
-**European banks** are repatriating data from US-based SaaS platforms to meet DORA operational resilience requirements. They can't afford vendor concentration risk, and they can't accept that a single outage at Snowflake or Databricks takes down their entire analytics infrastructure.
+**European banks** are [repatriating data](/blog/cloud-repatriation) from US-based SaaS platforms to meet DORA operational resilience requirements. They can't afford vendor concentration risk, and they can't accept that a single outage at Snowflake or Databricks takes down their entire analytics infrastructure.
 
 **Insurance companies** subject to DORA are moving ML pipelines to self-hosted platforms because they need complete audit trails for AI risk assessments. They can't demonstrate AI Act compliance when model training happens on vendor infrastructure they don't control.
 
@@ -202,11 +202,11 @@ The question isn't whether to comply. DORA is enforceable now. The AI Act become
 
 **Operational overhead** is minimal if you're already running Kubernetes. IOMETE deploys as a containerized application—define resource requirements, deploy via Helm charts, monitor through standard observability tools like Prometheus and Grafana. Organizations already operating Kubernetes infrastructure find incremental management overhead negligible.
 
-**Migration effort** takes 3-6 months depending on table count and complexity. Export data from SaaS platforms to object storage (S3, Azure Blob, GCS), convert to Apache Iceberg tables using IOMETE's migration tools, validate queries against production workloads, run dual environments during transition, then cut over when confidence is established.
+**Migration effort** takes 3-6 months depending on table count and complexity. Export data from SaaS platforms to object storage (S3, Azure Blob, GCS), convert to [Apache Iceberg](/blog/why-apache-iceberg-is-winning-table-format) tables using IOMETE's migration tools, validate queries against production workloads, run dual environments during transition, then cut over when confidence is established.
 
 **Ongoing compliance** is automated through IOMETE's built-in table maintenance. Automated compaction handles small files, snapshot expiration manages metadata growth, orphan file cleanup prevents storage bloat. Monitoring dashboards surface table health metrics for regulatory audits. Audit logs capture every data access event for compliance reporting.
 
-The total cost of ownership for a self-hosted lakehouse is 40-60% lower than equivalent SaaS workloads, while providing the operational independence required for DORA and AI Act compliance.
+The [total cost of ownership](/blog/fortune-500-cost-reduction-self-hosted-vs-saas-tco) for a self-hosted lakehouse is 40-60% lower than equivalent SaaS workloads, while providing the operational independence required for DORA and AI Act compliance.
 
 ---
 
@@ -350,6 +350,6 @@ If you're operating in financial services, healthcare, or any regulated industry
 
 ## About IOMETE
 
-IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, Apache Spark, and Kubernetes. It runs entirely within your infrastructure—on-premise, in your VPC, or in air-gapped environments—giving you complete control over data sovereignty, operational resilience, and compliance. With DORA-ready monitoring, AI Act-compliant audit trails, and complete operational independence from vendor dependencies, IOMETE is designed for financial services, healthcare, and government organizations that cannot compromise on regulatory compliance.
+IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, [Apache Spark](/glossary/apache-spark), and Kubernetes. It runs entirely within your infrastructure—[on-premise](/blog/how-to-build-on-prem-data-lakehouse), in your VPC, or in air-gapped environments—giving you complete control over data sovereignty, operational resilience, and compliance. With DORA-ready monitoring, AI Act-compliant audit trails, and complete operational independence from vendor dependencies, IOMETE is designed for financial services, healthcare, and government organizations that cannot compromise on regulatory compliance.
 
 Learn more at [iomete.com](https://iomete.com) or [schedule a demo](https://iomete.com/contact-us) to see how self-hosted lakehouse architecture meets DORA and AI Act requirements.

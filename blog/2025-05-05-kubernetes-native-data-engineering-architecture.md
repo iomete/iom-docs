@@ -13,7 +13,7 @@ import Img from '@site/src/components/Img';
 
 ## **Introduction: The Rise of Kubernetes-Native Approaches in Data Engineering**
 
-Data engineering has entered a new era — one defined by dynamic orchestration, distributed pipelines, and infrastructure that scales with demand. Gone are the days when teams could rely on static Hadoop clusters or hand-scripted ETL jobs running on a fixed schedule. Today’s data teams need modularity, resilience, and flexibility — and they’re finding it in **Kubernetes-native deployment**.
+Data engineering has entered a new era — one defined by dynamic orchestration, distributed pipelines, and infrastructure that scales with demand. Gone are the days when teams could rely on static Hadoop clusters or hand-scripted [ETL](/glossary/extract-transform-load) jobs running on a fixed schedule. Today’s data teams need modularity, resilience, and flexibility — and they’re finding it in **Kubernetes-native deployment**.
 
 **Kubernetes-native** approaches mean more than just running containers. They imply treating Kubernetes as a core layer in your data architecture — using it not only for compute orchestration, but for job execution, state management, CI/CD, and observability.
 
@@ -21,7 +21,7 @@ Platforms like **IOMETE** exemplify this evolution. As a Spark-based lakehouse d
 
 This article walks through everything you need to know about Kubernetes-native deployment in a data engineering context: the architectural patterns, the ecosystem of tools, deployment techniques, real-world practices, and the role platforms like IOMETE play in helping teams go from legacy-bound to cloud-native.
 
-Whether you’re modernizing a Cloudera stack, scaling dbt transformations, or deploying real-time ML pipelines, Kubernetes-native deployment isn’t just a trend — it’s your future-ready foundation.
+Whether you’re modernizing a [Cloudera](/blog/cloudera-alternatives) stack, scaling dbt transformations, or deploying real-time ML pipelines, Kubernetes-native deployment isn’t just a trend — it’s your future-ready foundation.
 
 ---
 
@@ -31,9 +31,9 @@ Whether you’re modernizing a Cloudera stack, scaling dbt transformations, or d
 
 In the world of data engineering, this means:
 
-* Your Spark or Flink jobs are defined as Kubernetes CRDs  
-* Your Airflow tasks run in isolated Pods with native autoscaling  
-* Your storage volumes (e.g. PVCs backed by MinIO or HDFS) are provisioned automatically  
+* Your [Apache Spark](/glossary/apache-spark) or Flink jobs are defined as Kubernetes CRDs
+* Your Airflow tasks run in isolated Pods with native autoscaling
+* Your storage volumes (e.g. PVCs backed by MinIO or HDFS) are provisioned automatically
 * Secrets, ConfigMaps, job definitions, and pipeline logic all live in version-controlled repositories
 
 **IOMETE** reflects this philosophy deeply. When a user creates a compute cluster or submits a Spark SQL job, the platform orchestrates it entirely through Kubernetes-native components — Pods, Volumes, Namespaces, and autoscalers. The result is consistent performance, improved isolation, and an infrastructure that scales on demand.
@@ -43,7 +43,7 @@ In the world of data engineering, this means:
 * **Scalability**: Automatically scale clusters and workloads (e.g., Spark executors) based on load  
 * **Observability**: Monitor job execution, query performance, and infrastructure health through integrated dashboards  
 * **DevOps integration**: Use GitOps practices (with ArgoCD or FluxCD) to manage everything — including jobs — as code  
-* **Cloud portability**: Deploy the same data platform across AWS, GCP, Azure, or on-prem with minimal changes
+* **Cloud portability**: Deploy the same [data platform](/blog/building-enterprise-data-platform) across AWS, GCP, Azure, or on-prem with minimal changes
 
 ### **Kubernetes-Native ≠ Lift-and-Shift**
 

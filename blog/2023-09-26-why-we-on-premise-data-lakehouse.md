@@ -11,7 +11,7 @@ coverImage: img/blog/thumbnails/2.png
 
 import MiniCard from "@site/src/components/MiniCard";
 
-IOMETE is a modern and open data lakehouse with a wide range of deployment options. IOMETE can run:
+IOMETE is a modern and open [data lakehouse](/glossary/data-lakehouse) with a wide range of deployment options. IOMETE can run:
 
 - On any major cloud, i.e. AWS, Azure, Google Cloud.
 - On premise, i.e. leveraging your own private data center.
@@ -36,9 +36,9 @@ In this post I will discuss the reasoning behind focusing on on premise deployme
 
 > "If you know the enemy and know yourself, you need not fear the result of a hundred battles. If you know yourself but not the enemy, for every victory gained you will also suffer a defeat. If you know neither the enemy nor yourself, you will succumb in every battle." - Sun Tzu
 
-Companies like Snowflake and Databricks built magnificent brands and sales organizations. Even though we know IOMETE combines the strengths of Snowflake and Databricks - is better, faster and easier to use at less than half the cost - we realize it is hard to fight a perception that has been carefully crafted over the past decade on the back of billions of VC funding.
+Companies like [Snowflake](/blog/snowflake-iomete) and [Databricks](/blog/databricks-alternatives) built magnificent brands and sales organizations. Even though we know IOMETE combines the strengths of Snowflake and Databricks - is better, faster and easier to use at less than half the cost - we realize it is hard to fight a perception that has been carefully crafted over the past decade on the back of billions of VC funding.
 
-The on premise market is served by companies like Cloudera and Oracle that have archaic architecture compared to IOMETE.
+The on premise market is served by companies like [Cloudera](/blog/cloudera-alternatives) and [Oracle](/blog/oracle-to-spark-migration) that have archaic architecture compared to IOMETE.
 
 ## On premise is here to stay
 
@@ -46,7 +46,7 @@ Here are some of the reasons why the non-cloud market is still significant:
 
 - Some organizations have regulatory or compliance requirements that prevent them from moving to the cloud. Many organizations outside of the US are hesitant to store their data on a US cloud and some are even prohibited to do so by their government.
 - Data ownership. Many organizations prefer to truly own their data and keep it within their own trust perimeter.
-- Data security. For certain use cases in government, healthcare, financial institutions keeping the data on premise is the most secure solution.
+- [Data security](/glossary/data-security). For certain use cases in government, healthcare, financial institutions keeping the data on premise is the most secure solution.
 - Cost. Despite all its promises cloud computing is not always cheaper than on premise. Especially large enterprises can save millions by moving some of their data on premise.
 
 It’s hard to get exact numbers on the on premise market. It is clear that cloud is bigger and growing at a faster pace, but by most estimates the IT on premise market is > $50Bn. In our book that’s big enough to build a sizeable organization.

@@ -13,9 +13,9 @@ import YoutubeCard from "@site/src/components/YoutubeCard";
 
 When we talk about keeping lots of data safe, it's really important. That's where Apache Ranger comes in. It's like a guardian for your data, especially when you use it with systems like IOMETE. This blog is all about how Apache Ranger helps keep your data safe. It's great at making sure only the right people can get to your data, follows rules to keep your data in line, and makes sure everything is done the right way.
 
-## The Role of Apache Ranger in Data Governance
+## The Role of Apache Ranger in [Data Governance](/glossary/data-governance)
 
-Apache Ranger, known for its stronghold in the Hadoop ecosystem, is a critical tool for organizations dealing with big data security. It serves as an advanced security framework, providing comprehensive data access governance. The integration of Apache Ranger into data systems like IOMETE brings forth a new era of data protection strategies, ensuring robust policy management and access control systems.
+Apache Ranger, known for its stronghold in the Hadoop ecosystem, is a critical tool for organizations dealing with big data security. It serves as an advanced [data security](/glossary/data-security) framework, providing comprehensive data access governance. The integration of Apache Ranger into data systems like IOMETE brings forth a new era of data protection strategies, ensuring robust policy management and access control systems.
 
 Organizations often ask, "How does Apache Ranger enhance the security of a data management system?" The answer lies in its capability to offer fine-grained access control and a comprehensive security policy management framework. This enables enterprises to implement sophisticated authorization frameworks and manage security administration with ease, significantly improving their enterprise data protection strategies.
 
@@ -31,7 +31,7 @@ Apache Ranger plays a vital role in regulatory compliance and data auditing. It'
 
 ### Addressing Enterprise Needs in Data Security
 
-As organizations navigate the complexities of data security, questions like "Can Apache Ranger be integrated with existing data systems easily?" and "Apache Ranger vs. other data security tools" are common. Apache Ranger stands out for its ability to offer an integrated security solution, compatible with a range of data sources and processing engines. This makes it a versatile and indispensable tool in enhancing data security in analytics and data warehousing.
+As organizations navigate the complexities of data security, questions like "Can Apache Ranger be integrated with existing data systems easily?" and "Apache Ranger vs. other data security tools" are common. Apache Ranger stands out for its ability to offer an integrated security solution, compatible with a range of data sources and processing engines. This makes it a versatile and indispensable tool in enhancing data security in analytics and [data warehousing](/glossary/data-warehouse).
 
 ## **Getting Started with Apache Ranger**
 

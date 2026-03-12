@@ -31,7 +31,7 @@ Back in 2023, most data teams treated GDPR as a checkbox exercise. Get your Data
 
 Here's what actually changed:
 
-**DORA (Digital Operational Resilience Act)** became enforceable in January 2025, targeting financial institutions across the EU. It doesn't just ask where your data lives—it demands proof that you control operational resilience, that third-party ICT providers are contractually bound, and that you can maintain service continuity even when cloud vendors fail. SaaS platforms, by design, don't give you that level of operational control.
+**[DORA (Digital Operational Resilience Act)](/blog/data-sovereignty-compliance-2026-dora-ai-act)** became enforceable in January 2025, targeting financial institutions across the EU. It doesn't just ask where your data lives—it demands proof that you control operational resilience, that third-party ICT providers are contractually bound, and that you can maintain service continuity even when cloud vendors fail. SaaS platforms, by design, don't give you that level of operational control.
 
 **The EU AI Act** reaches full enforcement in August 2026. High-risk AI systems—including those used in recruitment, law enforcement, and critical infrastructure—must demonstrate adequate risk assessments, activity logs, and human oversight. The penalties for non-compliance go up to 7% of global annual turnover. If your data lakehouse feeds AI systems and you can't prove where data lives, who accessed it, and how models were trained, you're exposed.
 
@@ -39,7 +39,7 @@ Here's what actually changed:
 
 **Data sovereignty laws** in India, Saudi Arabia, China, and dozens of other jurisdictions now require local storage and prior approval for cross-border transfers. If you're operating globally and your SaaS vendor routes data through US-based infrastructure, you're in violation the moment that data crosses a border.
 
-And then there's the **US CLOUD Act**, which allows American authorities to compel disclosure of data held by US-based providers regardless of physical location. That directly conflicts with EU sovereignty efforts. Companies storing EU citizen data in Snowflake or Databricks are caught in the middle of this jurisdictional tug-of-war, and regulators have made it clear: ignorance is not a defense.
+And then there's the **US [CLOUD Act](/blog/cloud-act-reality-check)**, which allows American authorities to compel disclosure of data held by US-based providers regardless of physical location. That directly conflicts with EU sovereignty efforts. Companies storing EU citizen data in Snowflake or Databricks are caught in the middle of this jurisdictional tug-of-war, and regulators have made it clear: ignorance is not a defense.
 
 The shift isn't subtle. Seventy-one percent of organizations now cite cross-border data transfer compliance as their top regulatory challenge. Gartner predicts that more than 75% of all enterprises will have a digital sovereignty strategy by 2030. IBM just launched Sovereign Core specifically to address this, calling it "the industry's first AI-ready sovereign-enabled software."
 
@@ -53,7 +53,7 @@ Snowflake and Databricks have both rolled out "sovereign cloud" instances—dedi
 
 But it doesn't.
 
-Here's why: **data residency is not the same as data sovereignty.**
+Here's why: **[data residency is not the same as data sovereignty](/blog/data-residency-vs-data-sovereignty).**
 
 Data residency means your data is stored in a specific geographic region. Data sovereignty means the data is governed by the laws of that region and that you—not your SaaS vendor—control who can access it, how it moves, and under what legal jurisdiction disputes are resolved.
 
@@ -77,7 +77,7 @@ This is the hidden cost of SaaS platforms: compliance complexity scales exponent
 
 Self-hosted doesn't mean going back to on-premise racks in your basement. It means you control the deployment environment, whether that's your own data center, a private cloud, a government cloud, or even a public cloud instance where you hold the encryption keys and manage the infrastructure.
 
-The distinction is operational control. With a self-hosted data lakehouse like IOMETE, you decide:
+The distinction is operational control. With a self-hosted [data lakehouse](/glossary/data-lakehouse) like IOMETE, you decide:
 
 - **Where data lives** – on-premise, in your VPC, in a sovereign cloud region, or in an air-gapped environment with zero internet connectivity
 - **Who can access it** – you manage authentication, authorization, and audit logs, not a third-party SaaS vendor
@@ -93,9 +93,9 @@ And it matters for air-gapped deployments in defense, intelligence, and highly s
 
 The technical architecture is straightforward. A modern self-hosted lakehouse like IOMETE uses:
 
-- **Apache Iceberg** as the table format, providing ACID transactions, schema evolution, and time travel on open-standard Parquet files
-- **Apache Spark** for distributed compute, with support for batch and streaming workloads
-- **Kubernetes** for orchestration, auto-scaling, and workload isolation
+- **[Apache Iceberg](/blog/why-apache-iceberg-is-winning-table-format)** as the table format, providing [ACID transactions](/glossary/acid-transactions), schema evolution, and [time travel](/reference/iceberg-tables/time-travel) on open-standard Parquet files
+- **[Apache Spark](/glossary/apache-spark)** for distributed compute, with support for batch and streaming workloads
+- **[Kubernetes](/blog/kubernetes-native-data-engineering-architecture)** for orchestration, auto-scaling, and workload isolation
 - **Object storage** (S3, Azure Blob, MinIO) for cost-effective, durable data storage
 - **REST Catalog or Nessie** for metadata management, avoiding proprietary lock-in
 
@@ -113,9 +113,9 @@ That made sense in 2018. It doesn't in 2026.
 
 Here's why: **SaaS platforms charge a massive markup on compute.**
 
-Snowflake and Databricks both use consumption-based pricing, where you pay for compute credits used to run queries and processes. But those credits don't map directly to underlying cloud costs. The markup can be 3x to 5x higher than what you'd pay if you provisioned the same compute directly from AWS, Azure, or Google Cloud.
+Snowflake and Databricks both use consumption-based pricing, where you pay for [compute credits](/blog/snowflake-compute-credit) used to run queries and processes. But those credits don't map directly to underlying cloud costs. The markup can be 3x to 5x higher than what you'd pay if you provisioned the same compute directly from AWS, Azure, or Google Cloud.
 
-With IOMETE, you pay $500 per vCPU per year for the platform license. The underlying infrastructure—compute, storage, networking—is billed directly by your cloud provider or runs on your own hardware. You can apply existing cloud discounts, reserved instances, and committed use contracts. For organizations already operating in AWS or Azure with enterprise agreements, the effective cost of running a self-hosted lakehouse is 40-60% lower than equivalent SaaS workloads.
+With IOMETE, you pay $500 per vCPU per year for the platform license. The underlying infrastructure—compute, storage, networking—is billed directly by your cloud provider or runs on your own hardware. You can apply existing cloud discounts, reserved instances, and committed use contracts. For organizations already operating in AWS or Azure with enterprise agreements, the effective cost of running a self-hosted lakehouse is [40-60% lower than equivalent SaaS workloads](/blog/fortune-500-cost-reduction-self-hosted-vs-saas-tco).
 
 Let's put numbers on it. A typical enterprise data team running Snowflake might consume $2 million per year in compute credits. Switch to IOMETE with equivalent vCPU capacity (say, 200 vCPUs at $500/year = $100K licensing), and you're paying maybe $600K in total infrastructure costs. That's a $1.4 million annual saving, recurring every year.
 
@@ -133,7 +133,7 @@ The cost equation has flipped. Self-hosted is now cheaper, more predictable, and
 
 This isn't theoretical. Real enterprises are migrating off SaaS platforms right now.
 
-**Financial services** are leading the shift. Banks and insurance companies can't afford DORA violations or cross-border data transfer failures. They're repatriating data to on-premise or sovereign cloud environments, and they're choosing self-hosted lakehouses that give them complete audit trails and operational resilience.
+**Financial services** are leading the shift. Banks and insurance companies can't afford DORA violations or cross-border data transfer failures. They're [repatriating data](/blog/cloud-repatriation) to on-premise or sovereign cloud environments, and they're choosing self-hosted lakehouses that give them complete audit trails and operational resilience.
 
 **Government and defense contractors** are adopting self-hosted platforms for classified workloads. Air-gapped deployments are non-negotiable, and SaaS platforms simply can't operate in zero-connectivity environments. IOMETE runs in fully isolated networks, meeting zero-trust architecture requirements without compromise.
 
@@ -141,7 +141,7 @@ This isn't theoretical. Real enterprises are migrating off SaaS platforms right 
 
 **Manufacturing and industrial companies** are bringing IoT and operational data into lakehouses for real-time analytics. But they can't afford to send proprietary production data to external vendors. Self-hosted lakehouses let them keep sensor data, machine telemetry, and process logs entirely within their own infrastructure.
 
-Even **large tech companies** that pioneered cloud adoption are reconsidering their reliance on SaaS platforms. The EU Data Act's prohibition on vendor lock-in has forced a strategic rethink. If your data is stored in proprietary formats that only one vendor can read, you're in violation. Open standards like Apache Iceberg are now a compliance requirement, not just a best practice.
+Even **large tech companies** that pioneered cloud adoption are reconsidering their reliance on SaaS platforms. The EU Data Act's prohibition on vendor lock-in has forced a strategic rethink. If your data is stored in proprietary formats that only one vendor can read, you're in violation. Open standards like Apache Iceberg are now a compliance requirement, not just a best practice. Learn more about [IOMETE's deployment models](/blog/iomete-deployment-models).
 
 The pattern is clear: organizations with serious compliance obligations, sensitive data, or unpredictable workloads are choosing self-hosted architectures. They're willing to invest in infrastructure control because the alternative—regulatory fines, data breaches, or vendor lock-in—is far more expensive.
 

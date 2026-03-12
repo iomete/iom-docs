@@ -51,7 +51,7 @@ Despite these limitations, Hadoop remains a tool for big data analytics for many
 
 - **IOMETE**
 
-IOMETE is a modern data lakehouse solution that unifies all your data - regardless of where your data resides - enabling large-scale analytics (BI/ML/AI) on your entire data set. IOMETE runs on Apache Iceberg and Apache Spark. IOMETE makes it possible to analyze petabyte size across on-premise data centers and cloud environments.
+IOMETE is a modern [data lakehouse](/glossary/data-lakehouse) solution that unifies all your data - regardless of where your data resides - enabling large-scale analytics (BI/ML/AI) on your entire data set. IOMETE runs on [Apache Iceberg](/blog/cheat-sheet-for-apache-iceberg) and [Apache Spark](/glossary/apache-spark). IOMETE makes it possible to analyze petabyte size across on-premise data centers and cloud environments.
 
 ![IOMETE vs Cloudera Speed Test](/img/blog/2024-03-07-cloudera-alternatives/iomete-vs-cloudera-speed-test.jpg)
 
@@ -59,7 +59,7 @@ The performance improvement that this organization observed might are not a guar
 
 - **Kubernetes for Compute**
 
-For compute-intensive workloads, big data frameworks like Apache Flink and Apache Spark are now offering excellent support for Kubernetes. Kubernetes can replace YARN for many more minor use cases, providing a flexible, cost-effective alternative.
+For compute-intensive workloads, big data frameworks like Apache Flink and Apache Spark are now offering excellent support for [Kubernetes](/blog/kubernetes-data-engineering-benefits). Kubernetes can replace YARN for many more minor use cases, providing a flexible, cost-effective alternative.
 
 - **Open Source S3 Implementations**
 
@@ -77,7 +77,7 @@ For smaller companies, leveraging cloud vendor distributions like AWS EMR and GC
 
 Bigtop is an open-source project that aims to create a comprehensive packaging, testing, and configuration ecosystem for big data applications. It can be a suitable alternative to Cloudera's offerings, providing flexibility and customization options.
 
-- **Databricks**
+- **[Databricks](/blog/databricks-alternatives)**
 
 Provides a unified data analytics platform, built on Apache Spark, that facilitates collaboration between data scientists, engineers, and business analysts. Databricks offers cloud-based big data processing and machine learning solutions.
 
@@ -85,9 +85,9 @@ Provides a unified data analytics platform, built on Apache Spark, that facilita
 
 No. Databricks run only in cloud envrironments. You can check IOMETE if you want on-prem solution.
 
-- **Snowflake**
+- **[Snowflake](/blog/snowflake-iomete)**
 
-A cloud data platform that offers a data warehouse-as-a-service which supports various cloud providers. It enables data storage, processing, and analytic solutions that are faster and easier to use than traditional offerings. Snowflake also doesn't offer on-premise data lakehouse solution as they work only for cloud providers
+A cloud data platform that offers a [data warehouse](/glossary/data-warehouse)-as-a-service which supports various cloud providers. It enables data storage, processing, and analytic solutions that are faster and easier to use than traditional offerings. Snowflake also doesn't offer on-premise data lakehouse solution as they work only for cloud providers
 
 ## Conclusion
 

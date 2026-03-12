@@ -15,7 +15,7 @@ Financial Services, Health Care Services, and Government organizations deal with
 
 ## Secure data processing architecture
 
-In order to serve the security purposes of the data, the data sometimes doesn’t move from the On-Prem / Private Data centers into the cloud to take advantage of the awesome tools such as Snowflake / Databricks, etc.
+In order to serve the security purposes of the data, the data sometimes doesn’t move from the On-Prem / Private Data centers into the cloud to take advantage of the awesome tools such as [Snowflake](/blog/snowflake-iomete) / [Databricks](/blog/databricks-alternatives), etc.
 
 Even when they push the data into the cloud, the data goes through a security-first setup with Demilitarized Zone (DMZ) in between before it hits the VNet of the client from the service provider. DMZ is set up as a spoke in a Hub-Spoke architecture for the network. So all communication goes from spoke to Hub to spoke where other resources are going to stay. Hub is used to monitor the data packets coming from the external world and then go through the firewall to review for any abnormal packets.
 
@@ -39,4 +39,4 @@ The above challenges don’t look immediately in the face when the client is onb
 
 ## Secure data processing without migration
 
-IOMETE provides a clean solution to using Open Table Iceberg format while storing the data in your own Data Lake storage for processing the data. Processing is happening on the VMs orchestrated inside your VNet rather than outside. Provides an intuitive interface for querying the data. For making an open, managed, and SUSTAINABLE solution look forward to [IOMETE](https://iomete.com/).
+IOMETE provides a clean solution to using Open Table [Iceberg](/blog/cheat-sheet-for-apache-iceberg) format while storing the data in your own Data Lake storage for processing the data. Processing is happening on the VMs orchestrated inside your VNet rather than outside. Provides an intuitive interface for querying the data. For making an open, managed, and SUSTAINABLE solution look forward to [IOMETE](https://iomete.com/).

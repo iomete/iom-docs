@@ -12,21 +12,21 @@ import Img from '@site/src/components/Img';
 
 ## Introduction
 
-Spark has become the engine of the modern data platform — fast, scalable, and proven.  
+[Spark](/glossary/apache-spark) has become the engine of the modern [data platform](https://iomete.com/product/data-platform/platform-overview) — fast, scalable, and proven.  
 But engines need more than horsepower; they need control systems. Without the right orchestration, even the best engine stalls.
 
-At IOMETE, we faced exactly this challenge. Spark jobs had grown in number and complexity, but our orchestration system couldn’t keep up. Business-critical jobs were delayed by trivial ones, deadlocks left jobs hanging indefinitely, and users had little visibility into what was really happening behind the scenes.
+At IOMETE, we faced exactly this challenge. Spark jobs had grown in number and complexity, but our [orchestration](/glossary/orchestration) system couldn’t keep up. Business-critical jobs were delayed by trivial ones, deadlocks left jobs hanging indefinitely, and users had little visibility into what was really happening behind the scenes.
 
 So we set out to build what was missing: a true **Job Orchestrator** that could bring order to Spark workloads.
 
 
 ## Existing System
 
-Our starting point was the [Spark Operator](https://github.com/kubeflow/spark-operator) on Kubernetes. This operator enabled us to define Spark jobs as YAML resources, allowing Kubernetes to handle the rest.
+Our starting point was the [Spark Operator](https://github.com/kubeflow/spark-operator) on [Kubernetes](/blog/kubernetes-data-engineering-benefits). This operator enabled us to define Spark jobs as YAML resources, allowing Kubernetes to handle the rest.
 
 The process looked simple:
 
-1. User created a Spark job request via the IOMETE console.
+1. User created a [Spark job](/user-guide/spark-jobs) request via the IOMETE console.
 2. Backend generated the YAML spec and pushed it to Kubernetes.
 3. The Spark Operator picked it up and executed it.
 

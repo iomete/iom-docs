@@ -11,7 +11,7 @@ banner_description: Learn what is data mesh and how to implement it to your orga
 coverImage: img/blog/thumbnails/1.png
 ---
 
-In the dynamic world of data management, the choice between a cloud-based and an on-premise Data Lakehouse is a pivotal decision for organizations.
+In the dynamic world of data management, the choice between a cloud-based and an on-premise [Data Lakehouse](/glossary/data-lakehouse) is a pivotal decision for organizations.
 
 <!-- truncate -->
 
@@ -32,7 +32,7 @@ The cloud-based Data Lakehouse represents the convergence of cloud computing's s
 
 **Weaknesses:**
 
-- **Data Security Concerns:** While cloud providers ensure high levels of security, some organizations have reservations about storing sensitive data off-premise.
+- **[Data Security](/glossary/data-security) Concerns:** While cloud providers ensure high levels of security, some organizations have reservations about storing sensitive data off-premise.
 - **Data Ownership and Vendor lock-in**: Some cloud-only solutions use proprietary data and table formats, creating an implicit vendor lock-in.
 - **Dependence on Internet Connectivity:** Requires reliable internet access, which can be a limitation in areas with poor connectivity.
 - **Potential for Higher Long-Term Costs:** Many cloud-only vendors have embraced usage-based billing models with compute credits and high mark-up on cloud instances. This can get expensive quickly at larger data sizes.

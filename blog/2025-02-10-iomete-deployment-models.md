@@ -14,7 +14,7 @@ import Img from '@site/src/components/Img';
 
 ## **On-Premises Deployment**
 
-In an on-premises deployment, IOMETE operates entirely within the organization's data center infrastructure. This model provides maximum control over the entire stack and is ideal for organizations with strict data sovereignty requirements or existing data center investments.
+In an on-premises deployment, IOMETE operates entirely within the organization's data center infrastructure. This model provides maximum control over the entire stack and is ideal for organizations with strict [data sovereignty](/blog/data-residency-vs-data-sovereignty) requirements or existing data center investments.
 
 <Img src="/img/blog/2025-02-10-iomete-deployment-models/iomete-high-level-architecture.png" alt="IOMETE high level architecture" maxWidth="500px" centered borderless/>
 
@@ -22,7 +22,7 @@ In an on-premises deployment, IOMETE operates entirely within the organization's
 
 #### **Control Plane**
 
-The Control Plane manages the overall platform operations, including resource allocation, security policies, and system monitoring. It runs on Kubernetes, providing container orchestration and ensuring high availability of platform services. The control plane manages all data planes and horizontal platform components across the organization's infrastructure.
+The Control Plane manages the overall platform operations, including resource allocation, security policies, and system monitoring. It runs on [Kubernetes](/blog/kubernetes-native-data-engineering-architecture), providing container orchestration and ensuring high availability of platform services. The control plane manages all data planes and horizontal platform components across the organization's infrastructure.
 
 #### **Data Planes**
 
@@ -38,7 +38,7 @@ Organizations can deploy multiple data planes to scale their compute workloads e
 
 #### **Storage Layer**
 
-The Storage layer supports both NFS and S3-compatible object storage systems, providing flexible storage options while maintaining complete data sovereignty. This layer includes:
+The Storage layer supports both NFS and [S3-compatible object storage](/blog/evaluating-s3-compatible-storage-for-lakehouse) systems, providing flexible storage options while maintaining complete data sovereignty. This layer includes:
 
 - Support for various object storage implementations
 - Metadata store for managing table schemas and optimization information

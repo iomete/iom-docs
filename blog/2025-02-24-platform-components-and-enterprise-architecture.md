@@ -21,11 +21,11 @@ In today's enterprise data landscape, organizations require sophisticated yet fl
 
 ## **Foundation: Control and Data Plane Architecture**
 
-IOMETE implements a modern architecture built on two fundamental pillars: a centralized control plane for management and distributed data planes for processing. This architecture, built on Kubernetes, enables unprecedented deployment flexibility while maintaining consistent management and security controls.
+IOMETE implements a modern architecture built on two fundamental pillars: a centralized control plane for management and distributed data planes for processing. This architecture, built on [Kubernetes](/blog/kubernetes-native-data-engineering-architecture), enables unprecedented deployment flexibility while maintaining consistent management and security controls.
 
 The control plane serves as the central management layer, providing unified governance across the entire platform. This centralized approach enables enterprises to maintain consistent policies and controls while supporting diverse deployment scenarios. Organizations can manage multiple data planes across different regions or environments through a single control interface, significantly reducing operational complexity.
 
-The data plane architecture enables flexible processing deployment while maintaining security and governance. Organizations can deploy processing resources across different Kubernetes clusters and namespaces, enabling efficient resource utilization while maintaining workload isolation. This flexibility proves particularly valuable for organizations operating across multiple regions or maintaining strict data sovereignty requirements.
+The data plane architecture enables flexible processing deployment while maintaining security and governance. Organizations can deploy processing resources across different Kubernetes clusters and namespaces, enabling efficient resource utilization while maintaining workload isolation. This flexibility proves particularly valuable for organizations operating across multiple regions or maintaining strict [data sovereignty](/blog/data-residency-vs-data-sovereignty) requirements.
 
 <Img src="/img/blog/2025-02-24-platform-components-and-enterprise-architecture/iomete-high-level-data-architecture.png" alt="IOMETE High-Level Architecture" maxWidth="500px" centered borderless/>
 
@@ -55,7 +55,7 @@ Database Navigator functionality provides intuitive access to the entire data ec
 
 ## **ETL Framework**
 
-The platform's ETL capabilities address the complex data integration requirements of modern enterprises. Through sophisticated Spark job management and orchestration capabilities, organizations can implement complex data pipelines while maintaining operational efficiency.
+The platform's ETL capabilities address the complex data integration requirements of modern enterprises. Through sophisticated [Spark job](/user-guide/spark-jobs) management and [orchestration](/glossary/orchestration) capabilities, organizations can implement complex [data pipelines](/glossary/data-pipelines) while maintaining operational efficiency.
 
 <Img src="/img/blog/2025-02-24-platform-components-and-enterprise-architecture/etl-framework.png" alt="" maxWidth="500px" centered borderless/>
 
@@ -67,13 +67,13 @@ The built-in Apache Airflow integration enables sophisticated workflow orchestra
 
 For organizations implementing advanced analytics and machine learning capabilities, IOMETE provides comprehensive support through integrated Jupyter notebooks and modern Spark architecture. The platform enables data science teams to leverage powerful processing resources while maintaining security and governance controls.
 
-Spark Connect implementation represents a significant advancement in enterprise Spark deployment. The architecture enables stable operations through improved memory management while simplifying upgrades and maintenance. This approach reduces operational overhead while improving development efficiency through integrated debugging capabilities.
+[Spark Connect](/blog/spark-connect-tutorial) implementation represents a significant advancement in enterprise Spark deployment. The architecture enables stable operations through improved memory management while simplifying upgrades and maintenance. This approach reduces operational overhead while improving development efficiency through integrated debugging capabilities.
 
 <Img src="/img/blog/2025-02-24-platform-components-and-enterprise-architecture/jupyter-spark-integration.png" alt="" maxWidth="500px" centered borderless/>
 
 ## **Enterprise Security Framework**
 
-IOMETE's security architecture implements a sophisticated approach that decouples compute and data access controls. This design enables organizations to implement precise security policies while maintaining operational flexibility. The platform supports granular access controls, including row-level security and data masking, ensuring data protection while enabling appropriate access for different user roles.
+IOMETE's [data security](/glossary/data-security) architecture implements a sophisticated approach that decouples compute and data access controls. This design enables organizations to implement precise security policies while maintaining operational flexibility. The platform supports granular access controls, including row-level security and data masking, ensuring data protection while enabling appropriate access for different user roles.
 
 <Img src="/img/blog/2025-02-24-platform-components-and-enterprise-architecture/enterprise-security-framework.png" alt="" maxWidth="500px" centered borderless/>
 
@@ -86,7 +86,7 @@ The IOMETE platform implements a comprehensive Identity and Access Management (I
 The authentication system supports industry-standard protocols:
 
 - LDAP (Lightweight Directory Access Protocol) integration
-- SAML 2.0 (Security Assertion Markup Language) federation
+- [SAML 2.0](/blog/sso-with-saml-guide) (Security Assertion Markup Language) federation
 - OpenID Connect implementation
 - SCIM 2.0 (System for Cross-domain Identity Management) protocol
 
@@ -102,7 +102,7 @@ This architecture enables granular access control while maintaining operational 
 
 <Img src="/img/blog/2025-02-24-platform-components-and-enterprise-architecture/identity-and-access-management.png" alt="" maxWidth="500px" centered borderless/>
 
-## **Data Discovery and Governance**
+## **Data Discovery and [Data Governance](/glossary/data-governance)**
 
 The platform's data catalog capabilities enable efficient data asset management across the enterprise. Organizations can implement comprehensive metadata management while maintaining clear lineage and impact analysis capabilities. This proves particularly valuable for organizations managing complex data environments with diverse user requirements.
 
@@ -110,7 +110,7 @@ The platform's data catalog capabilities enable efficient data asset management 
 
 ## **Multi-Catalog Architecture**
 
-IOMETE's multi-catalog support enables organizations to implement unified data access across diverse sources. The platform supports both managed Iceberg catalogs and external connections to various database systems. This flexibility enables organizations to implement modern data lakehouse capabilities while maintaining access to existing data sources.
+IOMETE's multi-catalog support enables organizations to implement unified data access across diverse sources. The platform supports both managed [Iceberg](/blog/cheat-sheet-for-apache-iceberg) catalogs and external connections to various database systems. This flexibility enables organizations to implement modern [data lakehouse](/glossary/data-lakehouse) capabilities while maintaining access to existing data sources.
 
 <Img src="/img/blog/2025-02-24-platform-components-and-enterprise-architecture/spark-catalogs.png" alt="" maxWidth="500px" centered borderless/>
 

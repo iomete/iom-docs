@@ -13,23 +13,23 @@ import Img from '@site/src/components/Img';
 
 ## **Why Data Engineering Teams Are Moving to Kubernetes**
 
-As data systems become increasingly distributed, event-driven, and real-time, the operational burden on engineering teams grows. Legacy data infrastructure — often composed of brittle Hadoop stacks, fixed-capacity clusters, and disconnected orchestration tools — can no longer meet the demands of petabyte-scale data, 24/7 SLAs, and rapidly evolving analytics needs.
+As data systems become increasingly distributed, event-driven, and real-time, the operational burden on engineering teams grows. Legacy data infrastructure — often composed of brittle Hadoop stacks, fixed-capacity clusters, and disconnected [orchestration](/glossary/orchestration) tools — can no longer meet the demands of petabyte-scale data, 24/7 SLAs, and rapidly evolving analytics needs.
 
 That’s why leading data engineering teams are shifting toward **Kubernetes-native deployment** as a foundational strategy.
 
-Instead of managing VMs or static infrastructure, teams now treat their data pipelines as **composable Kubernetes workloads**. This shift allows data engineers to automate infrastructure, manage dependencies declaratively, and deliver data products at the speed of modern software engineering.
+Instead of managing VMs or static infrastructure, teams now treat their [data pipelines](/glossary/data-pipelines) as **composable Kubernetes workloads**. This shift allows data engineers to automate infrastructure, manage dependencies declaratively, and deliver data products at the speed of modern software engineering.
 
 ### **Why This Shift Is Happening**
 
 ### **1. Scalable Workloads with Native Autoscaling**
 
-Modern data workloads spike and fall unpredictably — from daily ETL batches to sudden bursts of ML training. Kubernetes enables elastic autoscaling for Pods, whether they're Spark executors or ingestion microservices.
+Modern data workloads spike and fall unpredictably — from daily [ETL](/glossary/extract-transform-load) batches to sudden bursts of ML training. Kubernetes enables elastic autoscaling for Pods, whether they're [Spark](/glossary/apache-spark) executors or ingestion microservices.
 
 **IOMETE** leverages Kubernetes-native autoscaling to run Spark workloads with optimal resource usage. Clusters expand under heavy load and shrink during idle periods, reducing costs without sacrificing throughput.
 
 ### **2. Cloud Portability and Hybrid Compatibility**
 
-Vendor lock-in is an architectural liability. Kubernetes-native systems like **IOMETE** provide infrastructure independence. Whether deployed on-prem, in AWS, or across hybrid environments, workloads run consistently using Kubernetes APIs.
+Vendor lock-in is an architectural liability. Kubernetes-native systems like **IOMETE** provide infrastructure independence. Whether deployed [on-prem](/blog/how-to-build-on-prem-data-lakehouse), in AWS, or across hybrid environments, workloads run consistently using Kubernetes APIs.
 
 For example, IOMETE supports storage backends like **MinIO**, **Apache Ozone**, and **HDFS**, allowing teams to plug into their existing storage fabric while gaining the benefits of a Kubernetes-based compute layer.
 
@@ -49,7 +49,7 @@ Kubernetes-native platforms provide out-of-the-box telemetry: logs, metrics, eve
 
 With data decentralization comes the need for stronger controls. Kubernetes allows fine-grained **Role-Based Access Control (RBAC)**, network policies, and Secrets management.
 
-IOMETE builds on this with enterprise-grade features like **column-level security**, **data masking**, **audit logging**, and **domain-based access isolation**. It’s governance built directly into the data layer.
+IOMETE builds on this with enterprise-grade features like **column-level security**, **data masking**, **audit logging**, and **domain-based access isolation**. It’s [data governance](/glossary/data-governance) built directly into the data layer.
 
 ---
 
