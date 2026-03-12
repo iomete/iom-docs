@@ -28,8 +28,8 @@ In this post, we explore where things are headed — and how platforms like **IO
 - Reproducible and auditable ML workflows
 
 **IOMETE** supports this by:
-- Serving data to KubeFlow via Iceberg tables
-- Running feature engineering with Spark
+- Serving data to KubeFlow via [Iceberg tables](/reference/iceberg-tables/getting-started)
+- Running feature engineering with [Spark](/glossary/apache-spark)
 - Writing predictions back to storage for analytics or audit
 
 ## 2. LakeFS: Git for Data Lakes
@@ -48,7 +48,7 @@ With **IOMETE + LakeFS**, teams can:
 
 ## 3. Data Mesh on Kubernetes
 
-**Data Mesh** promotes domain-oriented data ownership. Kubernetes is the ideal backbone for implementing this:
+**[Data Mesh](/blog/data-mesh)** promotes domain-oriented data ownership. Kubernetes is the ideal backbone for implementing this:
 
 - **Namespaces** map directly to data domains
 - RBAC and policies enforce governance boundaries
@@ -56,7 +56,7 @@ With **IOMETE + LakeFS**, teams can:
 
 **IOMETE** was designed with Mesh in mind:
 - Each team gets its own Domain (mapped to a Namespace)
-- Datasets become **data products** with standard APIs
+- Datasets become **[data products](/blog/data-product-design-with-ai)** with standard APIs
 - Central observability and access controls stay intact
 
 ## 4. Serverless Spark and Granular Autoscaling
@@ -95,7 +95,7 @@ These tools integrate well with Kubernetes, and **IOMETE** is building support f
 The Kubernetes-native data stack is becoming:
 - **Modular**: Every service is a building block (Spark, Trino, Airflow, ClickHouse)
 - **Composable**: Components talk to each other via open APIs and shared formats
-- **Cloud-Agnostic**: Deploy the same stack across clouds or on-prem
+- **Cloud-Agnostic**: Deploy the same stack across clouds or [on-prem](/blog/on-prem-vs-cloud-data-lakehouse)
 - **Self-Service**: Teams operate independently, but within a governed framework
 
 **IOMETE’s mission** is to accelerate this future by integrating emerging tools — while maintaining a Kubernetes-native core.

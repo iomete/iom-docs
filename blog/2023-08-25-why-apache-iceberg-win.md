@@ -11,15 +11,15 @@ coverImage: img/blog/thumbnails/2.png
 
 import MiniCard from "@site/src/components/MiniCard";
 
-Apache Iceberg is an open source table format for huge analytic datasets. It is designed to be used with popular data processing frameworks such as Apache Spark, Apache Flink, Apache Hive, Presto, and more.
+Apache Iceberg is an open source table format for huge analytic datasets. It is designed to be used with popular data processing frameworks such as [Apache Spark](/glossary/apache-spark), Apache Flink, Apache Hive, Presto, and more.
 
 <!-- truncate -->
 
 <!-- <MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard> -->
 
-Apache Iceberg is a table format that is quickly becoming the standard for storing and managing data lakes. It offers a number of advantages over other table formats, including:
+Apache Iceberg is a table format that is quickly becoming the standard for storing and managing [data lakes](/blog/data-lake-benefits-2023). It offers a number of advantages over other table formats, including:
 
-1. **Transactional consistency:** Iceberg tables are transactional, which means that data can be added, updated, or deleted atomically. This is important for ensuring the integrity of data lakes.
+1. **Transactional consistency:** Iceberg tables are transactional, which means that data can be added, updated, or deleted [atomically](/glossary/acid-transactions). This is important for ensuring the integrity of data lakes.
    - In other words, when you make a change to an Iceberg table, the change is applied to all the data in the table at the same time. This prevents data corruption and ensures that your data is always consistent.
 2. **Schema evolution:** Iceberg tables support schema evolution, which means that the schema of a table can be changed over time without affecting existing data. This makes it easy to manage data lakes as they grow and change.
    - For example, you might start out with a simple schema for your data lake, but as your data grows and you need to add new features, you can easily change the schema without having to worry about losing your existing data.
@@ -50,4 +50,4 @@ Check out the [Guide on how to start with Apache Iceberg](/reference/iceberg-tab
 
 **About IOMETE**
 
-IOMETE is a leading provider of data lakehouse solutions with Apache Iceberg as its core table format. IOMETE can be deployed on premise, in your private cloud or on any major public cloud. Start on our Free Plan today.
+IOMETE is a leading provider of [data lakehouse](/glossary/data-lakehouse) solutions with Apache Iceberg as its core table format. IOMETE can be deployed on premise, in your private cloud or on any major public cloud. Start on our Free Plan today.

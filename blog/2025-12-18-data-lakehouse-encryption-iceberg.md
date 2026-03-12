@@ -11,7 +11,7 @@ date: "12/18/2025"
 import Img from '@site/src/components/Img';
 import FAQSection from '@site/src/components/FAQSection';
 
-Modern data lakehouses built on Apache Iceberg often store petabytes of sensitive data across shared object stores like S3, making encryption at rest non-negotiable for compliance (HIPAA, GDPR) and data sovereignty.
+Modern [data lakehouses](/glossary/data-lakehouse) built on [Apache Iceberg](/blog/cheat-sheet-for-apache-iceberg) often store petabytes of sensitive data across shared object stores like S3, making encryption at rest non-negotiable for compliance (HIPAA, GDPR) and [data sovereignty](/blog/data-residency-vs-data-sovereignty).
 
 Encryption in transit (via TLS) protects data moving between services, while at-rest encryption safeguards files on disk against theft, insider access, or breached storage credentials.
 
@@ -19,7 +19,7 @@ Here at IOMETE, we help customers run data lakehouses ranging from hundreds of g
 
 ## Why Encrypt Data at Rest in a Data Lakehouse?
 
-A common security mistake is to assume that as long as bad actors cannot access your application, they also cannot access the data it stores. In reality, data can be compromised in many other ways. Encryption at rest protects sensitive data when someone gains access to your network, your servers, or the physical disks themselves, without ever accessing the application.
+A common [data security](/glossary/data-security) mistake is to assume that as long as bad actors cannot access your application, they also cannot access the data it stores. In reality, data can be compromised in many other ways. Encryption at rest protects sensitive data when someone gains access to your network, your servers, or the physical disks themselves, without ever accessing the application.
 
 To make this more concrete, imagine a heist where someone breaks into a data center operated by a major cloud provider and steals a large number of hard disks. If the data on those disks is not encrypted, the thieves can immediately start mining it for valuable and sensitive information. If the data is properly encrypted, breaking that encryption would require significant time and resources. Without even knowing what data is stored on the disks, which could just be all cute cat pictures, most thieves will not attempt it in the first place.
 
@@ -68,7 +68,7 @@ This is the most common form of encryption used for object stores. AWS calls it 
 
 In this approach, the object store is connected directly to a KMS system. While each object is encrypted with its own unique DEK, the platform controls the master keys (KEKs) used to encrypt these DEKs. The same master key is typically used across your account, or sometimes at the bucket level. Key rotation is handled seamlessly by the object store and is transparent to clients. Performance impact is minimal.
 
-For Iceberg tables, this means all your Parquet data files, manifest files, and metadata files are encrypted transparently. No special configuration is needed; you just write to an encrypted bucket and Iceberg works normally.
+For Iceberg tables, this means all your [Parquet](/glossary/parquet) data files, manifest files, and metadata files are encrypted transparently. No special configuration is needed; you just write to an encrypted bucket and Iceberg works normally.
 
 <Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/platform-managed-sse-kms.png" alt="Platform-managed server-side encryption with KMS" centered />
 
@@ -86,7 +86,7 @@ For Iceberg tables, this means all your Parquet data files, manifest files, and 
 
 This approach gives you more granular control. The object store still handles the encryption mechanics, but you specify which KMS key to use. Each object still gets its own unique DEK, but now that DEK is encrypted with your specified KEK. This is known as SSE-KMS in AWS and customer-managed keys (CMEK) in GCP and Azure.
 
-For Iceberg on S3-compatible storage, SSE-KMS is configured at the compute layer via Iceberg’s [S3FileIO](https://iceberg.apache.org/docs/1.4.0/aws/#s3-server-side-encryption). Query engines such as Spark or Trino configure Iceberg’s S3 access with a specific SSE-KMS mode and KMS key, which is then applied when writing objects. At runtime, each engine instance or catalog is typically configured with a single active write key, meaning all newly written objects use that key. As a result, all objects that a given engine instance needs to read must be decryptable using that key. Managing multiple keys therefore requires careful separation of jobs, catalogs, or engine instances.
+For Iceberg on S3-compatible storage, SSE-KMS is configured at the compute layer via Iceberg’s [S3FileIO](https://iceberg.apache.org/docs/1.4.0/aws/#s3-server-side-encryption). Query engines such as [Spark](/glossary/apache-spark) or Trino configure Iceberg’s S3 access with a specific SSE-KMS mode and KMS key, which is then applied when writing objects. At runtime, each engine instance or catalog is typically configured with a single active write key, meaning all newly written objects use that key. As a result, all objects that a given engine instance needs to read must be decryptable using that key. Managing multiple keys therefore requires careful separation of jobs, catalogs, or engine instances.
 
 <Img src="/img/blog/2025-12-18-data-lakehouse-encryption-iceberg/customer-specified-keys-sse-kms.png" alt="Customer-specified keys with SSE-KMS" centered />
 

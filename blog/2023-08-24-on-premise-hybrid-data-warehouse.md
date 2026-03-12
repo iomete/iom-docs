@@ -9,7 +9,7 @@ banner_description: There can be good reasons to opt for an on-premise data ware
 coverImage: img/blog/thumbnails/1.png
 ---
 
-“Cloud” has become a bit of a buzzword. If you’re not moving to the cloud, you must be left in the 80s is the implicit assumption. But there can be good reasons to opt for an on-premise data warehouse or lakehouse (note: in this post we talk about “data warehouse” because that’s a more known term, but we have a strong preference for the next generation of data warehouses, i.e. “the data lakehouse”).
+“Cloud” has become a bit of a buzzword. If you’re not moving to the cloud, you must be left in the 80s is the implicit assumption. But there can be good reasons to opt for an on-premise data warehouse or lakehouse (note: in this post we talk about “data warehouse” because that’s a more known term, but we have a strong preference for the next generation of data warehouses, i.e. “the [data lakehouse](/glossary/data-lakehouse)”).
 
 <!-- truncate -->
 
@@ -32,11 +32,11 @@ The table below gives an idea of the differences between on premise and cloud ba
 | Compliance  | Can be a good option for organizations that need to comply with strict regulations. Certain country and/or industry regulations demand that data stays within the country’s borders. | May not be a good option for organizations that need to comply with strict regulations.                                                                                             |
 | Performance | Can offer better performance for certain types of workloads.                                                                                                                         | Can offer consistent performance for all workloads.                                                                                                                                 |
 
-On-premise data warehouse solutions are perfect for organizations for which data security and ownership of data is critical. Think: government, financial services and healthcare.
+On-premise data warehouse solutions are perfect for organizations for which [data security](/glossary/data-security) and ownership of data is critical. Think: government, financial services and healthcare.
 
 ## Hybrid data warehousing solutions
 
-Large enterprises often have a complex data infrastructure that has grown over decades and may include cloud data warehousing as well as on premise data warehousing. We call this a “hybrid data warehousing environment”. Most existing data warehousing solutions are cloud-only. Snowflake and Databricks do not offer on premise solutions. IOMETE’s architecture allows for flexible deployment options and supports hybrid solutions. The big advantage is a unified environment for all data, irrespective of where the data lives.
+Large enterprises often have a complex data infrastructure that has grown over decades and may include cloud data warehousing as well as on premise data warehousing. We call this a “hybrid data warehousing environment”. Most existing data warehousing solutions are cloud-only. [Snowflake](/blog/snowflake-iomete) and [Databricks](/blog/databricks-alternatives) do not offer on premise solutions. IOMETE’s architecture allows for flexible deployment options and supports hybrid solutions. The big advantage is a unified environment for all data, irrespective of where the data lives.
 
 ## What is better: an on premise or cloud-based data warehousing solution?
 

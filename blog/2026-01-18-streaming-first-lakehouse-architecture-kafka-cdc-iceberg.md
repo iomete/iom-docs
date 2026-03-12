@@ -19,7 +19,7 @@ In 2026, organizations building new data platforms aren't asking whether to adop
 
 Marketing teams need real-time customer behavior to trigger personalized campaigns within minutes. Fraud detection systems need transaction anomalies flagged in seconds, not hours. Supply chain optimization requires inventory updates reflected instantly across warehouses. Batch ETL running on nightly schedules can't deliver this.
 
-Streaming-first lakehouse architecture solves this by unifying operational event streams (Kafka) with analytical storage (Apache Iceberg) in a single coherent system. Change Data Capture (CDC) tools like Debezium continuously replicate database changes into Kafka topics. Stream processing engines like Apache Flink transform, enrich, and write those events directly into Iceberg tables. Analysts query the same data that powers real-time applications—no dual writes, no eventual consistency problems, no stale snapshots.
+Streaming-first [lakehouse architecture](/blog/datalakehouse-architecture-in-2025) solves this by unifying operational event streams (Kafka) with analytical storage ([Apache Iceberg](/blog/why-apache-iceberg-is-winning-table-format)) in a single coherent system. Change Data Capture (CDC) tools like Debezium continuously replicate database changes into Kafka topics. Stream processing engines like Apache Flink transform, enrich, and write those events directly into Iceberg tables. Analysts query the same data that powers real-time applications—no dual writes, no eventual consistency problems, no stale snapshots.
 
 But streaming to Iceberg isn't just "turn on CDC and start writing." Production deployments face brutal operational challenges: millions of small files crushing query performance, metadata bloat from sub-second commits, schema evolution breaking pipelines mid-stream, compaction strategies that require 10x the write volume they're supposed to eliminate.
 
@@ -49,7 +49,7 @@ This architecture worked when "real-time" meant "yesterday's data available by 8
 
 Batch ETL introduces latency measured in hours. Even "micro-batch" systems running every 15 minutes are too slow when the business expects sub-minute data freshness.
 
-The solution isn't to run ETL faster. It's to eliminate the ETL entirely and build a streaming-first architecture where operational data flows continuously into analytical storage.
+The solution isn't to run [ETL](/glossary/extract-transform-load) faster. It's to eliminate the ETL entirely and build a streaming-first architecture where operational data flows continuously into analytical storage.
 
 ---
 
@@ -78,11 +78,11 @@ Kafka doesn't replace the lakehouse. It's the ingestion layer that feeds it. Thi
 
 ### 3. Apache Iceberg for Unified Analytical Storage
 
-Iceberg provides the ACID-compliant, schema-evolved, queryable storage layer where streaming data lands. Unlike traditional data lakes (Parquet files in S3), Iceberg offers:
+Iceberg provides the ACID-compliant, schema-evolved, queryable storage layer where streaming data lands. Unlike traditional data lakes ([Parquet](/glossary/parquet) files in S3), Iceberg offers:
 
-- **ACID transactions** – Every commit is atomic. Queries see consistent snapshots even while writes continue.
+- **[ACID transactions](/glossary/acid-transactions)** – Every commit is atomic. Queries see consistent snapshots even while writes continue.
 - **Schema evolution** – Add columns, change types, rename fields without rewriting data.
-- **Time travel** – Query historical versions of tables for audit, debugging, or reproducibility.
+- **[Time travel](/reference/iceberg-tables/time-travel)** – Query historical versions of tables for audit, debugging, or reproducibility.
 - **Hidden partitioning** – Iceberg manages partitions internally. Queries don't need to specify partition filters.
 - **Efficient metadata** – Iceberg's metadata layer enables fast scan planning even with millions of files.
 
@@ -132,7 +132,7 @@ Once the commit completes, the data is immediately queryable. Analysts running S
 
 Streaming workloads create many small files. IOMETE's automated maintenance framework handles:
 
-- **Compaction** – Merge small files into larger ones (targeting 512 MB per file)
+- **[Compaction](/blog/iceberg-compaction-slow)** – Merge small files into larger ones (targeting 512 MB per file)
 - **Snapshot expiration** – Delete old snapshots to prevent metadata bloat
 - **Orphan file cleanup** – Remove unreferenced data files from object storage
 
@@ -176,7 +176,7 @@ Expire old snapshots aggressively. For streaming tables, 7-14 days of snapshot h
 CALL iomete.system.expire_snapshots('my_database.streaming_table', TIMESTAMP '2026-01-11 00:00:00');
 ```
 
-Run this weekly or integrate it into automated maintenance schedules.
+Run this weekly or integrate it into automated [maintenance schedules](/blog/iceberg-maintenance-runbook).
 
 ### Challenge 3: Schema Evolution Mid-Stream
 
@@ -421,6 +421,6 @@ IOMETE's built-in table health monitoring surfaces these metrics in dashboards a
 
 ## About IOMETE
 
-IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, Apache Spark, and Kubernetes. It provides native support for streaming workloads through Flink and Spark Streaming integration, automated table maintenance for high-velocity writes, and real-time query performance on continuously updated Iceberg tables. With IOMETE, organizations build streaming-first lakehouses that unify operational and analytical data without the complexity of dual architectures.
+IOMETE is a self-hosted [data lakehouse](/glossary/data-lakehouse) platform built on Apache Iceberg, [Apache Spark](/glossary/apache-spark), and [Kubernetes](/blog/kubernetes-native-data-engineering-architecture). It provides native support for streaming workloads through Flink and Spark Streaming integration, automated table maintenance for high-velocity writes, and real-time query performance on continuously updated Iceberg tables. With IOMETE, organizations build streaming-first lakehouses that unify operational and analytical data without the complexity of dual architectures.
 
 Learn more at [iomete.com](https://iomete.com) or [schedule a demo](https://iomete.com/contact-us) to see how streaming-first lakehouse architecture delivers real-time analytics at scale.

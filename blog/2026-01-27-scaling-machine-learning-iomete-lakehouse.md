@@ -15,7 +15,7 @@ import Img from '@site/src/components/Img';
 
 We’ve all been there: You write a scikit-learn script on your laptop, it works beautifully on a sample of data, and then - _BAM_ - you try to run it on the full dataset and see the dreaded out of memory error.
 
-In this guide, we’ll explore how to move your Machine Learning (ML) workloads from a single-node environment to a **Distributed Spark Cluster** using IOMETE. We'll also be honest about the "Spark Tax" and when it’s actually worth paying. All codes referenced below are publicly available at [IOMETE ML Quickstart Repo](https://github.com/iomete/iomete-ml-quickstart).
+In this guide, we’ll explore how to move your Machine Learning (ML) workloads from a single-node environment to a **Distributed [Spark](/glossary/apache-spark) Cluster** using IOMETE. We'll also be honest about the "Spark Tax" and when it’s actually worth paying. All codes referenced below are publicly available at [IOMETE ML Quickstart Repo](https://github.com/iomete/iomete-ml-quickstart).
 
 <!-- truncate -->
 
@@ -70,7 +70,7 @@ Think of starting a Spark cluster like launching a commercial flight. Even if th
 
 ### Why does it take a moment to start? {#why-does-it-take-a-moment}
 
-- **Pod Startup Latency:** Kubernetes has to pull your Docker image and "spin up" the containers.
+- **Pod Startup Latency:** [Kubernetes](/blog/kubernetes-data-engineering-benefits) has to pull your Docker image and "spin up" the containers.
 - **JVM Initialization:** Spark runs on the Java Virtual Machine. Each worker (Executor) needs a few seconds to wake up its JVM and say "I'm ready!" to the Driver.
 - **K8s API Handshake:** The Spark Driver and the Kubernetes API have a quick conversation to coordinate exactly where those worker pods should live.
 - **The Game Plan (DAG):** Spark doesn't just "do" math; it builds a **Directed Acyclic Graph (DAG)** - a complex map of how to split your data and serialize the tasks to the workers/executors.
@@ -111,7 +111,7 @@ We've made deployment as simple as possible. The repository includes a pre-confi
 
 ### Two Ways to Deploy {#two-ways-to-deploy}
 
-See details in the [IOMETE Developer Guide](https://iomete.com/resources/developer-guide/spark-job/getting-started/) on how to submit a Spark job. Running ML training process is just submitting another Spark job. Note that here you have two options for "_Main application file_":
+See details in the [IOMETE Developer Guide](https://iomete.com/resources/developer-guide/spark-job/getting-started/) on how to submit a [Spark job](/user-guide/spark-jobs). Running ML training process is just submitting another Spark job. Note that here you have two options for "_Main application file_":
 
 1. **The Container Way:** Set it to `local:///app/job.py`. The code is "baked" into your Docker image.
 

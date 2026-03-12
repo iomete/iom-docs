@@ -24,7 +24,7 @@ A large organization operates an on-premise/self hosted storage that processes v
 
 <!-- <MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard> -->
 
-## **Solution: Single Kubernetes Cluster**
+## **Solution: Single [Kubernetes](/blog/kubernetes-data-engineering-benefits) Cluster**
 
 Let's go step-by-step on how IOMETE solves a challange:
 
@@ -35,8 +35,8 @@ Let's go step-by-step on how IOMETE solves a challange:
 
 **Step 2: Data Transformation and Open Formats**
 
-- Data stored in various formats across the organization is transformed and standardized into open table formats like Apache Iceberg.
-- The organization adopts a data lake approach, where all data is stored in shared storage accessible from the Kubernetes cluster using network-attached storage (NAS).
+- Data stored in various formats across the organization is transformed and standardized into open table formats like [Apache Iceberg](/reference/iceberg-tables/getting-started).
+- The organization adopts a [data lake](/blog/data-lake-benefits-2023) approach, where all data is stored in shared storage accessible from the Kubernetes cluster using network-attached storage (NAS).
 
 **Step 3: Access Control and Security**
 

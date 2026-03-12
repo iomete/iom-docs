@@ -12,7 +12,7 @@ import Img from '@site/src/components/Img';
 
 # Evaluating S3-Compatible Object Storage for Your Data Lakehouse
 
-Choosing object storage for a self-hosted lakehouse is one of the hardest decisions to reverse. Every Parquet file, every Iceberg manifest, and every piece of metadata lives in the object store. Spark reads from it and Flink writes to it in real time. If the storage layer fails, stalls, or disappears; everything above it stops.
+Choosing object storage for a self-hosted lakehouse is one of the hardest decisions to reverse. Every [Parquet](/glossary/parquet) file, every Iceberg manifest, and every piece of metadata lives in the object store. Spark reads from it and Flink writes to it in real time. If the storage layer fails, stalls, or disappears; everything above it stops.
 
 This is especially true for on-premises and private cloud deployments. Public cloud users get S3, GCS, or ADLS as managed services. Self-hosted teams have to choose, deploy, and operate their own storage layer. For years, that choice was easy: MinIO. It was fast, well-documented, and Kubernetes-friendly, and something most teams could work with.
 
@@ -28,7 +28,7 @@ This article evaluates the realistic alternatives with a practical assessment of
 
 A [data lakehouse](/blog/data-warehouses-vs-data-lakehouses) decouples compute from storage. This is the core architectural principle that makes it different from traditional data warehouses, where storage and compute are welded together inside a single system.
 
-In a lakehouse, open table formats like [Apache Iceberg](https://iceberg.apache.org/) sit between compute engines and the storage layer. Iceberg handles the hard parts (ACID transactions, schema evolution, time travel, partition pruning) by maintaining metadata that points to data files in object storage. Compute engines like Spark, Flink, and Trino — or lakehouse platforms like IOMETE — read that metadata, then go directly to the object store for the actual data.
+In a lakehouse, open table formats like [Apache Iceberg](https://iceberg.apache.org/) sit between compute engines and the storage layer. Iceberg handles the hard parts ([ACID transactions](/glossary/acid-transactions), schema evolution, [time travel](/reference/iceberg-tables/time-travel), partition pruning) by maintaining metadata that points to data files in object storage. Compute engines like Spark, Flink, and Trino — or lakehouse platforms like IOMETE — read that metadata, then go directly to the object store for the actual data.
 
 This architecture is powerful, but it creates a hard dependency. The object store isn't just "where files go." It's the system of record. Every Parquet file, every manifest, every metadata file lives there. If the object store loses data, Iceberg's ACID guarantees don't help — the data is gone. If the object store is slow, every query is slow. If the object store can't handle concurrent access from dozens of Spark executors, your entire pipeline backs up.
 
@@ -59,7 +59,7 @@ Iceberg and the compute engines that sit on top of it use specific S3 API operat
 - **Multipart uploads** — writing large Parquet data files
 - **Conditional writes** — atomic commits to the metadata layer
 - **Versioning** — snapshot isolation and time travel
-- **Server-side encryption (SSE)** — data-at-rest encryption for compliance
+- **Server-side encryption (SSE)** — [data-at-rest encryption](/blog/data-lakehouse-encryption-iceberg) for compliance
 - **Presigned URLs** — [access delegation](/blog/iceberg-access-delegation) without sharing long-lived credentials
 
 An object store that implements 80% of the S3 API will work in demos but will break in production.
@@ -78,7 +78,7 @@ Data loss in a lakehouse is catastrophic. Unlike a database where you can replay
 
 ### Kubernetes-Native Deployment
 
-Most modern [on-prem lakehouse deployments](/blog/on-premise-case-study) run on Kubernetes. The object store should integrate cleanly - through operators, Helm charts, CSI drivers, or a combination. "Works in Docker" is not the same as "operates well in Kubernetes." You need automated scaling, rolling upgrades, persistent volume management, and monitoring integration.
+Most modern [on-prem lakehouse deployments](/blog/on-premise-case-study) run on [Kubernetes](/blog/kubernetes-data-engineering-benefits). The object store should integrate cleanly - through operators, Helm charts, CSI drivers, or a combination. "Works in Docker" is not the same as "operates well in Kubernetes." You need automated scaling, rolling upgrades, persistent volume management, and monitoring integration.
 
 ### Operational Complexity
 

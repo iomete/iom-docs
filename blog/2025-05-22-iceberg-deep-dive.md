@@ -10,7 +10,7 @@ authors: alokh
 
 import Img from '@site/src/components/Img';
 
-**Apache Iceberg** has emerged as a powerful table format for managing large analytic datasets in data lakes. Unlike traditional file formats that simply organize data, Iceberg provides a rich metadata layer that enables ACID transactions, schema evolution, partition evolution, and time travel capabilities — features traditionally associated with data warehouses rather than data lakes.
+**Apache Iceberg** has emerged as a powerful table format for managing large analytic datasets in data lakes. Unlike traditional file formats that simply organize data, Iceberg provides a rich metadata layer that enables [ACID transactions](/glossary/acid-transactions), schema evolution, partition evolution, and [time travel](/reference/iceberg-tables/time-travel) capabilities — features traditionally associated with [data warehouses](/glossary/data-warehouse) rather than data lakes.
 
 In this first part of our two-part series, we'll take a deep dive into Iceberg's Copy-on-Write (CoW) table format. We'll explore the structure of Iceberg's metadata and see how it evolves as we perform common operations like inserts, updates, and deletes.
 
@@ -26,7 +26,7 @@ Iceberg's metadata follows a tiered structure:
 2. Snapshots: Point-in-time views of the table, each representing a table state after a transaction.
 3. Manifest Lists: Files that organize related manifests created in a single operation.
 4. Manifest Files: Files that track the data files belonging to a snapshot, including add/delete operations.
-5. Data Files: The actual files containing table data (typically Parquet, Avro, or ORC).
+5. Data Files: The actual files containing table data (typically [Parquet](/glossary/parquet), Avro, or ORC).
 
 This hierarchy forms a tree structure where each level points to the level below it, ultimately leading to the data files. This approach enables Iceberg to efficiently track changes and provide ACID guarantees without scanning all data files.
 
@@ -255,6 +255,6 @@ To summarize:
 
 1. Data files are never modified in Iceberg. Instead, a new copy of the data file is created when performing an update or delete operation.
 2. Copy-on-Write (CoW) tables are ideal for usecases where read performance is critical. It is best suited for usecases where we have append heavy workloads and batch processing with infrequent updates.
-3. Regular maintenance of the table is required to keep the data size in check. This can be done by compacting and removing old snapshots.
+3. Regular [maintenance](/reference/iceberg-tables/maintenance) of the table is required to keep the data size in check. This can be done by compacting and removing old snapshots.
 
-In the next part, we'll explore Iceberg's Merge-on-Read table mode, which takes a different approach to handling updates and deletes.
+In the next part, we'll explore Iceberg's [Merge-on-Read](/blog/merge-on-read-vs-copy-on-write) table mode, which takes a different approach to handling updates and deletes.

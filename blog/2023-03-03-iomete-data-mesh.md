@@ -18,7 +18,7 @@ A [Data Mesh](blog/2023-02-17-data-mesh.md) is an architectural pattern for desi
 
 ## **Why should we use Data Mesh?**
 
-A Data Mesh allows users to easily access data without transporting it to a [data lake or data warehouse](blog/2022-11-24-data-warehouses-vs-data-lakehouses.md) and focuses on decentralization, distributing data ownership among teams who can manage data as a product independently and securely thus reducing bottlenecks and silos in data management and enabling scalability without sacrificing on data governance.
+A Data Mesh allows users to easily access data without transporting it to a [data lake or data warehouse](blog/2022-11-24-data-warehouses-vs-data-lakehouses.md) and focuses on decentralization, distributing data ownership among teams who can manage data as a product independently and securely thus reducing bottlenecks and silos in data management and enabling scalability without sacrificing on [data governance](/glossary/data-governance).
 
 A **monolithic data** infrastructure stores, processes, and transforms data in one central [data lake](2023-02-13-what-is-a-data-lake.md). Centralized Data teams in the long run cannot handle all the analytical questions of management and product owners quickly enough. This is a massive problem because making timely data-driven decisions is crucial to stay competitive.  A data mesh, on the other hand, refers to data as a ‘product’ with each domain handling its own data and presenting it as a ready-to-consume product than simple raw data.
 

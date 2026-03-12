@@ -10,7 +10,7 @@ date: "02/24/2026"
 
 import FAQSection from '@site/src/components/FAQSection';
 
-For years, Europe operated under a comforting assumption: host data on European soil, and European law will protect it. Expert opinions commissioned by the German Federal Ministry of the Interior — alongside long-standing legal realities like the US CLOUD Act and FISA 702 — have forced a reckoning that was long overdue.
+For years, Europe operated under a comforting assumption: host data on European soil, and European law will protect it. Expert opinions commissioned by the German Federal Ministry of the Interior — alongside long-standing legal realities like the US [CLOUD Act](/blog/cloud-act-reality-check) and FISA 702 — have forced a reckoning that was long overdue.
 
 The conclusion itself isn't new. But the willingness to say it out loud finally is: **data residency does not equal data sovereignty.**
 
@@ -34,7 +34,7 @@ Compliance frameworks manage process. They don't alter who owns the infrastructu
 
 ## Encryption helps, but it's not a silver bullet
 
-Encryption gets cited as a mitigation strategy in nearly every sovereignty discussion. And yes, encryption at rest and in transit is essential. But it doesn't eliminate the problem.
+[Encryption](/blog/data-lakehouse-encryption-iceberg) gets cited as a mitigation strategy in nearly every sovereignty discussion. And yes, encryption at rest and in transit is essential. But it doesn't eliminate the problem.
 
 Someone has to control the encryption keys. Metadata and operational traces are almost always left unencrypted. Cloud services, by their very design, must process data in plaintext at some stage.
 
@@ -56,9 +56,9 @@ DORA — the Digital Operational Resilience Act — became enforceable across th
 
 What makes DORA particularly relevant here: it doesn't just ask *whether* you have a risk management framework. It asks *who actually controls your critical ICT infrastructure* — and what happens if that provider is compelled by a foreign government to act against your interests.
 
-NIS2 broadens this logic across essential sectors. The EU AI Act introduces additional data governance requirements for high-risk AI systems. Taken together, these regulations are making digital sovereignty an operational requirement — not an aspiration.
+NIS2 broadens this logic across essential sectors. The EU AI Act introduces additional [data governance](/glossary/data-governance) requirements for high-risk AI systems. Taken together, these regulations are making digital sovereignty an operational requirement — not an aspiration.
 
-For organizations relying on SaaS platforms operated by US-headquartered companies, the compliance picture is getting harder to reconcile. You can document your risk. But documentation doesn't change who holds the keys.
+For organizations relying on [SaaS platforms](/blog/why-2026-enterprises-move-saas-to-selfhosted-lakehouses) operated by US-headquartered companies, the compliance picture is getting harder to reconcile. You can document your risk. But documentation doesn't change who holds the keys.
 
 ## Sovereignty is an architectural decision
 
@@ -82,7 +82,7 @@ Geography is one piece of the puzzle. But without operational control, it's a ma
 
 This is precisely the problem IOMETE was built to solve.
 
-IOMETE is a self-hosted data lakehouse platform that runs entirely within your infrastructure — whether that's your own data center, your private cloud, or your public cloud account. Built on open standards (Apache Iceberg, Apache Spark, Kubernetes), it processes and stores data without ever moving it outside your security perimeter.
+IOMETE is a self-hosted [data lakehouse](/glossary/data-lakehouse) platform that runs entirely within your infrastructure — whether that's your own data center, your private cloud, or your public cloud account. Built on open standards ([Apache Iceberg](/blog/why-apache-iceberg-is-winning-table-format), [Apache Spark](/glossary/apache-spark), [Kubernetes](/blog/kubernetes-data-engineering-benefits)), it processes and stores data without ever moving it outside your security perimeter.
 
 There's no SaaS control plane sitting in another jurisdiction. No vendor-managed runtime that processes your data in plaintext on someone else's infrastructure. No ambiguity about who controls the encryption keys, the administrator access, or the audit trail.
 

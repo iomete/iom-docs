@@ -15,7 +15,7 @@ import Img from '@site/src/components/Img';
 
 Let's be honest: managing user accounts across all your different tools is a nightmare.
 
-A new engineer starts. You add them to GitHub, AWS, your BI tool, and... IOMETE. A week later, someone leaves, and you have to play "whack-a-mole" to deactivate their accounts, praying you didn't miss one. This isn't just inefficient; it's a security risk.
+A new engineer starts. You add them to GitHub, AWS, your BI tool, and... IOMETE. A week later, someone leaves, and you have to play "whack-a-mole" to deactivate their accounts, praying you didn't miss one. This isn't just inefficient; it's a [security risk](/blog/data-platform-security).
 
 What if your IOMETE platform could just... *know* who works at your company? What if it automatically updated when someone joined, left, or changed teams?
 
@@ -30,7 +30,7 @@ Instead of IOMETE keeping its own separate, manually-managed list at the door, i
 The benefits are immediate:
 
 * **A Single Source of Truth:** No more "ghost" accounts or wondering who has access to what. If a user is in your company's AD, they can be in IOMETE. If they're removed from AD, they're gone.  
-* **Role-Based Access:** You can map your existing AD groups like "Data-Scientists" or "Finance-Analytics" directly to roles inside IOMETE. No more managing permissions user by user.  
+* **Role-Based Access:** You can map your existing AD groups like "Data-Scientists" or "Finance-Analytics" directly to roles inside IOMETE. No more managing [permissions](/user-guide/data-security/overview) user by user.  
 * **The "Set It and Forget It" Magic:** This is the best part. IOMETE doesn't just sync once. You can set it to **automatically poll** your LDAP server every few minutes or hours. A new hire is added to the "Data-Scientists" group in Active Directory? They get the right permissions in IOMETE before they even open their laptop. No tickets, no manual work.
 
 

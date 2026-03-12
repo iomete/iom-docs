@@ -25,13 +25,13 @@ Cloud repatriation is the process of relocating public cloud-based resources to 
 
 Organizations aren't repatriating on a whim; several interconnected factors are fueling this trend:
 
-1. **Cost Overruns and Predictability Issues**: Public cloud bills can spiral due to variable pricing, data egress fees, and unexpected scaling costs. Average cloud expenses have risen significantly, with storage and compute often deemed "prohibitively expensive." In 2021 A16z wrote the article “The Cost of Cloud, a Trillion Dollar Paradox” in which the case was made that cloud had not delivered on its promise to reduce cost. Companies like 37signals have publicly shared how repatriation saved them millions by avoiding vendor lock-in and optimizing for steady-state workloads.
+1. **[Cost Overruns](/blog/fortune-500-cost-reduction-self-hosted-vs-saas-tco) and Predictability Issues**: Public cloud bills can spiral due to variable pricing, data egress fees, and unexpected scaling costs. Average cloud expenses have risen significantly, with storage and compute often deemed "prohibitively expensive." In 2021 A16z wrote the article “The Cost of Cloud, a Trillion Dollar Paradox” in which the case was made that cloud had not delivered on its promise to reduce cost. Companies like 37signals have publicly shared how repatriation saved them millions by avoiding vendor lock-in and optimizing for steady-state workloads.
 
-2. **Security and Data Sovereignty Concerns**: Geopolitical tensions and stricter regulations (e.g., data localization laws in regions like the UK and EU) are pushing firms to reclaim control over data. Resilience against outages, like those from major providers, is another motivator. A 2025 survey indicates 97% of mid-market organizations plan to move workloads off public clouds for better sovereignty.
+2. **Security and [Data Sovereignty](/blog/data-residency-vs-data-sovereignty) Concerns**: Geopolitical tensions and stricter regulations (e.g., data localization laws in regions like the UK and EU) are pushing firms to reclaim control over data. Resilience against outages, like those from major providers, is another motivator. A 2025 survey indicates 97% of mid-market organizations plan to move workloads off public clouds for better sovereignty.
 
 3. **Performance and Latency for AI Workloads**: The explosion of AI inference and training requires massive data gravity, making public clouds less efficient for high-compute tasks. Enterprises are repatriating to handle AI-driven workloads closer to the source, reducing latency and costs. For instance, nearly all mid-market enterprises plan to repatriate select workloads due to performance needs.
 
-4. **Compliance and Vendor Independence**: Regulatory compliance in industries like finance and healthcare often favors on-premises control. Additionally, avoiding dependency on hyperscalers (e.g., AWS, Azure) allows for open-source alternatives and multi-cloud flexibility.
+4. **Compliance and Vendor Independence**: Regulatory compliance in industries like finance and healthcare often favors [on-premises](/blog/on-prem-vs-cloud-data-lakehouse) control. Additionally, avoiding dependency on hyperscalers (e.g., AWS, Azure) allows for open-source alternatives and multi-cloud flexibility.
 
 5. **Hybrid Strategy Optimization**: Many CIOs now view repatriation as part of a "cloud reset," balancing public cloud for bursty needs with on-premises for core operations. Evidence from 2025 CIO surveys shows workloads moving for cost, control, and sovereignty, with hybrid models dominating.
 
@@ -43,7 +43,7 @@ Several high-profile cases illustrate repatriation in action:
 
 - **Dropbox**: An early pioneer, Dropbox saved hundreds of millions by building its own infrastructure after outgrowing public clouds, focusing on storage optimization.
 
-- **Broader Enterprise Trends**: A 2025 CIO survey reveals workloads are moving for cost, control, and sovereignty, with hybrid models dominating. Companies like those using MinIO for object storage are building AI-ready architectures on-premises to support data lakehouses.
+- **Broader Enterprise Trends**: A 2025 CIO survey reveals workloads are moving for cost, control, and sovereignty, with hybrid models dominating. Companies like those using MinIO for object storage are building AI-ready architectures on-premises to support [data lakehouses](/glossary/data-lakehouse).
 
 On platforms like Reddit, sysadmins discuss repatriation for security and cost, with threads from early 2025 showing growing interest in self-hosted hardware.
 
@@ -78,4 +78,4 @@ By mid-2025, repatriation is no longer a fringe idea but a strategic imperative.
 
 ## Cloud Repatriation and IOMETE
 
-In conclusion, as cloud repatriation continues to reshape enterprise IT strategies, solutions like the IOMETE self-hosted data lakehouse platform —with its storage location-agnostic architecture running on Kubernetes—empower organizations to seamlessly store data across public clouds, on-premises environments, private clouds, or hybrid setups. This flexibility not only facilitates efficient data management for AI and analytics workloads but also enables enterprises to achieve the ideal equilibrium between enhanced security, robust data ownership, and substantial cost savings, ensuring a resilient and adaptive infrastructure for the future.
+In conclusion, as cloud repatriation continues to reshape enterprise IT strategies, solutions like the IOMETE self-hosted data lakehouse platform —with its storage location-agnostic architecture running on [Kubernetes](/blog/kubernetes-data-engineering-benefits)—empower organizations to seamlessly store data across public clouds, on-premises environments, private clouds, or hybrid setups. This flexibility not only facilitates efficient data management for AI and analytics workloads but also enables enterprises to achieve the ideal equilibrium between enhanced security, robust data ownership, and substantial cost savings, ensuring a resilient and adaptive infrastructure for the future.

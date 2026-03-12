@@ -16,7 +16,7 @@ banner_description: A data lake is a flexible architecture and allows organizati
 
 ## The data warehouse
 
-In the 1980s, data warehouses (DWs) or enterprise data warehouses (EDWs) appeared. The term "data warehouse" refers to a repository for structured, filtered data from one or more disparate sources. In addition to analytical and business reporting purposes, it is also used to optimize business operations by keeping records and analyzing data.
+In the 1980s, [data warehouses](/glossary/data-warehouse) (DWs) or enterprise data warehouses (EDWs) appeared. The term "data warehouse" refers to a repository for structured, filtered data from one or more disparate sources. In addition to analytical and business reporting purposes, it is also used to optimize business operations by keeping records and analyzing data.
 
 One of the major drawbacks of data warehouses is their rigidity. Data warehouses are at their best when working with structured, filtered data. This triggered the industry to develop a solution that offered a higher degree of flexibility.
 
@@ -30,7 +30,7 @@ A data lake is a flexible architecture and allows organizations to keep all data
 
 ## The data lakehouse
 
-With today's storage architectures, users with big datasets have yet another option to choose from: the "data lakehouse" architecture.
+With today's storage architectures, users with big datasets have yet another option to choose from: the "[data lakehouse](/glossary/data-lakehouse)" architecture.
 
 Data lakehouses house both structured and unstructured data, just like data lakes. Thus, businesses that can benefit from working with unstructured data only need one data repository instead of two.
 
@@ -62,7 +62,7 @@ As an example, if you count the number of customers visiting your chain of resta
 
 A video recording of them coming in can provide you with all sorts of information - what is their age range, how do they dress? Are they overweight or thin? When someone walks through your door, you might be able to detect their mood based on facial analytics. Hopefully they're happier when they leave than when they came in!
 
-If one would put all of that information into a data lake there would be important issues of data governance to address - such as the fact that you're dealing with personal information. In a lakehouse architecture, compliance procedures would be automated - possibly even anonymized. This is why we at IOMETE decided to integrate an advanced data catalog in our lakehouse platform; it guarantees that data is structured and organized and avoids that your data turns into a stinky data swamp.
+If one would put all of that information into a data lake there would be important issues of [data governance](/glossary/data-governance) to address - such as the fact that you're dealing with personal information. In a lakehouse architecture, compliance procedures would be automated - possibly even anonymized. This is why we at IOMETE decided to integrate an advanced data catalog in our lakehouse platform; it guarantees that data is structured and organized and avoids that your data turns into a stinky data swamp.
 
 Unlike data warehouses, which must be manually adapted to the organization's formats and schemas, data lakes are inexpensive to scale because integrating new data sources is automated. Also, the data can be accessed from anywhere using any tool, as opposed to only being available through applications that can only handle structured data (such as SQL).
 
@@ -72,6 +72,6 @@ As more organizations begin to realize the value of unstructured data combined w
 
 The lakehouse is considered the latest innovation in data infrastructure that combines the benefits of a data warehouse and a data lake. IOMETE has taken it a few steps further. While the core of the [IOMETE platform](https://iomete.com/#platform) is a blazing-fast serverless lakehouse, it includes an advanced data catalog, serverless spark jobs, a SQL-editor and built-in BI. Why? So you don't have to do the complex and expensive integrations of standalone solutions.
 
-Apart from complete, the platform is flexible too. The IOMETE lakehouse is built on open source Apache Iceberg and Apache Spark and uses Apache Parquet as the data format. One can use the built-in BI which is based on Apache Superset or we can easily connect third party solutions such as Tableau, Looker, and PowerBI.
+Apart from complete, the platform is flexible too. The IOMETE lakehouse is built on open source [Apache Iceberg](/reference/iceberg-tables/getting-started) and [Apache Spark](/glossary/apache-spark) and uses [Apache Parquet](/glossary/parquet) as the data format. One can use the built-in BI which is based on Apache Superset or we can easily connect third party solutions such as Tableau, Looker, and PowerBI.
 
 All of this comes with the most aggressive value proposition in the data industry: The IOMETE compute price is equal to the AWS on-demand compute [price](https://iomete.com/pricing) with no mark-up, so AWS users get the IOMETE platform basically for free.

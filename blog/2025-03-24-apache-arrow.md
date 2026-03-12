@@ -12,7 +12,7 @@ authors: rocco
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
 
-Apache Arrow has been taking the data world by storm over the last few years. In essence, it is a language-agnostic format designed for efficient in-memory storage and transfer of data. As such, it shares similarities with popular formats like JSON, Parquet, and XML.
+Apache Arrow has been taking the data world by storm over the last few years. In essence, it is a language-agnostic format designed for efficient in-memory storage and transfer of data. As such, it shares similarities with popular formats like JSON, [Parquet](/glossary/parquet), and XML.
 
 Unlike other data formats, Arrow is optimized for fast processing of large datasets in memory. Its main goal is to eliminate serialization/deserialization overhead when transferring data between different systems written in various programming languages. It has the potential to become as foundational to data processing as HTTP/JSON is to web communication today.
 
@@ -226,4 +226,4 @@ Arrow eliminates these steps. With a well-defined format, different processes an
 
 In this article, we've only scratched the surface of what makes Apache Arrow a powerful choice for data analytics. We believe it has the potential to become the industry standard for powering large-scale data analytics.
 
-The advantages of Arrow go beyond speed. By simplifying the exchange of data between different systems, it reduces the time, effort, and resources required for data interoperability. This opens up new possibilities for real-time data processing, data sharing, and cross-platform analysis. As data engineering and analytics continue to evolve, Apache Arrow is well-positioned to play a central role in shaping the future of data-intensive applications.
+The advantages of Arrow go beyond speed. By simplifying the exchange of data between different systems, it reduces the time, effort, and resources required for data interoperability. This opens up new possibilities for [real-time data processing](/glossary/real-time-analytics), data sharing, and cross-platform analysis. As data engineering and analytics continue to evolve, Apache Arrow is well-positioned to play a central role in shaping the future of data-intensive applications.

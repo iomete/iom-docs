@@ -18,7 +18,7 @@ When it comes to searching for **_information_**, many of us turn to search engi
 
 ## Dependency management
 
-One of the most challenging aspects of data engineering is managing dependencies. With complex data pipelines, it can be difficult to keep track of all the dependencies and ensure that everything is working correctly. AI tools like ChatGPT can help with this by providing quick solutions to common problems. For example, in Python, you can use ChatGPT to write a script that will invert a dependency tree in just a few minutes.
+One of the most challenging aspects of data engineering is managing dependencies. With complex [data pipelines](/glossary/data-pipelines), it can be difficult to keep track of all the dependencies and ensure that everything is working correctly. AI tools like ChatGPT can help with this by providing quick solutions to common problems. For example, in Python, you can use ChatGPT to write a script that will invert a dependency tree in just a few minutes.
 
 ## Regex patterns
 
@@ -40,7 +40,7 @@ Data engineering is a field that involves managing large volumes of data, and th
 
 ## Generating Mermaid Diagrams
 
-One of the most popular use cases for ChatGPT among data engineers is generating Mermaid diagrams. Data engineers often use Mermaid diagrams to sketch out architecture and processes, and ChatGPT can be used to generate these diagrams based on descriptions. For instance, if a data engineer wants to create a flow chart to describe how an ETL process works, they can provide a prompt to ChatGPT, and it will generate a Mermaid diagram that can be pasted into the Mermaid live editor.
+One of the most popular use cases for ChatGPT among data engineers is generating Mermaid diagrams. Data engineers often use Mermaid diagrams to sketch out architecture and processes, and ChatGPT can be used to generate these diagrams based on descriptions. For instance, if a data engineer wants to create a flow chart to describe how an [ETL](/glossary/extract-transform-load) process works, they can provide a prompt to ChatGPT, and it will generate a Mermaid diagram that can be pasted into the Mermaid live editor.
 
 ![Mermaid diagram building with ChatGPT](/img/blog/2023-05-02-using-chatgpt-for-data-engineering/mermaid-diagram-using-chatgpt.png)
 

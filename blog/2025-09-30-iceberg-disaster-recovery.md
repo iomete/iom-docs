@@ -11,7 +11,7 @@ coverImage: img/blog/thumbnails/4.png
 import Img from '@site/src/components/Img';
 
 
-Apache Iceberg brings warehouse-grade reliability to data lakes through immutable data files, versioned metadata, and snapshot isolation. Disaster recovery hinges on understanding how storage, metadata, and the catalog work together. This guide focuses on the Iceberg components that matter for recovery and the native procedures like register_table and snapshot rollbacks that restore service quickly.
+[Apache Iceberg](/blog/cheat-sheet-for-apache-iceberg) brings warehouse-grade reliability to data lakes through immutable data files, versioned metadata, and snapshot isolation. Disaster recovery hinges on understanding how storage, metadata, and the catalog work together. This guide focuses on the Iceberg components that matter for recovery and the native procedures like register_table and snapshot rollbacks that restore service quickly.
 
 ## Understanding Iceberg's Architecture for Disaster Recovery
 
@@ -19,7 +19,7 @@ Apache Iceberg brings warehouse-grade reliability to data lakes through immutabl
 
 **Metadata Files:** The foundation of every Iceberg table lies in its metadata files (metadata.json), which contain table schema, partition specifications, and pointers to current snapshots. Each table operation creates a new metadata file with atomic updates, ensuring consistency but creating dependencies that must be preserved during recovery.
 
-**Data Files:** The bulk of the storage consists of columnar data files in formats like Parquet or ORC. These files are immutable once written and are referenced through manifest files. While they represent the largest storage component, they're also the most straightforward to backup using standard file replication tools.
+**Data Files:** The bulk of the storage consists of columnar data files in formats like [Parquet](/glossary/parquet) or ORC. These files are immutable once written and are referenced through manifest files. While they represent the largest storage component, they're also the most straightforward to backup using standard file replication tools.
 
 **Manifest Files:** Acting as an intermediate layer, manifest files maintain lists of data files along with partition information and column-level statistics. They enable Iceberg's query optimization capabilities and are essential for maintaining table performance after recovery.
 
@@ -27,7 +27,7 @@ Apache Iceberg brings warehouse-grade reliability to data lakes through immutabl
 
 ## Snapshot Management and Time Travel Implications
 
-Iceberg's snapshot-based architecture provides powerful recovery capabilities through its built-in time travel functionality. Each table modification creates a new snapshot, preserving the complete history of changes. This creates a natural checkpoint system that can be leveraged for point-in-time recovery scenarios.
+Iceberg's snapshot-based architecture provides powerful recovery capabilities through its built-in [time travel](/reference/iceberg-tables/time-travel) functionality. Each table modification creates a new snapshot, preserving the complete history of changes. This creates a natural checkpoint system that can be leveraged for point-in-time recovery scenarios.
 
 However, snapshot management also introduces complexity for disaster recovery planning. Retaining too many snapshots increases storage costs and metadata complexity, while aggressive expiration policies may eliminate recovery options for historical point-in-time scenarios.
 
@@ -43,7 +43,7 @@ Human error remains one of the most common causes of data incidents in enterpris
 
 **Schema Modifications:** Incorrect schema evolution operations can create compatibility issues with downstream applications. Iceberg's schema evolution capabilities allow for most corrections, but severe cases may require restoring to a previous table state.
 
-**Configuration Errors:** Misconfigured table properties, especially those related to compaction and snapshot expiration, can lead to performance degradation or data availability issues. Recovery involves correcting configurations and potentially restoring optimal table layouts through maintenance operations.
+**Configuration Errors:** Misconfigured table properties, especially those related to [compaction](/blog/iceberg-compaction-slow) and snapshot expiration, can lead to performance degradation or data availability issues. Recovery involves correcting configurations and potentially restoring optimal table layouts through [maintenance operations](/reference/iceberg-tables/maintenance).
 
 ### Data Corruption and Consistency Issues
 

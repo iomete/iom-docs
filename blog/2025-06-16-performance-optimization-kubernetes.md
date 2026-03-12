@@ -11,7 +11,7 @@ authors: aytan
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
 
-Kubernetes gives you incredible flexibility — but with flexibility comes complexity. Without the right configurations, even powerful workloads like Spark and Flink can underperform or waste resources.
+Kubernetes gives you incredible flexibility — but with flexibility comes complexity. Without the right configurations, even powerful workloads like [Spark](/glossary/apache-spark) and Flink can underperform or waste resources.
 
 This post covers practical strategies for optimizing performance in **Kubernetes-native data pipelines**, using patterns supported by platforms like **IOMETE**.
 
@@ -80,7 +80,7 @@ Typical tools: Spark (batch), dbt, Airflow
 **Recommendations:**
 - Use **Kubernetes CronJobs** or Airflow DAGs with KubernetesExecutor
 - Run jobs on **spot/preemptible nodes** to reduce cost
-- Use **Iceberg** or **Delta Lake** for table storage
+- Use **[Iceberg](/blog/cheat-sheet-for-apache-iceberg)** or **Delta Lake** for table storage
 
 ### Real-Time Workloads
 Typical tools: Flink, Kafka consumers, Spark Structured Streaming
@@ -94,12 +94,12 @@ Typical tools: Flink, Kafka consumers, Spark Structured Streaming
 
 ## Case Study: ETL Modernization with IOMETE + Kubernetes
 
-**Challenge**: A global enterprise running on Hadoop needed faster, cheaper ETL with better governance.
+**Challenge**: A global enterprise running on Hadoop needed faster, cheaper [ETL](/glossary/extract-transform-load) with better governance.
 
 **Solution**:
 - Deployed IOMETE on Kubernetes (via Rancher)
 - Used MinIO as an object storage backend
-- Rebuilt pipelines using Spark + dbt on Iceberg tables
+- Rebuilt pipelines using Spark + dbt on [Iceberg tables](/reference/iceberg-tables/getting-started)
 - Airflow + ArgoCD handled orchestration via GitOps
 
 **Results**:

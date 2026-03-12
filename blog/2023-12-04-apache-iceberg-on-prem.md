@@ -9,7 +9,7 @@ banner_description: cloud-native table format in on premise
 coverImage: img/blog/thumbnails/3.png
 ---
 
-For on-premise data storages, streamlining data operations is a key requirement to maintain efficiency and reduce operational costs. Apache Iceberg is reshaping how companies store and analyze huge amounts of data. It's an open table format that's making big waves in the tech world. Here's the cool part: IOMETE, a data lakehouse platform, is built on Apache Iceberg. It comes with fantastic features like ACID transactions, time travel, snapshots, schema evolution, data versioning, concurrency control, metadata management, and partitioning. Plus, it's powered by the open Apache Spark engine. Together, Iceberg and Spark make IOMETE super fast, adaptable, and able to grow with your needs.
+For on-premise data storages, streamlining data operations is a key requirement to maintain efficiency and reduce operational costs. Apache Iceberg is reshaping how companies store and analyze huge amounts of data. It's an open table format that's making big waves in the tech world. Here's the cool part: IOMETE, a [data lakehouse](/glossary/data-lakehouse) platform, is built on Apache Iceberg. It comes with fantastic features like [ACID transactions](/glossary/acid-transactions), time travel, snapshots, schema evolution, data versioning, concurrency control, metadata management, and partitioning. Plus, it's powered by the open [Apache Spark](/glossary/apache-spark) engine. Together, Iceberg and Spark make IOMETE super fast, adaptable, and able to grow with your needs.
 
 ![IOMETE-on-prem-iceberg](/img/blog/2023-12-04-on-prem-apache-iceberg/iceberg-onprem-iomete.png)
 
@@ -29,7 +29,7 @@ You can easily find your data from a mass storage using data catalog. It is a su
 
 ![Data Catalog in on-premise](/img/blog/2023-12-04-on-prem-apache-iceberg/data-catalog-onprem.png)
 
-You can have better control over your data, ensuring that only the right people have access to the right information. Plus, it's easier to comply with data security and privacy regulations (backed by Apache Ranger).
+You can have better control over your data, ensuring that only the right people have access to the right information. Plus, it's easier to comply with [data security](/glossary/data-security) and privacy regulations (backed by [Apache Ranger](/blog/apache-ranger-data-security)).
 
 **Iceberg in Action: Simplifying Data Usage**
 
