@@ -30,7 +30,7 @@ A data lake is a flexible architecture and allows organizations to keep all data
 
 ## The data lakehouse
 
-With today's storage architectures, users with big datasets have yet another option to choose from: the "[data lakehouse](/glossary/data-lakehouse)" architecture.
+With today's storage architectures, users with big datasets have yet another option to choose from: the [data lakehouse](/glossary/data-lakehouse) architecture.
 
 Data lakehouses house both structured and unstructured data, just like data lakes. Thus, businesses that can benefit from working with unstructured data only need one data repository instead of two.
 
