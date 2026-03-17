@@ -32,7 +32,7 @@ Skip this step if you already have Airflow installed and configured.
 Two ways to install Airflow with the IOMETE plugin locally:
 
 **1. Docker Setup**
-Clone the [Airflow plugin repository](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) and run `docker-compose`. It builds the latest version from source and starts Airflow webserver on \http://localhost:8080\. May take a couple of minutes to start.
+Clone the [Airflow plugin repository](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) and run `docker-compose`. It builds the latest version from source and starts Airflow webserver on `http://localhost:8080`. May take a couple of minutes to start.
 
 ```bash
 docker-compose up --build
@@ -128,7 +128,7 @@ If the Airflow task is killed, the operator automatically cancels the running jo
 ## Example DAGs
 
 :::tip Link to Source
-Source of examples below can be found in the [GitHub repository](https://github.com/iomete/iomete-airflow-plugin/tree/main/dags).
+Source of examples below can be found in the [GitHub repository](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin/dags).
 :::
 
 ### Single Task
@@ -174,6 +174,7 @@ dag = DAG(
     dag_id="iomete-task-with-args",
     default_args=args,
     schedule_interval=None,
+    render_template_as_native_obj=True,
     params={
         "job_id": "0761a510-3a66-4c72-b06e-9d071f30d85d",
         "config_override": {
