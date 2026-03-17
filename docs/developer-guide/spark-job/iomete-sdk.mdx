@@ -66,6 +66,7 @@ Register a new Spark Job by sending a create request with the job payload:
 job_payload = {
     "name": "my-etl-job",
     "bundleId": "your-bundle-id",
+    "namespace": "default",
     "template": {
         "applicationType": "python",
         "image": "iomete/spark-py:3.5.3-v1",
@@ -92,6 +93,7 @@ curl -X POST 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/s
   -d '{
     "name": "my-etl-job",
     "bundleId": "your-bundle-id",
+    "namespace": "default",
     "template": {
         "applicationType": "python",
         "image": "iomete/spark-py:3.5.3-v1",
@@ -145,7 +147,7 @@ The `bundleId` field is required when creating a job. The SDK raises a `ValueErr
 | `template.instanceConfig.executorCount` | integer | No | Number of executors (default `1`, minimum `1`) |
 | `template.instanceConfig.singleNodeDeployment` | boolean | No | Run driver and executor in a single node (default `false`) |
 | `template.restartPolicy` | object | No | Restart policy (e.g., `{"type": "Never"}`) |
-| `template.maxExecutionDurationSeconds` | string | No | Maximum execution time |
+| `template.maxExecutionDurationSeconds` | string | No | Maximum execution time in seconds (e.g., `"3600"` for 1 hour, default `"86400"`) |
 | `template.volumeId` | string | No | Volume identifier |
 
 ## Updating a Job
@@ -175,6 +177,7 @@ curl -X PUT 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/sp
   -d '{
     "name": "my-etl-job",
     "bundleId": "your-bundle-id",
+    "namespace": "default",
     "jobType": "SCHEDULED",
     "schedule": "0 0 */1 * *",
     "template": {
