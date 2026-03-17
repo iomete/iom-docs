@@ -134,14 +134,16 @@ Source of examples below can be found in the [GitHub repository](https://github.
 ### Single Task
 
 ```python
-from airflow import DAG, utils
+import pendulum
+from airflow import DAG
+from airflow.sdk.definitions.param import ParamsDict
 from iomete_airflow_plugin.iomete_operator import IometeOperator
 
 args = {
     "owner": "airflow",
     "email": ["airflow@example.com"],
     "depends_on_past": False,
-    "start_date": utils.dates.days_ago(0, second=1),
+    "start_date": pendulum.today("UTC"),
 }
 
 dag = DAG(dag_id="iomete-task", default_args=args, schedule_interval=None)
@@ -160,14 +162,16 @@ You can dynamically change `config_override` params with each run by choosing "R
 :::
 
 ```python
-from airflow import DAG, utils
+import pendulum
+from airflow import DAG
+from airflow.sdk.definitions.param import ParamsDict
 from iomete_airflow_plugin.iomete_operator import IometeOperator
 
 args = {
     "owner": "airflow",
     "email": ["airflow@example.com"],
     "depends_on_past": False,
-    "start_date": utils.dates.days_ago(0, second=1),
+    "start_date": pendulum.today("UTC"),
 }
 
 dag = DAG(
@@ -175,13 +179,18 @@ dag = DAG(
     default_args=args,
     schedule_interval=None,
     render_template_as_native_obj=True,
-    params={
-        "job_id": "0761a510-3a66-4c72-b06e-9d071f30d85d",
-        "config_override": {
-            "envVars": {"env1": "value1"},
-            "arguments": ["arg1", "arg2"],
-        },
-    },
+    params=ParamsDict({
+        'job_id': "11ef35a6-ff9d-4996-bf16-7a7ef0baf4fc",
+        'config_override': {
+            "envVars": {
+                "env1": "value1"
+            },
+            "arguments": ["arg1"],
+            "sparkConf": {
+                "spark.example.variable": "sample_value"
+            }
+        }
+    }),
 )
 
 task = IometeOperator(
@@ -195,14 +204,16 @@ task = IometeOperator(
 ### Sequential Execution
 
 ```python
-from airflow import DAG, utils
+import pendulum
+from airflow import DAG
+from airflow.sdk.definitions.param import ParamsDict
 from iomete_airflow_plugin.iomete_operator import IometeOperator
 
 args = {
     "owner": "airflow",
     "email": ["airflow@example.com"],
     "depends_on_past": False,
-    "start_date": utils.dates.days_ago(0, second=1),
+    "start_date": pendulum.today("UTC"),
 }
 
 dag = DAG(dag_id="iomete-demo", default_args=args, schedule_interval=None)
