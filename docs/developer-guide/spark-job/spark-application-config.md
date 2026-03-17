@@ -12,7 +12,7 @@ import Img from '@site/src/components/Img';
 This page covers every configuration option for creating or editing a Spark Job, organized by form section to match the console layout. For a step-by-step walkthrough, see [Getting Started](./getting-started.md).
 
 :::info Permissions
-Creating and managing Spark Jobs requires appropriate IAM permissions within your domain. Contact your domain owner if you cannot access the Spark Jobs page.
+Creating and managing Spark Jobs requires appropriate IAM permissions within your domain. Contact your domain owner if you cannot access the Job Templates page.
 :::
 
 ---
@@ -62,14 +62,16 @@ Use the format `repo/image:tag`. Private registries must be configured first und
 
 ### Main Application File
 
-The URI to the entry point of your application. Required.
+The URI to the entry point of your application.
+
+- **Python jobs**: required — provide a `local:///` or `s3a://` path to your `.py` file.
+- **JVM jobs**: defaults to `spark-internal` (classes already on the classpath). You can override it with an explicit URI if needed.
 
 | Scheme | Use case | Example |
 |--------|----------|---------|
 | `local:///` | File baked into the Docker image | `local:///app/job.py` |
 | `s3a://` | File on S3-compatible storage | `s3a://my-bucket/my-app.py` |
-
-For JVM jobs, the reserved value `spark-internal` indicates that classes are already on the classpath. If you leave the field empty, it's set automatically.
+| `spark-internal` | JVM classpath (default for JVM jobs) | `spark-internal` |
 
 ### Main Class
 
