@@ -1,9 +1,9 @@
 ---
 title: Airflow - Trigger Spark Jobs
-description: Get started using IOMETE's Airflow Plugin for Spark job management in your Airflow workflows. Learn how to trigger Spark jobs configure parameters and use examples.
+description: Trigger and manage IOMETE Spark jobs from Apache Airflow using the IOMETE Airflow Plugin.
 last_update:
-  date: 04/01/2023
-  author: Fuad Musayev
+  date: 03/17/2026
+  author: Abhishek Pathania
 ---
 
 import Img from "@site/src/components/Img";
@@ -13,135 +13,175 @@ import { Key, GithubLogo } from "@phosphor-icons/react";
 
 # Run Spark Jobs with Airflow
 
-The IOMETE's Airflow Plugin is an extension designed to make it easy for developers to trigger and manage
-Spark jobs within their Airflow workflows.  
-In this documentation, we will guide you through the installation, configuration, and usage of the plugin  
-to help you get started quickly and efficiently.
+The IOMETE Airflow Plugin is an extension that lets you trigger and manage Spark jobs from your Airflow workflows.
+It submits job runs, monitors their status, and supports cancellation on task kill.
 
 ## Installation
 
 ### Prerequisites
 
-- Python 3.7 or later
-- Apache Airflow 2.x
+- Python 3.10 or later (up to 3.12)
+- Apache Airflow 3.x
 
 ### Setup Airflow (Optional)
 
 :::note
-
 Skip this step if you already have Airflow installed and configured.
-
 :::
 
-We will cover 2 ways of installing Airflow with IOMETE plugin (Operator) locally:
+Two ways to install Airflow with the IOMETE plugin locally:
 
-**1. Docker Setup**  
-Clone our [Airflow plugin repository](https://github.com/iomete/iomete-airflow-plugin) and run `docker-compose` file.
-It will build latest version from source and will start Airflow webserver on \http://localhost:8080\. May take couple of minutes to start.
+**1. Docker Setup**
+Clone the [Airflow plugin repository](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) and run `docker-compose`. It builds the latest version from source and starts Airflow webserver on `http://localhost:8080`. May take a couple of minutes to start.
 
 ```bash
 docker-compose up --build
 ```
 
-**2. Helm Install**  
-You can install Airflow directly to Kubernetes using [official Helm chart](https://artifacthub.io/packages/helm/apache-airflow/airflow).
-Just change the docker image to `iomete/airflow:2.7.1` in `values.yaml` file. It will run Airflow with installed IOMETE plugin.
+**2. Helm Install**
+Install Airflow on Kubernetes using the [official Helm chart](https://artifacthub.io/packages/helm/apache-airflow/airflow).
+Update the docker image in `values.yaml` to use the IOMETE Airflow image matching your Airflow 3.x version. This runs Airflow with the IOMETE plugin pre-installed.
 
 ### Manually Install IOMETE Airflow Plugin
 
 :::note
-
 Skip this step if you installed Airflow with one of the methods above.
-
 :::
 
-If you already have Airflow installed and configured, you can install the IOMETE Airflow Plugin manually.
-In your Airflow home directory, run the following command (May need to restart Airflow webserver):
+If you already have Airflow installed, install the plugin manually.
+In your Airflow home directory, run:
 
 ```bash
 pip install iomete-airflow-plugin
 ```
 
-### Configure IOMETE Variables
+Restart the Airflow webserver after installation.
 
-Before using the _IometeOperator_, you need to configure the required parameters in your Airflow environment.  
-From Airflow UI, navigate to **Admin > Variables** and add the following variables:
+## Configuration
 
-1. `iomete_access_token` - In the **Resources** section below, you can find a link to the detailed documentation
-   on how to create an API token.
+The operator needs API credentials and endpoint details to communicate with IOMETE.
+From Airflow UI, navigate to **Admin > Variables** and add the following:
 
-2. `iomete_host` - The host of the IOMETE platform. For example: `https://sandbox.iomete.cloud`
+| Variable | Required | Description |
+|---|---|---|
+| `iomete_access_token` | Yes | Personal access token for IOMETE API. See the Resources section below. |
+| `iomete_host` | Yes | IOMETE platform host URL. Example: `https://sandbox.iomete.cloud` |
+| `iomete_domain` | Yes | IOMETE domain identifier. Required since plugin v2.0.0. |
+| `iomete_host_verify` | No | SSL certificate verification. Defaults to `True`. Set to `False` to disable. |
 
 <Img src="/img/spark-job/airflow-variables.png" alt="Airflow Variables" />
 
-### Usage
+:::tip Custom variable prefix
+If you need to use a different prefix for these variables (e.g., to connect to multiple IOMETE environments), set the `variable_prefix` parameter on the operator. The default prefix is `iomete_`.
+:::
 
-With the Iomete Airflow Plugin installed and configured,
-you can now use the `IometeOperator` in your Airflow DAGs to trigger Spark jobs.
+## Usage
 
-All your DAG's should be added to `dags/` folder in your Airflow home directory (or to the directory where you ran docker-compose)
+Once the plugin is installed and configured, you can use the `IometeOperator` in your DAGs to trigger Spark jobs.
 
-**Parameters**:
+All DAGs should be placed in the `dags/` folder in your Airflow home directory (or the directory where you ran docker-compose).
 
-1. `task_id`: A unique identifier for the task in the DAG (required).
-2. `job_id`: Spark Job ID or Name from IOMETE platform.
+### Operator Parameters
 
-   ```markdown
-   job_id = 0978b946-42b1-4f8d-a807-8acfc32347f9
+| Parameter | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `task_id` | `str` | Yes | — | Unique identifier for the task in the DAG. |
+| `job_id` | `str` | Yes | — | Spark Job ID (UUID) or name from IOMETE platform. |
+| `config_override` | `dict` or `str` | No | `{}` | Configuration overrides for the Spark Job (see below). |
+| `polling_period_seconds` | `int` | No | `10` | Interval in seconds between status checks while the job is running. |
+| `do_xcom_push` | `bool` | No | `False` | Push `job_id` and `job_run_id` to XCom for downstream tasks. |
+| `variable_prefix` | `str` | No | `iomete_` | Prefix for Airflow Variables used by this operator. |
 
-   # or
+### Config Override
 
-   job_id = "my-spark-job-name"
-   ```
+The `config_override` parameter accepts a dict (or JSON string) with these optional fields:
 
-3. `config_override`: _[Optional]_ Configuration overrides of the Spark Job. Example:
+```json
+{
+  "arguments": ["arg1", "arg2"],
+  "envVars": {
+    "key": "value"
+  },
+  "sparkConf": {
+    "spark.example.variable": "sample_value"
+  }
+}
+```
 
-   ```js
-   {
-     "arguments": ["string"],
-     "envVars": {
-       "key": "value"
-     },
-     "sparkConf": {
-       "spark.example.variable": "sample_value"
-     }
-   }
-   ```
+### Job Run States
 
-### Example DAGs
+The operator monitors the job run and reports these states:
+
+| State | Description | Final? |
+|---|---|---|
+| `ENQUEUED` | Job is queued | No |
+| `SUBMITTED` | Job is being deployed (~1 min) | No |
+| `RUNNING` | Job is executing | No |
+| `COMPLETED` | Job finished successfully | Yes |
+| `FAILED` | Job failed | Yes |
+| `ABORTED` | Job was cancelled | Yes |
+| `ABORTING` | Job cancellation in progress | No |
+
+The operator raises an `AirflowException` if the job ends in `FAILED` or `ABORTED` state.
+If the Airflow task is killed, the operator automatically cancels the running job in IOMETE.
+
+## Example DAGs
 
 :::tip Link to Source
-
-Source of examples below could be found in this [Github Repo](https://github.com/iomete/iomete-airflow-plugin/tree/main/dags)
-
+Source of examples below can be found in the [GitHub repository](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin/dags).
 :::
 
-:::tip Overriding Config
-
-You can dynamically change `config_override` params with each run by choosing "Run w/ config" from Airflow's UI.
-
-:::
+### Single Task
 
 ```python
-from airflow import DAG, utils
+import pendulum
+from airflow import DAG
+from airflow.sdk.definitions.param import ParamsDict
 from iomete_airflow_plugin.iomete_operator import IometeOperator
 
 args = {
     "owner": "airflow",
     "email": ["airflow@example.com"],
     "depends_on_past": False,
-    "start_date": utils.dates.days_ago(0, second=1),
+    "start_date": pendulum.today("UTC"),
 }
 
-# You can change params from Airflow's UI by choosing "Run w/ config"
+dag = DAG(dag_id="iomete-task", default_args=args, schedule_interval=None)
+
+task = IometeOperator(
+    task_id="iomete-catalog-sync-task",
+    job_id="0761a510-3a66-4c72-b06e-9d071f30d85d",
+    dag=dag,
+)
+```
+
+### Task with Config Overrides
+
+:::tip Overriding Config
+You can dynamically change `config_override` params with each run by choosing "Run w/ config" from Airflow's UI.
+:::
+
+```python
+import pendulum
+from airflow import DAG
+from airflow.sdk.definitions.param import ParamsDict
+from iomete_airflow_plugin.iomete_operator import IometeOperator
+
+args = {
+    "owner": "airflow",
+    "email": ["airflow@example.com"],
+    "depends_on_past": False,
+    "start_date": pendulum.today("UTC"),
+}
+
 dag = DAG(
-    dag_id="iomete-dag-catalog-sync-runner",
+    dag_id="iomete-task-with-args",
     default_args=args,
     schedule_interval=None,
-    params={
-        'job_id': "0761a510-3a66-4c72-b06e-9d071f30d85d", # or name
+    render_template_as_native_obj=True,
+    params=ParamsDict({
+        'job_id': "11ef35a6-ff9d-4996-bf16-7a7ef0baf4fc",
         'config_override': {
-            # everything inside config_override should be camelCase
             "envVars": {
                 "env1": "value1"
             },
@@ -150,56 +190,74 @@ dag = DAG(
                 "spark.example.variable": "sample_value"
             }
         }
-    }
+    }),
 )
 
-iomete_task = IometeOperator(
-    task_id="iomete-task-catalog-sync-runner",
+task = IometeOperator(
+    task_id="iomete-catalog-sync-task-with-config",
     job_id="{{ params.job_id }}",
     config_override="{{ params.config_override }}",
     dag=dag,
 )
-
-iomete_task
 ```
 
-Sequential execution example
+### Sequential Execution
 
 ```python
-from airflow import DAG, utils
+import pendulum
+from airflow import DAG
+from airflow.sdk.definitions.param import ParamsDict
 from iomete_airflow_plugin.iomete_operator import IometeOperator
 
 args = {
     "owner": "airflow",
     "email": ["airflow@example.com"],
     "depends_on_past": False,
-    "start_date": utils.dates.days_ago(0, second=1),
+    "start_date": pendulum.today("UTC"),
 }
 
-dag = DAG(dag_id="iomete-dag-sequential-execution", default_args=args, schedule_interval=None)
+dag = DAG(dag_id="iomete-demo", default_args=args, schedule_interval=None)
 
-task1 = IometeOperator(
-    task_id="first-task-catalog-sync",
-    job_id="0761a510-3a66-4c72-b06e-9d071f30d85d", # we use job id here
+catalog_task = IometeOperator(
+    task_id="task-01-sync-catalog",
+    job_id="iomete-catalog-sync",  # using job name
     dag=dag,
 )
 
-task2 = IometeOperator(
-    task_id="second-task-sql-runner",
-    job_id="sql-runner", # we use job name here
+sql_task = IometeOperator(
+    task_id="task-02-run-sql",
+    job_id="sql-runner",  # using job name
     dag=dag,
 )
 
-# task2 will be executed after task1
-task1 >> task2
+# sql_task runs first, then catalog_task
+sql_task >> catalog_task
 ```
 
-### Support
+### Using XCom to Pass Data Between Tasks
 
-For support and further assistance,
-you can use IOMETE Platform's support section or contact the IOMETE support team at support@iomete.com.
+When `do_xcom_push=True`, the operator pushes `job_id` and `job_run_id` to XCom, allowing downstream tasks to reference the job run.
 
-### Resources
+```python
+task = IometeOperator(
+    task_id="my-task",
+    job_id="my-spark-job",
+    do_xcom_push=True,
+    dag=dag,
+)
+```
+
+Downstream tasks can then access the values:
+```python
+job_run_id = "{{ ti.xcom_pull(task_ids='my-task', key='job_run_id') }}"
+job_id = "{{ ti.xcom_pull(task_ids='my-task', key='job_id') }}"
+```
+
+## Support
+
+For support and assistance, use the IOMETE platform's support section or contact the IOMETE support team at support@iomete.com.
+
+## Resources
 
 <GridBox>
 
@@ -214,7 +272,7 @@ you can use IOMETE Platform's support section or contact the IOMETE support team
 <Card
   title="Github Repo"
   icon={<GithubLogo />}
-  link="https://github.com/iomete/iomete-airflow-plugin"
+  link="https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin"
 >
   Check out Github repo for more information & examples
 </Card>
