@@ -114,7 +114,7 @@ Once the docker is built and pushed to your Docker registry, you can create a Sp
 
 ## Creating a Spark Job
 
-Navigate to the <button className="button button--default button-iom"><Cpu size={16} /> Spark Jobs</button> page and click <button className="button button--primary button-iom"><Plus size={16} /><b>New Job Template</b></button>.
+Navigate to the <button className="button button--default button-iom"><Cpu size={16} /> Job Templates</button> page and click <button className="button button--primary button-iom"><Plus size={16} /><b>New Job Template</b></button>.
 
 <Img src="/img/guides/spark-job/job-create-form.png" alt="Spark Job create form showing Name, Application, and Instance sections" maxWidth="700px"/>
 
