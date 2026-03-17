@@ -1,9 +1,10 @@
 ---
 title: SDK Usage for Spark Jobs
-description: Automate Spark Jobs with IOMETE's Python SDK. Create update delete and run jobs easily. Get examples and documentation. Install iomete-sdk with pip
+sidebar_label: IOMETE SDK
+description: Manage Spark Jobs programmatically with IOMETE's Python SDK — create, update, delete, run, and monitor jobs via Python or cURL.
 last_update:
-  date: 03/30/2023
-  author: Fuad Musayev
+  date: 03/17/2026
+  author: Abhishek Pathania
 ---
 
 import Img from "@site/src/components/Img";
@@ -13,86 +14,93 @@ import { Key, CodeBlock } from "@phosphor-icons/react";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-IOMETE's Python SDK provides a simple and convenient way to interact with our platform using Python code.
-With our SDK, you can easily integrate our platform's functionality into your Python projects and automate various tasks.
-
-This document provides examples of how to use the `iomete-sdk` Python module to interact with the IOMETE platform.
-The examples demonstrate various operations such as creating, updating, and deleting jobs, as well as submitting job runs.
-
-If you have any questions or feedback, please do not hesitate to reach out to our support team.
+IOMETE's Python SDK (`iomete-sdk`) provides a convenient way to manage Spark Jobs programmatically.
+With the `SparkJobApiClient`, you can create, update, delete, and run jobs, as well as retrieve run logs and metrics.
 
 ## Installation
-
-To follow these examples, make sure you have the following dependency installed:
 
 ```bash
 pip install iomete-sdk
 ```
 
+:::info
+Requires Python 3.9 or higher. The SDK depends on `requests` and `dataclasses-json`.
+:::
+
 ## Prerequisites
 
-Also, you should have a valid IOMETE API token and workspace ID. For this example, we are using environment variables to store these values.  
-In the **[Resources](#resources)** section below, you can find a link to the documentation on how to create an API token.
-Workspace ID and Endpoint (for cURL examples) can be found in the **Workspace Settings** page of the IOMETE platform.
+You need the following to use the SDK:
 
-<Img src="/img/spark-job/workspace-id.png" alt="Workspace ID" />
+- **API Token:** Create one from the IOMETE Console. See **[Resources](#resources)** below.
+- **Host:** Your dataplane endpoint URL (e.g., `https://your-dataplane.iomete.com`).
+- **Domain:** Your IOMETE domain identifier. Both the host and domain can be found in **Settings &gt; General** in the IOMETE Console.
 
-## SDK Usage Examples
-
-### Initialization
-
-First, import the required libraries and create a `SparkJobApiClient` instance to interact with the Iomete platform:
+## Initialization
 
 ```python
 import os
-import uuid
-from iomete_sdk import SparkJobApiClient
-
-TEST_TOKEN = os.environ.get("TEST_TOKEN")
-WORKSPACE_ID = "pceh7-816"
+from iomete_sdk.spark import SparkJobApiClient
 
 job_client = SparkJobApiClient(
-    workspace_id=WORKSPACE_ID,
-    api_key=TEST_TOKEN,
+    host="https://your-dataplane.iomete.com",
+    api_key=os.environ["IOMETE_API_TOKEN"],
+    domain="your-domain"
 )
 ```
 
-### Creating a Job
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `host` | str | required | Dataplane endpoint URL |
+| `api_key` | str | required | IOMETE API token |
+| `domain` | str | required | IOMETE domain identifier |
+| `verify` | bool | `True` | SSL certificate verification. Set to `False` for self-signed certs. |
 
-Here's an example of how to create a new job:
+## Creating a Job
+
+Register a new Spark Job by sending a create request with the job payload:
 
 <Tabs>
   <TabItem value="python" label="Python" default>
 
 ```python
 job_payload = {
-    "name": "test-job",
+    "name": "my-etl-job",
+    "bundleId": "your-bundle-id",
     "template": {
-        "sparkVersion": "3.2.1",
-        "mainApplicationFile": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
-        "mainClass": "org.apache.spark.examples.SparkPi",
-        "arguments": \["10"]
+        "applicationType": "python",
+        "image": "iomete/spark-py:3.5.3-v1",
+        "mainApplicationFile": "path/to/job.py",
+        "instanceConfig": {
+            "driverType": "driver-x-small",
+            "executorType": "exec-x-small",
+            "executorCount": 1
+        }
     }
 }
-job_create_response = job_client.create_job(payload=job_payload)
 
-print(job_create_response)
+job = job_client.create_job(payload=job_payload)
+print(job)
 ```
 
   </TabItem>
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request POST 'https://control-plane.iomete.com/api/v1/workspaces/pceh7-816/jobs' \
---header 'Authorization: Bearer TEST_TOKEN' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "name": "test-job",
+curl -X POST 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "my-etl-job",
+    "bundleId": "your-bundle-id",
     "template": {
-        "sparkVersion": "3.2.1",
-        "mainApplicationFile": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
-        "mainClass": "org.apache.spark.examples.SparkPi",
-        "arguments": ["10"]
+        "applicationType": "python",
+        "image": "iomete/spark-py:3.5.3-v1",
+        "mainApplicationFile": "path/to/job.py",
+        "instanceConfig": {
+            "driverType": "driver-x-small",
+            "executorType": "exec-x-small",
+            "executorCount": 1
+        }
     }
 }'
 ```
@@ -100,182 +108,389 @@ curl --location --request POST 'https://control-plane.iomete.com/api/v1/workspac
   </TabItem>
 </Tabs>
 
-This will create a new job with a name, a specific Spark version, main application file, main class, and arguments.
-
-:::tip
-
-All our API's for spark job works with `job_id` and `job_name`. You can use either of them in the request URL to interact with the job.
-For example, both  
-`.../api/v1/workspaces/pceh7-816/jobs/{job_id}` and  
-`.../api/v1/workspaces/pceh7-816/jobs/{job_name}`
-will work fine. For simplicity we will use `job_name = test-job` in the examples.
-
+:::note
+The `bundleId` field is required when creating a job. The SDK raises a `ValueError` if it is missing.
 :::
 
-### Updating a Job
+### Job Payload Reference
 
-To update a job, you can use the `update_job` method. Here's an example of how to update a job to add a schedule:
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | string | Yes | Job name (must be non-blank) |
+| `bundleId` | string | Yes | Bundle identifier (SDK validates presence) |
+| `namespace` | string | Yes | Kubernetes namespace (must be allowed in domain) |
+| `template` | object | Yes | Job configuration (see template fields below) |
+| `description` | string | No | Job description |
+| `flow` | string | No | `LEGACY` (default) or `PRIORITY` |
+| `priority` | string | No | `NORMAL` (default) or `HIGH` (requires domain owner) |
+| `jobUser` | string | No | User identity for the job (defaults to authenticated user) |
+| `jobType` | string | No | `MANUAL` (default), `SCHEDULED`, or `STREAMING` |
+| `schedule` | string | Conditional | Cron expression (required when `jobType` is `SCHEDULED`, must be omitted otherwise) |
+| `concurrency` | string | No | `ALLOW` (default) or `FORBID` (only applies to `SCHEDULED` jobs) |
+| `resourceTags` | array | No | Resource tags for the job |
+| `template.image` | string | Yes | Docker image for the Spark job (must include tag, e.g., `image:tag`) |
+| `template.mainApplicationFile` | string | Yes | Path to the main application file |
+| `template.applicationType` | string | No | `python`, `java`, or `scala` |
+| `template.mainClass` | string | No | Main class (for Java/Scala jobs) |
+| `template.arguments` | array | No | Command-line arguments |
+| `template.sparkConf` | object | No | Spark configuration key-value pairs |
+| `template.envVars` | object | No | Environment variables |
+| `template.configMaps` | array | No | Config maps with `key`, `content`, `mountPath` |
+| `template.deps.jars` | array | No | JAR file dependencies |
+| `template.deps.pyFiles` | array | No | Python dependency files |
+| `template.deps.packages` | array | No | Maven/PIP packages |
+| `template.instanceConfig` | object | No | Driver/executor sizing |
+| `template.instanceConfig.driverType` | string | No | Driver node type (platform default applied if omitted) |
+| `template.instanceConfig.executorType` | string | No | Executor node type (platform default applied if omitted) |
+| `template.instanceConfig.executorCount` | integer | No | Number of executors (default `1`, minimum `1`) |
+| `template.instanceConfig.singleNodeDeployment` | boolean | No | Run driver and executor in a single node (default `false`) |
+| `template.restartPolicy` | object | No | Restart policy (e.g., `{"type": "Never"}`) |
+| `template.maxExecutionDurationSeconds` | string | No | Maximum execution time |
+| `template.volumeId` | string | No | Volume identifier |
+
+## Updating a Job
+
+Modify an existing job's configuration, such as changing its schedule or instance sizing:
 
 <Tabs>
   <TabItem value="python" label="Python" default>
 
 ```python
-cron_schedule = "0 0 */1 * *"
-
-update_payload = job_create_response.copy()
-update_payload["schedule"] = cron_schedule
-job_update_response = job_client.update_job(job_id=job_create_response["id"], payload=update_payload)
-print(job_update_response)
+update_payload = {
+    **job,
+    "jobType": "SCHEDULED",
+    "schedule": "0 0 */1 * *"
+}
+updated = job_client.update_job(job_id=job["id"], payload=update_payload)
+print(updated)
 ```
 
   </TabItem>
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request PUT 'https://control-plane.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job' \
---header 'Authorization: Bearer TEST_TOKEN' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "name": "test-job",
+curl -X PUT 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "my-etl-job",
+    "bundleId": "your-bundle-id",
+    "jobType": "SCHEDULED",
+    "schedule": "0 0 */1 * *",
     "template": {
-        "sparkVersion": "3.2.1",
-        "mainApplicationFile": "local:///opt/spark/examples/jars/spark-examples_2.12-3.2.1-iomete.jar",
-        "mainClass": "org.apache.spark.examples.SparkPi",
-        "arguments": ["10"]
-    },
-    "schedule": "0 0 */1 * *"
+        "applicationType": "python",
+        "image": "iomete/spark-py:3.5.3-v1",
+        "mainApplicationFile": "path/to/job.py",
+        "instanceConfig": {
+            "driverType": "driver-x-small",
+            "executorType": "exec-x-small",
+            "executorCount": 1
+        }
+    }
 }'
 ```
 
   </TabItem>
 </Tabs>
 
-This will update the job created earlier with a schedule that runs it once every day.
+## Listing Jobs
 
-### Deleting a Job
-
-To delete a job, use the `delete_job_by_id` method:
+Retrieve all Spark Jobs in your domain:
 
 <Tabs>
   <TabItem value="python" label="Python" default>
 
 ```python
-job_client.delete_job_by_id(job_id=job_create_response["id"])
+jobs = job_client.get_jobs()
+for j in jobs:
+    print(j["name"], j["id"])
 ```
 
   </TabItem>
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request DELETE 'https://control-plane.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job' \
---header 'Authorization: Bearer TEST_TOKEN'
+curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
 
   </TabItem>
 </Tabs>
 
-This will delete the job created earlier using its ID.
+## Getting a Job
 
-### Running Job
-
-To submit a job run, use the `submit_job_run` method. This will submit a new run for the job created earlier:
+You can retrieve a job by its ID or by name:
 
 <Tabs>
   <TabItem value="python" label="Python" default>
 
 ```python
-run_response = job_client.submit_job_run(job_id=job_create_response["id"], payload={})
-print(job_run_response)
+# By ID
+job = job_client.get_job_by_id(job_id="your-job-id")
+
+# By name
+job = job_client.get_job_by_name(job_name="my-etl-job")
 ```
 
   </TabItem>
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request POST 'https://control-plane.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job/runs' \
---header 'Authorization: Bearer TEST_TOKEN' \
---header 'Content-Type: application/json' \
---data-raw '{}'
+# By ID
+curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN'
+
+# By name
+curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/name/my-etl-job' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
 
   </TabItem>
 </Tabs>
 
-If you need to override configuration, for example `arguments`, you can pass them in the payload.
+## Deleting a Job
+
+Remove a job and its configuration permanently:
 
 <Tabs>
   <TabItem value="python" label="Python" default>
 
 ```python
-run_response = job_client.submit_job_run(job_id=job_create_response["id"], payload={
+job_client.delete_job_by_id(job_id=job["id"])
+```
+
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+
+```bash
+curl -X DELETE 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN'
+```
+
+  </TabItem>
+</Tabs>
+
+## Running a Job
+
+Submit a job run using `submit_job_run`. You can optionally override configuration like `arguments`:
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+```python
+# Basic run
+run = job_client.submit_job_run(job_id=job["id"], payload={})
+print(run)
+
+# With argument overrides
+run = job_client.submit_job_run(job_id=job["id"], payload={
     "arguments": ["arg1", "arg2"]
 })
-print(job_run_response)
 ```
 
   </TabItem>
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request POST 'https://control-plane.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job/runs' \
---header 'Authorization: Bearer TEST_TOKEN' \
---header 'Content-Type: application/json' \
---data-raw '{ "arguments": ["arg1", "arg2"] }'
+# Basic run
+curl -X POST 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{}'
+
+# With argument overrides
+curl -X POST 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"arguments": ["arg1", "arg2"]}'
 ```
 
   </TabItem>
 </Tabs>
 
-### Getting Job Runs
+## Managing Job Runs
 
-To get the runs for a specific job, use the `get_job_runs` method:
+### Listing Runs
 
 <Tabs>
   <TabItem value="python" label="Python" default>
 
 ```python
-job_runs = job_client.get_job_runs(job_id=job_create_response["id"])
-print(job_runs)
+runs = job_client.get_job_runs(job_id=job["id"])
+for r in runs:
+    print(r["id"], r.get("status"))
 ```
 
   </TabItem>
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request GET 'https://control-plane.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job/runs' \
---header 'Authorization: Bearer TEST_TOKEN'
+curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
 
   </TabItem>
 </Tabs>
 
-This will return a list of runs for the job.
-
-### Cancelling a Job Run
-
-To cancel a job run, use the `cancel_job_run` method:
+### Getting a Specific Run
 
 <Tabs>
   <TabItem value="python" label="Python" default>
 
 ```python
-job_client.cancel_job_run(job_id=job_create_response["id"], run_id=job_run_response["id"])
+run_info = job_client.get_job_run_by_id(job_id=job["id"], run_id=run["id"])
+print(run_info)
 ```
 
   </TabItem>
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl --location --request POST 'https://control-plane.iomete.com/api/v1/workspaces/pceh7-816/jobs/test-job/runs/{run_id}/cancel' \
---header 'Authorization: Bearer TEST_TOKEN'
+curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
-
-Note: Replace `{run_id}` with the actual run ID.
 
   </TabItem>
 </Tabs>
 
-This will cancel the job run submitted earlier.
+### Getting Run Logs
+
+Retrieve logs for a specific run. The `time_range` parameter controls how far back to fetch logs (defaults to `"5m"`).
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+```python
+logs = job_client.get_job_run_logs(
+    job_id=job["id"],
+    run_id=run["id"],
+    time_range="1h"
+)
+for entry in logs:
+    print(entry["date"], entry["logLine"])
+```
+
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+
+```bash
+curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID/logs?range=1h' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN'
+```
+
+  </TabItem>
+</Tabs>
+
+**Supported time ranges:** `5m`, `15m`, `30m`, `1h`, `3h`, `6h`, `12h`, `24h`, `2d`, `7d`, `14d`, `30d`
+
+### Getting Run Metrics
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+```python
+metrics = job_client.get_job_run_metrics(job_id=job["id"], run_id=run["id"])
+print(metrics)
+```
+
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+
+```bash
+curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID/metrics' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN'
+```
+
+  </TabItem>
+</Tabs>
+
+### Cancelling a Run
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+```python
+job_client.cancel_job_run(job_id=job["id"], run_id=run["id"])
+```
+
+  </TabItem>
+  <TabItem value="curl" label="cURL">
+
+```bash
+curl -X DELETE 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID' \
+  -H 'X-API-TOKEN: YOUR_API_TOKEN'
+```
+
+  </TabItem>
+</Tabs>
+
+## Flow and Priority
+
+The SDK supports `Flow` and `Priority` enums for job configuration:
+
+```python
+from iomete_sdk.spark.spark_job import Flow, Priority
+
+job_payload = {
+    "name": "priority-job",
+    "bundleId": "your-bundle-id",
+    "flow": Flow.PRIORITY.value,      # "LEGACY" or "PRIORITY"
+    "priority": Priority.HIGH.value,   # "NORMAL" or "HIGH"
+    "template": { ... }
+}
+job = job_client.create_job(payload=job_payload)
+```
+
+| Enum | Values | Description |
+|------|--------|-------------|
+| `Flow` | `LEGACY`, `PRIORITY` | Job execution flow type |
+| `Priority` | `NORMAL`, `HIGH` | Job scheduling priority |
+
+## Error Handling
+
+The SDK raises specific exceptions for validation failures, API errors, and network issues:
+
+```python
+import requests
+from iomete_sdk.api_utils import ClientError
+
+try:
+    job_client.create_job(payload={"name": "test"})
+except ValueError as e:
+    # Validation errors (missing bundleId, invalid flow/priority)
+    print(f"Validation error: {e}")
+except ClientError as e:
+    # API errors (400, 404, 500, etc.)
+    print(f"API error {e.status}: {e.content}")
+except requests.exceptions.RequestException as e:
+    # Network/connection errors
+    print(f"Connection error: {e}")
+```
+
+| Exception | When |
+|-----------|------|
+| `ValueError` | Missing `bundleId`, invalid `flow` or `priority` values |
+| `ClientError` | HTTP errors from the API. Has `.status` (int) and `.content` (dict) attributes |
+| `RequestException` | Network or connection errors (timeouts, DNS failures, etc.) |
+
+## API Reference
+
+The following table lists all methods available on the `SparkJobApiClient`:
+
+| Method | Description |
+|--------|-------------|
+| `create_job(payload)` | Create a new job |
+| `update_job(job_id, payload)` | Update an existing job |
+| `get_jobs()` | List all jobs |
+| `get_job_by_id(job_id)` | Get a job by ID |
+| `get_job_by_name(job_name)` | Get a job by name |
+| `delete_job_by_id(job_id)` | Delete a job |
+| `submit_job_run(job_id, payload)` | Submit a new run |
+| `get_job_runs(job_id)` | List runs for a job |
+| `get_job_run_by_id(job_id, run_id)` | Get a specific run |
+| `get_job_run_logs(job_id, run_id, time_range)` | Get run logs |
+| `get_job_run_metrics(job_id, run_id)` | Get run metrics |
+| `cancel_job_run(job_id, run_id)` | Cancel a running job |
 
 ## Resources
 
