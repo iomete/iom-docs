@@ -1,62 +1,377 @@
 ---
-title: Jupyter Containers (NEW)
-description: Jupyter Containers provide a powerful way to create dedicated, pre-configured Jupyter development environments within your IOMETE Data Lakehouse Platform. 
-slug: /developer-guide/jupyter-containers
+title: Jupyter Containers
+description: Create dedicated JupyterLab environments with persistent storage and Spark Connect for data exploration and ML development.
+sidebar_label: Jupyter Containers
 last_update:
-  date: 06/17/2025
-  author: Fuad Musayev
+  date: 03/19/2026
+  author: Abhishek Pathania
 ---
 
 import Img from "@site/src/components/Img";
 
-Jupyter Containers provide a powerful way to create dedicated, pre-configured Jupyter development environments within your IOMETE Data Lakehouse Platform. 
-Each container comes with JupyterLab and essential data engineering tools pre-installed, enabling you to start working with your data immediately.  
+Jupyter Containers are dedicated, containerized JupyterLab environments that run inside the IOMETE platform. Each container comes pre-configured with JupyterLab and essential data engineering tools (Git, AWS CLI, and pip) so you can start working with your data immediately. Containers connect to IOMETE compute clusters through Spark Connect for distributed processing.
 
-### Common Use Cases
+:::info Feature availability
+Jupyter Containers require the `jupyterContainers` feature flag to be enabled on your data plane. If you do not see the **Jupyter Containers** menu item in the sidebar, contact your platform administrator.
+:::
 
-1. Data Exploration and Analysis: explore datasets to understand structure and patterns, create visualizations to identify trends and anomalies.  
-2. ETL Pipeline Development: prototype data transformation logic before production deployment, create documentation for complex data transformations.  
-3. Machine Learning and AI: model training and validation, hyperparameter tuning and experimentation, model performance analysis and visualization.
+## Common Use Cases
 
-### Creating a Jupyter Container
+- **Data exploration and analysis**: Explore datasets to understand structure and patterns. Create visualizations to identify trends and anomalies.
+- **ETL pipeline development**: Prototype data transformation logic before production deployment. Document complex data transformations interactively.
+- **Machine learning and AI**: Train and validate models, tune hyperparameters, and analyze model performance with interactive visualizations.
 
-1. Navigate to Jupyter Containers in your IOMETE console
-2. Configure Resources: Select CPU, memory, and storage based on your needs
-4. Launch Container: Click "Create Container" to spin up your environment
+## Limitations
 
-### Accessing Jupyter Containers
+- **No GPU support**: Jupyter Containers use CPU and memory resources only. GPU workloads are not supported.
+- **No auto-shutdown**: Containers run indefinitely until manually terminated. Stop containers when not in use to avoid unnecessary resource consumption.
+- **No custom images**: All containers use the platform-managed base image (JupyterLab, Git, AWS CLI, pip). Custom container images are not supported through the UI.
 
-1. Open JupyterLab: Click the "Open JupyterLab" button in the UI
-2. First-time Login:
-   - Enter your username as the token (default token is your IOMETE username)
-   - Choose whether to create a password for future logins
-3. Start Working: You're now in the familiar JupyterLab interface!
+## Viewing the Container List
 
-### Connecting to IOMETE Compute Clusters
+The container list gives you an overview of all Jupyter Containers and their current status. Open it by selecting **Jupyter Containers** under the **Engine** group in the left sidebar. The page shows a paginated table of all containers you have permission to access.
+
+<Img src="/img/jupyter/list-page.png" alt="Jupyter Containers list page showing container table with status, instance, and namespace columns" />
+
+Each row includes the following columns:
+
+| Column | Description |
+|--------|-------------|
+| **Name** | Opens the container detail page. The container ID appears on hover and can be copied. |
+| **Status** | Color-coded status badge (`Starting`, `Active`, `Stopped`, `Failed`). Hover over a failed status to see the error message. |
+| **Instance** | The node type assigned to the container (CPU and memory). |
+| **Namespace** | The Kubernetes namespace where the container runs. |
+| **Actions** | Context menu with lifecycle and management actions. |
+
+### Filtering the List
+
+Use the controls above the table to narrow results:
+
+- **View toggle**: Switch between **My Jupyter Containers** (containers you created) and **Shared with me** (containers others created and shared with you through resource bundles).
+- **Namespace**: Filter by deployment namespace.
+- **Status**: Filter by container state (`Starting`, `Active`, `Stopped`, `Failed`).
+- **Search**: Match containers by name.
+
+## Creating a Jupyter Container
+
+Create a container to get a dedicated JupyterLab environment. The container starts automatically after creation.
+
+1. Go to the **Jupyter Containers** page.
+2. Click **New Jupyter Container** in the top-right corner.
+3. Complete the configuration across the four tabs: **General**, **Configurations**, **Tags**, and **Review & Create**.
+4. Open **Review & Create**, verify the summary, then click **Create**.
+
+You can move between tabs using **Previous** and **Next**, or by selecting a tab directly. The **Next** button validates the current tab before proceeding. If validation fails, the tab shows a red exclamation mark and you must fix the errors before continuing.
+
+### General Tab
+
+The **General** tab defines the core settings of the container.
+
+<Img src="/img/jupyter/general-page.png" alt="General tab of the Create Jupyter Container form showing name, resource bundle, namespace, instance type, and volume fields" />
+
+- **Name** (required): A unique name using lowercase letters, numbers, and hyphens. Must start and end with a letter or number. This value cannot be changed after creation.
+
+  Maximum 53 characters. Pattern: `^[a-z0-9]([-a-z0-9]*[a-z0-9])?$`.
+
+- **Resource bundle** (required): Associates the container with a [resource bundle](/user-guide/ras/resource-bundles) that controls who can access it. This cannot be changed after creation. If you need a new bundle, click **+ Create Resource Bundle** inside the dropdown (requires the `resource_bundle.create` permission).
+
+- **Namespace** (required): The Kubernetes namespace where the container will be deployed. Only namespaces available to your account are shown.
+
+- **Instance type** (required): The [node type](/user-guide/node-types) that determines CPU and memory limits for the container. The first available node type is selected by default.
+
+- **Volume** (optional): Attach a persistent [volume](/user-guide/volumes) to preserve files across restarts. Only **On Demand PVC** and **NFS** volume types are supported.
+
+  :::warning Data loss without a volume
+  If no volume is attached, all files saved inside the container are lost when the container stops, restarts, or is redeployed. Attach a volume to persist your notebooks and data.
+  :::
+
+### Configurations Tab
+
+The **Configurations** tab lets you inject environment variables and pass command-line arguments to the container.
+
+<Img src="/img/jupyter/config-page.png" alt="Configurations tab showing environment variables and arguments sections" />
+
+- **Environment variables**: Key-value pairs injected at runtime. Supports both plain text values and secret-backed references. Use secrets to avoid storing credentials in plain text. The platform also injects `JUPYTER_ENABLE_LAB=true` and `RESTARTABLE=yes` automatically.
+- **Arguments**: Command-line arguments passed to the JupyterLab process. Use these for advanced JupyterLab server configuration. The platform already sets core arguments (`--ip`, `--port`, `--ServerApp.base_url`, `--ServerApp.allow_origin`, `--IdentityProvider.token`), so you only need to add additional customizations.
+
+### Tags Tab
+
+The **Tags** tab lets you add key-value **resource tags** for organizing and categorizing your containers. Tags are optional metadata that help you manage containers at scale.
+
+<Img src="/img/jupyter/tag-page.png" alt="Tags tab showing key-value resource tag inputs" />
+
+### Review & Create Tab
+
+The **Review & Create** tab displays a read-only summary of every setting before submission. It includes:
+
+<Img src="/img/jupyter/review-page.png" alt="Review and Create tab showing configuration summary with resource cost details" />
+
+- Container name, bundle, and namespace
+- Instance type and volume assignment
+- Environment variables and arguments (if any)
+- Resource tags (if any)
+- **Resource Summary**: Shows the resource cost against your quota
+
+Review the summary and click **Create** to provision the container. IOMETE deploys it immediately; the status begins as **Starting** and transitions to **Active** once the pod is ready.
+
+### Handling Creation Errors
+
+- **Duplicate name**: If the name already exists in your domain, the form highlights the **Name** field with the message "The name already exists. Please enter a different name."
+- **Quota exceeded**: If the requested resources exceed your quota, the **Instance type** and **Volume** fields are highlighted with quota error details.
+- **Invalid volume type**: Only On Demand PVC and NFS volumes are allowed. Other volume types are rejected with an error.
+
+## Configuring a Jupyter Container
+
+You can change a container's configuration after creation, but the container must be in the **Stopped** or **Failed** state. If the **Configure** button is disabled, you will see the tooltip "Stop the container before configuring."
+
+1. Navigate to the container's detail page (or select **Configure** from the row's context menu in the list view).
+2. Click **Configure** in the header.
+3. Update the desired settings across the **General**, **Configurations**, and **Tags** tabs.
+4. Open **Review & Save**, verify the changes, then click **Save**.
+
+:::info Editing restrictions
+The **Name** and **Resource bundle** fields are read-only in edit mode. To change these values, delete the container and create a new one. In edit mode, the **Delete** button replaces **Cancel** in the form footer (if you have the `DELETE` permission).
+:::
+
+### Changing the Namespace
+
+Changing the namespace in edit mode triggers a warning about potential data loss. If you attached an On Demand PVC volume, the old PVC is deleted and a new one is created in the new namespace. Notebooks saved to Git or external file systems are unaffected, but any unsaved data in the container is lost permanently.
+
+### Changing the Volume
+
+Changing the volume in edit mode also triggers a data loss warning. For On Demand PVC volumes, the old PVC is deleted and a new one is created. Back up any important data before making this change.
+
+## Starting and Stopping Containers
+
+You control when containers consume resources by starting and stopping them.
+
+### Starting a Container
+
+You can start a container that is in the **Stopped** or **Failed** state.
+
+<Img src="/img/jupyter/detail-start.png" alt="Container detail page showing the green Start button in the header" />
+
+1. Open the container's detail page (or find it in the list).
+2. Click the green **Start** button in the header, or select **Start** from the row's context menu.
+
+The status changes to **Starting** while the Kubernetes pod initializes. Once the pod is ready, the status transitions to **Active** automatically. Status updates arrive in real time, so there is no need to refresh the page. Each time you start or save configuration changes, IOMETE pulls the latest container image version, ensuring your environment always uses the most recent base image.
+
+### Terminating a Container
+
+You can terminate a container that is in the **Active** or **Starting** state.
+
+<Img src="/img/jupyter/detail-stop.png" alt="Container detail page showing the red Terminate button in the header" />
+
+1. Open the container's detail page (or find it in the list).
+2. Click the red **Terminate** button in the header, or select **Terminate** from the row's context menu.
+3. Confirm the action by clicking **Yes, terminate it**.
+
+The underlying Kubernetes Deployment and Service are deleted, and the status transitions to **Stopped**.
+
+:::warning Unsaved data
+If no persistent volume is attached, all unsaved work inside the container is lost when you terminate it.
+:::
+
+### Restarting a Container
+
+To restart a running container, terminate it and then start it again. The container transitions through **Stopped** before returning to **Starting**. There is no dedicated restart button; the operation is a stop followed by a start.
+
+## Deleting a Jupyter Container
+
+You can delete a container in any state. This action is permanent.
+
+1. Open the container's detail page.
+2. Click the **More actions** dropdown (or use the context menu in the list view).
+3. Select **Delete**.
+4. Confirm by clicking **Yes, delete it**.
+
+IOMETE removes the Kubernetes resources, deletes any associated On Demand PVC, and removes the container from its resource bundle. The container name becomes available for reuse.
+
+<Img src="/img/jupyter/delete.png" alt="Delete confirmation dialog asking to confirm container deletion" />
+
+:::warning Irreversible action
+Deleting a container permanently destroys all data stored in its On Demand PVC volume. This action cannot be undone.
+:::
+
+## Opening JupyterLab
+
+Once a container is **Active**, you can open its JupyterLab interface directly from the IOMETE console.
+
+1. Open the container's detail page.
+2. Click **Open JupyterLab** in the header.
+
+The button is enabled only when the container is **Active**, the JupyterLab endpoint is available, and you have `VIEW` permission on the container. JupyterLab opens in a new browser tab. Authentication is handled automatically. Each container has a unique token embedded in the URL, so no separate login step is required. The token is generated when the container is created and persists across restarts.
+
+You can also open JupyterLab from the list view by selecting **Open JupyterLab** in the row's context menu.
+
+## Viewing Container Details
+
+The detail page provides full visibility into a container's configuration, logs, and Kubernetes events. Click a container name in the list to open it. The page includes a header with action buttons and three tabs.
+
+### Details Tab
+
+The **Details** tab shows the container's configuration:
+
+<Img src="/img/jupyter/detail-stop.png" alt="Container Details tab showing configuration fields like name, status, bundle, instance, volume, and namespace" />
+
+| Field | Description |
+|-------|-------------|
+| **ID** | The container's unique identifier (UUID). |
+| **Name** | The container name. |
+| **Status** | Current state with a color-coded badge. If **Failed**, the error message is shown below the badge. |
+| **Bundle** | The associated resource bundle name. |
+| **Instance** | The assigned node type (CPU and memory). |
+| **Volume** | The attached volume, or "No volume" if none is configured. |
+| **Namespace** | The Kubernetes namespace. |
+| **Created by** | The user who created the container, with a relative timestamp. |
+| **Tags** | Resource tags (shown only when tags exist). |
+
+### Logs Tab
+
+The **Logs** tab streams Kubernetes container logs with time range filtering. Use the download button to export logs as a file.
+
+<Img src="/img/jupyter/logs-page.png" alt="Logs tab showing streaming container log output with time range filter" />
+
+### Kubernetes Events Tab
+
+The **Kubernetes events** tab lists all events (Normal and Warning) for the container's pods. The tab label includes a badge showing the count of warning events relative to total events.
+
+<Img src="/img/jupyter/kubernetes-page.png" alt="Kubernetes Events tab showing Normal and Warning events for the container" />
+
+## Understanding Container States
+
+Each Jupyter Container moves through a defined set of lifecycle states.
+
+| State | Description |
+|-------|-------------|
+| **Starting** | The container is being deployed. Kubernetes pods are initializing. |
+| **Active** | The container is running and ready. You can open JupyterLab and run notebooks. |
+| **Stopped** | The container has been terminated. Kubernetes resources are deleted, but the container configuration is preserved. |
+| **Failed** | The container encountered an error, for example a crash loop or out-of-memory condition. Check the **Logs** and **Kubernetes Events** tabs for details. |
+
+State transitions happen automatically based on Kubernetes pod events, except for user-initiated actions (Start, Terminate, Delete). The platform updates the status automatically, so you always see the current state without refreshing.
+
+### Lifecycle Summary
+
+| From | To | Trigger |
+|------|----|---------|
+| _(new)_ | Starting | Container created |
+| Starting | Active | Pod becomes ready |
+| Starting | Failed | Pod fails to start |
+| Active | Stopped | User clicks **Terminate** |
+| Active | Failed | Pod crashes at runtime |
+| Stopped | Starting | User clicks **Start** |
+| Failed | Starting | User clicks **Start** |
+
+## Connecting to IOMETE Compute Clusters
+
+Jupyter Containers connect to IOMETE compute clusters through Spark Connect. This gives your notebooks access to distributed Spark processing without running a local Spark instance.
+
+1. Open a compute cluster's detail page in the IOMETE console.
+2. Go to the **Connections** tab and copy the **Spark Connect** connection string.
+3. In a JupyterLab notebook, create a Spark session using the connection string:
 
 ```python
 from pyspark.sql import SparkSession
 
-# Copy the connection string from the Compute's Connections tab (Spark Connect) in IOMETE UI.
+# Paste the connection string from the Compute cluster's Connections tab
 spark = SparkSession.builder.remote("sc://...").getOrCreate()
 
-print("> Query databases from the remote cluster")
-df = spark.sql("show databases")
+# Query your data
+df = spark.sql("SHOW DATABASES")
 df.show()
-
 ```
 
-### Working with Git and S3
+:::info Manual connection setup
+There is no automatic Spark session configuration. You must set up the Spark Connect connection manually in each notebook.
+:::
 
-Your container includes Git and AWS CLI tools for seamless development workflows:
+## Working with Git and S3
+
+Your container includes Git and AWS CLI tools for integration with external systems.
+
+### Git
+
+Clone repositories and manage version control directly from the JupyterLab terminal:
 
 ```bash
-# Clone your project repository
+# Clone a project repository
 git clone https://github.com/your-org/data-project.git
+```
 
-# Configure AWS CLI for S3-compatible storage
+:::info Manual credential setup
+Git credentials and SSH keys are not automatically mounted into the container. You must configure authentication manually (e.g., personal access tokens, `git credential store`, or SSH key setup) each time the container starts, unless you persist your configuration in the attached volume.
+:::
+
+### S3-Compatible Storage
+
+Use the AWS CLI to interact with S3-compatible object storage:
+
+```bash
+# Configure AWS CLI credentials
 aws configure
 
 # Upload results to S3
 aws s3 cp results.csv s3://your-bucket/analysis/
 ```
+
+:::tip Use environment variables for credentials
+Instead of running `aws configure` interactively, set your AWS credentials as environment variables in the **Configurations** tab (using secret-backed references for sensitive values). This avoids re-entering credentials after each restart.
+:::
+
+## Persistent Storage
+
+Jupyter Containers support optional persistent storage to preserve files across restarts and redeployments.
+
+### Supported Volume Types
+
+Only two volume types are supported:
+
+| Volume type | Description |
+|-------------|-------------|
+| **On Demand PVC** | A dynamically provisioned Persistent Volume Claim. Created automatically when the container is deployed. PVC size is determined by the volume's configured maximum size. |
+| **NFS** | A Network File System volume. Shared storage that can be accessed by multiple containers. |
+
+Other volume types (Host Path, tmpfs, Empty Dir) are not supported and are rejected with the error "Only On Demand PVC and NFS volumes are allowed in Jupyter Containers."
+
+### Mount Path
+
+Volumes are mounted at `/home/jovyan`, which is the default JupyterLab working directory. All notebooks and files you save in JupyterLab are written to this path.
+
+### PVC Lifecycle
+
+For On Demand PVC volumes:
+
+- A PVC is created when the container is first deployed.
+- The PVC persists across container starts and stops.
+- Changing the volume or namespace in edit mode **deletes the old PVC** and creates a new one. Data on the old PVC is lost.
+- Deleting the container permanently deletes the PVC.
+
+## Access Permissions
+
+Jupyter Containers use [resource bundles](/user-guide/ras/resource-bundles) to control access. The **create** permission is managed at the domain-bundle level, while all other per-container actions are controlled through resource-level permissions on the bundle the container belongs to.
+
+### Create Permission
+
+Creating a Jupyter Container requires the `Create Jupyter Container` permission at the domain-bundle level. This controls the **New Jupyter Container** button and form submission. Users without this permission see the button disabled with the tooltip "You do not have permission to create Jupyter Containers."
+
+### Resource-Level Permissions
+
+Each container is an asset in a [resource bundle](/user-guide/ras/resource-bundles). The bundle determines which users can perform specific actions on individual containers.
+
+| Permission | What it allows |
+|-----------|----------------|
+| `VIEW` | View container details, logs, and events. Open JupyterLab. |
+| `UPDATE` | Edit and configure the container. |
+| `RUN` | Start and terminate the container. |
+| `DELETE` | Delete the container. |
+
+Users only see containers they have at least `VIEW` access to in the list. The platform filters the list based on your bundle permissions.
+
+## Related Features
+
+- **[Resource bundles](/user-guide/ras/resource-bundles)**: Control who can access each container.
+- **[Node types](/user-guide/node-types)**: Determine CPU and memory allocation.
+- **[Volumes](/user-guide/volumes)**: Provide persistent storage (On Demand PVC or NFS).
+- **[Secrets](/user-guide/secrets)**: Can be referenced as environment variables.
+- **[Compute clusters](/user-guide/virtual-lakehouses)**: Provide Spark Connect endpoints for distributed processing.

@@ -41,7 +41,7 @@ Jupyter Containers provide containerized JupyterLab environments inside the plat
 
 <Img src="/img/getting-started/platform-tour/notebook-page.png" alt="Jupyter Containers page" maxWidth="900px"/>
 
-More in the [Jupyter Containers](/developer-guide/jupyter-containers) guide.
+More in the [Jupyter Containers](/developer-guide/notebook/jupyter-containers) guide.
 
 ### Event Streams
 

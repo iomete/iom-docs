@@ -219,8 +219,6 @@ const sidebars = {
       label: "Jupyter Notebook",
       collapsed: true,
       items: [
-        "developer-guide/notebook/starting-with-notebook",
-        "developer-guide/notebook/using-vscode",
         "developer-guide/notebook/jupyter-containers",
       ],
     },
