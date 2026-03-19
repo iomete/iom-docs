@@ -216,10 +216,12 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Jupyter Notebook",
+      label: "Jupyter Containers",
       collapsed: true,
       items: [
         "developer-guide/notebook/jupyter-containers",
+        "developer-guide/notebook/manage-containers",
+        "developer-guide/notebook/using-jupyterlab",
       ],
     },
     {
