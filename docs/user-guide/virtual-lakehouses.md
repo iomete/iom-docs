@@ -50,7 +50,10 @@ Create a separate cluster for each workload so resources remain isolated and pre
 1. Go to the **Compute** page.
 2. Click **New Compute Cluster** in the top-right corner.
 3. Complete the configuration across the six tabs: **General**, **Configurations**, **Dependencies**, **Docker settings**, **Tags**, and **Review & Create**.
-4. Open **Review & Create**, verify the summary, then click **Create**.
+4. Enter your cluster name, description 
+5. Select resource bundle (https://iomete.com/resources/user-guide/ras/resource-bundles#resource-bundle-management-overview) from the dropdown and namespace.
+6. Choose between multi-node or single-node deployment type and configure driver and executor settings.
+7. Open **Review & Create**, verify the summary, then click **Create**.
 
 You can move between tabs using **Previous** and **Next**, or by selecting a tab directly. The **Next** button validates the current tab before proceeding. If validation fails, the tab shows a red exclamation mark and you must fix the errors before continuing.
 
