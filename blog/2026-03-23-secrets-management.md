@@ -2,7 +2,7 @@
 title: Modern Secrets Management for Data Platforms
 description: How IOMETE's secrets management centralizes credential management across Spark jobs, notebooks, storage configs, and integrations with multi-backend support
 slug: secrets-management
-authors: sourabh
+authors: [sourabh,vugar]
 hide_table_of_contents: true
 tags2: [Engineering, Technical]
 coverImage: img/blog/thumbnails/darkRacing.png
@@ -187,7 +187,7 @@ For teams with existing Vault infrastructure, connecting IOMETE takes a few addi
 
 Navigate to `Domain Settings → Vault Configurations`. Click to add a new configuration. Provide your Vault endpoint URL (e.g., `https://vault.company.com`), the secret path where IOMETE should look for credentials (e.g., `/v1/secret/data/production`), and choose your authentication method—token-based for simplicity or AppRole for better security. Enter the required credentials.
 
-<Img src="/img/blog/2026-01-06-secrets-management/vault-config-create.png" alt="Vault Configuration Create"  maxWidth="600px" centered />
+<Img src="/img/user-guide/secrets/vault-config-create.png" alt="Vault Configuration Create"  maxWidth="600px" centered />
 
 Vault integration setup requires just a few fields—endpoint, path, namespace, and authentication method—making it straightforward to connect your existing Vault infrastructure.
 
