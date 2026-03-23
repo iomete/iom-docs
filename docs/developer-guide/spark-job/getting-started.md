@@ -128,22 +128,22 @@ The create form has several sections. For a quickstart, focus on these essential
 **Application**
 
 - **Application type**: Select **Python** (default) or **JVM** (Java, Scala).
-- **Docker registry** + **Docker image**: A compound input. Select the registry from the dropdown (use `default` for IOMETE's built-in registry or choose a private registry), then enter the image and tag. For our sample job: `iomete/sample-job:1.0.0`
+- **Docker registry** + **Docker image**: A compound input. Select the registry from the dropdown (use `default` for IOMETE's built-in registry or choose a [private Docker registry](/docs/user-guide/private-docker-registry.md)), then enter the image and tag. For our sample job: `iomete/sample-job:1.0.0`
 - **Main class** (JVM only): The fully qualified class name, e.g. `org.example.MyApp`. Hidden for Python jobs.
 - **Main application file** (required): The entry point of the job. For our sample PySpark job: `local:///app/job.py`. For JVM jobs, use `spark-internal` if the class is already in the classpath.
 
 **Instance**
 
 - **Deployment type**: Choose **Standard** (clustered, with separate driver and executors) or **Single node** (lightweight, single machine).
-- **Node driver** (required): Select the node type for the Spark driver.
-- **Node executor** + **Executor count** (Standard mode only): Select the node type for executors and how many to run.
-- **Volume**: Select a volume for executor (or driver in Single node mode) storage.
+- **Node driver** (required): Select the [node type](/docs/user-guide/node-types.md) for the Spark driver.
+- **Node executor** + **Executor count** (Standard mode only): Select the [node type](/docs/user-guide/node-types.md) for executors and how many to run.
+- **Volume**: Select a [volume](/docs/user-guide/volumes.md) for executor (or driver in Single node mode) storage.
 
 The form also includes the following sections. These can be left at their defaults for your first job:
 
-**Resource bundle**
+**Resource bundle** (required)
 
-Select a resource bundle that defines the resource quotas available to this job. Required.
+Select a [resource bundle](/docs/user-guide/ras/resource-bundles) that defines the resource quotas available to this job.
 
 **Namespace**
 
@@ -212,5 +212,5 @@ From the job main page, you can:
 <Img src="/img/guides/spark-job/job-options.png" alt="Spark Job actions menu showing Configure, Duplicate, Suspend, Delete, and API operations"/>
 
 :::info ACCESS TOKEN
-To use the API, you need an access token. Go to the **Settings** menu and switch to the **Access Tokens** tab.
+To use the API, you need an [access token](/docs/user-guide/create-a-personal-access-token). Go to the **Settings** menu and switch to the **Access Tokens** tab.
 :::

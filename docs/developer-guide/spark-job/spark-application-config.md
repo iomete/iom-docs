@@ -37,7 +37,7 @@ When a scheduled job is still running and the next run comes due, the concurrenc
 |--------|-------------|
 | **Allow** | Multiple concurrent runs are permitted. |
 | **Replace** | The running instance is killed and replaced by the new run. |
-| **Forbid** | The new run is skipped if a previous run is still active. Default. |
+| **Forbid** | The new run is skipped if a previous run is still active. (Default) |
 
 ---
 
