@@ -4,7 +4,7 @@ description: How IOMETE's secrets management centralizes credential management a
 slug: secrets-management
 authors: sourabh
 hide_table_of_contents: true
-tags2: [Technical, Educational]
+tags2: [Engineering, Technical]
 coverImage: img/blog/thumbnails/darkRacing.png
 ---
 
