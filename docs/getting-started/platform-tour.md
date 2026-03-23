@@ -1,104 +1,160 @@
 ---
 title: Platform Tour
-description: Explore powerful IOMETE features. Lakehouses, SQL Editor, Spark Jobs, Data Catalog, Data Security, Notebooks. Simplify data management seamlessly.
+sidebar_label: Platform Tour
+description: A high-level tour of the IOMETE platform covering compute, SQL Editor, Spark jobs, Data Catalog, and more.
+last_update:
+  date: 03/23/2026
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
 
-The IOMETE Platform interface is composed of the following sections:
+The IOMETE interface has three areas:
 
-1. **User Menu:** - Use this menu to switch themes, access the settings menu, and log out.
+1. **User Menu** (top-left): manage your account, access platform administration, and get help.
+2. **Navigation Menu** (left sidebar): move between sections like Engine, Workspace, and Governance, covered below.
+3. **Content** (center): where the selected section's page loads and where you do your work.
 
-2. **Navigation Menu:** - Navigate through different Platform areas including Lakehouses, SQL Editor, Spark jobs, Data catalog and more.
+<Img src="/img/getting-started/platform-tour/dashboard-page.png" alt="IOMETE Platform layout"/>
 
-3. **Help Menu:** - Access this menu to redirect to Community & Support and Documentation for assistance.
+## Home
 
-4. **Content:** - When a Platform menu item is selected, the associated content is displayed in the content pane.
+The Home page is your starting point after login. It displays a resource quota overview and quick access cards for user guides, integrations, the API reference, and support.
 
-  <Img src="/img/getting-started/platform-tour/dashboard-page.png" alt="Dashboards page"/>
+<Img src="/img/getting-started/platform-tour/home-page.png" alt="Home page" maxWidth="900px"/>
 
 ## Engine
 
-### Lakehouses page
+Every workload on IOMETE needs compute resources. The Engine section is where you provision and manage them.
 
-A **virtual lakehouse** is a cluster of compute resources that provide the required resources, such as CPU, memory to perform the querying processing.
-Before using the **SQL Editor**, you should create a lakehouse.
+### Compute
 
-<Img src="/img/getting-started/platform-tour/lakehouse-page.png" alt="Lakehouses page"/>
+Compute clusters are pools of dedicated resources (CPU and memory) that run your queries. You'll need at least one before using the SQL Editor.
 
-For more details, see [Virtual Lakehouses](/docs/user-guide/virtual-lakehouses.md)
+<Img src="/img/getting-started/platform-tour/lakehouse-page.png" alt="Compute page" maxWidth="900px"/>
 
-### Jupyter Kernels page
+The [Compute Clusters](/user-guide/virtual-lakehouses) guide covers configuration in detail.
 
-Jupyter Notebook is a powerful tool for interactive data exploration and prototyping. By connecting to IOMETE's Jupyter Gateway you will be able to explore and analyze data stored in IOMETE's data lake directly from your local environment.
+### Jupyter Containers
 
-<Img src="/img/getting-started/platform-tour/notebook-page.png" alt="Notebook page detail"/>
+Jupyter Containers provide containerized JupyterLab environments inside the platform. Each container has persistent storage and connects to compute clusters via Spark Connect, so you can explore data, prototype ETL pipelines, and develop ML models interactively.
 
-For more details, see [Starting with Notebook](/docs/developer-guide/notebook/starting-with-notebook.mdx)
+<Img src="/img/getting-started/platform-tour/notebook-page.png" alt="Jupyter Containers page" maxWidth="900px"/>
 
-## SQL
+More in the [Jupyter Containers](/developer-guide/notebook/jupyter-containers) guide.
 
-### SQL Editor page
+### Event Streams
 
-The main components of the SQL Editor are highlighted below:
+Event Streams ingest events over HTTP and write them to Apache Iceberg tables in near real time. Deploy an ingestion endpoint, point your applications at it, and query the data with SQL. No message queues or extra infrastructure required.
 
-- **Worksheets** offer a simple method for you to write SQL queries, execute the queries, and see the results.
-- **Database explorer** is used to explore your database objects, which includes namespaces, tables, views, and their columns (even complex columns), and partitions.
-- **Lakehouse and Namespace selection** are required to execute SQL queries.
-- **SQL Editor** is used to write SQL queries using autocomplete feature. IOMETE tracks database objects and suggests them as autocomplete options
-- **Query result view** provide executed queries results. You can filter each column in the results and toggle on Charts to visualize the results as graphs.
+<Img src="/img/getting-started/platform-tour/event-streams.png" alt="Event Streams page" maxWidth="900px"/>
 
-<Img src="/img/getting-started/platform-tour/sql-editor-page.png" alt="SQL Editor page"/>
+Details in the [Event Stream](/user-guide/event-stream) guide.
 
-For more details, see [SQL Editor](/user-guide/sql-editor/worksheets)
+## Workspace
 
-### Query History page
+Most of your day-to-day SQL work happens in the Workspace. The sidebar groups three tools: SQL Editor, Query Monitoring, and Schedules.
 
-Query Histories track each query you run, adding it as a new item in the SQL history. You can revisit previous queries to view their results and reopen them in the active worksheet.
+### SQL Editor
 
-<Img src="/img/getting-started/platform-tour/query-history-page.png" alt="Query History  page"/>
+The SQL Editor is where you write and run queries. The left icon bar switches between four panels:
 
-For more details, see [Query History](/user-guide/sql-editor/query-history)
+- **Worksheets**: file tree that organizes worksheets and dashboards into personal or shared workspaces.
+- **Database Explorer**: browse catalogs, schemas, tables, views, and columns.
+- **[Query History](/user-guide/sql-editor/query-history)**: logs every query you run, with time range and status filters. Reopen any past query in the active worksheet.
+
+Before running a query, select a compute cluster and namespace from the top bar. The editor autocompletes database objects as you type. Results display as tables or charts. Build **[Dashboards](/user-guide/sql-editor/dashboards)** from your results and export them to PDF.
+
+<Img src="/img/getting-started/platform-tour/sql-editor-page.png" alt="SQL Editor page" maxWidth="900px"/>
+
+Learn more in the [SQL Editor](/user-guide/sql-editor/worksheets) guide.
+
+### Query Monitoring
+
+Keeping tabs on what's running across your clusters prevents bottlenecks. This view lists active queries across all compute clusters, so you can spot long-running or stuck queries early.
+
+<Img src="/img/getting-started/platform-tour/query-monitoring.png" alt="Query Monitoring page" maxWidth="900px"/>
+
+### Schedules
+
+Recurring SQL work like transformations, reports, and maintenance doesn't have to be manual. Set up cron-based schedules and track each run's status and results.
+
+<Img src="/img/getting-started/platform-tour/schedules.png" alt="Schedules page" maxWidth="900px"/>
+
+The [Query Scheduling](/user-guide/sql-editor/scheduling) guide walks through setup.
 
 ## Applications
 
-### Spark Applications page
+Whether you're running one-off batch jobs or long-lived streams, the Applications section tracks all your Spark workloads in one place.
 
-The Spark Applications page provides a centralized view of all Spark applications across various jobs, visualized with interactive charts. Users can filter applications by time range, user, status, or tags to efficiently monitor and analyze performance. This comprehensive view aids in tracking application progress, identifying issues, and optimizing resource usage.
+### Spark Applications
 
-<Img src="/img/getting-started/platform-tour/spark-applications.png" alt="Spark Applications page"/>
+This page charts every Spark application run with interactive visualizations. Filter by time range, user, status, or tags to spot issues quickly.
 
-### Job Templates page
+<Img src="/img/getting-started/platform-tour/spark-applications.png" alt="Spark Applications page" maxWidth="900px"/>
 
-IOMETE offers [PySpark quickstart template for AWS](https://github.com/iomete/spark-job-template) or [PySpark quickstart template for GCP](https://github.com/iomete/spark-job-template-gcp) helping you kickstart your first Spark Job. Follow the README instructions to use the template, which includes a sample job reading a CSV file from an S3 bucket, applying transformations, and writing the output to an Iceberg Table. Use it as a starting point for your custom jobs.
+More in the [Spark Jobs](/user-guide/spark-jobs) guide.
 
-<Img src="/img/getting-started/platform-tour/job-templates.png" alt="Spark jobs page"/>
+### Streaming Jobs
 
-For more details, see [Spark job](/docs/developer-guide/spark-job/getting-started.md)
+Spark Structured Streaming workloads live here. Create, monitor, and scale long-running streaming jobs that process data continuously as it arrives.
+
+<Img src="/img/getting-started/platform-tour/streaming-jobs.png" alt="Streaming Jobs page" maxWidth="900px"/>
+
+### Job Templates
+
+Job Templates define reusable Spark job configurations. Browse the built-in marketplace for ready to use templates, or create your own.
+
+<Img src="/img/getting-started/platform-tour/job-templates.png" alt="Job Templates page"/>
+
+The [Getting Started with Spark Jobs](/developer-guide/spark-job/getting-started) guide has a full walkthrough.
 
 ## Governance
 
-### Search
+As your data grows, finding and understanding tables gets harder. The Governance section currently has one page, **Data Catalog**, which organizes table metadata across five tabs:
 
-The data catalog interface offers metadata for all tables.
-You can easily filter by _Schemas_, _Table type_, _Provider_ and _Tags_, and use the search function to find what you need. Additionally, you have the option to bookmark tables for quick access.
+- **Data Catalog**: full-text search across all tables, with filters for catalogs, schemas, and tags.
+- **Data Explorer**: hierarchical browsing through catalogs, namespaces, and tables, plus views of columns, partitions, and snapshots.
+- **Favorites**: quick access to your bookmarked tables.
+- **Classifications**: manage classification tags applied to data assets.
+- **Classification Requests**: review and approve requests to add or modify classifications.
 
-<Img src="/img/getting-started/platform-tour/catalog-search.png" alt="Data catalog page"/>
+<Img src="/img/getting-started/platform-tour/catalog-search.png" alt="Data Catalog search"/>
 
-### Data Explorer page
+The [Data Catalog](/user-guide/data-catalog) guide covers everything in detail.
 
-The Catalog Explorer page allows you to view and manage all catalogs, namespaces, and tables with ease. You can register or snapshot tables and access detailed information, including table details, partition information, column data, and snapshots.
 
-<Img src="/img/getting-started/platform-tour/data-explorer-page.png" alt="Data Explorer page"/>
+## Resource Bundles
 
-<Img src="/img/getting-started/platform-tour/explorer-snapshots.png" alt="Data Explorer page"/>
+When different teams share the same platform, you need fine-grained access control. Resource Bundles group resources (compute clusters, Spark jobs, Jupyter Containers, etc.) and assign permissions per bundle. That way, you control who can create, manage, or use each resource.
 
-### Data security page
+<Img src="/img/getting-started/platform-tour/resource-bundles.png" alt="Resource Bundles page" maxWidth="900px"/>
 
-Data security at IOMETE is maintained through access control using a user interface for consistent administration. Security admins set policies for databases, tables, and columns, managing permissions for groups or users. IOMETE offers the following types of data security.
+More in the [Resource Bundles](/user-guide/ras/resource-bundles) guide.
 
-- **Access Policy** policy comprises rules and permissions that specify who can access specific resources and the actions they can take after gaining access.
-- **Data masking** is a method to hide sensitive information by changing it into fake data while keeping its appearance intact. It safeguards private details during testing or sharing.
-- **Row-level filtering** limits who can see certain rows in a database.
+## Settings
 
-For more details, see [Data security overview](/docs/user-guide/data-security/overview.mdx)
+Platform-wide configuration lives in Settings, organized into three groups:
+
+- **General Info**: domain details, cloud provider, runtime and Spark versions.
+- **Profile**: Access Tokens and Notifications.
+- **Domain**: Members, Spark Settings, Spark Catalogs, Docker Settings, Secret Settings, Node Types, Volumes, Namespaces, Storage Configs, and Git Integration.
+
+Open Settings from the left sidebar or the user menu.
+
+<Img src="/img/getting-started/platform-tour/settings.png" alt="Settings page" maxWidth="900px"/>
+
+## Admin Portal
+
+Platform administrators manage users, security, and infrastructure from the Admin Portal. Access it through the user menu.
+
+- **IAM**: [Users](/user-guide/users), [Groups](/user-guide/groups), Admin Roles, [LDAP](/user-guide/ldap-configuration), and [Single Sign-On (SSO)](/user-guide/single-sign-on).
+- **Data Governance**: [Spark Catalogs](/user-guide/spark-catalogs/overview), [Data Security](/user-guide/data-security/overview) policies, and Audit logs.
+- **Compute**: [Node Types](/user-guide/node-types), [Volumes](/user-guide/volumes), Namespaces, and [Docker Settings](/user-guide/private-docker-registry).
+- **Administration**: System Config, Event Logs, [Email Config](/user-guide/email-settings), and Orphaned Resources.
+
+<Img src="/img/getting-started/platform-tour/admin-portal.png" alt="Admin Portal page" maxWidth="900px"/>
+
+:::info Feature Availability
+Some features (Jupyter Containers, Event Streams, Query Monitoring, and Schedules) may not be visible depending on your deployment configuration.
+:::
