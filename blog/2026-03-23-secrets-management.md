@@ -10,11 +10,11 @@ coverImage: img/blog/thumbnails/darkRacing.png
 
 import Img from '@site/src/components/Img';
 
-Modern data platforms juggle dozens of secrets—database passwords, API keys, cloud credentials, service account tokens—scattered across jobs, notebooks, storage systems, and integration points. Each credential is a potential security risk, and managing them consistently is a constant challenge.
+Modern data platforms manage dozens of secrets—database passwords, API keys, cloud credentials, service account tokens—scattered across jobs, notebooks, storage systems, and integration points. Each credential is a potential security risk, and managing them consistently is a constant challenge.
 
 The traditional approach leads to predictable problems. Credentials get hardcoded in configurations and checked into version control. The same secret key gets copied into multiple places. Platform configurations store credentials in plaintext. When it's time to rotate a credential, you're hunting through configuration files, environment variables, and UI forms trying to remember everywhere you pasted that secret six months ago.
 
-Domain isolation becomes inconsistent when some systems use permission tables while others rely on manual discipline. Compliance audits flag plaintext secrets. There's no audit trail showing who accessed which credentials or when they were last rotated. And the painful truth: rotating a compromised credential means updating code, redeploying jobs, and hoping you found all the places it was used.
+Domain isolation breaks down when credential access depends on each team remembering to restrict sharing rather than being enforced by the platform. Compliance audits flag plaintext secrets. There's no audit trail showing who accessed which credentials or when they were last rotated. And the painful truth: rotating a compromised credential means updating code, redeploying jobs, and hoping you found all the places it was used.
 
 IOMETE's secrets management solves this by centralizing credential management across the entire platform. One catalog, multiple backends, and strong isolation.
 
@@ -30,7 +30,7 @@ Two-tier scoping provides the right level of isolation for different use cases. 
 
 The architecture separates configuration from secrets. When you configure a Spark job or storage integration, you don't paste credential values. Instead, you select a secret reference from a dropdown showing available secrets and their source (Kubernetes or Vault). The configuration stores only the secret key and source metadata. When the job runs or the integration connects, the platform fetches the actual value securely, injects it into the runtime environment, and never persists it.
 
-This approach delivers immediate benefits. You have a single source of truth for each credential, referenced across multiple workloads without duplication. Secret rotation happens in one place, and dependent services pick up the new value on their next deployment. Customer-managed Vault support means enterprises can leverage their existing security infrastructure while gaining IOMETE's unified credential management.
+This approach delivers immediate benefits: a single source of truth for each credential, referenced across multiple workloads without duplication. Customer-managed Vault support means enterprises can use their existing security infrastructure while gaining IOMETE's unified credential management.
 
 <Img src="/img/user-guide/secrets/domain-secrets.png" alt="IOMETE Secrets Management Dashboard" />
 
@@ -59,7 +59,7 @@ The two-tier scoping system enforces strict boundaries between teams while enabl
 
 IOMETE's secrets management supports two storage backends, each serving different operational needs.
 
-**Kubernetes** is the default backend, IOMETE-managed and immediately available. Each domain gets its own Kubernetes secret object named `iomete-secret-store-{domain}`. Global secrets live in `iomete-secret-store`. Individual secret keys are stored as base64-encoded fields within these objects. You create, rotate, and delete secrets through the IOMETE dashboard, and the platform handles the Kubernetes API interactions. No setup required, no external dependencies—it works out of the box.
+**Kubernetes** is the default backend, IOMETE-managed and immediately available. Each domain gets its own Kubernetes secret object named `iomete-secret-store-{domain}`. Global secrets live in `iomete-secret-store`. Individual secret keys are stored as base64-encoded fields within these objects (base64 is Kubernetes' standard encoding format, not encryption—Kubernetes handles encryption at rest separately). You create, rotate, and delete secrets through the IOMETE dashboard, and the platform handles the Kubernetes API interactions. No setup required, no external dependencies—it works out of the box.
 
 **HashiCorp Vault** provides customer-managed secret storage for enterprises with existing Vault infrastructure. IOMETE integrates with Vault using the KV Secrets Engine v2, supporting both token-based and AppRole authentication methods. You configure per-domain Vault connections through the dashboard, specifying your Vault endpoint, secret path, and authentication credentials. IOMETE maintains read-only access to your Vault—you control policies, path organization, and access rules. The platform caches Vault tokens to minimize authentication overhead while respecting your configured time-to-live settings.
 
@@ -71,7 +71,7 @@ Understanding how secrets move from storage to runtime clarifies the security mo
 
 When you configure a workload—a Spark job, storage config, or integration—you select a secret from the available catalog. The configuration stores the secret key and its source (Kubernetes or Vault). When you deploy the workload, the platform contacts the specified backend, retrieves the secret value, and injects it into the environment as an environment variable or configuration parameter.
 
-This resolution happens at deployment time, not continuously. Your Spark job receives secrets when the driver pod starts. Your notebook gets secrets when the container launches. Storage configs retrieve credentials when testing connections or executing operations. The resolved values live only in the runtime environment—they never get written back to the database, never appear in logs (in the control plane), and aren't exposed through APIs.
+This resolution happens at deployment time, not continuously. Your Spark job receives secrets when the driver pod starts. Your notebook gets secrets when the container launches. Storage configs retrieve credentials when testing connections or executing operations. The resolved values live only in the runtime environment—they never get written back to the database, never appear in control-plane logs, and aren't exposed through APIs.
 
 Secret rotation follows this same pattern. Update the value in Kubernetes or Vault, then redeploy affected workloads. The next deployment picks up the new value automatically. This explicit redeployment requirement trades convenience for predictability—you control exactly when credential changes take effect rather than having mid-flight jobs suddenly fail when credentials rotate underneath them.
 
@@ -91,7 +91,7 @@ This creates several problems. When AWS requires them to rotate the access key f
 
 Alex from marketing, while helping debug a cross-team issue, accidentally sees finance's AWS credentials in a shared notebook that Emma created for a one-off analysis. The credentials weren't meant to be shared, but once pasted into the notebook environment, they became visible to anyone with notebook access.
 
-When the security team runs a compliance audit, they flag the plaintext storage of AWS credentials in the database and the presence of secrets in version-controlled configuration files. The findings require immediate remediation but no clear path forward.
+When the security team runs a compliance audit, they flag the plaintext storage of AWS credentials in the database and the presence of secrets in version-controlled configuration files. The findings require immediate remediation but offer no clear path forward.
 
 Jordan has no visibility into what secrets exist across the platform. There's no central inventory, no way to audit which credentials are used where, and no mechanism to enforce rotation policies. When a contractor leaves the company, Jordan can't quickly identify and rotate all the credentials that contractor had access to.
 
@@ -109,7 +109,7 @@ Emma navigates to `Settings → Secrets` in the finance domain and creates a sec
 
 Now Emma goes through their seven configuration points. In the Spark job environment section, she clicks "Use existing secret" and selects `finance-s3-secret-key` from the dropdown, which shows `(KUBERNETES)` as the source. In the storage config for the S3 bucket, she uses the secret selector to choose the same secret. In each of the five notebooks, she removes the hardcoded credential and selects the secret from the environment variable dropdown.
 
-One secret definition, referenced seven times. The configuration files store only the secret key and source—no actual credential values. Git commits now show references like `secretKey: finance-s3-secret-key` instead of the actual AWS key.
+One secret definition, referenced seven times. The configuration files store only the secret key and source—no actual credential values. Git commits now show secret references instead of the actual AWS key.
 
 When it's time to rotate the credential, Emma goes to `Settings → Secrets`, finds `finance-s3-secret-key`, and clicks Update. She enters the new AWS key value. Then she redeploys the affected Spark job and restarts any active notebooks. The storage config picks up the new value on its next connection test. Total time: about ten minutes. Places where she might have made a typo: zero.
 
@@ -119,31 +119,29 @@ The compliance audit shows secrets stored as references in the database, actual 
 
 ## Key Features & Benefits
 
-IOMETE's secrets management delivers a unified credential management experience across the entire platform.
+Beyond the architecture and workflow covered above, several additional capabilities round out the secrets management experience.
 
-### Unified Experience
+### Access Control
 
-Every IOMETE component uses the same secret selector interface. When you configure environment variables in a Spark job, you see the "Use existing secret" option. The same selector appears when you set up Spark configuration parameters in compute clusters, configure environment variables in Jupyter notebooks, provide secret keys for S3 storage configurations, enter SMTP passwords for email integrations, or supply LDAP bind credentials. One pattern, consistent everywhere, reduces cognitive load and prevents mistakes.
+Secrets inherit the same permissions model described in the official documentation. Domain secrets stay inside their domain boundary—domain administrators and delegated maintainers can create, rotate, or delete them, while other domains can't even list their keys. Global secrets remain read-only platform credentials that only platform administrators control via Kubernetes, ensuring cross-domain sharing never bypasses governance.
 
-The dropdown shows all available secrets with their source clearly marked—`KUBERNETES` for secrets stored in IOMETE-managed Kubernetes objects, `VAULT` for secrets retrieved from configured Vault instances. You select the appropriate secret, and the platform handles the resolution automatically. No need to remember different syntax for different services or worry about how credentials get injected.
+Vault access adds an extra layer enforced through the Resource Authorization System (RAS):
 
-### Multi-Backend Flexibility
+| Permission | Capability |
+| --- | --- |
+| **View** | Read Vault configuration details |
+| **Update** | Edit configuration values (host, path, credentials) |
+| **Use** | List and select Vault keys inside workloads |
 
-Start with Kubernetes for immediate productivity. Navigate to `Settings → Secrets`, click "Create secret", enter the key and value, and save. The secret is immediately available across all IOMETE services. No external dependencies, no complex configuration—it works.
-
-As compliance requirements grow or enterprise Vault infrastructure becomes available, add Vault integration per domain. Go to `Domain Settings → Vault Configurations`, provide your Vault endpoint and authentication credentials, test the connection, and save. Secrets stored in your Vault paths now appear automatically in the secret selector dropdowns alongside Kubernetes secrets. The platform distinguishes sources clearly, and you choose which backend serves which credential based on your security policies.
-
-Use both backends simultaneously. Store development and test credentials in Kubernetes for quick iteration. Keep production secrets in your compliance-approved Vault instance. Route different workloads to appropriate backends. The flexibility adapts to your operational reality rather than forcing a one-size-fits-all approach.
+Users need the **Use** permission for a Vault configuration to see its secrets inside selectors; without it, Vault-managed keys simply don't appear. This maps blog guidance directly to the product behavior, so readers know the precise permissions required before onboarding teams.
 
 ### Security-First Design
 
-The architecture prevents common credential exposure patterns. Databases store only secret references—objects containing the secret key and source metadata. Actual credential values never persist in application databases. When workloads need credentials, the platform fetches them from Kubernetes or Vault at deployment time, injects them into the runtime environment, and never writes them back to persistent storage.
+The platform never stores credential values alongside configurations. Databases retain only references (key + source), and the actual secret gets fetched just-in-time when workloads start. That runtime-only exposure keeps credentials out of Git history, audit logs, and metadata APIs. Combined with domain boundaries and read-only Vault integrations that honor your existing policies, secrets stay confined to the teams and systems you intended, and platform administrators still have centralized oversight without touching the values themselves.
 
-Domain-level access control ensures teams see only their own secrets. Finance can't accidentally reference marketing's credentials. Marketing can't discover finance's AWS keys. The isolation happens at the platform layer, backed by separate Kubernetes secret objects per domain and enforced through Vault path policies you control.
+### Unified Secret Selector
 
-Vault credentials themselves receive special protection. When you configure a Vault connection, the authentication credentials (token or AppRole details) get stored in a dedicated Kubernetes secret named `iomete-vault-credentials-{domain}`. These credentials never appear in API responses or UI forms. They're used solely for internal Vault authentication, and the cached tokens respect your configured TTL settings.
-
-The read-only Vault integration maintains your security boundaries. IOMETE reads secrets from your Vault paths but can't create, update, or delete Vault secrets. You manage your Vault data using your existing tools and processes. IOMETE simply consumes what you choose to make available.
+Every IOMETE component—Spark jobs, notebooks, storage configs, email integrations, LDAP connections—uses the same secret selector interface with source indicators (`KUBERNETES` or `VAULT`). One consistent pattern everywhere reduces cognitive load and prevents mistakes.
 
 ---
 
@@ -199,10 +197,6 @@ Click "Test connection" to verify IOMETE can authenticate and access your Vault 
 
 IOMETE's secrets management transforms credential management from a scattered, error-prone process into a centralized, secure, and auditable system. Whether you're managing a handful of secrets in Kubernetes or integrating with enterprise Vault infrastructure, IOMETE provides the foundation for secure credential handling at scale.
 
-One catalog serves all credentials across Spark jobs, notebooks, storage configurations, email integrations, and LDAP connections. Flexible backends support both IOMETE-managed Kubernetes secrets and customer-managed Vault instances, adapting to your security requirements as they evolve. Strong isolation through domain scoping and permission controls ensures teams access only their own credentials while sharing common resources appropriately.
-
-The architectural choice to separate configuration from secrets—storing references instead of values—eliminates entire classes of security vulnerabilities. Credentials don't leak into version control, databases, or logs. Rotation becomes a one-place operation rather than a multi-hour hunt through configurations. Compliance audits find centralized, protected credential storage instead of scattered plaintext values.
-
-> "The best security practice is the one that's easy enough to follow consistently. IOMETE's secrets management makes secure credential management the default path, not the hard path."
+The architectural choice to separate configuration from secrets—storing references instead of values—eliminates entire classes of security vulnerabilities. Combined with domain-scoped access controls and multi-backend flexibility, it gives platform teams confidence that credentials are managed consistently without sacrificing developer productivity.
 
 IOMETE's secrets management is available now. Check your platform's feature flags or contact your administrator to get started with centralized, secure credential management today.
