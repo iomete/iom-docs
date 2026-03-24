@@ -41,6 +41,7 @@ Once resources are saved, the **Maintenance Operations** section becomes active.
 :::warning Resource Requirements
 - The compute cluster must be active when a maintenance job runs. If it's stopped or disabled, the operation fails.
 - The service account must have `CONSUME` permission on the chosen compute cluster. Otherwise, the save is rejected with a permission error. See [Granting Access to Users and Groups](/user-guide/ras/resource-bundles#granting-access-to-users-and-groups) to assign the required permission.
+- The service account must have write access on the tables included in maintenance. Without it, maintenance operations on those tables will fail.
 - Reassigning the owner domain for a catalog disables maintenance and clears all configured resources. Re-enable maintenance and reconfigure resources after the change.
 :::
 

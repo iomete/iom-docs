@@ -109,6 +109,17 @@ import FAQSection from '@site/src/components/FAQSection';
     )
   },
   {
+    question: "Why don't I see any maintenance runs for my table?",
+    answerContent: (
+      <>
+        <p>Maintenance follows <strong>detect → evaluate → execute</strong> pipeline. The system first detects tables that have changed, then evaluates whether any operation is actually needed based on the configured thresholds. Only when a table exceeds a threshold (e.g., too many small files, too many snapshots) does the system create an execution entry that appears in the History tab.</p>
+        <p>Each operation is evaluated independently — a table may qualify for one but not another. If none of the operations find a threshold exceeded, no run is created.</p>
+        <p>Also note that only tables with recent changes are evaluated. If the table hasn't been modified since the last maintenance cycle, it won't be picked up for evaluation at all.</p>
+        <p>If needed, you can always <a href="./run-history-and-metrics#manually-triggering-an-operation">manually trigger</a> an operation to run it on demand.</p>
+      </>
+    )
+  },
+  {
     question: "Why are some files skipped during orphan file cleanup?",
     answerContent: (
       <>

@@ -9,7 +9,9 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-Each operation card includes an **Advanced Settings** section for overriding individual properties. Add properties using the **Add Property** dropdown. To revert a property to its [inherited default](#how-property-values-are-resolved), click the `❌` button next to it.
+Each maintenance operation has a set of properties that control how it runs, like target file sizes for compaction, snapshot retention windows, and sort strategies. The defaults are tuned to work well in most cases, so you usually don’t need to change them. But if a table has specific needs, you can override these at the catalog level (for all tables) or just for an individual table (overrides the catalog default for that table only).
+
+Open the **Advanced Settings** panel on any operation card to see available properties. Use the **Add Property** dropdown to override a value, or click the `❌` button next to a property to revert it to its [inherited default](#how-property-values-are-resolved).
 
 <Img src="/img/user-guide/table-maintenance/operation-advanced-props.png" alt="Operation card with Advanced Settings panel expanded showing property input fields"/>
 

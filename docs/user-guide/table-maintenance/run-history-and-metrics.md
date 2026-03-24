@@ -19,7 +19,7 @@ The **History** sub-tab lists every maintenance run for a table, including befor
 2. Find and open the table details page:
    - **Data Catalog tab**: Search for the table by name and click it.
    - **Data Explorer tab**: Navigate through Catalog > Database > Table.
-3. Go to the **Table Maintenance** tab.
+3. Go to the **Maintenance** tab.
 4. Click the **History** sub-tab.
 5. Use the filters at the top to narrow results:
     - **Time range**: a date-range picker (maximum range is 30 days).
@@ -51,7 +51,7 @@ Run any maintenance operation on demand without waiting for the automated cycle.
 2. Find and open the table details page:
    - **Data Catalog tab**: Search for the table by name and click it.
    - **Data Explorer tab**: Navigate through Catalog > Database > Table.
-3. Go to the **Table Maintenance > History** sub-tab.
+3. Go to the **Maintenance > History** sub-tab.
 4. Click the **Trigger** button in the table header.
 <Img src="/img/user-guide/table-maintenance/table-history-trigger-button.png" alt="Maintenance History tab with the Trigger button highlighted in the table header"/>
 5. In the modal, select the operation type from the dropdown.
