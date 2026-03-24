@@ -1,62 +1,55 @@
 ---
-title: Jupyter Containers (NEW)
-description: Jupyter Containers provide a powerful way to create dedicated, pre-configured Jupyter development environments within your IOMETE Data Lakehouse Platform. 
-slug: /developer-guide/jupyter-containers
+title: Jupyter Containers
+description: Create dedicated JupyterLab environments with persistent storage and Spark Connect for data exploration and ML development.
+sidebar_label: Overview
 last_update:
-  date: 06/17/2025
-  author: Fuad Musayev
+  date: 03/19/2026
+  author: Abhishek Pathania
 ---
 
-import Img from "@site/src/components/Img";
+Jupyter Containers are dedicated, containerized JupyterLab environments that run inside the IOMETE platform. Each container comes pre-configured with JupyterLab and essential data engineering tools (Git, AWS CLI, and pip) so you can start working with your data immediately. Containers connect to IOMETE compute clusters through Spark Connect for distributed processing.
 
-Jupyter Containers provide a powerful way to create dedicated, pre-configured Jupyter development environments within your IOMETE Data Lakehouse Platform. 
-Each container comes with JupyterLab and essential data engineering tools pre-installed, enabling you to start working with your data immediately.  
+:::info Feature availability
+Jupyter Containers require the `jupyterContainers` feature flag to be enabled on your data plane. If you do not see the **Jupyter Containers** menu item in the sidebar, contact your platform administrator.
+:::
 
-### Common Use Cases
+## Common Use Cases
 
-1. Data Exploration and Analysis: explore datasets to understand structure and patterns, create visualizations to identify trends and anomalies.  
-2. ETL Pipeline Development: prototype data transformation logic before production deployment, create documentation for complex data transformations.  
-3. Machine Learning and AI: model training and validation, hyperparameter tuning and experimentation, model performance analysis and visualization.
+- **Data exploration and analysis**: Explore datasets to understand structure and patterns. Create visualizations to identify trends and anomalies.
+- **ETL pipeline development**: Prototype data transformation logic before production deployment. Document complex data transformations interactively.
+- **Machine learning and AI**: Train and validate models, tune hyperparameters, and analyze model performance with interactive visualizations.
 
-### Creating a Jupyter Container
+## Limitations
 
-1. Navigate to Jupyter Containers in your IOMETE console
-2. Configure Resources: Select CPU, memory, and storage based on your needs
-4. Launch Container: Click "Create Container" to spin up your environment
+- **No GPU support**: Jupyter Containers use CPU and memory resources only. GPU workloads are not supported.
+- **No auto-shutdown**: Containers run indefinitely until manually terminated. Stop containers when not in use to avoid unnecessary resource consumption.
+- **No custom images**: All containers use the platform-managed base image (JupyterLab, Git, AWS CLI, pip). Custom container images are not supported through the UI.
 
-### Accessing Jupyter Containers
+## Access Permissions
 
-1. Open JupyterLab: Click the "Open JupyterLab" button in the UI
-2. First-time Login:
-   - Enter your username as the token (default token is your IOMETE username)
-   - Choose whether to create a password for future logins
-3. Start Working: You're now in the familiar JupyterLab interface!
+Jupyter Containers use [resource bundles](/user-guide/ras/resource-bundles) to control access. The **create** permission is managed at the domain-bundle level, while all other per-container actions are controlled through resource-level permissions on the bundle the container belongs to.
 
-### Connecting to IOMETE Compute Clusters
+### Create Permission
 
-```python
-from pyspark.sql import SparkSession
+Creating a Jupyter Container requires the `Create Jupyter Container` permission at the domain-bundle level. This controls the **New Jupyter Container** button and form submission. Users without this permission see the button disabled with the tooltip "You do not have permission to create Jupyter Containers."
 
-# Copy the connection string from the Compute's Connections tab (Spark Connect) in IOMETE UI.
-spark = SparkSession.builder.remote("sc://...").getOrCreate()
+### Resource-Level Permissions
 
-print("> Query databases from the remote cluster")
-df = spark.sql("show databases")
-df.show()
+Each container is an asset in a [resource bundle](/user-guide/ras/resource-bundles). The bundle determines which users can perform specific actions on individual containers.
 
-```
+| Permission | What it allows |
+|-----------|----------------|
+| `VIEW` | View container details, logs, and events. Open JupyterLab. |
+| `UPDATE` | Edit and configure the container. |
+| `RUN` | Start and terminate the container. |
+| `DELETE` | Delete the container. |
 
-### Working with Git and S3
+Users only see containers they have at least `VIEW` access to in the list. The platform filters the list based on your bundle permissions.
 
-Your container includes Git and AWS CLI tools for seamless development workflows:
+## Related Features
 
-```bash
-# Clone your project repository
-git clone https://github.com/your-org/data-project.git
-
-# Configure AWS CLI for S3-compatible storage
-aws configure
-
-# Upload results to S3
-aws s3 cp results.csv s3://your-bucket/analysis/
-```
+- **[Resource bundles](/user-guide/ras/resource-bundles)**: Control who can access each container.
+- **[Node types](/user-guide/node-types)**: Determine CPU and memory allocation.
+- **[Volumes](/user-guide/volumes)**: Provide persistent storage (On Demand PVC or NFS).
+- **[Secrets](/user-guide/secrets)**: Can be referenced as environment variables.
+- **[Compute clusters](/user-guide/virtual-lakehouses)**: Provide Spark Connect endpoints for distributed processing.
