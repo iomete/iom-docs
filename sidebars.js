@@ -226,6 +226,20 @@ const sidebars = {
     },
     {
       type: "category",
+      label: "Table Maintenance (Beta)",
+      collapsed: true,
+      items: [
+        "user-guide/table-maintenance/overview",
+        "user-guide/table-maintenance/catalog-configuration",
+        "user-guide/table-maintenance/table-configuration",
+        "user-guide/table-maintenance/advanced-configuration",
+        "user-guide/table-maintenance/run-history-and-metrics",
+        "user-guide/table-maintenance/deployment",
+        "user-guide/table-maintenance/faqs",
+      ],
+    },
+    {
+      type: "category",
       label: "Client & Libraries",
       collapsed: true,
       items: [
