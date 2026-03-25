@@ -1,6 +1,9 @@
 ---
 title: SQL DDL Examples
 description: This SQL script showcases key DDL operations in IOMETE, a platform based on Spark SQL and Iceberg. It includes database and table creation, CTAS and RTAS operations, and various table alterations.
+last_update:
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
 This SQL script showcases key DDL operations in IOMETE, a platform based on Spark SQL and Iceberg. It includes database and table creation, CTAS and RTAS operations, and various table alterations.
@@ -291,7 +294,7 @@ SHOW TBLPROPERTIES ddl_ops_demo_db.sample;
 +-------------------------+------------------+
 | current-snapshot-id     | none             |
 | format                  | iceberg/parquet  |
-| format-version          | 1                |
+| format-version          | 2                |
 | read.split.target-size  | 268435456        |
 +-------------------------+------------------+
 */

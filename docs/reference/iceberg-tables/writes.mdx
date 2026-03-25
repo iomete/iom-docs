@@ -3,8 +3,8 @@ title: "Iceberg tables INSERT, MERGE, and DELETE Operations"
 sidebar_label: Writes
 description: Learn how to use IOMETE for row-level updates and replacing data in partitioned tables using INSERT INTO, MERGE INTO, and INSERT OVERWRITE operations.
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
 ### Writing with SQL
@@ -68,6 +68,13 @@ Inserts also support additional conditions:
 
 ```sql
 WHEN NOT MATCHED AND s.event_time > still_valid_threshold THEN INSERT (id, count) VALUES (s.id, 1)
+```
+
+Rows in the target table that have no matching source row can be updated or deleted using `WHEN NOT MATCHED BY SOURCE`:
+
+```sql
+WHEN NOT MATCHED BY SOURCE AND condition THEN UPDATE SET column1 = value1 [, ...]
+WHEN NOT MATCHED BY SOURCE THEN DELETE
 ```
 
 Only one record in the source data can update any given row of the target table, or else an error will be thrown.
@@ -149,15 +156,17 @@ DELETE FROM prod.db.table
 WHERE ts >= '2020-05-01 00:00:00' and ts < '2020-06-01 00:00:00'
 ```
 
-If the delte filter matches entire partitions of the table, Iceberg will perform a metadata-only delete. If the filter matches individual rows of a table, then Iceberg will rewrite only the affected data files.
+If the delete filter matches entire partitions of the table, Iceberg will perform a metadata-only delete. If the filter matches individual rows of a table, then Iceberg will rewrite only the affected data files.
 
 <br />
 
 ### Writing to partitioned tables
 
-Iceberg requires the data to be sorted according to the partition spec per task (Spark partition) in prior to write against partitioned table.
+When using the default DataSourceV2 writer, Iceberg automatically sorts data by partition columns before writing, so no manual ordering is needed.
 
-Let’s go through writing the data against below sample table:
+If you are using the v1 writer (`spark.sql.storeAssignment.policy=v1`), you need to sort the data manually according to the partition spec before writing.
+
+Consider the following sample table:
 
 ```sql
 CREATE TABLE db.sample (
@@ -168,8 +177,14 @@ CREATE TABLE db.sample (
 PARTITIONED BY (days(ts), category)
 ```
 
-To write data to the sample table, your data needs to be sorted by `days(ts)`, category.
-If you’re inserting data with SQL statement, you can use `ORDER BY` to achieve it, like below:
+With the default v2 writer, a simple insert is sufficient:
+
+```sql
+INSERT INTO db.sample
+SELECT id, data, category, ts FROM another_table
+```
+
+If you are using the v1 writer, add an explicit `ORDER BY` to sort by the partition columns:
 
 ```sql
 INSERT INTO db.sample
@@ -228,7 +243,7 @@ This type conversion table describes how Iceberg types are converted to the Spar
 | date                       | date      |               |
 | time                       |           | Not supported |
 | timestamp with timezone    | timestamp |               |
-| timestamp without timezone |           | Not supported |
+| timestamp without timezone | timestamp_ntz | Spark 3.4+ |
 | string                     | string    |               |
 | uuid                       | string    |               |
 | fixed                      | binary    |               |

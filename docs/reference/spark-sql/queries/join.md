@@ -3,11 +3,23 @@ title: JOIN
 description: SQL join is used to combine rows from two relations based on join criteria. It describes the overall join syntax and the sub-sections cover different types of joins along with examples.
 slug: /reference/spark-sql/join
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
 A SQL join is used to combine rows from two relations based on join criteria. The following section describes the overall join syntax and the sub-sections cover different types of joins along with examples.
+
+:::tip Setup
+Run these statements first to create the sample tables used in the examples below.
+
+```sql
+CREATE TABLE employee (id INT, name STRING, deptno INT);
+INSERT INTO employee VALUES (105, 'Chloe', 5), (103, 'Paul', 3), (101, 'John', 1), (102, 'Lisa', 2), (104, 'Evan', 4), (106, 'Amy', 6);
+
+CREATE TABLE department (deptno INT, deptname STRING);
+INSERT INTO department VALUES (3, 'Engineering'), (2, 'Sales'), (1, 'Marketing');
+```
+:::
 
 ---
 

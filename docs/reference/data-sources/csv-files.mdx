@@ -2,8 +2,8 @@
 title: CSV Files
 description: CSV files syntax allows reading CSV file directly from the location without it copying the data by automatically detecting column names
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
 ---
@@ -108,7 +108,7 @@ select * from tutorial_flights2;
   - **FAILFAST:** aborts with a RuntimeException if encounters any malformed line
 - **charset:** defaults to 'UTF-8' but can be set to other valid charset names
 - **inferSchema:** automatically infers column types. It requires one extra pass over the data and is false by default
-- **comment:** skip lines beginning with this character. Default is `#`. Disable comments by setting this to `null`
+- **comment:** skip lines beginning with this character. Default is disabled. Set to `#` or another character to enable
 - **nullValue:** specifies a string that indicates a null value, any fields matching this string will be set as nulls
-- **dateFormat:** specifies a string that indicates the date format to use when reading dates or timestamps. Custom date formats follow the formats at `java.text.SimpleDateFormat`. This applies to both `DateType` and `TimestampType`. By default, it is `null` which means trying to parse times and date by `java.sql.Timestamp.valueOf()` and `java.sql.Date.valueOf()`
+- **dateFormat:** specifies a string that indicates the date format to use when reading dates or timestamps. Custom date formats follow the formats at `java.time.format.DateTimeFormatter`. This applies to both `DateType` and `TimestampType`. By default, it is `null` which means trying to parse timestamps and dates by `java.sql.Timestamp.valueOf()` and `java.sql.Date.valueOf()`
   :::

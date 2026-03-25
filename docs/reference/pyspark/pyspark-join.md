@@ -2,6 +2,9 @@
 title: A Comprehensive Guide to PySpark Joins
 sidebar_label: Joins
 description: Master PySpark joins with a comprehensive guide covering inner, cross, outer, left semi, and left anti joins. Explore syntax, examples, best practices, and FAQs to effectively combine data from multiple sources using PySpark.
+last_update:
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
 
@@ -41,7 +44,7 @@ Default join type is `inner`
 | **CROSS JOIN**                          | `cross`                                       | Returns all rows from the left table multiplied by all rows from the right table (Cartesian product) |
 | **LEFT OUTER JOIN** (a.k.a LEFT JOIN)   | `left`, `leftouter`, `left_outer`             | Returns all rows from the left table, and the matched rows from the right table                      |
 | **RIGHT OUTER JOIN** (a.k.a RIGHT JOIN) | `right`, `rightouter`, `right_outer`          | Returns all rows from the right table, and the matched rows from the left table                      |
-| **FULL OUTER JOIN**                     | `outher`, `full`, `fullouther`, `full_outher` | Returns all rows when there is a match in ONE of the tables                                          |
+| **FULL OUTER JOIN**                     | `outer`, `full`, `fullouter`, `full_outer` | Returns all rows when there is a match in ONE of the tables                                          |
 | **LEFT SEMI JOIN**                      | `semi`, `leftsemi`, `left_semi`               | Returns all rows from the left table for which there is at least one match in the right table        |
 | **LEFT ANTI JOIN**                      | `anti`, `leftanti`, `left_anti`               | Returns all rows from the left table for which there is no match in the right table                  |
 
@@ -862,7 +865,7 @@ In the code:
 - `df_purchases` represents Table B (Purchases).
 - The `left_anti` join is used to find all users who do not have a matching `id` in the purchases table.
 
-:::tip Handling Null Values in Left Anto Join
+:::tip Handling Null Values in Left Anti Join
 As you've seen in the example, even though there's a null in the purchases table, nulls do not match with other nulls in standard join operations. Therefore, Eve is also listed as not having made a purchase.
 :::
 

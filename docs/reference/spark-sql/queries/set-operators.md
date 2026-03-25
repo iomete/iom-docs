@@ -3,8 +3,8 @@ title: Set Operators
 description: Set operators are employed to merge two input relations into a unified result, facilitating the combination of data sets in a single operation.
 slug: /reference/spark-sql/set-operators
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
 Set operators are used to combine two input relations into a single one. Spark SQL supports three types of set operators:
@@ -14,6 +14,18 @@ Set operators are used to combine two input relations into a single one. Spark S
 - `UNION`
 
 Note that input relations must have the same number of columns and compatible data types for the respective columns.
+
+:::tip Setup
+Run these statements first to create the sample tables used in the examples below.
+
+```sql
+CREATE TABLE number1 (c INT);
+INSERT INTO number1 VALUES (3), (1), (2), (2), (3), (4);
+
+CREATE TABLE number2 (c INT);
+INSERT INTO number2 VALUES (5), (1), (2), (2);
+```
+:::
 
 ---
 

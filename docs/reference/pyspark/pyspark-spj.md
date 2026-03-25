@@ -2,6 +2,9 @@
 title: Storage Partitioned Joins
 sidebar_label: Storage Partitioned Joins (SPJ)
 description: Joining large tables efficiently
+last_update:
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
 
@@ -79,14 +82,14 @@ resource (CPU, Memory, Disk, Network) usage significantly.
 It is required to configure Spark and Iceberg engine accordingly to let the optimizer take advantage of the source 
 bucketing. 
 ```sql
-// Is used to enable bucketing for V2 data sources. When turned on, 
-// Spark will recognize the specific distribution reported by a V2 data source (ex. Iceberg)
-// through SupportsReportPartitioning, and will try to avoid shuffle if necessary.
+-- Is used to enable bucketing for V2 data sources. When turned on,
+-- Spark will recognize the specific distribution reported by a V2 data source (ex. Iceberg)
+-- through SupportsReportPartitioning, and will try to avoid shuffle if necessary.
 SET spark.sql.sources.v2.bucketing.enabled=true;
 
 
-// When true, co-locate scan tasks for the same partition in the same read split, 
-// used in Storage Partitioned Joins
+-- When true, co-locate scan tasks for the same partition in the same read split,
+-- used in Storage Partitioned Joins
 SET `spark.sql.iceberg.planning.preserve-data-grouping`=true;
 ```
 :::note
