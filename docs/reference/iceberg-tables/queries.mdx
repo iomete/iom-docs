@@ -45,7 +45,7 @@ spark.read
 
 ```sql
 -- time travel to a specific timestamp
-SELECT * FROM db.table TIMESTAMP AS OF ‘2021-01-01 00:00:00.000’
+SELECT * FROM db.table TIMESTAMP AS OF '2021-01-01 00:00:00.000'
 ```
 
 ```sql
@@ -54,14 +54,14 @@ SELECT * FROM db.table VERSION AS OF 1234
 ```
 
 :::info
-Spark supports time travel through both SQL syntax and the DataFrame API as shown above.
+Iceberg supports time travel through both Spark SQL syntax and the DataFrame API as shown above.
 :::
 
 <br />
 
 ### Inspecting tables
 
-To inspect a table’s history, snapshots, and other metadata, Iceberg supports metadata tables.
+To inspect a table's history, snapshots, and other metadata, Iceberg supports metadata tables.
 
 Metadata tables are identified by adding the metadata table name after the original table name. For example, history for `db.table1` is read using `db.table1.history`.
 
@@ -141,7 +141,7 @@ order by made_current_at
 
 ### Files
 
-To show a table’s data files and each file’s metadata, run:
+To show a table's data files and each file's metadata, run:
 
 ```sql
 SELECT * FROM db.table.files
@@ -161,7 +161,7 @@ SELECT * FROM db.table.files
 
 ### Manifests
 
-To show a table’s file manifests and each file’s metadata, run:
+To show a table's file manifests and each file's metadata, run:
 
 ```sql
 SELECT * FROM db.table.manifests
@@ -178,5 +178,5 @@ SELECT * FROM db.table.manifests
 :::info
 
 1. Fields within partition_summaries column of the manifests table correspond to field_summary structs within [manifest list](https://iceberg.apache.org/spec/#manifest-lists), with the following order: - contains_null - contains_nan - lower_bound - upper_bound
-2. contains_nan could return null, which indicates that this information is not available from files’ metadata
+2. contains_nan could return null, which indicates that this information is not available from files' metadata
    :::

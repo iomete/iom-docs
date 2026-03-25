@@ -53,8 +53,8 @@ This procedure invalidates all cached Spark plans that reference the affected ta
 
 | Argument Name | Required? | Type   | Description                 |
 | ------------- | --------- | ------ | --------------------------- |
-| `table`       | ✔️        | string | Name of the table to update |
-| `snapshot_id` | ✔️        | long   | Snapshot ID to rollback to  |
+| `table`       | ✔        | string | Name of the table to update |
+| `snapshot_id` | ✔        | long   | Snapshot ID to rollback to  |
 
 #### Output
 
@@ -85,8 +85,8 @@ This procedure invalidates all cached Spark plans that reference the affected ta
 
 | Argument Name | Required? | Type      | Description                 |
 | ------------- | --------- | --------- | --------------------------- |
-| `table`       | ✔️        | string    | Name of the table to update |
-| `timestamp`   | ✔️        | timestamp | A timestamp to rollback to  |
+| `table`       | ✔        | string    | Name of the table to update |
+| `timestamp`   | ✔        | timestamp | A timestamp to rollback to  |
 
 #### Output
 
@@ -119,7 +119,7 @@ This procedure invalidates all cached Spark plans that reference the affected ta
 
 | Argument Name | Required? | Type   | Description                                                      |
 | ------------- | --------- | ------ | ---------------------------------------------------------------- |
-| `table`       | ✔️        | string | Name of the table to update                                      |
+| `table`       | ✔        | string | Name of the table to update                                      |
 | `snapshot_id` |           | long   | Snapshot ID to set as current (use this or `ref`, not both)      |
 | `ref`         |           | string | Branch or tag name to set as current (use this or `snapshot_id`) |
 
@@ -162,8 +162,8 @@ This procedure invalidates all cached Spark plans that reference the affected ta
 
 | Argument Name | Required? | Type   | Description                    |
 | ------------- | --------- | ------ | ------------------------------ |
-| `table`       | ✔️        | string | Name of the table to update    |
-| `snapshot_id` | ✔️        | long   | The snapshot ID to cherry-pick |
+| `table`       | ✔        | string | Name of the table to update    |
+| `snapshot_id` | ✔        | long   | The snapshot ID to cherry-pick |
 
 #### Output
 
@@ -200,8 +200,8 @@ This procedure invalidates all cached Spark plans that reference the affected ta
 
 | Argument Name | Required? | Type   | Description                           |
 | ------------- | --------- | ------ | ------------------------------------- |
-| `table`       | ✔️        | string | Name of the table to publish to       |
-| `wap_id`      | ✔️        | string | The WAP ID of the staged changes      |
+| `table`       | ✔        | string | Name of the table to publish to       |
+| `wap_id`      | ✔        | string | The WAP ID of the staged changes      |
 
 #### Example
 
@@ -225,9 +225,9 @@ This procedure invalidates all cached Spark plans that reference the affected ta
 
 | Argument Name | Required? | Type   | Description                                     |
 | ------------- | --------- | ------ | ----------------------------------------------- |
-| `table`       | ✔️        | string | Name of the table containing the branches       |
-| `branch`      | ✔️        | string | Name of the branch to fast-forward              |
-| `to`          | ✔️        | string | Name of the branch to fast-forward to           |
+| `table`       | ✔        | string | Name of the table containing the branches       |
+| `branch`      | ✔        | string | Name of the branch to fast-forward              |
+| `to`          | ✔        | string | Name of the branch to fast-forward to           |
 
 #### Example
 
@@ -256,7 +256,7 @@ the `expire_snapshots` procedure will never remove files which are still require
 
 | Argument Name            | Required? | Type      | Description                                                                                                                                                                                                                    |
 | ------------------------ | --------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `table`                  | ✔️        | string    | Name of the table to update                                                                                                                                                                                                    |
+| `table`                  | ✔        | string    | Name of the table to update                                                                                                                                                                                                    |
 | `older_than`             |           | timestamp | Timestamp before which snapshots will be removed (Default: 5 days ago)                                                                                                                                                         |
 | `retain_last`            |           | int       | Number of ancestor snapshots to preserve regardless of `older_than` (defaults to 1)                                                                                                                                            |
 | `max_concurrent_deletes` |           | int       | Size of the thread pool used for delete file actions (by default, no thread pool is used)                                                                                                                                      |
@@ -290,7 +290,7 @@ Used to remove files which are not referenced in any metadata files of an Iceber
 
 | Argument Name            | Required? | Type      | Description                                                                                                                    |
 | ------------------------ | --------- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `table`                  | ✔️        | string    | Name of the table to clean                                                                                                     |
+| `table`                  | ✔        | string    | Name of the table to clean                                                                                                     |
 | `older_than`             |           | timestamp | Remove orphan files created before this timestamp (Defaults to 3 days ago)                                                     |
 | `location`               |           | string    | Directory to look for files in (defaults to the table's location)                                                              |
 | `dry_run`                |           | boolean   | When true, don't actually remove files (defaults to false)                                                                     |
@@ -332,7 +332,7 @@ Iceberg can compact data files in parallel using Spark with the `rewriteDataFile
 
 | Argument Name | Required? | Type                 | Description                                                                                                                                                                                                                         |
 | ------------- | --------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `table`       | ✔️        | string               | Name of the table to update                                                                                                                                                                                                         |
+| `table`       | ✔        | string               | Name of the table to update                                                                                                                                                                                                         |
 | `strategy`    |           | string               | Name of the strategy - binpack or sort. Defaults to binpack strategy                                                                                                                                                                |
 | `sort_order`  |           | string               | Comma separated sort_order_column. Where sort_order_column is a space separated sort order info per column (ColumnName SortDirection NullOrder). <br/> SortDirection can be ASC or DESC. NullOrder can be NULLS FIRST or NULLS LAST |
 | `options`     |           | map\<string, string> | Options to be used for actions                                                                                                                                                                                                      |
@@ -389,7 +389,7 @@ This procedure invalidates all cached Spark plans that reference the affected ta
 
 | Argument Name | Required? | Type    | Description                                                              |
 | ------------- | --------- | ------- | ------------------------------------------------------------------------ |
-| `table`       | ✔️        | string  | Name of the table to update                                              |
+| `table`       | ✔        | string  | Name of the table to update                                              |
 | `use_caching` |           | boolean | Use Spark caching during operation (defaults to true)                    |
 | `spec_id`     |           | int     | Rewrite manifests for a specific partition spec ID (defaults to all specs) |
 
@@ -444,10 +444,10 @@ See [`migrate`](#migrate) to replace an existing table with an Iceberg table.
 
 | Argument Name  | Required? | Type                 | Description                                                            |
 | -------------- | --------- | -------------------- | ---------------------------------------------------------------------- |
-| `source_table` | ✔️        | string               | Name of the table to snapshot                                          |
-| `table`        | ✔️        | string               | Name of the new Iceberg table to create                                |
+| `source_table` | ✔        | string               | Name of the table to snapshot                                          |
+| `table`        | ✔        | string               | Name of the new Iceberg table to create                                |
 | `location`     |           | string               | Table location for the new table (delegated to the catalog by default) |
-| `properties`   | ️         | map\<string, string> | Properties to add to the newly created table                           |
+| `properties`   |          | map\<string, string> | Properties to add to the newly created table                           |
 | `parallelism`  |           | int                  | Number of threads to use for file reading (defaults to 1)              |
 
 #### Output
@@ -487,8 +487,8 @@ To leave the original table intact while testing, use [`snapshot`](#snapshot) to
 
 | Argument Name       | Required? | Type                 | Description                                                                         |
 | ------------------- | --------- | -------------------- | ----------------------------------------------------------------------------------- |
-| `table`             | ✔️        | string               | Name of the table to migrate                                                        |
-| `properties`        | ️         | map\<string, string> | Properties for the new Iceberg table                                                |
+| `table`             | ✔        | string               | Name of the table to migrate                                                        |
+| `properties`        |          | map\<string, string> | Properties for the new Iceberg table                                                |
 | `drop_backup`       |           | boolean              | When true, the backup table created during migration is dropped (defaults to false) |
 | `backup_table_name` |           | string               | Name of the backup table (defaults to the original table name with `_backup` suffix)  |
 | `parallelism`       |           | int                  | Number of threads to use for file reading (defaults to 1)                           |
@@ -527,9 +527,9 @@ will then treat these files as if they are part of the set of files owned by Ice
 
 | Argument Name      | Required? | Type                 | Description                                                                                         |
 | ------------------ | --------- | -------------------- | --------------------------------------------------------------------------------------------------- |
-| `table`            | ✔️        | string               | Table which will have files added to                                                                |
-| `source_table`     | ✔️        | string               | Table where files should come from, paths are also possible in the form of \`file_format\`.\`path\` |
-| `partition_filter` | ️         | map\<string, string> | A map of partitions in the source table to import from                                              |
+| `table`            | ✔        | string               | Table which will have files added to                                                                |
+| `source_table`     | ✔        | string               | Table where files should come from, paths are also possible in the form of \`file_format\`.\`path\` |
+| `partition_filter` |          | map\<string, string> | A map of partitions in the source table to import from                                              |
 
 Warning : Schema is not validated, adding files with different schema to the Iceberg table will cause issues.
 
@@ -566,8 +566,8 @@ Registers an existing Iceberg table in the catalog using a metadata file locatio
 
 | Argument Name   | Required? | Type   | Description                                                  |
 | --------------- | --------- | ------ | ------------------------------------------------------------ |
-| `table`         | ✔️        | string | Name to register the table as                                |
-| `metadata_file` | ✔️        | string | Path to the Iceberg metadata file for the table              |
+| `table`         | ✔        | string | Name to register the table as                                |
+| `metadata_file` | ✔        | string | Path to the Iceberg metadata file for the table              |
 
 #### Output
 
@@ -593,7 +593,7 @@ Report the live snapshot IDs of parents of a specified snapshot
 
 | Argument Name | Required? | Type   | Description                                                      |
 | ------------- | --------- | ------ | ---------------------------------------------------------------- |
-| `table`       | ✔️        | string | Name of the table to report live snapshot IDs                    |
+| `table`       | ✔        | string | Name of the table to report live snapshot IDs                    |
 | `snapshot_id` |           | long   | Use a specified snapshot to get the live snapshot IDs of parents |
 
 > tip : Using snapshot_id
@@ -640,7 +640,7 @@ Creates a view that contains the changes between two snapshots of a table. Each 
 
 | Argument Name        | Required? | Type       | Description                                                                                                            |
 | -------------------- | --------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `table`              | ✔️        | string     | Name of the source table                                                                                               |
+| `table`              | ✔        | string     | Name of the source table                                                                                               |
 | `changelog_view`     |           | string     | Name of the changelog view to create (defaults to the table name with `_changelog_view` suffix)                        |
 | `options`            |           | map\<string, string> | Options for the changelog view                                                                                |
 | `net_changes`        |           | boolean    | When true, returns only net changes (removes intermediate changes that cancel out). Defaults to false                  |

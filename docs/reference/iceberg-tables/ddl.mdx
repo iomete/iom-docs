@@ -256,8 +256,8 @@ ALTER TABLE sample ADD PARTITION FIELD catalog -- identity transform
 
 ```sql
 ALTER TABLE sample ADD PARTITION FIELD bucket(16, id)
-ALTER TABLE sample ADD PARTITION FIELD truncate(data, 4)
-ALTER TABLE sample ADD PARTITION FIELD years(ts)
+ALTER TABLE sample ADD PARTITION FIELD truncate(4, data)
+ALTER TABLE sample ADD PARTITION FIELD year(ts)
 -- use optional AS keyword to specify a custom name for the partition field
 ALTER TABLE sample ADD PARTITION FIELD bucket(16, id) AS shard
 ```
