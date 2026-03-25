@@ -3,8 +3,8 @@ title: "Iceberg Table Queries: Time Travel and Snapshots"
 sidebar_label: Queries
 description: Learn how to use Iceberg tables in Spark for time travel, inspecting table history, snapshots, and metadata, by reading this comprehensive guide with SQL examples.
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
 ```sql
@@ -43,8 +43,18 @@ spark.read
     .load("path/to/table")
 ```
 
+```sql
+-- time travel to a specific timestamp
+SELECT * FROM db.table TIMESTAMP AS OF ‘2021-01-01 00:00:00.000’
+```
+
+```sql
+-- time travel to a specific snapshot
+SELECT * FROM db.table VERSION AS OF 1234
+```
+
 :::info
-Time travel is not yet supported by Spark’s SQL syntax.
+Spark supports time travel through both SQL syntax and the DataFrame API as shown above.
 :::
 
 <br />

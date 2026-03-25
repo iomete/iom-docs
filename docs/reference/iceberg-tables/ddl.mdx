@@ -3,8 +3,8 @@ title: "Manage, Create and Manage Iceberg Tables Using DDL"
 sidebar_label: DDL
 description: Data definition language is a syntax for creating and modifying database objects such as tables, indices, and users
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
 ### `CREATE TABLE`
@@ -13,14 +13,14 @@ last_update:
 CREATE TABLE sample (id bigint COMMENT 'unique id', data string);
 ```
 
-Iceberg will convert the column type in Spark to the corresponding Iceberg type. Please check the section of [type compatibility on creating table](https://iceberg.apache.org/spark-writes/#spark-type-to-iceberg-type) for details.
+Iceberg will convert the column type in Spark to the corresponding Iceberg type. Please check the section of [type compatibility on creating table](https://iceberg.apache.org/docs/latest/spark-writes/#spark-type-to-iceberg-type) for details.
 
 Table create commands, including CTAS and RTAS, support the full range of Spark create clauses, including:
 
 - `PARTITION BY (partition-expressions)` to configure partitioning
 - `LOCATION '(fully-qualified-uri)'` to set the table location
 - `COMMENT 'table documentation'` to set a table description
-- `TBLPROPERTIES ('key'='value', ...)` to set [table configuration](https://iceberg.apache.org/configuration/)
+- `TBLPROPERTIES ('key'='value', ...)` to set [table configuration](https://iceberg.apache.org/docs/latest/configuration/)
 
 <br />
 
@@ -32,7 +32,7 @@ To create a partitioned table, use `PARTITIONED BY`:
 CREATE TABLE sample ( id bigint, data string, category string) PARTITIONED BY (category)
 ```
 
-The `PARTITIONED BY` clause supports transform expressions to create [hidden partitions](https://iceberg.apache.org/partitioning/).
+The `PARTITIONED BY` clause supports transform expressions to create [hidden partitions](https://iceberg.apache.org/docs/latest/partitioning/).
 
 ```sql
 CREATE TABLE sample (
@@ -125,7 +125,7 @@ ALTER TABLE sample SET TBLPROPERTIES (
 )
 ```
 
-Iceberg uses table properties to control table behavior. For a list of available properties, see [Table configuration](https://iceberg.apache.org/configuration/).
+Iceberg uses table properties to control table behavior. For a list of available properties, see [Table configuration](https://iceberg.apache.org/docs/latest/configuration/).
 
 UNSET is used to remove properties:
 
@@ -206,7 +206,8 @@ To add or remove columns from a struct, use `ADD COLUMN` or `DROP COLUMN` with a
 Column comments can also be updated using `ALTER COLUMN`:
 
 ```sql
-ALTER TABLE sample ALTER COLUMN measurement TYPE double COMMENT 'unit is bytes per second'
+ALTER TABLE sample ALTER COLUMN measurement TYPE double
+ALTER TABLE sample ALTER COLUMN measurement COMMENT 'unit is bytes per second'
 ALTER TABLE sample ALTER COLUMN measurement COMMENT 'unit is kilobytes per second'
 ```
 
@@ -251,7 +252,7 @@ Add new partition fields to a spec using `ADD PARTITION FIELD`:
 ALTER TABLE sample ADD PARTITION FIELD catalog -- identity transform
 ```
 
-[Partition transforms](https://iceberg.apache.org/spark-ddl/#partitioned-by) are also supported:
+[Partition transforms](https://iceberg.apache.org/docs/latest/spark-ddl/#partitioned-by) are also supported:
 
 ```sql
 ALTER TABLE sample ADD PARTITION FIELD bucket(16, id)
@@ -280,8 +281,8 @@ Partition fields can be removed using `DROP PARTITION FIELD`:
 ```sql
 ALTER TABLE prod.db.sample DROP PARTITION FIELD catalog
 ALTER TABLE prod.db.sample DROP PARTITION FIELD bucket(16, id)
-ALTER TABLE prod.db.sample DROP PARTITION FIELD truncate(data, 4)
-ALTER TABLE prod.db.sample DROP PARTITION FIELD years(ts)
+ALTER TABLE prod.db.sample DROP PARTITION FIELD truncate(4, data)
+ALTER TABLE prod.db.sample DROP PARTITION FIELD year(ts)
 ALTER TABLE prod.db.sample DROP PARTITION FIELD shard
 ```
 
@@ -308,7 +309,7 @@ To set the write order for a table, use `WRITE ORDERED BY`:
 ```sql
 ALTER TABLE sample WRITE ORDERED BY category, id
 -- use optional ASC/DEC keyword to specify sort order of each field (default ASC)
-ALTER TABLE sample WRITE ORDERED BY category ASC, id DESCß
+ALTER TABLE sample WRITE ORDERED BY category ASC, id DESC
 -- use optional NULLS FIRST/NULLS LAST keyword to specify null order of each field (default FIRST)
 ALTER TABLE sample WRITE ORDERED BY category ASC NULLS LAST, id DESC NULLS FIRST
 ```

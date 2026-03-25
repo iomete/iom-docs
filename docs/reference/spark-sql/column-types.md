@@ -2,8 +2,8 @@
 title: Column Types
 description: IOMETE Column Types are BOOLEAN, BYTE, SHORT, INT, LONG, FLOAT, DOUBLE, DATE, TIMESTAMP, STRING, BINARY, DECIMAL, ARRAY, STRUCT, MAP. Examples of usage and range of values
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
 IOMETE supports the following column types:
@@ -31,7 +31,7 @@ IOMETE supports the following column types:
 ### Bool type
 
 ```sql
-CREATE TABLE IF NOT EXISTS bool_types (id INT, bool_col BOOLEAN) USING delta;
+CREATE TABLE IF NOT EXISTS bool_types (id INT, bool_col BOOLEAN);
 
 INSERT INTO bool_types VALUES (1, false);
 INSERT INTO bool_types VALUES (2, true);
@@ -62,7 +62,7 @@ select * from bool_types order by id;
 ### Integer types
 
 ```sql
-CREATE TABLE IF NOT EXISTS integer_types (id INT, byte_col BYTE, short_col SHORT, int_col INT, long_col LONG) USING delta;
+CREATE TABLE IF NOT EXISTS integer_types (id INT, byte_col BYTE, short_col SHORT, int_col INT, long_col LONG);
 
 INSERT INTO integer_types VALUES (1, 1, 1, 1, 1);
 --min numbers
@@ -94,7 +94,7 @@ select * from integer_types order by id;
 ### Floating point numbers
 
 ```sql
-CREATE TABLE IF NOT EXISTS floating_point_number_types (id INT, float_col FLOAT, double_col DOUBLE) USING delta;
+CREATE TABLE IF NOT EXISTS floating_point_number_types (id INT, float_col FLOAT, double_col DOUBLE);
 
 INSERT INTO floating_point_number_types VALUES (1, 1, 1);
 INSERT INTO floating_point_number_types VALUES (2, 1.12345, 1.12345);
@@ -124,7 +124,7 @@ select * from floating_point_number_types order by id;
 ### Date types
 
 ```sql
-CREATE TABLE IF NOT EXISTS date_types (id INT, date_col DATE, ts_col TIMESTAMP) USING delta;
+CREATE TABLE IF NOT EXISTS date_types (id INT, date_col DATE, ts_col TIMESTAMP);
 
 INSERT INTO date_types VALUES (1, '2020-01-01', current_timestamp());
 INSERT INTO date_types VALUES (2, '2020-01-31', current_timestamp());
@@ -142,7 +142,7 @@ select * from date_types order by id;
 ### String type
 
 ```sql
-CREATE TABLE IF NOT EXISTS str_type (id INT, str_col STRING) USING delta;
+CREATE TABLE IF NOT EXISTS str_type (id INT, str_col STRING);
 
 INSERT INTO str_type VALUES (1, 'Some text here');
 
@@ -159,7 +159,7 @@ select * from str_type order by id;
 
 ```sql
 -- NUMERIC(value, precision)
-CREATE TABLE IF NOT EXISTS bigdecimal_type (id INT, numeric_col NUMERIC(10,5)) USING delta;
+CREATE TABLE IF NOT EXISTS bigdecimal_type (id INT, numeric_col NUMERIC(10,5));
 
 INSERT INTO bigdecimal_type VALUES (1, 123.1234);
 --decimal point is rounded
@@ -180,7 +180,7 @@ select * from bigdecimal_type  order by id;
 ### Array type
 
 ```sql
-CREATE TABLE IF NOT EXISTS array_type (id INT, array_int_col ARRAY<INT>, array_str_col ARRAY<STRING>) USING delta;
+CREATE TABLE IF NOT EXISTS array_type (id INT, array_int_col ARRAY<INT>, array_str_col ARRAY<STRING>);
 
 INSERT INTO array_type VALUES (1, array(), array());
 INSERT INTO array_type VALUES (2, array(1,2,3), array('one', 'two', 'three'));
@@ -199,7 +199,7 @@ select * from array_type order by id;
 ### Struct type
 
 ```sql
-CREATE TABLE IF NOT EXISTS struct_type (id INT, struct_col STRUCT<num:INT, txt: STRING>) USING delta;
+CREATE TABLE IF NOT EXISTS struct_type (id INT, struct_col STRUCT<num:INT, txt: STRING>);
 
 INSERT INTO struct_type VALUES (1, struct(1, 'one'));
 -- with names
@@ -219,7 +219,7 @@ select * from struct_type order by id;
 ### Map type
 
 ```sql
-CREATE TABLE IF NOT EXISTS map_type (id INT, map_col MAP<INT, STRING>) USING delta;
+CREATE TABLE IF NOT EXISTS map_type (id INT, map_col MAP<INT, STRING>);
 
 INSERT INTO map_type VALUES (1, map(1, 'one', 2, 'two', 3, 'three'));
 

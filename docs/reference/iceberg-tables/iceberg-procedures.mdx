@@ -3,8 +3,8 @@ title: Iceberg Spark Procedures for Snapshot and Metadata
 sidebar_label: Iceberg Procedures
 description: Iceberg Spark Procedures Usage Procedures that can be used from any configured Iceberg catalog with CALL in the namespace system
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
 ## Spark Procedures
@@ -14,6 +14,10 @@ last_update:
 Procedures can be used from any configured Iceberg catalog with `CALL`. All procedures are in the namespace `system`.
 
 `CALL` supports passing arguments by name (recommended) or by position. Mixing position and named arguments is not supported.
+
+:::tip
+Throughout this page, `catalog_name` is a placeholder. Replace it with the name of your configured Iceberg catalog.
+:::
 
 ### Named arguments
 
@@ -105,16 +109,19 @@ Sets the current snapshot ID for a table.
 
 Unlike rollback, the snapshot is not required to be an ancestor of the current table state.
 
+You can specify either a `snapshot_id` or a `ref` (branch or tag name) to set the current snapshot.
+
 :::info
 This procedure invalidates all cached Spark plans that reference the affected table.
 :::
 
 #### Usage
 
-| Argument Name | Required? | Type   | Description                   |
-| ------------- | --------- | ------ | ----------------------------- |
-| `table`       | ✔️        | string | Name of the table to update   |
-| `snapshot_id` | ✔️        | long   | Snapshot ID to set as current |
+| Argument Name | Required? | Type   | Description                                                      |
+| ------------- | --------- | ------ | ---------------------------------------------------------------- |
+| `table`       | ✔️        | string | Name of the table to update                                      |
+| `snapshot_id` |           | long   | Snapshot ID to set as current (use this or `ref`, not both)      |
+| `ref`         |           | string | Branch or tag name to set as current (use this or `snapshot_id`) |
 
 #### Output
 
@@ -123,12 +130,18 @@ This procedure invalidates all cached Spark plans that reference the affected ta
 | `previous_snapshot_id` | long | The current snapshot ID before the rollback |
 | `current_snapshot_id`  | long | The new current snapshot ID                 |
 
-#### Example
+#### Examples
 
-Set the current snapshot for `db.sample` to 1:
+Set the current snapshot for `db.sample` to snapshot ID 1:
 
 ```sql
 CALL catalog_name.system.set_current_snapshot('db.sample', 1)
+```
+
+Set the current snapshot for `db.sample` to a branch or tag named `audit-branch`:
+
+```sql
+CALL catalog_name.system.set_current_snapshot(table => 'db.sample', ref => 'audit-branch')
 ```
 
 <br />
@@ -171,6 +184,57 @@ Cherry-pick snapshot 1 with named args
 
 ```sql
 CALL catalog_name.system.cherrypick_snapshot(snapshot_id => 1, table => 'my_table' )
+```
+
+<br />
+
+### `publish_changes`
+
+Publishes staged Write-Audit-Publish (WAP) changes. When using WAP, writes are staged with a `wap_id` and only become visible after being explicitly published.
+
+:::info
+This procedure invalidates all cached Spark plans that reference the affected table.
+:::
+
+#### Usage
+
+| Argument Name | Required? | Type   | Description                           |
+| ------------- | --------- | ------ | ------------------------------------- |
+| `table`       | ✔️        | string | Name of the table to publish to       |
+| `wap_id`      | ✔️        | string | The WAP ID of the staged changes      |
+
+#### Example
+
+Publish staged WAP changes identified by `my_wap_id` to `db.sample`:
+
+```sql
+CALL catalog_name.system.publish_changes(table => 'db.sample', wap_id => 'my_wap_id')
+```
+
+<br />
+
+### `fast_forward`
+
+Fast-forwards a branch to match the state of another branch. The target branch must be an ancestor of the source branch.
+
+:::info
+This procedure invalidates all cached Spark plans that reference the affected table.
+:::
+
+#### Usage
+
+| Argument Name | Required? | Type   | Description                                     |
+| ------------- | --------- | ------ | ----------------------------------------------- |
+| `table`       | ✔️        | string | Name of the table containing the branches       |
+| `branch`      | ✔️        | string | Name of the branch to fast-forward              |
+| `to`          | ✔️        | string | Name of the branch to fast-forward to           |
+
+#### Example
+
+Fast-forward the `main` branch to match `audit-branch`:
+
+```sql
+CALL catalog_name.system.fast_forward(table => 'db.sample', branch => 'main', to => 'audit-branch')
 ```
 
 <br />
@@ -224,13 +288,17 @@ Used to remove files which are not referenced in any metadata files of an Iceber
 
 #### Usage
 
-| Argument Name            | Required? | Type      | Description                                                                               |
-| ------------------------ | --------- | --------- | ----------------------------------------------------------------------------------------- |
-| `table`                  | ✔️        | string    | Name of the table to clean                                                                |
-| `older_than`             |           | timestamp | Remove orphan files created before this timestamp (Defaults to 3 days ago)                |
-| `location`               |           | string    | Directory to look for files in (defaults to the table's location)                         |
-| `dry_run`                |           | boolean   | When true, don't actually remove files (defaults to false)                                |
-| `max_concurrent_deletes` |           | int       | Size of the thread pool used for delete file actions (by default, no thread pool is used) |
+| Argument Name            | Required? | Type      | Description                                                                                                                    |
+| ------------------------ | --------- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `table`                  | ✔️        | string    | Name of the table to clean                                                                                                     |
+| `older_than`             |           | timestamp | Remove orphan files created before this timestamp (Defaults to 3 days ago)                                                     |
+| `location`               |           | string    | Directory to look for files in (defaults to the table's location)                                                              |
+| `dry_run`                |           | boolean   | When true, don't actually remove files (defaults to false)                                                                     |
+| `max_concurrent_deletes` |           | int       | Size of the thread pool used for delete file actions (by default, no thread pool is used)                                      |
+| `file_list_view`         |           | string    | Name of a temporary view that returns the file list to compare against the table's metadata. Overrides the default listing     |
+| `equal_schemes`          |           | boolean   | When true, compare only the path component of file URIs, ignoring scheme differences (defaults to false)                       |
+| `equal_authorities`      |           | boolean   | When true, compare only the path component of file URIs, ignoring authority differences (defaults to false)                    |
+| `prefix_mismatch_mode`   |           | string    | Action when a location prefix mismatch is detected. Supported values: `ERROR`, `IGNORE`, `DELETE` (defaults to `ERROR`)        |
 
 #### Output
 
@@ -319,10 +387,11 @@ This procedure invalidates all cached Spark plans that reference the affected ta
 
 #### Usage
 
-| Argument Name | Required? | Type    | Description                                           |
-| ------------- | --------- | ------- | ----------------------------------------------------- |
-| `table`       | ✔️        | string  | Name of the table to update                           |
-| `use_caching` |           | boolean | Use Spark caching during operation (defaults to true) |
+| Argument Name | Required? | Type    | Description                                                              |
+| ------------- | --------- | ------- | ------------------------------------------------------------------------ |
+| `table`       | ✔️        | string  | Name of the table to update                                              |
+| `use_caching` |           | boolean | Use Spark caching during operation (defaults to true)                    |
+| `spec_id`     |           | int     | Rewrite manifests for a specific partition spec ID (defaults to all specs) |
 
 #### Output
 
@@ -379,6 +448,7 @@ See [`migrate`](#migrate) to replace an existing table with an Iceberg table.
 | `table`        | ✔️        | string               | Name of the new Iceberg table to create                                |
 | `location`     |           | string               | Table location for the new table (delegated to the catalog by default) |
 | `properties`   | ️         | map\<string, string> | Properties to add to the newly created table                           |
+| `parallelism`  |           | int                  | Number of threads to use for file reading (defaults to 1)              |
 
 #### Output
 
@@ -415,10 +485,13 @@ To leave the original table intact while testing, use [`snapshot`](#snapshot) to
 
 #### Usage
 
-| Argument Name | Required? | Type                 | Description                          |
-| ------------- | --------- | -------------------- | ------------------------------------ |
-| `table`       | ✔️        | string               | Name of the table to migrate         |
-| `properties`  | ️         | map\<string, string> | Properties for the new Iceberg table |
+| Argument Name       | Required? | Type                 | Description                                                                         |
+| ------------------- | --------- | -------------------- | ----------------------------------------------------------------------------------- |
+| `table`             | ✔️        | string               | Name of the table to migrate                                                        |
+| `properties`        | ️         | map\<string, string> | Properties for the new Iceberg table                                                |
+| `drop_backup`       |           | boolean              | When true, the backup table created during migration is dropped (defaults to false) |
+| `backup_table_name` |           | string               | Name of the backup table (defaults to the original table name with `_backup` suffix)  |
+| `parallelism`       |           | int                  | Number of threads to use for file reading (defaults to 1)                           |
 
 #### Output
 
@@ -485,6 +558,31 @@ CALL spark_catalog.system.add_files(
 )
 ```
 
+### `register_table`
+
+Registers an existing Iceberg table in the catalog using a metadata file location. This is useful when the table data already exists but is not yet tracked by the catalog.
+
+#### Usage
+
+| Argument Name   | Required? | Type   | Description                                                  |
+| --------------- | --------- | ------ | ------------------------------------------------------------ |
+| `table`         | ✔️        | string | Name to register the table as                                |
+| `metadata_file` | ✔️        | string | Path to the Iceberg metadata file for the table              |
+
+#### Output
+
+| Output Name            | Type | Description                            |
+| ---------------------- | ---- | -------------------------------------- |
+| `current_snapshot_id`  | long | The current snapshot ID of the table   |
+
+#### Example
+
+Register an existing Iceberg table from a metadata file:
+
+```sql
+CALL catalog_name.system.register_table(table => 'db.new_table', metadata_file => 'path/to/metadata.json')
+```
+
 ## Metadata information
 
 ### `ancestors_of`
@@ -530,4 +628,41 @@ Get all the snapshot ancestors by a particular snapshot
 ```sql
 CALL spark_catalog.system.ancestors_of('db.tbl', 1)
 CALL spark_catalog.system.ancestors_of(snapshot_id => 1, table => 'db.tbl')
+```
+
+<br />
+
+### `create_changelog_view`
+
+Creates a view that contains the changes between two snapshots of a table. Each row in the view includes a `_change_type` column indicating whether the row was `INSERT`, `DELETE`, or `UPDATE`.
+
+#### Usage
+
+| Argument Name        | Required? | Type       | Description                                                                                                            |
+| -------------------- | --------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `table`              | ✔️        | string     | Name of the source table                                                                                               |
+| `changelog_view`     |           | string     | Name of the changelog view to create (defaults to the table name with `_changelog_view` suffix)                        |
+| `options`            |           | map\<string, string> | Options for the changelog view                                                                                |
+| `net_changes`        |           | boolean    | When true, returns only net changes (removes intermediate changes that cancel out). Defaults to false                  |
+| `compute_updates`    |           | boolean    | When true, computes update rows from paired insert/delete rows. Requires `identifier_columns`. Defaults to false       |
+| `identifier_columns` |           | array      | Columns used to identify rows for computing updates                                                                    |
+
+#### Example
+
+Create a changelog view for `db.sample`:
+
+```sql
+CALL catalog_name.system.create_changelog_view(table => 'db.sample')
+```
+
+Create a changelog view with net changes and update computation:
+
+```sql
+CALL catalog_name.system.create_changelog_view(
+  table => 'db.sample',
+  changelog_view => 'db.sample_changes',
+  net_changes => true,
+  compute_updates => true,
+  identifier_columns => array('id')
+)
 ```
