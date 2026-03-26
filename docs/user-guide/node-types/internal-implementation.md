@@ -17,12 +17,12 @@ When you create a node type, IOMETE derives three values from its CPU setting.
 | --- | --- | --- |
 | `spark.driver.cores` / `spark.executor.cores` | `max(ceil(CPU_vCPU * coreFactor), 1)` | Number of Spark cores available to the component. Default `coreFactor` is **1.5**. |
 | `spark.kubernetes.driver.request.cores` / `spark.kubernetes.executor.request.cores` | `{cpu}m` | Kubernetes CPU request, set to the node type's raw millicore value. |
-| `spark.kubernetes.driver.limit.cores` / `spark.kubernetes.executor.limit.cores` | `{cpu}m` | Kubernetes CPU limit, always equal to the request. |
+| `spark.kubernetes.driver.limit.cores` / `spark.kubernetes.executor.limit.cores` | depends on limit factor | Kubernetes CPU limit. Defaults to the request value (`{cpu}m`), adjustable via `spark.iomete.driver.core.limit.factor` / `spark.iomete.executor.core.limit.factor` (default 1.0). |
 
 **Example**: a node type with 2000 millicores (2 vCPU) and the default core factor of 1.5 produces:
 - Spark cores: `ceil(2 * 1.5)` = **3**
 - Kubernetes CPU request: **2000m**
-- Kubernetes CPU limit: **2000m**
+- Kubernetes CPU limit: **2000m** (with the default limit factor of 1.0)
 
 ## Memory Calculation
 
@@ -40,8 +40,8 @@ When you set a node type's memory, IOMETE splits it between the Spark JVM heap a
 3. If `overhead < 384 MiB`, then `sparkMemory = totalMemory - 384`
 
 **Example** (4096 MiB total, default factors):
-- Spark JVM memory: `4096 / 1.1` = 3723 MiB, but overhead (373) is below the 384 minimum, so final value = `4096 - 384` = **3712m**
-- PySpark memory: `4096 / 1.4` = **2925m** (overhead = 1171, above minimum)
+- Spark JVM memory: `4096 / 1.1` = 3723 MiB, but overhead (373) is below the 384 minimum, so final value = `4096 - 384` = **3712 MiB**
+- PySpark memory: `4096 / 1.4` = **2925 MiB** (overhead = 1171, above minimum)
 
 If you set `spark.driver.memoryOverhead` or `spark.executor.memoryOverhead` explicitly, that value overrides the factor-based calculation. The 384 MiB minimum still applies. Supported formats: `512m`, `1g`, `536870912b`.
 
@@ -64,6 +64,8 @@ The defaults work well for most workloads, but you can override them globally, p
 | --- | --- | --- |
 | `spark.iomete.driver.core.factor` | 1.5 | Multiplier applied to driver vCPU count to calculate Spark cores. |
 | `spark.iomete.executor.core.factor` | 1.5 | Multiplier applied to executor vCPU count to calculate Spark cores. |
+| `spark.iomete.driver.core.limit.factor` | 1.0 | Multiplier applied to driver CPU request to set the Kubernetes CPU limit. |
+| `spark.iomete.executor.core.limit.factor` | 1.0 | Multiplier applied to executor CPU request to set the Kubernetes CPU limit. |
 
 For example, a 2 vCPU node with `spark.iomete.executor.core.factor = 3.0` yields Spark executor cores = `ceil(2 * 3.0)` = **6**.
 
