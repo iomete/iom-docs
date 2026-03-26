@@ -35,8 +35,6 @@ Each collaborator gets one of three access modes:
 
 The toolbar displays **collaboration avatars** showing who's currently connected. Edits sync in real time, so conflicts resolve automatically.
 
-{/* 📸 SCREENSHOT NEEDED: Worksheet toolbar showing collaboration avatars with multiple users connected */}
-
 ## Git Repository Worksheets
 
 If your team stores SQL in a Git repository, you can browse and run those files directly in the SQL Editor without duplicating them. Worksheets from connected repositories appear in the sidebar under the repository name and are always **read-only**. An alert banner confirms this when you open one.

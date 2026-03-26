@@ -7,6 +7,8 @@ last_update:
   author: Abhishek Pathania
 ---
 
+import Img from "@site/src/components/Img";
+
 The SQL Editor is IOMETE's browser-based environment for writing, running, and visualizing SQL queries. It connects to your [compute clusters](/user-guide/virtual-lakehouses), supports real-time collaboration, and integrates with Git for version-controlled SQL files.
 
 ## Editor Layout
@@ -17,7 +19,7 @@ The interface is split into three panels, so you can browse your catalog, write 
 - **Main content area**: a tab bar for open worksheets, plus the active worksheet's code editor and toolbar.
 - **Results panel** (bottom, resizable): renders query output as a data grid, chart, or raw SQL.
 
-{/* 📸 SCREENSHOT NEEDED: SQL Editor full layout showing sidebar tabs, open worksheet, and results panel */}
+<Img src="/img/user-guide/sql-editor/worksheets/overview.png" alt="SQL Editor layout with sidebar workspace tree, open worksheet tab, code editor, and results panel" />
 
 ## Key Concepts
 
