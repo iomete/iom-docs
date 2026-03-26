@@ -11,8 +11,8 @@ const cards = [
     label: "Getting Started",
   },
   {
-    to: "user-guide/virtual-lakehouses",
-    title: "Virtual Lakehouses",
+    to: "user-guide/compute-clusters/overview",
+    title: "Compute Clusters",
     description:
       "Learn how to create and manage virtual lakehouses which provides an SQL interface to query and process data in your data lakehouse.",
     label: "User Guide",

@@ -17,7 +17,7 @@ Setting up your first [data pipeline](/glossary/data-pipelines) doesn’t have t
 Before you start, make sure you have:
 
 - A working setup of IOMETE
-- Access to a running [compute cluster](/user-guide/virtual-lakehouses) and permissions to configure it
+- Access to a running [compute cluster](/user-guide/compute-clusters/overview) and permissions to configure it
 - Permissions to execute SQL queries, and to create databases and tables
 
 If you don’t already have a running setup, you can ask your infrastructure team to follow the [IOMETE on-prem installation guide.](https://iomete.com/resources/deployment/on-prem/install)

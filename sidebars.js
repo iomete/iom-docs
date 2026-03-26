@@ -75,7 +75,16 @@ const sidebars = {
       label: "User Guide",
       collapsed: false,
       items: [
-        "user-guide/virtual-lakehouses",
+        {
+          type: "category",
+          label: "Compute Clusters",
+          collapsed: false,
+          items: [
+            "user-guide/compute-clusters/overview",
+            "user-guide/compute-clusters/creating-clusters",
+            "user-guide/compute-clusters/managing-clusters",
+          ],
+        },
         "user-guide/event-stream",
         "user-guide/spark-jobs",
         {
