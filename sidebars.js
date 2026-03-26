@@ -83,7 +83,19 @@ const sidebars = {
           label: "SQL Editor",
           collapsed: true,
           items: [
-            "user-guide/sql-editor/worksheets",
+            "user-guide/sql-editor/overview",
+            "user-guide/sql-editor/workspaces",
+            {
+              type: "category",
+              label: "Worksheets",
+              collapsed: true,
+              items: [
+                "user-guide/sql-editor/worksheets",
+                "user-guide/sql-editor/running-queries",
+                "user-guide/sql-editor/query-results",
+                "user-guide/sql-editor/collaboration",
+              ],
+            },
             "user-guide/sql-editor/database-explorer",
             "user-guide/sql-editor/database-explorer-api-migration",
             "user-guide/sql-editor/query-history",
@@ -104,7 +116,6 @@ const sidebars = {
         "user-guide/api-reference",
         "user-guide/register-table",
         "user-guide/storage-configs",
-        "user-guide/workspaces",
         "user-guide/system-tables",
       ],
     },

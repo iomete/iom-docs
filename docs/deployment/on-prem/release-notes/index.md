@@ -799,7 +799,7 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
       - Assign dedicated storages to workspaces via storage configs for data isolation & compliance.
       - Control access through resource bundles, restricting view/write permissions for specific users or groups.
       <Img src="/img/user-guide/workspaces/workspace-list.png" alt="Workspaces" />
-      Learn more in the [Workspaces documentation](docs/user-guide/workspaces.md).
+      Learn more in the [Workspaces documentation](/user-guide/sql-editor/workspaces).
 
     - **EmptyDir Volume Support**
 

@@ -1,9 +1,10 @@
 ---
 title: Workspaces
-description: Learn how to organize and manage your SQL worksheets using workspaces in IOMETE. Create custom workspaces, manage folders and worksheets, and control access permissions.
+description: Organize SQL worksheets using workspaces with custom folders, storage backends, and access permissions in the IOMETE SQL Editor.
+sidebar_label: Workspaces
 last_update:
-  date: 09/20/2025
-  author: IOMETE Documentation Team
+  date: 03/26/2026
+  author: Abhishek Pathania
 ---
 
 import { DotsThreeVertical } from "@phosphor-icons/react";
@@ -21,9 +22,7 @@ In the SQL Editor, you can view all workspaces in the left sidebar under the **W
 
 <Img src="/img/user-guide/workspaces/workspace-list.png" alt="Workspaces List" />
 
-:::info Workspace Visibility
-Users can see all workspaces for which they have any level of permission (`VIEW` or `PUT`). Additionally, "My Workspace" and "Shared Workspace" are always visible to every user, regardless of permissions.
-:::
+All users can see "My Workspace" and "Shared Workspace" regardless of permissions. Other workspaces appear if you have at least `VIEW` or `PUT` permission.
 
 ## Creating a New Workspace
 
@@ -50,11 +49,11 @@ The workspace name must be unique across the entire IOMETE instance to ensure th
 
 **Storage Configuration:**
 
-- **Storage Config**: Select from available [storage configurations](./storage-configs.md) based on your permissions. Only storage configs that you have access to through resource bundles will be visible in the dropdown.
+- **Storage Config**: Select from available [storage configurations](/user-guide/storage-configs) based on your permissions. Only storage configs that you have access to through resource bundles will be visible in the dropdown.
 
 **Access Control:**
 
-- **Resource Bundle**: Select the required [resource bundle](./iam/ras/ras.md) to manage workspace access permissions
+- **Resource Bundle**: Select the required [resource bundle](/user-guide/ras/resource-bundles) to manage workspace access permissions
 
 :::warning Access Control
 Only **domain owners** can create workspaces. The selected resource bundle determines who can access the workspace and what level of permissions they have.
@@ -81,7 +80,7 @@ To create a new folder:
     </div>
   </div>
 
-The folder will be created inside the selected workspace or parent folder..
+The folder will be created inside the selected workspace or parent folder.
 
 ### Moving Folders
 
@@ -142,7 +141,7 @@ The worksheet will be permanently removed.
 
 ## Access Permissions
 
-Workspace access is controlled through [resource bundle](./iam/ras/ras.md) and follows a hierarchical permission model:
+Workspace access is controlled through [resource bundle](/user-guide/ras/resource-bundles) and follows a hierarchical permission model:
 
 ### Workspace
 
@@ -169,13 +168,11 @@ Workspace access is controlled through [resource bundle](./iam/ras/ras.md) and f
 
 <Img src="/img/user-guide/workspaces/workspace-worksheet-content-disable.png" alt="Worksheet Content Update Disabled" />
 
-:::info Future Enhancement
-The ability to edit worksheet contents is planned for future releases, providing collaboration features.
-:::
+Editing worksheet contents within custom workspaces is planned for a future release.
 
 ## Storage Integration
 
-Workspaces leverage [storage configs](./storage-configs.md) to determine where worksheets are physically stored. This allows you to:
+Workspaces use [storage configs](/user-guide/storage-configs) to determine where worksheets are physically stored. This allows you to:
 
 - Store different workspaces in different storage backends.
 - Organize data based on compliance or business needs.
@@ -184,7 +181,7 @@ Each workspace is associated with a specific storage configuration during creati
 
 ## How to Enable Workspaces
 
-The workspace feature is controlled by the `onboardWorkspaceRas` feature flag. To enable workspaces functionality, add the following to your Helm `values.yaml`:
+Your platform administrator controls the workspace feature through the `onboardWorkspaceRas` feature flag. To enable it, add the following to the Helm `values.yaml`:
 
 ```yaml
 onboardWorkspaceRas:
