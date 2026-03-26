@@ -121,7 +121,7 @@ As your data grows, finding and understanding tables gets harder. The Governance
 
 <Img src="/img/getting-started/platform-tour/catalog-search.png" alt="Data Catalog search"/>
 
-The [Data Catalog](/user-guide/data-catalog) guide covers everything in detail.
+The [Data Catalog](/user-guide/data-catalog/overview) guide covers everything in detail.
 
 
 ## Resource Bundles
