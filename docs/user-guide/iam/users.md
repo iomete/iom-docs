@@ -1,102 +1,198 @@
 ---
 slug: /user-guide/users
 title: Users
-description: Discover how to create and control user accounts, set permissions, and join a group.
+description: Create and manage user accounts, reset passwords, assign groups and admin roles, and control access across the data plane.
+sidebar_label: Users
 last_update:
-  date: 03/02/2024
-  author: Nurlan Mammadov
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
-import { Plus } from "@phosphor-icons/react";
 import Img from '@site/src/components/Img';
 
-Welcome to the documentation for Users! This document aims to provide a comprehensive guide to understanding users within data plane.
+## User Accounts at a Glance
 
----
+Every person or system that accesses the IOMETE data plane needs a user account. Each account has a **type** (`Person` or `Service Account`) and an **origin** that indicates how it was provisioned: `IOMETE` (local), `LDAP` (directory sync), or `IDP` (SAML/OIDC).
 
-The system initially generates **Admin** user with full permissions. Admin have the ability to create new user.
+The admin portal lets you create accounts, edit profiles, reset passwords, assign groups and admin roles, switch account types, and delete accounts. Users also appear in the domain-level **Members** view for domain-scoped role assignment.
 
-<Img src="/img/user-guide/iam/users/users.png" alt="Users" />
+Most user management actions require the **IAM_MANAGER** admin role. Any admin role can view the user list and details.
 
-## User create
+## Browsing the User List
 
-To create new user click the <button className="button button--primary button-iom"><Plus size={16}/>Create</button> button. Fill in all the fields and click submit. You'll receive a temporary password. Share the temporary password with the user, who will then be prompted to change it during their first login.
+The user list is your starting point for checking who has access and what type each account is. It surfaces every account and its current state. Open it by selecting **Users** in the admin portal sidebar.
 
-<div className="row">
-  <div className="col col--6">
-    <Img src="/img/user-guide/iam/users/user-create-fill.png" alt="User create filled inputs" maxWidth="600px"/>
-  </div>
-  <div className="col col--6">
-    <Img src="/img/user-guide/iam/users/user-created.png" alt="User create" maxWidth="600px"/>
-  </div>
-</div>
+<Img src="/img/user-guide/iam/users/user-list.png" alt="Users list page showing the table with type and origin filters, search bar, and user rows" />
 
-Sign out, then attempt to sign in using the user's username or email and the provided password.
-After sign in you will be redirected `Update Password` page. Set a new password and click `Submit`.
+### Table Columns
 
-<div className="row">
-  <div className="col col--6">
-    <Img src="/img/user-guide/iam/users/signin.png" alt="User create filled inputs" maxWidth="600px"/>
-  </div>
-  <div className="col col--6">
-    <Img src="/img/user-guide/iam/users/update-password.png" alt="User create" maxWidth="600px"/>
-  </div>
-</div>
+| Column | Description |
+|--------|-------------|
+| **Username** | Unique identifier, linked to the user's detail page |
+| **Full name** | First and last name combined |
+| **Email** | The user's email address |
+| **Origin** | How the account was created: `IOMETE`, `LDAP`, or `IDP` |
+| **Type** | `Person` or `Service Account` |
+| **Actions** | Dropdown menu with quick actions |
 
-That's it! The user account is now ready.
+### Filtering and Searching
 
-<!-- <Img src="/img/user-guide/iam/users/users2.png" alt="Users" /> -->
+Two segmented filters sit in the table header:
 
-## Details
+- **Type**: `All`, `Person`, or `Service Account`
+- **Origin**: `All`, `IOMETE`, `IDP`, or `LDAP`
 
-<Img src="/img/user-guide/iam/users/user-details.png" alt="User details" />
+A free-text search field matches against username, first name, last name, and email (case-insensitive).
 
-### General informations
+<Img src="/img/user-guide/iam/users/search-filter.png" alt="Search filter narrowing the user list to a single result" />
 
-Click the `Edit` button to modify the `First name` and `Last name`.
+## Creating a User
 
-<Img src="/img/user-guide/iam/users/user-edit.png" alt="User edit" maxWidth="400px"/>
+Adding accounts up front lets people start querying data the moment they log in.
 
-It is possible to delete a user, and reset their password. Application asks you to confirm user deletion.
+1. On the **Users** list page, click **New user** in the top-right corner. A side drawer opens. (Without the **IAM_MANAGER** role, this button is disabled.)
 
-<Img src="/img/user-guide/iam/users/user-action-options.png" alt="User actions" />
+2. Fill in the form:
+   - **Username** (required): letters, numbers, underscores, dots, and dashes only (max 128 characters). Always stored in lowercase.
+   - **Email** (optional): a valid email address.
+   - **First name** / **Last name** (optional): the user's given and family name.
 
-`New password` and `Confirm new passowrd` fields must match. Please ensure both entries are identical.
-If you'd like the user to update their password on their next login, make sure to toggle the `Temporary` field to `On` before saving.
+3. Click **Create**.
 
-<Img src="/img/user-guide/iam/users/user-reset-password-modal.png" alt="User actions" maxWidth="400px"/>
+4. If creation succeeds, the drawer displays a confirmation screen with a temporary password and a **Copy** button. Share this password with the user because they'll need to change it on first login.
 
-Regardless of the `Temporary` option selected, 
-the user will be prompted to enter the password set in the reset password modal on their next login. 
-If the `Temporary` option is enabled, they will also be required to update their password upon logging in.
+5. Click **Go to user details** to open the new account's detail page.
 
+<Img src="/img/user-guide/iam/users/create-user.png" alt="Create New User form with Username, Email, First name, and Last name fields filled in" />
 
-### Roles
+<Img src="/img/user-guide/iam/users/create-user-success.png" alt="User created success screen showing a temporary password with a Copy button" />
 
-In the Roles section, view the Assigned role list. You have the ability to Assign or Remove roles for the user.
-Find out how to create and assign roles for [more details.](/user-guide/roles#role-create)
-
-<Img src="/img/user-guide/iam/users/user-roles.png" alt="User roles" />
-
-### Assigned groups
-
-The `Assigned groups` section displays the groups the user is in. You can add or remove the user from a group.
-
-<Img src="/img/user-guide/iam/users/user-groups.png" alt="User groups" />
-
-<!-- <div className="row">
-  <div className="col col--6">
-    <Img src="/img/user-guide/iam/users/user-groups.png" alt="User groups" maxWidth="600px"/>
-  </div>
-  <div className="col col--6">
-    <Img src="/img/user-guide/iam/users/user-group-assign.png" alt="User group assign" maxWidth="600px"/>
-  </div>
-</div> -->
-
-### Effective roles
-
-<Img src="/img/user-guide/iam/users/effective-roles.png" alt="User effective roles" />
-
-:::info Effective roles
-Effective roles depend on group memberships, not direct assignments to a user.
+:::warning Unique Usernames and Emails
+Usernames and emails must be unique across the platform. If either is already taken, the form highlights the field with a validation error.
 :::
+
+### First Login Experience
+
+When the new user signs in with their temporary password, IOMETE redirects them to an **Update Password** page. They must choose a new password before they can proceed.
+
+## Viewing User Details
+
+When you need the full picture of a single account, click any username in the list to open its detail page.
+
+The top section displays the username, full name, email, origin, type, and who created the account (with a timestamp).
+
+<Img src="/img/user-guide/iam/users/user-details.png" alt="User detail page showing general information, Groups tab, and Admin roles tab" />
+
+Below that, three tabs organize the remaining details:
+
+- **Groups**: lists the groups this user belongs to (see [Groups](#groups))
+- **Admin roles**: lists the roles assigned to this user (see [Admin Roles](#admin-roles))
+- **Access Tokens**: only visible for `Service Account` users; manages API access tokens
+
+## Managing Users
+
+Day-to-day user management mostly involves editing profiles, resetting passwords, and toggling account types.
+
+<Img src="/img/user-guide/iam/users/actions-bar.png" alt="User detail page header showing the Edit button and Actions dropdown" />
+
+### Editing a User
+
+1. On the user detail page, click **Edit** in the actions bar. A side drawer opens.
+2. Update the **First name** and **Last name** fields. (**Username** and **Email** are read-only.)
+3. Click **Save changes**.
+
+<Img src="/img/user-guide/iam/users/edit-user.png" alt="Edit user drawer with First name and Last name fields" />
+
+### Resetting a Password
+
+Password resets only apply to `IOMETE`-origin users. LDAP and IDP users authenticate through their external identity provider, so there's nothing to reset here.
+
+1. On the user detail page, open the **Actions** dropdown and click **Reset password**.
+2. Enter the **New password**, then confirm it in the **Confirm new password** field.
+3. The **Temporary password** toggle is on by default, forcing the user to pick a new password at next login. Turn it off if the password should persist.
+4. Click **Save**.
+
+If the reset succeeds, a confirmation message appears. If the passwords don't match, the form highlights the mismatch with a validation error. Service accounts can't have their passwords reset.
+
+<Img src="/img/user-guide/iam/users/reset-password-action.png" alt="Actions dropdown with Reset password option highlighted" />
+
+<Img src="/img/user-guide/iam/users/reset-password-modal.png" alt="Reset password modal with New password, Confirm new password fields, and Temporary password toggle" />
+
+### Switching User Type (Person / Service Account)
+
+If you need to convert a person's account into a service account (or the other way around):
+
+1. From the user list or detail page, open the **Actions** dropdown.
+2. Click **Mark as Service Account** or **Mark as Personal Account**, depending on the current type.
+
+<Img src="/img/user-guide/iam/users/actions-dropdown.png" alt="Actions dropdown showing Mark as Service Account, Reset password, and Delete user options" />
+
+The change applies immediately. Once a user becomes a Service Account, an **Access Tokens** tab appears on their detail page.
+
+:::warning Domain Owners
+Domain owners can't be marked as Service Accounts. If you try, IOMETE returns an error identifying the user as a domain owner.
+:::
+
+### Deleting a User
+
+You can delete a user from either the list page or the detail page.
+
+**From the list page:** open the **Actions** dropdown for that row, click **Delete**, then confirm with **Yes, delete it**.
+
+**From the detail page:** open the **Actions** dropdown, click **Delete user**, then confirm. IOMETE redirects you back to the user list.
+
+<Img src="/img/user-guide/iam/users/delete-user-action.png" alt="Actions dropdown with Delete user option highlighted" />
+
+:::warning Irreversible Action
+Deleting a user removes their role mappings, group memberships, and account permanently. This can't be undone.
+:::
+
+## Domain-Level Member View
+
+If you're working inside the domain portal instead of the admin portal, users appear with a slightly different interface.
+
+<Img src="/img/user-guide/iam/users/domain-members.png" alt="Domain-level Members page showing the member list with name and identity columns" />
+
+The domain-level detail view displays the same general info as the admin view, with two exceptions: the **Added by** field is hidden, and **Type** only appears for Service Accounts.
+
+Three tabs are available:
+
+- **Groups**: a read-only list of group memberships. You can't assign or remove groups from here.
+- **Roles**: domain-scoped roles that you can assign and remove (requires the `iam_settings` `manage` permission). Each role indicates whether it's directly assigned or inherited from a group.
+- **Access Tokens**: only visible for Service Account users. Manages domain-scoped access tokens.
+
+:::info Bundle Authorization
+If the **domain-level bundle authorization** module is enabled, the **Roles** tab is replaced by a **Permissions** tab listing direct permissions assigned to the user in the domain bundle.
+:::
+
+## Access Permissions
+
+The tables below map every operation to the role or permission it requires.
+
+### Admin Portal
+
+| Operation | Required Role |
+|-----------|--------------|
+| View user list and details | Any admin role |
+| Create, edit, or delete a user | `IAM_MANAGER` |
+| Reset a password | `IAM_MANAGER` |
+| Toggle user type | `IAM_MANAGER` |
+| Assign/remove groups | `IAM_MANAGER` |
+| Assign/remove admin roles | `IAM_MANAGER` |
+
+If you lack the required role, action buttons appear disabled with a tooltip explaining why.
+
+### Domain Portal
+
+| Operation | Required Permission |
+|-----------|-------------------|
+| View member details and groups | Domain member |
+| Assign/remove domain roles | `iam_settings` service, `manage` action |
+
+## Related Features
+
+- **[Groups](/user-guide/groups)**: assign users to groups so they inherit roles collectively.
+- **[Roles](/user-guide/roles)**: assign domain-level roles to users as members.
+- **[LDAP Configuration](/user-guide/ldap-configuration)**: sync users from an external LDAP directory.
+- **[Single Sign-On](/user-guide/single-sign-on)**: provision users through identity provider flows (SAML/OIDC).
+
