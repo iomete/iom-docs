@@ -67,10 +67,7 @@ Iceberg tables expose richer metadata than other formats, so they get three addi
 
 <Img src="/img/data-catalog/table-properties-tab.png" alt="Table Properties tab showing Iceberg metadata key-value pairs" />
 
-{/* SOURCE GAP: Snapshot, partition, and table properties detail components were not read in full — verify tab content in UI */}
-
-If automated maintenance is enabled, a **Maintenance** tab also appears with configuration and history.
-{/* SOURCE GAP: Table Maintenance doc path could not be verified — update cross-link when that doc is published */}
+If automated maintenance is enabled, a **Maintenance** tab also appears with configuration and history. See [Table Maintenance](/user-guide/table-maintenance/overview) for details.
 
 ## Managing Table Metadata
 

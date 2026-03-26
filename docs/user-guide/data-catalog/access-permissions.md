@@ -9,7 +9,7 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-What you can see and do in the Data Catalog depends on two domain bundle permissions, configured through [Domain Authorization](/user-guide/iam/ras/domain-authorization).
+What you can see and do in the Data Catalog depends on two domain bundle permissions, configured through [Domain Authorization](/user-guide/iam/domain-authorization).
 
 - **View Data Catalog**: Browse the Data Catalog and Data Explorer pages, view table metadata, classification tags, and classification requests.
 - **Manage Data Catalog**: Everything in View, plus editing table and column descriptions, managing owners, submitting classification tag requests, and canceling your own requests.
