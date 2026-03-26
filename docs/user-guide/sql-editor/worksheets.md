@@ -1,15 +1,13 @@
 ---
-title: Overview
+title: Worksheets Overview
 description: Create, organize, and run SQL queries using worksheets in the IOMETE SQL Editor with real-time collaboration, query variables, and chart visualizations.
-sidebar_label: Overview
+sidebar_label: Worksheets Overview
 last_update:
   date: 03/26/2026
   author: Abhishek Pathania
 ---
 
 import Img from "@site/src/components/Img";
-
-## Worksheets Overview
 
 If you spend most of your day writing and iterating on SQL, worksheets are where that happens. Each worksheet holds a query plus its full context: compute cluster, catalog, database namespace, and any query variables. That context persists between sessions, so you pick up right where you left off.
 
