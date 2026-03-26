@@ -85,23 +85,7 @@ For IOMETE-managed secrets, `MANAGE_SECRETS` and `LIST_SECRETS` permissions gove
 
 Global secrets add another boundary: domain users can reference them, but creation and modification is restricted to platform administrators.
 
-<Img src="/img/blog/2026-01-06-secrets-management/secrets_v2_settings_admin.png" alt="Admin secrets panel — only platform administrators can manage admin and global secrets" />
-
-## Using secrets in practice
-
-**Creating a secret.** In your domain, go to `Settings → Secret Settings → Secrets` and click "New Domain Secret." Enter a key name and the value. The value is write-only — once saved, it cannot be retrieved through the dashboard or API. Only the key name appears in listings afterward.
-
-<Img src="/img/user-guide/secrets/domain-secret-create.png" alt="Create domain secret — the value cannot be viewed after saving" maxWidth="500px" centered />
-
-**Referencing a secret.** Open any workload configuration — Spark job environment variables, storage config credentials, integration passwords. Click the menu on the value field and choose "Use existing secret." The dropdown lists secrets from your domain and global scope, each labeled with its source. Pick one and save. The configuration stores the reference, not the value.
-
-<Img src="/img/blog/2026-01-06-secrets-management/secrets_v2_dropdown.png" alt="Environment variable configuration showing 'Use existing secret' and 'Create new secret' options" />
-
-Need to create a secret without leaving the configuration flow? The same menu offers "Create new secret" inline — the credential gets stored in the current domain immediately.
-
-**Rotating a secret.** Find the key in `Settings → Secret Settings → Secrets`, click Edit, enter the new value. Then redeploy the affected Spark jobs and restart active notebooks. Storage configs pick up the new value on their next connection test.
-
-For a step-by-step walkthrough on connecting your Vault instance, see the [Vault integration setup guide](https://iomete.com/resources/user-guide/secrets#vault-integrations-hashicorp-vault).
+For creating, referencing, and rotating secrets — including Vault integration setup — see the [secrets management documentation](https://iomete.com/resources/user-guide/secrets).
 
 ## Best practices
 
@@ -123,18 +107,6 @@ Worth being upfront about what the system doesn't do:
 - **Rotation requires redeployment.** Workloads must restart to pick up new secret values. This is by design — it prevents running jobs from breaking mid-execution — but it means coordinating a maintenance window for sensitive rotations.
 - **Global secret management via UI is limited.** Creation and editing of global secrets currently requires infrastructure tooling; dashboard support is planned.
 - **Size limits follow backend defaults.** Vault's per-secret size limit depends on your storage backend configuration. For IOMETE-managed secrets, the underlying infrastructure enforces its own limits. Large artifacts like certificates or keystores are better stored in object storage, referenced by a smaller secret.
-
-## Enabling secrets management
-
-Add the feature flag to your platform configuration:
-
-```yaml
-features:
-  secretsV2:
-    enabled: true
-```
-
-Apply the update. Secrets management becomes available under `Settings → Secret Settings` across all domains. IOMETE-managed secrets work immediately; Vault integrations can be configured per domain from the same settings page.
 
 <FAQSection faqs={[
   {
