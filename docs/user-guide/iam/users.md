@@ -85,8 +85,8 @@ The top section displays the username, full name, email, origin, type, and who c
 
 Below that, three tabs organize the remaining details:
 
-- **Groups**: lists the groups this user belongs to (see [Groups](#groups))
-- **Admin roles**: lists the roles assigned to this user (see [Admin Roles](#admin-roles))
+- **Groups**: lists the groups this user belongs to (see [Groups](/user-guide/groups))
+- **Admin roles**: lists the roles assigned to this user (see [Roles](/user-guide/roles))
 - **Access Tokens**: only visible for `Service Account` users; manages API access tokens
 
 ## Managing Users
