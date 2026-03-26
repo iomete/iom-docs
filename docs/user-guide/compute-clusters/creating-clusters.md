@@ -9,7 +9,7 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-Each workload benefits from its own cluster, keeping resources isolated and performance predictable. Setup takes about a minute.
+Creating a dedicated cluster for each workload ensures isolation, eliminates resource contention, and delivers consistent performance. The setup process is simple and takes about a minute. Here's how to create a compute cluster:
 
 1. Go to the **Compute** page.
 2. Click **New Compute Cluster** in the top-right corner.

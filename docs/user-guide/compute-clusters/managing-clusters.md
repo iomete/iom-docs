@@ -9,7 +9,7 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-Once a cluster exists, you manage it from its detail page: check status, run lifecycle actions, and grab connection strings for external tools. Click any cluster name in the list to open it.
+Once a cluster is created, you can manage it from its detail page: check status, run lifecycle actions, and grab connection strings for external tools. Click any cluster name in the list to open it.
 
 The page title reads **Compute: \{name\}**, and the breadcrumb shows **Compute > \{name\}**. The header contains state-aware action buttons (see [Lifecycle Actions](#lifecycle-actions)) plus two monitoring links:
 
