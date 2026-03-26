@@ -101,19 +101,7 @@ Need to create a secret without leaving the configuration flow? The same menu of
 
 **Rotating a secret.** Find the key in `Settings → Secret Settings → Secrets`, click Edit, enter the new value. Then redeploy the affected Spark jobs and restart active notebooks. Storage configs pick up the new value on their next connection test.
 
-## Setting up Vault integration
-
-For teams running HashiCorp Vault:
-
-1. Navigate to `Settings → Secret Settings → Vault Integrations` in your domain and click "New Vault"
-2. Fill in the connection details — name, resource bundle (governs RAS access), Vault endpoint URL, secret path (e.g., `/v1/secret/data/production`), and optionally a Vault Enterprise namespace
-3. Choose authentication — AppRole for machine-to-machine setups, or token-based for simpler configurations
-4. Click "Test connection" to verify IOMETE can reach your Vault and authenticate
-5. Save
-
-<Img src="/img/user-guide/secrets/vault-config-create.png" alt="Vault integration setup — endpoint, path, optional namespace, and choice of AppRole or Token authentication" maxWidth="600px" centered />
-
-Vault secrets now appear in the secret selector alongside IOMETE-managed ones, tagged with the integration name. The platform caches Vault authentication tokens briefly to reduce round-trips and refreshes them automatically.
+For a step-by-step walkthrough on connecting your Vault instance, see the [Vault integration setup guide](https://iomete.com/resources/user-guide/secrets#vault-integrations-hashicorp-vault).
 
 ## Best practices
 
