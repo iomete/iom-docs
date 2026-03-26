@@ -1,28 +1,29 @@
 ---
 title: Node Type Sizing Best Practices
 sidebar_label: Node Type Sizing
-description: Learn how to optimize Spark executor and driver sizing in IOMETE. This guide covers best practices and recommendations for efficient Spark workload performance and resource management.
+description: Best practices for sizing Spark executor and driver node types in IOMETE for optimal performance and resource efficiency.
 last_update:
-  date: 09/17/2024
-  author: Vusal Dadalov
+  date: 03/25/2026
+  author: Abhishek Pathania
 ---
 
-:::info Sizing Spark Workloads in IOMETE: Best Practices and Recommendations
-Use larger executors—ideally up to **16 CPUs and 128 GB of memory**—before increasing the number of executors. This approach optimizes performance, reduces Kubernetes overhead, and minimizes the risk of memory-related failures, providing a balanced and efficient environment for your Spark workloads.
+:::info Key Recommendation
+Use larger executors, ideally up to **16 CPUs and 128 GB of memory**, before increasing the number of executors. This approach optimizes performance, reduces Kubernetes overhead, and minimizes the risk of memory-related failures.
 :::
 
 ## Introduction
 
-Efficiently sizing Spark workloads is crucial for optimizing performance and resource utilization in your data processing tasks. In IOMETE, sizing is based on predefined node types that determine the CPU and memory resources allocated to your Spark workloads. 
+To get the best performance from your Spark workloads, you need to choose the right executor and driver sizing. In IOMETE, sizing is based on predefined node types that determine the CPU and memory resources allocated to your Spark workloads.
 
-This guide provides best practices and recommendations to help you choose the optimal sizing for your Spark workloads, ensuring balanced performance and efficient resource management.
-
+This guide helps you choose the optimal sizing for balanced performance and efficient resource management.
 
 ## Understanding Sizing in IOMETE
 
+The two building blocks of sizing in IOMETE are node types and Spark workload components.
+
 ### Node Types
 
-In IOMETE, [**node types**](node-types) are predefined configurations that specify the amount of CPU and memory resources available for Spark workloads. Platform administrators can define these node types, allowing users to select them when deploying Spark applications such as Lakehouse, Spark Jobs, and Spark Streaming.
+In IOMETE, [**node types**](./overview) are predefined configurations that specify the amount of CPU and memory resources available for Spark workloads. Platform administrators can define these node types, allowing users to select them when deploying Spark applications such as Lakehouse, Spark Jobs, and Spark Streaming.
 
 - **Customizable**: Users can modify existing node types or define new ones to suit specific workload requirements.
 - **Resource Allocation**: Node types determine the CPU and memory allocated to Spark drivers and executors.
@@ -40,9 +41,11 @@ A typical Spark workload consists of two main components:
 
 ## Choosing the Right Sizing for Spark Workloads
 
+When you configure your Spark workloads, start by maximizing executor size before scaling out the executor count.
+
 ### Recommendation: Use Larger Executors
 
-We **recommend** configuring your Spark workloads with **larger executors**—up to **16 CPUs and 128 GB of memory** per executor—before increasing the number of executors. This strategy provides a balanced configuration that optimizes performance and resource management.
+We **recommend** configuring your Spark workloads with **larger executors**, up to **16 CPUs and 128 GB of memory** per executor, before increasing the number of executors. This strategy provides a balanced configuration that optimizes performance and resource management.
 
 ### Advantages of Larger Executors
 
@@ -67,6 +70,8 @@ When configuring Spark executors, you have two main variables to consider:
 Both options provide the same total CPU resources, but using larger executors (Option 2) aligns with our recommendation for the reasons outlined above.
 
 ## Best Practices for Executor Sizing
+
+Follow these guidelines when you configure executor resources.
 
 ### Optimal Executor Size
 
@@ -107,6 +112,8 @@ graph TD
 
 ## Recommendations
 
+Keep these rules in mind when you finalize your sizing:
+
 - **Limit Executor Size**: Do not exceed **16 CPUs and 128 GB memory** per executor to prevent JVM performance issues.
 - **Optimize Kubernetes Management**: Use larger executors to reduce the number of pods, simplifying Kubernetes operations.
 - **Balance Resource Ratios**:
@@ -117,7 +124,7 @@ graph TD
 
 ## Conclusion
 
-Choosing the right sizing for your Spark workloads in IOMETE is essential for achieving optimal performance and efficient resource management. By following the best practices outlined in this guide—using larger executors with up to 16 CPUs and 128 GB of memory, maintaining a 1:8 CPU to memory ratio, and scaling the number of executors—you can optimize your Spark applications for computational efficiency and cost-effectiveness.
+Choosing the right sizing for your Spark workloads in IOMETE is essential for achieving optimal performance and efficient resource management. By following the best practices outlined in this guide (using larger executors with up to 16 CPUs and 128 GB of memory, maintaining a 1:8 CPU to memory ratio, and scaling the number of executors), you can optimize your Spark applications for computational efficiency and cost-effectiveness.
 
 :::note
 These recommendations serve as general guidelines. It's important to consider the specific requirements and characteristics of your workloads. Always monitor your applications and adjust configurations to achieve the best performance.

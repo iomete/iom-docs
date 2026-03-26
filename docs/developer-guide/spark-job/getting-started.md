@@ -135,8 +135,8 @@ The create form has several sections. For a quickstart, focus on these essential
 **Instance**
 
 - **Deployment type**: Choose **Standard** (clustered, with separate driver and executors) or **Single node** (lightweight, single machine).
-- **Node driver** (required): Select the [node type](/user-guide/node-types) for the Spark driver.
-- **Node executor** + **Executor count** (Standard mode only): Select the [node type](/user-guide/node-types) for executors and how many to run.
+- **Node driver** (required): Select the [node type](/user-guide/node-types/overview) for the Spark driver.
+- **Node executor** + **Executor count** (Standard mode only): Select the [node type](/user-guide/node-types/overview) for executors and how many to run.
 - **Volume**: Select a [volume](/user-guide/volumes) for executor (or driver in Single node mode) storage.
 
 The form also includes the following sections. These can be left at their defaults for your first job:

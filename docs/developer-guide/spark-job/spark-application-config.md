@@ -181,7 +181,7 @@ Compute resources determine how fast your job runs and how much it costs. This s
 
 ### Node Driver
 
-Select the Spark driver's node type from the dropdown. The list pulls from configured [node types](/docs/user-guide/node-types.md) with the DRIVER component. Each option displays its name, vCPU, and memory.
+Select the Spark driver's node type from the dropdown. The list pulls from configured [node types](/user-guide/node-types/overview) with the DRIVER component. Each option displays its name, vCPU, and memory.
 
 ### Node Executor and Executor Count
 
