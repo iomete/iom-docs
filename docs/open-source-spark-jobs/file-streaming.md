@@ -46,7 +46,7 @@ You can use **Environment variables** to store your sensitive variables like pas
 - **Config file:**
   Scroll down and expand `Application configurations` section and click `Add config file` and paste following **JSON**.
 
-  <Img src="/img/spark-job/spark-job-app-config.png" alt="IOMETE Spark Jobs add config file" />
+  <Img src="/img/spark-job/config/spark-config.png" alt="IOMETE Spark Jobs add config file" />
 
 ```js
 {

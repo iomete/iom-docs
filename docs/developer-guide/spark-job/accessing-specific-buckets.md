@@ -7,6 +7,8 @@ last_update:
   author: IOMETE Documentation Team
 ---
 
+import Img from '@site/src/components/Img';
+
 By default, IOMETE Spark jobs access storage through the Lakehouse Role configured during platform installation. But sometimes a job needs a bucket with different credentials (another AWS account, a partner-owned bucket, or a custom endpoint). In that case, you add per-bucket Spark properties to the job's Spark Config.
 
 ## How Per-Bucket Configuration Works
@@ -44,7 +46,7 @@ Replace `<bucket-name>` with the exact name of the S3 bucket (without the `s3a:/
 | `spark.hadoop.fs.s3a.bucket.my-specific-bucket.endpoint` | `s3.us-west-2.amazonaws.com` |
 
 :::warning Sensitive Values
-The secret key value is sensitive. Mark it as a secret in the job config so IOMETE masks it in the UI and run logs. The S3A property keys (`access.key`, `secret.key`) are fixed Hadoop configuration names and should not be renamed.
+The secret key value is sensitive. Mark it as a secret in the job config so IOMETE masks it in the UI and run logs.
 :::
 
 ---
@@ -55,6 +57,9 @@ Once you've identified the properties you need, here's how to wire them up:
 
 1. Open (or create) your Spark job under **Job Templates**.
 2. Go to **Configurations → Spark Config** and add the per-bucket properties from the table above.
+
+   <Img src="/img/spark-job/config/spark-config.png" alt="Spark Config tab with per-bucket credential properties added as key-value rows" maxWidth="700px"/>
+
 3. For the secret key value, mark it as a secret in the job config so the value is masked in the UI and logs.
 4. Save and run the job.
 

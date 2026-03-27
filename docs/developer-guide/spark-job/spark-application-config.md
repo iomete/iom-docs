@@ -107,7 +107,7 @@ Secret references follow the same masking rules as environment variables.
 
 ### Arguments
 
-Command-line arguments passed sequentially to your application's `main` function. Each row is a single text input. Click **Add argument** to add more.
+Command-line arguments passed sequentially to your application's `main` function. Each row is a single text input. Click **Add argument** to add more. Arguments are received in your code in the same order they are listed here.
 
 ### Example
 
