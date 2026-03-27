@@ -14,7 +14,7 @@ import Img from '@site/src/components/Img';
 
 Instead of granting permissions one user at a time, groups let you manage access collectively. Add users to a group, then assign that group wherever access is needed: admin roles, domain ownership, domain authorization (domain bundles), or resource bundles. Every member inherits the group's permissions automatically.
 
-Groups come from three sources. **IOMETE** groups are created manually in the console. **LDAP** groups sync from your directory service and can form parent-child hierarchies. **IDP** groups are provisioned through [SCIM](/user-guide/iam/sso/scim).
+Groups come from three sources. **IOMETE** groups are created manually in the console. **LDAP** groups sync from your directory service and can form parent-child hierarchies. **IDP** groups are provisioned through [SCIM](./single-sign-on/scim).
 
 ## Creating a Group
 
@@ -140,7 +140,7 @@ Not every group is created by hand. The **Origin** field tells you where a group
 |--------|-------------|
 | `IOMETE` | Created manually through the Admin Console |
 | `LDAP` | Synced from an LDAP directory. See [LDAP Configuration](./ldap-configuration) |
-| `IDP` | Provisioned from an identity provider via SCIM. See [SCIM provisioning](./sso/scim) |
+| `IDP` | Provisioned from an identity provider via SCIM. See [SCIM provisioning](./single-sign-on/scim) |
 
 ## Related Features
 
