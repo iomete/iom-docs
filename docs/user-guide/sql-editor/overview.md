@@ -9,7 +9,7 @@ last_update:
 
 import Img from "@site/src/components/Img";
 
-The SQL Editor is IOMETE's browser-based environment for writing, running, and visualizing SQL queries. It connects to your [compute clusters](/user-guide/virtual-lakehouses), supports real-time collaboration, and integrates with Git for version-controlled SQL files.
+The SQL Editor is IOMETE's browser-based environment for writing, running, and visualizing SQL queries. It connects to your [compute clusters](/user-guide/compute-clusters/overview), supports real-time collaboration, and integrates with Git for version-controlled SQL files.
 
 ## Editor Layout
 

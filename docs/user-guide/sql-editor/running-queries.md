@@ -13,7 +13,7 @@ Before running anything, you need to point your worksheet at the right compute c
 
 ## Selecting a Compute
 
-Click the **compute selector** dropdown in the toolbar and choose a running [compute cluster](/user-guide/virtual-lakehouses). Your selection saves to the worksheet automatically.
+Click the **compute selector** dropdown in the toolbar and choose a running [compute cluster](/user-guide/compute-clusters/overview). Your selection saves to the worksheet automatically.
 
 ## Selecting a Catalog and Database
 
