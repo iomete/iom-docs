@@ -1,0 +1,117 @@
+---
+title: Arrow Flight SQL JDBC Driver
+description: Use IOMETE's Arrow Flight SQL JDBC driver — a fork of the standard driver with added HTTP CONNECT proxy support for enterprise environments.
+slug: /developer-guide/arrow-flight-jdbc-driver
+last_update:
+  date: 2026-03-27
+  author: Mateus Aubin
+---
+
+IOMETE provides a custom release of the [Apache Arrow Flight SQL JDBC driver](https://arrow.apache.org/java/main/flight_sql_jdbc_driver.html). 
+It is functionally identical to the upstream driver, with one addition: **native HTTP CONNECT proxy tunneling** for gRPC/Flight connections. 
+This makes it suitable for enterprise environments where outbound connections may be restricted.
+
+## Download the Driver
+
+Download the latest release from the [iomete-artifacts](https://github.com/iomete/iomete-artifacts) GitHub repository.
+
+Driver artifacts follow the naming convention `flight-sql-jdbc-driver-<upstream>-iomete.<release>.jar`, 
+where `<upstream>` is the Arrow Flight SQL version 
+and `<release>` is the IOMETE release number 
+(e.g. `flight-sql-jdbc-driver-19.0.0-iomete.1.jar`).
+
+## HTTP Proxy Configuration
+
+Proxy settings are passed as query parameters appended to the JDBC URL. 
+No code changes are needed in your application.
+
+The proxy must support **HTTP CONNECT tunneling** (standard for HTTPS/gRPC traffic). 
+SOCKS proxies are not supported. 
+Proxy authentication (proxy username/password) is not currently supported — the proxy must allow unauthenticated CONNECT.
+
+### Connection Parameters
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `proxyHost` | string | — | Hostname or IP of the HTTP proxy |
+| `proxyPort` | integer | — | Port of the HTTP proxy |
+| `proxyBypassPattern` | string | — | Hosts to connect directly, bypassing the proxy (see format below) |
+| `proxyDisable` | string | — | Set to `force` to disable proxy resolution entirely |
+
+:::note
+`proxyHost` and `proxyPort` must be set together.
+If only one is provided, the explicit proxy is ignored and the driver falls back to the JVM's system proxy selector.
+:::
+
+### Resolution Priority
+
+When establishing a connection, the driver resolves the proxy in this order:
+
+1. `proxyDisable=force` → connect directly, no proxy
+2. Target host matches `proxyBypassPattern` → connect directly
+3. `proxyHost` + `proxyPort` are both set → use this explicit proxy
+4. JVM system proxy (`java.net.ProxySelector`) → use the first non-DIRECT proxy found
+5. No proxy found → connect directly
+
+### `proxyBypassPattern` Format
+
+Uses the same format as the JVM `http.nonProxyHosts` system property:
+
+- Patterns separated by `|`
+- `*` is a wildcard matching any sequence of characters
+- Matching is case-insensitive
+
+| Pattern | Matches |
+| --- | --- |
+| `localhost` | `localhost` only |
+| `*.internal` | `db.internal`, `api.internal`, etc. |
+| `localhost\|*.internal\|10.0.*` | any of the above |
+
+## JVM System Proxy Fallback
+
+If `proxyHost`/`proxyPort` are not set, the driver automatically falls back to the JVM's proxy selector. 
+Standard JVM proxy properties are respected:
+
+```bash
+java -Dhttps.proxyHost=proxy.corp.internal -Dhttps.proxyPort=3128 -jar your-app.jar
+```
+
+You can also set `proxyHost`/`proxyPort` directly in the JDBC URL to use a connection-specific proxy, independently of the JVM-level proxy. 
+This means it is possible to route general Java traffic through one proxy and IOMETE JDBC connections through another.
+
+To suppress JVM proxy resolution for a specific connection without changing JVM properties, add `proxyDisable=force` to the JDBC URL.
+
+## Examples
+
+All examples use the base JDBC URL format:
+
+```
+jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>
+```
+
+Replace `<host>`, `<port>`, `<username>`, and `<token>` with your cluster's connection details from the IOMETE console.
+
+### Route all traffic through a proxy
+
+Uses `proxyHost` and `proxyPort`.
+
+```
+jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>&proxyHost=proxy.corp.internal&proxyPort=3128
+```
+
+
+### Bypass proxy for internal hosts
+
+Uses `proxyHost`, `proxyPort`, and `proxyBypassPattern` to route internal traffic directly.
+
+```
+jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>&proxyHost=proxy.corp.internal&proxyPort=3128&proxyBypassPattern=*.internal|localhost
+```
+
+### Disable proxy entirely
+
+Uses `proxyDisable=force` to override any JVM-level proxy configuration for this connection.
+
+```
+jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>&proxyDisable=force
+```
