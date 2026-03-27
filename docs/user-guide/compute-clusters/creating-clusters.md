@@ -38,9 +38,9 @@ This is where you set identity, sizing, and scaling for the cluster.
   - **Multi-node** (default): Uses separate driver and executor pods.
   - **Single-node**: Runs only the Spark driver. Executor-related fields and **Auto scaling** are hidden.
 
-- **Driver node** (required): The [node type](../node-types.md) assigned to the Spark driver. The driver coordinates executors and handles incoming connections.
+- **Driver node** (required): The [node type](../node-types/overview.md) assigned to the Spark driver. The driver coordinates executors and handles incoming connections.
 
-- **Executor node** (required for multi-node): The [node type](../node-types.md) used for executor pods.
+- **Executor node** (required for multi-node): The [node type](../node-types/overview.md) used for executor pods.
 
 - **Executor count** (required for multi-node): Maximum number of executor pods. Defaults to `1`. The minimum can't exceed the maximum.
 

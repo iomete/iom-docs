@@ -56,7 +56,7 @@ IOMETE resolves the overhead factor by checking these options in order and using
 
 ## Customizing Spark Configuration
 
-The defaults work well for most workloads, but you can override them globally, per [Spark job](/developer-guide/spark-job/spark-application-config), or per [compute cluster](/user-guide/virtual-lakehouses).
+The defaults work well for most workloads, but you can override them globally, per [Spark job](/developer-guide/spark-job/spark-application-config), or per [compute cluster](/user-guide/compute-clusters/overview).
 
 ### Core Factor Properties
 
