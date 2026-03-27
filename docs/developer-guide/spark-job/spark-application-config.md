@@ -109,11 +109,41 @@ Secret references follow the same masking rules as environment variables.
 
 Command-line arguments passed in order to your application's `main` function. Each row is a single text input. Click **Add argument** to add more.
 
-For example, adding `--input` and `s3a://bucket/data` as two separate rows produces the equivalent of:
+#### Example: 
 
-```bash
-spark-submit ... your-app.py --input s3a://bucket/data
+<Img src="/img/spark-job/config/spark-job-arguments.png" alt="Arguments section with three positional values entered: an input path, output path, and partition count" maxWidth="700px"/>
+
+<details>
+<summary>Python</summary>
+
+Access the arguments via `sys.argv`:
+
+```python
+import sys
+
+input_path  = sys.argv[1]  # s3a://my-bucket/data/input.csv
+output_path = sys.argv[2]  # s3a://my-bucket/data/output
+partitions  = int(sys.argv[3])  # 200
 ```
+
+</details>
+
+<details>
+<summary>Java / Scala</summary>
+
+Access the arguments via the `args` array:
+
+```scala
+object MyJob {
+  def main(args: Array[String]): Unit = {
+    val inputPath  = args(0)       // s3a://my-bucket/data/input
+    val outputPath = args(1)       // s3a://my-bucket/data/output
+    val partitions = args(2).toInt // 200
+  }
+}
+```
+
+</details>
 
 ### Java Options
 
