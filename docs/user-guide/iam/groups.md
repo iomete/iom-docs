@@ -1,7 +1,7 @@
 ---
 slug: /user-guide/groups
 title: Groups
-description: Learn how to create and manage groups to organize users and control access across admin roles, domain ownership, domain authorisation, and resource bundles.
+description: Learn how to create and manage groups to organize users and control access across admin roles, domain ownership, domain authorization, and resource bundles.
 sidebar_label: Groups
 last_update:
   date: 03/27/2026
@@ -12,9 +12,9 @@ import Img from '@site/src/components/Img';
 
 ## Overview
 
-Instead of granting permissions one user at a time, groups let you manage access collectively. Add users to a group, then assign that group wherever access is needed: admin roles, domain ownership, domain authorisation (domain bundles), or resource bundles. Every member inherits the group's permissions automatically.
+Instead of granting permissions one user at a time, groups let you manage access collectively. Add users to a group, then assign that group wherever access is needed: admin roles, domain ownership, domain authorization (domain bundles), or resource bundles. Every member inherits the group's permissions automatically.
 
-Groups come from three sources. **IOMETE** groups are created manually in the console. **LDAP** groups sync from your directory service and can form parent-child hierarchies. **IDP** groups are provisioned through SAML or OIDC.
+Groups come from three sources. **IOMETE** groups are created manually in the console. **LDAP** groups sync from your directory service and can form parent-child hierarchies. **IDP** groups are provisioned through [SCIM](/user-guide/iam/sso/scim).
 
 ## Creating a Group
 
@@ -140,7 +140,7 @@ Not every group is created by hand. The **Origin** field tells you where a group
 |--------|-------------|
 | `IOMETE` | Created manually through the Admin Console |
 | `LDAP` | Synced from an LDAP directory. See [LDAP Configuration](./ldap-configuration) |
-| `IDP` | Provisioned through a SAML or OIDC identity provider. See [SSO](./sso/sso) |
+| `IDP` | Provisioned from an identity provider via SCIM. See [SCIM provisioning](./sso/scim) |
 
 ## Related Features
 
