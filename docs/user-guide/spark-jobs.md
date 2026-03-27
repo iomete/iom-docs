@@ -10,7 +10,7 @@ import { Plus } from "@phosphor-icons/react";
 
 import Img from '@site/src/components/Img';
 
-**Spark Jobs** is a powerful platform designed to execute Apache Spark applications within a virtual lakehouse environment. It offers several key features that streamline the development, execution, and management of Spark jobs.
+**Spark Jobs** is a powerful platform designed to execute Apache Spark applications within a compute cluster environment. It offers several key features that streamline the development, execution, and management of Spark jobs.
 
 ---
 

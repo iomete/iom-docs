@@ -33,7 +33,7 @@ Compute clusters are pools of dedicated resources (CPU and memory) that run your
 
 <Img src="/img/getting-started/platform-tour/lakehouse-page.png" alt="Compute page" maxWidth="900px"/>
 
-The [Compute Clusters](/user-guide/virtual-lakehouses) guide covers configuration in detail.
+The [Compute Clusters](/user-guide/compute-clusters/overview) guide covers configuration in detail.
 
 ### Jupyter Containers
 

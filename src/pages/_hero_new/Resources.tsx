@@ -13,7 +13,7 @@ function Resources() {
       <h2 className="mb-6">Getting Started Resources</h2>
       <div className="grid grid-cols-8 gap-4">
         <div className="col-span-8 sm:col-span-6">
-          <Card url="/user-guide/virtual-lakehouses">
+          <Card url="/user-guide/compute-clusters/overview">
             <div className="grid h-full grid-cols-2 gap-4">
               <div className="col-span-2 sm:col-span-1">
                 <h4 className="mb-2">

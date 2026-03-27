@@ -23,7 +23,7 @@ dbt Core is an open-source tool that enables data teams to transform data using 
 ## Prepare Data
 
 :::important
-To use DBT on the IOMETE platform, one needs a running lakehouse cluster. See this [doc](/user-guide/virtual-lakehouses) for more details on getting a lakehouse running
+To use DBT on the IOMETE platform, one needs a running compute cluster. See this [doc](/user-guide/compute-clusters/overview) for more details on getting a cluster running
 :::
 
 Suppose we have two tables, and we’ll use these tables to generate a new table or view using DBT. Let's prepare the two tables to be used by the DBT project.

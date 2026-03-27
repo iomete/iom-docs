@@ -32,8 +32,8 @@ When creating new node template, you'll see the following options for configurat
 
 <Img src="/img/user-guide/node-types/node-type-create.png" alt="Node type create" maxWidth="600px"/>
 
-After creating node template you can utilize them in [Lakehouses](./virtual-lakehouses.md) and [Spark Jobs](../developer-guide/spark-job/getting-started.md).
-Let's navigate to the [Cluster create](./virtual-lakehouses.md#creating-a-cluster) page. Here, you'll find options for `Node driver` and `Node executor`, which include node type selections. You can also view the Total CPU and Memory based on the selected executor and executor count.
+After creating node template you can utilize them in [Compute Clusters](./compute-clusters/overview) and [Spark Jobs](../developer-guide/spark-job/getting-started.md).
+Let's navigate to the [Cluster create](./compute-clusters/creating-clusters) page. Here, you'll find options for `Node driver` and `Node executor`, which include node type selections. You can also view the Total CPU and Memory based on the selected executor and executor count.
 
 <Img src="/img/user-guide/node-types/lakehouse-node-type-select.png" alt="Lakehouse Node type select" maxWidth="600px"/>
 
