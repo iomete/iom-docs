@@ -107,9 +107,9 @@ Secret references follow the same masking rules as environment variables.
 
 ### Arguments
 
-Command-line arguments passed in order to your application's `main` function. Each row is a single text input. Click **Add argument** to add more.
+Command-line arguments passed sequentially to your application's `main` function. Each row is a single text input. Click **Add argument** to add more.
 
-#### Example: 
+### Example
 
 <Img src="/img/spark-job/config/spark-job-arguments.png" alt="Arguments section with three positional values entered: an input path, output path, and partition count" maxWidth="700px"/>
 
