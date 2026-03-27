@@ -53,14 +53,14 @@ Details in the [Event Stream](/user-guide/event-stream) guide.
 
 ## Workspace
 
-Most of your day-to-day SQL work happens in the Workspace. The sidebar groups three tools: SQL Editor, Query Monitoring, and Schedules.
+Most of your day-to-day SQL work happens in the [Workspace](/user-guide/sql-editor/workspaces). The sidebar groups three tools: SQL Editor, Query Monitoring, and Schedules.
 
 ### SQL Editor
 
 The SQL Editor is where you write and run queries. The left icon bar switches between four panels:
 
-- **Worksheets**: file tree that organizes worksheets and dashboards into personal or shared workspaces.
-- **Database Explorer**: browse catalogs, schemas, tables, views, and columns.
+- **[Worksheets](/user-guide/sql-editor/worksheets)**: file tree that organizes worksheets and dashboards into personal or shared workspaces.
+- **[Database Explorer](/user-guide/sql-editor/database-explorer)**: browse catalogs, schemas, tables, views, and columns.
 - **[Query History](/user-guide/sql-editor/query-history)**: logs every query you run, with time range and status filters. Reopen any past query in the active worksheet.
 
 Before running a query, select a compute cluster and namespace from the top bar. The editor autocompletes database objects as you type. Results display as tables or charts. Build **[Dashboards](/user-guide/sql-editor/dashboards)** from your results and export them to PDF.
