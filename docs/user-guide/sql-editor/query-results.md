@@ -57,11 +57,11 @@ When you need to tweak query limits or recover from a stuck session, open the se
 
 <Img src="/img/user-guide/sql-editor/query-results/sql-settings.png" alt="Toolbar with SQL Settings gear icon tooltip" />
 
+<Img src="/img/user-guide/sql-editor/query-results/sql-settings-query-limit.png" alt="SQL Settings dialog showing the Query Limit tab with Rows limit set to 100" />
+
 ### Query Limit
 
 By default, queries return up to 100 rows. To change this, set the **Rows limit** (1 to 10,000) and click **Save**. The limit is stored in your browser and applies to all queries you run from it.
-
-<Img src="/img/user-guide/sql-editor/query-results/sql-settings-query-limit.png" alt="SQL Settings dialog showing the Query Limit tab with Rows limit set to 100" />
 
 ### Resetting the Connection
 
