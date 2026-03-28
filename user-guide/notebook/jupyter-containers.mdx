@@ -1,0 +1,56 @@
+---
+slug: /developer-guide/notebook/jupyter-containers
+title: Jupyter Containers
+description: Create dedicated JupyterLab environments with persistent storage and Spark Connect for data exploration and ML development.
+sidebar_label: Overview
+last_update:
+  date: 03/19/2026
+  author: Abhishek Pathania
+---
+
+Jupyter Containers are dedicated, containerized JupyterLab environments that run inside the IOMETE platform. Each container comes pre-configured with JupyterLab and essential data engineering tools (Git, AWS CLI, and pip) so you can start working with your data immediately. Containers connect to IOMETE compute clusters through Spark Connect for distributed processing.
+
+:::info Feature availability
+Jupyter Containers require the `jupyterContainers` feature flag to be enabled on your data plane. If you do not see the **Jupyter Containers** menu item in the sidebar, contact your platform administrator.
+:::
+
+## Common Use Cases
+
+- **Data exploration and analysis**: Explore datasets to understand structure and patterns. Create visualizations to identify trends and anomalies.
+- **ETL pipeline development**: Prototype data transformation logic before production deployment. Document complex data transformations interactively.
+- **Machine learning and AI**: Train and validate models, tune hyperparameters, and analyze model performance with interactive visualizations.
+
+## Limitations
+
+- **No GPU support**: Jupyter Containers use CPU and memory resources only. GPU workloads are not supported.
+- **No auto-shutdown**: Containers run indefinitely until manually terminated. Stop containers when not in use to avoid unnecessary resource consumption.
+- **No custom images**: All containers use the platform-managed base image (JupyterLab, Git, AWS CLI, pip). Custom container images are not supported through the UI.
+
+## Access Permissions
+
+Jupyter Containers use [resource bundles](/user-guide/ras/resource-bundles) to control access. The **create** permission is managed at the domain-bundle level, while all other per-container actions are controlled through resource-level permissions on the bundle the container belongs to.
+
+### Create Permission
+
+Creating a Jupyter Container requires the `Create Jupyter Container` permission at the domain-bundle level. This controls the **New Jupyter Container** button and form submission. Users without this permission see the button disabled with the tooltip "You do not have permission to create Jupyter Containers."
+
+### Resource-Level Permissions
+
+Each container is an asset in a [resource bundle](/user-guide/ras/resource-bundles). The bundle determines which users can perform specific actions on individual containers.
+
+| Permission | What it allows |
+|-----------|----------------|
+| `VIEW` | View container details, logs, and events. Open JupyterLab. |
+| `UPDATE` | Edit and configure the container. |
+| `RUN` | Start and terminate the container. |
+| `DELETE` | Delete the container. |
+
+Users only see containers they have at least `VIEW` access to in the list. The platform filters the list based on your bundle permissions.
+
+## Related Features
+
+- **[Resource bundles](/user-guide/ras/resource-bundles)**: Control who can access each container.
+- **[Node types](/user-guide/node-types/overview)**: Determine CPU and memory allocation.
+- **[Volumes](/user-guide/volumes)**: Provide persistent storage (On Demand PVC or NFS).
+- **[Secrets](/user-guide/secrets)**: Can be referenced as environment variables.
+- **[Compute clusters](/user-guide/compute-clusters/overview)**: Provide Spark Connect endpoints for distributed processing.
