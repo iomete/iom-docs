@@ -59,7 +59,7 @@ Who can see and interact with a cluster depends on permissions granted to users 
 
 ## Related Resources
 
-- [Node Types](../node-types.md): manage the node types available for driver and executor pods.
+- [Node Types](../node-types/overview.md): manage the node types available for driver and executor pods.
 - [Volumes](../volumes.md): attach persistent volumes via the **Volume** field on the **General** tab.
 - [Secrets](../secrets.md): reference secret values in environment variables and Spark config.
 - [Private Docker Registry](../private-docker-registry.md): register Docker registries so their images appear in the **Docker settings** tab.
