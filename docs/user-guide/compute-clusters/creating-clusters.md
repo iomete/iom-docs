@@ -38,17 +38,19 @@ This is where you set identity, sizing, and scaling for the cluster.
   - **Multi-node** (default): Uses separate driver and executor pods.
   - **Single-node**: Runs only the Spark driver. Executor-related fields and **Auto scaling** are hidden.
 
-- **Driver node** (required): The [node type](../node-types/overview.md) assigned to the Spark driver. The driver coordinates executors and handles incoming connections.
+- **Node driver** (required): The [node type](./node-types.md) assigned to the Spark driver. The driver coordinates executors and handles incoming connections.
 
-- **Executor node** (required for multi-node): The [node type](../node-types/overview.md) used for executor pods.
+- **Node executor** (required for multi-node): The [node type](./node-types.md) used for executor pods.
 
-- **Executor count** (required for multi-node): Maximum number of executor pods. Defaults to `1`. The minimum can't exceed the maximum.
+- **Max executor count** (required for multi-node): Maximum number of executor pods. Default is `1`. The minimum cannot exceed the maximum.
 
-- **Use spot instances** (optional): Runs executor pods on spot or preemptible instances to cut costs. Off by default.
+- **Min executor count** (required for multi-node): Minimum number of executor pods. Default is `0`. The maximum cannot be less than the minimum.
 
-- **Volume** (optional): Attach a persistent volume. See [Volumes](../volumes.md) for configuration details.
+- **Use spot instances** (optional): Enables spot or preemptible instances for executor pods to reduce cost. Disabled by default.
 
-- **Auto scaling** (multi-node only): On by default. Executors scale to zero after the configured idle period and spin back up when a query arrives. Timeout options range from 1 minute to 3 hours (default: 30 minutes). Select **Disabled** to keep executors running continuously.
+- **Auto scaling** (multi-node only): Enabled by default. Executors scale down to zero after the configured idle period and scale back up when a query runs. Idle timeout options range from 1 minute to 3 hours. Default is 30 minutes. Select **Disabled** to keep executors running continuously.
+
+- **Executors Volume** (optional): Attach a persistent volume. See [Volumes](./volumes.md) for configuration details.
 
   :::tip Keep Auto Scaling Enabled
   You're only billed for executors in the `Running` state. Scale-up takes 10 to 15 seconds with a hot pool, or 1 to 2 minutes otherwise.
