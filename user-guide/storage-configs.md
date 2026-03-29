@@ -106,4 +106,4 @@ Storage configurations can be used in various places throughout the IOMETE platf
 - **Job Artifacts Storage**: Store and access job artifacts and outputs (Future)
 - **Audit and History Logs**: Persistent storage for system audit trails and historical data (Future)
 
-Currently, the only usage is for [**workspaces**](./workspaces.md) to store worksheets in different storage locations within the SQL editor. Additional use cases are planned for future releases.
+Currently, the only usage is for [**workspaces**](./sql-editor/workspaces.md) to store worksheets in different storage locations within the SQL editor. Additional use cases are planned for future releases.
