@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/users
+slug: /users
 title: Users
 description: Create and manage user accounts, reset passwords, assign groups and admin roles, and control access across the data plane.
 sidebar_label: Users

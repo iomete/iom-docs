@@ -9,7 +9,7 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-Every Spark-based resource in IOMETE uses node types: [compute clusters](/user-guide/compute-clusters/overview), [Spark jobs](../spark-jobs/getting-started.md), [event streams](/user-guide/event-stream), and [Jupyter containers](../notebook/jupyter-containers.mdx). When you create or edit any of these, dropdown selectors let you assign a node type for the driver and executor.
+Every Spark-based resource in IOMETE uses node types: [compute clusters](/user-guide/compute-clusters/overview), [Spark jobs](../spark-jobs/getting-started.md), [event streams](/user-guide/event-stream), and [Jupyter containers](../notebook/jupyter-containers.md). When you create or edit any of these, dropdown selectors let you assign a node type for the driver and executor.
 
 <Img src="/img/user-guide/node-types/node-type-select.png" alt="Node type selection in a compute cluster" />
 

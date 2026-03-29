@@ -184,7 +184,7 @@ Ensure your NFS server is properly configured with correct export permissions an
 
 ## Using volumes
 
-You can utilize node types in [Compute Clusters](./compute-clusters/overview) and [Spark Jobs](../developer-guide/spark-job/getting-started.md).
+You can utilize node types in [Compute Clusters](./compute-clusters/overview) and [Spark Jobs](./spark-jobs/getting-started.md).
 Let's navigate to the [Cluster create](./compute-clusters/creating-clusters) page. Here, you'll find options for `Volume` which include volume selections.
 
 <Img src="/img/user-guide/volumes/select-volume.png" alt="Lakehouse Volume select" maxWidth="600px"/>

@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/groups
+slug: /groups
 title: Groups
 description: Learn how to create and manage groups to organize users and control access across admin roles, domain ownership, domain authorization, and resource bundles.
 sidebar_label: Groups

@@ -230,7 +230,7 @@ Start using IOMETE with the following guides
 Read our guide on how to sync data from JDBC sources, like MySQL, PostgreSQL, and Oracle.
 </Card>
 
-<Card title="Querying Files in AWS S3" icon={<Files />} link="aws/read-files-from-aws-s3">
+<Card title="Querying Files in AWS S3" icon={<Files />} link="tutorials/aws/read-files-from-aws-s3">
 If you have data files in AWS S3, you can directly query them using the S3 connector.
 </Card>
 
