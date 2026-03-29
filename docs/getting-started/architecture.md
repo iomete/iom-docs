@@ -44,15 +44,15 @@ If we dive deeper into the IOMETE services, we can see the following components:
 #### Control Plane Services
 
 - **2. Core Service:** Core Service is the main service that manages metadata, scheduling, and orchestration of workloads.
-- **3. IAM Service:** IAM Service is responsible for managing users, groups, and permissions, as well as managing other IDP integrations, such as LDAP, SAML, etc. See [Identity and Access Management](../user-guide/users).
-- **4. SQL Service:** SQL Service provides REST API for SQL and also provides a backend for the SQL Editor. See [SQL Editor](../user-guide/sql-editor/worksheets).
+- **3. IAM Service:** IAM Service is responsible for managing users, groups, and permissions, as well as managing other IDP integrations, such as LDAP, SAML, etc. See [Identity and Access Management](/user-guide/users).
+- **4. SQL Service:** SQL Service provides REST API for SQL and also provides a backend for the SQL Editor. See [SQL Editor](/user-guide/sql-editor/worksheets).
 - **5. Catalog Service:** Catalog Service is a backend service for Data Catalog. Which provides metadata management, data discovery, tagging, and lineage.
 - **6. Spark Operator:** Spark Operator is a Kubernetes operator that manages all Spark Workloads. It schedules, monitors, and manages the lifecycle of Spark clusters.
 
 #### Security
 
-- **7. Data Access Policies (Ranger):** Data Access Policies is a service that manages data access policies for databases, tables, and columns. It provides a consistent way to manage permissions for groups or users. See [Data Security](../user-guide/data-security/overview).
-- **8. Control Policies (OPA):** Control Policies is a service that manages control policies for the platform. It provides a way to manage platform-level policies, such as who can create lakehouses, who can run Spark jobs, etc. See [Control Policies](../user-guide/roles).
+- **7. Data Access Policies (Ranger):** Data Access Policies is a service that manages data access policies for databases, tables, and columns. It provides a consistent way to manage permissions for groups or users. See [Data Security](/user-guide/data-security/overview).
+- **8. Control Policies (OPA):** Control Policies is a service that manages control policies for the platform. It provides a way to manage platform-level policies, such as who can create lakehouses, who can run Spark jobs, etc. See [Control Policies](/user-guide/roles).
 - **9. IDP - Identity Provider (Keycloak):** IDP is a service that manages user storage, authentication, and integration powered by Keycloak.
 
 #### Catalogs
@@ -67,6 +67,6 @@ If we dive deeper into the IOMETE services, we can see the following components:
 
 ### Workloads
 
-- **Compute Clusters:** Compute Clusters provide a SQL interface that can be connected from any SQL client, BI tools (e.g., Tableau, PowerBI), DBT, or any other tool that supports JDBC/ODBC. See [Compute Clusters](../user-guide/compute-clusters/overview).
-- **Spark Jobs:** Spark Jobs are the Spark jobs that are submitted to the Spark Engine for execution. See [Spark Jobs](../developer-guide/spark-job/getting-started).
-- **Jupyter Containers:** Jupyter Containers are dedicated, containerized JupyterLab environments that run inside the IOMETE platform for interactive data exploration, ETL prototyping, and ML development. See [Jupyter Containers](../developer-guide/notebook/jupyter-containers).
+- **Compute Clusters:** Compute Clusters provide a SQL interface that can be connected from any SQL client, BI tools (e.g., Tableau, PowerBI), DBT, or any other tool that supports JDBC/ODBC. See [Compute Clusters](/user-guide/compute-clusters/overview).
+- **Spark Jobs:** Spark Jobs are the Spark jobs that are submitted to the Spark Engine for execution. See [Spark Jobs](/user-guide/spark-jobs/getting-started).
+- **Jupyter Containers:** Jupyter Containers are dedicated, containerized JupyterLab environments that run inside the IOMETE platform for interactive data exploration, ETL prototyping, and ML development. See [Jupyter Containers](/user-guide/notebook/jupyter-containers).

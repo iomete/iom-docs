@@ -44,7 +44,7 @@ Simply manage IOMETE permissions through the Access Control System. Detailed rol
 
 ## Improved dashboard
 
-The improved dashboard makes it easy to analyze your tasks and discover pain points. With the Grafana tool one can easily optimize [spark jobs](/user-guide/spark-jobs).
+The improved dashboard makes it easy to analyze your tasks and discover pain points. With the Grafana tool one can easily optimize [spark jobs](/user-guide/spark-jobs/getting-started).
 
 ![IOMETE dashboard](/img/blog/2022-09-21-new-features/improved-dashboard.jpeg)
 
@@ -66,7 +66,7 @@ We removed “External Storage Integration”. Now we support only role-based an
 
 ## Lakehouse connection
 
-To use lakehouse connection from Database Tools (for example, DataGrip) or Python (SQL Alchemy), you will have to update your connection details. For further details check the [datagrip lakehouse connection](/user-guide/datagrip-lakehouse-connection) and [SQL alchemy](/developer-guide/sql-alchemy-driver) driver documentation.
+To use lakehouse connection from Database Tools (for example, DataGrip) or Python (SQL Alchemy), you will have to update your connection details. For further details check the [datagrip lakehouse connection](/user-guide/datagrip-lakehouse-connection) and [SQL alchemy](/user-guide/driver/sql-alchemy-driver) driver documentation.
 
 ## Smaller updates and fixes
 

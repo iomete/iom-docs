@@ -25,7 +25,7 @@ const cards = [
     label: "Reference",
   },
   {
-    to: "aws/read-files-from-aws-s3",
+    to: "tutorials/aws/read-files-from-aws-s3",
     title: "Loading Data",
     description:
       "Tutorials on how to query data files in S3 and from operational databases using JDBC providers.",
