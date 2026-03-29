@@ -1,5 +1,4 @@
 ---
-slug: /developer-guide/spark-job/spark-logging
 title: Log Configurations
 description: When creating a Spark job deployment programmatically with IOMETE, you would run a command similar to the following
 last_update:

@@ -178,6 +178,7 @@ const config = {
           {
             type: "docSidebar",
             sidebarId: "guides",
+            docsPluginId: "user-guide",
             position: "left",
             label: "Guides",
           },
@@ -297,6 +298,7 @@ const config = {
         path: 'user-guide',
         routeBasePath: 'user-guide',
         sidebarPath: './sidebarsUserGuide.js',
+        
       },
     ],
     "docusaurus-plugin-sass",

@@ -1,5 +1,4 @@
 ---
-slug: /developer-guide/spark-job/nessie-integration
 title: Nessie Library
 sidebar_label: Nessie Library
 description: Learn how to add Nessie library to Spark Resources.

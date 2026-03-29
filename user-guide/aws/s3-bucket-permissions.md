@@ -1,5 +1,4 @@
 ---
-slug: /aws/s3-bucket-permissions
 title: AWS S3 Buckets Access
 sidebar_label: S3 Buckets Access
 description: Learn how to provide access to external S3 buckets in IOMETE, a hybrid (cloud & on-premises based) data platform for data storage and analysis. This guide outlines simple steps to connect to S3 buckets and grant permission to the Lakehouse role.

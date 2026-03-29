@@ -1,5 +1,4 @@
 ---
-slug: /developer-guide/notebook/jupyter-containers
 title: Jupyter Containers
 description: Create dedicated JupyterLab environments with persistent storage and Spark Connect for data exploration and ML development.
 sidebar_label: Overview

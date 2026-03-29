@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/groups
+slug: /groups
 title: Groups
 description: Discover how to create and control groups, set permissions, and add a user.
 last_update:
@@ -16,7 +16,7 @@ Welcome to the documentation for Groups! This documentation provides guidelines 
 
 To view groups, click the `Settings` menu item and switch to the `Groups` tab.
 
-<Img src="/img/user-guide/iam/groups/groups.png" alt="Groups" />
+<Img src="/img/user-guide/iam/groups/groups-list.png" alt="Groups" />
 
 ## Group create
 

@@ -1,5 +1,4 @@
 ---
-slug: /k8s/spark-executor-shuffle-storage-options
 title: Spark Executor Shuffle Storage Options
 sidebar_label: Spark Executor Shuffle Storage Options
 description: Optimize Apache Spark performance. Compare executor shuffle storage options - TempFS, HostPath, PVCs, and External Shuffle Service.

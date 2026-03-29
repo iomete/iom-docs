@@ -30,7 +30,7 @@ The success of Kubernetes-native deployment in data engineering depends heavily 
 
 **How IOMETE fits in:**
 
-IOMETE integrates seamlessly with Airflow through its SQL endpoints and [Spark job](/user-guide/spark-jobs) APIs. Spark jobs triggered in Airflow can target IOMETE compute clusters, using [Spark Connect](/blog/spark-connect-tutorial) or [Apache Arrow](/blog/apache-arrow-format) Flight for fast transport. Workload monitoring and job history are available in IOMETE’s UI, while Airflow retains orchestration logic.
+IOMETE integrates seamlessly with Airflow through its SQL endpoints and [Spark job](/user-guide/spark-jobs/getting-started) APIs. Spark jobs triggered in Airflow can target IOMETE compute clusters, using [Spark Connect](/blog/spark-connect-tutorial) or [Apache Arrow](/blog/apache-arrow-format) Flight for fast transport. Workload monitoring and job history are available in IOMETE’s UI, while Airflow retains orchestration logic.
 
 **YAML snippet:**
 

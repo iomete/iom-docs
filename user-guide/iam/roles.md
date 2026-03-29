@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/roles
+slug: /roles
 title: Roles
 description: Learn how to create and manage Roles, their permissions, responsibilities, and best practices for effective management.
 last_update:

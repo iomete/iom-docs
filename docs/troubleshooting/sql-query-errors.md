@@ -1,7 +1,6 @@
 ---
 title: SQL Query Errors
 description: This documentation provides details to help investigate user errors in SQL queries
-slug: /user-guide/troubleshooting/sql-query-errors
 ---
 
 import Img from '@site/src/components/Img';

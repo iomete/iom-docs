@@ -138,7 +138,7 @@ DESCRIBE EXTENDED ddl_ops_demo_db.sample_partitioned;
 
 :::tip
 
-See [JDBC sources](/reference/data-sources/jdbc-sources)
+See [JDBC sources](/user-guide/reference/data-sources/jdbc-sources)
 
 :::
 

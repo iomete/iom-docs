@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/single-sign-on/okta
+slug: /single-sign-on/okta
 title: SSO to IOMETE with Okta
 description: Learn how to integrate Okta SSO with the IOMETE Data Plane
 last_update:

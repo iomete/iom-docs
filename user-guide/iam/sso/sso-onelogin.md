@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/single-sign-on/onelogin
+slug: /single-sign-on/onelogin
 title: SSO to IOMETE with OneLogin
 description: Learn how to integrate OneLogin SSO with the IOMETE Data Plane
 last_update:

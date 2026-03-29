@@ -1,5 +1,4 @@
 ---
-slug: /k8s/cpu-vs-vcpu
 title: CPU vs vCPU - Understanding vCPUs and IOMETE Licensing on Kubernetes
 sidebar_label: CPU vs vCPU
 description: CPU vs vCPU -  Understanding vCPUs and IOMETE Licensing on Kubernetes

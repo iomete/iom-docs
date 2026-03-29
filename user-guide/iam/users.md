@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/users
+slug: /users
 title: Users
 description: Discover how to create and control user accounts, set permissions, and join a group.
 last_update:
@@ -16,7 +16,7 @@ Welcome to the documentation for Users! This document aims to provide a comprehe
 
 The system initially generates **Admin** user with full permissions. Admin have the ability to create new user.
 
-<Img src="/img/user-guide/iam/users/users.png" alt="Users" />
+<Img src="/img/user-guide/iam/users/user-list.png" alt="Users" />
 
 ## User create
 

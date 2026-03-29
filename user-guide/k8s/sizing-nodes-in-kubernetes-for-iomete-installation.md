@@ -1,5 +1,4 @@
 ---
-slug: /k8s/sizing-nodes-in-kubernetes-for-iomete-installation
 title: Sizing Nodes in Kubernetes for IOMETE Installation
 sidebar_label: Sizing Nodes
 description: Learn best practices for sizing Kubernetes nodes for IOMETE installations. Optimize performance, efficiency, and scalability.

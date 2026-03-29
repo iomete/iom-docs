@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/iam/ras/domain-authorization
+slug: /iam/ras/domain-authorization
 title: Domain Authorization
 description: Learn about the transition from Domain Roles to the Resource Authorization System (RAS) based permission management for domains.
 ---

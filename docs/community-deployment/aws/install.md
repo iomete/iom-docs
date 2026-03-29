@@ -234,7 +234,7 @@ Read our guide on how to sync data from JDBC sources, like MySQL, PostgreSQL, an
 If you have data files in AWS S3, you can directly query them using the S3 connector.
 </Card>
 
-<Card title="Getting Started with Spark Jobs" icon={<Sparkle />} link="developer-guide/spark-job/getting-started">
+<Card title="Getting Started with Spark Jobs" icon={<Sparkle />} link="user-guide/spark-jobs/getting-started">
 Learn how to run Spark jobs on IOMETE.
 </Card>
 

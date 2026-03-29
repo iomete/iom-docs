@@ -1,5 +1,4 @@
 ---
-slug: /developer-guide/spark-job/job-orchestrator
 title: Job Orchestrator
 description: Learn about the new Job Orchestrator for priority-based scheduling, resource-aware execution, and built-in observability for Spark jobs on the IOMETE platform.
 sidebar_label: Job Orchestrator

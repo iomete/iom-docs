@@ -1,5 +1,4 @@
 ---
-slug: /k8s/monitoring
 title: Monitoring - Grafana Dashboards
 sidebar_label: Monitoring
 description: Learn how to enable monitoring in IOMETE, deploy Grafana dashboards, and monitor the performance of your IOMETE deployment.

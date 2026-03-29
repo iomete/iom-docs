@@ -1,7 +1,7 @@
 ---
 title: DataGrip Lakehouse Connection
 description: DataGrip Lakehouse Connection
-slug: /user-guide/datagrip-lakehouse-connection
+slug: /datagrip-lakehouse-connection
 last_update:
   date: 11/17/2024
   author: Vugar Dadalov

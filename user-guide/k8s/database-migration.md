@@ -1,5 +1,4 @@
 ---
-slug: /k8s/database-migration
 title: Database Migration
 sidebar_label: Database Migration
 description: Documentation for migrating IOMETE database and keeping IOMETE Control Plane in place. 

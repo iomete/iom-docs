@@ -1,5 +1,4 @@
 ---
-slug: /developer-guide/spark-job/spark-application-config
 title: Application Config
 description: Reference for configuring Spark Jobs in IOMETE — Docker images, instances, environment variables, dependencies, scheduling, and more.
 sidebar_label: Application Config
@@ -56,7 +55,7 @@ Choose **Python** (default) or **JVM** (Java, Scala). Your choice determines whi
 
 This field has two parts:
 
-- **Docker registry** (dropdown): select `default` for IOMETE's built-in registry, or pick a configured [private Docker registry](/docs/user-guide/private-docker-registry.md).
+- **Docker registry** (dropdown): select `default` for IOMETE's built-in registry, or pick a configured [private Docker registry](../private-docker-registry.md).
 - **Docker image** (text with autocomplete): the image and tag, e.g. `iomete/sample-job:1.0.0`. With the default registry, typing `:` after the name surfaces available tags.
 
 Use the format `repo/image:tag`. Private registries must be configured first under **Settings > Docker Registries**.

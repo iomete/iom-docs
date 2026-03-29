@@ -1,7 +1,7 @@
 ---
 title: Temporary Shutdown for Maintenance
 description: This documentation provides a step-by-step guide for temporarily shutting down IOMETE for maintenance purposes in a Kubernetes environment.
-slug: /user-guide/shutdown-for-maintenance
+slug: /shutdown-for-maintenance
 last_update:
   date: 10/07/2024
   author: Fuad Musayev

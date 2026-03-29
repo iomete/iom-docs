@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/single-sign-on/scim-okta
+slug: /single-sign-on/scim-okta
 title: SCIM Okta Configuration
 description: Learn how to provision users and groups from Okta with SCIM standards
 last_update:

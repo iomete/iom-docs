@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/troubleshooting-lakehouse-oom
+slug: /troubleshooting-lakehouse-oom
 title: Troubleshooting OOM kills on the Lakehouse driver pod
 description: This documentation provides details to help investigate and prevent OOM from happening on Lakehouse Spark pods
 last_update:

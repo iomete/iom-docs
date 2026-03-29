@@ -19,7 +19,7 @@ Resource Access Management (RAS) represents a sophisticated approach to authoriz
 
 ## The Challenge of Modern Data Platform Authorization
 
-Modern [data platforms](https://iomete.com/product/data-platform/platform-overview) like IOMETE encompass a diverse ecosystem of resources: compute instances that process data, [Spark jobs](/user-guide/spark-jobs) that execute analytics workflows, secrets that store sensitive configuration data, worksheets for collaborative analysis, and countless other assets. Each of these resource types has unique characteristics, usage patterns, and security requirements.
+Modern [data platforms](https://iomete.com/product/data-platform/platform-overview) like IOMETE encompass a diverse ecosystem of resources: compute instances that process data, [Spark jobs](/user-guide/spark-jobs/getting-started) that execute analytics workflows, secrets that store sensitive configuration data, worksheets for collaborative analysis, and countless other assets. Each of these resource types has unique characteristics, usage patterns, and security requirements.
 
 Traditional authorization approaches often fall short because they:
 

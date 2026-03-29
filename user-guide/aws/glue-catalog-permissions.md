@@ -1,5 +1,4 @@
 ---
-slug: /aws/glue-catalog-permissions
 title: AWS Glue Catalog Access
 sidebar_label: Glue Catalog Permissions
 description: Learn how to provide access to the AWS Glue Catalog in IOMETE, a hybrid (cloud & on-premises based) data platform for data storage and analysis. This guide outlines simple steps to connect to the AWS Glue Catalog and grant permission to the Lakehouse role.

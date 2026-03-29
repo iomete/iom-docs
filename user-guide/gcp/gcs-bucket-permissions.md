@@ -1,5 +1,4 @@
 ---
-slug: /gcp/gcs-bucket-permissions
 title: GCS Bucket Access
 sidebar_label: GCS Bucket Access
 description: Learn how to provide access to external GCS buckets in IOMETE, a hybrid (cloud & on-premises based) data platform for data storage and analysis. This guide outlines simple steps to connect to GCS buckets and grant permission to the Lakehouse Service Account.

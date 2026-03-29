@@ -1,5 +1,4 @@
 ---
-slug: /k8s/private-docker-registry
 title: Private Docker Registry Authentication
 sidebar_label: Docker Registry Authentication
 description: Providing access to private Docker registries in IOMETE platform using Kubernetes. Learn how to add a new private Docker registry authentication secret and use it in your jobs.

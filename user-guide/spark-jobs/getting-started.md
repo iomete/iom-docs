@@ -1,5 +1,4 @@
 ---
-slug: /developer-guide/spark-job/getting-started
 title: Getting Started with Spark Jobs
 sidebar_label: Getting Started
 description: Learn how to run your first Spark Job on the IOMETE platform using PySpark. Follow our step-by-step guide and get started with Spark Jobs today!

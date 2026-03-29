@@ -9,7 +9,7 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-A node type is a reusable template that defines CPU (in millicores) and memory (in MiB) for a Spark driver or executor. Rather than entering raw resource values each time you create a [compute cluster](../compute-clusters/overview), [Spark job](../../developer-guide/spark-job/getting-started), or other Spark resource, pick a node type. This keeps sizing consistent and simplifies capacity planning.
+A node type is a reusable template that defines CPU (in millicores) and memory (in MiB) for a Spark driver or executor. Rather than entering raw resource values each time you create a [compute cluster](../compute-clusters/overview), [Spark job](../spark-jobs/getting-started.md), or other Spark resource, pick a node type. This keeps sizing consistent and simplifies capacity planning.
 
 IOMETE seeds cloud-provider-specific defaults on first startup, so you're ready to deploy right away.
 

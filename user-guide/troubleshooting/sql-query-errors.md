@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/troubleshooting/sql-query-errors
+slug: /troubleshooting/sql-query-errors
 title: SQL Query Errors
 description: This documentation provides details to help investigate user errors in SQL queries
 ---

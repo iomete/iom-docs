@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/ldap-configuration
+slug: /ldap-configuration
 title: LDAP Configuration
 description: Learn how to integrate LDAP authentication within the IOMETE Data Plane
 last_update:

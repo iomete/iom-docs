@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/single-sign-on/entra-id
+slug: /single-sign-on/entra-id
 title: SSO to IOMETE with Microsoft Entra ID
 description: Learn how to integrate Microsoft Entra ID SSO with the IOMETE Data Plane
 last_update:

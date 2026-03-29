@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/single-sign-on/scim
+slug: /single-sign-on/scim
 title: SCIM
 description: Learn how to provision users and groups with SCIM standards
 last_update:

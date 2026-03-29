@@ -1,5 +1,5 @@
 ---
-slug: /user-guide/ras/resource-bundles
+slug: /ras/resource-bundles
 title: RAS - Resource Bundles
 description: Learn how to manage resource level permissions with resource bundles
 last_update:

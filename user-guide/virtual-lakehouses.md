@@ -14,7 +14,7 @@ A compute cluster provides dedicated CPU and memory resources, powered by Apache
 Because storage and compute are decoupled, you can right-size each cluster for its specific workload, whether batch ETL, interactive analytics, or a dedicated BI connection. When a cluster is no longer needed, you can shut it down to stop compute costs.
 
 
-<Img src="/img/user-guide/virtual-lakehouses/overview.png" alt="Compute Clusters" />
+<Img src="/img/user-guide/compute-clusters/overview.png" alt="Compute Clusters" />
 
 ## Viewing the Cluster List
 
@@ -41,7 +41,7 @@ Use the controls above the table to filter results:
 * **Status**. Filter by driver state (`Starting`, `Active`, `Stopped`, `Failed`).
 * **Search**. Match clusters by name or cluster ID.
 
-<Img src="/img/user-guide/virtual-lakehouses/list-filters.png" alt="Compute cluster list with filters" />
+<Img src="/img/user-guide/compute-clusters/list-filters.png" alt="Compute cluster list with filters" />
 
 ## Creating a Cluster
 
@@ -74,9 +74,9 @@ The **General** tab defines the core configuration of the cluster.
   - **Multi-node** (default): Uses separate driver and executor pods.
   - **Single-node**: Runs only the Spark driver. Executor-related fields and **Auto scaling** are hidden.
 
-- **Driver node** (required): The [node type](./node-types.md) assigned to the Spark driver. The driver coordinates executors and handles incoming connections.
+- **Driver node** (required): The [node type](./node-types/overview.md) assigned to the Spark driver. The driver coordinates executors and handles incoming connections.
 
-- **Executor node** (required for multi-node): The [node type](./node-types.md) used for executor pods.
+- **Executor node** (required for multi-node): The [node type](./node-types/overview.md) used for executor pods.
 
 - **Executor count** (required for multi-node): Maximum number of executor pods. Default is `1`. The minimum cannot exceed the maximum.
 
@@ -90,7 +90,7 @@ The **General** tab defines the core configuration of the cluster.
   Only executors in the `Running` state are billed. Scale-up takes 10 to 15 seconds with a hot pool, or 1 to 2 minutes otherwise.
   :::
 
-<Img src="/img/user-guide/virtual-lakehouses/create-general.png" alt="Create compute cluster -- General tab" maxWidth="700px" />
+<Img src="/img/user-guide/compute-clusters/create-general.png" alt="Create compute cluster -- General tab" maxWidth="700px" />
 
 ### Configurations Tab
 
@@ -101,7 +101,7 @@ The **Configurations** tab lets you tune Spark behavior, inject secrets, and set
 - **Arguments**: Command-line arguments passed to the Spark application.
 - **Java options**: JVM flags for driver and executor processes (for example, `-XX:+UseG1GC`).
 
-<Img src="/img/user-guide/virtual-lakehouses/create-configs.png" alt="Create compute cluster -- Configurations tab" maxWidth="700px" />
+<Img src="/img/user-guide/compute-clusters/create-configs.png" alt="Create compute cluster -- Configurations tab" maxWidth="700px" />
 
 ### Dependencies Tab
 
@@ -112,19 +112,19 @@ The **Dependencies** tab loads external JARs, Python packages, and Maven artifac
 - **PY file locations**: Paths to Python files (`.py`, `.egg`, or `.zip`) for PySpark (for example, `local:///app/package.egg`).
 - **Maven packages**: Maven coordinates resolved at startup (for example, `org.apache.spark:spark-avro_2.13:3.5.0`).
 
-<Img src="/img/user-guide/virtual-lakehouses/create-dependencies.png" alt="Create compute cluster -- Dependencies tab" maxWidth="700px" />
+<Img src="/img/user-guide/compute-clusters/create-dependencies.png" alt="Create compute cluster -- Dependencies tab" maxWidth="700px" />
 
 ### Docker Settings Tab
 
 This tab lets you override the default Spark runtime image. The **Docker image** field (optional) lists images from your registered Docker registries. See [Private Docker Registry](./private-docker-registry.md) for setup details.
 
-<Img src="/img/user-guide/virtual-lakehouses/create-docker.png" alt="Create compute cluster -- Docker Settings tab" maxWidth="700px" />
+<Img src="/img/user-guide/compute-clusters/create-docker.png" alt="Create compute cluster -- Docker Settings tab" maxWidth="700px" />
 
 ### Tags Tab
 
 Add **Resource tags** (key-value metadata pairs) to categorize the cluster. Tags appear in the cluster detail view and help with cost allocation or operational filtering.
 
-<Img src="/img/user-guide/virtual-lakehouses/create-tags.png" alt="Create compute cluster -- Tags tab" maxWidth="700px" />
+<Img src="/img/user-guide/compute-clusters/create-tags.png" alt="Create compute cluster -- Tags tab" maxWidth="700px" />
 
 ### Review & Create Tab
 
@@ -133,7 +133,7 @@ The **Review & Create** tab displays a read-only summary of your configuration. 
 If creation succeeds, IOMETE provisions and starts the cluster, then redirects you to its detail page. If the cluster name is already in use, you’re returned to the **General** tab with a validation error prompting you to choose a different name. If resource quotas are exceeded, the form highlights the affected fields with error messages.
 
 
-<Img src="/img/user-guide/virtual-lakehouses/create-review.png" alt="Create compute cluster -- Review & Create tab" maxWidth="700px" />
+<Img src="/img/user-guide/compute-clusters/create-review.png" alt="Create compute cluster -- Review & Create tab" maxWidth="700px" />
 
 ## Viewing a Compute Cluster
 
@@ -167,7 +167,7 @@ The **Details** tab shows the current state and configuration of the cluster.
 - **Tags**  
 - **Description**
 
-<Img src="/img/user-guide/virtual-lakehouses/detail-overview.png" alt="Compute cluster detail -- Details tab" />
+<Img src="/img/user-guide/compute-clusters/detail-overview.png" alt="Compute cluster detail -- Details tab" />
 
 ### Connections Tab
 
@@ -186,7 +186,7 @@ The HTTP path depends on whether a namespace is configured:
 - With namespace: `data-plane/{namespace}/lakehouse/{name}`
 - Without namespace: `lakehouse/{name}`
 
-<Img src="/img/user-guide/virtual-lakehouses/detail-connections.png" alt="Compute cluster detail -- Connections tab" />
+<Img src="/img/user-guide/compute-clusters/detail-connections.png" alt="Compute cluster detail -- Connections tab" />
 
 ### Logs Tab
 
@@ -194,25 +194,25 @@ The **Logs** tab streams Spark driver logs in real time. Use the time range sele
 
 When per-executor logging is enabled, an **Instance** dropdown appears above the log viewer so you can inspect individual pod logs.
 
-<Img src="/img/user-guide/virtual-lakehouses/detail-logs.png" alt="Compute cluster detail -- Logs tab" />
+<Img src="/img/user-guide/compute-clusters/detail-logs.png" alt="Compute cluster detail -- Logs tab" />
 
 ### Kubernetes Events Tab
 
 The **Kubernetes events** tab lists events for the cluster's pods and highlights warnings. The tab badge shows warning and total counts (for example, `2 / 15`) so you can spot problems at a glance. Kubernetes retains events for one hour by default.
 
-<Img src="/img/user-guide/virtual-lakehouses/detail-k8s-events.png" alt="Compute cluster detail -- Kubernetes events tab" />
+<Img src="/img/user-guide/compute-clusters/detail-k8s-events.png" alt="Compute cluster detail -- Kubernetes events tab" />
 
 ### Activity Tab
 
 The **Activity** tab logs every start and terminate event for the cluster. Each row shows the **Action**, **Time**, and **User** who triggered it. Results paginate at 20 rows per page.
 
-<Img src="/img/user-guide/virtual-lakehouses/detail-activity.png" alt="Compute cluster detail -- Activity tab" />
+<Img src="/img/user-guide/compute-clusters/detail-activity.png" alt="Compute cluster detail -- Activity tab" />
 
 ### Configuration Tab
 
 The **Configuration** tab lists every active Spark key-value pair (both your custom values and IOMETE system defaults) in read-only form.
 
-<Img src="/img/user-guide/virtual-lakehouses/detail-configuration.png" alt="Compute cluster detail -- Configuration tab" />
+<Img src="/img/user-guide/compute-clusters/detail-configuration.png" alt="Compute cluster detail -- Configuration tab" />
 
 ## Cluster States
 
@@ -248,13 +248,13 @@ IOMETE only bills for executors in the `Running` state. Executors scaled to zero
 
 Once a cluster exists, you control its lifecycle from two places: the detail page header and the ellipsis menu on each list row.
 
-<Img src="/img/user-guide/virtual-lakehouses/cluster-actions.png" alt="Cluster detail page header showing Restart, Terminate, and Configure action buttons" maxWidth="600px" />
+<Img src="/img/user-guide/compute-clusters/cluster-actions.png" alt="Cluster detail page header showing Restart, Terminate, and Configure action buttons" maxWidth="600px" />
 
 ### Configuring a Cluster
 
 To reconfigure a cluster, the driver must be `STOPPED` or `FAILED`. While the cluster is running, the **Configure** button shows a tooltip asking you to terminate first.
 
-<Img src="/img/user-guide/virtual-lakehouses/configure-tooltip.png" alt="Configure button disabled with tooltip: Terminate the compute before configuring" maxWidth="400px" />
+<Img src="/img/user-guide/compute-clusters/configure-tooltip.png" alt="Configure button disabled with tooltip: Terminate the compute before configuring" maxWidth="400px" />
 
 **Configure** opens the same six-tab form used during creation, pre-populated with current values. **Name** and **Bundle** are read-only in edit mode. After you make changes, review them on the **Review & Save** tab and click **Save**.
 
@@ -268,7 +268,7 @@ Click **Start** in the header or the list row ellipsis menu. There's no confirma
 
 Click **Restart** in the header or the list row ellipsis menu, then confirm with **Yes, restart it**. The driver cycles through `STOPPED`, `STARTING`, and `ACTIVE`. This action is available when the driver is `ACTIVE`, `STARTING`, or `FAILED`.
 
-<Img src="/img/user-guide/virtual-lakehouses/restart-confirm.png" alt="Restart confirmation popover with Cancel and Yes, restart it buttons" maxWidth="600px" />
+<Img src="/img/user-guide/compute-clusters/restart-confirm.png" alt="Restart confirmation popover with Cancel and Yes, restart it buttons" maxWidth="600px" />
 
 :::warning Restart Is Not Atomic
 If the start phase fails after a successful terminate, the cluster stays `STOPPED`. Check the **Logs** and **Kubernetes events** tabs to diagnose the failure.
@@ -280,7 +280,7 @@ Click **Terminate** in the header or the list row ellipsis menu, then confirm wi
 
 Unlike restart, termination leaves the cluster stopped. Start it again manually when ready.
 
-<Img src="/img/user-guide/virtual-lakehouses/terminate-confirm.png" alt="Terminate confirmation popover with Cancel and Yes, terminate it buttons" maxWidth="600px" />
+<Img src="/img/user-guide/compute-clusters/terminate-confirm.png" alt="Terminate confirmation popover with Cancel and Yes, terminate it buttons" maxWidth="600px" />
 
 ### Deleting a Cluster
 
@@ -294,7 +294,7 @@ Deletion permanently removes the cluster and its configuration. Data in cloud ob
 You cannot undo this action. IOMETE permanently removes the cluster configuration and drops any active connections.
 :::
 
-<Img src="/img/user-guide/virtual-lakehouses/delete-modal.png" alt="Delete cluster confirmation modal" maxWidth="500px" />
+<Img src="/img/user-guide/compute-clusters/delete-modal.png" alt="Delete cluster confirmation modal" maxWidth="500px" />
 
 ## Access Permissions
 
@@ -310,7 +310,7 @@ Permissions are granted to users or groups and enforced at two levels:
 
 Explore these guides for features referenced on this page.
 
-- [Node Types](./node-types.md): Create and manage node types for driver and executor pods.
+- [Node Types](./node-types/overview.md): Create and manage node types for driver and executor pods.
 - [Volumes](./volumes.md): Attach persistent volumes via the **Volume** field on the **General** tab.
 - [Secrets](./secrets.md): Reference secret values in environment variables and Spark configuration.
 - [Private Docker Registry](./private-docker-registry.md): Register Docker registries so their images appear in the **Docker settings** tab.

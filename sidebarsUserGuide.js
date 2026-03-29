@@ -34,7 +34,6 @@ const sidebars = {
           ],
         },
         "event-stream",
-        "spark-jobs",
         {
           type: "category",
           label: "SQL Editor",
@@ -197,13 +196,13 @@ const sidebars = {
       label: "Spark Jobs",
       collapsed: true,
       items: [
-        "spark-job/getting-started",
-        "spark-job/spark-application-config",
-        "spark-job/iomete-sdk",
-        "spark-job/airflow",
-        "spark-job/nessie-integration",
-        "spark-job/spark-logging",
-        "spark-job/job-orchestrator",
+        "spark-jobs/getting-started",
+        "spark-jobs/spark-application-config",
+        "spark-jobs/iomete-sdk",
+        "spark-jobs/airflow",
+        "spark-jobs/nessie-integration",
+        "spark-jobs/spark-logging",
+        "spark-jobs/job-orchestrator",
       ],
     },
     {

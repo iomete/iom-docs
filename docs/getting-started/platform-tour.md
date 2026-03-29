@@ -41,7 +41,7 @@ Jupyter Containers provide containerized JupyterLab environments inside the plat
 
 <Img src="/img/getting-started/platform-tour/notebook-page.png" alt="Jupyter Containers page" maxWidth="900px"/>
 
-More in the [Jupyter Containers](/developer-guide/notebook/jupyter-containers) guide.
+More in the [Jupyter Containers](/user-guide/notebook/jupyter-containers) guide.
 
 ### Event Streams
 
@@ -93,7 +93,7 @@ This page charts every Spark application run with interactive visualizations. Fi
 
 <Img src="/img/getting-started/platform-tour/spark-applications.png" alt="Spark Applications page" maxWidth="900px"/>
 
-More in the [Spark Jobs](/user-guide/spark-jobs) guide.
+More in the [Spark Jobs](/user-guide/spark-jobs/getting-started) guide.
 
 ### Streaming Jobs
 
@@ -107,7 +107,7 @@ Job Templates define reusable Spark job configurations. Browse the built-in mark
 
 <Img src="/img/getting-started/platform-tour/job-templates.png" alt="Job Templates page"/>
 
-The [Getting Started with Spark Jobs](/developer-guide/spark-job/getting-started) guide has a full walkthrough.
+The [Getting Started with Spark Jobs](/user-guide/spark-jobs/getting-started) guide has a full walkthrough.
 
 ## Governance
 
