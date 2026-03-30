@@ -7,7 +7,7 @@ description: IOMETE enables dynamic data masking for enhanced security. Safeguar
 import { DotsSixVertical } from "@phosphor-icons/react";
 import styles from "./styles.module.css";
 
-import Img from '@site/src/components/Img';
+import Img from "@site/src/components/Img";
 import Details from "./components/Details";
 
 IOMETE allows you to protect sensitive data using data masking. With this feature, you can create policies that mask or anonymize specific columns containing sensitive data, such as **PII**, **PCI**, and **PHI**, dynamically in the query output.
@@ -104,7 +104,7 @@ When you select **Custom** as the masking option, two additional fields appear:
 | ----------------------------------------------------------------------------- | -------------------------------------------- |
 | `md5({col})`                                                                  | Hash the column value                        |
 | `regexp_replace({col}, '[0-9]', 'X')`                                        | Replace all digits with X                    |
-| `substr(credit_card, 1, 4) \|\| '-XXXX-XXXX-' \|\| substr(credit_card, -4)` | Keep first and last 4 digits of a credit card |
+| `substr({col}, 1, 4) || '-XXXX-XXXX-' || substr({col}, -4)`                 | Keep first and last 4 digits of a credit card |
 | `case when department='HR' then null else {col} end`                          | Hide value for HR department                 |
 
 **Condition expression examples**
@@ -114,7 +114,7 @@ When you select **Custom** as the masking option, two additional fields appear:
 | `{col} is not null`           | Apply mask only to non-null values       |
 | `{col} = 'US'`               | Apply mask when value equals US          |
 | `{col} in ('US', 'UK', 'CA')` | Apply mask for specific countries        |
-| `contains({col}, 'test')`    | Apply mask when value contains "test"    |
+| `{col} like '%test%'`        | Apply mask when value contains "test"    |
 
 ## Create a masking policy
 
