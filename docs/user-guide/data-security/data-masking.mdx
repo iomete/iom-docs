@@ -7,9 +7,12 @@ description: IOMETE enables dynamic data masking for enhanced security. Safeguar
 import { DotsSixVertical } from "@phosphor-icons/react";
 import styles from "./styles.module.css";
 
+import Img from '@site/src/components/Img';
 import Details from "./components/Details";
 
 IOMETE allows you to protect sensitive data using data masking. With this feature, you can create policies that mask or anonymize specific columns containing sensitive data, such as **PII**, **PCI**, and **PHI**, dynamically in the query output.
+
+<Img src="/img/security/masking/policy-list.png" alt="Data masking policy list page" />
 
 <hr />
 
@@ -19,11 +22,12 @@ IOMETE allows you to protect sensitive data using data masking. With this featur
 
 ## Policy resources
 
-| Field    | Description                                                                                                                                                             |
-| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Database | Choose only one database. All available options are displayed in the selection. The search function helps you find an exact match.                                      |
-| Table    | Choose only one table. All available options are displayed in the selection based on the chosen database. The search function helps you find an exact match.            |
-| Column   | Choose only one column. All available options are displayed in the selection based on the chosen database and table. The search function helps you find an exact match. |
+| Field    | Description                                                                                                                                                                                        |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Catalog  | Choose a catalog. All available options are displayed in the selection. The search function helps you find an exact match.                                                                         |
+| Database | Choose only one database. All available options are displayed in the selection based on the chosen catalog. The search function helps you find an exact match.                                     |
+| Table    | Choose only one table. All available options are displayed in the selection based on the chosen catalog and database. The search function helps you find an exact match.                           |
+| Column   | Choose only one column. All available options are displayed in the selection based on the chosen catalog, database, and table. The dropdown shows the column name and data type. |
 
 :::caution Wildcard
 Wildcard matching is not supported in data masking policy.
@@ -33,6 +37,8 @@ Wildcard matching is not supported in data masking policy.
 
 IOMETE provides the mask conditions for the management of fine-grained data masking.
 The condition includes the following properties.
+
+<Img src="/img/security/masking/masking-options.png" alt="Masking options dropdown" />
 
 <table>
   <thead>
@@ -53,29 +59,84 @@ The condition includes the following properties.
       <td style={{ whiteSpace: "nowrap" }}>Select User</td>
       <td>
         Specify one or more users for whom this policy should be applied. If no user is specified, you must provide a
-        group.
+        group. Two special entries are available: <code>{"{USER}"}</code> (current user) and <code>{"{OWNER}"}</code> (table owner).
       </td>
     </tr>
     <tr>
       <td style={{ whiteSpace: "nowrap" }}>Masking options</td>
       <td>
         To create a masking filter for the specified users, groups, click <strong>Select Masking Option</strong>, then
-        select a masking type: <br />- <strong>Redact</strong> – mask all alphabetic characters with "x" and all numeric
-        characters with "n". <br />- <strong>Partial mask</strong>: show last 4 – Show only the last four characters.{" "}
-        <br />- <strong>Partial mask</strong>: show first 4 – Show only the first four characters. <br />-{" "}
-        <strong>Hash</strong> – Replace all characters with a hash of the entire cell value. <br />-{" "}
-        <strong>Nullify</strong> – Replace all characters with a NULL value. <br />- <strong>Unmasked</strong> (retain
-        original value) – No masking is applied. <br />- <strong>Date: show only year</strong> – Show only the year
-        portion of a date string and default the month and day to 01/01.
+        select a masking type: <br />- <strong>Mask</strong> -- mask all alphabetic characters with "x" and all numeric
+        characters with "n". <br />- <strong>Mask Show Last 4</strong> -- Show only the last four characters.{" "}
+        <br />- <strong>Mask Show First 4</strong> -- Show only the first four characters. <br />-{" "}
+        <strong>Mask Hash</strong> -- Replace all characters with a hash of the entire cell value. <br />-{" "}
+        <strong>Mask Null</strong> -- Replace the value with a NULL value. <br />- <strong>Mask None</strong> (retain
+        original value) -- No masking is applied. <br />- <strong>Mask Date (Show Year)</strong> -- Show only the year
+        portion of a date string and default the month and day to 01/01. <br />- <strong>Custom</strong> -- Apply a
+        user-provided SQL masking expression. See <a href="#custom-masking-expressions">Custom masking expressions</a>.
       </td>
     </tr>
   </tbody>
 </table>
 
+:::caution Sensitive selection warning
+When you select the `public` group or `{USER}`, all users in the organization can access the data -- not just the selected group. Review your selection to avoid exposing sensitive data.
+:::
+
 :::info New condition
 To add additional conditions, click on the `Add new condition` button. The conditions are evaluated in the order they appear in the policy. The top condition is applied first, followed by the second, third, and so on.
 
 Drag items from the left-side icon <DotsSixVertical size={20} className={styles.button} /> to reorder.
+:::
+
+## Custom masking expressions
+
+When you select **Custom** as the masking option, two additional fields appear:
+
+<Img src="/img/security/masking/custom-masking.png" alt="Custom masking expression and condition fields" />
+
+- **Masking Expression** (required) -- the SQL expression that replaces the column value. Use `{col}` to reference the target column.
+- **Condition Expression** (optional) -- a WHERE-style condition that determines when the mask applies. Use `{col}` to reference the target column.
+
+**Masking expression examples**
+
+| Expression                                                                    | Description                                  |
+| ----------------------------------------------------------------------------- | -------------------------------------------- |
+| `md5({col})`                                                                  | Hash the column value                        |
+| `regexp_replace({col}, '[0-9]', 'X')`                                        | Replace all digits with X                    |
+| `substr(credit_card, 1, 4) \|\| '-XXXX-XXXX-' \|\| substr(credit_card, -4)` | Keep first and last 4 digits of a credit card |
+| `case when department='HR' then null else {col} end`                          | Hide value for HR department                 |
+
+**Condition expression examples**
+
+| Expression                    | Description                              |
+| ----------------------------- | ---------------------------------------- |
+| `{col} is not null`           | Apply mask only to non-null values       |
+| `{col} = 'US'`               | Apply mask when value equals US          |
+| `{col} in ('US', 'UK', 'CA')` | Apply mask for specific countries        |
+| `contains({col}, 'test')`    | Apply mask when value contains "test"    |
+
+## Create a masking policy
+
+<Img src="/img/security/masking/create-policy.png" alt="Create a new masking policy form" />
+
+1. Go to **Data Security** > **Masking** and click **New Policy**.
+2. In **Policy details**, enter a name (required) and optional description. Adjust Enabled/Disabled and Normal/Override toggles as needed. Optionally set a validity period.
+3. In **Resources**, select a Catalog, Database, Table, and Column. To mask additional columns, click **Add resource**.
+4. In **Mask Conditions**, select the groups or users who should see masked data, then choose a masking option. For custom masking, enter the masking expression and optional condition expression.
+5. To add more conditions with different masking rules, click **Add condition**.
+6. Click **Create**.
+
+## Edit, duplicate, and delete
+
+<Img src="/img/security/masking/actions-menu.png" alt="Policy actions menu with Duplicate and Delete options" />
+
+- **Edit** -- Click a policy name in the list to open the edit form. The policy name cannot be changed. Click **Save** to apply changes.
+- **Duplicate** -- From the actions menu (⋮) in the policy list, click **Duplicate**. A copy of the policy opens with `-copy` appended to the name. Modify as needed and click **Create**.
+- **Delete** -- From the actions menu in the policy list or from the edit form, click **Delete**. Confirm the deletion in the dialog.
+
+:::info Permission
+All data masking operations require the **Data Security and Audit Manager** admin role.
 :::
 
 ## Data masking policy use cases
@@ -86,13 +147,13 @@ Let's use the `customers` table for data-masking feature use cases as well.
 
 This use case focuses on implementing a masking policy for the `phone_number` column within the `customers` table. The objective is to provide a certain level of data privacy while granting access to the data for the public group.
 
-![data masking use](/img/security/masking/data-masking-use-case.png)
+<Img src="/img/security/masking/data-masking-use-case.png" alt="Data masking use case" />
 
 **Policy details:**
 
 - Target Table: `customers`
 - Target Column: `phone_number`
-  ![data masking UI](/img/security/masking/data-masking-ui.png)
+  <Img src="/img/security/masking/data-masking-ui.png" alt="Data masking UI" />
 
 **Masking rule:**
 
@@ -103,7 +164,7 @@ This use case focuses on implementing a masking policy for the `phone_number` co
 
 - The public group is granted read access to the `phone_number` column within the `customers` table.
 - This allows the `public` group members to view the partially masked phone numbers for customers while ensuring that critical digits are concealed.
-  ![data masking permission](/img/security/masking/data-masking-permission.png)
+  <Img src="/img/security/masking/data-masking-permission.png" alt="Data masking permission" />
 
 **Query results**
 
@@ -114,9 +175,9 @@ SELECT * from default.customers;
 - **Sample Data Before Applying Masking Policy for public group:**
   Consider a few records in the `customers` table before the masking policy is applied:
 
-  ![data masking example](/img/security/masking/data-masking-example.png)
+  <Img src="/img/security/masking/data-masking-example.png" alt="Data masking example" />
 
 - **Sample Data After Applying Masking Policy public group:**
   Once the masking policy is applied, the `phone_number` column will show different results based on the user group's access level.
 
-  ![data masking sample](/img/security/masking/data-masking-sample.png)
+  <Img src="/img/security/masking/data-masking-sample.png" alt="Data masking sample" />
