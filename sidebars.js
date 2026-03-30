@@ -290,6 +290,7 @@ const sidebars = {
       items: [
         "developer-guide/driver/sql-alchemy-driver",
         "developer-guide/driver/jdbc-driver",
+        "developer-guide/driver/arrow-flight-jdbc-driver",
       ],
     },
     {
