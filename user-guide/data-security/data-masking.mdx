@@ -104,7 +104,7 @@ When you select **Custom** as the masking option, two additional fields appear:
 | ----------------------------------------------------------------------------- | -------------------------------------------- |
 | `md5({col})`                                                                  | Hash the column value                        |
 | `regexp_replace({col}, '[0-9]', 'X')`                                        | Replace all digits with X                    |
-| `substr({col}, 1, 4) || '-XXXX-XXXX-' || substr({col}, -4)`                 | Keep first and last 4 digits of a credit card |
+| `substr({col}, 1, 4) \|\| '-XXXX-XXXX-' \|\| substr({col}, -4)`                 | Keep first and last 4 digits of a credit card |
 | `case when department='HR' then null else {col} end`                          | Hide value for HR department                 |
 
 **Condition expression examples**
