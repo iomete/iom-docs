@@ -4,7 +4,7 @@ description: >
   Orchestrates the full documentation creation pipeline for a given doc page.
   Works for both creating new documentation from scratch and updating existing
   docs. Runs source extraction, doc writing, language editing, screenshots
-  (with context-aware cropping), and final review in sequence with review
+  and final review in sequence with review
   checkpoints between each phase.
 
   Invoke with: "/doc-pipeline <page-path>"
@@ -48,7 +48,7 @@ Create a todo list at pipeline start:
 
 1. Phase 1: Source extraction
 2. Phase 2: Doc writing + language editing
-3. Phase 3: Screenshots (capture + crop + compress)
+3. Phase 3: Screenshots (capture + compress)
 4. Phase 4: Final doc review
 
 Mark each phase complete as it finishes. Keep exactly one phase as in_progress.
@@ -159,7 +159,7 @@ Review the doc. Options:
 ## Phase 3 — Screenshots
 
 This phase uses user-provided screenshots. The user captures them manually;
-the agent processes, crops, compresses, and inserts them.
+the agent processes, compresses, and inserts them.
 
 ### Step 3a — Prompt user for screenshots
 
@@ -195,7 +195,7 @@ This agent:
 1. Visually inspects each raw image to understand what UI it shows
 2. Detects light/dark theme and pairs variants automatically
 3. Matches images to the correct doc sections
-4. Renames, moves, crops, and compresses each image
+4. Renames, moves, and compresses each image
 5. Verifies processed output
 6. Inserts `<Img>` tags into the doc
 

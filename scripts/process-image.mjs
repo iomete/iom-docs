@@ -2,16 +2,13 @@
 
 /**
  * Image processor for IOMETE docs.
- * Crop (zoom) and compress PNGs.
+ * Compress PNGs for optimal file size.
  *
  * Usage:
  *   node scripts/process-image.mjs \
  *     --input  static/img/feature/overview.png \
  *     --output static/img/feature/overview-detail.png \
- *     --crop   100,200,400,300 \
- *     --compress --quality 60
- *
- * Pipeline order: crop → compress → write.
+ *     --compress --quality 80
  *
  * Output (stdout JSON):
  *   { "success": true, "output": "path", "size": 12345 }
@@ -30,9 +27,8 @@ const { values: args } = parseArgs({
   options: {
     input: { type: "string" },
     output: { type: "string" },
-    crop: { type: "string" },
     compress: { type: "boolean", default: false },
-    quality: { type: "string", default: "60" },
+    quality: { type: "string", default: "80" },
   },
   strict: false,
 });
@@ -52,16 +48,7 @@ async function main() {
   try {
     let pipeline = sharp(args.input);
 
-    // Step 1: Crop
-    if (args.crop) {
-      const [left, top, width, height] = args.crop.split(",").map(Number);
-      if ([left, top, width, height].some(isNaN)) {
-        throw new Error("--crop must be x,y,width,height (integers)");
-      }
-      pipeline = pipeline.extract({ left, top, width, height });
-    }
-
-    // Step 2: Compress + write
+    // Compress + write
     const dir = dirname(outputPath);
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
 

@@ -24,8 +24,8 @@ arbitrary names (e.g., `IMG_001.png`, `Screen Shot 2026-03-23.png`). Your job
 is to **visually inspect each image**, figure out what UI it shows, match it to
 the right place in the doc, then rename, move, compress, and insert `<Img>` tags.
 
-The user provides **ready-to-use screenshots** — already framed and cropped to
-the right area. This agent does NOT crop images.
+The user provides **ready-to-use screenshots** — already framed to the right
+area. This agent compresses and organizes images but does not crop them.
 
 ---
 
