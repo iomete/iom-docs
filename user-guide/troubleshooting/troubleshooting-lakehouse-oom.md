@@ -44,7 +44,7 @@ To enable event logs, add the following properties to the Lakehouse configuratio
 - `spark.eventLog.enabled`
 - `spark.eventLog.dir`
 
-We recommend setting the value of `spark.eventLog.dir` to the same value of that IOMETE internally uses for teh spark jobs.
+We recommend setting the value of `spark.eventLog.dir` to the same value of that IOMETE internally uses for the spark jobs.
 This would default to the name of your configured s3 bucket appended with path `/iomete-assets/spark-history`. Please make sure to use `s3a` as this uses
 hadoopfs underneath to write the data. Any other path you configure must exist or else the lakehouse driver will fail to start.
 
