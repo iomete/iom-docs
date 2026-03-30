@@ -198,6 +198,7 @@ const sidebars = {
       items: [
         "spark-jobs/getting-started",
         "spark-jobs/spark-application-config",
+        "spark-jobs/accessing-specific-buckets",
         "spark-jobs/iomete-sdk",
         "spark-jobs/airflow",
         "spark-jobs/nessie-integration",
@@ -236,6 +237,7 @@ const sidebars = {
       items: [
         "driver/sql-alchemy-driver",
         "driver/jdbc-driver",
+        "driver/arrow-flight-jdbc-driver",
       ],
     },
     {
