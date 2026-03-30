@@ -38,9 +38,9 @@ This is where you set identity, sizing, and scaling for the cluster.
   - **Multi-node** (default): Uses separate driver and executor pods.
   - **Single-node**: Runs only the Spark driver. Executor-related fields and **Auto scaling** are hidden.
 
-- **Node driver** (required): The [node type](./node-types.md) assigned to the Spark driver. The driver coordinates executors and handles incoming connections.
+- **Node driver** (required): The [node type](../node-types/node-type-sizing.md) assigned to the Spark driver. The driver coordinates executors and handles incoming connections.
 
-- **Node executor** (required for multi-node): The [node type](./node-types.md) used for executor pods.
+- **Node executor** (required for multi-node): The [node type](../node-types/node-type-sizing.md) used for executor pods.
 
 - **Max executor count** (required for multi-node): Maximum number of executor pods. Default is `1`. The minimum cannot exceed the maximum.
 
@@ -50,7 +50,7 @@ This is where you set identity, sizing, and scaling for the cluster.
 
 - **Auto scaling** (multi-node only): Enabled by default. Executors scale down to zero after the configured idle period and scale back up when a query runs. Idle timeout options range from 1 minute to 3 hours. Default is 30 minutes. Select **Disabled** to keep executors running continuously.
 
-- **Executors Volume** (optional): Attach a persistent volume. See [Volumes](./volumes.md) for configuration details.
+- **Executors Volume** (optional): Attach a persistent volume. See [Volumes](../volumes.md) for configuration details.
 
   :::tip Keep Auto Scaling Enabled
   You're only billed for executors in the `Running` state. Scale-up takes 10 to 15 seconds with a hot pool, or 1 to 2 minutes otherwise.
