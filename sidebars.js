@@ -251,6 +251,7 @@ const sidebars = {
       items: [
         "developer-guide/spark-job/getting-started",
         "developer-guide/spark-job/spark-application-config",
+        "developer-guide/spark-job/accessing-specific-buckets",
         "developer-guide/spark-job/iomete-sdk",
         "developer-guide/spark-job/airflow",
         "developer-guide/spark-job/nessie-integration",

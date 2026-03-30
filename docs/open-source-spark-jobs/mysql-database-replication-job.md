@@ -49,7 +49,7 @@ Use the configuration file below as a template and modify it to fit your needs.
 
 **To add config file** scroll down and expand `Application configurations` section and click `Add config file` and paste following **HOCON**.
 
-<Img src="/img/spark-job/spark-job-app-config.png" alt="IOMETE Spark Jobs add config file" />
+<Img src="/img/spark-job/config/spark-config.png" alt="IOMETE Spark Jobs add config file" />
 
 <Img src="/img/spark-job/spark-job-create-jdbc-sync-config-file.png" alt="IOMETE Spark job sync create spark job application configuration" />
 
