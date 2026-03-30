@@ -5,6 +5,7 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 import { themes as prismThemes } from "prism-react-renderer";
+import userGuideRedirects from "./userGuideRedirects.js";
 
 const glossaryPlugin = [
   "@docusaurus/plugin-content-blog",
@@ -298,7 +299,13 @@ const config = {
         path: 'user-guide',
         routeBasePath: 'user-guide',
         sidebarPath: './sidebarsUserGuide.js',
-        
+
+      },
+    ],
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: userGuideRedirects,
       },
     ],
     "docusaurus-plugin-sass",

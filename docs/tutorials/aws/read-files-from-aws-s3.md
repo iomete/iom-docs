@@ -1,4 +1,5 @@
 ---
+slug: /aws/read-files-from-aws-s3
 title: Querying Files in AWS S3
 description: Querying Files in AWS S3 with IOMETE. This is an end-to-end guide about how to query and move files from your AWS S3 to IOMETE
 last_update:
