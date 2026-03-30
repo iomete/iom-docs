@@ -23,6 +23,30 @@ yarn-error.log*
 
 # package-lock.json
 # yarn.lock
-.claude/
+
+# Claude Code — ignore contents, then whitelist shared doc-pipeline files
+.claude/*
+
+# Whitelist: doc-pipeline agents (specific files only)
+!.claude/agents/
+.claude/agents/*
+!.claude/agents/source-extractor.md
+!.claude/agents/doc-writer.md
+!.claude/agents/doc-language-editor.md
+!.claude/agents/doc-review.md
+!.claude/agents/screenshot-processor.md
+
+# Whitelist: doc-pipeline skill
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/doc-pipeline/
+.claude/skills/doc-pipeline/*
+!.claude/skills/doc-pipeline/SKILL.md
+
+# Whitelist: shared config and docs
+!.claude/settings.json
+!.claude/launch.json
+!.claude/README.md
+
+# Working data (raw extractions, screenshots, cloned repos)
 tasks/
-scripts/
