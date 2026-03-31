@@ -131,7 +131,7 @@ For details, see [Connect Namespace](./connect-namespace.md). For full multi-clu
 
 ## Priority Classes
 
-PriorityClasses let Kubernetes preempt lower-priority pods when resources are scarce. When `features.priorityClasses.enabled` is true, Spark workloads are assigned these classes:
+PriorityClasses let Kubernetes preempt lower-priority pods when resources are scarce. When `priorityClasses` is enabled, Spark workloads are assigned these classes:
 
 | Priority Class | Workload Type |
 |---|---|
@@ -159,7 +159,7 @@ For services that handle variable load, you can turn on Horizontal Pod Autoscali
 
 ## Feature Flags
 
-Feature flags control what gets deployed and how the platform behaves. They live in `values.yaml` under `features:` and reach every service through the `data-plane` secret.
+Feature flags control what gets deployed and how the platform behaves. Most live in `values.yaml` under `features:` and reach every service through the `data-plane` secret. A few flags use different paths (noted in the table).
 
 ### Deployment Flags
 
@@ -266,7 +266,7 @@ Depending on your observability stack, you can route logs to one of several back
 |---|---|
 | `kubernetes` (default) | Reads logs directly from the Kubernetes API |
 | `loki` | [Grafana Loki](https://grafana.com/oss/loki/) (requires host, port) |
-| `elasticsearch` | [ElasticSearch](https://www.elastic.co/elasticsearch) (requires endpoint, apiKey, indexPattern) |
+| `elasticsearch` | [Elasticsearch](https://www.elastic.co/elasticsearch) (requires endpoint, apiKey, indexPattern) |
 | `splunk` | [Splunk Enterprise](https://www.splunk.com/) (requires endpoint, token, indexName) |
 
 **Hot storage**: When `hotStorage.enabled` is true, the platform tries the Kubernetes API first (for recent logs), then falls back to the external backend for older entries.
