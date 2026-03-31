@@ -37,6 +37,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "deployment/on-prem/install",
+        "deployment/architecture-deployment",
         {
           type: "category",
           label: "Release Notes",
