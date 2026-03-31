@@ -17,6 +17,10 @@ import YoutubeCard from "@site/src/components/YoutubeCard";
 
 This guide provides detailed instructions for deploying IOMETE on-premises within a Kubernetes environment, ensuring you have a seamless setup process.
 
+:::tip Terraform option
+There is also a [Terraform configuration](https://github.com/iomete/iomete-deployment/tree/main/terraform) that handles all the steps below in one go (Kubernetes cluster, PostgreSQL, MinIO, data plane, and monitoring). This is currently available for Azure.
+:::
+
 ## Essential Requirements Before You Start
 
 Before initiating the deployment, ensure your system meets the following prerequisites:
