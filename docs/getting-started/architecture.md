@@ -207,6 +207,8 @@ See [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator) for configuratio
 
 ## Deployment Architecture
 
-For details on how IOMETE is deployed on Kubernetes (including the Helm chart structure, service inventory, feature flags, and infrastructure requirements), see the [Deployment Architecture](../deployment/architecture-deployment.md) reference.
+Understanding the deployment topology helps you plan infrastructure, estimate resource needs, and configure the Helm chart for your environment.
 
-For step-by-step installation instructions, see the [On-Premises Deployment Guide](../deployment/on-prem/install.md).
+For details on how IOMETE is deployed on Kubernetes (including the Helm chart structure, service inventory, feature flags, and infrastructure requirements), see the [Deployment Architecture](../deployment/architecture-deployment) reference.
+
+For step-by-step installation instructions, see the [On-Premises Deployment Guide](../deployment/on-prem/install).
