@@ -327,7 +327,7 @@ Regardless of provider, Spark workload pods include tolerations for dedicated no
 | Table format | [Apache Iceberg](https://iceberg.apache.org/) |
 | Hive Metastore | [Apache Hive](https://hive.apache.org/) |
 | Spark Operator | [Kubernetes Operator](https://github.com/kubeflow/spark-operator) (Go) |
-| Event ingestion | Rust |
+| Event ingestion | [Rust](https://rust-lang.org) |
 | Job orchestration | [Prefect](https://www.prefect.io/) (Python) |
 | Messaging | [NATS JetStream](https://nats.io/) |
 | Search | [Typesense](https://typesense.org/) |
