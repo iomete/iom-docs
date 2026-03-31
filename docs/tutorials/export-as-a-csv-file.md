@@ -41,7 +41,7 @@ By exporting the data directly to an S3 bucket, you can bypass the limitations o
 ### Exporting data to an S3 bucket
 
 :::info Prerequisite
-Before exporting data to an S3 bucket, ensure that IOMETE has read/write access to the S3 bucket you plan to export data to. Follow [this guide](/aws/s3-bucket-permissions) to provide the necessary permissions.
+Before exporting data to an S3 bucket, ensure that IOMETE has read/write access to the S3 bucket you plan to export data to. Follow [this guide](/user-guide/aws/s3-bucket-permissions) to provide the necessary permissions.
 :::
 
 Let's assume that we want to export the result of the following query to an S3 bucket:
@@ -62,7 +62,7 @@ OPTIONS (
 select * from employees
 ```
 
-Here CSV external table is used to export the query result to an S3 bucket. Read [CSV Data Source](/reference/data-sources/csv-files) to learn more about the data source options.
+Here CSV external table is used to export the query result to an S3 bucket. Read [CSV Data Source](/user-guide/reference/data-sources/csv-files) to learn more about the data source options.
 
 :::tip
 It can be any complex query result. Just put any query after the `as` keyword.

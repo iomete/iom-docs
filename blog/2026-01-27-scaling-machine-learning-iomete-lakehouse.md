@@ -111,7 +111,7 @@ We've made deployment as simple as possible. The repository includes a pre-confi
 
 ### Two Ways to Deploy {#two-ways-to-deploy}
 
-See details in the [IOMETE Developer Guide](https://iomete.com/resources/developer-guide/spark-job/getting-started/) on how to submit a [Spark job](/user-guide/spark-jobs). Running ML training process is just submitting another Spark job. Note that here you have two options for "_Main application file_":
+See details in the [IOMETE Developer Guide](/user-guide/spark-jobs/getting-started) on how to submit a [Spark job](/user-guide/spark-jobs/getting-started). Running ML training process is just submitting another Spark job. Note that here you have two options for "_Main application file_":
 
 1. **The Container Way:** Set it to `local:///app/job.py`. The code is "baked" into your Docker image.
 
@@ -159,5 +159,5 @@ Once finished, the logs will print various cost/loss metrics. Because Spark's Ra
 ### Ready to Scale? {#ready-to-scale}
 
 1. Clone the [IOMETE ML Quickstart Repo](https://github.com/iomete/iomete-ml-quickstart).
-2. Follow the [IOMETE Developer Guide](https://iomete.com/resources/developer-guide/spark-job/getting-started/) to submit your first job.
+2. Follow the [IOMETE Developer Guide](/user-guide/spark-jobs/getting-started) to submit your first job.
 3. Watch the Spark UI, and witness the power of distributed ML!

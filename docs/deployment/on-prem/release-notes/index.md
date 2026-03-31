@@ -663,7 +663,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Jupyter Containers**:
         - Implemented automatic sign-in when launching a new Jupyter Container instance, removing the need for manual authentication.
         - Added persistent storage support for Jupyter Container instances using **PVC** and **NFS**. Volume attachment is now **optional** — users can choose to launch temporary Jupyter Containers without any volume attached.
-        - Onboarded Jupyter Containers to the [RAS framework](/docs/user-guide/iam/ras/ras.md), enabling management through resource bundles.  You can now streamline access control by granting permissions to users and groups at the resource bundle level.
+        - Onboarded Jupyter Containers to the [RAS framework](/user-guide/ras/resource-bundles), enabling management through resource bundles.  You can now streamline access control by granting permissions to users and groups at the resource bundle level.
     - **Spark Applications filtering optimizations in UI**:
       - Optimized SQL queries for filtering Spark applications by resource tags.
     - **Resource Bundles**:
@@ -703,10 +703,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Image options are shown dynamically based on the chosen application type — **Python** displays Python based images, while **JVM** displays JVM based images.
       <Img src="/img/user-guide/spark-jobs/spark-image.png" alt="Spark Image List" maxWidth="800px" centered /> 
     - **Deployment Flow Renamed**: Renamed the deployment flow from **Prefect** to **Priority-Based**.
-    - **Spark Job Access Management**: Onboarded Spark Jobs to the [RAS framework](/docs/user-guide/iam/ras/ras.md), enabling management through resource bundles. You can now streamline access control by granting permissions to users and groups at the resource bundle level eliminating the need to manage role based permissions
+    - **Spark Job Access Management**: Onboarded Spark Jobs to the [RAS framework](/user-guide/ras/resource-bundles), enabling management through resource bundles. You can now streamline access control by granting permissions to users and groups at the resource bundle level eliminating the need to manage role based permissions
     - **SQL Editor CSV Export permission**: CSV export functionality in the SQL Editor is now role-based. A new permission has been added to roles to control access to exporting result sets as CSV files.
     <Img src="/img/user-guide/iam/roles/sql-export.png" alt="SQL Editor CSV Export" maxWidth="800px" centered />
-    - **Admins are now fully authorized users in RAS**: **Super Admin**, **Domain Manager Admins** and **Domain Owners** have full authorization within the [RAS framework](/docs/user-guide/iam/ras/ras.md).
+    - **Admins are now fully authorized users in RAS**: **Super Admin**, **Domain Manager Admins** and **Domain Owners** have full authorization within the [RAS framework](/user-guide/ras/resource-bundles).
     - **Spark/Arrowflight**: 
       - Added possibility to override the content-type for the Arrow file format when uploading data to S3 (Offload mode enabled). For overriding you can set spark configuration per compute or on a global level `spark.iomete.arrow.flight.sql.arrowFetch.storage.s3.contentTypeOverride`.
       - Onboarded Spark to new RAS Authorization. Now external clients using JDBC/ODBC or Spark Connect will have to have a `consume` rights on RAS in order to utilize Spark.
@@ -785,7 +785,7 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
   - **Resource Authorization System (RAS) - Resource Bundles**
       - We're excited to introduce **Resource Bundles**, a powerful new feature that revolutionizes how you organize and manage access to your IOMETE resources. Resource Bundles allow you to group related resources — such as compute clusters, storage configurations, and workspaces — into logical collections with centralized permission management.
       - With Resource Bundles, you can now streamline access control by granting permissions to users and groups at the resource bundle level eliminating the need to manage role based permissions. The system supports flexible ownership models, allowing resource bundles to be owned by individual users or groups, with automatic inheritance through group hierarchies. You can easily transfer assets between resource bundles, set granular permissions for different resource types, and maintain organized, secure access to your platform resources.
-      - See here for detailed information: [Resource Authorization System Documentation](/docs/user-guide/iam/ras/ras.md)
+      - See here for detailed information: [Resource Authorization System Documentation](/user-guide/ras/resource-bundles)
 
    <Img src="/img/user-guide/iam/ras/bundle-list.png" alt="Resource Bundle List" maxWidth="1000px" centered />
 
@@ -793,7 +793,7 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
       - Configure external storage backends with secure authentication.
       - Onboard resources to these storages and manage access through resource bundles.
       <Img src="/img/user-guide/storage-configs/storage-config-list.png" alt="Storage Configurations" />
-      See the [Storage Configs documentation](docs/user-guide/storage-configs.md) for details.
+      See the [Storage Configs documentation](/user-guide/storage-configs) for details.
     - **Workspaces**:
       - Organize SQL worksheets into custom workspaces with folder hierarchies.
       - Assign dedicated storages to workspaces via storage configs for data isolation & compliance.
@@ -807,7 +807,7 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
       With EmptyDir it will be possible to isolate different workloads, automatic post-cleanup, defining usage
       limits while using node local disk which is not possible with Host Path volume type.
       <Img src="/img/user-guide/volumes/emptydir-create.png" alt="On Demand PVC create" maxWidth="600px" />
-      Check [documentation](docs/user-guide/volumes.md#emptydir)
+      Check [documentation](/user-guide/volumes#emptydir)
 
     - **NFS Volume Support**:
 
@@ -975,7 +975,7 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
       - **Resource-aware Execution**: Jobs are only submitted when there is sufficient cluster capacity, helping prevent failed or stuck jobs. 
       - **Built-in observability**: We've added rich metrics to monitor queue state, job wait times, and scheduling patterns in real time.
         <Img src="/img/guides/spark-job/job-metrics-monitoring-graphs.png" alt="Job Monitoring Graph" />
-      For an in-depth overview, check out the official [press release](/docs/developer-guide/spark-job/job-orchestrator.md).
+      For an in-depth overview, check out the official [press release](/user-guide/spark-jobs/job-orchestrator).
 
     - **Jupyter Containers [Beta]**: Jupyter Containers is a powerful new feature that brings familiar Jupyter development environments directly into your IOMETE Platform. This enhancement enables data engineers and analysts to spin up dedicated, pre-configured Jupyter environments with just a few clicks.
       Key highlights:
@@ -987,7 +987,7 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
       - Authentication: Use your IOMETE username as the default token. Optionally, setup a password to protect sensitive files within container.
 
       Platform admins can enable it during installation by setting `jupyterContainers.enabled` in `values.yaml`.
-      For more details please refer to Jupyter Container's user guide: [Jupyter Containers - Developer Guide](/docs/developer-guide/notebook/jupyter-containers.mdx).
+      For more details please refer to Jupyter Container's user guide: [Jupyter Containers](/user-guide/notebook/jupyter-containers).
 
     - **LDAP Group Inheritance**: Group hierarchies synced from LDAP are now taken into account when evaluating Data Security policies. Groups inherit data policies from parent groups in the same way users inherit them.
       - For example, in the diagram below, any data policies applied to the "Data Science Team" will also apply to the "ML Engineers" and "Data Analysts" groups — in addition to any policies directly assigned to those child groups.
@@ -1550,7 +1550,7 @@ Upgrade with caution. Core Authorization System has changed to RAS, in case you 
 
 <Release version="1.20.0" date="August 26, 2024">
   <NewFeatures>
-    - **Centralized Secret Management**: Users can now create and manage secrets centrally from the settings page and inject them into Spark applications. Supports integration with Kubernetes and HashiCorp Vault for storing secrets. Learn more [here](docs/user-guide/secrets.md).
+    - **Centralized Secret Management**: Users can now create and manage secrets centrally from the settings page and inject them into Spark applications. Supports integration with Kubernetes and HashiCorp Vault for storing secrets. Learn more [here](/user-guide/secrets).
     - **Multi-Namespace Support**: Spark resources can now be deployed across different namespaces, enhancing multi-tenant and organizational capabilities.
     - **Iceberg REST Catalog Support**: Added support for the Iceberg REST Catalog, expanding the range of catalog integrations.
     - **JDBC Catalog Support**: Introduced support for JDBC Catalog, allowing connections to a wider array of databases.

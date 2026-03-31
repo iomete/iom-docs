@@ -55,7 +55,7 @@ Database Navigator functionality provides intuitive access to the entire data ec
 
 ## **ETL Framework**
 
-The platform's ETL capabilities address the complex data integration requirements of modern enterprises. Through sophisticated [Spark job](/user-guide/spark-jobs) management and [orchestration](/glossary/orchestration) capabilities, organizations can implement complex [data pipelines](/glossary/data-pipelines) while maintaining operational efficiency.
+The platform's ETL capabilities address the complex data integration requirements of modern enterprises. Through sophisticated [Spark job](/user-guide/spark-jobs/getting-started) management and [orchestration](/glossary/orchestration) capabilities, organizations can implement complex [data pipelines](/glossary/data-pipelines) while maintaining operational efficiency.
 
 <Img src="/img/blog/2025-02-24-platform-components-and-enterprise-architecture/etl-framework.png" alt="" maxWidth="500px" centered borderless/>
 

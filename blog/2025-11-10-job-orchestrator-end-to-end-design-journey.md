@@ -26,7 +26,7 @@ Our starting point was the [Spark Operator](https://github.com/kubeflow/spark-op
 
 The process looked simple:
 
-1. User created a [Spark job](/user-guide/spark-jobs) request via the IOMETE console.
+1. User created a [Spark job](/user-guide/spark-jobs/getting-started) request via the IOMETE console.
 2. Backend generated the YAML spec and pushed it to Kubernetes.
 3. The Spark Operator picked it up and executed it.
 
@@ -206,4 +206,4 @@ The final Job Orchestrator design combines:
 
 We started with simple solutions (API-based capacity checks, Prefect for orchestration) and avoided over-engineering. The result is a system that not only works today, but also leaves room for future growth — DLQs, preemption, multi-job support, and cost intelligence.
 
-👉 Want to dive deeper on Spark Jobs in IOMETE: [Spark Jobs Guide](https://iomete.com/resources/developer-guide/spark-job/getting-started)
+👉 Want to dive deeper on Spark Jobs in IOMETE: [Spark Jobs Guide](/user-guide/spark-jobs/getting-started)
