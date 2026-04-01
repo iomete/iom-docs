@@ -1,60 +1,118 @@
 ---
-title: IOMETE's Scalability
+title: Scalability
+description: Understand how IOMETE scales across Kubernetes infrastructure, platform services, compute clusters, and storage to handle growing data workloads efficiently.
 sidebar_label: Scalability
-description: Learn about IOMETE's scalability features and how it can handle large-scale data processing and analytics workloads.
 last_update:
-  date: 04/02/2024
-  author: Vusal Dadalov
+  date: 03/31/2026
+  author: Abhishek Pathania
 ---
 
-import LoomCard from '@site/src/components/LoomCard';
+IOMETE is built on [Kubernetes](https://kubernetes.io/), [Apache Spark](https://spark.apache.org/), and [Apache Iceberg](https://iceberg.apache.org/): three technologies designed to scale horizontally. Instead of a single monolithic engine, IOMETE scales at four independent layers: infrastructure, platform services, compute clusters, and storage. You can grow each layer on its own schedule, matching spending to actual demand.
 
-IOMETE delivers a seamless, scalable, and efficient data platform that addresses the complex needs of modern data processing and analysis.
+For a deeper look at how these components fit together, see the [Architecture overview](./architecture).
 
-## Core Components of IOMETE
+## Kubernetes Cluster Scaling
 
-Before delving into the scalability of IOMETE, it's crucial to understand the key components that underpin its architecture:
+Everything in IOMETE runs on Kubernetes, so the simplest way to add capacity is to add worker nodes. How you do that depends on your environment:
 
-1. **Apache Spark:** Renowned for its high-performance data processing capabilities, Apache Spark serves as the backbone of IOMETE's data processing engine. It is engineered to handle data operations on a massive scale, seamlessly processing data sets in the petabyte range.
+- **Manual scaling**: Add worker nodes directly. IOMETE detects the new capacity and distributes pending workloads across the additional nodes.
+- **Cloud autoscalers**: Tools like [AWS Karpenter](https://karpenter.sh/), [GKE Node Auto-Provisioning](https://cloud.google.com/kubernetes-engine/docs/concepts/node-auto-provisioning), and [AKS Cluster Autoscaler](https://learn.microsoft.com/en-us/azure/aks/cluster-autoscaler-overview) add and remove nodes automatically based on pending pod resource requests. When Spark executors need more resources than the cluster currently has, the autoscaler provisions new nodes. When demand drops, it removes idle ones.
+- **On-premises**: Scale the node pool manually or through infrastructure automation tools.
 
-2. **Apache Iceberg:** As a high-performance table format, Apache Iceberg enhances data lake reliability, enabling schema evolution, hidden partitioning, and more, which are essential for efficient data management and analytics.
+Once new nodes join, Kubernetes schedules any pending Spark executors and platform service replicas onto them automatically.
 
-3. **Kubernetes:** IOMETE is built on Kubernetes, an orchestration platform that automates the deployment, scaling, and management of containerized applications. This forms the foundation of IOMETE's scalability and resilience.
+## Platform Service Autoscaling
 
-## Scalability of IOMETE
+As your user base or query volume grows, the platform services that handle API requests, identity, and metadata can become bottlenecks. Horizontal Pod Autoscaling (HPA) lets individual services scale their replica count based on CPU or memory utilization. HPA is disabled by default for most services, but you can enable it per-service in your `values.yaml`.
 
-<LoomCard title="IOMETE Scaling Demo Video" link="https://www.loom.com/embed/bc77debf462f4312bdc5e0de6f3e9a43?sid=a813a326-cb65-4060-97b9-46e5db56a94e" />
+| Service | HPA Support | Default State | Scaling Behavior |
+|---|---|---|---|
+| `iom-gateway` | Yes | Disabled | CPU-based |
+| `iom-core` | Yes | Disabled | CPU-based |
+| `iom-cluster` | Yes | Disabled | CPU-based |
+| `iom-identity` | Yes | Disabled | CPU-based |
+| `iom-catalog` | Yes | Disabled | CPU-based |
+| `iom-rest-catalog` | Yes | Disabled | CPU-based |
+| `spark-submit-service` | Yes | Disabled | CPU-based |
+| `iom-collab` | Yes | Disabled | Memory-based (85% primary), CPU (80% secondary) |
+| `iom-event-stream-proxy` | Yes | Enabled | 1–4 replicas, CPU (80%) |
+| `iom-sql` | No | Fixed | Always 1 replica |
 
-### Seamless Data Processing Scaling
+All services use a `RollingUpdate` strategy with `maxUnavailable: 0` and `maxSurge: 1`, so scaling doesn't cause downtime.
 
-IOMETE's use of Apache Spark allows it to scale horizontally easily across the Kubernetes. This is particularly beneficial for businesses dealing with large volumes of data, as it ensures that data processing remains fast and efficient, regardless of the data size or complexity.
+For details on each service's role and resource requirements, see the [Deployment Architecture](../deployment/architecture-deployment) guide.
 
-### Dynamic Resource Allocation with Kubernetes
+## Compute Cluster Scaling
 
-At the heart of IOMETE's scalability is Kubernetes, which facilitates dynamic resource allocation and management. When there's a need to scale the IOMETE platform, administrators can simply add more Kubernetes worker nodes. The addition of these nodes is a straightforward process that significantly enhances the platform's computing capacity.
+[Compute clusters](/user-guide/compute-clusters/overview) are where your queries and jobs actually run, so their sizing has the most direct impact on performance. Each cluster runs Apache Spark with a driver pod and zero or more executor pods, and clusters scale independently of one another. A data engineering team can run large executor pools while a BI dashboard cluster stays small.
 
-Once new worker nodes are added to the Kubernetes cluster, IOMETE automatically detects the increased resource capacity. This detection triggers the platform to dynamically distribute and scale the workloads across the available nodes, ensuring optimal performance and resource utilization.
+**Executor auto-scaling** is the most common lever. When enabled, Spark dynamic allocation starts with a single executor and adds more based on query demand, up to a configured maximum. Once queries finish, idle executors scale back down to zero.
 
-### Automatic Scaling in Cloud Environments
+For lightweight workloads, you can run a cluster in **single-node mode** (driver only, no separate executors) to minimize resource usage. Administrators also define **[node types](/user-guide/node-types/overview)** with specific CPU and memory profiles that users choose when creating clusters. This prevents over-provisioning by matching the resource footprint to the workload.
 
-IOMETE's deployment on cloud infrastructure takes its scalability features to the next level, leveraging the inherent flexibility and dynamic scaling capabilities of cloud services. Kubernetes, the orchestration engine at the core of IOMETE, plays a pivotal role in enabling this seamless scalability in cloud environments.
+:::tip
+Enable executor auto-scaling for interactive workloads like SQL queries or BI dashboards. Executors spin up only while queries are running and scale to zero during idle periods, so you aren't paying for unused compute.
+:::
 
-In a cloud setting, Kubernetes can automatically adjust the number of nodes in a cluster based on the current workload and resource demand. This means that when the data processing load increases, Kubernetes can spin up additional nodes to handle the workload efficiently. Conversely, when the load decreases, it can scale down the resources, ensuring that the system is not over-provisioned, which optimizes cost and resource utilization.
+## Workload Isolation
 
-### Advantages of IOMETE's Scalability
+When multiple teams share a single IOMETE installation, you need guardrails so one team's heavy batch job doesn't starve another team's dashboard queries. IOMETE provides three isolation mechanisms.
 
-1. **Flexibility:** IOMETE's scalability allows businesses to adapt to varying data processing demands without the need for significant architectural changes or downtime.
+### Node Placement
 
-2. **Cost-Efficiency:** By scaling resources according to demand, businesses can optimize their infrastructure costs, paying only for the resources they need when they need them.
+Kubernetes node selectors and tolerations separate platform services from Spark workloads across two sets of nodes:
 
-3. **Performance:** The ability to scale ensures that IOMETE maintains high performance levels, even as data volume and processing requirements grow.
+- **Control plane nodes** (`controlPlaneNodeSelector` / `controlPlaneTolerations`): Host platform services like Gateway, Core, Cluster, Identity, and Catalog.
+- **Data plane nodes** (`dataPlaneNodeSelector` / `dataPlaneTolerations`): Host Spark drivers and executors.
 
-4. **Ease of Use:** The automatic detection and scaling of resources eliminate the need for manual intervention, simplifying the management of data infrastructure.
+This separation keeps compute-heavy Spark workloads from starving platform services of CPU or memory. Configure these selectors in `values.yaml` during deployment. See the [Deployment Architecture](../deployment/architecture-deployment) guide for details.
 
+### Multi-Namespace
 
-### Benefits of Cloud-Based Scalability for IOMETE
+Each team can get its own Kubernetes namespace with separate CPU and memory quotas. Spark drivers and executors deploy into these team namespaces, giving you resource-level isolation. Each namespace also receives its own [Prefect Worker](/user-guide/spark-jobs/job-orchestrator), Spark Proxy Server, and [Event Stream](/user-guide/event-stream) pods.
 
-- **Adaptive Performance:** With automatic scaling, IOMETE maintains optimal performance levels by adapting resource allocation in real-time, ensuring that data processing and analytics tasks are executed efficiently.
-- **Cost Optimization:** By scaling resources based on actual demand, IOMETE avoids over-provisioning, which translates to significant cost savings, particularly in cloud environments where resource usage directly impacts costs.
-- **Operational Resilience:** The ability to scale automatically enhances the resilience of IOMETE, as it can quickly adapt to varying loads, reducing the risk of performance bottlenecks or downtime.
-- **Enhanced Flexibility:** The cloud-based scalability of IOMETE provides businesses with the flexibility to handle unpredictable workloads, seasonal fluctuations, or sudden spikes in data processing needs without manual intervention.
+The result: per-team resource budgets enforced at the Kubernetes level, all sharing the same IOMETE platform installation.
+
+### Priority Classes
+
+When cluster resources are tight, Kubernetes PriorityClasses determine which workloads get scheduled first:
+
+| Priority Class | Applies To |
+|---|---|
+| `iomete-compute` | Compute clusters |
+| `iomete-spark-job` | [Spark jobs](/user-guide/spark-jobs/getting-started) |
+| `iomete-notebook` | [Jupyter containers](/user-guide/notebook/jupyter-containers) |
+| `iomete-operational-support` | Job Orchestrator workers |
+
+These are most useful when multiple workload types compete for limited resources. With priority classes enabled, production compute clusters and scheduled Spark jobs won't be starved by lower-priority workloads.
+
+## Multi-Cluster Deployments
+
+Some organizations need IOMETE running across multiple data centers, cloud regions, or business units. Three deployment models support this:
+
+1. **Single installation**: One Kubernetes cluster, one database. This is the default and works for most organizations.
+2. **Multiple independent installations**: Separate IOMETE instances, each with its own database and workloads. There's no shared state between them. Use this when strict data isolation is required across business units.
+3. **Shared global database**: Multiple IOMETE instances share common resources (users, catalogs, domains) through a single database while keeping compute independent. This gives you a unified experience across regions with local data processing.
+
+For setup instructions and architecture diagrams, see the [Multi-Cluster Setup](../deployment/multi-cluster-setup) guide.
+
+## Storage Scalability
+
+Because IOMETE decouples storage from compute, your data layer scales independently of your processing power. Data lives in object storage (Amazon S3, Google Cloud Storage, Azure Data Lake Storage, MinIO, or Dell ECS), and compute clusters access it on demand.
+
+Object storage scales automatically with no capacity planning, so you pay only for what you store. Adding more compute clusters doesn't require additional storage infrastructure either. Multiple clusters can read from the same data simultaneously.
+
+Apache Iceberg's table format keeps things fast even at petabyte scale. Features like hidden partitioning and metadata pruning keep query planning efficient regardless of table size.
+
+## Cost Optimization
+
+Adding resources is one thing. Spending wisely on those resources takes more thought. Here are the main cost levers in IOMETE:
+
+- **Spot and preemptible instances**: Spark executors handle interruption gracefully, making them strong candidates for spot instances (up to 3x cost reduction). If a spot node is reclaimed, Spark reschedules the affected tasks on remaining executors.
+- **Reserved instances and savings plans**: For always-on resources like compute cluster drivers and platform services, reserved pricing reduces costs compared to on-demand rates.
+- **Right-sizing with node types**: Define node types that match specific workload profiles. A BI dashboard cluster doesn't need the same resources as a batch ETL job.
+- **Executor auto-scaling**: With dynamic allocation, you pay for executors only while queries are running. Idle clusters consume only driver resources.
+
+:::info
+For the biggest savings on variable workloads, combine spot instances for Spark executors with executor auto-scaling. Executors scale to match demand and run on discounted infrastructure.
+:::
