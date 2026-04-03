@@ -108,6 +108,10 @@ Worth being upfront about what the system doesn't do:
 - **Global secret management via UI is limited.** Creation and editing of global secrets currently requires infrastructure tooling; dashboard support is planned.
 - **Size limits follow backend defaults.** Vault's per-secret size limit depends on your storage backend configuration. For IOMETE-managed secrets, the underlying infrastructure enforces its own limits. Large artifacts like certificates or keystores are better stored in object storage, referenced by a smaller secret.
 
+## Beyond static credentials
+
+Not every credential needs to be stored at all. For object storage access, IOMETE's Iceberg REST Catalog supports [credential vending and remote signing](/resources/blog/iceberg-access-delegation), issuing short-lived, table-scoped tokens instead of requiring long-lived S3 or GCS keys in the secrets catalog. Fewer static credentials means fewer secrets to rotate, fewer to audit, and a smaller blast radius if something goes wrong.
+
 <FAQSection faqs={[
   {
     question: "How are secret values protected from ending up in logs or metadata?",
