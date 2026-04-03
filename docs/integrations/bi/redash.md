@@ -1,56 +1,56 @@
 ---
-title: Redash - Connecting to IOMETE
+title: Redash
 sidebar_label: Redash
-description: Discover the seamless integration of IOMETE with Redash, a powerful Business Intelligence (BI) platform.
+description: Connect Redash to IOMETE to query your data and build visualizations.
+last_update:
+  date: 04/03/2026
+  author: Vugar Dadalov
 ---
 
 import Img from '@site/src/components/Img';
 import FlexButton from "@site/src/components/FlexButton";
 import { Plus, Play } from "@phosphor-icons/react";
 
-# Redash - Connecting to IOMETE
+# Connecting Redash to IOMETE
 
-Discover the seamless integration of <b>IOMETE</b> with Redash, a powerful Business Intelligence (BI) platform.
+[Redash](https://redash.io/) is an open-source business intelligence platform for data visualization and collaboration. It connects to various data sources, lets you write queries, and share dashboards with your team.
 
-## What is Redash?
+This guide walks you through connecting Redash to your IOMETE [compute cluster](/user-guide/compute-clusters/overview).
 
-Redash is also a Business Intelligence (BI) tool, but it focuses on data visualization and collaboration. It is an open-source platform that allows users to connect to various data sources, visualize data, and share insights with others. Redash is designed to be easy to use, even for non-technical users.
+## Adding IOMETE as a Data Source
 
-## Add IOMETE as the data source
+1. Click the **Settings** icon, then click <FlexButton label='New Data Source' primary><Plus size={16} /></FlexButton>.
 
-Now, establish a connection between the <b>IOMETE</b> Lakehouse and Redash.
+<Img src="/img/guides/redash/new-data-source.png" alt="Redash data sources page with New Data Source button" />
 
-The initial step involves connecting a <b>data source</b>. Navigate to the Data Sources management page by clicking the Settings icon and <FlexButton label='New Data Source' primary><Plus size={16} /></FlexButton> button:
+2. Select **Apache Spark SQL** (or **Databricks**) from the list of available data sources.
 
-<Img src="/img/guides/redash/new-data-source.png" alt="IOMETE data source"  />
+<Img src="/img/guides/redash/choose-data-source.png" alt="Choosing a data source type in Redash" maxWidth="500px" />
 
-Once you've clicked on the <FlexButton label='New Data Source' primary><Plus size={16} /></FlexButton>, proceed by selecting the desired data source from the available list.
+3. Fill in the connection fields using the values from your IOMETE compute cluster connection details.
 
-<Img src="/img/guides/redash/choose-data-source.png" alt="IOMETE data source choose" maxWidth="500px"/>
+<Img src="/img/guides/redash/configuration.png" alt="Redash data source configuration form" maxWidth="500px" />
 
-In the configuration window, complete all the necessary fields by providing the required information.
+| Property           | Value                                                                  |
+| ------------------ | ---------------------------------------------------------------------- |
+| Host               | \{domain or IP address}                                                |
+| Port               | \{server port}                                                         |
+| HTTP Path          | /data-plane/\{namespace}/lakehouse/\{compute_cluster_name}                                     |
+| Username (User ID) | \{your user name}                                                      |
+| Password           | \{[personal access token](/user-guide/create-a-personal-access-token)} |
+| Database           | \{database name}                                                       |
+| HTTP Scheme        | http/https                                                             |
 
-<Img src="/img/guides/redash/configuration.png" alt="IOMETE data source configuration" maxWidth="500px"/>
+You can find these values on the [compute cluster](/user-guide/compute-clusters/managing-clusters#connections-tab) details page in the IOMETE console:
 
-Extract all connection properties from the connection string, referencing the "lakehouse" details sheet in IOMETE (refer to the sample picture below):
+<Img src="/img/guides/redash/iomete-redash-connection.png" alt="IOMETE compute cluster connection details" />
 
-| Property           | Value                        |
-| ------------------ | ---------------------------- |
-| Host               | \{domain or IP address}      |
-| Port               | \{server port}               |
-| HTTP Path          | /lakehouse/\{lakehouse_name} |
-| Username (User ID) | \{your user name}            |
-| Password           | \{personal access token}     |
-| Database           | \{database name}             |
-| HTTP Scheme        | http/https                   |
+4. Click <FlexButton label='Test Connection'></FlexButton> to verify the connection.
 
-<Img src="/img/guides/redash/iomete-redash-connection.png" alt="IOMETE data source connection" />
+<Img src="/img/guides/redash/test-connection.png" alt="Successful connection test in Redash" maxWidth="500px" />
 
-After filling out all the fields in the configuration, proceed to test the connection by clicking the <FlexButton label='Test Connection' ></FlexButton> button to ensure that the connection is successful.
+## Running Your First Query
 
-<Img src="/img/guides/redash/test-connection.png" alt="IOMETE data source test connection" maxWidth="500px"/>
+Once connected, navigate to **Queries** in the navbar. Select your IOMETE data source from the dropdown, write a query in the editor, and click <FlexButton label='Execute' primary><Play size={12} weight="fill" /></FlexButton>.
 
-Once the platform is successfully connected, navigate to the Query section in the navbar menu. Select the data source from the top-left side, and in the editor, write your query. Simply hit the <FlexButton label='Execute' primary><Play size={12} weight="fill" /></FlexButton> button.
-
-Tadaa🎉🎉🎉, view your results.
-<Img src="/img/guides/redash/result.png" alt="IOMETE data source results"/>
+<Img src="/img/guides/redash/result.png" alt="Query results displayed in Redash" />
