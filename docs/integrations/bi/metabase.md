@@ -1,84 +1,67 @@
 ---
-title: Metabase - Connecting to IOMETE
+title: Metabase
 sidebar_label: Metabase
-description: How to connect iomete and Metabase BI. This guide explains how to effortlessly integrate iomete with one of the most popular BI tools Metabase
+description: Connect Metabase to IOMETE to build dashboards and explore your data without writing SQL.
 last_update:
-  date: 10/31/2022
+  date: 04/03/2026
+  author: Vugar Dadalov
 ---
 
 import Img from '@site/src/components/Img';
 
-![iomete metabase](/img/guides/metabase-bi/iomete-metabase.png)
+# Connecting Metabase to IOMETE
 
-Hi! In this guide, we will explain how to effortlessly integrate **IOMETE** with one of the most popular BI tools: **Metabase**.
+[Metabase](https://www.metabase.com/) is an open-source business intelligence tool that lets teams build dashboards and explore data without writing SQL. It also supports SQL queries for advanced users.
 
-## What is Metabase?
+This guide walks you through connecting Metabase to your IOMETE [compute cluster](/user-guide/compute-clusters/overview).
 
-As data engineers or analysts, we can understand SQL language. But other departments and teams are not. Metabase is an open-source Business Intelligence interface that allows querying no SQL required. With Metabase interactive dashboards and automated reports are available for teams. Advanced embedding capabilities make it simple to share your data in presentations, publications, and even products.
+## Running Metabase Locally
 
-### How to run Metabase Locally
+Skip this section if you already have a Metabase instance running.
 
-We first provide basic instructions on how to set up and run Metabase locally. You can skip this step if you wish to run a Metabase instance in a production or development environment.
-
-Let’s run [Metabase on Docker](https://www.metabase.com/docs/latest/installation-and-operation/running-metabase-on-docker).
-
-Run this commands in your terminal:
+You can run Metabase locally using [Docker](https://www.metabase.com/docs/latest/installation-and-operation/running-metabase-on-docker):
 
 ```bash
 docker pull metabase/metabase:latest
 
 docker run -d -p 3000:3000 --name metabase metabase/metabase
-
-# Optionally to view logs (for debug purposes)
-docker logs -f metabase
 ```
 
-Now you should be able to access http://localhost:3000
+Metabase will be available at `http://localhost:3000`. See the [Metabase installation docs](https://www.metabase.com/docs/latest/installation-and-operation/installing-metabase) for other deployment options.
 
-Read more in [Metabase documentation](https://www.metabase.com/docs/latest/installation-and-operation/installing-metabase)
+## Adding IOMETE as a Data Source
 
-Now let’s go to the main part of this guide👇🏻
+You can add IOMETE during the initial Metabase setup or later from **Admin Settings**.
 
-### Add iomete as the data source
+1. Select **Spark SQL** as your database type.
 
-The next step is to connect the iomete lakehouse to Metabase.
+<Img src="/img/guides/metabase-bi/choose-datasource.png" alt="Selecting Spark SQL as database type in Metabase" borderless maxWidth="500px" />
 
-You can also do this during the Metabase setup process or later from the **Admin Settings** menu.
+2. Fill in the connection fields using values from the [compute cluster](/user-guide/compute-clusters/managing-clusters#connections-tab) details page in the IOMETE console.
 
-Select **Spark SQL** as your database:
+<Img src="/img/guides/metabase-bi/connection-details.png" alt="IOMETE compute cluster connection details" />
 
-![Choose datasource](/img/guides/metabase-bi/choose-datasource.png)
+| Property                | Value                                                                                             |
+| ----------------------- | ------------------------------------------------------------------------------------------------- |
+| Host                    | \{domain or IP address}                                                                           |
+| Port                    | \{server port}                                                                                    |
+| Database                | \{database name}                                                                                  |
+| Username (User ID)      | \{your user name}                                                                                 |
+| Password                | \{[personal access token](/user-guide/create-a-personal-access-token)}                            |
+| Additional JDBC options | `;transportMode=http;ssl=true;httpPath=data-plane/{namespace}/lakehouse/{compute_cluster_name}` |
 
-For connection details go to the [iomete app](https://app.iomete.com), select the lakehouse you want to connect to, and in the **Connection details,** you will find all the required information.
+<Img src="/img/guides/metabase-bi/connecting-metabase-and-iomete-2.png" alt="Metabase connection form filled with IOMETE details" maxWidth="500px" />
 
-<!-- ![Connection details](/img/guides/bi-connections/connection-details.png) -->
+3. After connecting, Metabase syncs metadata from IOMETE. You can track progress in the bottom-right corner.
 
-<Img src="/img/guides/metabase-bi/connection-details.png" alt="Iomete Metabase Connection details"/>
+<Img src="/img/guides/metabase-bi/metabase-connection-syncing.png" alt="Metabase syncing metadata from IOMETE" />
 
-Extract all connection properties from the connection string, referencing the "lakehouse" details sheet in IOMETE:
+## Exploring Data and Building Dashboards
 
-| Property           | Value                    |
-| ------------------ | ------------------------ |
-| Host               | \{domain or IP address}  |
-| Port               | \{server port}           |
-| Database           | \{database name}         |
-| Username (User ID) | \{your user name}        |
-| Password           | \{personal access token} |
+Once the sync completes, your tables appear in the Metabase database explorer.
 
-<!-- ![How to connect Metabase](/img/guides/metabase-bi/connecting-metabase-and-iomete.png) -->
+<Img src="/img/guides/metabase-bi/metabase-explorer.png" alt="IOMETE tables in the Metabase database explorer" />
 
-<Img src="/img/guides/metabase-bi/connecting-metabase-and-iomete-2.png" alt="How to connect Metabase" maxWidth="500px"/>
+From here you can create dashboards and visualizations.
 
-After connecting the iomete database to Metabase, it will require a couple of minutes to sync all the metadata from iomete. You will be able to track progress in the bottom right corner:
-
-![Metabase connection syncing](/img/guides/metabase-bi/metabase-connection-syncing.png)
-
-After the synchronization process is completed you will be able to see your tables in the Metabase database explorer:
-
-![Metabase explorer](/img/guides/metabase-bi/metabase-explorer.png)
-
-The last step is to create a dashboard. In the example we created a simple bar graph - which probably is useless - but good enough for tutorial purposes 😄:
-
-![Metabase dashboard](/img/guides/metabase-bi/metabase-dashboard.png)
-
-As we told you, it is effortless. Reach out to us if you have any questions.
+<Img src="/img/guides/metabase-bi/metabase-dashboard.png" alt="Example Metabase dashboard with IOMETE data" />
