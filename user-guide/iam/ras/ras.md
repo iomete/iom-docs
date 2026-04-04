@@ -87,7 +87,7 @@ To give others access to your resource bundle resources:
 <Img src="/img/user-guide/iam/ras/bundle-permissions-list.png" alt="Bundle Permissions" maxWidth="800px" />
 
 2. **Add New Permissions**
-   - Click **New Permission**
+   - Click **New Member Permission**
    - Select the **Actor Type** you want to grant access to
    - Choose **Users** or **Groups** to grant permissions to
    - Select the specific **Permissions** to grant
