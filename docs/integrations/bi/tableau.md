@@ -21,7 +21,7 @@ Tableau can be directly connected from the tableau cloud page.
 
 ### Add IOMETE as the data source
 
-The next step is to connect the IOMETE Lakehouse to Tableau.
+The next step is to connect the IOMETE Compute to Tableau.
 
 Create a new workbook in Tableau. Once new workbook interface is opened up, you will have the following menu, where you need to add a new data source:
 
@@ -31,11 +31,11 @@ After clicking on the “New Data Source”, an option would be provided to sele
 
 <Img src="/img/guides/iomete-tableau-integration/spark-sql-database.png" alt="Spark SQL database"/>
 
-Once Spark SQL is selected following pop-up would be provided, and then you should be able to enter the details for connecting to IOMETE Lakehouse. Server details can be found in your “Lakehouse” which you want to connect for analytical purposes.
+Once Spark SQL is selected following pop-up would be provided, and then you should be able to enter the details for connecting to IOMETE Compute. Server details can be found in your “Compute” which you want to connect for analytical purposes.
 
-<Img src="/img/guides/iomete-tableau-integration/connect-iomete-lakehouse.png" alt="connect IOMETE lakehouse"/>
+<Img src="/img/guides/iomete-tableau-integration/connect-iomete-compute.png" alt="connect IOMETE compute"/>
 
-All connection properties can be extracted from the connection string, from the “lakehouse” details sheet in IOMETE (sample picture below):
+All connection properties can be extracted from the connection string, from the “compute” details sheet in IOMETE (sample picture below):
 
 | Connection     | SparkThriftServer(Spark1.1 and later) |
 | -------------- | ------------------------------------- |
@@ -45,9 +45,9 @@ All connection properties can be extracted from the connection string, from the 
 | Username       | \{your user name}                     |
 | Password       | \{personal access token}              |
 | Transport      | HTTP                                  |
-| HTTP Path      | lakehouse/\{lakehouse name}           |
+| HTTP Path      | lakehouse/\{compute name}             |
 
-<Img src="/img/guides/iomete-tableau-integration/tableau-spark-sql-driver.png" alt="IOMETE lakehouse details"/>
+<Img src="/img/guides/iomete-tableau-integration/tableau-spark-sql-driver.png" alt="IOMETE Compute details"/>
 
 Once the platform is connected, it would appear as a database as presented below with name “Fuad”. And then the “Schema” provides list of schemas from which tables can be selected for reporting purposes.
 
@@ -89,18 +89,20 @@ A nice looking dashboard presenting the information of required report. Tableau 
 4. Click To a server and find **Spark SQL by CData** and click.
 5. Enter following properties.
 
-| Parameter      | Value                       |
-| -------------- | --------------------------- |
-| **General**    |                             |
-| Server         | \{domain or IP address}     |
-| Port           | \{server port}              |
-| Auth Scheme    | Plain                       |
-| User           | \{your user name}           |
-| Password       | \{personal access token}    |
-| **Advanced**   |                             |
-| Transport Mode | HTTP                        |
-| HTTP Path      | lakehouse/\{lakehouse name} |
-| Use SSL        | True                        |
+| Parameter      | Value                     |
+| -------------- | ------------------------- |
+| **General**    |                           |
+| Server         | \{domain or IP address}   |
+| Port           | \{server port}            |
+| Auth Scheme    | Plain                     |
+| User           | \{your user name}         |
+| Password       | \{personal access token}  |
+| **Advanced**   |                           |
+| Transport Mode | HTTP                      |
+| HTTP Path      | lakehouse/\{compute name} |
+| Use SSL        | True                      |
 
 <!-- spark-sql-by-cdata-driver.png -->
+<Img src="/img/guides/iomete-tableau-integration/tableau-spark-sql-c-data-driver.png" alt="IOMETE tableau CData driver" />
+
 <Img src="/img/guides/iomete-tableau-integration/spark-sql-by-cdata-driver.png" alt="IOMETE tableau CData connector" maxWidth="600px"/>
