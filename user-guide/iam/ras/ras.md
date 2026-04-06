@@ -88,9 +88,9 @@ To give others access to your resource bundle resources:
 
 2. **Add New Permissions**
    - Click **New Member Permission**
-   - From the **Actor Type** dropdown, choose from **Users** or **Groups** to which you want to grant permissions
-   - In **Actors** dropdown, choose all users/groups whom you want to grant permissions
-   - Select the specific **Permissions** to grant in Permissions dropdown
+   - From the **Actor Type** dropdown, choose whether you want to grant permissions to **Users** or **Groups**
+   - In the **Actors** dropdown, choose all users/groups who should receive permissions
+   - In the **Permissions** dropdown, select the specific permissions to grant
    - Click **Save**
 
 
