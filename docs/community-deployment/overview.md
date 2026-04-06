@@ -13,7 +13,7 @@ import FAQSection from '@site/src/components/FAQSection';
 
 import Card from "@site/src/components/Card";
 import GridBox from "@site/src/components/GridBox";
-import { Files, Database, Sparkle, Circuitry,Cloud, GoogleLogo, AmazonLogo, WindowsLogo, HardDrives } from "@phosphor-icons/react";
+import { Files, Database, Sparkle, Circuitry,Cloud, GoogleLogo, AmazonLogo, HardDrives } from "@phosphor-icons/react";
 
 Welcome to the future of data management and analytics with the **IOMETE Lakehouse Platform Community Edition**. This edition stands out as **the most generous Data Lakehouse Platform available in the market today**, offering an unparalleled blend of freedom and functionality in data handling. 
 
@@ -43,10 +43,6 @@ AWS Community Edition Deployment
 
 <Card title="GCP" icon={<GoogleLogo />} link="community-deployment/gcp/install">
 Google Cloud Community Edition Deployment
-</Card>
-
-<Card title="Azure" icon={<WindowsLogo />} link="community-deployment/azure/install">
-Azure Community Edition Deployment
 </Card>
 
 <Card title="On-premise" icon={<HardDrives />} link="community-deployment/on-prem/install">

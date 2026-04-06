@@ -18,8 +18,6 @@ This is an end-to-end guide about how to migrate **tables** from JDBC sources (M
 :::info
 First, you need to establish an SSH tunnel between iomete and your database in your private network.
 
-<!-- See [Database Connection Options](/docs/administration-guide/database-connection-options) -->
-
 :::
 
 ### Database to migrate
@@ -29,10 +27,6 @@ Let's assume that we want to replicate the MySQL database (or any other supporte
 :::info
 In this tutorial, we will be using a publicly accessible iomete-tutorial database instance that contains the [Employees Sample Database. ](https://dev.mysql.com/doc/employee/en/sakila-structure.html)
 :::
-
-<!-- :::info
-In case of connecting to your own database instance see [Database Connection Options](/docs/administration-guide/database-connection-options) for the details
-::: -->
 
 Here are the details of `iomete-tutorial` public database:
 

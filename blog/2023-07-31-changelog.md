@@ -38,7 +38,7 @@ We are thrilled to announce a significant milestone for IOMETE, your go-to data 
 
 We are excited to expand the reach of IOMETE Data Lakehouse to Microsoft Azure users, empowering them to harness the full potential of their data and drive innovation. Whether you are a data scientist, analyst, or business professional, IOMETE's availability on Azure opens up a world of possibilities for your data management needs.
 
-Take advantage of this powerful combination today! To get started with IOMETE Data Lakehouse on Microsoft Azure, visit for [detailed setup instructions](/community-deployment/azure/install) and explore a new era of data-driven possibilities.
+Take advantage of this powerful combination today! To get started with IOMETE Data Lakehouse on Microsoft Azure, explore a new era of data-driven possibilities.
 
 ![Microsoft Azure in IOMETE platform](/img/blog/2023-07-31-changelog/azure-data-platform.png)
 
