@@ -1,108 +1,159 @@
 ---
 title: Tableau - Connecting to IOMETE
 sidebar_label: Tableau
-description: In this guide, we will explain how to effortlessly integrate IOMETE with one of the most popular BI tools Tableau
+description: Connect Tableau to IOMETE using the built-in Spark SQL driver or the CData Spark SQL connector to build interactive dashboards and reports on your lakehouse data.
 image: img/guides/iomete-tableau-integration/iomete-tableau.png
+last_update:
+  date: 04/06/2026
+  author: Nurlan Mammadov
 ---
 
-# Tableau - Connecting to IOMETE
-
 import Img from '@site/src/components/Img';
+import GridBox from "@site/src/components/GridBox";
 
-In this guide, we will explain how to effortlessly integrate **IOMETE** with one of the most popular BI tools: Tableau.
+## Overview
 
-## What is Tableau?
+If you're using Tableau for dashboards and reporting, you can point it straight at your IOMETE data. There's no need to copy anything into a separate analytics database.
 
-Tableau is an Business Intelligence, Reporting and Dashboarding tool. Data has limitless potential to transform businesses and the world as long as people are empowered to use it. Tableau is used to build a data culture and to change lives while providing access to the data.
+Two connection methods are available:
 
-### Tableau should be accessible from cloud
+- **Spark SQL driver**: Tableau's built-in Spark SQL connector (recommended)
+- **CData Spark SQL connector**: a third-party option from CData
 
-Tableau can be directly connected from the tableau cloud page.
+Both use the Spark Thrift Server (Hive2 protocol) over HTTP transport, which is enabled by default on every IOMETE compute cluster.
 
-### Add IOMETE as the data source
+## Prerequisites
 
-The next step is to connect the IOMETE Compute to Tableau.
+You'll need a few things in place before connecting Tableau to IOMETE:
 
-Create a new workbook in Tableau. Once new workbook interface is opened up, you will have the following menu, where you need to add a new data source:
+- A **running IOMETE compute cluster** ([setup instructions](/user-guide/compute-clusters/overview))
+- **Tableau Desktop** or **Tableau Cloud** ([download Tableau Desktop](https://www.tableau.com/products/desktop/download))
+- A **Personal Access Token** for authentication, since Tableau doesn't accept regular passwords ([how to create one](/user-guide/create-a-personal-access-token))
+- For the CData method only: the [Spark SQL by CData](https://www.cdata.com/drivers/spark/tableau) connector
 
-<Img src="/img/guides/iomete-tableau-integration/iomete-data-source.png" alt="IOMETE data source"/>
+## Finding Connection Parameters
 
-After clicking on the “New Data Source”, an option would be provided to select a source. Then click on “Connectors” tab. In the Connectors tab, select **Spark SQL** as your database:
+You don't need to assemble connection strings by hand. IOMETE generates them for each compute cluster.
 
-<Img src="/img/guides/iomete-tableau-integration/spark-sql-database.png" alt="Spark SQL database"/>
+1. Open **Compute** from the sidebar.
+2. Click the cluster you want to connect.
+3. Select the **Connections** tab.
+4. Click the **Tableau** card.
 
-Once Spark SQL is selected following pop-up would be provided, and then you should be able to enter the details for connecting to IOMETE Compute. Server details can be found in your “Compute” which you want to connect for analytical purposes.
+{/* 📸 SCREENSHOT NEEDED: Compute detail page showing the Connections tab with the Tableau card selected */}
 
-<Img src="/img/guides/iomete-tableau-integration/connect-iomete-compute.png" alt="connect IOMETE compute"/>
+You'll see two parameter tables, one for the **Spark SQL Driver** and one for **Spark SQL by CData**. Every value is pre-filled for your environment. Hover over any value and click the copy button to grab it.
 
-All connection properties can be extracted from the connection string, from the “compute” details sheet in IOMETE (sample picture below):
+## Connecting Using the Spark SQL Driver
 
-| Connection     | SparkThriftServer(Spark1.1 and later)                  |
-| -------------- | ------------------------------------------------------ |
-| Server         | \{domain or IP address}                                |
-| Port           | \{server port}                                         |
-| Authentication | Username and Password                                  |
-| Username       | \{your user name}                                      |
-| Password       | \{personal access token}                               |
-| Transport      | HTTP                                                   |
-| HTTP Path      | data-plane/\{namespace name}/lakehouse/\{compute name} |
+This is the simplest path because Tableau ships with a built-in Spark SQL connector. Nothing extra to install.
 
-<Img src="/img/guides/iomete-tableau-integration/tableau-spark-sql-driver.png" alt="IOMETE Compute details"/>
+1. Open Tableau and create a new workbook (or open an existing one).
+2. Click **New Data Source**.
 
-Once the platform is connected, it would appear as a database as presented below with name “Fuad”. And then the “Schema” provides list of schemas from which tables can be selected for reporting purposes.
+<Img src="/img/guides/iomete-tableau-integration/iomete-data-source.png" alt="Adding a new data source in Tableau"/>
 
-In the following example, “sample_db” schema is selected and then “employees_proxy” database is previewed before it’s used part of the report to be generated.
+3. Go to the **Connectors** tab and select **Spark SQL**.
 
-<Img src="/img/guides/iomete-tableau-integration/tableau-schema-connector.png" alt="Tableau schema connector"/>
+<Img src="/img/guides/iomete-tableau-integration/spark-sql-database.png" alt="Selecting Spark SQL from Tableau connectors"/>
 
-Looking at the table details helps to understand the data types and based on which the reporting can take place.
+4. Fill in the Spark SQL connection dialog with these parameters:
 
-The report requirement is to generate the gender equality for recruitment within organization across years.
+| Parameter | Value |
+|-----------|-------|
+| **Connection** | SparkThriftServer (Spark 1.1 and later) |
+| **Server** | Your IOMETE platform hostname (shown as `HOST_NAME` in the console) |
+| **Port** | `443` for HTTPS or `80` for HTTP (shown as `PORT` in the console) |
+| **Authentication** | Username and Password |
+| **Username** | Your IOMETE user ID |
+| **Password** | \{[personal access token](/user-guide/create-a-personal-access-token)} |
+| **Transport** | HTTP |
+| **HTTP Path** | `/data-plane/\{namespace\}/lakehouse/\{compute-name\}` |
+| **SSL** | Check **Require SSL** if your platform uses HTTPS |
 
-<Img src="/img/guides/iomete-tableau-integration/table-report.png" alt="table report"/>
+<Img src="/img/guides/iomete-tableau-integration/tableau-spark-sql-driver.png" dark="/img/guides/iomete-tableau-integration/tableau-spark-sql-driver-dark.png" alt="Spark SQL driver connection parameters in IOMETE console"/>
 
-Once table is selected we can add a report to the sheet, by adding a attribute (”Hire Date”) to the report Sheet. It’s done by clicking on the “Add to Sheet” after right-clicking on a attribute. Hire Date is important to understand which year an employee is recruited and on-boarded into the organization.
+:::warning Personal Access Token Required
+The **Password** field takes a **Personal Access Token**, not your account password. Generate one under **Settings > Access Tokens** in the IOMETE console. See [Creating a Personal Access Token](/user-guide/create-a-personal-access-token).
+:::
 
-<Img src="/img/guides/iomete-tableau-integration/report-to-sheet-tableau.png" alt="report to sheet Tableau"/>
+:::info HTTP Path Format
+The HTTP Path includes `lakehouse` in the URL (e.g., `/data-plane/default/lakehouse/my-compute`). Copy it exactly as shown in the IOMETE console, including the leading `/`.
+:::
 
-Gender provides the details on which gender has been recruited during that period.
+5. Click **Sign In**.
+6. Once connected, your IOMETE database appears. Select a **Schema** to browse its tables.
 
-<Img src="/img/guides/iomete-tableau-integration/gender-sheet-tableau.png" alt="gender sheet tableau"/>
+<Img src="/img/guides/iomete-tableau-integration/tableau-schema-connector.png" alt="Selecting a schema in Tableau after connecting to IOMETE" maxWidth="400px"/>
 
-Then we need to add number of employees onboarded each year, such that count of the number of employees joined is put on a table.
+7. Drag tables into the canvas to begin building your reports and dashboards.
 
-<Img src="/img/guides/iomete-tableau-integration/employees-sheet-tableau.png" alt="employees sheet tableau"/>
+<Img src="/img/guides/iomete-tableau-integration/connect-iomete-compute.png" alt="Connecting to IOMETE compute from Tableau"/>
 
-Once the counts are there, then in Tableau a visualization can be chosen to present the report.
+## Connecting Using the CData Spark SQL Connector
 
-A nice looking dashboard presenting the information of required report. Tableau and IOMETE work together seamlessly, lets get connected to take your data analytics to next level.
+If you need the extra configuration options that CData offers, use this method instead. It requires a separate connector install.
 
-<Img src="/img/guides/iomete-tableau-integration/iomete-tableau-dashboard.png" alt="IOMETE Tableau dashboard"/>
+1. Install [Tableau Desktop](https://www.tableau.com/products/desktop/download) and the [Spark SQL by CData](https://www.cdata.com/drivers/spark/tableau) connector.
+2. Open Tableau.
+3. Click **To a server**, then select **Spark SQL by CData**.
 
-<br/>
+<Img src="/img/guides/iomete-tableau-integration/spark-sql-by-cdata-driver.png" alt="Selecting Spark SQL by CData connector in Tableau" maxWidth="600px"/>
 
-### How to connect to IOEMTE using Spark SQL by CData connector
+4. Enter the following connection parameters.
 
-1. Download [Tableau](https://www.tableau.com/products/desktop/download) and install.
-2. Download tableau [Spark SQL by CData](https://www.cdata.com/drivers/spark/tableau) and install.
-3. Open tableau.
-4. Click To a server and find **Spark SQL by CData** and click.
-5. Enter following properties.
+**General tab:**
 
-| Parameter      | Value                                                  |
-| -------------- | ------------------------------------------------------ |
-| **General**    |                                                        |
-| Server         | \{domain or IP address}                                |
-| Port           | \{server port}                                         |
-| Auth Scheme    | Plain                                                  |
-| User           | \{your user name}                                      |
-| Password       | \{personal access token}                               |
-| **Advanced**   |                                                        |
-| Transport Mode | HTTP                                                   |
-| HTTP Path      | data-plane/\{namespace name}/lakehouse/\{compute name} |
-| Use SSL        | True                                                   |
+| Parameter | Value |
+|-----------|-------|
+| **Server** | Your IOMETE platform hostname |
+| **Port** | `443` for HTTPS or `80` for HTTP |
+| **Auth Scheme** | Plain |
+| **User** | Your IOMETE user ID |
+| **Password** | \{[personal access token](/user-guide/create-a-personal-access-token)} |
 
-<!-- spark-sql-by-cdata-driver.png -->
-<Img src="/img/guides/iomete-tableau-integration/tableau-spark-sql-c-data-driver.png" alt="IOMETE tableau CData driver" />
+**Advanced tab:**
 
-<Img src="/img/guides/iomete-tableau-integration/spark-sql-by-cdata-driver.png" alt="IOMETE tableau CData connector" maxWidth="600px"/>
+| Parameter | Value |
+|-----------|-------|
+| **Transport Mode** | HTTP |
+| **HTTP Path** | `/data-plane/\{namespace\}/lakehouse/\{compute-name\}` |
+| **Use SSL** | True |
+
+<Img src="/img/guides/iomete-tableau-integration/tableau-spark-sql-c-data-driver.png" dark="/img/guides/iomete-tableau-integration/tableau-spark-sql-c-data-driver-dark.png" alt="CData Spark SQL connector parameters in IOMETE console"/>
+
+:::warning Personal Access Token Required
+The **Password** field takes a **Personal Access Token**, not your account password. See [Creating a Personal Access Token](/user-guide/create-a-personal-access-token).
+:::
+
+5. Click **Connect**.
+
+## Building a Dashboard
+
+With the connection in place, you're ready to turn your IOMETE data into visualizations.
+
+1. Select a schema, drag tables into the canvas, then click **Sheet 1** to open a new sheet.
+
+<Img src="/img/guides/iomete-tableau-integration/table-report.png" alt="Table data preview in Tableau"/>
+
+2. Right-click a dimension or measure and select **Add to Sheet**.
+
+<Img src="/img/guides/iomete-tableau-integration/report-to-sheet-tableau.png" alt="Adding a field to a Tableau sheet" maxWidth="400px"/>
+
+3. Drag additional fields into rows, columns, or filters to refine the report.
+
+<GridBox>
+<Img src="/img/guides/iomete-tableau-integration/gender-sheet-tableau.png" alt="Adding gender dimension to the Tableau report" maxWidth="400px"/>
+
+<Img src="/img/guides/iomete-tableau-integration/employees-sheet-tableau.png" alt="Adding employee count to the report" maxWidth="400px"/>
+</GridBox>
+
+4. Pick a visualization type and customize the layout to finish your dashboard.
+
+<Img src="/img/guides/iomete-tableau-integration/iomete-tableau-dashboard.png" alt="Completed Tableau dashboard with IOMETE data"/>
+
+## Next Steps
+
+- [Creating a Personal Access Token](/user-guide/create-a-personal-access-token): generate tokens for Tableau authentication
+- [Compute Clusters](/user-guide/compute-clusters/overview): create and manage the compute clusters Tableau connects to
+- [Power BI](./power-bi): connect Power BI to IOMETE as an alternative BI tool
