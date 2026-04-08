@@ -2,8 +2,8 @@
 title: Dataiku
 description: Connect Dataiku to IOMETE using the Arrow Flight SQL JDBC Driver.
 last_update:
-  date: 2026-01-21
-  author: Altay Aliyev
+  date: 2026-04-08
+  author: Mateus Aubin
 ---
 
 import Img from '@site/src/components/Img';
@@ -18,11 +18,21 @@ This guide walks you through connecting Dataiku to IOMETE using the Arrow Flight
 
 ## Download the JDBC Driver
 
-Download the Arrow Flight SQL JDBC driver from Maven Central:
+IOMETE provides a custom release of the Arrow Flight SQL JDBC driver with additional support for **HTTP CONNECT proxy tunneling**, making it suitable for enterprise environments where outbound connections may be restricted.
 
-<a href="https://repo1.maven.org/maven2/org/apache/arrow/flight-sql-jdbc-driver/16.1.0/flight-sql-jdbc-driver-16.1.0.jar" download>
-  flight-sql-jdbc-driver-16.1.0.jar
-</a>
+Download the latest JAR from the [iomete-artifacts](https://github.com/iomete/iomete-artifacts) GitHub repository. Artifacts follow the naming convention:
+
+```
+flight-sql-jdbc-driver-<upstream>-iomete.<release>.jar
+```
+
+For example: `flight-sql-jdbc-driver-19.0.0-iomete.1.jar`
+
+:::note Standard driver compatibility
+The standard [Apache Arrow Flight SQL JDBC driver](https://arrow.apache.org/java/main/flight_sql_jdbc_driver.html) is also compatible with IOMETE. The IOMETE custom driver is functionally identical to the upstream release — the only addition is native HTTP CONNECT proxy support. If you don't need proxy tunneling, either driver works.
+:::
+
+See the [Arrow Flight SQL JDBC Driver](/user-guide/driver/arrow-flight-jdbc-driver) documentation for proxy configuration details, JDBC URL parameters, and download instructions.
 
 Save the JAR file to a directory accessible by your Dataiku instance.
 
