@@ -47,7 +47,7 @@ You can add IOMETE during the initial Metabase setup or later from **Admin Setti
 | Port                    | \{server port}                                                                                    |
 | Database                | \{database name}                                                                                  |
 | Username (User ID)      | \{your user name}                                                                                 |
-| Password                | \{[personal access token](/user-guide/create-a-personal-access-token)}                            |
+| Password                | \{[personal access token](/user-guide/access-tokens/personal)}                            |
 | Additional JDBC options | `;transportMode=http;ssl=true;httpPath=data-plane/{namespace}/lakehouse/{compute_cluster_name}` |
 
 <Img src="/img/guides/metabase-bi/connecting-metabase-and-iomete-2.png" alt="Metabase connection form filled with IOMETE details" maxWidth="500px" />

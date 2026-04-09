@@ -14,7 +14,7 @@ Welcome to the API documentation. This section provides detailed information abo
 
 ## Authentication
 
-To access these endpoints securely, you will need an API Token. If you haven't already created one, you can find detailed instructions on how to do so in our dedicated guide: [How to create Access Token](./create-a-personal-access-token.md).
+To access these endpoints securely, you will need an API Token. If you haven't already created one, you can find detailed instructions on how to do so in our dedicated guide: [How to create Access Token](./access-tokens/personal.md).
 
 ## Accessing the API Documentation
 

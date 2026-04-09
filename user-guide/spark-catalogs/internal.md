@@ -13,7 +13,7 @@ IOMETE allows you to create **Iceberg REST Catalogs** that are fully managed by 
 
 - Are accessible by IOMETE workloads (Lakehouses, Spark jobs, Jupyter notebooks) and by external compute engines via the Iceberg REST API
 - Integrate with [Data Security](/user-guide/data-security/overview) for role-based access control (RBAC)
-- Require a valid session or [Access Token](../create-a-personal-access-token.md) for authentication
+- Require a valid session or [Access Token](../access-tokens/personal.md) for authentication
 
 <Img src="/img/user-guide/spark-catalogs/rest-catalog-sol.png" alt="Spark Rest Catalogs Solution" />
 
@@ -72,7 +72,7 @@ For example, if your console is available at `https://console.iomete.internal`, 
 https://console.iomete.internal/catalogs/my_catalog/v1/config
 ```
 
-Authentication requires an [Access Token](../create-a-personal-access-token.md). You can pass it via:
+Authentication requires an [Access Token](../access-tokens/personal.md). You can pass it via:
 - The `X-API-Token` header
 - The `Authorization: Bearer <token>` header (standard for Iceberg Spark/Trino clients)
 
@@ -248,7 +248,7 @@ Enabling request tracking adds per-client labels (`iomete_user_id`, `iomete_pat`
 
 ### Rate Limiting
 
-Per-token rate limiting prevents individual clients from overwhelming the catalog. Each [Access Token](../create-a-personal-access-token.md) can have a configurable **max requests per second (maxRPS)**.
+Per-token rate limiting prevents individual clients from overwhelming the catalog. Each [Access Token](../access-tokens/personal.md) can have a configurable **max requests per second (maxRPS)**.
 
 ```yaml
 # Helm values
@@ -259,7 +259,7 @@ features:
 
 When enabled, IOMETE deploys a dedicated rate limiter pod alongside the REST catalog.
 
-See [Access Tokens](../create-a-personal-access-token.md) for configuring maxRPS per token.
+See [Access Tokens](../access-tokens/personal.md) for configuring maxRPS per token.
 
 ### Scaling
 

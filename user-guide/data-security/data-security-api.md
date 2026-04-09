@@ -22,7 +22,7 @@ Header Example:
 X-API-Token: <Your-API-Token>
 ```
 
-Tokens can be generated in the IOMETE UI under the settings. Please refer to [this documentation](../create-a-personal-access-token) for more info.
+Tokens can be generated in the IOMETE UI under the settings. Please refer to [this documentation](../access-tokens/personal) for more info.
 
 ## Access Control API
 
