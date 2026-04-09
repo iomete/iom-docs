@@ -58,27 +58,27 @@ If you're calling the API directly, service account tokens use their own set of 
 
 ### Domain-Level Endpoints
 
-Base path: `/api/v1/domains/\{domain\}/auth/service-accounts/\{serviceAccountId\}`
+Base path: `/api/v1/domains/{domain}/auth/service-accounts/{serviceAccountId}`
 
 | Method | Path | Purpose |
 |--------|------|---------|
 | GET | `/tokens` | List tokens |
 | POST | `/tokens` | Create a token |
-| PATCH | `/tokens/\{name\}` | Update a token (status, maxRps) |
-| DELETE | `/tokens/\{name\}` | Delete a token |
+| PATCH | `/tokens/{name}` | Update a token (status, maxRps) |
+| DELETE | `/tokens/{name}` | Delete a token |
 
 Requires `access_token.manage` (role v1) or `MANAGE_ACCESS_TOKEN` (bundle v2), plus same-group membership.
 
 ### Admin-Level Endpoints
 
-Base path: `/api/v1/auth/service-accounts/\{serviceAccountId\}`
+Base path: `/api/v1/auth/service-accounts/{serviceAccountId}`
 
 | Method | Path | Purpose |
 |--------|------|---------|
 | GET | `/tokens` | List tokens |
 | POST | `/tokens` | Create a token |
-| PATCH | `/tokens/\{name\}` | Update a token (status, maxRps) |
-| DELETE | `/tokens/\{name\}` | Delete a token |
+| PATCH | `/tokens/{name}` | Update a token (status, maxRps) |
+| DELETE | `/tokens/{name}` | Delete a token |
 
 Requires any admin role, plus same-group membership.
 
