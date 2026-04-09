@@ -15,7 +15,7 @@ This guide focuses on what's different about service account tokens. For the bas
 
 ## Prerequisites
 
-Before you can manage service account tokens, you need:
+To manage service account tokens, ensure that the following prerequisites are met:
 
 - **Group membership**: You must share at least one group with the service account. Without this, the token list returns a 403 error.
 - **Permission**: Either the `access_token.manage` role permission ([Roles](/user-guide/roles)), the `MANAGE_ACCESS_TOKEN` bundle permission ([Domain Authorization](/user-guide/iam/ras/domain-authorization)), or any admin role. The **Generate new token** button stays disabled if you lack the required permission.
