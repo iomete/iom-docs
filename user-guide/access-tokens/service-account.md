@@ -13,11 +13,22 @@ If you need automated systems, CI/CD pipelines, or external integrations to call
 
 This guide focuses on what's different about service account tokens. For the basics of creating, suspending, and rate-limiting tokens, see the [Personal Access Tokens](./personal) guide.
 
+## Prerequisites
+
+Before you can manage service account tokens, you need:
+
+- **Group membership**: You must share at least one group with the service account. Without this, the token list returns a 403 error.
+- **Permission**: Either the `access_token.manage` role permission (domain level) or any admin role (admin level). The **Generate new token** button stays disabled if you lack the required permission.
+
+:::warning Group Membership
+If you see _"You must be in the same group as this service account to view and manage tokens"_, ask your admin to add you to one of the service account's groups.
+:::
+
 ## Finding the Token Management Page
 
 You manage service account tokens from the account's detail page. The **Access Tokens** tab only appears for users of type `SERVICE_ACCOUNT`, and you can get there in two ways.
 
-**From the domain level (Members)**
+**For domain members**
 
 1. Go to **Settings** > **Members**.
 2. Find and select the service account.
@@ -25,7 +36,7 @@ You manage service account tokens from the account's detail page. The **Access T
 
 <Img src="/img/user-guide/service-account-access-tokens/domain-access-tokens-tab.png" alt="Service account detail page showing the Access Tokens tab at domain level under Settings > Members" />
 
-**From the admin level (Users)**
+**For admins**
 
 1. Go to **Admin** > **Users**.
 2. Find and select the service account.
@@ -35,20 +46,11 @@ You manage service account tokens from the account's detail page. The **Access T
 
 Both paths lead to the same interface. The difference is permissions: domain-level access requires the `access_token.manage` role permission, while admin-level access is open to any admin user.
 
-## Same-Group Requirement
-
-IOMETE enforces a group membership check: you must share at least one group with the service account before you can view or manage its tokens. If you don't, the token list returns a 403 error.
-
-:::warning Group Membership
-If you see _"You must be in the same group as this service account to view and manage tokens"_, ask your admin to add you to one of the service account's groups.
-:::
-
 ## Managing Service Account Tokens
 
 You create, suspend, and delete service account tokens the same way as personal tokens — with a few key differences. See the [Personal Access Tokens](./personal) guide for the full workflow.
 
 - **Max RPS column**: The token list includes a **Max RPS** column (only visible for service accounts) that displays the configured requests-per-second cap, or "None" if unset.
-- **Permission gates**: The **Generate new token** button stays disabled if you lack the `access_token.manage` permission or don't meet the same-group requirement.
 
 <Img src="/img/user-guide/service-account-access-tokens/generate-token.png" alt="Generate Access Token dialog with Token name, Max RPS, and expiration options" />
 
