@@ -77,7 +77,6 @@ const userGuideRedirects = [
 
   // access tokens grouped under category
   { from: "/user-guide/create-a-personal-access-token", to: "/user-guide/access-tokens/personal" },
-  { from: "/user-guide/service-account-access-tokens", to: "/user-guide/access-tokens/service-account" },
 ];
 
 export default userGuideRedirects;
