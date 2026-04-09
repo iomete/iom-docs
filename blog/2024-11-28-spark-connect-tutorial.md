@@ -59,7 +59,7 @@ Deep dive into the world of data analytics using IOMETE Spark Connect with PySpa
   ```
 
 - Update the file
-  - Get the access token by following the steps mentioned [here](https://iomete.com/resources/user-guide/create-a-personal-access-token) and replace \<access-token> with it.
+  - Get the access token by following the steps mentioned [here](/user-guide/access-tokens/personal) and replace \<access-token> with it.
   - Copy the Spark Connect endpoint from the **Connections** section and replace \<spark-connect-endpoint> with it.
 - Validate PySpark installation
   - Run from the command line with python `example.py`

@@ -27,7 +27,7 @@ IOMETE provides APIs to support user and group provisioning/deprovisioning. To i
 3. Unique identifier field for users: `userName`
 4. Headers:
    1. `Content-Type`: `application/scim+json` 
-   2. `Authorization`: `Bearer <access_token>` (*see [here how to generate access token](https://iomete.com/resources/user-guide/create-a-personal-access-token#create-new-access-token)*)
+   2. `Authorization`: `Bearer <access_token>` (*see [here how to generate access token](/user-guide/access-tokens/personal#create-new-access-token)*)
 
 <br/>
 

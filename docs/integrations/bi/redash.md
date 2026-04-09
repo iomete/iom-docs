@@ -37,7 +37,7 @@ This guide walks you through connecting Redash to your IOMETE [compute cluster](
 | Port               | \{server port}                                                         |
 | HTTP Path          | /data-plane/\{namespace}/lakehouse/\{compute_cluster_name}                                     |
 | Username (User ID) | \{your user name}                                                      |
-| Password           | \{[personal access token](/user-guide/create-a-personal-access-token)} |
+| Password           | \{[personal access token](/user-guide/access-tokens/personal)} |
 | Database           | \{database name}                                                       |
 | HTTP Scheme        | http/https                                                             |
 

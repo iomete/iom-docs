@@ -28,7 +28,7 @@ You'll need a few things in place before connecting Tableau to IOMETE:
 
 - A **running IOMETE compute cluster** ([setup instructions](/user-guide/compute-clusters/overview))
 - **Tableau Desktop** or **Tableau Cloud** ([download Tableau Desktop](https://www.tableau.com/products/desktop/download))
-- A **Personal Access Token** for authentication, since Tableau doesn't accept regular passwords ([how to create one](/user-guide/create-a-personal-access-token))
+- A **Personal Access Token** for authentication, since Tableau doesn't accept regular passwords ([how to create one](/user-guide/access-tokens/personal))
 - For the CData method only: the [Spark SQL by CData](https://www.cdata.com/drivers/spark/tableau) connector
 
 ## Finding Connection Parameters
@@ -66,7 +66,7 @@ This is the simplest path because Tableau ships with a built-in Spark SQL connec
 | **Port** | `443` for HTTPS or `80` for HTTP (shown as `PORT` in the console) |
 | **Authentication** | Username and Password |
 | **Username** | Your IOMETE user ID |
-| **Password** | \{[personal access token](/user-guide/create-a-personal-access-token)} |
+| **Password** | \{[personal access token](/user-guide/access-tokens/personal)} |
 | **Transport** | HTTP |
 | **HTTP Path** | `/data-plane/\{namespace\}/lakehouse/\{compute-name\}` |
 | **SSL** | Check **Require SSL** if your platform uses HTTPS |
@@ -74,7 +74,7 @@ This is the simplest path because Tableau ships with a built-in Spark SQL connec
 <Img src="/img/guides/iomete-tableau-integration/tableau-spark-sql-driver.png" dark="/img/guides/iomete-tableau-integration/tableau-spark-sql-driver-dark.png" alt="Spark SQL driver connection parameters in IOMETE console"/>
 
 :::warning Personal Access Token Required
-The **Password** field takes a **Personal Access Token**, not your account password. Generate one under **Settings > Access Tokens** in the IOMETE console. See [Creating a Personal Access Token](/user-guide/create-a-personal-access-token).
+The **Password** field takes a **Personal Access Token**, not your account password. Generate one under **Settings > Access Tokens** in the IOMETE console. See [Creating a Personal Access Token](/user-guide/access-tokens/personal).
 :::
 
 :::info HTTP Path Format
@@ -110,7 +110,7 @@ If you need the extra configuration options that CData offers, use this method i
 | **Port** | `443` for HTTPS or `80` for HTTP |
 | **Auth Scheme** | Plain |
 | **User** | Your IOMETE user ID |
-| **Password** | \{[personal access token](/user-guide/create-a-personal-access-token)} |
+| **Password** | \{[personal access token](/user-guide/access-tokens/personal)} |
 
 **Advanced tab:**
 
@@ -123,7 +123,7 @@ If you need the extra configuration options that CData offers, use this method i
 <Img src="/img/guides/iomete-tableau-integration/tableau-spark-sql-c-data-driver.png" dark="/img/guides/iomete-tableau-integration/tableau-spark-sql-c-data-driver-dark.png" alt="CData Spark SQL connector parameters in IOMETE console"/>
 
 :::warning Personal Access Token Required
-The **Password** field takes a **Personal Access Token**, not your account password. See [Creating a Personal Access Token](/user-guide/create-a-personal-access-token).
+The **Password** field takes a **Personal Access Token**, not your account password. See [Creating a Personal Access Token](/user-guide/access-tokens/personal).
 :::
 
 5. Click **Connect**.
@@ -154,6 +154,6 @@ With the connection in place, you're ready to turn your IOMETE data into visuali
 
 ## Next Steps
 
-- [Creating a Personal Access Token](/user-guide/create-a-personal-access-token): generate tokens for Tableau authentication
+- [Creating a Personal Access Token](/user-guide/access-tokens/personal): generate tokens for Tableau authentication
 - [Compute Clusters](/user-guide/compute-clusters/overview): create and manage the compute clusters Tableau connects to
 - [Power BI](./power-bi): connect Power BI to IOMETE as an alternative BI tool

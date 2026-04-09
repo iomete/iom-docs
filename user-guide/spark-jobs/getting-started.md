@@ -213,5 +213,5 @@ From the job main page, you can:
 <Img src="/img/guides/spark-job/job-options.png" alt="Spark Job actions menu showing Configure, Duplicate, Suspend, Delete, and API operations"/>
 
 :::info ACCESS TOKEN
-To use the API, you need an [access token](/user-guide/create-a-personal-access-token). Go to the **Settings** menu and switch to the **Access Tokens** tab.
+To use the API, you need an [access token](/user-guide/access-tokens/personal). Go to the **Settings** menu and switch to the **Access Tokens** tab.
 :::

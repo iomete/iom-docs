@@ -73,7 +73,15 @@ const sidebars = {
             "data-catalog/access-permissions",
           ],
         },
-        "create-a-personal-access-token",
+        {
+          type: "category",
+          label: "Access Tokens",
+          collapsed: true,
+          items: [
+            "access-tokens/personal",
+            "access-tokens/service-account",
+          ],
+        },
         "global-spark-settings",
         "private-docker-registry",
         "docker-tag-aliases",
