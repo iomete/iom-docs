@@ -9,7 +9,7 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-Some workloads never finish on purpose. Streaming Jobs are long-running Spark applications built for continuous data processing: real-time ingestion, event processing, and anything that needs always-on execution. Unlike regular [Spark Jobs](./getting-started.md), which run on a schedule or on demand, Streaming Jobs run indefinitely until you stop them.
+Streaming Jobs are long-running Spark applications built for continuous data processing: real-time ingestion, event processing, and anything that needs always-on execution. Unlike regular [Spark Jobs](./getting-started.md), which run on a schedule or on demand, Streaming Jobs run indefinitely until you stop them.
 
 :::info Key Differences From Spark Jobs
 Streaming Jobs share the same form and compute infrastructure as regular Spark Jobs, but differ in a few ways:
@@ -18,7 +18,7 @@ Streaming Jobs share the same form and compute infrastructure as regular Spark J
 - **No max execution duration**: they run indefinitely by default.
 - **No concurrency settings**: only one application runs at a time per job.
 - **No advanced settings**: flow and priority options aren't available.
-:::
+  :::
 
 ---
 
@@ -104,18 +104,18 @@ The default tab lists every application (run) for the streaming job.
 
 Each row in the table includes:
 
-| Column | Description |
-| --- | --- |
-| Name | Application name with ID |
-| Started | When the application started and by whom |
-| Duration | Running duration (live counter for active applications) |
-| Driver state | Current Spark driver status |
-| Executor state | Running and pending executor count |
-| Namespace | Deploy namespace |
-| Run as user | Identity the application runs under |
-| Triggered by | Who started the application |
-| Attempts | Submission and execution attempt counts |
-| Tags | Resource tag labels |
+| Column         | Description                                             |
+| -------------- | ------------------------------------------------------- |
+| Name           | Application name with ID                                |
+| Started        | When the application started and by whom                |
+| Duration       | Running duration (live counter for active applications) |
+| Driver state   | Current Spark driver status                             |
+| Executor state | Running and pending executor count                      |
+| Namespace      | Deploy namespace                                        |
+| Run as user    | Identity the application runs under                     |
+| Triggered by   | Who started the application                             |
+| Attempts       | Submission and execution attempt counts                 |
+| Tags           | Resource tag labels                                     |
 
 Filter by **Run as user**, **Triggered by**, **Resource tags**, or **Status**, and use the search bar to find applications by name or ID.
 
@@ -199,24 +199,22 @@ To use the API, you need an [access token](/user-guide/create-a-personal-access-
 
 Each streaming job displays a status that reflects its active application. The page updates automatically, so you don't need to refresh.
 
-| Status | Meaning |
-| --- | --- |
-| Starting | The application is being submitted or is pending |
-| Running | The application is actively processing data |
-| Completed | The application finished successfully |
-| Aborted | The application was manually stopped |
-| Failed | The application encountered an error |
+| Status    | Meaning                                          |
+| --------- | ------------------------------------------------ |
+| Starting  | The application is being submitted or is pending |
+| Running   | The application is actively processing data      |
+| Completed | The application finished successfully            |
+| Aborted   | The application was manually stopped             |
+| Failed    | The application encountered an error             |
 
 ---
 
-## Permissions
+## Access Permissions
 
-Access to streaming jobs is controlled through [Resource Access Service (RAS)](/user-guide/ras/resource-bundles). The **New Streaming Job** button only appears if you have the CREATE permission.
+Who can see and interact with a streaming job depends on permissions granted to users or groups at two levels:
 
-| Action | Required Permission |
-| --- | --- |
-| View job details and applications | VIEW |
-| Create a streaming job | CREATE |
-| Edit a streaming job | UPDATE |
-| Delete a streaming job | DELETE |
-| Start or stop a streaming job | RUN |
+- **Domain level**
+  The **Create Spark Job** permission lets a user create new streaming jobs. Admins assign it directly through member permissions or indirectly through a domain bundle. See [Domain Authorization](/user-guide/iam/ras/domain-authorization) for details.
+
+- **Resource level**
+  Per-job permissions (`VIEW`, `RUN`, `UPDATE`, `DELETE`) come from the job's resource bundle. `RUN` lets a user start or stop a streaming job. The streaming job list only shows jobs where you have at least `VIEW` permission. See [Resource Bundles](/user-guide/ras/resource-bundles) for bundle-based access control.
