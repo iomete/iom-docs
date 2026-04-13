@@ -205,6 +205,7 @@ const sidebars = {
       collapsed: true,
       items: [
         "spark-jobs/getting-started",
+        "spark-jobs/streaming-jobs",
         "spark-jobs/spark-application-config",
         "spark-jobs/accessing-specific-buckets",
         "spark-jobs/iomete-sdk",
