@@ -3,8 +3,8 @@ title: What is IOMETE?
 sidebar_label: What is IOMETE?
 description: IOMETE is a state-of-the-art, fast, scalable, user-friendly Data Lakehouse Platform for AI and Analytics.
 last_update:
-  date: 01/30/2024
-  author: Vusal Dadalov
+  date: 04/14/2026
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
@@ -97,14 +97,12 @@ IOMETE seamlessly handles structured, semi-structured, and unstructured data for
 And, IOMETE uses these Lakehouse Storage formats offering you the best integration options for managing your data.
 
 - Apache Iceberg
-- Apache Hudi
-- Delta Lake
 
 ### Compute Layer
 
-IOMETE runs on Kubernetes, providing Lakehouse Clusters that expose SQL endpoints for querying large-scale data. You can connect various BI and data science tools, such as Tableau and Jupyter, to IOMETE to perform complex analytics tasks.
+IOMETE runs on Kubernetes, providing Compute Clusters that expose SQL endpoints for querying large-scale data. You can connect BI and data science tools such as Tableau and Jupyter to IOMETE via JDBC/ODBC, Spark Connect, or Arrow Flight protocol.
 
-The platform also includes additional services like Spark Jobs, Advanced Data Access Control, Data Catalog, and a Jupyter Notebook Service. IOMETE utilizes Apache Spark, a widely adopted open-source data processing engine, known for its speed and versatility.
+The platform also includes additional services like Spark Jobs, Advanced Data Access Control, Data Catalog, and Jupyter Containers. IOMETE utilizes Apache Spark, a widely adopted open-source data processing engine, known for its speed and versatility.
 
 ## Key Features
 
@@ -114,11 +112,21 @@ IOMETE offers a wide range of features to enhance your data engineering experien
 
 - **Data Catalog**: Maintain a centralized repository for dataset metadata, promoting collaboration and resource sharing.
 
-- **Central Data Access Control**: Manage access control policies for all datasets, including selective masking for sensitive fields, built on Apache Ranger.
+- **Central Data Access Control**: Manage access control policies for all datasets, including selective masking for sensitive fields, with fine-grained permissions managed through the Identity Service.
 
-- **Integration with External Tools**: Easily integrate with external tools, including Apache Airflow and BI tools like Tableau and PowerBI.
+- **Integration with External Tools**: Easily integrate with external tools, including Apache Airflow and BI tools like Tableau and Power BI.
 
 - **BI Tool Integration**: Effortlessly work with major BI tools for comprehensive business intelligence experiences.
+
+- **Collaborative SQL Editor**: Write and edit SQL queries in real-time with multiple team members simultaneously.
+
+- **Event Streams**: Ingest real-time events via REST API directly into Iceberg tables for immediate analytics.
+
+- **Spark Connect & Arrow Flight**: Connect programmatically from BI tools, data apps, and notebooks using Spark Connect or Arrow Flight protocol.
+
+- **Git Integration**: Version control your SQL worksheets and queries with Git for change tracking and collaboration.
+
+- **Multi-Domain Support**: Organize teams, projects, or environments into separate domains, each with its own resources, members, and roles.
 
 - **Exceptional Performance**: Benefit from optimizations and modern technologies that deliver superior performance compared to competitors.
 
@@ -157,7 +165,7 @@ IOMETE Enterprise Edition offers a control plane and multi-data plane architectu
 
 ### Efficient Data Governance and Collaboration
 
-- **Central Data Access Control**: Built on Apache Ranger, managing access control policies effectively.
+- **Central Data Access Control**: Fine-grained access control policies managed through the Identity Service.
 - **Data Catalog**: Centralized repository for dataset metadata, promoting efficient collaboration and resource sharing.
 
 ### High Availability and Disaster Recovery
@@ -167,7 +175,7 @@ IOMETE Enterprise Edition offers a control plane and multi-data plane architectu
 ### Technological Excellence
 
 - **Cutting-Edge Components**: Utilizes leading technologies like Apache Spark, Apache Iceberg, and Kubernetes for top-notch performance and elasticity.
-- **Comprehensive Data Processing Services**: Includes services like Spark Jobs, Data Catalog, and Jupyter Notebook Service for a complete data engineering experience.
+- **Comprehensive Data Processing Services**: Includes services like Spark Jobs, Data Catalog, and Jupyter Containers for a complete data engineering experience.
 
 ## Glossary
 
@@ -175,22 +183,37 @@ Before diving deeper into IOMETE, familiarize yourself with the key terms and co
 
 - **Object Storage**: A durable and available object storage system, with MinIO configured for optimal performance.
 
-- **Compute Cluster with Kubernetes**: Kubernetes orchestrates IOMETE services, including Lakehouse and Spark job clusters, providing elasticity and scalability.
+- **Compute Cluster with Kubernetes**: Kubernetes orchestrates IOMETE services, including Compute Clusters and Spark job clusters, providing elasticity and scalability.
 
-- **Lakehouse Platform**: Powered by Apache Spark and Apache Iceberg, it offers a robust SQL interface for data exploration and analytics, including ACID-compliant operations and data versioning.
+- **Lakehouse Platform**: Powered by Apache Spark and Apache Iceberg, it offers a robust SQL interface for data exploration and analytics, including ACID-compliant operations, schema evolution, and data versioning.
 
 - **Query Federation Engine**: Allows querying data from multiple sources without complex ETL pipelines.
 
 - **Spark Job Service**: Facilitates running and monitoring Spark Jobs, including Spark Streaming for real-time data processing.
 
-- **Notebook Service**: Provides an environment for running ad-hoc queries with results streamed back from the IOMETE cluster.
+- **Jupyter Containers**: Interactive notebook environments for data exploration, ad-hoc queries, and ML development, running directly on the platform.
 
 - **Data Catalog**: A centralized repository for dataset metadata, enhancing collaboration and resource sharing.
 
-- **Central Data Access Control**: Manages access control policies across all datasets, including selective masking for sensitive fields, built on Apache Ranger.
+- **Central Data Access Control**: Manages access control policies across all datasets, including selective masking for sensitive fields, with fine-grained permissions managed through the Identity Service.
 
-- **Built-in SQL Editor**: Features syntax highlighting and auto-completion for writing SQL queries.
+- **Collaborative SQL Editor**: Features syntax highlighting, auto-completion, and real-time multi-user editing, allowing team members to work on queries simultaneously.
 
 - **Integration with External Tools**: Supports integration with tools like Apache Airflow and BI tools, enhancing extensibility and existing infrastructure compatibility.
 
-This documentation provides a clear understanding of what IOMETE is and the benefits it offers. Feel free to explore the platform further, and don't hesitate to reach out if you have any questions or need additional guidance on using IOMETE for your data management and analytics needs.
+- **Event Streams**: Real-time event ingestion via REST API, storing events directly into Iceberg tables for immediate analytics.
+
+- **Spark Connect & Arrow Flight**: Protocols for programmatic access to compute clusters from BI tools, data applications, and notebooks.
+
+- **Git Integration**: Version control SQL worksheets and queries with Git for change tracking and team collaboration.
+
+- **Multi-Domain Support**: Logical separation of teams, projects, or environments into domains, each with independent resources, members, and roles.
+
+## Next Steps
+
+Explore the rest of the Getting Started section to learn more about the platform:
+
+- [Architecture Overview](./architecture) - detailed microservices breakdown, service routing, and technology stack
+- [Platform Tour](./platform-tour) - navigate the IOMETE console, sidebar menus, and domain vs. admin areas
+- [Scalability](./scalability) - four scaling layers, autoscaling configuration, and cost optimization
+- [Support](./support) - getting help and contacting the IOMETE team

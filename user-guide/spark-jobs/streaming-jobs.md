@@ -190,7 +190,7 @@ After a streaming job is running, you may need to edit its configuration, duplic
 <Img src="/img/guides/streaming-job/streaming-job-applications-header.png" alt="Streaming Job header actions showing JSON view, API operations, Configure button, and three-dot menu with Duplicate and Delete options" maxWidth="500px"/>
 
 :::info Access Token
-To use the API, you need an [access token](/user-guide/create-a-personal-access-token). Go to **Settings** and switch to the **Access Tokens** tab.
+To use the API, you need an [access token](../access-tokens/personal.md). Go to **Settings** and switch to the **Access Tokens** tab.
 :::
 
 ---
