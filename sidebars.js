@@ -154,7 +154,7 @@ const sidebars = {
             "reference/spark-sql/ddl/drop-database",
             "reference/spark-sql/ddl/create-table",
             "reference/spark-sql/ddl/alter-table",
-            // 'reference/spark-sql/ddl/drop-table',
+            "reference/spark-sql/ddl/drop-table",
             "reference/spark-sql/ddl/create-view",
             // "reference/spark-sql/ddl/sql-ddl-examples",
             // 'reference/spark-sql/ddl/drop-view'
