@@ -114,17 +114,17 @@ IOMETE offers a wide range of features to enhance your data engineering experien
 
 - **Central Data Access Control**: Manage access control policies for all datasets, including selective masking for sensitive fields, with fine-grained permissions managed through the Identity Service.
 
-- **Integration with External Tools**: Easily integrate with external tools, including Apache Airflow and BI tools like Tableau and PowerBI.
+- **Integration with External Tools**: Easily integrate with external tools, including Apache Airflow and BI tools like Tableau and Power BI.
 
 - **BI Tool Integration**: Effortlessly work with major BI tools for comprehensive business intelligence experiences.
 
-- **Collaborative SQL Editor**: Write and edit SQL queries in real time with multiple team members simultaneously.
+- **Collaborative SQL Editor**: Write and edit SQL queries in real-time with multiple team members simultaneously.
 
 - **Event Streams**: Ingest real-time events via REST API directly into Iceberg tables for immediate analytics.
 
 - **Spark Connect & Arrow Flight**: Connect programmatically from BI tools, data apps, and notebooks using Spark Connect or Arrow Flight protocol.
 
-- **Git Integration**: Version-control your SQL worksheets and queries with Git for change tracking and collaboration.
+- **Git Integration**: Version control your SQL worksheets and queries with Git for change tracking and collaboration.
 
 - **Multi-Domain Support**: Organize teams, projects, or environments into separate domains, each with its own resources, members, and roles.
 
@@ -197,17 +197,15 @@ Before diving deeper into IOMETE, familiarize yourself with the key terms and co
 
 - **Central Data Access Control**: Manages access control policies across all datasets, including selective masking for sensitive fields, with fine-grained permissions managed through the Identity Service.
 
-- **Built-in SQL Editor**: Features syntax highlighting and auto-completion for writing SQL queries.
+- **Collaborative SQL Editor**: Features syntax highlighting, auto-completion, and real-time multi-user editing, allowing team members to work on queries simultaneously.
 
 - **Integration with External Tools**: Supports integration with tools like Apache Airflow and BI tools, enhancing extensibility and existing infrastructure compatibility.
 
 - **Event Streams**: Real-time event ingestion via REST API, storing events directly into Iceberg tables for immediate analytics.
 
-- **Collaborative SQL Editor**: Real-time multi-user SQL editing, allowing team members to work on queries simultaneously.
-
 - **Spark Connect & Arrow Flight**: Protocols for programmatic access to compute clusters from BI tools, data applications, and notebooks.
 
-- **Git Integration**: Version-control SQL worksheets and queries with Git for change tracking and team collaboration.
+- **Git Integration**: Version control SQL worksheets and queries with Git for change tracking and team collaboration.
 
 - **Multi-Domain Support**: Logical separation of teams, projects, or environments into domains, each with independent resources, members, and roles.
 
