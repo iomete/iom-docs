@@ -6,9 +6,6 @@ jobs:
   production:
     name: documentation-deployment-v3
     runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -20,18 +17,22 @@ jobs:
           cache: "yarn"
       - run: yarn install --no-progress --frozen-lockfile
       - run: yarn build
-      #https://github.com/Reggionick/s3-deploy
-      #https://stackoverflow.com/questions/18774069/amazon-cloudfront-cache-control-no-cache-header-has-no-effect-after-24-hours
-      - name: S3 Upload
-        uses: reggionick/s3-deploy@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          folder: build
-          bucket: ${{ secrets.s3_bucket_name }}/resources
-          bucket-region: ${{ secrets.s3_bucket_region }}
-          dist-id: ${{ secrets.cloudfront_distribution_id }}
-          invalidation: /resources*
-          delete-removed: true
-          no-cache: false
-          cache: 86400
-          private: true
-          filesToInclude: "**"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.s3_bucket_region }}
+
+      - name: S3 Sync
+        run: |
+          aws s3 sync build/ s3://${{ secrets.s3_bucket_name }}/resources \
+            --delete \
+            --cache-control "max-age=86400"
+
+      - name: CloudFront Invalidation
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.cloudfront_distribution_id }} \
+            --paths "/resources/*"
