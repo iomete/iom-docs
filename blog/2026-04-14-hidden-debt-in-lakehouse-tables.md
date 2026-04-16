@@ -24,7 +24,7 @@ The culprit wasn't a bad query plan or a misconfigured cluster. It was **45 mill
 
 This is what table debt looks like. And if you're running Iceberg tables in production without automated maintenance, it's accumulating right now.
 
-<Img src="/img/blog/2026-04-16-hidden-debt-in-lakehouse-tables/day1-vs-day90.png" alt="Same table, three months apart: Day 1 with 500 data files and 10 MB metadata vs Day 90 with 45 million data files and 5 TB metadata" borderless/>
+<Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/day1-vs-day90.png" alt="Same table, three months apart: Day 1 with 500 data files and 10 MB metadata vs Day 90 with 45 million data files and 5 TB metadata" borderless/>
 
 ## What actually happens when you write data
 
@@ -40,14 +40,14 @@ Every commit creates new [metadata](https://iceberg.apache.org/spec/#table-metad
 - **snapshot**: an immutable pointer to the table's state at that moment
 - **manifest list**: the index of all manifest files for this snapshot
 
-<Img src="/img/blog/2026-04-16-hidden-debt-in-lakehouse-tables/iceberg-metadata-hierarchy.png" alt="Iceberg metadata hierarchy: catalog to metadata file to manifest list to manifest files to data files" centered borderless/>
+<Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/iceberg-metadata-hierarchy.png" alt="Iceberg metadata hierarchy: catalog to metadata file to manifest list to manifest files to data files" centered borderless/>
 
 What gets written at the data layer depends on the operation and the [write mode](https://iceberg.apache.org/docs/latest/configuration/#write-properties):
 
 - **Copy-on-Write (COW)** applies changes at write time. Every update or delete rewrites the full affected data file. The old copy stays until its snapshot expires. Writes are slower, reads stay clean.
 - **Merge-on-Read (MOR)** defers work to read time. Instead of rewriting files, it writes small [delete files](https://iceberg.apache.org/spec/#delete-formats) that mark removed rows. Reads merge data files with delete files at query time. Writes are fast, but reads get progressively slower as delete files pile up.
 
-<Img src="/img/blog/2026-04-16-hidden-debt-in-lakehouse-tables/cow-vs-mor.png" alt="Copy-on-Write vs Merge-on-Read: COW rewrites full files on update, MOR writes small delete files and defers merging to read time" borderless/>
+<Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/cow-vs-mor.png" alt="Copy-on-Write vs Merge-on-Read: COW rewrites full files on update, MOR writes small delete files and defers merging to read time" borderless/>
 
 In practice:
 
@@ -80,7 +80,7 @@ Every query slows down because the engine must resolve metadata, scan manifest l
 
 This is table debt.
 
-<Img src="/img/blog/2026-04-16-hidden-debt-in-lakehouse-tables/messy-warehouse.png" alt="A cluttered warehouse with boxes piled everywhere, illustrating unmaintained Iceberg table debt" borderless/>
+<Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/messy-warehouse.png" alt="A cluttered warehouse with boxes piled everywhere, illustrating unmaintained Iceberg table debt" borderless/>
 
 ## The four types of table debt
 
@@ -122,7 +122,7 @@ Compaction fixes all of it. Bring file count down to a few thousand and the same
 
 We’ve seen **10–100x improvements** from this alone.
 
-<Img src="/img/blog/2026-04-16-hidden-debt-in-lakehouse-tables/small_files_four_failure_modes.png" alt="Small files at scale: query planning goes from under 1 second to 30 seconds, 500x wasted I/O, $1200/month API costs, and driver OOM kills" borderless/>
+<Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/small_files_four_failure_modes.png" alt="Small files at scale: query planning goes from under 1 second to 30 seconds, 500x wasted I/O, $1200/month API costs, and driver OOM kills" borderless/>
 
 ### 2. Snapshot accumulation
 
@@ -142,7 +142,7 @@ The symptoms are subtle. Storage costs creep up without a clear reason, and comp
 
 Unless you configure a retention policy, Iceberg will not expire snapshots automatically. The system keeps everything until you clean it up.
 
-<Img src="/img/blog/2026-04-16-hidden-debt-in-lakehouse-tables/snapshot_accumulation.png" alt="Why compaction alone does not shrink storage: before compaction 1 TB, after compaction without snapshot expiry 2 TB, after expiry back to 1 TB" borderless/>
+<Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/snapshot_accumulation.png" alt="Why compaction alone does not shrink storage: before compaction 1 TB, after compaction without snapshot expiry 2 TB, after expiry back to 1 TB" borderless/>
 
 ### 3. Orphan files
 
@@ -158,7 +158,7 @@ However, they still accumulate in storage over time.
 
 **They are pure storage waste.** Nothing cleans them up automatically, so unless you explicitly run orphan file cleanup, they remain until you clean them up.
 
-<Img src="/img/blog/2026-04-16-hidden-debt-in-lakehouse-tables/orphan_files.png" alt="Orphan files sit in storage with no snapshot pointing to them, invisible to queries but still costing storage" borderless/>
+<Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/orphan_files.png" alt="Orphan files sit in storage with no snapshot pointing to them, invisible to queries but still costing storage" borderless/>
 
 ### 4. Metadata bloat (manifest fragmentation)
 
@@ -178,7 +178,7 @@ At that point, the problem shows up before scanning data.
 
 That’s why compaction alone often doesn’t fix the issue. You reduce the number of data files, but the manifest layer remains fragmented, so query planning is still slow. To fix this properly, both layers need maintenance. Compacting data files reduces file count, and rewriting manifests keeps the metadata layer efficient.
 
-<Img src="/img/blog/2026-04-16-hidden-debt-in-lakehouse-tables/manifest-fragmentation.png" alt="Healthy metadata with 3 large manifests vs fragmented metadata with 24+ small manifests — same data files, very different planning cost" borderless/>
+<Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/manifest-fragmentation.png" alt="Healthy metadata with 3 large manifests vs fragmented metadata with 24+ small manifests — same data files, very different planning cost" borderless/>
 
 ## The compounding effect
 
