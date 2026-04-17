@@ -244,6 +244,7 @@ const sidebars = {
       label: "Client & Libraries",
       collapsed: true,
       items: [
+        "driver/iomete-sqlalchemy",
         "driver/sql-alchemy-driver",
         "driver/jdbc-driver",
         "driver/arrow-flight-jdbc-driver",
