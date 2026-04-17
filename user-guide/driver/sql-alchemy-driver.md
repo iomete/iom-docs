@@ -6,7 +6,7 @@ last_update:
   author: Vusal Dadalov
 ---
 
-IOMETE lakehouse endpoints are compatible with the [py-hive-iomete](https://pypi.org/project/py-hive-iomete) driver.
+IOMETE compute endpoints are compatible with the [py-hive-iomete](https://pypi.org/project/py-hive-iomete) driver.
 
 ## Usage
 
@@ -107,23 +107,53 @@ engine = create_engine(
 # engine = create_engine(
 #     'iomete+https://<username>:<personal_access_token>@<host>:<port>/<database>?lakehouse=<lakehouse_cluster_name>')
 
+session = sessionmaker(bind=engine)()
+records = (
+    session.query(
+        Table(
+            "my_awesome_data",
+            MetaData(),
+            autoload_with=engine,
+        )
+    )
+    .limit(10)
+    .all()
+)
+print(records)
+
 # If your table is in a non-default catalog, specify the path as <catalog>.<database>.
 # Example:
 # iomete+https://<username>:<personal_access_token>@<host>:<port>/<catalog>.<database>?data_plane=<data_plane_name>&lakehouse=<lakehouse_cluster_name>
 
+# Example: use a non-default catalog in the connection URL and specify
+# schema="<database_b>" when the reflected table belongs to a different
+# database than the one used in the connection URL.
+#
+# In this example, <database_a> is the database used in the connection URL,
+# and <database_b> is the database that contains the reflected table.
+# Both belong to the same <catalog>.
+
+engine = create_engine(
+    "iomete+https://<username>:<personal_access_token>@<host>:<port>/<catalog>.<database_a>?data_plane=<data_plane_name>&lakehouse=<lakehouse_cluster_name>"
+)
+
 session = sessionmaker(bind=engine)()
-records = session.query(Table(
-    "my_awesome_data",
-    MetaData(),
-    # schema="<database>",  # Optional: use when the table belongs to a different database than the one in the connection URL
-    autoload_with=engine,
-)) \
-    .limit(10) \
+records = (
+    session.query(
+        Table(
+            "my_awesome_data",
+            MetaData(),
+            schema="<database_b>",
+            autoload_with=engine,
+        )
+    )
+    .limit(10)
     .all()
+)
 print(records)
 ```
 
-You can find the configuration parameters in the lakehouse "Connection Details" tab in the IOMETE console.
+You can find the connection parameters in the compute "Connections" tab in the IOMETE console.
 
 If your table is in a non-default catalog, use `<catalog>.<database>` in the connection URL path instead of only `<database>`.
 
