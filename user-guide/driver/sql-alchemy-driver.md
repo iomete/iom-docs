@@ -11,7 +11,7 @@ IOMETE compute endpoints are compatible with the [py-hive-iomete](https://pypi.o
 ## Usage
 
 :::info
-For a quick start, you can use the samples repository: https://github.com/iomete/py-hive-iomete-samples
+For additional DB-API and SQLAlchemy reference examples, see: https://github.com/iomete/iomete-integrations/tree/main/py-hive-iomete
 :::
 
 ## DB-API
