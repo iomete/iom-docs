@@ -8,7 +8,7 @@ last_update:
 ---
 
 import Img from '@site/src/components/Img';
-import { Plus, Code, Cpu } from "@phosphor-icons/react";
+import { Plus, Code } from "@phosphor-icons/react";
 
 
 Each Spark Job runs as an isolated Spark application with its own driver and (optionally) executors. Here's how to create one:
