@@ -29,7 +29,8 @@ const userGuideRedirects = [
   { from: "/developer-guide/notebook/using-jupyterlab", to: "/user-guide/notebook/using-jupyterlab" },
 
   // Spark Jobs (developer-guide/spark-job → user-guide/spark-jobs)
-  { from: "/developer-guide/spark-job/getting-started", to: "/user-guide/spark-jobs/getting-started" },
+  { from: "/developer-guide/spark-job/getting-started", to: "/user-guide/spark-jobs/creating-spark-job" },
+  { from: "/user-guide/spark-jobs/getting-started", to: "/user-guide/spark-jobs/creating-spark-job" },
   { from: "/developer-guide/spark-job/spark-application-config", to: "/user-guide/spark-jobs/spark-application-config" },
   { from: "/developer-guide/spark-job/iomete-sdk", to: "/user-guide/spark-jobs/iomete-sdk" },
   { from: "/developer-guide/spark-job/airflow", to: "/user-guide/spark-jobs/airflow" },
