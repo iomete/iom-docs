@@ -9,7 +9,7 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-This page covers every configuration option for creating or editing a Spark Job, organized by form section to match the console layout. For a step-by-step walkthrough, see [Getting Started](creating-spark-job.md).
+This page covers every configuration option for creating or editing a Spark Job, organized by form section to match the console layout. For a step-by-step walkthrough, see [Creating Spark Job](creating-spark-job.md).
 
 :::info Permissions
 Creating and managing Spark Jobs requires appropriate IAM permissions within your domain. Contact your domain owner if you cannot access the Job Templates page.
