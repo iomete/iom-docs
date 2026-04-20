@@ -51,7 +51,7 @@ The project is composed of the following folders/files:
   - `requirements-dev.txt`: contains the list of python packages to install for development
   - `requirements.txt`: contains the list of python packages to install for production. This requirements file is used to build the Docker image
   - `Dockerfile`: contains the Dockerfile to build the spark job image
-- `spark-conf/`: contains the spark configuration files for development environment
+- `spark_conf/`: contains the spark configuration files for development environment
   - `spark-defaults.conf`: contains the spark configuration
   - `log4j.properties`: contains the log4j configuration for the PySpark job. This file is used to configure the logging level of the job
 - `test_data/`: contains the test data for the job unit/integration tests
