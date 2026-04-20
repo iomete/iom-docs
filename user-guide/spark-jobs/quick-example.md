@@ -10,7 +10,7 @@ last_update:
 import Img from '@site/src/components/Img';
 import { Plus, Code, Cpu } from "@phosphor-icons/react";
 
-This guide aims to help you get familiar with getting started with writing your first Spark Job and deploying in the IOMETE platform.
+This guide walks you through writing, testing, and deploying your first Spark Job on the IOMETE platform. By the end, you'll have a working PySpark job running in IOMETE.
 
 :::info
 In this guide, we will use a PySpark sample job but, you can use any other language like Scala, Java or other supported languages.
@@ -30,15 +30,14 @@ The template already contains a sample job that reads a CSV file from an S3 buck
 
 ## Using the Template
 
-This template is meant to be used as a starting point for your own jobs. You can use it as follows:
+This template is meant to be used as a starting point for your own jobs. The typical workflow is:
 
-1.  Clone this repository
+1.  Clone the repository
 2.  Modify the code and tests to fit your needs
 3.  Build the Docker image and push it to your Docker registry
-4.  Create a Spark Job in the IOMETE console
+4.  [Create a Spark Job](./creating-spark-job.md) in the IOMETE console
 5.  Run the Spark Job
-6.  Modify the code and tests as needed
-7.  Go to step 3
+6.  Iterate — modify code, rebuild, and redeploy
 
 :::note
 If you are starting with PySpark at IOMETE, explore the sample code without modifying it. It will help you understand the process of creating and running a Spark Job.
@@ -110,4 +109,8 @@ Then, run the following command to build the Docker image:
 make docker-push
 ```
 
-Once the docker is built and pushed to your Docker registry, you can create a Spark Job in the IOMETE.
+Once the image is pushed to your Docker registry, you're ready to deploy it. Head over to [Creating Spark Job](./creating-spark-job.md) to set up the job in the IOMETE console. Use the following values in the **Application** section:
+
+- **Docker registry**: Select the registry where you pushed the image (or `default` if using IOMETE's built-in registry).
+- **Docker image**: Enter your image and tag, e.g. `your-registry/your-image:1.0.0`.
+- **Main application file**: `local:///app/job.py`
