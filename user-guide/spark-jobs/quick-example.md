@@ -7,9 +7,6 @@ last_update:
   author: Ujjawal Khare
 ---
 
-import Img from '@site/src/components/Img';
-import { Plus, Code, Cpu } from "@phosphor-icons/react";
-
 This guide walks you through writing, testing, and deploying your first Spark Job on the IOMETE platform. By the end, you'll have a working PySpark job running in IOMETE.
 
 :::info
