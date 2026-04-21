@@ -35,6 +35,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - **Queue Timeout & Config Failure Notifications**: Jobs that fail due to queue timeouts or job-level configuration errors now trigger notifications, so you are alerted immediately when a job cannot start. See [Queue Head Blocking Prevention](/user-guide/spark-jobs/job-orchestrator#queue-head-blocking-prevention-3150).
         - **Log Storage**: Job orchestrator logs can now be persisted to S3-compatible object storage, enabling centralized log retention and access across runs. See [S3 Log Storage](/user-guide/spark-jobs/job-orchestrator#s3-log-storage-3170).
         - **SSL Database Connection**: The job orchestrator can now connect to its backing database over SSL. See [SSL Database Connection](/user-guide/spark-jobs/job-orchestrator#ssl-database-connection-3170).
+
+    **Data Catalog**
+    - **Restored v2 Tag APIs**: Tag APIs removed in `v3.16.0` are restored as a compatibility layer on top of the new classification system. Existing clients continue to work without changes.
+      - `createTag`, `addTableTag`, `removeTableTag`, `addColumnTag`, `removeColumnTag`
+      - These endpoints are deprecated and will be removed in a future release. Migration to the [Classifications API](/user-guide/data-security/classifications) is strongly encouraged.
+    - **Search Index Management moved to Admin Portal**: Clearing the data catalog search index via API is no longer supported, please use the Admin Portal instead. The endpoint remains available but performs no action.
+    - **Metadata API Pagination**: Data catalog metadata retrieval now supports `page` and `size` query parameters (default size: 1000) to avoid memory pressure when retrieving large numbers of tables.  
   </Improvements>
 
   <BugFixes>
