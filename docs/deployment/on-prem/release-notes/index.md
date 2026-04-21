@@ -3,7 +3,7 @@ title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 last_update:
-  date: 02/25/2026
+  date: 04/21/2026
   author: Fuad Musayev
 ---
 
@@ -13,6 +13,28 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.17.0" date="April 21st, 2026">
+  <Improvements>
+    - **Access Policy Patch Support**: Added PATCH support for data access policies so admins can append or remove individual resources and policy items without resending the full policy definition.
+      - **`PATCH /access/policy/{policyId}/resources`**: Adds or removes a resource entry from an existing policy.
+      - **`PATCH /access/policy/{policyId}/policy-items`**: Adds or removes allow/deny policy items, including users, groups, roles, and their associated access permissions.
+    - **LDAP Identity Management Improvements**:
+      - Added automatic service account detection for LDAP-synced identities based on directory attributes such as `employeeType=Service`, ensuring these identities are imported as `Service Account` instead of `Person`. See [LDAP Configuration](/user-guide/ldap-configuration).
+      - Improved LDAP filter validation for custom sync filters by always validating overall filter syntax, tightening validation for edited filter lines, handling spacing/indentation edge cases more reliably, and surfacing clearer save-time error messages for invalid filters. See [LDAP Configuration](/user-guide/ldap-configuration).
+      - Added soft-delete based identity lifecycle for LDAP sync behind the `identitySoftDelete` feature flag. When enabled, LDAP-origin users and groups are reconciled incrementally: new identities are created, returning identities are restored, existing identities are updated in place, and identities no longer present in LDAP are archived instead of being hard-deleted. The same flag also enables soft-delete semantics for users, groups, and related identity mappings. See [LDAP Configuration](/user-guide/ldap-configuration).
+    - **Access token identity validation**: Access token authentication now validates the associated user on every request and rejects tokens whose user has been archived or no longer exists, preventing tokens from continuing to work after an identity is soft-deleted.
+    - **Resource Authorization System**: Added search and sorting by resource name alongside resource type filtering for resource bundles and related resource selection flows.
+    - **Spark Job Metrics**: Added spill metrics to the main job metrics page so disk spill can be monitored directly from the primary Spark application view.
+    - **Permission-aware bundle selection**: Bundle lists shown during resource creation are now filtered based on the user's access to the resource being created.
+    - **Bulk role assignment**: Added support for assigning roles to multiple users/groups in a single action, reducing one-by-one administration work.
+  </Improvements>
+
+  <BugFixes>
+    - **Access token notifications**: Fixed issues where expiry notifications were not evaluated consistently until service restart, showed incorrect expiry dates, or omitted the related account name from the notification.
+    - **Splunk log retrieval**: Fixed truncated Splunk log viewing by adding paginated retrieval, allowing users to access more than the previous 5000-row limit in the UI.
+  </BugFixes>
+</Release>
 
 <Release version="3.16.2" date="February 25th, 2026">
   <BugFixes>
