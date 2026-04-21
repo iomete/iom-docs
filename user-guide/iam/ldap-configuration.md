@@ -1,132 +1,141 @@
 ---
 slug: /ldap-configuration
 title: LDAP Configuration
-description: Learn how to integrate LDAP authentication within the IOMETE Data Plane
+description: Connect IOMETE to an LDAP or Active Directory server to import users and groups and authenticate sign-ins against the directory.
+sidebar_label: LDAP Configuration
 last_update:
-  date: 10/17/2024
-  author: Vugar Dadalov
+  date: 04/21/2026
+  author: Sourabh Jajoria
 ---
 
 import Img from '@site/src/components/Img';
 
-IOMETE offers an interface to configure your LDAP server.
+## LDAP Configuration Overview
 
----
+If your organization already manages users in LDAP or Active Directory, you can connect IOMETE to that directory to import users and groups and let LDAP users sign in with their existing credentials.
 
-## Configuration
+Open **Settings → IAM → LDAP** to configure the integration. Only users with the **IAM Manager** admin role can access this page.
 
-To view LDAP configuration page, navigate to the `Settings` menu item and click to the `LDAP` tab under `IAM`.
+:::info
+Only one LDAP integration can exist per data plane.
+:::
 
 <Img src="/img/user-guide/iam/ldap/ldap-configuration.png" alt="LDAP configuration" />
 
-### General options
+## Configuration
+
+### General Options
 
 The General Options include the following settings:
 
-- **Connection URL**:
-  The URL to connect to your LDAP server. Example: `ldap://openldap.infra.svc:389`
-- **Bind DN**:
-  The distinguished name (DN) used for binding to the LDAP server. This Bind DN must have the necessary permissions on the LDAP directory. Example: `cn=admin,dc=iomete,dc=com`
-- **Bind credential**:
-  The password for the Bind DN (admin).
+- **Connection URL**: The URL to connect to your LDAP server. Example: `ldap://openldap.infra.svc:389`
+- **Bind DN**: The distinguished name (DN) used for binding to the LDAP server. This bind DN must have the necessary permissions on the LDAP directory. Example: `cn=admin,dc=iomete,dc=com`
+- **Bind credential**: The password for the bind DN.
 
-<Img src="/img/user-guide/iam/ldap/ldap-general-options.png" alt="LDAP configuration general options" maxWidth="600px"/>
+Use **Test connection** after entering the **Connection URL** to verify that IOMETE can reach the LDAP server.
 
-:::info `Test connection`
-You can test a URL connection by clicking the `Test connection` button (located next to the Connection URL input) after entering the Connection URL, before saving your settings.
-:::
+Use **Test authentication** after entering the **Connection URL**, **Bind DN**, and **Bind credential** to verify that the bind credentials work.
 
-:::info `Test authentication`
-You can test URL authentication by clicking the `Test authentication` button (located next to the Bind Credential input) after entering the Connection URL, Bind DN and Bind Credential, before saving your settings.
-:::
-
-### User searching and updating
+### User Searching and Updating
 
 Defines the LDAP query parameters for locating and filtering users in the directory.
 
-- **Users DN**:
-  The full DN where the users are located in the LDAP directory. This DN is the parent of LDAP users. Example: ` ou=users,dc=iomete,dc=com`.
-- **User object classes**:
-  A comma-separated list of object classes that identify LDAP user objects. Example: `inetOrgPerson, organizationalPerson`.
-- **Custom user LDAP filter** _(Optional)_:
-  Add a custom filter to refine user search. Use LDAP syntax starting with `(` and ending with `)`.
+- **Users DN**: The full DN where the users are located in the LDAP directory. This DN is the parent of LDAP users. Example: `ou=users,dc=iomete,dc=com`.
+- **User object classes**: A comma-separated list of object classes that identify LDAP user objects. Example: `inetOrgPerson, organizationalPerson`.
+- **Custom user LDAP filter** _(Optional)_: Add a custom filter to refine user search. Enter one LDAP filter per line in the editor.
 
-<Img src="/img/user-guide/iam/ldap/ldap-user-setting.png" alt="LDAP configuration user searching and updating" maxWidth="600px"/>
+<Img src="/img/user-guide/iam/ldap/ldap-user-setting.png" alt="LDAP configuration user searching and updating" maxWidth="600px" />
 
-### User attribute mappings
+Use **Validate user filters** to check each non-empty filter line before saving. See [Validating LDAP Filters](#validating-ldap-filters) for details.
 
-The LDAP attribute mapped as IOMETE refers to the correlation between LDAP attributes and the application's internal user model, ensuring user-related information is correctly retrieved or stored from the LDAP directory.
+### User Attribute Mappings
 
-- **username**:
-  LDAP attribute mapped as IOMETE username. Commonly `uid` for many LDAP servers, and `sAMAccountName` or `cn` for Active Directory. This attribute must be set for all LDAP users you want to import into IOMETE.
-- **email**: LDAP attribute mapped as IOMETE email. Typically `mail` for most LDAP servers.
-- **firstName**: LDAP attribute mapped as IOMETE first name. Default `cn` (Common name)
-- **lastName**: LDAP attribute mapped as IOMETE last name. Commonly `sn` (surname) in most LDAP servers.
+The LDAP attribute mapped as IOMETE refers to the correlation between LDAP attributes and the application's internal user model, ensuring user-related information is correctly retrieved from the LDAP directory.
 
-<Img src="/img/user-guide/iam/ldap/ldap-user-attribute-mapping.png" alt="LDAP configuration user attribute mappings" maxWidth="600px"/>
+- **username**: LDAP attribute mapped as the IOMETE username. Commonly `uid` for many LDAP servers, and `sAMAccountName` or `cn` for Active Directory.
+- **email**: LDAP attribute mapped as the IOMETE email. Typically `mail` for most LDAP servers.
+- **firstName**: LDAP attribute mapped as the IOMETE first name. Default `cn` (common name).
+- **lastName**: LDAP attribute mapped as the IOMETE last name. Commonly `sn` (surname).
 
-### Group searching and updating
+If you want some imported LDAP users to be created as service accounts, enable **Use service-account** and fill these fields:
 
-Defines how LDAP groups are searched and mapped, including the DN base, object classes, filter, and group attribute mappings. This section is optional—if you don't need it, simply uncheck the option.
+- **LDAP attribute**: The LDAP attribute to inspect. Example: `employeeType`
+- **Attribute value**: The value that marks the user as a service account. Example: `service`
 
-- **Groups DN**:
-  Defines the LDAP tree where groups are located, for example: ` ou=groups,dc=iomete,dc=com`.
-  This is the parent distinguished name (DN) of your LDAP groups.
-- **Group object classes**:
-  A comma-separated list of object classes that identify LDAP group objects, for instance: ` groupOfNames`
-- **Custom group LDAP filter** _(Optional)_:
-  Add a custom filter to refine group searches. Use LDAP syntax, such as: ` (&(objectClass=groupOfNames)(cn={name}))`
+Imported users whose attribute matches this pair are created as service accounts instead of person accounts. You can manage their API access with [service account access tokens](../access-tokens/service-account).
 
-<Img src="/img/user-guide/iam/ldap/ldap-group-setting.png" alt="LDAP configuration group searching and updating" maxWidth="600px"/>
+### Group Searching and Updating
 
-### Group attribute mappings
+Defines how LDAP groups are searched and mapped, including the DN base, object classes, filter, and group attribute mappings. This section is optional. If you don't need LDAP groups, leave **Group searching and updating** unchecked.
 
-The attribute should be filled for all LDAP group records you want to import from LDAP server.
+- **Groups DN**: Defines the LDAP tree where groups are located. Example: `ou=groups,dc=iomete,dc=com`.
+- **Group object classes**: A comma-separated list of object classes that identify LDAP group objects. Example: `groupOfNames`
+- **Custom group LDAP filter** _(Optional)_: Add a custom filter to refine group searches. Enter one LDAP filter per line in the editor.
+
+<Img src="/img/user-guide/iam/ldap/ldap-group-setting.png" alt="LDAP configuration group searching and updating" maxWidth="600px" />
+
+Use **Validate group filters** to check group filter lines before saving.
+
+### Group Attribute Mappings
+
+The attribute should be filled for all LDAP group records you want to import from the LDAP server.
 
 - **name**: The LDAP attribute used for group names and RDN is typically `cn`. For example, a group's DN might look like `cn=Group1,ou=groups,dc=example,dc=org`.
 - **membership**: The LDAP attribute used for group membership mapping is typically `member`.
-- **membershipAttributeType**: Specifies the type of the membership attribute. It can be either a `DN` (Distinguished Name) or a `UID` (User Identifier). DN represents the **full path** to the object in the directory, while UID refers to the **unique identifier** of the user, commonly used in systems like POSIX.
+- **membershipAttributeType**: Specifies the type of the membership attribute. It can be either `DN` or `UID`. `DN` represents the full path to the object in the directory, while `UID` refers to the unique identifier of the user.
 
-<Img src="/img/user-guide/iam/ldap/ldap-group-attribute-mapping.png" alt="LDAP configuration group attribute mappings" maxWidth="600px" />
+### Sync Settings
 
-### Sync settings
+Use **Periodic full sync** to control whether IOMETE regularly synchronizes LDAP users and groups. When enabled, enter the full sync period in seconds. The minimum value is `5`, and the default interval is `86400` seconds (24 hours).
 
-Sync settings options include how often everything syncs: Full sync interval (seconds) or Updated/New LDAP user sync interval (seconds).
+After filling in all required information, click **Save**.
 
-- **Periodic full sync** Should periodic full synchronization of LDAP users be enabled in IOMETE? If enabled, a number input field will appear below it to input the synchronization interval in seconds.
+## Validating LDAP Filters
 
-<Img src="/img/user-guide/iam/ldap/ldap-sync-settings.png" alt="LDAP configuration sync settings" maxWidth="600px" />
+Custom user and group filters can be validated before you save the configuration.
 
-After filling in all the required information, click the <button className="button button--primary button-iom">**Create**</button> button.
+- Use **Validate user filters** or **Validate group filters** above the relevant filter editor.
+- Enter one LDAP filter per line. Blank lines are ignored.
+- Each validated line shows a status in the editor:
+  - Green means the line returned results.
+  - Yellow means the line returned no results.
+  - Red means the line produced an LDAP error.
+- If the DN format is invalid, IOMETE shows an inline error on the DN field.
+- If the LDAP server can't find the configured object path, IOMETE shows **No such object. Check DN and object classes.**
 
-## LDAP actions
+## LDAP Actions
 
-After creating LDAP, you will see action buttons on the left side below the input fields.
-<Img src="/img/user-guide/iam/ldap/ldap-sync-actions.png" alt="LDAP actions (Sync all users, Sync changed users, Remove imported users, Delete LDAP)"  maxWidth="600px" />
+After saving the integration, you can manage LDAP from the same page.
 
-### **Sync all users and groups**
+### Sync All Users and Groups
 
-    Clicking the `Sync all users and groups` button ensures that all user and group data from your LDAP server is synchronized with the IOMETE user and group database. This includes updating usernames, emails, group memberships, and any other user and group details.
+Click **Sync all users** or **Sync all users and groups** to synchronize the current LDAP users and groups with the IOMETE user and group database.
 
-### **Remove imported users and groups**
+### Remove Imported Users and Groups
 
-    Click `Remove imported users and groups` to delete any users and groups that were previously imported from the LDAP server. This action will remove them from the IOMETE user and group database.
+Click **Remove all users** or **Remove all users and groups** to delete previously imported LDAP data from IOMETE without deleting the LDAP configuration itself.
 
-### **Disable LDAP**
+### Enabling or Disabling LDAP
 
-    Click Disable LDAP to stop LDAP synchronization and disable the LDAP provider. Users previously imported from LDAP will be set to read-only until LDAP is re-enabled.
+Use **Enable LDAP** or **Disable LDAP** to turn the integration on or off. When LDAP is disabled, imported LDAP users can no longer sign in until it is enabled again.
 
-### **Delete LDAP**
+### Deleting LDAP
 
-    To permanently remove the LDAP settings, click Delete LDAP. A confirmation message will appear; confirm the action by selecting "Yes, delete" to finalize the removal.
-    
-### **Audit LDAP**
+Click **Delete LDAP** to permanently remove the LDAP configuration and the LDAP users and groups imported through it.
 
-Auditing LDAP operations, go to the `Settings` menu and select the `Event Logs` tab under `Administration`.
-Here, you can view detailed logs of who performed specific LDAP related actions and when.
+## Access Permissions
+
+All operations on the LDAP page require the **IAM Manager** admin role.
+
+| Admin role     | View | Create | Update | Enable/Disable | Sync | Remove imported | Delete |
+| -------------- | ---- | ------ | ------ | -------------- | ---- | --------------- | ------ |
+| IAM Manager    | Yes  | Yes    | Yes    | Yes            | Yes  | Yes             | Yes    |
+| Any other role | No   | No     | No     | No             | No   | No              | No     |
+
+## Auditing LDAP
+
+To audit LDAP operations, go to **Settings → Administration → Event Logs**. Here, you can view who performed LDAP-related actions and when.
 
 <Img src="/img/user-guide/iam/ldap/ldap-audit.png" alt="LDAP audit logs" />
 
-To examine the payload of each action, click the `+` button on the left side of any entry. 
-
-<Img src="/img/user-guide/iam/ldap/ldap-audit-payload.png" alt="LDAP audit payload" />
+Click the `+` icon on the left of any entry to inspect the payload for that action.
