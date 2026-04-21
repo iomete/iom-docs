@@ -123,6 +123,17 @@ Use **Enable LDAP** or **Disable LDAP** to turn the integration on or off. When 
 
 Click **Delete LDAP** to permanently remove the LDAP configuration and the LDAP users and groups imported through it.
 
+## Soft-Delete Behavior
+
+When the `identitySoftDelete` feature flag is enabled, LDAP sync uses an archive-and-restore flow instead of hard-deleting imported LDAP records.
+
+- **Full sync**: Existing LDAP users and groups are updated, previously archived LDAP users and groups are restored, new LDAP users and groups are created, and LDAP users and groups that no longer exist in the directory are archived. Before rebuilding the current LDAP state, IOMETE also soft-deletes LDAP user-group, user-role, group-role, and group-to-group mappings, then recreates the current mappings from the latest sync result.
+- **Remove all users** or **Remove all users and groups**: IOMETE soft-deletes all LDAP-origin users, groups, and LDAP mappings, but keeps the LDAP integration settings so you can sync again later.
+- **Delete LDAP**: IOMETE soft-deletes the LDAP integration record and soft-deletes all LDAP-origin users, groups, and LDAP mappings. After the delete completes, the page returns to create mode.
+- **Event logs**: Full sync still writes the standard **LDAP Sync** audit entry. In the soft-delete path, IOMETE also writes `iam-users` / `USERS_SYNCED` and `iam-groups` / `GROUPS_SYNCED` event-log entries with `created`, `updated`, `restored`, and `archived` lists.
+
+When the feature flag is disabled, full sync hard-cleans and re-imports LDAP data, and the remove/delete actions hard-delete imported LDAP users, groups, and mappings.
+
 ## Access Permissions
 
 All operations on the LDAP page require the **IAM Manager** admin role.
