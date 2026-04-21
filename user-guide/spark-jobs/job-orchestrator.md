@@ -126,6 +126,40 @@ services:
 | `settings.jobRunCleanup.enabled` | true | 3.15.0 | Enable periodic cleanup of completed queue runs and logs. |
 | `settings.jobRunCleanup.retentionPeriod` | 2592000 | 3.15.0 | Retention period in seconds (30 days). Older runs are automatically deleted. |
 
+### S3 Log Storage [3.17.0+]
+
+Job orchestrator logs can be persisted to S3-compatible object storage (MinIO, Dell ECS, etc.).
+
+```yaml
+services:
+  jobOrchestrator:
+    s3Logging:
+      enabled: true  # disabled by default
+      # Optional overrides — credentials and endpoint are derived from storage.minioSettings
+      # or storage.dellEcsSettings by default. Override only if using a separate bucket.
+      # endpoint: "https://your-s3-endpoint"
+      # accessKey: "your-access-key"
+      # secretKey: "your-secret-key"
+      # bucket: "your-bucket"
+      # folderPath: "job-orchestrator-logs"
+```
+
+### SSL Database Connection [3.17.0+]
+
+The job orchestrator can connect to its backing PostgreSQL database over SSL. Enable it in your `values.yaml`:
+
+```yaml
+javaTrustStore:
+  enabled: true
+  caCertFileName: your_file.crt   # key name of the PEM certificate chain in the java-truststore secret
+
+clusterDatabase:
+  ssl:
+    enabled: true
+```
+
+The `caCertFileName` must match the key name of a PEM certificate chain file stored in the `java-truststore` Kubernetes secret. See [Custom Java Truststore](/deployment/truststore) for setup instructions.
+
 ### System Properties
 
 Configure queue behavior via **Admin Portal → System Configuration**:

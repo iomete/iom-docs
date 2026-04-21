@@ -28,6 +28,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark Job Metrics**: Added spill metrics to the main job metrics page so disk spill can be monitored directly from the primary Spark application view.
     - **Permission-aware bundle selection**: Bundle lists shown during resource creation are now filtered based on the user's access to the resource being created.
     - **Bulk role assignment**: Added support for assigning roles to multiple users/groups in a single action, reducing one-by-one administration work.
+
+    **Spark Applications**
+    - **Namespace & Resource Bundle Filters**: Job templates, streaming jobs, and Spark applications pages now include filters by namespace and resource bundle, making it faster to locate resources in multi-namespace or multi-bundle deployments.
+      - **Job Orchestrator**
+        - **Queue Timeout & Config Failure Notifications**: Jobs that fail due to queue timeouts or job-level configuration errors now trigger notifications, so you are alerted immediately when a job cannot start. See [Queue Head Blocking Prevention](/user-guide/spark-jobs/job-orchestrator#queue-head-blocking-prevention-3150).
+        - **Log Storage**: Job orchestrator logs can now be persisted to S3-compatible object storage, enabling centralized log retention and access across runs. See [S3 Log Storage](/user-guide/spark-jobs/job-orchestrator#s3-log-storage-3170).
+        - **SSL Database Connection**: The job orchestrator can now connect to its backing database over SSL. See [SSL Database Connection](/user-guide/spark-jobs/job-orchestrator#ssl-database-connection-3170).
   </Improvements>
 
   <BugFixes>
