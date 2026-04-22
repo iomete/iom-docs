@@ -59,12 +59,21 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
     **Spark UI**
       - Added a new tab called "ArrowFlight SQL" for monitoring ArrowFlight sessions and operations.
+
+    **Spark Submit Service Improved Memory Management**
+      - Implemented TTL for Job logs in InMemorLogStorage for job submission logs
+      - Implemented max cap for log lines captured in InMemoryLogStorage
+      - Enhanced cleanup for URLClassLoaders created by spark submit operations.
   </Improvements>
 
   <BugFixes>
     - **Access token notifications**: Fixed issues where expiry notifications were not evaluated consistently until service restart, showed incorrect expiry dates, or omitted the related account name from the notification.
     - **Splunk log retrieval**: Fixed truncated Splunk log viewing by adding paginated retrieval, allowing users to access more than the previous 5000-row limit in the UI.
+    - **Activity Monitoring Query Archival**: Fixed an issue where queries marked as unreachable were not getting archived to Iceberg
   </BugFixes>
+
+      **Spark version:** 3.5.7-v1  
+      **Iceberg version:** 1.9.3
 </Release>
 
 <Release version="3.16.2" date="February 25th, 2026">
