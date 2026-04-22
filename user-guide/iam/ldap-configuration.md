@@ -17,7 +17,7 @@ If your organization already manages users in LDAP or Active Directory, you can 
 Open **Settings → IAM → LDAP** to configure the integration. Only users with the **IAM Manager** admin role can access this page.
 
 :::info
-Only one LDAP integration can exist per data plane.
+Each IOMETE installation supports a single, platform-wide LDAP configuration. The configuration is shared across all workspaces and clusters in the installation.
 :::
 
 <Img src="/img/user-guide/iam/ldap/ldap-configuration.png" alt="LDAP configuration" />
