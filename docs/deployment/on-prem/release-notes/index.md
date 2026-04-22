@@ -30,6 +30,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Permission-aware bundle selection**: Bundle lists shown during resource creation are now filtered to only include bundles where the user has at least one permission on the resource type being created.
     - **Bulk role assignment**: Added support for assigning a role to multiple users/groups simultaneously from the Roles page within a domain, reducing one-by-one administration work.
 
+    **Compute**
+    - **Min Executor Count**: You can now configure the minimum executor count when creating or editing a compute cluster, giving you finer control over baseline capacity and scale-down behavior. See [Creating a Cluster](/user-guide/compute-clusters/creating-clusters#general-tab).
+
+      <Img src="/img/compute/compute-min-exec.png" alt="Min executor count setting in compute" centered />
+
     **Spark Applications**
     - **Namespace & Resource Bundle Filters**: Job templates, streaming jobs, and Spark applications pages now include filters by namespace and resource bundle, making it faster to locate resources in multi-namespace or multi-bundle deployments.
       - **Job Orchestrator**
@@ -43,6 +48,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - These endpoints are deprecated and will be removed in a future release. Migration to the [Classifications API](/user-guide/data-security/classifications) is strongly encouraged.
     - **Search Index Management moved to Admin Portal**: Clearing the data catalog search index via API is no longer supported, please use the Admin Portal instead. The endpoint remains available but performs no action.
     - **Metadata API Pagination**: Data catalog metadata retrieval now supports `page` and `size` query parameters (default size: 1000) to avoid memory pressure when retrieving large numbers of tables.  
+
+    **Notebook**
+    - **Jupyter Container Create Permission**: Added a dedicated `Create Jupyter Container` permission in managed roles. Users without this permission cannot create new Jupyter Containers.
+
+      <Img src="/img/jupyter/create-notebook-permission.png" alt="Jupyter container create permission" centered />
   </Improvements>
 
   <BugFixes>
