@@ -47,12 +47,15 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - `createTag`, `addTableTag`, `removeTableTag`, `addColumnTag`, `removeColumnTag`
       - These endpoints are deprecated and will be removed in a future release. Migration to the [Classifications API](/user-guide/data-security/classifications) is strongly encouraged.
     - **Search Index Management moved to Admin Portal**: Clearing the data catalog search index via API is no longer supported, please use the Admin Portal instead. The endpoint remains available but performs no action.
-    - **Metadata API Pagination**: Data catalog metadata retrieval now supports `page` and `size` query parameters (default size: 1000) to avoid memory pressure when retrieving large numbers of tables.  
+    - **Metadata API Pagination**: Data catalog metadata retrieval now supports `page` and `size` query parameters (default size: 1000) to avoid memory pressure when retrieving large numbers of tables. 
 
     **Notebook**
     - **Jupyter Container Create Permission**: Added a dedicated `Create Jupyter Container` permission in managed roles. Users without this permission cannot create new Jupyter Containers.
 
       <Img src="/img/jupyter/create-notebook-permission.png" alt="Jupyter container create permission" centered />
+
+    **Spark UI**
+      - Added a new tab called "ArrowFlight SQL" for monitoring ArrowFlight sessions and operations.
   </Improvements>
 
   <BugFixes>
