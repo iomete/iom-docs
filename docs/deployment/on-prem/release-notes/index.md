@@ -25,10 +25,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Improved LDAP filter validation for custom sync filters by always validating overall filter syntax, tightening validation for edited filter lines, handling spacing/indentation edge cases more reliably, and surfacing clearer save-time error messages for invalid filters. See [LDAP Configuration](/user-guide/ldap-configuration).
       - Added soft-delete based identity lifecycle for LDAP sync behind the `identitySoftDelete` feature flag. When enabled, LDAP-origin users and groups are reconciled incrementally: new identities are created, returning identities are restored, existing identities are updated in place, and identities no longer present in LDAP are archived instead of being hard-deleted. The same flag also enables soft-delete semantics for users, groups, and related identity mappings. See [LDAP Configuration](/user-guide/ldap-configuration).
     - **Access token identity validation**: Access token authentication now validates the associated user on every request and rejects tokens whose user has been archived or no longer exists, preventing tokens from continuing to work after an identity is soft-deleted.
-    - **Resource Authorization System**: Added search and sorting by resource name alongside resource type filtering for resource bundles and related resource selection flows.
+    - **Resource Authorization System**: Added search and sorting by resource name alongside resource type filtering in the Resources tab of a resource bundle, making it easier to locate specific assets in large bundles.
     - **Spark Job Metrics**: Added spill metrics to the main job metrics page so disk spill can be monitored directly from the primary Spark application view.
-    - **Permission-aware bundle selection**: Bundle lists shown during resource creation are now filtered based on the user's access to the resource being created.
-    - **Bulk role assignment**: Added support for assigning roles to multiple users/groups in a single action, reducing one-by-one administration work.
+    - **Permission-aware bundle selection**: Bundle lists shown during resource creation are now filtered to only include bundles where the user has at least one permission on the resource type being created.
+    - **Bulk role assignment**: Added support for assigning a role to multiple users/groups simultaneously from the Roles page within a domain, reducing one-by-one administration work.
 
     **Spark Applications**
     - **Namespace & Resource Bundle Filters**: Job templates, streaming jobs, and Spark applications pages now include filters by namespace and resource bundle, making it faster to locate resources in multi-namespace or multi-bundle deployments.
