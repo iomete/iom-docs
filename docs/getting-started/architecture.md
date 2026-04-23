@@ -51,7 +51,7 @@ The Core Service owns platform-wide settings and cross-cutting concerns:
 This is the largest service by API surface because it manages every Spark-based resource:
 
 - [Compute clusters](/user-guide/compute-clusters/overview): create, start, stop, delete
-- [Spark batch and streaming jobs](/user-guide/spark-jobs/getting-started): submission, monitoring, scheduling
+- [Spark batch and streaming jobs](/user-guide/spark-jobs/creating-spark-job): submission, monitoring, scheduling
 - [Jupyter containers](/user-guide/notebook/jupyter-containers): lifecycle management
 - [Docker registries](/user-guide/private-docker-registry) and image management
 - Namespace and [secrets](/user-guide/secrets) management
@@ -132,7 +132,7 @@ See [Compute Clusters](/user-guide/compute-clusters/overview) for details.
 
 ### Spark Jobs
 
-Batch and streaming Spark applications. You can submit Scala or PySpark jobs, schedule them with the [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator), and monitor execution through the console. See [Spark Jobs](/user-guide/spark-jobs/getting-started).
+Batch and streaming Spark applications. You can submit Scala or PySpark jobs, schedule them with the [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator), and monitor execution through the console. See [Spark Jobs](/user-guide/spark-jobs/creating-spark-job).
 
 ### Jupyter Containers
 

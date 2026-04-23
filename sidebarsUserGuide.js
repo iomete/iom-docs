@@ -204,7 +204,8 @@ const sidebars = {
       label: "Spark Jobs",
       collapsed: true,
       items: [
-        "spark-jobs/getting-started",
+        "spark-jobs/creating-spark-job",
+        "spark-jobs/quick-example",
         "spark-jobs/streaming-jobs",
         "spark-jobs/spark-application-config",
         "spark-jobs/accessing-specific-buckets",

@@ -80,7 +80,7 @@ When cluster resources are tight, Kubernetes PriorityClasses determine which wor
 | Priority Class | Applies To |
 |---|---|
 | `iomete-compute` | Compute clusters |
-| `iomete-spark-job` | [Spark jobs](/user-guide/spark-jobs/getting-started) |
+| `iomete-spark-job` | [Spark jobs](/user-guide/spark-jobs/creating-spark-job) |
 | `iomete-notebook` | [Jupyter containers](/user-guide/notebook/jupyter-containers) |
 | `iomete-operational-support` | Job Orchestrator workers |
 

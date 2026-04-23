@@ -9,7 +9,7 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-Streaming Jobs are long-running Spark applications built for continuous data processing: real-time ingestion, event processing, and anything that needs always-on execution. Unlike regular [Spark Jobs](./getting-started.md), which run on a schedule or on demand, Streaming Jobs run indefinitely until you stop them.
+Streaming Jobs are long-running Spark applications built for continuous data processing: real-time ingestion, event processing, and anything that needs always-on execution. Unlike regular [Spark Jobs](creating-spark-job.md), which run on a schedule or on demand, Streaming Jobs run indefinitely until you stop them.
 
 :::info Key Differences From Spark Jobs
 Streaming Jobs share the same form and compute infrastructure as regular Spark Jobs, but differ in a few ways:
