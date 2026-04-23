@@ -70,6 +70,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Access token notifications**: Fixed issues where expiry notifications were not evaluated consistently until service restart, showed incorrect expiry dates, or omitted the related account name from the notification.
     - **Splunk log retrieval**: Fixed truncated Splunk log viewing by adding paginated retrieval, allowing users to access more than the previous 5000-row limit in the UI.
     - **Activity Monitoring Query Archival**: Fixed an issue where queries marked as unreachable were not getting archived to Iceberg
+    - **Secrets v1 reference masking**: Fixed an issue where secrets-v1 references such as `${secrets.DB_PASSWORD}` in environment variables and Spark config were being replaced with `******` in API responses. The masking logic now correctly skips values that are already secret references, preserving them as-is.
   </BugFixes>
 
       **Spark version:** 3.5.7-v1  
