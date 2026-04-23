@@ -3,7 +3,7 @@ title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 last_update:
-  date: 02/25/2026
+  date: 03/02/2026
   author: Fuad Musayev
 ---
 
@@ -13,6 +13,13 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.16.3" date="March 2nd, 2026">
+  <BugFixes>
+    - Fixed an issue where Git repository listing was not functioning correctly when Domain Authorization using RAS (introduced in v3.16.0) was enabled.
+      **Migration note:** Existing environments with domain authorization enabled should run the [ras-onboarding v1.0.6 migration job](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md) as part of this upgrade, or manually grant the required Git repository listing permissions.
+  </BugFixes>
+</Release>
 
 <Release version="3.16.2" date="February 25th, 2026">
   <BugFixes>
@@ -172,7 +179,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
         **Upgrade path**
         - New environments: enable `domainLevelBundleAuthorization` feature flag.
-        - Existing environments: run the [ras-onboarding v1.0.5 migration job](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md), then enable `domainLevelBundleAuthorization` feature flag.
+        - Existing environments: run the [ras-onboarding v1.0.6 migration job](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md), then enable `domainLevelBundleAuthorization` feature flag.
         - Verify feature/module status from `GET /api/v1/modules`.
 
         📄 Learn more: [Domain Authorization Documentation](/user-guide/iam/ras/domain-authorization)
