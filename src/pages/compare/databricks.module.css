@@ -1,0 +1,270 @@
+@import "../../components/marketing/marketingTokens.module.css";
+
+.page {
+  background: var(--mk-bg);
+  color: var(--mk-text);
+  font-family: var(--mk-font-body);
+}
+
+.content {
+  max-width: var(--mk-container);
+  margin: 0 auto;
+  padding: 0 1.5rem 80px;
+  display: grid;
+  gap: 2.5rem;
+}
+
+.intro {
+  display: grid;
+  gap: 1rem;
+  color: var(--mk-text);
+  font-size: var(--mk-body-size);
+  line-height: var(--mk-body-line);
+  letter-spacing: var(--mk-body-letter);
+}
+
+.comparison {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.comparisonTitle {
+  margin: 0;
+  color: var(--mk-text-strong);
+  font-size: 1.1rem;
+  font-family: var(--mk-font-heading);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.comparisonGrid {
+  display: grid;
+  gap: 0;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  border: 1px solid var(--mk-border);
+}
+
+.comparisonCard {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-right: 1px solid var(--mk-border);
+  background: var(--mk-surface);
+  color: var(--mk-text);
+  line-height: var(--mk-body-line);
+  box-shadow: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.comparisonCard:last-child {
+  border-right: none;
+}
+
+.label {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mk-text-strong);
+  margin-bottom: 0.35rem;
+  font-family: var(--mk-font-eyebrow);
+}
+
+/* Roadmap-style table */
+.tableWrap {
+  border: 1px solid var(--mk-border);
+  overflow: hidden;
+  background: var(--mk-surface);
+  box-shadow: none;
+}
+
+.tableOverflow {
+  min-width: 48rem;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.headerRow {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr;
+  width: 100%;
+  background: var(--mk-table-head-bg);
+}
+
+.headerCol {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 1rem;
+  color: var(--mk-base-950);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: var(--mk-font-eyebrow);
+  border-right: 1px solid var(--mk-border);
+}
+
+.headerCol:last-child {
+  border-right: none;
+}
+
+.itemRow {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr;
+  width: 100%;
+  border-top: 1px solid var(--mk-border);
+  transition: background-color 0.15s ease;
+}
+
+
+.itemRow:hover {
+  background-color: var(--mk-stone-50);
+}
+
+.itemCol {
+  padding: 0.75rem 1rem;
+  font-size: var(--mk-body-size);
+  line-height: var(--mk-body-line);
+  letter-spacing: var(--mk-body-letter);
+  color: var(--mk-text);
+  border-right: 1px solid var(--mk-border);
+}
+
+.itemCol:last-child {
+  border-right: none;
+}
+
+.itemColFirst {
+  font-weight: 500;
+  color: var(--mk-text-strong);
+  font-family: var(--mk-font-heading);
+}
+
+.itemColIomete {
+  color: var(--mk-text-strong);
+  font-weight: 500;
+  font-family: var(--mk-font-heading);
+}
+
+.ctaBand {
+  padding: 2rem;
+  border: 1px solid var(--mk-border);
+  background: var(--mk-surface);
+  display: grid;
+  gap: 0.75rem;
+  box-shadow: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaTitle {
+  margin: 0;
+  color: var(--mk-text-strong);
+  font-size: 1.4rem;
+  font-family: var(--mk-font-heading);
+  font-weight: 400;
+}
+
+.ctaSubtitle {
+  margin: 0;
+  color: var(--mk-text);
+  line-height: var(--mk-body-line);
+  font-size: var(--mk-body-size);
+  letter-spacing: var(--mk-body-letter);
+}
+
+.ctaAction {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.25rem;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  background-color: var(--mk-fluoro-400);
+  color: var(--mk-base-950);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.3s;
+}
+
+.ctaAction:hover {
+  text-decoration: none;
+  background-color: var(--mk-fluoro-500);
+}
+
+@media (max-width: 860px) {
+  .tableOverflow {
+    min-width: 100%;
+  }
+
+  .headerRow,
+  .itemRow {
+    grid-template-columns: 1fr;
+  }
+
+  .headerRow {
+    display: none;
+  }
+
+  .itemRow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 1px solid var(--mk-border);
+    margin-bottom: 0.75rem;
+    background: var(--mk-surface);
+  }
+
+  .itemRow:last-child {
+    margin-bottom: 0;
+  }
+
+  .itemCol {
+    border: none;
+    padding: 0;
+  }
+
+  .itemCol::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mk-text);
+    font-family: var(--mk-font-eyebrow);
+    margin-bottom: 0.15rem;
+  }
+
+  .itemColFirst {
+    border-left: none;
+  }
+
+  .itemColFirst::before {
+    content: "Feature";
+  }
+
+  .itemCol:nth-child(2)::before {
+    content: "Databricks";
+  }
+
+  .itemColIomete::before {
+    content: "IOMETE";
+  }
+
+  .itemCol:last-child::before {
+    content: "Notes";
+  }
+}
+
+@media (max-width: 720px) {
+  .content {
+    padding-bottom: 40px;
+  }
+}
