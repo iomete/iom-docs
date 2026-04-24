@@ -81,6 +81,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Splunk log retrieval**: Fixed truncated Splunk log viewing by adding paginated retrieval, allowing users to access more than the previous 5000-row limit in the UI.
     - **Activity Monitoring Query Archival**: Fixed an issue where queries marked as unreachable were not getting archived to Iceberg
     - **Secrets v1 reference masking**: Fixed an issue where secrets-v1 references such as `${secrets.DB_PASSWORD}` in environment variables and Spark config were being replaced with `******` in API responses. The masking logic now correctly skips values that are already secret references, preserving them as-is.
+    - **AWS S3 compatibility**: Fixed several issues that prevented IOMETE services from running reliably against AWS S3.
+      - Fixed Iceberg REST catalog failures on AWS S3 caused by missing endpoint handling and incorrect region resolution.
+      - Fixed Spark History Server failing to load event logs stored on AWS S3.
   </BugFixes>
 
       **Spark version:** 3.5.7-v1  
