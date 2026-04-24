@@ -102,7 +102,7 @@ After filling in all required information, click **Save**.
 
 ## Validating LDAP Filters
 
-Custom user and group filters can be validated before you save the configuration.
+You can validate custom user and group filters before you save the configuration.
 
 <Img src="/img/user-guide/iam/ldap/ldap-validate-user-filters.png" alt="Validated custom user LDAP filter showing 12 valid lines and 1 warning for a filter line with no results" maxWidth="600px" />
 
@@ -121,11 +121,11 @@ After saving the integration, you can manage LDAP from the same page.
 
 <Img src="/img/user-guide/iam/ldap/ldap-sync-actions.png" alt="LDAP action buttons: Sync all users and groups, Disable LDAP, and a menu with Remove all users and groups and Delete LDAP" maxWidth="600px" />
 
-### Sync All Users and Groups
+### Syncing All Users and Groups
 
 Click **Sync all users** or **Sync all users and groups** to synchronize the current LDAP users and groups with the IOMETE user and group database.
 
-### Remove Imported Users and Groups
+### Removing Imported Users and Groups
 
 Click **Remove all users** or **Remove all users and groups** to delete previously imported LDAP data from IOMETE without deleting the LDAP configuration itself.
 
