@@ -83,6 +83,10 @@ Vault access is controlled via [RAS (Resource Authorization System)](./iam/ras/r
 
 Users need **Use** permission to see Vault keys in secret selector dropdowns. Without it, keys from that Vault won't appear.
 
+:::note
+To list secrets in the secret selector, **Use** permission on the Vault configuration is required alongside **List Secrets** domain permission. The **List Secrets** permission is needed because the selector also lists Kubernetes secrets, which are governed by that permission.
+:::
+
 ## Global Secrets
 
 **Global Secrets** are **read-only** credentials available across all domains for platform-wide use. They can only be managed directly in Kubernetes editing in Console will be added in a future update.
