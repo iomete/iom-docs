@@ -164,3 +164,5 @@ To audit LDAP operations, go to **Settings → Administration → Event Logs**. 
 <Img src="/img/user-guide/iam/ldap/ldap-audit.png" alt="LDAP audit logs" />
 
 Click the `+` icon on the left of any entry to inspect the payload for that action.
+
+<Img src="/img/user-guide/iam/ldap/ldap-audit-payload.png" alt="Expanded LDAP Sync event log entry showing the JSON payload with user and group search parameters and attribute mappings" />
