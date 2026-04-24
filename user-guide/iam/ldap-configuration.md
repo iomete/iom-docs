@@ -64,6 +64,8 @@ If you want some imported LDAP users to be created as service accounts, enable *
 
 Imported users whose attribute matches this pair are created as service accounts instead of person accounts. You can manage their API access with [service account access tokens](../access-tokens/service-account).
 
+<Img src="/img/user-guide/iam/ldap/ldap-service-account.png" alt="LDAP user attribute mappings with Use service-account enabled" maxWidth="600px" />
+
 ### Group Searching and Updating
 
 Defines how LDAP groups are searched and mapped, including the DN base, object classes, filter, and group attribute mappings. This section is optional. If you don't need LDAP groups, leave **Group searching and updating** unchecked.
@@ -93,6 +95,8 @@ After filling in all required information, click **Save**.
 ## Validating LDAP Filters
 
 Custom user and group filters can be validated before you save the configuration.
+
+<Img src="/img/user-guide/iam/ldap/ldap-validate-user-filters.png" alt="Validated custom user LDAP filter showing 12 valid lines and 1 warning for a filter line with no results" maxWidth="600px" />
 
 - Use **Validate user filters** or **Validate group filters** above the relevant filter editor.
 - Enter one LDAP filter per line. Blank lines are ignored.
