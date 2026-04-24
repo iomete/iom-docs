@@ -26,11 +26,13 @@ Each IOMETE installation supports a single, platform-wide LDAP configuration. Th
 
 ### General Options
 
-The General Options include the following settings:
+The **General Options** section includes the following settings:
 
 - **Connection URL**: The URL to connect to your LDAP server. Example: `ldap://openldap.infra.svc:389`
 - **Bind DN**: The distinguished name (DN) used for binding to the LDAP server. This bind DN must have the necessary permissions on the LDAP directory. Example: `cn=admin,dc=iomete,dc=com`
 - **Bind credential**: The password for the bind DN.
+
+<Img src="/img/user-guide/iam/ldap/ldap-general-options.png" alt="LDAP general options with Connection URL, Bind DN, and Bind credential fields" maxWidth="600px" />
 
 Use **Test connection** after entering the **Connection URL** to verify that IOMETE can reach the LDAP server.
 
@@ -50,19 +52,21 @@ Use **Validate user filters** to check each non-empty filter line before saving.
 
 ### User Attribute Mappings
 
-The LDAP attribute mapped as IOMETE refers to the correlation between LDAP attributes and the application's internal user model, ensuring user-related information is correctly retrieved from the LDAP directory.
+Map each IOMETE user attribute to the corresponding LDAP attribute so that user information is correctly retrieved from the directory.
 
 - **username**: LDAP attribute mapped as the IOMETE username. Commonly `uid` for many LDAP servers, and `sAMAccountName` or `cn` for Active Directory.
 - **email**: LDAP attribute mapped as the IOMETE email. Typically `mail` for most LDAP servers.
 - **firstName**: LDAP attribute mapped as the IOMETE first name. Default `cn` (common name).
 - **lastName**: LDAP attribute mapped as the IOMETE last name. Commonly `sn` (surname).
 
+<Img src="/img/user-guide/iam/ldap/ldap-user-attribute-mapping.png" alt="LDAP user attribute mappings with username, email, firstName, and lastName fields" maxWidth="600px" />
+
 If you want some imported LDAP users to be created as service accounts, enable **Use service-account** and fill these fields:
 
 - **LDAP attribute**: The LDAP attribute to inspect. Example: `employeeType`
 - **Attribute value**: The value that marks the user as a service account. Example: `service`
 
-Imported users whose attribute matches this pair are created as service accounts instead of person accounts. You can manage their API access with [service account access tokens](../access-tokens/service-account).
+Imported users whose attribute matches this pair are created as service accounts instead of person accounts. You can manage their API access with [service account access tokens](../access-tokens/service-account.md).
 
 <Img src="/img/user-guide/iam/ldap/ldap-service-account.png" alt="LDAP user attribute mappings with Use service-account enabled" maxWidth="600px" />
 
@@ -80,15 +84,19 @@ Use **Validate group filters** to check group filter lines before saving.
 
 ### Group Attribute Mappings
 
-The attribute should be filled for all LDAP group records you want to import from the LDAP server.
+Fill these attributes for the LDAP group records you want to import from the directory.
 
 - **name**: The LDAP attribute used for group names and RDN is typically `cn`. For example, a group's DN might look like `cn=Group1,ou=groups,dc=example,dc=org`.
 - **membership**: The LDAP attribute used for group membership mapping is typically `member`.
 - **membershipAttributeType**: Specifies the type of the membership attribute. It can be either `DN` or `UID`. `DN` represents the full path to the object in the directory, while `UID` refers to the unique identifier of the user.
 
+<Img src="/img/user-guide/iam/ldap/ldap-group-attribute-mapping.png" alt="LDAP group attribute mappings with name, membership, and membershipAttributeType fields" maxWidth="600px" />
+
 ### Sync Settings
 
-Use **Periodic full sync** to control whether IOMETE regularly synchronizes LDAP users and groups. When enabled, enter the full sync period in seconds. The minimum value is `5`, and the default interval is `86400` seconds (24 hours).
+Use **Periodic full sync** to control whether IOMETE regularly synchronizes LDAP users and groups. When enabled, enter the full sync period in seconds. The minimum is `5` seconds, and the default is `86400` seconds (24 hours).
+
+<Img src="/img/user-guide/iam/ldap/ldap-sync-settings.png" alt="LDAP sync settings with Periodic full sync enabled and a 86400 second interval" maxWidth="600px" />
 
 After filling in all required information, click **Save**.
 
@@ -110,6 +118,8 @@ Custom user and group filters can be validated before you save the configuration
 ## LDAP Actions
 
 After saving the integration, you can manage LDAP from the same page.
+
+<Img src="/img/user-guide/iam/ldap/ldap-sync-actions.png" alt="LDAP action buttons: Sync all users and groups, Disable LDAP, and a menu with Remove all users and groups and Delete LDAP" maxWidth="600px" />
 
 ### Sync All Users and Groups
 
