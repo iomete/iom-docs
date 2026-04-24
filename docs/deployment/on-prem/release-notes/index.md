@@ -57,13 +57,23 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       <Img src="/img/jupyter/create-notebook-permission.png" alt="Jupyter container create permission" centered />
 
-    **Spark UI**
-      - Added a new tab called "ArrowFlight SQL" for monitoring ArrowFlight sessions and operations.
-
     **Spark Submit Service Improved Memory Management**
       - Implemented TTL for Job logs in InMemorLogStorage for job submission logs
       - Implemented max cap for log lines captured in InMemoryLogStorage
       - Enhanced cleanup for URLClassLoaders created by spark submit operations.
+
+    **IOMETE Spark**
+
+    This release introduces IOMETE Spark **3.5.7-v1**, our first build on Apache Spark 3.5.7. **3.5.5-v12** is also available, shipping the same fork-level fixes as 3.5.7-v1 for users who want to stay on the 3.5.5 base.
+
+    - Backported an upstream Apache Iceberg fix ([apache/iceberg#15511](https://github.com/apache/iceberg/pull/15511)) to the IOMETE Iceberg 1.9 fork, preventing table corruption when a commit fails partway through and the client retries.
+    - Fixed `SHOW DATABASES/TABLES FROM <catalog>` checking permissions against the current catalog instead of the target catalog.
+    - Fixed `INSERT OVERWRITE` on partitioned Iceberg tables with `partitionOverwriteMode=dynamic` bypassing authorization entirely.
+    - Fixed global temp views inside CTEs crashing the planner; the auth extension was wrapping temp views as permanent and not cleaning up markers inside CTEs.
+    - Added a new **ArrowFlight SQL** tab to the Spark UI for monitoring ArrowFlight sessions and operations.
+    - Allowed binding `NULL` values to ArrowFlight prepared statement parameters (e.g. `WHERE (? IS NULL OR col = ?)`).
+    - Removed Spark internal health-check queries from cluttering the Spark UI SQL tab.
+    - When using the new Event Stream sink for Ranger audit events, dispatch is now asynchronous so audit delivery no longer blocks query threads.
   </Improvements>
 
   <BugFixes>
