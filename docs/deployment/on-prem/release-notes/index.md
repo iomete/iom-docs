@@ -96,6 +96,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <BugFixes>
     - **Access token notifications**: Fixed issues where expiry notifications were not evaluated consistently until service restart, showed incorrect expiry dates, or omitted the related account name from the notification.
     - **Splunk log retrieval**: Fixed truncated Splunk log viewing by adding paginated retrieval, allowing users to access more than the previous 5000-row limit in the UI.
+    - **Activity Monitoring Domain Owner Access**: Fixed an issue where domain owners could not view query details or Spark plan graphs of other users' queries. Domain owners can now view details and Spark plan graphs for all queries within their domain.
     - **Activity Monitoring Query Archival**: Fixed an issue where queries marked as unreachable were not getting archived to Iceberg
     - **Secrets v1 reference masking**: Fixed an issue where secrets-v1 references such as `${secrets.DB_PASSWORD}` in environment variables and Spark config were being replaced with `******` in API responses. The masking logic now correctly skips values that are already secret references, preserving them as-is.
     - **AWS S3 compatibility**: Fixed several issues that prevented IOMETE services from running reliably against AWS S3.
