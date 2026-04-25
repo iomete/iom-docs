@@ -52,6 +52,23 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Search Index Management moved to Admin Portal**: Clearing the data catalog search index via API is no longer supported, please use the Admin Portal instead. The endpoint remains available but performs no action.
     - **Metadata API Pagination**: Data catalog metadata retrieval now supports `page` and `size` query parameters (default size: 1000) to avoid memory pressure when retrieving large numbers of tables. 
 
+    **Secrets Management**
+
+      Centralized secrets management with Domain and Global scoping, supporting Kubernetes and HashiCorp Vault backends simultaneously.
+
+      **What's new:**
+      - **HashiCorp Vault integration** — Use Vault (KV v2) alongside Kubernetes secrets with App Role or Token authentication
+      - **RAS-enabled Vault configuration** — Fine-grained access control for Vault integrations via Resource Authorization System
+      - **Secret selector UI** — Pick or create secrets directly from configuration fields
+      - **Workload integration** — Secrets available in Spark jobs, Compute, Jupyter notebooks, and Storage configurations
+      - **Secret selector permission model** — Listing secrets in the selector requires both **Use** permission on the Vault configuration and **List Secrets** domain permission. **List Secrets** governs Kubernetes secrets, which are aggregated alongside Vault secrets in the selector.
+
+      :::info Feature Flag
+      Enable in Helm values: `features.secretsV2.enabled: true`
+      :::
+
+      📄 Learn more: [Secrets Management Documentation](/user-guide/secrets)
+
     **Notebook**
     - **Jupyter Container Create Permission**: Added a dedicated `Create Jupyter Container` permission in managed roles. Users without this permission cannot create new Jupyter Containers.
 
