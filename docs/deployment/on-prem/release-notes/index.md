@@ -91,6 +91,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - Allowed binding `NULL` values to ArrowFlight prepared statement parameters (e.g. `WHERE (? IS NULL OR col = ?)`).
     - Removed Spark internal health-check queries from cluttering the Spark UI SQL tab.
     - When using the new Event Stream sink for Ranger audit events, dispatch is now asynchronous so audit delivery no longer blocks query threads.
+
+    **Event Stream** (v2.0.0)
+    - **Flexible ingest API**: The `/ingest` endpoint now accepts both a single JSON object and an array of objects.
+    - **Backpressure**: Automatically stops accepting events when the system is overloaded, preventing unbounded file accumulation.
+    - **Incremental compaction**: Triggers compaction after every N files (configurable), keeping partition file counts manageable.
+    - **Pod-scoped storage isolation**: Each pod writes to its own subdirectory, enabling safe shared storage across multiple pods.
+    - **Configurable storage**: Helm chart supports configurable `storageClassName` with optional local-storage provisioning for on-premise deployments.
+    - **Empty folder cleanup**: Background service removes empty table directories after a configurable TTL.
   </Improvements>
 
   <BugFixes>
@@ -102,6 +110,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **AWS S3 compatibility**: Fixed several issues that prevented IOMETE services from running reliably against AWS S3.
       - Fixed Iceberg REST catalog failures on AWS S3 caused by missing endpoint handling and incorrect region resolution.
       - Fixed Spark History Server failing to load event logs stored on AWS S3.
+    - **Event Stream stale catalog connections**: Fixed "Connection pool shut down" errors caused by stale Iceberg catalog connections. Catalog connections are now refreshed automatically.
+    - **Event Stream file processing timeouts**: Fixed file processing timeouts caused by unbounded parallel processing. File and folder processing parallelism is now limited.
+    - **Event Stream compaction timeouts**: Fixed compaction timeouts caused by accumulation of thousands of small parquet files per write cycle. Incremental compaction now keeps file counts under control.
   </BugFixes>
 
       **Spark version:** 3.5.7-v1  
