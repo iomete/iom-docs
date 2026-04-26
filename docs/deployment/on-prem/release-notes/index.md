@@ -2,8 +2,9 @@
 title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
+hide_table_of_contents: true
 last_update:
-  date: 02/25/2026
+  date: 04/21/2026
   author: Fuad Musayev
 ---
 
@@ -13,6 +14,110 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.17.0" date="April 21st, 2026">
+  <Improvements>
+    - **Access Policy Patch Support**: Added PATCH support for data access policies so admins can append or remove individual resources and policy items without resending the full policy definition.
+      - **`PATCH /access/policy/{policyId}/resources`**: Adds or removes a resource entry from an existing policy.
+      - **`PATCH /access/policy/{policyId}/policy-items`**: Adds or removes allow/deny policy items, including users, groups, roles, and their associated access permissions.
+    - **LDAP Identity Management Improvements**:
+      - Added automatic service account detection for LDAP-synced identities based on directory attributes such as `employeeType=Service`, ensuring these identities are imported as `Service Account` instead of `Person`. See [LDAP Configuration](/user-guide/ldap-configuration).
+      - Improved LDAP filter validation for custom sync filters by always validating overall filter syntax, tightening validation for edited filter lines, handling spacing/indentation edge cases more reliably, and surfacing clearer save-time error messages for invalid filters. See [LDAP Configuration](/user-guide/ldap-configuration).
+    - **Identity soft-delete** (behind the `identitySoftDelete` feature flag): When enabled, deleted users and groups are archived instead of permanently removed. This applies across all identity surfaces:
+      - **LDAP sync**: LDAP-origin users and groups are reconciled incrementally: new identities are created, returning identities are restored, existing identities are updated in place, and identities no longer present in LDAP are archived instead of being hard-deleted. The same flag also enables soft-delete semantics for users, groups, and related identity mappings.
+      - **SCIM**: Deprovisioning via SCIM (`DELETE` or `active=false`) archives the identity instead of permanently deleting it.
+      - **User/group lifecycle**: Recreating a previously archived user or group unarchives the existing record instead of failing with a duplicate error.
+    - **Access token identity validation**: Access token authentication now validates the associated user on every request and rejects tokens whose user has been archived or no longer exists.
+    - **Resource Authorization System**: Added search and sorting by resource name alongside resource type filtering in the Resources tab of a resource bundle, making it easier to locate specific assets in large bundles.
+    - **Spark Job Metrics**: Added spill metrics to the main job metrics page so disk spill can be monitored directly from the primary Spark application view.
+    - **Permission-aware bundle selection**: Bundle lists shown during resource creation are now filtered to only include bundles where the user has at least one permission on the resource type being created.
+    - **Bulk role assignment**: Added support for assigning a role to multiple users/groups simultaneously from the Roles page within a domain, reducing one-by-one administration work.
+
+    **Compute**
+    - **Min Executor Count**: You can now configure the minimum executor count when creating or editing a compute cluster, giving you finer control over baseline capacity and scale-down behavior. See [Creating a Cluster](/user-guide/compute-clusters/creating-clusters#general-tab).
+
+      <Img src="/img/compute/compute-min-exec.png" alt="Min executor count setting in compute" centered />
+
+    **Spark Applications**
+    - **Namespace & Resource Bundle Filters**: Job templates, streaming jobs, and Spark applications pages now include filters by namespace and resource bundle, making it faster to locate resources in multi-namespace or multi-bundle deployments.
+      - **Job Orchestrator**
+        - **Queue Timeout & Config Failure Notifications**: Jobs that fail due to queue timeouts or job-level configuration errors now trigger notifications, so you are alerted immediately when a job cannot start. See [Queue Head Blocking Prevention](/user-guide/spark-jobs/job-orchestrator#queue-head-blocking-prevention-3150).
+        - **Log Storage**: Job orchestrator logs can now be persisted to S3-compatible object storage, enabling centralized log retention and access across runs. See [S3 Log Storage](/user-guide/spark-jobs/job-orchestrator#s3-log-storage-3170).
+        - **SSL Database Connection**: The job orchestrator can now connect to its backing database over SSL. See [SSL Database Connection](/user-guide/spark-jobs/job-orchestrator#ssl-database-connection-3170).
+
+    **Data Catalog**
+    - **Restored v2 Tag APIs**: Tag APIs removed in `v3.16.0` are restored as a compatibility layer on top of the new classification system. Existing clients continue to work without changes.
+      - `createTag`, `addTableTag`, `removeTableTag`, `addColumnTag`, `removeColumnTag`
+      - These endpoints are deprecated and will be removed in a future release. Migration to the [Classifications API](/user-guide/data-security/classifications) is strongly encouraged.
+    - **Search Index Management moved to Admin Portal**: Clearing the data catalog search index via API is no longer supported, please use the Admin Portal instead. The endpoint remains available but performs no action.
+    - **Metadata API Pagination**: Data catalog metadata retrieval now supports `page` and `size` query parameters (default size: 1000) to avoid memory pressure when retrieving large numbers of tables. 
+
+    **Secrets Management**
+
+      Centralized secrets management with Domain and Global scoping, supporting Kubernetes and HashiCorp Vault backends simultaneously.
+
+      **What's new:**
+      - **HashiCorp Vault integration** — Use Vault (KV v2) alongside Kubernetes secrets with App Role or Token authentication
+      - **RAS-enabled Vault configuration** — Fine-grained access control for Vault integrations via Resource Authorization System
+      - **Secret selector UI** — Pick or create secrets directly from configuration fields
+      - **Workload integration** — Secrets available in Spark jobs, Compute, Jupyter notebooks, and Storage configurations
+      - **Secret selector permission model** — Listing secrets in the selector requires both **Use** permission on the Vault configuration and **List Secrets** domain permission. **List Secrets** governs Kubernetes secrets, which are aggregated alongside Vault secrets in the selector.
+
+      :::info Feature Flag
+      Enable in Helm values: `features.secretsV2.enabled: true`
+      :::
+
+      📄 Learn more: [Secrets Management Documentation](/user-guide/secrets)
+
+    **Notebook**
+    - **Jupyter Container Create Permission**: Added a dedicated `Create Jupyter Container` permission in managed roles. Users without this permission cannot create new Jupyter Containers.
+
+      <Img src="/img/jupyter/create-notebook-permission.png" alt="Jupyter container create permission" centered />
+
+    **Spark Submit Service Improved Memory Management**
+      - Implemented TTL for Job logs in InMemorLogStorage for job submission logs
+      - Implemented max cap for log lines captured in InMemoryLogStorage
+      - Enhanced cleanup for URLClassLoaders created by spark submit operations.
+
+    **IOMETE Spark**
+
+    This release introduces IOMETE Spark **3.5.7-v1**, our first build on Apache Spark 3.5.7. **3.5.5-v12** is also available, shipping the same fork-level fixes as 3.5.7-v1 for users who want to stay on the 3.5.5 base.
+
+    - Backported an upstream Apache Iceberg fix ([apache/iceberg#15511](https://github.com/apache/iceberg/pull/15511)) to the IOMETE Iceberg 1.9 fork, preventing table corruption when a commit fails partway through and the client retries.
+    - Fixed `SHOW DATABASES/TABLES FROM <catalog>` checking permissions against the current catalog instead of the target catalog.
+    - Fixed `INSERT OVERWRITE` on partitioned Iceberg tables with `partitionOverwriteMode=dynamic` bypassing authorization entirely.
+    - Fixed global temp views inside CTEs crashing the planner; the auth extension was wrapping temp views as permanent and not cleaning up markers inside CTEs.
+    - Added a new **ArrowFlight SQL** tab to the Spark UI for monitoring ArrowFlight sessions and operations.
+    - Allowed binding `NULL` values to ArrowFlight prepared statement parameters (e.g. `WHERE (? IS NULL OR col = ?)`).
+    - Removed Spark internal health-check queries from cluttering the Spark UI SQL tab.
+    - When using the new Event Stream sink for Ranger audit events, dispatch is now asynchronous so audit delivery no longer blocks query threads.
+
+    **Event Stream** (v2.0.0)
+    - **Flexible ingest API**: The `/ingest` endpoint now accepts both a single JSON object and an array of objects.
+    - **Backpressure**: Automatically stops accepting events when the system is overloaded, preventing unbounded file accumulation.
+    - **Incremental compaction**: Triggers compaction after every N files (configurable), keeping partition file counts manageable.
+    - **Pod-scoped storage isolation**: Each pod writes to its own subdirectory, enabling safe shared storage across multiple pods.
+    - **Configurable storage**: Helm chart supports configurable `storageClassName` with optional local-storage provisioning for on-premise deployments.
+    - **Empty folder cleanup**: Background service removes empty table directories after a configurable TTL.
+  </Improvements>
+
+  <BugFixes>
+    - **Access token notifications**: Fixed issues where expiry notifications were not evaluated consistently until service restart, showed incorrect expiry dates, or omitted the related account name from the notification.
+    - **Splunk log retrieval**: Fixed truncated Splunk log viewing by adding paginated retrieval, allowing users to access more than the previous 5000-row limit in the UI.
+    - **Activity Monitoring Domain Owner Access**: Fixed an issue where domain owners could not view query details or Spark plan graphs of other users' queries. Domain owners can now view details and Spark plan graphs for all queries within their domain.
+    - **Activity Monitoring Query Archival**: Fixed an issue where queries marked as unreachable were not getting archived to Iceberg
+    - **Secrets v1 reference masking**: Fixed an issue where secrets-v1 references such as `${secrets.DB_PASSWORD}` in environment variables and Spark config were being replaced with `******` in API responses. The masking logic now correctly skips values that are already secret references, preserving them as-is.
+    - **AWS S3 compatibility**: Fixed several issues that prevented IOMETE services from running reliably against AWS S3.
+      - Fixed Iceberg REST catalog failures on AWS S3 caused by missing endpoint handling and incorrect region resolution.
+      - Fixed Spark History Server failing to load event logs stored on AWS S3.
+    - **Event Stream stale catalog connections**: Fixed "Connection pool shut down" errors caused by stale Iceberg catalog connections. Catalog connections are now refreshed automatically.
+    - **Event Stream file processing timeouts**: Fixed file processing timeouts caused by unbounded parallel processing. File and folder processing parallelism is now limited.
+    - **Event Stream compaction timeouts**: Fixed compaction timeouts caused by accumulation of thousands of small parquet files per write cycle. Incremental compaction now keeps file counts under control.
+  </BugFixes>
+
+      **Spark version:** 3.5.7-v1  
+      **Iceberg version:** 1.9.3
+</Release>
 
 <Release version="3.16.2" date="February 25th, 2026">
   <BugFixes>
