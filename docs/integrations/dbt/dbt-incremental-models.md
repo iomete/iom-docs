@@ -2,8 +2,8 @@
 title: DBT Incremental models
 description: Learn how to use the incremental dbt model on the IOMETE data platform to reduce the runtime of transformation and improve warehouse performance
 last_update:
-  date: 07/11/2022
-  author: Vusal Dadalov
+  date: 04/27/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -95,12 +95,12 @@ When you define a `unique_key`, you'll see this behavior for each row of "new" d
 
 :::info
 
-`iomete-dbt` supports two incremental strategy (only for iceberg tables):
+`iomete-dbt` supports two incremental strategies (iceberg tables only):
 
 - `merge` (default)
-- `insert_overwrite` (optional)
+- `append` (optional)
 
-`merge` incremental strategy uses the `unique_key` configuration. But, the `insert_overwrite` strategy does not use `unique_key`, because it operates on partitions of data rather than individual rows.
+`merge` uses the `unique_key` configuration to upsert rows. `append` inserts all new rows without deduplication.
 
 For more information, see [About incremental_strategy](https://docs.getdbt.com/docs/build/incremental-models#about-incremental_strategy).
 :::
@@ -176,9 +176,26 @@ Note that the SQL in your model needs to be valid whether `is_incremental()` eva
 
 ### How do incremental models work behind the scenes?
 
-The IOMETE platform supports incremental models for Iceberg tables which is the default table format. The incremental build will not work if `file_format` is explicitly specified other than `iceberg` (e.g., `file_format = 'parquet'`).
+The IOMETE platform supports incremental models for Iceberg tables which is the default table format. The incremental build will not work if `file_format` is explicitly specified other than `iceberg` (e.g., `file_format = ‘parquet’`).
 
 Apache Iceberg’s ACID Transaction management is used to ensure this is executed as a single unit of work.
+
+### Python models
+
+Incremental models support both SQL and Python. A Python incremental model follows the same config options (`unique_key`, `incremental_strategy`, `on_schema_change`, etc.) and uses `dbt.is_incremental()` to branch logic.
+
+```python title="models/my_model.py"
+def model(dbt, session):
+    dbt.config(
+        materialized="incremental",
+        unique_key="id",
+    )
+    df = dbt.ref("my_source")
+    if dbt.is_incremental():
+        max_id = session.sql(f"select max(id) from {dbt.this}").collect()[0][0]
+        df = df.filter(df.id > max_id)
+    return df
+```
 
 ### What if the columns of my incremental model change?
 
@@ -237,14 +254,14 @@ Instead, whenever the logic of your incremental changes, execute a full-refresh 
 
 ## About incremental_strategy
 
-On the `dbt-iomete` adapter, an optional `incremental_strategy` config controls the code that dbt uses to build incremental models. The adapter supports two incremental strategies:
+On the `dbt-iomete` adapter, an optional `incremental_strategy` config controls the code that dbt uses to build incremental models. The adapter supports two incremental strategies (both require iceberg file format):
 
-- `merge` (default, iceberg table only)
-- `insert_overwrite` (optional)
+- `merge` (default)
+- `append`
 
-### Configuring incremental strategy[](https://docs.getdbt.com/docs/build/incremental-models#configuring-incremental-strategy)
+### Configuring incremental strategy
 
-The `incremental_strategy` config can either be specified in specific models, or for all models in your `dbt_project.yml` file
+The `incremental_strategy` config can either be specified in specific models, or for all models in your `dbt_project.yml` file.
 
 #### Option 1. Globally
 
@@ -252,7 +269,7 @@ On `dbt_project.yaml`:
 
 ```yaml title="dbt_project.yaml"
 models:
-  +incremental_strategy: "insert_overwrite"
+  +incremental_strategy: "append"
 ```
 
 #### Option 2. Per model
@@ -264,7 +281,7 @@ Setting on the model configuration:
   config(
     materialized='incremental',
     unique_key='date_day',
-    incremental_strategy='insert_overwrite',
+    incremental_strategy='merge',
     ...
   )
 }}
@@ -277,10 +294,13 @@ select ...
 - _Changelog_
   - **v0.20.0:** Introduced `merge_update_columns`
   - **v0.21.0:** Introduced `on_schema_change`
+  - **v1.7.0:** Introduced `merge_exclude_columns`, `incremental_predicates`
+
+#### `merge_update_columns`
 
 If you are using the `merge` strategy and have specified a `unique_key`, by default, dbt will entirely overwrite matched rows with new values.
 
-On the `dbt-iomete` adapter, which supports the `merge` strategy, you may optionally pass a list of column names to a `merge_update_columns` config. In that case, dbt will update _only_ the columns specified by the config and keep the previous values of other columns.
+You may optionally pass a list of column names to `merge_update_columns`. In that case, dbt will update _only_ the columns specified and keep the previous values of other columns.
 
 ```sql
 {{
@@ -288,9 +308,46 @@ On the `dbt-iomete` adapter, which supports the `merge` strategy, you may option
     materialized = 'incremental',
     unique_key = 'id',
     merge_update_columns = ['email', 'ip_address'],
-    ...
   )
 }}
 
 select ...
 ```
+
+#### `merge_exclude_columns`
+
+The inverse of `merge_update_columns` — specify columns to _exclude_ from the merge update. All other columns will be updated. You cannot use both `merge_update_columns` and `merge_exclude_columns` on the same model.
+
+```sql
+{{
+  config(
+    materialized = 'incremental',
+    unique_key = 'id',
+    merge_exclude_columns = ['created_at'],
+  )
+}}
+
+select ...
+```
+
+#### `incremental_predicates`
+
+An optional list of predicates applied to the `MERGE` statement to limit which rows in the target table are considered for matching. This can improve performance on large tables by pruning the scan on the target side.
+
+`predicates` is accepted as an alias for `incremental_predicates` — both work identically.
+
+```sql
+{{
+  config(
+    materialized = 'incremental',
+    unique_key = 'id',
+    incremental_predicates = ['DBT_INTERNAL_DEST.updated_at >= dateadd(day, -3, current_date)'],
+  )
+}}
+
+select ...
+```
+
+:::caution
+Predicates reference `DBT_INTERNAL_DEST` (the target table alias). An incorrect predicate can cause rows to be silently skipped during merge. Use `--full-refresh` to recover.
+:::
