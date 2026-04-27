@@ -1,6 +1,7 @@
 ---
 title: Getting started with DBT
-description: Getting started with IOMETE & DBT. In this post, we will discuss using `DBT` and using it on the IOMETE data platform to bootstrap your `DBT` journey.
+sidebar_label: Getting Started
+description: Learn how to set up the dbt-iomete adapter, connect to your IOMETE lakehouse, and run your first dbt transformation.
 last_update:
   date: 04/27/2026
   author: Shashank Chaudhary
@@ -8,27 +9,24 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-# Getting started with DBT
+# Getting Started with DBT
 
-In this post, we will discuss using `DBT` and using it on the IOMETE data platform to bootstrap your `DBT` journey.
+Use dbt with IOMETE to transform your data using analytics engineering best practices.
 
-## IOMETE & DBT
+## Overview
 
 dbt Core is an open-source tool that enables data teams to transform data using analytics engineering best practices. Read more [here](https://docs.getdbt.com/docs/introduction) about dbt.
 
-**[dbt-iomete](https://pypi.org/project/dbt-iomete/)** adapter enable our customers to leverage DBT as their transformation layer. IOMETE Lakehouse is built on two powerful engines, Apache Iceberg and Apache Spark. dbt-iomete adapter bring full support for the Iceberg Tables.
+The **[dbt-iomete](https://pypi.org/project/dbt-iomete/)** adapter lets you use dbt as your transformation layer on IOMETE. IOMETE Lakehouse is built on Apache Iceberg and Apache Spark, and the dbt-iomete adapter brings full support for Iceberg tables.
 
-![dbt on the iomete data platform](https://uploads-ssl.webflow.com/62e59e059afb7e3948870885/62e80b69e03720a02a0b5719_dbt-in-iomete-platform.png)
+## Prerequisites
 
-## Prepare Data
+- A running IOMETE compute. See [Compute Clusters](/user-guide/compute-clusters/overview) for setup details.
+- Python 3.9 or later.
 
-:::important
-To use DBT on the IOMETE platform, you need a running lakehouse. See this [doc](/user-guide/compute-clusters/overview) for more details.
-:::
+## Set Up Sample Data
 
-We’ll create two Iceberg tables with sample data in the SQL editor and use them as the source for our DBT project.
-
-Go to the SQL editor and run:
+Create two Iceberg tables with sample data in the SQL editor. These tables will be the source for your dbt project.
 
 ```sql
 CREATE DATABASE IF NOT EXISTS iomete_analytics.dbt_database;
@@ -46,8 +44,8 @@ CREATE TABLE iomete_analytics.dbt_database.salaries (
 
 -- Add as many rows as needed
 INSERT INTO iomete_analytics.dbt_database.employees VALUES
-(1, ‘John’, ‘Doe’),
-(2, ‘Jane’, ‘Smith’);
+(1, 'John', 'Doe'),
+(2, 'Jane', 'Smith');
 
 -- Add as many rows as needed
 INSERT INTO iomete_analytics.dbt_database.salaries VALUES
@@ -55,81 +53,48 @@ INSERT INTO iomete_analytics.dbt_database.salaries VALUES
 (2, 60000);
 ```
 
-<Img src="/img/integrations/dbt/getting-started-base-table-creation.png" alt="IOMETE SQL Editor - Create initial datasets for dbt guide" caption="IOMETE SQL Editor - Create initial datasets for dbt guide"/>
+<Img src="/img/integrations/dbt/getting-started-base-table-creation.png" alt="IOMETE SQL Editor showing the employees and salaries tables after creation" caption="IOMETE SQL Editor - Create initial datasets for dbt guide"/>
 
-Our source tables are ready. Continue the guide to build your first dbt project.
+## Install & Configure dbt-iomete
 
-## Build your first project
-
-A project is needed to run our DBT activities. We can easily create our new project by following the commands below.
-
-### Install `dbt-iomete`
+### Install
 
 ```bash
-# Create a dbt-samples directory
+# Create a working directory
 mkdir dbt-samples
 cd dbt-samples
 
-# Install dbt-iomete in a virtual python environment
+# Install dbt-iomete in a virtual Python environment
 virtualenv .env
 source .env/bin/activate
 pip install --upgrade dbt-iomete
 ```
 
-### Bootstrap the dbt project
+### Initialize the Project
 
-:::important
-You can find DBT connection parameters from the **compute page**
+Before running `dbt init`, find your connection parameters on the compute page — navigate to your compute instance, open the **Connect** tab, and select **dbt**.
 
-<Img src="/img/integrations/dbt/getting-started-compute-list.png" 
-  alt="Choose your compute instance from the list and go to DBT tab for the connection details"/>
+<Img src="/img/integrations/dbt/getting-started-compute-list.png"
+  alt="List of compute instances in the IOMETE console"/>
 
 <Img src="/img/integrations/dbt/getting-started-compute-connect.png"
-alt="Choose your compute instance from the list and go to DBT tab for the connection details"/>
+  alt="Connect tab on the compute detail page showing dbt connection parameters"/>
 
-Choose your compute instance from the list and go to DBT tab for the connection details
-:::
-
-:::important
-Use `dbt_database` as your schema which we setup earlier.
-:::
-
-Run the following command to bootstrap the new dbt project
+Run the init command and follow the interactive prompts. When asked for schema, enter `dbt_database` — the database you created earlier.
 
 ```bash
-# dbt init <your-project-name>
 dbt init dbt_project
-
-# and, follow the interactive form to provide the inputs
 ```
-
-Output should look something like below:
 
 ```text
 → dbt init dbt_project
 
 08:27:06 Running with dbt=1.7.19
-08:27:06
 Your new dbt project "dbt_project" was created!
-
-For more information on how to configure the profiles.yml file,
-please consult the dbt documentation here:
-
-  https://docs.getdbt.com/docs/configure-your-profile
-
-One more thing:
-
-Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
-
-  https://community.getdbt.com/
-
-Happy modeling!
 
 08:27:06 Setting up your profile.
 Which database would you like to use?
 [1] iomete
-
-(Don't see the one you want? https://docs.getdbt.com/docs/available-adapters)
 
 Enter a number: 1
 host (Data plane host.): dev.iomete.cloud
@@ -147,8 +112,7 @@ connect retries [0]:
 threads (1 or more) [1]:
 ```
 
-:::tip
-The `dbt` configuration details are stored in `~/.dbt/profiles.yml` file
+Your answers are saved to `~/.dbt/profiles.yml`. Use environment variables for sensitive values — never hardcode credentials.
 
 ```yaml
 # ~/.dbt/profiles.yml
@@ -171,34 +135,18 @@ dbt_project:
       connect_timeout: 120
       connect_retries: 0
 ```
-Use environment variables for sensitive values — never hardcode credentials.
-:::
 
-### Test connection
-
-Run the debug command from your project to confirm that you can successfully connect:
+### Test the Connection
 
 ```bash
-
-# Navigate into your project's directory
 cd dbt_project
-
-# Run the dbt debug
 dbt debug
 ```
-
-Output should look something like below:
 
 ```text
 ➜ dbt debug
 09:01:43  Running with dbt=1.7.19
 09:01:43  dbt version: 1.7.19
-09:01:43  python version: 3.12.3
-09:01:43  python path: /Users/shashankchaudhary/.pyenv/versions/3.12.3/bin/python3.12
-09:01:43  os info: macOS-26.4.1-arm64-arm-64bit
-09:01:44  Using profiles dir at /Users/shashankchaudhary/.dbt
-09:01:44  Using profiles.yml file at /Users/shashankchaudhary/.dbt/profiles.yml
-09:01:44  Using dbt_project.yml file at /Users/shashankchaudhary/projects/dbt/dbt-samples/dbt_project/dbt_project.yml
 09:01:44  adapter type: iomete
 09:01:44  adapter version: 1.7.9
 09:01:44  Configuration:
@@ -220,19 +168,13 @@ Output should look something like below:
 09:01:48  All checks passed!
 ```
 
-## Build your first models
+## Run Your First Transformation
 
-A model is a **SELECT statement**. Models are defined in `.sql` files in your models directory. Each `.sql` file contains one model/select statement. The name of the file is used as the model name.
+A model is a **SELECT statement** defined in a `.sql` file. The file name becomes the model name.
 
-:::info Remember
-We have built two tables employees and salaries on the data preparation section.
+### Create a View Model
 
-Let's create a transformation on top of these tables, which is going to be `join` of these tables.
-:::
-
-### Add a new model
-
-Open your project in your favorite code editor and add the following file in the models directory:
+The default materialization is `view`. Add the following file to your models directory and run dbt to create an `employee_salaries` view.
 
 ```sql title="dbt_project/models/example/employee_salaries.sql"
 SELECT e.emp_no,
@@ -244,47 +186,25 @@ FROM dbt_database.employees e
             ON e.emp_no = s.emp_no;
 ```
 
-:::tip
-Default materialization is `view` and the above model going to create an `employee_salaries` **view**.
-:::
-
-### Run dbt transformation
-
-Run the below command from the project's home directory:
-
 ```bash
 dbt run
 ```
 
-Output should look something like below:
-
 ```text
 ➜ dbt run
-09:45:58  Running with dbt=1.7.19
 09:45:59  Registered adapter: iomete=1.7.9
 09:45:59  Found 1 model, 0 sources, 0 exposures, 0 metrics, 397 macros, 0 groups, 0 semantic models
-09:45:59  
 09:46:08  Concurrency: 1 threads (target='dev')
-09:46:08  
 09:46:08  1 of 1 START sql view model dbt_database.employee_salaries ..................... [RUN]
 09:46:12  1 of 1 OK created sql view model dbt_database.employee_salaries ................ [OK in 3.90s]
-09:46:14  
-09:46:14  Finished running 1 view model in 0 hours 0 minutes and 15.48 seconds (15.48s).
-09:46:14  
-09:46:14  Completed successfully
-09:46:14  
 09:46:14  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
 ```
 
-See the changes on IOMETE sql editor.
+<Img src="/img/integrations/dbt/getting-started-view-created.png" alt="employee_salaries view visible in the IOMETE SQL editor" caption="employee_salaries view"/>
 
-<Img src="/img/integrations/dbt/getting-started-view-created.png" alt="employee_salaries view" caption="employee_salaries view"/>
+### Change to Table Materialization
 
-### Change materialization type to table
-
-If you want to create a `table` instead of `view`, you can change the `materialization` type to `table`. IOMETE supports table, view and incremental materialization, see [dbt-iomete materializations](./dbt-materializations) to learn more**.**
-
-Quickly change materialization to the `table` and check the result
+To create a `table` instead of a `view`, add the `config` block. IOMETE supports `table`, `view`, and `incremental` materializations — see [dbt-iomete materializations](./dbt-materializations) to learn more.
 
 ```sql title="dbt_project/models/example/employee_salaries.sql"
 {{ config(materialized='table') }}
@@ -298,16 +218,24 @@ FROM dbt_database.employees e
             ON e.emp_no = s.emp_no;
 ```
 
-Let's run it again:
+Since a view with the same name already exists, drop it first in the SQL editor:
+
+```sql
+DROP VIEW dbt_database.employee_salaries;
+```
+
+Then run dbt:
 
 ```bash
 dbt run
 ```
 
-This time dbt created an iceberg table as a result of transformation:
+This time dbt creates an Iceberg table as the result of the transformation:
 
-<Img src="/img/integrations/dbt/getting-started-table-created.png" alt="employee_salaries iceberg table" caption="employee_salaries iceberg table"/>
+<Img src="/img/integrations/dbt/getting-started-table-created.png" alt="employee_salaries Iceberg table visible in the IOMETE SQL editor" caption="employee_salaries Iceberg table"/>
 
-## Conclusion
+## Next Steps
 
-We covered a quick intro to DBT, and worked through setting up our environment to get DBT connected to the IOMETE lakehouse.
+- Explore [dbt-iomete materializations](./dbt-materializations) — `table`, `view`, `incremental`, and snapshots.
+- Learn about [incremental models](./dbt-incremental-models) to handle large datasets efficiently.
+- See [incremental models by example](./dbt-incremental-models-by-examples) for hands-on patterns.
