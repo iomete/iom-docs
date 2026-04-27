@@ -45,70 +45,6 @@ Incremental models are trickier to get right than views or tables, so it helps t
 | sync_all_columns | Adds new fields and drops missing ones. Example: [_sync-all-columns_](#sync-all-columns)              |
 | fail | Fails the run when a schema change is detected. Example: [_fail_](#fail)                                        |
 
-
-## Bad Incremental Models
-
-A few configurations look perfectly reasonable but fail at run time. Knowing them upfront saves you a debugging round trip.
-
-### Bad File Format
-
-
-```sql title="models/incremental_strategies/models_bad/bad_file_format.sql"
-{{ config(
-    materialized = 'incremental',
-    file_format = 'bad_format'
-) }}
-
-select 1
-```
----
-
-### Unsupported File Format for Incremental
-
-:::info
-Incremental models only support the `iceberg` file format. Any other `file_format` value errors out immediately, regardless of `incremental_strategy`.
-:::
-
-```sql title="models/incremental_strategies/models_bad/bad_file_format_incremental.sql"
-{{ config(
-    materialized = 'incremental',
-    file_format = 'parquet'
-) }}
-
-select 1
-```
-
-**DBT Error on run**
-
-```bash
-Invalid incremental file format provided: parquet
-    We only support 'iceberg' file format
-```
----
-
-### Bad Strategy
-
-```sql title="models/incremental_strategies/models_bad/bad_strategy.sql"
-{{ config(
-    materialized = 'incremental',
-    incremental_strategy = 'something_else',
-) }}
-
-select 1
-```
-
-**DBT Error**
-
-```bash
-Invalid incremental strategy provided: something_else
-    Expected one of: 'append', 'merge', 'insert_overwrite'
-```
-
-:::note
-The error lists `insert_overwrite` as a recognized value, but it isn't usable in practice. `insert_overwrite` requires a non-iceberg file format, which is also rejected. Stick with `append` or `merge`.
-:::
----
-
 ## Examples
 
 Each example below pairs the SQL you'd write with the table state you'd see after each run. Pick the one that matches your use case as a starting template.
@@ -803,4 +739,68 @@ They can be reconciled in several ways:
   - Re-run the incremental model with `full_refresh: True` to update the target schema.
   - update the schema manually and re-run the process.
 ```
+---
+
+
+## Bad Incremental Models
+
+A few configurations look perfectly reasonable but fail at run time. Knowing them upfront saves you a debugging round trip.
+
+### Bad File Format
+
+
+```sql title="models/incremental_strategies/models_bad/bad_file_format.sql"
+{{ config(
+    materialized = 'incremental',
+    file_format = 'bad_format'
+) }}
+
+select 1
+```
+---
+
+### Unsupported File Format for Incremental
+
+:::info
+Incremental models only support the `iceberg` file format. Any other `file_format` value errors out immediately, regardless of `incremental_strategy`.
+:::
+
+```sql title="models/incremental_strategies/models_bad/bad_file_format_incremental.sql"
+{{ config(
+    materialized = 'incremental',
+    file_format = 'parquet'
+) }}
+
+select 1
+```
+
+**DBT Error on run**
+
+```bash
+Invalid incremental file format provided: parquet
+    We only support 'iceberg' file format
+```
+---
+
+### Bad Strategy
+
+```sql title="models/incremental_strategies/models_bad/bad_strategy.sql"
+{{ config(
+    materialized = 'incremental',
+    incremental_strategy = 'something_else',
+) }}
+
+select 1
+```
+
+**DBT Error**
+
+```bash
+Invalid incremental strategy provided: something_else
+    Expected one of: 'append', 'merge', 'insert_overwrite'
+```
+
+:::note
+The error lists `insert_overwrite` as a recognized value, but it isn't usable in practice. `insert_overwrite` requires a non-iceberg file format, which is also rejected. Stick with `append` or `merge`.
+:::
 ---
