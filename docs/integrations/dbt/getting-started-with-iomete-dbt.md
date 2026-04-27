@@ -11,17 +11,13 @@ import Img from '@site/src/components/Img';
 
 # Getting Started with DBT
 
-Use dbt with IOMETE to transform your data using analytics engineering best practices.
+[dbt](https://docs.getdbt.com/docs/introduction) is an open-source transformation tool that lets data teams write SQL models, test them, and deploy them using software engineering practices. The **[dbt-iomete](https://pypi.org/project/dbt-iomete/)** adapter connects dbt to your IOMETE lakehouse, with full support for Iceberg tables.
 
-## Overview
-
-dbt Core is an open-source tool that enables data teams to transform data using analytics engineering best practices. Read more [here](https://docs.getdbt.com/docs/introduction) about dbt.
-
-The **[dbt-iomete](https://pypi.org/project/dbt-iomete/)** adapter lets you use dbt as your transformation layer on IOMETE. IOMETE Lakehouse is built on Apache Iceberg and Apache Spark, and the dbt-iomete adapter brings full support for Iceberg tables.
+This guide walks you through setting up dbt-iomete and running your first transformation.
 
 ## Prerequisites
 
-- A running IOMETE compute. See [Compute Clusters](/user-guide/compute-clusters/overview) for setup details.
+- A running IOMETE compute cluster [See [Compute Clusters](/user-guide/compute-clusters/overview) for setup details].
 - Python 3.9 or later.
 
 ## Set Up Sample Data
