@@ -107,6 +107,7 @@ const sidebars = {
         "system-tables",
       ],
     },
+    "security-overview",
     {
       type: "category",
       label: "Identity and Account",
