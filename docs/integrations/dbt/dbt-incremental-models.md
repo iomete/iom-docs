@@ -6,13 +6,10 @@ last_update:
   author: Shashank Chaudhary
 ---
 
-import Img from '@site/src/components/Img';
 
 # Incremental models
 
-## Overview
-
-Incremental models are built as tables in your [data lake](https://docs.getdbt.com/terms/data-lake). The first time a model is run, the [table](https://docs.getdbt.com/terms/table) is built by transforming _all rows_ of source data. On subsequent runs, dbt transforms _only_ the rows in your source data that you tell dbt to filter for, inserting them into the target table, which is the table that has already been built.
+Incremental models are built as tables in your data lake. The first time a model is run, the table is built by transforming _all rows_ of source data. On subsequent runs, dbt transforms _only_ the rows in your source data that you tell dbt to filter for, inserting them into the target table, which is the table that has already been built.
 
 Often, the rows you filter for on an incremental run will be the rows in your source data that have been created or updated since the last time dbt ran. As such, on each dbt run, your model **gets built incrementally**.
 
@@ -22,7 +19,7 @@ Using an incremental model limits the amount of data that needs to be transforme
 
 ## Using incremental materializations
 
-Like the other [materializations](https://docs.getdbt.com/terms/materialization) built into dbt, incremental models are defined with `select` statements, with the materialization defined in a config block.
+Like the other [materializations](https://docs.getdbt.com/docs/build/materializations) built into dbt, incremental models are defined with `select` statements, with the materialization defined in a config block.
 
 ```sql title="models/my_model.sql"
 {{
@@ -102,7 +99,7 @@ When you define a `unique_key`, you'll see this behavior for each row of "new" d
 
 `merge` uses the `unique_key` configuration to upsert rows. `append` inserts all new rows without deduplication.
 
-For more information, see [About incremental_strategy](https://docs.getdbt.com/docs/build/incremental-models#about-incremental_strategy).
+For more information, see [Incremental models](https://docs.getdbt.com/docs/build/incremental-models) in the dbt docs.
 :::
 
 #### `unique_key` example
@@ -199,18 +196,15 @@ def model(dbt, session):
 
 ### What if the columns of my incremental model change?
 
-:::tip
-**New `on_schema_change` config in dbt version `v0.21.0`**
+The optional `on_schema_change` parameter controls what happens when the columns of your incremental model change. It enables dbt to continue running in the presence of schema changes, resulting in fewer `--full-refresh` scenarios.
 
-Incremental models can now be configured to include an optional `on_schema_change` parameter to enable additional control when incremental model columns change. These options enable dbt to continue running incremental models in the presence of schema changes, resulting in fewer `--full-refresh` scenarios and saving query costs.
-:::
 You can configure the `on_schema_change` setting as follows.
 
 #### Option 1. Globally
 
-On `dbt_project.yaml`:
+On `dbt_project.yml`:
 
-```yaml title="dbt_project.yaml"
+```yaml title="dbt_project.yml"
 models:
   +on_schema_change: "sync_all_columns"
 ```
@@ -254,20 +248,15 @@ Instead, whenever the logic of your incremental changes, execute a full-refresh 
 
 ## About incremental_strategy
 
-On the `dbt-iomete` adapter, an optional `incremental_strategy` config controls the code that dbt uses to build incremental models. The adapter supports two incremental strategies (both require iceberg file format):
-
-- `merge` (default)
-- `append`
-
 ### Configuring incremental strategy
 
 The `incremental_strategy` config can either be specified in specific models, or for all models in your `dbt_project.yml` file.
 
 #### Option 1. Globally
 
-On `dbt_project.yaml`:
+On `dbt_project.yml`:
 
-```yaml title="dbt_project.yaml"
+```yaml title="dbt_project.yml"
 models:
   +incremental_strategy: "append"
 ```
@@ -290,11 +279,6 @@ select ...
 ```
 
 ### Strategy-specific configs
-
-- _Changelog_
-  - **v0.20.0:** Introduced `merge_update_columns`
-  - **v0.21.0:** Introduced `on_schema_change`
-  - **v1.7.0:** Introduced `merge_exclude_columns`, `incremental_predicates`
 
 #### `merge_update_columns`
 

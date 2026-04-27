@@ -7,13 +7,9 @@ last_update:
   author: Shashank Chaudhary
 ---
 
-import Img from '@site/src/components/Img';
-
 import TOCInline from '@theme/TOCInline';
 
 <TOCInline toc={toc}  minHeadingLevel={2} maxHeadingLevel={5}/>
-
-Building DBT incremental models are a little difficult than other materializaion types (view, table). This guide aims to make it easy to understand all possible DBT incremental model configurations with lots of examples.
 
 
 ## Incremental Models Configurations
@@ -45,12 +41,12 @@ Here are the DBT configurations for incremental models
 
 **Schema Changes**
 
-| Schema change | Supported table types | Description                                                                                             |
-| --- | --- |---------------------------------------------------------------------------------------------------------|
-| ignore | all | Ignore schema changes. Example: [_ignore_](#ignore)                                                     |
-| append_new_columns | iceberg | Only adds the new fields; keep the removed fields. Example: [_append-new-columns_](#append-new-columns) |
-| sync_all_columns | iceberg | Full sync schema changes. Example: [_sync-all-columns_](#sync-all-columns)                              |
-| fail | all | Fails when the schema change is detected. Example: [_fail_](#fail)                                      |
+| Schema change | Description                                                                                             |
+| --- |---------------------------------------------------------------------------------------------------------|
+| ignore | Ignore schema changes. Example: [_ignore_](#ignore)                                                     |
+| append_new_columns | Only adds new fields; keeps removed fields. Example: [_append-new-columns_](#append-new-columns) |
+| sync_all_columns | Adds new fields and removes missing ones. Example: [_sync-all-columns_](#sync-all-columns)              |
+| fail | Fails when a schema change is detected. Example: [_fail_](#fail)                                        |
 
 
 ## Bad Incremental models
@@ -62,52 +58,29 @@ Here are the DBT configurations for incremental models
 ```sql title="models/incremental_strategies/models_bad/bad_file_format.sql"
 {{ config(
     materialized = 'incremental',
-		file_format = 'bad_format'
+    file_format = 'bad_format'
 ) }}
 
 select 1
 ```
 ---
 
-### Bad insert overwrite
+### Unsupported file format for incremental
 
 :::info
-`insert_overwrite` is not supported. Only `iceberg` file format is supported, and `insert_overwrite` requires a non-iceberg format.
+Only `iceberg` file format is supported for incremental models. Any other `file_format` value errors immediately, regardless of `incremental_strategy`.
 :::
 
-```sql title="models/incremental_strategies/models_bad/bad_insert_overwrite_iceberg.sql"
-{{ config(
-    materialized = 'incremental',
-    incremental_strategy = 'insert_overwrite',
-    file_format = 'parquet'
-) }}
-
-select 1
-```
-
-**DBT Error on run**
-
-```bash
-Invalid incremental file format provided: parquet
-    We only support 'iceberg' file format
-```
----
-
-### Bad merge
-:::info
-Only `iceberg` file format is supported. Any other `file_format` value errors before the strategy is even evaluated.
-:::
-```sql title="models/incremental_strategies/models_bad/bad_merge_not_iceberg.sql"
+```sql title="models/incremental_strategies/models_bad/bad_file_format_incremental.sql"
 {{ config(
     materialized = ‘incremental’,
-    incremental_strategy = ‘merge’,
     file_format = ‘parquet’
 ) }}
 
 select 1
 ```
 
-**DBT Error**
+**DBT Error on run**
 
 ```bash
 Invalid incremental file format provided: parquet
@@ -138,7 +111,7 @@ The error lists `insert_overwrite` as a recognised value, but it is not usable i
 :::
 ---
 
-## Merge for iceberg tables
+## Examples
 
 ### Append
 
@@ -192,7 +165,7 @@ Results
 ### Merge without unique_key
 
 :::info
-Without no merge keys it behaves as **append** mode
+Without merge keys it behaves as **append** mode
 :::
 
 ```sql title="models/incremental_strategies/models_iceberg/merge_no_key.sql"
@@ -328,13 +301,13 @@ Results
 +-----+----------+--------+
 
 # After 2nd run
-## pay attention to id=2; the **msg** field is changed but not the **color** field not
+## pay attention to id=2: msg changed, color unchanged
 > select * from merge_update_columns order by id;
 +-----+---------+---------+
 | id  |   msg   |  color  |
 +-----+---------+---------+
 | 1   | hello   | blue    |
-**| 2   | yo      | red     |**
+| 2   | yo      | red     |
 | 3   | anyway  | purple  |
 +-----+---------+---------+
 ```
