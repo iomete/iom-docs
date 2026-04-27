@@ -1,138 +1,53 @@
 ---
-title: DBT Incremental models By Examples
-description: Building DBT incremental models are a little difficult than other materializaion types (view, table). This guide aims to make it easy to understand all possible DBT incremental model configurations with lots of examples.
-
+title: DBT Incremental Models By Examples
+sidebar_label: Incremental Models By Examples
+description: Hands-on examples covering every incremental model configuration for dbt on IOMETE, including append, merge, schema changes, and common error cases.
 last_update:
-  date: 07/11/2022
-  author: Vusal Dadalov
+  date: 04/27/2026
+  author: Shashank Chaudhary
 ---
 
-import Img from '@site/src/components/Img';
-
-import TOCInline from '@theme/TOCInline';
-
-<TOCInline toc={toc}  minHeadingLevel={2} maxHeadingLevel={5}/>
-
-Building DBT incremental models are a little difficult than other materializaion types (view, table). This guide aims to make it easy to understand all possible DBT incremental model configurations with lots of examples.
-
+Incremental models on IOMETE use Iceberg tables and support two strategies (`append` and `merge`), plus a handful of merge-specific options. This page walks through every supported configuration with working SQL examples and shows the table state after each run.
 
 ## Incremental Models Configurations
 
-Here are the DBT configurations for incremental models
+Incremental models are trickier to get right than views or tables, so it helps to see every knob in one place before working through examples. The tables below summarize the configurations DBT exposes for incremental models on IOMETE.
 
 | Parameter | Default value | Expected values                                    |
 | --- | --- |----------------------------------------------------|
-| file_format | `iceberg` | `iceberg`, `parquet`, `orc`, `csv`, `json`         |
-| incremental_strategy | `merge` | `append`, `merge`, `insert_overwrite`                |
+| file_format | `iceberg` | `iceberg` (only supported value)                   |
+| incremental_strategy | `merge` | `append`, `merge`                                  |
 | on_schema_change | `ignore` | `ignore`, `append_new_columns`, `sync_all_columns`, `fail` |
 
 **Incremental Strategies**
 
-| Incremental Strategy | Supported table types | Description                                                                                                                                                   |
-| --- | --- |---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| append | all | Each incremental run appends to the table. Example: [_append_](#append)                                                                                       |
-| merge | iceberg | Each incremental run merges new rows with the existing rows. Example: [_merge-with-unique_key_](#merge-with-unique_key)                                       |
-| insert_overwrite | non-iceberg | Each run [overwriting the matching partitions](#insert-overwrite-partitions) or the [whole table for non-partitioned tables](#insert-overwrite-no-partitions) |
+| Incremental Strategy | Description                                                                                             |
+| --- |---------------------------------------------------------------------------------------------------------|
+| append | Each run appends new rows to the table. Example: [_append_](#append)                                 |
+| merge | Each run merges new rows with existing rows. Example: [_merge-with-unique_key_](#merge-with-unique_key) |
 
 **Merge Incremental Strategy**
 
-| Configuration | Behaviour if not provided                                                                                      | Behaviour when provided                                                                                               |
+| Configuration | Behavior if not provided                                                                                      | Behavior when provided                                                                                               |
 | --- |----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| unique_key | incremental runs are behaving as append-only. Example: [_merge-without-unique_key_](#merge-without-unique_key) | Iceberg merge is going to be run on the given column name. Example: [_merge-with-unique_key_](#merge-with-unique_key) |
-| merge_update_columns | All columns will be updated on the merge. Example: [_merge-with-unique_key_](#merge-with-unique_key)                          | Only the specified columns will be merged; Example: [_merge-with-update-columns_](#merge-with-update-columns)         |
+| unique_key | Runs behave as append-only. Example: [_merge-without-unique_key_](#merge-without-unique_key) | Iceberg runs a merge on the given column. Example: [_merge-with-unique_key_](#merge-with-unique_key) |
+| merge_update_columns | Every column is updated on merge. Example: [_merge-with-unique_key_](#merge-with-unique_key) | Only the listed columns are merged. Example: [_merge-with-update-columns_](#merge-with-update-columns) |
+| merge_exclude_columns | Every column is updated on merge. | The listed columns are skipped, and all others are updated. Example: [_merge-with-exclude-columns_](#merge-with-exclude-columns) |
+| incremental_predicates | Every target row is scanned during merge. | Only target rows matching the predicate are scanned, which speeds up merges on large tables. Example: [_merge-with-incremental-predicates_](#merge-with-incremental-predicates) |
 
 
 **Schema Changes**
 
-| Schema change | Supported table types | Description                                                                                             |
-| --- | --- |---------------------------------------------------------------------------------------------------------|
-| ignore | all | Ignore schema changes. Example: [_ignore_](#ignore)                                                     |
-| append_new_columns | iceberg | Only adds the new fields; keep the removed fields. Example: [_append-new-columns_](#append-new-columns) |
-| sync_all_columns | iceberg | Full sync schema changes. Example: [_sync-all-columns_](#sync-all-columns)                              |
-| fail | all | Fails when the schema change is detected. Example: [_fail_](#fail)                                      |
+| Schema change | Description                                                                                             |
+| --- |---------------------------------------------------------------------------------------------------------|
+| ignore | Ignores schema changes. Example: [_ignore_](#ignore)                                                     |
+| append_new_columns | Adds new fields and keeps removed ones. Example: [_append-new-columns_](#append-new-columns) |
+| sync_all_columns | Adds new fields and drops missing ones. Example: [_sync-all-columns_](#sync-all-columns)              |
+| fail | Fails the run when a schema change is detected. Example: [_fail_](#fail)                                        |
 
+## Examples
 
-## Bad Incremental models
-
-
-### Bad file format
-
-
-```sql title="models/incremental_strategies/models_bad/bad_file_format.sql"
-{{ config(
-    materialized = 'incremental',
-		file_format = 'bad_format'
-) }}
-
-select 1
-```
----
-
-### Bad insert overwrite
-
-:::info
-Iceberg tables only support `append` and `merge` incremental strategies. The following results in error.
-:::
-
-```sql title="models/incremental_strategies/models_bad/bad_insert_overwrite_iceberg.sql"
-{{ config(
-    materialized = 'incremental',
-    incremental_strategy = 'insert_overwrite'
-) }}
-
-select 1
-```
-
-**DBT Error on run**
-
-```bash
-You cannot use this strategy when file_format is set to 'iceberg' (default one)
-	Use the 'append' or 'merge' strategy instead
-```
----
-
-### Bad merge
-:::info
-Non-iceberg tables don’t support merge incremental strategy
-:::
-```sql title="models/incremental_strategies/models_bad/bad_merge_not_iceberg.sql"
-{{ config(
-    materialized = 'incremental',
-    incremental_strategy = 'merge',
-    file_format = 'parquet'
-) }}
-
-select 1
-```
-
-**DBT Error**
-
-```bash
-Invalid incremental strategy provided: merge
-	You can only choose this strategy when file_format is set to 'iceberg'
-```
----
-
-### Bad strategy
-
-```sql title="models/incremental_strategies/models_bad/bad_strategy.sql"
-{{ config(
-    materialized = 'incremental',
-    incremental_strategy = 'something_else',
-) }}
-
-select 1
-```
-
-**DBT Error**
-
-```bash
-Invalid incremental strategy provided: something_else
-	Expected one of: 'append', 'merge', 'insert_overwrite'
-```
----
-
-## Merge for iceberg tables
+Each example below pairs the SQL you'd write with the table state you'd see after each run. Pick the one that matches your use case as a starting template.
 
 ### Append
 
@@ -183,10 +98,10 @@ Results
 ```
 ---
 
-### Merge without unique_key
+### Merge Without unique_key
 
 :::info
-Without no merge keys it behaves as **append** mode
+Without a merge key, the strategy quietly degrades to **append** mode.
 :::
 
 ```sql title="models/incremental_strategies/models_iceberg/merge_no_key.sql"
@@ -235,7 +150,7 @@ Results
 ```
 ---
 
-### Merge with unique_key
+### Merge With unique_key
 
 ```sql title="models/incremental_strategies/models_iceberg/merge_unique_key.sql"
 {{ config(
@@ -283,7 +198,7 @@ Results
 ```
 ---
 
-### Merge with update columns
+### Merge With Update Columns
 
 ```sql title="models/incremental_strategies/models_iceberg/merge_update_columns.sql"
 {{ config(
@@ -322,44 +237,44 @@ Results
 +-----+----------+--------+
 
 # After 2nd run
-## pay attention to id=2; the **msg** field is changed but not the **color** field not
+## pay attention to id=2: msg changed, color unchanged
 > select * from merge_update_columns order by id;
 +-----+---------+---------+
 | id  |   msg   |  color  |
 +-----+---------+---------+
 | 1   | hello   | blue    |
-**| 2   | yo      | red     |**
+| 2   | yo      | red     |
 | 3   | anyway  | purple  |
 +-----+---------+---------+
 ```
 ---
 
-## Insert Overwrite for non-iceberg tables
-
-### Insert overwrite no partitions
+### Merge With Exclude Columns
 
 :::info
-Each run overwrites the whole table
+`merge_exclude_columns` is the inverse of `merge_update_columns`: the listed columns are preserved from the existing row, and everything else is updated. You can't use both on the same model.
 :::
 
-```sql title="models/incremental_strategies/models_insert_overwrite/insert_overwrite_no_partitions.sql"
+```sql title="models/incremental_strategies/models_iceberg/merge_exclude_columns.sql"
 {{ config(
     materialized = 'incremental',
-    incremental_strategy = 'insert_overwrite',
-    file_format = 'parquet'
+    incremental_strategy = 'merge',
+    unique_key = 'id',
+    merge_exclude_columns = ['color'],
 ) }}
 
 {% if not is_incremental() %}
 
-select cast(1 as bigint) as id, 'hello' as msg
+select cast(1 as bigint) as id, 'hello' as msg, 'blue' as color
 union all
-select cast(2 as bigint) as id, 'goodbye' as msg
+select cast(2 as bigint) as id, 'goodbye' as msg, 'red' as color
 
 {% else %}
 
-select cast(2 as bigint) as id, 'yo' as msg
+-- msg will be updated, color will be preserved
+select cast(2 as bigint) as id, 'yo' as msg, 'green' as color
 union all
-select cast(3 as bigint) as id, 'anyway' as msg
+select cast(3 as bigint) as id, 'anyway' as msg, 'purple' as color
 
 {% endif %}
 ```
@@ -368,7 +283,7 @@ Results
 
 ```bash
 # After 1st run
-> select * from insert_overwrite_no_partitions order by id;
+> select * from merge_exclude_columns order by id;
 +-----+----------+--------+
 | id  |   msg    | color  |
 +-----+----------+--------+
@@ -377,28 +292,30 @@ Results
 +-----+----------+--------+
 
 # After 2nd run
-> select * from insert_overwrite_no_partitions order by id;
-+-----+---------+
-| id  |   msg   |
-+-----+---------+
-| 2   | yo      |
-| 3   | anyway  |
-+-----+---------+
+## id=2: msg updated to 'yo', but color stays 'red' (excluded from merge)
+> select * from merge_exclude_columns order by id;
++-----+---------+--------+
+| id  |   msg   | color  |
++-----+---------+--------+
+| 1   | hello   | blue   |
+| 2   | yo      | red    |
+| 3   | anyway  | purple |
++-----+---------+--------+
 ```
 ---
 
-### Insert overwrite partitions
+### Merge With Incremental Predicates
 
 :::info
-Each run overwrites the overlapping partitions
+`incremental_predicates` limits which target rows are scanned during the merge, so large tables avoid a full scan. Predicates must reference `DBT_INTERNAL_DEST`. `predicates` works as an alias for `incremental_predicates`.
 :::
 
-```sql title="models/incremental_strategies/models_insert_overwrite/insert_overwrite_partitions.sql"
+```sql title="models/incremental_strategies/models_iceberg/merge_incremental_predicates.sql"
 {{ config(
     materialized = 'incremental',
-    incremental_strategy = 'insert_overwrite',
-    partition_by = 'id',
-    file_format = 'parquet',
+    incremental_strategy = 'merge',
+    unique_key = 'id',
+    incremental_predicates = ['DBT_INTERNAL_DEST.id >= 2']
 ) }}
 
 {% if not is_incremental() %}
@@ -407,13 +324,14 @@ select cast(1 as bigint) as id, 'hello' as msg
 union all
 select cast(2 as bigint) as id, 'goodbye' as msg
 union all
-select cast(2 as bigint) as id, 'aloha' as msg
+select cast(3 as bigint) as id, 'hey' as msg
 
 {% else %}
 
-select cast(2 as bigint) as id, 'yo' as msg
+-- new data stays within the predicate window (id >= 2)
+select cast(2 as bigint) as id, 'updated' as msg
 union all
-select cast(3 as bigint) as id, 'anyway' as msg
+select cast(4 as bigint) as id, 'new' as msg
 
 {% endif %}
 ```
@@ -422,31 +340,37 @@ Results
 
 ```bash
 # After 1st run
-> select * from insert_overwrite_partitions order by id;
-+----------+-----+
-|   msg    | id  |
-+----------+-----+
-| hello    | 1   |
-| goodbye  | 2   |
-| aloha    | 2   |
-+----------+-----+
+> select * from merge_incremental_predicates order by id;
++-----+----------+
+| id  |   msg    |
++-----+----------+
+| 1   | hello    |
+| 2   | goodbye  |
+| 3   | hey      |
++-----+----------+
 
 # After 2nd run
-## id=2 row (partition is overwritten)
-> select * from insert_overwrite_partitions order by id;
-+---------+-----+
-|   msg   | id  |
-+---------+-----+
-| hello   | 1   |
-**| yo      | 2   |**
-| anyway  | 3   |
-+---------+-----+
+# Only target rows with id >= 2 are scanned; id=1 is never touched.
+# id=2 is updated; id=3 is untouched (not in new data); id=4 is inserted.
+> select * from merge_incremental_predicates order by id;
++-----+---------+
+| id  |   msg   |
++-----+---------+
+| 1   | hello   |
+| 2   | updated |
+| 3   | hey     |
+| 4   | new     |
++-----+---------+
 ```
+
+:::caution
+Keep your new data within the predicate window. If a source row falls outside it — for example `id=1` in this case — the merge can't find the existing target row and inserts a duplicate instead of updating it.
+:::
 ---
 
 ## Schema Changes
 
-Let’s use this as a source model
+Source schemas drift over time, and `on_schema_change` decides how your incremental model reacts. The examples in this section all build on the same source model, shown below.
 
 ```sql title="models/incremental_on_schema_change/models/model_a.sql"
 {{ 
@@ -473,9 +397,23 @@ select id
 from source_data
 ```
 
+```bash
+> select * from source_data;
++-----+---------+---------+---------+---------+
+| id  | field1  | field2  | field3  | field4  |
++-----+---------+---------+---------+---------+
+| 1   | aaa     | bbb     | 111     | TTT     |
+| 2   | ccc     | ddd     | 222     | UUU     |
+| 3   | eee     | fff     | 333     | VVV     |
+| 4   | ggg     | hhh     | 444     | WWW     |
+| 5   | iii     | jjj     | 555     | XXX     |
+| 6   | kkk     | lll     | 666     | YYY     |
++-----+---------+---------+---------+---------+
+```
+
 ### Ignore
 
-Ignore schema changes
+The target schema stays frozen. New columns in the source are silently dropped on insert.
 
 ```sql title="models/incremental_on_schema_change/models/incremental_ignore.sql"
 {{
@@ -526,7 +464,7 @@ Results
 --------------------------------------------------------
 
 # After 2nd run
-## new columns are added: field3, field4
+# field3 and field4 are silently dropped — schema stays frozen
 > describe table incremental_ignore;
 +------------------+------------+----------+
 |     col_name     | data_type  | comment  |
@@ -543,19 +481,19 @@ Results
 +-----+---------+---------+
 | id  | field1  | field2  |
 +-----+---------+---------+
-| 4   | ggg     | hhh     |
-| 5   | iii     | jjj     |
-| 6   | kkk     | lll     |
 | 1   | aaa     | bbb     |
 | 2   | ccc     | ddd     |
 | 3   | eee     | fff     |
+| 4   | ggg     | hhh     |
+| 5   | iii     | jjj     |
+| 6   | kkk     | lll     |
 +-----+---------+---------+
 ```
 ---
 
-### Append new columns
+### Append New Columns
 
-Only adds the new fields
+New source fields are added to the target. Existing columns that disappear from the source are kept, and new rows get `NULL` for them.
 
 ```sql title="models/incremental_on_schema_change/models/incremental_append_new_columns.sql"
 {{
@@ -645,9 +583,9 @@ Results
 ```
 ---
 
-### Sync all columns
+### Sync All Columns
 
-Full sync schema changes
+The target schema mirrors the source on every run. New columns are added and missing ones are dropped, so use this when you want the target to track the source exactly.
 
 ```sql title="models/incremental_on_schema_change/models/incremental_sync_all_columns.sql"
 {{
@@ -729,19 +667,19 @@ Results
 +-----+---------+---------+---------+
 | id  | field1  | field3  | field4  |
 +-----+---------+---------+---------+
-| 4   | ggg     | 444     | WWW     |
-| 5   | iii     | 555     | XXX     |
-| 6   | kkk     | 666     | YYY     |
 | 1   | aaa     | NULL    | NULL    |
 | 2   | ccc     | NULL    | NULL    |
 | 3   | eee     | NULL    | NULL    |
+| 4   | ggg     | 444     | WWW     |
+| 5   | iii     | 555     | XXX     |
+| 6   | kkk     | 666     | YYY     |
 +-----+---------+---------+---------+
 ```
 ---
 
 ### Fail
 
-Fails when the schema change is detected
+The run fails as soon as a schema mismatch is detected. Use this when silent drift would hurt more than a broken pipeline.
 
 ```sql title="models/incremental_on_schema_change/models/incremental_fail.sql"
 {{
@@ -801,4 +739,68 @@ They can be reconciled in several ways:
   - Re-run the incremental model with `full_refresh: True` to update the target schema.
   - update the schema manually and re-run the process.
 ```
+---
+
+
+## Bad Incremental Models
+
+A few configurations look perfectly reasonable but fail at run time. Knowing them upfront saves you a debugging round trip.
+
+### Bad File Format
+
+
+```sql title="models/incremental_strategies/models_bad/bad_file_format.sql"
+{{ config(
+    materialized = 'incremental',
+    file_format = 'bad_format'
+) }}
+
+select 1
+```
+---
+
+### Unsupported File Format for Incremental
+
+:::info
+Incremental models only support the `iceberg` file format. Any other `file_format` value errors out immediately, regardless of `incremental_strategy`.
+:::
+
+```sql title="models/incremental_strategies/models_bad/bad_file_format_incremental.sql"
+{{ config(
+    materialized = 'incremental',
+    file_format = 'parquet'
+) }}
+
+select 1
+```
+
+**DBT Error on run**
+
+```bash
+Invalid incremental file format provided: parquet
+    We only support 'iceberg' file format
+```
+---
+
+### Bad Strategy
+
+```sql title="models/incremental_strategies/models_bad/bad_strategy.sql"
+{{ config(
+    materialized = 'incremental',
+    incremental_strategy = 'something_else',
+) }}
+
+select 1
+```
+
+**DBT Error**
+
+```bash
+Invalid incremental strategy provided: something_else
+    Expected one of: 'append', 'merge', 'insert_overwrite'
+```
+
+:::note
+The error lists `insert_overwrite` as a recognized value, but it isn't usable in practice. `insert_overwrite` requires a non-iceberg file format, which is also rejected. Stick with `append` or `merge`.
+:::
 ---
