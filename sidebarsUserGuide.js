@@ -105,9 +105,9 @@ const sidebars = {
         "register-table",
         "storage-configs",
         "system-tables",
+        "security-overview",
       ],
     },
-    "security-overview",
     {
       type: "category",
       label: "Identity and Account",

@@ -11,12 +11,12 @@ IOMETE security is organized into four complementary layers. Each layer answers 
 
 ## The Four Layers
 
-| Layer | Component | Question Answered |
-|---|---|---|
-| 1 — Infrastructure | [Network Policies](../docs/deployment/network-policies.md) | Can components reach each other inside the cluster? |
-| 2 — Identity | [IAM](./iam/users.md) | Who is this user, and how did they authenticate? |
-| 3 — Resource | [RAS – Resource Bundles](./iam/ras/ras.md) | Which compute clusters, Spark jobs, and workspaces can this user operate? |
-| 4 — Data | [Data Security](./data-security/overview.mdx) | Which databases, tables, columns, and rows can this user query? |
+| # | Layer | Component | Question Answered |
+|---|---|---|---|
+| 1 | Infrastructure | [Network Policies](/deployment/network-policies) | Can components reach each other inside the cluster? |
+| 2 | Identity | [IAM](./iam/users.md) | Who is this user, and how did they authenticate? |
+| 3 | Resource | [RAS – Resource Bundles](./iam/ras/ras.md) | Which compute clusters, Spark jobs, and workspaces can this user operate? |
+| 4 | Data | [Data Security](./data-security/overview.mdx) | Which databases, tables, columns, and rows can this user query? |
 
 A request to run a Spark query passes through all four layers in order. A failure at any layer blocks the request regardless of what the other layers permit.
 
@@ -33,7 +33,7 @@ Two policies are required for a working IOMETE installation:
 
 Network Policies operate entirely at the infrastructure level. They have no knowledge of IOMETE users, groups, or data. If these policies are missing or misconfigured, no users can work at all.
 
-See [Kubernetes Network Policies](../docs/deployment/network-policies.md) for YAML examples and troubleshooting steps.
+See [Kubernetes Network Policies](/deployment/network-policies) for YAML examples and troubleshooting steps.
 
 ---
 
@@ -63,7 +63,7 @@ RAS controls which platform *resources* — compute clusters, Spark jobs, storag
 
 Resources are organized into **Resource Bundles**. A bundle is a named container that holds related assets and defines who can use them. Bundles are owned by a user or a group, and permissions are granted per bundle per resource type.
 
-### How RAS and IAM interact
+### How RAS and IAM Interact
 
 Groups defined in IAM are the actors in RAS. You add a group to a bundle's **Members & Permissions** tab and select which resource-level actions (for example, `CREATE_COMPUTE` or `VIEW_SECRETS`) that group is allowed to perform.
 
@@ -81,7 +81,7 @@ See [RAS – Resource Bundles](./iam/ras/ras.md) and [Domain Authorization](./ia
 
 Data Security governs what data users can see *inside* the resources they are permitted to operate. It enforces access at the database, table, column, and row level — independently of which compute cluster or Spark job is used to run a query.
 
-### Policy types
+### Policy Types
 
 **Resource-based policies** apply to explicitly named objects:
 
@@ -98,7 +98,7 @@ Data Security governs what data users can see *inside* the resources they are pe
 | [Tag-based Access Policy](./data-security/tag-based-access-policy.mdx) | Apply access rules to every object that shares a tag (for example, all columns tagged `PII`). |
 | [Tag-based Data Masking](./data-security/tag-based-data-masking.mdx) | Mask all columns bearing a specific tag, regardless of which table or database they are in. |
 
-### How Data Security and IAM interact
+### How Data Security and IAM Interact
 
 Access policies and masking policies reference the same users and groups that are managed in IAM. Assign a policy to a group, and every member of that group inherits the policy automatically.
 
@@ -159,4 +159,4 @@ Organizing permissions around groups rather than individual users means that onb
 - [Data Masking](./data-security/data-masking.mdx)
 - [Row-Level Filter](./data-security/row-level-filter.mdx)
 - [Classifications](./data-security/classifications.mdx)
-- [Kubernetes Network Policies](../docs/deployment/network-policies.md)
+- [Kubernetes Network Policies](/deployment/network-policies)
