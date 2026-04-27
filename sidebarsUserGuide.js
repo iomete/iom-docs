@@ -115,6 +115,7 @@ const sidebars = {
       items: [
         "iam/users",
         "iam/groups",
+        "iam/admin-roles",
         "iam/roles",
         "iam/ldap-configuration",
         {
