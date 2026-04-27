@@ -1,8 +1,9 @@
 ---
 title: Secrets Management
 description: Securely store and use credentials in IOMETE
+sidebar_label: Secrets
 last_update:
-  date: 01/08/2026
+  date: 04/27/2026
   author: Sourabh Jajoria
 ---
 
@@ -18,7 +19,7 @@ Store passwords, API keys, and credentials securely, then reference them in work
 
 <Img src="/img/user-guide/secrets/domain-secrets.png" alt="Domain Secrets List" />
 
-### Create Secret
+### Creating a Domain Secret
 
 Click the **New Domain Secret** button. The form requires the following fields:
 
@@ -41,29 +42,70 @@ Before deleting a secret, ensure it is no longer in use. Deleting an active secr
 
 ### Vault Integrations (HashiCorp Vault)
 
-IOMETE supports HashiCorp Vault alongside Kubernetes. Vault integration is **read-only**—manage Vault data via your existing HashiCorp tools.
+Vault integrations let you reuse secrets you already manage in HashiCorp Vault, so workloads can reference them without copying values into IOMETE. This integration is **read-only**. Manage Vault data with your existing HashiCorp tools.
 
 Navigate to **Settings** → **Secret Settings** → **Vault Integrations**.
 
 <Img src="/img/user-guide/secrets/vault-integrations.png" alt="Vault Integrations" />
 
-### Create Vault Configuration
+### Viewing Vault Configurations
 
-Click **`+ New Vault`** to create Vault config.
+The **Vault Integrations** list shows the Vault connections you can access in the current domain. Each row includes:
 
-- **Name:** A unique identifier (e.g., `vault-prod-finance`).
+- **Name**: The Vault configuration name. Click it to open the details page.
+- **Host**: The Vault base URL.
+- **Path**: The KV v2 API path IOMETE reads from.
+- **Namespace**: The HashiCorp namespace, when one is configured.
+- **Actions**: Open the action menu to **View**, **Configure**, or **Delete** the integration.
+
+<Img src="/img/user-guide/secrets/vault-integrations-actions.png" alt="Vault Integrations actions menu" />
+
+The details page shows the configuration **ID**, **Name**, **Host**, **HashiCorp namespace**, **Bundle**, **Path**, and **Auth method**.
+
+### Creating a Vault Configuration
+
+Click **`+ New Vault`** to create a Vault configuration.
+
+- **Name:** A unique identifier (for example, `vault-prod-finance`). Use letters or numbers, and optionally `_`, `-`, or `.`.
 - **Resource bundle:** Select a [resource bundle](./iam/ras/ras.md) to define access control for this integration.
 - **Host:** The Vault base URL (e.g., `https://vault.example.com:8200`).
 - **Path:** The KV v2 mount point (e.g., `/v1/secret/data/production`). _Note: KV v2 paths typically require the `/data/` segment._
 - **HashiCorp namespace** _(Optional)_: Required for Vault Enterprise users specifying non-root namespaces.
 - **Authentication method:** Choose **App role** (recommended) or **Token**.
-- Click **Test Connection**, then click **Create**.
+- **Token:** Provide a Vault token with read access to the configured path.
+- **App role:** Provide both the **Role ID** and **Secret ID**.
+
+Click **Test connection** to validate the settings, then click **Create** to save the integration.
 
 <Img src="/img/user-guide/secrets/vault-config-create.png" alt="Vault Configuration Create" maxWidth="700px"  />
 
 Once saved, secret selectors throughout IOMETE will aggregate keys from both Kubernetes and Vault.
 
 <Img src="/img/user-guide/secrets/domain-secrets-of-vault.png" alt="Domain Vault Secrets"  />
+
+### Testing a Vault Connection
+
+Use **Test connection** on the create or update form whenever you want to validate the host, path, namespace, and credentials before saving.
+
+- The check is **optional but recommended**. It does **not** save the configuration.
+- If the test succeeds, the form shows a green success indicator next to **Test connection**.
+- If the test fails, the form shows a red error indicator. Hover over it to see the returned error message.
+
+Common failures include invalid credentials, missing access to the configured Vault path, or a path that does not match a KV v2 endpoint.
+
+### Updating a Vault Configuration
+
+Open the action menu for a Vault integration, then select **Configure**. You can also open the details page and click **Configure** there.
+
+You can update the **Name**, **Host**, **Path**, **HashiCorp namespace**, **Authentication method**, and credentials. The **Resource bundle** stays fixed after creation, so if you need different access control you must create a new integration with the correct bundle.
+
+If you change the credentials or path, run **Test connection** again before you click **Update**.
+
+### Deleting a Vault Configuration
+
+Open the action menu for a Vault integration and select **Delete**, or delete it from the details page.
+
+Deleting a Vault configuration removes the integration from IOMETE, but it does **not** delete any secrets from HashiCorp Vault. Make sure no workloads still reference secrets from that Vault configuration before you confirm the deletion.
 
 :::warning Requirements
 
@@ -75,13 +117,15 @@ Once saved, secret selectors throughout IOMETE will aggregate keys from both Kub
 
 Vault access is controlled via [RAS (Resource Authorization System)](./iam/ras/ras.md):
 
-| Permission | Capability                                           |
-| ---------- | ---------------------------------------------------- |
-| **View**   | View Vault configuration details                     |
-| **Update** | Modify Vault configuration (host, path, credentials) |
-| **Use**    | List and select secret keys in workloads             |
+| Permission | Capability                                               |
+| ---------- | -------------------------------------------------------- |
+| **View**   | View Vault configuration details                         |
+| **Update** | Modify or delete Vault configurations                    |
+| **Use**    | List and select Vault-backed secret keys in workloads    |
 
-Users need **Use** permission to see Vault keys in secret selector dropdowns. Without it, keys from that Vault won't appear.
+Only domain owners or platform admins can create Vault configurations. After a configuration is created, the assigned resource bundle controls who can **View** or **Update** that Vault configuration.
+
+Users need **Use** permission only when they reference secrets from a Vault configuration in workloads. Without **Use** permission, keys from that Vault won't appear in secret selector dropdowns.
 
 :::note
 To list secrets in the secret selector, **Use** permission on the Vault configuration is required alongside **List Secrets** domain permission. The **List Secrets** permission is needed because the selector also lists Kubernetes secrets, which are governed by that permission.
@@ -89,7 +133,7 @@ To list secrets in the secret selector, **Use** permission on the Vault configur
 
 ## Global Secrets
 
-**Global Secrets** are **read-only** credentials available across all domains for platform-wide use. They can only be managed directly in Kubernetes editing in Console will be added in a future update.
+**Global Secrets** are **read-only** credentials available across all domains for platform-wide use. You manage them directly in Kubernetes today. Console editing is planned for a future update.
 
 <Img src="/img/user-guide/secrets/domain-global-secrets.png" alt="Domain Global Secrets Tab" />
 
