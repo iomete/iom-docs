@@ -1,5 +1,5 @@
 ---
-title: Incremental Models By Examples
+title: DBT Incremental Models By Examples
 sidebar_label: Incremental Models By Examples
 description: Hands-on examples covering every incremental model configuration for dbt on IOMETE, including append, merge, schema changes, and common error cases.
 last_update:
@@ -379,7 +379,7 @@ Results
     materialized = 'incremental',
     incremental_strategy = 'merge',
     unique_key = 'id',
-    incremental_predicates = ['DBT_INTERNAL_DEST.id > 1']
+    incremental_predicates = ['DBT_INTERNAL_DEST.id >= 2']
 ) }}
 
 {% if not is_incremental() %}
@@ -387,12 +387,15 @@ Results
 select cast(1 as bigint) as id, 'hello' as msg
 union all
 select cast(2 as bigint) as id, 'goodbye' as msg
+union all
+select cast(3 as bigint) as id, 'hey' as msg
 
 {% else %}
 
+-- new data stays within the predicate window (id >= 2)
 select cast(2 as bigint) as id, 'updated' as msg
 union all
-select cast(3 as bigint) as id, 'new' as msg
+select cast(4 as bigint) as id, 'new' as msg
 
 {% endif %}
 ```
@@ -407,19 +410,26 @@ Results
 +-----+----------+
 | 1   | hello    |
 | 2   | goodbye  |
+| 3   | hey      |
 +-----+----------+
 
 # After 2nd run
-## id=2 is updated; id=3 inserted; id=1 untouched (excluded by predicate)
+# Only target rows with id >= 2 are scanned; id=1 is never touched.
+# id=2 is updated; id=3 is untouched (not in new data); id=4 is inserted.
 > select * from merge_incremental_predicates order by id;
 +-----+---------+
 | id  |   msg   |
 +-----+---------+
 | 1   | hello   |
 | 2   | updated |
-| 3   | new     |
+| 3   | hey     |
+| 4   | new     |
 +-----+---------+
 ```
+
+:::caution
+Keep your new data within the predicate window. If a source row falls outside it — for example `id=1` in this case — the merge can't find the existing target row and inserts a duplicate instead of updating it.
+:::
 ---
 
 ## Schema Changes
@@ -449,6 +459,20 @@ select id
        ,field4
 
 from source_data
+```
+
+```bash
+> select * from source_data;
++-----+---------+---------+---------+---------+
+| id  | field1  | field2  | field3  | field4  |
++-----+---------+---------+---------+---------+
+| 1   | aaa     | bbb     | 111     | TTT     |
+| 2   | ccc     | ddd     | 222     | UUU     |
+| 3   | eee     | fff     | 333     | VVV     |
+| 4   | ggg     | hhh     | 444     | WWW     |
+| 5   | iii     | jjj     | 555     | XXX     |
+| 6   | kkk     | lll     | 666     | YYY     |
++-----+---------+---------+---------+---------+
 ```
 
 ### Ignore
@@ -504,7 +528,7 @@ Results
 --------------------------------------------------------
 
 # After 2nd run
-## new columns are added: field3, field4
+# field3 and field4 are silently dropped — schema stays frozen
 > describe table incremental_ignore;
 +------------------+------------+----------+
 |     col_name     | data_type  | comment  |
@@ -521,12 +545,12 @@ Results
 +-----+---------+---------+
 | id  | field1  | field2  |
 +-----+---------+---------+
-| 4   | ggg     | hhh     |
-| 5   | iii     | jjj     |
-| 6   | kkk     | lll     |
 | 1   | aaa     | bbb     |
 | 2   | ccc     | ddd     |
 | 3   | eee     | fff     |
+| 4   | ggg     | hhh     |
+| 5   | iii     | jjj     |
+| 6   | kkk     | lll     |
 +-----+---------+---------+
 ```
 ---
@@ -707,12 +731,12 @@ Results
 +-----+---------+---------+---------+
 | id  | field1  | field3  | field4  |
 +-----+---------+---------+---------+
-| 4   | ggg     | 444     | WWW     |
-| 5   | iii     | 555     | XXX     |
-| 6   | kkk     | 666     | YYY     |
 | 1   | aaa     | NULL    | NULL    |
 | 2   | ccc     | NULL    | NULL    |
 | 3   | eee     | NULL    | NULL    |
+| 4   | ggg     | 444     | WWW     |
+| 5   | iii     | 555     | XXX     |
+| 6   | kkk     | 666     | YYY     |
 +-----+---------+---------+---------+
 ```
 ---

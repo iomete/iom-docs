@@ -7,9 +7,6 @@ last_update:
   author: Shashank Chaudhary
 ---
 
-
-# Incremental Models
-
 Incremental models skip reprocessing your entire source dataset on every run, which can be the difference between a transformation that finishes in seconds and one that drags on for hours. They're built as tables in your data lake. The first run transforms _all rows_ of source data, and on later runs dbt transforms only the rows you filter for, then inserts them into the existing target table.
 
 Usually you filter for rows created or updated since the last run. That's why your model **gets built incrementally** with each dbt run.
