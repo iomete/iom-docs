@@ -1,6 +1,6 @@
 ---
-title: DBT Materializations
-sidebar_label: DBT Materializations
+title: Materializations
+sidebar_label: Materializations
 description: DBT Materializations on IOMETE platform. Learn how to set different materialization types (view, table, incremental) and understand their pros & cons
 last_update:
   date: 04/27/2026
