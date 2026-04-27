@@ -1,0 +1,157 @@
+---
+title: Security Overview
+sidebar_label: Security Overview
+description: Understand how IAM, RAS, Data Security, and Network Policies work together to form IOMETE's layered security model.
+last_update:
+  date: 04/27/2026
+  author: Sourabh Jajoria
+---
+
+IOMETE security is organized into four complementary layers. Each layer answers a different question about access: who you are, which platform resources you can use, what data you can see, and how components communicate at the network level. Together, they give you fine-grained control without requiring you to configure every layer for every use case.
+
+## The Four Layers
+
+| # | Layer | Component | Question Answered |
+|---|---|---|---|
+| 1 | Infrastructure | [Network Policies](/deployment/network-policies) | Can components reach each other inside the cluster? |
+| 2 | Identity | [IAM](./iam/users.md) | Who is this user, and how did they authenticate? |
+| 3 | Resource | [RAS – Resource Bundles](./iam/ras/ras.md) | Which compute clusters, Spark jobs, and workspaces can this user operate? |
+| 4 | Data | [Data Security](./data-security/overview.mdx) | Which databases, tables, columns, and rows can this user query? |
+
+A request to run a Spark query passes through all four layers in order. A failure at any layer blocks the request regardless of what the other layers permit.
+
+---
+
+## Network Policies
+
+Network Policies are Kubernetes `NetworkPolicy` resources that control traffic between IOMETE pods and namespaces. They are configured once during deployment and rarely need to change afterward.
+
+Two policies are required for a working IOMETE installation:
+
+- **Spark Operator Webhook Policy** — allows the Kubernetes API server to reach the Spark operator's admission webhook. Without this, Spark job submissions time out.
+- **IOMETE Namespaces Communication Policy** — permits cross-namespace traffic between control-plane and data-plane pods using the `iomete.com/managed: "true"` label.
+
+Network Policies operate entirely at the infrastructure level. They have no knowledge of IOMETE users, groups, or data. If these policies are missing or misconfigured, no users can work at all.
+
+See [Kubernetes Network Policies](/deployment/network-policies) for YAML examples and troubleshooting steps.
+
+---
+
+## Identity and Access Management (IAM)
+
+IAM answers the question "who are you?" before any other layer evaluates a request. It covers:
+
+- **Users** — person accounts and service accounts, created locally or synced from an external directory.
+- **Groups** — named collections of users; groups can be nested. Groups are the primary unit of permission management across all other layers.
+- **Authentication** — local credentials, LDAP directory sync, or federated identity via SAML/OIDC (Okta, OneLogin, Microsoft Entra ID, SCIM provisioning).
+- **Platform Roles** — coarse-grained admin rights such as `IAM_MANAGER` and `DATA_SECURITY_AND_AUDIT_MANAGER` that grant access to manage specific sections of the IOMETE console.
+
+IAM does not control which data a user can read — that is Data Security's job. IAM only establishes identity and grants admin-level platform capabilities.
+
+**Key docs**
+- [Users](./iam/users.md)
+- [Groups](./iam/groups.md)
+- [Roles](./iam/roles.md)
+- [LDAP Configuration](./iam/ldap-configuration.md)
+- [SSO Configuration](./iam/sso/sso.md)
+
+---
+
+## Resource Authorization System (RAS)
+
+RAS controls which platform *resources* — compute clusters, Spark jobs, storage configurations, workspaces — a user can create or operate. It does not govern the content of those resources (that is Data Security's job).
+
+Resources are organized into **Resource Bundles**. A bundle is a named container that holds related assets and defines who can use them. Bundles are owned by a user or a group, and permissions are granted per bundle per resource type.
+
+### How RAS and IAM Interact
+
+Groups defined in IAM are the actors in RAS. You add a group to a bundle's **Members & Permissions** tab and select which resource-level actions (for example, `CREATE_COMPUTE` or `VIEW_SECRETS`) that group is allowed to perform.
+
+Because permissions flow through groups, adding a new engineer to the right IAM group automatically grants them the correct resource access — you do not need to update individual bundles.
+
+See [RAS – Resource Bundles](./iam/ras/ras.md) for full details.
+
+---
+
+## Data Security
+
+Data Security governs what data users can see *inside* the resources they are permitted to operate. It enforces access at the database, table, column, and row level — independently of which compute cluster or Spark job is used to run a query.
+
+### Policy Types
+
+**Resource-based policies** apply to explicitly named objects:
+
+| Policy | Effect |
+|---|---|
+| [Access Policy](./data-security/access-policy.mdx) | Grant or deny SELECT, INSERT, UPDATE, DELETE, ALTER, or CREATE on specific databases, tables, or columns. |
+| [Data Masking](./data-security/data-masking.mdx) | Replace column values with anonymized output (masked, hashed, null, custom SQL) for specific users or groups. |
+| [Row-Level Filter](./data-security/row-level-filter.mdx) | Append a WHERE condition to every query, limiting which rows a user can see. |
+
+**Tag-based policies** apply to objects labeled with a classification tag:
+
+| Policy | Effect |
+|---|---|
+| [Tag-based Access Policy](./data-security/tag-based-access-policy.mdx) | Apply access rules to every object that shares a tag (for example, all columns tagged `PII`). |
+| [Tag-based Data Masking](./data-security/tag-based-data-masking.mdx) | Mask all columns bearing a specific tag, regardless of which table or database they are in. |
+
+### How Data Security and IAM Interact
+
+Access policies and masking policies reference the same users and groups that are managed in IAM. Assign a policy to a group, and every member of that group inherits the policy automatically.
+
+### Classifications
+
+[Classifications](./data-security/classifications.mdx) are the tags that connect data objects to tag-based policies. Admins define classification names (for example, `PII`, `Confidential`, `Financial`). Applying or removing a classification from a table or column goes through an approval workflow to prevent accidental exposure.
+
+---
+
+## How the Layers Work Together
+
+The following example shows how a data analyst in the `analytics-team` group accesses a production table:
+
+1. **Network** — The analyst's query reaches the Spark operator because the namespace communication policy permits it.
+2. **IAM** — The analyst authenticates via SSO. IOMETE resolves their identity and group memberships.
+3. **RAS** — The `analytics-prod` Resource Bundle grants `analytics-team` permission to use the `prod-cluster` compute cluster. The query runs on that cluster.
+4. **Data Security** — An Access Policy grants `analytics-team` SELECT on `prod_db.orders`. A row-level filter limits results to the analyst's assigned region. A masking policy replaces the `credit_card` column with `****`.
+
+If any of these layers denied the request — a missing network policy, an authentication failure, no bundle permission for the cluster, or no access policy for the table — the query would not reach the next layer.
+
+---
+
+## Groups as the Common Thread
+
+Groups are the single abstraction that spans every layer:
+
+- **IAM** — defines the group and its members (including nested groups from LDAP or IDP).
+- **RAS** — grants resource-level permissions to the group on a bundle.
+- **Data Security** — assigns access, masking, and row-filter policies to the group.
+
+Organizing permissions around groups rather than individual users means that onboarding, offboarding, and role changes only require updating group membership in one place.
+
+---
+
+## Choosing the Right Layer
+
+| Goal | Use |
+|---|---|
+| Let a new engineer authenticate with your company SSO | IAM → SSO Configuration |
+| Grant a team access to create Spark jobs in a project | RAS → Resource Bundles |
+| Restrict which tables a team can query | Data Security → Access Policy |
+| Hide credit card numbers from analysts | Data Security → Data Masking |
+| Limit rows visible to each regional team | Data Security → Row-Level Filter |
+| Apply masking to all columns tagged `PII` site-wide | Data Security → Tag-based Masking Policy |
+| Fix Spark job submission timeouts after enabling network policies | Network Policies → Spark Operator Webhook Policy |
+
+---
+
+## Related Docs
+
+- [Users](./iam/users.md)
+- [Groups](./iam/groups.md)
+- [Roles](./iam/roles.md)
+- [RAS – Resource Bundles](./iam/ras/ras.md)
+- [Data Security Overview](./data-security/overview.mdx)
+- [Access Policy](./data-security/access-policy.mdx)
+- [Data Masking](./data-security/data-masking.mdx)
+- [Row-Level Filter](./data-security/row-level-filter.mdx)
+- [Classifications](./data-security/classifications.mdx)
+- [Kubernetes Network Policies](/deployment/network-policies)

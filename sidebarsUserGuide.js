@@ -105,6 +105,7 @@ const sidebars = {
         "register-table",
         "storage-configs",
         "system-tables",
+        "security-overview",
       ],
     },
     {
