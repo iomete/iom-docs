@@ -22,7 +22,7 @@ A request to run a Spark query passes through all four layers in order. A failur
 
 ---
 
-## Layer 1 — Network Policies
+## Network Policies
 
 Network Policies are Kubernetes `NetworkPolicy` resources that control traffic between IOMETE pods and namespaces. They are configured once during deployment and rarely need to change afterward.
 
@@ -37,7 +37,7 @@ See [Kubernetes Network Policies](/deployment/network-policies) for YAML example
 
 ---
 
-## Layer 2 — Identity and Access Management (IAM)
+## Identity and Access Management (IAM)
 
 IAM answers the question "who are you?" before any other layer evaluates a request. It covers:
 
@@ -57,7 +57,7 @@ IAM does not control which data a user can read — that is Data Security's job.
 
 ---
 
-## Layer 3 — Resource Authorization System (RAS)
+## Resource Authorization System (RAS)
 
 RAS controls which platform *resources* — compute clusters, Spark jobs, storage configurations, workspaces — a user can create or operate. It does not govern the content of those resources (that is Data Security's job).
 
@@ -77,7 +77,7 @@ See [RAS – Resource Bundles](./iam/ras/ras.md) and [Domain Authorization](./ia
 
 ---
 
-## Layer 4 — Data Security
+## Data Security
 
 Data Security governs what data users can see *inside* the resources they are permitted to operate. It enforces access at the database, table, column, and row level — independently of which compute cluster or Spark job is used to run a query.
 
