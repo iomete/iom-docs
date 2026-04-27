@@ -2,8 +2,8 @@
 title: DBT Incremental models
 description: Learn how to use the incremental dbt model on the IOMETE data platform to reduce the runtime of transformation and improve warehouse performance
 last_update:
-  date: 07/11/2022
-  author: Vusal Dadalov
+  date: 04/27/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -95,12 +95,10 @@ When you define a `unique_key`, you'll see this behavior for each row of "new" d
 
 :::info
 
-`iomete-dbt` supports two incremental strategy (only for iceberg tables):
+`iomete-dbt` supports two incremental strategies (iceberg tables only):
 
-- `merge` (default)
-- `insert_overwrite` (optional)
-
-`merge` incremental strategy uses the `unique_key` configuration. But, the `insert_overwrite` strategy does not use `unique_key`, because it operates on partitions of data rather than individual rows.
+- `merge` (default) — uses the `unique_key` configuration to upsert rows
+- `append` — inserts all new rows without deduplication
 
 For more information, see [About incremental_strategy](https://docs.getdbt.com/docs/build/incremental-models#about-incremental_strategy).
 :::
@@ -183,9 +181,7 @@ Apache Iceberg’s ACID Transaction management is used to ensure this is execute
 ### What if the columns of my incremental model change?
 
 :::tip
-**New `on_schema_change` config in dbt version `v0.21.0`**
-
-Incremental models can now be configured to include an optional `on_schema_change` parameter to enable additional control when incremental model columns change. These options enable dbt to continue running incremental models in the presence of schema changes, resulting in fewer `--full-refresh` scenarios and saving query costs.
+The optional `on_schema_change` parameter gives you additional control when incremental model columns change. These options enable dbt to continue running incremental models in the presence of schema changes, resulting in fewer `--full-refresh` scenarios and saving query costs.
 :::
 You can configure the `on_schema_change` setting as follows.
 
@@ -237,10 +233,10 @@ Instead, whenever the logic of your incremental changes, execute a full-refresh 
 
 ## About incremental_strategy
 
-On the `dbt-iomete` adapter, an optional `incremental_strategy` config controls the code that dbt uses to build incremental models. The adapter supports two incremental strategies:
+On the `dbt-iomete` adapter, an optional `incremental_strategy` config controls the code that dbt uses to build incremental models. The adapter supports two incremental strategies (iceberg tables only):
 
-- `merge` (default, iceberg table only)
-- `insert_overwrite` (optional)
+- `merge` (default)
+- `append`
 
 ### Configuring incremental strategy[](https://docs.getdbt.com/docs/build/incremental-models#configuring-incremental-strategy)
 
@@ -252,7 +248,7 @@ On `dbt_project.yaml`:
 
 ```yaml title="dbt_project.yaml"
 models:
-  +incremental_strategy: "insert_overwrite"
+  +incremental_strategy: "append"
 ```
 
 #### Option 2. Per model
@@ -264,7 +260,7 @@ Setting on the model configuration:
   config(
     materialized='incremental',
     unique_key='date_day',
-    incremental_strategy='insert_overwrite',
+    incremental_strategy='merge',
     ...
   )
 }}
@@ -273,10 +269,6 @@ select ...
 ```
 
 ### Strategy-specific configs
-
-- _Changelog_
-  - **v0.20.0:** Introduced `merge_update_columns`
-  - **v0.21.0:** Introduced `on_schema_change`
 
 If you are using the `merge` strategy and have specified a `unique_key`, by default, dbt will entirely overwrite matched rows with new values.
 
