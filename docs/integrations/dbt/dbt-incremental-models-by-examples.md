@@ -7,10 +7,6 @@ last_update:
   author: Shashank Chaudhary
 ---
 
-import TOCInline from '@theme/TOCInline';
-
-<TOCInline toc={toc}  minHeadingLevel={2} maxHeadingLevel={5}/>
-
 Incremental models on IOMETE use Iceberg tables and support two strategies (`append` and `merge`), plus a handful of merge-specific options. This page walks through every supported configuration with working SQL examples and shows the table state after each run.
 
 ## Incremental Models Configurations
