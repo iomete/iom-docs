@@ -3,8 +3,8 @@ title: DBT Incremental models By Examples
 description: Building DBT incremental models are a little difficult than other materializaion types (view, table). This guide aims to make it easy to understand all possible DBT incremental model configurations with lots of examples.
 
 last_update:
-  date: 07/11/2022
-  author: Vusal Dadalov
+  date: 04/27/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -22,24 +22,25 @@ Here are the DBT configurations for incremental models
 
 | Parameter | Default value | Expected values                                    |
 | --- | --- |----------------------------------------------------|
-| file_format | `iceberg` | `iceberg`, `parquet`, `orc`, `csv`, `json`         |
-| incremental_strategy | `merge` | `append`, `merge`, `insert_overwrite`                |
+| file_format | `iceberg` | `iceberg` (only supported value)                   |
+| incremental_strategy | `merge` | `append`, `merge`                                  |
 | on_schema_change | `ignore` | `ignore`, `append_new_columns`, `sync_all_columns`, `fail` |
 
 **Incremental Strategies**
 
-| Incremental Strategy | Supported table types | Description                                                                                                                                                   |
-| --- | --- |---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| append | all | Each incremental run appends to the table. Example: [_append_](#append)                                                                                       |
-| merge | iceberg | Each incremental run merges new rows with the existing rows. Example: [_merge-with-unique_key_](#merge-with-unique_key)                                       |
-| insert_overwrite | non-iceberg | Each run [overwriting the matching partitions](#insert-overwrite-partitions) or the [whole table for non-partitioned tables](#insert-overwrite-no-partitions) |
+| Incremental Strategy | Description                                                                                             |
+| --- |---------------------------------------------------------------------------------------------------------|
+| append | Each incremental run appends to the table. Example: [_append_](#append)                                 |
+| merge | Each incremental run merges new rows with the existing rows. Example: [_merge-with-unique_key_](#merge-with-unique_key) |
 
 **Merge Incremental Strategy**
 
 | Configuration | Behaviour if not provided                                                                                      | Behaviour when provided                                                                                               |
 | --- |----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| unique_key | incremental runs are behaving as append-only. Example: [_merge-without-unique_key_](#merge-without-unique_key) | Iceberg merge is going to be run on the given column name. Example: [_merge-with-unique_key_](#merge-with-unique_key) |
-| merge_update_columns | All columns will be updated on the merge. Example: [_merge-with-unique_key_](#merge-with-unique_key)                          | Only the specified columns will be merged; Example: [_merge-with-update-columns_](#merge-with-update-columns)         |
+| unique_key | incremental runs behave as append-only. Example: [_merge-without-unique_key_](#merge-without-unique_key) | Iceberg merge is run on the given column name. Example: [_merge-with-unique_key_](#merge-with-unique_key) |
+| merge_update_columns | All columns will be updated on the merge. Example: [_merge-with-unique_key_](#merge-with-unique_key) | Only the specified columns will be merged. Example: [_merge-with-update-columns_](#merge-with-update-columns) |
+| merge_exclude_columns | All columns will be updated on the merge. | The specified columns are excluded from the merge update; all others are updated. Example: [_merge-with-exclude-columns_](#merge-with-exclude-columns) |
+| incremental_predicates | All target rows are scanned during merge. | Only target rows matching the predicate are considered, improving performance on large tables. Example: [_merge-with-incremental-predicates_](#merge-with-incremental-predicates) |
 
 
 **Schema Changes**
@@ -71,13 +72,14 @@ select 1
 ### Bad insert overwrite
 
 :::info
-Iceberg tables only support `append` and `merge` incremental strategies. The following results in error.
+`insert_overwrite` is not supported. Only `iceberg` file format is supported, and `insert_overwrite` requires a non-iceberg format.
 :::
 
 ```sql title="models/incremental_strategies/models_bad/bad_insert_overwrite_iceberg.sql"
 {{ config(
     materialized = 'incremental',
-    incremental_strategy = 'insert_overwrite'
+    incremental_strategy = 'insert_overwrite',
+    file_format = 'parquet'
 ) }}
 
 select 1
@@ -86,20 +88,20 @@ select 1
 **DBT Error on run**
 
 ```bash
-You cannot use this strategy when file_format is set to 'iceberg' (default one)
-	Use the 'append' or 'merge' strategy instead
+Invalid incremental file format provided: parquet
+    We only support 'iceberg' file format
 ```
 ---
 
 ### Bad merge
 :::info
-Non-iceberg tables don’t support merge incremental strategy
+Only `iceberg` file format is supported. Any other `file_format` value errors before the strategy is even evaluated.
 :::
 ```sql title="models/incremental_strategies/models_bad/bad_merge_not_iceberg.sql"
 {{ config(
-    materialized = 'incremental',
-    incremental_strategy = 'merge',
-    file_format = 'parquet'
+    materialized = ‘incremental’,
+    incremental_strategy = ‘merge’,
+    file_format = ‘parquet’
 ) }}
 
 select 1
@@ -108,8 +110,8 @@ select 1
 **DBT Error**
 
 ```bash
-Invalid incremental strategy provided: merge
-	You can only choose this strategy when file_format is set to 'iceberg'
+Invalid incremental file format provided: parquet
+    We only support ‘iceberg’ file format
 ```
 ---
 
@@ -128,8 +130,12 @@ select 1
 
 ```bash
 Invalid incremental strategy provided: something_else
-	Expected one of: 'append', 'merge', 'insert_overwrite'
+    Expected one of: 'append', 'merge', 'insert_overwrite'
 ```
+
+:::note
+The error lists `insert_overwrite` as a recognised value, but it is not usable in practice — `insert_overwrite` requires a non-iceberg file format, which is also rejected. Use `append` or `merge`.
+:::
 ---
 
 ## Merge for iceberg tables
@@ -334,32 +340,32 @@ Results
 ```
 ---
 
-## Insert Overwrite for non-iceberg tables
-
-### Insert overwrite no partitions
+### Merge with exclude columns
 
 :::info
-Each run overwrites the whole table
+`merge_exclude_columns` is the inverse of `merge_update_columns`. The listed columns are preserved from the existing row; all other columns are updated. You cannot use both on the same model.
 :::
 
-```sql title="models/incremental_strategies/models_insert_overwrite/insert_overwrite_no_partitions.sql"
+```sql title="models/incremental_strategies/models_iceberg/merge_exclude_columns.sql"
 {{ config(
     materialized = 'incremental',
-    incremental_strategy = 'insert_overwrite',
-    file_format = 'parquet'
+    incremental_strategy = 'merge',
+    unique_key = 'id',
+    merge_exclude_columns = ['color'],
 ) }}
 
 {% if not is_incremental() %}
 
-select cast(1 as bigint) as id, 'hello' as msg
+select cast(1 as bigint) as id, 'hello' as msg, 'blue' as color
 union all
-select cast(2 as bigint) as id, 'goodbye' as msg
+select cast(2 as bigint) as id, 'goodbye' as msg, 'red' as color
 
 {% else %}
 
-select cast(2 as bigint) as id, 'yo' as msg
+-- msg will be updated, color will be preserved
+select cast(2 as bigint) as id, 'yo' as msg, 'green' as color
 union all
-select cast(3 as bigint) as id, 'anyway' as msg
+select cast(3 as bigint) as id, 'anyway' as msg, 'purple' as color
 
 {% endif %}
 ```
@@ -368,7 +374,7 @@ Results
 
 ```bash
 # After 1st run
-> select * from insert_overwrite_no_partitions order by id;
+> select * from merge_exclude_columns order by id;
 +-----+----------+--------+
 | id  |   msg    | color  |
 +-----+----------+--------+
@@ -377,28 +383,30 @@ Results
 +-----+----------+--------+
 
 # After 2nd run
-> select * from insert_overwrite_no_partitions order by id;
-+-----+---------+
-| id  |   msg   |
-+-----+---------+
-| 2   | yo      |
-| 3   | anyway  |
-+-----+---------+
+## id=2: msg updated to 'yo', but color stays 'red' (excluded from merge)
+> select * from merge_exclude_columns order by id;
++-----+---------+--------+
+| id  |   msg   | color  |
++-----+---------+--------+
+| 1   | hello   | blue   |
+| 2   | yo      | red    |
+| 3   | anyway  | purple |
++-----+---------+--------+
 ```
 ---
 
-### Insert overwrite partitions
+### Merge with incremental predicates
 
 :::info
-Each run overwrites the overlapping partitions
+`incremental_predicates` limits which rows in the target table are scanned during the merge. This improves performance on large tables by avoiding a full table scan. Predicates must reference `DBT_INTERNAL_DEST`. `predicates` is accepted as an alias for `incremental_predicates`.
 :::
 
-```sql title="models/incremental_strategies/models_insert_overwrite/insert_overwrite_partitions.sql"
+```sql title="models/incremental_strategies/models_iceberg/merge_incremental_predicates.sql"
 {{ config(
     materialized = 'incremental',
-    incremental_strategy = 'insert_overwrite',
-    partition_by = 'id',
-    file_format = 'parquet',
+    incremental_strategy = 'merge',
+    unique_key = 'id',
+    incremental_predicates = ['DBT_INTERNAL_DEST.id > 1']
 ) }}
 
 {% if not is_incremental() %}
@@ -406,14 +414,12 @@ Each run overwrites the overlapping partitions
 select cast(1 as bigint) as id, 'hello' as msg
 union all
 select cast(2 as bigint) as id, 'goodbye' as msg
-union all
-select cast(2 as bigint) as id, 'aloha' as msg
 
 {% else %}
 
-select cast(2 as bigint) as id, 'yo' as msg
+select cast(2 as bigint) as id, 'updated' as msg
 union all
-select cast(3 as bigint) as id, 'anyway' as msg
+select cast(3 as bigint) as id, 'new' as msg
 
 {% endif %}
 ```
@@ -422,25 +428,24 @@ Results
 
 ```bash
 # After 1st run
-> select * from insert_overwrite_partitions order by id;
-+----------+-----+
-|   msg    | id  |
-+----------+-----+
-| hello    | 1   |
-| goodbye  | 2   |
-| aloha    | 2   |
-+----------+-----+
+> select * from merge_incremental_predicates order by id;
++-----+----------+
+| id  |   msg    |
++-----+----------+
+| 1   | hello    |
+| 2   | goodbye  |
++-----+----------+
 
 # After 2nd run
-## id=2 row (partition is overwritten)
-> select * from insert_overwrite_partitions order by id;
-+---------+-----+
-|   msg   | id  |
-+---------+-----+
-| hello   | 1   |
-**| yo      | 2   |**
-| anyway  | 3   |
-+---------+-----+
+## id=2 is updated; id=3 inserted; id=1 untouched (excluded by predicate)
+> select * from merge_incremental_predicates order by id;
++-----+---------+
+| id  |   msg   |
++-----+---------+
+| 1   | hello   |
+| 2   | updated |
+| 3   | new     |
++-----+---------+
 ```
 ---
 
