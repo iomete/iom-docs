@@ -36,6 +36,14 @@ const sidebars = {
         "event-stream",
         {
           type: "category",
+          label: "Monitoring",
+          collapsed: true,
+          items: [
+            "query-monitoring",
+          ],
+        },
+        {
+          type: "category",
           label: "SQL Editor",
           collapsed: true,
           items: [
