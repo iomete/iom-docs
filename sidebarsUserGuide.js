@@ -40,6 +40,7 @@ const sidebars = {
           collapsed: true,
           items: [
             "query-monitoring",
+            "health-check",
           ],
         },
         {
