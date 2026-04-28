@@ -72,9 +72,3 @@ When a silence is active, the <FlexButton label="Silence"><BellSlash size={14} /
 :::info
 You cannot stack silences. If a silence is already active for the job, you must remove it before starting a new one.
 :::
-
-notifications-tab
-notifications-subscribe-modal
-notifications-subscription-actions
-notifications-silence-popover
-notifications-silence-active
