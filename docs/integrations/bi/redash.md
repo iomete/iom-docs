@@ -23,7 +23,7 @@ This guide walks you through connecting Redash to your IOMETE [compute cluster](
 
 <Img src="/img/guides/redash/new-data-source.png" alt="Redash data sources page with New Data Source button" />
 
-2. Select **Apache Spark SQL** (or **Databricks**) from the list of available data sources.
+2. Select **Apache Hive** from the list of available data sources. Available connector names may vary by Redash version/build.
 
 <Img src="/img/guides/redash/choose-data-source.png" alt="Choosing a data source type in Redash" maxWidth="500px" />
 
