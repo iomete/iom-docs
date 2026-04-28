@@ -13,9 +13,9 @@ import { Plus, Play } from "@phosphor-icons/react";
 
 ---
 
-A searchable data catalog is only useful if it stays in sync with what's actually in your warehouse. The **Data Catalog Sync Job** scans every catalog in your IOMETE environment and indexes the tables it finds. Once indexed, tables show up on the **Data Catalog** page, where you can add documentation, assign owners, define classifications, and set maintenance properties.
+A searchable data catalog is only useful if it stays in sync with what's in your warehouse. The **Data Catalog Sync Job** scans every catalog in your IOMETE environment and indexes the tables it finds. Indexed tables appear on the **Data Catalog** page, where you can add documentation, assign owners, define classifications, and set maintenance properties.
 
-- **Version:** `5.0.0` — requires IOMETE `3.16.x` or later
+- **Version:** `5.0.0` (requires IOMETE `3.16.x` or later)
 - **Source:** [View on GitHub](https://github.com/iomete/iomete-marketplace-jobs/tree/main/iomete-catalog-sync)
 
 ## Installation
@@ -65,9 +65,9 @@ Open **Job Templates** in the sidebar and click <FlexButton label='New Job Templ
 
 **3. Exclusion Rules Config**
 
-This step is optional and applies to both Marketplace and manual installs. Without a config file the job uses its built-in defaults and indexes everything.
+This step is optional and applies to both Marketplace and manual installs. Without a config file, the job falls back to its built-in defaults and indexes everything.
 
-To customize which catalogs, schemas, or tables are excluded, add a Config Map:
+To control which catalogs, schemas, or tables are excluded, add a Config Map:
 
 - **File path:** `/etc/configs/application.json`
 - **Content:** your exclusion rules JSON (see [Exclusion Rules](#exclusion-rules))
@@ -92,13 +92,13 @@ Click <FlexButton label="Create" primary /> to save the job.
 
 ## How It Works
 
-Once the job is set up, it does its work on autopilot. It runs on a schedule (hourly by default), scans every catalog in your environment, and indexes the tables it finds.
+Once deployed, the job runs on its own. It fires on a schedule (hourly by default), scans every catalog in your environment, and indexes the tables it finds. Anything matching an [exclusion rule](#exclusion-rules) is skipped.
 
-You can change the schedule or trigger a run manually whenever you want. Anything matching an [exclusion rule](#exclusion-rules) is skipped during the run.
+You can change the schedule or trigger a run manually at any time.
 
 ## Running the Job
 
-Most of the time the schedule handles things for you. If you need a fresh index right now (say, after creating a batch of new tables), open the job and click <FlexButton label='Run' primary><Play size={12} weight="fill" /></FlexButton>.
+The schedule handles most cases. If you need a fresh index right now (say, after creating a batch of new tables), open the job and click <FlexButton label='Run' primary><Play size={12} weight="fill" /></FlexButton>.
 
 <Img
   src="/img/spark-job/marketplace/catalog-sync/job-run.png"
@@ -107,9 +107,9 @@ Most of the time the schedule handles things for you. If you need a fresh index 
 
 ## Deleted Tables
 
-Dropping a table doesn't erase its history from the catalog, which is useful when you need to know what existed before and when it disappeared. When a table is dropped from a source catalog, the sync job marks it as **deleted** and hides it from the default view rather than removing the record.
+Dropping a table doesn't erase its history from the catalog. That history is useful when you need to know what existed before and when it disappeared. When a table is dropped from a source catalog, the sync job marks it as **deleted** and hides it from the default view instead of removing the record.
 
-Use the **Deleted** toggle in the Data Catalog UI to review what was removed and when.
+To review what was removed and when, use the **Deleted** toggle in the Data Catalog UI.
 
 <Img
   src="/img/spark-job/marketplace/catalog-sync/data-catalog-deleted.png"
@@ -132,7 +132,7 @@ Exclusion rules let you skip specific catalogs, namespaces (schemas/databases), 
 
 ### Default Rule
 
-If you want one rule to cover everything, start here. The default rule applies at **all levels**: catalogs, schemas, and tables. Any asset with a matching property is excluded from indexing.
+For a single rule that covers everything, start here. The default rule applies at **all levels**: catalogs, schemas, and tables. Any asset with a matching property is excluded from indexing.
 
 ```json
 {
@@ -146,11 +146,11 @@ If you want one rule to cover everything, start here. The default rule applies a
 }
 ```
 
-With this rule in place, setting `iomete.governance.index=false` on any catalog, schema, or table excludes it from the sync. It's the simplest setup: one rule, applied wherever you need it via properties.
+With this rule in place, setting `iomete.governance.index=false` on any catalog, schema, or table excludes it from the sync. One rule, applied wherever you need it via properties.
 
 ### Excluding Catalogs
 
-When you want catalog-level control, you can exclude catalogs **by name**, **by property**, or both.
+For catalog-level control, exclude catalogs **by name**, **by property**, or both.
 
 #### By Name
 
@@ -191,7 +191,7 @@ Then add the matching filter:
 
 #### Combining Both
 
-You can use names and properties together. A catalog is excluded if it matches **either** condition.
+Use names and properties together. A catalog is excluded if it matches **either** condition.
 
 ```json
 {
@@ -208,7 +208,7 @@ You can use names and properties together. A catalog is excluded if it matches *
 
 ### Excluding Namespaces (Schemas/Databases)
 
-Sometimes you want to keep a catalog in the index but skip a few schemas inside it. Namespace exclusion is property-based. Mark a namespace for exclusion by setting the property in SQL:
+To keep a catalog in the index but skip a few schemas inside it, use namespace exclusion. It's property-based. Set the property in SQL to mark a namespace for exclusion:
 
 ```sql
 ALTER DATABASE my_catalog.my_schema SET DBPROPERTIES ('iomete.governance.index' = 'false');
@@ -276,7 +276,7 @@ Then add the exclusion rule:
 
 #### Multiple Properties (OR Logic)
 
-When a table exclusion rule lists multiple properties, a table is excluded if **any one** of them matches.
+When a table exclusion rule lists multiple properties, a table is excluded if **any** of them match.
 
 ```json
 {
@@ -291,7 +291,7 @@ When a table exclusion rule lists multiple properties, a table is excluded if **
 }
 ```
 
-Here, a table is excluded if `iomete.governance.index` is `false` **or** `hidden` is `true`. It doesn't need to match both.
+A table is excluded if `iomete.governance.index` is `false` **or** `hidden` is `true`. It doesn't need to match both.
 
 ### Full Example
 
