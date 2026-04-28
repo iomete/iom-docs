@@ -20,11 +20,11 @@ A searchable data catalog is only useful if it stays in sync with what's actuall
 
 ## Installation
 
-You have two ways to get the job running: deploy it from the Marketplace in a few clicks, or set it up manually if you want to customize the configuration upfront.
-
-### From the Marketplace
+### Marketplace
 
 Open **Job Templates** and click **Marketplace**. Find the **catalog-sync** card, click the **⋮** menu, and select **Deploy**.
+
+The job form opens pre-filled with recommended defaults.
 
 <Img
   src="/img/spark-job/marketplace/catalog-sync/marketplace-deploy.png"
@@ -54,7 +54,7 @@ Open **Job Templates** in the sidebar and click <FlexButton label='New Job Templ
 **2. Application**
 
 - **Application type:** `JVM (Java, Scala)`
-- **Docker image:** `iomete.azurecr.io/iomete/iom-catalog-sync:<version>`
+- **Docker image:** `iomete.azurecr.io/iomete/iom-catalog-sync:5.0.0` (replace with the [latest version](../deployment/on-prem/release-notes/marketplace-jobs.md))
 - **Main Class:** `com.iomete.catalogsync.App`
 - **Main application file:** `spark-internal`
 
@@ -170,7 +170,10 @@ List catalog names directly. These catalogs are always skipped, regardless of th
 
 Set `iomete.governance.index` to `false` on the catalog in the **Admin Portal** when you create or edit it.
 
-{/* TODO: Add screenshot of setting catalog property in Admin Portal */}
+<Img
+  src="/img/spark-job/marketplace/catalog-sync/exclude-catalog.png"
+  alt="Setting iomete.governance.index property on a catalog in the Admin Portal"
+/>
 
 Then add the matching filter:
 
