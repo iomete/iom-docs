@@ -4,8 +4,8 @@ title: LDAP Configuration
 description: Connect IOMETE to an LDAP or Active Directory server to import users and groups and authenticate sign-ins against the directory.
 sidebar_label: LDAP Configuration
 last_update:
-  date: 04/21/2026
-  author: Sourabh Jajoria
+  date: 04/28/2026
+  author: Soltan Garayev
 ---
 
 import Img from '@site/src/components/Img';
@@ -19,8 +19,6 @@ Open **Settings → IAM → LDAP** to configure the integration. Only users with
 :::info
 Each IOMETE installation supports a single, platform-wide LDAP configuration. The configuration is shared across all workspaces and clusters in the installation.
 :::
-
-<Img src="/img/user-guide/iam/ldap/ldap-configuration.png" alt="LDAP configuration" />
 
 ## Configuration
 
@@ -42,15 +40,17 @@ Use **Test authentication** after entering the **Connection URL**, **Bind DN**, 
 
 Defines the LDAP query parameters for locating and filtering users in the directory.
 
+#### User Search
+
 - **Users DN**: The full DN where the users are located in the LDAP directory. This DN is the parent of LDAP users. Example: `ou=users,dc=iomete,dc=com`.
 - **User object classes**: A comma-separated list of object classes that identify LDAP user objects. Example: `inetOrgPerson, organizationalPerson`.
 - **Custom user LDAP filter** _(Optional)_: Add a custom filter to refine user search. Enter one LDAP filter per line in the editor.
 
-<Img src="/img/user-guide/iam/ldap/ldap-user-setting.png" alt="LDAP configuration user searching and updating" maxWidth="600px" />
+<Img src="/img/user-guide/iam/ldap/ldap-user-setting.png" alt="LDAP configuration User Search section with Users DN, User object classes, and Custom user LDAP filter" maxWidth="600px" />
 
 Use **Validate user filters** to check each non-empty filter line before saving. See [Validating LDAP Filters](#validating-ldap-filters) for details.
 
-### User Attribute Mappings
+#### User Attribute Mappings
 
 Map each IOMETE user attribute to the corresponding LDAP attribute so that user information is correctly retrieved from the directory.
 
@@ -61,34 +61,37 @@ Map each IOMETE user attribute to the corresponding LDAP attribute so that user 
 
 <Img src="/img/user-guide/iam/ldap/ldap-user-attribute-mapping.png" alt="LDAP user attribute mappings with username, email, firstName, and lastName fields" maxWidth="600px" />
 
-If you want some imported LDAP users to be created as service accounts, enable **Use service-account** and fill these fields:
+To mark some imported users as service accounts based on an LDAP attribute, enable **Use service-account**. Three columns appear:
 
-- **LDAP attribute**: The LDAP attribute to inspect. Example: `employeeType`
-- **Attribute value**: The value that marks the user as a service account. Example: `service`
+- **User attribute**: Always `userType` (read-only). This is the IOMETE-side identifier.
+- **LDAP attribute**: The LDAP attribute that IOMETE inspects on each user. Example: `employeeType`.
+- **Attribute value**: The value that marks the user as a service account. Example: `Service`.
 
-Imported users whose attribute matches this pair are created as service accounts instead of person accounts. You can manage their API access with [service account access tokens](../access-tokens/service-account.md).
+Imported users whose LDAP attribute equals this value are created as service accounts instead of person accounts. You can manage their API access with [service account access tokens](../access-tokens/service-account.md).
 
-<Img src="/img/user-guide/iam/ldap/ldap-service-account.png" alt="LDAP user attribute mappings with Use service-account enabled" maxWidth="600px" />
+<Img src="/img/user-guide/iam/ldap/ldap-service-account.png" alt="LDAP user attribute mappings with Use service-account enabled and the userType, LDAP attribute, and Attribute value columns" maxWidth="600px" />
 
-### Group Searching and Updating
+### Group Search
 
-Defines how LDAP groups are searched and mapped, including the DN base, object classes, filter, and group attribute mappings. This section is optional. If you don't need LDAP groups, leave **Group searching and updating** unchecked.
+Defines how LDAP groups are searched and mapped, including the DN base, object classes, filter, and group attribute mappings. This section is optional.
+
+Select **Group searching and updating** to enable group sync. When the checkbox is unchecked, the rest of the group fields are hidden and IOMETE only syncs users.
 
 - **Groups DN**: Defines the LDAP tree where groups are located. Example: `ou=groups,dc=iomete,dc=com`.
-- **Group object classes**: A comma-separated list of object classes that identify LDAP group objects. Example: `groupOfNames`
+- **Group object classes**: A comma-separated list of object classes that identify LDAP group objects. Example: `groupOfNames`.
 - **Custom group LDAP filter** _(Optional)_: Add a custom filter to refine group searches. Enter one LDAP filter per line in the editor.
 
-<Img src="/img/user-guide/iam/ldap/ldap-group-setting.png" alt="LDAP configuration group searching and updating" maxWidth="600px" />
+<Img src="/img/user-guide/iam/ldap/ldap-group-setting.png" alt="LDAP Group Search section with Group searching and updating enabled, Groups DN, Group object classes, and Custom group LDAP filter" maxWidth="600px" />
 
 Use **Validate group filters** to check group filter lines before saving.
 
-### Group Attribute Mappings
+#### Group Attribute Mappings
 
 Fill these attributes for the LDAP group records you want to import from the directory.
 
 - **name**: The LDAP attribute used for group names and RDN is typically `cn`. For example, a group's DN might look like `cn=Group1,ou=groups,dc=example,dc=org`.
 - **membership**: The LDAP attribute used for group membership mapping is typically `member`.
-- **membershipAttributeType**: Specifies the type of the membership attribute. It can be either `DN` or `UID`. `DN` represents the full path to the object in the directory, while `UID` refers to the unique identifier of the user.
+- **membershipAttributeType**: Specifies the type of the membership attribute. Choose `DN` or `UID`. `DN` represents the full path to the user in the directory, while `UID` refers to the user's unique identifier.
 
 <Img src="/img/user-guide/iam/ldap/ldap-group-attribute-mapping.png" alt="LDAP group attribute mappings with name, membership, and membershipAttributeType fields" maxWidth="600px" />
 
@@ -159,7 +162,7 @@ All operations on the LDAP page require the **IAM Manager** admin role.
 
 ## Auditing LDAP
 
-To audit LDAP operations, go to **Settings → Administration → Event Logs**. Here, you can view who performed LDAP-related actions and when.
+To audit LDAP operations, go to **Administration → Event Logs** in Admin Portal. Here, you can view who performed LDAP-related actions and when.
 
 <Img src="/img/user-guide/iam/ldap/ldap-audit.png" alt="LDAP audit logs" />
 
