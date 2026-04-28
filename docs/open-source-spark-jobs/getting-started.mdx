@@ -1,32 +1,39 @@
 ---
 title: IOMETE Spark Jobs Marketplace
 sidebar_label: Getting Started
-description: Access the IOMETE Spark Jobs Marketplace where you can find a variety of pre-built ingestion jobs ready for deployment. These open-sourced ingestion jobs can be easily deployed to suit your specific data processing needs.
+description: Access the IOMETE Spark Jobs Marketplace to find pre-built jobs for ingestion, compaction, catalog sync, and more, or create your own job templates to share with your organization.
 last_update:
-  date: 05/03/2024
-  author: Nurlan Mammadov
+  date: 04/28/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from "@site/src/components/Img";
 import Card from "@site/src/components/Card";
 import GridBox from "@site/src/components/GridBox";
 
-IOMETE offers access to its Spark Jobs Marketplace, an innovative platform featuring a variety of pre-built ingestion jobs ready for deployment. Explore this open-sourced marketplace to find ingestion solutions tailored to your specific data processing needs.
+The Spark Jobs Marketplace gives you a library of pre-built jobs you can deploy in minutes instead of writing them from scratch. Browse **All apps** for built-in jobs covering ingestion, compaction, catalog sync, and more. Switch to **My apps** to publish your own job templates so others in your organization can discover and reuse them.
 
 ---
 
 ## Spark Jobs Marketplace
 
-To view and utilize all built-in jobs in IOMETE, navigate to the `Job Templates` page and scroll down to **Marketplace** section.
+The Marketplace is where you'll find every built-in job IOMETE ships. Open the **Job Templates** page, then click **Marketplace** in the top-right corner.
 
 <Img
-  src="/img/spark-job/marketplace/spark-jobs-marketplace.png"
+  src="/img/spark-job/marketplace/getting-started-job-template-page.png"
+  alt="IOMETE Spark Jobs Template"
+/>
+
+<Img
+  src="/img/spark-job/marketplace/getting-started-job-marketplace-page.png"
   alt="IOMETE Spark Jobs Marketplace"
 />
 
-## Available jobs
+## Available Jobs
 
-There is a list of all available built-in jobs.
+Each card below links to a built-in job you can deploy today. Pick the one that matches your workload to see configuration details and examples.
+
+For the latest version of each job, see the [Marketplace Jobs release notes](../deployment/on-prem/release-notes/marketplace-jobs.md).
 
 <GridBox>
 
@@ -34,51 +41,40 @@ There is a list of all available built-in jobs.
   title="MySQL Database Replication Job"
   link="open-source-spark-jobs/mysql-database-replication-job"
 >
-  Seamlessly transfer your MySQL tables to IOMETE Lakehouse with our
-  easy-to-configure Spark Job.
+  Move MySQL tables into the IOMETE Lakehouse with a simple, configuration-driven Spark job.
 </Card>
 
 <Card
   title="Query Scheduler Job"
   link="open-source-spark-jobs/query-scheduler-job"
 >
-  Effortlessly schedule your SQL query to be run in your data warehouse using
-  IOMETE's Query Scheduler Job.
+  Schedule SQL queries to run in your data warehouse on a recurring cadence.
 </Card>
 
 <Card
   title="Data Compaction Job"
   link="open-source-spark-jobs/data-compaction-job"
 >
-  Over time, iceberg tables can slow down and may need data compaction to tidy
-  them up. IOMETE offers a built-in job to execute data compactions for each
-  table.
+  Iceberg tables accumulate small files over time and slow down. This job compacts them on a per-table basis to keep performance healthy.
 </Card>
 
 <Card title="Catalog Sync Job" link="open-source-spark-jobs/catalog-sync-job">
-  Efficiently synchronize your data with the Data Catalog using IOMETE's Catalog
-  Sync Job.
+  Keep your data in sync with the Data Catalog so metadata stays accurate.
 </Card>
 
-<Card
-  title="TPC-DS Generator Job"
-  link="open-source-spark-jobs/catalog-sync-job"
->
-  The TPC-DS generator is a tool designed for benchmarking and evaluating the
-  performance.
+<Card title="TPC-DS Generator Job" link="open-source-spark-jobs/getting-started">
+  Generate TPC-DS datasets for benchmarking and performance evaluation.
 </Card>
 
 <Card
   title="Kafka to IOMETE Lakehouse Data Replication Job"
   link="open-source-spark-jobs/kafka-streaming-job"
 >
-  A configuration-based, ready-to-use Spark Streaming job for replicating data
-  from Kafka to the IOMETE Lakehouse.
+  A ready-to-use Spark Streaming job that replicates Kafka topics into the IOMETE Lakehouse through configuration alone.
 </Card>
 
 <Card title="File Streaming" link="open-source-spark-jobs/file-streaming-job">
-  A configuration-based, ready-to-use Spark Streaming job for replicating data
-  from File sources (a directory, S3 location, etc.) to the IOMETE Lakehouse.
+  A ready-to-use Spark Streaming job that replicates data from file sources (a directory, S3 location, and similar) into the IOMETE Lakehouse.
 </Card>
 
 </GridBox>
