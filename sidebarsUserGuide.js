@@ -224,6 +224,7 @@ const sidebars = {
         "spark-jobs/nessie-integration",
         "spark-jobs/spark-logging",
         "spark-jobs/job-orchestrator",
+        "spark-jobs/notifications",
       ],
     },
     {
