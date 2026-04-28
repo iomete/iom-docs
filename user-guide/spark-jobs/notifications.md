@@ -19,6 +19,10 @@ IOMETE keeps you informed about Spark job events through email notifications. Jo
 
 Job notification subscriptions let you register one or more email recipients to receive alerts for specific events on a Spark job or Spark Streaming job. Subscriptions can target any email address, making them suitable for team distribution lists or on-call rotations.
 
+:::info Prerequisites
+An SMTP server must be configured before notifications can be sent. See [Email Configuration](../email-settings.md) to set it up.
+:::
+
 ### Subscribing to a Job
 
 <Img src="/img/guides/spark-job/notifications-tab.png" alt="Notifications tab on a job detail page showing the Email and Event types table with Silence and Subscribe buttons" />
