@@ -51,6 +51,7 @@ Both paths lead to the same interface. The difference is permissions: domain-lev
 You create, suspend, and delete service account tokens the same way as personal tokens — with a few key differences. See the [Personal Access Tokens](./personal) guide for the full workflow.
 
 - **Max RPS column**: The token list includes a **Max RPS** column (only visible for service accounts) that displays the configured requests-per-second cap, or "None" if unset.
+- **Expiry notifications**: When token expiry notifications are enabled, emails are sent to all human users in groups that have permissions on the service account. See [Access Token Expiry Notifications](./expiry-notifications) for setup.
 
 <Img src="/img/user-guide/service-account-access-tokens/generate-token.png" alt="Generate Access Token dialog with Token name, Max RPS, and expiration options" />
 

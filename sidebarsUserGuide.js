@@ -88,6 +88,7 @@ const sidebars = {
           items: [
             "access-tokens/personal",
             "access-tokens/service-account",
+            "access-tokens/expiry-notifications",
           ],
         },
         "global-spark-settings",

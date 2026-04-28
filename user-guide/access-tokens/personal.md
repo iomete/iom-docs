@@ -85,3 +85,7 @@ This is useful for controlling external client throughput and preventing any sin
 :::note
 Rate limiting requires the `features.ratelimiter.enabled` Helm flag to be set to `true`. See the [Iceberg REST Catalog — Rate Limiting](/user-guide/spark-catalogs/internal#rate-limiting) documentation for details.
 :::
+
+### Expiry Notifications
+
+IOMETE can email you before your tokens expire. See [Access Token Expiry Notifications](./expiry-notifications) for setup and configuration.
