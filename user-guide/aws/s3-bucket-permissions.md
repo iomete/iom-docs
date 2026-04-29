@@ -3,8 +3,8 @@ title: AWS S3 Buckets Access
 sidebar_label: S3 Buckets Access
 description: Learn how to provide access to external S3 buckets in IOMETE, a hybrid (cloud & on-premises based) data platform for data storage and analysis. This guide outlines simple steps to connect to S3 buckets and grant permission to the Lakehouse role.
 last_update:
-  date: 05/05/2024
-  author: Vusal Dadalov
+  date: 04/29/2026
+  author: Sourabh Jajoria
 ---
 
 IOMETE is a hybrid (cloud & on-premises) platform that allows users to store, manage, and analyze large amounts of data.
@@ -17,9 +17,12 @@ To find the Lakehouse role, go to the IOMETE **Console > Settings > Data Plane >
 the `Lakehouse Role ARN` field.
 :::
 
-:::info `What is the Lakehouse Role?`
-The Lakehouse role is an AWS IAM role that is used by IOMETE Data Plane compute resources to access external S3 buckets.
-The Lakehouse role is created during the IOMETE Data Plane installation process.
+:::info What is the Lakehouse Role?
+The Lakehouse role is an AWS IAM role used by IOMETE Data Plane compute resources (Spark driver and executor pods) to access S3. On AWS, it works via IRSA — the pods run under the `lakehouse-service-account` Kubernetes service account, which is annotated with the role ARN so AWS automatically issues temporary credentials. The Lakehouse role is created during the IOMETE Data Plane installation process.
+:::
+
+:::note Running IOMETE outside AWS?
+If your data plane runs on-prem with MinIO, Dell ECS, or another S3-compatible store, the Lakehouse role does not apply. S3 access uses static access/secret keys and an endpoint URL configured in the data plane Helm values — there is no IAM role to update. The rest of this page covers AWS deployments only.
 :::
 
 ## Options to provide access to S3 buckets
@@ -56,7 +59,7 @@ Let's say you have a bucket called `my-bucket` and you want to give access to th
 bucket policy that looks like this. Replace `<lakehouse_role>` with the Lakehouse role and `<your_bucket>` with the name
 of your bucket.
 
-```js showLineNumbers
+```json showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -68,8 +71,13 @@ of your bucket.
                 ]
             },
             "Action": [
-                "s3:*Object",
-                "s3:ListBucket"
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject",
+                "s3:ListBucket",
+                "s3:ListBucketMultipartUploads",
+                "s3:ListMultipartUploadParts",
+                "s3:AbortMultipartUpload"
             ],
             "Resource": [
                 "arn:aws:s3:::<your_bucket>/*",
@@ -84,7 +92,7 @@ This policy provides full read/write access to your bucket from the Lakehouse ro
 
 ### Example 2. Read-only access to your bucket from Lakehouse role:
 
-```js showLineNumbers
+```json showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -108,12 +116,11 @@ This policy provides full read/write access to your bucket from the Lakehouse ro
 }
 ```
 
-Only the highlighted line is different from the previous policy.
 This policy provides read-only access to your bucket from the Lakehouse role.
 
 ### Example 3. Read-only access to a specific folder in your bucket from Lakehouse role:
 
-```js showLineNumbers
+```json showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -137,8 +144,7 @@ This policy provides read-only access to your bucket from the Lakehouse role.
 }
 ```
 
-See highlighted lines for the difference from the previous policy. This policy provides read-only access to a specific
-folder in your bucket from the Lakehouse role.
+This policy provides read-only access to a specific folder in your bucket from the Lakehouse role.
 
 ---
 
@@ -169,15 +175,20 @@ Here are some examples of IAM role policies that you can attach to the Lakehouse
 
 ### Example 1. Full read/write access to your bucket:
 
-```js showLineNumbers
+```json showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
         {
             "Effect": "Allow",
             "Action": [
-                "s3:*Object",
-                "s3:ListBucket"
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject",
+                "s3:ListBucket",
+                "s3:ListBucketMultipartUploads",
+                "s3:ListMultipartUploadParts",
+                "s3:AbortMultipartUpload"
             ],
             "Resource": [
                 "arn:aws:s3:::<your_bucket>/*",
@@ -197,7 +208,7 @@ the Lakehouse role.
 
 ### Example 2. Read-only access to your bucket:
 
-```js showLineNumbers
+```json showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -216,11 +227,9 @@ the Lakehouse role.
 }
 ```
 
-Only the highlighted line is different from the previous policy.
-
 ### Example 3. Read-only access to a specific folder in your bucket:
 
-```js showLineNumbers
+```json showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -239,13 +248,9 @@ Only the highlighted line is different from the previous policy.
 }
 ```
 
-See highlighted lines for the difference from the previous policy.
-
 :::info
 In the `Resource` field, you can specify multiple resources by separating them with a comma do provide access to
 multiple buckets or folders.
 :::
 
 ---
-If you have any questions or need further assistance, please feel free to reach out to our support team. We are always
-here to help you with any questions or issues you may have.
