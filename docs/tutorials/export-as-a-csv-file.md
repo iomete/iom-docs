@@ -1,8 +1,10 @@
 ---
 title: How to export data as a CSV file
 description: Learn how to export data from a table as a CSV file in IOMETE using SQL Editor or by writing a query, and how to bypass limitations for larger exports by exporting to an S3 bucket. Compare pros and cons of each method
+sidebar_label: Export as CSV
 last_update:
-  date: 05/04/2023
+  date: 04/29/2026
+  author: Soltan Garayev
 ---
 
 import Img from '@site/src/components/Img';
@@ -18,9 +20,15 @@ There are times when you may need to export data from a table as a CSV file to u
 
 ## Utilizing the SQL Editor in IOMETE.
 
-To export data as a CSV file, simply write your query, run it, and click the "Download CSV" button. While this method is the easiest, it does have a limitation on the number of rows that can be exported, currently set at 10,000. For larger exports, the second method must be used.
+To export data as a CSV file, write your query, run it, and click the CSV icon in the toolbar at the bottom of the query results pane (tooltip: **Export result as CSV**). The result downloads as `data.csv`. This method is the easiest, but it is capped at 10,000 rows. For larger exports, use the S3 method below.
 
 <Img src="/img/guides/sync/export-as-a-csv-file/csv-export-from-sql-editor.png" alt="CSV export from SQL Editor"/>
+
+:::warning Permissions and module access
+The CSV export button is only available when:
+- The **Download Query Results** module is enabled for your workspace, and
+- Your role has the `sql_editor:export` permission. Without it, the button is disabled and the tooltip reads *"You don't have permission to export results as CSV"*.
+:::
 
 :::info Why IOMETE has a limit on the SQL Editor UI
 There are two main reasons why IOMETE imposes a limit on the number of rows that can be exported via the SQL Editor UI.
@@ -86,5 +94,5 @@ cons.
 
 | Method                                                 | Pros                                                                                                           | Cons                                                                                                         |
 | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| **Utilizing the SQL Editor in IOMETE**                 | Easy to use, Quick for small exports                                                                           | Limited to 10,000 rows, Not recommended for large query results. Can cause browser crashes for large exports |
+| **Utilizing the SQL Editor in IOMETE**                 | Easy to use, Quick for small exports                                                                           | Limited to 10,000 rows. Requires the *Download Query Results* module and the `sql_editor:export` permission  |
 | **Exporting a query result as a CSV to an S3 bucket.** | No limit on the number of rows exported, More flexible for large exports, Can export any table or query result | Additional setup required to provide read/write access to an S3 bucket                                       |
