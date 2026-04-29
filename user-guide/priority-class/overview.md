@@ -7,7 +7,7 @@ last_update:
   author: IOMETE
 ---
 
-If your IOMETE deployment shares a fixed-size Kubernetes cluster across production pipelines, ad-hoc analytics, and notebooks, you will eventually hit resource contention. Priority classes give you a knob to control who wins that contention.
+When multiple workloads compete for limited cluster resources, some will have to wait. Priority classes let you control which IOMETE workloads get resources first — and which ones can be interrupted to make room.
 
 By default, all IOMETE workloads are scheduled with equal priority. Kubernetes uses its default first-come, first-served ordering, which means a batch of notebook pods that happen to start first can block a production Spark job from getting resources. Priority classes let you change that by telling Kubernetes which workloads matter most.
 
@@ -107,3 +107,7 @@ Each IOMETE workload pod should show its assigned PriorityClass in the `PRIORITY
 :::caution
 Test priority class changes in a staging environment before applying them to production. Preemption can terminate running workloads, so an incorrect priority assignment could disrupt active Spark jobs or compute clusters.
 :::
+
+## Resource Quotas by Priority
+
+You can have further granular control by defining [ResourceQuotas scoped to priority classes](https://kubernetes.io/docs/concepts/policy/resource-quotas/#resource-quota-per-priorityclass). This lets you cap how much CPU or memory each priority level can consume within a namespace, giving administrators tighter control over resource allocation alongside scheduling priority.
