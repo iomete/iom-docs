@@ -8,6 +8,10 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
+import Card from "@site/src/components/Card";
+import GridBox from "@site/src/components/GridBox";
+import { File, FileCsv, FileJs } from "@phosphor-icons/react";
+
 
 This is an end-to-end guide about how to move files from your AWS S3 to IOMETE.
 
@@ -31,7 +35,27 @@ Always reference S3 paths with `s3a://`, not `s3://` or `s3n://`. IOMETE's Spark
 SELECT  * FROM json.`s3a://area-for-iomete/countries.json`;
 ```
 
-For per-format configuration options (CSV, JSON, Parquet, ORC), see [Query Federation](../../reference/sql-quick-start/query-federation.md).
+Learn more about querying files like CSV, JSON, Parquet, ORC and more detailed configuration options in the following guides:
+
+<GridBox>
+
+<Card title="CSV Files" icon={<FileCsv />} link="user-guide/reference/data-sources/csv-files">
+Learn how to query CSV files in IOMETE and options to configure the CSV data source
+</Card>
+
+<Card title="JSON Files" icon={<FileJs />} link="user-guide/reference/data-sources/json-files">
+Learn how to query JSON files in IOMETE and options to configure the JSON data source
+</Card>
+
+<Card title="Parquet Files" icon={<File />} link="user-guide/reference/data-sources/parquet-files">
+Learn how to query Parquet files in IOMETE and options to configure the Parquet data source
+</Card>
+
+<Card title="ORC Files" icon={<File />} link="user-guide/reference/data-sources/orc-files">
+Learn how to query ORC files in IOMETE and options to configure the ORC data source
+</Card>
+
+</GridBox>
 
 ## Moving data into the lakehouse
 
