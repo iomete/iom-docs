@@ -78,6 +78,9 @@ const userGuideRedirects = [
 
   // access tokens grouped under category
   { from: "/user-guide/create-a-personal-access-token", to: "/user-guide/access-tokens/personal" },
+
+  // spark-rest-catalogs merged into spark-catalogs/internal
+  { from: "/user-guide/spark-rest-catalogs", to: "/user-guide/spark-catalogs/internal" },
 ];
 
 export default userGuideRedirects;
