@@ -287,6 +287,7 @@ const sidebars = {
         "k8s/cpu-vs-vcpu",
         "k8s/monitoring",
         "k8s/database-migration",
+        "priority-class/overview",
       ],
     },
     {
