@@ -48,7 +48,7 @@ This is where you set identity, sizing, and scaling for the cluster.
 
 - **Use spot instances** (optional): Enables spot or preemptible instances for executor pods to reduce cost. Disabled by default.
 
-**Auto scaling** (multi-node only): Enabled by default. Executors scale down to minimum executors configured after the configured idle period and scale back up when a query runs. Idle timeout options range from 1 minute to 3 hours. Default is 30 minutes. Select **Disabled** to keep executors running continuously.
+- **Auto scaling** (multi-node only): Enabled by default. Executors scale down to minimum executors configured after the configured idle period and scale back up when a query runs. Idle timeout options range from 1 minute to 3 hours. Default is 30 minutes. Select **Disabled** to keep executors running continuously.
 
 - **Executors Volume** (optional): Attach a persistent volume. See [Volumes](../volumes.md) for configuration details.
 
