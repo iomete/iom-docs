@@ -16,7 +16,7 @@ import { File, FileCsv, FileJs } from "@phosphor-icons/react";
 This is an end-to-end guide about how to move files from your AWS S3 to IOMETE.
 
 :::info Your files in AWS S3
-Let's assume you have an external bucket in AWS S3 with the CSV files you want to query in IOMETE. In this example, we will use the `area-for-iomete` bucket.
+Let's assume you have an external bucket in AWS S3 with the files you want to query in IOMETE. In this example, we will use the `area-for-iomete` bucket with a `countries.json` file.
 :::
 
 ## Provide permissions to IOMETE
