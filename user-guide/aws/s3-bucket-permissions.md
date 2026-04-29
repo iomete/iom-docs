@@ -3,8 +3,8 @@ title: AWS S3 Buckets Access
 sidebar_label: S3 Buckets Access
 description: Learn how to provide access to external S3 buckets in IOMETE, a hybrid (cloud & on-premises based) data platform for data storage and analysis. This guide outlines simple steps to connect to S3 buckets and grant permission to the Lakehouse role.
 last_update:
-  date: 04/29/2026
-  author: Sourabh Jajoria
+  date: 05/05/2024
+  author: Vusal Dadalov
 ---
 
 IOMETE is a hybrid (cloud & on-premises) platform that allows users to store, manage, and analyze large amounts of data.
@@ -59,7 +59,7 @@ Let's say you have a bucket called `my-bucket` and you want to give access to th
 bucket policy that looks like this. Replace `<lakehouse_role>` with the Lakehouse role and `<your_bucket>` with the name
 of your bucket.
 
-```json showLineNumbers
+```js showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -92,7 +92,7 @@ This policy provides full read/write access to your bucket from the Lakehouse ro
 
 ### Example 2. Read-only access to your bucket from Lakehouse role:
 
-```json showLineNumbers
+```js showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -120,7 +120,7 @@ This policy provides read-only access to your bucket from the Lakehouse role.
 
 ### Example 3. Read-only access to a specific folder in your bucket from Lakehouse role:
 
-```json showLineNumbers
+```js showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -175,7 +175,7 @@ Here are some examples of IAM role policies that you can attach to the Lakehouse
 
 ### Example 1. Full read/write access to your bucket:
 
-```json showLineNumbers
+```js showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -208,7 +208,7 @@ the Lakehouse role.
 
 ### Example 2. Read-only access to your bucket:
 
-```json showLineNumbers
+```js showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -229,7 +229,7 @@ the Lakehouse role.
 
 ### Example 3. Read-only access to a specific folder in your bucket:
 
-```json showLineNumbers
+```js showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -254,3 +254,5 @@ multiple buckets or folders.
 :::
 
 ---
+If you have any questions or need further assistance, please feel free to reach out to our support team. We are always
+here to help you with any questions or issues you may have.
