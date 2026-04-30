@@ -34,7 +34,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - `SCHEMA_PARALLELISM` — controls the number of schemas processed in parallel (defaults to available CPU cores)
         - `HTTP_PARALLELISM` — controls the thread pool size for concurrent HTTP indexing calls (defaults to 16)
 
-      **Compatibility**
+      **Compatibility**  
       This version of the Catalog Sync Job is fully compatible with IOMETE Release 3.16.x.
 
       We recommend upgrading to this version when running IOMETE 3.16.x to ensure optimal performance and metadata consistency.
