@@ -48,7 +48,7 @@ This is where you set identity, sizing, and scaling for the cluster.
 
 - **Use spot instances** (optional): Enables spot or preemptible instances for executor pods to reduce cost. Disabled by default.
 
-- **Auto scaling** (multi-node only): Enabled by default. Executors scale down to zero after the configured idle period and scale back up when a query runs. Idle timeout options range from 1 minute to 3 hours. Default is 30 minutes. Select **Disabled** to keep executors running continuously.
+- **Auto scaling** (multi-node only): Enabled by default. Executors scale down to minimum executors configured after the configured idle period and scale back up when a query runs. Idle timeout options range from 1 minute to 3 hours. Default is 30 minutes. Select **Disabled** to keep executors running continuously.
 
 - **Executors Volume** (optional): Attach a persistent volume. See [Volumes](../volumes.md) for configuration details.
 
@@ -97,6 +97,5 @@ Attach **Resource tags** (key-value metadata pairs) to categorize the cluster. T
 This tab shows a read-only summary of your configuration. Look it over, and if anything needs adjusting, click the relevant tab to go back. When everything looks correct, click **Create**.
 
 If creation succeeds, IOMETE provisions the cluster and redirects you to its detail page. If the cluster name is already taken, you're returned to the **General** tab with a validation error. If resource quotas are exceeded, the form highlights the affected fields with error messages.
-
 
 <Img src="/img/user-guide/compute-clusters/create-review.png" alt="Create compute cluster -- Review & Create tab" maxWidth="700px" />
