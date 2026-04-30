@@ -15,7 +15,7 @@ import { Plus, Play } from "@phosphor-icons/react";
 
 A searchable data catalog is only useful if it stays in sync with what's in your warehouse. The **Data Catalog Sync Job** scans every catalog in your IOMETE environment and indexes the tables it finds. Indexed tables appear on the **Data Catalog** page, where you can add documentation, assign owners, define classifications, and set maintenance properties.
 
-- **Version:** `5.0.0` (requires IOMETE `3.16.x` or later)
+- **Version:** `5.0.1` (requires IOMETE `3.16.x` or later)
 - **Source:** [View on GitHub](https://github.com/iomete/iomete-marketplace-jobs/tree/main/iomete-catalog-sync)
 
 ## Installation
@@ -54,7 +54,7 @@ Open **Job Templates** in the sidebar and click <FlexButton label='New Job Templ
 **2. Application**
 
 - **Application type:** `JVM (Java, Scala)`
-- **Docker image:** `iomete.azurecr.io/iomete/iom-catalog-sync:5.0.0` (replace with the [latest version](../deployment/on-prem/release-notes/marketplace-jobs.md))
+- **Docker image:** `iomete.azurecr.io/iomete/iom-catalog-sync:5.0.1` (replace with the [latest version](../deployment/on-prem/release-notes/marketplace-jobs.md))
 - **Main Class:** `com.iomete.catalogsync.App`
 - **Main application file:** `spark-internal`
 
