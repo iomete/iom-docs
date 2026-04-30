@@ -15,7 +15,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | ------------------------ | ----------------------- |---------| -------------------------------------------------------------------------- |
 | Data Compaction          | iomete_data_compaction  | 1.2.13  | [Open ↗](/resources/open-source-spark-jobs/data-compaction-job)            |
 | File Streaming           | iomete_file_streaming   | 0.3.0   | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
-| Catalog Sync             | iom-catalog-sync        | 5.0.0   | [Open ↗](/resources/open-source-spark-jobs/catalog-sync-job)               |
+| Catalog Sync             | iom-catalog-sync        | 5.0.1   | [Open ↗](/resources/open-source-spark-jobs/catalog-sync-job)               |
 | MySQL Sync               | iomete_mysql_sync       | 3.0.0   | [Open ↗](/resources/open-source-spark-jobs/mysql-database-replication-job) |
 | Kafka Iceberg Stream     | kafka-iceberg-stream    | 1.2.0   | [Open ↗](/resources/open-source-spark-jobs/kafka-streaming-job)            |
 | TPC-DS Iceberg Generator | tpcds-iceberg-generator | 3.5.5   | Use job-templates in IOMETE                                                |
@@ -23,6 +23,24 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 ---
 
 ## Recent Releases
+
+<Release name="Catalog Sync Job" version="5.0.1" date="April 29, 2026">
+    <Improvements>
+      This release focuses on improving catalog sync performance by reducing heavy Spark metadata queries and introducing parallelism for schema processing and indexing.
+
+      What's New:
+      - ✅ Optimized Iceberg table statistics extraction by querying snapshots once and deriving totals from snapshot summaries
+      - ✅ Parallelized schema scraping and concurrent table/schema indexing HTTP calls for faster sync
+      - ✅ Configurable parallelism via environment variables:
+        - `SCHEMA_PARALLELISM` — controls the number of schemas processed in parallel (defaults to available CPU cores)
+        - `HTTP_PARALLELISM` — controls the thread pool size for concurrent HTTP indexing calls (defaults to 16)
+
+      **Compatibility**  
+      This version of the Catalog Sync Job is fully compatible with IOMETE Release 3.16.x.
+
+      We recommend upgrading to this version when running IOMETE 3.16.x to ensure optimal performance and metadata consistency.
+    </Improvements>
+</Release>
 
 <Release name="Data Compaction Job" version="1.2.13" date="March 6, 2026">
   <BugFixes>
