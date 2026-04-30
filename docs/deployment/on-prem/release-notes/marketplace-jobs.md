@@ -27,6 +27,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release name="Catalog Sync Job" version="5.0.1" date="April 29, 2026">
     <Improvements>
       This release focuses on improving catalog sync performance by reducing heavy Spark metadata queries and introducing parallelism for schema processing and indexing.
+
       What's New:
       - ✅ Optimized Iceberg table statistics extraction by querying snapshots once and deriving totals from snapshot summaries
       - ✅ Parallelized schema scraping and concurrent table/schema indexing HTTP calls for faster sync
