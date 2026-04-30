@@ -1,0 +1,56 @@
+---
+title: Using Visual Studio Code
+description: Boost productivity with Visual Studio Code as a Jupyter Client. Install extensions, connect to IOMETE's Jupyter server, and leverage powerful features for coding and collaboration.
+draft: true
+last_update:
+  date: 04/30/2026
+  author: Sourabh Jajoria
+---
+
+import Img from "@site/src/components/Img";
+import Card from "@site/src/components/Card";
+import { GoogleChromeLogo } from "@phosphor-icons/react";
+
+# Using Visual Studio Code
+
+If you'd rather work in a full IDE than a browser tab, Visual Studio Code makes a solid Jupyter client for IOMETE notebooks. You get built-in source control, the VS Code extension ecosystem, and AI assistance through GitHub Copilot, all alongside your notebook workflow.
+
+Before you connect, install these Microsoft extensions from the Visual Studio Marketplace:
+
+<Img src="/img/jupyter/vscode-plugins.png" alt="VS Code plugins" />
+
+To get started quickly, clone the [examples repo](https://github.com/iomete/notebook-examples) and open it in VS Code.
+
+## Connecting to Jupyter Server
+
+Pointing VS Code at your IOMETE Jupyter server lets you run notebooks against the same kernel and data you'd use in the IOMETE console, without leaving your editor. The setup is a one-time pairing of VS Code to your container's URL.
+
+1. Open the Kernel Picker in the top-right of the notebook, or run **Notebook: Select Notebook Kernel** from the Command Palette.
+
+   ![Notebook kernel picker](/img/jupyter/notebook-kernel-picker.png)
+
+2. Choose **Existing Jupyter Server**.
+
+   ![Select existing Jupyter server](/img/jupyter/select-existing-server.png)
+
+3. On your first connection, select **Enter the URL of the running Jupyter server**.
+
+   ![Choose to connect to an existing server](/img/jupyter/select-enter-server-url.png)
+
+4. Paste the server URI, including the authentication token as a `?token=` query parameter. If you started the server from the VS Code terminal with auth enabled, the tokenized URL is in the terminal output. You can also supply a username and password after the URI instead of a token.
+
+   ![Prompt to supply a Jupyter server URI](/img/jupyter/enter-server-url.png)
+
+5. To find the URL, open the IOMETE console and go to **Engine > Jupyter Containers**. Open your container, switch to the **Connections** tab, and locate the **VS Code** card. Use the copy button next to **URL of Jupyter Server**.
+
+   <Img src="/img/jupyter/connect-vscode.png" alt="Jupyter Container Connections tab showing the VS Code card and Jupyter Server URL" />
+
+## Additional Resources
+
+<Card
+  title="Jupyter Notebooks in VS Code"
+  icon={<GoogleChromeLogo />}
+  link="https://code.visualstudio.com/docs/datascience/jupyter-notebooks"
+>
+  Microsoft's official guide to working with Jupyter Notebooks in VS Code.
+</Card>
