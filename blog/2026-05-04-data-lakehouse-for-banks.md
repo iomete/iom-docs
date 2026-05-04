@@ -2,7 +2,7 @@
 title: "Data lakehouse for banks: what regulated institutions actually need from their data platform"
 description: "The architectural needs we hear most often during banking lakehouse assessments — and how a sovereign, Iceberg-based lakehouse maps to each one."
 slug: "data-lakehouse-for-banks"
-authors: "aytan"
+authors: "altay"
 tags2: [Educational, Company]
 coverImage: "img/blog/thumbnails/3.png"
 date: "05/04/2026"
