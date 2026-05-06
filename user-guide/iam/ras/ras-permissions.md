@@ -24,7 +24,7 @@ Each resource type accepts a specific set of permissions. The table below shows 
 |---|---|
 | Compute | View, Update, Delete, Execute, Consume |
 | Spark Job | View, Update, Delete, Suspend, Run |
-| Workspace | View, Put, Move, Delete, Edit Files |
+| Workspace | View, Put, Move, Delete |
 | Jupyter Container | View, Update, Delete, Run |
 | Schedule | View, Update, Delete, Suspend, Run |
 | Event Stream | View, Update, Delete, Execute, Consume |
@@ -76,7 +76,6 @@ A SQL editor workspace holds your worksheets and folders, backed by S3-compatibl
 | **Put** | Create new worksheets and folders inside the workspace, and save changes to existing worksheets. This is the default permission required for write access to your own workspace area. |
 | **Move** | Move and rename worksheets and folders, including across workspaces. Both the source and destination paths are checked. |
 | **Delete** | Delete worksheets and folders within the workspace. |
-| **Edit Files** | Edit worksheets that have been shared with you. Distinct from **Put**, which covers create and save in your own workspace area. |
 
 :::info
 Every domain has two built-in workspaces, **My Workspace** and **Shared**, that aren't configured through bundles. They follow implicit access rules and don't appear in the bundle permission UI.
