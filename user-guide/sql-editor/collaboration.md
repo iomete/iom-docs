@@ -57,7 +57,7 @@ SQL Editor features are controlled through domain bundle permissions, which gran
 
 ### Domain Bundle Permissions
 
-These permissions are managed through the [Domain Authorization](/user-guide/iam/ras/domain-authorization) interface, where domain owners grant specific access rights to users or groups.
+These permissions are managed through [Roles](/user-guide/roles), where admins grant specific access rights to users or groups.
 
 | Permission | What It Controls |
 |------------|-----------------|

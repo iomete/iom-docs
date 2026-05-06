@@ -214,7 +214,7 @@ Each streaming job displays a status that reflects its active application. The p
 Who can see and interact with a streaming job depends on permissions granted to users or groups at two levels:
 
 - **Domain level**
-  The **Create Spark Job** permission lets a user create new streaming jobs. Admins assign it directly through member permissions or indirectly through a domain bundle. See [Domain Authorization](/user-guide/iam/ras/domain-authorization) for details.
+  The **Create Spark Job** permission lets a user create new streaming jobs. Admins assign it through [Roles](/user-guide/roles).
 
 - **Resource level**
   Per-job permissions (`VIEW`, `RUN`, `UPDATE`, `DELETE`) come from the job's resource bundle. `RUN` lets a user start or stop a streaming job. The streaming job list only shows jobs where you have at least `VIEW` permission. See [Resource Bundles](/user-guide/ras/resource-bundles) for bundle-based access control.

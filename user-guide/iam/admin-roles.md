@@ -12,7 +12,7 @@ last_update:
 
 Admin roles are built-in, predefined roles that grant permission to manage specific areas of the IOMETE platform. You assign admin roles to users directly or to groups, and group members inherit the role automatically. Each admin role scopes a user to one management area — IAM, domains, Spark catalogs, data security, compute, or system administration — so you can grant only the access a person needs.
 
-Admin roles are different from **Resource Bundles** and **Domain Authorization** (see [Resource Bundles](./ras/ras.md) and [Domain Authorization](./domain-authorization.md)), which grant resource-scoped access to specific domains and the resources they contain. Admin roles always apply platform-wide within the area they manage; they don't scope down to individual resources.
+Admin roles are different from **Resource Bundles** (see [Resource Bundles](./ras/ras.md)), which grant resource-scoped access to the resources within a bundle. Admin roles always apply platform-wide within the area they manage; they don't scope down to individual resources.
 
 ## Available Admin Roles
 
@@ -45,6 +45,6 @@ Admin roles and Resource Bundles cover different layers of the platform:
 | Concept | Scope | What it controls | Where to manage |
 |---|---|---|---|
 | **Admin roles** | Platform-wide, fixed set | Management actions in IAM, domains, catalogs, security, compute, and system settings | IAM > Admin Roles |
-| **Resource Bundles / Domain Authorization** | Resource-scoped | Granular access to specific domains and the resources within them | [Resource Bundles](./ras/ras.md), [Domain Authorization](./domain-authorization.md) |
+| **Resource Bundles** | Resource-scoped | Granular access to resources within a bundle | [Resource Bundles](./ras/ras.md) |
 
 Use admin roles to delegate platform administration. Use resource bundles to govern day-to-day access to data and compute resources.
