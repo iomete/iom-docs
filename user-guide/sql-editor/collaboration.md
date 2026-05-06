@@ -53,7 +53,7 @@ Dashboard creation (**.dash** files) is currently available only in the personal
 
 ## Access Permissions
 
-SQL Editor features are controlled through domain bundle permissions, which grant granular access to specific capabilities. If a required permission is missing, the relevant UI element is disabled and a tooltip explains why.
+SQL Editor features are controlled through role permissions, which grant granular access to specific capabilities. If a required permission is missing, the relevant UI element is disabled and a tooltip explains why.
 
 ### Domain Bundle Permissions
 

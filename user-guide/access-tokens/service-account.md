@@ -70,7 +70,7 @@ Base path: `/api/v1/domains/{domain}/auth/service-accounts/{serviceAccountId}`
 | PATCH | `/tokens/{name}` | Update a token (status, maxRps) |
 | DELETE | `/tokens/{name}` | Delete a token |
 
-Requires `access_token.manage` (role v1) or `MANAGE_ACCESS_TOKEN` (bundle v2), plus same-group membership.
+Requires `access_token.manage`, plus same-group membership.
 
 ### Admin-Level Endpoints
 
