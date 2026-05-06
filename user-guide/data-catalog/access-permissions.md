@@ -9,12 +9,12 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-What you can see and do in the Data Catalog depends on two domain bundle permissions, configured through [Domain Authorization](/user-guide/iam/ras/domain-authorization).
+What you can see and do in the Data Catalog depends on two role permissions, configured through [Roles](/user-guide/roles).
 
 - **View Data Catalog**: Browse the Data Catalog and Data Explorer pages, view table metadata, classification tags, and classification requests.
 - **Manage Data Catalog**: Everything in View, plus editing table and column descriptions, managing owners, submitting classification tag requests, and canceling your own requests.
 
-Domain owners or administrators grant these permissions per-domain through the Resource Bundle interface. Without explicit assignment, users have no Data Catalog access (zero-trust default).
+Admins grant these permissions through Roles. Without explicit assignment, users have no Data Catalog access (zero-trust default).
 
 <Img src="/img/data-catalog/domain-permissions.png" alt="Data Governance permission settings showing View and Manage Data Catalog options" />
 

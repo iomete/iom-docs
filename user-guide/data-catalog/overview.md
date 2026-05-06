@@ -29,4 +29,4 @@ Both the Data Catalog and Data Explorer show only indexed data. A recently creat
 
 Everything lives under a single sidebar entry, so you're never more than one click away.
 
-Select **Data Catalog** in the sidebar to land on the search tab, then switch views using the tab bar at the top. You'll need the **View Data Catalog** domain bundle permission. Without it, the page returns a 403 error. See [Access Permissions](./access-permissions) for the full permission model.
+Select **Data Catalog** in the sidebar to land on the search tab, then switch views using the tab bar at the top. You'll need the **View Data Catalog** role permission. Without it, the page returns a 403 error. See [Access Permissions](./access-permissions) for the full permission model.

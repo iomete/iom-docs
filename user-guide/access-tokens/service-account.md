@@ -18,7 +18,7 @@ This guide focuses on what's different about service account tokens. For the bas
 To manage service account tokens, ensure that the following prerequisites are met:
 
 - **Group membership**: You must share at least one group with the service account. Without this, the token list returns a 403 error.
-- **Permission**: Either the `access_token.manage` role permission ([Roles](/user-guide/roles)), the `MANAGE_ACCESS_TOKEN` bundle permission ([Domain Authorization](/user-guide/iam/ras/domain-authorization)), or any admin role. The **Generate new token** button stays disabled if you lack the required permission.
+- **Permission**: Either the `access_token.manage` role permission ([Roles](/user-guide/roles)) or any admin role. The **Generate new token** button stays disabled if you lack the required permission.
 
 :::warning Group Membership
 If you see _"You must be in the same group as this service account to view and manage tokens"_, ask your admin to add you to one of the service account's groups.
@@ -70,7 +70,7 @@ Base path: `/api/v1/domains/{domain}/auth/service-accounts/{serviceAccountId}`
 | PATCH | `/tokens/{name}` | Update a token (status, maxRps) |
 | DELETE | `/tokens/{name}` | Delete a token |
 
-Requires `access_token.manage` (role v1) or `MANAGE_ACCESS_TOKEN` (bundle v2), plus same-group membership.
+Requires `access_token.manage`, plus same-group membership.
 
 ### Admin-Level Endpoints
 
@@ -95,8 +95,7 @@ Different permission models control who can manage service account tokens. The s
 
 | Context | Required Permission | Same-Group Required |
 |---------|--------------------|--------------------|
-| Domain, role-based (v1) | `access_token.manage` | Yes |
-| Domain, bundle-based (v2) | `MANAGE_ACCESS_TOKEN` | Yes |
+| Domain | `access_token.manage` | Yes |
 | Admin | Any admin role | Yes |
 
-Configure `access_token.manage` through [Roles](/user-guide/roles), or `MANAGE_ACCESS_TOKEN` through [Domain Authorization](/user-guide/iam/ras/domain-authorization).
+Configure `access_token.manage` through [Roles](/user-guide/roles).

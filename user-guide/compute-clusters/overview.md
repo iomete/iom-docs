@@ -47,7 +47,7 @@ Controls above the table narrow the list:
 Who can see and interact with a cluster depends on permissions granted to users or groups at two levels:
 
 - **Domain level**
-  The **Create Compute** permission lets a user create new clusters. Admins assign it directly through member permissions or indirectly through a domain bundle. See [Domain Authorization](/user-guide/iam/ras/domain-authorization) for details.
+  The **Create Compute** permission lets a user create new clusters. Admins assign it through [Roles](/user-guide/roles).
 
 - **Resource level**
   Per-cluster permissions (`VIEW`, `EXECUTE`, `CONSUME`, `UPDATE`, `DELETE`) come from the cluster's resource bundle. `CONSUME` lets a user submit queries against the cluster. The cluster list only shows clusters where you have at least `VIEW` permission. See [Resource Bundles](/user-guide/ras/resource-bundles) for bundle-based access control.
@@ -63,5 +63,5 @@ Who can see and interact with a cluster depends on permissions granted to users 
 - [Volumes](../volumes.md): attach persistent volumes via the **Volume** field on the **General** tab.
 - [Secrets](../secrets.md): reference secret values in environment variables and Spark config.
 - [Private Docker Registry](../private-docker-registry.md): register Docker registries so their images appear in the **Docker settings** tab.
-- [Domain Authorization](/user-guide/iam/ras/domain-authorization): manage domain-level permissions for users and groups.
+- [Roles](/user-guide/roles): manage role-based permissions for users and groups.
 - [Resource Bundles](/user-guide/ras/resource-bundles): control per-resource access through bundle permissions.

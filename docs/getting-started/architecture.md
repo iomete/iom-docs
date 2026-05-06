@@ -64,7 +64,6 @@ Controls who can access the platform and what they're allowed to see or change:
 - [User](/user-guide/users) and [group management](/user-guide/groups)
 - [Role management](/user-guide/roles) and member assignment
 - [LDAP](/user-guide/ldap-configuration), [SAML](/user-guide/single-sign-on/saml), and [OIDC](/user-guide/single-sign-on/oidc) integrations for [single sign-on](/user-guide/single-sign-on)
-- [Domain management](/user-guide/iam/ras/domain-authorization) for multi-tenant environments
 - Apache Ranger policy management for [data security](/user-guide/data-security/overview) (row-level filtering, [column masking](/user-guide/data-security/data-masking))
 - Bundle-based authorization
 
