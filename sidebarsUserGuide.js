@@ -58,7 +58,6 @@ const sidebars = {
                 "sql-editor/worksheets",
                 "sql-editor/running-queries",
                 "sql-editor/query-results",
-                "sql-editor/collaboration",
               ],
             },
             "sql-editor/database-explorer",
