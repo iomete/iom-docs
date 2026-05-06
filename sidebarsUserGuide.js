@@ -145,7 +145,7 @@ const sidebars = {
         },
 
         "iam/ras/ras",
-        "iam/domain-authorization",
+        "iam/ras/ras-permissions",
       ],
     },
     {
