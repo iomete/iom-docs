@@ -13,11 +13,11 @@ If you spend most of your day writing and iterating on SQL, worksheets are where
 
 You organize worksheets in a three-level hierarchy (**Workspaces > Folders > Worksheets**), structured however fits your team. Beyond basic query editing, worksheets support:
 
-- Real-time collaboration with teammates
+- [Real-time collaboration](/user-guide/sql-editor/collaboration) with teammates
 - [Chart visualizations and CSV export](/user-guide/sql-editor/query-results)
 - Parameterized [query variables](/user-guide/sql-editor/running-queries#using-query-variables)
 - File imports (`.sql`, `.ipynb`, `.dash`)
-- Read-only browsing of SQL files from connected [Git repositories](/integrations/git/git-integration)
+- Read-only browsing of SQL files from connected [Git repositories](/user-guide/sql-editor/collaboration#git-repository-worksheets)
 
 :::tip Workspaces and Folders
 Worksheets are organized in workspaces. See [Workspaces](/user-guide/sql-editor/workspaces) for details on creating workspaces, managing folders, and permissions.
