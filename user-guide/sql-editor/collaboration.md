@@ -9,31 +9,7 @@ last_update:
 
 import Img from "@site/src/components/Img";
 
-This page covers real-time collaboration on [worksheets](/user-guide/sql-editor/worksheets), browsing SQL files from Git repositories, and managing access permissions for SQL Editor features.
-
-## Real-Time Collaboration
-
-When you're pair-debugging or reviewing queries as a team, real-time collaboration lets multiple users edit the same worksheet at once.
-
-### Requirements
-
-Collaboration requires all three of these conditions:
-
-- The `enableCollaborativeSqlEditor` module is enabled for your deployment
-- The worksheet belongs to a shared workspace (not the personal workspace)
-- The worksheet isn't from a Git repository
-
-### Access Modes
-
-Each collaborator gets one of three access modes:
-
-| Access Mode | Description |
-|-------------|-------------|
-| **Editor** | Edit the worksheet and see others' changes in real time |
-| **Read-Only** | View real-time changes but can't edit |
-| **No Access** | Can't open the worksheet. An error message explains why. |
-
-The toolbar displays **collaboration avatars** showing who's currently connected. Edits sync in real time, so conflicts resolve automatically.
+This page covers browsing SQL files from Git repositories and managing access permissions for SQL Editor features.
 
 ## Git Repository Worksheets
 
