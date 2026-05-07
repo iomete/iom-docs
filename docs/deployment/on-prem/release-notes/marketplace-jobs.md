@@ -44,11 +44,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release name="Catalog Sync Job" version="4.3.6" date="April 10, 2026">
     <Improvements>
-      This release brings significant performance improvements to the catalog sync process by restructuring table processing into parallel phases and optimizing Spark SQL queries.
+      This release improves catalog sync performance and adds better monitoring.
 
-      What's New:
-      - ✅ Optimized Iceberg table statistics extraction by replacing two separate Spark SQL queries (snapshots + all\_data\_files) with a single aggregation query
-      - ✅ Skip snapshot queries entirely for tables with no snapshots by extracting `current-snapshot-id` from table metadata upfront
+      - ✅ Faster table statistics collection with fewer Spark SQL queries
+      - ✅ Skipped unnecessary queries for tables with no snapshots
       - ✅ Added failure-tracking metrics (`table_process_failures`, `data_sync_failures`) for better observability
       - ✅ Configurable parallelism via `HTTP_PARALLELISM` environment variable (defaults to available CPU cores, minimum 4)
     </Improvements>
