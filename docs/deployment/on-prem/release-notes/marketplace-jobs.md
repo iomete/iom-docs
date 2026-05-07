@@ -42,6 +42,18 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     </Improvements>
 </Release>
 
+<Release name="Catalog Sync Job" version="4.3.6" date="April 10, 2026">
+    <Improvements>
+      This release improves catalog sync performance and adds better monitoring.
+
+      - ✅ Faster table statistics collection with fewer Spark SQL queries
+      - ✅ Skipped unnecessary queries for tables with no snapshots
+      - ✅ Added failure-tracking metrics (`table_process_failures`, `data_sync_failures`) for better observability
+      - ✅ Configurable parallelism via `HTTP_PARALLELISM` environment variable (defaults to available CPU cores, minimum 4)
+      - ✅ Fixed inaccurate storage metrics where files referenced across multiple snapshots were counted repeatedly, inflating total size and file count
+    </Improvements>
+</Release>
+
 <Release name="Data Compaction Job" version="1.2.13" date="March 6, 2026">
   <BugFixes>
     - **Rewrite data files sort-order SQL error**: Fixed an issue where using `strategy: sort` with a `sort_order` config would fail with a `missing STRING at ','` error.
