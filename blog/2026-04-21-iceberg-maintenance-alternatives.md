@@ -6,7 +6,8 @@ authors: abhishek
 hide_table_of_contents: true
 tags2: [Engineering]
 banner_description: From open-source projects to fully managed platforms — an honest assessment of every Iceberg table maintenance option available today.
-date: 04/09/2026
+coverImage: img/blog/thumbnails/darkLake.png
+date: 04/21/2026
 ---
 
 import Img from '@site/src/components/Img';
@@ -17,7 +18,7 @@ Most teams assume that once they adopt Iceberg, table maintenance is largely tak
 
 In reality, Iceberg gives you the tools to maintain your tables, but it doesn’t tell you how to run them in production. And that gap shows up quickly in practice. In the previous post, we looked at what Iceberg provides out of the box: compaction, snapshot expiration, orphan file cleanup, and manifest rewrites. These are powerful tools, but they’re not enough for a production system.
 
-A production system has to answer harder questions. Which tables need maintenance, what should run first, and how much compute it should use. It also has to deal with failures, partial runs, and prove that the table actually became healthier afterward.
+A production system has to answer harder questions. Which tables need maintenance, what should run first, and how much resources it should use. It also has to deal with failures, partial runs, and prove that the table actually became healthier afterward.
 
 This is where most teams hit the second wall. The first is realizing that table maintenance is not optional. The second is realizing that running `CALL rewrite_data_files(...)` from a cron job breaks down quickly. 
 
@@ -31,7 +32,7 @@ This post looks at the broader landscape. Open-source projects, cloud-native pla
 
 And more importantly, where each of them still falls short.
 
-<Img src="/img/blog/2026-04-09-iceberg-maintenance-alternatives/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines (Spark, Trino, Flink, Databricks, Cloudera) sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
+<Img src="/img/blog/2026-04-21-iceberg-maintenance-alternatives/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines (Spark, Trino, Flink, Databricks, Cloudera) sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
 
 ## Open-Source Projects
 
