@@ -3,7 +3,7 @@ title: The Hidden Debt in Your Lakehouse Tables (And Why You Should Care)
 description: Iceberg tables degrade over time from small files, snapshot accumulation, orphan files, and metadata bloat. Real production numbers on what neglect actually costs.
 slug: hidden-debt-in-lakehouse-tables
 authors: abhishek
-hide_table_of_contents: true
+hide_table_of_contents: false
 tags2: [Engineering]
 banner_description: Every Iceberg table you're not maintaining is likely getting slower and more expensive. This post explains the mechanics of why, with real production numbers.
 coverImage: img/blog/thumbnails/darkStone.png
@@ -44,7 +44,7 @@ Every commit creates new [metadata](https://iceberg.apache.org/spec/#table-metad
 
 What gets written at the data layer depends on the operation and the [write mode](https://iceberg.apache.org/docs/latest/configuration/#write-properties):
 
-- **Copy-on-Write (COW)** applies changes at write time. Every update or delete rewrites the full affected data file. The old copy stays until its snapshot expires. Writes are slower, reads stay clean.
+- **Copy-on-Write (COW)** applies changes at write time. Every update or delete rewrites the full affected data file. The old copy stays until its snapshot expires. Writes are slower, reads stay clean. See our [Iceberg COW deep dive](https://iomete.com/resources/blog/iceberg-copy-on-write-deep-dive) for more info.
 - **Merge-on-Read (MOR)** defers work to read time. Instead of rewriting files, it writes small [delete files](https://iceberg.apache.org/spec/#delete-formats) that mark removed rows. Reads merge data files with delete files at query time. Writes are fast, but reads get progressively slower as delete files pile up.
 
 <Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/cow-vs-mor.png" alt="Copy-on-Write vs Merge-on-Read: COW rewrites full files on update, MOR writes small delete files and defers merging to read time" borderless/>
@@ -118,11 +118,11 @@ The driver holds file-level metadata in memory: statistics, partition values, fi
 
 All of this compounds quickly.
 
+<Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/small_files_four_failure_modes.png" alt="Small files at scale: query planning goes from under 1 second to 30 seconds, 500x wasted I/O, $1200/month API costs, and driver OOM kills" borderless/>
+
 Compaction fixes all of it. Bring file count down to a few thousand and the same queries plan in under a second, scan efficiently, and cost a fraction of the API calls.
 
 We’ve seen **10–100x improvements** from this alone.
-
-<Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/small_files_four_failure_modes.png" alt="Small files at scale: query planning goes from under 1 second to 30 seconds, 500x wasted I/O, $1200/month API costs, and driver OOM kills" borderless/>
 
 ### 2. Snapshot accumulation
 
@@ -140,7 +140,7 @@ Over time, this leads to silent storage growth. Even if your data volume stays f
 
 The symptoms are subtle. Storage costs creep up without a clear reason, and compaction never frees the space you expect.
 
-Unless you configure a retention policy, Iceberg will not expire snapshots automatically. The system keeps everything until you clean it up.
+Unless you schedule snapshot expiration, Iceberg keeps every snapshot indefinitely.
 
 <Img src="/img/blog/2026-04-14-hidden-debt-in-lakehouse-tables/snapshot_accumulation.png" alt="Why compaction alone does not shrink storage: before compaction 1 TB, after compaction without snapshot expiry 2 TB, after expiry back to 1 TB" borderless/>
 
@@ -222,7 +222,7 @@ Each batch produces both data files and delete files. Over time, reads must merg
 If you’re running Iceberg in production, start with a few simple checks:
 
 - **Average file size**  
-  Run `SELECT avg(file_size_in_bytes) FROM <table>.files`. If it’s consistently below ~32 MB, compaction isn’t running or isn’t keeping up  
+  Run `SELECT avg(file_size_in_bytes) FROM <table>.files`. If it’s consistently below ~128 MB, compaction isn’t running or isn’t keeping up  
 
 - **Snapshot count**  
   Check `SELECT count(*) FROM <table>.snapshots`. If this keeps growing beyond your retention window, snapshots aren’t being expired  
