@@ -42,7 +42,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     </Improvements>
 </Release>
 
-<Release name="Catalog Sync Job" version="4.3.6" date="April 10, 2026">
+<Release name="Catalog Sync Job" version="4.3.6" date="May 7, 2026">
     <Improvements>
       This release improves catalog sync performance and adds better monitoring.
 
