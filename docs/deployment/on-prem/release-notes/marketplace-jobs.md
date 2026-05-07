@@ -42,6 +42,18 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     </Improvements>
 </Release>
 
+<Release name="Catalog Sync Job" version="4.3.6" date="April 10, 2026">
+    <Improvements>
+      This release brings significant performance improvements to the catalog sync process by restructuring table processing into parallel phases and optimizing Spark SQL queries.
+
+      What's New:
+      - ✅ Optimized Iceberg table statistics extraction by replacing two separate Spark SQL queries (snapshots + all\_data\_files) with a single aggregation query
+      - ✅ Skip snapshot queries entirely for tables with no snapshots by extracting `current-snapshot-id` from table metadata upfront
+      - ✅ Added failure-tracking metrics (`table_process_failures`, `data_sync_failures`) for better observability
+      - ✅ Configurable parallelism via `HTTP_PARALLELISM` environment variable (defaults to available CPU cores, minimum 4)
+    </Improvements>
+</Release>
+
 <Release name="Data Compaction Job" version="1.2.13" date="March 6, 2026">
   <BugFixes>
     - **Rewrite data files sort-order SQL error**: Fixed an issue where using `strategy: sort` with a `sort_order` config would fail with a `missing STRING at ','` error.
