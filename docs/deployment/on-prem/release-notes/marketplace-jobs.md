@@ -50,6 +50,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - ✅ Skipped unnecessary queries for tables with no snapshots
       - ✅ Added failure-tracking metrics (`table_process_failures`, `data_sync_failures`) for better observability
       - ✅ Configurable parallelism via `HTTP_PARALLELISM` environment variable (defaults to available CPU cores, minimum 4)
+      - ✅ Fixed inaccurate storage metrics where files referenced across multiple snapshots were counted repeatedly, inflating total size and file count
     </Improvements>
 </Release>
 
