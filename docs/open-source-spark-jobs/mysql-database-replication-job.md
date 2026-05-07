@@ -1,64 +1,65 @@
 ---
 title: MySQL Database Replication Job
-sidebar_label: MySQL Database Replication Job
-description: Quickly move your *MySQL* tables to *IOMETE* Lakehouse using our Spark Job that's simple to configure.
+sidebar_label: MySQL Database Replication
+description: Replicate MySQL tables to the IOMETE Lakehouse with a configuration-driven Spark job. Supports full load and incremental snapshot sync modes.
 last_update:
-  date: 09/20/2023
-  author: Vusal Dadalov
+  date: 05/07/2026
+  author: Rocco Verhoef
 ---
 
 import FlexButton from "@site/src/components/FlexButton";
 import Img from "@site/src/components/Img";
-import { Cpu, Plus } from "@phosphor-icons/react";
+import { Plus, Play } from "@phosphor-icons/react";
 
 ---
 
-Quickly move your MySQL tables to IOMETE Lakehouse using our Spark Job that's simple to configure. All you need to do is provide the settings, and the job will handle the rest. Choose how you want to transfer your data: either a full load or in smaller increments. Scroll down for more details on these sync options.
+The **MySQL Database Replication Job** copies tables from a MySQL database into the IOMETE Lakehouse on a schedule. You point the job at a source database, list the tables to sync, choose between a full reload or an incremental snapshot, and the job handles the rest.
+
+- **Version:** see the [Marketplace Jobs release notes](../deployment/on-prem/release-notes/marketplace-jobs.md) for the latest version
+- **Source:** [View on GitHub](https://github.com/iomete/iomete-marketplace-jobs/tree/main/iomete-mysql-sync)
+
+## Installation
+
+### Marketplace
+
+Open **Job Templates** and click **Marketplace**. Find the **mysql-sync** card, click the **⋮** menu, and select **Deploy**.
+
+The job form opens pre-filled with recommended defaults. Add your database password as an environment variable and your sync rules as a config file (see [Configuration](#configuration)), then click **Create**.
+
+<Img
+  src="/img/spark-job/marketplace/mysql-sync/marketplace-deploy.png"
+  alt="Deploy mysql-sync from the Marketplace"
+/>
 
 :::tip
-If you want to make changes, you can copy the job and adjust it however you like.
+To customize the template, copy it from the Marketplace into your own job and adjust as needed.
 :::
 
-### Deployment
+### Manual Setup
 
-- In the left sidebar menu choose <FlexButton label='Spark Jobs'><Cpu size={20} color='#858c9c' weight="duotone"/></FlexButton>
-- Click on <FlexButton label='Create' primary><Plus size={16} /></FlexButton>
+Open **Job Templates** in the sidebar and click <FlexButton label='New Job Template' primary><Plus size={16} /></FlexButton>.
 
-Specify the following parameters (these are examples, you can change them based on your preference):
+**1. Name and Application**
 
-- **Name:** `mysql-db-sync`
-- **Docker image:** `iomete/iomete_mysql_sync:2.0.0`
+- **Name:** any name you like, for example `mysql-db-sync`
+- **Application type:** `Python`
+- **Docker image:** `iomete.azurecr.io/iomete/iomete_mysql_sync:<version>` (see [Marketplace Jobs release notes](../deployment/on-prem/release-notes/marketplace-jobs.md) for the latest version)
 - **Main application file:** `local:///app/driver.py`
-- **Environment variables:** `DB_PASSWORD`: `9tVDVEKp`
 
-<Img src="/img/spark-job/mysql-database-replication-job/create-spark-job.png" alt="Configure spark jobx" />
+**2. Environment Variables**
 
-:::info Environment variables
-You can use **Environment variables** to store your sensitive variables like password, secrets, etc. Then you can use these variables in your config file using the <code>$\{DB_PASSWORD}</code> syntax.
-:::
+Store the database password as an environment variable rather than checking it into the config file. Add a variable named `DB_PASSWORD` with your MySQL password as the value, then reference it from the config as `${DB_PASSWORD}`.
 
-<br/>
+**3. Config File**
 
-### Config file
-
-The following configuration file is used to set up the syncing of tables from a MySQL database to IOMETE Lakehouse. It specifies the source database connection details and the tables you want to sync.
-
-:::info
-Use the configuration file below as a template and modify it to fit your needs.
-:::
-
-**To add config file** scroll down and expand `Application configurations` section and click `Add config file` and paste following **HOCON**.
-
-<Img src="/img/spark-job/config/spark-config.png" alt="IOMETE Spark Jobs add config file" />
-
-<Img src="/img/spark-job/spark-job-create-jdbc-sync-config-file.png" alt="IOMETE Spark job sync create spark job application configuration" />
+Expand **Application configurations**, click **Add config file**, and paste the HOCON template below. See [Configuration](#configuration) for what each field does.
 
 ```hocon
 {
     source_connection: {
-        host: "iomete-tutorial.cetmtjnompsh.eu-central-1.rds.amazonaws.com",
+        host: "your-mysql-host.example.com",
         port: 3306,
-        username: tutorial_user,
+        username: mysql_user,
         password: $\{DB_PASSWORD}
     },
     syncs: [
@@ -68,48 +69,79 @@ Use the configuration file below as a template and modify it to fit your needs.
             source.exclude_tables: [departments, dept_manager]
             destination.schema: employees_raw
             sync_mode.type: full_load
-        },
-        {
-            source.schema: employees
-            source.tables: [ departments, dept_manager ]
-            destination.schema: employees_raw
-            sync_mode.type: full_load
         }
     ]
 }
 ```
 
-#### Source Connection
+**4. Instance Resources**
 
-The `source_connection` object contains the following fields:
+Pick driver and executor instance types that fit your data volume.
 
-- **host**: The address of the MySQL database. For example, `iomete-tutorial.cetmtjnompsh.eu-central-1.rds.amazonaws.com`.
-- **port**: The port number for the database connection, usually `3306` for MySQL.
-- **username**: The username to connect to the database, like `tutorial_user`.
-- **password**: The password for the database connection. Here, `${DB_PASSWORD}` is a variable that you can set in the **Environment variables** section.
+Click <FlexButton label="Create" primary /> to save the job.
 
-:::info
-The shown MySQL database is a sample database that you can use to test out IOMETE.
-:::
+## Configuration
 
-#### Syncs Array
+The config file is HOCON. It declares the source MySQL connection and one or more sync entries.
 
-The `syncs` array contains one or more objects that specify what to sync:
+### Source Connection
 
-Sync Object Fields
+| Field | Description |
+|---|---|
+| `host` | The address of the MySQL database, for example `your-mysql-host.example.com`. |
+| `port` | The MySQL port, usually `3306`. |
+| `username` | The MySQL user the job connects as. |
+| `password` | The user's password. Reference an environment variable like `${DB_PASSWORD}` rather than embedding the value. |
 
-- **source.schema**: The schema in the source MySQL database you want to sync from, such as `employees`.
-- **source.tables**: An array of table names you want to sync. Use `["*"]` to sync all tables.
-- **source.exclude_tables**: _[Optional]_ An array of table names you want to exclude from syncing.
-- **destination.schema**: The schema in the IOMETE Lakehouse where the data will be stored, like `employees_raw`.
-- **sync_mode.type**: The type of sync.
-  - `full_load` - Read everything in the source and overwrites whole table at the destination at each sync.
-  - `incremental_snapshot` - It creates the snapshot of table in the destination and only move the newly inserted and updated records. While writing to IOMETE it uses merge statement. This mode requires two additional parameters:
-    - `identification_column` - can be id or other primary key column that will be used on merge statement
-    - `tracking_column` - column that will be used to track the where it should continue to get data from the source table. For example, if you want to sync only the records that were inserted or updated after the last sync, you can use the `updated_at` column as the `tracking_column`. The column should be increasing and updated with each insert or update.
+### Syncs
 
-:::info Example 1
-This example syncs all tables from the `employees` schema, except for the `salaries` table, into the `employees_raw` schema in IOMETE Lakehouse.
+The `syncs` array contains one or more sync entries. Each entry describes a source schema, the tables to include, the destination schema in IOMETE, and the sync mode.
+
+| Field | Description |
+|---|---|
+| `source.schema` | The schema in the MySQL database to read from. |
+| `source.tables` | The tables to sync. Use `["*"]` to include every table in the schema. You can also pass a SQL subquery as a virtual table — see [Subquery Sources](#subquery-sources). |
+| `source.exclude_tables` | _Optional._ Tables to skip when `source.tables` is `["*"]`. |
+| `destination.schema` | The schema in the IOMETE Lakehouse where rows are written. |
+| `sync_mode.type` | Either `full_load` or `incremental_snapshot`. See [Sync Modes](#sync-modes). |
+
+### Sync Modes
+
+#### `full_load`
+
+Reads everything from the source table and overwrites the destination table on every run. Use this for small or slowly-changing tables where you want each run to be a clean snapshot.
+
+#### `incremental_snapshot`
+
+Brings over only rows inserted or updated since the last run, using a `MERGE` statement against a snapshot of the table in the destination. Use this for large tables where a full reload is too expensive.
+
+This mode requires two extra fields:
+
+| Field | Description |
+|---|---|
+| `sync_mode.identification_column` | The primary key column used in the merge condition, typically `id`. |
+| `sync_mode.tracking_column` | A monotonically increasing column the job uses to find new rows since the last sync, typically `updated_at`. The column must be set on every insert and update. |
+
+### Subquery Sources
+
+Instead of a table name, an entry in `source.tables` can be a SQL subquery wrapped in triple-quoted HOCON strings, with an alias. This replicates a derived view rather than a raw table.
+
+```hocon
+source.tables: [
+  """
+  (SELECT emp_no, sum(salary) total_salary FROM salaries group by emp_no)
+  as total_salaries
+  """
+]
+```
+
+The job replicates the subquery result into a destination table named after the alias (`total_salaries` in this example).
+
+## Examples
+
+### Example 1: Full Load Excluding Some Tables
+
+Replicates every table in the `employees` schema except `salaries` into `employees_raw` on each run.
 
 ```hocon
 {
@@ -121,10 +153,9 @@ This example syncs all tables from the `employees` schema, except for the `salar
 }
 ```
 
-:::
+### Example 2: Specific Tables Full Load
 
-:::info Example 2
-This example syncs only the `departments` and `dept_manager` tables from the `employees` schema into the `employees_dep` schema in IOMETE Lakehouse.
+Replicates only the `departments` and `dept_manager` tables.
 
 ```hocon
 {
@@ -135,10 +166,9 @@ This example syncs only the `departments` and `dept_manager` tables from the `em
 }
 ```
 
-:::
+### Example 3: Incremental Snapshot
 
-:::info Example 3
-This example does incremental snapshot sync of the `salaries` table from the `employees` schema into the `employees_raw` schema in IOMETE Lakehouse.
+Brings over only new or changed rows in the `salaries` table, using `id` as the primary key and `updated_at` as the change-tracking column.
 
 ```hocon
 {
@@ -153,28 +183,8 @@ This example does incremental snapshot sync of the `salaries` table from the `em
 }
 ```
 
-:::
+## Running the Job
 
-:::info Example 3
+The job runs on its schedule. To trigger a run on demand, open the job and click <FlexButton label='Run' primary><Play size={12} weight="fill" /></FlexButton>.
 
-- **source.schema**: `employees`
-- **source.tables**: `[salaries]`
-- **destination.schema**: `employees_raw`
-- **sync_mode.type**: `incremental_snapshot`
-
-This example syncs only the `departments` and `dept_manager` tables from the `employees` schema into the `employees_dep` schema in IOMETE Lakehouse.
-:::
-
-### Run the job
-
-You can trigger the job manually by clicking on the <FlexButton label='Run' primary/> button.
-
-:::tip
-You can also schedule the job to run periodically. To do this, edit spark job and set the **Schedule** parameter.
-:::
-
-<Img src="/img/spark-job/job-sync-manual-run.png" alt="IOMETE Spark job sync manual run" />
-
-## Github
-
-You can find source code of **IOMETE: MySQL Sync (DB Replication)** in github. [View in Github](https://github.com/iomete/iomete-mysql-sync)
+To change the schedule, edit the job and set the **Schedule** parameter (cron expression).
