@@ -1,9 +1,9 @@
 ---
 title: File Streaming
-description: Stream files to iceberg continuously with Spark file streaming job. Configure file formats, database settings, and processing time intervals. Run tests for seamless file streaming.
+description: Continuously ingest files from object storage into an Iceberg table with the File Streaming Spark job. Configure source file settings, destination table settings, and processing intervals.
 slug: file-streaming-job
 last_update:
-  date: 08/24/2023
+  date: 05/07/2026
   author: Vugar Dadalov
 ---
 
@@ -13,7 +13,7 @@ import { Cpu, Plus } from "@phosphor-icons/react";
 
 ---
 
-Transfer files to iceberg continuously.
+Continuously ingest files from object storage into an Iceberg table.
 
 ## File formats
 
@@ -29,7 +29,7 @@ Tested file formats.
 Specify the following parameters (these are examples, you can change them based on your preference):
 
 - **Name:** `file-streaming-job`
-- **Docker image:** `iomete/iomete_file_streaming_job:0.2.0`
+- **Docker image:** `iomete/iomete-file-streaming:1.0.1`
 - **Main application file:** `local:///app/driver.py`
 - **Environment variables:** `LOG_LEVEL`: `INFO` or ERROR
 
@@ -44,25 +44,29 @@ You can use **Environment variables** to store your sensitive variables like pas
 ### Config file
 
 - **Config file:**
-  Scroll down and expand `Application configurations` section and click `Add config file` and paste following **JSON**.
+  Scroll down, expand the `Application configurations` section, click `Add config file`, and paste the following HOCON configuration.
 
   <Img src="/img/spark-job/config/spark-config.png" alt="IOMETE Spark Jobs add config file" />
 
-```js
+```hocon
 {
-  file: {
-    format: csv,
-    path: "files/",
-    max_files_per_trigger: 1,
-    latest_first: false,
-    max_file_age: "7d"
+  source: {
+    file: {
+      format: csv,
+      header: true,
+      path: "s3a://bucket/path_to_csv_files/",
+      max_files_per_trigger: 1,
+      latest_first: false,
+      max_file_age: "7d"
+    }
   }
-  database: {
+  destination: {
     schema: default,
-    table: awesome_csv_addresses
+    table: csv_file_stream,
+    partitions: []
   }
   processing_time: {
-    interval: 5
+    interval: 30,
     unit: seconds # minutes
   }
 }
@@ -81,28 +85,30 @@ You can use **Environment variables** to store your sensitive variables like pas
   <tbody>
     <tr>
       <td>
-        <code>file</code><br/>
+        <code>source.file</code><br/>
       </td>
       <td>
-        Required properties to connect and configure.
+        Source file configuration.
         <ul>
-          <li><code>format</code> The format of file.</li>
-          <li><code>path</code> The source path to connect file directory</li>
-          <li><code>max_files_per_trigger</code> Maximum file number per trigger.</li>
-          <li><code>latest_first</code> Whether to process the latest new files first, useful when there is a large backlog of files.</li>
-          <li><code>max_file_age</code> Maximum age of files to be processed.</li>
+          <li><code>format</code> File format to read. CSV is currently supported.</li>
+          <li><code>header</code> Whether the CSV files include a header row.</li>
+          <li><code>path</code> Source directory path, including the filesystem scheme, for example <code>s3a://bucket/path_to_csv_files/</code>.</li>
+          <li><code>max_files_per_trigger</code> Maximum number of new files to process per streaming trigger.</li>
+          <li><code>latest_first</code> Whether to process the latest files first when there is a backlog.</li>
+          <li><code>max_file_age</code> Maximum age of files to be considered by the stream.</li>
         </ul>
       </td>
     </tr>
     <tr>
       <td>
-        <code>database</code><br/>
+        <code>destination</code><br/>
       </td>
       <td>
-        Destination database properties.
+        Destination Iceberg table configuration.
         <ul>
-          <li><code>schema</code> Specify the schema (database) to store into.</li>
-          <li><code>table</code> Specify the table.</li>
+          <li><code>schema</code> Destination schema or database.</li>
+          <li><code>table</code> Destination table.</li>
+          <li><code>partitions</code> Optional destination partition columns.</li>
         </ul>
       </td>
     </tr>
@@ -111,15 +117,19 @@ You can use **Environment variables** to store your sensitive variables like pas
         <code>processing_time</code><br/>
       </td>
       <td>
-        Processing time to persist incoming data on iceberg.
+        Streaming trigger interval configuration.
         <ul>
           <li><code>interval</code> Processing trigger interval.</li>
-          <li><code>table</code> Processing trigger unit: seconds, minutes.</li>
+          <li><code>unit</code> Processing trigger unit, such as <code>seconds</code> or <code>minutes</code>.</li>
         </ul>
       </td>
     </tr>
-</tbody>
+  </tbody>
 </table>
+
+:::note
+Use the full source path in `source.file.path`, including the filesystem scheme, for example `s3a://bucket/path_to_csv_files/`. For the default CSV example, omit `schema` unless you provide explicit column definitions.
+:::
 
 Create Spark Job - Deployment
 
