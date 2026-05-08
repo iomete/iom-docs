@@ -14,7 +14,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | Name                     | Image                   | Version | Link                                                                       |
 | ------------------------ | ----------------------- |---------| -------------------------------------------------------------------------- |
 | Data Compaction          | iomete_data_compaction  | 1.2.13  | [Open ↗](/resources/open-source-spark-jobs/data-compaction-job)            |
-| File Streaming           | iomete_file_streaming   | 0.3.0   | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
+| File Streaming           | iomete-file-streaming   | 1.0.1   | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
 | Catalog Sync             | iom-catalog-sync        | 5.0.1   | [Open ↗](/resources/open-source-spark-jobs/catalog-sync-job)               |
 | MySQL Sync               | iomete_mysql_sync       | 3.0.0   | [Open ↗](/resources/open-source-spark-jobs/mysql-database-replication-job) |
 | Kafka Iceberg Stream     | kafka-iceberg-stream    | 1.2.0   | [Open ↗](/resources/open-source-spark-jobs/kafka-streaming-job)            |
