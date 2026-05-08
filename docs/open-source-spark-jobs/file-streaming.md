@@ -9,7 +9,6 @@ last_update:
 
 import FlexButton from "@site/src/components/FlexButton";
 import Img from "@site/src/components/Img";
-import { Cpu, Plus } from "@phosphor-icons/react";
 
 ---
 
@@ -23,30 +22,43 @@ Tested file formats.
 
 ## Job creation
 
-- In the left sidebar menu choose <FlexButton label='Spark Jobs'><Cpu size={20} color='#858c9c' weight="duotone"/></FlexButton>
-- Click on <FlexButton label='Create' primary><Plus size={16} /></FlexButton>
+- In the left sidebar, under **Applications**, click **Job Templates**.
+- Click <FlexButton label='Marketplace' /> to open the list of preconfigured Marketplace jobs.
+- Find `file-streaming-job`, open the actions menu, and click <FlexButton label='Deploy' />.
+- The Marketplace template opens a pre-filled **Create New Job** form. Review the defaults and update the values for your environment.
+
+You can also create a job template manually with [**New Job Template**](/resources/user-guide/spark-jobs/creating-spark-job), but the Marketplace flow is recommended because it pre-populates the File Streaming image, Spark config, environment variables, and default config map.
 
 Specify the following parameters (these are examples, you can change them based on your preference):
 
 - **Name:** `file-streaming-job`
 - **Docker image:** `iomete/iomete-file-streaming:1.0.1`
 - **Main application file:** `local:///app/driver.py`
-- **Environment variables:** `LOG_LEVEL`: `INFO` or ERROR
+- **Environment variables:** `LOG_LEVEL`: `INFO` or `ERROR`
+- **Spark config:** `spark.sql.streaming.schemaInference`: `true`
 
 <Img src="/img/spark-job/spark-job-create-file-streaming.png" alt="IOMETE Spark Jobs Create" />
 
-:::info Environment variables
-You can use **Environment variables** to store your sensitive variables like password, secrets, etc. Then you can use these variables in your config file using the <code>$\{DB_PASSWORD}</code> syntax.
-:::
+### Environment variables
+
+The Marketplace template includes `LOG_LEVEL` by default. You can also use environment variables to store sensitive values, such as passwords or secrets, and reference them in your config file using the <code>$\{DB_PASSWORD}</code> syntax.
+
+<Img src="/img/spark-job/file-streaming-environment-variables.png" alt="File Streaming environment variables" />
+
+### Spark config
+
+The Marketplace template enables schema inference for CSV file streaming.
+
+<Img src="/img/spark-job/file-streaming-spark-config.png" alt="File Streaming Spark config" />
 
 <br/>
 
 ### Config file
 
 - **Config file:**
-  Scroll down, expand the `Application configurations` section, click `Add config file`, and paste the following HOCON configuration.
+  The Marketplace template includes a default `application.conf` file under the `Config Maps` tab. Review the configuration and update the source path and destination table values for your environment.
 
-  <Img src="/img/spark-job/config/spark-config.png" alt="IOMETE Spark Jobs add config file" />
+  The configuration uses HOCON syntax, which supports JSON-like objects with comments and unquoted keys. The example below matches the default Marketplace `application.conf` shape.
 
 ```hocon
 {
@@ -128,24 +140,8 @@ You can use **Environment variables** to store your sensitive variables like pas
 </table>
 
 :::note
-Use the full source path in `source.file.path`, including the filesystem scheme, for example `s3a://bucket/path_to_csv_files/`. For the default CSV example, omit `schema` unless you provide explicit column definitions.
+Use the full source path in `source.file.path`, including the filesystem scheme, for example `s3a://bucket/path_to_csv_files/`. The default Marketplace config omits `schema`; only add it if you provide explicit column definitions.
 :::
-
-Create Spark Job - Deployment
-
-![Deployment preferences.](/img/spark-job/file-job-creation-deployment.png)
-
-Create Spark Job - Instance
-
-:::note
-You can use **Environment Variables** to store your sensitive data like password, secrets, etc. Then you can use these variables in your config file using the <code>$\{ENV_NAME}</code> syntax.
-:::
-
-![Instance and environment variable parameters.](/img/spark-job/file-job-creation-instance.png)
-
-Create Spark Job - Application Config
-
-![Job config.](/img/spark-job/file-spark-job-config-hocon.png)
 
 ## Tests
 
