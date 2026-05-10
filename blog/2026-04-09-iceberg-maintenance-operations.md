@@ -80,7 +80,7 @@ The next four sections cover *why* you'd touch them: what each procedure reads a
 
 If you only run one maintenance operation, this is it. [`rewrite_data_files`](https://iceberg.apache.org/docs/latest/spark-procedures/#rewrite_data_files) is also the most resource-intensive of the four. It rewrites small data files into larger ones, cutting metadata overhead and the per-file cost of opening files during queries.
 
-To keep the mechanics concrete, we'll follow one example through every stage. `ecommerce.orders` is a Merge-on-Read Iceberg table that ingests one [Parquet](https://parquet.apache.org/docs/) file per Spark Structured Streaming microbatch:
+To keep the mechanics concrete, we'll follow one example through every stage: `ecommerce.orders` is a Merge-on-Read Iceberg table that ingests one [Parquet](https://parquet.apache.org/docs/) file per Spark Structured Streaming microbatch.
 
 ```sql
 CREATE TABLE ecommerce.orders (
@@ -226,7 +226,9 @@ When to pick what:
 
 #### 4. Partial Progress and Recovery
 
-By default, compaction is all-or-nothing. If you have 10 file groups and group 8 fails after 4 hours, Iceberg aborts every completed rewrite. The [source code](https://github.com/apache/iceberg/blob/main/spark/v3.5/spark/src/main/java/org/apache/iceberg/spark/actions/RewriteDataFilesSparkAction.java) is explicit about this. Inside `RewriteDataFilesSparkAction`, a failure triggers cleanup of every finished group:
+By default, compaction is all-or-nothing. If you have 10 file groups and group 8 fails after 4 hours, Iceberg aborts every completed rewrite.
+
+The [source code](https://github.com/apache/iceberg/blob/main/spark/v3.5/spark/src/main/java/org/apache/iceberg/spark/actions/RewriteDataFilesSparkAction.java) is explicit about this. Inside `RewriteDataFilesSparkAction`, a failure triggers cleanup of every finished group:
 
 ```
 Cannot complete rewrite, partial-progress.enabled is not enabled and one of the
@@ -273,10 +275,6 @@ Two thresholds control when delete-heavy files get pulled into compaction even i
 - `delete-file-threshold` (default: `Integer.MAX_VALUE`, effectively disabled): rewrite a data file if it has this many or more associated delete files
 - `delete-ratio-threshold` (default: `0.3`): rewrite a data file if 30% or more of its rows are marked deleted
 
-:::caution `delete-file-threshold` is disabled by default
-The default of `Integer.MAX_VALUE` means out-of-the-box compaction never triggers on delete-file accumulation alone; it only triggers on file size. On busy MoR tables, that's the difference between "reads stay fast" and "reads degrade silently for weeks."
-:::
-
 ```sql
 CALL catalog.system.rewrite_data_files(
   table => 'ecommerce.orders',
@@ -289,6 +287,10 @@ CALL catalog.system.rewrite_data_files(
 ```
 
 The `remove-dangling-deletes` option (default: false) adds a follow-up step that removes delete files which no longer reference any live data file. These are common leftovers after compaction rewrites the data files the deletes originally targeted.
+
+:::caution `delete-file-threshold` is disabled by default
+The default of `Integer.MAX_VALUE` means out-of-the-box compaction never triggers on delete-file accumulation alone; it only triggers on file size. On busy MoR tables, that's the difference between "reads stay fast" and "reads degrade silently for weeks."
+:::
 
 ### Expire Snapshots
 
@@ -468,10 +470,6 @@ We started here at IOMETE, using our built-in Spark scheduler with a [Data Compa
 That experience is what pushed us toward building fully automated table maintenance.
 
 For smaller deployments with a limited number of tables, cron jobs and scripts are often sufficient. At larger scale, the DIY approach gradually becomes its own operational platform.
-
----
-
-*This is Part 2 of our series on Apache Iceberg table maintenance. [Part 1](/blog/hidden-debt-in-lakehouse-tables) covered why unmaintained tables rot. Next: [Part 3](/blog/iceberg-maintenance-alternatives) surveys the alternatives landscape.*
 
 ---
 
