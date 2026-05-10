@@ -250,7 +250,9 @@ The `max-commits` parameter (default: 10) caps the number of separate commits pr
 
 Without partial progress, a commit conflict (another writer touching the same files) also triggers a full abort.
 
-**The downsides:** More snapshots per job (one per commit), more work for `expire_snapshots` later, and success becomes partial instead of binary.
+:::note Partial progress isn't free
+More snapshots per job (one per commit), more work for `expire_snapshots` later, and success becomes partial instead of binary.
+:::
 
 #### 5. Merge-on-Read Compaction
 
@@ -264,6 +266,10 @@ Two thresholds control when delete-heavy files get pulled into compaction even i
 
 - `delete-file-threshold` (default: `Integer.MAX_VALUE`, effectively disabled): rewrite a data file if it has this many or more associated delete files
 - `delete-ratio-threshold` (default: `0.3`): rewrite a data file if 30% or more of its rows are marked deleted
+
+:::caution `delete-file-threshold` is disabled by default
+The default of `Integer.MAX_VALUE` means out-of-the-box compaction never triggers on delete-file accumulation alone — it only triggers on file size. On busy MoR tables, that's the difference between "reads stay fast" and "reads degrade silently for weeks." Set this to something like `5` or `10` if you do CDC or row-level updates.
+:::
 
 ```sql
 CALL catalog.system.rewrite_data_files(
@@ -323,7 +329,9 @@ CALL catalog.system.expire_snapshots(
 - `equal_schemes` / `equal_authorities` — URI aliases for cross-scheme compatibility
 - `dry_run` — returns the list of files *that would be* deleted, without deleting them
 
-Always pass `dry_run => true` the first time you run this on a new table:
+:::tip Always `dry_run` first
+The first time you run `remove_orphan_files` on a new table, pass `dry_run => true`. It returns the list of files that *would be* deleted without actually deleting anything — so you can audit the result before any data leaves the bucket.
+:::
 
 ```sql
 CALL catalog.system.remove_orphan_files(
