@@ -376,7 +376,9 @@ Common tuning options include:
 
 ```sql
 CALL catalog.system.rewrite_manifests(
-  table => 'ecommerce.orders'
+  table       => 'ecommerce.orders',
+  use_caching => true,
+  spec_id     => 1
 );
 ```
 
