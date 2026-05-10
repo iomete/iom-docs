@@ -14,13 +14,13 @@ import Img from '@site/src/components/Img';
 
 # What Iceberg Gives You for Table Maintenance and What It Doesn't
 
-*Iceberg ships the maintenance primitives, but no scheduler, no health checks, and no orchestration. This post unpacks what each operation does at the file level, the tuning parameters most teams miss, and where the DIY path breaks down.*
+*Iceberg ships the maintenance primitives but no scheduler, no health checks, no orchestration. Here's what each operation does at the file level, the tuning parameters most teams miss, and where the DIY path runs out.*
 
 ---
 
 Every team running [Apache Iceberg](https://iceberg.apache.org/) in production eventually hits the same wall. Queries slow down, storage costs creep up, and someone opens a ticket. The engineer who investigates finds that Iceberg ships the maintenance primitives but no automation and no guidance on when to use them.
 
-This is the second post in our series on Iceberg table maintenance. [Part 1](/blog/hidden-debt-in-lakehouse-tables) covered the hidden costs of ignoring it. This one maps the terrain: what Iceberg gives you out of the box, what each operation does at the file level, and where the DIY path leads. We tried most of these options before building our own system, and the gaps are real.
+This is the second post in our series on Iceberg table maintenance. [Part 1](/blog/hidden-debt-in-lakehouse-tables) covered the hidden costs of ignoring it. This one walks through what Iceberg gives you out of the box, what each operation does at the file level, and where the DIY path runs out. We worked through most of these options before building our own system, and the gaps cost us real time.
 
 ## What Iceberg Ships Out of the Box
 
@@ -144,7 +144,7 @@ Two checks decide whether a partition actually gets rewritten:
 1. **Are there candidates?** A file is a candidate if its size falls outside the in-range band: under 384 MB or over 922 MB. In our example every file is 5 MB, so all 10,000 are candidates.
 2. **Is there enough work to be worth it?** The `min-input-files` parameter (default: 5) requires at least 5 candidates per partition. There's a back-door: if the candidates' total size already exceeds `target-file-size-bytes` (512 MB), the rewrite proceeds even with fewer files. The point is to skip partitions where compaction would barely change anything.
 
-Our partition passes both. 10,000 candidates, 50 GB total: easy yes.
+Our partition passes both. 10,000 candidates, 50 GB total. Both checks pass.
 
 #### 2. File Groups and Parallelism
 
@@ -294,11 +294,11 @@ The default of `Integer.MAX_VALUE` means out-of-the-box compaction never trigger
 
 ### Expire Snapshots
 
-Most teams think of [`expire_snapshots`](https://iceberg.apache.org/docs/latest/spark-procedures/#expire_snapshots) as cleanup. It's actually two different things at once.
+Most teams think of [`expire_snapshots`](https://iceberg.apache.org/docs/latest/spark-procedures/#expire_snapshots) as cleanup. It's doing two jobs.
 
-First, **storage hygiene**: every snapshot pins the data files it references, so old, compacted-away files keep using disk until expiry runs.
+One is storage hygiene. Every snapshot pins the data files it references, so old, compacted-away files keep using disk until expiry runs.
 
-Second, and the one most teams miss, **compliance**. Iceberg's DELETE is a soft delete: time travel can resurrect any deleted row right up until the snapshot covering it expires. For GDPR, CCPA, and similar regimes, `expire_snapshots` is what turns a logical delete into a real one.
+The other one most teams miss is compliance. Iceberg's DELETE is a soft delete: time travel can resurrect any deleted row right up until the snapshot covering it expires. For GDPR, CCPA, and similar regimes, `expire_snapshots` is what turns a logical delete into a real one.
 
 <Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/expire-snapshots.png" alt="Why compaction alone does not shrink storage: before, many small files using 1 TB; after compaction, snapshots not yet expired so storage doubles to 2 TB; after expire_snapshots, old snapshots cleaned and storage drops back to 1 TB." borderless/>
 
@@ -325,7 +325,7 @@ Orphan files are files that still exist in storage but are no longer referenced 
 
 <Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/orphan-file-scan.png" alt="remove_orphan_files: set difference, gated by retention. The procedure LISTs every object under the table path, then runs each file through two gates. Gate 1: is the file in the metadata referenced-set? Gate 2: is it older than the retention window (3 days default)? Three outcomes: keep (referenced), skip (orphan but newer than 3 days, may be in-flight), delete (orphan and older than 3 days). Watch for s3 vs s3a scheme mismatches via the equal_schemes parameter." borderless/>
 
-**It's the most expensive maintenance operation by far.** The procedure runs a full filesystem scan of the table's storage location, then diffs the listing against every file referenced in metadata. On a small table that's seconds. On a table with tens of millions of objects, the LIST calls alone can take hours and incur real [S3 cost](https://aws.amazon.com/s3/pricing/). Most teams schedule this weekly or monthly, never per-write.
+It's the most expensive maintenance operation you'll run. The procedure does a full filesystem scan of the table's storage location, then diffs the listing against every file referenced in metadata. On a small table that's seconds. On a table with tens of millions of objects, the LIST calls alone can take hours and incur real [S3 cost](https://aws.amazon.com/s3/pricing/). Most teams schedule this weekly or monthly, never per-write.
 
 **Two operational risks:**
 
@@ -445,7 +445,7 @@ In practice, most organizations eventually end up building a maintenance orchest
 | Partial-failure recovery state | ❌ | Tracked, resumable jobs |
 | Alerting | ❌ | Hooks into PagerDuty / Slack |
 
-This isn't a criticism. Iceberg is a table format, not a platform. But the gap between "table format with maintenance primitives" and "production-ready maintenance system" is substantial.
+Iceberg is a table format, not a platform, so none of this is a complaint. But the distance from "table format with maintenance primitives" to "production-ready maintenance system" is bigger than it looks on day one.
 
 ### The DIY Pattern
 
@@ -469,7 +469,7 @@ We started here at IOMETE, using our built-in Spark scheduler with a [Data Compa
 
 That experience is what pushed us toward building fully automated table maintenance.
 
-For smaller deployments with a limited number of tables, cron jobs and scripts are often sufficient. At larger scale, the DIY approach gradually becomes its own operational platform.
+For smaller deployments with a handful of tables, cron jobs and scripts are usually enough. Past a few hundred tables, the DIY approach quietly turns into its own operational platform that someone has to own.
 
 ---
 
