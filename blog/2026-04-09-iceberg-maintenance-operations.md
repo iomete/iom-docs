@@ -72,9 +72,9 @@ The [Flink Maintenance Framework](https://iceberg.apache.org/docs/latest/flink-m
 
 ## What Each Operation Actually Does Under the Hood
 
-Calling these procedures is one line of SQL. Running them well is dozens of decisions: how big each file group should be, when partial progress should kick in, which sort order to apply, when to expire, when to clean up. The [Iceberg docs](https://iceberg.apache.org/docs/latest/maintenance/) cover *what* the parameters mean.
+Calling an Iceberg maintenance procedure is usually a single line of SQL. Operating those procedures reliably at scale is not. Every run involves a series of operational decisions: how large file groups should be, when partial progress should be enabled, which sort order to apply, how aggressively snapshots should expire, and when orphan cleanup is safe to run. The [Iceberg maintenance documentation](https://iceberg.apache.org/docs/latest/maintenance/) explains what the parameters do.
 
-The next four sections cover *why* you'd touch them: what each procedure reads and writes at the file level, and how the defaults break down at scale.
+The next four sections focus on a different question: why these parameters matter in production. We’ll look at what each procedure actually reads and writes at the metadata and file level, how the execution model behaves internally, and where the default behavior starts breaking down as table scale and workload complexity increase.
 
 ### Compaction
 
@@ -129,13 +129,15 @@ CALL catalog.system.rewrite_data_files('ecommerce.orders');
 
 Iceberg doesn't immediately read data. It starts by scanning the table's [metadata](https://iceberg.apache.org/spec/#table-metadata): manifest files that record every data file's path, size, partition, and column-level stats. From this metadata, it classifies each file:
 
-| File size | Classification | Action |
-|-----------|---------------|--------|
-| < 384 MB (75% of 512 MB target) | Too small | Candidate for merging |
-| 384 MB – 922 MB | In range | Left alone |
-| > 922 MB (180% of 512 MB target) | Too large | Candidate for splitting |
+| File Size | Classification | Action |
+|---|---|---|
+| `< 384 MB` (75% of 512 MB target) | Too small | Candidate for merging |
+| `384 MB – 922 MB` | Within target range | Left unchanged |
+| `> 922 MB` (180% of 512 MB target) | Too large | Candidate for splitting |
 
-These thresholds come from [`target-file-size-bytes`](https://iceberg.apache.org/docs/latest/configuration/#write-properties) (default: 512 MB). The 75% and 180% ratios are the default multipliers used by Iceberg's bin-pack file planner. To override them, set [`min-file-size-bytes` and `max-file-size-bytes`](https://iceberg.apache.org/docs/latest/spark-procedures/#options) in the procedure's options map.
+These thresholds are derived from [`target-file-size-bytes`](https://iceberg.apache.org/docs/latest/configuration/#write-properties), which defaults to `512 MB`. The `75%` and `180%` boundaries are the default heuristics used by Iceberg’s bin-pack planner.
+
+To customize this behavior, you can override the thresholds using [`min-file-size-bytes` and `max-file-size-bytes`](https://iceberg.apache.org/docs/latest/spark-procedures/#options) in the procedure options map.
 
 <Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/file-selection-flow.png" alt="How rewrite_data_files decides which files to compact: each file is classified by size against the 512 MB target. Files under 384 MB are too-small candidates, files between 384 and 922 MB are skipped as in-range, files over 922 MB are too-large candidates. Too-small candidates pass through a min-input-files ≥ 5 gate before being added to a file group; otherwise the partition is skipped. All accepted candidates are bin-packed into file groups." borderless/>
 
@@ -286,10 +288,12 @@ CALL catalog.system.rewrite_data_files(
 );
 ```
 
-The `remove-dangling-deletes` option (default: false) adds a follow-up step that removes delete files which no longer reference any live data file. These are common leftovers after compaction rewrites the data files the deletes originally targeted.
+The `remove-dangling-deletes` option (default: `false`) adds a cleanup step after compaction. It removes delete files that no longer reference any live data files, which commonly occurs after compaction rewrites the original target files.
 
-:::caution `delete-file-threshold` is disabled by default
-The default of `Integer.MAX_VALUE` means out-of-the-box compaction never triggers on delete-file accumulation alone; it only triggers on file size. On busy MoR tables, that's the difference between "reads stay fast" and "reads degrade silently for weeks."
+:::caution `delete-file-threshold` is effectively disabled by default
+The default value of `Integer.MAX_VALUE` means compaction does not trigger based on delete-file accumulation alone. Out of the box, rewrites are driven almost entirely by file size thresholds.
+
+On high-write Merge-on-Read (MoR) tables, this can become a major operational issue. Delete files continue accumulating while reads gradually become more expensive, often without obvious visibility until query latency noticeably degrades.
 :::
 
 ### Expire Snapshots
@@ -414,15 +418,7 @@ So far we've focused on how the four maintenance operations work internally. Run
 
 ### The Gaps
 
-Iceberg provides the procedures, but not the operational layer around them.
-
-There is **no built-in scheduler, no automatic maintenance detection, and no prioritization system**. Iceberg will not tell you when a table has accumulated too many small files, fragmented manifests, or excessive snapshots. Most teams either run maintenance on fixed schedules or build their own evaluation logic.
-
-If you have 500 tables, you need to figure out which ones need maintenance, in what order, with what priority, and how to avoid overwhelming your Spark cluster. Iceberg gives you nothing for this. The procedures return result rows (files rewritten, bytes changed), but there's **no dashboard, no history, no alerting**. If a compaction job fails at 3 AM, you find out when someone complains about slow queries the next morning.
-
-A compaction job can consume your entire Spark cluster with no built-in **resource governance**. And if compaction crashes halfway through, some file groups may have committed (with partial progress on) and some haven't. You're left to figure out the state and re-run by hand. Iceberg doesn't track this for you.
-
-At scale, the operational problems compound quickly. With hundreds of tables, you need to decide:
+Iceberg provides the core maintenance procedures, but operating them reliably across hundreds of tables introduces a different class of problems. You need to decide:
 
 - which tables actually need maintenance
 - which operation should run
@@ -430,9 +426,9 @@ At scale, the operational problems compound quickly. With hundreds of tables, yo
 - how to prioritize workloads
 - how to avoid overwhelming the Spark cluster
 
-Iceberg also provides very little operational visibility. Procedures return result rows, but there is **no centralized history, dashboard, alerting, or monitoring**. If a maintenance job fails overnight, teams often discover it only after query performance degrades or storage usage spikes.
+Iceberg also provides very little operational visibility. Procedures return result rows, but there is **no centralized history, dashboard, alerting, or monitoring**. If a maintenance job fails overnight, teams often discover the issue only after query performance degrades or storage costs increase.
 
-Resource management is another missing layer. A large compaction job can consume significant cluster capacity with no built-in governance or fairness controls. Failures are also operationally awkward. A rewrite may partially complete, leaving some file groups committed and others unfinished, requiring manual investigation and reruns.
+Resource management is another major gap. Large compaction jobs can consume significant cluster capacity without any built-in governance, scheduling, or fairness controls. Failure handling is also operationally difficult. A rewrite may partially complete, committing some file groups while leaving others unfinished, requiring manual investigation and reruns.
 
 In practice, most organizations eventually end up building a maintenance orchestration layer around Iceberg rather than just calling the procedures directly.
 
@@ -444,8 +440,8 @@ In practice, most organizations eventually end up building a maintenance orchest
 | Multi-table prioritization | ❌ | Queue with cost-aware ordering |
 | Resource isolation | ❌ | Quotas per pool / tenant |
 | Run history & observability | ❌ | Per-run logs, metrics, audit |
-| Partial-failure recovery state | ❌ | Tracked, resumable jobs |
-| Alerting | ❌ | Hooks into PagerDuty / Slack |
+| Partial-failure recovery | ❌ | Tracked, resumable jobs |
+| Alerting | ❌ | PagerDuty, Slack, or monitoring integrations |
 
 Iceberg is a table format, not a platform, so none of this is a complaint. But the distance from "table format with maintenance primitives" to "production-ready maintenance system" is bigger than it looks on day one.
 
@@ -460,16 +456,16 @@ Most teams close that gap with cron and scripts. The pattern usually looks like 
 
 <Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/diy-architecture.png" alt="DIY maintenance architecture: cron / Airflow triggers a Python wrapper that opens a Spark session and calls each system procedure (rewrite_data_files, expire_snapshots, remove_orphan_files, rewrite_manifests). Logs go to flat files; no central health view, no health detection, no prioritization, no resource governance, no failure recovery state." borderless/>
 
-Community engineers have shared Python classes on Medium for multi-table maintenance with configurable thresholds. [Vincent Daniel's approach](https://medium.com/@vincent_daniel/automating-apache-iceberg-maintenance-with-spark-and-python-ee1a253de86c) wraps compaction, snapshot expiration, and orphan cleanup in a class that iterates tables and applies size-based defaults. It's a solid starting point.
+Community engineers have shared Python classes on Medium for multi-table maintenance with configurable thresholds. [One such approach](https://medium.com/@vincent_daniel/automating-apache-iceberg-maintenance-with-spark-and-python-ee1a253de86c) wraps compaction, snapshot expiration, and orphan cleanup in a class that iterates tables and applies size-based defaults. It's a solid starting point.
 
 We started here at IOMETE, using our built-in Spark scheduler with a [Data Compaction Job](/resources/open-source-spark-jobs/data-compaction-job) from our marketplace. That removed the need for an external orchestrator like Airflow, but the fundamental limits of scheduled maintenance remained:
 
-- **Fixed schedules are wasteful.** Running compaction on a table that doesn't need it burns compute for nothing.
+- **Fixed schedules are wasteful** — running compaction on a table that doesn't need it burns compute for nothing.
 - **Detecting which tables actually need maintenance** requires reading metadata, so your scheduler needs catalog access and evaluation logic.
-- **Retries are dangerous.** Re-running a compaction job that partially committed can create duplicate data if you're not careful.
-- **Multi-engine catalogs break the abstraction.** A table written by Flink and read by Trino still has to be maintained by Spark, so your scheduler has to know all three engines.
+- **Retries are dangerous** — re-running a compaction job that partially committed can create duplicate data if you're not careful.
+- **Multi-engine catalogs break the abstraction** — a table written by Flink and read by Trino still has to be maintained by Spark, so your scheduler has to know all three engines.
 
-That experience is what pushed us toward building fully automated table maintenance.
+That experience is what pushed us toward building fully automated table maintenance, which we'll cover in a later part of this series.
 
 For smaller deployments with a handful of tables, cron jobs and scripts are usually enough. Past a few hundred tables, the DIY approach quietly turns into its own operational platform that someone has to own.
 
@@ -491,8 +487,8 @@ For smaller deployments with a handful of tables, cron jobs and scripts are usua
 - [Iceberg release notes](https://iceberg.apache.org/releases/): maintenance-related improvements per version
 
 #### Community & DIY
-- [Vincent Daniel: Automating Apache Iceberg Maintenance with Spark and Python](https://medium.com/@vincent_daniel/automating-apache-iceberg-maintenance-with-spark-and-python-ee1a253de86c): Python class approach with size-based table classification
 - [IOMETE Data Compaction Job](/resources/open-source-spark-jobs/data-compaction-job): open-source Spark job for scheduled Iceberg compaction
+- [Automating Apache Iceberg Maintenance with Spark and Python](https://medium.com/@vincent_daniel/automating-apache-iceberg-maintenance-with-spark-and-python-ee1a253de86c): Python class approach with size-based table classification
 
 #### Series
 - [Part 1: The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
