@@ -1,10 +1,11 @@
 ---
-title: "What Iceberg Gives You for Table Maintenance and What It Doesn't"
-description: "Deep dive into Iceberg's four maintenance procedures: what each does at the file level, tuning parameters most teams miss, and where the DIY path breaks down."
+title: "Apache Iceberg Table Maintenance: What Iceberg Ships and What It Doesn't"
+description: "Apache Iceberg's four maintenance procedures explained: what each does at the file level, the tuning parameters most teams miss, and where the DIY path breaks down."
 slug: iceberg-maintenance-operations
 authors: Shashank
 hide_table_of_contents: false
-tags2: [Engineering]
+tags2: [Technical, Engineering]
+keywords: [apache iceberg, iceberg maintenance, rewrite_data_files, expire_snapshots, remove_orphan_files, rewrite_manifests, iceberg compaction, spark procedures, lakehouse maintenance]
 banner_description: Every team running Apache Iceberg in production eventually hits the same wall. What Iceberg gives you out of the box, what each operation actually does, and where the DIY path leads.
 coverImage: img/blog/thumbnails/darkStone.png
 date: 2026-04-09
