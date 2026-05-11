@@ -28,7 +28,7 @@ In order to access files in this external S3 bucket, IOMETE requires permissions
 It's extremely easy to query files in AWS S3 with IOMETE. You just need to provide the bucket name and the path to the file you want to query.
 
 :::info Use the `s3a://` Scheme
-Always reference S3 paths with `s3a://`, not `s3://` or `s3n://`. IOMETE's Spark runtime registers only the Hadoop S3A driver, so `s3://` raises `No FileSystem for scheme: s3`.
+Always reference S3 paths with `s3a://`, not `s3://` or `s3n://`. IOMETE's Spark runtime only supports the `s3a://` scheme, so `s3://` raises `No FileSystem for scheme: s3`.
 :::
 
 ```sql

@@ -18,11 +18,11 @@ the `Lakehouse Role ARN` field.
 :::
 
 :::info What is the Lakehouse Role?
-The Lakehouse role is an AWS IAM role used by IOMETE Data Plane compute resources (Spark driver and executor pods) to access S3. On AWS, it works via IRSA — the pods run under the `lakehouse-service-account` Kubernetes service account, which is annotated with the role ARN so AWS automatically issues temporary credentials. The Lakehouse role is created during the IOMETE Data Plane installation process.
+The Lakehouse role is an AWS IAM role used by IOMETE Data Plane compute resources (Spark driver and executor pods) to access S3. On AWS, it works via [IRSA (IAM Roles for Service Accounts)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) — the pods run under the [`lakehouse-service-account`](https://kubernetes.io/docs/concepts/security/service-accounts/) Kubernetes service account, which is annotated with the role ARN so AWS automatically issues temporary credentials. The Lakehouse role is created during the IOMETE Data Plane installation process.
 :::
 
 :::note Running IOMETE outside AWS?
-If your data plane runs on-prem with MinIO, Dell ECS, or another S3-compatible store, the Lakehouse role does not apply. S3 access uses static access/secret keys and an endpoint URL configured in the data plane Helm values — there is no IAM role to update. The rest of this page covers AWS deployments only.
+If your data plane runs on-prem with MinIO, Dell ECS, or another S3-compatible store, the AWS IAM role does not apply. S3 access uses static access/secret keys and an endpoint URL configured in the data plane Helm values — there is no IAM role to update. The rest of this page covers AWS deployments only.
 :::
 
 ## Options to provide access to S3 buckets
