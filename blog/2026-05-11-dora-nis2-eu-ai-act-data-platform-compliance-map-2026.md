@@ -54,17 +54,17 @@ High-risk obligations apply from August 2, 2026 for most categories. Annex I pro
 
 ## The overlap map
 
-Across the three regimes, five data-platform capabilities carry overlapping obligations. GDPR sits underneath, adding obligations on encryption, breach notification (Article 33), and processors (Article 28).
+Across the three regimes, five data-platform capabilities carry overlapping obligations.
 
-| Capability                          | DORA                                   | NIS2                                        | EU AI Act                                 |
-|-------------------------------------|----------------------------------------|---------------------------------------------|-------------------------------------------|
-| Tamper-evident audit logs           | Detection and integrity (Arts. 9, 10)  | Risk-mgmt + incident records (Arts. 21, 23) | Automatic event logs (Arts. 12, 19, 26(6)) |
-| Access control and identity         | Protection (Art. 9)                    | Risk-mgmt incl. MFA (Art. 21)               | Cybersecurity (Art. 15)                   |
-| Data lineage and dataset versioning | Asset classification (Art. 8)          | Asset management (Art. 21)                  | Data governance (Arts. 10, 13)            |
-| Incident detection and reporting    | Major-incident clock (Arts. 18–19)     | 24h / 72h / 1-month (Art. 23)               | Serious incidents (Art. 73)               |
-| Third-party / supply-chain control  | Third-party risk (Arts. 28, 30)        | Supply-chain security (Art. 21(2)(d))       | Value-chain duties (Art. 25)              |
+| Capability                          | DORA                                       | NIS2                                            | EU AI Act                                  |
+|-------------------------------------|--------------------------------------------|-------------------------------------------------|--------------------------------------------|
+| Tamper-evident audit logs           | Detection and integrity (Articles 9, 10)   | Logging requirements (Articles 21, 23)          | Automatic event logs (Articles 12, 19, 26(6)) |
+| Access control and identity         | Protection (Article 9)                     | Access controls including MFA (Article 21)      | Cybersecurity (Article 15)                 |
+| Data lineage and dataset versioning | Asset classification (Article 8)           | Asset management (Article 21)                   | Data governance (Articles 10, 13)          |
+| Incident detection and reporting    | Major-incident clock (Articles 18–19)      | 24h / 72h / 1-month reporting (Article 23)      | Serious incidents (Article 73)             |
+| Third-party / supply-chain control  | Third-party risk (Articles 28, 30)         | Supply-chain security (Article 21(2)(d))        | Value-chain duties (Article 25)            |
 
-The same capabilities show up across regimes, but each regime demands its own evidence shape. The hardest practical overlap is incident reporting: a platform exposed to all four regimes (including GDPR) runs against four different clocks – DORA's 4 hours from major-incident classification, NIS2's 24-hour early warning, GDPR's 72-hour breach notification, and the AI Act's Article 73 serious-incident report. Instrument for the tightest applicable window per event type and route per-regulation in production, or audits will find the seams.
+Incident reporting is where it gets painful. Add GDPR's 72-hour breach-notification clock underneath, and a regulated platform runs against four different reporting windows: DORA's 4 hours from major-incident classification, NIS2's 24-hour early warning, GDPR's 72 hours, and the AI Act's Article 73 serious-incident report. Instrument for the tightest applicable window per event type and route per-regulation in production, or audits will find the seams.
 
 **What it costs to be wrong.** NIS2 administrative fines reach EUR 10 million or 2% of global annual turnover for essential entities, and EUR 7 million or 1.4% for important entities. AI Act penalties for non-compliance with high-risk obligations reach EUR 15 million or 3% of global turnover; prohibited-practice violations reach EUR 35 million or 7%. DORA penalties for financial entities are set by national competent authorities under Article 50; the European Supervisory Authorities can additionally impose periodic penalty payments of up to 1% of average daily worldwide turnover on designated critical ICT third-party providers (Article 35(6)).
 
@@ -164,11 +164,11 @@ IOMETE is published by a self-hosted lakehouse vendor. For the architectural rat
     )
   },
   {
-    question: "Which architectural properties help with dataset reproducibility and exit?",
+    question: "Is a non-EU cloud or platform provider in scope for these regulations?",
     answerContent: (
       <>
-        <p>Open table formats with immutable snapshot history, schema-evolution metadata, and multi-engine support give the operator a foundation for AI Act Article 10 reproducibility and DORA Article 30 exit strategies. Apache Iceberg, Delta Lake, and Apache Hudi all offer this shape with different trade-offs.</p>
-        <p>The format is necessary but not sufficient: operators still govern snapshot retention so training-time state is not expired, maintain dataset-to-model linkage in a registry, and capture feature-derivation lineage above the table layer.</p>
+        <p>Yes. DORA applies to non-EU providers offering ICT services to EU financial entities. NIS2 applies to non-EU providers operating in NIS2-covered sectors in the EU. The AI Act applies to non-EU providers that place AI systems on the EU market, or where the AI system's output is used in the EU. A non-EU headquarters does not exempt a provider from any of them.</p>
+        <p>The EU entity remains responsible under its own regime, and the obligations cascade through the contract. DORA Articles 28 and 30, NIS2 Article 21(2)(d), and AI Act Article 25 all attach the obligation to whoever serves the EU regulated workload.</p>
       </>
     )
   }
