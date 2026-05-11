@@ -13,29 +13,11 @@ import FAQSection from '@site/src/components/FAQSection';
 
 On May 4, 2026, [SAP announced](https://news.sap.com/2026/05/sap-to-acquire-dremio-unify-sap-and-non-sap-data-power-agentic-ai/) it had agreed to acquire Dremio, with the transaction expected to close in Q3 2026 pending regulatory approval. The public framing was clear within a week: an EU-headquartered vendor running an Iceberg-native lakehouse, with a stated commitment to continue contributing to Apache Iceberg, Polaris, and Arrow. It is a short step to conclude that the combination qualifies as a "sovereign data platform" for EU-regulated workloads.
 
-It isn't. Not automatically, and not in the way that matters under DORA.
-
-The argument in this post is narrow and worth saying out loud, because it is going to get muddied in the next quarter of vendor briefings. Contractual compliance and architectural compliance are two different conversations. A signed DPA, a CTPP designation, a German parent company, an Iceberg commitment – none of those is a runtime property. Sovereignty is a runtime property. After Dremio, EU data leaders need a sharper test for it.
+Whether that conclusion holds depends on architecture, not on the contracting party's domicile. "Sovereign" in 2026 procurement language asserts at least five distinct properties, and a managed cloud service operated by an EU vendor covers two of them. The other three are runtime properties.
 
 {/* truncate */}
 
-## What actually changed on May 4
-
-The facts of the deal, briefly. SAP is acquiring Dremio to "expand SAP Business Data Cloud's ability to combine SAP and non-SAP data" for agentic AI workloads, with Apache Iceberg as the native foundation. SAP's CTO framed the rationale as a data-readiness problem rather than a model-quality problem. [Dremio's leadership reaffirmed open-source stewardship](https://www.dremio.com/blog/sap-intends-to-acquire-dremio/) of Iceberg (the table format), Polaris (the catalog), and Arrow (the in-memory data format). [The Register reported](https://www.theregister.com/2026/05/05/sap_dremio/) that Dremio carried a roughly $2 billion valuation in 2022 and discussed implications for SAP's existing partnership with Databricks. Terms were not disclosed.
-
-As with most pending acquisitions, the announcement and Dremio's customer note focus on the SAP Business Data Cloud integration path and Iceberg, Polaris, and Arrow stewardship, and do not yet describe the post-close product roadmap in detail. Dremio today ships in three forms: Dremio Cloud, Dremio Enterprise (self-hosted), and the community build. If you currently run Dremio Enterprise self-hosted, request roadmap clarification directly from Dremio as part of normal change-of-control diligence under DORA Article 28, and document the response. That conversation is the kind of artifact your supervisor will expect to see at the next inspection.
-
-## How post-acquisition sovereignty claims tend to be structured
-
-Three arguments commonly appear in post-acquisition sovereignty discussions in this market. EU domicile of the contracting party brings EU jurisdiction. Open table formats (Iceberg, Polaris, Arrow) provide format portability. And the platform's data-processing locations and access provisions can be contractually fixed under DORA Article 30, which already governs the financial-services side of the relationship.
-
-Each of those is true on its own terms. None of them is sovereignty.
-
-[DORA](https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng) went into force on January 17, 2025, and the European Supervisory Authorities (EBA, EIOPA, and ESMA) [designated the first 19 critical ICT third-party providers (CTPPs)](https://www.eba.europa.eu/publications-and-media/press-releases/european-supervisory-authorities-designate-critical-ict-third-party-providers-under-digital) in late 2025. [AWS](https://aws.amazon.com/blogs/security/aws-designated-as-a-critical-third-party-provider-under-eus-dora-regulation/), Microsoft, Google Cloud, IBM, and Oracle are all in that initial set. The CTPP framework is, in effect, the EU's acknowledgment that contractual oversight alone cannot manage concentration risk when a small set of vendors operates the runtime for most regulated entities. The [ECB has documented](https://www.bankingsupervision.europa.eu/press/supervisory-newsletters/newsletter/2024/html/ssm.nl240221.en.html) that nearly all significant EU credit institutions use cloud services, with most providers located outside the EU, and that bank outsourcing budgets concentrate heavily on a small number of providers. That concentration is the architectural problem the CTPP framework was built to address. Dremio Cloud is currently delivered on hyperscaler infrastructure; the post-close hosting topology of any SAP-operated managed Dremio offering has not been disclosed. EU-domiciled ownership at the contracting layer does not, by itself, change the underlying infrastructure dependency at the layer below; that dependency is an architectural question to be confirmed against the deployed topology, not inferred from headquarters.
-
 ## What "sovereign" actually has to mean
-
-"Sovereign" is doing a lot of work in 2026 procurement language, so it is worth being concrete about which property is being claimed. There are at least five.
 
 | Sovereignty dimension | What it asserts | How it's evidenced |
 |---|---|---|
@@ -47,19 +29,27 @@ Each of those is true on its own terms. None of them is sovereignty.
 
 A managed cloud service operated by an EU vendor can satisfy the first two through contract language and configuration. The last three are properties of where the software actually runs. They can be satisfied by an EU vendor, a US vendor, or your own platform team – but only if the architecture admits them. Vendor headquarters is not the operative variable.
 
-DORA's text reflects the same distinction. Article 28 requires a register of information and a third-party risk strategy covering every contractual arrangement. Article 30 mandates location-of-processing detail, exit strategies, audit and access rights, and subcontracting visibility for ICT services supporting critical or important functions. These are real obligations. They are also obligations on the relationship between you and the vendor. They do not make the vendor's runtime your runtime. That is the substance-over-form discipline the regulation requires: evidence the platform must produce, not promises the contract can make.
+DORA draws the same line. Article 28 requires a register of information and a third-party risk strategy covering every contractual arrangement. Article 30 mandates location-of-processing detail, exit strategies, audit and access rights, and subcontracting visibility for ICT services supporting critical or important functions. These are obligations on the relationship between you and the vendor. They do not make the vendor's runtime your runtime.
+
+## What actually changed on May 4
+
+SAP is acquiring Dremio to "expand SAP Business Data Cloud's ability to combine SAP and non-SAP data" for agentic AI workloads, with Apache Iceberg as the native foundation. SAP's CTO framed the rationale as a data-readiness problem rather than a model-quality problem. [Dremio's leadership reaffirmed open-source stewardship](https://www.dremio.com/blog/sap-intends-to-acquire-dremio/) of Iceberg (the table format), Polaris (the catalog), and Arrow (the in-memory data format). [The Register reported](https://www.theregister.com/2026/05/05/sap_dremio/) a roughly $2 billion 2022 valuation for Dremio and discussed implications for SAP's existing partnership with Databricks. Terms were not disclosed.
+
+As with most pending acquisitions, the public materials focus on the SAP Business Data Cloud integration path and Iceberg, Polaris, and Arrow stewardship, and do not yet describe the post-close product roadmap in detail. Dremio today ships as Dremio Cloud, Dremio Enterprise (self-hosted), and a community build. If you currently run Dremio Enterprise self-hosted, request roadmap clarification directly from Dremio as part of normal change-of-control diligence under DORA Article 28, and document the response. That conversation is the kind of artifact your supervisor will expect at the next inspection.
+
+## The concentration argument that does not go away
+
+Three claims anchor most post-acquisition sovereignty discussions: EU domicile of the contracting party brings EU jurisdiction; open table formats (Iceberg, Polaris, Arrow) provide format portability; and data-processing locations can be contractually fixed under DORA Article 30. Each is true on its own terms. None of them is sovereignty.
+
+[DORA](https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng) went into force on January 17, 2025, and the European Supervisory Authorities (EBA, EIOPA, and ESMA) [designated the first 19 critical ICT third-party providers (CTPPs)](https://www.eba.europa.eu/publications-and-media/press-releases/european-supervisory-authorities-designate-critical-ict-third-party-providers-under-digital) in late 2025. [AWS](https://aws.amazon.com/blogs/security/aws-designated-as-a-critical-third-party-provider-under-eus-dora-regulation/), Microsoft, Google Cloud, IBM, and Oracle are all in that initial set. The CTPP framework is, in effect, the EU's acknowledgment that contractual oversight alone cannot manage concentration risk when a small set of vendors operates the runtime for most regulated entities. The [ECB has documented](https://www.bankingsupervision.europa.eu/press/supervisory-newsletters/newsletter/2024/html/ssm.nl240221.en.html) that nearly all significant EU credit institutions use cloud services, with most providers located outside the EU, and that bank outsourcing budgets concentrate heavily on a small number of providers. Dremio Cloud is currently delivered on hyperscaler infrastructure; the post-close hosting topology of any SAP-operated managed Dremio offering has not been disclosed. EU-domiciled ownership at the contracting layer does not, by itself, change the dependency at the layer below.
 
 ## Contracts allocate responsibility. They do not create evidence.
 
-The line I keep coming back to, including in last week's [DORA, NIS2, and EU AI Act compliance map](/blog/dora-nis2-eu-ai-act-data-platform-compliance-map-2026), is this: contracts allocate responsibility for obligations; they cannot create the evidence the regulator asks for. Post-Dremio, that distinction is sharper, not weaker. No combined SAP+Dremio product has shipped, so the three patterns below are illustrative of how managed-platform architectures tend to allocate evidence custody, not a verdict on any specific vendor's eventual offering.
+Two patterns show how managed-platform architectures allocate evidence custody. They describe the gap, not a verdict on any specific vendor's eventual offering.
 
-If your audit logs live in a vendor portal you query through a support ticket, the logs are not in your custody. That is an architectural fact. A DPA can say you have audit rights. The DORA Article 30 audit clause can be in place. The vendor can be an EU entity. None of those changes where the logs live.
-
-If your incident-detection telemetry depends on a vendor SLA for notification, the DORA Article 19 reporting clock, which starts when the financial entity becomes aware of an ICT-related incident, is being driven by the vendor's runbook, not your platform's instrumentation. An EU-headquartered vendor's runbook still doesn't put the clock on your side.
+If your audit logs live in a vendor portal you query through a support ticket, the logs are not in your custody. A DPA can say you have audit rights, the DORA Article 30 audit clause can be in place, and the vendor can be an EU entity. None of those changes where the logs live. Incident detection works the same way: the DORA Article 19 reporting clock starts when the entity becomes aware of an ICT-related incident, and if your telemetry depends on a vendor SLA for notification, the clock is being driven by the vendor's runbook, not your platform.
 
 If your exit strategy is "Iceberg tables are open, so we can leave," but the catalog state, IAM, audit history, and lineage are not portable, then "we can leave" is an aspiration. Open table formats are necessary. They are not, by themselves, sufficient for [DORA Article 30](https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng) exit obligations.
-
-The same architecture argument applies in the AI direction. High-risk AI obligations under the [EU AI Act](https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng) (Articles 10, 12, 19, 26(6)) require dataset reproducibility and tamper-evident logs through August 2, 2026 and beyond. The question is not whose entity holds the data. It is whose runtime produces the artifact and where the artifact lives.
 
 ## The post-Dremio question set
 
@@ -75,22 +65,18 @@ If you are a data or platform leader evaluating sovereignty claims from any vend
 
 If a vendor's answers to those seven questions land on contractual phrasing rather than runtime properties, the platform is contractually compliant. Useful, but a different property.
 
-## Between now and Q3 close
+## What to do this quarter
 
-Four practical actions for the next 90 days regardless of which platform you run today:
+DORA places accountability for ICT third-party risk on the management body itself. "The vendor said so" is not an audit-defensible answer when the examiner asks. Four practical actions regardless of which platform you run today:
 
 1. Update the Article 28 register of information to flag the SAP+Dremio change of control as pending.
 2. Request a written deployment-parity statement for any non-managed-cloud deployment option, with a timeline.
-3. Re-open the Article 30 exit clause before integration absorbs it. Negotiate transition-period length and concrete exit deliverables (catalog export, IAM bindings, audit history) into the contract while the leverage exists.
+3. Re-open the Article 30 exit clause before integration absorbs it. Negotiate transition-period length and concrete exit deliverables (catalog export, IAM bindings, audit history) into the contract before close.
 4. Run a 90-day exit rehearsal against your current lakehouse, whoever the vendor is. The evidence is what the regulator asks for, not the architecture diagram.
 
-## Closing
+[IOMETE](https://iomete.com/product/deployment) ships a [self-hosted, Kubernetes-native lakehouse](/blog/self-hosted-data-lakehouse-kubernetes) where audit logs, lineage, dataset state, and encryption keys remain in the operator's tenancy. The announcement does not change that architectural distinction. It does increase the importance, for buyers, of testing contractual answers against runtime evidence. That test costs more to run than the contractual one. Operational sovereignty has a TCO and a staffing implication, and that cost is the price of having an answer when the regulator does.
 
-Two notes before signing off. DORA places accountability for ICT third-party risk on the management body itself. "The vendor said so" is not an audit-defensible answer when the examiner asks. And the architectural test has a real cost: operational sovereignty has a TCO and a staffing implication, and that cost is the price of having an answer when the regulator does.
-
-[IOMETE](https://iomete.com/product/deployment) ships a [self-hosted, Kubernetes-native lakehouse](/blog/self-hosted-data-lakehouse-kubernetes) where audit logs, lineage, dataset state, and encryption keys remain in the operator's tenancy. The acquisition announcement does not change that architectural distinction. It does increase the importance, for buyers, of testing contractual answers against runtime evidence.
-
-"Sovereign data platform" as a phrase will get sloppier before it gets sharper. The sharpening will come from buyers asking better questions on the first call, the ones above. Contracts allocate responsibility for obligations. They do not create the evidence the regulator asks for. That is the test.
+"Sovereign data platform" as a phrase will get sloppier before it gets sharper. The sharpening will come from buyers asking better questions on the first call. Contracts allocate responsibility for obligations. They do not create the evidence the regulator asks for. That is the test.
 
 <FAQSection faqs={[
   {
