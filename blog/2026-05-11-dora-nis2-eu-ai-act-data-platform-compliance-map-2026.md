@@ -11,17 +11,11 @@ coverImage: img/blog/thumbnails/3.png
 
 import FAQSection from '@site/src/components/FAQSection';
 
-**Who this is for:** platform and security leaders at EU-regulated entities (banks, insurers, healthcare, energy, public-sector operators), and the data-platform vendors, cloud and SaaS providers, and AI infrastructure teams who serve them. The question this post answers: which obligations from DORA, NIS2, and the EU AI Act land directly on the data platform, and which ones a contract cannot solve.
+For data platforms serving EU-regulated workloads, three regulations now decide what the audit looks like: DORA, NIS2, and the EU AI Act. The interesting question is no longer which one applies – for most operators in regulated sectors, all three apply or shape supply-chain expectations. The question is which obligations the data platform itself has to satisfy through architecture, and which ones a vendor can paper over with contractual language. Contracts allocate responsibility for obligations. They cannot create the evidence. That distinction is where the audit risk sits.
 
-Three EU regulations now land on the same square of the architecture diagram. [DORA](https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng) has been in force since January 17, 2025. [NIS2](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive)'s transposition deadline passed on October 17, 2024; per the [ECSO transposition tracker](https://ecs-org.eu/activities/nis2-directive-transposition-tracker/), 21 of 27 EU Member States had transposed it by March 2026, with the Commission opening infringement proceedings against most of the rest. The [EU AI Act](https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng)'s high-risk provisions become fully applicable on August 2, 2026. The square they all hit is the data platform: the storage, compute, catalog, and access layer underneath every application that processes regulated data.
-
-The harder question is no longer which regulation applies. For many EU operators, all three apply or shape supply-chain expectations. The question is which obligations the data platform itself has to satisfy through architecture, and which ones a vendor can paper over with contractual language. Contracts allocate responsibility for obligations. They cannot create the evidence. That distinction is where the audit risk sits.
+[DORA](https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng) has been in force since January 17, 2025, covering EU financial entities and their critical ICT providers. [NIS2](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive) was due in member-state law by October 17, 2024; per the [ECSO transposition tracker](https://ecs-org.eu/activities/nis2-directive-transposition-tracker/), 21 of 27 Member States had transposed it by March 2026, covering essential and important entities across 18 sectors. The [EU AI Act](https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng)'s high-risk provisions become fully applicable on August 2, 2026, covering high-risk AI systems and the data that trains, validates, and feeds them.
 
 {/* truncate */}
-
-## Three regulations at a glance
-
-DORA is operational resilience for financial entities and their critical ICT providers. NIS2 is baseline cybersecurity and incident reporting for essential and important entities across 18 sectors. The EU AI Act regulates high-risk AI systems and the data that trains, validates, and feeds them. Different scopes, overlapping demands on the same data layer.
 
 ## What DORA demands at the data layer
 
@@ -31,8 +25,8 @@ DORA (Regulation EU 2022/2554) targets EU financial entities (banks, insurers, i
 - **Article 9 – Protection and prevention.** ICT security policies and tools maintaining authenticity, integrity, and confidentiality of data, including encryption and access controls at the storage layer.
 - **Article 10 – Detection.** Mechanisms to promptly detect anomalous activities, including ICT network performance issues and ICT-related incidents. Audit logs, access monitoring, and tamper detection sit here.
 - **Articles 17 to 19 – Incident classification and reporting.** Article 18 sets classification criteria; Article 19 sets the reporting clock to competent authorities. Once an incident is classified as major, the initial notification is due within 4 hours, with intermediate and final reports following on the timelines set by the RTS on reporting.
-- **[Article 28](https://www.digital-operational-resilience-act.com/Article_28.html) – Third-party risk strategy.** A register of information on all contractual arrangements for ICT services, reported to competent authorities (per the ITS), covering service type, provider category, and the function supported.
-- **[Article 30](https://www.digital-operational-resilience-act.com/Article_30.html) – Key contractual provisions.** For ICT services supporting critical or important functions, the written contract must include service-level descriptions with quantitative performance targets, audit and access rights, incident notification, exit strategies, sub-contracting conditions, and termination triggers.
+- **Article 28 – Third-party risk strategy.** A register of information on all contractual arrangements for ICT services, reported to competent authorities (per the ITS), covering service type, provider category, and the function supported.
+- **Article 30 – Key contractual provisions.** For ICT services supporting critical or important functions, the written contract must include service-level descriptions with quantitative performance targets, audit and access rights, incident notification, exit strategies, sub-contracting conditions, and termination triggers.
 
 If the data platform vendor controls operational dependencies for a critical function, every Article 30 clause has to be enforceable on them in practice. Signing it is the easy part.
 
@@ -52,25 +46,25 @@ Unlike DORA, NIS2 is a directive, so the exact penalties and audit cadence depen
 
 The EU AI Act (Regulation EU 2024/1689) regulates AI systems by risk class. For high-risk systems, including credit scoring, insurance pricing, employment, and several public-service uses, the data layer carries specific obligations.
 
-- **[Article 10](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-10) – Data and data governance.** Training, validation, and testing datasets must be relevant, representative, "to the best extent possible, free of errors and complete," with documented governance covering collection, preparation, labeling, bias detection, and mitigation. For high-risk uses such as credit scoring, Article 10(2)(f)–(g) requires examination of datasets for biases likely to affect health, safety, or fundamental rights, with measures to detect, prevent, and mitigate them. The operational implication: the dataset state that trained each model version must be reproducible from the platform, not asserted in a policy document.
-- **[Article 12](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-12) – Record-keeping.** High-risk AI systems must automatically log events throughout their lifecycle, sufficient to identify risks and substantial modifications. Article 12(2)(c) specifically requires logs to identify the natural persons performing oversight under Article 14. Where the system queries a lakehouse for inference, that access trail is most usefully captured in a log the deployer controls.
+- **Article 10 – Data and data governance.** Training, validation, and testing datasets must be relevant, representative, "to the best extent possible, free of errors and complete," with documented governance covering collection, preparation, labeling, bias detection, and mitigation. For high-risk uses such as credit scoring, Article 10(2)(f)–(g) requires examination of datasets for biases likely to affect health, safety, or fundamental rights, with measures to detect, prevent, and mitigate them. The operational implication: the dataset state that trained each model version must be reproducible from the platform, not asserted in a policy document.
+- **Article 12 – Record-keeping.** High-risk AI systems must automatically log events throughout their lifecycle, sufficient to identify risks and substantial modifications. Article 12(2)(c) specifically requires logs to identify the natural persons performing oversight under Article 14. Where the system queries a lakehouse for inference, that access trail is most usefully captured in a log the deployer controls.
 - **Articles 19 and 26(6) – Log retention.** Providers retain the Article 12 logs for at least six months unless other Union or national law specifies longer (Article 19). Deployers retain logs to the extent they are under their control, on the same six-month floor (Article 26(6)).
 
 High-risk obligations apply from August 2, 2026 for most categories. Annex I product-safety integrations get an extra year, to August 2, 2027.
 
 ## The overlap map
 
-The three regulations, plus GDPR sitting underneath, converge on five data-platform capabilities. The map below is the practical compliance surface.
+The three regulations converge on five data-platform capabilities. The map below is the practical compliance surface; GDPR sits underneath all three on encryption, breach notification (Article 33), and processor obligations (Article 28).
 
-| Capability                          | DORA                          | NIS2                            | EU AI Act                           | GDPR (for context)             |
-|-------------------------------------|-------------------------------|---------------------------------|-------------------------------------|---------------------------------|
-| Tamper-evident audit logs           | Art. 9, 10, 18, 19            | Art. 21, 23                     | Art. 12, 19                         | Art. 30, 32                     |
-| Access control and identity         | Art. 9                        | Art. 21                         | Art. 15                             | Art. 5, 25, 32                  |
-| Data lineage and dataset versioning | Art. 8, 9                     | Art. 21 (asset management)      | Art. 10, 13                         | Art. 5(2) accountability        |
-| Incident detection and reporting    | Art. 18, 19 (timed windows)   | Art. 23 (24h / 72h / 1 month)   | Art. 73 (serious incidents)         | Art. 33 (72h breach notice)     |
-| Third-party / supply-chain control  | Art. 28, 30                   | Art. 21(2)(d)                   | Art. 25 (value-chain duties)        | Art. 28 (processor contracts)   |
+| Capability                          | DORA                                   | NIS2                                        | EU AI Act                                 |
+|-------------------------------------|----------------------------------------|---------------------------------------------|-------------------------------------------|
+| Tamper-evident audit logs           | Detection and integrity (Arts. 9, 10)  | Risk-mgmt + incident records (Arts. 21, 23) | Automatic event logs (Arts. 12, 19, 26(6)) |
+| Access control and identity         | Protection (Art. 9)                    | Risk-mgmt incl. MFA (Art. 21)               | Cybersecurity (Art. 15)                   |
+| Data lineage and dataset versioning | Asset classification (Art. 8)          | Asset management (Art. 21)                  | Data governance (Arts. 10, 13)            |
+| Incident detection and reporting    | Major-incident clock (Arts. 18–19)     | 24h / 72h / 1-month (Art. 23)               | Serious incidents (Art. 73)               |
+| Third-party / supply-chain control  | Third-party risk (Arts. 28, 30)        | Supply-chain security (Art. 21(2)(d))       | Value-chain duties (Art. 25)              |
 
-Same handful of capabilities, four overlapping regimes, four evidence formats. The hardest practical overlap is incident reporting: a platform exposed to all four regimes runs against four different clocks – DORA's 4 hours from major-incident classification, NIS2's 24-hour early warning, GDPR's 72-hour breach notification, and the AI Act's Article 73 serious-incident report. Instrument for the tightest applicable window per event type and route per-regulation in production, or audits will find the seams.
+Same handful of capabilities, three overlapping regimes, three evidence formats. The hardest practical overlap is incident reporting: a platform exposed to all four regimes (including GDPR) runs against four different clocks – DORA's 4 hours from major-incident classification, NIS2's 24-hour early warning, GDPR's 72-hour breach notification, and the AI Act's Article 73 serious-incident report. Instrument for the tightest applicable window per event type and route per-regulation in production, or audits will find the seams.
 
 **What it costs to be wrong.** NIS2 administrative fines reach EUR 10 million or 2% of global annual turnover for essential entities, and EUR 7 million or 1.4% for important entities. AI Act penalties for non-compliance with high-risk obligations reach EUR 15 million or 3% of global turnover; prohibited-practice violations reach EUR 35 million or 7%. DORA penalties for financial entities are set by national competent authorities under Article 50; the European Supervisory Authorities can additionally impose periodic penalty payments of up to 1% of average daily worldwide turnover on designated critical ICT third-party providers (Article 35(6)).
 
