@@ -103,42 +103,80 @@ A platform that answers yes to all five is satisfying the data-layer obligations
 
 IOMETE is published by a self-hosted lakehouse vendor. For the architectural rationale we apply to the questions above, see our notes on [Kubernetes-native deployment](https://iomete.com/product/deployment), [Iceberg encryption and lineage](https://iomete.com/resources/blog/data-lakehouse-encryption-iceberg), and the [DORA and EU AI Act infrastructure checklist](https://iomete.com/resources/blog/dora-eu-ai-act-financial-institutions-data-infrastructure).
 
-## FAQ
-
-<FAQSection>
-  <FAQ question="When does the EU AI Act apply to high-risk AI systems?">
-    <p>August 2, 2026 for most high-risk categories under Annex III; August 2, 2027 for Annex I product-safety integrations ([Regulation EU 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng)).</p>
-    <p>Prohibited practices and AI-literacy obligations applied from February 2, 2025. GPAI governance rules applied from August 2, 2025.</p>
-  </FAQ>
-  <FAQ question="Does NIS2 actually require a 24-hour incident report?">
-    <p>An early warning to the CSIRT or competent authority within 24 hours of awareness, a full notification within 72 hours, and a final report within one month ([NIS2 Directive overview](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive)).</p>
-    <p>Under NIS2 Article 23(4), the early warning need not contain root-cause detail, but it must identify the incident, its suspected cross-border or malicious nature, and any indicators of compromise available at the time.</p>
-  </FAQ>
-  <FAQ question="Is my data platform vendor an ICT third-party provider under DORA?">
-    <p>If the platform supports a critical or important function, yes – and it must appear in the [Article 28](https://www.digital-operational-resilience-act.com/Article_28.html) register with an [Article 30](https://www.digital-operational-resilience-act.com/Article_30.html)-compliant contract.</p>
-    <p>For self-hosted software running on the financial entity's own infrastructure, the vendor is generally a software supplier rather than a critical ICT third-party provider, which materially simplifies the third-party register. Support arrangements with privileged operational access can pull the same vendor back into ICT-TPP scope, so the assessment turns on the support model as much as the deployment topology.</p>
-  </FAQ>
-  <FAQ question="What does Article 10 of the EU AI Act expect from training data governance?">
-    <p>Documented practices for dataset collection, preparation, labeling, bias detection, and quality assessment, with datasets that are relevant, representative, and as error-free as practicable ([AI Act Article 10](https://artificialintelligenceact.eu/article/10/)).</p>
-    <p>Operationally, the data platform must let the operator reconstruct which dataset version trained which model version, including schema and row-level state at training time.</p>
-  </FAQ>
-  <FAQ question="Do NIS2 and DORA conflict for financial entities?">
-    <p>On ICT risk-management and incident-reporting subject matter, [DORA](https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng) is lex specialis: its specific provisions disapply the corresponding NIS2 obligations (notably Articles 21 and 23) for in-scope financial entities.</p>
-    <p>That carve-out is subject-matter scoped, not entity-wide. Financial entities still confirm with national transposing law and remain subject to NIS2 outside the DORA-equivalent areas.</p>
-  </FAQ>
-  <FAQ question="What is the difference between contractual and architectural compliance?">
-    <p>Contractual compliance allocates responsibility for an obligation in writing. Architectural compliance produces the evidence the regulation requires without depending on the counterparty.</p>
-    <p>The gap matters under DORA Article 30 audit rights, NIS2's 24-hour notification clock, and AI Act Article 12 record-keeping: each, in practice, requires the operator to produce evidence directly.</p>
-  </FAQ>
-  <FAQ question="How long must high-risk AI system logs be retained under the AI Act?">
-    <p>At least six months, unless other Union or national law specifies a longer period, and only to the extent the logs are under the provider's control (AI Act Article 19, [Regulation EU 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng)).</p>
-    <p>Deployers in regulated sectors will usually retain longer to align with DORA, NIS2, or sectoral retention rules.</p>
-  </FAQ>
-  <FAQ question="Which architectural properties help with dataset reproducibility and exit?">
-    <p>Open table formats with immutable snapshot history, schema-evolution metadata, and multi-engine support give the operator a foundation for AI Act Article 10 reproducibility and DORA Article 30 exit strategies. Apache Iceberg, Delta Lake, and Apache Hudi all offer this shape with different trade-offs.</p>
-    <p>The format is necessary but not sufficient: operators still govern snapshot retention so training-time state is not expired, maintain dataset-to-model linkage in a registry, and capture feature-derivation lineage above the table layer.</p>
-  </FAQ>
-</FAQSection>
+<FAQSection faqs={[
+  {
+    question: "When does the EU AI Act apply to high-risk AI systems?",
+    answerContent: (
+      <>
+        <p>August 2, 2026 for most high-risk categories under Annex III; August 2, 2027 for Annex I product-safety integrations (<a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng">Regulation EU 2024/1689</a>).</p>
+        <p>Prohibited practices and AI-literacy obligations applied from February 2, 2025. GPAI governance rules applied from August 2, 2025.</p>
+      </>
+    )
+  },
+  {
+    question: "Does NIS2 actually require a 24-hour incident report?",
+    answerContent: (
+      <>
+        <p>An early warning to the CSIRT or competent authority within 24 hours of awareness, a full notification within 72 hours, and a final report within one month (<a href="https://digital-strategy.ec.europa.eu/en/policies/nis2-directive">NIS2 Directive overview</a>).</p>
+        <p>Under NIS2 Article 23(4), the early warning need not contain root-cause detail, but it must identify the incident, its suspected cross-border or malicious nature, and any indicators of compromise available at the time.</p>
+      </>
+    )
+  },
+  {
+    question: "Is my data platform vendor an ICT third-party provider under DORA?",
+    answerContent: (
+      <>
+        <p>If the platform supports a critical or important function, yes – and it must appear in the <a href="https://www.digital-operational-resilience-act.com/Article_28.html">Article 28</a> register with an <a href="https://www.digital-operational-resilience-act.com/Article_30.html">Article 30</a>-compliant contract.</p>
+        <p>For self-hosted software running on the financial entity's own infrastructure, the vendor is generally a software supplier rather than a critical ICT third-party provider, which materially simplifies the third-party register. Support arrangements with privileged operational access can pull the same vendor back into ICT-TPP scope, so the assessment turns on the support model as much as the deployment topology.</p>
+      </>
+    )
+  },
+  {
+    question: "What does Article 10 of the EU AI Act expect from training data governance?",
+    answerContent: (
+      <>
+        <p>Documented practices for dataset collection, preparation, labeling, bias detection, and quality assessment, with datasets that are relevant, representative, and as error-free as practicable (<a href="https://artificialintelligenceact.eu/article/10/">AI Act Article 10</a>).</p>
+        <p>Operationally, the data platform must let the operator reconstruct which dataset version trained which model version, including schema and row-level state at training time.</p>
+      </>
+    )
+  },
+  {
+    question: "Do NIS2 and DORA conflict for financial entities?",
+    answerContent: (
+      <>
+        <p>On ICT risk-management and incident-reporting subject matter, <a href="https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng">DORA</a> is lex specialis: its specific provisions disapply the corresponding NIS2 obligations (notably Articles 21 and 23) for in-scope financial entities.</p>
+        <p>That carve-out is subject-matter scoped, not entity-wide. Financial entities still confirm with national transposing law and remain subject to NIS2 outside the DORA-equivalent areas.</p>
+      </>
+    )
+  },
+  {
+    question: "What is the difference between contractual and architectural compliance?",
+    answerContent: (
+      <>
+        <p>Contractual compliance allocates responsibility for an obligation in writing. Architectural compliance produces the evidence the regulation requires without depending on the counterparty.</p>
+        <p>The gap matters under DORA Article 30 audit rights, NIS2's 24-hour notification clock, and AI Act Article 12 record-keeping: each, in practice, requires the operator to produce evidence directly.</p>
+      </>
+    )
+  },
+  {
+    question: "How long must high-risk AI system logs be retained under the AI Act?",
+    answerContent: (
+      <>
+        <p>At least six months, unless other Union or national law specifies a longer period, and only to the extent the logs are under the provider's control (AI Act Article 19, <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng">Regulation EU 2024/1689</a>).</p>
+        <p>Deployers in regulated sectors will usually retain longer to align with DORA, NIS2, or sectoral retention rules.</p>
+      </>
+    )
+  },
+  {
+    question: "Which architectural properties help with dataset reproducibility and exit?",
+    answerContent: (
+      <>
+        <p>Open table formats with immutable snapshot history, schema-evolution metadata, and multi-engine support give the operator a foundation for AI Act Article 10 reproducibility and DORA Article 30 exit strategies. Apache Iceberg, Delta Lake, and Apache Hudi all offer this shape with different trade-offs.</p>
+        <p>The format is necessary but not sufficient: operators still govern snapshot retention so training-time state is not expired, maintain dataset-to-model linkage in a registry, and capture feature-derivation lineage above the table layer.</p>
+      </>
+    )
+  }
+]} />
 
 ## Sources
 
