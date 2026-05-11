@@ -12,10 +12,11 @@ import Card from "@site/src/components/Card";
 import GridBox from "@site/src/components/GridBox";
 import { File, FileCsv, FileJs } from "@phosphor-icons/react";
 
+
 This is an end-to-end guide about how to move files from your AWS S3 to IOMETE.
 
 :::info Your files in AWS S3
-Let's assume you have an external bucket in AWS S3 with the CSV files you want to query in IOMETE. In this example, we will use the `area-for-iomete` bucket.
+Let's assume you have an external bucket in AWS S3 with the files you want to query in IOMETE. In this example, we will use the `area-for-iomete` bucket with a `countries.json` file.
 :::
 
 ## Provide permissions to IOMETE
@@ -25,6 +26,10 @@ In order to access files in this external S3 bucket, IOMETE requires permissions
 ## Querying files in AWS S3
 
 It's extremely easy to query files in AWS S3 with IOMETE. You just need to provide the bucket name and the path to the file you want to query.
+
+:::info Use the `s3a://` Scheme
+Always reference S3 paths with `s3a://`, not `s3://` or `s3n://`. IOMETE's Spark runtime only supports the `s3a://` scheme, so `s3://` raises `No FileSystem for scheme: s3`.
+:::
 
 ```sql
 SELECT  * FROM json.`s3a://area-for-iomete/countries.json`;
