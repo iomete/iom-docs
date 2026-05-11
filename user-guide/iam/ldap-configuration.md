@@ -162,7 +162,7 @@ All operations on the LDAP page require the **IAM Manager** admin role.
 
 ## Auditing LDAP
 
-To audit LDAP operations, go to **Administration → Event Logs** in Admin Portal. Here, you can view who performed LDAP-related actions and when.
+To audit LDAP operations, go to [Event Logs](../event-logs.md) in Admin Portal. Here, you can view who performed LDAP-related actions and when.
 
 <Img src="/img/user-guide/iam/ldap/ldap-audit.png" alt="LDAP audit logs" />
 

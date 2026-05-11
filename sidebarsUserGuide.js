@@ -96,6 +96,7 @@ const sidebars = {
         "private-docker-registry",
         "docker-tag-aliases",
         "email-settings",
+        "event-logs",
         {
           type: "category",
           label: "Node Types",
