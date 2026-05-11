@@ -66,7 +66,7 @@ Across the three regimes, five data-platform capabilities carry overlapping obli
 
 Incident reporting is where it gets painful. Add GDPR's 72-hour breach-notification clock underneath, and a regulated platform runs against four different reporting windows: DORA's 4 hours from major-incident classification, NIS2's 24-hour early warning, GDPR's 72 hours, and the AI Act's Article 73 serious-incident report. Instrument for the tightest applicable window per event type and route per-regulation in production, or audits will find the seams.
 
-**What it costs to be wrong.** NIS2 administrative fines reach EUR 10 million or 2% of global annual turnover for essential entities, and EUR 7 million or 1.4% for important entities. AI Act penalties for non-compliance with high-risk obligations reach EUR 15 million or 3% of global turnover; prohibited-practice violations reach EUR 35 million or 7%. DORA penalties for financial entities are set by national competent authorities under Article 50; the European Supervisory Authorities can additionally impose periodic penalty payments of up to 1% of average daily worldwide turnover on designated critical ICT third-party providers (Article 35(6)).
+**What it costs to be wrong.** Under NIS2, fines reach at least EUR 10 million or 2% of global annual turnover for essential entities (whichever is higher), and at least EUR 7 million or 1.4% for important entities (Article 34). AI Act fines for non-compliance with provider and deployer obligations reach EUR 15 million or 3% of global turnover (whichever is higher); prohibited-practice violations under Article 5 reach EUR 35 million or 7% (Article 99). DORA penalties for financial entities are set by national competent authorities under Article 50; the European Supervisory Authorities can additionally impose periodic penalty payments at 1% of average daily worldwide turnover, applied daily for up to six months, on designated critical ICT third-party providers (Article 35(6)–(7)).
 
 ## Where vendors close the gap with contracts, not architecture
 
@@ -97,7 +97,7 @@ If the answers cluster on the left, the audit risk sits with whoever owns the pl
 
 **If your platform is mostly on the left column:** the gap between architecture and contract is real, and your audit-evidence position depends on a counterparty's cooperation. The remediation usually starts with audit-log custody and dataset reproducibility, because those unblock the others.
 
-IOMETE is published by a self-hosted lakehouse vendor. For the architectural rationale we apply to the questions above, see our notes on [Kubernetes-native deployment](https://iomete.com/product/deployment), [Iceberg encryption and lineage](https://iomete.com/resources/blog/data-lakehouse-encryption-iceberg), and the [DORA and EU AI Act infrastructure checklist](https://iomete.com/resources/blog/dora-eu-ai-act-financial-institutions-data-infrastructure).
+How we apply these principles at IOMETE – keeping audit logs and dataset state inside the operator's tenancy rather than a vendor portal – is covered in our notes on [Kubernetes-native deployment](https://iomete.com/product/deployment), [Iceberg encryption and lineage](https://iomete.com/resources/blog/data-lakehouse-encryption-iceberg), and the [DORA and EU AI Act infrastructure checklist](https://iomete.com/resources/blog/dora-eu-ai-act-financial-institutions-data-infrastructure).
 
 <FAQSection faqs={[
   {
