@@ -177,12 +177,14 @@ IOMETE keeps audit logs, lineage, and dataset state inside the operator's tenanc
 ## Sources
 
 1. [DORA – Regulation (EU) 2022/2554](https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng) – EUR-Lex
-2. [NIS2 – Directive (EU) 2022/2555](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022L2555) – EUR-Lex
-3. [NIS2 Directive overview](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive) – European Commission
-4. [NIS2 Transposition Tracker](https://ecs-org.eu/activities/nis2-directive-transposition-tracker/) – European Cyber Security Organisation (ECSO)
-5. [ENISA Technical Implementation Guidance on NIS2 cybersecurity risk-management measures (v1.0, June 2025)](https://www.enisa.europa.eu/sites/default/files/2025-06/ENISA_Technical_implementation_guidance_on_cybersecurity_risk_management_measures_version_1.0.pdf)
-6. [EU AI Act – Regulation (EU) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng) – EUR-Lex
-7. [AI Act Article 10 – Data and data governance](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-10) – European Commission AI Act Service Desk
-8. [AI Act Article 12 – Record-keeping](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-12) – European Commission AI Act Service Desk
-9. [DORA Article 28 – ICT third-party risk management](https://www.digital-operational-resilience-act.com/Article_28.html)
-10. [DORA Article 30 – Key contractual provisions](https://www.digital-operational-resilience-act.com/Article_30.html)
+2. [DORA implementation – technical standards](https://www.eba.europa.eu/regulation-and-policy/digital-operational-resilience-act-dora) – European Banking Authority
+3. [DORA Article 28 – ICT third-party risk management](https://www.digital-operational-resilience-act.com/Article_28.html)
+4. [DORA Article 30 – Key contractual provisions](https://www.digital-operational-resilience-act.com/Article_30.html)
+5. [NIS2 – Directive (EU) 2022/2555](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32022L2555) – EUR-Lex
+6. [NIS2 Directive overview](https://digital-strategy.ec.europa.eu/en/policies/nis2-directive) – European Commission
+7. [NIS2 Transposition Tracker](https://ecs-org.eu/activities/nis2-directive-transposition-tracker/) – European Cyber Security Organisation (ECSO)
+8. [ENISA Technical Implementation Guidance on NIS2 cybersecurity risk-management measures (v1.0, June 2025)](https://www.enisa.europa.eu/sites/default/files/2025-06/ENISA_Technical_implementation_guidance_on_cybersecurity_risk_management_measures_version_1.0.pdf)
+9. [EU AI Act – Regulation (EU) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng) – EUR-Lex
+10. [AI Act Article 10 – Data and data governance](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-10) – European Commission AI Act Service Desk
+11. [AI Act Article 12 – Record-keeping](https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-12) – European Commission AI Act Service Desk
+12. [GDPR – Regulation (EU) 2016/679](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng) – EUR-Lex
