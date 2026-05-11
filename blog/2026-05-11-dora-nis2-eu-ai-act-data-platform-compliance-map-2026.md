@@ -97,7 +97,7 @@ If the answers cluster on the left, the audit risk sits with whoever owns the pl
 
 **If your platform is mostly on the left column:** the gap between architecture and contract is real, and your audit-evidence position depends on a counterparty's cooperation. The remediation usually starts with audit-log custody and dataset reproducibility, because those unblock the others.
 
-How we apply these principles at IOMETE – keeping audit logs and dataset state inside the operator's tenancy rather than a vendor portal – is covered in our notes on [Kubernetes-native deployment](https://iomete.com/product/deployment), [Iceberg encryption and lineage](https://iomete.com/resources/blog/data-lakehouse-encryption-iceberg), and the [DORA and EU AI Act infrastructure checklist](https://iomete.com/resources/blog/dora-eu-ai-act-financial-institutions-data-infrastructure).
+IOMETE keeps audit logs, lineage, and dataset state inside the operator's tenancy. More on the architecture in [Kubernetes-native deployment](https://iomete.com/product/deployment), [Iceberg encryption and lineage](https://iomete.com/resources/blog/data-lakehouse-encryption-iceberg), and the [DORA and EU AI Act infrastructure checklist](https://iomete.com/resources/blog/dora-eu-ai-act-financial-institutions-data-infrastructure).
 
 <FAQSection faqs={[
   {
