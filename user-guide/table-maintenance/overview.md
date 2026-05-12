@@ -3,7 +3,7 @@ title: Table Maintenance Overview
 description: Automated Iceberg table housekeeping — compaction, snapshot expiry, orphan file cleanup, and manifest optimization.
 sidebar_label: Overview
 last_update:
-  date: 03/09/2026
+  date: 05/13/2026
   author: Shashank Chaudhary
 ---
 
@@ -47,9 +47,9 @@ Before configuring table maintenance, confirm:
   - Catalog subtype is `REST`
   - Catalog classification is `INTERNAL` (IOMETE-managed)
   - Catalog isn't in the excluded list (the built-in `spark_catalog` is excluded)
-<Img src="/img/user-guide/table-maintenance/iceberg-rest-catalog.png" alt="Spark Catalogs list highlighting an internal Iceberg REST catalog eligible for maintenance"/>
+<Img src="/img/user-guide/table-maintenance/iceberg-rest-catalog.png" alt="Catalog Details tab showing ICEBERG, REST, and INTERNAL type chips that mark the catalog as eligible for maintenance"/>
 - The catalog has an [owner domain](./catalog-configuration#catalog-owner-domain) assigned. All maintenance resources (compute cluster, service account) are scoped to it.
-<Img src="/img/user-guide/table-maintenance/catalog-owner-set.png" alt="Catalog Permissions tab showing an owner domain assigned"/>
+<Img src="/img/user-guide/table-maintenance/catalog-owner-set.png" alt="Catalog Domain permissions tab showing a domain marked as Catalog Owner"/>
 - You're a domain owner of the catalog's owner domain, or a platform administrator.
 - The `iom-maintenance` service is deployed. If it isn't, ask your platform administrator to enable it in Helm (see [Feature Flag](./deployment#feature-flag)).
 

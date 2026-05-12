@@ -3,7 +3,7 @@ title: Advanced Configuration
 description: Detailed reference for all four maintenance operations — properties, thresholds, execution model, and property resolution.
 sidebar_label: Advanced Configuration
 last_update:
-  date: 03/09/2026
+  date: 05/13/2026
   author: Shashank Chaudhary
 ---
 
@@ -11,9 +11,11 @@ import Img from '@site/src/components/Img';
 
 Each maintenance operation has a set of properties that control how it runs, like target file sizes for compaction, snapshot retention windows, and sort strategies. The defaults are tuned to work well in most cases, so you usually don’t need to change them. But if a table has specific needs, you can override these at the catalog level (for all tables) or just for an individual table (overrides the catalog default for that table only).
 
-Open the **Advanced Settings** panel on any operation card to see available properties. Use the **Add Property** dropdown to override a value, or click the `❌` button next to a property to revert it to its [inherited default](#how-property-values-are-resolved).
+Open the **Advanced Settings** panel on any operation card to view overridden properties. Use the **Add Property** dropdown to add a new override. Each option displays the property's current value and shows a tooltip with its **Description** and **Default Value Source** on hover.
 
-<Img src="/img/user-guide/table-maintenance/operation-advanced-props.png" alt="Operation card with Advanced Settings panel expanded showing property input fields"/>
+To remove an override and fall back to the [inherited default](#how-property-values-are-resolved), click the `❌` button next to the property.
+
+<Img src="/img/user-guide/table-maintenance/operation-advanced-props.png" alt="Rewrite data files Advanced Settings panel with Min Input Files overridden and the Add Property dropdown open, showing a tooltip with Description and Default Value Source for Max Concurrent File Group Rewrites"/>
 
 _Validation errors display inline below each field. If an error is inside a collapsed **Advanced Settings** panel, the panel expands automatically and the page scrolls to the first invalid field._
 
