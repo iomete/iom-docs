@@ -493,4 +493,4 @@ For smaller deployments with a handful of tables, cron jobs and scripts are usua
 
 #### Series
 - [Part 1: The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
-- [Part 3: The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
+- Part 3: The Iceberg Table Maintenance Landscape (coming soon)
