@@ -8,7 +8,7 @@ tags2: [Technical, Engineering]
 keywords: [apache iceberg, iceberg maintenance, rewrite_data_files, expire_snapshots, remove_orphan_files, rewrite_manifests, iceberg compaction, spark procedures, lakehouse maintenance]
 banner_description: Every team running Apache Iceberg in production eventually hits the same wall. What Iceberg gives you out of the box, what each operation actually does, and where the DIY path leads.
 coverImage: img/blog/thumbnails/darkStone.png
-date: 2026-04-09
+date: 2026-05-25
 ---
 
 import Img from '@site/src/components/Img';
@@ -100,7 +100,7 @@ TBLPROPERTIES ('write.delete.mode' = 'merge-on-read');
 
 Here's what one day's partition looks like before and after compaction.
 
-<Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/compaction-before-after.png" alt="Compaction before and after: 10,000 × 5 MB Parquet files in one partition collapse into ~100 × 512 MB files after rewrite_data_files. Same 50 GB of data, 100× fewer file-opens during planning." borderless/>
+<Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/compaction-before-after.png" alt="Compaction before and after: 10,000 × 5 MB Parquet files in one partition collapse into ~100 × 512 MB files after rewrite_data_files. Same 50 GB of data, 100× fewer file-opens during planning." borderless/>
 
 The next five subsections cover the key steps involved in compaction:
 
@@ -140,7 +140,7 @@ These thresholds are derived from [`target-file-size-bytes`](https://iceberg.apa
 
 To customize this behavior, you can override the thresholds using [`min-file-size-bytes` and `max-file-size-bytes`](https://iceberg.apache.org/docs/latest/spark-procedures/#options) in the procedure options map.
 
-<Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/file-selection-flow.png" alt="How rewrite_data_files decides which files to compact: each file is classified by size against the 512 MB target. Files under 384 MB are too-small candidates, files between 384 and 922 MB are skipped as in-range, files over 922 MB are too-large candidates. Too-small candidates pass through a min-input-files ≥ 5 gate before being added to a file group; otherwise the partition is skipped. All accepted candidates are bin-packed into file groups." borderless/>
+<Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/file-selection-flow.png" alt="How rewrite_data_files decides which files to compact: each file is classified by size against the 512 MB target. Files under 384 MB are too-small candidates, files between 384 and 922 MB are skipped as in-range, files over 922 MB are too-large candidates. Too-small candidates pass through a min-input-files ≥ 5 gate before being added to a file group; otherwise the partition is skipped. All accepted candidates are bin-packed into file groups." borderless/>
 
 Two checks decide whether a partition actually gets rewritten:
 
@@ -163,7 +163,7 @@ Parallelism is calculated as: `min(number_of_groups, max-concurrent-file-group-r
 
 The `max-concurrent-file-group-rewrites` setting (default: 5) defines the maximum number of groups that can be rewritten concurrently. With only 1 group, only 1 task runs and the remaining slots stay idle. The total number of files never directly affects parallelism.
 
-<Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/file-groups-parallelism.png" alt="File-group sizing controls parallelism. Default 100 GB group cap collapses 50 GB of input into 1 group → 1 task → 5 executor slots sit idle. Tuned 5 GB cap yields 10 groups → 5 parallel tasks bounded by max-concurrent-file-group-rewrites." borderless/>
+<Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/file-groups-parallelism.png" alt="File-group sizing controls parallelism. Default 100 GB group cap collapses 50 GB of input into 1 group → 1 task → 5 executor slots sit idle. Tuned 5 GB cap yields 10 groups → 5 parallel tasks bounded by max-concurrent-file-group-rewrites." borderless/>
 
 To increase parallelism, shrink the group size:
 
@@ -217,7 +217,7 @@ CALL catalog.system.rewrite_data_files(
 );
 ```
 
-<Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/binpack-vs-sort.png" alt="Binpack vs Sort vs Z-order: same input, different physical layout. Binpack preserves arrival order (cheap, no shuffle, scans most files on a region filter). Sort by region clusters rows by one key (skips most files, full shuffle). Z-order interleaves multiple keys for multi-column filters." borderless/>
+<Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/binpack-vs-sort.png" alt="Binpack vs Sort vs Z-order: same input, different physical layout. Binpack preserves arrival order (cheap, no shuffle, scans most files on a region filter). Sort by region clusters rows by one key (skips most files, full shuffle). Z-order interleaves multiple keys for multi-column filters." borderless/>
 
 The tradeoff: sort and z-order need a full shuffle of the data across the cluster, which makes them significantly slower than binpack.
 
@@ -253,7 +253,7 @@ CALL catalog.system.rewrite_data_files(
 );
 ```
 
-<Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/partial-progress.png" alt="Partial-progress turns one all-or-nothing job into ten independent commits. With partial-progress.enabled = false (default), if group 8 fails the other 7 successful rewrites are aborted and no commit reaches the table — hours of work lost. With partial-progress.enabled = true, each group commits independently, 9 of 10 commits land, only group 8 needs retry. Also reduces commit-conflict aborts." borderless/>
+<Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/partial-progress.png" alt="Partial-progress turns one all-or-nothing job into ten independent commits. With partial-progress.enabled = false (default), if group 8 fails the other 7 successful rewrites are aborted and no commit reaches the table — hours of work lost. With partial-progress.enabled = true, each group commits independently, 9 of 10 commits land, only group 8 needs retry. Also reduces commit-conflict aborts." borderless/>
 
 With this configuration, each of the 10 file groups commits as soon as it finishes. If group 8 fails, groups 1–7, 9, and 10 are already committed, and you only need to retry the failed partition range, not the whole table.
 
@@ -271,7 +271,7 @@ Tables using [Merge-on-Read (MoR)](https://iceberg.apache.org/spec/#row-level-de
 
 Compaction fixes this by applying the accumulated deletes: it reads the data file plus its delete files, materializes only the surviving rows, and writes clean output files.
 
-<Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/mor-compaction.png" alt="MoR compaction reads delete files and writes clean output. Before: a 10,000-row data file plus 6 accumulated delete files marking 3,200 rows; queries pay the cost of cross-referencing all of them. After: a single rewritten data file with 6,800 surviving rows and the delete files discarded. Trigger knobs: delete-file-threshold (rewrite if ≥ N delete files), delete-ratio-threshold (rewrite if ≥ 30% rows deleted), remove-dangling-deletes (drop deletes with no live target)." borderless/>
+<Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/mor-compaction.png" alt="MoR compaction reads delete files and writes clean output. Before: a 10,000-row data file plus 6 accumulated delete files marking 3,200 rows; queries pay the cost of cross-referencing all of them. After: a single rewritten data file with 6,800 surviving rows and the delete files discarded. Trigger knobs: delete-file-threshold (rewrite if ≥ N delete files), delete-ratio-threshold (rewrite if ≥ 30% rows deleted), remove-dangling-deletes (drop deletes with no live target)." borderless/>
 
 Two thresholds control when delete-heavy files get pulled into compaction even if their size is in range:
 
@@ -305,7 +305,7 @@ One is storage hygiene. Every snapshot pins the data files it references, so old
 
 The other one most teams miss is compliance. Iceberg's DELETE is a soft delete: time travel can resurrect any deleted row right up until the snapshot covering it expires. For GDPR, CCPA, and similar regimes, `expire_snapshots` is what turns a logical delete into a real one.
 
-<Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/expire-snapshots.png" alt="Why compaction alone does not shrink storage: before, many small files using 1 TB; after compaction, snapshots not yet expired so storage doubles to 2 TB; after expire_snapshots, old snapshots cleaned and storage drops back to 1 TB." borderless/>
+<Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/expire-snapshots.png" alt="Why compaction alone does not shrink storage: before, many small files using 1 TB; after compaction, snapshots not yet expired so storage doubles to 2 TB; after expire_snapshots, old snapshots cleaned and storage drops back to 1 TB." borderless/>
 
 These parameters control how the expiry runs:
 
@@ -328,7 +328,7 @@ Compliance-driven workloads often run tighter (for example, 24 hours after a del
 
 Orphan files are files that still exist in storage but are no longer referenced by the Iceberg table. Over time, failed writes, aborted jobs, and metadata churn can leave behind large amounts of unused data. The operational question is when and how to run [`remove_orphan_files`](https://iceberg.apache.org/docs/latest/spark-procedures/#remove_orphan_files) without breaking your table or burning your storage bill.
 
-<Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/orphan-file-scan.png" alt="remove_orphan_files: set difference, gated by retention. The procedure LISTs every object under the table path, then runs each file through two gates. Gate 1: is the file in the metadata referenced-set? Gate 2: is it older than the retention window (3 days default)? Three outcomes: keep (referenced), skip (orphan but newer than 3 days, may be in-flight), delete (orphan and older than 3 days). Watch for s3 vs s3a scheme mismatches via the equal_schemes parameter." borderless/>
+<Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/orphan-file-scan.png" alt="remove_orphan_files: set difference, gated by retention. The procedure LISTs every object under the table path, then runs each file through two gates. Gate 1: is the file in the metadata referenced-set? Gate 2: is it older than the retention window (3 days default)? Three outcomes: keep (referenced), skip (orphan but newer than 3 days, may be in-flight), delete (orphan and older than 3 days). Watch for s3 vs s3a scheme mismatches via the equal_schemes parameter." borderless/>
 
 It's the most expensive maintenance operation you'll run. The procedure does a full filesystem scan of the table's storage location, then diffs the listing against every file referenced in metadata. On a small table that's seconds. On a table with tens of millions of objects, the LIST calls alone can take hours and incur real [S3 cost](https://aws.amazon.com/s3/pricing/). Most teams schedule this weekly or monthly, never per-write.
 
@@ -359,7 +359,7 @@ The first time you run `remove_orphan_files` on a new table, pass `dry_run => tr
 
 Manifest files are the metadata index Iceberg uses to track data files. As tables evolve, these manifests become fragmented and inefficient, increasing query planning overhead. This section explains when [`rewrite_manifests`](https://iceberg.apache.org/docs/latest/spark-procedures/#rewrite_manifests) becomes necessary, what performance problems it solves, and how to identify tables that would benefit from it.
 
-<Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/manifest-rewrite.png" alt="Same data files, very different planning cost. Healthy metadata: 3 large manifests covering ~1,000 files each, planning under a second. Fragmented metadata: 24+ small manifests each covering ~125 files, planning takes tens of seconds. Compaction fixes the data layer; rewriting manifests keeps the metadata layer lean." borderless/>
+<Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/manifest-rewrite.png" alt="Same data files, very different planning cost. Healthy metadata: 3 large manifests covering ~1,000 files each, planning under a second. Fragmented metadata: 24+ small manifests each covering ~125 files, planning takes tens of seconds. Compaction fixes the data layer; rewriting manifests keeps the metadata layer lean." borderless/>
 
 The impact shows up during query planning, not query execution. If queries are slow to start but complete quickly once running, manifest fragmentation is usually the reason. Before scanning any data files, Iceberg has to open and parse every manifest to decide which files are relevant. With hundreds of fragmented manifests, planning alone can take tens of seconds. We've seen tables where a manifest rewrite reduced planning time from 45 seconds to under 2 seconds.
 
@@ -455,7 +455,7 @@ Most teams close that gap with cron and scripts. The pattern usually looks like 
 3. Scheduled via cron, [Airflow](https://airflow.apache.org/), or [Dagster](https://dagster.io/)
 4. Logs piped to a file or a monitoring tool
 
-<Img src="/img/blog/2026-04-09-iceberg-maintenance-operations/diy-architecture.png" alt="DIY maintenance architecture: cron / Airflow triggers a Python wrapper that opens a Spark session and calls each system procedure (rewrite_data_files, expire_snapshots, remove_orphan_files, rewrite_manifests). Logs go to flat files; no central health view, no health detection, no prioritization, no resource governance, no failure recovery state." borderless/>
+<Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/diy-architecture.png" alt="DIY maintenance architecture: cron / Airflow triggers a Python wrapper that opens a Spark session and calls each system procedure (rewrite_data_files, expire_snapshots, remove_orphan_files, rewrite_manifests). Logs go to flat files; no central health view, no health detection, no prioritization, no resource governance, no failure recovery state." borderless/>
 
 Community engineers have shared Python classes on Medium for multi-table maintenance with configurable thresholds. [One such approach](https://medium.com/@vincent_daniel/automating-apache-iceberg-maintenance-with-spark-and-python-ee1a253de86c) wraps compaction, snapshot expiration, and orphan cleanup in a class that iterates tables and applies size-based defaults. It's a solid starting point.
 
