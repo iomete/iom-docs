@@ -58,7 +58,7 @@ Self-hosted deployment changes this. When the policy engine runs inside your own
 
 ## IOMETE's Architecture: Tag-Based Masking Inside Your Infrastructure
 
-IOMETE is built on Apache Ranger's policy framework, extended and simplified through an API and UI that makes tag-based governance operationally practical.
+IOMETE is built on [Apache Ranger's](https://ranger.apache.org/) policy framework, extended and simplified through an API and UI that makes tag-based governance operationally practical.
 
 The key components work together:
 
@@ -72,7 +72,7 @@ The key components work together:
 
 **Column-Level Access Policies.** Beyond masking (which shows transformed data to users who can query the column), IOMETE also supports column-level access policies that deny access to specific columns entirely for users who shouldn't see even masked values. These can be defined at the column level via the Access Control API or as tag-based exclusions for entire classifications.
 
-**Query-Time Enforcement.** Masking is enforced at query execution time inside your Spark cluster. The enforcement isn't at an application layer that only covers traffic through the SQL Editor. It applies to any query processed by the IOMETE compute engine, including Spark jobs, external JDBC connections, and programmatic access via Spark Connect. The cluster itself enforces the policy.
+**Query-Time Enforcement.** Masking is enforced at query execution time inside your Spark cluster. The enforcement isn't at an application layer that only covers traffic through a query interface. It applies to any query processed by the IOMETE compute engine, including Spark jobs, external JDBC connections, and programmatic access via Spark Connect. The cluster itself enforces the policy.
 
 **Full Deployment Inside Your Infrastructure.** The entire stack (data catalog, classification store, policy engine, query enforcement) runs inside your Kubernetes deployment. There's no policy metadata stored on IOMETE's infrastructure, no vendor control plane mediating enforcement. Access logs stay in your environment for your audit tools to consume.
 
