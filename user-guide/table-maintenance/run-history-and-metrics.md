@@ -57,11 +57,13 @@ The catalog-level history shows runs across every catalog domain owns and adds C
 
 Clicking a run from either history view opens a dedicated detail page for that run. The page title reflects the operation (for example, **Cleanup Orphan Files Run** or **Expire Snapshots Run**) and lists ID, Status, Operation type, Triggered by, Reason, and timing fields.
 
+For **completed** runs, the detail page also shows a **Metrics** table comparing values **Before** and **After** the run, so you can see exactly what changed.
+
 <Img src="/img/user-guide/table-maintenance/run-detail-completed.png" alt="Cleanup Orphan Files Run detail page showing the run ID, Completed status, and metadata fields above a metrics table comparing data file and metadata file counts and sizes before and after the run"/>
 
-For **completed** runs, the detail page also shows a **Metrics** table comparing values **Before** and **After** the run, so you can see exactly what changed. Operations that were scheduled automatically also display the **Reason** that triggered them.
+Operations that were scheduled automatically also display the **Reason** that triggered them.
 
-<Img src="/img/user-guide/table-maintenance/run-detail-expire-snapshots.png" alt="Expire Snapshots Run detail page for a completed system-triggered run showing the Reason field with the threshold condition that scheduled it"/>
+<Img src="/img/user-guide/table-maintenance/run-detail-reason.png" alt="Run detail page for a completed system-triggered run showing the Reason field with the threshold condition that scheduled it"/>
 
 For **failed** runs, the detail page includes a dedicated **Error message** row that shows the full error text.
 
