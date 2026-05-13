@@ -3,13 +3,13 @@ title: Catalog-Level Configuration
 description: Configure compute resources, service accounts, and maintenance operations at the catalog level.
 sidebar_label: Catalog Configuration
 last_update:
-  date: 03/09/2026
+  date: 05/13/2026
   author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
 
-Catalog-level maintenance sets the default behavior for all tables in a catalog. Resources must be configured before you can enable any operations.
+Catalog-level maintenance sets the default behavior for all tables in a catalog. Resources and operations are configured together on a single Maintenance tab.
 
 ## Step 1: Opening the Catalog Maintenance Tab
 
@@ -19,24 +19,21 @@ Catalog-level maintenance sets the default behavior for all tables in a catalog.
 2. Open a qualifying catalog (see [Prerequisites](./overview#prerequisites)).
 3. Click the **Maintenance** tab.
 
-<Img src="/img/user-guide/table-maintenance/catalog-maintenance-tab-unconfigured.png" alt="Catalog Maintenance tab in unconfigured state with empty Resources and Operations sections"/>
+<Img src="/img/user-guide/table-maintenance/catalog-maintenance-tab-unconfigured.png" alt="Catalog Maintenance tab in its unconfigured state with the Enable maintenance toggle off, empty Compute and Service Account dropdowns, and operation cards inherited from the platform default"/>
 
 :::info Owner domain required
-Maintenance controls are disabled until an owner domain is assigned. See [Catalog Owner Domain](#catalog-owner-domain) to assign one.
-<Img src="/img/user-guide/table-maintenance/missing-owner-error-maintenance-tab.png" alt="Catalog Maintenance tab showing the owner domain missing alert with the Assign owner link"/>
+Maintenance controls are disabled until an owner domain is assigned. The tab shows a banner with an **Assign owner** shortcut.
+<Img src="/img/user-guide/table-maintenance/missing-owner-error-maintenance-tab.png" alt="Catalog Maintenance tab showing the owner domain missing banner with the Assign owner link"/>
+See [Catalog Owner Domain](#catalog-owner-domain) to assign one.
 :::
 
-## Step 2: Configuring Resources
+## Step 2: Enabling Maintenance and Selecting Resources
 
-The maintenance service requires a compute cluster and a service account to run operations.
+1. Turn on the **Enable maintenance** toggle at the top of the tab. This is the master switch for the entire catalog. No operation runs while it's off.
+2. Select a **Compute** cluster from the dropdown. The list shows clusters that belong to the catalog's owner domain.
+3. Select a **Service Account** from the dropdown. The list shows all service accounts in the domain.
 
-1. In the **Resources** section, select a **Compute** cluster from the dropdown. The list shows clusters that belong to the catalog's owner domain.
-2. Select a **Service Account** from the dropdown. The list shows all service accounts in the domain.
-3. Click **Save** to apply the resource configuration.
-
-<Img src="/img/user-guide/table-maintenance/configure-resources.png" alt="Catalog Maintenance Resources section with Compute cluster and Service Account dropdowns"/>
-
-Once resources are saved, the **Maintenance Operations** section becomes active.
+<Img src="/img/user-guide/table-maintenance/configure-resources.png" alt="Catalog Maintenance tab with Enable maintenance toggled on, a Compute cluster, and a Service Account selected"/>
 
 :::warning Resource Requirements
 - The compute cluster must be active when a maintenance job runs. If it's stopped or disabled, the operation fails.
@@ -61,16 +58,18 @@ Rewrite Data Files and Rewrite Manifest Files run as Spark SQL jobs on the confi
 
 ## Step 3: Configuring Operations
 
-1. Toggle **Enable maintenance** to **ON**. This is the master switch for the entire catalog.
-2. For each of the four operations, set the toggle to **Enabled** or **Disabled**:
-   - **Expire Snapshots**: removes old snapshots to free storage and improve metadata performance.
-   - **Rewrite Data Files**: compacts small files and optimizes data layout for better query performance.
-   - **Rewrite Manifest Files**: optimizes manifest files for faster query planning.
-   - **Cleanup Orphan Files**: removes files no longer referenced by table metadata.
-3. To configure operation-specific thresholds, expand **Advanced Settings** on any enabled operation card and add the properties you want to override. See [Advanced Configuration](./advanced-configuration) for all available options.
-4. Click **Save Operations** to save. Click **Reset** to discard unsaved changes.
+For each of the four operations, choose **Enabled** or **Disabled** from the dropdown on its card:
 
-<Img src="/img/user-guide/table-maintenance/configure-catalog-config.png" alt="Catalog Maintenance Operations section showing four operation toggles with Advanced Settings"/>
+- **Rewrite Data Files**: compacts small files and optimizes data layout for better query performance.
+- **Rewrite Manifest Files**: optimizes manifest files for faster query planning.
+- **Expire Snapshots**: removes old snapshots to free storage and improve metadata performance.
+- **Cleanup Orphan Files**: removes files no longer referenced by table metadata.
+
+To configure operation-specific thresholds, expand **Advanced Settings** on any enabled operation card and add the properties you want to override. See [Advanced Configuration](./advanced-configuration) for all available options.
+
+<Img src="/img/user-guide/table-maintenance/configure-catalog-config.png" alt="Catalog Maintenance tab showing four operation cards — Rewrite data files, Rewrite manifest files, Expire snapshots, and Cleanup orphan files — each with its own enable dropdown and Advanced Settings panel"/>
+
+Click **Save Changes** to commit all settings on the page (Enable maintenance, resources, and operations). Click **Reset** to discard unsaved changes.
 
 
 ## Catalog Owner Domain
@@ -81,7 +80,7 @@ To assign an owner domain:
 
 1. Open the catalog in **Admin Portal > Spark Catalogs**.
 2. Select the catalog.
-3. Go to the **Permissions** tab.
-4. Click the `⋮` (three-dot menu) next to the domain and select **Set as catalog owner**.
+3. Go to the **Domain permissions** tab.
+4. Click the `⋮` (three-dot menu) next to the domain and select **Set as Catalog Owner**.
 
-<Img src="/img/user-guide/table-maintenance/assign-catalog-owner.png" alt="Domain list with vertical three-dot menu open showing the Set as catalog owner option"/>
+<Img src="/img/user-guide/table-maintenance/assign-catalog-owner.png" alt="Domain permissions tab with the three-dot menu open on a domain showing the Set as Catalog Owner option"/>
