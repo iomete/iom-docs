@@ -9,13 +9,13 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-Table-level settings override catalog defaults for a specific table. This is useful when a table has different compaction requirements — for example, a high-volume streaming table that needs more aggressive compaction than the catalog default.
+Table-level settings override catalog defaults for a specific table. This is useful when a table has different compaction requirements — for example, a high-volume streaming table may need more aggressive compaction than the catalog default.
 
 1. Go to **Governance > Data Catalog** from the side panel.
 2. Find and open the table details page:
    - **Data Catalog tab**: Search for the table by name and click it.
    - **Data Explorer tab**: Navigate through Catalog > Database > Table.
-3. Click the **Maintenance** tab. The tab opens to the run history. A banner at the top shows whether maintenance is currently **Enabled** or **Disabled** for the table.
+3. Click the **Maintenance** tab. The tab opens directly to the run history, with a banner at the top indicating whether maintenance is currently **Enabled** or **Disabled** for the table.
 
 <Img src="/img/user-guide/table-maintenance/table-maintenance-tab-unconfigured.png" alt="Table Maintenance tab showing the Maintenance is currently Disabled banner with a Configure button and an empty run history list"/>
 

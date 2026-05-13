@@ -22,13 +22,14 @@ Catalog-level maintenance sets the default behavior for all tables in a catalog.
 <Img src="/img/user-guide/table-maintenance/catalog-maintenance-tab-unconfigured.png" alt="Catalog Maintenance tab in its unconfigured state with the Enable maintenance toggle off, empty Compute and Service Account dropdowns, and operation cards inherited from the platform default"/>
 
 :::info Owner domain required
-Maintenance controls are disabled until an owner domain is assigned. The tab shows a banner with an **Assign owner** shortcut. See [Catalog Owner Domain](#catalog-owner-domain) to assign one.
+Maintenance controls are disabled until an owner domain is assigned. The tab shows a banner with an **Assign owner** shortcut.
 <Img src="/img/user-guide/table-maintenance/missing-owner-error-maintenance-tab.png" alt="Catalog Maintenance tab showing the owner domain missing banner with the Assign owner link"/>
+See [Catalog Owner Domain](#catalog-owner-domain) to assign one.
 :::
 
 ## Step 2: Enabling Maintenance and Selecting Resources
 
-1. Turn on the **Enable maintenance** toggle at the top of the tab. This is the master switch for the entire catalog — no operation runs while it's off.
+1. Turn on the **Enable maintenance** toggle at the top of the tab. This is the master switch for the entire catalog. No operation runs while it's off.
 2. Select a **Compute** cluster from the dropdown. The list shows clusters that belong to the catalog's owner domain.
 3. Select a **Service Account** from the dropdown. The list shows all service accounts in the domain.
 
