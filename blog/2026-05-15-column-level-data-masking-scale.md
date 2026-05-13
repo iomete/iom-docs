@@ -10,6 +10,7 @@ hide_table_of_contents: false
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
+import Img from '@site/src/components/Img';
 
 Imagine a healthcare organization runs an internal HIPAA audit. Their data estate: 847 Iceberg tables and roughly 14,000 columns. The audit finds 340 columns containing Protected Health Information: patient names, diagnosis codes, dates of birth, insurance identifiers. None of them are masked. The masking configuration for their platform was built when they had 30 tables. Nobody updated it as the estate grew.
 
@@ -45,6 +46,8 @@ The model has three parts:
 
 The result: an organization with 14,000 columns doesn't need 14,000 masking policy entries. They need a manageable set of classification tags, a clean process for assigning them, and tag-based policies that enforce consistently across everything tagged.
 
+<Img src="/img/security/tag-based-access-flow.png" alt="How tag-based and resource-based policies combine to produce an ALLOW or DENY decision at query time" />
+
 ## The Infrastructure Control Question
 
 Column-level masking is a solved problem at small scale. The harder question, especially for regulated industries, is where enforcement actually happens.
@@ -61,7 +64,11 @@ The key components work together:
 
 **Data Catalog with Classification Tags.** The Data Catalog supports column-level and table-level classification tags. Tags are governed: assignment goes through an approval workflow (request, review, approve or reject) that creates an audit trail of every classification decision. When a column is tagged `PHI` after an admin reviews and approves the request, that decision is documented with justification and timestamp.
 
+<Img src="/img/data-catalog/classifications-tab.png" alt="Classifications tab showing the governance taxonomy: COMPLIANCE_GDPR, PCI_DSS, PII, PII_DIRECT, SENSITIVE_PHI and others" darkImageSrc="/img/data-catalog/classifications-tab-dark.png" />
+
 **Tag-Based Masking Policies.** IOMETE's data security layer has a tag masking policy type (`/api/v1/admin/data-security/tag/mask/policy`) that applies masking behavior to any column carrying a specific classification tag. The masking functions include standard transformations: full masking, partial masking (showing the last four or first four characters, useful for credit card PANs), hash masking, year-only date masking, and custom masking expressions. Policies are scoped by user groups and roles, so clinical staff querying PHI-tagged columns see real values while analysts outside that group see masked ones.
+
+<Img src="/img/security/masking/masking-options.png" alt="Masking options dropdown showing all available types: Mask, Mask Date Show Year, Mask Hash, Mask None, Mask Null, Mask Show First 4, Mask Show Last 4, Custom" darkImageSrc="/img/security/masking/masking-options-dark.png" />
 
 **Column-Level Access Policies.** Beyond masking (which shows transformed data to users who can query the column), IOMETE also supports column-level access policies that deny access to specific columns entirely for users who shouldn't see even masked values. These can be defined at the column level via the Access Control API or as tag-based exclusions for entire classifications.
 
@@ -94,6 +101,8 @@ curl -X POST "https://your-iomete.example.com/api/v1/domains/{domainId}/governan
     "justification": "Contains HIPAA-covered date of birth identifier; batch discovery run 2026-05-12"
   }'
 ```
+
+<Img src="/img/data-catalog/classification-requests-tab.png" alt="Classification Requests tab showing a pending IN_REVIEW request for COMPLIANCE_GDPR on the data_access_audit_v3 table" darkImageSrc="/img/data-catalog/classification-requests-tab-dark.png" />
 
 The governance workflow doesn't disappear. It moves to batch review. A data steward reviews 200 proposed PHI classifications and approves or rejects each one, rather than manually initiating 200 individual classification requests. The approval audit trail remains intact; only the discovery work is automated.
 
