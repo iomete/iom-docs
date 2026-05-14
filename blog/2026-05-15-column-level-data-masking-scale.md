@@ -184,6 +184,16 @@ For organizations in healthcare, banking, or financial services working toward G
     )
   },
   {
+    question: "What happens to masking when downstream tables or derived columns are created from tagged data?",
+    answerContent: (
+      <>
+        <p>Today, sensitive-data tags and masking rules do not automatically propagate to downstream tables or derived columns created from tagged data. That means a downstream table created from masked or tagged columns will not automatically inherit the same classification or masking behavior.</p>
+        <p>We are planning and building data lineage capabilities that can track dataset relationships, column-level lineage, and transformations across the platform. The goal is to use that lineage foundation in the future to help identify downstream data derived from sensitive columns and support lineage-assisted classification propagation and governance workflows.</p>
+        <p>At the moment, though, this propagation is not available automatically.</p>
+      </>
+    )
+  },
+  {
     question: "Does column-level masking apply to Spark jobs, not just SQL queries?",
     answerContent: (
       <>
