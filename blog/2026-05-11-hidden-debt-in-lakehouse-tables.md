@@ -257,3 +257,6 @@ We’ll go deeper into this in the next post.
 - [Iceberg Maintenance Procedures](https://iceberg.apache.org/docs/latest/maintenance/): official guide to compaction, snapshot expiration, orphan cleanup, and manifest rewriting
 - [Iceberg Table Inspection Queries](https://iceberg.apache.org/docs/latest/spark-queries/#inspecting-tables): how to query metadata tables (data_files, snapshots, manifests) for table health diagnostics
 - [Apache Parquet Format](https://parquet.apache.org/docs/): columnar storage format used by Iceberg data files
+
+#### Series
+- [Part 2: Apache Iceberg Table Maintenance: What Iceberg Ships and What It Doesn't](/blog/iceberg-maintenance-operations)
