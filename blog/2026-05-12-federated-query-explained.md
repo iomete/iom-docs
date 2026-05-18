@@ -138,15 +138,7 @@ If you'd like to talk through how this fits a specific environment, our team han
       <>
         <p>A federated query is a single SQL statement that pulls data from multiple separate source systems, joins or aggregates it, and returns a unified result without first copying the source data into a central store.</p>
         <p>The query engine handles the orchestration: parsing the SQL, pushing supported predicates down to each remote source, executing the remote calls, and stitching the partial results together. Sources can include relational databases, object storage files, lakehouse tables, and SaaS APIs, as long as a connector exists.</p>
-      </>
-    )
-  },
-  {
-    question: "What is the difference between federated query and data virtualization?",
-    answerContent: (
-      <>
-        <p>Federated query is a subset of data virtualization. Federation specifically refers to querying multiple sources in a single statement; virtualization adds semantic layers, caching, governance, and abstraction over the entire data estate.</p>
-        <p>In practice, lakehouse engines like Apache Spark implement federation as a core capability. Dedicated virtualization platforms add a layer above that, with their own metadata models and security frameworks. For most data engineering work, federation in the lakehouse engine is the lower-overhead option.</p>
+        <p>In IOMETE deployments, federation runs through Apache Spark against JDBC sources, Iceberg tables, and object storage files in the same SQL statement, with the engine executing on the customer's Kubernetes cluster.</p>
       </>
     )
   },
@@ -156,15 +148,7 @@ If you'd like to talk through how this fits a specific environment, our team han
       <>
         <p>ETL physically copies data from sources into a target system on a schedule, after which queries hit only the target. Federated query leaves the data in place and runs the query against the sources at execution time.</p>
         <p>The trade-off is direct. ETL gives you predictable performance, full optimizer control, and snapshot consistency, at the cost of pipeline maintenance, storage duplication, and data latency. Federation gives you live data and no duplication, at the cost of network dependency, weaker cross-system optimization, and load on the source systems.</p>
-      </>
-    )
-  },
-  {
-    question: "How does federated query work in Apache Spark?",
-    answerContent: (
-      <>
-        <p>Apache Spark implements federation through its data source API, which includes JDBC connectors, file format readers for Parquet, CSV, JSON, and Avro, and integration with table formats like Apache Iceberg.</p>
-        <p>An external source is registered as a table using a CREATE TABLE statement that specifies the source type and connection options. From that point, the table is queryable like any native Spark table. The query planner pushes supported filters and projections down to the source, executes the remote read in parallel, and joins the result with other tables in the same logical plan.</p>
+        <p>Organizations running IOMETE on Kubernetes typically use federation for live operational joins against transactional databases, while the bulk of analytical work runs on Iceberg tables managed inside the lakehouse.</p>
       </>
     )
   },
@@ -172,8 +156,49 @@ If you'd like to talk through how this fits a specific environment, our team han
     question: "Does a federated query move data?",
     answerContent: (
       <>
-        <p>Yes, but selectively. A federated query moves only the rows and columns that the source returns after applying any pushed-down filters. The bulk of the source data stays in place.</p>
-        <p>This is different from ETL, where the full source dataset is copied into a target system. It is also different from a query that runs entirely against pre-loaded lakehouse tables, where no source-system call happens at query time. Network transfer volume in federation depends heavily on how well the engine can push predicates down to the source.</p>
+        <p>Yes, but selectively. A federated query moves only the rows and columns the source returns after applying any pushed-down filters. The bulk of the source dataset stays in place.</p>
+        <p>Network transfer volume depends on how well the engine can push predicates and projections down to the source. A poorly-pushed query that returns millions of unfiltered rows defeats the point of federation. Connector quality and source-system optimizer behaviour both matter here.</p>
+        <p>In IOMETE-hosted environments, predicate pushdown is handled by Spark's data source API, and the query plan is visible in the SQL editor so engineers can confirm what actually gets pushed before running large jobs.</p>
+      </>
+    )
+  },
+  {
+    question: "What does data sovereignty actually mean in practice?",
+    answerContent: (
+      <>
+        <p>Data sovereignty is not the same as data residency. Residency is about where the bytes are stored. Sovereignty is about who controls the infrastructure that stores and processes them.</p>
+        <p>In practice, sovereignty requires three conditions: the data lives on storage the organization controls; the compute engine that processes it runs in an environment the organization controls; and encryption keys, IAM, and audit logs all stay inside that environment. A managed cloud service can satisfy residency through region pinning while still violating sovereignty if the control plane sits in another jurisdiction.</p>
+        <p>Organizations running IOMETE on their own Kubernetes clusters keep both the storage and the processing engine inside the controlled environment, which is the operational baseline that most sovereignty mandates assume.</p>
+      </>
+    )
+  },
+  {
+    question: "Can self-hosted lakehouses handle the same scale as managed cloud warehouses?",
+    answerContent: (
+      <>
+        <p>Yes. The engines underneath managed cloud warehouses and self-hosted lakehouses share most of the same open-source primitives: Apache Spark for compute, Apache Iceberg for table format, object storage for data. The difference is operational responsibility, not scale ceiling.</p>
+        <p>Multi-petabyte Iceberg tables run on the same Spark execution model whether the cluster is hosted by a vendor or operated on customer infrastructure. The trade-off is real, but it sits in who runs the platform rather than in what the platform can handle.</p>
+        <p>IOMETE deployments run production analytical workloads on customer-operated Kubernetes clusters at multi-petabyte scale using the same Spark and Iceberg components, with field engineering support available for organizations that prefer not to operate Kubernetes themselves.</p>
+      </>
+    )
+  },
+  {
+    question: "How do you handle compliance in a self-hosted environment?",
+    answerContent: (
+      <>
+        <p>Compliance in a self-hosted lakehouse uses the same controls as compliance for any other internal system: IAM integration with the organization's identity provider, audit logging into a customer-owned log store, network policies that restrict egress, and encryption keys held in a customer-managed KMS or HSM.</p>
+        <p>The audit advantage compared to a managed cloud service is direct evidence. Every component runs inside the regulated environment, so compliance teams can demonstrate processing-infrastructure control to auditors from systems the organization already operates, rather than depending on vendor SOC reports or sub-processor disclosures.</p>
+        <p>In IOMETE deployments, audit logs, encryption keys, and IAM integration all run inside the customer's Kubernetes namespace, which is how DORA, GDPR Article 32, NIS2, and EU AI Act evidence requirements are typically met.</p>
+      </>
+    )
+  },
+  {
+    question: "Can a data platform run in air-gapped environments?",
+    answerContent: (
+      <>
+        <p>Yes, if it was architected for it. Air-gapped operation requires container images mirrored to a customer-controlled registry, no outbound telemetry or licence-check traffic, an offline catalog and metadata store, and a deployment path that does not depend on public package repositories at runtime.</p>
+        <p>This is a structural property of the platform, not a configuration toggle. Platforms whose control plane runs in a vendor's cloud cannot operate air-gapped by definition. Platforms whose components all deploy from customer-controlled registries can.</p>
+        <p>IOMETE supports air-gapped Kubernetes deployments where container images, catalog state, and storage credentials all stay inside the customer's disconnected environment, which is the operational pattern used in government, defence, and critical-infrastructure deployments.</p>
       </>
     )
   },
@@ -181,26 +206,9 @@ If you'd like to talk through how this fits a specific environment, our team han
     question: "What are the performance limits of federated query?",
     answerContent: (
       <>
-        <p>Federated query performance is bounded by the network between the engine and each source, the optimizer's ability to push predicates and projections down, and the throughput of the source system itself.</p>
-        <p>Queries that scan large remote tables, perform aggregations the source cannot push down, or join multiple high-volume remote sources tend to run poorly. Federation works best for surgical queries that touch small filtered slices of remote data and join them against locally optimized lakehouse tables.</p>
-      </>
-    )
-  },
-  {
-    question: "Can federated queries cross compliance boundaries like GDPR or DORA?",
-    answerContent: (
-      <>
-        <p>That depends on where the query engine itself executes, not just where the source data lives. A federated query processes the data it pulls back, so the engine's location is part of the regulatory picture.</p>
-        <p>Under GDPR Article 32 and DORA's ICT risk management framework, processing infrastructure must be under the regulated entity's control. A federated query executed inside a self-hosted engine, against sources in the same trust perimeter, can satisfy this. A federated query routed through a vendor-managed control plane outside that perimeter typically cannot, regardless of where the source bytes are stored.</p>
-      </>
-    )
-  },
-  {
-    question: "How does IOMETE handle federated queries?",
-    answerContent: (
-      <>
-        <p>IOMETE supports federated query natively through Apache Spark's JDBC and file format connectors. JDBC sources like PostgreSQL, MySQL, and Oracle are registered as tables and joined with Iceberg tables and object storage files in a single SQL statement.</p>
-        <p>Because IOMETE is self-hosted on the customer's Kubernetes cluster, the federation engine runs inside the customer's trust perimeter. Source credentials, query plans, and intermediate results stay in that environment. This makes federation usable in regulated and sovereignty-constrained scenarios where SaaS-managed engines cannot deploy by design.</p>
+        <p>Federated query performance is bounded by the network between the engine and each source, the optimizer's ability to push predicates and projections down to the source, and the throughput of the source system itself.</p>
+        <p>Queries that scan large remote tables, perform aggregations the source cannot push down, or join multiple high-volume remote sources tend to run poorly. Federation works best for surgical queries that touch small filtered slices of remote data and join them against locally optimized lakehouse tables. For bulk analytical work, loading into the lakehouse is almost always the better answer.</p>
+        <p>In IOMETE production deployments, federation is typically reserved for operational joins against transactional databases and reference data lookups, while the heavy analytical workload runs on Iceberg tables inside the lakehouse.</p>
       </>
     )
   }
