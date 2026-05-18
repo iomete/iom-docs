@@ -12,7 +12,7 @@ hide_table_of_contents: false
 import Img from '@site/src/components/Img';
 import FAQSection from '@site/src/components/FAQSection';
 
-Most enterprise data isn't in one place, and pretending otherwise is what causes ETL bills to run away. A typical setup has transactional data in PostgreSQL or Oracle, historical data in an Iceberg lakehouse, customer records in a CRM, log data sitting in S3, and a few warehouses no one quite has the political capital to retire. When a question comes in that needs all of it, the default answer for the last twenty years has been the same: build a pipeline, copy the data somewhere central, schedule it, monitor it, fix it when it breaks at 3am.
+Most enterprise data isn't in one place, and pretending otherwise is what causes ETL bills to run away. A typical setup has transactional data in PostgreSQL or Oracle, historical data in an Iceberg lakehouse, customer records in a CRM, log data sitting in S3, and a few warehouses no one quite has the political capital to retire. When a question comes in that needs all of it, the default answer for the last twenty years has been the same: build a pipeline, copy the data somewhere central, schedule it, monitor it, fix it when it breaks at 3 a.m.
 
 Federated query proposes a different deal. Leave the data where it lives, push the SQL out to it, and assemble the answer at query time. It's not a new idea, but the constraints around it have shifted. Data residency rules now have teeth. Storage and egress costs are no longer rounding errors. AI workloads need access to operational data without a 24-hour lag. So the question of when federation is actually the right tool, and when it's the wrong one, is worth getting right.
 
@@ -30,7 +30,7 @@ Two related ideas often get conflated with federation, and the distinction matte
 
 **ETL or ELT pipelines** physically move data into a target system on a schedule. Once landed, queries hit a single store. This gives you predictable performance and full optimizer control, at the cost of duplication, latency, and the operational burden of the pipelines themselves.
 
-Federated query sits between them. It's lighter than full virtualization, and it gives you live data instead of last-night's snapshot. But it pushes work onto remote systems and assumes those systems can keep up.
+Federated query sits between them. It's lighter than full virtualization, and it gives you live data instead of last night's snapshot. But it pushes work onto remote systems and assumes those systems can keep up.
 
 <Img src="/img/blog/2026-05-12-federated-query-explained/federated-query-vs-etl.png" alt="ETL versus federated query: ETL moves bulk data on a schedule into a central store before queries run. Federated query inverts the flow — the query is pushed out to sources, and the data stays in place" borderless/>
 
@@ -82,7 +82,7 @@ Most analytical work belongs in the lakehouse, on tables managed in [Apache Iceb
 
 But not every dataset belongs there. Operational tables that change every second, third-party SaaS data behind an API, datasets pinned to a specific jurisdiction, files dropped into S3 by an upstream system that you don't fully control. For those, federation from inside the lakehouse engine is the lower-friction option.
 
-This is what makes Apache Spark a useful federation engine specifically. It's already the compute layer for the lakehouse, so you don't need a second tool. It speaks JDBC, it reads Parquet, JSON, CSV, and Avro from object storage natively, and it has Iceberg integration as first-class behaviour. A single SQL query can pull from all of them.
+This is what makes Apache Spark a useful federation engine specifically. It's already the compute layer for the lakehouse, so you don't need a second tool. It speaks JDBC, it reads Parquet, JSON, CSV, and Avro from object storage natively, and it has Iceberg integration as first-class behavior. A single SQL query can pull from all of them.
 
 ## How IOMETE approaches federated query
 
@@ -157,7 +157,7 @@ If you'd like to talk through how this fits a specific environment, our team han
     answerContent: (
       <>
         <p>Yes, but selectively. A federated query moves only the rows and columns the source returns after applying any pushed-down filters. The bulk of the source dataset stays in place.</p>
-        <p>Network transfer volume depends on how well the engine can push predicates and projections down to the source. A poorly-pushed query that returns millions of unfiltered rows defeats the point of federation. Connector quality and source-system optimizer behaviour both matter here.</p>
+        <p>Network transfer volume depends on how well the engine can push predicates and projections down to the source. A poorly-pushed query that returns millions of unfiltered rows defeats the point of federation. Connector quality and source-system optimizer behavior both matter here.</p>
         <p>In IOMETE-hosted environments, predicate pushdown is handled by Spark's data source API, and the query plan is visible in the SQL editor so engineers can confirm what actually gets pushed before running large jobs.</p>
       </>
     )
@@ -196,9 +196,9 @@ If you'd like to talk through how this fits a specific environment, our team han
     question: "Can a data platform run in air-gapped environments?",
     answerContent: (
       <>
-        <p>Yes, if it was architected for it. Air-gapped operation requires container images mirrored to a customer-controlled registry, no outbound telemetry or licence-check traffic, an offline catalog and metadata store, and a deployment path that does not depend on public package repositories at runtime.</p>
+        <p>Yes, if it was architected for it. Air-gapped operation requires container images mirrored to a customer-controlled registry, no outbound telemetry or license-check traffic, an offline catalog and metadata store, and a deployment path that does not depend on public package repositories at runtime.</p>
         <p>This is a structural property of the platform, not a configuration toggle. Platforms whose control plane runs in a vendor's cloud cannot operate air-gapped by definition. Platforms whose components all deploy from customer-controlled registries can.</p>
-        <p>IOMETE supports air-gapped Kubernetes deployments where container images, catalog state, and storage credentials all stay inside the customer's disconnected environment, which is the operational pattern used in government, defence, and critical-infrastructure deployments.</p>
+        <p>IOMETE supports air-gapped Kubernetes deployments where container images, catalog state, and storage credentials all stay inside the customer's disconnected environment, which is the operational pattern used in government, defense, and critical-infrastructure deployments.</p>
       </>
     )
   },
