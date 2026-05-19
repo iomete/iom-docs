@@ -1,14 +1,24 @@
 name: Snapshot Gate
 
-# Validates dependency-bump (and other) PRs by building the docs site against
-# both `merge-base(origin/main, HEAD)` and the PR head, normalizing webpack
-# content hashes, and diffing the emitted HTML. Any non-empty diff fails the
-# gate unless the PR carries the `snapshot-acknowledged` label.
+# Validates pure dependency-bump PRs by building the docs site against both
+# `merge-base(origin/main, HEAD)` and the PR head, normalizing webpack content
+# hashes + sourcemap comments + JSON-LD `dateModified`, and diffing the
+# emitted HTML. Any non-empty diff fails unless the PR carries the
+# `snapshot-acknowledged` label.
+#
+# Scope (two filters):
+#   1. `paths:` — workflow only triggers when package.json or yarn.lock changes
+#   2. Runtime scope check — skips with "ℹ️ skipped" status if the PR ALSO
+#      changes any non-dep file (mixed-scope PRs can't be cleanly validated;
+#      split into separate PRs for dep changes vs content changes)
 
 on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened, labeled, unlabeled]
+    paths:
+      - 'package.json'
+      - 'yarn.lock'
 
 permissions:
   pull-requests: write
@@ -44,7 +54,30 @@ jobs:
           echo "sha=$BASE" >> "$GITHUB_OUTPUT"
           echo "Base commit: $BASE"
 
+      - name: Check scope (skip if mixed PR)
+        id: scope
+        run: |
+          BASE="${{ steps.base.outputs.sha }}"
+          NON_DEP_FILES=$(git diff --name-only "$BASE..HEAD" \
+            | grep -v -E '^(package\.json|yarn\.lock)$' || true)
+
+          if [ -n "$NON_DEP_FILES" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            {
+              echo 'non_dep_files<<EOF'
+              echo "$NON_DEP_FILES"
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping snapshot gate — PR changes files beyond package.json/yarn.lock"
+            echo "Files outside dep scope:"
+            echo "$NON_DEP_FILES" | sed 's/^/  /'
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "Only dep files changed — proceeding with gate."
+          fi
+
       - name: Build base snapshot
+        if: steps.scope.outputs.skip != 'true'
         run: |
           git checkout ${{ steps.base.outputs.sha }}
           rm -rf node_modules build .docusaurus
@@ -53,6 +86,7 @@ jobs:
           mv build build-base
 
       - name: Build PR head snapshot
+        if: steps.scope.outputs.skip != 'true'
         run: |
           git checkout ${{ github.event.pull_request.head.sha }}
           rm -rf node_modules build .docusaurus
@@ -61,12 +95,14 @@ jobs:
           mv build build-pr
 
       - name: Normalize both snapshots
+        if: steps.scope.outputs.skip != 'true'
         run: |
           ./scripts/snapshot-normalize.sh build-base
           ./scripts/snapshot-normalize.sh build-pr
 
       - name: Compute diff
         id: diff
+        if: steps.scope.outputs.skip != 'true'
         run: |
           set +e
           diff -r -u build-base build-pr > snapshot-diff.txt 2>&1
@@ -102,7 +138,7 @@ jobs:
           fi
 
       - name: Upload diff artifact
-        if: steps.diff.outputs.status == 'changed'
+        if: steps.scope.outputs.skip != 'true' && steps.diff.outputs.status == 'changed'
         uses: actions/upload-artifact@v4
         with:
           name: snapshot-diff-pr-${{ github.event.pull_request.number }}
@@ -123,6 +159,8 @@ jobs:
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           BASE_SHA="${{ steps.base.outputs.sha }}"
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          SKIP="${{ steps.scope.outputs.skip }}"
+          NON_DEP_FILES="${{ steps.scope.outputs.non_dep_files }}"
           STATUS="${{ steps.diff.outputs.status }}"
           CHANGED="${{ steps.diff.outputs.files_changed }}"
           ACK="${{ steps.override.outputs.acknowledged }}"
@@ -132,7 +170,22 @@ jobs:
             echo "### HTML Snapshot Gate"
             echo ""
 
-            if [ "$STATUS" = "clean" ]; then
+            if [ "$SKIP" = "true" ]; then
+              echo "ℹ️ **Skipped — mixed-scope PR.**"
+              echo ""
+              echo "The gate only validates pure dep-bump PRs (only \`package.json\` and/or \`yarn.lock\` changed). This PR also touches non-dep files, so the gate cannot cleanly attribute HTML diffs to dep changes vs. content changes."
+              echo ""
+              echo "<details>"
+              echo "<summary>Files outside dep scope</summary>"
+              echo ""
+              echo '```'
+              echo "$NON_DEP_FILES"
+              echo '```'
+              echo ""
+              echo "</details>"
+              echo ""
+              echo "If you want this PR's dep changes validated, split into two PRs: one for deps, one for content."
+            elif [ "$STATUS" = "clean" ]; then
               echo "✅ **No HTML changes** — safe to merge."
             elif [ "$ACK" = "true" ]; then
               echo "✅ **${CHANGED} files changed — acknowledged via \`snapshot-acknowledged\` label**."
