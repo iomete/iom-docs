@@ -42,6 +42,7 @@
     "sharp": "^0.34.5",
     "tailwindcss": "^3.4.19"
   },
+  "//resolutions": "Pinned to patch vulnerable transitive deps that parent packages still pull at insecure versions. See PRs #380 (picomatch) and #383 (the other 7) for the original Dependabot alerts each entry addresses. Don't remove an entry without confirming the parent no longer needs the vulnerable version — check with `yarn why <pkg>`.",
   "resolutions": {
     "**/@parcel/watcher/picomatch": "^4.0.4",
     "**/picomatch": "^2.3.2",

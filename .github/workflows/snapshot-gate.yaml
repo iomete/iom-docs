@@ -1,0 +1,245 @@
+name: Snapshot Gate
+
+# Validates pure dependency-bump PRs by building the docs site against both
+# `merge-base(origin/main, HEAD)` and the PR head, normalizing webpack content
+# hashes + sourcemap comments + JSON-LD `dateModified`, and diffing the
+# emitted HTML. Any non-empty diff fails unless the PR carries the
+# `snapshot-acknowledged` label.
+#
+# Scope (two filters):
+#   1. `paths:` — workflow only triggers when package.json or yarn.lock changes
+#   2. Runtime scope check — skips with "ℹ️ skipped" status if the PR ALSO
+#      changes any non-dep file (mixed-scope PRs can't be cleanly validated;
+#      split into separate PRs for dep changes vs content changes)
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+    paths:
+      - 'package.json'
+      - 'yarn.lock'
+
+permissions:
+  pull-requests: write
+  contents: read
+
+concurrency:
+  group: snapshot-gate-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  snapshot-gate:
+    name: HTML Snapshot Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Determine merge-base
+        id: base
+        run: |
+          BASE=$(git merge-base origin/main HEAD)
+          echo "sha=$BASE" >> "$GITHUB_OUTPUT"
+          echo "Base commit: $BASE"
+
+      - name: Check scope (skip if mixed PR)
+        id: scope
+        run: |
+          BASE="${{ steps.base.outputs.sha }}"
+          NON_DEP_FILES=$(git diff --name-only "$BASE..HEAD" \
+            | grep -v -E '^(package\.json|yarn\.lock)$' || true)
+
+          if [ -n "$NON_DEP_FILES" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            {
+              echo 'non_dep_files<<EOF'
+              echo "$NON_DEP_FILES"
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping snapshot gate — PR changes files beyond package.json/yarn.lock"
+            echo "Files outside dep scope:"
+            echo "$NON_DEP_FILES" | sed 's/^/  /'
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "Only dep files changed — proceeding with gate."
+          fi
+
+      - name: Build base snapshot
+        if: steps.scope.outputs.skip != 'true'
+        run: |
+          git checkout ${{ steps.base.outputs.sha }}
+          rm -rf node_modules build .docusaurus
+          yarn install --frozen-lockfile --no-progress
+          yarn build
+          mv build build-base
+
+      - name: Build PR head snapshot
+        if: steps.scope.outputs.skip != 'true'
+        run: |
+          git checkout ${{ github.event.pull_request.head.sha }}
+          rm -rf node_modules build .docusaurus
+          yarn install --frozen-lockfile --no-progress
+          yarn build
+          mv build build-pr
+
+      - name: Normalize both snapshots
+        if: steps.scope.outputs.skip != 'true'
+        run: |
+          ./scripts/snapshot-normalize.sh build-base
+          ./scripts/snapshot-normalize.sh build-pr
+
+      - name: Compute diff
+        id: diff
+        if: steps.scope.outputs.skip != 'true'
+        run: |
+          # Compare HTML/XML/TXT only — exclude webpack-bundled assets and
+          # binaries which legitimately differ between dep bumps even when
+          # the published HTML is unchanged (webpack rehashes chunks, etc.).
+          # The HTML normalizer handles references to those assets.
+          set +e
+          diff -r -u \
+            -x '*.js' -x '*.map' -x '*.css' \
+            -x '*.png' -x '*.jpg' -x '*.jpeg' -x '*.gif' -x '*.svg' -x '*.ico' -x '*.webp' \
+            -x '*.woff' -x '*.woff2' -x '*.ttf' -x '*.otf' \
+            -x '*.json' \
+            build-base build-pr > snapshot-diff.txt 2>&1
+          DIFF_EXIT=$?
+          set -e
+
+          if [ $DIFF_EXIT -eq 0 ]; then
+            echo "status=clean" >> "$GITHUB_OUTPUT"
+            echo "files_changed=0" >> "$GITHUB_OUTPUT"
+            echo "✓ No HTML changes"
+          elif [ $DIFF_EXIT -eq 1 ]; then
+            MOD=$(grep -c "^diff " snapshot-diff.txt 2>/dev/null) || true
+            ADDED=$(grep -c "^Only in build-pr" snapshot-diff.txt 2>/dev/null) || true
+            REMOVED=$(grep -c "^Only in build-base" snapshot-diff.txt 2>/dev/null) || true
+            CHANGED=$((MOD + ADDED + REMOVED))
+            echo "status=changed" >> "$GITHUB_OUTPUT"
+            echo "files_changed=$CHANGED" >> "$GITHUB_OUTPUT"
+            echo "✗ $CHANGED files changed (modified=$MOD, added=$ADDED, removed=$REMOVED)"
+          else
+            echo "::error::diff command exited with $DIFF_EXIT — unexpected error"
+            head -50 snapshot-diff.txt
+            exit $DIFF_EXIT
+          fi
+
+      - name: Check label override
+        id: override
+        # Use Actions `contains()` for exact array-element match. Substring
+        # matching (e.g., `grep snapshot-acknowledged`) would let a label
+        # like `not-snapshot-acknowledged` bypass the gate.
+        run: |
+          echo "acknowledged=${{ contains(github.event.pull_request.labels.*.name, 'snapshot-acknowledged') }}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload diff artifact
+        if: steps.scope.outputs.skip != 'true' && steps.diff.outputs.status == 'changed'
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-diff-pr-${{ github.event.pull_request.number }}
+          path: snapshot-diff.txt
+          retention-days: 30
+
+      - name: Find existing comment
+        id: find-comment
+        uses: peter-evans/find-comment@v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: '<!-- snapshot-gate -->'
+
+      - name: Build comment body
+        id: comment
+        run: |
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          BASE_SHA="${{ steps.base.outputs.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          SKIP="${{ steps.scope.outputs.skip }}"
+          NON_DEP_FILES="${{ steps.scope.outputs.non_dep_files }}"
+          STATUS="${{ steps.diff.outputs.status }}"
+          CHANGED="${{ steps.diff.outputs.files_changed }}"
+          ACK="${{ steps.override.outputs.acknowledged }}"
+
+          {
+            echo '<!-- snapshot-gate -->'
+            echo "### HTML Snapshot Gate"
+            echo ""
+
+            if [ "$SKIP" = "true" ]; then
+              echo "ℹ️ **Skipped — mixed-scope PR.**"
+              echo ""
+              echo "The gate only validates pure dep-bump PRs (only \`package.json\` and/or \`yarn.lock\` changed). This PR also touches non-dep files, so the gate cannot cleanly attribute HTML diffs to dep changes vs. content changes."
+              echo ""
+              echo "<details>"
+              echo "<summary>Files outside dep scope</summary>"
+              echo ""
+              echo '```'
+              echo "$NON_DEP_FILES"
+              echo '```'
+              echo ""
+              echo "</details>"
+              echo ""
+              echo "If you want this PR's dep changes validated, split into two PRs: one for deps, one for content."
+            elif [ "$STATUS" = "clean" ]; then
+              echo "✅ **No HTML changes** — safe to merge."
+            elif [ "$ACK" = "true" ]; then
+              echo "✅ **${CHANGED} files changed — acknowledged via \`snapshot-acknowledged\` label**."
+            else
+              echo "❌ **${CHANGED} HTML files changed** — review required before merge."
+              echo ""
+              echo "<details>"
+              echo "<summary>First 200 lines of unified diff</summary>"
+              echo ""
+              echo '```diff'
+              head -n 200 snapshot-diff.txt
+              echo '```'
+              echo ""
+              echo "</details>"
+              echo ""
+              echo "If the diff is expected (e.g. webpack runtime change visible on every page), add the \`snapshot-acknowledged\` label to override the gate."
+            fi
+
+            echo ""
+            echo "Base: \`${BASE_SHA:0:8}\` · Head: \`${HEAD_SHA:0:8}\` · [Workflow run](${RUN_URL})"
+
+            if [ "$STATUS" = "changed" ]; then
+              echo ""
+              echo "Full diff artifact available on the workflow run page (retention: 30 days)."
+            fi
+          } > comment.md
+
+          {
+            echo 'body<<COMMENT_EOF'
+            cat comment.md
+            echo 'COMMENT_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create or update PR comment
+        # Non-blocking: if the workflow lacks `pull-requests: write` (e.g.,
+        # restricted Dependabot token), failing to post the comment must
+        # not turn a clean snapshot gate into a red check.
+        continue-on-error: true
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.comment.outputs.body }}
+          edit-mode: replace
+
+      - name: Fail if changes not acknowledged
+        if: steps.diff.outputs.status == 'changed' && steps.override.outputs.acknowledged != 'true'
+        run: |
+          echo "::error::Snapshot gate failed — ${{ steps.diff.outputs.files_changed }} HTML files changed without 'snapshot-acknowledged' label"
+          exit 1
