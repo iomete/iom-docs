@@ -104,8 +104,17 @@ jobs:
         id: diff
         if: steps.scope.outputs.skip != 'true'
         run: |
+          # Compare HTML/XML/TXT only — exclude webpack-bundled assets and
+          # binaries which legitimately differ between dep bumps even when
+          # the published HTML is unchanged (webpack rehashes chunks, etc.).
+          # The HTML normalizer handles references to those assets.
           set +e
-          diff -r -u build-base build-pr > snapshot-diff.txt 2>&1
+          diff -r -u \
+            -x '*.js' -x '*.map' -x '*.css' \
+            -x '*.png' -x '*.jpg' -x '*.jpeg' -x '*.gif' -x '*.svg' -x '*.ico' -x '*.webp' \
+            -x '*.woff' -x '*.woff2' -x '*.ttf' -x '*.otf' \
+            -x '*.json' \
+            build-base build-pr > snapshot-diff.txt 2>&1
           DIFF_EXIT=$?
           set -e
 
@@ -129,13 +138,11 @@ jobs:
 
       - name: Check label override
         id: override
+        # Use Actions `contains()` for exact array-element match. Substring
+        # matching (e.g., `grep snapshot-acknowledged`) would let a label
+        # like `not-snapshot-acknowledged` bypass the gate.
         run: |
-          LABELS='${{ toJSON(github.event.pull_request.labels.*.name) }}'
-          if echo "$LABELS" | grep -q snapshot-acknowledged; then
-            echo "acknowledged=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "acknowledged=false" >> "$GITHUB_OUTPUT"
-          fi
+          echo "acknowledged=${{ contains(github.event.pull_request.labels.*.name, 'snapshot-acknowledged') }}" >> "$GITHUB_OUTPUT"
 
       - name: Upload diff artifact
         if: steps.scope.outputs.skip != 'true' && steps.diff.outputs.status == 'changed'
@@ -220,6 +227,10 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Create or update PR comment
+        # Non-blocking: if the workflow lacks `pull-requests: write` (e.g.,
+        # restricted Dependabot token), failing to post the comment must
+        # not turn a clean snapshot gate into a red check.
+        continue-on-error: true
         uses: peter-evans/create-or-update-comment@v4
         with:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
