@@ -31,6 +31,7 @@ const sidebars = {
             "compute-clusters/overview",
             "compute-clusters/creating-clusters",
             "compute-clusters/managing-clusters",
+            "compute-clusters/troubleshooting",
           ],
         },
         "event-stream",
