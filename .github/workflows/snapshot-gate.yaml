@@ -125,13 +125,17 @@ jobs:
           && steps.build_base.outcome == 'success'
           && steps.build_head.outcome == 'success'
         run: |
-          # Compare HTML/XML/TXT only — exclude webpack-bundled assets and
-          # binaries which legitimately differ between dep bumps even when
-          # the published HTML is unchanged (webpack rehashes chunks, etc.).
-          # The HTML normalizer handles references to those assets.
+          # Compare user-facing artifacts only. Exclude:
+          #   - `assets/`: webpack output (JS/CSS chunks, LICENSE.txt files,
+          #     source maps) — rehashes on every dep bump even with identical
+          #     source. References from HTML are normalized separately.
+          #   - Binary assets (images, fonts) at any path — never the regression
+          #     target of a dep bump.
+          # What remains: HTML pages, sitemap.xml, robots.txt, llms-full.txt,
+          # RSS/atom feeds — i.e. what we publish to users.
           set +e
           diff -r -u \
-            -x '*.js' -x '*.map' -x '*.css' \
+            -x 'assets' \
             -x '*.png' -x '*.jpg' -x '*.jpeg' -x '*.gif' -x '*.svg' -x '*.ico' -x '*.webp' \
             -x '*.woff' -x '*.woff2' -x '*.ttf' -x '*.otf' \
             -x '*.json' \
@@ -142,7 +146,7 @@ jobs:
           if [ $DIFF_EXIT -eq 0 ]; then
             echo "status=clean" >> "$GITHUB_OUTPUT"
             echo "files_changed=0" >> "$GITHUB_OUTPUT"
-            echo "✓ No HTML changes"
+            echo "✓ No content changes"
           elif [ $DIFF_EXIT -eq 1 ]; then
             MOD=$(grep -c "^diff " snapshot-diff.txt 2>/dev/null) || true
             ADDED=$(grep -c "^Only in build-pr" snapshot-diff.txt 2>/dev/null) || true
@@ -237,11 +241,11 @@ jobs:
               echo ""
               echo "See the [workflow run](${RUN_URL}) for the build log, then either: (a) close this PR, (b) bump a parent package alongside this one to restore compatibility, or (c) add a \`resolutions\` override."
             elif [ "$STATUS" = "clean" ]; then
-              echo "✅ **No HTML changes** — safe to merge."
+              echo "✅ **No content changes** — safe to merge."
             elif [ "$ACK" = "true" ]; then
               echo "✅ **${CHANGED} files changed — acknowledged via \`snapshot-acknowledged\` label**."
             else
-              echo "❌ **${CHANGED} HTML files changed** — review required before merge."
+              echo "❌ **${CHANGED} files changed** — review required before merge."
               echo ""
               echo "<details>"
               echo "<summary>First 200 lines of unified diff</summary>"
@@ -295,6 +299,6 @@ jobs:
           elif [ "${{ steps.build_head.outcome }}" = "failure" ]; then
             echo "::error::PR build broken — this dep bump is incompatible with the codebase"
           else
-            echo "::error::Snapshot gate failed — ${{ steps.diff.outputs.files_changed }} HTML files changed without 'snapshot-acknowledged' label"
+            echo "::error::Snapshot gate failed — ${{ steps.diff.outputs.files_changed }} files changed without 'snapshot-acknowledged' label"
           fi
           exit 1
