@@ -77,6 +77,10 @@ jobs:
           fi
 
       - name: Build base snapshot
+        id: build-base
+        # continue-on-error so a base-build failure (rare — implies main is broken)
+        # still posts a clear sticky comment instead of just a red check.
+        continue-on-error: true
         if: steps.scope.outputs.skip != 'true'
         run: |
           git checkout ${{ steps.base.outputs.sha }}
@@ -86,6 +90,10 @@ jobs:
           mv build build-base
 
       - name: Build PR head snapshot
+        id: build-head
+        # continue-on-error so a head-build failure (common: dep bump breaks build)
+        # still posts a clear sticky comment instead of just a red check.
+        continue-on-error: true
         if: steps.scope.outputs.skip != 'true'
         run: |
           git checkout ${{ github.event.pull_request.head.sha }}
@@ -95,14 +103,20 @@ jobs:
           mv build build-pr
 
       - name: Normalize both snapshots
-        if: steps.scope.outputs.skip != 'true'
+        if: |
+          steps.scope.outputs.skip != 'true'
+          && steps.build-base.outcome == 'success'
+          && steps.build-head.outcome == 'success'
         run: |
           ./scripts/snapshot-normalize.sh build-base
           ./scripts/snapshot-normalize.sh build-pr
 
       - name: Compute diff
         id: diff
-        if: steps.scope.outputs.skip != 'true'
+        if: |
+          steps.scope.outputs.skip != 'true'
+          && steps.build-base.outcome == 'success'
+          && steps.build-head.outcome == 'success'
         run: |
           # Compare HTML/XML/TXT only — exclude webpack-bundled assets and
           # binaries which legitimately differ between dep bumps even when
@@ -145,7 +159,11 @@ jobs:
           echo "acknowledged=${{ contains(github.event.pull_request.labels.*.name, 'snapshot-acknowledged') }}" >> "$GITHUB_OUTPUT"
 
       - name: Upload diff artifact
-        if: steps.scope.outputs.skip != 'true' && steps.diff.outputs.status == 'changed'
+        if: |
+          steps.scope.outputs.skip != 'true'
+          && steps.build-base.outcome == 'success'
+          && steps.build-head.outcome == 'success'
+          && steps.diff.outputs.status == 'changed'
         uses: actions/upload-artifact@v4
         with:
           name: snapshot-diff-pr-${{ github.event.pull_request.number }}
@@ -168,6 +186,8 @@ jobs:
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
           SKIP="${{ steps.scope.outputs.skip }}"
           NON_DEP_FILES="${{ steps.scope.outputs.non_dep_files }}"
+          BASE_BUILD="${{ steps.build-base.outcome }}"
+          HEAD_BUILD="${{ steps.build-head.outcome }}"
           STATUS="${{ steps.diff.outputs.status }}"
           CHANGED="${{ steps.diff.outputs.files_changed }}"
           ACK="${{ steps.override.outputs.acknowledged }}"
@@ -192,6 +212,23 @@ jobs:
               echo "</details>"
               echo ""
               echo "If you want this PR's dep changes validated, split into two PRs: one for deps, one for content."
+            elif [ "$BASE_BUILD" = "failure" ]; then
+              echo "⚠️ **Base build broken — main may be broken, not your PR.**"
+              echo ""
+              echo "The base commit (\`${BASE_SHA:0:8}\`) failed to build. This is almost certainly a problem with main, not with this PR's changes. File an issue or check recent main commits."
+              echo ""
+              echo "See the [workflow run](${RUN_URL}) for the build log."
+            elif [ "$HEAD_BUILD" = "failure" ]; then
+              echo "❌ **PR build broken — this dep bump breaks the Docusaurus build.**"
+              echo ""
+              echo "The PR head (\`${HEAD_SHA:0:8}\`) failed \`yarn build\`. The proposed dependency change is incompatible with the current codebase."
+              echo ""
+              echo "Common causes:"
+              echo "- New major version of a transitive dep with breaking changes"
+              echo "- Stricter schema validation in the bumped package rejecting options passed by another package (e.g., \`webpackbar\` ↔ \`webpack\`)"
+              echo "- API removal in the bumped version"
+              echo ""
+              echo "See the [workflow run](${RUN_URL}) for the build log, then either: (a) close this PR, (b) bump a parent package alongside this one to restore compatibility, or (c) add a \`resolutions\` override."
             elif [ "$STATUS" = "clean" ]; then
               echo "✅ **No HTML changes** — safe to merge."
             elif [ "$ACK" = "true" ]; then
@@ -238,8 +275,19 @@ jobs:
           body: ${{ steps.comment.outputs.body }}
           edit-mode: replace
 
-      - name: Fail if changes not acknowledged
-        if: steps.diff.outputs.status == 'changed' && steps.override.outputs.acknowledged != 'true'
+      - name: Determine final gate result
+        if: |
+          steps.scope.outputs.skip != 'true' && (
+            steps.build-base.outcome == 'failure'
+            || steps.build-head.outcome == 'failure'
+            || (steps.diff.outputs.status == 'changed' && steps.override.outputs.acknowledged != 'true')
+          )
         run: |
-          echo "::error::Snapshot gate failed — ${{ steps.diff.outputs.files_changed }} HTML files changed without 'snapshot-acknowledged' label"
+          if [ "${{ steps.build-base.outcome }}" = "failure" ]; then
+            echo "::error::Base build failed — main may be broken (commit ${{ steps.base.outputs.sha }})"
+          elif [ "${{ steps.build-head.outcome }}" = "failure" ]; then
+            echo "::error::PR build broken — this dep bump is incompatible with the codebase"
+          else
+            echo "::error::Snapshot gate failed — ${{ steps.diff.outputs.files_changed }} HTML files changed without 'snapshot-acknowledged' label"
+          fi
           exit 1
