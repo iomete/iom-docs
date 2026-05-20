@@ -23,7 +23,7 @@ That tooltip is often enough to identify the cause. If it isn't, move on to the 
 
 ## Open the Logs Tab
 
-The **Logs** tab streams driver logs from the pod. If your role has executor-log access, an **Instance** dropdown above the viewer lets you switch to individual executor pods.
+The **Logs** tab streams driver logs from the pod. For multi-node clusters, an **Instance** dropdown above the viewer lets you switch to individual executor pods.
 
 Use these controls to narrow what you see:
 
