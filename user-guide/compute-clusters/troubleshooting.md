@@ -106,7 +106,7 @@ When you message the owner or open a support ticket, the answer comes back faste
 
 | What to attach | Where to find it |
 |---|---|
-| Cluster ID | Under the cluster name on the detail page header. |
+| Link to the cluster | The URL in your browser address bar. If you can't share the link, attach the cluster name (or endpoint), cluster ID, and domain name instead. |
 | Time of failure | An approximate timestamp. Events are gone after an hour, so be specific. |
 | Top one or two Warning events | `Reason` and `Message` columns on the **Kubernetes events** tab. |
 | A log snippet | Download from the **Logs** tab. Attach the lines around the failure, not the whole file. |
