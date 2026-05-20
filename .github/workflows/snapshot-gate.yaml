@@ -77,7 +77,7 @@ jobs:
           fi
 
       - name: Build base snapshot
-        id: build-base
+        id: build_base
         # continue-on-error so a base-build failure (rare — implies main is broken)
         # still posts a clear sticky comment instead of just a red check.
         continue-on-error: true
@@ -90,7 +90,7 @@ jobs:
           mv build build-base
 
       - name: Build PR head snapshot
-        id: build-head
+        id: build_head
         # continue-on-error so a head-build failure (common: dep bump breaks build)
         # still posts a clear sticky comment instead of just a red check.
         continue-on-error: true
@@ -105,8 +105,8 @@ jobs:
       - name: Normalize both snapshots
         if: |
           steps.scope.outputs.skip != 'true'
-          && steps.build-base.outcome == 'success'
-          && steps.build-head.outcome == 'success'
+          && steps.build_base.outcome == 'success'
+          && steps.build_head.outcome == 'success'
         run: |
           ./scripts/snapshot-normalize.sh build-base
           ./scripts/snapshot-normalize.sh build-pr
@@ -115,8 +115,8 @@ jobs:
         id: diff
         if: |
           steps.scope.outputs.skip != 'true'
-          && steps.build-base.outcome == 'success'
-          && steps.build-head.outcome == 'success'
+          && steps.build_base.outcome == 'success'
+          && steps.build_head.outcome == 'success'
         run: |
           # Compare HTML/XML/TXT only — exclude webpack-bundled assets and
           # binaries which legitimately differ between dep bumps even when
@@ -161,8 +161,8 @@ jobs:
       - name: Upload diff artifact
         if: |
           steps.scope.outputs.skip != 'true'
-          && steps.build-base.outcome == 'success'
-          && steps.build-head.outcome == 'success'
+          && steps.build_base.outcome == 'success'
+          && steps.build_head.outcome == 'success'
           && steps.diff.outputs.status == 'changed'
         uses: actions/upload-artifact@v4
         with:
@@ -186,8 +186,8 @@ jobs:
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
           SKIP="${{ steps.scope.outputs.skip }}"
           NON_DEP_FILES="${{ steps.scope.outputs.non_dep_files }}"
-          BASE_BUILD="${{ steps.build-base.outcome }}"
-          HEAD_BUILD="${{ steps.build-head.outcome }}"
+          BASE_BUILD="${{ steps.build_base.outcome }}"
+          HEAD_BUILD="${{ steps.build_head.outcome }}"
           STATUS="${{ steps.diff.outputs.status }}"
           CHANGED="${{ steps.diff.outputs.files_changed }}"
           ACK="${{ steps.override.outputs.acknowledged }}"
@@ -278,14 +278,14 @@ jobs:
       - name: Determine final gate result
         if: |
           steps.scope.outputs.skip != 'true' && (
-            steps.build-base.outcome == 'failure'
-            || steps.build-head.outcome == 'failure'
+            steps.build_base.outcome == 'failure'
+            || steps.build_head.outcome == 'failure'
             || (steps.diff.outputs.status == 'changed' && steps.override.outputs.acknowledged != 'true')
           )
         run: |
-          if [ "${{ steps.build-base.outcome }}" = "failure" ]; then
+          if [ "${{ steps.build_base.outcome }}" = "failure" ]; then
             echo "::error::Base build failed — main may be broken (commit ${{ steps.base.outputs.sha }})"
-          elif [ "${{ steps.build-head.outcome }}" = "failure" ]; then
+          elif [ "${{ steps.build_head.outcome }}" = "failure" ]; then
             echo "::error::PR build broken — this dep bump is incompatible with the codebase"
           else
             echo "::error::Snapshot gate failed — ${{ steps.diff.outputs.files_changed }} HTML files changed without 'snapshot-acknowledged' label"
