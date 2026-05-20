@@ -82,6 +82,11 @@ jobs:
         # still posts a clear sticky comment instead of just a red check.
         continue-on-error: true
         if: steps.scope.outputs.skip != 'true'
+        # NODE_OPTIONS raises Node's max heap to 6 GB. Default ~4 GB was
+        # hit (FATAL: heap out of memory) when running two Docusaurus
+        # builds back-to-back on the standard 7 GB Ubuntu runner.
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
         run: |
           git checkout ${{ steps.base.outputs.sha }}
           rm -rf node_modules build .docusaurus
@@ -95,6 +100,8 @@ jobs:
         # still posts a clear sticky comment instead of just a red check.
         continue-on-error: true
         if: steps.scope.outputs.skip != 'true'
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
         run: |
           git checkout ${{ github.event.pull_request.head.sha }}
           rm -rf node_modules build .docusaurus
