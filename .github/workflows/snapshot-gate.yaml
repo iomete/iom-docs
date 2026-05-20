@@ -71,7 +71,7 @@ jobs:
         # apply it to force the gate on a mixed-scope PR).
         run: |
           BASE="${{ steps.base.outputs.sha }}"
-          HAS_LABEL='${{ contains(github.event.pull_request.labels.*.name, ''dependencies'') }}'
+          HAS_LABEL="${{ contains(github.event.pull_request.labels.*.name, 'dependencies') }}"
 
           CHANGED=$(git diff --name-only "$BASE..HEAD")
           DEP_FILES=$(echo "$CHANGED" | grep -E '^(package\.json|yarn\.lock)$' || true)
