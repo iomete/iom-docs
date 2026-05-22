@@ -7,7 +7,7 @@ import Img from '@site/src/components/Img';
 
 # Query Scheduling
 
-From release `3.16.0` forward, IOMETE allows you to schedule your queries directly from the SQL Editor. This feature enables you to automate query execution based on custom intervals, manage resources, and monitor run histories effectively.
+From release `4.0.0` forward, IOMETE allows you to schedule your queries directly from the SQL Editor. This feature enables you to automate query execution based on custom intervals, manage resources, and monitor run histories effectively.
 
 ## Creating a Schedule
 
@@ -24,6 +24,7 @@ You can create a new schedule based on the content of your currently open worksh
 
 *   **General:** This tab contains the mandatory fields required to create a schedule with minimum effort. You must provide a **Name** and select a **Resource Bundle**. Here, you also define the scheduling information, including the **Time Zone** and **Interval**. You can also enable **Cron Syntax** to define more complex schedule intervals.
 *   **Configuration:** Configure the execution environment. The **Compute**, **Catalog**, and **Database** fields are automatically pre-filled based on your worksheet selections.
+    *   **Auto-start:** Enable the checkbox next to the **Compute** dropdown to automatically start the compute cluster if it is not running when the schedule triggers. Auto-start is disabled by default — if the compute is stopped when the schedule fires and this option is off, the run fails to connect. You must have execute permission on the selected compute to enable Auto-start.
     *   **Run as user:** This is a required field. You can select either yourself or a Service Account to execute the query.
     *   **Parameters:** If your query contains parameters, they will be listed here for configuration.
 
@@ -66,9 +67,17 @@ Clicking on a schedule's name or selecting **View** (in action menu) navigates y
 
 To investigate a specific execution, click on the **Run Name** or **ID** in the Runs tab. This opens the **Run Details** page, providing a detailed view of that specific execution instance.
 
-A visual timeline chart at the top of the page shows query execution across time, giving you a quick overview of how tasks were scheduled and how long each one took.
+A visual timeline chart at the top of the page shows query execution across time, giving you a quick overview of how tasks were scheduled and how long each one took. Beneath the timeline, the run information is organized into three tabs: **Details**, **Logs**, and **Tasks**.
 
 <Img src="/img/user-guide/sql-editor/scheduling/schedule-run-details.png" alt="Schedule Run Details View" centered />
+
+### Viewing Run Logs
+
+The **Logs** tab streams the orchestration logs produced during the run, including compute readiness checks (when Auto-start is enabled), query submission, and any errors raised by the scheduler. Use the time-range selector (defaults to the last 30 minutes), auto-refresh interval, and line-wrap toggle to navigate the output, or use the download icon to export the visible logs.
+
+:::note
+The Logs tab shows scheduler logs, not Spark executor output. For per-query status and duration, switch to the **Tasks** tab.
+:::
 
 ### Viewing Run Tasks
 By navigating to the **Tasks** tab within the Run Details page, you can see the individual queries executed within that run. Clicking a task bar in the timeline opens a side panel displaying the task's State, Task Run ID, Duration, and Start/End Time.
