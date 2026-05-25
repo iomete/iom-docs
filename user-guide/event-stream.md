@@ -61,10 +61,10 @@ In the create form configure the basic settings for your Event Stream.
 | **Resource Bundle** | Select who can access this resource |
 | **Namespace** | Kubernetes namespace for deployment |
 | **Resources** | Number of replicas and CPU/memory allocation per replica |
-| **Volume** | Persistent storage for the Event Stream. If no volume is attached, all data will be lost permanently when the container is restarted or redeployed. **Not recommended for production without a volume.** |
+| **Volume** | Persistent storage for the Event Stream. Without a volume, data is continuously persisted but a very small amount of recent data may be lost if the service restarts. Attach an **On-Demand PVC** for full durability guarantees. |
 
 :::warning
-When no volume is selected, a warning message appears: *"No Volume is currently attached to this Event Stream. If the container is restarted or redeployed, all data will be lost permanently. This is not recommended for production."*
+When no volume is selected, a warning message appears: *"No storage volume is attached. Your data is continuously persisted, but a very small amount of recent data may be lost if the service restarts. For full durability guarantees, attach a persistent volume (On-Demand PVC)."*
 :::
 
 <Img src="/img/user-guide/event-stream/without-volume.png" alt="Event Stream without volume warning" />
