@@ -75,7 +75,7 @@ src="/img/guides/power-bi/connection-details.png"
 alt="Iomete lakehouse connection"
 />
 
-Change hightlighted parameters:
+Change highlighted parameters:
 
 - `access_token`: Generated Tokens are used instead of password for connecting to lakehouse.
 - Database: `default` database is specified in the connection string. If you want to use other database change it.
