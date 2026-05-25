@@ -13,7 +13,7 @@ banner_description: let’s explore the journey from warehouse to lakehouses and
 import Img from '@site/src/components/Img';
 import Iframe from '@site/src/components/Iframe';
 
-Data is a key differential in the new era of “Data is the new Oil”. Most people are familiar with [data warehouses](/glossary/data-warehouse) as a solution. As of today, data lakes & [data lakehouses](/glossary/data-lakehouse) are considered the most popular data warehouse alternatives.Understanding the history, reasons for evolution, and value new solutions provide would allow us to bring information into perspective and the need for them. In this article, let’s explore the journey from warehouse to lakehouses and what are the main differences.
+Data is a key differential in the new era of “Data is the new Oil”. Most people are familiar with [data warehouses](/glossary/data-warehouse) as a solution. As of today, data lakes & [data lakehouses](/glossary/data-lakehouse) are considered the most popular data warehouse alternatives. Understanding the history, reasons for evolution, and value new solutions provide would allow us to bring information into perspective and the need for them. In this article, let’s explore the journey from warehouse to lakehouses and what are the main differences.
 
 <!-- truncate -->
 

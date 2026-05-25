@@ -18,7 +18,7 @@ There are times when you may need to export data from a table as a CSV file to u
 1.  Utilizing the SQL Editor in IOMETE.
 2.  Exporting a query result as a CSV to an S3 bucket.
 
-## Utilizing the SQL Editor in IOMETE.
+## Utilizing the SQL Editor in IOMETE
 
 To export data as a CSV file, write your query, run it, and click the CSV icon in the toolbar at the bottom of the query results pane (tooltip: **Export result as CSV**). The result downloads as `data.csv`. This method is the easiest, but it is capped at 10,000 rows. For larger exports, use the S3 method below.
 
@@ -38,7 +38,7 @@ Firstly, to prevent users accidentally querying very large tables, which could f
 Secondly, exporting a large amount of data can cause the browser (SQL Editor) to crash. To prevent this from happening and provide a better user experience, IOMETE automatically adds a LIMIT clause to SQL statements if none is specified by the user. This ensures that only a reasonable amount of data is returned and displayed in the SQL Editor UI.
 :::
 
-## Exporting a query result as a CSV to an S3 bucket.
+## Exporting a query result as a CSV to an S3 bucket
 
 As we spoke, exporting a large table or query result to CSV using the SQL editor is not feasible. Luckily there is a reliable way for it. Exporting the query/table result directly to an S3 bucket. This is the most flexible and robust way to export data as a CSV file. You can export any table or query result as a CSV file.
 

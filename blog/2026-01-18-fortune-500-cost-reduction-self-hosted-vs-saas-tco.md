@@ -1,6 +1,6 @@
 ---
 title: How Fortune 500 Companies Cut Data Platform Costs 40-60% With Self-Hosted Lakehouses
-description: SaaS data platforms like Snowflake and Databricks cost.Self-hosted lakehouses built on Apache Iceberg deliver equivalent performance with predictable licensing, transparent infrastructure costs, and zero vendor lock-in
+description: SaaS data platforms like Snowflake and Databricks cost. Self-hosted lakehouses built on Apache Iceberg deliver equivalent performance with predictable licensing, transparent infrastructure costs, and zero vendor lock-in
 slug: fortune-500-cost-reduction-self-hosted-vs-saas-tco
 authors: aytan
 tags2: ["Technical", "Company"]

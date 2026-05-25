@@ -15,7 +15,7 @@ To set up a Nessie catalog, provide the following information:
 - **Name**: The name of the catalog.
 - **Warehouse**: The URL of an S3-compatible warehouse.
 - **URI**: The API endpoint for Nessie.
-- **Ref**: Name of the initial Nessie referance, usually main.
+- **Ref**: Name of the initial Nessie reference, usually main.
 
 <Img src="/img/user-guide/spark-catalogs/create-external-nessie-catalog.png" alt="Create Nessie Catalog" />
 

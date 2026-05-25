@@ -24,7 +24,7 @@ One of the major drawbacks of data warehouses is their rigidity. Data warehouses
 
 Data lakes, such as Databrick's delta lake, were developed to overcome the limitations of data warehouses. The modern use cases most companies seek to address cannot be addressed by data warehouses, despite their ability to offer high-performance and scalable analytics.
 
-Essentially, a data lake is a central repository for unstructured data - e.g. text, numbers, images, videos or audi0 - that can be used whatever way we see fit, now or in the future. This type of data can be a big unlock for organizations.
+Essentially, a data lake is a central repository for unstructured data - e.g. text, numbers, images, videos or audio - that can be used whatever way we see fit, now or in the future. This type of data can be a big unlock for organizations.
 
 A data lake is a flexible architecture and allows organizations to keep all data in one repository. It does, however, have some shortcomings. In the absence of a data catalog, data integrity can become an issue.
 
