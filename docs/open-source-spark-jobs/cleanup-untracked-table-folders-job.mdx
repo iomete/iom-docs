@@ -1,0 +1,264 @@
+---
+title: Cleanup Untracked Table Folders Job
+sidebar_label: Cleanup Untracked Table Folders
+description: Identify and optionally delete table folders that remain in object storage but are no longer tracked by the catalog.
+last_update:
+  date: 05/23/2026
+  author: Hasan
+---
+
+import FlexButton from "@site/src/components/FlexButton";
+
+---
+
+The **Cleanup Untracked Table Folders Job** helps find table folders that still exist in object storage even though the corresponding tables are no longer active in the catalog.
+
+Use this job when tables were dropped without purging their physical files. It can run in dry-run mode to report candidate folders, and it deletes folders only when deletion is explicitly enabled.
+
+- **Version**: `0.1.0`
+- **Source**: [View on GitHub](https://github.com/iomete/iomete-marketplace-jobs/tree/main/cleanup-untracked-table-folders)
+
+:::warning
+This job can delete data from object storage. Always run it in dry-run mode first, review the candidates and audit table, and only enable deletion after confirming the output.
+:::
+
+## Installation
+
+You can deploy this job from the Marketplace or create the job template manually. The Marketplace flow is recommended because it pre-populates the image, main class, and default configuration.
+
+### Marketplace
+
+- Open **Job Templates** from the left sidebar.
+- Click <FlexButton label="Marketplace" /> to open the list of preconfigured Marketplace jobs.
+- Find `cleanup-untracked-table-folders`, open the actions menu, and click <FlexButton label="Deploy" />.
+- The Marketplace template opens a pre-filled **Create New Job** form. Review the defaults and update the configuration for your environment.
+
+### Manual Setup
+
+Create a job template manually with [**New Job Template**](/resources/user-guide/spark-jobs/creating-spark-job) if you do not use the Marketplace flow.
+
+Specify the following parameters when creating the job manually:
+
+| Field | Value |
+|---|---|
+| Name | `cleanup-untracked-table-folders` |
+| Docker image | `iomete.azurecr.io/iomete/cleanup-untracked-table-folders:0.1.0` |
+| Main class | `com.iomete.cleanup.untrackedtablefolders.App` |
+| Main application file | `spark-internal` |
+| Config file path | `/etc/configs/application.json` |
+| Config file name | `application.json` |
+
+## Running the Job
+
+The Marketplace template includes a default configuration under the **Config Maps** tab. Review the databases and safety settings before creating the job.
+
+### Dry-Run Example
+
+Use dry-run mode first to inspect candidates without deleting data.
+
+```json
+{
+  "catalog": "spark_catalog",
+  "databases": ["analytics"],
+  "exclude_paths": [],
+  "exclude_database_folders": [],
+  "older_than_hours": 24,
+  "dry_run": true,
+  "delete_enabled": false,
+  "max_candidate_folders_per_database": 10,
+  "collect_size_statistics": true
+}
+```
+
+### Delete-Enabled Example
+
+Enable deletion only after reviewing the dry-run output.
+
+```json
+{
+  "catalog": "spark_catalog",
+  "databases": ["analytics"],
+  "exclude_paths": [
+    "s3a://bucket/data/analytics/protected_table"
+  ],
+  "exclude_database_folders": [],
+  "older_than_hours": 24,
+  "dry_run": false,
+  "delete_enabled": true,
+  "max_candidate_folders_per_database": 5,
+  "collect_size_statistics": true
+}
+```
+
+## Configuration Fields
+
+| Field | Default | Description |
+|---|---:|---|
+| `catalog` | `spark_catalog` | Catalog to inspect. |
+| `databases` | required | List of databases to scan. The job does not scan all databases automatically. |
+| `exclude_paths` | `[]` | Full object-storage paths that must never be selected as candidates. |
+| `exclude_database_folders` | `[]` | Database-relative folder exclusions in the format `database.folder`. |
+| `older_than_hours` | `24` | Candidate folders must be older than this cutoff. |
+| `dry_run` | `true` | Reports candidates without deleting data. |
+| `delete_enabled` | `false` | Must be `true` together with `dry_run=false` before deletion can happen. |
+| `max_candidate_folders_per_database` | `10` | Safety limit. If more candidates are detected for a database, the database is skipped. |
+| `collect_size_statistics` | `true` | Estimates candidate and deleted-folder sizes for audit reporting. |
+
+## Recommended Workflow
+
+1. Run with `dry_run=true` and `delete_enabled=false`.
+2. Review the driver logs and audit table output.
+3. Add `exclude_paths` or `exclude_database_folders` for anything that must be protected.
+4. Keep `max_candidate_folders_per_database` low for the first delete-enabled run.
+5. Enable deletion only after the dry-run output is reviewed.
+6. Query the audit table after the run.
+
+## Safety Controls
+
+The job is designed to fail closed. If it cannot prove that a path is safe to delete, it does not delete it.
+
+| Safety check | Purpose |
+|---|---|
+| `dry_run=true` by default | Reports candidates without deleting data. |
+| `delete_enabled=false` by default | Requires explicit confirmation before destructive cleanup. |
+| Explicit database list | Limits cleanup scope to configured databases. |
+| Scan-root validation | Prevents scanning outside the database storage boundary. |
+| Active table protection | Protects folders that are active table locations or contain active table locations. |
+| Pre-delete recheck | Re-discovers active table locations immediately before deletion. |
+| `exclude_paths` | Protects explicitly configured storage paths. |
+| `exclude_database_folders` | Protects database-relative folders without requiring full object-storage paths. |
+| Sentinel folder exclusion | Skips Spark/Hadoop staging folders such as `_temporary` and `.spark-staging*`. |
+| `older_than_hours` | Filters out folders newer than the configured cutoff. |
+| `max_candidate_folders_per_database` | Skips cleanup when too many candidates are detected. |
+| Empty-database guard | Skips databases with no active table locations by default. |
+| Audit table | Records success, skipped, and failed outcomes for each database. |
+
+## Excluding Paths
+
+Use `exclude_paths` when you know the full object-storage path to protect:
+
+```json
+{
+  "exclude_paths": [
+    "s3a://bucket/data/analytics/manual_archive"
+  ]
+}
+```
+
+Use `exclude_database_folders` when you want to protect a folder relative to a configured database:
+
+```json
+{
+  "exclude_database_folders": [
+    "analytics.manual_archive"
+  ]
+}
+```
+
+Both forms are included in the effective excluded-path list written to the audit table.
+
+## Audit Table
+
+The job writes audit rows to:
+
+```sql
+spark_catalog.iomete_system_db.cleanup_untracked_table_folder_runs
+```
+
+Use the audit table to review candidates, skipped databases, deleted folders, runtime metadata, and failure details.
+
+### Important Audit Columns
+
+| Column | Meaning |
+|---|---|
+| `run_id` | ID shared by all database rows from the same job execution. |
+| `spark_app_id` | Spark application ID for the job run. |
+| `runtime_compute_id` | Platform runtime compute/run identifier, when available. |
+| `runtime_compute_namespace` | Kubernetes namespace where the Spark driver ran, when available. |
+| `runtime_domain` | IOMETE domain from the runtime environment, when available. |
+| `runtime_user` | Spark runtime/run-as user from the driver environment, usually `SPARK_USER`. |
+| `external_job_id` | Stable platform Job ID shown in the UI, when exposed by the platform runtime. |
+| `platform_started_by` | Platform user who started this specific job run, when exposed by the platform runtime. |
+| `catalog_name` | Catalog scanned by the job. |
+| `database_name` | Database scanned by this audit row. |
+| `operation` | Cleanup operation name. |
+| `dry_run` | Whether the run was report-only. |
+| `delete_enabled` | Whether destructive deletion was explicitly enabled. |
+| `older_than_hours` | Age threshold used for candidate detection. |
+| `cutoff_time` | Timestamp cutoff derived from `older_than_hours`. |
+| `max_candidate_folders_per_database` | Candidate-count safety limit used for this run. |
+| `excluded_paths` | Effective excluded paths used during candidate detection. |
+| `status` | `SUCCESS`, `SKIPPED`, or `FAILED`. |
+| `status_reason` | Machine-readable reason for skipped or failed outcomes. |
+| `error_message` | Error details for failed or intentionally skipped outcomes. |
+| `discovered_database_location` | Database location discovered from the catalog. |
+| `storage_scan_location` | Object-storage root scanned by the job. |
+| `active_table_count` | Number of active tables discovered for the database. |
+| `storage_folder_count` | Number of immediate storage folders discovered. |
+| `candidate_folder_count` | Number of folders selected as cleanup candidates. |
+| `deleted_folder_count` | Number of folders deleted. |
+| `candidate_folders` | Candidate folder paths. |
+| `deleted_folders` | Deleted folder paths. |
+| `candidate_object_count` | Estimated object count across candidate folders when size statistics are collected. |
+| `candidate_total_size_bytes` | Estimated candidate size when size statistics are collected. |
+| `deleted_object_count` | Object count for deleted folders when size statistics are collected. |
+| `deleted_total_size_bytes` | Deleted size when size statistics are collected. |
+| `metrics` | Additional contextual metadata for troubleshooting. |
+| `start_time` | Database processing start time. |
+| `end_time` | Database processing end time. |
+
+### Runtime Identity Fields
+
+The audit table separates **who the Spark job runs as**, **who started the run from the platform**, and **which platform job/run the audit row belongs to**.
+
+| Field | Example | Source | Meaning |
+|---|---|---|---|
+| `runtime_user` | `hasan` | `SPARK_USER` from the driver environment | Spark runtime/run-as user. This is the user the Spark job executes as. |
+| `platform_started_by` | `fde_admin` | `IOMETE_JOB_STARTED_BY`, when exposed by the platform runtime | Platform user who started this specific run in the UI or platform backend. This can differ from `runtime_user`. |
+| `external_job_id` | `3e9342e7-89d3-42f8-a603-e00b783cca17` | `IOMETE_EXTERNAL_JOB_ID`, when exposed by the platform runtime | Stable platform Job ID for the job definition/template. This stays the same across multiple runs of the same job. |
+| `runtime_compute_id` | `afceb977-cd1e-4ff8-89e3-2f7876436ecf` | `IOMETE_COMPUTE_ID`, when available | Specific platform runtime/application identifier for one execution. This changes for each run. |
+| `runtime_compute_namespace` | `spark-resources-1` | `IOMETE_COMPUTE_NAMESPACE`, when available | Kubernetes namespace where the Spark driver ran. |
+| `runtime_domain` | `fde` | `IOMETE_DOMAIN`, when available | IOMETE domain associated with the runtime. |
+| `spark_app_id` | `spark-ffbd89771a0a4a248b947676b943557e` | Spark application context | Spark application ID used to correlate with Spark logs/history. |
+| `run_id` | `2edb19ec-8cb0-4d27-8965-ffb4912bfa60` | Generated by this cleanup job | Cleanup job run ID. It groups all per-database audit rows from the same execution. |
+
+Example audit query:
+
+```sql
+SELECT
+  start_time,
+  database_name,
+  status,
+  status_reason,
+  dry_run,
+  delete_enabled,
+  candidate_folder_count,
+  deleted_folder_count,
+  runtime_user,
+  platform_started_by,
+  external_job_id
+FROM spark_catalog.iomete_system_db.cleanup_untracked_table_folder_runs
+ORDER BY start_time DESC
+LIMIT 20;
+```
+
+## Status Values
+
+| Status | Description |
+|---|---|
+| `SUCCESS` | The database was processed normally. Candidates may or may not have been found. |
+| `SKIPPED` | The job intentionally refused to process or delete for a safety reason. |
+| `FAILED` | An unexpected failure occurred while processing the database. |
+
+Common `status_reason` values include:
+
+| Reason | Description |
+|---|---|
+| `database_not_found` | Configured database does not exist or cannot be discovered. |
+| `database_location_missing` | Database exists but has no usable storage location. |
+| `no_active_tables_in_database` | Database has no active table locations, so cleanup is skipped by default. |
+| `too_many_candidate_folders` | Candidate count exceeded `max_candidate_folders_per_database`. |
+
+## Summary
+
+Use this job to review and optionally clean table folders that remain in object storage after tables are no longer tracked by the catalog. Always start with dry-run mode, review the audit table, and enable deletion only after confirming that the candidates are safe to remove.
