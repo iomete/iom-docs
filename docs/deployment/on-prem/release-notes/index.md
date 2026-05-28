@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 04/21/2026
-  author: Fuad Musayev
+  date: 05/28/2026
+  author: Sourabh Jajoria
 ---
 
 import Img from '@site/src/components/Img';
@@ -14,6 +14,18 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.17.1" date="May 28th, 2026">
+  <Improvements>
+    - **Access Policy PATCH API**: Added a consolidated `PATCH /api/v1/admin/data-security/access/policy/{policyId}` endpoint for updating resources and policy items in a single request. Based on customer validation where PATCH additions created duplicate rows and removals required exact full-entry matches, PATCH now updates existing matching entries in place: resource patches merge or remove columns within matching database/table blocks, and policy item patches merge or remove accesses for matching users/groups. The existing `/resources` and `/policy-items` PATCH APIs remain supported and now also use this updated merge/remove behavior.
+    - **Email Editing**: User email addresses can now be updated from the UI for users created from the dashboard.
+  </Improvements>
+
+  <BugFixes>
+    - **Secrets Management V2**: Fixed secret creation errors for domain-scoped secret stores when domain IDs contain characters that are invalid in Kubernetes Secret names.
+    - **Groups UI**: The Admin Console now shows the correct Last updated at time for groups, including soft-deleted LDAP entries.
+  </BugFixes>
+</Release>
 
 <Release version="3.17.0" date="April 21st, 2026">
   <Improvements>
