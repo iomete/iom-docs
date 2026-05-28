@@ -221,7 +221,7 @@ That led us toward a detect, evaluate, execute pipeline with event-based detecti
 We will go deeper into the engineering behind that system in our next post.
 
 
-## Resources & further reading
+## Resources & Further Reading
 
 ### Open-Source Projects
 - [Apache Amoro](https://amoro.apache.org/): incubating project for self-optimizing Iceberg tables with continuous monitoring
