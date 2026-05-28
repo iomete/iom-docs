@@ -18,13 +18,23 @@ import FAQSection from '@site/src/components/FAQSection';
 
 *Iceberg gives you the core maintenance operations, but not the scheduler, health checks, or orchestration around them. This post explains what each operation does at the file level, which tuning parameters matter most, and where a DIY setup starts to break down.*
 
+<details>
+  <summary><strong>This is Part 2 of our Apache Iceberg Table Maintenance series. Explore the full series:</strong></summary>
+
+  * Part 1: [The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
+  * **Part 2: What Iceberg Gives You for Table Maintenance**
+  * Part 3: [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
+  * Part 4: How We Built Automated Table Maintenance *(coming soon)*
+  * Part 5: Running Iceberg Maintenance in Production *(coming soon)*
+  * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
+
+</details>
+
 ---
 
 Every team running [Apache Iceberg](https://iceberg.apache.org/) in production eventually hits the same wall. Queries get slower, storage costs go up, and someone opens a ticket. The engineer who looks into it finds that Iceberg includes the maintenance primitives, but not the automation or guidance for when to use them.
 
-[Part 1](/blog/hidden-debt-in-lakehouse-tables) covered the hidden cost of ignoring it. This post explains what Iceberg gives you out of the box, what each operation does at the file level, and where the DIY approach starts to fail. We worked through most of these options before building our own system, and the gaps cost us real time.
-
-*Part 2 of our six-part series on Apache Iceberg table maintenance. Up next: [The Iceberg table maintenance landscape](/blog/iceberg-maintenance-alternatives).*
+This post explains what Iceberg gives you out of the box, what each operation does at the file level, and where the DIY approach starts to fail. We worked through most of these options before building our own system, and the gaps cost us real time.
 
 ## What Iceberg Ships Out of the Box
 

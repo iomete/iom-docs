@@ -14,6 +14,18 @@ date: 05/11/2026
 
 *Every Iceberg table you're not maintaining is likely getting slower and more expensive. This post explains the mechanics of why, with real production numbers.*
 
+<details>
+  <summary><strong>This is Part 1 of our Apache Iceberg Table Maintenance series. Explore the full series:</strong></summary>
+
+  * **Part 1: The Hidden Debt in Your Lakehouse Tables**
+  * Part 2: [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations)
+  * Part 3: [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
+  * Part 4: How We Built Automated Table Maintenance *(coming soon)*
+  * Part 5: Running Iceberg Maintenance in Production *(coming soon)*
+  * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
+
+</details>
+
 import Img from '@site/src/components/Img';
 import FAQSection from '@site/src/components/FAQSection';
 
@@ -26,8 +38,6 @@ The culprit wasn't a bad query plan or a misconfigured cluster. It was **45 mill
 This is what table debt looks like. And if you're running Iceberg tables in production without automated maintenance, it's accumulating right now.
 
 <Img src="/img/blog/2026-05-11-hidden-debt-in-lakehouse-tables/day1-vs-day90.png" alt="Same table, three months apart: Day 1 with 500 data files and 10 MB metadata vs Day 90 with 45 million data files and 5 TB metadata" borderless/>
-
-*Part 1 of our six-part series on Apache Iceberg table maintenance. Up next: [What Iceberg gives you out of the box](/blog/iceberg-maintenance-operations).*
 
 ## What actually happens when you write data
 
