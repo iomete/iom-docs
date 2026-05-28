@@ -22,6 +22,11 @@ jobs:
         run: yarn install --no-progress --frozen-lockfile
 
       - name: Build
+        # NODE_OPTIONS raises Node's max heap to 6 GB. The default ~4 GB was
+        # hit intermittently (FATAL: heap out of memory) during static-site
+        # generation as the site grew. Mirrors the snapshot-gate workflow.
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
         run: yarn build
         env:
           NODE_OPTIONS: --max-old-space-size=6144
