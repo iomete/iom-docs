@@ -14,16 +14,7 @@ import Img from '@site/src/components/Img';
 
 # The Iceberg Table Maintenance Landscape: From Open-Source to Fully Managed
 
-:::info Apache Iceberg Table Maintenance — a six-part series
-You're reading **Part 3**.
-
-1. [The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
-2. [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations)
-3. **The Iceberg Table Maintenance Landscape** — you are here
-4. How We Built Automated Table Maintenance (coming soon)
-5. Running Iceberg Maintenance in Production (coming soon)
-6. Why We Rebuilt Orphan File Cleanup from Scratch (bonus, coming soon)
-:::
+*Part 3 of our six-part series on Apache Iceberg table maintenance. New here? Start with [Part 1: The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables). Previously: [What Iceberg gives you out of the box](/blog/iceberg-maintenance-operations).*
 
 Most teams assume that once they adopt Iceberg, table maintenance is largely taken care of.
 

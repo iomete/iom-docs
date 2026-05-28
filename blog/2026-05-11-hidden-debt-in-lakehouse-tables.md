@@ -19,16 +19,7 @@ import FAQSection from '@site/src/components/FAQSection';
 
 ---
 
-:::info Apache Iceberg Table Maintenance — a six-part series
-You're reading **Part 1**.
-
-1. **The Hidden Debt in Your Lakehouse Tables** — you are here
-2. [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations)
-3. [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
-4. How We Built Automated Table Maintenance (coming soon)
-5. Running Iceberg Maintenance in Production (coming soon)
-6. Why We Rebuilt Orphan File Cleanup from Scratch (bonus, coming soon)
-:::
+*Part 1 of our six-part series on Apache Iceberg table maintenance. Up next: [What Iceberg gives you out of the box](/blog/iceberg-maintenance-operations).*
 
 Last year, a customer running a streaming CDC pipeline on our platform came to us with a problem. Their queries were taking 40% longer than they had three months ago. No schema changes. No new data sources. Same queries, same cluster size. Just... slower.
 
