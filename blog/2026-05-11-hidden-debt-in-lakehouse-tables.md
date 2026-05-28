@@ -18,6 +18,17 @@ import Img from '@site/src/components/Img';
 
 ---
 
+:::info Apache Iceberg Table Maintenance — a six-part series
+You're reading **Part 1**.
+
+1. **The Hidden Debt in Your Lakehouse Tables** — you are here
+2. [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations)
+3. [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
+4. How We Built Automated Table Maintenance (coming soon)
+5. Running Iceberg Maintenance in Production (coming soon)
+6. Why We Rebuilt Orphan File Cleanup from Scratch (bonus, coming soon)
+:::
+
 Last year, a customer running a streaming CDC pipeline on our platform came to us with a problem. Their queries were taking 40% longer than they had three months ago. No schema changes. No new data sources. Same queries, same cluster size. Just... slower.
 
 The culprit wasn't a bad query plan or a misconfigured cluster. It was **45 million tiny data files** and roughly **5 TB of accumulated metadata**. The metadata had grown larger than the actual data. Their drivers were running out of memory just trying to figure out which files to read, before reading a single row.
@@ -247,7 +258,7 @@ Compaction, snapshot expiration, orphan cleanup, manifest rewriting. They work. 
 Most teams wire up cron jobs. Some rely on managed platforms. Plenty don’t think about it until queries start slowing down.
 
 To fix this properly, you need to understand how Iceberg handles maintenance. The four operations, how they work, and where the DIY approach starts to break down.
-We’ll go deeper into this in the next post.
+We’ll go deeper into this in the [next post](/blog/iceberg-maintenance-operations).
 
 ---
 ## Resources & further reading
@@ -257,6 +268,3 @@ We’ll go deeper into this in the next post.
 - [Iceberg Maintenance Procedures](https://iceberg.apache.org/docs/latest/maintenance/): official guide to compaction, snapshot expiration, orphan cleanup, and manifest rewriting
 - [Iceberg Table Inspection Queries](https://iceberg.apache.org/docs/latest/spark-queries/#inspecting-tables): how to query metadata tables (data_files, snapshots, manifests) for table health diagnostics
 - [Apache Parquet Format](https://parquet.apache.org/docs/): columnar storage format used by Iceberg data files
-
-#### Series
-- [Part 2: Apache Iceberg Table Maintenance: What Iceberg Ships and What It Doesn't](/blog/iceberg-maintenance-operations)
