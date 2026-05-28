@@ -19,11 +19,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <Improvements>
     - **Access Policy PATCH API**: Added a consolidated `PATCH /api/v1/admin/data-security/access/policy/{policyId}` endpoint for updating resources and policy items in a single request. Based on customer validation where PATCH additions created duplicate rows and removals required exact full-entry matches, PATCH now updates existing matching entries in place: resource patches merge or remove columns within matching database/table blocks, and policy item patches merge or remove accesses for matching users/groups. The existing `/resources` and `/policy-items` PATCH APIs remain supported and now also use this updated merge/remove behavior.
     - **Email Editing**: User email addresses can now be updated from the UI for users created from the dashboard.
+    - **Compute Creation Flow**: The Next button no longer blocks navigation on validation errors. Step through the form freely; validation runs only when you click Create/Save.
+    - **Compute Configuration Tab**: Redesigned to match the Details view — Spark configs, env vars, arguments, jars, files, PyFiles, and packages now show as tagged rows with clear empty states.
   </Improvements>
 
   <BugFixes>
     - **Secrets Management V2**: Fixed secret creation errors for domain-scoped secret stores when domain IDs contain characters that are invalid in Kubernetes Secret names.
     - **Groups UI**: The Admin Console now shows the correct Last updated at time for groups, including soft-deleted LDAP entries.
+    - **Secrets in Details & Review**: Fixed environment variables and Spark configs that reference secrets not being shown on Details and Review pages across resources.
   </BugFixes>
 </Release>
 
