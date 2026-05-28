@@ -7,7 +7,7 @@ hide_table_of_contents: true
 tags2: [Engineering]
 banner_description: From open-source projects to fully managed platforms — an honest assessment of every Iceberg table maintenance option available today.
 coverImage: img/blog/thumbnails/darkLake.png
-date: 04/21/2026
+date: 06/08/2026
 ---
 
 import Img from '@site/src/components/Img';
@@ -32,7 +32,7 @@ This post looks at the broader landscape. Open-source projects, cloud-native pla
 
 And more importantly, where each of them still falls short.
 
-<Img src="/img/blog/2026-04-21-iceberg-maintenance-alternatives/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines (Spark, Trino, Flink, Databricks, Cloudera) sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
+<Img src="/img/blog/2026-06-08-iceberg-maintenance-alternatives/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines (Spark, Trino, Flink, Databricks, Cloudera) sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
 
 ## Open-Source Projects
 
