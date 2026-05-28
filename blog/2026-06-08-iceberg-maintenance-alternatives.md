@@ -3,7 +3,7 @@ title: "The Iceberg Table Maintenance Landscape: From Open-Source to Fully Manag
 description: Honest comparison of every Iceberg table maintenance option — Apache Amoro, Snowflake, Databricks, AWS, and more. What each offers and what's still missing.
 slug: iceberg-maintenance-alternatives
 authors: abhishek
-hide_table_of_contents: true
+hide_table_of_contents: false
 tags2: [Engineering]
 banner_description: From open-source projects to fully managed platforms — an honest assessment of every Iceberg table maintenance option available today.
 coverImage: img/blog/thumbnails/darkLake.png
@@ -13,6 +13,17 @@ date: 06/08/2026
 import Img from '@site/src/components/Img';
 
 # The Iceberg Table Maintenance Landscape: From Open-Source to Fully Managed
+
+:::info Apache Iceberg Table Maintenance — a six-part series
+You're reading **Part 3**.
+
+1. [The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
+2. [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations)
+3. **The Iceberg Table Maintenance Landscape** — you are here
+4. How We Built Automated Table Maintenance (coming soon)
+5. Running Iceberg Maintenance in Production (coming soon)
+6. Why We Rebuilt Orphan File Cleanup from Scratch (bonus, coming soon)
+:::
 
 Most teams assume that once they adopt Iceberg, table maintenance is largely taken care of.
 
@@ -206,7 +217,7 @@ We needed maintenance that felt invisible like the best cloud platforms, reacted
 
 That led us toward a detect, evaluate, execute pipeline with event-based detection, threshold-based triggering, separate execution paths for heavy and lightweight operations, inherited configuration, and full run-level observability.
 
-We will go deeper into the engineering behind that system in our [next post](/blog/how-we-built-automated-maintenance).
+We will go deeper into the engineering behind that system in our next post.
 
 
 ## Resources & further reading
