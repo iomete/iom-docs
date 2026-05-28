@@ -20,11 +20,11 @@ import FAQSection from '@site/src/components/FAQSection';
 
 ---
 
-*Part 2 of our six-part series on Apache Iceberg table maintenance. New here? Start with [Part 1: The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables). Up next: [The Iceberg table maintenance landscape](/blog/iceberg-maintenance-alternatives).*
-
 Every team running [Apache Iceberg](https://iceberg.apache.org/) in production eventually hits the same wall. Queries get slower, storage costs go up, and someone opens a ticket. The engineer who looks into it finds that Iceberg includes the maintenance primitives, but not the automation or guidance for when to use them.
 
 [Part 1](/blog/hidden-debt-in-lakehouse-tables) covered the hidden cost of ignoring it. This post explains what Iceberg gives you out of the box, what each operation does at the file level, and where the DIY approach starts to fail. We worked through most of these options before building our own system, and the gaps cost us real time.
+
+*Part 2 of our six-part series on Apache Iceberg table maintenance. Up next: [The Iceberg table maintenance landscape](/blog/iceberg-maintenance-alternatives).*
 
 ## What Iceberg Ships Out of the Box
 

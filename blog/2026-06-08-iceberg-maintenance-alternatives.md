@@ -14,8 +14,6 @@ import Img from '@site/src/components/Img';
 
 # The Iceberg Table Maintenance Landscape: From Open-Source to Fully Managed
 
-*Part 3 of our six-part series on Apache Iceberg table maintenance. New here? Start with [Part 1: The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables). Previously: [What Iceberg gives you out of the box](/blog/iceberg-maintenance-operations).*
-
 Most teams assume that once they adopt Iceberg, table maintenance is largely taken care of.
 
 In reality, Iceberg gives you the tools to maintain your tables, but it doesn’t tell you how to run them in production. And that gap shows up quickly in practice. In the previous post, we looked at what Iceberg provides out of the box: compaction, snapshot expiration, orphan file cleanup, and manifest rewrites. These are powerful tools, but they’re not enough for a production system.
@@ -35,6 +33,8 @@ This post looks at the broader landscape. Open-source projects, cloud-native pla
 And more importantly, where each of them still falls short.
 
 <Img src="/img/blog/2026-06-08-iceberg-maintenance-alternatives/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines (Spark, Trino, Flink, Databricks, Cloudera) sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
+
+*Part 3 of our six-part series on Apache Iceberg table maintenance.*
 
 ## Open-Source Projects
 

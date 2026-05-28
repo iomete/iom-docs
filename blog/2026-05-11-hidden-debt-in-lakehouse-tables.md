@@ -19,8 +19,6 @@ import FAQSection from '@site/src/components/FAQSection';
 
 ---
 
-*Part 1 of our six-part series on Apache Iceberg table maintenance. Up next: [What Iceberg gives you out of the box](/blog/iceberg-maintenance-operations).*
-
 Last year, a customer running a streaming CDC pipeline on our platform came to us with a problem. Their queries were taking 40% longer than they had three months ago. No schema changes. No new data sources. Same queries, same cluster size. Just... slower.
 
 The culprit wasn't a bad query plan or a misconfigured cluster. It was **45 million tiny data files** and roughly **5 TB of accumulated metadata**. The metadata had grown larger than the actual data. Their drivers were running out of memory just trying to figure out which files to read, before reading a single row.
@@ -28,6 +26,8 @@ The culprit wasn't a bad query plan or a misconfigured cluster. It was **45 mill
 This is what table debt looks like. And if you're running Iceberg tables in production without automated maintenance, it's accumulating right now.
 
 <Img src="/img/blog/2026-05-11-hidden-debt-in-lakehouse-tables/day1-vs-day90.png" alt="Same table, three months apart: Day 1 with 500 data files and 10 MB metadata vs Day 90 with 45 million data files and 5 TB metadata" borderless/>
+
+*Part 1 of our six-part series on Apache Iceberg table maintenance. Up next: [What Iceberg gives you out of the box](/blog/iceberg-maintenance-operations).*
 
 ## What actually happens when you write data
 
