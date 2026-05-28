@@ -20,6 +20,17 @@ import FAQSection from '@site/src/components/FAQSection';
 
 ---
 
+:::info Apache Iceberg Table Maintenance — a six-part series
+You're reading **Part 2**.
+
+1. [The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
+2. **What Iceberg Gives You for Table Maintenance** — you are here
+3. [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
+4. How We Built Automated Table Maintenance (coming soon)
+5. Running Iceberg Maintenance in Production (coming soon)
+6. Why We Rebuilt Orphan File Cleanup from Scratch (bonus, coming soon)
+:::
+
 Every team running [Apache Iceberg](https://iceberg.apache.org/) in production eventually hits the same wall. Queries get slower, storage costs go up, and someone opens a ticket. The engineer who looks into it finds that Iceberg includes the maintenance primitives, but not the automation or guidance for when to use them.
 
 This is the second post in our series on Iceberg table maintenance. [Part 1](/blog/hidden-debt-in-lakehouse-tables) covered the hidden cost of ignoring it. This post explains what Iceberg gives you out of the box, what each operation does at the file level, and where the DIY approach starts to fail. We worked through most of these options before building our own system, and the gaps cost us real time.
@@ -493,10 +504,6 @@ For smaller deployments with a handful of tables, cron jobs and scripts are usua
 #### Community & DIY
 - [IOMETE Data Compaction Job](/resources/open-source-spark-jobs/data-compaction-job): open-source Spark job for scheduled Iceberg compaction
 - [Automating Apache Iceberg Maintenance with Spark and Python](https://medium.com/@vincent_daniel/automating-apache-iceberg-maintenance-with-spark-and-python-ee1a253de86c): Python class approach with size-based table classification
-
-#### Series
-- [Part 1: The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
-- Part 3: The Iceberg Table Maintenance Landscape (coming soon)
 
 ---
 
