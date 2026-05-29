@@ -8,7 +8,7 @@ tags2: [Technical, Engineering]
 keywords: [apache iceberg, iceberg maintenance, rewrite_data_files, expire_snapshots, remove_orphan_files, rewrite_manifests, iceberg compaction, spark procedures, lakehouse maintenance]
 banner_description: Every team running Apache Iceberg in production eventually hits the same wall. What Iceberg gives you out of the box, what each operation actually does, and where the DIY path leads.
 coverImage: img/blog/thumbnails/darkStone.png
-date: 2026-05-25
+date: 2026/05/25
 ---
 
 import Img from '@site/src/components/Img';

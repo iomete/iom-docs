@@ -6,7 +6,7 @@ authors: abhishek
 hide_table_of_contents: false
 tags2: [Engineering]
 banner_description: From open-source projects to fully managed platforms — an honest assessment of every Iceberg table maintenance option available today.
-coverImage: img/blog/thumbnails/darkLake.png
+coverImage: img/blog/thumbnails/darkStone.png
 date: 06/08/2026
 ---
 
@@ -30,7 +30,7 @@ import Img from '@site/src/components/Img';
 
 Most teams assume that once they adopt Iceberg, table maintenance is largely taken care of.
 
-In reality, Iceberg gives you the tools to maintain your tables, but it doesn’t tell you how to run them in production. And that gap shows up quickly in practice. In the previous post, we looked at what Iceberg provides out of the box: compaction, snapshot expiration, orphan file cleanup, and manifest rewrites. These are powerful tools, but they’re not enough for a production system.
+In reality, Iceberg gives you the tools to maintain your tables, but it doesn’t tell you how to run them in production. And that gap shows up quickly in practice. In the previous [post](/blog/iceberg-maintenance-operations), we looked at what Iceberg provides out of the box: compaction, snapshot expiration, orphan file cleanup, and manifest rewrites. These are powerful tools, but they’re not enough for a production system.
 
 A production system has to answer harder questions. Which tables need maintenance, what should run first, and how much resources it should use. It also has to deal with failures, partial runs, and prove that the table actually became healthier afterward.
 
@@ -78,7 +78,7 @@ The limitation is maturity. Floe is still early, with minimal production adoptio
 
 ## Cloud-Native Platforms
 
-Cloud platforms show us what the ideal maintenance experience looks like.
+Cloud platforms show us what a better maintenance experience can look like.
 
 You create the table, keep writing data, and the platform quietly handles the messy parts in the background. Compaction runs. Old snapshots expire. Metadata gets cleaned up. Most of the time, you do not even think about it.
 
