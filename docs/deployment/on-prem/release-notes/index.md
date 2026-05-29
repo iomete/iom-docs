@@ -21,7 +21,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Email Editing**: User email addresses can now be updated from the UI for users created from the dashboard.
     - **Compute Creation Flow**: The Next button no longer blocks navigation on validation errors. Step through the form freely; validation runs only when you click Create/Save.
     - **Compute Configuration Tab**: Redesigned to match the Details view — Spark configs, env vars, arguments, jars, files, PyFiles, and packages now show as tagged rows with clear empty states.
+    - **Job Template Docker Registry Filtering**: Docker registry options in job templates are now filtered by namespace, helping users select registries that are valid for the target namespace.
     - **Job Run Concurrency**: Spark jobs on the Priority-Based deployment flow now honor job-level concurrency limits. `Replace` aborts the in-flight run before starting a new one; `Forbid` rejects the new run while another is active. Applies to scheduled, manual, and retry runs. See [Concurrency Policy](/user-guide/spark-jobs/spark-application-config#concurrency-policy).
+    - **Spark Application Details**: Added a **Last updated by** field to Spark application details, making it easier to see who most recently changed an application.
     - **Spark Config & Environment Variable Display**: Long Spark config and environment variable values now stack vertically, making them easier to read at a glance.
   </Improvements>
 
