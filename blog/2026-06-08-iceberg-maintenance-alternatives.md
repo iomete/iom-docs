@@ -54,7 +54,7 @@ In this space, two projects are worth looking at because they approach the probl
 
 ### Apache Amoro
 
-[Apache Amoro](https://amoro.apache.org/) (incubating) is the most ambitious of the two. It treats table maintenance as a continuous system rather than a set of one-off procedures.
+[Apache Amoro](https://amoro.apache.org/) is the most ambitious of the two. It treats table maintenance as a continuous system rather than a set of one-off procedures.
 
 At a high level, a central service monitors tables, evaluates them against thresholds, creates optimization plans, and dispatches work to Spark-based workers. It also goes beyond basic compaction, planning work across multiple tiers depending on table state.
 
