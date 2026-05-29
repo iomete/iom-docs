@@ -22,6 +22,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Compute Creation Flow**: The Next button no longer blocks navigation on validation errors. Step through the form freely; validation runs only when you click Create/Save.
     - **Compute Configuration Tab**: Redesigned to match the Details view — Spark configs, env vars, arguments, jars, files, PyFiles, and packages now show as tagged rows with clear empty states.
     - **Job Run Concurrency**: Spark jobs on the Priority-Based deployment flow now honor job-level concurrency limits. `Replace` aborts the in-flight run before starting a new one; `Forbid` rejects the new run while another is active. Applies to scheduled, manual, and retry runs. See [Concurrency Policy](/user-guide/spark-jobs/spark-application-config#concurrency-policy).
+    - **Spark Config & Environment Variable Display**: Long Spark config and environment variable values now stack vertically, making them easier to read at a glance.
   </Improvements>
 
   <BugFixes>
@@ -29,6 +30,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Groups UI**: The Admin Console now shows the correct Last updated at time for groups, including soft-deleted LDAP entries.
     - **Secrets in Details & Review**: Fixed environment variables and Spark configs that reference secrets not being shown on Details and Review pages across resources.
     - **Jupyter Container Logs**: Added support for Loki as the logs provider for Jupyter Containers, enabling log retrieval on Loki-backed installs.
+    - **Create Secret Popover**: Fixed the footer outset on the create secret popover so it aligns correctly within the panel.
+    - **Query Monitoring**: Added the missing close button to the SQL plan details panel in Query Monitoring.
   </BugFixes>
 </Release>
 
