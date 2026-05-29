@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 04/21/2026
-  author: Fuad Musayev
+  date: 05/28/2026
+  author: Sourabh Jajoria
 ---
 
 import Img from '@site/src/components/Img';
@@ -14,6 +14,28 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.17.1" date="May 28th, 2026">
+  <Improvements>
+    - **Access Policy PATCH API**: Added a consolidated `PATCH /api/v1/admin/data-security/access/policy/{policyId}` endpoint for updating resources and policy items in a single request. Based on customer validation where PATCH additions created duplicate rows and removals required exact full-entry matches, PATCH now updates existing matching entries in place: resource patches merge or remove columns within matching database/table blocks, and policy item patches merge or remove accesses for matching users/groups. The existing `/resources` and `/policy-items` PATCH APIs remain supported and now also use this updated merge/remove behavior.
+    - **Email Editing**: User email addresses can now be updated from the UI for users created from the dashboard.
+    - **Compute Creation Flow**: The Next button no longer blocks navigation on validation errors. Step through the form freely; validation runs only when you click Create/Save.
+    - **Compute Configuration Tab**: Redesigned to match the Details view — Spark configs, env vars, arguments, jars, files, PyFiles, and packages now show as tagged rows with clear empty states.
+    - **Job Template Docker Registry Filtering**: Docker registry options in job templates are now filtered by namespace, helping users select registries that are valid for the target namespace.
+    - **Job Run Concurrency**: Spark jobs on the Priority-Based deployment flow now honor job-level concurrency limits. `Replace` aborts the in-flight run before starting a new one; `Forbid` rejects the new run while another is active. Applies to scheduled, manual, and retry runs. See [Concurrency Policy](/user-guide/spark-jobs/spark-application-config#concurrency-policy).
+    - **Spark Application Details**: Added a **Last updated by** field to Spark application details, making it easier to see who most recently changed an application.
+    - **Spark Config & Environment Variable Display**: Long Spark config and environment variable values now stack vertically, making them easier to read at a glance.
+  </Improvements>
+
+  <BugFixes>
+    - **Secrets Management V2**: Fixed secret creation errors for domain-scoped secret stores when domain IDs contain characters that are invalid in Kubernetes Secret names.
+    - **Groups UI**: The Admin Console now shows the correct Last updated at time for groups, including soft-deleted LDAP entries.
+    - **Secrets in Details & Review**: Fixed environment variables and Spark configs that reference secrets not being shown on Details and Review pages across resources.
+    - **Jupyter Container Logs**: Added support for Loki as the logs provider for Jupyter Containers, enabling log retrieval on Loki-backed installs.
+    - **Create Secret Popover**: Fixed the footer outset on the create secret popover so it aligns correctly within the panel.
+    - **Query Monitoring**: Added the missing close button to the SQL plan details panel in Query Monitoring.
+  </BugFixes>
+</Release>
 
 <Release version="3.17.0" date="April 21st, 2026">
   <Improvements>

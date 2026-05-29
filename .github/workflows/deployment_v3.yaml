@@ -17,6 +17,8 @@ jobs:
           cache: "yarn"
       - run: yarn install --no-progress --frozen-lockfile
       - run: yarn build
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
