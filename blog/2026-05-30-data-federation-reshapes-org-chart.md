@@ -3,7 +3,7 @@ title: "How Data Federation Reshapes the Org Chart"
 description: "Physical centralization isn't logical unification. A federated lakehouse lets the org chart follow the business you want — not the silos your data inherited."
 slug: "data-federation-reshapes-org-chart"
 authors: "altay"
-tags2: ["Data Lakehouse", "Data Federation", "Data Mesh"]
+tags2: ["Educational"]
 coverImage: "img/blog/thumbnails/3.png"
 date: "05/30/2026"
 ---
@@ -81,41 +81,20 @@ That's what makes federation rare: it changes the platform decision and the org-
 
 <FAQSection faqs={[
   {
-    question: "What is data federation in a lakehouse?",
-    answerContent: (
-      <>
-        <p>Data federation is the ability to query data across multiple source systems — like Oracle, SQL Server, Postgres, Kafka, and object storage — through one SQL engine, as if they were a single database. The data stays where it lives; only the query reaches across.</p>
-        <p>It's the difference between logical unification and physical centralization. You get one queryable view without a multi-year migration to move everything into one store.</p>
-      </>
-    )
+    question: "What is data federation?",
+    answer: "Data federation is the ability to query data across multiple source systems — such as Oracle, SQL Server, Postgres, Kafka, and object storage — through one SQL engine, as if they were a single database, while the data stays where it lives. It delivers logical unification without the physical centralization of a multi-year migration. IOMETE provides query federation as a single SQL surface across heterogeneous sources, so data that cannot move is queried in place."
   },
   {
-    question: "How is federation different from a traditional data warehouse?",
-    answer: "A traditional warehouse requires physically copying data into one centralized store before you can query it across sources. Federation queries data where it already sits, so joins can span an Oracle warehouse, a Postgres database, and object storage without ETL into a single system. That removes the migration bottleneck and keeps data in its system of record."
+    question: "What is a data lakehouse?",
+    answer: "A data lakehouse is a single platform that runs warehouse-style analytics directly on open table formats in object storage, removing the step of copying data into a separate warehouse. It pairs the low-cost, open storage of a data lake with the query performance and governance of a warehouse, usually by decoupling compute from storage and using a format like Apache Iceberg. IOMETE is a self-hosted implementation of this pattern, running Iceberg tables and Spark compute inside your own Kubernetes clusters."
   },
   {
-    question: "What is domain isolation and why does it matter?",
-    answer: "Domain isolation gives each business domain — Marketing, Sales, Risk, Operations — its own Kubernetes namespace, compute quotas, catalogs, and jobs on a shared platform. It matters because it lets domain teams work independently without trampling each other's workloads or fragmenting the platform. Budgets become visible per domain and security is segmented by default."
+    question: "What is data mesh and why is it hard to implement?",
+    answer: "Data mesh is an operating model where domain teams own their data as products while a shared platform federates access across them, rather than a central team owning all data. It is hard to implement because most platforms force domains to either share one tenancy and collide or duplicate the stack and lose unification. IOMETE makes it practical through domain isolation — each domain gets its own Kubernetes namespace, catalog, and compute on one federated platform."
   },
   {
-    question: "How does federation make data mesh actually implementable?",
-    answer: "Data mesh asks domain teams to own their data as a product while the platform federates the rest. Most platforms force a bad trade — share one tenancy and collide, or duplicate the stack and lose unification. Domain isolation gives each domain its own namespace, catalog, and compute on one federated platform, so teams can own their products without the platform splintering."
-  },
-  {
-    question: "Can federation help integrate data after a merger or acquisition?",
-    answer: "Yes. The acquired company's data sources can be federated into the acquirer's lakehouse on day one — queryable as part of a unified view without being physically migrated first. Physical migration can still happen later on a timeline that fits the business case, but the analytical integration of asking one question across the combined company is no longer blocked on a multi-year migration project."
-  },
-  {
-    question: "Does federation eliminate duplicate analytics stacks?",
-    answer: "It removes the reason they exist. Duplicate stacks usually appear because departments want their own data and central IT can't deliver fast enough. A federated lakehouse with domain isolation gives each department its own workspace while sharing one source of truth, one catalog, and one set of access controls — so the political need and the technical need stop conflicting."
-  },
-  {
-    question: "Does federation replace the work of data modeling and governance?",
-    answer: "No. Federation removes the technical obstacle to unifying data across systems, but it doesn't define shared domains, write data product contracts, or align an organization on what a metric means. That organizational work remains. What federation changes is the order of operations — the technical layer stops being the thing that blocks the organizational work."
-  },
-  {
-    question: "How does IOMETE deliver federation, domain isolation, and data products together?",
-    answer: "IOMETE combines all three on one self-hosted lakehouse built on Apache Iceberg, Apache Spark, and Kubernetes. Query federation provides the single SQL surface across heterogeneous sources, Kubernetes namespaces provide domain isolation with per-domain compute and catalogs, and governed data products let domains publish datasets to each other through one catalog — all inside the customer's own security perimeter."
+    question: "Can data federation help integrate data after a merger or acquisition?",
+    answer: "Yes — an acquired company's data sources can be federated into the acquirer's platform and queried as a unified view on day one, without first being physically migrated. Migration can still follow later on a timeline that fits the business case, but the analytical integration is no longer blocked on it. IOMETE federates across the acquired systems while keeping each inside its own governed boundary."
   }
 ]} />
 

@@ -3,7 +3,7 @@ title: "Proof at Scale: The Sovereign Lakehouse Is Not Theoretical"
 description: "100,000+ cores across four data centers, overnight batch turned sub-60-second, SOC 2 and air-gapped deployments. The sovereign lakehouse case, in production."
 slug: "sovereign-lakehouse-proof-at-scale"
 authors: "altay"
-tags2: ["Data Lakehouse", "Data Sovereignty", "Banking", "Compliance"]
+tags2: ["Company"]
 coverImage: "img/blog/thumbnails/1.png"
 date: "05/30/2026"
 ---
@@ -91,41 +91,20 @@ Five data points, five different questions, one platform answering all of them. 
 
 <FAQSection faqs={[
   {
+    question: "What is Apache Iceberg used for?",
+    answer: "Apache Iceberg is an open table format that brings database-style tables — with schema evolution, time travel, and ACID transactions — to large datasets stored as files in object storage. Because the format is open, the tables are not locked to any single engine or vendor and stay portable across tools. IOMETE is built on Iceberg as its native table format, which is what keeps customers' tables free of vendor lock-in."
+  },
+  {
+    question: "What is the Medallion architecture?",
+    answer: "The Medallion architecture is a data design pattern that organizes data into three layers — Bronze (raw, source-fidelity ingestion), Silver (cleaned and standardized), and Gold (report-ready data marts) — so quality improves at each stage. It is widely used to modernize legacy warehouses in a phased, auditable way. IOMETE implements the Medallion pattern on Apache Iceberg tables with dbt transformations and Airflow orchestration."
+  },
+  {
     question: "How large can a self-hosted data lakehouse scale?",
-    answerContent: (
-      <>
-        <p>The largest on-premises IOMETE deployment runs across four data centers with more than 100,000 vCPUs of production lakehouse compute, consolidating five previously separate analytics platforms into one. It operates entirely on the customer's own infrastructure, inside their own security perimeter.</p>
-        <p>That scale demonstrates the architecture holds up under real enterprise load, not just in benchmarks.</p>
-      </>
-    )
+    answer: "A self-hosted data lakehouse can scale to production estates spanning multiple data centers and well over 100,000 vCPUs of compute. The largest on-premises IOMETE deployment runs across four data centers with more than 100,000 vCPUs, consolidating five previously separate analytics platforms into one, entirely on the customer's own infrastructure. That demonstrates the architecture holds under real enterprise load, not just in benchmarks."
   },
   {
-    question: "What business outcomes have banks measured on a sovereign lakehouse?",
-    answer: "One tier-1 bank moved card issuing and acquiring from overnight batch to sub-60-second live transaction processing, and credit portfolio reporting from day-old snapshots to intraday clarity. Time to first deployment dropped from quarters to weeks. Those are measured outcomes from the first cohort of use cases, not projections."
-  },
-  {
-    question: "Is migrating off a legacy Oracle data warehouse realistic?",
-    answer: "Yes, but it's a phased engagement, not a weekend re-platform. A typical legacy estate has thousands of accumulated tables, hard-coded SQL, and no lineage. The realistic approach builds a Medallion architecture (Bronze/Silver/Gold) on Apache Iceberg alongside the legacy warehouse, replaces hand-rolled SQL with tested dbt models, and reconciles on every load before cutover. Any vendor promising an instant migration is overselling."
-  },
-  {
-    question: "Does every reporting use case need real-time streaming?",
-    answer: "No, and pretending otherwise is a red flag. Most reporting is well served by near-real-time refresh on a 30-minute or 1-hour cadence. Streaming via Debezium and Kafka CDC earns its place only for use cases that genuinely need sub-minute freshness, like fraud detection. Matching the ingestion tier to the actual requirement is part of a disciplined migration."
-  },
-  {
-    question: "Is IOMETE recognized by industry analysts?",
-    answer: "IOMETE is named in the 2025 Gartner Market Guide for Data Lakehouse Platforms, placing it in the consideration set alongside established cloud-native platforms. A Market Guide is an analyst signal that an emerging vendor belongs in the evaluation — useful cover for a CDO choosing a less-obvious vendor during procurement."
-  },
-  {
-    question: "What compliance certifications does IOMETE hold?",
-    answer: "IOMETE is SOC 2 Type II certified, HIPAA compliant, and GDPR compliant, and it supports air-gapped deployment. These have been reviewed and signed off by customer-side security teams in production engagements, including financial-services environments with no outbound network connectivity."
-  },
-  {
-    question: "Can IOMETE run in an air-gapped environment?",
-    answer: "Yes. IOMETE supports fully air-gapped deployment with no outbound network connectivity, where storage, compute, metadata, and audit logs all operate inside an isolated environment. This is a hard requirement for some defense, government, and financial-services environments, and it has been validated in production."
-  },
-  {
-    question: "What does 'voting on the architecture' mean in a large consolidation?",
-    answer: "When an organization with deep engineering resources and relationships with every major data vendor chooses to collapse five established platforms onto one lakehouse, the decision isn't about a single feature — it's a judgment about the underlying substrate. That kind of consolidation is a strong signal because the buyer had every alternative available and chose the architecture deliberately."
+    question: "What compliance certifications does a sovereign lakehouse need?",
+    answer: "Regulated industries typically require SOC 2 Type II certification, HIPAA and GDPR compliance, and support for air-gapped deployment with no outbound connectivity, since these determine whether a customer's own security team will sign off for production. IOMETE holds SOC 2 Type II certification and HIPAA and GDPR compliance, and supports air-gapped deployment, validated in financial-services environments."
   }
 ]} />
 

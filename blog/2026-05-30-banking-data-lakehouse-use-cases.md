@@ -3,7 +3,7 @@ title: "Banking Data Lakehouse Use Cases That Actually Ship"
 description: "Legacy warehouse modernization, real-time fraud detection, intraday credit risk — three banking use cases and the four data capabilities each one quietly needs."
 slug: "banking-data-lakehouse-use-cases"
 authors: "altay"
-tags2: ["Banking", "Data Lakehouse", "Apache Iceberg", "Compliance"]
+tags2: ["Educational"]
 coverImage: "img/blog/thumbnails/4.png"
 date: "05/30/2026"
 ---
@@ -79,41 +79,20 @@ The columns rhyme on purpose. Every banking use case leans on unification, gover
 
 <FAQSection faqs={[
   {
-    question: "What are the most common banking data lakehouse use cases?",
-    answerContent: (
-      <>
-        <p>Three recur most often: legacy data warehouse modernization, real-time fraud detection, and intraday credit risk. Each delivers a clear business outcome — trustworthy reporting, fraud caught in the moment, and intraday portfolio clarity.</p>
-        <p>What they share is structure. Each one depends on four data capabilities at once — unification, governance, curation, and reproducibility — rather than a single feature.</p>
-      </>
-    )
+    question: "What are the main use cases for a data lakehouse in banking?",
+    answer: "The most common banking lakehouse use cases are legacy data warehouse modernization, real-time fraud detection, and intraday credit risk, each delivering trustworthy reporting, fraud caught in the moment, or intraday portfolio clarity. What they share is that each depends on four data capabilities at once: unification, governance, curation, and reproducibility. IOMETE delivers those on one self-hosted lakehouse running inside the bank's own perimeter."
   },
   {
-    question: "Why do banking AI use cases fail even when the model is good?",
-    answer: "Because the failure is usually in the data layer, not the model. Fraud detection scoring against stale or partial transaction history catches the wrong patterns no matter how good the model is. Most banking use cases depend on fresh, unified, governed, and reproducible data — and when any one of those is missing, the model inherits the gap."
+    question: "What does real-time fraud detection require from a data platform?",
+    answer: "Real-time fraud detection requires sub-minute streaming ingestion from core systems, identical features in training and live scoring, one unified view of transaction history, and an audit trail strong enough for regulators. It fails most often because the data layer cannot keep up, not because the model is wrong. IOMETE supports streaming ingestion into ACID Iceberg tables with consistent features and full lineage on one platform."
   },
   {
-    question: "How do you modernize a legacy data warehouse without a risky cutover?",
-    answer: "Run a phased Medallion migration (Bronze/Silver/Gold) alongside the legacy warehouse rather than a big-bang replacement. New Iceberg tables are built and reconciled against the legacy system as you go, so reporting can be validated before cutover. End-to-end lineage answers where each number came from, which is what makes auditors and analysts trust the new foundation."
+    question: "How do banks modernize a legacy data warehouse safely?",
+    answer: "Banks modernize most safely with a phased Medallion migration (Bronze/Silver/Gold) that runs alongside the legacy warehouse, reconciling on every load before cutover rather than attempting a big-bang replacement. End-to-end lineage that traces each figure to its source is what makes auditors and analysts trust the new system. IOMETE supports this pattern on Apache Iceberg with dbt transformations and Airflow orchestration."
   },
   {
-    question: "What does real-time fraud detection require from the data platform?",
-    answer: "Sub-minute streaming ingestion from core banking systems, the same features in training and live scoring to avoid training/serving skew, one queryable view of transaction history for scoring context, and an audit trail strong enough for the regulator. Fraud detection is a streaming, feature-consistency, unification, and governance problem all at once — not just a modeling problem."
-  },
-  {
-    question: "What is intraday credit risk and why does it need ACID guarantees?",
-    answer: "Intraday credit risk means seeing portfolio exposure as it changes through the day rather than from a day-old snapshot. It needs ACID guarantees on the storage layer so concurrent reads and writes don't corrupt the live exposure picture. Combined with cross-product unification and lineage, that's what lets a risk committee trust and defend an intraday figure."
-  },
-  {
-    question: "How does a data lakehouse help with banking regulatory reporting?",
-    answer: "A lakehouse with time travel and lineage lets you reproduce any report exactly as it was, trace every figure to its source, and present an audit log the regulator will accept. Reproducibility is not optional in regulated reporting — when a regulator asks how a number was derived, the answer has to be a query, not a reconstruction. Apache Iceberg snapshots make that record native to the storage layer."
-  },
-  {
-    question: "Why use one platform instead of stitching together point tools?",
-    answer: "Each banking use case needs unification, governance, curation, and reproducibility together. Stitching those from separate products creates separate credentials, catalogs, lineage graphs, and audit logs — and every seam is a place a regulator has to be walked through. One platform delivering all four natively means one catalog and one audit log spanning the entire use case."
-  },
-  {
-    question: "Can these banking use cases run inside a bank's own infrastructure?",
-    answer: "Yes. IOMETE is a self-hosted lakehouse deployed on the bank's own Kubernetes clusters — on-premises, hybrid, or in the bank's own cloud account. Data never leaves the bank's security perimeter, which is a hard requirement under data residency and sovereignty mandates like DORA. The same deployment supports modernization, fraud detection, and intraday risk under one governed boundary."
+    question: "Can banking analytics run inside a bank's own infrastructure for compliance?",
+    answer: "Yes — a self-hosted lakehouse runs on the bank's own Kubernetes clusters so data never leaves its security perimeter, which is a hard requirement under frameworks like DORA and data residency mandates. The same deployment can support modernization, fraud detection, and risk reporting under one governed boundary. IOMETE deploys on-premises, hybrid, or in the bank's own cloud account, with SOC 2, HIPAA, GDPR, and air-gapped support."
   }
 ]} />
 

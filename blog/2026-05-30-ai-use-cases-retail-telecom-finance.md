@@ -3,7 +3,7 @@ title: "AI Use Cases in Retail, Telecom, and Finance"
 description: "Personalized recommendations, churn prediction, regulatory reporting — three AI use cases and the four data capabilities each one actually depends on."
 slug: "ai-use-cases-retail-telecom-finance"
 authors: "altay"
-tags2: ["AI", "Retail", "Data Lakehouse"]
+tags2: ["Educational"]
 coverImage: "img/blog/thumbnails/0.png"
 date: "05/30/2026"
 ---
@@ -73,41 +73,20 @@ Read the columns and the argument makes itself: every outcome leans on the same 
 
 <FAQSection faqs={[
   {
-    question: "What data capabilities does a retail recommendation engine need?",
-    answerContent: (
-      <>
-        <p>It needs unified customer data across online, in-store, and app channels; an ML feature store with no training/serving skew; low-latency serving; and privacy enforced at the data layer. The recommendation model is the easy part — the hard part is feeding it one consistent view of each customer in real time.</p>
-        <p>Recommendation projects fail most often because of a fragmented customer view, not a weak model.</p>
-      </>
-    )
+    question: "What is a customer 360 view?",
+    answer: "A customer 360 view is a single unified profile of a customer assembled from every channel and system that touches them — for example online, in-store, app, billing, usage, and support data combined into one identity. It is the prerequisite for personalization and churn prediction, both of which fail when they run on a fragmented view. IOMETE builds this by unifying structured and unstructured sources on one queryable lakehouse, including data federated from systems that cannot be moved."
   },
   {
-    question: "Why do personalized recommendation projects fail?",
-    answer: "Usually because the data underneath can't keep up, not because the model is wrong. If customer data is split across online, in-store, and app systems, the model scores against a partial identity and recommends to a customer who doesn't quite exist. Training/serving skew — different features in training versus live scoring — is the other common failure."
+    question: "What data does a churn prediction model need?",
+    answer: "A churn prediction model needs a 360-degree customer view across billing, usage, support, and network quality, machine learning over years of history, and fresh data ingested as a stream so the signal is not stale by the time anyone acts. Churn is where fresh and unified turn out to be the same problem. IOMETE handles both with streaming ingestion and distributed Spark feature engineering against the same Iceberg tables."
   },
   {
-    question: "What does a telecom churn model require from the data platform?",
-    answer: "A 360° customer view across billing, usage, support, and network quality; ML at scale over years of history; self-service access for marketing and CX teams; and fresh data ingested as a stream. Churn is where fresh and unified become the same problem — a churn score is only as good as its most stale and most siloed input."
+    question: "Why do personalized recommendation systems fail?",
+    answer: "Personalized recommendation systems usually fail because of the data underneath, not the model — a fragmented customer view or training/serving skew makes the model score against an identity that does not quite exist. Unified customer data, a consistent feature store, and low-latency serving matter more than the algorithm itself. IOMETE unifies customer data and runs feature engineering and serving against one governed set of tables to avoid that skew."
   },
   {
-    question: "Why is fresh data so important for churn prediction?",
-    answer: "Because churn signals decay fast. A customer showing dissatisfaction this week needs intervention this week, not after a batch pipeline catches up. Streaming ingestion keeps the churn signal current, and a unified view ensures the signal isn't missing the one source — support tickets, network quality — that would have flagged the customer in time."
-  },
-  {
-    question: "Why is reproducibility non-negotiable for regulatory reporting?",
-    answer: "Because regulators ask how a number was derived, sometimes long after it was filed. Without time travel and lineage, answering means reconstructing a past data state from memory and hoping it matches. With Apache Iceberg snapshots, you query the exact version the report was built from. Reproducibility turns an audit response from a project into a query."
-  },
-  {
-    question: "How does data sovereignty relate to regulatory reporting?",
-    answer: "Many financial records are subject to residency mandates that legally prohibit moving the data outside a jurisdiction or perimeter. A reporting platform that processes data on a vendor cloud can put the bank in breach. A self-hosted lakehouse keeps the data and the reporting inside the bank's own boundary, making residency and reporting the same problem solved by one system."
-  },
-  {
-    question: "Why do these use cases need one platform instead of separate tools?",
-    answer: "Each use case depends on unification, governance, curation, and reproducibility together. Stitching those from separate products means separate credentials, catalogs, lineage graphs, and audit logs, with every integration seam a place where data and policy drift. One platform delivering all four natively keeps the entire use case under one catalog and one audit trail."
-  },
-  {
-    question: "Can IOMETE support retail, telecom, and finance use cases on the same platform?",
-    answer: "Yes. IOMETE is a self-hosted lakehouse on Apache Iceberg, Apache Spark, and Kubernetes that delivers unification, governance, curation, and reproducibility natively. The same platform powers retail recommendations, telco churn models, and finance regulatory reporting — each inside the customer's own security perimeter, with domain isolation keeping the workloads separate but governed under one catalog."
+    question: "Why is reproducibility important for regulatory reporting?",
+    answer: "Reproducibility is essential for regulatory reporting because regulators ask how a figure was derived, sometimes long after it was filed, and the answer has to be the exact data version rather than a reconstruction. Time travel and lineage make any past report queryable as it stood. IOMETE provides both natively through Apache Iceberg snapshots, alongside the audit logging and data residency controls regulated reporting requires."
   }
 ]} />
 

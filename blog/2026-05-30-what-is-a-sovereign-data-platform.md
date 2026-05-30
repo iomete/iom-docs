@@ -3,7 +3,7 @@ title: "What Is a Sovereign Data Platform? A Precise Definition"
 description: "A sovereign data platform isn't a hosting option. It's three properties — modern architecture, flexible deployment, and real control — that hold at once."
 slug: "what-is-a-sovereign-data-platform"
 authors: "altay"
-tags2: ["Data Sovereignty", "Data Lakehouse", "Apache Iceberg"]
+tags2: ["Educational"]
 coverImage: "img/blog/thumbnails/1.png"
 date: "05/30/2026"
 ---
@@ -81,40 +81,19 @@ The practical test is simple. Ask a vendor where your data is processed, who hol
 <FAQSection faqs={[
   {
     question: "What is a sovereign data platform?",
-    answerContent: (
-      <>
-        <p>A sovereign data platform is one where three properties hold at the same time: the data never leaves your security perimeter, the platform isn't tied to a specific cloud or region, and you retain ownership of the open data format. If any one is missing, the platform is hosted rather than sovereign.</p>
-        <p>It means you control storage, compute, metadata, audit logs, and encryption keys — not a vendor operating a control plane somewhere else.</p>
-      </>
-    )
+    answer: "A sovereign data platform is one where the data, the compute that processes it, and the encryption keys all stay inside infrastructure you control and under your own legal jurisdiction, rather than in a vendor's cloud. Three properties hold at once: data never leaves your perimeter, the platform is not tied to a specific cloud or region, and the data sits in open formats you own. IOMETE is a self-hosted implementation of this pattern, running on your own Kubernetes clusters on Apache Iceberg and Apache Spark."
   },
   {
-    question: "What's the difference between a sovereign and a hosted platform?",
-    answer: "A hosted platform processes your data on the vendor's infrastructure, under the vendor's key management, with migration off treated as a project. A sovereign platform runs entirely inside your own infrastructure on open formats, so you control where data is processed, who can access it, and how easily you can leave. The difference shows up most clearly during audits and vendor disputes."
+    question: "What is the difference between a sovereign and a hosted data platform?",
+    answer: "A hosted platform processes your data on the vendor's infrastructure under the vendor's key management, whereas a sovereign platform runs entirely inside your own infrastructure on open formats. The distinction shows up most clearly during audits, regulatory inquiries, and vendor disputes, when who controls the processing environment actually matters. IOMETE runs as self-hosted software inside your account with no vendor data plane in the path of your data."
   },
   {
     question: "Does a sovereign data platform have to run on-premises?",
-    answer: "No. Sovereignty is about control, not location. You can run a sovereign platform on-premises, in a private or regional cloud, or in your own public cloud account. What makes it sovereign is that the deployment, the data, and the keys stay under your control — not that the hardware sits in your building."
+    answer: "No — sovereignty is about control, not physical location. A sovereign platform can run on-premises, in a private or regional cloud, or in your own public cloud account, as long as the deployment, the data, and the encryption keys stay under your control. IOMETE supports all of these, deploying inside a single customer-controlled boundary whether that is a data center or a cloud account you own."
   },
   {
-    question: "How does open source relate to data sovereignty?",
-    answer: "Open formats like Apache Iceberg and Parquet and open engines like Apache Spark mean your data and queries aren't locked to a proprietary system. That makes migration off symmetric with migration on and removes the exit tax. Open source is necessary for sovereignty, but it isn't sufficient on its own — the operations and infrastructure also have to be under your control."
-  },
-  {
-    question: "Can I achieve data sovereignty on AWS, Azure, or Google Cloud?",
-    answer: "Yes, if you control the deployment. Running a self-hosted platform in your own cloud account means you control the infrastructure, network policies, and access — unlike a vendor-managed SaaS service that processes your data on its own control plane. The deciding factor is who operates the processing environment, not which cloud the servers are in."
-  },
-  {
-    question: "What does air-gapped deployment mean for a data platform?",
-    answer: "An air-gapped deployment runs with no outbound network connectivity to the vendor or the public internet. For a sovereign platform this means storage, compute, metadata, and audit logs all operate inside an isolated environment. IOMETE supports air-gapped deployments, which is a hard requirement for some defense, government, and financial-services environments."
-  },
-  {
-    question: "Why does data sovereignty matter for enterprise AI specifically?",
-    answer: "The data most valuable to AI — transactions, customer histories, contracts, regulated records — is often the data that legally can't leave a jurisdiction or perimeter. A platform that requires moving it to a vendor cloud effectively puts the best training data out of reach. A sovereign platform lets you build AI where the data already sits, making readiness and residency the same problem."
-  },
-  {
-    question: "How is IOMETE a sovereign data platform?",
-    answer: "IOMETE is self-hosted, deployed on your own Kubernetes clusters, and built on Apache Iceberg, Apache Spark, and object storage. There's no IOMETE-operated data plane in the path of your data, the storage format is open, and the platform runs on-premises, hybrid, or in your own cloud account inside a single customer-controlled boundary. All three sovereignty properties hold by default."
+    question: "Who holds the encryption keys in a sovereign data platform?",
+    answer: "In a sovereign data platform you hold the encryption keys, along with administrator access and the audit trail, rather than a vendor managing them on your behalf. This matters because if the provider controls key management or the runtime, encryption only shifts the trust boundary instead of removing it. IOMETE runs entirely inside your infrastructure, so key management and administration stay under your control."
   }
 ]} />
 

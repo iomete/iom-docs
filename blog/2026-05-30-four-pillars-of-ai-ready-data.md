@@ -3,7 +3,7 @@ title: "The Four Pillars of AI-Ready Data"
 description: "AI-ready data needs four properties at once: unification, governance, curation, and reproducibility. Drop one and the AI on top stops being trustworthy."
 slug: "four-pillars-of-ai-ready-data"
 authors: "altay"
-tags2: ["AI", "Data Lakehouse", "Data Governance", "Apache Iceberg"]
+tags2: ["Technical"]
 coverImage: "img/blog/thumbnails/2.png"
 date: "05/30/2026"
 ---
@@ -113,46 +113,20 @@ That's the practical difference between an AI demo and an AI system in productio
 
 <FAQSection faqs={[
   {
-    question: "What are the four pillars of AI-ready data?",
-    answerContent: (
-      <>
-        <p>The four pillars are unification, governance, curation, and reproducibility. Unification brings structured, unstructured, streaming, and federated data into one queryable surface. Governance applies fine-grained access control, masking, and lineage. Curation prepares model-ready features. Reproducibility versions every dataset so a model can be tied to the exact data it saw.</p>
-        <p>All four have to hold at the same time. Missing any one is enough to make the AI built on top untrustworthy.</p>
-      </>
-    )
+    question: "What does AI-ready data mean?",
+    answer: "AI-ready data is data that is unified across sources, governed with fine-grained access controls and lineage, curated into model-ready features, and reproducible to an exact historical version. It is a property of the data platform, not the model — missing any one of those four properties is enough to make the AI built on top untrustworthy. IOMETE delivers all four on one self-hosted lakehouse, sharing a single catalog, lineage graph, and audit log."
   },
   {
-    question: "What does 'AI-ready data' actually mean?",
-    answer: "AI-ready data is data that is unified across sources, governed with fine-grained controls and lineage, curated into model-ready features, and reproducible to an exact historical version. It is a property of the data platform, not the model. A bigger or newer model cannot compensate for data that fails any one of the four pillars."
+    question: "What is data governance in a data platform?",
+    answer: "Data governance is the set of controls that determine who can access which data and how its use is tracked — typically access control by table, column, and row, masking of sensitive fields, and end-to-end lineage. For AI it is what makes an autonomous agent's behavior auditable, and only 20% of enterprises today have a mature governance model for agents (Deloitte, 2026). IOMETE applies tag-based access control, masking, and automatic lineage natively across the platform."
   },
   {
-    question: "Why can't I just stitch together four point tools?",
-    answer: "Because AI-readiness emerges from the pillars working as one system, not four. Stitching separate tools together means separate credentials, separate catalogs, and separate audit logs — and every integration seam is a place where lineage breaks and access policies drift. The value is in one catalog, one lineage graph, and one audit trail spanning all four pillars."
+    question: "Can a better model make up for poor-quality data?",
+    answer: "No — a larger or newer model cannot compensate for data that is siloed, ungoverned, or unprepared, because it still trains on a partial, untrustworthy view. The differentiation in enterprise AI comes from the data, since the models themselves are largely commodities. This is why an AI-ready data platform focuses on unification, governance, curation, and reproducibility — the four capabilities IOMETE was designed around."
   },
   {
-    question: "How does unification handle data that can't be moved?",
-    answer: "Through query federation. IOMETE exposes one SQL surface across systems like Oracle, SQL Server, Postgres, Kafka, and object storage, querying data where it sits rather than forcing a copy. That matters when data is too large to move, or when residency and sovereignty rules legally prohibit moving it out of its source system."
-  },
-  {
-    question: "What governance controls do autonomous AI agents need?",
-    answer: "Agents need the same fine-grained controls as human users, applied consistently: access control by table, column, and row; masking of PII and PHI at the point of access; and end-to-end lineage so every action an agent takes is auditable. Tag-based policies are especially important because they survive schema evolution, so an agent can't access newly added sensitive columns by default."
-  },
-  {
-    question: "How does Apache Iceberg time travel support reproducibility?",
-    answerContent: (
-      <>
-        <p>Iceberg time travel lets you query any table as it existed at a past snapshot or timestamp, so you can reconstruct the exact data state a model trained on. Dataset tagging goes further by creating immutable, named references to specific snapshots.</p>
-        <p>Tagging a snapshot as a model's training set means that when the model regresses six months later, you can query that exact version instead of guessing what the data looked like.</p>
-      </>
-    )
-  },
-  {
-    question: "Does curation require a separate ML platform?",
-    answer: "No — that separation is what makes most curation stall. IOMETE runs distributed feature engineering on Spark and notebook-native Python, R, and SQL directly against the same Iceberg tables that power production reporting. There's no export step and no second environment to keep in sync, so preparing years of history doesn't fork the data or corrupt the training set."
-  },
-  {
-    question: "How does IOMETE deliver all four pillars at once?",
-    answer: "IOMETE is a single self-hosted lakehouse built on Apache Iceberg, Apache Spark, and Kubernetes, deployed inside your own infrastructure. Unification, governance, curation, and reproducibility are all native capabilities of the same platform, sharing one catalog, one lineage graph, and one audit log — rather than four integrated products. That shared foundation is what turns the four pillars into actual AI-readiness."
+    question: "How does Apache Iceberg make AI reproducible?",
+    answer: "Apache Iceberg makes AI reproducible through time travel and snapshot tagging, which let you query any past version of a dataset and tie a model to the exact data it trained on. When a model regresses, you can reconstruct the precise data state it saw instead of guessing. IOMETE uses Iceberg as its native table format, so time travel and dataset tagging are available directly in SQL against production tables."
   }
 ]} />
 
