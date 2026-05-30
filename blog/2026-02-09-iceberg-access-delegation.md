@@ -9,6 +9,7 @@ date: "02/09/2026"
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 In most [lakehouse](/glossary/data-lakehouse) deployments today, every compute engine needs credentials to reach the object store. That often means injecting long-lived cloud credentials directly into Spark, Trino, Flink, and a proliferating zoo of batch and streaming jobs. Many organizations end up sharing the same static keys across dozens or hundreds of workloads. Generating per-job credentials improves security somewhat, but the operational overhead quickly explodes at scale.
 
@@ -94,3 +95,28 @@ To sum this up:
 ## Access Delegation in IOMETE
 
 Starting with release 3.16.0, IOMETE supports both credential vending and remote signing for [S3-compatible storage](/blog/evaluating-s3-compatible-storage-for-lakehouse). Compute engines not managed by the IOMETE platform, such as your own Spark, Trino, or Flink deployments, can connect to IOMETE's REST Catalog and access data without long-lived storage credentials. Your governance policies are enforced at the catalog level, with least-privilege access out of the box.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is access delegation in Apache Iceberg?",
+    answer: "Access delegation in Apache Iceberg centralizes storage authorization in the catalog, which issues tightly scoped, short-lived access on demand instead of distributing long-lived credentials to every engine. It is built into the Iceberg REST Catalog specification and lets governance rules drive what each engine can touch. IOMETE supports access delegation through its REST Catalog, so external Spark, Trino, or Flink deployments reach data without static keys."
+  },
+  {
+    question: "What is credential vending in a lakehouse?",
+    answer: "Credential vending is a pattern where a compute engine asks the catalog for temporary storage credentials scoped to the specific paths and actions a table operation requires, valid only for a limited time. The catalog translates table-level permissions into minimal storage access, so a leaked credential is limited to one table for minutes. IOMETE supports credential vending for S3-compatible storage, deriving least-privilege access from governance rules enforced at the catalog."
+  },
+  {
+    question: "What is remote signing for Iceberg storage access?",
+    answer: "Remote signing is an access delegation model where the compute engine never receives storage credentials and instead requests a pre-signed request for each individual file and operation from a signing endpoint. Each signed request is scoped to one file, one method, and a short expiry, so a leak exposes minimal data. IOMETE supports remote signing for S3-compatible storage, where the signing endpoint runs alongside its REST Catalog and uses its authorization context."
+  },
+  {
+    question: "Why avoid long-lived storage credentials in a data lakehouse?",
+    answer: "Long-lived storage credentials are risky because they are often shared across many jobs and over-privileged with bucket-wide access, so one compromised key can expose an entire lakehouse and rotation becomes slow and error-prone. Object stores have no concept of tables or snapshots, making least privilege hard to maintain. IOMETE addresses this with credential vending and remote signing, which replace static keys with short-lived, governance-scoped access issued by the catalog."
+  },
+  {
+    question: "Credential vending versus remote signing: which should you choose?",
+    answer: "Choose credential vending when you want a practical balance, since it issues temporary table-scoped credentials with one catalog round-trip per table and suits most workloads. Choose remote signing for highly sensitive data, since it never hands out credentials and signs each file access individually, at the cost of more overhead for jobs touching many files. IOMETE supports both models on S3-compatible storage so teams can match the trade-off to each workload."
+  }
+]} />

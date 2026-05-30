@@ -11,6 +11,7 @@ date: 02/24/2025
 
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 # Reimagining Product Design with AI
 
@@ -69,3 +70,24 @@ I suspect we're at the beginning of a major shift in how we work. The teams that
 But you won't discover these opportunities if you treat AI tools as toys. You have to be willing to push them beyond their obvious uses. You have to be willing to seem a little crazy.
 
 After all, most interesting discoveries start that way.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "How can AI speed up product design and prototyping?",
+    answer: "AI can speed up product design by turning a described concept into an interactive prototype in a fraction of the time manual wireframing takes. Instead of placing each UI element by hand, designers describe intent and the AI generates working prototypes to react to and refine. The IOMETE team has used this conversational approach with AI assistants to move from concept to interactive prototype in about half a day."
+  },
+  {
+    question: "What is conversational or prompt-driven design?",
+    answer: "Conversational design is a workflow where a person describes a goal in natural language and an AI proposes approaches and generates prototypes to iterate on. It shifts effort from manually building each screen toward exploring ideas and reacting to generated options. This makes ideas cheap enough to discard freely, which the IOMETE team found encouraged broader creative exploration than traditional tools allowed."
+  },
+  {
+    question: "Why do teams underuse AI tools?",
+    answer: "Teams often underuse AI tools because they treat them as novelties for small tasks like summarizing text rather than rethinking entire workflows around them. Initial skepticism and comfort with familiar tools also limit experimentation. Pushing past obvious uses, as the IOMETE team did by applying AI to full product design exploration, is what reveals larger gains in how work gets done."
+  },
+  {
+    question: "How does rapid prototyping improve the design process?",
+    answer: "Rapid prototyping improves design by making each idea inexpensive to build and throw away, so exploration branches in many directions instead of forcing early commitment. Seeing a working prototype sparks new ideas and lets teams test patterns quickly. The IOMETE team captured this as a branching map of UI screens where each prototype became a springboard for the next idea."
+  }
+]} />

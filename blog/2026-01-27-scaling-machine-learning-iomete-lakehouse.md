@@ -10,6 +10,7 @@ coverImage: img/blog/thumbnails/3.png
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 # Scaling Machine Learning: From Your Laptop to the IOMETE Lakehouse
 
@@ -161,3 +162,24 @@ Once finished, the logs will print various cost/loss metrics. Because Spark's Ra
 1. Clone the [IOMETE ML Quickstart Repo](https://github.com/iomete/iomete-ml-quickstart).
 2. Follow the [IOMETE Developer Guide](/user-guide/spark-jobs/creating-spark-job) to submit your first job.
 3. Watch the Spark UI, and witness the power of distributed ML!
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "How do you scale machine learning beyond a single machine?",
+    answer: "You scale machine learning beyond one machine by running training on a distributed engine that splits data across many workers, so datasets that exceed local memory can still be processed. Single-node libraries hit a memory ceiling and crash on large data, while distributed engines spread the load in parallel. IOMETE runs Spark-based ML jobs across a cluster of executors, letting models train on datasets that would cause an out-of-memory error on a laptop."
+  },
+  {
+    question: "What is distributed machine learning with Apache Spark?",
+    answer: "Distributed machine learning with Apache Spark trains models by partitioning data across executors and running computation in parallel, then aggregating results, such as combining many decision trees into one model. Spark uses a directed acyclic graph to plan and serialize work to workers. IOMETE submits Spark ML training as a standard job, where a distributed RandomForestRegressor builds trees across executors and merges them into a single trained model."
+  },
+  {
+    question: "When is Spark worth using over a single-node script?",
+    answer: "Spark is worth using when data is large enough that a single-node script slows down or crashes from memory limits, since distributed processing then outweighs its startup overhead. For small datasets that fit in RAM, a plain Python script is usually faster because it avoids cluster startup latency. In the tests shared in this post, a single-node run was faster on one million rows but crashed on ten million, where the IOMETE cluster completed the job."
+  },
+  {
+    question: "What causes the startup overhead in a Spark cluster?",
+    answer: "Spark cluster startup overhead comes from spinning up worker pods, initializing the Java Virtual Machine on each executor, coordinating placement through the Kubernetes API, and building the execution plan before any computation runs. This baseline cost is paid regardless of how short the job is. On IOMETE, Spark runs on Kubernetes, so pod startup, JVM initialization, and the driver-to-API handshake all contribute to the warm-up time before distributed training begins."
+  }
+]} />

@@ -10,6 +10,8 @@ authors: lakshmi
 banner_description: Learn how to implement data mesh to your organization with IOMETE
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 ## **What is Data Mesh?**
 
 A [Data Mesh](blog/2023-02-17-data-mesh.md) is an architectural pattern for designing and implementing data infrastructure in a microservices-based architecture. The term “Data Mesh” was first coined by Zhamak Dehgani, a principal technology consultant at ThoughtWorks with a focus on distributed systems architecture and digital platform strategy at Enterprise in 2019. It aims to provide a scalable and resilient way to handle data across multiple teams and services while minimizing dependencies and maximizing autonomy. It divides data into smaller, autonomous data domains, each with its own team and data product, and uses a set of principles, patterns, and practices to ensure that data is accessible, consistent, and secure across the organization. Data Mesh is not a specific product or framework, but rather a set of best practices and patterns to be adopted by the organization.
@@ -115,3 +117,28 @@ The benefits of turning to an architecture like data mesh would not solely depen
 The IOMETE platform provides Data Mesh as below:
 
 ![IOMETE Data Mesh architecture](/img/blog/2023-03-03-iomete-data-mesh/data-mesh-architecture-with-iomete.png)
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a data product in a data mesh?",
+    answer: "A data product is a packaged, ready-to-use dataset that a business domain owns, operates, and serves to other teams and consumers. Unlike raw data, it comes with clear contracts, governance policies, and a focus on delivering value, much like a software product. The domain that owns the data is responsible for developing, maintaining, and governing it, which makes data products one of the four core principles of data mesh."
+  },
+  {
+    question: "How does a data mesh differ from a monolithic data architecture?",
+    answer: "A monolithic data architecture stores, processes, and transforms data in one central lake managed by a single team, while a data mesh distributes ownership to the domains closest to the data. Centralized teams often cannot answer every analytical question quickly enough, which slows decision-making. A data mesh treats each domain's data as a ready-to-consume product, reducing bottlenecks and letting domains move independently while shared standards keep the data interoperable."
+  },
+  {
+    question: "What is federated computational governance in a data mesh?",
+    answer: "Federated computational governance is a data mesh model where decision-making and accountability are shared across domains, platform teams, and experts in legal, compliance, and security. Policies are encoded and enforced automatically at the level of each individual data product rather than imposed by a single central authority. This balances domain autonomy with organization-wide consistency, interoperability, and security, while reducing the overhead of constantly aligning teams as the mesh grows."
+  },
+  {
+    question: "What role does a self-serve platform play in a data mesh?",
+    answer: "A self-serve data platform gives domain teams the tools to manage the full lifecycle of their data products without deep specialization or a central bottleneck. It handles tasks like provisioning compute, applying governance policies, and discovering and releasing data products. This lowers the cost and cognitive load of owning data in a decentralized model. IOMETE provides such a platform, letting teams query data where it resides and publish products to a catalog."
+  },
+  {
+    question: "How does a data mesh improve resilience and failure isolation?",
+    answer: "A data mesh improves resilience by isolating each domain's data services, so a failure in one component is less likely to cascade across the whole system. Techniques such as service autonomy, isolated data stores, circuit breaking, load balancing, and monitoring help contain problems and speed up detection and recovery. This decentralized design raises overall availability compared with a single monolithic data store where one failure can affect everything."
+  }
+]} />

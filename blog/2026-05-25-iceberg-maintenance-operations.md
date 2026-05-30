@@ -12,6 +12,7 @@ date: 2026-05-25
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 # What Iceberg Gives You for Table Maintenance and What It Doesn't
 
@@ -496,3 +497,28 @@ For smaller deployments with a handful of tables, cron jobs and scripts are usua
 #### Series
 - [Part 1: The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
 - Part 3: The Iceberg Table Maintenance Landscape (coming soon)
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What are the core Apache Iceberg table maintenance operations?",
+    answer: "Apache Iceberg ships four maintenance operations: rewrite_data_files compacts small files, expire_snapshots removes old history and frees storage, remove_orphan_files deletes untracked debris, and rewrite_manifests consolidates fragmented metadata. Each targets a different layer of table health, and skipping one weakens the others. Iceberg exposes them through Spark SQL procedures, the Spark Actions API, and a Flink framework, and IOMETE runs these same operations as scheduled jobs on its platform."
+  },
+  {
+    question: "What does Iceberg compaction (rewrite_data_files) actually do?",
+    answer: "Compaction reads many small data files and rewrites them into fewer larger ones near a target size, which cuts the per-file cost of opening files during query planning. It can also reorder rows with a sort or z-order strategy so filtered queries skip whole files using min/max statistics. The metadata swap is atomic, so readers never see a partial state. IOMETE offers a Data Compaction Job that runs rewrite_data_files on Iceberg tables without an external orchestrator."
+  },
+  {
+    question: "Why does Iceberg need a separate orphan file cleanup step?",
+    answer: "Iceberg needs orphan file cleanup because failed writes and aborted jobs leave data files in storage that no snapshot references, and neither compaction nor snapshot expiry removes them. The remove_orphan_files procedure lists storage and deletes unreferenced files older than a retention window, which exists so in-flight writes are not mistaken for orphans. It is the most expensive operation, so teams run it weekly or monthly. IOMETE includes orphan cleanup in its maintenance set."
+  },
+  {
+    question: "What does Iceberg not provide for table maintenance at scale?",
+    answer: "Iceberg provides the maintenance procedures but not the orchestration around them: no scheduler, health detection, multi-table prioritization, resource isolation, run history, partial-failure recovery, or alerting. Operating maintenance across hundreds of tables requires building that layer, which most teams assemble from cron, Airflow, and custom scripts. IOMETE addresses this with a built-in Spark scheduler and marketplace jobs, and is building fully automated maintenance to remove the manual orchestration burden."
+  },
+  {
+    question: "How do the four Iceberg maintenance operations work together?",
+    answer: "The four operations form a pipeline: compact data files, rewrite manifests, expire snapshots, then remove orphan files, each cleaning a different layer. Running only part leaves problems, since compacting without expiring snapshots can double storage, and expiring without orphan cleanup leaves failed-write debris behind. Sequencing them keeps both performance and storage in check. IOMETE schedules these operations together for the Iceberg tables it manages so the layers stay aligned."
+  }
+]} />

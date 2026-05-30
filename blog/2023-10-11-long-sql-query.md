@@ -9,6 +9,8 @@ banner_description: How to optimize an old long SQL query?
 coverImage: img/blog/thumbnails/1.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 Sometimes, we inherit old SQL queries from previous developers, and these queries can be long, complex, and difficult to understand, even for experienced developers. To make matters worse, these queries often have no documentation, making it even harder to figure out what they've done.
 
 <!-- truncate -->
@@ -51,3 +53,24 @@ Here are a few additional tips:
    - [Create Common Table Expressions (CTEs)](https://iomete.com/blog/common-table-expression), which are temporary tables that can be employed within the query. CTEs are instrumental in segmenting intricate queries into more manageable steps.
 5. **Rigorous Testing:**
    - After any alterations to the query, it's vital to rigorously test it to ensure it still functions correctly. Utilizing CHECKSUM can be valuable during this stage.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "How do you optimize a long SQL query?",
+    answer: "Start by understanding what the query returns and how its tables relate, then reformat it for readability and break it into smaller pieces using Common Table Expressions. Use a query profiler to find the slowest parts and test thoroughly after every change. Working in small, verified steps keeps a complex rewrite from introducing errors. Tools like IOMETE provide a visual interface for building and running SQL queries, which helps when you are dissecting an unfamiliar query."
+  },
+  {
+    question: "What is a Common Table Expression in SQL?",
+    answer: "A Common Table Expression, or CTE, is a temporary named result set defined within a query that you can reference like a table. CTEs help break intricate queries into smaller, more manageable steps that are easier to read and debug. They are especially useful when refactoring long inherited queries. CTEs are standard SQL and run on engines like the Apache Spark SQL layer that powers IOMETE."
+  },
+  {
+    question: "Why use a SQL formatter when refactoring queries?",
+    answer: "A SQL formatter applies consistent indentation and keyword casing, which makes a long query far easier to read and reason about before you change its logic. Consistent formatting exposes the structure of joins, filters, and aggregations that dense one-line queries hide. You can use an online formatter or format manually. Once a query is readable, optimizing it inside a tool such as IOMETE's SQL editor becomes more straightforward."
+  },
+  {
+    question: "How do you test a SQL query after optimizing it?",
+    answer: "After changing a query, run it against the same data and compare results to the original output to confirm the logic still matches. Techniques like CHECKSUM can verify that result sets are identical, and a query profiler confirms the rewrite actually runs faster. Testing on representative data prevents silent regressions. Running these checks in an interactive SQL environment, such as the one IOMETE provides, makes the compare-and-verify loop quicker."
+  }
+]} />

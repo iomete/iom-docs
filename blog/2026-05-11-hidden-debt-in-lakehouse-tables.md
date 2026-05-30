@@ -15,6 +15,7 @@ date: 05/11/2026
 *Every Iceberg table you're not maintaining is likely getting slower and more expensive. This post explains the mechanics of why, with real production numbers.*
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 ---
 
@@ -260,3 +261,28 @@ We’ll go deeper into this in the next post.
 
 #### Series
 - [Part 2: Apache Iceberg Table Maintenance: What Iceberg Ships and What It Doesn't](/blog/iceberg-maintenance-operations)
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is table debt in an Apache Iceberg lakehouse?",
+    answer: "Table debt is the gradual degradation of an Iceberg table caused by accumulated state, such as small files, expired snapshots, orphan files, and fragmented metadata, that is never cleaned up. Because Iceberg is append-only and tracks state through metadata, this buildup slows query planning and raises storage cost unless maintenance runs regularly. IOMETE runs Iceberg tables in production and treats these four debt categories as something to address with scheduled maintenance operations."
+  },
+  {
+    question: "Why do small files slow down Iceberg queries?",
+    answer: "Small files slow Iceberg queries because the engine must resolve metadata for every file during planning, and each file open on object storage carries a fixed network cost regardless of how little data it holds. At millions of files, planning stretches from sub-second to tens of seconds and drivers can run out of memory before reading any rows. Compacting small files into larger ones restores fast planning and efficient scans on platforms like IOMETE."
+  },
+  {
+    question: "Why doesn't compaction alone reclaim storage in Iceberg?",
+    answer: "Compaction alone does not reclaim storage because every snapshot still references its old data files, and Iceberg keeps those files as long as a snapshot points to them. Storage cannot shrink until snapshots expire, so a table can grow even after compaction creates more efficient files. Reclaiming space requires scheduling snapshot expiration alongside compaction, which is why IOMETE treats expiration as a distinct maintenance operation rather than a side effect of compaction."
+  },
+  {
+    question: "What are orphan files in an Iceberg table?",
+    answer: "Orphan files are data files that exist in object storage but are not referenced by any snapshot, usually created when a write or compaction fails between writing files and committing metadata. They are invisible to queries and do not affect performance, but they consume storage indefinitely because nothing removes them automatically. Cleaning them requires an explicit orphan file removal step, which IOMETE includes among the maintenance operations that keep tables from accumulating storage waste."
+  },
+  {
+    question: "How do you keep production Iceberg tables healthy?",
+    answer: "You keep Iceberg tables healthy by running four maintenance operations regularly: compacting data files, expiring old snapshots, removing orphan files, and rewriting fragmented manifests. Iceberg ships these tools but does not schedule, monitor, or trigger them, so teams must automate them or queries and storage costs degrade over time. IOMETE runs these operations on a schedule for the Iceberg tables on its platform, so the maintenance does not depend on manual cron jobs."
+  }
+]} />

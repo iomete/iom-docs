@@ -9,6 +9,8 @@ coverImage: img/blog/2025-01-20-enterprise-data-platform/cover.png
 banner_description: Simplify and scale enterprise data management with IOMETE's intuitive, powerful platform.
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 Have you ever noticed how the simplest things are often the hardest to create? It's a paradox I've been wrestling with lately as the co-founder of IOMETE, where we're building an enterprise data platform that handles petabytes of data and serves thousands of users across hundreds of business units. Making something this complex feel simple and intuitive isn't just challenging – it's an art form that requires deep expertise and unwavering commitment.
 
 ## **The Simplicity Paradox**
@@ -65,3 +67,24 @@ You know you're on the right track when customers describe your platform as "lig
 But here's what makes it truly worthwhile: when we get it right, when we manage to make something complex feel simple and natural, it's incredibly rewarding. Because ultimately, that's what great technology should do – it should make powerful capabilities accessible to everyone who needs them.
 
 The art of making things simple might be complex, but it's a complexity worth mastering. After all, isn't that what progress is all about? Taking something complex and making it feel effortless?
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is an enterprise data platform?",
+    answer: "An enterprise data platform is a unified system for storing, processing, governing, and analyzing organizational data at scale across many users and business units. It combines storage, compute, security, and governance so diverse teams can work with data without managing separate disconnected tools. IOMETE is a self-hosted example of this pattern, running data workloads on an organization's own Kubernetes infrastructure while presenting a single interface."
+  },
+  {
+    question: "Why is simplicity important when building data platforms at scale?",
+    answer: "Simplicity matters at scale because any unnecessary complexity gets amplified when thousands of users across many roles depend on the same platform. A confusing interface that annoys a small team becomes a real barrier to adoption across an enterprise. Achieving simplicity means hiding complexity in the architecture and infrastructure while presenting clear interfaces, an approach IOMETE applies so technical and business users alike stay productive."
+  },
+  {
+    question: "What does self-service data infrastructure mean?",
+    answer: "Self-service data infrastructure lets teams deploy, manage, and use data capabilities on their own without depending on a central team for every request. It reduces bottlenecks by giving users guided tools for common tasks while keeping governance intact. For self-hosted platforms such as IOMETE, self-service also means straightforward deployment and management so organizations can operate the platform themselves."
+  },
+  {
+    question: "How do data platforms handle petabyte-scale workloads?",
+    answer: "Data platforms handle petabyte-scale workloads through elastic horizontal scaling, workload isolation, and storage formats optimized for large analytical datasets. Decoupling storage from compute lets organizations add processing capacity as demand grows without over-provisioning. IOMETE uses a Kubernetes-native, cloud-native architecture to scale resources elastically while serving large user populations across business units."
+  }
+]} />

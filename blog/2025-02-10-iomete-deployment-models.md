@@ -11,6 +11,7 @@ date: 02/10/2025
 
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 ## **On-Premises Deployment**
 
@@ -109,3 +110,24 @@ IOMETE's architecture supports hybrid and multi-cloud deployments, enabling orga
 - Flexible resource allocation
 
 <Img src="/img/blog/2025-02-10-iomete-deployment-models/iomete-deployment-options.png" alt="IOMETE deployment options" maxWidth="500px" centered borderless/>
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is an on-premises data platform deployment?",
+    answer: "An on-premises deployment runs a data platform entirely within an organization's own data center infrastructure rather than a vendor's cloud. This model gives maximum control over the full stack and suits organizations with strict data sovereignty requirements or existing data center investments. IOMETE supports on-premises deployment with a control plane and data planes running on the organization's own Kubernetes clusters."
+  },
+  {
+    question: "What is the difference between a control plane and a data plane?",
+    answer: "A control plane manages overall platform operations such as resource allocation, security policies, and monitoring, while a data plane handles the actual data processing and query execution. Separating them lets one control plane oversee many distributed data planes across regions or environments. In IOMETE, the control plane centrally manages multiple independent data planes, each running in its own Kubernetes namespace and scaling on its own."
+  },
+  {
+    question: "What is a hybrid or multi-cloud data deployment?",
+    answer: "A hybrid or multi-cloud deployment distributes data workloads across more than one environment, such as on-premises plus one or more public clouds. This lets organizations place workloads based on data locality, regional rules, or cost while keeping unified governance. IOMETE's control plane can manage data planes across different locations at once, enabling cross-region processing and consistent governance across environments."
+  },
+  {
+    question: "How do data sovereignty requirements affect deployment choices?",
+    answer: "Data sovereignty requirements dictate where data physically resides and who can access it, which often rules out vendor-managed SaaS where data leaves the organization's control. Meeting these requirements typically favors on-premises, private cloud, or region-specific deployments. IOMETE's self-hosted architecture lets organizations choose object storage and cloud regions that satisfy sovereignty rules while keeping a consistent operational model."
+  }
+]} />

@@ -11,6 +11,8 @@ banner_description: First hand experience on how to securely process and analyse
 coverImage: img/blog/thumbnails/0.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 Financial Services, Health Care Services, and Government organizations deal with lots and lots of data on a regular basis. But these industries are highly regulated as well, so they need to be very careful with their data setups. In this blog, I'll share my practices based on my experience in a couple of financial organizations.
 
 ## Secure data processing architecture
@@ -40,3 +42,24 @@ The above challenges don’t look immediately in the face when the client is onb
 ## Secure data processing without migration
 
 IOMETE provides a clean solution to using Open Table [Iceberg](/blog/cheat-sheet-for-apache-iceberg) format while storing the data in your own Data Lake storage for processing the data. Processing is happening on the VMs orchestrated inside your VNet rather than outside. Provides an intuitive interface for querying the data. For making an open, managed, and SUSTAINABLE solution look forward to [IOMETE](https://iomete.com/).
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a secure data processing architecture?",
+    answer: "A secure data processing architecture controls how data moves and is analyzed so sensitive information stays protected and compliant throughout its lifecycle. In regulated industries it often uses network isolation, such as a demilitarized zone and hub-and-spoke design, with firewalls inspecting traffic between zones. The goal is to process data without exposing it to untrusted networks. A self-hosted lakehouse like IOMETE supports this by running processing on VMs inside your own network rather than outside it."
+  },
+  {
+    question: "Why do regulated industries avoid moving data to the cloud?",
+    answer: "Finance, healthcare, and government organizations often keep data in on-premises or private data centers because regulations and security policies restrict moving sensitive data to external services. Even when data does reach the cloud, it usually passes through layered network controls first. Crossing many network hops can add latency and cost and complicate decoupling storage from processing. IOMETE lets these organizations process data in place using the open Iceberg format on storage they own."
+  },
+  {
+    question: "What are data ingress and egress charges?",
+    answer: "Ingress and egress charges are fees some cloud and SaaS services apply for moving data into or out of their platform. Costs can climb quickly when architectures route data across multiple networks or when both directions are billed rather than egress alone. These charges often surprise teams after onboarding as data volumes grow. Processing data where it already resides, as a self-hosted platform like IOMETE does, reduces the data movement that drives these fees."
+  },
+  {
+    question: "Can you process data securely without migrating it?",
+    answer: "Yes, you can process data in place by running an open table format and query engine against storage you already control, avoiding a move to an external platform. This keeps data inside your own network and trust perimeter while still supporting analytics. Open formats like Apache Iceberg make in-place processing portable across engines. IOMETE applies this approach, storing data in your own data lake and processing it on VMs inside your network."
+  }
+]} />

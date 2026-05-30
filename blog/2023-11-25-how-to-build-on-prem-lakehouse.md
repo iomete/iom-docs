@@ -10,6 +10,8 @@ banner_description: key steps in building an effective on-premise Data Lakehouse
 coverImage: img/blog/thumbnails/3.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 In the world of big data and analytics, the concept of a [Data Lakehouse](/glossary/data-lakehouse) combines the flexibility and scalability of a data lake (great for unstructured/raw data and ML/AI) with the benefits of a traditional [data warehouse](/glossary/data-warehouse) (great for structured data and BI).
 
 <!-- truncate -->
@@ -61,4 +63,25 @@ The core purpose of a Data Lakehouse is to enable advanced analytics and busines
 
 **Conclusion**
 
-Building an on-premise Data Lakehouse is a strategic investment that can significantly enhance an organization's data capabilities. By following these steps, businesses can create a robust, secure, and efficient Data Lakehouse that leverages the strengths of both data lakes and warehouses. This infrastructure will not only streamline data management but also unlock new possibilities for data-driven decision-making.
+Building an on-premise Data Lakehouse is a strategic investment that can significantly enhance an organization's data capabilities. By following these steps, businesses can create a secure and efficient Data Lakehouse that draws on the strengths of both data lakes and warehouses. This infrastructure not only streamlines data management but also opens new possibilities for data-driven decision-making.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a data lakehouse?",
+    answer: "A data lakehouse is a unified architecture that combines the flexibility and scale of a data lake with the structured querying and data management of a data warehouse. It stores large volumes of raw, unstructured, and structured data while supporting BI, machine learning, and AI on the same platform. This avoids maintaining separate systems for raw storage and analytics. IOMETE is a self-hosted data lakehouse built on open formats that runs in your own environment."
+  },
+  {
+    question: "How do you build an on-premises data lakehouse?",
+    answer: "Building an on-premises data lakehouse means assessing your data volume and compliance needs, choosing hardware and software that handle your workloads, then setting up data ingestion, governance, and analytics layers. Each step should account for the security and regulatory requirements that drive on-premises deployment in the first place. Quality controls and clear governance policies keep the data trustworthy. IOMETE is engineered for on-premises systems and handles installation, migration, updates, and maintenance as a managed solution."
+  },
+  {
+    question: "Why choose an on-premises lakehouse over cloud?",
+    answer: "Organizations choose on-premises lakehouses when security, regulatory compliance, or data residency requirements make storing data off-site difficult. Keeping data inside your own infrastructure gives full control over access and lifecycle and can use existing data-center hardware. This suits heavily regulated industries handling sensitive data. A self-hosted lakehouse like IOMETE runs within your trust perimeter, so data and processing stay on infrastructure you control."
+  },
+  {
+    question: "What role does data governance play in a lakehouse?",
+    answer: "Data governance defines who can access data, how it stays compliant, and how it moves through its lifecycle, keeping the lakehouse accurate, consistent, and secure. Clear policies and ongoing quality controls prevent a large data store from turning into an unmanageable swamp. Governance is especially important on-premises where the organization owns full responsibility for the data. IOMETE includes a built-in data catalog and supports external governance tools to manage access and compliance."
+  }
+]} />

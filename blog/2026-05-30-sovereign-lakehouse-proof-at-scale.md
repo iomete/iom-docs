@@ -60,7 +60,7 @@ The discipline is in that last point. Most reporting doesn't need streaming, and
 
 ## Independent recognition
 
-IOMETE is named in the 2025 [Gartner® Market Guide for Data Lakehouse Platforms](https://www.gartner.com/), placed alongside the established cloud-native players in the category buyers are already using to compare options. A Market Guide isn't a Magic Quadrant — but it's the analyst signal that an emerging vendor is in the consideration set, which lowers the political cost of choosing a less-obvious vendor. For a CDO doing procurement, that's the right kind of cover to have.
+IOMETE is named in the 2025 [Gartner® Market Guide for Data Lakehouse Platforms](https://iomete.com/resources/blog/iomete-gartner-market-guide-2025), placed alongside the established cloud-native players in the category buyers are already using to compare options. A Market Guide isn't a Magic Quadrant — but it's the analyst signal that an emerging vendor is in the consideration set, which lowers the political cost of choosing a less-obvious vendor. For a CDO doing procurement, that's the right kind of cover to have.
 
 ## Compliance and security posture
 

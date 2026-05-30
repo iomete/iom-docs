@@ -9,6 +9,8 @@ banner_description: Apache Iceberg is a table format that is quickly becoming th
 coverImage: img/blog/thumbnails/2.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 import MiniCard from "@site/src/components/MiniCard";
 
 Apache Iceberg is an open source table format for huge analytic datasets. It is designed to be used with popular data processing frameworks such as [Apache Spark](/glossary/apache-spark), Apache Flink, Apache Hive, Presto, and more.
@@ -51,3 +53,28 @@ Check out the [Guide on how to start with Apache Iceberg](/reference/iceberg-tab
 **About IOMETE**
 
 IOMETE is a leading provider of [data lakehouse](/glossary/data-lakehouse) solutions with Apache Iceberg as its core table format. IOMETE can be deployed on premise, in your private cloud or on any major public cloud. Start on our Free Plan today.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is Apache Iceberg used for?",
+    answer: "Apache Iceberg is an open table format used to store and manage very large analytic datasets in data lakes. It adds a metadata layer over data files that provides transactional consistency, schema evolution, time travel, and partitioning so analytics engines can query the data reliably. It is designed to work with engines such as Spark, Flink, Hive, Presto, and Trino. IOMETE uses Apache Iceberg as the core table format of its lakehouse platform."
+  },
+  {
+    question: "What is schema evolution in Apache Iceberg?",
+    answer: "Schema evolution is the ability to change a table's schema, such as adding, renaming, or dropping columns, without rewriting existing data or breaking past records. Iceberg tracks columns by stable identifiers rather than position, so changes apply safely as data grows and requirements shift. This lets teams adapt tables over time without costly migrations, which is one reason Iceberg is widely adopted for evolving data lakes."
+  },
+  {
+    question: "What is time travel in a data lake table format?",
+    answer: "Time travel is the ability to query historical snapshots of a table as it existed at an earlier point in time or version. Iceberg records each change as a snapshot, so you can read past states of the data for debugging, auditing, reproducing results, or meeting compliance requirements. This makes it possible to investigate when and how data changed without maintaining separate backup copies."
+  },
+  {
+    question: "How does Apache Iceberg help with data portability?",
+    answer: "Apache Iceberg improves portability because its tables are engine-agnostic and stored in open formats, so data can move between storage systems and be read by many processing engines. This avoids locking data into a single vendor or compute platform and eases migration between clouds or to on-premises systems. IOMETE relies on this portability so customer data remains accessible across engines and deployment environments."
+  },
+  {
+    question: "Is Apache Iceberg open source?",
+    answer: "Yes, Apache Iceberg is a fully open-source project under the Apache Software Foundation and is not owned by any single company. Being community-driven means a broad set of contributors works on it and many vendors build support for it, which tends to speed development and reduce vendor lock-in. This neutral governance is a key reason organizations adopt Iceberg as a long-term table format for their data lakes."
+  }
+]} />
