@@ -23,7 +23,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Compute Configuration Tab**: Redesigned to match the Details view — Spark configs, env vars, arguments, jars, files, PyFiles, and packages now show as tagged rows with clear empty states.
     - **Job Template Docker Registry Filtering**: Docker registry options in job templates are now filtered by namespace, helping users select registries that are valid for the target namespace.
     - **Job Run Concurrency**: Spark jobs on the Priority-Based deployment flow now honor job-level concurrency limits. `Replace` aborts the in-flight run before starting a new one; `Forbid` rejects the new run while another is active. Applies to scheduled, manual, and retry runs. See [Concurrency Policy](/user-guide/spark-jobs/spark-application-config#concurrency-policy).
-    - **Spark Application Details**: Added a **Last updated by** field to Spark application details, making it easier to see who most recently changed an application.
     - **Spark Config & Environment Variable Display**: Long Spark config and environment variable values now stack vertically, making them easier to read at a glance.
   </Improvements>
 
@@ -72,7 +71,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - `createTag`, `addTableTag`, `removeTableTag`, `addColumnTag`, `removeColumnTag`
       - These endpoints are deprecated and will be removed in a future release. Migration to the [Classifications API](/user-guide/data-security/classifications) is strongly encouraged.
     - **Search Index Management moved to Admin Portal**: Clearing the data catalog search index via API is no longer supported, please use the Admin Portal instead. The endpoint remains available but performs no action.
-    - **Metadata API Pagination**: Data catalog metadata retrieval now supports `page` and `size` query parameters (default size: 1000) to avoid memory pressure when retrieving large numbers of tables. 
+    - **Metadata API Pagination**: Data catalog metadata retrieval now supports `page` and `size` query parameters (default size: 1000) to avoid memory pressure when retrieving large numbers of tables.
 
     **Secrets Management**
 
@@ -121,6 +120,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Pod-scoped storage isolation**: Each pod writes to its own subdirectory, enabling safe shared storage across multiple pods.
     - **Configurable storage**: Helm chart supports configurable `storageClassName` with optional local-storage provisioning for on-premise deployments.
     - **Empty folder cleanup**: Background service removes empty table directories after a configurable TTL.
+
   </Improvements>
 
   <BugFixes>
@@ -137,8 +137,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Event Stream compaction timeouts**: Fixed compaction timeouts caused by accumulation of thousands of small parquet files per write cycle. Incremental compaction now keeps file counts under control.
   </BugFixes>
 
-      **Spark version:** 3.5.7-v1  
+      **Spark version:** 3.5.7-v1
       **Iceberg version:** 1.9.3
+
 </Release>
 
 <Release version="3.16.2" date="February 25th, 2026">
@@ -158,7 +159,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - Added global system configs for Iceberg client-side table metadata caching (`cache-enabled`, `cache.expiration-interval-ms`, `cache.case-sensitive`). See [Iceberg REST Catalog - Client-Side Cache](/user-guide/spark-catalogs/internal#client-side-cache).
   </Improvements>
 
-      **Spark version:** 3.5.5-v11  
+      **Spark version:** 3.5.5-v11
       **Iceberg version:** 1.9.3
 
 </Release>
@@ -171,7 +172,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - Fixed an issue where LIMIT was being enforced to INSERT queries that contained CTE (WITH clause) executed via the SQL editor.
   </BugFixes>
 
-      **Spark version:** 3.5.5-v11  
+      **Spark version:** 3.5.5-v11
       **Iceberg version:** 1.9.3
 
 </Release>
@@ -183,7 +184,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
 </Release>
-
 
 <Release version="3.16.0" date="February 9th, 2026">
     <NewFeatures>
@@ -443,7 +443,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       ## Spark & ArrowFlight
 
-      **Spark version:** 3.5.5-v10  
+      **Spark version:** 3.5.5-v10
       **Iceberg version:** 1.9.3
 
       - Added support for **Bind Variables** in JDBC ArrowFlight connections to Spark Compute
