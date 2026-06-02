@@ -23,7 +23,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Compute Configuration Tab**: Redesigned to match the Details view — Spark configs, env vars, arguments, jars, files, PyFiles, and packages now show as tagged rows with clear empty states.
     - **Job Template Docker Registry Filtering**: Docker registry options in job templates are now filtered by namespace, helping users select registries that are valid for the target namespace.
     - **Job Run Concurrency**: Spark jobs on the Priority-Based deployment flow now honor job-level concurrency limits. `Replace` aborts the in-flight run before starting a new one; `Forbid` rejects the new run while another is active. Applies to scheduled, manual, and retry runs. See [Concurrency Policy](/user-guide/spark-jobs/spark-application-config#concurrency-policy).
-    - **Spark Config & Environment Variable Display**: Long Spark config and environment variable values in computes now stack vertically, making them easier to read at a glance.
+    - **Spark Config & Environment Variable Display**: Long Spark config and environment variable values in compute clusters now stack vertically, making them easier to read at a glance.
   </Improvements>
 
   <BugFixes>
