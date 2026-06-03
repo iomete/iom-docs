@@ -9,6 +9,8 @@ banner_description: Snowflake but self-hosted
 coverImage: img/blog/thumbnails/1.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 Snowflake has gained prominence as a cloud-native [data warehouse](/glossary/data-warehouse) platform, offering strong performance for analytical workloads. The platform comparison reveals different architectural approaches to enterprise data management.
 
 Like [Databricks](/blog/databricks-alternatives), Snowflake **operates exclusively as a SaaS platform**. Its architecture separates storage and compute, providing excellent scalability for query workloads. However, this architecture also means organizations are **locked into Snowflake's ecosystem** and pricing model. IOMETE provides similar separation of storage and compute while maintaining deployment flexibility and cost control.
@@ -108,3 +110,28 @@ The choice between these platforms often depends on organizational requirements 
 - **Operational Control**: Organizations that require complete control over their data infrastructure typically prefer IOMETE's approach, while those prioritizing operational simplicity might lean toward Databricks or Snowflake.
 
 Through this analysis, we see that while all three platforms provide sophisticated data management capabilities, their approaches differ significantly in ways that materially impact enterprise adoption decisions.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is the difference between a managed cloud data warehouse and a self-hosted lakehouse?",
+    answer: "A managed cloud data warehouse runs as a vendor-operated SaaS service, while a self-hosted lakehouse runs on infrastructure the organization controls. The managed model reduces operational overhead but ties data and pricing to the vendor's environment, whereas self-hosting offers deployment flexibility and direct control over infrastructure. IOMETE is a self-hosted lakehouse that separates storage and compute while running on an organization's own Kubernetes clusters."
+  },
+  {
+    question: "What does separation of storage and compute mean in a data platform?",
+    answer: "Separation of storage and compute means data is stored independently from the processing engines that query it, so each can scale on its own. This lets organizations add query capacity without duplicating data and pay for compute only when workloads run. Both managed cloud warehouses and IOMETE use this design, though IOMETE applies it within self-hosted infrastructure rather than a vendor-managed service."
+  },
+  {
+    question: "How do pricing models differ across data platforms?",
+    answer: "Many managed cloud data warehouses use consumption-based pricing such as credits or usage units, which is predictable but limits external cost optimization. Infrastructure-based models instead let organizations apply their own cloud discounts, spot instances, and existing hardware. IOMETE uses an infrastructure-based model, so teams can optimize costs across infrastructure choices and resource utilization rather than fixed platform rates."
+  },
+  {
+    question: "Which data platform approach is better for data sovereignty?",
+    answer: "Organizations with strict data sovereignty requirements often prefer self-hosted platforms because data, encryption keys, and the security perimeter stay within infrastructure they control. Vendor-managed SaaS warehouses keep data inside the provider's environment, which can constrain sovereignty. IOMETE's self-hosted architecture lets organizations deploy on-premises, in private cloud, or in specific regions to meet sovereignty and residency rules."
+  },
+  {
+    question: "What deployment options should enterprises consider when choosing a data platform?",
+    answer: "Enterprises should weigh on-premises, private cloud, public cloud, and hybrid or multi-cloud options against their control, compliance, and cost needs. Managed SaaS warehouses typically run only on approved public clouds, while self-hosted platforms can deploy across more environments. IOMETE supports on-premises, all major and regional cloud providers, and hybrid configurations with a consistent architecture across them."
+  }
+]} />

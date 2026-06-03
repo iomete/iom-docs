@@ -9,6 +9,7 @@ coverImage: img/blog/thumbnails/3.png
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 
 ### **Part 1: The "Teach" (Why This Will Save You Hours)**
@@ -162,3 +163,28 @@ You've just automated your user management.
 If you're feeling impatient and want to see it work *right now*, look on the left side of the screen. You'll see a new set of action buttons. Just click **`Sync all users`** to run your first sync manually.
 
 Congratulations. You just saved yourself hours of future work.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is LDAP integration?",
+    answer: "LDAP integration connects an application to a central directory server, such as Active Directory, so user accounts and groups come from one authoritative source instead of a separate manual list. This gives a single source of truth for who has access and removes the need to create accounts in each tool. IOMETE supports LDAP integration through its Admin Portal, mapping directory users and groups to platform roles and provisioning access automatically."
+  },
+  {
+    question: "How does automatic LDAP sync work?",
+    answer: "Automatic LDAP sync periodically polls the directory server and updates the application's users and groups to match, so new hires gain access and departing users lose it without manual tickets. The sync runs on a configured interval, often daily, and reflects changes like group membership updates. IOMETE provides a periodic full sync setting where you define the interval, after which it re-scans the directory and applies role mappings on its own."
+  },
+  {
+    question: "What is role-based access control with directory groups?",
+    answer: "Role-based access control with directory groups assigns permissions based on a user's group membership rather than configuring each user individually. You map existing groups, such as Data-Scientists or Finance-Analytics, to application roles, and membership changes propagate automatically. IOMETE maps Active Directory or LDAP groups directly to its internal roles, so permissions stay aligned with the team structure already maintained in your directory."
+  },
+  {
+    question: "How do you sync nested LDAP groups?",
+    answer: "Nested LDAP groups are synced by using a directory filter that walks the membership chain so groups inside other groups are discovered, not just top-level groups. In Active Directory this uses the matching rule OID 1.2.840.113556.1.4.1941 to resolve indirect membership. IOMETE supports a custom group LDAP filter where you combine the parent group with this in-chain rule, letting it capture deeply nested group hierarchies during sync."
+  },
+  {
+    question: "Why use a directory server for user management instead of manual accounts?",
+    answer: "Using a directory server centralizes identity so access is granted and revoked in one place, reducing orphaned accounts that pose a security risk when employees leave. Manual per-tool accounts are error-prone and hard to audit across many systems. IOMETE connects to your existing LDAP or Active Directory server, so platform access tracks the same lifecycle your organization already manages, instead of maintaining a separate user list."
+  }
+]} />

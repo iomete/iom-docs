@@ -10,6 +10,7 @@ authors: aytan
 
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 Kubernetes gives you incredible flexibility — but with flexibility comes complexity. Without the right configurations, even powerful workloads like [Spark](/glossary/apache-spark) and Flink can underperform or waste resources.
 
@@ -116,5 +117,26 @@ With platforms like **IOMETE**, many of these best practices are automated:
 - Node affinity for compute jobs
 - GitOps-managed configurations
 - Real-time monitoring via Prometheus
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "How do you optimize Spark performance on Kubernetes?",
+    answer: "Spark performance on Kubernetes improves through well-defined resource requests and limits, node affinity to place shuffle-heavy jobs on high-performance nodes, and tuning settings such as shuffle partitions and dynamic allocation. Autoscaling then matches executor count to workload. IOMETE ships preconfigured Spark profiles for batch, streaming, and ad-hoc SQL and sets executor resources with autoscaling policies out of the box."
+  },
+  {
+    question: "Why are resource requests and limits important in Kubernetes?",
+    answer: "Requests reserve a guaranteed baseline of CPU and memory for a Pod, while limits cap how much it can consume, and together they let the scheduler place workloads predictably and prevent one Pod from starving others. Running without them risks eviction or resource contention. This is foundational for data workloads, where a single Spark executor can otherwise consume a node and destabilize neighboring jobs."
+  },
+  {
+    question: "What is the difference between horizontal and vertical autoscaling for data workloads?",
+    answer: "Horizontal Pod Autoscaling adds or removes Pods based on metrics like CPU or custom Prometheus signals, while Vertical Pod Autoscaling adjusts the CPU and memory requests of existing Pods over time. Horizontal scaling handles fluctuating load, vertical scaling right-sizes individual workloads. IOMETE supports both, scaling Spark clusters with demand and releasing idle resources to reduce cost."
+  },
+  {
+    question: "How much can Kubernetes-native optimization improve data pipeline performance?",
+    answer: "Gains vary by workload, but well-tuned Kubernetes-native pipelines can cut both runtime and cost meaningfully. One enterprise case in this post migrated Hadoop ETL to IOMETE on Kubernetes and reported job times improving roughly 10x, infrastructure costs dropping around 40 percent, and deployment shrinking from days to minutes. Results depend on the starting architecture and how thoroughly tuning and autoscaling are applied."
+  }
+]} />
 
 

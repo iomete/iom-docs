@@ -10,6 +10,7 @@ authors: aytan
 
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 Kubernetes-native data engineering isn’t a static destination — it’s a fast-moving ecosystem that continues to evolve. While Spark-on-Kubernetes and GitOps practices have become common, several emerging trends are reshaping how data platforms are built and operated.
 
@@ -101,3 +102,24 @@ The Kubernetes-native data stack is becoming:
 **IOMETE’s mission** is to accelerate this future by integrating emerging tools — while maintaining a Kubernetes-native core.
 
 > The future of data engineering isn’t Hadoop 2.0 — it’s composable, versioned, event-driven, and container-native.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What are the emerging trends in Kubernetes-native data engineering?",
+    answer: "Key trends include KubeFlow for machine learning pipelines, LakeFS for Git-style data version control, Data Mesh implemented through namespaces, serverless Spark that scales to zero, and GPU-native processing for ML. The common thread is a more modular, composable stack assembled from open components. IOMETE follows this direction by serving Iceberg tables to tools like KubeFlow and adapting its Kubernetes-native Spark core to these patterns."
+  },
+  {
+    question: "How does Data Mesh work on Kubernetes?",
+    answer: "Data Mesh promotes domain-oriented ownership of data, and Kubernetes maps naturally onto it because namespaces become data domains, RBAC and network policies enforce governance boundaries, and teams operate independently within a shared platform. Datasets are then exposed as data products with standard APIs. IOMETE was designed with this model in mind, giving each team a Domain mapped to a namespace while keeping central observability and access controls."
+  },
+  {
+    question: "What is serverless Spark on Kubernetes?",
+    answer: "Serverless Spark refers to running Spark workloads that autoscale executors per job and can scale down to zero when idle, removing the need to manage long-lived clusters. Projects like Volcano, Karpenter, and Yunikorn provide the fine-grained scheduling that makes this practical. IOMETE is developing serverless Spark capabilities aimed at reducing cold-start time and improving cost efficiency for intermittent workloads."
+  },
+  {
+    question: "Why does GPU support matter for Kubernetes data platforms?",
+    answer: "As machine learning and deep learning move into production, GPU acceleration becomes important for model training and for processing large transformations, and Kubernetes manages GPU nodes through operators and native scheduling. Spark RAPIDS can offload work to GPUs for faster transformations. IOMETE enables GPU-backed node pools so teams can schedule GPU-powered data processing alongside their existing Spark workloads."
+  }
+]} />

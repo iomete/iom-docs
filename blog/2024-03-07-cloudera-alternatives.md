@@ -9,6 +9,8 @@ coverImage: img/blog/thumbnails/1.png
 banner_description: The goal is not just to manage data but to unlock its value for strategic advantage no matter where your data resides
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 Cloudera was founded in 2008 by some of the brightest minds at Silicon Valley's leading companies, including Google, Yahoo!, Oracle, and Facebook. And in 2011, 24 engineers from the original Hadoop team at Yahoo! spun out to form Hortonworks. It’s been 15 years since Cloudera was founded today it is owned by private equity.
 
 ## Hadoop’s origins
@@ -91,4 +93,25 @@ A cloud data platform that offers a [data warehouse](/glossary/data-warehouse)-a
 
 ## Conclusion
 
-Data infrastructure solutions are evolving, and organizations should evaluate their specific needs and choose the solution that best aligns with their goals and resources. We encourage you to reflect on the strategies discussed and consider how they might be applied within your own data engineering practices to overcome the challenges of big data. If you want to [discuss more](https://calendly.com/iomete/iomete-discovery-call). Remember, the goal is not just to manage data but to unlock its value for strategic advantage.
+Data infrastructure solutions are evolving, and organizations should evaluate their specific needs and choose the solution that best aligns with their goals and resources. We encourage you to reflect on the strategies discussed and consider how they might be applied within your own data engineering practices to overcome the challenges of big data. If you want to [discuss more](https://calendly.com/iomete/iomete-discovery-call). Remember, the goal is not just to manage data but to get more value from it for strategic advantage.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What are the alternatives to legacy Hadoop platforms?",
+    answer: "Alternatives to legacy on-premises Hadoop platforms include modern data lakehouses on open table formats, Kubernetes for compute in place of YARN, and S3-compatible object storage in place of HDFS. Teams may also assemble their own distribution from standard Apache projects or use managed cloud data services. The right mix depends on workload scale, in-house expertise, and where data must reside. IOMETE is a data lakehouse alternative built on Apache Iceberg and Apache Spark for on-premises and cloud use."
+  },
+  {
+    question: "What are the main limitations of Hadoop?",
+    answer: "Hadoop's commonly cited limitations include scalability bottlenecks tied to the NameNode, operational complexity that demands specialized expertise, and the inefficiency of the MapReduce model for iterative and interactive workloads. Its batch-oriented design also fits real-time processing poorly, and integration and security can be challenging. These factors lead many organizations to evaluate newer architectures. Lakehouse platforms like IOMETE use Apache Spark and Iceberg to address several of these constraints."
+  },
+  {
+    question: "Can you replace HDFS and YARN with open-source tools?",
+    answer: "Yes, HDFS can be replaced with open-source S3-compatible object storage such as MinIO or Ceph, and YARN can be replaced with Kubernetes for many compute workloads. Big data frameworks like Apache Spark and Apache Flink now offer strong Kubernetes support, and Hadoop libraries can access S3 storage transparently. This combination provides a flexible, cost-aware path off legacy stacks. IOMETE runs Apache Spark on Kubernetes against object storage in this pattern."
+  },
+  {
+    question: "Can a data lakehouse run on-premises and in the cloud?",
+    answer: "Yes, a data lakehouse built on open table formats can run across on-premises data centers and cloud environments, analyzing data wherever it resides. This lets organizations keep regulated data on-site while still running large-scale BI, machine learning, and AI on their full data set. Open formats keep the data portable rather than locked to one environment. IOMETE runs on Apache Iceberg and Apache Spark and can analyze petabyte-scale data across on-premises and cloud."
+  }
+]} />

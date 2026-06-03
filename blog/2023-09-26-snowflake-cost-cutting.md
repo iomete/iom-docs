@@ -9,6 +9,8 @@ banner_description: How to cut your Snowflake bills
 coverImage: img/blog/thumbnails/1.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 import MiniCard from "@site/src/components/MiniCard";
 
 In the ever-evolving landscape of data analytics and cloud computing, cost optimization has become a paramount concern for businesses, both large and small. One recent example that has garnered attention is Instacart's journey to reduce its Snowflake bill, shedding light on the importance of managing [data architecture](/blog/evolution-of-data-architecture) costs efficiently in these economic times.
@@ -52,3 +54,24 @@ While some platforms attempt to offer hybrid solutions that combine real-time an
 Instacart's journey to cut costs with Snowflake is a compelling example of the ongoing need for cost optimization in the world of data analytics. While the specifics of their strategies remain undisclosed, their experience highlights the importance of managing costs effectively in these economically challenging times.
 
 The realm of real-time analytics presents its own set of challenges, and businesses are increasingly turning to specialized solutions like IOMETE and others to address these issues. As technology continues to evolve, finding the right balance between cost, performance, and functionality will remain a top priority for organizations striving to stay competitive in the data-driven era.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "Why do cloud data warehouse bills grow so quickly?",
+    answer: "Cloud data warehouse bills grow quickly because consumption-based pricing charges for every hour of compute, so rising query volume, concurrency, and larger warehouses compound costs. Idle or oversized clusters and frequent real-time querying add further spend. As adoption spreads across teams, usage climbs faster than many organizations expect. Controlling this requires active management of how much compute runs and for how long, which is where architecture and pricing model both matter."
+  },
+  {
+    question: "How can organizations reduce data warehouse costs?",
+    answer: "Organizations can reduce data warehouse costs by restricting compute access to the workloads that need it, adding caching layers so reports do not re-query live data, and tuning resource allocation to avoid idle capacity. Some also move specific use cases to more cost-appropriate tools. Choosing an architecture that separates storage from compute lets each scale independently. IOMETE lets teams scale storage and compute separately and query data directly through federation to limit unnecessary spend."
+  },
+  {
+    question: "What is query federation and how does it cut cost?",
+    answer: "Query federation is the ability to query data directly from its source systems without first copying it into a central warehouse. By reading from relational databases, object stores, and files in place, it avoids the storage duplication and ETL overhead that drive up cost. This keeps fewer redundant copies and reduces pipeline maintenance. IOMETE offers query federation so teams can compute over data where it lives rather than migrating it first."
+  },
+  {
+    question: "When should a company consider a lakehouse alternative to a managed warehouse?",
+    answer: "A company should consider a lakehouse alternative when warehouse compute costs climb faster than the value delivered, when it wants direct control over compute resources, or when data must stay on-premises for compliance. Lakehouses store data in open formats and separate storage from compute, which can lower cost and reduce lock-in for the right workloads. IOMETE is a self-hosted lakehouse that runs on infrastructure the organization controls, including on-premises."
+  }
+]} />

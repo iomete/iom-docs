@@ -39,7 +39,7 @@ And it gets worse. Those 100,000 small files mean 100,000 separate object storag
 
 The real damage isn't performance—it's metadata bloat. Every commit generates new manifest files. Manifest files list data files and their statistics. With 100,000 files across 25,000 commits, you now have thousands of manifest files, each tracking overlapping subsets of the same data files. The metadata layer that was supposed to make queries faster has become the bottleneck.
 
-This happened in a real Dell Federal deployment running streaming IoT data. The table had 45 million data files. Metadata size reached 5TB—larger than the actual data. Query coordinators were running out of memory just loading file statistics. Planning a simple aggregation query triggered OOM errors because the system tried to materialize metadata for millions of files in one shot.
+This happened in a real deployment running streaming IoT data. The table had 45 million data files. Metadata size reached 5TB—larger than the actual data. Query coordinators were running out of memory just loading file statistics. Planning a simple aggregation query triggered OOM errors because the system tried to materialize metadata for millions of files in one shot.
 
 The fix isn't subtle. You need [compaction](/blog/iceberg-compaction-slow).
 
@@ -144,7 +144,7 @@ The classic mistake: partitioning by a high-cardinality column that creates mill
 
 The opposite mistake: not partitioning at all. Tables exceeding 1 million records without partitions force full table scans on every query. Query planning has to evaluate statistics for every file, and execution can't skip irrelevant data.
 
-The guideline from Dell Federal training sessions: **datasets above 1 million records must be partitioned.** The partition column should have moderate cardinality—enough to enable meaningful pruning, but not so high that it creates millions of partitions.
+The partition column should have moderate cardinality—enough to enable meaningful pruning, but not so high that it creates millions of partitions.
 
 For time-series data, partition by `day()` or `hour()`, not by timestamp. For geographical data, partition by `bucket(region, 10)` to create 10 balanced partitions, not by individual city or zip code.
 

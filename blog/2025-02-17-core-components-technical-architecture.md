@@ -14,6 +14,8 @@ import YoutubeCard from "@site/src/components/YoutubeCard";
 
 import Img from '@site/src/components/Img';
 
+import FAQSection from '@site/src/components/FAQSection';
+
 ## **IOMETE Core Components Technical Architecture**
 
 IOMETE's architecture is built on four fundamental layers, each providing essential capabilities for enterprise data management. Let's examine each layer in detail.
@@ -65,3 +67,28 @@ The governance layer implements enterprise-grade controls while enabling efficie
 **Audit Logging** captures comprehensive information about system access and data usage. It provides the detailed audit trails needed for compliance and security monitoring, implementing secure logging mechanisms that prevent tampering with audit records.
 
 Through these core components, IOMETE provides a comprehensive platform for enterprise data management, combining advanced technical capabilities with the governance and security features that enterprises require.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a storage layer in a data lakehouse architecture?",
+    answer: "The storage layer is the foundation that holds raw data on cost-effective object storage while a table format adds structure and reliability on top. It typically uses partitioning, clustering, and compaction to keep query performance high as data grows. IOMETE's storage layer combines object storage such as MinIO or native cloud storage with Apache Iceberg, which supplies ACID transactions, schema evolution, and time travel."
+  },
+  {
+    question: "What is a compute layer and what workloads does it handle?",
+    answer: "A compute layer provides the processing engines that run queries and transformations against stored data, separate from where the data lives. It commonly covers interactive queries, batch ETL, stream processing, and machine learning so one platform serves diverse workloads. IOMETE's compute layer includes a cost-based query engine, fault-tolerant batch ETL, exactly-once stream processing, and a machine learning engine."
+  },
+  {
+    question: "What is a data governance layer?",
+    answer: "A data governance layer enforces who can access data and tracks how it is used, combining access control, cataloging, metadata management, and audit logging. It lets organizations meet security and compliance requirements without blocking legitimate data use. IOMETE's governance layer supports role-based and attribute-based access control, row- and column-level security, a unified data catalog, and tamper-resistant audit logs."
+  },
+  {
+    question: "How does a data mesh layer support distributed data ownership?",
+    answer: "A data mesh layer provides domain management, data products, data contracts, and a discovery portal so individual teams can own and share data under shared standards. This distributes responsibility to the domains closest to the data while preserving interoperability and governance. IOMETE includes these capabilities so domains can package data as discoverable, versioned products governed by contracts between producers and consumers."
+  },
+  {
+    question: "Why is access control important in enterprise data platforms?",
+    answer: "Access control is critical because enterprise data often includes sensitive information that only certain roles should see, and weak controls create security and compliance risks. Fine-grained policies limit exposure while still letting users reach the data their work requires. IOMETE implements RBAC and ABAC along with row-level security and data masking, integrating with enterprise identity providers for consistent authentication."
+  }
+]} />

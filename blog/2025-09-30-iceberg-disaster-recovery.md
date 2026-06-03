@@ -9,6 +9,7 @@ coverImage: img/blog/thumbnails/4.png
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 
 [Apache Iceberg](/blog/cheat-sheet-for-apache-iceberg) brings warehouse-grade reliability to data lakes through immutable data files, versioned metadata, and snapshot isolation. Disaster recovery hinges on understanding how storage, metadata, and the catalog work together. This guide focuses on the Iceberg components that matter for recovery and the native procedures like register_table and snapshot rollbacks that restore service quickly.
@@ -107,3 +108,28 @@ ORDER BY committed_at DESC;
 # Conclusion
 
 Effective DR for Iceberg means treating metadata, snapshots, and the catalog as first-class backup assets. Combine routine backups with Iceberg-native procedures (register_table, rollback_to_snapshot, rollback_to_timestamp) and periodic recovery drills. Keep snapshot retention aligned to your maximum acceptable data loss and watch for configuration drift that can erode recovery options.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "How does Apache Iceberg support disaster recovery?",
+    answer: "Iceberg supports disaster recovery through immutable data files, versioned metadata, and snapshot isolation, so each operation creates a new snapshot that acts as a recovery checkpoint. Native procedures then restore service from these checkpoints or re-link storage to the catalog. Running Iceberg tables on a platform like IOMETE gives access to these same procedures, including snapshot rollbacks and table registration, for recovery."
+  },
+  {
+    question: "What are the critical Iceberg components to back up for recovery?",
+    answer: "The components that matter are metadata files, which hold schema and snapshot pointers, manifest files, which list data files and statistics, the data files themselves, and catalog entries, which map table names to metadata. Catalog corruption can make tables inaccessible even when all data is intact. A complete DR plan treats metadata, snapshots, and the catalog as first-class backup assets alongside the data."
+  },
+  {
+    question: "How do you recover from accidental data deletion in Iceberg?",
+    answer: "Because Iceberg preserves prior snapshots, you recover from an accidental delete by rolling back to a snapshot taken before the operation, using rollback_to_snapshot for a known snapshot ID or rollback_to_timestamp for a point in time. Inspecting the snapshots table first helps pick the right recovery point. This works as long as the relevant snapshot has not yet been expired by retention policies."
+  },
+  {
+    question: "What does the register_table procedure do in Iceberg recovery?",
+    answer: "The register_table procedure re-establishes the link between a catalog and existing table metadata, registering a table that exists in storage but has no catalog entry. It is essential when a catalog is lost or corrupted, when migrating tables between catalogs, or when restoring from backup without catalog entries. It needs only the path to a valid metadata.json file, so documenting metadata locations is a key backup practice."
+  },
+  {
+    question: "How long should you retain Iceberg snapshots for disaster recovery?",
+    answer: "Snapshot retention should cover at least your maximum acceptable data loss window so point-in-time recovery stays possible, while balancing the storage cost and metadata overhead that too many snapshots create. Overly aggressive expiration can remove the very snapshots you would need to roll back to. Aligning retention with recovery objectives, and watching for configuration drift, keeps recovery options open without unbounded storage growth."
+  }
+]} />

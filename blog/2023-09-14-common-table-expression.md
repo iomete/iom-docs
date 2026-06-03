@@ -9,6 +9,8 @@ banner_description: powerful feature in IOMETE SQL editor that allows you to def
 coverImage: img/blog/thumbnails/3.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 import MiniCard from "@site/src/components/MiniCard";
 
 Common Table Expressions (CTEs) are a powerful feature in SQL that allows you to define temporary result sets that can be referenced multiple times within a SQL statement. They are often used in SELECT statements to simplify complex queries and improve readability.
@@ -133,3 +135,24 @@ So, the final result of this query will be a single row with the values 1 and 2.
 CTEs are particularly useful when performing complex calculations or transformations on a subset of data before using it in the main query. They can also improve query performance by allowing the database to optimize the execution plan. If you have any specific questions or need more detailed examples, feel free to ask
 
 You can find more information about CTEs in the [IOMETE documentation](/reference/spark-sql/common-table-expression-cte) section of our documentation.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a common table expression in SQL?",
+    answer: "A common table expression, or CTE, is a named temporary result set defined with the WITH clause that you can reference within a single SQL statement. It helps break complex queries into readable, reusable parts without creating permanent tables. CTEs are commonly used in SELECT statements to simplify joins and intermediate calculations. IOMETE supports common table expressions in its Spark SQL editor for building and reading complex queries."
+  },
+  {
+    question: "What is the difference between a CTE and a subquery?",
+    answer: "A CTE is a named block defined once with the WITH clause that can be referenced multiple times in the same statement, while a subquery is an inline query nested directly where it is used. CTEs usually improve readability and let you reference the same logic in several places, whereas subqueries can be more concise for one-off use. In some engines a subquery or temporary table may perform better, so the choice depends on the query and the platform."
+  },
+  {
+    question: "Can you use multiple CTEs in one query?",
+    answer: "Yes, you can define multiple CTEs in a single query by separating them with commas after the WITH clause, and each can be referenced in the main statement. This lets you build a query in clear, sequential steps, with later CTEs even referencing earlier ones in engines that allow it. Multiple CTEs are useful for staging intermediate results before a final SELECT. IOMETE supports multiple CTEs within a query through its Spark SQL engine."
+  },
+  {
+    question: "Are CTEs supported in all SQL databases?",
+    answer: "Common table expressions are widely supported but not universal, so availability and behavior can vary across SQL dialects and database platforms. Most modern engines support them, though syntax details such as recursive CTEs may differ. Before relying on a CTE it is worth confirming support in your specific platform. IOMETE supports CTEs through Spark SQL, so queries written with the WITH clause run on its lakehouse."
+  }
+]} />

@@ -10,6 +10,8 @@ authors: aytan
 banner_description: Learn the benefits of data lakes and how to implement them in your organization [2023]
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 ![Why you need a data lake](/img/blog/2023-02-13-data-lake/centralize-data-in-data-lake.png)
 
 <!-- truncate -->
@@ -52,3 +54,24 @@ Data lakes are typically introduced when organizations need scalable, flexible, 
 ## **How IOMETE can help you?**
 
 IOMETE provides a “data lake on steroids”: the [data lakehouse](/glossary/data-lakehouse). The IOMETE data lakehouse combines the best of data lakes and data warehouses. It combines the scalability and flexibility of a data lake with the structure and organization of a data warehouse. It allows organizations to store large amounts of raw data in a cost-effective way and perform analytics on that data - including machine learning and AI - while also providing a structured environment for BI use cases.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a data lake?",
+    answer: "A data lake is a centralized repository that stores all of an organization's data in its raw form, including structured data from databases, semi-structured files like logs and CSVs, and unstructured content like images and video. It decouples storage from source applications so raw data can be analyzed without affecting operational systems. Platforms like IOMETE build on this foundation with a lakehouse layer that adds structure for analytics."
+  },
+  {
+    question: "What are the benefits of a data lake?",
+    answer: "A data lake gives you a single source of truth for analytics, the flexibility to store raw data without a predefined schema, scalability for growing data volumes, and lower cost than traditional warehousing because much ETL can be avoided. It also supports a wide range of analytics, from batch and real-time stream processing to interactive analysis. This makes data lakes well suited to machine learning and AI workloads."
+  },
+  {
+    question: "When should an organization use a data lake?",
+    answer: "An organization should use a data lake when it needs a scalable, cost-effective way to capture and store growing amounts of data in many formats and sizes. They fit scenarios where structured data from databases must be combined with unstructured sources like log files or social media feeds. When you need warehouse-style structure on top of that raw data, a lakehouse architecture such as IOMETE's extends the lake for BI and analytics."
+  },
+  {
+    question: "What is the difference between a data lake and a data lakehouse?",
+    answer: "A data lake stores raw structured and unstructured data cheaply but lacks built-in structure, while a data lakehouse adds warehouse-style organization and querying on top of that lake storage. The lakehouse combines the lake's scalability and flexibility with the reliability and SQL access of a warehouse. IOMETE implements this by layering table structure and a catalog over low-cost cloud object storage so the same data serves analytics, BI, and AI."
+  }
+]} />

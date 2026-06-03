@@ -9,6 +9,7 @@ coverImage: img/blog/thumbnails/structure-5.png
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 ## Introduction
 
@@ -207,3 +208,24 @@ The final Job Orchestrator design combines:
 We started with simple solutions (API-based capacity checks, Prefect for orchestration) and avoided over-engineering. The result is a system that not only works today, but also leaves room for future growth — DLQs, preemption, multi-job support, and cost intelligence.
 
 👉 Want to dive deeper on Spark Jobs in IOMETE: [Spark Jobs Guide](/user-guide/spark-jobs/creating-spark-job)
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a job orchestrator?",
+    answer: "A job orchestrator is a system that decides when and where compute jobs run, handling queuing, prioritization, scheduling, and monitoring across shared resources. It goes beyond simply executing a job by managing fairness, retries, and visibility into queue and cluster state. IOMETE built a job orchestrator for Spark workloads that adds priority queues, capacity-aware submission, and dashboards on top of a Kubernetes-based execution layer."
+  },
+  {
+    question: "How does Spark job scheduling work on Kubernetes?",
+    answer: "Spark job scheduling on Kubernetes defines each job as a resource that an operator picks up and runs as driver and executor pods, with Kubernetes placing those pods on available nodes. Without added orchestration, jobs share one pool, which can cause resource deadlocks where a driver starts but executors find no room. IOMETE pairs the Spark Operator with priority queues and a capacity checker so jobs only launch when the cluster can run them."
+  },
+  {
+    question: "What causes Spark job deadlocks in shared clusters?",
+    answer: "Spark job deadlocks occur when a driver pod starts and consumes resources but no capacity remains for its executor pods, leaving the job stuck indefinitely. This is common when many jobs enter one unmanaged pool and over-provision CPU and memory. A capacity checker prevents this by verifying available resources before submission. IOMETE uses Kubernetes API-based capacity checks to avoid launching jobs the cluster cannot fully schedule."
+  },
+  {
+    question: "How do priority queues improve workload scheduling?",
+    answer: "Priority queues let critical jobs run ahead of less important ones instead of forcing all work through a single first-come queue, so a low-value job cannot block business-critical work. Namespace isolation further prevents one team's load from overwhelming others. IOMETE implements high and normal priority queues with first-in, first-out ordering inside each level, and gives each namespace its own isolated queues to avoid noisy-neighbor effects."
+  }
+]} />

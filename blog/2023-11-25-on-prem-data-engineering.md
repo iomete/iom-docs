@@ -11,6 +11,8 @@ banner_description: Embracing IOMETE's Innovative Approach
 coverImage: img/blog/thumbnails/0.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 In an era where cloud computing often grabs the spotlight, IOMETE is pioneering a transformative approach with its modern on-premise [data lakehouse](/glossary/data-lakehouse) solution. IOMETE challenges the prevalent narrative, showcasing that on-premise environments can match, and at times surpass, the dynamism and effectiveness of cloud services in the realm of data engineering and ML/AI.
 
 <!-- truncate -->
@@ -73,3 +75,24 @@ IOMETE's on-premise data engineering solutions mark a significant milestone in t
 - **Democratizing Data Access:** Brings the power of tera and petabytes scale analytics and ML/AI to businesses, regardless of where their data resides.
 
 In embracing IOMETE's on-premise solutions, businesses are not just participating in the technological race; they are leading it in a way that is most suited to their individual journey towards innovation and excellence.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "Can you do ML and AI data engineering on-premises?",
+    answer: "Yes, machine learning and AI data engineering run on-premises by deploying processing engines and storage within your own data center rather than a public cloud. On-premises setups can handle large data volumes and complex models while keeping data inside the trust perimeter. This avoids the latency and data-movement costs of sending sensitive data to external services. IOMETE is a self-hosted lakehouse that enables real-time analytics and ML/AI workloads in on-premises environments."
+  },
+  {
+    question: "Why keep data engineering on-premises instead of in the cloud?",
+    answer: "Teams keep data engineering on-premises mainly for data security and control, to meet strict regulatory requirements, and to reuse existing data-center infrastructure. Processing data where it already lives avoids large migration costs and keeps full ownership of sensitive information. This is common in regulated industries that cannot move certain data off-site. IOMETE deploys within the customer trust perimeter, so data and processing stay on infrastructure the organization owns."
+  },
+  {
+    question: "Does on-premises data processing limit scale?",
+    answer: "No, on-premises data processing can handle terabyte- to petabyte-scale workloads when built on a horizontally scalable engine and storage layer. The key is an architecture that distributes work across nodes rather than relying on a single machine. With the right design, on-premises performance can match cloud setups for large analytics and AI jobs. IOMETE focuses on enabling analytics and ML/AI at scale in on-premises environments without the latency of round-trips to the cloud."
+  },
+  {
+    question: "How does on-premises deployment support regulatory compliance?",
+    answer: "On-premises deployment keeps sensitive data inside the organization's own infrastructure, which simplifies meeting data residency, privacy, and audit requirements. Full ownership of where data lives and who accesses it makes it easier to demonstrate compliance to regulators. This matters most for finance, healthcare, and government workloads. Because IOMETE runs within the customer trust perimeter, data stays under the organization's direct control for compliance purposes."
+  }
+]} />

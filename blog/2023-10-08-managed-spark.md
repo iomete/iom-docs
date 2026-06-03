@@ -9,6 +9,8 @@ banner_description: How to automate cluster scaling
 coverImage: img/blog/thumbnails/0.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 import MiniCard from "@site/src/components/MiniCard";
 
 As a managed Spark platform, IOMETE provides users with access to [Apache Spark](/glossary/apache-spark), a unified analytics engine that can handle large-scale data processing. Our customers can focus on their data analytics workloads, while we take care of all the infrastructure and management tasks associated with running Spark.
@@ -59,4 +61,25 @@ The provider decided to migrate to a managed Spark platform. After the migration
 
 ### Conclusion
 
-IOMETE is a powerful managed Spark platform that can help organizations achieve their data analytics goals. With its high performance, low cost, and ease of use, IOMETE is a good choice for organizations of all sizes. So why not give us a try and see how we can help you unlock the power of your data?
+IOMETE is a powerful managed Spark platform that can help organizations achieve their data analytics goals. With its high performance, low cost, and ease of use, IOMETE is a good choice for organizations of all sizes. So why not give us a try and see how we can help you get more value from your data?
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a managed Spark platform?",
+    answer: "A managed Spark platform runs and operates Apache Spark clusters on your behalf, handling setup, scaling, monitoring, and maintenance so teams can focus on data work instead of infrastructure. It typically adds job scheduling, monitoring dashboards, and debugging tools on top of open-source Spark. This removes the operational burden of provisioning and patching clusters manually. IOMETE is a self-hosted lakehouse platform that provides managed Spark clusters within your own environment."
+  },
+  {
+    question: "How does automatic cluster scaling work in Spark?",
+    answer: "Automatic cluster scaling adjusts the number of Spark workers up or down based on workload demand, so jobs get enough compute without manual provisioning. When demand drops, idle resources are released to control cost. This elasticity is a common feature of managed Spark services and supports a pay-as-you-go model. IOMETE can automatically scale Spark clusters in response to demand, matching resources to the jobs running at any time."
+  },
+  {
+    question: "What use cases is managed Spark good for?",
+    answer: "Managed Spark suits reporting and analytics, machine learning model training, and real-time data processing across large datasets. It can generate insights from customer, sales, and operational data, power fraud detection and segmentation models, and process streams from IoT or social sources. The same platform serves both batch and streaming workloads. IOMETE applies managed Spark to these analytics, machine learning, and real-time processing use cases on a unified lakehouse."
+  },
+  {
+    question: "Can managed Spark reduce data processing costs?",
+    answer: "Yes, managed Spark can lower costs through elastically scalable clusters and pay-as-you-go pricing that avoids paying for idle capacity. Consolidating storage and processing on one platform also reduces the operational overhead of managing separate systems. Actual savings depend on workload patterns and existing infrastructure. In one telecommunications migration described here, a managed Spark platform reduced data processing costs by up to 50 percent and delivered 2x to 24x faster query performance."
+  }
+]} />

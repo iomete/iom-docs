@@ -8,6 +8,8 @@ banner_description: data domain is a living workspace where teams can truly own 
 date: 02/09/2025
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 ## **Beyond the Monolithic Data Platform: Building a Self-Service [Data Mesh](/blog/data-mesh) for the Enterprise**
 
 Here's a pattern we've consistently observed while working with large enterprises: As organizations scale, their data challenges grow exponentially. We're not talking about the typical problems that any company faces with data – we're talking about the unique challenges that emerge when you have thousands of users across hundreds of business units, all needing to work with data in sophisticated ways.
@@ -100,3 +102,28 @@ This isn't just another data platform – it's a fundamental reimagining of how 
 The future of enterprise data isn't about making central teams bigger or processes more complex. It's about giving power back to the people who understand the data best, while providing the guardrails and tools they need to use that power effectively.
 
 What challenges are you facing in your enterprise data journey? How are you balancing the need for autonomy with the requirements of scale? We'd love to hear your thoughts and experiences as we continue building the future of enterprise data platforms.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is data as a product?",
+    answer: "Data as a product is the practice of treating datasets like managed products, with clear ownership, documentation, quality guarantees, and defined consumers. Instead of raw tables shared ad hoc, each data product has versioning, validation, and an interface so other teams can trust and reuse it. IOMETE supports this approach by letting domains convert internal datasets into shareable data products with documentation and access controls built in."
+  },
+  {
+    question: "What is a data mesh?",
+    answer: "A data mesh is an organizational and architectural approach that distributes data ownership to the business domains that know the data best, rather than concentrating it in one central team. Each domain manages its own data products under shared governance and interoperability standards. IOMETE builds data mesh principles into its platform through domain workspaces, self-service tooling, and global governance so teams own data without recreating silos."
+  },
+  {
+    question: "What is a data domain in a data mesh?",
+    answer: "A data domain is a bounded workspace owned by a specific team, containing its own compute, storage, governance rules, and data products. It gives that team autonomy to develop and experiment with data while staying within organization-wide standards. In IOMETE, a domain functions as a self-contained workspace with built-in monitoring, so a team can manage its data independently while the platform enforces shared governance."
+  },
+  {
+    question: "What is organizational data debt?",
+    answer: "Organizational data debt is the accumulated cost of centralized data structures where every change needs central approval, ownership is unclear, and pipelines break in cascading ways. It slows innovation and creates shadow IT as frustrated teams build unofficial workarounds. A domain-oriented model addresses this debt by distributing ownership, which is the approach IOMETE takes by giving teams their own governed data domains."
+  },
+  {
+    question: "How does a self-service data platform balance autonomy with governance?",
+    answer: "A self-service data platform balances autonomy and governance by giving teams freedom to create and share data within guardrails that enforce security, quality, and access policies automatically. Central teams define the standards while domains operate independently inside them. IOMETE applies this balance with visual self-service tools for building datasets alongside global governance controls such as access policies and automated quality checks."
+  }
+]} />

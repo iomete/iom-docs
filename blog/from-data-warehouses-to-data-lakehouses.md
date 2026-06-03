@@ -14,6 +14,7 @@ keywords:
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";
+import FAQSection from '@site/src/components/FAQSection';
 
 ## Introduction
 
@@ -242,3 +243,24 @@ Feel free to reach out to me on vusal@iomete.com if you have any questions or fe
 :::info Important News
 We are launching the IOMETE Community version soon. If you want to be the first to know about it, please join the [IOMETE Community](https://community.iomete.com).
 :::
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a data lakehouse?",
+    answer: "A data lakehouse is a unified architecture that combines the scalable, low-cost storage of a data lake with the structured tables, ACID transactions, and governance of a data warehouse. It lets organizations analyze structured and unstructured data from one platform instead of maintaining separate systems. IOMETE is a self-hosted implementation of this pattern, running open table formats over object storage so teams get warehouse-style reliability without moving data into a separate analytics system."
+  },
+  {
+    question: "What is the difference between a data warehouse, a data lake, and a data lakehouse?",
+    answer: "A data warehouse optimizes structured data for analytical queries but struggles with unstructured data, a data lake stores all data types cheaply but historically lacked updates and ACID transactions, and a data lakehouse merges both by adding warehouse features on top of lake storage. The lakehouse gives one system for analytics and machine learning. IOMETE follows the lakehouse model, pairing decoupled object storage with a compute engine and table-level governance."
+  },
+  {
+    question: "Why did data lakes evolve into data lakehouses?",
+    answer: "Data lakes evolved into lakehouses because they largely operated on an insert-and-query basis and lacked update, delete, merge, and ACID transactions, which made consistent, governed analytics hard. Open table formats added transactional updates, schema management, and time travel on top of lake storage to close that gap. IOMETE builds on this evolution, running transactional table formats so structured data is as manageable as it was in traditional warehouses while keeping lake-scale storage."
+  },
+  {
+    question: "Why does decoupling storage and compute matter in a lakehouse?",
+    answer: "Decoupling storage and compute lets each scale independently, so a large data volume does not force proportional spending on processing power, and specialized tools can handle each layer. This separation, established by data lakes, underpins the lakehouse architecture. IOMETE applies it by running compute engines like Apache Spark over object storage, so organizations size storage and compute separately and can deploy the platform on their own on-premises or private-cloud infrastructure."
+  }
+]} />

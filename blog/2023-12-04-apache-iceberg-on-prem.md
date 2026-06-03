@@ -9,6 +9,8 @@ banner_description: cloud-native table format in on premise
 coverImage: img/blog/thumbnails/3.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 For on-premise data storages, streamlining data operations is a key requirement to maintain efficiency and reduce operational costs. Apache Iceberg is reshaping how companies store and analyze huge amounts of data. It's an open table format that's making big waves in the tech world. Here's the cool part: IOMETE, a [data lakehouse](/glossary/data-lakehouse) platform, is built on Apache Iceberg. It comes with fantastic features like [ACID transactions](/glossary/acid-transactions), time travel, snapshots, schema evolution, data versioning, concurrency control, metadata management, and partitioning. Plus, it's powered by the open [Apache Spark](/glossary/apache-spark) engine. Together, Iceberg and Spark make IOMETE super fast, adaptable, and able to grow with your needs.
 
 ![IOMETE-on-prem-iceberg](/img/blog/2023-12-04-on-prem-apache-iceberg/iceberg-onprem-iomete.png)
@@ -37,4 +39,25 @@ Apache Iceberg really proves its value when you start organizing and using your 
 
 ### **Conclusion**
 
-In a nutshell, Apache Iceberg is a game-changer for transforming a local data storage system into a powerful, feature-rich lakehouse. It enhances traditional data storage methods, allowing you to leverage large data sets to their fullest. Interested in using it in your on-premise setup? We're here to help. Just hit "Book a Demo" and see how it works for your specific needs.
+In a nutshell, Apache Iceberg can transform a local data storage system into a powerful, feature-rich lakehouse. It improves on traditional data storage methods, helping you get the most from large data sets. Interested in using it in your on-premise setup? We're here to help. Just hit "Book a Demo" and see how it works for your specific needs.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is Apache Iceberg?",
+    answer: "Apache Iceberg is an open table format that organizes large analytic datasets so engines can query them reliably and efficiently. It does not store data itself; it adds structure and metadata over files in object storage, enabling features like ACID transactions, time travel, snapshots, and schema evolution. This brings database-like management to data-lake files. IOMETE is a data lakehouse platform built on Apache Iceberg and the Apache Spark engine."
+  },
+  {
+    question: "Can Apache Iceberg run on-premises?",
+    answer: "Yes, Apache Iceberg runs on-premises over local object storage, giving on-site data the same structured table management used in cloud lakehouses. It speeds up querying and handles data changes without moving data off your servers. This suits organizations that must keep data in their own data center for security or compliance. IOMETE runs Iceberg on Kubernetes against on-premises object storage, so data stays on your own infrastructure."
+  },
+  {
+    question: "Do you need to migrate data to use Apache Iceberg?",
+    answer: "No, Iceberg can organize data where it already resides rather than requiring a migration into a separate system. It works as a table layer over files in your existing storage, adding catalog structure and faster querying in place. This keeps data on your own servers while making it easier to find and analyze. With IOMETE, your data stays on your server and Iceberg organizes it without moving it elsewhere."
+  },
+  {
+    question: "What features does Apache Iceberg add to a data lake?",
+    answer: "Apache Iceberg adds ACID transactions, time travel, snapshots, schema evolution, data versioning, concurrency control, metadata management, and partitioning to data stored in a lake. These features bring reliability and governance that raw file storage lacks, so analytics and machine learning run on consistent data. A data catalog also makes scattered files easier to discover. IOMETE provides these Iceberg capabilities and pairs them with Apache Ranger for access control on-premises."
+  }
+]} />

@@ -10,6 +10,8 @@ tags2: [Educational]
 banner_description: A data lake is a flexible architecture and allows organizations to keep all data in one repository. It does, however, have some shortcomings.
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 ![serverless-lakehouse-platform](/img/blog/2022-08-04-serverless-lakehouse-platform/serverless-lakehouse-platform.png)
 
 <!-- truncate -->
@@ -75,3 +77,24 @@ The lakehouse is considered the latest innovation in data infrastructure that co
 Apart from complete, the platform is flexible too. The IOMETE lakehouse is built on open source [Apache Iceberg](/reference/iceberg-tables/getting-started) and [Apache Spark](/glossary/apache-spark) and uses [Apache Parquet](/glossary/parquet) as the data format. One can use the built-in BI which is based on Apache Superset or we can easily connect third party solutions such as Tableau, Looker, and PowerBI.
 
 All of this comes with the most aggressive value proposition in the data industry: The IOMETE compute price is equal to the AWS on-demand compute [price](https://iomete.com/pricing) with no mark-up, so AWS users get the IOMETE platform basically for free.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a serverless lakehouse?",
+    answer: "A serverless lakehouse combines a data lakehouse architecture with serverless computing, so the platform provisions compute on demand and charges only for the resources a query or job actually uses. It stores structured and unstructured data in one place while removing the need to manage idle servers. IOMETE is one example, running a serverless lakehouse on Apache Iceberg and Apache Spark with an integrated data catalog, SQL editor, and built-in BI."
+  },
+  {
+    question: "How is a data lakehouse different from a data warehouse and a data lake?",
+    answer: "A data warehouse stores structured, filtered data for reporting, a data lake stores raw structured and unstructured data flexibly, and a data lakehouse merges both so one repository serves BI and machine learning. The lakehouse adds metadata layers that let unstructured data be cataloged and queried like warehouse tables. This lets organizations support analytics and AI workloads from a single store, as IOMETE does on top of open table formats."
+  },
+  {
+    question: "What is serverless computing?",
+    answer: "Serverless computing is a model where a cloud provider dynamically allocates compute and storage only when code or queries run, and bills only for the time actually used. Servers still exist, but the provider handles their provisioning and maintenance, so teams focus on application logic instead of infrastructure. Lakehouse platforms apply this model to data workloads, and IOMETE uses it to scale Spark compute up and down with demand."
+  },
+  {
+    question: "Why does a lakehouse need a data catalog for governance?",
+    answer: "A data catalog matters because storing raw and personal data without organization can create governance gaps and turn a data lake into an unmanaged data swamp. A catalog keeps data structured, discoverable, and subject to compliance and anonymization rules. Lakehouse platforms integrate cataloging to enforce these controls, and IOMETE includes an advanced data catalog so data stays organized and governed as it scales."
+  }
+]} />

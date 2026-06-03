@@ -9,6 +9,8 @@ banner_description: Step-by-step on-premise use case
 coverImage: img/blog/thumbnails/0.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 import MiniCard from "@site/src/components/MiniCard";
 
 **Background:**
@@ -65,3 +67,24 @@ By consolidating analytics workloads into a single Kubernetes cluster while main
 ### Conclusion
 
 By separating storage and compute the organization achieves greater flexibility, performance, and data accessibility while maintaining strict security and compliance standards. This use case demonstrates how the separation of storage and compute can benefit organizations with diverse analytics needs in an on-premises environment.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a data lakehouse?",
+    answer: "A data lakehouse is an architecture that combines the open, low-cost storage of a data lake with the management features and transactional consistency of a data warehouse. It stores data in open table formats so multiple analytics tools can query the same data without copying it. This lets organizations run SQL analytics, machine learning, and custom processing on one shared dataset. IOMETE provides a lakehouse that can run on-premises on Kubernetes."
+  },
+  {
+    question: "How does separating storage and compute help analytics?",
+    answer: "Separating storage and compute lets data sit in one shared layer while compute resources scale independently based on workload demand. This removes the data silos and rigidity of tightly coupled database systems, so teams can spin up the right engine for each task without duplicating or moving data. It improves performance and flexibility as data volumes grow. IOMETE applies this pattern by running elastic compute on Kubernetes over shared on-premises storage."
+  },
+  {
+    question: "Can a data lakehouse run on-premises?",
+    answer: "Yes, a data lakehouse can run entirely on-premises by using a local Kubernetes cluster for compute and network-attached or object storage for the shared data layer. This keeps sensitive data inside the organization's own facilities while still providing cloud-style separation of storage and compute. It suits regulated workloads that cannot move to public cloud. IOMETE is built to deploy this way, running its lakehouse on a single on-premises Kubernetes cluster."
+  },
+  {
+    question: "How is access control enforced in an on-premises lakehouse?",
+    answer: "Access control in an on-premises lakehouse is enforced at both the storage and compute layers, often using role-based access control so only authorized users and processes reach sensitive data. Applying controls consistently across both layers keeps data secure and helps meet regulatory requirements such as those in healthcare. IOMETE implements role-based access control across its storage and Kubernetes compute layers to keep on-premises data governed."
+  }
+]} />

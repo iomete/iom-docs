@@ -10,6 +10,8 @@ banner_description: relationship between Spark and HDFS and discuss setting up y
 coverImage: img/blog/thumbnails/0.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 import MiniCard from "@site/src/components/MiniCard";
 
 In the world of data engineering and analytics, technologies like [Apache Spark](/glossary/apache-spark) and Hadoop Distributed File System (HDFS) play a significant role. If you're new to these technologies and wondering whether Spark comes with an integrated HDFS storage layer, you're in the right place. In this blog post, we'll explore the relationship between Spark and HDFS and discuss setting up your architecture using Dockerized Spark clusters and HDFS.
@@ -44,3 +46,24 @@ Your observation about the naming convention of Spark binaries is correct. The p
 Incorporating HDFS with Spark provides a strong foundation for building data-centric applications. Dockerized Spark clusters offer a convenient way to experiment with this integration, allowing you to learn, test, and refine your architecture. As you embark on your journey to build a [medallion architecture](/glossary/medallion-architecture) using Apache Iceberg, remember that learning and experimenting are the key components of mastering these powerful technologies.
 
 We hope this blog post has clarified your doubts and provided insights into integrating Spark and HDFS for your data engineering project. If you have any further questions on [data lakehouse](/glossary/data-lakehouse) building or [the IOMETE data lakehouse platform](https://iomete.com/pricing), feel free to reach out. Happy data engineering!
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "Does Apache Spark include its own storage layer?",
+    answer: "No, Apache Spark is a processing engine and does not provide its own persistent storage; it reads from and writes to external storage systems. It commonly pairs with HDFS, cloud object stores, or other distributed file systems for durable data. Spark distributions are often compiled against a specific Hadoop version, which bundles the HDFS client libraries. IOMETE runs Spark over shared storage layers such as object stores and network-attached storage rather than embedding storage in the engine."
+  },
+  {
+    question: "What is HDFS used for with Spark?",
+    answer: "HDFS provides a distributed, fault-tolerant file storage layer that Spark can use as its underlying data store for large-scale batch and analytics workloads. It spreads data across cluster nodes so Spark can exploit data locality and replicates blocks so processing continues even if some nodes fail. Together they form a common pattern for building data pipelines, though Spark can equally read from cloud object storage when HDFS is not used."
+  },
+  {
+    question: "Why does the Spark binary name include hadoop?",
+    answer: "The hadoop label in a Spark binary name, such as spark-3.x.x-bin-hadoop3.x, indicates the distribution was compiled to work with that Hadoop version and includes the matching HDFS client libraries. This lets Spark talk to HDFS and Hadoop-compatible file systems out of the box without adding those dependencies separately. It does not mean a Hadoop cluster is required, only that the integration libraries are bundled."
+  },
+  {
+    question: "Is running Spark and HDFS in Docker production-ready?",
+    answer: "Running Spark and HDFS in Docker is well suited for learning and experimentation but production deployments need additional work around security, scalability, networking, and ongoing maintenance. Containerized clusters make it easy to prototype an architecture, yet operating them reliably at scale involves resource tuning and cluster management. Managed lakehouse platforms such as IOMETE handle this operational layer on Kubernetes so teams can run Spark workloads without building cluster orchestration themselves."
+  }
+]} />

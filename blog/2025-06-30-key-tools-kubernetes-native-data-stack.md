@@ -10,6 +10,7 @@ authors: aytan
 
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 
 ## **Key Tools in the Kubernetes-Native Data Stack**
@@ -130,3 +131,24 @@ These tools form the foundation of Kubernetes-native data platforms. When deploy
 - Elastic, cloud-agnostic operations across teams
 
 **IOMETE’s advantage** is in how it packages many of these capabilities — from Spark compute to catalog governance — into a unified, Kubernetes-native platform. It doesn’t replace these tools but acts as a glue layer that simplifies integration and speeds up delivery for data teams.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What tools make up a Kubernetes-native data stack?",
+    answer: "A Kubernetes-native data stack typically combines Apache Airflow for orchestration, the Spark Operator for batch compute, the Flink Operator for streaming, query engines like Trino or ClickHouse, object storage such as MinIO, and Prometheus with Grafana for monitoring. These run as native Kubernetes workloads. IOMETE packages Spark compute, an Iceberg catalog, and governance into one platform that integrates with these tools rather than replacing them."
+  },
+  {
+    question: "Why run Apache Airflow with the KubernetesExecutor?",
+    answer: "The KubernetesExecutor launches each Airflow task in its own Pod, giving native autoscaling, full workload isolation, and per-task resource limits without needing a Celery worker pool. This keeps orchestration lightweight and aligned with GitOps practices. IOMETE integrates with Airflow through its SQL endpoints and Spark job APIs, so tasks can target IOMETE compute clusters while Airflow retains the orchestration logic."
+  },
+  {
+    question: "What does the Apache Spark Operator do on Kubernetes?",
+    answer: "The Spark Operator lets you define Spark applications declaratively through a SparkApplication custom resource instead of writing shell scripts, handling executor scaling, Spark UI integration, and failure recovery natively. This makes Spark jobs first-class Kubernetes objects. IOMETE abstracts this operational complexity while remaining Kubernetes-native underneath, so launching a cluster translates into Pods, Jobs, PVCs, and autoscalers behind the scenes."
+  },
+  {
+    question: "Can different query engines share the same data on Kubernetes?",
+    answer: "Yes, when data is stored in an open table format like Apache Iceberg on object storage, multiple engines such as Spark, Trino, and Flink can read and write the same tables without copying data. This engine independence is central to the composable data stack. IOMETE writes Iceberg-backed catalogs that Trino can query directly and that batch and streaming pipelines can share."
+  }
+]} />
