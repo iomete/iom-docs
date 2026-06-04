@@ -78,7 +78,7 @@ If you are working through the same decision, the companion posts go deeper: how
     answerContent: (
       <>
         <p>A sovereign data platform keeps data storage, compute, metadata, and audit logs inside infrastructure the customer controls, stores data in open formats the customer can leave with, and runs on a deployment target the customer chooses.</p>
-        <p>If any one of those three properties is missing – perimeter control, deployment freedom, or format ownership – the platform is hosted rather than sovereign. The distinction is architectural, not contractual.</p>
+        <p>If any one of those three properties is missing – perimeter control, deployment freedom, or format ownership – the platform is hosted rather than sovereign. IOMETE is built around all three: self-hosted on your own Kubernetes clusters, deployable on-premises or in a sovereign cloud, with data in open Apache Iceberg tables – the distinction is architectural, not contractual.</p>
       </>
     )
   },
@@ -87,7 +87,7 @@ If you are working through the same decision, the companion posts go deeper: how
     answerContent: (
       <>
         <p>A sovereign platform runs inside your own infrastructure with no vendor data plane; a managed cloud platform runs your workloads on the vendor's infrastructure.</p>
-        <p>The practical difference shows up in custody of encryption keys, control over where data physically sits, and whether you can operate fully air-gapped. Sovereign platforms are built for cases where regulators require infrastructure control, not just contractual guarantees.</p>
+        <p>The practical difference shows up in custody of encryption keys, control over where data physically sits, and whether you can operate fully air-gapped. IOMETE runs inside your own infrastructure with no IOMETE-operated data plane, for cases where regulators require infrastructure control, not just contractual guarantees.</p>
       </>
     )
   },
@@ -105,7 +105,7 @@ If you are working through the same decision, the companion posts go deeper: how
     answerContent: (
       <>
         <p>No. A modern sovereign platform delivers the same lakehouse capabilities – ACID transactions, time travel, streaming ingestion, fine-grained security – on private cloud or on-premises.</p>
-        <p>Because the architecture is built on open standards like Apache Iceberg and Spark rather than a proprietary cloud engine, the feature set does not depend on a specific hyperscaler.</p>
+        <p>Because IOMETE is built on open standards like Apache Iceberg and Spark rather than a proprietary cloud engine, the feature set does not depend on a specific hyperscaler.</p>
       </>
     )
   },
@@ -114,7 +114,7 @@ If you are working through the same decision, the companion posts go deeper: how
     answerContent: (
       <>
         <p>The strongest sovereign platforms run on bare-metal, private Kubernetes, OpenStack, VMware, regional sovereign clouds, public cloud regions, air-gapped clusters, or a hybrid of these queried as one surface.</p>
-        <p>Deployment freedom is one of the three defining properties of sovereignty, because it lets residency and cost constraints be answered without re-platforming later.</p>
+        <p>Deployment freedom is one of the three defining properties of sovereignty, because it lets residency and cost constraints be answered without re-platforming later. IOMETE runs across all of these targets from one Kubernetes-native packaging.</p>
       </>
     )
   },
@@ -132,7 +132,7 @@ If you are working through the same decision, the companion posts go deeper: how
     answerContent: (
       <>
         <p>It should do the opposite. Because data is stored in open Apache Iceberg tables and Parquet files queried by open engines, migration off the platform is symmetric with migration on.</p>
-        <p>Lock-in comes from proprietary storage formats and vendor-operated control planes – the things a true sovereign architecture avoids by design.</p>
+        <p>Lock-in comes from proprietary storage formats and vendor-operated control planes – the things IOMETE avoids by design, storing data in open Iceberg tables with no vendor-operated control plane.</p>
       </>
     )
   },
@@ -141,7 +141,7 @@ If you are working through the same decision, the companion posts go deeper: how
     answerContent: (
       <>
         <p>It changes the cost shape rather than simply raising it. Costs scale with infrastructure you already own instead of per-query premiums and vendor-mediated egress fees.</p>
-        <p>For large or steady-state workloads, that often lowers total cost; the bigger driver is usually whether regulation makes infrastructure control non-negotiable in the first place.</p>
+        <p>For the large, steady-state workloads IOMETE typically runs, that often lowers total cost; the bigger driver is usually whether regulation makes infrastructure control non-negotiable in the first place.</p>
       </>
     )
   }

@@ -70,7 +70,7 @@ To finish the cluster: the [pillar on sovereign data platforms](/resources/blog/
     answerContent: (
       <>
         <p>DORA requires evidence of control at the data infrastructure layer: data classification, fine-grained access control with audit logging, incident detection and reporting, third-party ICT risk management, and resilience testing.</p>
-        <p>These map to Articles 8, 9, 17–19, 25, and 28–30, and the practical effect is that the data platform itself must produce the lineage, access, and audit evidence rather than relying on a vendor's assurances.</p>
+        <p>These map to Articles 8, 9, 17–19, 25, and 28–30, and the practical effect is that the data platform itself must produce the lineage, access, and audit evidence rather than relying on a vendor's assurances. IOMETE produces those controls natively – lineage, fine-grained access, and audit logging – so the evidence is a byproduct of normal operation.</p>
       </>
     )
   },
@@ -79,7 +79,7 @@ To finish the cluster: the [pillar on sovereign data platforms](/resources/blog/
     answerContent: (
       <>
         <p>A self-hosted platform reduces DORA Article 28 concentration risk because the institution operates it on infrastructure it controls and stores data in open formats, making a credible exit strategy demonstrable.</p>
-        <p>Dependence on any single external ICT provider shrinks, and the required exit plan becomes an architectural fact rather than a contractual paragraph.</p>
+        <p>Dependence on any single external ICT provider shrinks, and the required exit plan becomes an architectural fact rather than a contractual paragraph. Because IOMETE runs on the institution's own Kubernetes clusters and stores data in open Apache Iceberg tables, that exit path is built into the architecture.</p>
       </>
     )
   },
@@ -88,7 +88,7 @@ To finish the cluster: the [pillar on sovereign data platforms](/resources/blog/
     answerContent: (
       <>
         <p>No. Data residency only fixes where data is physically stored; data sovereignty also requires control over who can compel access and which jurisdiction's law applies.</p>
-        <p>A provider under foreign law may be obligated to produce data regardless of where it sits, which is why residency alone does not satisfy sovereignty requirements for regulated finance.</p>
+        <p>A provider under foreign law may be obligated to produce data regardless of where it sits, which is why residency alone does not satisfy sovereignty requirements for regulated finance. IOMETE keeps storage, compute, and metadata inside the bank's own perimeter, so there is no vendor-operated plane a foreign jurisdiction could compel.</p>
       </>
     )
   },
@@ -97,7 +97,7 @@ To finish the cluster: the [pillar on sovereign data platforms](/resources/blog/
     answerContent: (
       <>
         <p>Yes. For high-risk AI systems, the EU AI Act requires data governance, logging, and traceability (Articles 10, 12, 13) on the data that trains and feeds models.</p>
-        <p>In practice this means the platform must record which data version produced which model, which a lakehouse delivers through time travel and dataset tagging.</p>
+        <p>In practice this means the platform must record which data version produced which model, which a lakehouse delivers through time travel and dataset tagging. On IOMETE, Apache Iceberg time travel and dataset tagging tie every model and report to the exact data version behind it.</p>
       </>
     )
   },
@@ -115,7 +115,7 @@ To finish the cluster: the [pillar on sovereign data platforms](/resources/blog/
     answerContent: (
       <>
         <p>Through fine-grained access control, complete audit logging, end-to-end lineage, and reproducible data versions – the controls themselves are the evidence.</p>
-        <p>When access, masking, and lineage are enforced in the platform rather than bolted on per tool, the audit file is a byproduct of normal operation rather than a separate project.</p>
+        <p>Because IOMETE enforces access, masking, and lineage in the query path rather than bolting them on per tool, the audit file is a byproduct of normal operation rather than a separate project.</p>
       </>
     )
   },
@@ -124,7 +124,7 @@ To finish the cluster: the [pillar on sovereign data platforms](/resources/blog/
     answerContent: (
       <>
         <p>Legacy warehouses accumulated thousands of derived tables over 15 to 20 years without lineage or version-controlled transformations, so they cannot produce the classification and audit evidence DORA requires.</p>
-        <p>The gap is structural: the estate was built for reporting, not for demonstrable infrastructure control, which is why modernization onto a governed lakehouse is the common path.</p>
+        <p>The gap is structural: the estate was built for reporting, not for demonstrable infrastructure control, which is why modernization onto a governed lakehouse like IOMETE is the common path.</p>
       </>
     )
   },
@@ -133,7 +133,7 @@ To finish the cluster: the [pillar on sovereign data platforms](/resources/blog/
     answerContent: (
       <>
         <p>No. A Kubernetes-native lakehouse scales compute and storage independently on private cloud or on-premises infrastructure, delivering elastic scale without a public-cloud data plane.</p>
-        <p>The same architecture runs multi-tenant, multi-region workloads in production, so scalability is preserved while sovereignty is regained.</p>
+        <p>IOMETE runs multi-tenant, multi-region workloads in production on this architecture, so scalability is preserved while sovereignty is regained.</p>
       </>
     )
   }

@@ -74,7 +74,7 @@ For the broader picture, start with the [sovereign data platform pillar](/resour
     answerContent: (
       <>
         <p>Sovereign AI is machine learning and AI where the training data, compute, feature store, and model artifacts all stay inside infrastructure the customer controls, rather than being moved to a vendor's environment.</p>
-        <p>The models are brought to the data instead of the data being copied to the models, which keeps the entire ML lifecycle inside the customer's security perimeter and under one governance model.</p>
+        <p>The models are brought to the data instead of the data being copied to the models, which keeps the entire ML lifecycle inside the customer's security perimeter and under one governance model. IOMETE runs that full lifecycle – feature engineering, training, and notebooks – on a self-hosted lakehouse inside your own Kubernetes clusters.</p>
       </>
     )
   },
@@ -92,7 +92,7 @@ For the broader picture, start with the [sovereign data platform pillar](/resour
     answerContent: (
       <>
         <p>Pin every training run to a specific data snapshot using table time travel and dataset tagging, so the exact rows that produced a model can be reconstructed later.</p>
-        <p>Apache Iceberg's time travel makes this native to the lakehouse: a model is tied to a named table version rather than to "the data as it was at the time," which is what an auditor or a rollback actually needs.</p>
+        <p>On IOMETE, Apache Iceberg time travel makes this native to the lakehouse: a model is tied to a named table version rather than to "the data as it was at the time," which is what an auditor or a rollback actually needs.</p>
       </>
     )
   },
@@ -101,7 +101,7 @@ For the broader picture, start with the [sovereign data platform pillar](/resour
     answerContent: (
       <>
         <p>Spark is worth it when the dataset no longer fits comfortably in single-node memory or when feature pipelines need to run across a cluster. For small samples, single-node Python is usually faster.</p>
-        <p>A good sovereign platform lets you choose per job instead of forcing distributed execution on everything, so you only pay the Spark overhead when scale justifies it.</p>
+        <p>IOMETE lets you choose per job instead of forcing distributed execution on everything, so you only pay the Spark overhead when scale justifies it.</p>
       </>
     )
   },
@@ -110,7 +110,7 @@ For the broader picture, start with the [sovereign data platform pillar](/resour
     answerContent: (
       <>
         <p>The same row-level, column-level, and tag-based access controls and dynamic masking that protect production data are applied to training and serving queries.</p>
-        <p>Because governance lives in the platform rather than in each ML tool, a training job only sees the data its owner is cleared for, and PII masking happens in the query path automatically.</p>
+        <p>Because governance lives in IOMETE rather than in each ML tool, a training job only sees the data its owner is cleared for, and PII masking happens in the query path automatically.</p>
       </>
     )
   },
@@ -119,7 +119,7 @@ For the broader picture, start with the [sovereign data platform pillar](/resour
     answerContent: (
       <>
         <p>Yes. When agents query a self-hosted lakehouse, the data and the compute both stay inside the customer's infrastructure, and the same access controls and lineage apply to agent queries as to human ones.</p>
-        <p>This is the safer pattern for the 80% of enterprises that lack a tested governance model for autonomous agents, because it keeps agent activity inside one auditable system.</p>
+        <p>This is the safer pattern for the 80% of enterprises that lack a tested governance model for autonomous agents, because it keeps agent activity inside one auditable system. On IOMETE, agent queries hit the same governed Iceberg tables and inherit the same access controls and lineage as human queries.</p>
       </>
     )
   },
@@ -137,7 +137,7 @@ For the broader picture, start with the [sovereign data platform pillar](/resour
     answerContent: (
       <>
         <p>No. Sovereign AI runs standard tools – Spark, Python, Jupyter notebooks, Iceberg – inside your perimeter rather than swapping them for proprietary equivalents.</p>
-        <p>The constraint is on where the workload runs, not on which libraries or frameworks you use, so data science teams keep their existing skills and workflows.</p>
+        <p>The constraint is on where the workload runs, not on which libraries or frameworks you use. IOMETE runs those same tools inside your perimeter, so data science teams keep their existing skills and workflows.</p>
       </>
     )
   }

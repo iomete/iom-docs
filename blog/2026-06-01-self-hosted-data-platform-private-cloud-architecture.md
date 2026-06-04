@@ -70,7 +70,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
     answerContent: (
       <>
         <p>A self-hosted data platform is software that runs entirely inside the customer's own infrastructure, with no control plane or data plane operated by the vendor.</p>
-        <p>The customer deploys, scales, and secures it, and a genuine self-hosted platform can run air-gapped with no outbound connectivity – the test that separates self-hosted from hosted-with-extra-steps.</p>
+        <p>The customer deploys, scales, and secures it, and a genuine self-hosted platform can run air-gapped with no outbound connectivity – the test that separates self-hosted from hosted-with-extra-steps. IOMETE is built this way: Kubernetes-native components inside your own account, with no IOMETE-operated data plane in the path.</p>
       </>
     )
   },
@@ -79,7 +79,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
     answerContent: (
       <>
         <p>Kubernetes abstracts away the differences between bare-metal, OpenStack, VMware, sovereign clouds, and hyperscaler regions, so the same platform deploys across all of them without a rewrite.</p>
-        <p>It also decouples compute from storage, enabling independent scaling and multi-tenant isolation on shared infrastructure, which is why modern self-hosted lakehouses are Kubernetes-native.</p>
+        <p>It also decouples compute from storage, enabling independent scaling and multi-tenant isolation on shared infrastructure, which is why IOMETE deploys as Kubernetes-native components across bare-metal, sovereign clouds, and air-gapped clusters from the same packaging.</p>
       </>
     )
   },
@@ -97,7 +97,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
     answerContent: (
       <>
         <p>By storing data in open Apache Iceberg tables and Parquet files on object storage you control, queried through an open metadata catalog and open engines.</p>
-        <p>Because the tables are readable by any Iceberg-compatible engine, migrating off the platform is symmetric with migrating on – there is no proprietary format holding the data hostage.</p>
+        <p>IOMETE stores everything as open Iceberg tables and Parquet on object storage you control, and because those tables are readable by any Iceberg-compatible engine, migrating off the platform is symmetric with migrating on – there is no proprietary format holding the data hostage.</p>
       </>
     )
   },
@@ -106,7 +106,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
     answerContent: (
       <>
         <p>Yes. A correctly designed self-hosted platform runs in clusters with no outbound internet connectivity, because no part of its operation depends on a vendor-operated control plane.</p>
-        <p>Air-gapped support is a hard requirement for many defense, government, and financial deployments, and it is only possible when orchestration, metadata, and licensing all run locally.</p>
+        <p>Air-gapped support is a hard requirement for many defense, government, and financial deployments, and it is only possible when orchestration, metadata, and licensing all run locally – which is how IOMETE is built to deploy.</p>
       </>
     )
   },
@@ -115,7 +115,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
     answerContent: (
       <>
         <p>S3-compatible object storage holding data as Apache Iceberg tables with Parquet files underneath, managed through an Iceberg REST catalog.</p>
-        <p>This gives ACID transactions, schema evolution, and time travel on commodity object storage, without depending on a proprietary warehouse engine.</p>
+        <p>On IOMETE this gives ACID transactions, schema evolution, and time travel on commodity object storage, without depending on a proprietary warehouse engine.</p>
       </>
     )
   },
@@ -124,7 +124,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
     answerContent: (
       <>
         <p>Through query federation: one SQL surface queries external systems – Oracle, SQL Server, Postgres, Kafka, object storage – where the data already sits, without copying it.</p>
-        <p>This lets you bring siloed and non-movable data into one queryable layer while respecting residency and ownership constraints on the source systems.</p>
+        <p>This lets you bring siloed and non-movable data into one queryable layer while respecting residency and ownership constraints on the source systems. IOMETE's query federation reaches Oracle, SQL Server, Postgres, Kafka, and object storage where the data already sits.</p>
       </>
     )
   },
