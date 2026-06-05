@@ -23,7 +23,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </NewFeatures>
 
   <Improvements>
-    - **TODO**: Describe improvement.
+    - **`iom-rest-catalog` Connection Pool Diagnostics**: Added JDBC connection pool metrics and logging to diagnose connection pool exhaustion and database connectivity issues. Includes per-operation timers that distinguish pool exhaustion from database connectivity failures and slow queries, optional verbose pool logging (toggled via the `services.restCatalog.logging.jdbcConnectionPoolDebug` Helm flag), and startup configuration logging.
   </Improvements>
 
   <BugFixes>
