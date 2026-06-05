@@ -35,6 +35,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
     - Queries were switching from Submitted directly to Completed status on Query Monitoring dashboard when using Spark 3.5.5. Now Submitted => Running => Completed.
     - **Spark UI Secrets Redaction**: Secret values such as passwords, credentials, database usernames, and JDBC connection URLs were displayed in cleartext in the Spark UI execution plan, for both Spark Connect and user-spawned Spark jobs. These values are now redacted from the plan output.
+    - **Spark Executor Count Tracking**: On long-running apps that cycled through more than 10,000 executors, the UI running-executor count could stall or drop to zero as executors were replaced. Executor state is now tracked with LRU eviction so live executors stay visible past the limit.
   </BugFixes>
 </Release>
 
