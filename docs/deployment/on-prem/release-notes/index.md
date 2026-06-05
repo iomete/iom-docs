@@ -27,7 +27,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Improvements>
 
   <BugFixes>
-    - **TODO**: Describe bug fix.
+    - Queries were switching from Submitted directly to Completed status on Query Monitoring dashboard when using Spark 3.5.5. Now Submitted => Running => Completed.
   </BugFixes>
 </Release>
 
