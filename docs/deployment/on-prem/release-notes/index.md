@@ -15,6 +15,22 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.17.2" date="TBD">
+  {/* TODO: Fill in release sections below. Remove any sections that don't apply. */}
+
+  <NewFeatures>
+    - **TODO**: Describe new feature.
+  </NewFeatures>
+
+  <Improvements>
+    - **TODO**: Describe improvement.
+  </Improvements>
+
+  <BugFixes>
+    - **TODO**: Describe bug fix.
+  </BugFixes>
+</Release>
+
 <Release version="3.17.1" date="May 28th, 2026">
   <Improvements>
     - **Access Policy PATCH API**: Added a consolidated `PATCH /api/v1/admin/data-security/access/policy/{policyId}` endpoint for updating resources and policy items in a single request. Based on customer validation where PATCH additions created duplicate rows and removals required exact full-entry matches, PATCH now updates existing matching entries in place: resource patches merge or remove columns within matching database/table blocks, and policy item patches merge or remove accesses for matching users/groups. The existing `/resources` and `/policy-items` PATCH APIs remain supported and now also use this updated merge/remove behavior.
