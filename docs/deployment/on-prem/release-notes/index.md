@@ -29,6 +29,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <BugFixes>
     - Queries were switching from Submitted directly to Completed status on Query Monitoring dashboard when using Spark 3.5.5. Now Submitted => Running => Completed.
+    - **Spark UI Secrets Redaction**: Secret values such as passwords, credentials, database usernames, and JDBC connection URLs were displayed in cleartext in the Spark UI execution plan, for both Spark Connect and user-spawned Spark jobs. These values are now redacted from the plan output.
   </BugFixes>
 </Release>
 
