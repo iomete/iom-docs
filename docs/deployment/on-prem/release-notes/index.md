@@ -24,10 +24,15 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <Improvements>
     - **`iom-rest-catalog` Connection Pool Diagnostics**: Added JDBC connection pool metrics and logging to diagnose connection pool exhaustion and database connectivity issues. Includes per-operation timers that distinguish pool exhaustion from database connectivity failures and slow queries, optional verbose pool logging (toggled via the `services.restCatalog.logging.jdbcConnectionPoolDebug` Helm flag), and startup configuration logging.
+    - **Data Catalog Search Indexing**: Removed the embedding field from Typesense documents in the 3.17.x line to prevent bulk upsert timeouts while search embeddings are generated.
     - **Spark Application and Job Template Details**: Added **Last updated by** and **Last updated at** fields to Spark application and job template details, making it easier to see who most recently changed them and when.
   </Improvements>
 
   <BugFixes>
+    - **Resource Bundle Asset Search**: Fixed assets missing from text search on the Resource Bundle resources page after a cold rebuild of the Typesense index.
+
+      <Img src="/img/getting-started/release-notes/3.17.2/resource-bundle-resources-search.png" alt="Resource Bundle resources search" maxWidth="800px" centered />
+
     - Queries were switching from Submitted directly to Completed status on Query Monitoring dashboard when using Spark 3.5.5. Now Submitted => Running => Completed.
     - **Spark UI Secrets Redaction**: Secret values such as passwords, credentials, database usernames, and JDBC connection URLs were displayed in cleartext in the Spark UI execution plan, for both Spark Connect and user-spawned Spark jobs. These values are now redacted from the plan output.
   </BugFixes>
