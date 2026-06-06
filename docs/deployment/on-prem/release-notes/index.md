@@ -29,10 +29,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <BugFixes>
     - **Data Catalog Search Indexing**: Removed the embedding field from Typesense documents in the 3.17.x line to prevent bulk upsert timeouts while search embeddings are generated.
-    - **Resource Bundle Asset Search**: Fixed assets missing from text search on the Resource Bundle resources page after a cold rebuild of the Typesense index.
-
-      <Img src="/img/getting-started/release-notes/3.17.2/resource-bundle-resources-search.png" alt="Resource Bundle resources search" maxWidth="800px" centered />
-
     - Queries were switching from Submitted directly to Completed status on Query Monitoring dashboard when using Spark 3.5.5. Now Submitted => Running => Completed.
     - **Spark UI Secrets Redaction**: Secret values such as passwords, credentials, database usernames, and JDBC connection URLs were displayed in cleartext in the Spark UI execution plan, for both Spark Connect and user-spawned Spark jobs. These values are now redacted from the plan output.
     - **Spark Executor Count Tracking**: On long-running apps that cycled through more than 10,000 executors, the UI running-executor count could stall or drop to zero as executors were replaced. Executor state is now tracked with LRU eviction so live executors stay visible past the limit.
