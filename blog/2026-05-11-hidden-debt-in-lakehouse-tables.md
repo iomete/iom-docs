@@ -14,6 +14,18 @@ date: 05/11/2026
 
 *Every Iceberg table you're not maintaining is likely getting slower and more expensive. This post explains the mechanics of why, with real production numbers.*
 
+<details>
+  <summary><strong>This is Part 1 of our Apache Iceberg Table Maintenance series. Explore the full series:</strong></summary>
+
+  * **Part 1: The Hidden Debt in Your Lakehouse Tables**
+  * Part 2: [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations)
+  * Part 3: [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
+  * Part 4: How We Built Automated Table Maintenance *(coming soon)*
+  * Part 5: Running Iceberg Maintenance in Production *(coming soon)*
+  * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
+
+</details>
+
 import Img from '@site/src/components/Img';
 import FAQSection from '@site/src/components/FAQSection';
 
@@ -248,7 +260,7 @@ Compaction, snapshot expiration, orphan cleanup, manifest rewriting. They work. 
 Most teams wire up cron jobs. Some rely on managed platforms. Plenty don’t think about it until queries start slowing down.
 
 To fix this properly, you need to understand how Iceberg handles maintenance. The four operations, how they work, and where the DIY approach starts to break down.
-We’ll go deeper into this in the next post.
+We’ll go deeper into this in the [next post](/blog/iceberg-maintenance-operations).
 
 ---
 ## Resources & further reading
@@ -258,9 +270,6 @@ We’ll go deeper into this in the next post.
 - [Iceberg Maintenance Procedures](https://iceberg.apache.org/docs/latest/maintenance/): official guide to compaction, snapshot expiration, orphan cleanup, and manifest rewriting
 - [Iceberg Table Inspection Queries](https://iceberg.apache.org/docs/latest/spark-queries/#inspecting-tables): how to query metadata tables (data_files, snapshots, manifests) for table health diagnostics
 - [Apache Parquet Format](https://parquet.apache.org/docs/): columnar storage format used by Iceberg data files
-
-#### Series
-- [Part 2: Apache Iceberg Table Maintenance: What Iceberg Ships and What It Doesn't](/blog/iceberg-maintenance-operations)
 
 ---
 
