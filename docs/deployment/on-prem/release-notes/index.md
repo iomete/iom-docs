@@ -34,6 +34,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark Executor Count Tracking**: On long-running apps that cycled through more than 10,000 executors, the UI running-executor count could stall or drop to zero as executors were replaced. Executor state is now tracked with LRU eviction so live executors stay visible past the limit.
     - **Stale Query Cleanup**: Queries stuck in Running or Submitted status are now automatically marked as Failed after a configurable timeout, preventing orphaned queries from remaining stuck indefinitely in the SQL Editor and Activity Monitoring pages.
     - **Query Cancellation**: Fixed query cancellation when using Arrow Flight SQL. Cancelling from the SQL Editor or Activity Monitoring now correctly stops the query and shows Cancelled status on both pages.
+    - **Logs Instance Dropdown Performance**: On long-running clusters and apps with thousands of executors, opening the instance dropdown in the Logs view could freeze the entire page while it rendered every executor at once. The dropdown is now virtualized and rendered lazily, opens instantly regardless of executor count, and supports filtering by instance name. This applies everywhere logs are shown — Compute, Spark jobs, streaming jobs, Jupyter containers, query schedules, event streams, and the SQL Editor's compute logs.
+    - **Docker Image Path Cursor Visibility**: When editing the Docker image path on Spark job forms (regular, streaming, and marketplace/catalog-sync jobs), the typing cursor was hidden, making it unclear where input was being entered. The cursor is now visible while editing the image path.
   </BugFixes>
 </Release>
 
