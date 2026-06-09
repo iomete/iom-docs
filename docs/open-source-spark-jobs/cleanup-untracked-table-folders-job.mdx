@@ -1,9 +1,9 @@
 ---
 title: Cleanup Untracked Table Folders Job
-sidebar_label: Cleanup Untracked Table Folders
+sidebar_label: Cleanup Untracked Folders
 description: Identify and optionally delete table folders that remain in object storage but are no longer tracked by the catalog.
 last_update:
-  date: 05/23/2026
+  date: 06/09/2026
   author: Hasan
 ---
 
@@ -258,6 +258,19 @@ Common `status_reason` values include:
 | `database_location_missing` | Database exists but has no usable storage location. |
 | `no_active_tables_in_database` | Database has no active table locations, so cleanup is skipped by default. |
 | `too_many_candidate_folders` | Candidate count exceeded `max_candidate_folders_per_database`. |
+
+## Understanding Summary Logs
+
+The job prints several folder lists in the driver logs. Two of them are commonly confused:
+
+| Log section | Source | Meaning |
+|---|---|---|
+| `Protected catalog active table locations` | Catalog metadata | Active table locations discovered from the catalog. These paths are used as the protection set and must not be deleted. This list may include paths outside the selected storage scan root. |
+| `Storage folders not selected as candidates` | Object-storage scan | Physical folders found under the scan root but skipped because they matched a protection rule, such as active table location, excluded path, excluded database folder, or age filter. |
+| `Untracked candidate folders selected for cleanup` | Candidate detection | Scanned folders that were not protected and passed cleanup filters. These are the folders the job would delete in deletion mode. |
+| `Deleted folders` | Deletion result | Candidate folders actually deleted when `dry_run=false` and `delete_enabled=true`. |
+
+In short, catalog active table locations come from catalog metadata, while storage folders come from the physical object-storage scan.
 
 ## Summary
 

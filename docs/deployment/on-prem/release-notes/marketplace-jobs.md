@@ -25,6 +25,21 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 ## Recent Releases
 
+<Release name="Cleanup Untracked Table Folders Job" version="0.1.0" date="June 9, 2026">
+  <NewFeatures>
+    Added a new marketplace job for safely identifying and cleaning up untracked table folders in object storage.
+
+    This first release introduces an on-demand cleanup workflow that compares catalog active table locations with physical storage folders before taking any destructive action.
+
+    - ✅ Dry-run mode to review cleanup candidates before deletion
+    - ✅ Active table protection based on catalog metadata
+    - ✅ Exclusion rules for protected paths and database folders
+    - ✅ Age filtering and candidate limits for safer cleanup
+    - ✅ Controlled deletion with audit logging for each run
+  </NewFeatures>
+</Release>
+
+
 <Release name="Catalog Sync Job" version="5.0.1" date="April 29, 2026">
     <Improvements>
       This release focuses on improving catalog sync performance by reducing heavy Spark metadata queries and introducing parallelism for schema processing and indexing.
