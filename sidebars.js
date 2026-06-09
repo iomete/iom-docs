@@ -230,6 +230,7 @@ const sidebars = {
         "open-source-spark-jobs/data-compaction-job",
         "open-source-spark-jobs/query-scheduler-job",
         "open-source-spark-jobs/catalog-sync-job",
+        "open-source-spark-jobs/cleanup-untracked-table-folders-job",
         "open-source-spark-jobs/mysql-database-replication-job",
         "open-source-spark-jobs/kafka-streaming",
         "open-source-spark-jobs/file-streaming",
