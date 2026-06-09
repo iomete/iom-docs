@@ -8,7 +8,7 @@ tags2: [Technical, Engineering]
 keywords: [apache iceberg, iceberg maintenance, rewrite_data_files, expire_snapshots, remove_orphan_files, rewrite_manifests, iceberg compaction, spark procedures, lakehouse maintenance]
 banner_description: Every team running Apache Iceberg in production eventually hits the same wall. What Iceberg gives you out of the box, what each operation actually does, and where the DIY path leads.
 coverImage: img/blog/thumbnails/darkStone.png
-date: 2026-05-25
+date: 2026/05/25
 ---
 
 import Img from '@site/src/components/Img';
@@ -18,11 +18,23 @@ import FAQSection from '@site/src/components/FAQSection';
 
 *Iceberg gives you the core maintenance operations, but not the scheduler, health checks, or orchestration around them. This post explains what each operation does at the file level, which tuning parameters matter most, and where a DIY setup starts to break down.*
 
+<details>
+  <summary><strong>This is Part 2 of our Apache Iceberg Table Maintenance series. Explore the full series:</strong></summary>
+
+  * Part 1: [The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
+  * **Part 2: What Iceberg Gives You for Table Maintenance**
+  * Part 3: [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
+  * Part 4: How We Built Automated Table Maintenance *(coming soon)*
+  * Part 5: Running Iceberg Maintenance in Production *(coming soon)*
+  * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
+
+</details>
+
 ---
 
 Every team running [Apache Iceberg](https://iceberg.apache.org/) in production eventually hits the same wall. Queries get slower, storage costs go up, and someone opens a ticket. The engineer who looks into it finds that Iceberg includes the maintenance primitives, but not the automation or guidance for when to use them.
 
-This is the second post in our series on Iceberg table maintenance. [Part 1](/blog/hidden-debt-in-lakehouse-tables) covered the hidden cost of ignoring it. This post explains what Iceberg gives you out of the box, what each operation does at the file level, and where the DIY approach starts to fail. We worked through most of these options before building our own system, and the gaps cost us real time.
+This post explains what Iceberg gives you out of the box, what each operation does at the file level, and where the DIY approach starts to fail. We worked through most of these options before building our own system, and the gaps cost us real time.
 
 ## What Iceberg Ships Out of the Box
 
@@ -493,10 +505,6 @@ For smaller deployments with a handful of tables, cron jobs and scripts are usua
 #### Community & DIY
 - [IOMETE Data Compaction Job](/resources/open-source-spark-jobs/data-compaction-job): open-source Spark job for scheduled Iceberg compaction
 - [Automating Apache Iceberg Maintenance with Spark and Python](https://medium.com/@vincent_daniel/automating-apache-iceberg-maintenance-with-spark-and-python-ee1a253de86c): Python class approach with size-based table classification
-
-#### Series
-- [Part 1: The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
-- Part 3: The Iceberg Table Maintenance Landscape (coming soon)
 
 ---
 
