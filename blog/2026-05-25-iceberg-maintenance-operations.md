@@ -461,7 +461,7 @@ Most teams bridge that gap with cron and scripts. The pattern usually looks like
 
 Engineers in the community have shared Python classes on Medium for multi-table maintenance with configurable thresholds. [One such approach](https://medium.com/@vincent_daniel/automating-apache-iceberg-maintenance-with-spark-and-python-ee1a253de86c) wraps compaction, snapshot expiration, and orphan cleanup in a class that iterates over tables and applies size-based defaults. It is a solid starting point.
 
-We started there at IOMETE, using our built-in Spark scheduler with a [Data Compaction Job](/resources/open-source-spark-jobs/data-compaction-job) from our marketplace. That removed the need for an external orchestrator like Airflow, but the core limits of scheduled maintenance remained:
+We started there at IOMETE, using our built-in Spark scheduler with a [Data Compaction Job](/resources/open-source-spark-jobs/data-compaction) from our marketplace. That removed the need for an external orchestrator like Airflow, but the core limits of scheduled maintenance remained:
 
 - **Fixed schedules are wasteful** — running compaction on a table that does not need it wastes compute.
 - **Detecting which tables actually need maintenance** requires reading metadata, so your scheduler needs catalog access and evaluation logic.
@@ -490,7 +490,7 @@ For smaller deployments with a handful of tables, cron jobs and scripts are usua
 - [Iceberg release notes](https://iceberg.apache.org/releases/): maintenance-related improvements per version
 
 #### Community & DIY
-- [IOMETE Data Compaction Job](/resources/open-source-spark-jobs/data-compaction-job): open-source Spark job for scheduled Iceberg compaction
+- [IOMETE Data Compaction Job](/resources/open-source-spark-jobs/data-compaction): open-source Spark job for scheduled Iceberg compaction
 - [Automating Apache Iceberg Maintenance with Spark and Python](https://medium.com/@vincent_daniel/automating-apache-iceberg-maintenance-with-spark-and-python-ee1a253de86c): Python class approach with size-based table classification
 
 #### Series

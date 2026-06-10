@@ -9,7 +9,7 @@ last_update:
 
 import Img from '@site/src/components/Img';
 
-Instead of hunting through individual catalogs, the Data Catalog lets you search, browse, and tag every table from one place. A scheduled [Catalog Sync Job](/open-source-spark-jobs/catalog-sync-job) indexes metadata automatically, so the catalog stays up to date on its own.
+Instead of hunting through individual catalogs, the Data Catalog lets you search, browse, and tag every table from one place. A scheduled [Catalog Sync Job](/open-source-spark-jobs/catalog-sync) indexes metadata automatically, so the catalog stays up to date on its own.
 
 Interface organized into five tabs:
 
@@ -22,7 +22,7 @@ Interface organized into five tabs:
 <Img src="/img/data-catalog/data-catalog-main.png" alt="Data Catalog main page showing the five tabs, search bar, filter dropdowns, and indexed table results" />
 
 :::info Indexed Data Only
-Both the Data Catalog and Data Explorer show only indexed data. A recently created table won't appear until the next scheduled [Catalog Sync Job](/open-source-spark-jobs/catalog-sync-job) completes.
+Both the Data Catalog and Data Explorer show only indexed data. A recently created table won't appear until the next scheduled [Catalog Sync Job](/open-source-spark-jobs/catalog-sync) completes.
 :::
 
 ## Opening the Data Catalog
