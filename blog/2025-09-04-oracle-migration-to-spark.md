@@ -6,9 +6,12 @@ authors: shafi
 hide_table_of_contents: true
 tags2: [Educational, Company]
 coverImage: img/blog/thumbnails/1.png
+last_update:
+  date: 2026-06-03
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 ## Migrating from Oracle to IOMETE/Spark: Performance Challenges and Solutions
 
@@ -207,3 +210,24 @@ Although Spark was originally designed for large-scale batch processing, we’ve
 - **Pre-join for speed:** Build wide tables by pre-joining frequently accessed datasets. This reduces on-the-fly joins and accelerates interactive queries.
 - **Partition strategically:** Apply partitioning where it aligns with query patterns to prune unnecessary data scans.
 - **Leverage sorting:** Sort (or Z-order) data by columns commonly used in filters to maximize data skipping and improve query performance.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "Can Spark match Oracle performance for analytical reporting?",
+    answer: "Spark can match or exceed traditional warehouses on complex analytical queries, though it handles selective single-row lookups differently because it lacks B+Tree indexes. In the migration described here, IOMETE on Spark and Iceberg ran a 50-report workload roughly 20x faster overall than Oracle, while Oracle still won on some lightweight queries. Closing that gap relies on Spark-specific tuning rather than index-based optimization."
+  },
+  {
+    question: "Why are some queries slower on Spark than on Oracle after migration?",
+    answer: "Oracle uses B+Tree indexes to return small, selective result sets in milliseconds without scanning whole tables, while Spark scans data files and depends on parallelism and file pruning instead. For lightweight lookups, Oracle's indexes can win. The practical fix is to restructure data for Spark using right-sized files, pre-joined wide tables, and sorted layouts so the engine reads fewer files."
+  },
+  {
+    question: "How do you optimize Spark and Iceberg query performance?",
+    answer: "Effective techniques include sizing Parquet files for the workload, pre-joining frequently accessed tables into wide denormalized tables, partitioning to match query patterns, and sorting or Z-ordering by filter columns to maximize file skipping. In this post, those steps took a benchmark query from 7.3 seconds down to 0.5 seconds on IOMETE. Columnar storage means wide tables stay efficient because only needed columns are read."
+  },
+  {
+    question: "What should you plan for when migrating from a data warehouse to a lakehouse?",
+    answer: "Plan to establish a performance baseline across representative reports, expect that index-driven selective queries need redesign on Spark, and budget time for tuning file layout and table structure rather than assuming a straight port. Validating against real production workloads early surfaces gaps. The migration in this post used IOMETE on Spark and Iceberg, applying file sizing, wide tables, and sorting to reach sub-second interactive reporting."
+  }
+]} />

@@ -6,10 +6,13 @@ slug: kubernetes-data-engineering-benefits
 coverImage: img/blog/thumbnails/2.png
 date: 05/26/2025
 authors: aytan
+last_update:
+  date: 2026-06-04
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 ## **Why Data Engineering Teams Are Moving to Kubernetes**
 
@@ -119,3 +122,26 @@ Kubernetes-native platforms are most effective when paired with **GitOps** pract
 **IOMETE’s design philosophy** aligns with GitOps. Spark jobs, clusters, metadata catalogs, and RBAC policies can all be defined declaratively and deployed via ArgoCD.
 
 ---
+
+<FAQSection faqs={[
+  {
+    question: "Why are data engineering teams moving to Kubernetes?",
+    answer: "Data teams move to Kubernetes because it replaces brittle, fixed-capacity infrastructure with elastic, declarative workloads that autoscale, recover automatically, and deploy through GitOps. This lets engineers manage pipelines the way software teams manage code rather than babysitting servers. Platforms such as IOMETE run Spark workloads as Kubernetes-native components so clusters expand under load and shrink when idle."
+  },
+  {
+    question: "How does Kubernetes help control data infrastructure costs?",
+    answer: "Kubernetes enables autoscaling so compute clusters grow only when workloads demand it and shrink during idle periods, which avoids paying for static, always-on capacity. Combined with spot or preemptible nodes, this can sharply reduce spend. IOMETE applies Kubernetes-native autoscaling to Spark, expanding executors under heavy load and terminating idle resources to keep usage aligned with actual demand."
+  },
+  {
+    question: "Does moving to Kubernetes reduce cloud vendor lock-in?",
+    answer: "Yes, because Kubernetes exposes a consistent API across clouds and on-premises hardware, workloads defined for it run the same way regardless of where the cluster lives. This makes hybrid and multi-cloud strategies practical. IOMETE runs on your own Kubernetes and supports storage backends like MinIO, Apache Ozone, and HDFS, so teams keep their existing storage fabric while gaining portable compute."
+  },
+  {
+    question: "How is governance handled in a Kubernetes-native data platform?",
+    answer: "Kubernetes provides Role-Based Access Control, network policies, and Secrets management as built-in primitives, giving teams fine-grained control over who can access which resources. Data platforms layer further controls on top for the data itself. IOMETE adds column-level security, data masking, audit logging, and domain-based isolation, building governance directly into the data layer rather than bolting it on afterward."
+  },
+  {
+    question: "What role does GitOps play in Kubernetes data engineering?",
+    answer: "GitOps uses a Git repository as the single source of truth for infrastructure and pipeline definitions, so changes are version-controlled, auditable, and reversible with a simple revert. Tools like ArgoCD continuously sync that desired state into the cluster. IOMETE aligns with this approach, letting Spark jobs, clusters, catalogs, and access policies be defined declaratively and deployed through GitOps workflows."
+  }
+]} />

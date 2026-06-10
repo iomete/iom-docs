@@ -6,9 +6,12 @@ slug: iceberg-copy-on-write-deep-dive
 coverImage: img/blog/thumbnails/3.png
 date: 05/22/2025
 authors: alokh
+last_update:
+  date: 2026-06-03
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 **Apache Iceberg** has emerged as a powerful table format for managing large analytic datasets in data lakes. Unlike traditional file formats that simply organize data, Iceberg provides a rich metadata layer that enables [ACID transactions](/glossary/acid-transactions), schema evolution, partition evolution, and [time travel](/reference/iceberg-tables/time-travel) capabilities — features traditionally associated with [data warehouses](/glossary/data-warehouse) rather than data lakes.
 
@@ -258,3 +261,24 @@ To summarize:
 3. Regular [maintenance](/reference/iceberg-tables/maintenance) of the table is required to keep the data size in check. This can be done by compacting and removing old snapshots.
 
 In the next part, we'll explore Iceberg's [Merge-on-Read](/blog/merge-on-read-vs-copy-on-write) table mode, which takes a different approach to handling updates and deletes.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is Copy-on-Write in Apache Iceberg?",
+    answer: "Copy-on-Write is an Iceberg table mode where updates and deletes rewrite entire data files rather than modifying them in place, producing a fresh copy of each affected file. Old files remain until their snapshots are expired, which keeps reads fast because no merge happens at query time. IOMETE runs Iceberg tables, including Copy-on-Write mode, on Spark across your own Kubernetes clusters."
+  },
+  {
+    question: "How does Iceberg metadata track changes during inserts, updates, and deletes?",
+    answer: "Iceberg uses a tiered metadata structure: a table metadata file points to snapshots, which reference manifest lists, which reference manifest files that track individual data files. Every operation creates a new snapshot and new metadata files, giving Iceberg ACID guarantees without scanning all data. This layered design is what enables time travel and consistent reads across concurrent operations."
+  },
+  {
+    question: "When should you choose Copy-on-Write over Merge-on-Read?",
+    answer: "Copy-on-Write suits read-heavy workloads with infrequent updates, such as append-heavy batch pipelines, because reads avoid any merge step and stay fast. Merge-on-Read fits write-heavy workloads where frequent updates would make rewriting whole files too costly. The right choice depends on whether your tables are read more often or written more often, and Iceberg lets you set the mode per table."
+  },
+  {
+    question: "Why does Iceberg keep old data files after an update or delete?",
+    answer: "Iceberg never modifies data files in place, so older files stay on storage as long as a snapshot still references them, which is what makes time travel and rollback possible. Over time these accumulate and increase storage use. Regular maintenance such as compaction and snapshot expiration is needed to reclaim space, and IOMETE exposes Iceberg maintenance operations to keep table size in check."
+  }
+]} />

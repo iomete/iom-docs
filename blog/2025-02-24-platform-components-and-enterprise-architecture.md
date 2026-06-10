@@ -8,10 +8,13 @@ image: img/blog/2025-02-24-platform-components-and-enterprise-architecture/cover
 coverImage: img/blog/2025-02-24-platform-components-and-enterprise-architecture/cover.png
 banner_description: A centralized control plane for management and distributed data planes for processing
 date: 02/24/2025
+last_update:
+  date: 2026-06-04
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 # **IOMETE Platform Components and Enterprise Architecture**
 
@@ -130,3 +133,24 @@ Through this comprehensive platform architecture, IOMETE enables organizations t
 - Maintain operational efficiency through automated management
 
 The platform's architecture provides the foundation for sustainable growth while ensuring organizations maintain control over their critical data assets. By combining modern technical capabilities with enterprise-grade management features, IOMETE enables organizations to build sophisticated data infrastructure that aligns with their business requirements.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a lakehouse cluster or SQL endpoint?",
+    answer: "A lakehouse cluster, often exposed as a SQL endpoint, is a compute resource that runs SQL queries against lakehouse tables while enforcing security and governance. Organizations can run multiple clusters to isolate workloads, such as dedicating one to interactive analytics and another to batch reporting. IOMETE supports multiple lakehouse clusters so teams optimize resources per workload type and connect existing business intelligence tools."
+  },
+  {
+    question: "What is the difference between a control plane and a data plane in a data platform?",
+    answer: "The control plane is the centralized management layer that applies governance and policies, while data planes are the distributed compute resources that process queries and run workloads. This split lets one control interface manage processing across many regions or Kubernetes clusters. IOMETE uses this model so organizations maintain consistent policies centrally while isolating workloads across distributed data planes."
+  },
+  {
+    question: "What is a multi-catalog architecture?",
+    answer: "A multi-catalog architecture lets a platform present data from several sources, such as managed lakehouse tables and external databases, through unified access. This means teams query modern lakehouse data and existing systems without migrating everything first. IOMETE supports managed Apache Iceberg catalogs alongside external database connections, enabling unified access across diverse data sources."
+  },
+  {
+    question: "How do enterprise data platforms integrate with identity and access management?",
+    answer: "Enterprise data platforms integrate with identity systems using standard protocols like LDAP, SAML 2.0, OpenID Connect, and SCIM so authentication aligns with existing corporate identity. Authorization then uses users, groups, and roles to grant fine-grained access. IOMETE supports these protocols and a hierarchical access model, letting organizations manage identity lifecycle and permissions through their established infrastructure."
+  }
+]} />

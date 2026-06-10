@@ -6,9 +6,12 @@ authors: abhishek
 hide_table_of_contents: true
 tags2: [Engineering, Technical]
 coverImage: img/blog/thumbnails/2.png
+last_update:
+  date: 2026-06-08
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 Setting up your first [data pipeline](/glossary/data-pipelines) doesn’t have to mean days of setup or hours of configuration. With IOMETE, you can go from a raw file to actionable insights in minutes. To prove it, we’ll walk through an example with NYC taxi rides — a dataset big enough to be real, but simple enough to reason with.
 
@@ -270,3 +273,24 @@ The dataset we used was related to taxis, but the pattern applies everywhere. Wi
 -   **Data Governance:** Add validation & governance as you scale using [data access policies](https://iomete.com/resources/user-guide/data-security/access-policy "https://iomete.com/resources/user-guide/data-security/access-policy").
     
 -   **Time travel for audits:** Use [Iceberg time travel](https://iceberg.apache.org/docs/latest/spark-queries/#time-travel "https://iceberg.apache.org/docs/latest/spark-queries/#time-travel") to reproduce dashboards exactly as they were at any point.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a data pipeline?",
+    answer: "A data pipeline is a set of steps that moves raw data from its source through cleaning and transformation into a form ready for analysis. Pipelines typically organize data into layers, such as raw tables, cleaned fact tables, and pre-aggregated marts, so analysts work from consistent definitions. IOMETE supports this layered pattern using SQL on Iceberg tables, letting you build base tables, fact tables, and marts inside a single lakehouse."
+  },
+  {
+    question: "What is the medallion architecture in a lakehouse?",
+    answer: "The medallion architecture organizes lakehouse data into progressive layers, often called raw, cleaned, and curated, with each stage improving quality and usability. Raw tables hold ingested files, fact tables apply validation and metrics, and marts pre-aggregate answers to common questions. In IOMETE, each layer is an Iceberg table or view created with standard SQL, so the same engine produces base tables, fact tables, and ready-to-query marts."
+  },
+  {
+    question: "How do you turn raw Parquet and CSV files into queryable tables?",
+    answer: "You load raw Parquet and CSV files into table format by running a CREATE TABLE statement that reads the files and writes them into a managed table. This removes the need to track file paths and handle inconsistent schemas during every query. In IOMETE, you can run CREATE OR REPLACE TABLE ... USING iceberg AS SELECT against files in S3-compatible storage to register them as Iceberg tables ready for SQL analysis."
+  },
+  {
+    question: "How do you set up analytics on your own infrastructure?",
+    answer: "You set up analytics on your own infrastructure by deploying a query engine and storage layer that you control, then ingesting data and building tables with SQL. Self-hosted setups keep data inside your environment rather than a managed cloud service. IOMETE runs on your own Kubernetes clusters with S3-compatible storage, so you can install it on-premises and build pipelines from raw files to BI-ready marts without sending data to an external platform."
+  }
+]} />

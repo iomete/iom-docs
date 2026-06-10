@@ -9,6 +9,8 @@ banner_description: why we position ourselves as the on premise data lakehouse
 coverImage: img/blog/thumbnails/2.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 import MiniCard from "@site/src/components/MiniCard";
 
 IOMETE is a modern and open [data lakehouse](/glossary/data-lakehouse) with a wide range of deployment options. IOMETE can run:
@@ -60,3 +62,24 @@ If we get asked “what do you do?” the shortest way to answer would be “We 
 Yes, we do and will continue to do so, but we will not lead with it in our go-to-market motion. We will present ourselves as the on premise lakehouse experts because - frankly - we are.
 
 <MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is an on-premises data lakehouse?",
+    answer: "An on-premises data lakehouse is a lakehouse platform that runs inside an organization's own data center rather than on public cloud infrastructure. It combines open data lake storage with warehouse-style management and keeps all data within the organization's control. This deployment suits organizations with regulatory, data ownership, or security requirements that prevent using public cloud. IOMETE positions itself as an on-premises lakehouse and can also run in private cloud, public cloud, or hybrid setups."
+  },
+  {
+    question: "Why do organizations still keep data on-premises?",
+    answer: "Organizations keep data on-premises for several reasons: regulatory or compliance rules that prohibit cloud storage, a preference to truly own data within their own trust perimeter, security needs in sectors like government and finance, and cost control for large steady workloads. For some, especially outside the US, government restrictions prevent storing data on foreign cloud providers. These factors keep a substantial market for on-premises data platforms even as cloud adoption grows."
+  },
+  {
+    question: "Can a single platform support both on-premises and cloud deployments?",
+    answer: "Yes, some lakehouse platforms are deployment-agnostic and can run on-premises, in a private cloud, on public cloud, or in a hybrid combination of these. This versatility lets enterprises keep a consistent data platform regardless of where individual datasets live. The main benefit is a unified environment across mixed infrastructure. IOMETE runs across all these models while focusing its positioning on on-premises deployments."
+  },
+  {
+    question: "Is on-premises always cheaper than cloud for data analytics?",
+    answer: "No, on-premises is not automatically cheaper, but it can be for certain workloads, particularly large and steady ones where elastic cloud scaling is not needed. Cloud computing carries ongoing usage costs and provider margins that, at scale, can exceed the cost of running infrastructure in-house. The right choice depends on workload patterns, compliance needs, and how predictable demand is, so organizations should compare total cost for their specific case."
+  }
+]} />

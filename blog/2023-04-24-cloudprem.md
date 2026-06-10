@@ -10,6 +10,8 @@ authors: aytan
 banner_description: What is the cloud-prem data analytics platform? How to choose the right platform?
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 > IDC predicts that by 2025, the global data sphere will grow from 32 zettabytes to 175 zettabytes, which highlights the rapid growth of data in our digital economy. According to IDC, this data will be stored in three different ways: in traditional and/or cloud data centers, in endpoint locations (such as personal computers and smartphones), and in small to medium-sized enterprise data centers.
 
 <!-- truncate -->
@@ -80,3 +82,24 @@ IOMETE platform for on-premises comes with the following main system components
 ![Cloud-prem lakehouse architecture](/img/blog/2023-04-24-cloudprem/cloud-prem-lakehouse-architecture.png)
 
 Additionally, IOMETE offers secure processing of both on-premises and cloud data by creating and scaling up the compute cluster, allowing your data to be accessible only by clusters within your own account. As new data sets and workloads are introduced, the data teams face increasing pressure. However, with cloud services, they can effectively collect, organize, and make the data available for processing. Various personas like data engineers, data analysts, and data scientists can use our platform, each with its own specific needs and roles. A variety of methods are available to secure stored data with the IOMETE data platform, along with the ability to create and scale compute clusters within the user's account (on-demand capacity). It supports APIs, JDBC, ORC, CSV, [Parquet](/glossary/parquet), JSON, and [Apache Spark](/glossary/apache-spark) optimized for on-premises and cloud deployments, as well as JDBC, ORC, CSV, Parquet, and JSON formats. We simplify your big data platform by offering open-source engines and a single-user interface. No matter which size your organization is you can setup IOMETE. We offer [Free forever Plan](https://iomete.com/pricing#comparison) that offers one lakehouse with separate storage and compute. If you are not sure which plan is better fit for you book [a free demo call](https://calendly.com/iomete/iomete-discovery-call) so our team will help you to get started.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a cloud-prem data platform?",
+    answer: "A cloud-prem data platform delivers cloud-style data analytics inside an on-premises or self-hosted environment, combining the operational model of the cloud with local data control. It separates storage and compute the way cloud platforms do, but runs within the organization's own infrastructure. IOMETE is one example of this pattern, installing and operating a managed lakehouse on infrastructure the customer controls."
+  },
+  {
+    question: "What is the difference between on-premises and cloud data platforms?",
+    answer: "On-premises platforms run on hardware the organization owns and manages, giving full control over security and compliance, while cloud platforms run on third-party infrastructure billed on usage. On-premises generally means higher upfront cost but lower long-term and predictable spend, whereas the cloud trades control for elastic scalability. Many enterprises run hybrid deployments that combine both, and IOMETE supports on-premises, cloud, and hybrid setups."
+  },
+  {
+    question: "When should an organization choose an on-premises lakehouse?",
+    answer: "An organization should consider an on-premises lakehouse when data residency rules, regulatory compliance, or data ownership requirements prevent storing sensitive data on third-party cloud infrastructure. Government, financial services, and healthcare workloads often fall into this category. IOMETE provides a managed lakehouse that runs on-premises so data stays within the organization's own trust perimeter while still offering separated storage and compute."
+  },
+  {
+    question: "How does separating storage and compute reduce cost?",
+    answer: "Separating storage and compute lets you scale each independently, so you can grow storage without paying for idle compute and spin compute up or down based on actual workload. This avoids the tightly coupled sizing of older systems where adding capacity meant paying for both at once. IOMETE applies this architecture, running elastic compute clusters on top of a shared object or network storage layer."
+  }
+]} />

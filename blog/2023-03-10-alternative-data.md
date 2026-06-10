@@ -10,6 +10,8 @@ tags2: [Engineering]
 banner_description: How to get benefit from Alternative Data in Financial industry
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 ## **What is Alternative Data?**
 
 Alternative data is the term used to describe any non-traditional data that is used to gain insights into consumer behavior, market trends, and other business intelligence. In finance, alternative data is commonly used to supplement traditional data sources, such as financial statements and company filings. Some examples of alternative data include social media activity, business activity in a particular area or region, satellite imagery, and credit card transactions. The use of alternative data is not a fad, but rather a growing trend in the financial industry that is expected to continue to gain importance in the years to come.
@@ -76,3 +78,24 @@ IOMETE provides an efficient processing engine once the data is onboarded and de
 Portfolio managers, Data Analysts, and Data Engineers can equally benefit to use the platform with a fixed flat fee for the usage of the platform, while not worrying about too many costs but only enabling the teams and delivering value.
 
 In summary, alternative data is a growing trend in the financial industry that is expected to continue to gain importance in the years to come. By supplementing traditional data sources with alternative data, financial institutions can gain valuable insights into consumer behavior and market trends, leading to better decisions and improved performance.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is alternative data in finance?",
+    answer: "Alternative data is non-traditional information used to gain insights into consumer behavior and market trends beyond standard sources like financial statements and company filings. Common examples include social media activity, satellite imagery, credit card transactions, and geo-location data. Financial institutions use it to supplement traditional data and gain a competitive edge, and platforms like IOMETE help analyze it by combining external datasets with internal data through query federation."
+  },
+  {
+    question: "What are common types of alternative data?",
+    answer: "Common types of alternative data include app usage, credit and debit card transactions, email receipts, geo-location and foot-traffic data, satellite imagery, social and sentiment data, web traffic, surveys, and weather data. Each type supports different use cases, such as tracking retail foot traffic, supply chain disruption, or consumer sentiment. Analyzing these varied formats at scale typically requires a processing engine like the one IOMETE provides once the data is onboarded."
+  },
+  {
+    question: "Where can companies acquire alternative data?",
+    answer: "Companies typically acquire alternative data from specialized aggregators and data marketplaces that collect, clean, and deliver datasets for a fee. These providers offer everything from weblogs and mobile app usage to transaction and geo-location data. Advances in cloud computing and big data analytics have made this data more accessible and affordable, and platforms such as IOMETE can connect to marketplace data and merge it with internal sources for analysis."
+  },
+  {
+    question: "What is query federation and why does it matter for alternative data?",
+    answer: "Query federation lets you analyze data across multiple source systems without first copying it into one central platform, querying each system where the data already resides. This matters for alternative data because datasets often live in external marketplaces or third-party systems that are costly to centralize. IOMETE uses query federation to merge marketplace data with an organization's local data, so teams can test and analyze it in place rather than loading it elsewhere first."
+  }
+]} />

@@ -10,6 +10,8 @@ coverImage: img/blog/thumbnails/1.png
 banner_description: Data Governance is a concept that entered our lives with Big Data and has been implemented in many institutions and organizations.
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 ![Data Governance for modern data stack](/img/blog/2022-10-04-data-governace/data-governance-for-modern-data-stack.png)
 
 Buzzwords in big data is a lot… “[Data Mesh](/blog/data-mesh)”, “Reverse ETL” , “[Data Lakehouse](/glossary/data-lakehouse) 2.0” and “Data Governance”. Data Governance is different than any other term. It refers to the central processes and policies governing(managing) the management of enterprise data assets. Its primary aim is to identify key data and information, manage these assets effectively, and measure the success of these efforts in achieving business goals.
@@ -61,3 +63,28 @@ IOMETE platform enhances data governance with its data policies module, allowing
 
 Conclusion: Understanding the Scope of Data Governance
 Data Governance is not just about data management or stewardship; it's about strategy, roles, organization, and policies. It's a core component that connects various disciplines like data quality, metadata management, and [data security](/glossary/data-security). Understanding the distinction between data governance, data management, and master data management (MDM) is crucial for organizations aiming to harness the full potential of their data assets.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is data governance?",
+    answer: "Data governance is the set of processes and policies that manage an organization's data assets, defining who can access which data and how its quality is maintained. Its goals include ensuring data quality, building data literacy, and maximizing the value of data for the business. It connects related disciplines such as data quality, metadata management, and data security, and platforms like IOMETE support it through a data policies module that admins use to define access rules."
+  },
+  {
+    question: "Why is data governance important for organizations?",
+    answer: "Data governance is important because it keeps data accurate, secure, and trustworthy enough to drive analytics and decision-making. Without clear policies, organizations face quality problems, compliance gaps, and security risks from uncontrolled access. A governance program reduces costs and risk while building a data-driven culture, and platforms such as IOMETE help enforce it by letting administrators apply different policies to different teams."
+  },
+  {
+    question: "What are the main roles in a data governance program?",
+    answer: "A data governance program typically involves executive and board leadership, a governance committee, data stewards, data architects and programmers, database and system administrators, and the analysts who consume the data. Each layer translates strategic goals into standards, access controls, and audited use of the data warehouse. Restricting the number of access roles is a common best practice, since unmanaged roles grow quickly and create security risks."
+  },
+  {
+    question: "How do you implement a data governance program?",
+    answer: "You can implement governance through a top-down approach that starts with appointing a chief data officer and forming a governance council, or a bottom-up approach that begins by collecting structured metadata to set standards. Most programs define policies, operationalize compliance, and monitor access continuously. Access control systems that log who viewed which data and when are central to enforcement, and IOMETE provides policy and data security controls to support this."
+  },
+  {
+    question: "What is the difference between data governance and data management?",
+    answer: "Data governance defines the strategy, roles, and policies for how data is handled, while data management is the operational execution of storing, integrating, and maintaining that data. Governance sets the rules and accountability, and management carries them out day to day. Master data management is a narrower discipline focused on consistent core reference data, so distinguishing the three helps organizations apply the right controls at each level."
+  }
+]} />

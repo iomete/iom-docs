@@ -10,6 +10,8 @@ authors: vusal
 banner_description: Why IOMETE chooses Apache Iceberg over Delta Lake?
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 import MiniCard from "@site/src/components/MiniCard";
 
 When it comes to storing and managing large amounts of data, the choice of technology can make all the difference. At IOMETE, we have evaluated several options and ultimately decided to use [Apache Iceberg](https://iomete.com/iceberg) over Delta Lake. In this blog post, we will explain why we chose Iceberg over Delta Lake.
@@ -45,3 +47,24 @@ However, Iceberg has recently added support for [merge-on-read](/blog/merge-on-r
 ## **Conclusion**
 
 In conclusion, Apache Iceberg is a great open-source project and is becoming a standard in the industry. At IOMETE, we are big fans of Apache Iceberg. Our main product is a fully managed [lakehouse platform](/glossary/data-lakehouse) based on Apache Spark + Iceberg. With the IOMETE Lakehouse Platform, you can set up a lakehouse platform in a few minutes and get all the amazing functionalities like Virtual Lakehouse Clusters, Spark Job Service, Notebook service, Advanced Data Access Control, and many other functionalities. If you want to learn more [book a discovery call](https://calendly.com/iomete/iomete-discovery-call) with us. If you want to reach more about Apache Iceberg you can access the [Ultimate Guide to Apache Iceberg](https://iomete.com/the-ultimate-guide-to-apache-iceberg).
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is the difference between a table format and a file format?",
+    answer: "A table format is a metadata layer that tracks which data files belong to a table, while a file format like Parquet or ORC defines how individual records are physically stored. Table formats such as Apache Iceberg add transactional guarantees, schema evolution, and snapshot history on top of those underlying files. IOMETE builds its lakehouse on Apache Iceberg tables stored as Parquet, so queries see consistent data while the storage stays in open formats."
+  },
+  {
+    question: "Is Apache Iceberg engine-agnostic?",
+    answer: "Yes, Apache Iceberg is designed to work with multiple processing engines rather than being tied to a single one. The same Iceberg tables can be read and written by Apache Spark, Flink, Presto, Trino, and other engines, which avoids locking data into one compute system. IOMETE runs Iceberg tables on Apache Spark while keeping them accessible to other Iceberg-compatible engines."
+  },
+  {
+    question: "Why do companies choose open table formats for data lakes?",
+    answer: "Companies choose open table formats so their data is not bound to a single vendor and can be queried by many tools over time. Open formats backed by a neutral foundation tend to attract broad contributor communities and wide platform support, which lowers long-term migration risk. IOMETE adopts Apache Iceberg as its core table format precisely to keep customer data portable across engines and clouds."
+  },
+  {
+    question: "What is merge-on-read in Apache Iceberg?",
+    answer: "Merge-on-read is a write strategy where updates and deletes are recorded as separate delete files and applied at query time, rather than rewriting whole data files. This reduces write amplification for frequent updates and improves streaming write performance compared with copy-on-write, at the cost of slightly more work during reads. IOMETE supports Iceberg merge-on-read to handle update and delete heavy workloads more efficiently."
+  }
+]} />

@@ -6,6 +6,8 @@ authors: [sourabh,vugar]
 hide_table_of_contents: false
 tags2: [Engineering, Technical]
 coverImage: img/blog/thumbnails/darkRacing.png
+last_update:
+  date: 2026-06-08
 ---
 
 import Img from '@site/src/components/Img';

@@ -6,7 +6,11 @@ authors: "rocco"
 tags2: ["Security", "Technical"]
 coverImage: "img/blog/thumbnails/4.png"
 date: "02/24/2026"
+last_update:
+  date: 2026-06-02
 ---
+
+import FAQSection from '@site/src/components/FAQSection';
 
 In this article, we are going to get hands-on with encryption in Apache Iceberg. In our previous article, [Data Lakehouse Encryption: Encrypting Data at Rest](/blog/data-lakehouse-encryption-iceberg), we covered the theory behind SSE-S3, SSE-KMS, SSE-C, and client-side encryption. Here, we'll walk through each mode in practice and see what the data actually looks like on disk.
 
@@ -1006,6 +1010,33 @@ We walked through five encryption approaches, from no encryption through SSE-S3,
 The main takeaway: there's no single right answer. SSE-S3 is effortless but gives you no key control. SSE-KMS adds isolation at the cost of complexity. SSE-C and CSE give you full control but shift the operational burden entirely to your side. The [cheat sheet](#encryption-cheat-sheet) at the top summarizes the tradeoffs.
 
 At IOMETE, we specialize in on-premises lakehouses with full [data sovereignty](/blog/data-residency-vs-data-sovereignty). If that's what you're building, [let's talk](https://iomete.com/contact).
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is server-side encryption for object storage?",
+    answer: "Server-side encryption is when the object store encrypts data as it is written to disk and decrypts it transparently on read, so applications send and receive plaintext while stored bytes are scrambled. Common variants are platform-managed keys, customer-specified KMS keys, and customer-provided keys, which differ in who controls the key material. In a lakehouse, this protects Parquet data and Iceberg metadata at rest, so filesystem access alone is not enough to read the data."
+  },
+  {
+    question: "What is the difference between SSE-S3, SSE-KMS, and SSE-C?",
+    answer: "SSE-S3 lets the object store manage one set of keys transparently, SSE-KMS lets you specify which KMS key encrypts each object for per-tenant isolation, and SSE-C requires you to supply the raw key on every request while the store stores only a key fingerprint. Operational burden rises across the three, since SSE-C means tracking which key encrypted which object. Each integrates with Spark and Iceberg writing to S3-compatible storage, with trade-offs between control and complexity."
+  },
+  {
+    question: "What is client-side encryption in a data lakehouse?",
+    answer: "Client-side encryption encrypts data before it ever reaches the object store, so the storage provider only handles ciphertext and never sees plaintext or keys, protecting against a server-side compromise. The trade-off is high operational effort, since rotating a key means downloading, decrypting, re-encrypting, and re-uploading data yourself. In Apache Iceberg, client-side table encryption is an emerging capability and supports per-table keys, unlike the single-session keys typical of server-side modes."
+  },
+  {
+    question: "How does encryption key rotation work for stored data?",
+    answer: "Key rotation creates a new key version, but it does not re-encrypt existing objects automatically; each object records which key version encrypted it, and the store fetches that version on read. To move data to a new version you must rewrite or copy the objects. Deleting a key version still in use can permanently lock you out of the data. These mechanics apply when running Spark and Iceberg against S3-compatible storage backed by a key management service."
+  },
+  {
+    question: "How do you protect a self-hosted lakehouse with at-rest encryption?",
+    answer: "You protect a self-hosted lakehouse by enabling at-rest encryption on the object store and choosing a key model that matches your control and compliance needs, from transparent platform keys to customer-managed or client-side keys. Full-disk encryption alone only guards against physical theft, not a compromised running host. IOMETE focuses on on-premises lakehouses, where teams pair Iceberg tables on S3-compatible storage with the encryption mode that fits their data sovereignty requirements."
+  }
+]} />
+
+---
 
 ## Appendix
 

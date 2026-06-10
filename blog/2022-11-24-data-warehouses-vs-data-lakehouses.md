@@ -10,6 +10,8 @@ description: data lakehouses to data warehouses evaluation of data infrastructur
 banner_description: let’s explore the journey from warehouse to lakehouses and what are the main differences
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 import Img from '@site/src/components/Img';
 import Iframe from '@site/src/components/Iframe';
 
@@ -92,3 +94,28 @@ Modern Data Platform can take data from streaming, batch data, and stitch it tog
 <Iframe title="Serverless Lakehouse | IOMETE" src="https://www.youtube.com/embed/RoDj7n01FpQ"/>
 
 Let’s get connected for taking the journey towards enabling your organization for bringing value out of data.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is the difference between a data warehouse, a data lake, and a data lakehouse?",
+    answer: "A data warehouse stores structured data optimized for reporting, a data lake stores raw structured, semi-structured, and unstructured data cheaply, and a data lakehouse combines both so the lake's data can be queried as tables with SQL. The lakehouse adds warehouse-style structure and reliability on top of low-cost lake storage. Lakehouse platforms such as IOMETE deliver this by using open table formats like Apache Iceberg over files stored in formats like Parquet."
+  },
+  {
+    question: "What is a data lakehouse?",
+    answer: "A data lakehouse is an architecture that brings data warehouse capabilities to a data lake, letting you query lake data as tables using SQL while keeping it in open formats. It decouples data from metadata so table structures can evolve over time without reformatting everything. This supports analytics and reporting from a single location, and platforms like IOMETE implement it using Apache Iceberg for metadata over columnar files."
+  },
+  {
+    question: "Why did organizations move from data warehouses to data lakes and lakehouses?",
+    answer: "Organizations moved beyond data warehouses because the growing volume, velocity, and variety of data, including JSON, logs, and IoT feeds, exceeded what structured warehouses could handle cost-effectively. Cloud storage made it cheap to keep petabytes of data and to decouple storage, metadata, and compute. The lakehouse emerged to combine that scalability with warehouse-style querying, an approach used by platforms such as IOMETE."
+  },
+  {
+    question: "What are the cost advantages of a data lakehouse?",
+    answer: "A data lakehouse lowers cost by using inexpensive cloud object storage and a pay-as-you-go compute model, so you provision processing power only when queries run rather than maintaining always-on servers. This avoids the upfront hardware and scaling expense of traditional warehouses. It also reduces data duplication by serving analytics and reporting from one store, and IOMETE follows this model with cloud storage and on-demand compute."
+  },
+  {
+    question: "What is a data swamp and how do lakehouses prevent it?",
+    answer: "A data swamp is a data lake where information is dumped without structure or governance, making it hard to find and use reliably. Lakehouses prevent this by applying table formats and metadata that give raw files schema, organization, and query support. This keeps data usable for reporting and analytics, and lakehouse platforms like IOMETE use Apache Iceberg metadata and a data catalog to maintain that structure."
+  }
+]} />

@@ -12,6 +12,8 @@ banner_description: In this post we explained why we believe "The Data Cloud" - 
 # featured_content: In this post we share our Hate List. four observations around the customer and value proposition of "The Data Cloud" (the establishment) and how we've used these observations to engineer our own value and customer proposition.
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 ![The Data Cloud is Greedy](/img/blog/2022-07-27-the-data-cloud-is-greedy/the-data-cloud-is-greedy.jpeg)
 
 <!-- truncate -->
@@ -93,3 +95,24 @@ We engineered our value proposition by doing the opposite. This results in a "ch
 4. The Data Cloud: retain customers through lock-ins **-> IOMETE: retain customers by being the best alternative.**
 
 Our goal is to create a high volume, lower margin business that is fueled by word-of-mouth and referrals from our customers. As volumes increase we can continue to drive prices downward, creating a flywheel that benefits both our customers and our team.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is vendor lock-in with data platforms?",
+    answer: "Vendor lock-in happens when a data platform stores information in proprietary formats or ties workloads to one provider, making it costly and difficult to move elsewhere. It raises switching costs and reduces a customer's leverage over pricing and roadmap decisions. Platforms built on open standards reduce this risk, and IOMETE addresses it by storing data in open formats like Apache Parquet and Apache Iceberg under the customer's own cloud account."
+  },
+  {
+    question: "Why are managed cloud data platforms often expensive?",
+    answer: "Managed cloud data platforms are often expensive because their pricing is built around high gross margins, large sales and marketing budgets, and multi-vendor toolchains that each carry their own fee. Customers frequently assemble several specialized products, which compounds total cost. Pricing models that track underlying cloud compute costs more directly can lower this expense, which is the approach IOMETE takes by aligning compute prices with cloud on-demand rates."
+  },
+  {
+    question: "How can you avoid vendor lock-in when choosing a data platform?",
+    answer: "You avoid lock-in by choosing platforms that use open data formats, open table standards, and storage you control directly, so your data remains portable. Confirming that you can export or query data without the vendor's runtime is a practical test of portability. IOMETE is one example of this pattern, building on Apache Iceberg and Apache Spark while keeping data stored in the customer's own account so they retain full ownership."
+  },
+  {
+    question: "Does owning your own data storage improve data governance?",
+    answer: "Yes. Keeping data in storage you own and control gives you direct authority over access, retention, and residency, which strengthens governance and compliance posture. It also means a platform vendor accesses your data to run queries rather than holding it on your behalf. IOMETE follows this model by running queries against data stored in the customer's own cloud account, leaving ownership and control with the customer at all times."
+  }
+]} />

@@ -6,10 +6,13 @@ slug: kubernetes-native-patterns-best-practices
 coverImage: img/blog/thumbnails/4.png
 date: 06/09/2025
 authors: aytan
+last_update:
+  date: 2026-06-05
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 ## **Patterns and Best Practices in Kubernetes-Native Data Engineering**
 
@@ -150,3 +153,24 @@ When done right, it enables:
 * **True self-service data platform delivery**
 
 Platforms like **IOMETE** simplify this journey. They implement best practices out of the box — from namespaced multi-tenancy to auto-scaling Spark jobs — helping engineering teams move fast without breaking governance or stability.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "When should a data service be stateful versus stateless on Kubernetes?",
+    answer: "Stateless services like dbt runners or Airflow schedulers retain no data between sessions and fit Deployments or Jobs, while stateful services like Spark drivers or metadata stores need stable identity and persistent storage and fit StatefulSets with PersistentVolumeClaims. Choosing correctly prevents data loss and scheduling problems. IOMETE deploys Spark compute clusters using StatefulSet-style patterns to preserve execution context as compute scales up or down."
+  },
+  {
+    question: "How do you achieve multi-tenancy in a Kubernetes data platform?",
+    answer: "Multi-tenancy on Kubernetes is usually built on Namespaces that isolate resources per team or project, combined with ResourceQuotas to prevent noisy neighbors and RBAC to enforce access boundaries. This keeps workloads separated without running separate clusters. IOMETE maps each team to a Domain that corresponds one-to-one with a Kubernetes namespace, giving every domain its own catalog, compute clusters, RBAC rules, and audit logs."
+  },
+  {
+    question: "How should secrets and configuration be managed in Kubernetes data pipelines?",
+    answer: "Sensitive values like credentials and tokens belong in Secret resources, while non-sensitive runtime values like tuning parameters belong in ConfigMaps, keeping the two cleanly separated and centrally managed. Many teams integrate an external store such as Vault for stronger secret handling. IOMETE manages data source credentials and access keys through Kubernetes Secrets, or integrated with Vault, while using ConfigMaps for cluster runtime behavior."
+  },
+  {
+    question: "What are common Kubernetes mistakes in data engineering deployments?",
+    answer: "Frequent mistakes include omitting CPU and memory requests and limits, which causes evictions or resource starvation, skipping liveness and readiness probes so failed Pods go unnoticed, and letting verbose job logs overflow storage. Setting conservative resource boundaries, defining health checks, and applying log retention policies address these. These practices keep Kubernetes-native pipelines, including Spark jobs on platforms like IOMETE, stable under load."
+  }
+]} />

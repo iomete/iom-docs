@@ -6,7 +6,11 @@ authors: "rocco"
 tags2: ["Security", "Compliance"]
 coverImage: "img/blog/thumbnails/4.png"
 date: "03/03/2026"
+last_update:
+  date: 2026-06-03
 ---
+
+import FAQSection from '@site/src/components/FAQSection';
 
 Encryption can protect data from bad actors, not from court-ordered access. Under the U.S. [CLOUD Act](https://en.wikipedia.org/wiki/CLOUD_Act) (2018), American authorities can compel U.S.-based providers like AWS, Google Cloud, and Azure to hand over data regardless of where it's physically stored.
 
@@ -61,5 +65,32 @@ Cloud platforms are powerful tools that have lowered costs, accelerated developm
 For most organizations, provider-managed encryption combined with solid IAM policies is sufficient. The CLOUD Act is a real legal instrument, but the actual number of orders targeting private sector data is largely unknown: many are sealed, and providers often challenge or narrow overbroad requests in court. The opacity makes risk assessment difficult, which is precisely why some regulated organizations prefer technical controls over legal ones. Customer-managed keys add meaningful isolation. Running compute outside the cloud provider's environment removes the trust dependency entirely, at the cost of operational complexity and egress fees.
 
 It is worth noting that even hyperscalers are acknowledging this gap. AWS recently launched the [AWS European Sovereign Cloud](https://aws.amazon.com/blogs/aws/opening-the-aws-european-sovereign-cloud/) (generally available January 2026): a physically and logically separate infrastructure operated by a dedicated EU legal entity, AWS European Sovereign Cloud GmbH, with EU-resident staff and management. Whether a US-parented subsidiary sits fully outside CLOUD Act reach remains an open legal question, but the investment signals that data residency alone was never enough.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is the CLOUD Act?",
+    answer: "The CLOUD Act is a 2018 U.S. law that lets American authorities compel U.S.-based providers to hand over data they control, regardless of the country where that data is physically stored. This means jurisdiction follows the provider rather than the storage location. For organizations using global cloud platforms, it means data held in a European region can still fall under U.S. legal reach, which is why some regulated teams run compute on self-hosted infrastructure outside a provider's control."
+  },
+  {
+    question: "Does data residency guarantee data sovereignty?",
+    answer: "No. Data residency only controls where data is physically stored, while data sovereignty concerns which legal jurisdiction can compel access to it. Storing data in a local region does not place it beyond a provider's home-country laws if that provider controls the infrastructure and keys. Achieving sovereignty generally requires keeping both storage and compute, and the encryption keys, under your own control, which a self-hosted lakehouse such as IOMETE is designed to support."
+  },
+  {
+    question: "Does encryption protect data from government data requests?",
+    answer: "Encryption protects data from unauthorized actors but not from lawful court-ordered access when the provider controls the keys, since they can be compelled to decrypt and produce the data. Customer-managed and client-side keys narrow this exposure, yet decryption still happens on provider servers during processing, keeping their infrastructure in the trust boundary. Fully removing that dependency requires running compute on your own infrastructure, which is the model IOMETE follows for self-hosted lakehouses."
+  },
+  {
+    question: "How does running compute on your own infrastructure reduce legal exposure?",
+    answer: "Running compute on your own infrastructure means decrypted data and encryption keys never pass through a cloud provider's servers, so the provider has no technical means to access plaintext even under legal compulsion. Data can stay encrypted in cloud storage while processing happens on sovereign hardware. This removes the provider from the trust boundary at the cost of egress fees and operational effort. IOMETE supports this by running its lakehouse on self-hosted, on-premises, or private-cloud infrastructure."
+  },
+  {
+    question: "What regulations make cloud data sovereignty a compliance concern?",
+    answer: "Frameworks like GDPR, the Schrems II ruling, and DORA push organizations to assess whether foreign legal frameworks could compel disclosure of their data through their cloud providers. DORA, applicable to EU financial entities since January 2025, specifically requires evaluating third-party ICT provider risk. Meeting these expectations increasingly means proving data cannot be accessed without consent. A self-hosted lakehouse like IOMETE helps by keeping infrastructure, compute, and keys within the organization's own control."
+  }
+]} />
+
+---
 
 If you want the full lakehouse experience—Apache Spark, Apache Iceberg, Workflow Orchestration, unified [Data Governance](/glossary/data-governance)—without placing your data inside a provider's trust boundary: that is what we are building at IOMETE. [Self-hosted on-premise](/blog/how-to-build-on-prem-data-lakehouse), private cloud, or public cloud. Your infrastructure, your keys, no clerk in the room.

@@ -9,6 +9,8 @@ banner_description: There can be good reasons to opt for an on-premise data ware
 coverImage: img/blog/thumbnails/1.png
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 “Cloud” has become a bit of a buzzword. If you’re not moving to the cloud, you must be left in the 80s is the implicit assumption. But there can be good reasons to opt for an on-premise data warehouse or lakehouse (note: in this post we talk about “data warehouse” because that’s a more known term, but we have a strong preference for the next generation of data warehouses, i.e. the [data lakehouse](/glossary/data-lakehouse)).
 
 <!-- truncate -->
@@ -47,3 +49,24 @@ However, if an organization is looking for a rapidly scalable solution, then a c
 Whatever your data infrastructure and deployment requirements may look like, consider the IOMETE data lakehouse platform with its modern architecture and flexible deployment options.
 
 [Book](https://calendly.com/iomete/iomete-discovery-call) a 30 min discovery call to learn more.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is an on-premises data warehouse?",
+    answer: "An on-premises data warehouse is a data warehouse that runs on hardware physically located at and managed by the organization that owns it. The organization is responsible for the hardware, software, and ongoing maintenance, which gives it full control over data security and compliance. This model suits sectors like government, financial services, and healthcare where data ownership and residency are critical. IOMETE offers a lakehouse that can be deployed on-premises in this way."
+  },
+  {
+    question: "What is a hybrid data warehouse?",
+    answer: "A hybrid data warehouse spans both on-premises and cloud environments, letting an organization keep some data and workloads local while using cloud resources for others. Large enterprises often arrive at this setup because their infrastructure has grown over decades across many systems. The benefit is a unified view of data regardless of where it physically lives. IOMETE supports hybrid deployments so the same platform reaches data in both locations."
+  },
+  {
+    question: "When is an on-premises data warehouse better than cloud?",
+    answer: "An on-premises data warehouse is often better when an organization must comply with strict regulations such as GDPR or HIPAA, requires complete control over data security, or faces data residency rules that keep data within national borders. It can also offer better economics for certain steady, large-scale workloads. Cloud tends to win when rapid elastic scalability matters most, so the right choice depends on each organization's compliance, cost, and performance needs."
+  },
+  {
+    question: "How does on-premises affect compliance and data residency?",
+    answer: "Keeping a data warehouse on-premises means data stays inside the organization's own facilities and trust perimeter, which simplifies meeting data residency rules that require information to remain within a country's borders. It also gives the organization direct control over security measures rather than delegating them to a third-party provider. This is a common reason regulated industries choose on-premises or hybrid deployments, which IOMETE supports."
+  }
+]} />

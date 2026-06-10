@@ -10,6 +10,8 @@ authors: aytan
 banner_description: Understanding your consumption of Snowflake credits
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 import MiniCard from "@site/src/components/MiniCard";
 
 Snowflake credits are used to pay for the consumption of resources on Snowflake. A Snowflake credit is **a unit of measure defined by Snowflake**, and it is consumed only when a customer is using resources, such as when a virtual warehouse is running, the cloud services layer is performing work, or serverless features are used.
@@ -75,3 +77,24 @@ Although Snowflake is not transparent about what nodes it uses under the hood, t
 1 hour of c5d.2xlarge on-demand pricing is $0.384 for most US AWS regions.
 
 Based on this instance and region, Snowflake prices are 5x, 8x, 10x (for Standard, Enterprise, Business Critical) higher than AWS on-demand pricing.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a compute credit in a managed data warehouse?",
+    answer: "A compute credit is a vendor-defined unit of measure used to bill for processing resources consumed while a warehouse runs or serverless features execute. The number of credits used depends on the size of the compute cluster and how long it stays active, while the price per credit varies by cloud provider, region, and plan tier. This consumption-based model means total cost rises with both the amount of compute provisioned and how long it runs."
+  },
+  {
+    question: "How is consumption-based data warehouse cost calculated?",
+    answer: "Consumption-based cost is generally the number of compute units consumed multiplied by the price per unit, so the more data you process and the longer compute runs, the more you pay. Cluster size typically doubles capacity and credit consumption with each step up, and per-unit pricing changes by region and plan. Understanding both factors helps teams forecast spend and avoid surprises from idle or oversized warehouses."
+  },
+  {
+    question: "Why do managed cloud data warehouses get expensive at scale?",
+    answer: "Managed cloud data warehouses get expensive at scale because pricing is tied to consumption units that carry a markup over the underlying cloud instances, and costs accumulate every hour compute runs. As query volume and concurrency grow, more and larger warehouses run for longer, compounding spend. Teams often respond by tuning resource allocation, adding caching, restricting access, or moving some workloads to architectures with more direct control over compute, such as a self-hosted lakehouse like IOMETE."
+  },
+  {
+    question: "How can teams reduce data warehouse compute costs?",
+    answer: "Teams can reduce compute costs by right-sizing clusters, suspending idle warehouses, caching frequent results, and limiting access to compute resources to only the workloads that need them. Choosing architectures that separate storage from compute lets each scale independently and avoids paying for idle capacity. Running analytics on a self-hosted lakehouse such as IOMETE gives teams direct control over the compute instances and their utilization rather than paying per vendor-defined credit."
+  }
+]} />

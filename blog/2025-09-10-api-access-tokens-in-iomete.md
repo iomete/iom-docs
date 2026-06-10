@@ -6,9 +6,12 @@ authors: Mateus
 hide_table_of_contents: true
 tags2: [Educational, Technical]
 coverImage: img/blog/thumbnails/2.png
+last_update:
+  date: 2026-06-04
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 ## A Technical Overview of Secure, Flexible, and Automated Token-Based Access
 
@@ -86,3 +89,24 @@ Access tokens in IOMETE are more than credentials; they are the foundation of se
 * Flexibility for administrators to configure policies that fit security practices.  
 
 As API ecosystems grow more complex, automation and flexibility will define effective platform governance. At IOMETE, we’re committed to delivering both—so you can innovate without sacrificing security.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is an API access token?",
+    answer: "An API access token is a unique credential that proves a caller's identity and defines what actions they are allowed to perform on each API request, encoding both authentication and authorization. It works like a programmable badge rather than a permanent key, so it can carry specific scopes and expire when no longer needed. IOMETE issues access tokens that follow familiar patterns such as OAuth 2.0 and JWT."
+  },
+  {
+    question: "What is the difference between user and service account tokens?",
+    answer: "User access tokens impersonate an individual and inherit that person's identity and permissions, making them suited to interactive queries and ad hoc actions, while service account tokens are tied to groups rather than a single user for long-running automation. The separation prevents pipelines from breaking when a person leaves or goes on vacation. IOMETE supports both types so each maps to its intended purpose."
+  },
+  {
+    question: "Why should API tokens expire and be revocable?",
+    answer: "Expiring tokens limit the damage window if one is compromised, and revocation lets administrators immediately disable a token without rotating other credentials. Combined with least-privilege scoping, this keeps exposure narrow. IOMETE lets administrators set token lifetimes and maximum expiry policies, issue short-lived tokens for ephemeral jobs and longer-lived ones for automation, and revoke any token when needed."
+  },
+  {
+    question: "How do API access tokens support compliance and auditing?",
+    answer: "Because every token-based request is authenticated and tied to an identity, each action leaves a traceable record that supports audit requirements under standards like GDPR, HIPAA, and SOC 2. Tight scoping further enforces least privilege. IOMETE pairs this with automated lifecycle management, including advance expiry warnings and cleanup of long-expired tokens, so the audit trail stays accurate without manual housekeeping."
+  }
+]} />

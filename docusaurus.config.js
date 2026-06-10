@@ -93,6 +93,7 @@ const config = {
           blogSidebarCount: 0,
           postsPerPage: "ALL",
           showReadingTime: true,
+          showLastUpdateTime: true,
           // blogListComponent: "/blog/index.js",
           blogTagsPostsComponent: "/src/theme/BlogListPage/index.js",
           blogTitle: "IOMETE Blog",

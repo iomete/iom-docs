@@ -6,10 +6,13 @@ slug: kubernetes-native-data-engineering-architecture
 coverImage: img/blog/thumbnails/1.png
 date: 05/05/2025
 authors: aytan
+last_update:
+  date: 2026-06-02
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 ## **Introduction: The Rise of Kubernetes-Native Approaches in Data Engineering**
 
@@ -50,3 +53,24 @@ In the world of data engineering, this means:
 It’s important to distinguish between **Kubernetes-compatible** and **Kubernetes-native**. Running Spark in Docker doesn't make it Kubernetes-native. Using Helm to manage Spark jobs that auto-scale with native events? That’s native.
 
 In the next section, we’ll dig into why forward-looking data teams are moving to Kubernetes — and how it helps align infrastructure with modern data demands.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is Kubernetes-native data engineering?",
+    answer: "Kubernetes-native data engineering means designing data pipelines and platforms as first-class Kubernetes workloads, using Pods, Operators, Custom Resource Definitions, and GitOps rather than treating Kubernetes only as a container host. Jobs, storage, and scaling are all defined declaratively and managed through the Kubernetes control plane. IOMETE is built on this model as a Spark-based lakehouse, orchestrating compute clusters and SQL endpoints entirely through Kubernetes-native components."
+  },
+  {
+    question: "How is Kubernetes-native different from just running containers?",
+    answer: "Running a workload in a container makes it Kubernetes-compatible, while Kubernetes-native means the workload uses the platform fully, including autoscaling, Operators, persistent volumes, and event-driven orchestration. The distinction matters because native designs scale and recover automatically instead of needing manual scripting. IOMETE reflects this by translating cluster and job actions into Kubernetes Pods, volumes, and autoscalers behind the scenes."
+  },
+  {
+    question: "What components make up a Kubernetes-native data architecture?",
+    answer: "A Kubernetes-native data architecture typically combines Pods for compute units, StatefulSets for services needing stable identity, Persistent Volumes for durable storage, and Operators or CRDs to define jobs like Spark applications. GitOps tools manage configuration as version-controlled code. IOMETE assembles these pieces into a unified platform, running Spark executors as Pods and integrating object storage such as MinIO, Apache Ozone, or HDFS."
+  },
+  {
+    question: "Can a Kubernetes-native data platform run across multiple clouds or on-premises?",
+    answer: "Yes, because Kubernetes provides a consistent API layer, the same data platform can run on AWS, GCP, Azure, or on-premises hardware with minimal changes. This portability reduces dependence on any single cloud provider and supports hybrid strategies. IOMETE deploys on your own Kubernetes clusters in any of these environments, keeping compute and storage configuration consistent across them."
+  }
+]} />

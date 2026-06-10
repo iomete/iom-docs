@@ -6,6 +6,8 @@ authors: aytan
 tags2: [Educational, Technical]
 coverImage: img/blog/thumbnails/structure-6.png
 date: 12/02/2025
+last_update:
+  date: 2026-06-06
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

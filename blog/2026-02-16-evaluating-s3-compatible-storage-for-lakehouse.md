@@ -6,9 +6,12 @@ authors: "Shashank"
 tags2: ["Technical", "Engineering"]
 coverImage: "img/blog/thumbnails/structure-2.png"
 date: "02/16/2026"
+last_update:
+  date: 2026-06-08
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 # Evaluating S3-Compatible Object Storage for Your Data Lakehouse
 
@@ -315,5 +318,32 @@ There's no single best option. The right choice depends on your scale, team, exi
 IOMETE's lakehouse platform is storage-agnostic. It works with any S3-compatible backend - whether that's Ceph RGW in your data center, SeaweedFS on Kubernetes, a hardware appliance, or a cloud-managed service like AWS S3.
 
 This is by design. The storage layer is the one piece of infrastructure that should outlast any platform decision. By building on the S3 API as the standard interface, IOMETE ensures that your choice of object storage doesn't lock you into a specific compute platform and your choice of compute platform doesn't lock you into specific storage.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is S3-compatible object storage?",
+    answer: "S3-compatible object storage is any storage system that implements the Amazon S3 API, so applications written for S3 can read and write to it without changes. This lets self-hosted teams run storage in their own data centers while keeping the same interface that cloud object stores expose. IOMETE is storage-agnostic and works with any S3-compatible backend, so the same lakehouse runs on cloud S3, on-premises systems, or hardware appliances that speak the S3 API."
+  },
+  {
+    question: "Why does object storage matter in a data lakehouse?",
+    answer: "Object storage matters in a lakehouse because it is the system of record where every Parquet file, manifest, and metadata file lives, so its durability, throughput, and scalability set the ceiling for the whole platform. A lakehouse decouples compute from storage, but that makes the object store a hard dependency that cannot lose data. IOMETE reads Iceberg metadata and then goes directly to the S3-compatible object store for the underlying data files."
+  },
+  {
+    question: "What makes object storage lakehouse-ready?",
+    answer: "Lakehouse-ready object storage needs broad S3 API coverage, high concurrency under mixed read and write loads, durability across disk and node failures, scalability to petabytes, and clean Kubernetes deployment. A store that implements only part of the S3 API often works in demos but breaks under Iceberg and Spark access patterns. IOMETE relies on operations like multipart uploads, conditional writes, and presigned URLs, so its backend store must support the full set its workloads use."
+  },
+  {
+    question: "How do you choose self-hosted object storage for an on-premises lakehouse?",
+    answer: "You choose self-hosted object storage by matching scale, team capacity, and licensing to the candidates, since options range from heavyweight platforms for petabyte scale to lightweight stores for smaller multi-site deployments. Production maturity and governance also matter because migrating data later is costly. Because IOMETE is storage-agnostic over the S3 API, teams can pick the backend that fits their constraints without locking the choice of storage to the choice of compute platform."
+  },
+  {
+    question: "What happens to lakehouses that relied on an archived object store?",
+    answer: "When a self-hosted object store enters maintenance mode and is archived, existing deployments keep working but receive no new features, performance improvements, or guaranteed security patches, so teams should plan a migration timeline. New deployments need an actively maintained alternative with comparable S3 coverage. Because IOMETE connects to any S3-compatible backend, organizations can migrate the storage layer underneath the platform without changing how the lakehouse reads and writes data."
+  }
+]} />
+
+---
 
 If you're evaluating object storage for a self-hosted lakehouse deployment, [get in touch](https://iomete.com/contact-us) — we've helped teams navigate this decision across a range of scales and infrastructure constraints.

@@ -7,9 +7,12 @@ tags2: [Announcement, Company]
 featured_blog: true
 date: 12/05/2025
 coverImage: img/blog/thumbnails/2.png
+last_update:
+  date: 2026-06-05
 ---
 
 import Img from '@site/src/components/Img';
+import FAQSection from '@site/src/components/FAQSection';
 
 IOMETE is featured in the 2025 Gartner® Market Guide for Data Lakehouse Platforms
 <Img src="/img/blog/2025-12-05-gartner-market-guide/gartner-market-guide-cover.png" alt="Gartner Market Guide cover" centered />
@@ -88,5 +91,28 @@ IOMETE’s inclusion in the Gartner Market Guide for Data Lakehouse Platforms is
 - Buyers now have meaningful choice - and can evaluate vendors under a common definition.
 
 If you care about control, compliance, cost-predictability, and flexibility, the lakehouse wave might just be hitting its stride.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is a Gartner Market Guide?",
+    answer: "A Gartner Market Guide is an analyst report that maps an emerging or evolving market, defining its scope and outlining what buyers should expect when evaluating vendors, rather than ranking products or recommending a purchase. It signals that a category has matured enough for formal analyst tracking. IOMETE is featured in the 2025 Gartner Market Guide for Data Lakehouse Platforms, which the company reads as confirmation that the lakehouse category has entered mainstream data-platform conversations."
+  },
+  {
+    question: "What is a data lakehouse platform?",
+    answer: "A data lakehouse platform combines the scalable, low-cost, open storage of a data lake with the structured tables, ACID semantics, governance, and SQL access of a data warehouse. This lets organizations run analytics on raw and structured data in one system instead of maintaining separate silos. IOMETE implements this pattern as a platform that can run on-premises, in private cloud, or in hybrid environments while keeping warehouse-grade reliability over open data formats."
+  },
+  {
+    question: "What is a self-hosted data lakehouse?",
+    answer: "A self-hosted data lakehouse is a lakehouse platform an organization runs inside its own infrastructure rather than consuming as a public-cloud SaaS service, so the team controls where data lives and how it is managed. This appeals to enterprises constrained by compliance, data sovereignty, or long-term cost predictability. IOMETE is a self-hosted implementation that deploys in on-premises, private cloud, or hybrid environments, giving control over data, performance, and cost without SaaS vendor lock-in."
+  },
+  {
+    question: "How should enterprises evaluate a lakehouse platform for compliance and sovereignty?",
+    answer: "Enterprises should evaluate a lakehouse platform by checking whether it supports the deployment model their regulations require, keeps data governance and access control under their control, and offers predictable long-term cost without lock-in. Questions about hybrid, on-premises, and migration flexibility matter when sovereignty rules apply. IOMETE addresses these by running in self-hosted on-premises, private cloud, and hybrid setups, letting regulated organizations keep data inside their own environment while retaining governance and SQL analytics."
+  }
+]} />
+
+---
 
 Want to talk about how to evaluate IOMETE for your environment? [Reach out](https://iomete.com/contact-us?utm_source=gartner-blog) - we’d be glad to walk you through a live demo or discuss your architecture.

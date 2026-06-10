@@ -10,6 +10,8 @@ coverImage: img/blog/thumbnails/0.png
 banner_description: Nowadays, it is an industry standard to write tests for your code. Such popularity is not just a trend, it is backed by the observation that tests bring stability and scalability to code.
 ---
 
+import FAQSection from '@site/src/components/FAQSection';
+
 import MiniCard from "@site/src/components/MiniCard";
 
 ## Table of contents:
@@ -176,3 +178,24 @@ Although Cypress fixed a lot of problems of modern e2e testing and made it a lot
 Writing stable, decoupled, idempotent end-to-end tests is still no small feat. While Cypress helps you overcome most of the difficulties related to specifics of e2e testing, you should bear in mind that it is not a silver bullet and some things just come with the nature of tests themselves.
 
 In the end, should you spend your time on e2e tests? It is your decision to make, but we would recommend having some e2e tests in a form of [smoke testing](<https://en.wikipedia.org/wiki/Smoke_testing_(software)>), however, we do not recommend investing a lot of time into them. It is good to have some e2e tests but we think that unit testing is still the most reliable and fastest testing type.
+
+---
+
+<FAQSection faqs={[
+  {
+    question: "What is end-to-end testing?",
+    answer: "End-to-end (e2e) testing verifies an application as a whole by imitating real user behavior across the front-end and back-end together. It exercises actions like typing, clicking, and scrolling exactly as a real user would, rather than testing components in isolation. Teams use e2e tests to confirm that all parts of a system work correctly in combination, which is why they are often run as part of a continuous integration pipeline alongside faster unit tests."
+  },
+  {
+    question: "How is e2e testing different from unit and integration testing?",
+    answer: "Unit testing checks a single component in isolation, integration testing checks several components working together, and e2e testing exercises the entire system the way a user interacts with it. Unit tests are the fastest and most stable but cannot prove that components behave correctly when combined. E2e tests give the most realistic coverage but are slower and harder to keep reliable, so many teams keep a small number of them and rely on unit tests for the bulk of coverage."
+  },
+  {
+    question: "What is Cypress used for?",
+    answer: "Cypress is a JavaScript testing tool focused on writing, debugging, and maintaining end-to-end test suites that run directly inside the browser. Unlike tools that drive the browser remotely over the network, Cypress runs in the same loop as the application, which removes network lag and adds automatic waiting and retries. It also records videos and screenshots of test runs, making failures easier to diagnose during development and in continuous integration."
+  },
+  {
+    question: "What are common challenges when running e2e tests in CI?",
+    answer: "The most common challenges are constructing the required application state before a test and dealing with intermittent failures that do not reproduce manually. Setting up dependencies through the UI is slow, so teams often seed data through API requests or test-only routes, and they sometimes rerun flaky tests to separate real errors from instability. Detached DOM elements caused by framework re-rendering are another frequent source of failures, which is why e2e suites need careful design to stay stable in a CI environment."
+  }
+]} />
