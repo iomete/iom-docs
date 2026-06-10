@@ -6,6 +6,8 @@ slug: datalakehouse-architecture-in-2025
 coverImage: img/blog/thumbnails/4.png
 date: 08/29/2025
 authors: abhishek
+last_update:
+  date: 2026-06-02
 ---
 
 import Img from '@site/src/components/Img';

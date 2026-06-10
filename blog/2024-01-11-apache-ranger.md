@@ -7,6 +7,8 @@ hide_table_of_contents: true
 tags2: [Educational, Company]
 coverImage: img/blog/thumbnails/1.png
 banner_description: Known for its stronghold in the Hadoop ecosystem, is a critical tool for organizations dealing with big data security.
+last_update:
+  date: 2026-06-02
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

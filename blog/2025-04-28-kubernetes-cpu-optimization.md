@@ -6,6 +6,8 @@ slug: kubernetes-cpu-memory-optimize
 coverImage: img/blog/thumbnails/2.png
 date: 03/28/2025
 authors: ruslan
+last_update:
+  date: 2026-06-09
 ---
 
 

@@ -7,6 +7,8 @@ hide_table_of_contents: true
 tags2: [Educational]
 coverImage: img/blog/2025-01-20-enterprise-data-platform/cover.png
 banner_description: Simplify and scale enterprise data management with IOMETE's intuitive, powerful platform.
+last_update:
+  date: 2026-06-07
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

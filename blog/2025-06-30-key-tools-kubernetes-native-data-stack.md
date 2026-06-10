@@ -6,6 +6,8 @@ slug: kubernetes-native-data-tools
 coverImage: img/blog/thumbnails/3.png
 date: 06/30/2025
 authors: aytan
+last_update:
+  date: 2026-06-08
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

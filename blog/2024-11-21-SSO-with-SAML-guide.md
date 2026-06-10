@@ -7,6 +7,8 @@ hide_table_of_contents: true
 tags2: [Educational]
 coverImage: img/blog/thumbnails/2.png
 banner_description: Learn how SSO simplifies authentication with SAML for seamless and secure access
+last_update:
+  date: 2026-06-05
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

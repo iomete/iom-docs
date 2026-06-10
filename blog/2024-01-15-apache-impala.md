@@ -7,6 +7,8 @@ hide_table_of_contents: true
 tags2: [Educational, Company]
 coverImage: img/blog/thumbnails/1.png
 banner_description: Transitioning from Apache Impala to IOMETE for Advanced Data Analytics
+last_update:
+  date: 2026-06-03
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

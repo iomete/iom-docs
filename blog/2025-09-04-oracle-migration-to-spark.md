@@ -6,6 +6,8 @@ authors: shafi
 hide_table_of_contents: true
 tags2: [Educational, Company]
 coverImage: img/blog/thumbnails/1.png
+last_update:
+  date: 2026-06-03
 ---
 
 import Img from '@site/src/components/Img';

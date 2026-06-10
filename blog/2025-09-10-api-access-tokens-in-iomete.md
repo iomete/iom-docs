@@ -6,6 +6,8 @@ authors: Mateus
 hide_table_of_contents: true
 tags2: [Educational, Technical]
 coverImage: img/blog/thumbnails/2.png
+last_update:
+  date: 2026-06-04
 ---
 
 import Img from '@site/src/components/Img';

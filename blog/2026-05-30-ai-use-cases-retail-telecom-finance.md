@@ -6,6 +6,8 @@ authors: "altay"
 tags2: ["Educational"]
 coverImage: "img/blog/thumbnails/0.png"
 date: "05/30/2026"
+last_update:
+  date: 2026-06-06
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

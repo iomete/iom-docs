@@ -8,6 +8,8 @@ image: img/blog/2025-02-17-core-components-technical-architecture/cover.png
 coverImage: img/blog/2025-02-17-core-components-technical-architecture/cover.png
 banner_description: IOMETE's architecture is built on four fundamental layers for enterprise data management
 date: 02/17/2025
+last_update:
+  date: 2026-06-03
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

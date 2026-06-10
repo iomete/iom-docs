@@ -6,6 +6,8 @@ authors: "aytan"
 tags2: ["Security", "Compliance"]
 coverImage: "img/blog/thumbnails/4.png"
 date: "02/24/2026"
+last_update:
+  date: 2026-06-09
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

@@ -7,6 +7,8 @@ hide_table_of_contents: true
 tags2: [Educational]
 coverImage: img/blog/2025-01-20-evolution-of-data-architecture/cover.png
 banner_description: Traditional data warehouses face limitations in today's enterprise environment
+last_update:
+  date: 2026-06-08
 ---
 
 import Img from '@site/src/components/Img';

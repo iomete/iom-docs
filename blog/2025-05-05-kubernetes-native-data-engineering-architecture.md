@@ -6,6 +6,8 @@ slug: kubernetes-native-data-engineering-architecture
 coverImage: img/blog/thumbnails/1.png
 date: 05/05/2025
 authors: aytan
+last_update:
+  date: 2026-06-02
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

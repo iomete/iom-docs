@@ -6,6 +6,8 @@ authors: Shashank
 hide_table_of_contents: true
 tags2: [Engineering, Technical]
 coverImage: img/blog/thumbnails/structure-5.png
+last_update:
+  date: 2026-06-02
 ---
 
 import Img from '@site/src/components/Img';

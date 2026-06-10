@@ -6,6 +6,8 @@ slug: enterprise-data-transformation
 coverImage: img/blog/thumbnails/3.png
 banner_description: what the world would look like if every organization could make truly intelligent decisions?
 date: 03/17/2025
+last_update:
+  date: 2026-06-07
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

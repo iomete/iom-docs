@@ -6,6 +6,8 @@ slug: kubernetes-data-engineering-benefits
 coverImage: img/blog/thumbnails/2.png
 date: 05/26/2025
 authors: aytan
+last_update:
+  date: 2026-06-04
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

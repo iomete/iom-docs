@@ -9,6 +9,8 @@ keywords: [apache iceberg, iceberg maintenance, rewrite_data_files, expire_snaps
 banner_description: Every team running Apache Iceberg in production eventually hits the same wall. What Iceberg gives you out of the box, what each operation actually does, and where the DIY path leads.
 coverImage: img/blog/thumbnails/darkStone.png
 date: 2026/05/25
+last_update:
+  date: 2026-06-05
 ---
 
 import Img from '@site/src/components/Img';

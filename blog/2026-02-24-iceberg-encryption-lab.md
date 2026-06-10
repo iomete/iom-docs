@@ -6,6 +6,8 @@ authors: "rocco"
 tags2: ["Security", "Technical"]
 coverImage: "img/blog/thumbnails/4.png"
 date: "02/24/2026"
+last_update:
+  date: 2026-06-02
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

@@ -6,6 +6,8 @@ authors: "rocco"
 tags2: ["Security", "Technical"]
 coverImage: "img/blog/thumbnails/structure-3.png"
 date: "12/18/2025"
+last_update:
+  date: 2026-06-08
 ---
 
 import Img from '@site/src/components/Img';
