@@ -7,6 +7,8 @@ tags2: [Company]
 authors: vusal
 banner_description: Snowflake but self-hosted
 coverImage: img/blog/thumbnails/1.png
+last_update:
+  date: 2026-06-06
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

@@ -6,6 +6,8 @@ slug: kubernetes-native-patterns-best-practices
 coverImage: img/blog/thumbnails/4.png
 date: 06/09/2025
 authors: aytan
+last_update:
+  date: 2026-06-05
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

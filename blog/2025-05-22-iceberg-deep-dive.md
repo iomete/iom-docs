@@ -6,6 +6,8 @@ slug: iceberg-copy-on-write-deep-dive
 coverImage: img/blog/thumbnails/3.png
 date: 05/22/2025
 authors: alokh
+last_update:
+  date: 2026-06-03
 ---
 
 import Img from '@site/src/components/Img';

@@ -6,6 +6,8 @@ authors: Shahriyar
 hide_table_of_contents: true
 tags2: [Educational, Technical]
 coverImage: img/blog/thumbnails/3.png
+last_update:
+  date: 2026-06-05
 ---
 
 import Img from '@site/src/components/Img';

@@ -7,6 +7,8 @@ hide_table_of_contents: true
 tags2: [Educational]
 coverImage: img/blog/thumbnails/1.png
 banner_description: Perform data analytics with IOMETE Spark Connect and PySpark using PyCharm IDE
+last_update:
+  date: 2026-06-06
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

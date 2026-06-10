@@ -7,6 +7,8 @@ tags2: ["Technical", "Company"]
 hide_table_of_contents: true
 date: 01/17/2026
 coverImage: img/blog/thumbnails/2.png
+last_update:
+  date: 2026-06-09
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

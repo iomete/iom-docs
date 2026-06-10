@@ -7,6 +7,8 @@ tags2: ["Technical", "Company"]
 hide_table_of_contents: true
 date: 01/07/2026
 coverImage: img/blog/thumbnails/3.png
+last_update:
+  date: 2026-06-06
 ---
 
 import Img from '@site/src/components/Img';

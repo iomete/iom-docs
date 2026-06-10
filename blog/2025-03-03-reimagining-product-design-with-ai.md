@@ -7,6 +7,8 @@ slug: data-product-design-with-ai
 coverImage: img/blog/thumbnails/3.png
 banner_description: A centralized control plane for management and distributed data planes for processing
 date: 02/24/2025
+last_update:
+  date: 2026-06-05
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

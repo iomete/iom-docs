@@ -7,6 +7,8 @@ tags2: [Educational, Engineering]
 coverImage: "img/blog/thumbnails/3.png"
 date: "05/12/2026"
 hide_table_of_contents: false
+last_update:
+  date: 2026-06-03
 ---
 
 import Img from '@site/src/components/Img';

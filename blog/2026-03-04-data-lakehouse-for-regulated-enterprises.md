@@ -6,6 +6,8 @@ authors: "aytan"
 tags2: [Educational, Company]
 coverImage: "img/blog/thumbnails/2.png"
 date: "03/04/2026"
+last_update:
+  date: 2026-06-04
 ---
 
 import Img from '@site/src/components/Img';

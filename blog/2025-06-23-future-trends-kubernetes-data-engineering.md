@@ -6,6 +6,8 @@ slug: future-trends-kubernetes-data-engineering
 coverImage: img/blog/thumbnails/0.png
 date: 06/23/2025
 authors: aytan
+last_update:
+  date: 2026-06-07
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

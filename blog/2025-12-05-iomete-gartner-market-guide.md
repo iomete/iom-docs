@@ -7,6 +7,8 @@ tags2: [Announcement, Company]
 featured_blog: true
 date: 12/05/2025
 coverImage: img/blog/thumbnails/2.png
+last_update:
+  date: 2026-06-05
 ---
 
 import Img from '@site/src/components/Img';

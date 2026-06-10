@@ -6,6 +6,8 @@ authors: rocco
 tags2: [Educational, Technical]
 coverImage: img/blog/thumbnails/structure-2.png
 date: 12/16/2025
+last_update:
+  date: 2026-06-07
 ---
 
 import Img from '@site/src/components/Img';

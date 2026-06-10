@@ -7,6 +7,8 @@ tags2: [Educational, Company]
 coverImage: "img/blog/thumbnails/4.png"
 date: "03/10/2026"
 hide_table_of_contents: false
+last_update:
+  date: 2026-06-07
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

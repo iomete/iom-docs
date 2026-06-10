@@ -8,6 +8,8 @@ image: img/blog/2025-02-24-platform-components-and-enterprise-architecture/cover
 coverImage: img/blog/2025-02-24-platform-components-and-enterprise-architecture/cover.png
 banner_description: A centralized control plane for management and distributed data planes for processing
 date: 02/24/2025
+last_update:
+  date: 2026-06-04
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

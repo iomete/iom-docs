@@ -7,6 +7,8 @@ coverImage: img/blog/thumbnails/3.png
 banner_description: deep dive into the Apache Arrow format—how it stores data?
 date: 03/24/2025
 authors: rocco
+last_update:
+  date: 2026-06-08
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

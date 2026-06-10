@@ -7,6 +7,8 @@ slug: iomete-deployment-models
 coverImage: img/blog/2025-02-10-iomete-deployment-models/cover.png
 banner_description: IOMETE runs within the organization's data center, offering maximum control over the entire stack
 date: 02/10/2025
+last_update:
+  date: 2026-06-02
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

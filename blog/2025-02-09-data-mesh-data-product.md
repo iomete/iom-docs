@@ -6,6 +6,8 @@ tags2: [Technical, Educational]
 coverImage: img/blog/2025-02-09-data-mesh-data-product/cover.png
 banner_description: data domain is a living workspace where teams can truly own their data
 date: 02/09/2025
+last_update:
+  date: 2026-06-09
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

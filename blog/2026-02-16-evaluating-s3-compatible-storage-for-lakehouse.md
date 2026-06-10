@@ -6,6 +6,8 @@ authors: "Shashank"
 tags2: ["Technical", "Engineering"]
 coverImage: "img/blog/thumbnails/structure-2.png"
 date: "02/16/2026"
+last_update:
+  date: 2026-06-08
 ---
 
 import Img from '@site/src/components/Img';

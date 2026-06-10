@@ -6,6 +6,8 @@ tags2: [Technical, Company]
 authors: [aytan]
 hide_table_of_contents: false
 coverImage: img/blog/thumbnails/3.png
+last_update:
+  date: 2026-06-07
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

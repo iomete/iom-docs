@@ -6,6 +6,8 @@ tags2: [Educational, Company]
 coverImage: img/blog/thumbnails/1.png
 date: 12/10/2025
 authors: ujjawal
+last_update:
+  date: 2026-06-06
 ---
 
 import FAQSection from '@site/src/components/FAQSection';

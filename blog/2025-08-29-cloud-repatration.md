@@ -7,6 +7,8 @@ slug: cloud-repatriation
 coverImage: img/blog/thumbnails/3.png
 banner_description: A centralized control plane for management and distributed data planes for processing
 date: 08/29/2025
+last_update:
+  date: 2026-06-09
 ---
 
 import Img from '@site/src/components/Img';
