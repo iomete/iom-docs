@@ -2,6 +2,7 @@
 title: MySQL Database Replication Job
 sidebar_label: MySQL Database Replication
 description: Replicate MySQL tables to the IOMETE Lakehouse with a configuration-driven Spark job. Supports full load and incremental snapshot sync modes.
+slug: mysql-db-sync
 last_update:
   date: 05/07/2026
   author: Rocco Verhoef
