@@ -1,7 +1,7 @@
 ---
 title: Kafka Streaming
 description: Learn how to move data from Kafka to Iceberg using IOMETE. This guide covers deserialization, job creation, configuration, and testing.
-slug: kafka-streaming-job
+slug: kafka-iceberg-stream
 last_update:
   date: 08/24/2023
   author: Vugar Dadalov

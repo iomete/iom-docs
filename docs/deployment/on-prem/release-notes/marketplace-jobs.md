@@ -16,8 +16,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | Data Compaction          | iomete_data_compaction  | 1.2.13   | [Open ↗](/resources/open-source-spark-jobs/data-compaction)            |
 | File Streaming           | iomete-file-streaming   | 1.0.1    | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
 | Catalog Sync             | iom-catalog-sync        | 5.0.1    | [Open ↗](/resources/open-source-spark-jobs/catalog-sync)               |
-| MySQL Sync               | iomete_mysql_sync       | 3.0.0    | [Open ↗](/resources/open-source-spark-jobs/mysql-database-replication-job) |
-| Kafka Iceberg Stream     | kafka-iceberg-stream    | 1.2.0    | [Open ↗](/resources/open-source-spark-jobs/kafka-streaming-job)            |
+| MySQL Sync               | iomete_mysql_sync       | 3.0.0    | [Open ↗](/resources/open-source-spark-jobs/mysql-db-sync)                  |
+| Kafka Iceberg Stream     | kafka-iceberg-stream    | 1.2.0    | [Open ↗](/resources/open-source-spark-jobs/kafka-iceberg-stream)           |
 | Query Scheduler          | spark-py                | 3.5.7-v1 | [Open ↗](/resources/open-source-spark-jobs/query-scheduler-job)            |
 | TPC-DS Iceberg Generator | tpcds-iceberg-generator | 3.5.5    | Use job-templates in IOMETE                                                |
 | Cleanup Untracked Table Folders | cleanup-untracked-table-folders | 0.1.0 | [Open ↗](/resources/open-source-spark-jobs/cleanup-untracked-table-folders) |
