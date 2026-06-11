@@ -25,6 +25,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <Improvements>
     - **`iom-rest-catalog` Connection Pool Diagnostics**: Added JDBC connection pool metrics and logging to diagnose connection pool exhaustion and database connectivity issues. Includes per-operation timers that distinguish pool exhaustion from database connectivity failures and slow queries, optional verbose pool logging (toggled via the `services.restCatalog.logging.jdbcConnectionPoolDebug` Helm flag), and startup configuration logging.
     - **Spark Application and Job Template Details**: Added **Last updated by** and **Last updated at** fields to Spark application and job template details, making it easier to see who most recently changed them and when.
+    - **Docker Registry Editing**: Added the ability to edit existing Docker registries from the admin Docker settings page. Users can update the registry host, username, and password while name and Kubernetes namespace remain read-only.
   </Improvements>
 
   <BugFixes>
