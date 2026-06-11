@@ -227,10 +227,10 @@ const sidebars = {
       collapsed: false,
       items: [
         "open-source-spark-jobs/getting-started",
-        "open-source-spark-jobs/data-compaction-job",
+        "open-source-spark-jobs/data-compaction",
         "open-source-spark-jobs/query-scheduler-job",
-        "open-source-spark-jobs/catalog-sync-job",
-        "open-source-spark-jobs/cleanup-untracked-table-folders-job",
+        "open-source-spark-jobs/catalog-sync",
+        "open-source-spark-jobs/cleanup-untracked-table-folders",
         "open-source-spark-jobs/mysql-database-replication-job",
         "open-source-spark-jobs/kafka-streaming",
         "open-source-spark-jobs/file-streaming",
