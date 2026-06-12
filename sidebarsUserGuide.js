@@ -261,7 +261,7 @@ const sidebars = {
       items: [
         "driver/iomete-sqlalchemy",
         "driver/sql-alchemy-driver",
-        "driver/jdbc-driver",
+        "driver/hive-jdbc-driver",
         "driver/arrow-flight-jdbc-driver",
       ],
     },

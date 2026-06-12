@@ -20,7 +20,8 @@ const userGuideRedirects = [
   { from: "/reference/data-sources/snowflake-connector", to: "/user-guide/reference/data-sources/snowflake-connector" },
 
   // Client & Libraries (developer-guide → user-guide/driver)
-  { from: "/developer-guide/jdbc-driver", to: "/user-guide/driver/jdbc-driver" },
+  { from: "/developer-guide/jdbc-driver", to: "/user-guide/driver/hive-jdbc-driver" },
+  { from: "/user-guide/driver/jdbc-driver", to: "/user-guide/driver/hive-jdbc-driver" },
   { from: "/developer-guide/sql-alchemy-driver", to: "/user-guide/driver/sql-alchemy-driver" },
 
   // Jupyter Containers (developer-guide/notebook → user-guide/notebook)
