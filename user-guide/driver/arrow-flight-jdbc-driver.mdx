@@ -1,8 +1,9 @@
 ---
 title: Arrow Flight SQL JDBC Driver
-description: Use IOMETE's Arrow Flight SQL JDBC driver — a fork of the standard driver with added HTTP CONNECT proxy support for enterprise environments.
+sidebar_label: Arrow Flight SQL JDBC Driver
+description: IOMETE's Arrow Flight SQL JDBC driver, a fork of the standard driver adding HTTP CONNECT proxy support, query timeout, and named parameters.
 last_update:
-  date: 2026-03-27
+  date: 2026-06-12
   author: Mateus Aubin
 ---
 
@@ -10,8 +11,13 @@ import Card from "@site/src/components/Card";
 import GridBox from "@site/src/components/GridBox";
 
 IOMETE provides a custom release of the [Apache Arrow Flight SQL JDBC driver](https://arrow.apache.org/java/main/flight_sql_jdbc_driver.html). 
-It is functionally identical to the upstream driver, with one addition: **native HTTP CONNECT proxy tunneling** for gRPC/Flight connections. 
-This makes it suitable for enterprise environments where outbound connections may be restricted.
+It's functionally identical to the upstream driver, with three additions:
+
+- **HTTP CONNECT proxy tunneling**: routes gRPC/Flight connections through an enterprise HTTP proxy&nbsp;[›](#http-proxy-configuration)
+- **Connection-level query timeout**: sets a per-connection default timeout applied to every statement&nbsp;[›](#query-timeout)
+- **Named parameters**: allows `:name` syntax as an alternative to positional `?` markers&nbsp;[›](#named-parameters)
+
+It also supports standard mutual TLS, presenting a client certificate when your endpoint requires one. See [Client Certificates (mTLS)](#client-certificates-mtls).
 
 ## Download the Driver
 
@@ -20,7 +26,38 @@ Download the latest release from the [iomete-artifacts](https://github.com/iomet
 Driver artifacts follow the naming convention `flight-sql-jdbc-driver-<upstream>-iomete.<release>.jar`, 
 where `<upstream>` is the Arrow Flight SQL version 
 and `<release>` is the IOMETE release number 
-(e.g. `flight-sql-jdbc-driver-19.0.0-iomete.1.jar`).
+(e.g. `flight-sql-jdbc-driver-19.0.0-iomete.2.jar`).
+
+## Query Timeout
+
+*Requires IOMETE **≥ 3.17.1**.*
+
+Without a timeout, a slow or stuck query can hold a connection open indefinitely. To cap that, set a default timeout for all statements on a connection: add `queryTimeout=<seconds>` to the JDBC URL, or pass it as a connection property if your client supports one.
+
+```
+jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>&queryTimeout=30
+```
+
+The timeout applies to every statement executed on that connection. A value of `0` (the default) means no timeout.
+Individual statements can still override this via the standard `Statement.setQueryTimeout()` method.
+
+## Named Parameters
+
+*Requires IOMETE **≥ 3.16.0**.*
+
+Named parameters keep prepared statements readable when a query has many bind variables. Instead of counting `?` positions, you reference each value by name. Prepared statements support `:name` syntax as an alternative to positional `?` markers.
+The driver automatically translates named parameters to positional placeholders before sending the query.
+
+```java
+NamedPreparedStatement ps = (NamedPreparedStatement)
+    conn.prepareStatement("SELECT * FROM orders WHERE status = :status AND region = :region");
+ps.setString("status", "active");
+ps.setString("region", "europe");
+ResultSet rs = ps.executeQuery();
+```
+
+The same name can appear multiple times in a query, and the driver binds the value to every occurrence.
+Positional `?` and named `:name` markers cannot be mixed in the same statement.
 
 ## HTTP Proxy Configuration
 
@@ -29,7 +66,7 @@ No code changes are needed in your application.
 
 The proxy must support **HTTP CONNECT tunneling** (standard for HTTPS/gRPC traffic). 
 SOCKS proxies are not supported. 
-Proxy authentication (proxy username/password) is not currently supported — the proxy must allow unauthenticated CONNECT.
+Proxy authentication (proxy username/password) isn't currently supported, so the proxy must allow unauthenticated CONNECT.
 
 ### Connection Parameters
 
@@ -45,7 +82,7 @@ Proxy authentication (proxy username/password) is not currently supported — th
 If only one is provided, the explicit proxy is ignored and the driver falls back to the JVM's system proxy selector.
 :::
 
-### Resolution Priority
+#### Resolution Priority
 
 When establishing a connection, the driver resolves the proxy in this order:
 
@@ -55,7 +92,7 @@ When establishing a connection, the driver resolves the proxy in this order:
 4. JVM system proxy (`java.net.ProxySelector`) → use the first non-DIRECT proxy found
 5. No proxy found → connect directly
 
-### `proxyBypassPattern` Format
+#### `proxyBypassPattern` Format
 
 Uses the same format as the JVM `http.nonProxyHosts` system property:
 
@@ -69,7 +106,7 @@ Uses the same format as the JVM `http.nonProxyHosts` system property:
 | `*.internal` | `db.internal`, `api.internal`, etc. |
 | `localhost\|*.internal\|10.0.*` | any of the above |
 
-## JVM System Proxy Fallback
+### JVM System Proxy Fallback
 
 If `proxyHost`/`proxyPort` are not set, the driver automatically falls back to the JVM's proxy selector. 
 Standard JVM proxy properties are respected:
@@ -83,7 +120,7 @@ This means it is possible to route general Java traffic through one proxy and IO
 
 To suppress JVM proxy resolution for a specific connection without changing JVM properties, add `proxyDisable=force` to the JDBC URL.
 
-## Examples
+### Examples
 
 All examples use the base JDBC URL format:
 
@@ -93,7 +130,7 @@ jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>
 
 Replace `<host>`, `<port>`, `<username>`, and `<token>` with your cluster's connection details from the IOMETE console.
 
-### Route all traffic through a proxy
+#### Route all traffic through a proxy
 
 Uses `proxyHost` and `proxyPort`.
 
@@ -101,8 +138,7 @@ Uses `proxyHost` and `proxyPort`.
 jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>&proxyHost=proxy.corp.internal&proxyPort=3128
 ```
 
-
-### Bypass proxy for internal hosts
+#### Bypass proxy for internal hosts
 
 Uses `proxyHost`, `proxyPort`, and `proxyBypassPattern` to route internal traffic directly.
 
@@ -110,12 +146,26 @@ Uses `proxyHost`, `proxyPort`, and `proxyBypassPattern` to route internal traffi
 jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>&proxyHost=proxy.corp.internal&proxyPort=3128&proxyBypassPattern=*.internal|localhost
 ```
 
-### Disable proxy entirely
+#### Disable proxy entirely
 
 Uses `proxyDisable=force` to override any JVM-level proxy configuration for this connection.
 
 ```
 jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>&proxyDisable=force
+```
+
+## Client Certificates (mTLS)
+
+If your IOMETE endpoint requires mutual TLS, the driver can present a client certificate during the handshake. It does so only when all three properties below are set, so a missing `useEncryption=true` silently drops the certificate.
+
+| Purpose | Property | Value |
+| --- | --- | --- |
+| Enable TLS | `useEncryption` | `true` (required, or the certificate is never attached) |
+| Client certificate | `clientCertificate` | Filesystem path to the client certificate PEM |
+| Client key | `clientKey` | Filesystem path to the client key PEM |
+
+```
+jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>&useEncryption=true&clientCertificate=/path/to/client-cert.pem&clientKey=/path/to/client-key.pem
 ```
 
 ## Resources

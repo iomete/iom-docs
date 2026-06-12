@@ -123,7 +123,7 @@ Unlike platform services, workloads don't ship with the Helm chart. The Spark Op
 
 These are SQL-accessible Spark clusters. Each one runs a Spark driver pod that exposes:
 
-- **HiveServer2** (port 10000): [JDBC](/user-guide/driver/jdbc-driver)/ODBC connections from BI tools, [dbt](/integrations/dbt/getting-started-with-iomete-dbt), and other SQL clients
+- **HiveServer2** (port 10000): [JDBC](/user-guide/driver/hive-jdbc-driver)/ODBC connections from BI tools, [dbt](/integrations/dbt/getting-started-with-iomete-dbt), and other SQL clients
 - **Spark Connect** (port 15002): gRPC protocol for programmatic access
 - **[Arrow Flight](/user-guide/driver/arrow-flight-jdbc-driver)** (port 33333): high-performance gRPC data transfer (when enabled)
 
