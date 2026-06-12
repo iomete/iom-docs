@@ -1,76 +1,80 @@
 ---
 title: DBeaver
-description: Use IOMETE JDBC Driver for seamless integration with DBeaver database tool.
+description: Connect DBeaver to IOMETE using the Arrow Flight SQL JDBC driver.
+sidebar_label: DBeaver
 last_update:
-  date: 08/01/2024
-  author: Fuad Musayev
+  date: 06/11/2026
+  author: Mateus Aubin
 ---
 
 import Img from '@site/src/components/Img';
+import Card from '@site/src/components/Card';
 
-IOMETE warehouse JDBC endpoints are compatible with Hive JDBC drivers. But due to recent SSL issues, we have released a fixed version of the driver. If you wish to use the JDBC driver must download it from our GitHub repository and include it as a library in their project.
+[DBeaver](https://dbeaver.io/) is a cross-platform database tool that can connect to IOMETE over the [Arrow Flight SQL](https://arrow.apache.org/docs/format/FlightSql.html) protocol using a JDBC driver. You can choose from two drivers, and both work the same way:
 
-## Download the Driver
-Visit our GitHub repository [iomete-artifacts](https://github.com/iomete/iomete-artifacts) and download the latest version of the Hive JDBC driver `hive-jdbc-4.0.1-standalone.jar`.
+- **IOMETE custom build**: adds proxy support, a connection-level query timeout, and named-parameter support. See the [Arrow Flight SQL JDBC Driver](/user-guide/driver/arrow-flight-jdbc-driver) guide for the details.
+- **Apache Arrow Flight SQL JDBC driver**: the standard upstream build, also fully compatible.
 
-## Using JDBC driver for DBeaver connection
+The steps below apply to either one.
 
-1. Open DBeaver and navigate to the `Database` menu.
-2. Click on `Driver Manager`.
-   <Img src="/img/database-drivers/dbeaver/driver-manager.png" alt="Driver Manager" />
-3. Click on `New` to add a new driver.
-4. Set Driver Name as `IOMETE` and Driver Type `Hive`.
-5. Switch to the Libraries tab and click on `Add File`.
-6. Select the downloaded `hive-jdbc-4.0.1-standalone.jar` file and then in the `Driver class` section click `Find Class` (if it won't work try saving the newly created driver and edit again).
-   <Img src="/img/database-drivers/dbeaver/driver-libs.png" alt="Add File" />
-7. Switch back to `Setting` tab and make sure that driver class name are filled correctly. (Should be done automatically)
-   <Img src="/img/database-drivers/dbeaver/driver-settings.png" alt="Driver Settings" />
-8. Click `OK` to save the driver.
+## Downloading the Driver
 
-### Connection settings
-In order to connect to the IOMETE lakehouse using newly created driver, click on `New Database Connection` and select the `IOMETE` driver from the list.  
-You can find the connection details in the IOMETE Console by navigating to the necessary lakehouse and switching to the `Connections` tab (Select `JDBC` option).  
+DBeaver needs the JDBC driver JAR on disk before it can connect to IOMETE. Download the IOMETE custom build from the [iomete-artifacts](https://github.com/iomete/iomete-artifacts) GitHub repository, where the files follow the naming convention `flight-sql-jdbc-driver-<upstream>-iomete.<release>.jar`.
 
+To use the standard upstream driver instead, download it from the [Apache Arrow releases page](https://arrow.apache.org/docs/19.0/java/flight_sql_jdbc_driver.html).
 
-Fill the connection details as in the example image below.  
+## Registering the Driver in DBeaver
 
-<Img src="/img/database-drivers/dbeaver/dbeaver-connection.png" alt="Connection Settings" />
+DBeaver doesn't ship with the Arrow Flight SQL driver, so you register the JAR once and then reuse it for every IOMETE connection.
 
-:::note
-For the password field, you should use the Access Token key generated in the IOMETE Console.
-:::
+1. Open DBeaver and go to **Database → Driver Manager**.
 
-After successfully connecting to the lakehouse, in the `Database Navigator` you can see the list of tables and views available in the lakehouse as in the screenshot below.
+   <Img src="/img/database-drivers/dbeaver/driver-manager.png" alt="Opening Driver Manager from the Database menu" />
 
-<Img src="/img/database-drivers/dbeaver/explorer.png" alt="Database Navigator" />
+2. Click **New** to create a driver.
 
-## Known issues
+3. On the **Libraries** tab, click **Add File** and select the JAR you downloaded. Then click **Find Class** to let DBeaver resolve the driver class.
 
-Below is a list of known issues you may encounter when using DBeaver with the IOMETE JDBC driver. These issues are on our roadmap and will be addressed in future releases.
+   <Img src="/img/database-drivers/dbeaver/driver-libs.png" alt="Libraries tab with the Arrow Flight SQL JDBC JAR and resolved driver class" />
 
-:::note Schema Selection Error
-When selecting an active schema from the top menu, DBeaver may throw an error indicating that the schema is not found.  
+4. Switch to the **Settings** tab and confirm:
+   - **Driver Name**: `IOMETE Arrow Flight SQL`
+   - **Driver Type**: `Generic`
+   - **Class Name**: `org.apache.arrow.driver.jdbc.ArrowFlightJdbcDriver`
 
-<Img src="/img/database-drivers/dbeaver/dbeaver-active-schema.png" alt="Selecting Active Schema" />
-<Img src="/img/database-drivers/dbeaver/dbeaver-error.png" alt="Schema not found error" />
+   <br />
 
-There are two ways to workaround this issue:
-1. Use the `USE` statement to switch between schemas.
-2. Using fully qualified table names, e.g. `catalog_name.schema_name.table_name`.
+   <Img src="/img/database-drivers/dbeaver/driver-settings.png" alt="Driver Settings tab with Generic type and the Arrow Flight class name" />
 
-<Img src="/img/database-drivers/dbeaver/dbeaver-approaches.png" alt="Approaches" />
+5. Click **OK** to save.
 
-:::
-  
+## Connecting to IOMETE
 
-:::note DBeaver Fully Qualified Table Names
+With the driver registered, you can open a connection and browse your data.
 
-Currently, DBeaver does not include catalog in the fully qualified table names. This may cause issues when querying tables from different catalogs. Especially when working with Database Navigator, when you copy or drag tables to the SQL editor, DBeaver does not include the catalog name which cause the query to fail with TABLE_NOT_FOUND error.
+1. Click **New Database Connection** and select the **IOMETE Arrow Flight SQL** driver.
 
-Similarly, you can workaround this issue by:
-1. Using the `USE` statement to switch when working with catalogs.
-2. Using fully qualified table names, e.g. `catalog_name.schema_name.table_name`.
+2. Find your connection details in the IOMETE Console: **Compute → select a compute → Connections tab → Arrow Flight**. Copy the JDBC connection string.
 
-<Img src="/img/database-drivers/dbeaver/dbeaver-approaches.png" alt="Approaches" />
+3. Paste it into the **JDBC URL** field (it looks like `jdbc:arrow-flight-sql://<host>:443?cluster=<cluster>&data-plane=<data-plane>`), then enter your credentials in the **Username** and **Password** fields below it.
 
-:::
+   <Img src="/img/database-drivers/dbeaver/dbeaver-connection.png" alt="Connection settings dialog with Arrow Flight JDBC URL, username, and password fields" />
+
+   :::note
+   Use an **Access Token** generated in the IOMETE Console as the password.
+   :::
+
+4. Click **Test Connection**, then **Finish**.
+
+Once the connection succeeds, the **Database Navigator** lists your catalogs, schemas, and tables so you can query them.
+
+<Img src="/img/database-drivers/dbeaver/explorer.png" alt="Database Navigator showing IOMETE catalogs and tables" />
+
+## Resources
+
+<Card
+  title="Arrow Flight SQL JDBC Driver"
+  link="user-guide/driver/arrow-flight-jdbc-driver"
+>
+  Configure the IOMETE custom driver, including proxy tunneling, query timeout, and named parameters
+</Card>
