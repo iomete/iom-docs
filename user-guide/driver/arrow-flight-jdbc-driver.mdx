@@ -6,6 +6,9 @@ last_update:
   author: Mateus Aubin
 ---
 
+import Card from "@site/src/components/Card";
+import GridBox from "@site/src/components/GridBox";
+
 IOMETE provides a custom release of the [Apache Arrow Flight SQL JDBC driver](https://arrow.apache.org/java/main/flight_sql_jdbc_driver.html). 
 It is functionally identical to the upstream driver, with one addition: **native HTTP CONNECT proxy tunneling** for gRPC/Flight connections. 
 This makes it suitable for enterprise environments where outbound connections may be restricted.
@@ -114,3 +117,23 @@ Uses `proxyDisable=force` to override any JVM-level proxy configuration for this
 ```
 jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>&proxyDisable=force
 ```
+
+## Resources
+
+<GridBox>
+
+<Card
+  title="DBeaver Integration"
+  link="integrations/dbtools/dbeaver"
+>
+  Connect DBeaver to IOMETE using the Arrow Flight SQL JDBC driver
+</Card>
+
+<Card
+  title="Dataiku Integration"
+  link="integrations/dbtools/dataiku"
+>
+  Connect Dataiku to IOMETE using the Arrow Flight SQL JDBC driver
+</Card>
+
+</GridBox>
