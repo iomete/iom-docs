@@ -2,16 +2,31 @@
 title: How We Built Automated Table Maintenance at IOMETE
 description: Engineering story of building automated Iceberg table maintenance — design decisions, pipeline architecture, Amoro evaluation, and production tradeoffs.
 slug: how-we-built-automated-maintenance
-authors: abhishek
-hide_table_of_contents: true
-tags2: [Engineering]
+authors: Shashank
+hide_table_of_contents: false
+tags2: [Technical, Engineering]
 banner_description: Customers had hundreds of Iceberg tables. Nobody was running maintenance. This is the engineering story of what we built and the decisions behind it.
-date: 04/09/2026
+coverImage: img/blog/thumbnails/darkStone.png
+date: 06/22/2026
+last_update:
+  date: 2026-06-22
 ---
 
 # How We Built Automated Table Maintenance at IOMETE
 
 *Customers had hundreds of Iceberg tables. Nobody was running maintenance. This is the engineering story of what we built and the decisions behind it.*
+
+<details>
+  <summary><strong>This is Part 4 of our Apache Iceberg Table Maintenance series. Explore the full series:</strong></summary>
+
+  * Part 1: [The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
+  * Part 2: [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations)
+  * Part 3: [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
+  * **Part 4: How We Built Automated Table Maintenance**
+  * Part 5: Running Iceberg Maintenance in Production *(coming soon)*
+  * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
+
+</details>
 
 ---
 
@@ -188,6 +203,8 @@ The core design principle is simple: don't do work you don't need to do. Event-b
 
 The system isn't perfect. V1 lacks priority scheduling, database-level config, and automatic partition awareness. But it solves the core problem: customers no longer need to think about table maintenance. Tables stay healthy. Storage costs stay predictable. And the engineering team can evolve the system from a solid foundation rather than patching a cron job.
 
+---
+
 ## Resources & further reading
 
 ### Architecture & Design Patterns
@@ -215,8 +232,4 @@ The system isn't perfect. V1 lacks priority scheduling, database-level config, a
 - [IOMETE Data Compaction Job](https://iomete.com/resources/open-source-spark-jobs/data-compaction-job) — open-source Spark job for scheduled Iceberg compaction
 - [Why Is My Iceberg Compaction So Slow?](https://iomete.com/resources/blog/iceberg-compaction-slow) — practical guide to scaling maintenance jobs
 - [The Iceberg Maintenance Runbook](https://iomete.com/resources/blog/iceberg-maintenance-runbook) — snapshots, orphan files, and metadata bloat diagnostics
-
----
-
-*This is Part 4 of our series on Apache Iceberg table maintenance. [Part 1](/blog/hidden-debt-in-lakehouse-tables) covered why unmaintained tables rot. [Part 2](/blog/iceberg-maintenance-operations) explained what Iceberg gives you out of the box. [Part 3](/blog/iceberg-maintenance-alternatives) surveyed the alternatives landscape. Next: [Part 5](/blog/under-the-hood-optimizations) covers the safety mechanisms and production lessons from running this system.*
 

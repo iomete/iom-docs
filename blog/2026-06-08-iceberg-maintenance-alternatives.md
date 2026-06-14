@@ -9,7 +9,7 @@ banner_description: From open-source projects to fully managed platforms — an 
 coverImage: img/blog/thumbnails/darkStone.png
 date: 06/08/2026
 last_update:
-  date: 2026-06-09
+  date: 2026-06-22
 ---
 
 import Img from '@site/src/components/Img';
@@ -22,7 +22,7 @@ import Img from '@site/src/components/Img';
   * Part 1: [The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
   * Part 2: [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations)
   * **Part 3: The Iceberg Table Maintenance Landscape**
-  * Part 4: How We Built Automated Table Maintenance *(coming soon)*
+  * Part 4: [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance)
   * Part 5: Running Iceberg Maintenance in Production *(coming soon)*
   * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
 
@@ -222,6 +222,7 @@ That led us toward a detect, evaluate, execute pipeline with event-based detecti
 
 We will go deeper into the engineering behind that system in our next post.
 
+---
 
 ## Resources & Further Reading
 
