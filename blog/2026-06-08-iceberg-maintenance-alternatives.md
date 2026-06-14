@@ -226,21 +226,21 @@ We will go deeper into the engineering behind that system in our next post.
 
 ## Resources & Further Reading
 
-### Open-Source Projects
+#### Open-Source Projects
 - [Apache Amoro](https://amoro.apache.org/): incubating project for self-optimizing Iceberg tables with continuous monitoring
 - [Floe](https://github.com/nssalian/floe): declarative, policy-driven Iceberg maintenance with signal-based triggers
 
-### Cloud-Native Platforms
+#### Cloud-Native Platforms
 - [Snowflake Managed Iceberg Tables](https://docs.snowflake.com/en/user-guide/tables-iceberg-manage): automatic compaction, manifest optimization, and snapshot expiry
 - [Snowflake ICEBERG_STORAGE_OPTIMIZATION_HISTORY](https://docs.snowflake.com/en/sql-reference/account-usage/iceberg_storage_optimization_history): Account Usage view for compaction history
 - [Databricks Predictive Optimization](https://docs.databricks.com/aws/en/optimizations/predictive-optimization): automatic OPTIMIZE, VACUUM, and ANALYZE for Unity Catalog tables
 - [Dremio Automated Maintenance](https://docs.dremio.com/current/developer/data-formats/apache-iceberg/table-maintenance-optimization/automated-maintenance/): automatic optimization via Enterprise Catalog
 
-### On-Prem and Hybrid Platforms
+#### On-Prem and Hybrid Platforms
 - [Cloudera Lakehouse Optimizer (CLO)](https://docs.cloudera.com/management-console/cloud/clo/index.html): policy-based automation with schedule and event triggers
 - [Starburst Galaxy Automated Table Maintenance](https://docs.starburst.io/starburst-galaxy/data-engineering/optimization-performance-and-quality/observability/data-maintenance.html): scheduled Iceberg maintenance at table, schema, or catalog scope
 - [Starburst Enterprise Data Maintenance](https://docs.starburst.io/latest/data-engineering/data-maintenance.html): self-hosted scheduled maintenance with cron expressions
 
-### Engine-Agnostic Platforms
+#### Engine-Agnostic Platforms
 - [Ryft](https://www.ryft.io/): workload-aware Iceberg table management platform
 - [LakeOps](https://lakeops.dev/): data lake control plane with Rust-based compaction engine

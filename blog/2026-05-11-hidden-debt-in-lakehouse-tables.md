@@ -265,7 +265,7 @@ To fix this properly, you need to understand how Iceberg handles maintenance. Th
 We’ll go deeper into this in the [next post](/blog/iceberg-maintenance-operations).
 
 ---
-## Resources & further reading
+## Resources & Further reading
 
 - [Apache Iceberg Documentation](https://iceberg.apache.org/docs/latest/): official docs covering table format, configuration, and APIs
 - [Iceberg Table Spec](https://iceberg.apache.org/spec/): the full specification for snapshots, manifests, metadata files, and the append-only model

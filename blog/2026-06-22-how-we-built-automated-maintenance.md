@@ -205,30 +205,30 @@ The system isn't perfect. V1 lacks priority scheduling, database-level config, a
 
 ---
 
-## Resources & further reading
+## Resources & Further reading
 
-### Architecture & Design Patterns
+#### Architecture & Design Patterns
 - [Apache Iceberg Maintenance Guide](https://iceberg.apache.org/docs/latest/maintenance/) — official guide covering compaction, snapshot expiration, orphan cleanup, and manifest rewriting
 - [Iceberg Table Spec](https://iceberg.apache.org/spec/) — full specification for snapshots, manifests, metadata files, and sequence numbers
 - [Iceberg Configuration Reference](https://iceberg.apache.org/docs/latest/configuration/) — table properties for tuning maintenance behavior, retention policies, and commit retries
 - [Iceberg Spark Procedures](https://iceberg.apache.org/docs/latest/spark-procedures/) — full parameter reference for `rewrite_data_files`, `expire_snapshots`, `remove_orphan_files`, and `rewrite_manifests`
 
-### Event-Driven & Policy-Driven Maintenance
+#### Event-Driven & Policy-Driven Maintenance
 - [Floe and Apache Polaris: Policy-Driven Table Maintenance](https://polaris.apache.org/blog/2026/02/04/floe-and-apache-polaris-policy-driven-table-maintenance-for-apache-iceberg/) — declarative, signal-based triggers for Iceberg maintenance
 - [Cloudera Lakehouse Optimizer — Refining Optimizations through Table Properties](https://community.cloudera.com/t5/Engineering-Blogs/Cloudera-Lakehouse-Optimizer-Refining-Optimizations-through/ba-p/413125) — policy-based automation with schedule and event triggers
 - [Optimizing Compaction Parameters for Iceberg Tables](https://community.cloudera.com/t5/Engineering-Blogs/Optimizing-Compaction-Parameters-for-Iceberg-Tables/ba-p/413227) — tuning compaction thresholds and parameters for production workloads
 
-### Compaction Strategies
+#### Compaction Strategies
 - [Compaction in Apache Iceberg: Fine-Tuning Your Data Files](https://www.dremio.com/blog/compaction-in-apache-iceberg-fine-tuning-your-iceberg-tables-data-files/) — deep dive into bin-pack and sort strategies
 - [Maintaining Tables by Using Compaction — AWS Prescriptive Guidance](https://docs.aws.amazon.com/prescriptive-guidance/latest/apache-iceberg-on-aws/best-practices-compaction.html) — AWS best practices for scheduling and sizing compaction jobs
 - [Partition-Aware Compaction: A Fail-Safe Strategy for Streaming Data Lakes](https://medium.com/@shahsoumil519/partition-aware-compaction-a-fail-safe-strategy-for-streaming-data-lakes-with-apache-iceberg-c2abfbef6a52) — filtering compaction by partition to avoid streaming write conflicts
 
-### Concurrency & Catalog-Level Configuration
+#### Concurrency & Catalog-Level Configuration
 - [Allow Table Property Defaults at Catalog Level — Issue #3994](https://github.com/apache/iceberg/issues/3994) — upstream discussion on catalog-level configuration hierarchy
 - [Manage Concurrent Write Conflicts in Iceberg on AWS Glue](https://aws.amazon.com/blogs/big-data/manage-concurrent-write-conflicts-in-apache-iceberg-on-the-aws-glue-data-catalog/) — patterns for handling commit conflicts between maintenance and write workloads
 - [Apache Amoro](https://amoro.apache.org/) — self-optimizing Iceberg tables with continuous monitoring ([GitHub](https://github.com/apache/amoro))
 
-### IOMETE References
+#### IOMETE References
 - [IOMETE Data Compaction Job](https://iomete.com/resources/open-source-spark-jobs/data-compaction-job) — open-source Spark job for scheduled Iceberg compaction
 - [Why Is My Iceberg Compaction So Slow?](https://iomete.com/resources/blog/iceberg-compaction-slow) — practical guide to scaling maintenance jobs
 - [The Iceberg Maintenance Runbook](https://iomete.com/resources/blog/iceberg-maintenance-runbook) — snapshots, orphan files, and metadata bloat diagnostics
