@@ -104,7 +104,7 @@ Spark Clusters → Commit events → Event Pipeline → Catalog Updates
                                             Archive to Iceberg (hourly, batch of 500)
 ```
 
-The maintenance service runs on [Kubernetes](https://kubernetes.io/), backed by [PostgreSQL](https://www.postgresql.org/) for operational state. Completed runs are archived to Iceberg tables for long-term audit.
+The maintenance service runs on [Kubernetes](https://kubernetes.io/), backed by [PostgreSQL](https://www.postgresql.org/) for operational state. We archive completed runs to Iceberg tables for long-term audit.
 
 ## The Automated Maintenance Pipeline
 
@@ -148,7 +148,7 @@ This means quiet tables are left alone. Active tables are evaluated frequently. 
 
 ### Execute
 
-Execution runs the actual operation. But not all operations are equal, and that distinction drives the design.
+Execution runs the operation. But not all operations are equal, and that distinction drives the design.
 
 We considered running all four operations as Spark SQL jobs. It would have been simpler architecturally, one execution path instead of two. But the cost didn't add up, because the operations split cleanly into two classes:
 
@@ -157,7 +157,7 @@ We considered running all four operations as Spark SQL jobs. It would have been 
 | Compaction & Manifest rewriting       | Spark SQL job via our Internal SQL service on Spark Cluster.                                                   | Scan files, rewrite data, write new [Parquet](https://parquet.apache.org/), and commit. Compute-intensive work that benefits from distributed [Spark](https://spark.apache.org/). |
 | Snapshot expiration & Orphan cleanup. | Directly within the maintenance service via [Iceberg's Java API](https://iceberg.apache.org/docs/latest/api/). | Traverse metadata and call storage APIs. No data rewrite, no shuffle, no cluster needed.                                                                                          |
 
-Running expiration or orphan cleanup through Spark would mean spinning up a cluster (or keeping one warm) just to make a few API calls. So we went with the split model. Yes, two execution paths means more code to maintain. But lightweight metadata operations never block on cluster availability, and we don't burn compute dollars on work that doesn't need it.
+Running expiration or orphan cleanup through Spark would mean spinning up a cluster (or keeping one warm) just to make a few API calls. So we went with the split model. Yes, two execution paths mean more code to maintain. But lightweight metadata operations never block on cluster availability, and we don't burn compute dollars on work that doesn't need it.
 
 ## Runtime Controls
 
@@ -165,7 +165,7 @@ The pipeline decides what to run, but two more controls decide how aggressively 
 
 ### Concurrency Limits
 
-We run a multi-table maintenance pipeline where multiple tables can be in different stages simultaneously. Without limits, a burst of detected tables could overwhelm the Spark cluster.
+Many tables can be in different stages of the pipeline at once. Without limits, a burst of detected tables could overwhelm the Spark cluster.
 
 Each operation type has a configurable concurrency cap, tuned to cluster load and resource profile:
 
