@@ -28,6 +28,8 @@ last_update:
 
 </details>
 
+import Img from '@site/src/components/Img';
+
 ---
 
 We kept having the same conversation with customers. They'd migrate from Snowflake or Databricks, spin up a few hundred Iceberg tables, and within weeks, queries slowed down and storage costs crept up. Most had some form of cron-based maintenance, hand-rolled Spark jobs running on a schedule, but it wasn't enough. The jobs were fragile, didn't scale past a few dozen tables, and couldn't adapt to varying write patterns. Iceberg puts the maintenance burden on the user, and a static cron job is a poor substitute for a real system.
@@ -74,35 +76,7 @@ Our recommendation from the evaluation was: build in-house, but don't hesitate t
 
 So we built our own. Here's the whole system: maintenance flows through three phases (detect, evaluate, execute), each one filtering out work the next phase would otherwise waste effort on. At the end it splits into two execution paths, all backed by a single state store.
 
-```
-Spark Clusters → Commit events → Event Pipeline → Catalog Updates
-                                                      ↓
-                                            Detection (every 2 min)
-                                            Find changed tables
-                                            Check catalog/table config
-                                                      ↓
-                                            Create evaluation runs
-                                                      ↓
-                                            Evaluation (every 30s)
-                                            Check operation thresholds
-                                            Respect cooldowns
-                                                      ↓
-                                            Create execution runs
-                                                      ↓
-                                    ┌───────────────────┴──────────────────┐
-                                    ↓                                      ↓
-                            SQL Operations                        Simple Operations
-                         (compaction, manifests)              (expire snapshots, orphans)
-                                    ↓                                      ↓
-                         Submit via SQL service                    Run on maintenance service
-                         Execute on Spark cluster              via Iceberg Java API
-                                    ↓                                      ↓
-                                    └───────────────────┬──────────────────┘
-                                                        ↓
-                                            Record before/after metrics
-                                                        ↓
-                                            Archive to Iceberg (hourly, batch of 500)
-```
+<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/architecture-pipeline.png" alt="The maintenance pipeline end to end: Spark clusters emit commit events through an event pipeline into catalog updates, which feed Detect (every 2 minutes) then Evaluate (every 30 seconds), then Execute splits into SQL operations (compaction and manifest rewriting) run on the Spark cluster and simple operations (snapshot expiration and orphan cleanup) run on the maintenance service via the Iceberg Java API, before both record before/after metrics and archive to Iceberg hourly in batches of 500" centered borderless/>
 
 The maintenance service runs on [Kubernetes](https://kubernetes.io/), backed by [PostgreSQL](https://www.postgresql.org/) for operational state. We archive completed runs to Iceberg tables for long-term audit.
 
@@ -113,6 +87,8 @@ The core of the system is a three-phase pipeline. Instead of running maintenance
 1. **Detect:** has anything changed?
 2. **Evaluate:** does this table need work?
 3. **Execute:** run the operation on the right execution path.
+
+<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/pipeline-funnel.png" alt="A funnel narrowing through the pipeline: 500 tables in the catalog, about 30 changed since the last cycle after Detect, a handful past a threshold after Evaluate, and the few that run after Execute" centered borderless/>
 
 ### Detect
 
@@ -205,6 +181,8 @@ We needed configuration at multiple levels, with settings resolving from most sp
 Each level inherits from the one below it. Set a retention period at the catalog level and every table in that catalog picks it up unless overridden.
 
 **The catalog acts as a master switch.** Catalog-level maintenance must be enabled before any table in that catalog can run maintenance.
+
+<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/config-hierarchy.png" alt="Configuration resolves most specific first: table-level config overrides catalog-level config, which overrides platform defaults, and each level inherits from the one below. The catalog acts as a master switch that must be enabled before any of its tables can run maintenance" centered borderless/>
 
 One gap we're aware of: there's no database-level configuration yet. If you have 200 tables across 10 databases and want different retention policies per database, you currently configure each table individually. Database-level inheritance is on the roadmap for later versions.
 
