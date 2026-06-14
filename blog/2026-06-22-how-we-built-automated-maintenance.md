@@ -34,7 +34,7 @@ We kept having the same conversation with customers. They'd migrate from Snowfla
 
 As we covered in [Part 3](/blog/iceberg-maintenance-alternatives), Snowflake, Databricks, AWS, Dremio, and Cloudera all run maintenance quietly in the background for their managed tables. People expected the same from IOMETE: tables that stay healthy without anyone watching them.
 
-So we built it: a system that works out for itself which tables need maintenance, when to run it, and how. What follows are the decisions behind it: what we tried, what we rejected, and why. If you're building anything that does background work across a lot of tables, some of these tradeoffs will look familiar.
+So we built it: a system that figures out for itself which tables need maintenance, when to run it, and how. What follows are the decisions behind it: what we tried, what we rejected, and why. If you're building anything that does background work across a lot of tables, some of these tradeoffs will look familiar.
 
 ## The Naive Approach and Why It Breaks
 
@@ -47,11 +47,11 @@ We started there ourselves, running the same hand-rolled Spark jobs our customer
 - **There's no back-pressure.** Compaction is heavy. Fire it at 50 tables at once and the Spark cluster either falls over or starves the analytical queries users are waiting on. A cron loop has no way to throttle itself when it's overloaded.
 - **Not every operation needs a cluster.** Expiring snapshots is a quick metadata call. Compaction rewrites data files and can run for hours. A cron loop treats them identically, spinning up the same heavy machinery for both.
 
-And these problems compound. Once you move past 50 tables, the cron approach requires increasingly fragile orchestration logic. At that point, you've built a maintenance service anyway, just a bad one.
+And these problems compound. Once you move past 50 tables, the cron approach requires increasingly fragile orchestration logic. At that point, you've built a maintenance service anyway, only a bad one.
 
 ## Build vs. Adopt: Evaluating Amoro
 
-Once it's clear you need a real maintenance service rather than a cron loop, the next question is whether to build it or adopt one. We covered Amoro's capabilities and positioning in the [alternatives landscape post](/blog/iceberg-maintenance-alternatives); what follows is our engineering evaluation of whether to adopt or build.
+Once it's clear you need a real maintenance service rather than a cron loop, the next question is whether to build it or adopt one. We covered Amoro's capabilities and positioning in the [alternatives landscape post](/blog/iceberg-maintenance-alternatives); what follows is our engineering evaluation.
 
 Before building from scratch, we evaluated [Apache Amoro](https://amoro.apache.org/), an open-source lakehouse management system built for Iceberg table maintenance. Amoro provides [self-optimizing tables](https://amoro.apache.org/docs/latest/self-optimizing/) with automatic compaction, snapshot expiration, and orphan cleanup. It's used at scale by companies like NetEase and ByteDance. On paper, it was a perfect fit.
 
@@ -72,7 +72,7 @@ Our recommendation from the evaluation was: build in-house, but don't hesitate t
 
 ## The Architecture at a Glance
 
-So we built our own. Here's the whole system: maintenance flows through three phases (detect, evaluate, execute) that each filter out work the next phase would otherwise waste effort on. At the end it splits into two execution paths, all backed by a single state store.
+So we built our own. Here's the whole system: maintenance flows through three phases (detect, evaluate, execute), each one filtering out work the next phase would otherwise waste effort on. At the end it splits into two execution paths, all backed by a single state store.
 
 ```
 Spark Clusters → Commit events → Event Pipeline → Catalog Updates
@@ -116,7 +116,7 @@ The core of the system is a three-phase pipeline. Instead of running maintenance
 
 ### Detect
 
-Detection answers the first question: has anything changed? Every few minutes, the service scans the catalog for tables that received commits. If a table hasn't changed, we skip it entirely. No metadata reads, no manifest parsing. Just a check against our internal event log.
+Detection answers the first question: has anything changed? Every few minutes, the service scans the catalog for tables that received commits. If a table hasn't changed, we skip it entirely. No metadata reads, no manifest parsing, only a check against our internal event log.
 
 We considered three detection approaches:
 
@@ -130,7 +130,7 @@ We started with the Iceberg commit report approach and later moved to the catalo
 
 ### Evaluate
 
-A fixed schedule cron (compact every X hours) ignores table state. A table with one write per day doesn't need hourly evaluation. A streaming table with 10,000 commits per hour needs attention much sooner. So evaluation answers the next question (does this table actually need work?) by checking specific metrics against configurable thresholds rather than the clock.
+A fixed-schedule cron (compact every X hours) ignores table state. A table with one write per day doesn't need hourly evaluation, while a streaming table with 10,000 commits per hour needs attention much sooner. So evaluation answers the next question (does this table actually need work?) by checking specific metrics against configurable thresholds rather than the clock.
 
 Each operation has its own trigger condition:
 
@@ -161,7 +161,7 @@ Running expiration or orphan cleanup through Spark would mean spinning up a clus
 
 ## Runtime Controls
 
-The pipeline decides what to run but two more controls decide how aggressively it runs, so maintenance never overwhelms the cluster or the tables it's maintaining.
+The pipeline decides what to run, but two more controls decide how aggressively it runs, so maintenance never overwhelms the cluster or the tables it's maintaining.
 
 ### Concurrency Limits
 
@@ -174,13 +174,13 @@ Each operation type has a configurable concurrency cap, tuned to cluster load an
 - **SQL queries per cluster** are capped overall, so maintenance never monopolizes Spark at the expense of user queries.
 - **Lightweight operations** (snapshot expiration, orphan cleanup) have their own separate limits, since they don't compete for Spark resources.
 
-In V1, these limits are static; operators set them based on their cluster capacity. In later versions, we want the system to deduce appropriate concurrency dynamically based on table count, table size, and which operations need to run.
+In V1, these limits are static; operators set them based on their cluster capacity. In later versions, we want the system to determine appropriate concurrency dynamically based on table count, table size, and which operations need to run.
 
 ### Cooldowns
 
 After a successful run of any operation on a table, that same table+operation pair can't be picked up again for a configurable cooldown period (manual triggers bypass this cooldown).
 
-We added this to solve a problem with streaming tables. A table receiving constant writes always has new commits. Without a cooldown, the detect-evaluate-execute loop would pick it up immediately after finishing, running compaction back-to-back. This is wasteful (recently written files are unlikely to constitute meaningful compaction work) and increases the risk of write conflicts with the streaming pipeline.
+We added this to solve a problem with streaming tables. A table receiving constant writes always has new commits. Without a cooldown, the detect-evaluate-execute loop would pick it up immediately after finishing, running compaction back-to-back. This is wasteful (recently written files rarely add up to meaningful compaction work) and increases the risk of write conflicts with the streaming pipeline.
 
 We considered three cooldown designs:
 
@@ -196,7 +196,7 @@ Because the evaluation that produced a pending operation may be minutes or hours
 
 ## Configuration Hierarchy
 
-We needed configuration at multiple levels with settings resolve from most specific to least:
+We needed configuration at multiple levels, with settings resolving from most specific to least:
 
 1. **Table-level config:** per-table settings, highest priority
 2. **Catalog-level config:** defaults for all tables in that catalog
