@@ -26,6 +26,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **`iom-rest-catalog` Connection Pool Diagnostics**: Added JDBC connection pool metrics and logging to diagnose connection pool exhaustion and database connectivity issues. Includes per-operation timers that distinguish pool exhaustion from database connectivity failures and slow queries, optional verbose pool logging (toggled via the `services.restCatalog.logging.jdbcConnectionPoolDebug` Helm flag), and startup configuration logging.
     - **Spark Application and Job Template Details**: Added **Last updated by** and **Last updated at** fields to Spark application and job template details, making it easier to see who most recently changed them and when.
     - **Docker Registry Editing**: Added the ability to edit existing Docker registries from the admin Docker settings page. Users can update the registry host, username, and password while name and Kubernetes namespace remain read-only.
+    - **`iom-gateway` nginx Logging Configuration**: nginx error log level and access logging in the gateway are now configurable via Helm values, replacing previously hardcoded settings.
+      - `services.gateway.logging.errorLogLevel` sets the nginx `error_log` level (default: `"error"`).
+      - `services.gateway.logging.accessLog.enabled` toggles per-request access logging (default: `true`); set to `false` to suppress access logs entirely. It is useful in high-throughput environments where per-request logging generates excessive log volume.
+      - **Default behavior change**: error log level shifts from `debug` → `error` on all existing installs. Deployments that relied on debug-level gateway logs must explicitly set `services.gateway.logging.errorLogLevel: "debug"` after upgrading.
   </Improvements>
 
   <BugFixes>
