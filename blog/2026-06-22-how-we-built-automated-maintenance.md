@@ -90,6 +90,10 @@ The core of the system is a three-phase pipeline. Instead of running maintenance
 
 <Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/pipeline-funnel.png" alt="A funnel narrowing through the pipeline: 500 tables in the catalog, about 30 changed since the last cycle after Detect, a handful past a threshold after Evaluate, and the few that run after Execute" centered borderless/>
 
+Each phase is its own scheduler that hands work to the next. Here is the same pipeline at the decision level:
+
+<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/scheduler-flow.png" alt="Three schedulers run on their own loops and pass work down a chain. The Detection scheduler gets changed tables from the commit report, checks whether maintenance is enabled and whether an evaluation entry already exists, then creates a pending evaluation entry. The Evaluation scheduler reads pending entries, skips tables in cooldown, and for each table and operation checks whether an entry already exists and whether table metrics breach the threshold, then creates a pending entry for the operation. The Processing scheduler reads pending entries, skips tables in cooldown, runs the operation on a Spark compute cluster if it needs Spark or on a pod otherwise, then records impact metrics" centered borderless/>
+
 ### Detect
 
 Detection answers the first question: has anything changed? Every few minutes, the service scans the catalog for tables that received commits. If a table hasn't changed, we skip it entirely. No metadata reads, no manifest parsing, only a check against our internal event log.
