@@ -90,10 +90,6 @@ The core of the system is a three-phase pipeline. Instead of running maintenance
 
 <Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/pipeline-funnel.png" alt="A funnel narrowing through the pipeline: 500 tables in the catalog, about 30 changed since the last cycle after Detect, a handful past a threshold after Evaluate, and the few that run after Execute" centered borderless/>
 
-Each phase is its own scheduler that hands work to the next. Here is the same pipeline at the decision level:
-
-<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/scheduler-flow.png" alt="Three schedulers run on their own loops and pass work down a chain. The Detection scheduler gets changed tables from the commit report, checks whether maintenance is enabled and whether an evaluation entry already exists, then creates a pending evaluation entry. The Evaluation scheduler reads pending entries, skips tables in cooldown, and for each table and operation checks whether an entry already exists and whether table metrics breach the threshold, then creates a pending entry for the operation. The Processing scheduler reads pending entries, skips tables in cooldown, runs the operation on a Spark compute cluster if it needs Spark or on a pod otherwise, then records impact metrics" centered borderless/>
-
 ### Detect
 
 Detection answers the first question: has anything changed? Every few minutes, the service scans the catalog for tables that received commits. If a table hasn't changed, we skip it entirely. No metadata reads, no manifest parsing, only a check against our internal event log.
@@ -138,6 +134,10 @@ We considered running all four operations as Spark SQL jobs. It would have been 
 | Snapshot expiration & Orphan cleanup. | Directly within the maintenance service via [Iceberg's Java API](https://iceberg.apache.org/docs/latest/api/). | Traverse metadata and call storage APIs. No data rewrite, no shuffle, no cluster needed.                                                                                          |
 
 Running expiration or orphan cleanup through Spark would mean spinning up a cluster (or keeping one warm) just to make a few API calls. So we went with the split model. Yes, two execution paths mean more code to maintain. But lightweight metadata operations never block on cluster availability, and we don't burn compute dollars on work that doesn't need it.
+
+Each phase runs as its own scheduler on a short loop, passing pending work down the chain through a shared state store. End to end, the decision path looks like this:
+
+<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/scheduler-flow.png" alt="Three schedulers run on their own loops and pass work down a chain. The Detection scheduler gets changed tables from the commit report, checks whether maintenance is enabled and whether an evaluation entry already exists, then creates a pending evaluation entry. The Evaluation scheduler reads pending entries, skips tables in cooldown, and for each table and operation checks whether an entry already exists and whether table metrics breach the threshold, then creates a pending entry for the operation. The Processing scheduler reads pending entries, skips tables in cooldown, runs the operation on a Spark compute cluster if it needs Spark or on a pod otherwise, then records impact metrics" centered borderless/>
 
 ## Runtime Controls
 
