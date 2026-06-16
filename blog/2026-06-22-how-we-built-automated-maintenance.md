@@ -32,7 +32,7 @@ import Img from '@site/src/components/Img';
 
 ---
 
-We kept having the same conversation with customers. They'd migrate from Snowflake or Databricks, spin up a few hundred Iceberg tables, and within weeks, queries slowed down and storage costs crept up. Most had some form of cron-based maintenance, hand-rolled Spark jobs running on a schedule, but it wasn't enough. The jobs were fragile, didn't scale past a few dozen tables, and couldn't adapt to varying write patterns. Iceberg puts the maintenance burden on the user, and a static cron job is a poor substitute for a real system.
+We kept having the same conversation with customers. They'd migrate from a platform like Snowflake, Databricks, Cloudera, or Dremio, spin up a few hundred Iceberg tables, and within weeks, queries slowed down and storage costs crept up. Most already ran some maintenance, usually custom Spark jobs on a schedule, and we shipped a basic version of our own: a [scheduled Data Compaction Job](/resources/open-source-spark-jobs/data-compaction) on our Spark scheduler. But none of it was enough: the jobs were fragile, didn't scale past a few dozen tables, and couldn't adapt to varying write patterns. Iceberg puts the maintenance burden on the user, and a static cron job is a poor substitute for a real system.
 
 As we covered in [Part 3](/blog/iceberg-maintenance-alternatives), Snowflake, Databricks, AWS, Dremio, and Cloudera all run maintenance quietly in the background for their managed tables. People expected the same from IOMETE: tables that stay healthy without anyone watching them.
 
@@ -42,12 +42,14 @@ So we built it: a system that figures out for itself which tables need maintenan
 
 The simplest version of automated maintenance is a cron job around the four [Spark procedures](https://iceberg.apache.org/docs/latest/spark-procedures/): every few hours, iterate over your tables and run [`rewrite_data_files`](https://iceberg.apache.org/docs/latest/spark-procedures/#rewrite_data_files), [`expire_snapshots`](https://iceberg.apache.org/docs/latest/spark-procedures/#expire_snapshots), [`remove_orphan_files`](https://iceberg.apache.org/docs/latest/spark-procedures/#remove_orphan_files), and [`rewrite_manifests`](https://iceberg.apache.org/docs/latest/spark-procedures/#rewrite_manifests). For a handful of tables, that's genuinely enough. The trouble starts at a few hundred.
 
-We started there ourselves, running the same hand-rolled Spark jobs our customers had. It falls apart fast:
+We started there ourselves, running the same kind of Spark jobs our customers had. It falls apart fast:
 
 - **A cron job doesn't know which tables changed.** With 500 tables and only 30 written to since the last cycle, it still checks all 500: 500 metadata reads, 500 manifest scans, burning compute and hammering the REST catalog for tables that never moved.
 - **No schedule is right for streaming.** A table committing once a second produces 86,400 [snapshots](https://iceberg.apache.org/spec/#snapshots) a day. Compact after every batch and the rewrite collides with the next write; wait for a nightly run and the small-file count explodes into the hundreds of thousands first.
 - **There's no back-pressure.** Compaction is heavy. Fire it at 50 tables at once and the Spark cluster either falls over or starves the analytical queries users are waiting on. A cron loop has no way to throttle itself when it's overloaded.
 - **Not every operation needs a cluster.** Expiring snapshots is a quick metadata call. Compaction rewrites data files and can run for hours. A cron loop treats them identically, spinning up the same heavy machinery for both.
+- **Maintenance always lags the writes.** A table written heavily in the morning sits unoptimized until the nightly job runs. Queries stay slow all day, waiting on work that's scheduled hours away.
+- **You can't tell if it's working.** A cron job runs and exits. Nothing records what it changed, how much compute it burned, or whether queries actually got faster, so when maintenance quietly falls behind, slow queries are the first sign.
 
 And these problems compound. Once you move past 50 tables, the cron approach requires increasingly fragile orchestration logic. At that point, you've built a maintenance service anyway, only a bad one.
 
@@ -59,7 +61,7 @@ Before building from scratch, we evaluated [Apache Amoro](https://amoro.apache.o
 
 We spent several weeks evaluating it in depth.
 
-Amoro's self-optimization pipeline (detect, evaluate, plan, execute, commit) is well thought out. It supports Minor, Major, and Full optimization types, each triggered by different conditions. The custom compaction logic reportedly [benchmarks at 10x the efficiency](https://medium.com/@jinsong.zhou1990/10x-efficiency-boost-compared-to-spark-rewritefiles-procedure-how-apache-amoro-efficiently-7e7a993950d7) of Spark's native `rewrite_data_files`. It provides a health score (0-100) per table and has production validation at large scale.
+Amoro's self-optimization pipeline (detect, evaluate, plan, execute, commit) is well thought out. It runs tiered optimization, from lightweight small-file compaction through larger merges to full partition rewrites, each triggered by different conditions. The custom compaction logic reportedly [benchmarks at 10x the efficiency](https://medium.com/@jinsong.zhou1990/10x-efficiency-boost-compared-to-spark-rewritefiles-procedure-how-apache-amoro-efficiently-7e7a993950d7) of Spark's native `rewrite_data_files`. It provides a health score (0-100) per table and has production validation at large scale.
 
 Where it fell short for us:
 
@@ -74,9 +76,11 @@ Our recommendation from the evaluation was: build in-house, but don't hesitate t
 
 ## The Architecture at a Glance
 
-So we built our own. Here's the whole system: maintenance flows through three phases (detect, evaluate, execute), each one filtering out work the next phase would otherwise waste effort on. At the end it splits into two execution paths, all backed by a single state store.
+Before we designed anything, we agreed on the core idea: do the least work possible, and spend the least doing it. That meant a few rules from the start, skip tables that haven't changed, skip tables that are already healthy, and never let maintenance overload the cluster or run up the cost. Everything in the architecture follows from that.
 
-<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/architecture-pipeline.png" alt="The maintenance pipeline end to end: Spark clusters emit commit events through an event pipeline into catalog updates, which feed Detect (every 2 minutes) then Evaluate (every 30 seconds), then Execute splits into SQL operations (compaction and manifest rewriting) run on the Spark cluster and simple operations (snapshot expiration and orphan cleanup) run on the maintenance service via the Iceberg Java API, before both record before/after metrics and archive to Iceberg hourly in batches of 500" centered borderless/>
+It took the shape of a single pipeline. Maintenance flows through three phases (detect, evaluate, execute), each one filtering out work the next phase would otherwise waste effort on, before splitting into two execution paths, all backed by a single state store.
+
+<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines (Spark, Trino, Flink, Databricks, Cloudera) sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
 
 The maintenance service runs on [Kubernetes](https://kubernetes.io/), backed by [PostgreSQL](https://www.postgresql.org/) for operational state. We archive completed runs to Iceberg tables for long-term audit.
 
@@ -88,7 +92,7 @@ The core of the system is a three-phase pipeline. Instead of running maintenance
 2. **Evaluate:** does this table need work?
 3. **Execute:** run the operation on the right execution path.
 
-<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/pipeline-funnel.png" alt="A funnel narrowing through the pipeline: 500 tables in the catalog, about 30 changed since the last cycle after Detect, a handful past a threshold after Evaluate, and the few that run after Execute" centered borderless/>
+<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/pipeline-funnel.png" alt="A funnel following one 500-table deployment from all tables down to the few that get maintenance: all tables in the catalog (500, 100 percent), tables with new commits after Detect (about 30, ~6 percent, since unchanged tables are never evaluated), past a maintenance threshold after Evaluate (about 10, ~2 percent, since already-healthy tables are skipped), and maintenance executing on only those tables. Filtering this hard keeps maintenance near-real-time: a table that crosses a threshold is compacted within minutes, not at the next nightly window" centered borderless/>
 
 ### Detect
 
@@ -115,10 +119,9 @@ Each operation has its own trigger condition:
 | Compaction | Average file size is well below the target, or the delete-file ratio exceeds a configurable threshold.                       |
 | Manifest rewriting | Manifest count is disproportionately high relative to data file count, or manifest overhead is large relative to table size. |
 | Snapshot expiration | Snapshots older than the retention period exist (eg: 5 days) and total count exceeds the minimum to retain (eg: 2).          |
+| Orphan cleanup | No metadata signal to check (finding orphans needs a full storage scan), so it skips evaluation and runs on a fixed schedule instead, weekly and configurable. |
 
 Compaction's check is the most expensive: we compute average file size per partition by traversing [manifest files](https://iceberg.apache.org/spec/#manifests). That's more IO than reading just commit events, but it gives us precise per-file metrics instead of approximations.
-
-Orphan cleanup is the exception. You can't determine orphan status from metadata alone. The only way is a full storage scan. So orphan cleanup skips evaluation entirely and runs on its own cron schedule (weekly at Sunday midnight, configurable), always eligible when the schedule fires.
 
 This means quiet tables are left alone. Active tables are evaluated frequently. And tables with healthy file layouts pass evaluation without triggering unnecessary work. The lesson generalizes: if you can check whether work is needed before doing it, do it. Fixed schedules are only appropriate when the check itself is expensive, like orphan cleanup's full storage scan.
 
@@ -126,14 +129,17 @@ This means quiet tables are left alone. Active tables are evaluated frequently. 
 
 Execution runs the operation. But not all operations are equal, and that distinction drives the design.
 
-We considered running all four operations as Spark SQL jobs. It would have been simpler architecturally, one execution path instead of two. But the cost didn't add up, because the operations split cleanly into two classes:
+We considered running all four operations as Spark SQL jobs. It would have been simpler architecturally, one execution path instead of two. But the cost didn't add up, because the operations split by what they actually need:
 
-| Operation                             | Execution path                                                                                                 | Why                                                                                                                                                                               |
-|---------------------------------------|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Compaction & Manifest rewriting       | Spark SQL job via our Internal SQL service on Spark Cluster.                                                   | Scan files, rewrite data, write new [Parquet](https://parquet.apache.org/), and commit. Compute-intensive work that benefits from distributed [Spark](https://spark.apache.org/). |
-| Snapshot expiration & Orphan cleanup. | Directly within the maintenance service via [Iceberg's Java API](https://iceberg.apache.org/docs/latest/api/). | Traverse metadata and call storage APIs. No data rewrite, no shuffle, no cluster needed.                                                                                          |
+| Operation | How it runs | Why |
+|---|---|---|
+| Compaction & manifest rewriting | Spark SQL job via our internal SQL service | Scans and rewrites data files, compute-intensive work that benefits from distributed [Spark](https://spark.apache.org/). |
+| Snapshot expiration | On the maintenance service, via the [Iceberg Java API](https://iceberg.apache.org/docs/latest/api/) | Pure metadata work: no data rewrite, no shuffle, no cluster needed. |
+| Orphan cleanup | On the maintenance service, via a custom routine | Mostly storage and metadata calls, but the stock procedure needs Spark and has real risks, so we wrote our own (see below). |
 
-Running expiration or orphan cleanup through Spark would mean spinning up a cluster (or keeping one warm) just to make a few API calls. So we went with the split model. Yes, two execution paths mean more code to maintain. But lightweight metadata operations never block on cluster availability, and we don't burn compute dollars on work that doesn't need it.
+Running snapshot expiration through Spark would mean spinning up a cluster (or keeping one warm) for work that's really just metadata and storage calls, no distributed compute needed. So we went with the split model. Yes, two execution paths mean more code to maintain. But lightweight metadata operations never block on cluster availability, and we don't burn compute dollars on work that doesn't need it.
+
+Orphan cleanup is the one operation that deletes files, so it's the easiest to get dangerously wrong. Iceberg's version only runs on Spark and has no safety checks, so we rebuilt it from scratch. How we did that, without Spark and without ever deleting the wrong file, is Part 6 (coming soon).
 
 Each phase runs as its own scheduler on a short loop, passing pending work down the chain through a shared state store. End to end, the decision path looks like this:
 
@@ -145,14 +151,14 @@ The pipeline decides what to run, but two more controls decide how aggressively 
 
 ### Concurrency Limits
 
-Many tables can be in different stages of the pipeline at once. Without limits, a burst of detected tables could overwhelm the Spark cluster.
+Hundreds of tables move through the pipeline at once. In a single detection cycle, many of them can get flagged together, for example right after a nightly load writes to half your tables. Most will need compaction, the heaviest job we run. If we started them all at the same time, the Spark cluster would either run out of memory or spend all its capacity on maintenance while user queries wait. So we limit how many run at once.
 
 Each operation type has a configurable concurrency cap, tuned to cluster load and resource profile:
 
-- **Compaction** gets the tightest cap, by far the most resource-intensive operation; too many in parallel either starves analytical workloads or causes out-of-memory failures.
+- **Compaction** gets the tightest cap, since it's by far the most resource-intensive operation.
 - **Orphan cleanup** is similarly constrained, because it performs a full storage scan and concurrent scans hammer the object storage API layer.
 - **SQL queries per cluster** are capped overall, so maintenance never monopolizes Spark at the expense of user queries.
-- **Lightweight operations** (snapshot expiration, orphan cleanup) have their own separate limits, since they don't compete for Spark resources.
+- **Non-Spark operations** (snapshot expiration, orphan cleanup) have their own separate limits, since they run on the maintenance service and don't compete for Spark resources.
 
 In V1, these limits are static; operators set them based on their cluster capacity. In later versions, we want the system to determine appropriate concurrency dynamically based on table count, table size, and which operations need to run.
 
@@ -160,19 +166,9 @@ In V1, these limits are static; operators set them based on their cluster capaci
 
 After a successful run of any operation on a table, that same table+operation pair can't be picked up again for a configurable cooldown period (manual triggers bypass this cooldown).
 
-We added this to solve a problem with streaming tables. A table receiving constant writes always has new commits. Without a cooldown, the detect-evaluate-execute loop would pick it up immediately after finishing, running compaction back-to-back. This is wasteful (recently written files rarely add up to meaningful compaction work) and increases the risk of write conflicts with the streaming pipeline.
+We added this to solve a problem with frequently written tables. A table taking constant writes always has new commits, so without a cooldown the detect-evaluate-execute loop would pick it up again the moment it finished, running compaction back-to-back. This is wasteful (recently written files rarely add up to meaningful compaction work) and raises the risk of conflicting with the writes still coming in.
 
-We considered three cooldown designs:
-
-1. **Evaluation only:** reduces metadata load, but processing could still run too often.
-2. **Execution only:** controls write conflicts, but evaluation still hammers the catalog with metadata reads.
-3. **Both stages:** each stage solves a different part of the problem.
-
-We went ahead with option three. The evaluation cooldown prevents repeated metadata scans for the same table; the processing cooldown ensures heavy operations run only at safe intervals. The tradeoff is that a table that genuinely needs immediate re-compaction (say, after a large batch load) must wait for the cooldown to expire. That's what manual triggers are for.
-
-:::note Evaluations can go stale
-Because the evaluation that produced a pending operation may be minutes or hours old by the time processing picks it from the queue, its reasons can be slightly stale; a table might have accumulated more small files since. For V1 this is acceptable; the operation still helps, even on slightly dated metrics. In later versions, we plan to use commit-event payloads to track delta changes since the last evaluation, which will let us do more targeted compaction like compacting a specific partition which has been impacted.
-:::
+We apply the cooldown at both stages, evaluation and processing, because each handles a different part of the problem. The evaluation cooldown stops us from scanning the same table's metadata over and over; the processing cooldown makes sure heavy operations only run at safe intervals. The tradeoff is that a table that genuinely needs immediate re-compaction (say, after a large batch load) has to wait for the cooldown to expire. That's what manual triggers are for.
 
 ## Configuration Hierarchy
 
@@ -195,22 +191,9 @@ One gap we're aware of: there's no database-level configuration yet. If you have
 V1 is deliberately scoped and we know what's missing:
 
 - **Priority-based scheduling.** Right now, all tables get equal treatment. Under heavy load, a critical customer-facing table gets the same scheduling priority as an internal staging table. We plan to introduce automatic priority based on query frequency and table usage patterns.
-- **Automatic partition awareness.** For write-conflict avoidance, V1 relies on user-defined static WHERE filters to exclude hot partitions from compaction (e.g., `event_date < '2026-01-01'`). We want the system to identify partitions still receiving writes and skip them automatically, removing a manual step most users forget to set up.
-- **Beyond polling.** The detection loop currently runs on a fixed few minute poll. We want to trigger maintenance immediately after a large batch job completes, or continuously at a configured interval for streaming applications.
+- **Automatic partition awareness.** Compacting a partition that's still taking writes will likely collide with those writes, and one of the two commits fails. For now we avoid that with user-defined WHERE filters that exclude hot partitions (e.g., `event_date < '2026-01-01'`). We want the system to handle it itself: skip partitions still receiving writes, and compact only the ones that actually changed.
+- **Beyond polling.** The detection loop currently runs on a fixed poll. We want to trigger maintenance the moment a large batch job finishes, or run it continuously for streaming tables, instead of waiting for the next cycle.
 - **Query-performance metrics.** We track file counts, storage savings, and operation duration, but not the query performance improvement maintenance delivers. Showing users that compaction cut their average query time by 40% is more compelling than a file-count reduction.
-
-## The Principle Behind It All
-
-The core design principle is simple: don't do work you don't need to do. Every part of the system is a filter against that one idea:
-
-- **Detection** skips tables that haven't changed.
-- **Evaluation** skips tables that are already healthy.
-- **Split execution** keeps lightweight operations off the Spark cluster.
-- **Cooldowns** stop the same table from being reprocessed back-to-back.
-
-Every decision traces back to the same question: is this work actually necessary right now?
-
-The system isn't perfect. It still lacks priority scheduling, database-level config, and automatic partition awareness. But it solves the problem behind all those customer conversations: nobody has to think about table maintenance anymore. Tables stay healthy, storage costs stay predictable, and we get to build on a real foundation instead of patching a cron job.
 
 ---
 
