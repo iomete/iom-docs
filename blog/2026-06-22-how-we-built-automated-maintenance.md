@@ -62,18 +62,18 @@ Once we knew a cron loop would not be enough, the next question was whether to b
 
 Before building from scratch, we evaluated [Apache Amoro](https://amoro.apache.org/). It already supports [self-optimizing tables](https://amoro.apache.org/docs/latest/self-optimizing/) with automatic compaction, snapshot expiration, and orphan cleanup, and it is used at scale by companies like [NetEase and ByteDance](https://github.com/apache/amoro/issues/1853). On paper, it looked like a strong fit.
 
-We spent several weeks testing Amoro in depth. Its self-optimization pipeline is well designed: detect, evaluate, plan, execute, and commit. It also supports tiered optimization, starting with lightweight small-file compaction and moving up to larger merges or full partition rewrites when needed. Amoro’s custom compaction logic reportedly [benchmarks at 10x the efficiency](https://medium.com/@jinsong.zhou1990/10x-efficiency-boost-compared-to-spark-rewritefiles-procedure-how-apache-amoro-efficiently-7e7a993950d7) of Spark’s native `rewrite_data_files`.
+We spent several weeks testing Amoro in depth. Its self-optimization pipeline is well designed: detect, evaluate, plan, execute, and commit. It also supports tiered optimization, starting with lightweight small-file compaction and moving up to larger merges or full partition rewrites when needed. Amoro's custom compaction logic reportedly [benchmarks at 10x the efficiency](https://medium.com/@jinsong.zhou1990/10x-efficiency-boost-compared-to-spark-rewritefiles-procedure-how-apache-amoro-efficiently-7e7a993950d7) of Spark's native `rewrite_data_files`.
 
 Where it fell short for us:
 
 - **Heavy metadata fetches:** For every table with optimization enabled, Amoro calls `loadTable()` on the REST catalog, downloads the metadata JSON, and reads manifest files on every planning cycle. By default, that happens every minute. At our scale, this would put significant pressure on the REST catalog and object storage. We tested ways to reduce the load, including longer cache TTLs and bulk catalog calls, but each option came with tradeoffs.
 - **Limited configuration:** Amoro supports configuration at the catalog and table level, but not at the database level, which we needed. Dynamic SQL filters such as `CURRENT_DATE` and `INTERVAL` also do not work in optimization filters. Amoro also focuses solely on data file compaction and does not support manifest rewriting.
-- **Weak observability.** Snapshot expiration, orphan cleanup, and dangling delete file cleanup can run, but they do not produce run-level history. Important metrics are computed internally and mostly show up in logs. For a customer-facing feature, we needed clear history and metrics for every operation.
-- **Tight coupling and security debt.** Amoro’s architecture is tied to mixed-Iceberg logic, a format specific to its origin at NetEase. Removing that logic would mean forking and maintaining a large part of the codebase. The Docker image also had security issues we would need to fix before production use.
+- **Weak observability:** Snapshot expiration, orphan cleanup, and dangling delete file cleanup can run, but they do not produce run-level history. Important metrics are computed internally and mostly show up in logs. For a customer-facing feature, we needed clear history and metrics for every operation.
+- **Tight coupling and security debt:** Amoro's architecture is tied to mixed-Iceberg logic, a format specific to its origin at NetEase. Removing that logic would mean forking and maintaining a large part of the codebase. The Docker image also had security issues we would need to fix before production use.
 
 We concluded that Amoro was a strong foundation, but not a drop-in fit for us. Adapting it would take roughly the same effort as building a focused system ourselves, while also leaving us with the long-term cost of maintaining a fork.
 
-So we chose to build in-house, while keeping the door open to reuse specific parts of Amoro’s logic where they made sense.
+So we chose to build in-house, while keeping the door open to reuse specific parts of Amoro's logic where they made sense.
 
 ## The Architecture at a Glance
 
