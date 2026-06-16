@@ -5,6 +5,7 @@ slug: how-we-built-automated-maintenance
 authors: Shashank
 hide_table_of_contents: false
 tags2: [Technical, Engineering]
+keywords: [automated table maintenance, apache iceberg, iceberg maintenance, apache amoro, iceberg compaction, self-optimizing tables, snapshot expiration, orphan file cleanup, manifest rewriting, lakehouse maintenance, iceberg automation]
 banner_description: The goal was simple - customers should not have to think about table maintenance. This is how we built that system, and the engineering decisions that shaped it.
 coverImage: img/blog/thumbnails/darkStone.png
 date: 06/22/2026
