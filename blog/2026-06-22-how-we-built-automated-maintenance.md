@@ -78,7 +78,7 @@ Our recommendation from the evaluation was: build in-house, but don't hesitate t
 
 Before we designed anything, we agreed on the core idea: do the least work possible, and spend the least doing it. That meant a few rules from the start, skip tables that haven't changed, skip tables that are already healthy, and never let maintenance overload the cluster or run up the cost. Everything in the architecture follows from that.
 
-It took the shape of a single pipeline. Maintenance flows through three phases (detect, evaluate, execute), each one filtering out work the next phase would otherwise waste effort on, before splitting into two execution paths, all backed by a single state store.
+It took the shape of a single pipeline. Maintenance flows through three phases (detect, evaluate, execute), each one filtering out work the next phase would otherwise waste effort on, all backed by a single state store.
 
 <Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines (Spark, Trino, Flink, Databricks, Cloudera) sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
 
@@ -137,7 +137,7 @@ We considered running all four operations as Spark SQL jobs. It would have been 
 | Snapshot expiration | On the maintenance service, via the [Iceberg Java API](https://iceberg.apache.org/docs/latest/api/) | Pure metadata work: no data rewrite, no shuffle, no cluster needed. |
 | Orphan cleanup | On the maintenance service, via a custom routine | Mostly storage and metadata calls, but the stock procedure needs Spark and has real risks, so we wrote our own (see below). |
 
-Running snapshot expiration through Spark would mean spinning up a cluster (or keeping one warm) for work that's really just metadata and storage calls, no distributed compute needed. So we went with the split model. Yes, two execution paths mean more code to maintain. But lightweight metadata operations never block on cluster availability, and we don't burn compute dollars on work that doesn't need it.
+Running snapshot expiration through Spark would mean spinning up a cluster (or keeping one warm) for work that's really just metadata and storage calls, no distributed spark compute needed. So we went with the split model. Yes, two execution paths mean more code to maintain. But lightweight metadata operations never block on cluster availability, and we don't burn compute dollars on work that doesn't need it.
 
 Orphan cleanup is the one operation that deletes files, so it's the easiest to get dangerously wrong. Iceberg's version only runs on Spark and has no safety checks, so we rebuilt it from scratch. How we did that, without Spark and without ever deleting the wrong file, is Part 6 (coming soon).
 
