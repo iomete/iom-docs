@@ -221,6 +221,7 @@ That is the difference between scheduled maintenance and automated maintenance. 
 
 ## Resources & Further Reading
 
+- [AutoComp: Automated Data Compaction for Log-Structured Tables in Data Lakes](https://arxiv.org/abs/2504.04186): LinkedIn's research on cost-aware, automated compaction for Iceberg, Delta Lake, and Hudi.
 - [Floe and Apache Polaris: Policy-Driven Table Maintenance](https://polaris.apache.org/blog/2026/02/04/floe-and-apache-polaris-policy-driven-table-maintenance-for-apache-iceberg/): signal-based maintenance policies for Apache Iceberg.
 - [Compaction in Apache Iceberg: Fine-Tuning Your Data Files](https://www.dremio.com/blog/compaction-in-apache-iceberg-fine-tuning-your-iceberg-tables-data-files/): a deeper look at bin-pack and sort compaction strategies.
 - [Maintaining Tables by Using Compaction](https://docs.aws.amazon.com/prescriptive-guidance/latest/apache-iceberg-on-aws/best-practices-compaction.html): AWS guidance on compaction scheduling and file sizing.
