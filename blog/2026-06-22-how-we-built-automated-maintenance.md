@@ -2,7 +2,7 @@
 title: How We Built Automated Table Maintenance at IOMETE
 description: "How we built automated Iceberg table maintenance at IOMETE: the architecture, Amoro evaluation, scheduling model, and production tradeoffs behind it."
 slug: how-we-built-automated-maintenance
-authors: [Shashank,Abhishek,Ujjawal]
+authors: [Shashank,abhishek,ujjawal]
 hide_table_of_contents: false
 tags2: [Technical, Engineering]
 keywords: [automated table maintenance, apache iceberg, iceberg maintenance, apache amoro, iceberg compaction, self-optimizing tables, snapshot expiration, orphan file cleanup, manifest rewriting, lakehouse maintenance, iceberg automation]
