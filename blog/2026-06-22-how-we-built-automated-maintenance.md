@@ -227,8 +227,8 @@ That is the difference between scheduled maintenance and automated maintenance. 
 - [Maintaining Tables by Using Compaction](https://docs.aws.amazon.com/prescriptive-guidance/latest/apache-iceberg-on-aws/best-practices-compaction.html): AWS guidance on compaction scheduling and file sizing.
 - [Partition-Aware Compaction: A Fail-Safe Strategy for Streaming Data Lakes](https://medium.com/@shahsoumil519/partition-aware-compaction-a-fail-safe-strategy-for-streaming-data-lakes-with-apache-iceberg-c2abfbef6a52): using partition filters to reduce conflicts with streaming writes.
 - [Manage Concurrent Write Conflicts in Iceberg on AWS Glue](https://aws.amazon.com/blogs/big-data/manage-concurrent-write-conflicts-in-apache-iceberg-on-the-aws-glue-data-catalog/): handling commit conflicts between maintenance and write workloads.
-- [Apache Amoro](https://amoro.apache.org/): self-optimizing Iceberg tables with continuous monitoring. Check their [GitHub repository](https://github.com/apache/amoro).
+- [Apache Amoro](https://amoro.apache.org/): self-optimizing Iceberg tables with continuous monitoring. See also the Apache Amoro [GitHub repository](https://github.com/apache/amoro).
 
 #### IOMETE References
-- [Automated Table Maintenance on IOMETE](/resources/user-guide/table-maintenance/overview): the feature described in the post, including setup and configuration.
+- [Automated Table Maintenance on IOMETE](/resources/user-guide/table-maintenance/overview): the feature this post describes, including setup and configuration.
 - [IOMETE Data Compaction Job](/resources/open-source-spark-jobs/data-compaction): open-source Spark job for scheduled Iceberg compaction.
