@@ -4,7 +4,7 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 05/28/2026
+  date: 06/23/2026
   author: Sourabh Jajoria
 ---
 
@@ -14,6 +14,12 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.17.2" date="June 23rd, 2026">
+  <BugFixes>
+    - **Data Catalog Search Indexing**: Removed the embedding field from Typesense documents in the 3.17.x line to prevent bulk upsert timeouts while search embeddings are generated.
+  </BugFixes>
+</Release>
 
 <Release version="3.17.1" date="May 28th, 2026">
   <Improvements>
