@@ -15,7 +15,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="3.17.2" date="June 23rd, 2026">
+<Release version="3.17.2" date="June 22nd, 2026">
+  <Improvements>
+    **Performance**
+    - **Reduced core service load:** Significantly lowered traffic to core service by batching configuration retrievals across Spark job API requests and event processing, while eliminating redundant cross-service calls. This removes thousands of unnecessary lookups per minute and reduces overall system overhead.
+    - **Faster resource tag assignment:** Improved scalability by replacing individual database writes with bulk operations when assigning resource tags, reducing database round-trips and improving throughput.
+  </Improvements>
+
   <BugFixes>
     - **Data Catalog Search Indexing**: Removed the embedding field from Typesense documents in the 3.17.x line to prevent bulk upsert timeouts while search embeddings are generated.
   </BugFixes>
