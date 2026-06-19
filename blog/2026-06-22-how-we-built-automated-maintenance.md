@@ -91,7 +91,7 @@ The result is a single pipeline with three phases: detect, evaluate, and execute
 <Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines (Spark, Trino, Flink, Databricks, Cloudera) sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
 
 The service runs on [Kubernetes](https://kubernetes.io/) and uses [PostgreSQL](https://www.postgresql.org/) to
-track operational state. Once a run is complete, we archive its history to Iceberg tables for long-term audit.
+track operational state. Older run history is periodically archived to Iceberg tables, keeping the operational database lean while maintaining a complete long-term audit trail.
 
 ## The Automated Maintenance Pipeline
 
