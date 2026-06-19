@@ -230,5 +230,5 @@ That is the difference between scheduled maintenance and automated maintenance. 
 - [Apache Amoro](https://amoro.apache.org/): self-optimizing Iceberg tables with continuous monitoring. See also the Apache Amoro [GitHub repository](https://github.com/apache/amoro).
 
 #### IOMETE References
-- [Automated Table Maintenance on IOMETE](/resources/user-guide/table-maintenance/overview): the feature this post describes, including setup and configuration.
+- [Automated Table Maintenance on IOMETE](/resources/user-guide/table-maintenance/overview): the feature described in the post, including setup and configuration.
 - [IOMETE Data Compaction Job](/resources/open-source-spark-jobs/data-compaction): open-source Spark job for scheduled Iceberg compaction.
