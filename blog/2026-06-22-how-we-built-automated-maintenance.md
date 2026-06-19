@@ -33,7 +33,7 @@ import Img from '@site/src/components/Img';
 
 ---
 
-We kept having the same conversation with customers. They would migrate from a platform like Snowflake, Databricks, Cloudera, or Dremio, create a few hundred Iceberg tables, and within weeks see queries slow down while storage costs crept up.
+We kept having the same conversation with customers. They would migrate from a platform like Snowflake, Databricks, Cloudera, or Dremio, create a few hundred Iceberg tables, and within weeks see queries slow down while storage costs creep up.
 
 Most teams already had some maintenance in place, usually custom Spark jobs on a schedule. We had shipped a basic version too: a [scheduled Data Compaction Job](/resources/open-source-spark-jobs/data-compaction) on our Spark scheduler. It helped, but it was not enough. Scheduled jobs were fragile, did not scale cleanly past a few dozen tables, and could not adapt to different write patterns. Iceberg gives you the maintenance primitives, but it leaves the operating model to you. A static cron job is a weak substitute for that operating model.
 
@@ -107,7 +107,7 @@ The core of the system is a three-phase pipeline. Instead of running every opera
 
 Detection answers the first question: has anything changed? Every few minutes, the service asks the catalog for tables whose metadata changed since the last detection cycle. If a table has not changed, we skip it entirely. No manifest parsing, no table-level evaluation, and no maintenance decision.
 
-We considered 2 ways to detect changed tables:
+We considered two ways to detect changed tables:
 
 | Approach                  | How it works                                                                                                                               | Verdict                                                                       |
 |---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
