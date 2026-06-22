@@ -20,6 +20,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     **Performance**
     - **Reduced core service load:** Significantly lowered traffic to core service by batching configuration retrievals across Spark job API requests and event processing, while eliminating redundant cross-service calls. This removes thousands of unnecessary lookups per minute and reduces overall system overhead.
     - **Faster resource tag assignment:** Improved scalability by replacing individual database writes with bulk operations when assigning resource tags, reducing database round-trips and improving throughput.
+    - **Eliminated duplicate resource tag writes:** Fixed an issue where resource tags were being written multiple times for the same Spark application, causing unnecessary database bloat and degraded query performance over time.
+    - **Optimized Spark application queries:** Replaced an inefficient database loading strategy for resource tags that caused full-table scans on every query. Tags are now fetched in targeted batches, significantly reducing service memory consumption and query times.
   </Improvements>
 
   <BugFixes>
