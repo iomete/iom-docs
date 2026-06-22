@@ -27,6 +27,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <BugFixes>
     - **Data Catalog Search Indexing**: Removed the embedding field from Typesense documents in the 3.17.x line to prevent bulk upsert timeouts while search embeddings are generated.
     - **Spark Job Notifications**: Fixed an edge case where job status notifications could occasionally be missed due to transaction issues during status updates.
+    - **TypeSense PVC StorageClass**: Typesense PVC storage class can now be controlled via helm values. This was removed in 3.17.0 version.
   </BugFixes>
 </Release>
 
