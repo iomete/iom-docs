@@ -9,7 +9,7 @@ banner_description: Every Iceberg table you're not maintaining is likely getting
 coverImage: img/blog/thumbnails/darkStone.png
 date: 05/11/2026
 last_update:
-  date: 2026-06-02
+  date: 2026-06-22
 ---
 
 # The Hidden Debt in Your Lakehouse Tables (And Why You Should Care)
@@ -22,7 +22,7 @@ last_update:
   * **Part 1: The Hidden Debt in Your Lakehouse Tables**
   * Part 2: [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations)
   * Part 3: [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
-  * Part 4: How We Built Automated Table Maintenance *(coming soon)*
+  * Part 4: [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance)
   * Part 5: Running Iceberg Maintenance in Production *(coming soon)*
   * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
 
@@ -265,7 +265,7 @@ To fix this properly, you need to understand how Iceberg handles maintenance. Th
 We’ll go deeper into this in the [next post](/blog/iceberg-maintenance-operations).
 
 ---
-## Resources & further reading
+## Resources & Further Reading
 
 - [Apache Iceberg Documentation](https://iceberg.apache.org/docs/latest/): official docs covering table format, configuration, and APIs
 - [Iceberg Table Spec](https://iceberg.apache.org/spec/): the full specification for snapshots, manifests, metadata files, and the append-only model

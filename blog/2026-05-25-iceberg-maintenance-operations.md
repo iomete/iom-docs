@@ -10,7 +10,7 @@ banner_description: Every team running Apache Iceberg in production eventually h
 coverImage: img/blog/thumbnails/darkStone.png
 date: 2026/05/25
 last_update:
-  date: 2026-06-05
+  date: 2026-06-22
 ---
 
 import Img from '@site/src/components/Img';
@@ -26,7 +26,7 @@ import FAQSection from '@site/src/components/FAQSection';
   * Part 1: [The Hidden Debt in Your Lakehouse Tables](/blog/hidden-debt-in-lakehouse-tables)
   * **Part 2: What Iceberg Gives You for Table Maintenance**
   * Part 3: [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
-  * Part 4: How We Built Automated Table Maintenance *(coming soon)*
+  * Part 4: [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance)
   * Part 5: Running Iceberg Maintenance in Production *(coming soon)*
   * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
 
