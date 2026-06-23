@@ -15,6 +15,35 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.17.2" date="TBD">
+  {/* TODO: Fill in release sections below. Remove any sections that don't apply. */}
+
+  <NewFeatures>
+    - **TODO**: Describe new feature.
+  </NewFeatures>
+
+  <Improvements>
+    - **`iom-rest-catalog` Connection Pool Diagnostics**: Added JDBC connection pool metrics and logging to diagnose connection pool exhaustion and database connectivity issues. Includes per-operation timers that distinguish pool exhaustion from database connectivity failures and slow queries, optional verbose pool logging (toggled via the `services.restCatalog.logging.jdbcConnectionPoolDebug` Helm flag), and startup configuration logging.
+    - **Spark Application and Job Template Details**: Added **Last updated by** and **Last updated at** fields to Spark application and job template details, making it easier to see who most recently changed them and when.
+    - **Docker Registry Editing**: Added the ability to edit existing Docker registries from the admin Docker settings page. Users can update the registry host, username, and password while name and Kubernetes namespace remain read-only.
+    - **`iom-gateway` nginx Logging Configuration**: nginx error log level and access logging in the gateway are now configurable via Helm values, replacing previously hardcoded settings.
+      - `services.gateway.logging.errorLogLevel` sets the nginx `error_log` level (default: `"error"`).
+      - `services.gateway.logging.accessLog.enabled` toggles per-request access logging (default: `true`); set to `false` to suppress access logs entirely. It is useful in high-throughput environments where per-request logging generates excessive log volume.
+      - **Default behavior change**: error log level shifts from `debug` → `error` on all existing installs. Deployments that relied on debug-level gateway logs must explicitly set `services.gateway.logging.errorLogLevel: "debug"` after upgrading.
+  </Improvements>
+
+  <BugFixes>
+    - **Data Catalog Search Indexing**: Removed the embedding field from Typesense documents in the 3.17.x line to prevent bulk upsert timeouts while search embeddings are generated.
+    - Queries were switching from Submitted directly to Completed status on Query Monitoring dashboard when using Spark 3.5.5. Now Submitted => Running => Completed.
+    - **Spark UI Secrets Redaction**: Secret values such as passwords, credentials, database usernames, and JDBC connection URLs were displayed in cleartext in the Spark UI execution plan, for both Spark Connect and user-spawned Spark jobs. These values are now redacted from the plan output.
+    - **Spark Executor Count Tracking**: On long-running apps that cycled through more than 10,000 executors, the UI running-executor count could stall or drop to zero as executors were replaced. Executor state is now tracked with LRU eviction so live executors stay visible past the limit.
+    - **Stale Query Cleanup**: Queries stuck in Running or Submitted status are now automatically marked as Failed after a configurable timeout, preventing orphaned queries from remaining stuck indefinitely in the SQL Editor and Activity Monitoring pages.
+    - **Query Cancellation**: Fixed query cancellation when using Arrow Flight SQL. Cancelling from the SQL Editor or Activity Monitoring now correctly stops the query and shows Cancelled status on both pages.
+    - **Logs Instance Dropdown Performance**: On long-running clusters and apps with thousands of executors, opening the instance dropdown in the Logs view could freeze the entire page while it rendered every executor at once. The dropdown is now virtualized and rendered lazily, opens instantly regardless of executor count, and supports filtering by instance name. This applies everywhere logs are shown — Compute, Spark jobs, streaming jobs, Jupyter containers, query schedules, event streams, and the SQL Editor's compute logs.
+    - **Docker Image Path Cursor Visibility**: When editing the Docker image path on Spark job forms (regular, streaming, and marketplace/catalog-sync jobs), the typing cursor was hidden, making it unclear where input was being entered. The cursor is now visible while editing the image path.
+  </BugFixes>
+</Release>
+
 <Release version="3.17.1" date="May 28th, 2026">
   <Improvements>
     - **Access Policy PATCH API**: Added a consolidated `PATCH /api/v1/admin/data-security/access/policy/{policyId}` endpoint for updating resources and policy items in a single request. Based on customer validation where PATCH additions created duplicate rows and removals required exact full-entry matches, PATCH now updates existing matching entries in place: resource patches merge or remove columns within matching database/table blocks, and policy item patches merge or remove accesses for matching users/groups. The existing `/resources` and `/policy-items` PATCH APIs remain supported and now also use this updated merge/remove behavior.
