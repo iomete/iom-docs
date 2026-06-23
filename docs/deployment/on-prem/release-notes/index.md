@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 05/28/2026
-  author: Sourabh Jajoria
+  date: 06/22/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -14,6 +14,21 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.17.2" date="June 22nd, 2026">
+  <Improvements>
+    **Performance**
+    - **Reduced core service load**: Significantly lowered traffic to core service by batching configuration retrievals across Spark job API requests and event processing, while eliminating redundant cross-service calls. This removes thousands of unnecessary lookups per minute and reduces overall system overhead.
+    - **Faster resource tag assignment**: Improved scalability by replacing individual database writes with bulk operations when assigning resource tags, reducing database round-trips and improving throughput.
+    - **Eliminated duplicate resource tag writes**: Fixed an issue where resource tags were being written multiple times for the same Spark application, causing unnecessary database bloat and degraded query performance over time.
+    - **Optimized Spark application queries**: Replaced an inefficient database loading strategy for resource tags that caused full-table scans on every query. Tags are now fetched in targeted batches, significantly reducing service memory consumption and query times.
+  </Improvements>
+
+  <BugFixes>
+    - **Data Catalog Search Indexing**: Removed the embedding field from Typesense documents in the 3.17.x line to prevent bulk upsert timeouts while search embeddings are generated.
+    - **TypeSense PVC StorageClass**: Typesense PVC storage class can now be controlled via helm values. This was removed in 3.17.0 version.
+  </BugFixes>
+</Release>
 
 <Release version="3.17.1" date="May 28th, 2026">
   <Improvements>
