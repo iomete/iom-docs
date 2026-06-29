@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 750" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif">
+
+  <!-- Background -->
+  <rect width="1400" height="750" fill="#FAF7F2"/>
+
+  <!-- Title -->
+  <text x="700" y="50" text-anchor="middle" font-size="28" font-weight="700" fill="#2D2A26">Operational Success is Not Table Health</text>
+  <text x="700" y="78" text-anchor="middle" font-size="14" fill="#8C8680">A maintenance job can complete successfully while the table remains unhealthy</text>
+
+  <!-- LEFT PANEL: Operational View -->
+  <g transform="translate(40, 110)">
+    <rect width="580" height="460" rx="12" fill="#F5D5D5" stroke="#E8C0C0" stroke-width="1"/>
+    <text x="290" y="38" text-anchor="middle" font-size="18" font-weight="700" fill="#2D2A26">What Most Teams See</text>
+    <text x="290" y="58" text-anchor="middle" font-size="12" fill="#8C8680">OPERATIONAL VIEW</text>
+    <line x1="30" y1="75" x2="550" y2="75" stroke="#E0BABA" stroke-width="1"/>
+
+    <!-- Job 1 -->
+    <rect x="30" y="95" width="520" height="52" rx="8" fill="#FFFFFF" stroke="#E0D5D0" stroke-width="1"/>
+    <circle cx="58" cy="121" r="10" fill="#4CAF50"/>
+    <text x="55" y="126" text-anchor="middle" font-size="14" fill="#FFFFFF" font-weight="700">&#x2713;</text>
+    <text x="80" y="117" font-size="14" font-weight="600" fill="#2D2A26">rewrite_data_files</text>
+    <text x="80" y="136" font-size="12" fill="#8C8680">Completed in 12m 34s</text>
+    <text x="510" y="125" text-anchor="end" font-size="13" font-weight="600" fill="#4CAF50">SUCCESS</text>
+
+    <!-- Job 2 -->
+    <rect x="30" y="160" width="520" height="52" rx="8" fill="#FFFFFF" stroke="#E0D5D0" stroke-width="1"/>
+    <circle cx="58" cy="186" r="10" fill="#4CAF50"/>
+    <text x="55" y="191" text-anchor="middle" font-size="14" fill="#FFFFFF" font-weight="700">&#x2713;</text>
+    <text x="80" y="182" font-size="14" font-weight="600" fill="#2D2A26">expire_snapshots</text>
+    <text x="80" y="201" font-size="12" fill="#8C8680">Completed in 45s</text>
+    <text x="510" y="190" text-anchor="end" font-size="13" font-weight="600" fill="#4CAF50">SUCCESS</text>
+
+    <!-- Job 3 -->
+    <rect x="30" y="225" width="520" height="52" rx="8" fill="#FFFFFF" stroke="#E0D5D0" stroke-width="1"/>
+    <circle cx="58" cy="251" r="10" fill="#4CAF50"/>
+    <text x="55" y="256" text-anchor="middle" font-size="14" fill="#FFFFFF" font-weight="700">&#x2713;</text>
+    <text x="80" y="247" font-size="14" font-weight="600" fill="#2D2A26">rewrite_manifests</text>
+    <text x="80" y="266" font-size="12" fill="#8C8680">Completed in 1m 12s</text>
+    <text x="510" y="255" text-anchor="end" font-size="13" font-weight="600" fill="#4CAF50">SUCCESS</text>
+
+    <!-- Summary -->
+    <rect x="30" y="305" width="520" height="50" rx="8" fill="#E8F5E9" stroke="#C8E6C9" stroke-width="1"/>
+    <text x="290" y="327" text-anchor="middle" font-size="15" font-weight="700" fill="#2E7D32">All 3 jobs passed</text>
+    <text x="290" y="347" text-anchor="middle" font-size="12" fill="#4CAF50">No errors, no timeouts, no retries needed</text>
+
+    <!-- But... -->
+    <text x="290" y="410" text-anchor="middle" font-size="14" font-weight="600" fill="#C0635A">Looks great.</text>
+    <text x="290" y="432" text-anchor="middle" font-size="14" font-weight="600" fill="#C0635A">But is the table actually healthier?</text>
+  </g>
+
+  <!-- Arrow between panels -->
+  <text x="660" y="350" text-anchor="middle" font-size="32" fill="#8C8680">&#x279C;</text>
+
+  <!-- RIGHT PANEL: Health View -->
+  <g transform="translate(720, 110)">
+    <rect width="640" height="460" rx="12" fill="#D5E8D5" stroke="#C0D8C0" stroke-width="1"/>
+    <text x="320" y="38" text-anchor="middle" font-size="18" font-weight="700" fill="#2D2A26">What Actually Matters</text>
+    <text x="320" y="58" text-anchor="middle" font-size="12" fill="#8C8680">TABLE HEALTH VIEW</text>
+    <line x1="30" y1="75" x2="610" y2="75" stroke="#B5D0B5" stroke-width="1"/>
+
+    <!-- Metric 1: File Count -->
+    <text x="30" y="103" font-size="11" font-weight="600" fill="#8C8680">DATA FILE COUNT</text>
+    <rect x="30" y="112" width="580" height="56" rx="6" fill="#FFFFFF" stroke="#D0D8D0" stroke-width="1"/>
+    <text x="45" y="133" font-size="13" fill="#5C5650">Before: <tspan font-weight="600" fill="#C0635A">12,847 files</tspan></text>
+    <text x="45" y="155" font-size="13" fill="#5C5650">After:   <tspan font-weight="600" fill="#C0635A">11,203 files</tspan>  <tspan font-size="12" fill="#C0635A">(-13%, still too many)</tspan></text>
+
+    <!-- Metric 2: Avg File Size -->
+    <text x="30" y="190" font-size="11" font-weight="600" fill="#8C8680">AVERAGE FILE SIZE</text>
+    <rect x="30" y="199" width="580" height="56" rx="6" fill="#FFFFFF" stroke="#D0D8D0" stroke-width="1"/>
+    <text x="45" y="220" font-size="13" fill="#5C5650">Before: <tspan font-weight="600" fill="#C0635A">18 MB</tspan></text>
+    <text x="45" y="242" font-size="13" fill="#5C5650">After:   <tspan font-weight="600" fill="#A08830">42 MB</tspan>  <tspan font-size="12" fill="#A08830">(target is 512 MB)</tspan></text>
+
+    <!-- Metric 3: Snapshot Count -->
+    <text x="30" y="277" font-size="11" font-weight="600" fill="#8C8680">SNAPSHOT COUNT</text>
+    <rect x="30" y="286" width="580" height="56" rx="6" fill="#FFFFFF" stroke="#D0D8D0" stroke-width="1"/>
+    <text x="45" y="307" font-size="13" fill="#5C5650">Before: <tspan font-weight="600" fill="#5A7AAC">1,240</tspan></text>
+    <text x="45" y="329" font-size="13" fill="#5C5650">After:   <tspan font-weight="600" fill="#4CAF50">86</tspan>  <tspan font-size="12" fill="#4CAF50">(healthy)</tspan></text>
+
+    <!-- Metric 4: Storage -->
+    <text x="30" y="364" font-size="11" font-weight="600" fill="#8C8680">TOTAL STORAGE</text>
+    <rect x="30" y="373" width="580" height="56" rx="6" fill="#FFFFFF" stroke="#D0D8D0" stroke-width="1"/>
+    <text x="45" y="394" font-size="13" fill="#5C5650">Before: <tspan font-weight="600" fill="#C0635A">2.4 TB</tspan></text>
+    <text x="45" y="416" font-size="13" fill="#5C5650">After:   <tspan font-weight="600" fill="#A08830">2.1 TB</tspan>  <tspan font-size="12" fill="#A08830">(-12%, snapshots helped)</tspan></text>
+  </g>
+
+  <!-- Verdict bar -->
+  <rect x="720" y="582" width="640" height="32" rx="6" fill="#FFF3E0" stroke="#FFE0B2" stroke-width="1"/>
+  <text x="1040" y="603" text-anchor="middle" font-size="13" font-weight="700" fill="#E65100">Compaction barely moved the needle — files still far below target</text>
+
+  <!-- Takeaway box -->
+  <rect x="40" y="640" width="1320" height="56" rx="12" fill="#F0EBE0"/>
+  <text x="700" y="665" text-anchor="middle" font-size="16" font-weight="700" fill="#8B4513">Knowing that maintenance ran is not the same as knowing that maintenance worked.</text>
+  <text x="700" y="686" text-anchor="middle" font-size="13" fill="#5C5650">Without before/after health metrics, automation becomes a black box.</text>
+
+  <!-- IOMETE Logo -->
+  <text x="40" y="730" font-size="18" font-weight="700" fill="#2D2A26">IOMETE</text>
+</svg>

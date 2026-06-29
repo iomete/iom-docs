@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif">
+
+  <defs>
+    <linearGradient id="arrow-grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C0635A"/>
+      <stop offset="33%" stop-color="#5A7AAC"/>
+      <stop offset="66%" stop-color="#A08830"/>
+      <stop offset="100%" stop-color="#8C8680"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="820" fill="#FAF7F2"/>
+
+  <!-- Title -->
+  <text x="700" y="55" text-anchor="middle" font-size="28" font-weight="700" fill="#2D2A26">Not Every Table Needs the Same Maintenance</text>
+
+  <!-- Card 1: Streaming Fact Table -->
+  <g transform="translate(40, 90)">
+    <rect width="310" height="440" rx="12" fill="#F5D5D5" stroke="#E8C0C0" stroke-width="1"/>
+    <text x="155" y="40" text-anchor="middle" font-size="17" font-weight="700" fill="#2D2A26">Streaming Fact Table</text>
+    <text x="155" y="62" text-anchor="middle" font-size="13" fill="#5C5650">e.g. orders, events, clickstream</text>
+    <line x1="24" y1="80" x2="286" y2="80" stroke="#E0BABA" stroke-width="1"/>
+
+    <text x="24" y="108" font-size="11" font-weight="600" fill="#8C8680">WRITE FREQUENCY</text>
+    <rect x="24" y="118" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="118" width="249" height="8" rx="4" fill="#C0635A"/>
+    <text x="24" y="148" font-size="14" font-weight="600" fill="#C0635A">~1,000+ commits/day</text>
+
+    <text x="24" y="178" font-size="11" font-weight="600" fill="#8C8680">SMALL FILE ACCUMULATION</text>
+    <rect x="24" y="188" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="188" width="236" height="8" rx="4" fill="#C0635A"/>
+    <text x="24" y="218" font-size="14" font-weight="600" fill="#C0635A">Thousands/day</text>
+
+    <text x="24" y="248" font-size="11" font-weight="600" fill="#8C8680">SNAPSHOT GROWTH</text>
+    <rect x="24" y="258" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="258" width="249" height="8" rx="4" fill="#C0635A"/>
+    <text x="24" y="288" font-size="14" font-weight="600" fill="#C0635A">Very high</text>
+
+    <line x1="24" y1="310" x2="286" y2="310" stroke="#E0BABA" stroke-width="1"/>
+    <text x="24" y="338" font-size="11" font-weight="600" fill="#8C8680">MAINTENANCE NEEDS</text>
+    <text x="24" y="362" font-size="13" fill="#5C5650">Frequent compaction</text>
+    <text x="24" y="382" font-size="13" fill="#5C5650">Aggressive snapshot expiry</text>
+    <text x="24" y="402" font-size="13" fill="#5C5650">Regular manifest rewrites</text>
+    <text x="24" y="422" font-size="13" fill="#5C5650">Weekly orphan cleanup</text>
+  </g>
+
+  <!-- Card 2: Dimension Table -->
+  <g transform="translate(380, 90)">
+    <rect width="310" height="440" rx="12" fill="#D5DEF0" stroke="#C0CDE0" stroke-width="1"/>
+    <text x="155" y="40" text-anchor="middle" font-size="17" font-weight="700" fill="#2D2A26">Dimension Table</text>
+    <text x="155" y="62" text-anchor="middle" font-size="13" fill="#5C5650">e.g. products, customers, regions</text>
+    <line x1="24" y1="80" x2="286" y2="80" stroke="#B5C5D8" stroke-width="1"/>
+
+    <text x="24" y="108" font-size="11" font-weight="600" fill="#8C8680">WRITE FREQUENCY</text>
+    <rect x="24" y="118" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="118" width="52" height="8" rx="4" fill="#5A7AAC"/>
+    <text x="24" y="148" font-size="14" font-weight="600" fill="#5A7AAC">A few times/week</text>
+
+    <text x="24" y="178" font-size="11" font-weight="600" fill="#8C8680">SMALL FILE ACCUMULATION</text>
+    <rect x="24" y="188" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="188" width="39" height="8" rx="4" fill="#5A7AAC"/>
+    <text x="24" y="218" font-size="14" font-weight="600" fill="#5A7AAC">Minimal</text>
+
+    <text x="24" y="248" font-size="11" font-weight="600" fill="#8C8680">SNAPSHOT GROWTH</text>
+    <rect x="24" y="258" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="258" width="52" height="8" rx="4" fill="#5A7AAC"/>
+    <text x="24" y="288" font-size="14" font-weight="600" fill="#5A7AAC">Low</text>
+
+    <line x1="24" y1="310" x2="286" y2="310" stroke="#B5C5D8" stroke-width="1"/>
+    <text x="24" y="338" font-size="11" font-weight="600" fill="#8C8680">MAINTENANCE NEEDS</text>
+    <text x="24" y="362" font-size="13" fill="#5C5650">Occasional compaction</text>
+    <text x="24" y="382" font-size="13" fill="#5C5650">Standard snapshot retention</text>
+    <text x="24" y="402" font-size="13" fill="#5C5650">Manifest rewrites rarely needed</text>
+    <text x="24" y="422" font-size="13" fill="#5C5650">Monthly orphan cleanup</text>
+  </g>
+
+  <!-- Card 3: Append-Only Log -->
+  <g transform="translate(720, 90)">
+    <rect width="310" height="440" rx="12" fill="#F0E8C8" stroke="#E0D8B0" stroke-width="1"/>
+    <text x="155" y="40" text-anchor="middle" font-size="17" font-weight="700" fill="#2D2A26">Append-Only Log</text>
+    <text x="155" y="62" text-anchor="middle" font-size="13" fill="#5C5650">e.g. audit logs, CDC feeds, telemetry</text>
+    <line x1="24" y1="80" x2="286" y2="80" stroke="#D5C8A0" stroke-width="1"/>
+
+    <text x="24" y="108" font-size="11" font-weight="600" fill="#8C8680">WRITE FREQUENCY</text>
+    <rect x="24" y="118" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="118" width="170" height="8" rx="4" fill="#A08830"/>
+    <text x="24" y="148" font-size="14" font-weight="600" fill="#A08830">Continuous appends</text>
+
+    <text x="24" y="178" font-size="11" font-weight="600" fill="#8C8680">SMALL FILE ACCUMULATION</text>
+    <rect x="24" y="188" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="188" width="157" height="8" rx="4" fill="#A08830"/>
+    <text x="24" y="218" font-size="14" font-weight="600" fill="#A08830">Moderate</text>
+
+    <text x="24" y="248" font-size="11" font-weight="600" fill="#8C8680">SNAPSHOT GROWTH</text>
+    <rect x="24" y="258" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="258" width="183" height="8" rx="4" fill="#A08830"/>
+    <text x="24" y="288" font-size="14" font-weight="600" fill="#A08830">High (no deletes to reclaim)</text>
+
+    <line x1="24" y1="310" x2="286" y2="310" stroke="#D5C8A0" stroke-width="1"/>
+    <text x="24" y="338" font-size="11" font-weight="600" fill="#8C8680">MAINTENANCE NEEDS</text>
+    <text x="24" y="362" font-size="13" fill="#5C5650">Compaction can be deferred</text>
+    <text x="24" y="382" font-size="13" fill="#5C5650">Snapshot cleanup important</text>
+    <text x="24" y="402" font-size="13" fill="#5C5650">No delete files to compact</text>
+    <text x="24" y="422" font-size="13" fill="#5C5650">Periodic orphan cleanup</text>
+  </g>
+
+  <!-- Card 4: Archived Table -->
+  <g transform="translate(1060, 90)">
+    <rect width="310" height="440" rx="12" fill="#E0DDD5" stroke="#D0CCC0" stroke-width="1"/>
+    <text x="155" y="40" text-anchor="middle" font-size="17" font-weight="700" fill="#2D2A26">Archived Table</text>
+    <text x="155" y="62" text-anchor="middle" font-size="13" fill="#5C5650">e.g. historical snapshots, cold data</text>
+    <line x1="24" y1="80" x2="286" y2="80" stroke="#C5C0B5" stroke-width="1"/>
+
+    <text x="24" y="108" font-size="11" font-weight="600" fill="#8C8680">WRITE FREQUENCY</text>
+    <rect x="24" y="118" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="118" width="13" height="8" rx="4" fill="#8C8680"/>
+    <text x="24" y="148" font-size="14" font-weight="600" fill="#8C8680">None or near-zero</text>
+
+    <text x="24" y="178" font-size="11" font-weight="600" fill="#8C8680">SMALL FILE ACCUMULATION</text>
+    <rect x="24" y="188" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="188" width="0" height="8" rx="4" fill="#8C8680"/>
+    <text x="24" y="218" font-size="14" font-weight="600" fill="#8C8680">None</text>
+
+    <text x="24" y="248" font-size="11" font-weight="600" fill="#8C8680">SNAPSHOT GROWTH</text>
+    <rect x="24" y="258" width="262" height="8" rx="4" fill="#E8E0D5"/>
+    <rect x="24" y="258" width="0" height="8" rx="4" fill="#8C8680"/>
+    <text x="24" y="288" font-size="14" font-weight="600" fill="#8C8680">Frozen</text>
+
+    <line x1="24" y1="310" x2="286" y2="310" stroke="#C5C0B5" stroke-width="1"/>
+    <text x="24" y="338" font-size="11" font-weight="600" fill="#8C8680">MAINTENANCE NEEDS</text>
+    <text x="24" y="362" font-size="13" fill="#5C5650">Leave it alone</text>
+    <text x="24" y="382" font-size="13" fill="#5C5650">No compaction needed</text>
+    <text x="24" y="402" font-size="13" fill="#5C5650">Snapshots already stable</text>
+    <text x="24" y="422" font-size="13" fill="#5C5650">Rare orphan checks at most</text>
+  </g>
+
+  <!-- Gradient bar: High maintenance to Low maintenance -->
+  <rect x="40" y="560" width="1330" height="4" rx="2" fill="url(#arrow-grad)"/>
+  <text x="40" y="590" font-size="11" font-weight="600" fill="#C0635A">HIGH MAINTENANCE</text>
+  <text x="1370" y="590" text-anchor="end" font-size="11" font-weight="600" fill="#8C8680">LOW MAINTENANCE</text>
+
+  <!-- Takeaway box -->
+  <rect x="40" y="620" width="1330" height="80" rx="12" fill="#F0EBE0"/>
+  <text x="700" y="655" text-anchor="middle" font-size="16" font-weight="700" fill="#8B4513">A uniform policy either wastes compute on quiet tables or leaves active tables unhealthy.</text>
+  <text x="700" y="680" text-anchor="middle" font-size="14" fill="#5C5650">Maintenance becomes a prioritization problem, not a scheduling problem.</text>
+
+  <!-- IOMETE Logo -->
+  <text x="40" y="780" font-size="18" font-weight="700" fill="#2D2A26">IOMETE</text>
+
+  <!-- Footnote -->
+  <text x="1370" y="780" text-anchor="end" font-size="12" fill="#8C8680" font-style="italic">* Characteristics are illustrative; real patterns vary by workload.</text>
+</svg>
