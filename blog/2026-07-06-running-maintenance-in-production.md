@@ -118,44 +118,25 @@ The goal is not to eliminate configurability. It is to make configuration option
 
 Users should be able to turn on automated maintenance and immediately see results. The best maintenance system is the one nobody has to think about.
 
-### Building for Failure and Scale
+## Building for Failure and Scale
 
 Maintenance operations are long-running, resource-intensive, and inherently unpredictable.
 
-A compaction job that normally completes in a few minutes may suddenly take hours because of increased data volume, infrastructure issues, storage bottlenecks, or contention with other workloads. Snapshot expiration may encounter transient catalog failures. A worker process may restart halfway through a maintenance task.
+A compaction job that normally completes in a few minutes may suddenly take hours because of increased data volume, infrastructure issues, or contention with other workloads. Snapshot expiration may encounter transient catalog failures. A worker process may restart halfway through a task.
 
 In production, failures are not exceptional events. They are expected.
 
-Any maintenance system that assumes every operation will complete successfully will eventually become unreliable. The question is not whether failures will occur, but how the system behaves when they do.
-
-Production-grade maintenance platforms require safeguards such as:
-
-* Timeouts for stalled operations  
-* Automatic retries for transient failures  
-* Recovery after service restarts  
-* Detection of orphaned or stuck tasks  
-* Persistent task state and progress tracking
-
-Without these protections, failures can leave maintenance work in an unknown state. Tasks may run indefinitely, work may be duplicated, or the system may simply lose track of maintenance operations altogether.
+The question is not whether failures will occur, but how the system behaves when they do. Without protections like operation timeouts, automatic retries, and persistent task tracking, a single failure can leave maintenance in an unknown state. Work may be lost, duplicated, or simply abandoned.
 
 Reliability, however, is only half of the challenge.
 
-A maintenance service that performs well for 100 tables may struggle when responsible for thousands. As table counts and data volumes increase, the maintenance platform itself must scale without becoming a bottleneck.
+A maintenance service that performs well for 100 tables may struggle when responsible for thousands. As table counts grow, the platform itself needs to scale: workers that can be added independently, evaluation cycles that distribute load across instances, and behavior that stays predictable when maintenance demand spikes.
 
-This introduces a different set of requirements:
-
-* Efficient processing of large table fleets  
-* Independent scaling of workers, catalogs, and compute resources  
-* Distribution of maintenance work across multiple service instances  
-* Predictable behavior during spikes in maintenance demand
-
-At scale, the maintenance platform becomes part of the critical infrastructure of the lakehouse. It must be designed with the same reliability and scalability expectations as any other production service.
-
-Ultimately, the maintenance system should require less operational attention than the tables it is responsible for maintaining. If operators spend more time managing the maintenance platform than benefiting from it, the automation has failed its primary purpose.
+At scale, the maintenance platform becomes part of the critical infrastructure of the lakehouse. Ultimately, it should require less operational attention than the tables it maintains. If operators spend more time managing the maintenance platform than benefiting from it, the automation has failed its primary purpose.
 
 ---
 
-## What We Built Differently
+### What We Built Differently
 
 The challenges above shaped many of the design decisions in our maintenance platform. Rather than treating maintenance as a collection of scheduled jobs, we approached it as a production service that needed to be observable, resource-aware, and predictable at scale.
 
