@@ -13,7 +13,7 @@ import Img from '@site/src/components/Img';
 
 When running Spark jobs or other workloads on IOMETE, you may need to pull images from a private Docker registry. The **Docker Settings** page lets you register credentials for any container registry so the platform can authenticate on your behalf.
 
-Navigate to the **Admin Panel**, then open **Docker Settings** in the left sidebar under **Compute** to see your configured registries.
+Navigate to the **Admin Portal**, then open **Docker Settings** in the left sidebar under **Compute** to see your configured registries.
 
 <Img src="/img/user-guide/docker-registries/docker-registries.png" alt="Docker Registries list" />
 
