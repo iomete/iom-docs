@@ -57,7 +57,7 @@ This action cannot be undone. Any Spark jobs referencing this registry will fail
 
 ## Using a Registry in a Spark Job
 
-When creating or editing a Spark job, go to the **Deployment** section and enter the full image path in the **Docker Image** field. Use the dropdown to the left of that field to select the matching private registry.
+When creating or editing a Spark job, go to the **Application** section and enter the full image path in the **Docker Image** field. Use the dropdown to the left of that field to select the matching private registry.
 
 ## Registry-Specific Setup
 
