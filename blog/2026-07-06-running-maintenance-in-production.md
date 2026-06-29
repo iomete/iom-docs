@@ -54,6 +54,8 @@ Tables within a lakehouse behave very differently depending on how they are writ
 
 A uniform policy inevitably creates one of two outcomes: either active tables accumulate maintenance debt because thresholds are too conservative, or quiet tables consume unnecessary compute because thresholds are too aggressive.
 
+<Img src="/img/blog/2026-07-06-running-maintenance-in-production/table-profiles.png" alt="Four table archetypes with different maintenance needs: streaming fact tables need frequent compaction and aggressive snapshot expiry, dimension tables need minimal maintenance, append-only logs need snapshot cleanup but deferred compaction, and archived tables should be left alone entirely." borderless/>
+
 Neither scales well.
 
 As the number of tables grows, maintenance becomes a prioritization problem rather than a scheduling problem. The system must be able to distinguish between tables that need attention and tables that do not.
@@ -75,6 +77,8 @@ The metrics that reveal actual table health are things like small file count, av
 Without visibility into these signals, maintenance becomes reactive. By the time something is obviously wrong, the debt has already accumulated.
 
 The goal of observability isn't reporting for its own sake. It's the difference between knowing that maintenance *ran* and knowing that maintenance *worked*.
+
+<Img src="/img/blog/2026-07-06-running-maintenance-in-production/operational-vs-health.png" alt="Operational success versus table health: left panel shows three maintenance jobs all completing successfully, right panel shows the actual table metrics — file count barely reduced, average file size still far below the 512 MB target, proving that job success alone does not mean the table is healthier." borderless/>
 
 ### Protecting Shared Catalog Infrastructure
 
@@ -237,20 +241,10 @@ That shift, from running maintenance operations to operating a maintenance syste
 
 ## Resources & Further Reading
 
-#### Production Operations
-- [Maintaining Tables by Using Compaction](https://docs.aws.amazon.com/prescriptive-guidance/latest/apache-iceberg-on-aws/best-practices-compaction.html): AWS guidance on compaction scheduling, file sizing, and operational patterns
-- [Manage Concurrent Write Conflicts in Iceberg on AWS Glue](https://aws.amazon.com/blogs/big-data/manage-concurrent-write-conflicts-in-apache-iceberg-on-the-aws-glue-data-catalog/): handling commit conflicts between maintenance and write workloads
-- [Partition-Aware Compaction: A Fail-Safe Strategy for Streaming Data Lakes](https://medium.com/@shahsoumil519/partition-aware-compaction-a-fail-safe-strategy-for-streaming-data-lakes-with-apache-iceberg-c2abfbef6a52): using partition filters to reduce conflicts with streaming writes
-
-#### Official Iceberg Docs
-- [Apache Iceberg Maintenance Guide](https://iceberg.apache.org/docs/latest/maintenance/): official guide covering all four maintenance operations and recommended schedules
-- [Iceberg Spark Procedures](https://iceberg.apache.org/docs/latest/spark-procedures/): full parameter reference for `rewrite_data_files`, `expire_snapshots`, `remove_orphan_files`, and `rewrite_manifests`
-- [Iceberg Configuration Properties](https://iceberg.apache.org/docs/latest/configuration/): table-level and write properties that affect maintenance behavior
-
 #### Research
-- [AutoComp: Automated Data Compaction for Log-Structured Tables in Data Lakes](https://arxiv.org/abs/2504.04186): LinkedIn's research on cost-aware, automated compaction for Iceberg, Delta Lake, and Hudi
+- [AutoComp: Automated Data Compaction for Log-Structured Tables in Data Lakes](https://arxiv.org/abs/2504.04186): LinkedIn's research on cost-aware, metric-driven compaction decisions — directly relevant to why schedule-based maintenance fails at scale
+- [Floe and Apache Polaris: Policy-Driven Table Maintenance](https://polaris.apache.org/blog/2026/02/04/floe-and-apache-polaris-policy-driven-table-maintenance-for-apache-iceberg/): signal-based maintenance triggers over fixed schedules, the same principle behind this post's observability argument
 
 #### IOMETE References
-- [Automated Table Maintenance on IOMETE](/resources/user-guide/table-maintenance/overview): the feature described in this series, including setup and configuration
-- [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance): Part 4 of this series, covering the architecture behind the system
-- [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations): Part 2 of this series, covering the four core maintenance operations
+- [Automated Table Maintenance on IOMETE](/resources/user-guide/table-maintenance/overview): the feature this post describes, including setup and configuration.
+- [IOMETE Data Compaction Job](/resources/open-source-spark-jobs/data-compaction): open-source Spark job for scheduled Iceberg compaction.
