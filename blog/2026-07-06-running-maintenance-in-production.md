@@ -1,6 +1,6 @@
 ---
 title: "Running Iceberg Maintenance in Production: Safety Mechanisms and Hard-Won Lessons"
-description: Production lessons from running automated Apache Iceberg table maintenance — write conflict handling, orphan cleanup safety, and operational patterns.
+description: "Production lessons from running automated Apache Iceberg table maintenance: write conflict handling, orphan cleanup safety, and operational patterns."
 slug: under-the-hood-optimizations
 authors: [ujjawal,Shashank,abhishek]
 hide_table_of_contents: true
@@ -68,7 +68,7 @@ Teams can usually tell you whether a maintenance job succeeded or failed. What t
 
 A successful compaction job doesn't necessarily mean the small file problem is resolved. A completed snapshot expiration doesn't mean metadata growth is under control. Operational success and table health are related, but they are not the same thing.
 
-The metrics that reveal actual table health are things like small file count, average file size, snapshot count, metadata file growth, and storage consumption. These move slowly — a problem building over days or weeks rarely announces itself until it surfaces as slower queries or unexpectedly rising storage costs.
+The metrics that reveal actual table health are things like small file count, average file size, snapshot count, metadata file growth, and storage consumption. These move slowly. A problem building over days or weeks rarely announces itself until it surfaces as slower queries or unexpectedly rising storage costs.
 
 Without visibility into these signals, maintenance becomes reactive. By the time something is obviously wrong, the debt has already accumulated.
 
@@ -86,7 +86,7 @@ Running maintenance across a large table fleet simultaneously can create bursts 
 
 At that point, the objective is no longer just keeping tables healthy. It is keeping the entire platform healthy.
 
-The controls that help are concrete: limit how many tables can be maintained at the same time, introduce cooldown periods so recently-touched tables aren't immediately re-evaluated, and reduce catalog reads by caching frequently accessed settings. The underlying principle is simple — maintenance should behave like a good background service, consuming spare capacity when the platform is quiet and stepping back when production workloads need it.
+The controls that help are concrete: limit how many tables can be maintained at the same time, introduce cooldown periods so recently-touched tables aren't immediately re-evaluated, and reduce catalog reads by caching frequently accessed settings. The underlying principle is simple: maintenance should behave like a good background service, consuming spare capacity when the platform is quiet and stepping back when production workloads need it.
 
 ### Managing Configuration Across Multiple Layers
 
