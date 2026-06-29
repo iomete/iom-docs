@@ -9,6 +9,8 @@ banner_description: Most maintenance guides explain what operations to run. Few 
 date: 06/07/2026
 ---
 
+import Img from '@site/src/components/Img';
+
 # Running Iceberg Maintenance in Production
 
 <details>
@@ -28,7 +30,7 @@ The maintenance job showed green but the table wasn't actually healthier.
 
 That gap between a successful maintenance run and an actually healthier table captures why table maintenance is more than just executing maintenance operations. 
 
-In [Part 4](/blog/2026-06-22-how-we-built-automated-maintenance.md), we explained how the system was designed and why it was built that way. This post shifts the focus from architecture to operations, what it takes to keep automated maintenance effective when hundreds of production tables are being updated continuously. 
+In [previous post](/blog/2026-06-22-how-we-built-automated-maintenance.md), we explained how the system was designed and why it was built that way. This post shifts the focus from architecture to operations, what it takes to keep automated maintenance effective when hundreds of production tables are being updated continuously. 
 
 Running compaction, snapshot expiration, orphan cleanup, and manifest optimization across hundreds of actively written tables is a different problem altogether. The maintenance operations don't change. The environment does.
 Shared compute, continuous ingestion, competing workloads, resource limits, and the need to keep everything observable without turning every table into its own monitoring project quickly changed the nature of the problem. Table maintenance stopp being a background task and become a scheduling, resource management, and reliability challenge.
@@ -56,7 +58,7 @@ Neither scales well.
 
 As the number of tables grows, maintenance becomes a prioritization problem rather than a scheduling problem. The system must be able to distinguish between tables that need attention and tables that do not.
 
-In [Part 4](/blog/2026-06-22-how-we-built-automated-maintenance.md), we described how our evaluate phase uses table metrics and configurable thresholds to make these decisions dynamically. More broadly, any production-grade maintenance system needs a mechanism to adapt maintenance behavior based on table characteristics, whether through table tiers, per-table policies, or metric-driven triggers.
+In [previous post](/blog/2026-06-22-how-we-built-automated-maintenance.md), we described how our evaluate phase uses table metrics and configurable thresholds to make these decisions dynamically. More broadly, any production-grade maintenance system needs a mechanism to adapt maintenance behavior based on table characteristics, whether through table tiers, per-table policies, or metric-driven triggers.
 
 ### Monitoring Table Health
 
@@ -118,6 +120,8 @@ The goal is not to eliminate configurability. It is to make configuration option
 
 Users should be able to turn on automated maintenance and immediately see results. The best maintenance system is the one nobody has to think about.
 
+<Img src="/img/user-guide/table-maintenance/catalog-maintenance-tab-unconfigured.png" alt="A catalog's maintenance tab before any configuration: a clean starting point where users can enable automated maintenance with sensible defaults" borderless/>
+
 ## Building for Failure and Scale
 
 Maintenance operations are long-running, resource-intensive, and inherently unpredictable.
@@ -151,7 +155,15 @@ For every maintenance operation, we capture metrics before and after execution s
 * **Rewrite Manifest Files** tracks manifest file count and total manifest size.
 * **Cleanup Orphan Files** tracks data and metadata file counts along with their storage footprint.
 
+<Img src="/img/user-guide/table-maintenance/table-history-list.png" alt="Table maintenance history showing a chronological list of operations that ran, their status, and when they executed" borderless/>
+
+<Img src="/img/user-guide/table-maintenance/run-detail-completed.png" alt="Detail view of a completed maintenance run showing before and after metrics so users can see the actual impact of the operation" borderless/>
+
 Observability matters even more when maintenance fails. Every operation records its execution status and surfaces error information directly to the user, without requiring a trip to service logs.
+
+<Img src="/img/user-guide/table-maintenance/run-detail-failed.png" alt="Detail view of a failed maintenance run showing the error status and execution context" borderless/>
+
+<Img src="/img/user-guide/table-maintenance/run-detail-reason.png" alt="Failure reason displayed directly in the run detail view, eliminating the need to dig through service logs" borderless/>
 
 Users should always be able to understand what maintenance did, why it ran, and whether it worked.
 
@@ -173,6 +185,10 @@ Many platforms accumulate layers over time: global defaults, environment-specifi
 
 We deliberately chose a simpler model. Configuration exists at two levels: catalog and table. Both IOMETE-specific properties and native Iceberg properties are stored alongside catalog and table metadata, creating a single source of truth for maintenance behavior.
 
+<Img src="/img/user-guide/table-maintenance/configure-catalog-config.png" alt="Catalog-level maintenance configuration: setting default thresholds and retention policies that apply to all tables in the catalog" borderless/>
+
+<Img src="/img/user-guide/table-maintenance/table-configure-drawer.png" alt="Table-level configuration drawer where per-table overrides can be set, taking precedence over catalog defaults" borderless/>
+
 Equally important, we wanted maintenance decisions to be explainable. Every maintenance run records and displays the effective configuration. When multiple configurations are present, a clear precedence order is applied:
 
 1. IOMETE table configuration
@@ -182,13 +198,21 @@ Equally important, we wanted maintenance decisions to be explainable. Every main
 
 Users should never have to guess. The effective configuration is always visible.
 
+<Img src="/img/user-guide/table-maintenance/operation-advanced-props.png" alt="Advanced operation properties showing the effective configuration for a maintenance operation, with clear visibility into which settings are active" borderless/>
+
 ### Building for Reliability and Scale
 
 Maintenance operations are long-running and not immune to failures. Infrastructure interruptions, transient catalog issues, and workload spikes are realities of production.
 
 To handle failures gracefully, we built in automatic retries for transient errors, operation timeouts to detect and terminate stalled tasks, and persistent task tracking so state survives restarts. Workers can be added independently as table counts grow. Cooldown periods spread evaluation load over time, preventing bursts from spiking catalog load.
 
+For catalogs with a large number of tables, the maintenance workload itself can be scaled by selecting a larger compute profile. This lets operators match the maintenance service's capacity to the size of the catalog it manages.
+
+<Img src="/img/user-guide/table-maintenance/configure-resources.png" alt="Compute selection for the maintenance service: operators can choose a larger compute profile to scale maintenance capacity for catalogs with many tables" borderless/>
+
 Together, these mechanisms help ensure that the maintenance platform remains resilient, scalable, and capable of operating continuously across large production environments. Failures should be the system's problem, not the operator's.
+
+<Img src="/img/user-guide/table-maintenance/table-history-failed-entry.png" alt="A failed maintenance entry in the table history view, showing that failures are tracked and surfaced automatically" borderless/>
 
 ## Lessons Learned
 
@@ -209,3 +233,24 @@ What changes at scale is the context around those operations: who decides when t
 
 That shift, from running maintenance operations to operating a maintenance system, is where most of the real complexity lives. The teams that navigate it well are not necessarily running better compaction algorithms. They are running better systems.
 
+---
+
+## Resources & Further Reading
+
+#### Production Operations
+- [Maintaining Tables by Using Compaction](https://docs.aws.amazon.com/prescriptive-guidance/latest/apache-iceberg-on-aws/best-practices-compaction.html): AWS guidance on compaction scheduling, file sizing, and operational patterns
+- [Manage Concurrent Write Conflicts in Iceberg on AWS Glue](https://aws.amazon.com/blogs/big-data/manage-concurrent-write-conflicts-in-apache-iceberg-on-the-aws-glue-data-catalog/): handling commit conflicts between maintenance and write workloads
+- [Partition-Aware Compaction: A Fail-Safe Strategy for Streaming Data Lakes](https://medium.com/@shahsoumil519/partition-aware-compaction-a-fail-safe-strategy-for-streaming-data-lakes-with-apache-iceberg-c2abfbef6a52): using partition filters to reduce conflicts with streaming writes
+
+#### Official Iceberg Docs
+- [Apache Iceberg Maintenance Guide](https://iceberg.apache.org/docs/latest/maintenance/): official guide covering all four maintenance operations and recommended schedules
+- [Iceberg Spark Procedures](https://iceberg.apache.org/docs/latest/spark-procedures/): full parameter reference for `rewrite_data_files`, `expire_snapshots`, `remove_orphan_files`, and `rewrite_manifests`
+- [Iceberg Configuration Properties](https://iceberg.apache.org/docs/latest/configuration/): table-level and write properties that affect maintenance behavior
+
+#### Research
+- [AutoComp: Automated Data Compaction for Log-Structured Tables in Data Lakes](https://arxiv.org/abs/2504.04186): LinkedIn's research on cost-aware, automated compaction for Iceberg, Delta Lake, and Hudi
+
+#### IOMETE References
+- [Automated Table Maintenance on IOMETE](/resources/user-guide/table-maintenance/overview): the feature described in this series, including setup and configuration
+- [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance): Part 4 of this series, covering the architecture behind the system
+- [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations): Part 2 of this series, covering the four core maintenance operations
