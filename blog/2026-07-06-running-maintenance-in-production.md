@@ -62,27 +62,17 @@ In [Part 4](/blog/2026-06-22-how-we-built-automated-maintenance.md), we describe
 
 Maintenance is easy to automate. Knowing whether it is working is much harder.
 
-One of the most common operational blind spots we see is the absence of meaningful table health visibility. Teams can often tell you whether a maintenance job succeeded or failed, but they cannot easily answer a more important question:
+Teams can usually tell you whether a maintenance job succeeded or failed. What they often cannot answer is:
 
 **Did the table actually become healthier?**
 
-A successful compaction job does not necessarily mean small file problems have been resolved. A completed snapshot expiration task does not automatically mean metadata growth is under control. Operational success and table health are related, but they are not the same thing.
+A successful compaction job doesn't necessarily mean the small file problem is resolved. A completed snapshot expiration doesn't mean metadata growth is under control. Operational success and table health are related, but they are not the same thing.
 
-To understand whether maintenance is delivering value, teams need visibility into metrics such as:
+The metrics that reveal actual table health are things like small file count, average file size, snapshot count, metadata file growth, and storage consumption. These move slowly — a problem building over days or weeks rarely announces itself until it surfaces as slower queries or unexpectedly rising storage costs.
 
-* Small file count  
-* Average file size  
-* Metadata file growth  
-* Snapshot count  
-* Storage consumption  
-* Maintenance backlog  
-* Query performance trends
+Without visibility into these signals, maintenance becomes reactive. By the time something is obviously wrong, the debt has already accumulated.
 
-These indicators provide an early warning system for emerging maintenance debt. A gradual increase in small file counts or snapshot growth often appears long before users notice slower queries or rising infrastructure costs.
-
-Without this visibility, maintenance becomes reactive. Problems are discovered only after performance degrades, storage costs increase, or maintenance jobs begin falling behind.
-
-At scale, observability is not just a reporting feature. It is what allows teams to understand the health of their lakehouse, prioritize maintenance work intelligently, and measure whether their maintenance strategy is actually producing results.
+The goal of observability isn't reporting for its own sake. It's the difference between knowing that maintenance *ran* and knowing that maintenance *worked*.
 
 ### Protecting Shared Catalog Infrastructure
 
@@ -90,27 +80,13 @@ Most maintenance discussions focus on individual tables. In production, the bigg
 
 Every maintenance operation ultimately interacts with the catalog. Compaction commits new snapshots. Snapshot expiration updates metadata. Manifest optimization rewrites metadata structures. Even evaluating table health requires catalog reads.
 
-On a single table, this activity is negligible. Across hundreds or thousands of tables, it can become a significant source of load.
+On a single table, this activity is negligible. Across hundreds or thousands of tables running in parallel, it becomes a steady stream of metadata operations and that stream competes with everything else sharing the same catalog: ingestion pipelines, interactive queries, production commits.
 
-A common mistake is treating maintenance as a purely table-level concern. In reality, maintenance generates a continuous stream of catalog operations, and excessive maintenance activity can impact completely unrelated workloads sharing the same catalog infrastructure.
-
-For example, running maintenance across a large fleet of tables simultaneously can create bursts of metadata reads, commit operations, and catalog updates. As load increases, users may experience slower table loading times, increased metadata latency, or longer commit durations for production workloads.
-
-The challenge becomes especially visible in multi-tenant environments where ingestion pipelines, interactive queries, and maintenance jobs all depend on the same catalog service.
+Running maintenance across a large table fleet simultaneously can create bursts of catalog load that cause slower table loading, increased metadata latency, and longer commit durations for workloads that have nothing to do with maintenance.
 
 At that point, the objective is no longer just keeping tables healthy. It is keeping the entire platform healthy.
 
-Production systems need safeguards to prevent maintenance workloads from overwhelming shared infrastructure:
-
-* Concurrency limits  
-* Catalog-aware scheduling  
-* Backpressure mechanisms  
-* Maintenance workload throttling  
-* Load-aware execution policies
-
-These controls allow maintenance to progress steadily without competing aggressively with production traffic.
-
-The most effective maintenance systems behave like good background services: they consume available capacity when the platform is quiet and back off when higher-priority workloads need resources. The goal is to reduce maintenance debt without introducing operational debt elsewhere in the platform.
+The controls that help are concrete: limit how many tables can be maintained at the same time, introduce cooldown periods so recently-touched tables aren't immediately re-evaluated, and reduce catalog reads by caching frequently accessed settings. The underlying principle is simple — maintenance should behave like a good background service, consuming spare capacity when the platform is quiet and stepping back when production workloads need it.
 
 ### Managing Configuration Across Multiple Layers
 
