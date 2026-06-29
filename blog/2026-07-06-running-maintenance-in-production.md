@@ -33,7 +33,7 @@ That gap between a successful maintenance run and an actually healthier table ca
 In [previous post](/blog/2026-06-22-how-we-built-automated-maintenance.md), we explained how the system was designed and why it was built that way. This post shifts the focus from architecture to operations, what it takes to keep automated maintenance effective when hundreds of production tables are being updated continuously. 
 
 Running compaction, snapshot expiration, orphan cleanup, and manifest optimization across hundreds of actively written tables is a different problem altogether. The maintenance operations don't change. The environment does.
-Shared compute, continuous ingestion, competing workloads, resource limits, and the need to keep everything observable without turning every table into its own monitoring project quickly changed the nature of the problem. Table maintenance stopp being a background task and become a scheduling, resource management, and reliability challenge.
+Shared compute, continuous ingestion, competing workloads, resource limits, and the need to keep everything observable without turning every table into its own monitoring project quickly changed the nature of the problem. Table maintenance stop being a background task and become a scheduling, resource management, and reliability challenge.
 
 The architecture gave us the foundation. Production workloads tested every assumption behind it. The rest of this post walks through the challenges we encountered and how we addressed them.
 
