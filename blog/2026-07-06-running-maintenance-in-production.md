@@ -144,85 +144,51 @@ The challenges above shaped many of the design decisions in our maintenance plat
 
 One of our primary goals was to make maintenance visible rather than something users simply trust is working.
 
-For every maintenance operation, we capture metrics before and after execution so users can immediately understand its impact. Instead of reporting only that a maintenance task succeeded, we show what actually changed.
+For every maintenance operation, we capture metrics before and after execution so users can immediately understand its impact. Instead of reporting that a task succeeded, we show what actually changed:
 
-For example:
-
-* **Rewrite Data Files** tracks data file count and total data file size.  
-* **Expire Snapshots** tracks snapshot count.  
-* **Rewrite Manifest Files** tracks manifest file count and total manifest size.  
+* **Rewrite Data Files** tracks data file count and total data file size.
+* **Expire Snapshots** tracks snapshot count.
+* **Rewrite Manifest Files** tracks manifest file count and total manifest size.
 * **Cleanup Orphan Files** tracks data and metadata file counts along with their storage footprint.
 
-This allows users to answer practical questions such as:
+Observability matters even more when maintenance fails. Every operation records its execution status and surfaces error information directly to the user, without requiring a trip to service logs.
 
-* Did compaction actually reduce the number of small files?  
-* How many snapshots were removed?  
-* Did manifest optimization reduce metadata overhead?  
-* How much storage was reclaimed through orphan file cleanup?
-
-Observability becomes even more important when maintenance fails. Every operation records its execution status and surfaces error information directly to the user. This eliminates the need to inspect service logs or investigate maintenance jobs externally.
-
-Our goal was simple: users should always be able to understand what maintenance did, why it ran, and whether it produced the expected outcome.
+Users should always be able to understand what maintenance did, why it ran, and whether it worked.
 
 ### Minimizing Catalog Load
 
-Protecting shared catalog infrastructure was another key design requirement.
+Keeping catalog load under control was a core design requirement, not an afterthought.
 
-Rather than treating maintenance as a single workflow, we separated it into three independent stages: Detection, Evaluation, and Execution. This allows load to be controlled independently at each stage and prevents expensive maintenance operations from overwhelming the system. (Part 4 covers this architecture in greater detail.)
+Rather than treating maintenance as a single workflow, we separated it into three independent stages: Detection, Evaluation, and Execution. Each stage can be throttled independently, which prevents a spike in maintenance activity from cascading into catalog pressure on unrelated workloads. (Part 4 covers this architecture in detail.)
 
-We also introduced several optimizations to reduce unnecessary catalog activity:
+On top of that separation, we introduced three concrete optimizations: frequently accessed settings are cached within the service rather than re-fetched on every cycle; cooldown periods prevent recently evaluated tables from being reconsidered before the effects of maintenance have had time to show; and evaluation cycles are designed to avoid repeatedly scanning the same tables unnecessarily.
 
-* Frequently accessed catalog and table-level maintenance settings are cached within the service.  
-* Configurable cooldown periods prevent recently evaluated or maintained tables from being reconsidered immediately.  
-* Evaluation cycles are intentionally designed to avoid repeatedly scanning the same tables before maintenance effects have had time to materialize.
-
-These mechanisms significantly reduce metadata lookups, catalog traffic, and redundant evaluations.
-
-Most importantly, they allow the system to continuously monitor table health without generating excessive load on the catalog itself.
-
-The objective is not to run maintenance as aggressively as possible. The objective is to improve table health while remaining a well-behaved citizen within a shared lakehouse environment.
+The objective is not to run maintenance as aggressively as possible. It is to improve table health while remaining a well-behaved citizen in a shared environment.
 
 ### Keeping Configuration Predictable
 
 As maintenance capabilities grow, configuration management can quickly become a source of complexity.
 
-Many platforms accumulate configuration layers over time—global defaults, environment-specific overrides, namespace policies, table-level settings, and operation-specific exceptions. While flexible, these approaches often make maintenance behavior difficult to understand and troubleshoot.
+Many platforms accumulate layers over time: global defaults, environment-specific overrides, namespace policies, table-level settings, and operation-specific exceptions. The more layers, the harder it becomes to explain why any given maintenance action ran.
 
-We deliberately chose a simpler model.
+We deliberately chose a simpler model. Configuration exists at two levels: catalog and table. Both IOMETE-specific properties and native Iceberg properties are stored alongside catalog and table metadata, creating a single source of truth for maintenance behavior.
 
-Maintenance configuration exists at only two levels:
+Equally important, we wanted maintenance decisions to be explainable. Every maintenance run records and displays the effective configuration. When multiple configurations are present, a clear precedence order is applied:
 
-* Catalog-level configuration  
-* Table-level configuration
-
-Both IOMETE-specific maintenance properties and native Iceberg properties are stored alongside catalog and table metadata, creating a single source of truth for maintenance behavior.
-
-Just as importantly, we wanted maintenance decisions to be explainable. Every maintenance run records and displays the effective configuration that was used, allowing users to understand exactly why a compaction, snapshot expiration, manifest rewrite, or orphan cleanup operation was executed with a particular set of parameters.
-
-When multiple configurations are present, the following precedence order is applied:
-
-1. IOMETE table configuration  
-2. Iceberg table configuration  
-3. IOMETE catalog configuration  
+1. IOMETE table configuration
+2. Iceberg table configuration
+3. IOMETE catalog configuration
 4. Iceberg catalog configuration
 
-This approach provides flexibility where it is needed while keeping configuration resolution transparent and predictable.
-
-Users should never have to guess which setting was applied. The effective configuration is always visible, making maintenance behavior easier to understand, validate, and troubleshoot.
+Users should never have to guess. The effective configuration is always visible.
 
 ### Building for Reliability and Scale
 
-Maintenance operations are long-running and not immune to failures. Infrastructure interruptions, transient catalog issues, and workload spikes are all realities of production environments.
+Maintenance operations are long-running and not immune to failures. Infrastructure interruptions, transient catalog issues, and workload spikes are realities of production.
 
-To keep maintenance reliable at scale, we built several safeguards into the platform:
+To handle failures gracefully, we built in automatic retries for transient errors, operation timeouts to detect and terminate stalled tasks, and persistent task tracking so state survives restarts. Workers can be added independently as table counts grow. Cooldown periods spread evaluation load over time, preventing bursts from spiking catalog load.
 
-* **Cooldown periods** prevent tables from being repeatedly evaluated or maintained, reducing unnecessary work and catalog load.  
-* **Persistent task tracking** ensures maintenance state survives service restarts and allows tasks to be monitored throughout their lifecycle.  
-* **Automatic retries** help recover from transient failures without requiring manual intervention.  
-* **Operation timeouts** detect and terminate stalled maintenance tasks before they impact the system.  
-* **Distributed workers** allow maintenance capacity to scale horizontally as the number of tables and maintenance workload grows.
-
-Together, these mechanisms help ensure that the maintenance platform remains resilient, scalable, and capable of operating continuously across large production environments.
+Together, these mechanisms help ensure that the maintenance platform remains resilient, scalable, and capable of operating continuously across large production environments. Failures should be the system's problem, not the operator's.
 
 ## Lessons Learned
 
