@@ -94,59 +94,29 @@ Configuration seems straightforward when a maintenance system is first deployed.
 
 That simplicity rarely lasts.
 
-As adoption grows, different teams begin to require different maintenance behaviors. Some tables need longer retention periods for compliance. Others need more aggressive compaction because they support latency-sensitive analytics. Over time, configuration naturally spreads across multiple layers:
-
-* Platform defaults  
-* Catalog-level configuration  
-* Namespace-level policies  
-* Table-level overrides
+As adoption grows, different teams begin to require different maintenance behaviors. Some tables need longer retention periods for compliance. Others need more aggressive compaction because they support latency-sensitive analytics. Over time, configuration spreads across platform defaults, catalog policies, namespace rules, and table-level overrides.
 
 The challenge is not supporting these layers. The challenge is ensuring they remain understandable.
 
-Conflicts inevitably emerge. A platform administrator may configure snapshot expiration after 30 days, while a specific table requires 90-day retention for regulatory reasons. A catalog may define compaction thresholds that differ from the optimization requirements of a high-volume streaming table.
+Conflicts inevitably emerge. A platform administrator may configure snapshot expiration after 30 days, while a specific table requires 90-day retention for regulatory reasons. A catalog may define compaction thresholds that don't fit the requirements of a high-volume streaming table. In production, predictability matters as much as flexibility, and a system that cannot explain its own behavior undermines both.
 
-Without a clear model, maintenance behavior becomes difficult to reason about. Users see actions being executed but cannot easily determine which configuration triggered them.
-
-In production, predictability matters as much as flexibility.
-
-A maintenance platform should provide:
-
-* A well-defined configuration hierarchy  
-* Explicit override behavior  
-* Visibility into effective settings  
-* Validation and guardrails for unsafe configurations
-
-Most importantly, users should always be able to answer a simple question:
+Users should always be able to answer one question:
 
 **Why did this maintenance action run?**
 
-If the answer requires tracing multiple configuration layers manually, the system will become increasingly difficult to operate as it scales.
+If the answer requires digging through multiple layers, the system has transferred its complexity to its users. The effective configuration should always be visible, not inferred.
 
 ### Keeping Defaults Simple
 
 One of the easiest ways to make automated maintenance difficult to adopt is to expose every available tuning parameter.
 
-From an engineering perspective, configurability is attractive. Iceberg exposes a rich set of maintenance controls, and it is tempting to surface all of them to users. In practice, this often creates more problems than it solves.
+From an engineering perspective, configurability is attractive. Iceberg exposes a rich set of maintenance controls, and it is tempting to surface all of them to users. In practice, most users don't want to become experts in compaction strategies, snapshot lifecycle management, or resource allocation. They simply want their tables to remain healthy.
 
-Most users do not want to become experts in:
-
-* Compaction strategies  
-* Snapshot lifecycle management  
-* Metadata growth patterns  
-* Maintenance scheduling policies  
-* Resource allocation decisions
-
-They simply want their tables to remain healthy.
-
-The reality is that every additional setting introduces another decision, another potential misconfiguration, and another operational burden. What begins as flexibility can quickly become complexity.
-
-A successful maintenance platform should provide sensible defaults that work for the vast majority of tables while still allowing advanced users to override behavior when necessary.
+Every additional setting introduces another decision, another potential misconfiguration, and another reason to delay adoption. What begins as flexibility quickly becomes complexity.
 
 The goal is not to eliminate configurability. It is to make configuration optional.
 
-Users should be able to enable automated maintenance and receive meaningful benefits immediately, without spending hours tuning thresholds or studying maintenance internals. The platform should absorb the operational complexity and expose only the controls that users genuinely need.
-
-In our experience, adoption is driven far more by good defaults than by extensive configuration options. The most successful maintenance systems are often the ones users rarely have to think about.
+Users should be able to turn on automated maintenance and immediately see results. The best maintenance system is the one nobody has to think about.
 
 ### Building for Failure and Scale
 
