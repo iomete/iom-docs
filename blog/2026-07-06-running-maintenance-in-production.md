@@ -24,19 +24,20 @@ date: 06/07/2026
 
 ---
 
-In [Part 4](/blog/how-we-built-automated-maintenance), we explored the architecture behind our automated maintenance system: the detect-evaluate-execute pipeline, the split execution model, and the configuration hierarchy. That post focused on how we built the system. This one focuses on what happened after we put it into production.
+The maintenance job showed green but the table wasn't actually healthier.
 
-Running compaction on a single table is relatively straightforward. Running compaction, snapshot expiration, orphan cleanup, and manifest optimization across hundreds of tables on shared infrastructure, while production workloads continue uninterrupted, is an entirely different challenge. The operations themselves do not change. The operating environment does.
+That gap between a successful maintenance run and an actually healthier table captures why table maintenance is more than just executing maintenance operations. 
 
-As organizations move from manual or scheduled maintenance to automation at scale, they tend to encounter the same set of problems. Not because the underlying tools are insufficient, but because production introduces constraints that rarely appear in isolated examples: shared compute resources, continuous ingestion, competing workloads, cost controls, and the need to keep the entire system observable without creating an operational burden.
+In [Part 4](/blog/2026-06-22-how-we-built-automated-maintenance.md), we explained how the system was designed and why it was built that way. This post shifts the focus from architecture to operations, what it takes to keep automated maintenance effective when hundreds of production tables are being updated continuously. 
 
-At that point, table maintenance stops being a collection of background jobs and becomes a scheduling, resource management, and reliability problem.
+Running compaction, snapshot expiration, orphan cleanup, and manifest optimization across hundreds of actively written tables is a different problem altogether. The maintenance operations don't change. The environment does.
+Shared compute, continuous ingestion, competing workloads, resource limits, and the need to keep everything observable without turning every table into its own monitoring project quickly changed the nature of the problem. Table maintenance stopp being a background task and become a scheduling, resource management, and reliability challenge.
 
-This post explores those challenges and the lessons we learned while running automated Iceberg maintenance across large-scale production environments.
+The architecture gave us the foundation. Production workloads tested every assumption behind it. The rest of this post walks through the challenges we encountered and how we addressed them.
 
-—-
+## The Challenges We Encountered
 
-## **Challenge \#1: Not Every Table Needs the Same Maintenance**
+### Not Every Table Needs the Same Maintenance
 
 One of the first mistakes teams make when automating table maintenance is treating every table the same.
 
@@ -55,9 +56,9 @@ Neither scales well.
 
 As the number of tables grows, maintenance becomes a prioritization problem rather than a scheduling problem. The system must be able to distinguish between tables that need attention and tables that do not.
 
-In Part 4, we described how our evaluate phase uses table metrics and configurable thresholds to make these decisions dynamically. More broadly, any production-grade maintenance system needs a mechanism to adapt maintenance behavior based on table characteristics, whether through table tiers, per-table policies, or metric-driven triggers.
+In [Part 4](/blog/2026-06-22-how-we-built-automated-maintenance.md), we described how our evaluate phase uses table metrics and configurable thresholds to make these decisions dynamically. More broadly, any production-grade maintenance system needs a mechanism to adapt maintenance behavior based on table characteristics, whether through table tiers, per-table policies, or metric-driven triggers.
 
-## **Challenge \#2: Monitoring Table Health**
+### Monitoring Table Health
 
 Maintenance is easy to automate. Knowing whether it is working is much harder.
 
@@ -83,7 +84,7 @@ Without this visibility, maintenance becomes reactive. Problems are discovered o
 
 At scale, observability is not just a reporting feature. It is what allows teams to understand the health of their lakehouse, prioritize maintenance work intelligently, and measure whether their maintenance strategy is actually producing results.
 
-## **Challenge \#3: Protecting Shared Catalog Infrastructure**
+### Protecting Shared Catalog Infrastructure
 
 Most maintenance discussions focus on individual tables. In production, the bigger concern is often the catalog itself.
 
@@ -111,7 +112,7 @@ These controls allow maintenance to progress steadily without competing aggressi
 
 The most effective maintenance systems behave like good background services: they consume available capacity when the platform is quiet and back off when higher-priority workloads need resources. The goal is to reduce maintenance debt without introducing operational debt elsewhere in the platform.
 
-## **Challenge \#4: Managing Configuration Across Multiple Layers**
+### Managing Configuration Across Multiple Layers
 
 Configuration seems straightforward when a maintenance system is first deployed. A few global settings, a handful of thresholds, and everything behaves predictably.
 
@@ -145,7 +146,7 @@ Most importantly, users should always be able to answer a simple question:
 
 If the answer requires tracing multiple configuration layers manually, the system will become increasingly difficult to operate as it scales.
 
-## **Challenge \#5: Keeping Defaults Simple**
+### Keeping Defaults Simple
 
 One of the easiest ways to make automated maintenance difficult to adopt is to expose every available tuning parameter.
 
@@ -171,9 +172,7 @@ Users should be able to enable automated maintenance and receive meaningful bene
 
 In our experience, adoption is driven far more by good defaults than by extensive configuration options. The most successful maintenance systems are often the ones users rarely have to think about.
 
----
-
-## **Challenge \#7: Building for Failure and Scale**
+### Building for Failure and Scale
 
 Maintenance operations are long-running, resource-intensive, and inherently unpredictable.
 
@@ -210,11 +209,11 @@ Ultimately, the maintenance system should require less operational attention tha
 
 ---
 
-## **What We Built Differently**
+## What We Built Differently
 
 The challenges above shaped many of the design decisions in our maintenance platform. Rather than treating maintenance as a collection of scheduled jobs, we approached it as a production service that needed to be observable, resource-aware, and predictable at scale.
 
-### **Making Maintenance Observable**
+### Making Maintenance Observable
 
 One of our primary goals was to make maintenance visible rather than something users simply trust is working.
 
@@ -238,7 +237,7 @@ Observability becomes even more important when maintenance fails. Every operatio
 
 Our goal was simple: users should always be able to understand what maintenance did, why it ran, and whether it produced the expected outcome.
 
-### **Minimizing Catalog Load**
+### Minimizing Catalog Load
 
 Protecting shared catalog infrastructure was another key design requirement.
 
@@ -256,7 +255,7 @@ Most importantly, they allow the system to continuously monitor table health wit
 
 The objective is not to run maintenance as aggressively as possible. The objective is to improve table health while remaining a well-behaved citizen within a shared lakehouse environment.
 
-### **Keeping Configuration Predictable**
+### Keeping Configuration Predictable
 
 As maintenance capabilities grow, configuration management can quickly become a source of complexity.
 
@@ -284,7 +283,7 @@ This approach provides flexibility where it is needed while keeping configuratio
 
 Users should never have to guess which setting was applied. The effective configuration is always visible, making maintenance behavior easier to understand, validate, and troubleshoot.
 
-### **Building for Reliability and Scale**
+### Building for Reliability and Scale
 
 Maintenance operations are long-running and not immune to failures. Infrastructure interruptions, transient catalog issues, and workload spikes are all realities of production environments.
 
@@ -298,7 +297,7 @@ To keep maintenance reliable at scale, we built several safeguards into the plat
 
 Together, these mechanisms help ensure that the maintenance platform remains resilient, scalable, and capable of operating continuously across large production environments.
 
-## **Lessons Learned**
+## Lessons Learned
 
 After helping teams operate large Iceberg deployments, several patterns emerge:
 
@@ -308,7 +307,7 @@ After helping teams operate large Iceberg deployments, several patterns emerge:
 4. Automation without observability creates operational risk.  
 5. The objective is not perfect tables—it is predictable performance at acceptable cost.
 
-## **Conclusion**
+## Conclusion
 
 Iceberg maintenance is often discussed as a collection of table operations. In production, it becomes an operational discipline.
 
