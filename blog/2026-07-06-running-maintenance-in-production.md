@@ -192,21 +192,20 @@ Together, these mechanisms help ensure that the maintenance platform remains res
 
 ## Lessons Learned
 
-After helping teams operate large Iceberg deployments, several patterns emerge:
+**Table health metrics matter more than maintenance schedules.**
+Cron-based schedules feel predictable and easy to reason about at first. But they treat every table the same regardless of whether maintenance is actually needed. Environments that shift to metric-driven evaluation trigger maintenance based on file counts, snapshot growth, and storage pressure. They consistently handle more tables with less wasted compute.
 
-1. Maintenance schedules become obsolete as environments grow.  
-2. Table health metrics are more valuable than cron schedules.  
-3. Cost control is essential.  
-4. Automation without observability creates operational risk.  
-5. The objective is not perfect tables—it is predictable performance at acceptable cost.
+**Automation without observability creates a different kind of risk.**
+Automated maintenance that runs silently is hard to trust and harder to debug. Teams that cannot answer "did this table actually get healthier?" are flying blind. Observability is not a dashboard feature. It is what turns automation into something you can rely on rather than something you hope is working.
+
+**The goal is not perfect tables. It is predictable performance at acceptable cost.**
+Chasing perfect compaction ratios or zero orphan files on every table is expensive and often unnecessary. The bar that actually matters is whether query performance is stable and storage costs are under control. Maintenance that achieves that consistently, at scale, is doing its job.
 
 ## Conclusion
 
-Iceberg maintenance is often discussed as a collection of table operations. In production, it becomes an operational discipline.
+Most teams first encounter Iceberg maintenance as a set of operations to run: compact files, expire snapshots, clean up orphans. The tools are well-documented. The operations are straightforward.
 
-The challenge is no longer how to compact files, expire snapshots, or optimize metadata. The challenge is deciding when maintenance should run, which tables need attention, and how to balance table health against operational cost and platform stability.
+What changes at scale is the context around those operations: who decides when to run them, how to prevent them from disrupting production workloads, how to know whether they actually worked, and how to manage all of that consistently across hundreds of tables without it becoming a full-time job.
 
-Organizations that approach maintenance as a production system rather than a collection of maintenance tasks gain more than healthier tables. They achieve more predictable performance, better resource utilization, lower operational overhead, and a more reliable lakehouse platform.
-
-As lakehouse environments continue to grow, the success of a maintenance strategy will depend less on the individual maintenance operations and more on the systems used to manage them at scale.
+That shift, from running maintenance operations to operating a maintenance system, is where most of the real complexity lives. The teams that navigate it well are not necessarily running better compaction algorithms. They are running better systems.
 
