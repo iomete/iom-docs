@@ -15,6 +15,20 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.18.0" date="TBD">
+  <NewFeatures>
+    - _TBD_
+  </NewFeatures>
+
+  <Improvements>
+    - _TBD_
+  </Improvements>
+
+  <BugFixes>
+    - _TBD_
+  </BugFixes>
+</Release>
+
 <Release version="3.17.3" date="July 21st, 2026">
 
   <Improvements>
