@@ -1,98 +1,114 @@
 ---
 title: Private Docker Registry
-description: To create spark job you may want to add a custom docker image stored in your private registry at this time you need private docker registries in IOMETE platform
+sidebar_label: Private Docker Registry
+description: Connect private Docker registries to IOMETE so Spark jobs and other workloads can pull images from Docker Hub, AWS ECR, GCP, DigitalOcean, and Quay.io.
 last_update:
-  date: 10/04/2022
-  author: Vugar Dadalov
----
-
+  date: 06/30/2026
+  author: Valid Akhundov
 ---
 
 import Img from '@site/src/components/Img';
 
-## Private Docker Registries
+## Overview
 
-While using **IOMETE** platform, at some point, you may required to use private docker registry, for example when creating spark job you may want to add a custom docker image stored in your private registry.
+When running Spark jobs or other workloads on IOMETE, you may need to pull images from a private Docker registry. The **Docker Settings** page lets you register credentials for any container registry so the platform can authenticate on your behalf.
 
-In this section we will demonstrate on how to integrate private docker registries into **IOMETE** and we will create sample Spark Job using image from private registry. Also we are going to cover some popular registries ( _AWS ECR, DigitalOcean, Quay.io, DockerHub, GCP / Google Container Registry_) with helpful resources.
+Navigate to the **Admin Portal**, then open **Docker Settings** in the left sidebar under **Compute** to see your configured registries.
 
-<Img src="/img/user-guide/docker-registries/docker-registries.png" alt="Email configuration" />
+<Img src="/img/user-guide/docker-registries/docker-registries.png" alt="Docker Registries list" />
 
-Let's get started.
+Each registry entry shows its **Name**, **Host**, and the Kubernetes **Namespace** it is deployed to.
 
-To add new registry, open your IOMETE console, and go to settings panel and press `Create New` button.
+## Adding a Registry
 
-<!-- ![docker registry list](/img/user-guide/docker-registry-list.png) -->
+Click **+ New Docker Registry** to open the creation dialog.
 
-Adding private docker registry is similar to `docker login` command, you will need to fill in 4 fields:
+<Img src="/img/user-guide/docker-registries/docker-registries-create.png" alt="Create New Docker Registry dialog" />
 
-`name` - name for registry (can not be change, should be unique, when deleting private docker registry your running or scheduled jobs can become invalid)
-`host` - docker registry server (for Docker Hub it is just *http://docker.io*, see more examples below)
-`username` - account credentials
-`password` - account credentials
+Fill in the following fields:
 
-<Img src="/img/user-guide/docker-registries/docker-registry-create.png" alt="Email configuration" />
+| Field | Description |
+|-------|-------------|
+| **Name** | A unique identifier for this registry. Cannot be changed after creation. Deleting a registry that is referenced by running or scheduled jobs will make those jobs invalid. |
+| **Host** | The registry server URL (e.g. `docker.io` for Docker Hub). |
+| **Deploy to Kubernetes namespace** | The Kubernetes namespace where the image pull secret will be created. |
+| **Username** | Your registry account username or access token. |
+| **Password** | Your registry account password or access token. |
 
-After filling the form you should see a new line in _Docker Registries_ table.
+Click **Create** to save. The new registry appears in the table immediately.
 
-Now to use your private docker registry go to _Jobs_ menu and create a new job. Under the _Deployment_ section type in private repository to **Docker Image** field. And on the left side of _Docker Image_ field you will see dropdown with list of your private docker registries added to **IOMETE** platform. Choose corresponding one from dropdown list.
+## Editing a Registry
 
-<!-- ![job from docker registry](/img/user-guide/job-form-docker-registry.png) -->
+Click the **⋮** menu on any row and select **Edit**.
 
-Now Run the job to test. If username/password provided are correct you should see that job will successfully run.
+<Img src="/img/user-guide/docker-registries/docker-registries-actions.png" alt="Registry row actions menu" />
 
-Below we will provide some helpful resources and detailed informations about popular Docker Container Registries.
+The edit dialog is pre-filled with the current values. Update any field and click **Save**.
 
-## Docker Hub
+<Img src="/img/user-guide/docker-registries/docker-registries-edit.png" alt="Edit Docker Registry dialog" />
 
-Connecting Docker Hub is pretty easy, you should just type username / password from [https://hub.docker.com](https://hub.docker.com)
+## Deleting a Registry
 
-**Host**: `docker.io`
-**Username**: `[your username]`
-**Password**: `[your password]`
+Click the **⋮** menu on any row and select **Delete**. Confirm in the dialog that appears.
 
-## AWS ECR
+<Img src="/img/user-guide/docker-registries/docker-registries-delete.png" alt="Delete Docker Registry confirmation" />
 
-Adding AWS ECR is a bit tricky. You should generate password before adding it as a private docker registry.
-To do so please execute following command from Terminal or any CLI tool:
+This action cannot be undone. Any Spark jobs referencing this registry will fail to pull their images after deletion.
 
+## Using a Registry in a Spark Job
+
+When creating or editing a Spark job, go to the **Application** section and enter the full image path in the **Docker Image** field. Use the dropdown to the left of that field to select the matching private registry.
+
+## Registry-Specific Setup
+
+### Docker Hub
+
+**Host**: `docker.io`  
+**Username**: your Docker Hub username  
+**Password**: your Docker Hub password or access token
+
+### AWS ECR
+
+AWS ECR uses short-lived tokens. Generate one before adding the registry:
+
+```bash
+aws ecr get-login-password --region YOUR_REGION
 ```
-aws ecr get-login-password --region [YOUR_REGION]
-```
 
-**Host**: `[your_aws_account_id].dkr.ecr.[your_region].amazonaws.com`
-**Username**: `AWS`
-**Password**: `[GENERATED_PASSWORD]`
-region - the ECR region, like `us-east-1`
+**Host**: `YOUR_AWS_ACCOUNT_ID.dkr.ecr.YOUR_REGION.amazonaws.com`  
+**Username**: `AWS`  
+**Password**: the token output by the command above
 
-For more information please refer to [https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html)
+For details, see the [AWS ECR authentication docs](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html).
 
-## Quay.io
+### Quay.io
 
-**Host**: `quay.io`
-**Username**: `[your username]`
-**Password**: `[your password]`
+**Host**: `quay.io`  
+**Username**: your Quay.io username  
+**Password**: your Quay.io password
 
-## DigitalOcean
+### DigitalOcean
 
-For Digital ocean you first need to create API Token. Navigating to **API** in the DigitalOcean control panel, under the section Token/Keys generate the token with Read access. Then use token for username and the password.
+Create an API token with **Read** access in the DigitalOcean control panel under **API → Tokens/Keys**, then use the token for both username and password.
 
-**Host**: `registry.digitalocean.com`
-**Username**: `[token]`
-**Password**: `[token]`
+**Host**: `registry.digitalocean.com`  
+**Username**: your API token  
+**Password**: your API token
 
-## GCP
+See [DigitalOcean container registry docs](https://docs.digitalocean.com/products/container-registry/how-to/use-registry-docker-kubernetes/) for more.
 
-**Host**: `gcr.io` (United States, for other regions please refer to https://cloud.google.com/container-registry/docs/pushing-and-pulling)
-**Username**: `_json_key`
-**Password**: `[full GCP service account JSON]`
+### GCP / Google Container Registry
 
-The service account must have the IAM role `Storage Object Viewer` on the `artifacts.your-gcp-project.appspot.com` Google Cloud Storage bucket.
+**Host**: `gcr.io` (US region; see [GCR docs](https://cloud.google.com/container-registry/docs/pushing-and-pulling) for other regions)  
+**Username**: `_json_key`  
+**Password**: the full contents of your GCP service account JSON key file
 
-[https://cloud.google.com/container-registry/docs/advanced-authentication](https://cloud.google.com/container-registry/docs/advanced-authentication)
+The service account must have the **Storage Object Viewer** IAM role on the `artifacts.YOUR_GCP_PROJECT.appspot.com` bucket.
+
+See [GCR advanced authentication](https://cloud.google.com/container-registry/docs/advanced-authentication) for details.
 
 ## Resources
 
-- [https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
-- [https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html)
-- [https://docs.digitalocean.com/products/container-registry/how-to/use-registry-docker-kubernetes/](https://docs.digitalocean.com/products/container-registry/how-to/use-registry-docker-kubernetes/)
+- [Kubernetes: Pull an Image from a Private Registry](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
+- [AWS ECR Registry Authentication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html)
+- [DigitalOcean Container Registry with Kubernetes](https://docs.digitalocean.com/products/container-registry/how-to/use-registry-docker-kubernetes/)
