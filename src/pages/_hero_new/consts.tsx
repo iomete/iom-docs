@@ -214,12 +214,12 @@ export const communities = [
     ),
     url: "https://iomete.com/roadmap",
   },
-  {
-    title: "Join our Community",
-    desc: "Ask community version questions here",
-    icon: <HandHeart size={32} />,
-    url: "https://community.iomete.com",
-  },
+  // {
+  //   title: "Join our Community",
+  //   desc: "Ask community version questions here",
+  //   icon: <HandHeart size={32} />,
+  //   url: "https://community.iomete.com",
+  // },
   {
     title: "Youtube Channel",
     desc: "We have some tutorials for you here",

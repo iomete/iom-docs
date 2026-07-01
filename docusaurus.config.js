@@ -36,7 +36,7 @@ const glossaryPlugin = [
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "IOMETE",
-  tagline: "First cloud-prem lakehouse",
+  tagline: "The sovereign data platform",
   favicon: "favicon.png",
 
   // Set the production url of your site here
@@ -66,6 +66,7 @@ const config = {
   markdown: {
     mermaid: true,
   },
+  clientModules: ["./src/gtagFallback.js"],
   presets: [
     [
       "classic",
@@ -75,19 +76,6 @@ const config = {
           routeBasePath: "/",
           sidebarPath: "./sidebars.js",
           breadcrumbs: false,
-
-          editUrl: ({ docPath }) => {
-            let match;
-            if ((match = docPath.match(/(.*)\.mdx/)) != null) {
-              return `https://github.com/iomete/iom-docs/edit/main/docs/${match[1]}.mdx`;
-            }
-
-            if ((match = docPath.match(/(.*)\.md/)) != null) {
-              return `https://github.com/iomete/iom-docs/edit/main/docs/${match[1]}.md`;
-            }
-
-            return "https://github.com/iomete/iom-docs";
-          },
         },
         blog: {
           blogSidebarCount: 0,

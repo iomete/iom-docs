@@ -20,6 +20,11 @@ const sidebars = {
 
   getting_started: [
     {
+      type: "doc",
+      id: "getting-started/home",
+      className: "menu-item-home",
+    },
+    {
       type: "category",
       label: "Overview",
       collapsed: false,

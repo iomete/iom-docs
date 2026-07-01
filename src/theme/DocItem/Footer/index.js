@@ -8,7 +8,6 @@ export default function FooterWrapper(props) {
   return (
     <>
       <Footer {...props} />
-      {!frontMatter.hideFeedback && <Feedback label={metadata.id} />}
     </>
   );
 }

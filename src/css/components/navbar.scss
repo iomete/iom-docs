@@ -38,6 +38,8 @@ html[data-theme="dark"] {
       width: 100vw;
       display: flex;
       justify-content: center;
+      box-shadow: none;
+      border-bottom: 1px solid var(--ifm-table-border-color);
     }
 
     &__inner {
