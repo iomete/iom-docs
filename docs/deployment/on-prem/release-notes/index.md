@@ -21,7 +21,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </NewFeatures>
 
   <Improvements>
-    - _TBD_
+    - **Gateway Logging Controls**: Added Helm values for `iom-gateway` Nginx logging to make it easier to configure and reduce log volume. You can now:
+      - Set `services.gateway.logging.errorLogLevel` to control gateway error log severity. Default changed from `debug` to `error`.
+      - Set `services.gateway.logging.accessLog.enabled: false` to disable per-request access logs.
   </Improvements>
 
   <BugFixes>
