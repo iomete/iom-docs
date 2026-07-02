@@ -26,10 +26,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Set `services.gateway.logging.accessLog.enabled: false` to disable per-request access logs.
     - **Domain-Scoped Volume & Node Type APIs**: The domain-scoped `GET` endpoints for volumes and node types are now documented in the OpenAPI spec. The API allows non-admin users with access to a domain to list and view node types and volumes without needing an admin role.
     - **Scoped Service Account Selection**: The "Run as user" dropdown now shows service accounts the current user can manage instead of every service account in the domain.
+    - **Comprehensive API Audit Logging**: All API requests are now logged to `platform_event_logs`, capturing user, timestamp, path, HTTP method, and success status. Health, metrics, and internal service-check endpoints are excluded.
   </Improvements>
 
   <BugFixes>
     - **Resource Bundle Management for Domain Owners**: Fixed an issue where a domain owner could not edit a resource bundle when the bundle was owned by another user or by a group excluding them.
+    - **LDAP Empty Group Support**: Fixed an issue where an LDAP user filter returning no members was incorrectly treated as an error. Empty groups can now be saved and will be populated on subsequent LDAP syncs once members are added.
   </BugFixes>
 </Release>
 
