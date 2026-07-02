@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 06/30/2026
-  author: Maksym
+  date: 07/02/2026
+  author: Ruturaj
 ---
 
 import Img from '@site/src/components/Img';
@@ -17,17 +17,19 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="3.18.0" date="TBD">
   <NewFeatures>
-    - _TBD_
+    - **Read-Only Admin Role**: Added a new `READ_ONLY_ADMIN` role that grants read-only (GET) access to all admin APIs without any write access. This enables governance and self-serve tooling to read admin endpoints without granting the write permissions that existing admin roles carry.
   </NewFeatures>
 
   <Improvements>
     - **Gateway Logging Controls**: Added Helm values for `iom-gateway` Nginx logging to make it easier to configure and reduce log volume. You can now:
       - Set `services.gateway.logging.errorLogLevel` to control gateway error log severity. Default changed from `debug` to `error`.
       - Set `services.gateway.logging.accessLog.enabled: false` to disable per-request access logs.
+    - **Domain-Scoped Volume & Node Type APIs**: The domain-scoped `GET` endpoints for volumes and node types are now publicly exposed and documented in the OpenAPI spec, so non-admin users with access to a domain can list and view node types and volumes without needing an admin role.
+    - **Scoped Service Account Selection**: The "Run as user" dropdown now shows service accounts the current user can manage instead of every service account in the domain.
   </Improvements>
 
   <BugFixes>
-    - _TBD_
+    - **Resource Bundle Management for Domain Owners**: Fixed an issue where a domain owner could not edit a resource bundle when the bundle was owned by another user or by a group excluding them.
   </BugFixes>
 </Release>
 
