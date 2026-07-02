@@ -34,6 +34,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **LDAP Custom Filter: Empty Result Handling**: Fixed an issue where LDAP filter validation blocked saving when any user or group filter returned no members. Empty groups can now be saved and will be populated on subsequent LDAP syncs once members are added.
     - **Stale Query Cleanup**: Added periodic cleanup for SQL Editor queries stuck in RUNNING or SUBMITTED state after pod restarts or lost Spark connections.
     - **Query Cancel Detection**: Fixed an issue where cancelling a query in the SQL Editor was not reliably detected by the executing thread.
+    - **Spark Executor Count Tracking**: On long-running apps that cycled through more than 10,000 executors, the UI running-executor count could stall or drop to zero as executors were replaced. Executor state is now tracked with LRU eviction so live executors stay visible past the limit.
+    - **Spark Applications**:
+      - **Job Notifications**: Fixed a bug introduced in `v3.17.0` that silently blocked completion, failure, and abort notifications for scheduled Spark jobs. Manual runs were unaffected.
+      - **Runs Listing**: Fixed an issue where the Spark app run listing and timeline views did not correctly filter results for users with no job access, showing all runs instead of none. Only the runs listing was affected, job and run specific operations were not impacted.
   </BugFixes>
 </Release>
 
