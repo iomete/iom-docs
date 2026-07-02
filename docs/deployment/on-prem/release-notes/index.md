@@ -32,6 +32,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <BugFixes>
     - **Resource Bundle Management for Domain Owners**: Fixed an issue where a domain owner could not edit a resource bundle when the bundle was owned by another user or by a group excluding them.
     - **LDAP Custom Filter: Empty Result Handling**: Fixed an issue where LDAP filter validation blocked saving when any user or group filter returned no members. Empty groups can now be saved and will be populated on subsequent LDAP syncs once members are added.
+    - **Stale Query Cleanup**: Added periodic cleanup for SQL Editor queries stuck in RUNNING or SUBMITTED state after pod restarts or lost Spark connections.
+    - **Query Cancel Detection**: Fixed an issue where cancelling a query in the SQL Editor was not reliably detected by the executing thread.
   </BugFixes>
 </Release>
 
