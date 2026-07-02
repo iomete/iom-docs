@@ -31,7 +31,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <BugFixes>
     - **Resource Bundle Management for Domain Owners**: Fixed an issue where a domain owner could not edit a resource bundle when the bundle was owned by another user or by a group excluding them.
-    - **LDAP Filter Validation**: Fixed an issue where LDAP filter validation blocked saving when a filter returned no members. Empty groups can now be saved and will be populated on subsequent LDAP syncs once members are added.
+    - **LDAP Custom Filter: Empty Result Handling**: Fixed an issue where LDAP filter validation blocked saving when any user or group filter returned no members. Empty groups can now be saved and will be populated on subsequent LDAP syncs once members are added.
   </BugFixes>
 </Release>
 
