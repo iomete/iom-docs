@@ -80,7 +80,7 @@ The metrics that reveal actual table health are things like small file count, av
 
 Without visibility into these signals, maintenance becomes reactive. By the time something is obviously wrong, the debt has already accumulated.
 
-The goal of observability isn't reporting for its own sake. It's the difference between knowing that maintenance *ran* and knowing that maintenance *worked*.
+Observability is not about dashboards. It's about answering one question: **did the table actually get healthier?**
 
 <Img src="/img/blog/2026-07-06-running-maintenance-in-production/operational-vs-health.png" alt="Operational success versus table health: left panel shows three maintenance jobs all completing successfully, right panel shows the actual table metrics — file count barely reduced, average file size still far below the 512 MB target, proving that job success alone does not mean the table is healthier." borderless/>
 
