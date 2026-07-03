@@ -132,7 +132,7 @@ Every additional setting introduces another decision, another potential misconfi
 
 The goal is not to eliminate configurability. It is to make **configuration optional**.
 
-Users should be able to turn on automated maintenance and immediately see results. The best maintenance system is the one nobody has to think about.
+Users should be able to turn on automated maintenance and trust that it is working without tuning anything upfront. The best maintenance system is the one nobody has to think about.
 
 <Img src="/img/user-guide/table-maintenance/catalog-maintenance-tab-unconfigured.png" alt="A catalog's maintenance tab before any configuration: a clean starting point where users can enable automated maintenance with sensible defaults" borderless/>
 
@@ -185,13 +185,17 @@ Users should always be able to understand what maintenance did, why it ran, and 
 
 ### Minimizing Catalog Load
 
-Keeping catalog load under control was a core design requirement, not an afterthought.
+Keeping catalog load under control was a core design requirement, not an afterthought. Without it, **maintenance itself becomes the problem** — slowing down ingestion, queries, and commits across the platform.
 
 Rather than treating maintenance as a single workflow, we separated it into three independent stages: Detection, Evaluation, and Execution. Each stage can be throttled independently, so a burst of maintenance work in one stage doesn't overload the catalog for other workloads. ([Part 4](/blog/how-we-built-automated-maintenance) covers this architecture in detail.)
 
-On top of that separation, we introduced three concrete optimizations: frequently accessed settings are cached within the service rather than re-fetched on every cycle; cooldown periods prevent recently evaluated tables from being reconsidered before the effects of maintenance have had time to show; and evaluation cycles are designed to avoid repeatedly scanning the same tables unnecessarily.
+On top of that separation, we introduced three concrete optimizations:
 
-The objective is not to run maintenance as aggressively as possible. It is to improve table health while remaining a well-behaved citizen in a shared environment.
+* **Setting caching** — frequently accessed settings are cached within the service rather than re-fetched on every cycle.
+* **Cooldown periods** — recently evaluated tables aren't reconsidered before the effects of maintenance have had time to show.
+* **Smart scheduling** — evaluation cycles avoid repeatedly scanning the same tables unnecessarily.
+
+The objective is not to run maintenance as aggressively as possible. It is to **improve table health while remaining a well-behaved citizen** in a shared environment.
 
 ### Keeping Configuration Predictable
 
@@ -220,7 +224,13 @@ Users should never have to guess. The effective configuration is always visible.
 
 Maintenance operations are long-running and not immune to failures. Infrastructure interruptions, transient catalog issues, and workload spikes are realities of production.
 
-To handle failures gracefully, we built in automatic retries for transient errors, operation timeouts to detect and terminate stalled tasks, and persistent task tracking so state survives restarts. Workers can be added independently as table counts grow. Cooldown periods spread evaluation load over time, preventing bursts from spiking catalog load.
+To handle failures gracefully, we built in:
+
+* **Automatic retries** — transient catalog errors are retried without operator intervention.
+* **Operation timeouts** — stalled tasks are detected and terminated so they don't block the queue.
+* **Persistent task tracking** — task state survives worker restarts, so in-progress work isn't lost or duplicated.
+
+For scaling, workers can be added independently as table counts grow, and cooldown periods spread evaluation load over time to prevent catalog spikes.
 
 For catalogs with a large number of tables, the maintenance workload itself can be scaled by selecting a larger compute profile. This lets operators match the maintenance service's capacity to the size of the catalog it manages.
 
