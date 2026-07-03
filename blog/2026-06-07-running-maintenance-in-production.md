@@ -1,7 +1,7 @@
 ---
 title: "Running Iceberg Maintenance in Production: A Practical Guide for Data Teams"
 description: "Production lessons from running automated Apache Iceberg table maintenance: write conflict handling, orphan cleanup safety, and operational patterns."
-slug:  
+slug: iceberg-maintenance-production-guide
 authors: [ujjawal,Shashank,abhishek]
 hide_table_of_contents: false
 tags2: [Engineering]
@@ -203,7 +203,9 @@ As maintenance capabilities grow, configuration management can quickly become a 
 
 Many platforms accumulate layers over time: global defaults, environment-specific overrides, namespace policies, table-level settings, and operation-specific exceptions. The more layers, the harder it becomes to explain why any given maintenance action ran.
 
-We deliberately chose a simpler model. Configuration exists at two levels: catalog and table. Both IOMETE-specific properties and native Iceberg properties are stored alongside catalog and table metadata, creating a single source of truth for maintenance behavior.
+We deliberately chose a simpler model. Configuration exists at two levels: catalog and table.
+
+IOMETE introduces its own maintenance properties (prefixed with `iomete.maintenance.*`) that control things like whether compaction is enabled, what strategy to use, or how many snapshots to retain. But teams often already have native Iceberg properties set on their tables — like `write.target-file-size-bytes` or `history.expire.min-snapshots-to-keep`. Rather than forcing users to migrate, the system recognizes both. **IOMETE properties take precedence when both exist**, and native Iceberg properties serve as fallback defaults. Everything is stored alongside catalog and table metadata, creating a single source of truth for maintenance behavior.
 
 <Img src="/img/user-guide/table-maintenance/configure-catalog-config.png" alt="Catalog-level maintenance configuration: setting default thresholds and retention policies that apply to all tables in the catalog" borderless/>
 
