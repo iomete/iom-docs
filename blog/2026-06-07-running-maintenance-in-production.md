@@ -33,7 +33,7 @@ That gap between a successful maintenance run and an actually healthier table ca
 
 In [previous post](/blog/how-we-built-automated-maintenance), we explained how the system was designed and why it was built that way. This post shifts the focus from architecture to operations, what it takes to keep automated maintenance effective when hundreds of production tables are being updated continuously. 
 
-Running compaction, snapshot expiration, orphan cleanup, and manifest optimization across hundreds of actively written tables is a different problem altogether. The maintenance operations don't change. The environment does.
+Running compaction, snapshot expiration, orphan cleanup, and manifest optimization across hundreds of actively written tables is a different problem altogether. The maintenance operations don't change. **The environment does.**
 Shared compute, continuous ingestion, competing workloads, resource limits, and the need to keep everything observable without turning every table into its own monitoring project quickly changed the nature of the problem. Table maintenance stop being a background task and become a scheduling, resource management, and reliability challenge.
 
 The architecture gave us the foundation. Production workloads tested every assumption behind it. The rest of this post walks through the challenges we encountered and how we addressed them.
@@ -42,7 +42,7 @@ The architecture gave us the foundation. Production workloads tested every assum
 
 ### Not Every Table Needs the Same Maintenance
 
-One of the first mistakes teams make when automating table maintenance is treating every table the same.
+One of the first mistakes teams make when automating table maintenance is treating **every table the same**.
 
 The logic is understandable. A single compaction threshold, a single snapshot retention policy, and a single schedule are easy to configure and easy to explain. Unfortunately, they rarely survive contact with a real production environment.
 
@@ -62,7 +62,7 @@ Neither scales well.
 
 <Img src="/img/blog/2026-07-06-running-maintenance-in-production/table-profiles.png" alt="Four table archetypes with different maintenance needs: streaming fact tables need frequent compaction and aggressive snapshot expiry, dimension tables need minimal maintenance, append-only logs need snapshot cleanup but deferred compaction, and archived tables should be left alone entirely." borderless/>
 
-As the number of tables grows, maintenance becomes a prioritization problem rather than a scheduling problem. The system must be able to distinguish between tables that need attention and tables that do not.
+As the number of tables grows, maintenance becomes a **prioritization problem** rather than a scheduling problem. The system must be able to distinguish between tables that need attention and tables that do not.
 
 In [previous post](/blog/how-we-built-automated-maintenance), we described how our evaluate phase uses table metrics and configurable thresholds to make these decisions dynamically. More broadly, any production-grade maintenance system needs a mechanism to adapt maintenance behavior based on table characteristics, whether through table tiers, per-table policies, or metric-driven triggers.
 
@@ -74,7 +74,7 @@ Teams can usually tell you whether a maintenance job succeeded or failed. What t
 
 **Did the table actually become healthier?**
 
-A successful compaction job doesn't necessarily mean the small file problem is resolved. A completed snapshot expiration doesn't mean metadata growth is under control. Operational success and table health are related, but they are not the same thing.
+A successful compaction job doesn't necessarily mean the small file problem is resolved. A completed snapshot expiration doesn't mean metadata growth is under control. **Operational success and table health** are related, but they are not the same thing.
 
 The metrics that reveal actual table health are things like small file count, average file size, snapshot count, metadata file growth, and storage consumption. These move slowly. A problem building over days or weeks rarely announces itself until it surfaces as slower queries or unexpectedly rising storage costs.
 
@@ -94,7 +94,7 @@ On a single table, this activity is negligible. Across hundreds or thousands of 
 
 Running maintenance across a large table fleet simultaneously can create bursts of catalog load that cause slower table loading, increased metadata latency, and longer commit durations for workloads that have nothing to do with maintenance.
 
-At that point, the objective is no longer just keeping tables healthy. It is keeping the entire platform healthy.
+At that point, the objective is no longer just keeping tables healthy. It is keeping **the entire platform** healthy.
 
 The controls that help are concrete:
 
@@ -112,7 +112,7 @@ That simplicity rarely lasts.
 
 As adoption grows, different teams begin to require different maintenance behaviors. Some tables need longer retention periods for compliance. Others need more aggressive compaction because they support latency-sensitive analytics. Over time, configuration spreads across platform defaults, catalog policies, namespace rules, and table-level overrides.
 
-The challenge is not supporting these layers. The challenge is ensuring they remain understandable.
+The challenge is not supporting these layers. The challenge is **ensuring they remain understandable**.
 
 Conflicts inevitably emerge. A platform administrator may configure snapshot expiration after 30 days, while a specific table requires 90-day retention for regulatory reasons. A catalog may define compaction thresholds that don't fit the requirements of a high-volume streaming table. In production, predictability matters as much as flexibility, and a system that cannot explain its own behavior undermines both.
 
@@ -130,7 +130,7 @@ From an engineering perspective, configurability is attractive. Iceberg exposes 
 
 Every additional setting introduces another decision, another potential misconfiguration, and another reason to delay adoption. What begins as flexibility quickly becomes complexity.
 
-The goal is not to eliminate configurability. It is to make configuration optional.
+The goal is not to eliminate configurability. It is to make **configuration optional**.
 
 Users should be able to turn on automated maintenance and immediately see results. The best maintenance system is the one nobody has to think about.
 
@@ -142,7 +142,7 @@ Maintenance operations are long-running, resource-intensive, and inherently unpr
 
 A compaction job that normally completes in a few minutes may suddenly take hours because of increased data volume, infrastructure issues, or contention with other workloads. Snapshot expiration may encounter transient catalog failures. A worker process may restart halfway through a task.
 
-In production, failures are not exceptional events. They are expected.
+In production, failures are not exceptional events. **They are expected.**
 
 The question is not whether failures will occur, but how the system behaves when they do. Without protections like operation timeouts, automatic retries, and persistent task tracking, a single failure can leave maintenance in an unknown state. Work may be lost, duplicated, or simply abandoned.
 
@@ -150,7 +150,7 @@ Reliability, however, is only half of the challenge.
 
 A maintenance service that performs well for 100 tables may struggle when responsible for thousands. As table counts grow, the platform itself needs to scale: workers that can be added independently, evaluation cycles that distribute load across instances, and behavior that stays predictable when maintenance demand spikes.
 
-At scale, the maintenance platform becomes part of the critical infrastructure of the lakehouse. Ultimately, it should require less operational attention than the tables it maintains. If operators spend more time managing the maintenance platform than benefiting from it, the automation has failed its primary purpose.
+At scale, the maintenance platform becomes part of the critical infrastructure of the lakehouse. Ultimately, it should require **less operational attention** than the tables it maintains. If operators spend more time managing the maintenance platform than benefiting from it, the automation has failed its primary purpose.
 
 ---
 
