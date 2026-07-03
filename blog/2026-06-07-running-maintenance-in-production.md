@@ -1,9 +1,9 @@
 ---
-title: "Running Iceberg Maintenance in Production: Safety Mechanisms and Hard-Won Lessons"
+title: "Running Iceberg Maintenance in Production: A Practical Guide for Data Teams"
 description: "Production lessons from running automated Apache Iceberg table maintenance: write conflict handling, orphan cleanup safety, and operational patterns."
-slug: under-the-hood-optimizations
+slug: iceberg-maintenance-production-guide
 authors: [ujjawal,Shashank,abhishek]
-hide_table_of_contents: true
+hide_table_of_contents: false
 tags2: [Engineering]
 coverImage: img/blog/thumbnails/darkStone.png
 banner_description: Most maintenance guides explain what operations to run. Few discuss what happens after those operations are deployed across a production lakehouse.
@@ -21,7 +21,7 @@ import Img from '@site/src/components/Img';
 * Part 2: [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations)
 * Part 3: [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
 * Part 4: [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance)
-* Part 5: Running Iceberg Maintenance in Production
+* **Part 5: Running Iceberg Maintenance in Production**
 * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
 </details>
 
