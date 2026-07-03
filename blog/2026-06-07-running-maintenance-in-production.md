@@ -31,7 +31,7 @@ The maintenance job showed green but the table wasn't actually healthier.
 
 That gap between a successful maintenance run and an actually healthier table captures why table maintenance is more than just executing maintenance operations. 
 
-In [previous post](/blog/2026-06-22-how-we-built-automated-maintenance.md), we explained how the system was designed and why it was built that way. This post shifts the focus from architecture to operations, what it takes to keep automated maintenance effective when hundreds of production tables are being updated continuously. 
+In [previous post](/blog/how-we-built-automated-maintenance), we explained how the system was designed and why it was built that way. This post shifts the focus from architecture to operations, what it takes to keep automated maintenance effective when hundreds of production tables are being updated continuously. 
 
 Running compaction, snapshot expiration, orphan cleanup, and manifest optimization across hundreds of actively written tables is a different problem altogether. The maintenance operations don't change. The environment does.
 Shared compute, continuous ingestion, competing workloads, resource limits, and the need to keep everything observable without turning every table into its own monitoring project quickly changed the nature of the problem. Table maintenance stop being a background task and become a scheduling, resource management, and reliability challenge.
@@ -61,7 +61,7 @@ Neither scales well.
 
 As the number of tables grows, maintenance becomes a prioritization problem rather than a scheduling problem. The system must be able to distinguish between tables that need attention and tables that do not.
 
-In [previous post](/blog/2026-06-22-how-we-built-automated-maintenance.md), we described how our evaluate phase uses table metrics and configurable thresholds to make these decisions dynamically. More broadly, any production-grade maintenance system needs a mechanism to adapt maintenance behavior based on table characteristics, whether through table tiers, per-table policies, or metric-driven triggers.
+In [previous post](/blog/how-we-built-automated-maintenance), we described how our evaluate phase uses table metrics and configurable thresholds to make these decisions dynamically. More broadly, any production-grade maintenance system needs a mechanism to adapt maintenance behavior based on table characteristics, whether through table tiers, per-table policies, or metric-driven triggers.
 
 ### Monitoring Table Health
 
