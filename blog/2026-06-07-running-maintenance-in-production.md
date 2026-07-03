@@ -53,11 +53,14 @@ Tables within a lakehouse behave very differently depending on how they are writ
 * Append-only log tables grow continuously but rarely receive updates or deletes. Snapshot cleanup may be important, while compaction can often be deferred.  
 * Historical or archived tables may remain untouched for months. In many cases, the best maintenance strategy is to leave them alone entirely.
 
-A uniform policy inevitably creates one of two outcomes: either active tables accumulate maintenance debt because thresholds are too conservative, or quiet tables consume unnecessary compute because thresholds are too aggressive.
+A uniform policy inevitably creates one of two outcomes:
 
-<Img src="/img/blog/2026-07-06-running-maintenance-in-production/table-profiles.png" alt="Four table archetypes with different maintenance needs: streaming fact tables need frequent compaction and aggressive snapshot expiry, dimension tables need minimal maintenance, append-only logs need snapshot cleanup but deferred compaction, and archived tables should be left alone entirely." borderless/>
+* **Active tables accumulate maintenance debt** because thresholds are too conservative.
+* **Quiet tables consume unnecessary compute** because thresholds are too aggressive.
 
 Neither scales well.
+
+<Img src="/img/blog/2026-07-06-running-maintenance-in-production/table-profiles.png" alt="Four table archetypes with different maintenance needs: streaming fact tables need frequent compaction and aggressive snapshot expiry, dimension tables need minimal maintenance, append-only logs need snapshot cleanup but deferred compaction, and archived tables should be left alone entirely." borderless/>
 
 As the number of tables grows, maintenance becomes a prioritization problem rather than a scheduling problem. The system must be able to distinguish between tables that need attention and tables that do not.
 
@@ -93,7 +96,13 @@ Running maintenance across a large table fleet simultaneously can create bursts 
 
 At that point, the objective is no longer just keeping tables healthy. It is keeping the entire platform healthy.
 
-The controls that help are concrete: limit how many tables can be maintained at the same time, introduce cooldown periods so recently-touched tables aren't immediately re-evaluated, and reduce catalog reads by caching frequently accessed settings. The underlying principle is simple: maintenance should behave like a good background service, consuming spare capacity when the platform is quiet and stepping back when production workloads need it.
+The controls that help are concrete:
+
+* **Limit concurrency** — cap how many tables can be maintained at the same time.
+* **Introduce cooldown periods** — prevent recently-touched tables from being re-evaluated too soon.
+* **Cache frequently accessed settings** — reduce catalog reads by avoiding repeated fetches.
+
+The underlying principle is simple: maintenance should behave like a good background service, consuming spare capacity when the platform is quiet and stepping back when production workloads need it.
 
 ### Managing Configuration Across Multiple Layers
 
@@ -166,8 +175,10 @@ For every maintenance operation, we capture metrics before and after execution s
 
 Observability matters even more when maintenance fails. Every operation records its execution status and surfaces error information directly to the user, without requiring a trip to service logs.
 
+**Failure:**
 <Img src="/img/user-guide/table-maintenance/run-detail-failed.png" alt="Detail view of a failed maintenance run showing the error status and execution context" borderless/>
 
+**Reason:**
 <Img src="/img/user-guide/table-maintenance/run-detail-reason.png" alt="Failure reason displayed directly in the run detail view, eliminating the need to dig through service logs" borderless/>
 
 Users should always be able to understand what maintenance did, why it ran, and whether it worked.
