@@ -1,7 +1,7 @@
 ---
 title: "Running Iceberg Maintenance in Production: A Practical Guide for Data Teams"
 description: "Production lessons from running automated Apache Iceberg table maintenance: write conflict handling, orphan cleanup safety, and operational patterns."
-slug: iceberg-maintenance-production-guide
+slug:  
 authors: [ujjawal,Shashank,abhishek]
 hide_table_of_contents: false
 tags2: [Engineering]
@@ -187,7 +187,7 @@ Users should always be able to understand what maintenance did, why it ran, and 
 
 Keeping catalog load under control was a core design requirement, not an afterthought.
 
-Rather than treating maintenance as a single workflow, we separated it into three independent stages: Detection, Evaluation, and Execution. Each stage can be throttled independently, which prevents a spike in maintenance activity from cascading into catalog pressure on unrelated workloads. (Part 4 covers this architecture in detail.)
+Rather than treating maintenance as a single workflow, we separated it into three independent stages: Detection, Evaluation, and Execution. Each stage can be throttled independently, so a burst of maintenance work in one stage doesn't overload the catalog for other workloads. ([Part 4](/blog/how-we-built-automated-maintenance) covers this architecture in detail.)
 
 On top of that separation, we introduced three concrete optimizations: frequently accessed settings are cached within the service rather than re-fetched on every cycle; cooldown periods prevent recently evaluated tables from being reconsidered before the effects of maintenance have had time to show; and evaluation cycles are designed to avoid repeatedly scanning the same tables unnecessarily.
 
