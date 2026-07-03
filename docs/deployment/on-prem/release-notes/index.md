@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 07/02/2026
-  author: Ruturaj
+  date: 07/03/2026
+  author: Maksym
 ---
 
 import Img from '@site/src/components/Img';
@@ -21,6 +21,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </NewFeatures>
 
   <Improvements>
+    - **Gateway Rate Limiting**: Added an optional Nginx-level rate limit on the gateway. Each authenticated client gets its own budget, falling back to client IP for unauthenticated requests. Disabled by default and configurable via `services.gateway.rateLimit` Helm values. Note that the limit is enforced per gateway pod, not shared across replicas.
     - **Gateway Logging Controls**: Added Helm values for `iom-gateway` Nginx logging to make it easier to configure and reduce log volume. You can now:
       - Set `services.gateway.logging.errorLogLevel` to control gateway error log severity. Default changed from `debug` to `error`.
       - Set `services.gateway.logging.accessLog.enabled: false` to disable per-request access logs.
