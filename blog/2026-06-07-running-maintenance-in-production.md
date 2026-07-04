@@ -49,7 +49,7 @@ The logic is understandable. A single compaction threshold, a single snapshot re
 Tables within a lakehouse behave very differently depending on how they are written, queried, and consumed:
 
 * Fact tables fed by streaming pipelines can generate thousands of small files every day. They often require frequent compaction and aggressive snapshot expiration.  
-* Dimension tables may change only a few times per week. Running daily maintenance against them consumes resources without delivering meaningful benefits.  
+* Dimension tables may receive fewer writes, but frequent updates and deletes (e.g., slowly changing dimensions) generate delete files that fragment reads. Because these tables are joined into nearly every query, even modest fragmentation has outsized performance impact — making targeted compaction critical.
 * Append-only log tables grow continuously but rarely receive updates or deletes. Snapshot cleanup may be important, while compaction can often be deferred.  
 * Historical or archived tables may remain untouched for months. In many cases, the best maintenance strategy is to leave them alone entirely.
 
