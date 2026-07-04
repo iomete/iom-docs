@@ -1,54 +1,62 @@
 ---
 title: Open-Sourced Ingestion Jobs
 sidebar_label: Ingestion Jobs
-description: Data Ingestion with IOMETE Spark MySQL Kafka PostgreSQL MongoDB File Streaming Jobs for seamless data replication and transfer
+description: Data ingestion Spark jobs for IOMETE, including MySQL, Oracle, Kafka, Kinesis, file, and Debezium CDC replication into Iceberg tables
 last_update:
-  date: 10/04/2022
+  date: 07/04/2026
+  author: Shashank Chaudhary
 ---
 
 import Card from "@site/src/components/Card";
 import GridBox from "@site/src/components/GridBox";
-import { GithubLogo } from "@phosphor-icons/react";
+import { GithubLogoIcon, DatabaseIcon, BroadcastIcon, FileArrowDownIcon } from "@phosphor-icons/react";
 
 <GridBox>
-<Card title="Kinesis streaming job" icon={<GithubLogo />} link="https://github.com/iomete/kinesis-streaming-job">
-  This project contains a spark streaming job that reads data from a kinesis stream and writes it to a Iceberg Table.
-</Card>
+  <Card
+    title="MySQL streaming job"
+    icon={<DatabaseIcon />}
+    link="open-source-spark-jobs/mysql-db-sync"
+  >
+    Replicates MySQL tables to the IOMETE Lakehouse with a full load or an incremental sync.
+  </Card>
 
-<Card
-  title="MySQL streaming job"
-  icon={<GithubLogo />}
-  link="https://github.com/iomete/iomete-mysql-sync"
->
-  This library provides easily replicate tables from MySQL databases to IOMETE
-</Card>
+  <Card
+    title="Kafka streaming job"
+    icon={<BroadcastIcon />}
+    link="open-source-spark-jobs/kafka-iceberg-stream"
+  >
+    Copies data from Kafka to Iceberg using Spark Structured Streaming.
+  </Card>
 
-<Card
-  title="Kafka streaming job"
-  icon={<GithubLogo />}
-  link="https://github.com/iomete/kafka-streaming-job"
->
-  This is a collection of data movement capabilities. This streaming job copies
-  data from Kafka to Iceberg.
-</Card>
+  <Card
+    title="File streaming job"
+    icon={<FileArrowDownIcon />}
+    link="open-source-spark-jobs/file-streaming-job"
+  >
+    Transfers files from object storage to Iceberg continuously.
+  </Card>
 
-<Card
-  title="PostgreSQL streaming job"
-  icon={<GithubLogo />}
-  link="https://github.com/iomete/iomete-postgresql-sync"
->
-  This library provides easily replicate tables from PostgreSQL to IOMETE
-</Card>
+  <Card
+    title="Kinesis streaming job"
+    icon={<GithubLogoIcon />}
+    link="https://github.com/iomete/iomete-marketplace-jobs/tree/main/kinesis-streaming-job"
+  >
+    Reads data from a Kinesis stream and writes it to an Iceberg table.
+  </Card>
 
-<Card
-  title="MongoDB streaming job"
-  icon={<GithubLogo />}
-  link="https://github.com/iomete/iomete-mongodb-sync"
->
-  This library provides easily replicate tables from MongoDB databases to IOMETE
-</Card>
+  <Card
+    title="Debezium CDC streaming job"
+    icon={<GithubLogoIcon />}
+    link="https://github.com/iomete/iomete-marketplace-jobs/tree/main/debezium-server-iomete"
+  >
+    Replicates CDC events from MySQL and PostgreSQL to Iceberg tables using Debezium Server.
+  </Card>
 
-<Card title="File streaming job" icon={<GithubLogo />} link="https://github.com/iomete/file-streaming">
-This library provides easily transfer files to IOMETE continuously
-</Card>
+  <Card
+    title="Oracle streaming job"
+    icon={<GithubLogoIcon />}
+    link="https://github.com/iomete/iomete-marketplace-jobs/tree/main/iomete-oracle-sync"
+  >
+    Replicates Oracle tables to the IOMETE Lakehouse with a full load or an incremental sync.
+  </Card>
 </GridBox>
