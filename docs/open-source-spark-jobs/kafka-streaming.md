@@ -34,7 +34,6 @@ src="/img/spark-job/marketplace/kafka-streaming/marketplace-deploy.png"
 alt="Deploy kafka-streaming from the Marketplace"
 />
 
-
 The job form opens pre-filled with recommended defaults. Update the Kafka bootstrap servers, subscription pattern, and destination table in the config file (see [Configuration Properties](#configuration-properties)), then click **Create**.
 
 ### Manual Setup
@@ -45,7 +44,6 @@ Open **Streaming Jobs** in the sidebar and click <FlexButton label='New Streamin
 src="/img/spark-job/marketplace/kafka-streaming/create-streaming.png"
 alt="Streaming Jobs page with New Streaming Job button"
 />
-
 
 **1. Name and Application**
 
@@ -93,7 +91,6 @@ alt="Config Maps tab with the HOCON configuration file"
   }
 }
 ```
-
 :::note
 It's recommended to exclude the `startingOffsets` option. If the destination table doesn't exist or is empty, the job defaults to `earliest` automatically. If the table already has data, it defaults to `latest`. This lets the job start from the beginning on the first run and continue from where it left off (based on the checkpoint state) on every run after that.
 :::
