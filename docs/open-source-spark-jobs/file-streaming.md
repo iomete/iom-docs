@@ -128,11 +128,11 @@ The config file is HOCON. It declares the source, the destination table, and the
 
 | Field | Description |
 |---|---|
-| `format` | File format to read: `csv` or `json`. Ignored when `source.queue` is set. See [Amazon S3 with SQS](#amazon-s3-with-sqs). |
-| `header` | Whether the CSV files include a header row. |
-| `path` | Source directory path, including the filesystem scheme, for example `s3a://bucket/path_to_csv_files/`. |
+| `format` | File format to read: `csv` or `json` (still used when `source.queue` is set, to tell the job how to parse the notified files). See [Amazon S3 with SQS](#amazon-s3-with-sqs). |
+| `header` | Whether the CSV files include a header row (ignored when `source.queue` is set). |
+| `path` | Source directory path, including the filesystem scheme, for example `s3a://bucket/path_to_csv_files/` (ignored when `source.queue` is set). |
 | `max_files_per_trigger` | Maximum number of new files to process per streaming trigger. |
-| `latest_first` | Whether to process the latest files first when there is a backlog. |
+| `latest_first` | Whether to process the latest files first when there is a backlog (ignored when `source.queue` is set). |
 | `max_file_age` | Maximum age of files the stream considers, for example `7d`. |
 | `filename_only` | _Optional._ Detect new files by filename only instead of full path. Only enable this if filenames are unique across the entire source; otherwise files with the same name in different folders are treated as duplicates and skipped. |
 
