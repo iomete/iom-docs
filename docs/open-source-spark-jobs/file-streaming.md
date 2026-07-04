@@ -83,7 +83,7 @@ alt="Spark config tab with spark.sql.streaming.schemaInference set to true"
 
 **4. Config File**
 
-Expand **Application configurations**, click **Add config file**, and paste the HOCON template below. See [Configuration](#configuration) for what each field does.
+Expand **Configurations**, select the **Config Maps** tab, click **Add config**, and paste the HOCON template below. See [Configuration](#configuration) for what each field does.
 
 ```hocon
 {
