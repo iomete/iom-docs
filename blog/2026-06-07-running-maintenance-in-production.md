@@ -29,7 +29,7 @@ import Img from '@site/src/components/Img';
 
 The maintenance job showed green but the table wasn't actually healthier.
 
-That gap between a successful maintenance run and an actually healthier table captures why table maintenance is more than just executing maintenance operations. 
+So what went wrong? Nothing — and that was the problem. The operations did exactly what they were told. But running maintenance and actually keeping tables healthy at scale are two very different challenges.
 
 In [previous post](/blog/how-we-built-automated-maintenance), we explained how the system was designed and why it was built that way. This post shifts the focus from architecture to operations, what it takes to keep automated maintenance effective when hundreds of production tables are being updated continuously. 
 
@@ -134,8 +134,6 @@ The goal is not to eliminate configurability. It is to make **configuration opti
 
 Users should be able to turn on automated maintenance and trust that it is working without tuning anything upfront. The best maintenance system is the one nobody has to think about.
 
-<Img src="/img/user-guide/table-maintenance/catalog-maintenance-tab-unconfigured.png" alt="A catalog's maintenance tab before any configuration: a clean starting point where users can enable automated maintenance with sensible defaults" borderless/>
-
 ## Building for Failure and Scale
 
 Maintenance operations are long-running, resource-intensive, and inherently unpredictable.
@@ -213,10 +211,10 @@ IOMETE introduces its own maintenance properties (prefixed with `iomete.maintena
 
 Equally important, we wanted maintenance decisions to be explainable. Every maintenance run records and displays the effective configuration. When multiple configurations are present, a clear precedence order is applied:
 
-1. IOMETE table configuration
-2. Iceberg table configuration
-3. IOMETE catalog configuration
-4. Iceberg catalog configuration
+1. **IOMETE table properties** — per-table overrides set through the IOMETE UI (highest priority)
+2. **Iceberg table properties** — native Iceberg properties on the table (e.g., `write.target-file-size-bytes`)
+3. **IOMETE catalog properties** — catalog-wide defaults set through the IOMETE UI
+4. **Iceberg catalog properties** — native Iceberg properties on the catalog (lowest priority)
 
 Users should never have to guess. The effective configuration is always visible.
 
