@@ -188,7 +188,7 @@ Supported `type` values:
 
 Listing a source directory on every trigger gets expensive as a bucket grows. If an SQS queue is subscribed to S3 object-created notifications for the bucket, point the job at the queue instead of the directory.
 
-Add `queue` under `source`. When `queue` is present, it takes over as the data source: the job ignores `source.file.format`, and `source.file.path` goes unused too.
+Add `queue` under `source`. When `queue` is present, it takes over as the read path: the job still uses `source.file.format` to know how to parse the notified files, but `source.file.path`, `header`, and `latest_first` go unused.
 
 ```hocon
 source: {
@@ -200,8 +200,11 @@ source: {
   schema: [
     { name: id, type: string }
   ]
+  file: { ... }
 }
 ```
+
+`source.file` is still required even when `queue` is set; the job reads it unconditionally at startup. Set `format` to match your files (`csv` or `json`); `path`, `header`, and `latest_first` are ignored in this mode but the keys must still be present.
 
 | Field | Description |
 |---|---|
@@ -211,10 +214,6 @@ source: {
 
 :::note
 `schema` is required when using the `s3-sqs` source. See [Schema](#schema).
-:::
-
-:::note
-Use the full source path in `source.file.path`, including the filesystem scheme, for example `s3a://bucket/path_to_csv_files/`.
 :::
 
 ## Running the Job
