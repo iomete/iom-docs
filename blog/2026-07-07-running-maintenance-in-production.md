@@ -1,6 +1,6 @@
 ---
 title: "Running Iceberg Maintenance in Production: A Practical Guide for Data Teams"
-description: "Production lessons from running automated Apache Iceberg table maintenance: write conflict handling, orphan cleanup safety, and operational patterns."
+description: "Production lessons from running automated Apache Iceberg table maintenance: catalog load management, orphan cleanup safety, failure handling, and operational patterns."
 slug: iceberg-maintenance-production-guide
 authors: [ujjawal,Shashank,abhishek]
 hide_table_of_contents: false
@@ -8,6 +8,9 @@ tags2: [Engineering]
 coverImage: img/blog/thumbnails/darkStone.png
 banner_description: Most maintenance guides explain what operations to run. Few discuss what happens after those operations are deployed across a production lakehouse.
 date: 07/07/2026
+last_update:
+  date: 07/07/2026
+  author: Ujjawal Khare
 ---
 
 import Img from '@site/src/components/Img';
@@ -50,7 +53,7 @@ Tables within a lakehouse behave very differently depending on how they are writ
 
 * Fact tables fed by streaming pipelines can generate thousands of small files every day. They often require frequent compaction and aggressive snapshot expiration.  
 * Dimension tables may receive fewer writes, but frequent updates and deletes (e.g., slowly changing dimensions) generate delete files that fragment reads. Because these tables are joined into nearly every query, even modest fragmentation has outsized performance impact — making targeted compaction critical.
-* Append-only log tables grow continuously but rarely receive updates or deletes. Snapshot cleanup may be important, while compaction can often be deferred.  
+* Append-only log tables grow continuously but rarely receive updates or deletes. Snapshot cleanup is important, and compaction depends on how data arrives — streaming appends that produce undersized files need regular compaction, while rightly-sized batch appends may not.  
 * Historical or archived tables may remain untouched for months. In many cases, the best maintenance strategy is to leave them alone entirely.
 
 A uniform policy inevitably creates one of two outcomes:
@@ -152,7 +155,7 @@ At scale, the maintenance platform becomes part of the critical infrastructure o
 
 ---
 
-### What We Built Differently
+## What We Built Differently
 
 The challenges above shaped many of the design decisions in our maintenance platform. Rather than treating maintenance as a collection of scheduled jobs, we approached it as a production service that needed to be observable, resource-aware, and predictable at scale.
 
