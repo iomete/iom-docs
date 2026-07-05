@@ -52,7 +52,7 @@ The logic is understandable. A single compaction threshold, a single snapshot re
 Tables within a lakehouse behave very differently depending on how they are written, queried, and consumed:
 
 * Fact tables fed by streaming pipelines can generate thousands of small files every day. They often require frequent compaction and aggressive snapshot expiration.  
-* Dimension tables may receive fewer writes, but frequent updates and deletes (e.g., slowly changing dimensions) generate delete files that fragment reads. Because these tables are joined into nearly every query, even modest fragmentation has outsized performance impact — making targeted compaction critical.
+* Dimension tables may receive fewer writes, but frequent updates and deletes (e.g., slowly changing dimensions) generate delete files that add read overhead through merge-on-read. Because these tables are joined into nearly every query, even modest overhead has outsized performance impact — making targeted compaction critical.
 * Append-only log tables grow continuously but rarely receive updates or deletes. Snapshot cleanup is important, and compaction depends on how data arrives — streaming appends that produce undersized files need regular compaction, while rightly-sized batch appends may not.  
 * Historical or archived tables may remain untouched for months. In many cases, the best maintenance strategy is to leave them alone entirely.
 
@@ -91,7 +91,7 @@ Observability is not about dashboards. It's about answering one question: **did 
 
 Most maintenance discussions focus on individual tables. In production, the bigger concern is often the catalog itself.
 
-Every maintenance operation ultimately interacts with the catalog. Compaction commits new snapshots. Snapshot expiration updates metadata. Manifest optimization rewrites metadata structures. Even evaluating table health requires catalog reads.
+Every maintenance operation ultimately interacts with the catalog. Compaction commits new snapshots. Snapshot expiration removes expired snapshots and their associated data files. Manifest optimization rewrites metadata structures. Even evaluating table health requires catalog reads.
 
 On a single table, this activity is negligible. Across hundreds or thousands of tables running in parallel, it becomes a steady stream of metadata operations and that stream competes with everything else sharing the same catalog: ingestion pipelines, interactive queries, production commits.
 
@@ -208,8 +208,10 @@ We deliberately chose a simpler model. Configuration exists at two levels: catal
 
 IOMETE introduces its own maintenance properties (prefixed with `iomete.maintenance.*`) that control things like whether compaction is enabled, what strategy to use, or how many snapshots to retain. But teams often already have native Iceberg properties set on their tables — like `write.target-file-size-bytes` or `history.expire.min-snapshots-to-keep`. Rather than forcing users to migrate, the system recognizes both. **IOMETE properties take precedence when both exist**, and native Iceberg properties serve as fallback defaults. Everything is stored alongside catalog and table metadata, creating a single source of truth for maintenance behavior.
 
+**Catalog-level configuration:**
 <Img src="/img/user-guide/table-maintenance/configure-catalog-config.png" alt="Catalog-level maintenance configuration: setting default thresholds and retention policies that apply to all tables in the catalog" borderless/>
 
+**Table-level configuration:**
 <Img src="/img/user-guide/table-maintenance/table-configure-drawer.png" alt="Table-level configuration drawer where per-table overrides can be set, taking precedence over catalog defaults" borderless/>
 
 Equally important, we wanted maintenance decisions to be explainable. Every maintenance run records and displays the effective configuration. When multiple configurations are present, a clear precedence order is applied:
