@@ -219,7 +219,8 @@ Equally important, we wanted maintenance decisions to be explainable. Every main
 1. **IOMETE table properties** — per-table overrides set through the IOMETE UI (highest priority)
 2. **Iceberg table properties** — native Iceberg properties on the table (e.g., `write.target-file-size-bytes`)
 3. **IOMETE catalog properties** — catalog-wide defaults set through the IOMETE UI
-4. **Iceberg catalog properties** — native Iceberg properties on the catalog (lowest priority)
+4. **Iceberg catalog properties** — native Iceberg properties on the catalog
+5. **Platform defaults** — built-in defaults applied when no other configuration is set (lowest priority)
 
 Users should never have to guess. The effective configuration is always visible.
 
