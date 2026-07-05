@@ -29,8 +29,16 @@ jobs:
 
       - name: S3 Sync
         run: |
+          # Content-hashed build output (main.<hash>.js, styles.<hash>.css, hashed images, etc.)
+          # gets a new filename on every deploy, so it's safe to cache for a year as immutable.
+          aws s3 sync build/assets/ s3://${{ secrets.s3_bucket_name }}/resources/assets \
+            --cache-control "public, max-age=31536000, immutable"
+
+          # Everything else (HTML pages and unhashed static passthrough files like favicons/logos)
+          # keeps the existing short-lived cache since their filenames don't change on content updates.
           aws s3 sync build/ s3://${{ secrets.s3_bucket_name }}/resources \
             --delete \
+            --exclude "assets/*" \
             --cache-control "max-age=86400"
 
       - name: CloudFront Invalidation
