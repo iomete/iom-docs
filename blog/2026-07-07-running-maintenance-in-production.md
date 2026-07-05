@@ -30,7 +30,7 @@ import Img from '@site/src/components/Img';
 
 ---
 
-The maintenance job showed green but the table wasn't actually healthier.
+The maintenance job showed a successful run but the table wasn't actually healthier.
 
 So what went wrong? Nothing — and that was the problem. The operations did exactly what they were told. But running maintenance and actually keeping tables healthy at scale are two very different challenges.
 
