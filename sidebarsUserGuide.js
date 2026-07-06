@@ -40,8 +40,10 @@ const sidebars = {
           label: "Monitoring",
           collapsed: true,
           items: [
-            "query-monitoring",
-            "health-check",
+            "monitoring/overview",
+            "monitoring/query-monitoring",
+            "monitoring/health-check",
+            "monitoring/typesense",
           ],
         },
         {
