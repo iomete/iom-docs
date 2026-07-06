@@ -51,7 +51,7 @@ A **Per-endpoint breakdown** table below the summary cards lists request rate an
 
 ## Danger Zone
 
-The **Danger Zone** panel groups two destructive, admin-only operations. Both require typing through a confirmation dialog before they run.
+The **Danger Zone** panel groups two destructive, admin-only operations. Both require clicking through a confirmation dialog before they run.
 
 | Action | What it does | Confirmation |
 |--------|---------------|--------------|
