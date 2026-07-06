@@ -197,11 +197,7 @@ We deliberately chose a simpler model. Configuration exists at two levels: catal
 
 IOMETE introduces its own maintenance properties (prefixed with `iomete.maintenance.*`) that control things like whether compaction is enabled, what strategy to use, or how many snapshots to retain. But teams often already have native Iceberg properties set on their tables — like `write.target-file-size-bytes` or `history.expire.min-snapshots-to-keep`. Rather than forcing users to migrate, the system recognizes both. **IOMETE properties take precedence when both exist**, and native Iceberg properties serve as fallback defaults. Everything is stored alongside catalog and table metadata, creating a single source of truth for maintenance behavior.
 
-**Catalog-level configuration:**
 <Img src="/img/user-guide/table-maintenance/configure-catalog-config.png" alt="Catalog-level maintenance configuration: setting default thresholds and retention policies that apply to all tables in the catalog" borderless/>
-
-**Table-level configuration:**
-<Img src="/img/user-guide/table-maintenance/table-configure-drawer.png" alt="Table-level configuration drawer where per-table overrides can be set, taking precedence over catalog defaults" borderless/>
 
 Equally important, we wanted maintenance decisions to be explainable. Every maintenance run records and displays the effective configuration. When multiple configurations are present, a clear precedence order is applied:
 
