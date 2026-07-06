@@ -30,16 +30,13 @@ import Img from '@site/src/components/Img';
 
 ---
 
-The maintenance job showed a successful run but the table wasn't actually healthier.
+In [Part 4](/blog/how-we-built-automated-maintenance), we walked through how we designed and built our automated maintenance system. This post picks up where that left off — the problems we ran into once the system was operating against real production workloads, and how we solved each one.
 
-So what went wrong? Nothing — and that was the problem. The operations did exactly what they were told. But running maintenance and actually keeping tables healthy at scale are two very different challenges.
+Consider a compaction job that completes successfully — no errors, green across the board. But the table still has hundreds of small files because the threshold was too conservative for a high-volume streaming table. The job did what it was told. The table just didn't get healthier. **A successful run and a healthy table are not the same thing.**
 
-In [previous post](/blog/how-we-built-automated-maintenance), we explained how the system was designed and why it was built that way. This post shifts the focus from architecture to operations, what it takes to keep automated maintenance effective when hundreds of production tables are being updated continuously. 
+At scale, the maintenance operations don't change. **The environment does.** Shared compute, continuous ingestion, competing workloads, and the need for observability across the entire table fleet turn maintenance into a scheduling, resource management, and reliability problem.
 
-Running compaction, snapshot expiration, orphan cleanup, and manifest optimization across hundreds of actively written tables is a different problem altogether. The maintenance operations don't change. **The environment does.**
-Shared compute, continuous ingestion, competing workloads, resource limits, and the need to keep everything observable without turning every table into its own monitoring project quickly changed the nature of the problem. Table maintenance stop being a background task and become a scheduling, resource management, and reliability challenge.
-
-The architecture gave us the foundation. Production workloads tested every assumption behind it. The rest of this post walks through the challenges we encountered and how we addressed them.
+The rest of this post walks through the specific challenges we encountered and how we addressed them.
 
 ## The Challenges We Encountered
 
