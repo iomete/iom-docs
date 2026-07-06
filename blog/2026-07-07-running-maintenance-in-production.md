@@ -97,15 +97,7 @@ On a single table, this activity is negligible. Across hundreds or thousands of 
 
 Running maintenance across a large table fleet simultaneously can create bursts of catalog load that cause slower table loading, increased metadata latency, and longer commit durations for workloads that have nothing to do with maintenance.
 
-At that point, the objective is no longer just keeping tables healthy. It is keeping **the entire platform** healthy.
-
-The controls that help are concrete:
-
-* **Limit concurrency** — cap how many tables can be maintained at the same time.
-* **Introduce cooldown periods** — prevent recently-touched tables from being re-evaluated too soon.
-* **Cache frequently accessed settings** — reduce catalog reads by avoiding repeated fetches.
-
-The underlying principle is simple: maintenance should behave like a good background service, consuming spare capacity when the platform is quiet and stepping back when production workloads need it.
+At that point, the objective is no longer just keeping tables healthy. It is keeping **the entire platform** healthy. Maintenance should behave like a good background service — consuming spare capacity when the platform is quiet and stepping back when production workloads need it.
 
 ### Managing Configuration Across Multiple Layers
 
