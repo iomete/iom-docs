@@ -53,14 +53,14 @@ Tables within a lakehouse behave very differently depending on how they are writ
 * Append-only log tables grow continuously but rarely receive updates or deletes. Snapshot cleanup is important, and compaction depends on how data arrives — streaming appends that produce undersized files need regular compaction, while rightly-sized batch appends may not.  
 * Historical or archived tables may remain untouched for months. In many cases, the best maintenance strategy is to leave them alone entirely.
 
+<Img src="/img/blog/2026-07-07-running-maintenance-in-production/table-profiles.png" alt="Four table archetypes with different maintenance needs: streaming fact tables need frequent compaction and aggressive snapshot expiry, dimension tables need minimal maintenance, append-only logs need snapshot cleanup but deferred compaction, and archived tables should be left alone entirely." borderless/>
+
 A uniform policy inevitably creates one of two outcomes:
 
 * **Active tables accumulate maintenance debt** because thresholds are too conservative.
 * **Quiet tables consume unnecessary compute** because thresholds are too aggressive.
 
 Neither scales well.
-
-<Img src="/img/blog/2026-07-07-running-maintenance-in-production/table-profiles.png" alt="Four table archetypes with different maintenance needs: streaming fact tables need frequent compaction and aggressive snapshot expiry, dimension tables need minimal maintenance, append-only logs need snapshot cleanup but deferred compaction, and archived tables should be left alone entirely." borderless/>
 
 As the number of tables grows, maintenance becomes a **prioritization problem** rather than a scheduling problem. The system must be able to distinguish between tables that need attention and tables that do not.
 
@@ -126,7 +126,7 @@ The goal is not to eliminate configurability. It is to make **configuration opti
 
 Users should be able to turn on automated maintenance and trust that it is working without tuning anything upfront. The best maintenance system is the one nobody has to think about.
 
-## Building for Failure and Scale
+### Building for Failure and Scale
 
 Maintenance operations are long-running, resource-intensive, and inherently unpredictable.
 
