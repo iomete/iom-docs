@@ -23,7 +23,7 @@ last_update:
   * Part 2: [What Iceberg Gives You for Table Maintenance](/blog/iceberg-maintenance-operations)
   * Part 3: [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
   * Part 4: [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance)
-  * Part 5: Running Iceberg Maintenance in Production *(coming soon)*
+  * Part 5: [Running Iceberg Maintenance in Production](/blog/iceberg-maintenance-production-guide)
   * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
 
 </details>
