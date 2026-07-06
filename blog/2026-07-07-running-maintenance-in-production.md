@@ -7,9 +7,9 @@ hide_table_of_contents: false
 tags2: [Engineering]
 coverImage: img/blog/thumbnails/darkStone.png
 banner_description: Most maintenance guides explain what operations to run. Few discuss what happens after those operations are deployed across a production lakehouse.
-date: 07/07/2026
+date: 07/06/2026
 last_update:
-  date: 07/07/2026
+  date: 2026-07-06
   author: Ujjawal Khare
 ---
 
@@ -53,7 +53,7 @@ Tables within a lakehouse behave very differently depending on how they are writ
 * Append-only log tables grow continuously but rarely receive updates or deletes. Snapshot cleanup is important, and compaction depends on how data arrives — streaming appends that produce undersized files need regular compaction, while rightly-sized batch appends may not.  
 * Historical or archived tables may remain untouched for months. In many cases, the best maintenance strategy is to leave them alone entirely.
 
-<Img src="/img/blog/2026-07-07-running-maintenance-in-production/table-profiles.png" alt="Four table archetypes with different maintenance needs: streaming fact tables need frequent compaction and aggressive snapshot expiry, dimension tables need minimal maintenance, append-only logs need snapshot cleanup but deferred compaction, and archived tables should be left alone entirely." borderless/>
+<Img src="/img/blog/2026-07-06-running-maintenance-in-production/table-profiles.png" alt="Four table archetypes with different maintenance needs: streaming fact tables need frequent compaction and aggressive snapshot expiry, dimension tables need minimal maintenance, append-only logs need snapshot cleanup but deferred compaction, and archived tables should be left alone entirely." borderless/>
 
 A uniform policy inevitably creates one of two outcomes:
 
@@ -82,7 +82,7 @@ Without visibility into these signals, maintenance becomes reactive. By the time
 
 Observability is not about dashboards. It's about answering one question: **did the table actually get healthier?**
 
-<Img src="/img/blog/2026-07-07-running-maintenance-in-production/operational-vs-health.png" alt="Operational success versus table health: left panel shows three maintenance jobs all completing successfully, right panel shows the actual table metrics — file count barely reduced, average file size still far below the 512 MB target, proving that job success alone does not mean the table is healthier." borderless/>
+<Img src="/img/blog/2026-07-06-running-maintenance-in-production/operational-vs-health.png" alt="Operational success versus table health: left panel shows three maintenance jobs all completing successfully, right panel shows the actual table metrics — file count barely reduced, average file size still far below the 512 MB target, proving that job success alone does not mean the table is healthier." borderless/>
 
 ### Protecting Shared Catalog Infrastructure
 
