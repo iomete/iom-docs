@@ -142,6 +142,20 @@ A maintenance service that performs well for 100 tables may struggle when respon
 
 At scale, the maintenance platform becomes part of the critical infrastructure of the lakehouse. Ultimately, it should require **less operational attention** than the tables it maintains. If operators spend more time managing the maintenance platform than benefiting from it, the automation has failed its primary purpose.
 
+### The Common Thread
+
+Each of these challenges points to the same gap: the difference between running maintenance operations and operating a maintenance system.
+
+| Challenge | Core problem |
+|---|---|
+| **Table-type differences** | A single policy over-maintains quiet tables and under-maintains active ones |
+| **Health observability** | Job success doesn't mean the table got healthier |
+| **Catalog load** | Maintenance at fleet scale competes with ingestion and queries |
+| **Configuration layers** | Multiple config sources make it hard to explain why a maintenance action ran |
+| **Defaults complexity** | Surfacing every tuning parameter delays adoption and invites misconfiguration |
+
+The rest of this post describes how we addressed each one.
+
 ---
 
 ## What We Built Differently
@@ -207,11 +221,17 @@ Equally important, we wanted maintenance decisions to be explainable. Every main
 4. **Iceberg catalog properties** — native Iceberg properties on the catalog
 5. **Platform defaults** — built-in defaults applied when no other configuration is set (lowest priority)
 
-Importantly, users don't need to configure anything upfront. The platform ships with sensible defaults for every operation, so maintenance works out of the box — configuration only becomes necessary when teams need behavior that differs from the defaults.
-
 Users should never have to guess. The effective configuration is always visible.
 
 <Img src="/img/user-guide/table-maintenance/operation-advanced-props.png" alt="Advanced operation properties showing the effective configuration for a maintenance operation, with clear visibility into which settings are active" borderless/>
+
+### Keeping Defaults Sensible
+
+The problem with configurability is that every exposed setting introduces a decision. Most teams enabling maintenance for the first time don't want to reason through compaction strategies, snapshot retention windows, or concurrency limits — they want their tables to stay healthy.
+
+We ship sensible defaults for every maintenance operation out of the box. Compaction thresholds, snapshot expiration policies, and resource limits are pre-configured based on what works well for most workloads. Teams can enable maintenance and trust it is doing the right thing without touching a single setting.
+
+Configuration becomes necessary only when a team's requirements diverge from the defaults — tighter retention for compliance, more aggressive compaction for a high-throughput streaming table, or a lower concurrency cap for a resource-constrained environment. Until then, the defaults handle it.
 
 ### Building for Reliability and Scale
 
