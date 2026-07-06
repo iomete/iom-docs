@@ -222,6 +222,8 @@ Equally important, we wanted maintenance decisions to be explainable. Every main
 4. **Iceberg catalog properties** — native Iceberg properties on the catalog
 5. **Platform defaults** — built-in defaults applied when no other configuration is set (lowest priority)
 
+Importantly, users don't need to configure anything upfront. The platform ships with sensible defaults for every operation, so maintenance works out of the box — configuration only becomes necessary when teams need behavior that differs from the defaults.
+
 Users should never have to guess. The effective configuration is always visible.
 
 <Img src="/img/user-guide/table-maintenance/operation-advanced-props.png" alt="Advanced operation properties showing the effective configuration for a maintenance operation, with clear visibility into which settings are active" borderless/>
