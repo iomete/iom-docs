@@ -101,10 +101,11 @@ const config = {
         googleTagManager: {
           containerId: "GTM-W4ZH33W",
         },
-        gtag: {
-          trackingID: "G-YMX75JE2MY",
-          anonymizeIP: false,
-        },
+        // GA4 (G-YMX75JE2MY) is fired by the GTM container above via its
+        // container-wide "Initialization - All Pages" tag. The standalone
+        // @docusaurus/plugin-google-gtag was removed to stop G-YMX75JE2MY
+        // being bootstrapped twice per page (duplicate gtag/js load +
+        // double-counted events). GTM is now the sole GA4 mechanism.
         sitemap: {
           changefreq: "weekly",
           priority: 0.5,
