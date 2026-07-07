@@ -58,6 +58,10 @@ const userGuideRedirects = [
   // Renamed / moved pages within user-guide
   // ──────────────────────────────────────────────
 
+  // health-check, query-monitoring grouped under monitoring/
+  { from: "/user-guide/health-check", to: "/user-guide/monitoring/health-check" },
+  { from: "/user-guide/query-monitoring", to: "/user-guide/monitoring/query-monitoring" },
+
   { from: "/user-guide/node-type-sizing", to: "/user-guide/node-types/node-type-sizing" },
   { from: "/user-guide/workspaces", to: "/user-guide/sql-editor/workspaces" },
 
