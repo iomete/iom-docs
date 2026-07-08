@@ -2,8 +2,8 @@
 title: Volumes
 description: IOMETE offers a feature for customization of Kubernetes Volume types attached to Spark workloads.
 last_update:
-  date: 05/01/2024
-  author: Nurlan Mammadov
+  date: 07/08/2026
+  author: Sanan Ahmadov
 ---
 
 import { Plus, Trash } from "@phosphor-icons/react";
@@ -143,6 +143,15 @@ Key characteristics:
 - **Max size:** The maximum storage limit for the volume, specified in units such as `GiB`.  
 This value acts as an upper bound, not a reservation — the actual available storage depends on the node’s capacity.  
 If omitted, the volume can grow without a defined limit (constrained only by the node’s available storage).
+
+- **Scheduler reserved:** Turns **Max size** from a soft limit into an actual reservation.  
+By default, **Max size** is only enforced after the fact: the kubelet evicts a pod that exceeds it, but the
+Kubernetes scheduler does not consider it when placing pods, so executors can land on a node that doesn’t have that
+much free disk. With **Scheduler reserved** enabled, IOMETE also sets an `ephemeral-storage` resource request of
+**Max size** on each Spark executor pod — the scheduler then only places executors on nodes with enough allocatable
+local storage and reserves that capacity for the pod at placement time.  
+A positive **Max size** is required when this option is enabled. The option is off by default, and existing volumes
+keep the soft-limit-only behavior.
 
   <Img src="/img/user-guide/volumes/emptydir-create.png" alt="On Demand PVC create" maxWidth="600px" />
 
