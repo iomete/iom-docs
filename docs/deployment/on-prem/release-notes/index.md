@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 06/22/2026
-  author: Shashank Chaudhary
+  date: 07/10/2026
+  author: Maksym
 ---
 
 import Img from '@site/src/components/Img';
@@ -14,6 +14,20 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.17.3" date="TBD">
+  <NewFeatures>
+    - _TBD_
+  </NewFeatures>
+
+  <Improvements>
+    - _TBD_
+  </Improvements>
+
+  <BugFixes>
+    - _TBD_
+  </BugFixes>
+</Release>
 
 <Release version="3.17.2" date="June 22nd, 2026">
   <Improvements>
