@@ -48,7 +48,7 @@ Ensure you're targeting the right Kubernetes cluster with `kubectl` and have the
 
 A dedicated namespace for IOMETE is recommended for better organization. Create it using the following command:
 
-```shell
+```shell title="Create and label the namespace"
 kubectl create namespace iomete-system
 
 # Label the namespace for IOMETE
@@ -72,7 +72,7 @@ For metadata storage, you need a PostgreSQL database. Please follow the instruct
 
 Add the IOMETE helm repository for access to necessary charts:
 
-```shell showLineNumbers
+```shell showLineNumbers title="Add the IOMETE Helm repository"
 helm repo add iomete https://chartmuseum.iomete.com
 helm repo update
 ```
@@ -84,7 +84,7 @@ Required file: [iomete-crds.yaml](https://github.com/iomete/iomete-deployment/bl
 Admin permission required to install the command below as it installs cluster-level objects.
 :::
 
-```shell
+```shell title="Install the IOMETE CRDs"
 wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/iomete-crds.yaml
 
 kubectl apply --server-side -f iomete-crds.yaml
@@ -92,7 +92,7 @@ kubectl apply --server-side -f iomete-crds.yaml
 
 ### Create Service Account and Role
 Required file: [service-account.yaml](https://github.com/iomete/iomete-deployment/blob/main/service-account.yaml)
-```shell showLineNumbers
+```shell showLineNumbers title="Create the service account and role"
 wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/service-account.yaml
 
 kubectl apply -n iomete-system -f service-account.yaml
@@ -102,7 +102,7 @@ kubectl apply -n iomete-system -f service-account.yaml
 
 Required file: [gencerts.sh](https://github.com/iomete/iomete-deployment/blob/main/gencerts.sh)
 
-```shell showLineNumbers
+```shell showLineNumbers title="Generate and apply webhook certificates"
 wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/gencerts.sh
 chmod +x gencerts.sh
 
@@ -129,7 +129,7 @@ Required file: [example-data-plane-values.yaml](https://github.com/iomete/iomete
 `example-data-plane-values.yaml` is a sample configuration file. You can customize it according to your requirements.
 :::
 
-```shell showLineNumbers
+```shell showLineNumbers title="Install the IOMETE data plane"
 wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/on-prem/example-data-plane-values.yaml
 
 # helm repo update iomete

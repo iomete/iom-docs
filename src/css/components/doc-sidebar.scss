@@ -3,20 +3,20 @@ html[data-theme="light"] {
   --sidebar-border-c: var(--c-gray-0);
 
   --ifm-menu-color-background-active: var(--stone-50);
-  --ifm-menu-color-active: var(--stone-700);
-  --ifm-menu-color: var(--c-indigo-80);
+  --ifm-menu-color-active: var(--c-gray-90);
+  --ifm-menu-color: var(--c-gray-90);
 }
 
 html[data-theme="dark"] {
   --sidebar-category-c: var(--c-gray-0);
   --sidebar-border-c: var(--c-gray-90);
-  --ifm-menu-color-active: var(--stone-200);
+  --ifm-menu-color-active: var(--c-gray-20);
 
   --ifm-menu-color: var(--c-gray-20);
 }
 
 :root {
-  --doc-sidebar-width: 17.5rem;
+  --doc-sidebar-width: 16rem !important;
 
   --dropdown-icon-width: 0.625rem;
   --dropdown-icon-height: 0.375rem;
@@ -24,7 +24,7 @@ html[data-theme="dark"] {
 
   --ifm-menu-link-padding-vertical: 0.5rem;
 
-  --sidebar-spacing-horizontal: 1.5rem;
+  --sidebar-spacing-horizontal: 1rem;
 
   // The variable aims to style the collapsible menu items on the sidebar.
   --ifm-menu-color-background-hover: transparent;
@@ -50,7 +50,7 @@ html[data-theme="dark"] {
         height: var(--ifm-navbar-height);
 
         padding-inline-start: var(--sidebar-spacing-horizontal);
-        padding-inline-end: var(--sidebar-spacing-horizontal);
+        padding-inline-end: 0.5rem;
       }
     }
   }
@@ -62,7 +62,7 @@ html[data-theme="dark"] {
       overflow-y: auto;
 
       padding-inline-start: var(--sidebar-spacing-horizontal);
-      padding-inline-end: var(--sidebar-spacing-horizontal);
+      padding-inline-end: 0.5rem;
 
       padding-block-start: 5rem;
     }

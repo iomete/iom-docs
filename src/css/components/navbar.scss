@@ -7,10 +7,11 @@ html[data-theme="light"] {
 
   --navbar-icon-link-c: var(--c-indigo-60);
 
-  --navbar-text-color: #5a5f66;
-  --navbar-active-border-color: #000000;
+  --navbar-text-color: var(--base-950);
+  --navbar-active-border-color: var(--stone-50);
 
   --search-kbd-color: #5a5f66;
+  --navbar-bg: var(--c-white);
 }
 
 html[data-theme="dark"] {
@@ -19,10 +20,11 @@ html[data-theme="dark"] {
   --navbar-separator-bg-c: var(--c-carbon-80);
 
   --navbar-icon-link-c: var(--c-white);
-  --navbar-text-color: var(--ifm-color-emphasis-500);
-  --navbar-active-border-color: var(--ifm-color-emphasis-900);
+  --navbar-text-color: var(--base-50);
+  --navbar-active-border-color: var(--ifm-color-emphasis-200);
 
   --search-kbd-color: var(--ifm-color-emphasis-700);
+  --navbar-bg: var(--c-black);
 }
 
 :root {
@@ -39,7 +41,10 @@ html[data-theme="dark"] {
       display: flex;
       justify-content: center;
       box-shadow: none;
-      border-bottom: 1px solid var(--ifm-table-border-color);
+      border-bottom: none;
+      // position: fixed;
+      // isolation: isolate;
+      background-color: transparent;
     }
 
     &__inner {
@@ -47,6 +52,18 @@ html[data-theme="dark"] {
       flex-grow: 1;
       flex-wrap: nowrap;
       max-width: 1400px;
+
+      border-radius: 0.25rem;
+      background-color: var(--navbar-bg);
+      margin-top: 1rem;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
+      padding: 0.5rem;
+    }
+
+    &__brand {
+      margin-right: 2.5rem;
     }
 
     &__items {
@@ -74,24 +91,12 @@ html[data-theme="dark"] {
               display: flex;
             }
 
-            &::after {
-              content: "";
-              position: absolute;
-              height: 2px;
-              left: var(--ifm-navbar-item-padding-horizontal);
-              right: var(--ifm-navbar-item-padding-horizontal);
-              bottom: 0;
-              background: rgba(0, 0, 0, 0);
-              transition: background-color 0.2s ease-out;
-            }
-
             &--active {
               & {
-                color: var(--navbar-active-border-color) !important;
+                background-color: var(--navbar-active-border-color) !important;
               }
 
               &::after {
-                background: var(--ifm-link-color);
                 background-color: var(--navbar-active-border-color) !important;
               }
             }
@@ -152,41 +157,15 @@ html[data-theme="dark"] {
           }
         }
       }
-
-      .DocSearch-Button {
-        & {
-          border-radius: 3px !important;
-        }
-
-        .DocSearch-Search-Icon {
-          width: 16px;
-          margin-top: -1px;
-        }
-
-        .DocSearch-Button-Keys {
-          & {
-            border: none;
-          }
-
-          .DocSearch-Button-Key:first-child {
-            color: var(--search-kbd-color) !important;
-            font-size: 18px;
-          }
-
-          .DocSearch-Button-Key:last-child {
-            color: var(--search-kbd-color) !important;
-            font-size: 12px;
-          }
-        }
-      }
     }
 
     &__link {
-      font-weight: 500;
+      font-weight: 400;
       font-size: 0.875rem;
       line-height: 17px;
       white-space: nowrap;
       color: var(--navbar-link-c);
+      border-radius: 0.25rem;
     }
   }
 }

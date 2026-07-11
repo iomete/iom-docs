@@ -12,7 +12,6 @@
     &__link {
       & {
         transition: color var(--ifm-transition-fast) ease-out;
-        background-color: var(--ifm-card-background-color);
         box-shadow: none;
         padding: 18px 16px;
         color: var(--ifm-color-content-secondary);

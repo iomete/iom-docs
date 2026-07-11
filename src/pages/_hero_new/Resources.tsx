@@ -40,7 +40,7 @@ function Resources() {
         </div>
         <div className="col-span-4 sm:col-span-2">
           <Card url="/aws/read-files-from-aws-s3">
-            <div className="bg-[var(--base-100)] dark:bg-[var(--base-900)] flex justify-center items-center h-[72px] mb-4">
+            <div className="bg-[var(--fluoro-400)] dark:bg-[var(--fluoro-400)] dark:text-[var(--base-950)] flex justify-center items-center h-[72px] mb-4">
               <DownloadSimple size={32} />
             </div>
             <div>

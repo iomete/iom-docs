@@ -1,0 +1,34 @@
+---
+title: Integrations Overview
+sidebar_label: Overview
+description: Explore third-party integrations that work with IOMETE, including data governance, security, observability, and infrastructure tools.
+last_update:
+  date: 07/11/2026
+  author: Fuad Musayev
+---
+
+import Card from "@site/src/components/Card";
+
+import AtaccamaLogo from "@site/static/img/integrations/logos/ataccama.svg";
+import ThoughtSpotLogo from "@site/static/img/integrations/logos/thought-spot.svg";
+import MonteCarloLogo from "@site/static/img/integrations/logos/monte-carlo.svg";
+
+# Integrations
+
+IOMETE works with a broad ecosystem of third-party tools for data governance, security, observability, and infrastructure management. Click a card below to open the vendor's documentation.
+
+<div className="grid grid-cols-2 gap-6">
+
+<Card title="Ataccama" link="https://docs.ataccama.com/one/latest/sources/iomete-connection.html" icon={<AtaccamaLogo width="130px" height="32px" />} style={{ marginBottom: 0 }}>
+Unified data quality, governance, and master data management for your lakehouse data.
+</Card>
+
+<Card title="ThoughtSpot" link="https://preview-thoughtspot.vercel.app/cloud/latest/connections-iomete-add" icon={<ThoughtSpotLogo width="140px" height="32px" />} style={{ marginBottom: 0 }}>
+Questions asked in ThoughtSpot translate to SQL that runs directly against IOMETE.
+</Card>
+
+<Card title="Monte Carlo" link="https://docs.getmontecarlo.com/docs/example-iomete" icon={<MonteCarloLogo width="100px" height="32px" />} style={{ marginBottom: 0 }}>
+Data observability platform for detecting, resolving, and preventing data incidents.
+</Card>
+
+</div>

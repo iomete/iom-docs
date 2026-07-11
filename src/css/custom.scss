@@ -56,6 +56,42 @@
 //   font-display: swap;
 // }
 
+// Archivo — IOMETE brand display typeface. Self-hosted variable font (see static/fonts/).
+// Used for headings/titles to create hierarchy; use in moderation per branding.
+@font-face {
+  font-family: 'Archivo';
+  src: url('/fonts/Archivo-Variable.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('/fonts/Archivo-Italic-Variable.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+// DM Mono — brand secondary/mono typeface, used for footer eyebrow headings.
+// The TTFs are preloaded via headTags in docusaurus.config.js.
+@font-face {
+  font-family: 'Dmmono';
+  src: url('https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a3650d012930b8d8bd5b0_DMMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Dmmono';
+  src: url('https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a3657294bb48e01b67f05_DMMono-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --ifm-color-primary: #0070f3;
   --ifm-color-primary-dark: #0065db;
@@ -65,20 +101,28 @@
   --ifm-color-primary-lighter: #1883ff;
   --ifm-color-primary-lightest: #3d96ff;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 
   // --iom-text-color: var(--ifm-color-gray-1000);
   // --iom-text-muted: var(--ifm-color-gray-700);
 
-  --ifm-heading-font-weight: 600;
+  --ifm-heading-font-weight: 500;
   --ifm-alert-border-radius: 2px;
   --ifm-alert-border-width: 1px;
   --ifm-alert-border-left-width: 1px;
-  --ifm-pre-border-radius: 2px;
+  --ifm-pre-border-radius: 12px;
 
   --ifm-color-info-contrast-background: #eaf3fc;
   --ifm-color-info-dark: #3d96ff;
   // --ifm-global-shadow-lw: none;
+
+  // Primary page background — branded off-white
+  --ifm-background-color: var(--base--50);
+
+  // Breadcrumbs: no active/hover background; black active/hover, grey otherwise.
+  --ifm-breadcrumb-item-background-active: transparent;
+  --ifm-breadcrumb-color-active: #000000;
+  --iom-breadcrumb-color: #4c4c4c;
+  --iom-breadcrumb-color-hover: #000000;
 
   --ifm-code-padding-horizontal: 0.3rem;
   line-height: 1.6;
@@ -112,6 +156,44 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 
   --ifm-navbar-background-color: #1b1b1d;
+
+  // Breadcrumbs: mirror light-mode intent (black would be invisible here).
+  --ifm-breadcrumb-item-background-active: transparent;
+  --ifm-breadcrumb-color-active: #ffffff;
+  --iom-breadcrumb-color: #b3b3b3;
+  --iom-breadcrumb-color-hover: #ffffff;
+}
+
+// Branded text selection
+::selection {
+  background: var(--fluoro-400);
+  color: var(--base-950);
+}
+
+// Archivo Light for the top-level headings - the big statement type.
+h1 {
+  font-family: 'Archivo', var(--ifm-font-family-base);
+  font-weight: 300;
+}
+
+.breadcrumbs{
+  margin-left: -6px;
+}
+
+// Breadcrumbs
+.breadcrumbs__link {
+  color: var(--iom-breadcrumb-color);
+
+  &:hover {
+    color: var(--iom-breadcrumb-color-hover);
+  }
+
+  // Home icon (currentColor follows the link color above)
+  svg {
+    width: 14px;
+    height: 14px;
+    vertical-align: text-top;
+  }
 }
 
 p > img {
@@ -135,57 +217,9 @@ p > img {
   background: var(--ifm-color-emphasis-200);
 }
 
-.toggleButton_node_modules-\@docusaurus-theme-classic-lib-theme-ColorModeToggle-styles-module
-  svg {
-  display: none;
-}
-
-.toggleButton_node_modules-\@docusaurus-theme-classic-lib-theme-ColorModeToggle-styles-module:before {
-  content: "";
-  display: block;
-  width: 20px;
-  height: 20px;
-  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzVhNWY2NiIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGQ9Ik0xMjAsNDBWMzJhOCw4LDAsMCwxLDE2LDB2OGE4LDgsMCwwLDEtMTYsMFptNzIsODhhNjQsNjQsMCwxLDEtNjQtNjRBNjQuMDcsNjQuMDcsMCwwLDEsMTkyLDEyOFptLTE2LDBhNDgsNDgsMCwxLDAtNDgsNDhBNDguMDUsNDguMDUsMCwwLDAsMTc2LDEyOFpNNTguMzQsNjkuNjZBOCw4LDAsMCwwLDY5LjY2LDU4LjM0bC04LThBOCw4LDAsMCwwLDUwLjM0LDYxLjY2Wm0wLDExNi42OC04LDhhOCw4LDAsMCwwLDExLjMyLDExLjMybDgtOGE4LDgsMCwwLDAtMTEuMzItMTEuMzJaTTE5Miw3MmE4LDgsMCwwLDAsNS42Ni0yLjM0bDgtOGE4LDgsMCwwLDAtMTEuMzItMTEuMzJsLTgsOEE4LDgsMCwwLDAsMTkyLDcyWm01LjY2LDExNC4zNGE4LDgsMCwwLDAtMTEuMzIsMTEuMzJsOCw4YTgsOCwwLDAsMCwxMS4zMi0xMS4zMlpNNDAsMTIwSDMyYTgsOCwwLDAsMCwwLDE2aDhhOCw4LDAsMCwwLDAtMTZabTg4LDg4YTgsOCwwLDAsMC04LDh2OGE4LDgsMCwwLDAsMTYsMHYtOEE4LDgsMCwwLDAsMTI4LDIwOFptOTYtODhoLThhOCw4LDAsMCwwLDAsMTZoOGE4LDgsMCwwLDAsMC0xNloiPjwvcGF0aD48L3N2Zz4=")
-    no-repeat;
-}
-
-html[data-theme="dark"]
-  .toggleButton_node_modules-\@docusaurus-theme-classic-lib-theme-ColorModeToggle-styles-module:before {
-  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI2JlYzNjOSIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGQ9Ik0yMzMuNTQsMTQyLjIzYTgsOCwwLDAsMC04LTIsODguMDgsODguMDgsMCwwLDEtMTA5LjgtMTA5LjgsOCw4LDAsMCwwLTEwLTEwLDEwNC44NCwxMDQuODQsMCwwLDAtNTIuOTEsMzdBMTA0LDEwNCwwLDAsMCwxMzYsMjI0YTEwMy4wOSwxMDMuMDksMCwwLDAsNjIuNTItMjAuODgsMTA0Ljg0LDEwNC44NCwwLDAsMCwzNy01Mi45MUE4LDgsMCwwLDAsMjMzLjU0LDE0Mi4yM1pNMTg4LjksMTkwLjM0QTg4LDg4LDAsMCwxLDY1LjY2LDY3LjExYTg5LDg5LDAsMCwxLDMxLjQtMjZBMTA2LDEwNiwwLDAsMCw5Niw1NiwxMDQuMTEsMTA0LjExLDAsMCwwLDIwMCwxNjBhMTA2LDEwNiwwLDAsMCwxNC45Mi0xLjA2QTg5LDg5LDAsMCwxLDE4OC45LDE5MC4zNFoiPjwvcGF0aD48L3N2Zz4=")
-    no-repeat;
-}
-
-/* GitHub link styles */
-.github-link:before {
-  content: "";
-  height: 100%;
-  display: block;
-  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzVhNWY2NiIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGQ9Ik0yMDguMzEsNzUuNjhBNTkuNzgsNTkuNzgsMCwwLDAsMjAyLjkzLDI4LDgsOCwwLDAsMCwxOTYsMjRhNTkuNzUsNTkuNzUsMCwwLDAtNDgsMjRIMTI0QTU5Ljc1LDU5Ljc1LDAsMCwwLDc2LDI0YTgsOCwwLDAsMC02LjkzLDQsNTkuNzgsNTkuNzgsMCwwLDAtNS4zOCw0Ny42OEE1OC4xNCw1OC4xNCwwLDAsMCw1NiwxMDR2OGE1Ni4wNiw1Ni4wNiwwLDAsMCw0OC40NCw1NS40N0EzOS44LDM5LjgsMCwwLDAsOTYsMTkydjhINzJhMjQsMjQsMCwwLDEtMjQtMjRBNDAsNDAsMCwwLDAsOCwxMzZhOCw4LDAsMCwwLDAsMTYsMjQsMjQsMCwwLDEsMjQsMjQsNDAsNDAsMCwwLDAsNDAsNDBIOTZ2MTZhOCw4LDAsMCwwLDE2LDBWMTkyYTI0LDI0LDAsMCwxLDQ4LDB2NDBhOCw4LDAsMCwwLDE2LDBWMTkyYTM5LjgsMzkuOCwwLDAsMC04LjQ0LTI0LjUzQTU2LjA2LDU2LjA2LDAsMCwwLDIxNiwxMTJ2LThBNTguMTQsNTguMTQsMCwwLDAsMjA4LjMxLDc1LjY4Wk0yMDAsMTEyYTQwLDQwLDAsMCwxLTQwLDQwSDExMmE0MCw0MCwwLDAsMS00MC00MHYtOGE0MS43NCw0MS43NCwwLDAsMSw2LjktMjIuNDhBOCw4LDAsMCwwLDgwLDczLjgzYTQzLjgxLDQzLjgxLDAsMCwxLC43OS0zMy41OCw0My44OCw0My44OCwwLDAsMSwzMi4zMiwyMC4wNkE4LDgsMCwwLDAsMTE5LjgyLDY0aDMyLjM1YTgsOCwwLDAsMCw2Ljc0LTMuNjksNDMuODcsNDMuODcsMCwwLDEsMzIuMzItMjAuMDZBNDMuODEsNDMuODEsMCwwLDEsMTkyLDczLjgzYTguMDksOC4wOSwwLDAsMCwxLDcuNjVBNDEuNzIsNDEuNzIsMCwwLDEsMjAwLDEwNFoiPjwvcGF0aD48L3N2Zz4=")
-    no-repeat;
-}
-
-html[data-theme="dark"] .github-link:before {
-  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI2JlYzNjOSIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGQ9Ik0yMDguMzEsNzUuNjhBNTkuNzgsNTkuNzgsMCwwLDAsMjAyLjkzLDI4LDgsOCwwLDAsMCwxOTYsMjRhNTkuNzUsNTkuNzUsMCwwLDAtNDgsMjRIMTI0QTU5Ljc1LDU5Ljc1LDAsMCwwLDc2LDI0YTgsOCwwLDAsMC02LjkzLDQsNTkuNzgsNTkuNzgsMCwwLDAtNS4zOCw0Ny42OEE1OC4xNCw1OC4xNCwwLDAsMCw1NiwxMDR2OGE1Ni4wNiw1Ni4wNiwwLDAsMCw0OC40NCw1NS40N0EzOS44LDM5LjgsMCwwLDAsOTYsMTkydjhINzJhMjQsMjQsMCwwLDEtMjQtMjRBNDAsNDAsMCwwLDAsOCwxMzZhOCw4LDAsMCwwLDAsMTYsMjQsMjQsMCwwLDEsMjQsMjQsNDAsNDAsMCwwLDAsNDAsNDBIOTZ2MTZhOCw4LDAsMCwwLDE2LDBWMTkyYTI0LDI0LDAsMCwxLDQ4LDB2NDBhOCw4LDAsMCwwLDE2LDBWMTkyYTM5LjgsMzkuOCwwLDAsMC04LjQ0LTI0LjUzQTU2LjA2LDU2LjA2LDAsMCwwLDIxNiwxMTJ2LThBNTguMTQsNTguMTQsMCwwLDAsMjA4LjMxLDc1LjY4Wk0yMDAsMTEyYTQwLDQwLDAsMCwxLTQwLDQwSDExMmE0MCw0MCwwLDAsMS00MC00MHYtOGE0MS43NCw0MS43NCwwLDAsMSw2LjktMjIuNDhBOCw4LDAsMCwwLDgwLDczLjgzYTQzLjgxLDQzLjgxLDAsMCwxLC43OS0zMy41OCw0My44OCw0My44OCwwLDAsMSwzMi4zMiwyMC4wNkE4LDgsMCwwLDAsMTE5LjgyLDY0aDMyLjM1YTgsOCwwLDAsMCw2Ljc0LTMuNjksNDMuODcsNDMuODcsMCwwLDEsMzIuMzItMjAuMDZBNDMuODEsNDMuODEsMCwwLDEsMTkyLDczLjgzYTguMDksOC4wOSwwLDAsMCwxLDcuNjVBNDEuNzIsNDEuNzIsMCwwLDEsMjAwLDEwNFoiPjwvcGF0aD48L3N2Zz4=")
-    no-repeat;
-}
-
-/* Discord link styles */
-.discord-link:before {
-  content: "";
-  height: 100%;
-  display: block;
-  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iIzVhNWY2NiIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGQ9Ik0xMDQsMTQwYTEyLDEyLDAsMSwxLTEyLTEyQTEyLDEyLDAsMCwxLDEwNCwxNDBabTYwLTEyYTEyLDEyLDAsMSwwLDEyLDEyQTEyLDEyLDAsMCwwLDE2NCwxMjhabTc0LjQ1LDY0LjktNjcsMjkuNzFhMTYuMTcsMTYuMTcsMCwwLDEtMjEuNzEtOS4xbC04LjExLTIycS02LjcyLjQ1LTEzLjYzLjQ2dC0xMy42My0uNDZsLTguMTEsMjJhMTYuMTgsMTYuMTgsMCwwLDEtMjEuNzEsOS4xbC02Ny0yOS43MWExNS45MywxNS45MywwLDAsMS05LjA2LTE4LjUxTDM4LDU4QTE2LjA3LDE2LjA3LDAsMCwxLDUxLDQ2LjE0bDM2LjA2LTUuOTNhMTYuMjIsMTYuMjIsMCwwLDEsMTguMjYsMTEuODhsMy4yNiwxMi44NFExMTguMTEsNjQsMTI4LDY0dDE5LjQuOTNsMy4yNi0xMi44NGExNi4yMSwxNi4yMSwwLDAsMSwxOC4yNi0xMS44OEwyMDUsNDYuMTRBMTYuMDcsMTYuMDcsMCwwLDEsMjE4LDU4bDI5LjUzLDExNi4zOEExNS45MywxNS45MywwLDAsMSwyMzguNDUsMTkyLjlaTTIzMiwxNzguMjgsMjAyLjQ3LDYyczAsMC0uMDgsMEwxNjYuMzMsNTZhLjE3LjE3LDAsMCwwLS4xNywwbC0yLjgzLDExLjE0YzUsLjk0LDEwLDIuMDYsMTQuODMsMy40MkE4LDgsMCwwLDEsMTc2LDg2LjMxYTguMDksOC4wOSwwLDAsMS0yLjE2LS4zQTE3Mi4yNSwxNzIuMjUsMCwwLDAsMTI4LDgwYTE3Mi4yNSwxNzIuMjUsMCwwLDAtNDUuODQsNiw4LDgsMCwxLDEtNC4zMi0xNS40YzQuODItMS4zNiw5Ljc4LTIuNDgsMTQuODItMy40Mkw4OS44Myw1NnMwLDAtLjEyLDBoMEw1My42MSw2MS45M2EuMTcuMTcsMCwwLDAtLjA5LDBMMjQsMTc4LjMzLDkxLDIwOGEuMjMuMjMsMCwwLDAsLjIyLDBMOTgsMTg5LjcyYTE3My4yLDE3My4yLDAsMCwxLTIwLjE0LTQuMzJBOCw4LDAsMCwxLDgyLjE2LDE3MCwxNzEuODUsMTcxLjg1LDAsMCwwLDEyOCwxNzZhMTcxLjg1LDE3MS44NSwwLDAsMCw0NS44NC02LDgsOCwwLDAsMSw0LjMyLDE1LjQxQTE3My4yLDE3My4yLDAsMCwxLDE1OCwxODkuNzJMMTY0Ljc1LDIwOGEuMjIuMjIsMCwwLDAsLjIxLDBaIj48L3BhdGg+PC9zdmc+")
-    no-repeat;
-}
-
-html[data-theme="dark"] .discord-link:before {
-  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI2JlYzNjOSIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxwYXRoIGQ9Ik0xMDQsMTQwYTEyLDEyLDAsMSwxLTEyLTEyQTEyLDEyLDAsMCwxLDEwNCwxNDBabTYwLTEyYTEyLDEyLDAsMSwwLDEyLDEyQTEyLDEyLDAsMCwwLDE2NCwxMjhabTc0LjQ1LDY0LjktNjcsMjkuNzFhMTYuMTcsMTYuMTcsMCwwLDEtMjEuNzEtOS4xbC04LjExLTIycS02LjcyLjQ1LTEzLjYzLjQ2dC0xMy42My0uNDZsLTguMTEsMjJhMTYuMTgsMTYuMTgsMCwwLDEtMjEuNzEsOS4xbC02Ny0yOS43MWExNS45MywxNS45MywwLDAsMS05LjA2LTE4LjUxTDM4LDU4QTE2LjA3LDE2LjA3LDAsMCwxLDUxLDQ2LjE0bDM2LjA2LTUuOTNhMTYuMjIsMTYuMjIsMCwwLDEsMTguMjYsMTEuODhsMy4yNiwxMi44NFExMTguMTEsNjQsMTI4LDY0dDE5LjQuOTNsMy4yNi0xMi44NGExNi4yMSwxNi4yMSwwLDAsMSwxOC4yNi0xMS44OEwyMDUsNDYuMTRBMTYuMDcsMTYuMDcsMCwwLDEsMjE4LDU4bDI5LjUzLDExNi4zOEExNS45MywxNS45MywwLDAsMSwyMzguNDUsMTkyLjlaTTIzMiwxNzguMjgsMjAyLjQ3LDYyczAsMC0uMDgsMEwxNjYuMzMsNTZhLjE3LjE3LDAsMCwwLS4xNywwbC0yLjgzLDExLjE0YzUsLjk0LDEwLDIuMDYsMTQuODMsMy40MkE4LDgsMCwwLDEsMTc2LDg2LjMxYTguMDksOC4wOSwwLDAsMS0yLjE2LS4zQTE3Mi4yNSwxNzIuMjUsMCwwLDAsMTI4LDgwYTE3Mi4yNSwxNzIuMjUsMCwwLDAtNDUuODQsNiw4LDgsMCwxLDEtNC4zMi0xNS40YzQuODItMS4zNiw5Ljc4LTIuNDgsMTQuODItMy40Mkw4OS44Myw1NnMwLDAtLjEyLDBoMEw1My42MSw2MS45M2EuMTcuMTcsMCwwLDAtLjA5LDBMMjQsMTc4LjMzLDkxLDIwOGEuMjMuMjMsMCwwLDAsLjIyLDBMOTgsMTg5LjcyYTE3My4yLDE3My4yLDAsMCwxLTIwLjE0LTQuMzJBOCw4LDAsMCwxLDgyLjE2LDE3MCwxNzEuODUsMTcxLjg1LDAsMCwwLDEyOCwxNzZhMTcxLjg1LDE3MS44NSwwLDAsMCw0NS44NC02LDgsOCwwLDAsMSw0LjMyLDE1LjQxQTE3My4yLDE3My4yLDAsMCwxLDE1OCwxODkuNzJMMTY0Ljc1LDIwOGEuMjIuMjIsMCwwLDAsLjIxLDBaIj48L3BhdGg+PC9zdmc+")
-    no-repeat;
-}
-
 .navbar-search {
-  width: 220px;
-  margin-right: 12px;
+  height: 2rem;
+  margin-right: 4px;
   &>button:not(:hover) {
     box-shadow: none!important;
   }
@@ -203,11 +237,6 @@ html[data-theme="dark"] .discord-link:before {
   max-width: 1440px;
   margin: auto;
   width: 100%;
-}
-
-pre[class*="language-"] {
-  border-radius: 0.2rem;
-  padding: 0.4rem;
 }
 
 // To show button use this class
@@ -261,6 +290,19 @@ pre[class*="language-"] {
   margin-right: 0.8rem;
 }
 
+// Light/dark mode toggle button
+[data-theme="light"] {
+  [class*='colorModeToggle_'] {
+    [class*='toggleButton_'] {
+      border-radius: 0.25rem !important;
+
+      &:hover {
+        background: var(--stone-50) !important;
+      }
+    }
+  }
+}
+
 .theme-doc-sidebar-container .menu {
   & {
     padding: 1.15rem 1.15rem 2rem 1.15rem;
@@ -289,9 +331,8 @@ pre[class*="language-"] {
 
 .container {
   margin-bottom: 35px;
-  padding-left: 35px;
-  padding-right: 35px;
-  margin-top: 20px;
+  padding-left: 30px;
+  padding-right: 20px;
 }
 
 .tabs {
@@ -310,10 +351,6 @@ pre[class*="language-"] {
       border-bottom-right-radius: 0;
     }
   }
-}
-
-pre {
-  border: 1px solid var(--ifm-color-emphasis-200);
 }
 
 .card {

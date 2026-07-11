@@ -1,0 +1,232 @@
+// Footer replicating iomete.com. Always dark (u-theme-primary__base950),
+// regardless of the site color mode — same as the main website.
+.footer {
+  --footer-heading: var(--base-50);
+  --footer-link: var(--base-200);
+  --footer-link-hover: var(--base-50);
+  --footer-body: var(--base-300);
+  --footer-border: var(--base-800);
+  --footer-eye: var(--fluoro-400);
+  --footer-social-hover: var(--base-50);
+
+  background-color: var(--base-950);
+  padding: 2rem 1.5rem;
+}
+
+html[data-theme="dark"] .footer {
+  background-color: black;
+}
+
+.container {
+  width: 100%;
+  max-width: 77rem;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.box {
+  border: 1px solid var(--footer-border);
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-family: "Dmmono", "DM Mono", monospace;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.42;
+  text-transform: uppercase;
+  color: var(--footer-heading);
+}
+
+.eyebrowEye {
+  width: 0.625rem;
+  min-width: 0.625rem;
+  height: 1.25rem;
+  color: var(--footer-eye);
+}
+
+.divider {
+  border-top: 1px solid var(--footer-border);
+  margin: 0.75rem 0 0.5rem;
+}
+
+.linkWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.375rem;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.125rem;
+  position: relative;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--footer-link);
+  text-align: left;
+
+  // Reset button styling for the address copy button.
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+
+  &:hover {
+    color: var(--footer-link-hover);
+    text-decoration: none;
+  }
+}
+
+.copyButton {
+  cursor: copy;
+}
+
+.copiedTooltip {
+  position: absolute;
+  top: -2.125rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: var(--base-0);
+  color: var(--base-700);
+  font-family: "Dmmono", "DM Mono", monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.copiedTooltipVisible {
+  opacity: 1;
+}
+
+.linkIcon {
+  width: 1.25rem;
+  min-width: 1.25rem;
+  height: 1.25rem;
+}
+
+.socialWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.socialBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 0.125rem;
+  background-color: var(--base-200);
+  color: var(--base-950);
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--footer-social-hover);
+    color: var(--base-950);
+  }
+}
+
+.socialIcon {
+  width: 0.875rem;
+  min-width: 0.875rem;
+  height: 0.875rem;
+}
+
+.copyrightRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+}
+
+.copyrightLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.copyright {
+  font-size: 0.875rem;
+  color: var(--footer-body);
+}
+
+.topBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--footer-link);
+
+  &:hover {
+    color: var(--footer-link-hover);
+  }
+}
+
+.topIcon {
+  width: 1.25rem;
+  min-width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (max-width: 996px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .copyrightLeft {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 576px) {
+  .footer {
+    padding: 2rem 1rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .copyrightRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}

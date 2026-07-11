@@ -1,21 +1,27 @@
 html[data-theme='light'] {
-    --admonition-note-bg: var(--stone-50);
-    --admonition-info-bg: var(--lake-50);
-    --admonition-tip-bg: var(--racing-50);
-    --admonition-caution-bg: var(--apricot-50);
-    --admonition-danger-bg: var(--reef-50);
+    --admonition-note-bg: var(--stone-100);
+    --admonition-info-bg: var(--lake-100);
+    --admonition-tip-bg: var(--racing-100);
+    --admonition-caution-bg: var(--apricot-100);
+    --admonition-danger-bg: var(--reef-100);
 
-    --admonition-code-note-bg: var(--stone-100);
-    --admonition-code-info-bg: var(--lake-100);
-    --admonition-code-tip-bg: var(--racing-100);
-    --admonition-code-caution-bg: var(--apricot-100);
-    --admonition-code-danger-bg: var(--reef-100);
+    --admonition-code-note-bg: var(--stone-200);
+    --admonition-code-info-bg: var(--lake-200);
+    --admonition-code-tip-bg: var(--racing-200);
+    --admonition-code-caution-bg: var(--apricot-200);
+    --admonition-code-danger-bg: var(--reef-200);
 
     --admonition-link-note-c: var(--stone-900);
     --admonition-link-info-c: var(--lake-900);
     --admonition-link-tip-c: var(--racing-900);
     --admonition-link-caution-c: var(--apricot-900);
     --admonition-link-danger-c: var(--reef-900);
+
+    --admonition-bar-note-bg: var(--stone-300);
+    --admonition-bar-info-bg: var(--lake-300);
+    --admonition-bar-tip-bg: var(--racing-300);
+    --admonition-bar-caution-bg: var(--apricot-300);
+    --admonition-bar-danger-bg: var(--reef-300);
 }
 
 html[data-theme='dark'] {
@@ -25,11 +31,11 @@ html[data-theme='dark'] {
     --admonition-caution-bg: var(--apricot-900);
     --admonition-danger-bg: var(--reef-900);
 
-    --admonition-code-note-bg: var(--stone-700);
-    --admonition-code-info-bg: var(--lake-700);
-    --admonition-code-tip-bg: var(--racing-700);
-    --admonition-code-caution-bg: var(--apricot-700);
-    --admonition-code-danger-bg: var(--reef-700);
+    --admonition-code-note-bg: var(--stone-800);
+    --admonition-code-info-bg: var(--lake-800);
+    --admonition-code-tip-bg: var(--racing-800);
+    --admonition-code-caution-bg: var(--apricot-800);
+    --admonition-code-danger-bg: var(--reef-800);
 
     --admonition-link-note-c: var(--stone-300);
     --admonition-link-info-c: var(--lake-300);
@@ -38,22 +44,16 @@ html[data-theme='dark'] {
     --admonition-link-danger-c: var(--reef-300);
 }
 
-:root {
-    --admonition-bar-note-bg: var(--stone-300);
-    --admonition-bar-info-bg: var(--lake-300);
-    --admonition-bar-tip-bg: var(--racing-300);
-    --admonition-bar-caution-bg: var(--apricot-300);
-    --admonition-bar-danger-bg: var(--reef-300);
-}
-
 .theme-admonition {
     & {
         position: relative;
-        border: none;
+        border: 1px solid var(--admonition-bar-bg);
+        border-radius: 0.25rem;
+        box-shadow: none;
 
         --ifm-alert-color: var(--ifm-font-color-base);
-        --ifm-alert-padding-horizontal: 2rem;
-        --ifm-alert-padding-vertical: 1.5rem;
+        --ifm-alert-padding-horizontal: 1.5rem;
+        --ifm-alert-padding-vertical: 1rem;
     }
 
     [class^='admonitionHeading_'] {
@@ -82,15 +82,7 @@ html[data-theme='dark'] {
     }
 
     &::before {
-        content: '';
-        position: absolute;
-        z-index: 2;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 5px;
-        background: var(--admonition-bar-bg);
-        border-radius: 4px 0 0 4px;
+        content: none;
     }
 
     &-note {
