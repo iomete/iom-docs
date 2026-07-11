@@ -63,7 +63,7 @@ html[data-theme="dark"] {
     }
 
     &__brand {
-      margin-right: 2.5rem;
+      margin-right: auto;
     }
 
     &__items {
@@ -80,11 +80,14 @@ html[data-theme="dark"] {
 
         :not(.cta) {
           &.navbar__link {
-            & {
-              align-self: stretch;
-              align-items: center;
-              position: relative;
-              color: var(--navbar-text-color) !important;
+            align-self: stretch;
+            align-items: center;
+            position: relative;
+            color: var(--navbar-text-color) !important;
+            font-size: 1rem;
+
+            &:last-of-type {
+              margin-right: auto;
             }
 
             @media (min-width: 996px) {
