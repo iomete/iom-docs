@@ -7,10 +7,10 @@ module.exports = {
   darkMode: ["selector", '[data-theme="dark"]'],
   theme: {
     fontFamily: {
-      sans: ["Inter", "sans-serif"],
-      inter: ["Inter", "Palatino Linotype", "sans-serif"],
-      mono: ["Dmmono", "Palatino Linotype", "sans-serif"],
-      archivo: ["Archivo", "Palatino Linotype", "sans-serif"]
+      sans: ["Inter", "Inter Fallback", "sans-serif"],
+      inter: ["Inter", "Inter Fallback", "sans-serif"],
+      mono: ["Dmmono", "Dmmono Fallback", "monospace"],
+      archivo: ["Archivo", "Archivo Fallback", "sans-serif"]
     },
     extend: {
       boxShadow: {

@@ -56,41 +56,9 @@
 //   font-display: swap;
 // }
 
-// Archivo — IOMETE brand display typeface. Self-hosted variable font (see static/fonts/).
-// Used for headings/titles to create hierarchy; use in moderation per branding.
-@font-face {
-  font-family: 'Archivo';
-  src: url('/fonts/Archivo-Variable.ttf') format('truetype-variations');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Archivo';
-  src: url('/fonts/Archivo-Italic-Variable.ttf') format('truetype-variations');
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
-}
-
-// DM Mono — brand secondary/mono typeface, used for footer eyebrow headings.
-// The TTFs are preloaded via headTags in docusaurus.config.js.
-@font-face {
-  font-family: 'Dmmono';
-  src: url('https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a3650d012930b8d8bd5b0_DMMono-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Dmmono';
-  src: url('https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a3657294bb48e01b67f05_DMMono-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
+// All @font-face declarations (brand web fonts + metric-matched CLS
+// fallbacks) live in src/css/fonts.css — plain CSS so the webpackIgnore
+// url() comments survive; see that file for why.
 
 :root {
   --ifm-color-primary: #0070f3;
@@ -172,7 +140,7 @@
 
 // Archivo Light for the top-level headings - the big statement type.
 h1 {
-  font-family: 'Archivo', var(--ifm-font-family-base);
+  font-family: 'Archivo', 'Archivo Fallback', var(--ifm-font-family-base);
   font-weight: 300;
 }
 
