@@ -17,6 +17,7 @@ function BlogPosts() {
                   src={`${BASE_PATH}/logo-white.svg`}
                   alt="Logo"
                   className="h-3 object-contain"
+                  style={{ pointerEvents: "none" }}
                 />
               </div>
 

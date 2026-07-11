@@ -29,7 +29,7 @@ function Resources() {
               </div>
               <div className="relative col-span-2 min-h-48 sm:col-span-1">
                 <img
-                  style={{ height: "calc(100% + 26px)" }}
+                  style={{ height: "calc(100% + 26px)", pointerEvents: "none" }}
                   className="object-cover object-left-top absolute bottom-[-26px] right-[-26px] border-solid border border-[#cfd6df] dark:border-[#252526]"
                   src={`${BASE_PATH}/img/hero/lakehouses-console.svg`}
                   alt="Lakahouses"
@@ -74,6 +74,7 @@ function Resources() {
                         className="w-5 h-5"
                         src={connection.imgSrc}
                         alt={connection.name}
+                        style={{ pointerEvents: "none" }}
                       />
                       <span className="text-[16px] whitespace-nowrap pr-2">
                         {connection.name}
@@ -94,6 +95,7 @@ function Resources() {
                         className="w-5 h-5"
                         src={connection.imgSrc}
                         alt={connection.name}
+                        style={{ pointerEvents: "none" }}
                       />
                       <span className="text-[16px] whitespace-nowrap pr-2">
                         {connection.name}
@@ -114,7 +116,7 @@ function Resources() {
               </p>
             </div>
             <img
-              style={{ height: "calc(80% + 26px)" }}
+              style={{ height: "calc(80% + 26px)", pointerEvents: "none" }}
               className="object-cover object-left-top mb-[-26px]"
               src={`${BASE_PATH}/img/hero/code-sql.svg`}
               alt="SQL Quickstart"
