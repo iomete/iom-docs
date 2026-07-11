@@ -76,6 +76,11 @@ const sidebars = {
   ],
 
   integrations: [
+    { 
+      type: "doc",
+      id: "integrations/overview",
+      className: "menu-item-home",
+    },
     {
       type: "category",
       label: "DBT",

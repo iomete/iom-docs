@@ -75,7 +75,7 @@ const config = {
         docs: {
           routeBasePath: "/",
           sidebarPath: "./sidebars.js",
-          breadcrumbs: false,
+          breadcrumbs: true,
         },
         blog: {
           blogSidebarCount: 0,
@@ -142,7 +142,7 @@ const config = {
         },
       },
       codeblock: {
-        showGithubLink: true,
+        showGithubLink: false,
         githubLinkLabel: "View on GitHub",
         showRunmeLink: false,
         runmeLinkLabel: "Checkout via Runme",
@@ -196,13 +196,6 @@ const config = {
             position: "right",
             className: "navbar-search",
           },
-
-          {
-            href: "https://github.com/iomete",
-            position: "right",
-            className: "link-icon github-link",
-            "aria-label": "GitHub repository",
-          },
         ],
       },
       algolia: {
@@ -213,12 +206,12 @@ const config = {
         searchPagePath: false,
       },
       colorMode: {
-        respectPrefersColorScheme: true,
+        respectPrefersColorScheme: false,
       },
 
       prism: {
-        theme: prismThemes.dracula,
-        // darkTheme: prismThemes.dracula,
+        theme: prismThemes.vsLight,
+        darkTheme: prismThemes.vsDark,
         additionalLanguages: ["bash"],
       },
 
@@ -246,12 +239,12 @@ const config = {
         crossorigin: "anonymous",
       },
     },
-    // Archivo Variable
+    // Archivo Variable — self-hosted brand display font (used for headings)
     {
       tagName: "link",
       attributes: {
         rel: "preload",
-        href: "https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a361dee69de6073e991b4_Archivo-VariableFont_wdth,wght.ttf",
+        href: "/fonts/Archivo-Variable.ttf",
         as: "font",
         type: "font/ttf",
         crossorigin: "anonymous",

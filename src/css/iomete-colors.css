@@ -112,7 +112,7 @@
 }
 
 html[data-theme="light"] {
-  --primary--background: var(--base-0);
+  --primary--background: var(--base-50);
   --secondary--background: var(--stone-50);
 
   --border-primary: var(--base-200);
