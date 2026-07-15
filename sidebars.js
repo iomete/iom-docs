@@ -49,6 +49,7 @@ const sidebars = {
           collapsed: false,
           items: [
             "deployment/on-prem/release-notes/index",
+            "deployment/on-prem/release-notes/spark",
             "deployment/on-prem/release-notes/marketplace-jobs",
           ],
         },
