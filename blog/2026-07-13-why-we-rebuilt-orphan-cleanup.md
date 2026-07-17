@@ -72,7 +72,7 @@ Retention windows help — only delete files older than N days — but they're n
 
 ### Large Object Stores
 
-A production Iceberg table can have millions of files spread across `data/` and `metadata/` directories. Listing all of them means paginating through the object store's list API, which is both slow and expensive at scale.
+A production Iceberg table can have millions of files spread across `data/` and `metadata/` directories. You don't know how many until you start listing, and listing means paginating through the object store's list API, which is both slow and expensive at scale.
 
 On top of that, building the set of referenced files requires reading every snapshot's manifest list, every manifest file, and every metadata file. For tables with hundreds of snapshots and thousands of manifests, that's a lot of I/O.
 
@@ -95,11 +95,11 @@ In many production environments, table directories contain files Iceberg didn't 
 
 Iceberg's [`remove_orphan_files`](https://iceberg.apache.org/docs/latest/spark-procedures/#remove_orphan_files) procedure is a well-designed starting point. We covered how it works in [Part 2](/blog/iceberg-maintenance-operations) of this series. But for a managed platform running cleanup automatically across hundreds of tables, we needed guarantees the built-in procedure doesn't provide:
 
-- **No Spark dependency.** The default implementation runs as a Spark procedure, but orphan cleanup is fundamentally a metadata-plus-storage operation — it reads Iceberg metadata, lists object storage, and deletes files. None of that needs distributed data processing. Dropping Spark eliminates the compute overhead and the scheduling dependency on cluster availability.
-- **Threshold-based safety.** If the orphan ratio is unusually high, something's probably wrong — a misconfigured table location, corrupted metadata, or a bug in the cleanup logic itself. The default procedure doesn't check for this; it just deletes whatever it finds. We needed an automatic abort mechanism.
+- **Threshold-based safety.** If the orphan ratio is unusually high, something's probably wrong: a misconfigured table location, corrupted metadata, or a bug in the cleanup logic itself. The default procedure doesn't check for this; it just deletes whatever it finds. We needed an automatic abort mechanism.
 - **Batch deletion with backpressure.** Deleting thousands of files in a single API call can overwhelm object storage rate limits or cause cascading failures. We needed controlled, batched deletion with configurable cooldown periods.
 - **Engine-aware exclusions.** Flink checkpoint files must not be deleted while a streaming job is running. The default procedure has no awareness of compute engine state.
-- **Operational metrics.** A success/failure status tells you nothing useful. Every run should report what it actually did — files scanned, orphans found, storage reclaimed.
+- **Operational metrics.** A success/failure status tells you nothing useful. Every run should report what it actually did: files scanned, orphans found, storage reclaimed.
+- **No Spark dependency.** Once we were building our own implementation anyway, we realized orphan cleanup is fundamentally a metadata-plus-storage operation. It reads Iceberg metadata, lists object storage, and deletes files. None of that needs distributed data processing. Dropping Spark eliminated the compute overhead and the scheduling dependency on cluster availability.
 
 The goal was never to replace Iceberg's capabilities. It was to build the production-grade guardrails needed for an automated platform.
 
@@ -138,7 +138,7 @@ Only files that fail all three checks — unreferenced, not excluded, and older 
 
 At this point, we've counted the orphans but haven't deleted anything. That separation is deliberate.
 
-### Step 3: Threshold Check — The Safety Net
+### Step 3: Threshold Check: The Safety Net
 
 Before any deletion begins, we calculate the orphan ratio: eligible orphans divided by total files (valid plus orphan).
 
