@@ -1,6 +1,6 @@
 ---
 title: "Why We Rebuilt Iceberg Orphan File Cleanup from Scratch"
-description: "How we built a production-safe orphan file cleanup for Apache Iceberg without Spark — Bloom filters, threshold-based abort, batch deletion, and Flink-aware exclusions."
+description: "How we built a production-safe orphan file cleanup for Apache Iceberg without Spark, using Bloom filters, threshold-based abort, batch deletion, and Flink-aware exclusions."
 slug: why-we-rebuilt-orphan-cleanup
 authors: [ujjawal,Shashank,abhishek]
 hide_table_of_contents: false
@@ -35,7 +35,7 @@ import Img from '@site/src/components/Img';
 
 In the [previous articles](/blog/how-we-built-automated-maintenance) of this series, we talked about why table maintenance matters, walked through Iceberg's built-in procedures, and explained how we automated them at IOMETE. One operation, though, kept coming back as a special case.
 
-Orphan file cleanup sounds straightforward — find files that aren't referenced by the table anymore and delete them. In practice, it's one of the riskiest maintenance operations you can run. One wrong deletion, and you've lost data permanently.
+Orphan file cleanup sounds straightforward. Find files that aren't referenced by the table anymore and delete them. In practice, it's one of the riskiest maintenance operations you can run. One wrong deletion, and you've lost data permanently.
 
 This post covers why we built our own implementation, the production problems that forced our hand, and the safety mechanisms we put in place.
 
@@ -46,7 +46,7 @@ Orphan files are data or metadata files sitting in a table's storage location th
 Here's how they typically show up:
 
 - **Failed write operations.** A Spark or Flink job writes data files to storage but crashes before committing the snapshot. The files are there, but no metadata points to them.
-- **Interrupted compaction.** Compaction rewrites data files into larger, optimized ones. If the process dies after writing the new files but before the atomic metadata swap, both old and new files exist — but only the old ones are referenced.
+- **Interrupted compaction.** Compaction rewrites data files into larger, optimized ones. If the process dies after writing the new files but before the atomic metadata swap, both old and new files exist, but only the old ones are referenced.
 - **Streaming write failures.** Streaming engines like Flink commit at high velocity. A checkpoint failure or executor restart can leave uncommitted files behind.
 - **External tools writing into table locations.** ETL scripts, migration tools, or manual uploads sometimes drop files into an Iceberg table's directory without going through the commit protocol.
 
@@ -68,7 +68,7 @@ Orphan cleanup operates on a moving target. While the cleanup process is scannin
 
 A naive implementation sees them as unreferenced and deletes them. The write job then tries to commit, pointing to files that no longer exist. That's data loss.
 
-Retention windows help — only delete files older than N days — but they're not a complete solution. A long-running batch job might write files that sit uncommitted for hours. A Flink checkpoint might hold references across multiple commit cycles. The window needs to be wide enough to cover the longest possible gap between file creation and metadata commit, and that gap depends entirely on the workload.
+Retention windows help by only deleting files older than N days, but they're not a complete solution. A long-running batch job might write files that sit uncommitted for hours. A Flink checkpoint might hold references across multiple commit cycles. The window needs to be wide enough to cover the longest possible gap between file creation and metadata commit, and that gap depends entirely on the workload.
 
 ### Large Object Stores
 
@@ -89,7 +89,7 @@ Deleting these while the engine is actively using them can corrupt running pipel
 
 ### Mixed Directory Contents
 
-In many production environments, table directories contain files Iceberg didn't create and doesn't manage — logs, README files, temporary uploads, user-created folders. A cleanup process that deletes every unreferenced file risks removing things that have nothing to do with Iceberg.
+In many production environments, table directories contain files Iceberg didn't create and doesn't manage, like logs, README files, temporary uploads, and user-created folders. A cleanup process that deletes every unreferenced file risks removing things that have nothing to do with Iceberg.
 
 ## Why We Didn't Use the Default Implementation
 
@@ -107,13 +107,13 @@ The goal was never to replace Iceberg's capabilities. It was to build the produc
 
 ### Step 1: Collecting Valid Files with a Bloom Filter
 
-Before we can identify orphans, we need to know which files are valid — referenced by at least one snapshot. Building this set is the most expensive part of the operation.
+Before we can identify orphans, we need to know which files are valid, meaning referenced by at least one snapshot. Building this set is the most expensive part of the operation.
 
 The naive approach loads every referenced file path into a `HashSet`. For a table with 10 million data files, that set alone eats hundreds of megabytes of memory. Multiply by the number of tables being cleaned concurrently, and you hit a wall fast.
 
-We use a [Bloom filter](https://en.wikipedia.org/wiki/Bloom_filter) instead — a probabilistic data structure that tells you with certainty when a file is *not* in a set, and with a small, configurable error rate when it *might* be. We tuned ours to a 0.01% false positive rate, so at most one in every 10,000 flagged files could actually be valid. And even that one survives, because it still has to clear the retention window and exclusion checks before anything gets deleted.
+We use a [Bloom filter](https://en.wikipedia.org/wiki/Bloom_filter) instead. It's a probabilistic data structure that tells you with certainty when a file is *not* in a set, and with a small, configurable error rate when it *might* be. We tuned ours to a 0.01% false positive rate, so at most one in every 10,000 flagged files could actually be valid. And even that one survives, because it still has to clear the retention window and exclusion checks before anything gets deleted.
 
-The filter handles up to 10 million data file entries and 10,000 metadata file entries, capped at around 24 MB — a fraction of what a `HashSet` would need.
+The filter handles up to 10 million data file entries and 10,000 metadata file entries, capped at around 24 MB, a fraction of what a `HashSet` would need.
 
 Here's how the valid file collection works. We walk through every snapshot in the table:
 
@@ -124,7 +124,7 @@ Here's how the valid file collection works. We walk through every snapshot in th
 
 To avoid hammering object storage during this phase, we throttle: after every batch of 1,500 files read from manifests, the process pauses for 100 milliseconds. That keeps the I/O rate sustainable for shared storage systems.
 
-The result is two Bloom filters — one for content files (`data/`) and one for metadata files (`metadata/`) — along with the total count and size of all valid files.
+The result is two Bloom filters, one for content files (`data/`) and one for metadata files (`metadata/`), along with the total count and size of all valid files.
 
 ### Step 2: Counting Orphans Before Deleting Anything
 
@@ -134,7 +134,9 @@ With the valid file sets built, we scan the table's storage directories and clas
 2. **Is it excluded?** Metadata files matching an active Flink job ID pattern are excluded from deletion, even if unreferenced. This protects Flink checkpoint files for running streaming jobs.
 3. **Is it old enough?** Files newer than the retention window (configured as `olderThanTimestamp`) aren't eligible for deletion, regardless of reference status. This protects in-flight commits and retry scenarios.
 
-Only files that fail all three checks — unreferenced, not excluded, and older than the retention window — get classified as eligible orphans.
+Only files that fail all three checks (unreferenced, not excluded, and older than the retention window) get classified as eligible orphans.
+
+<Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/orphan-file-scan.png" alt="Orphan file classification flow: files from a filesystem listing pass through Gate 1 (metadata referenced-set check) and Gate 2 (retention check), resulting in three outcomes: Keep (referenced files), Skip (orphan but newer than retention window), or Delete (orphan and older than retention)." borderless/>
 
 At this point, we've counted the orphans but haven't deleted anything. That separation is deliberate.
 
@@ -164,7 +166,7 @@ Instead of issuing a single bulk delete for all orphan files, the process:
 2. Deletes each batch using the object store's bulk deletion API when supported (`SupportsBulkOperations`), or falls back to individual file deletion.
 3. Applies a configurable cooldown period between batches to avoid overwhelming the storage API.
 
-If a bulk deletion partially fails — which happens regularly with cloud object storage — the process handles it gracefully. It tracks how many files in the batch succeeded and how many failed, logs the partial failure, and moves on to the next batch. The operation doesn't abort on partial batch failures.
+If a bulk deletion partially fails (which happens regularly with cloud object storage), the process handles it gracefully. It tracks how many files in the batch succeeded and how many failed, logs the partial failure, and moves on to the next batch. The operation doesn't abort on partial batch failures.
 
 This design limits the blast radius of any single failure. If the process crashes mid-cleanup, only the current batch is affected. The remaining orphan files stay untouched and get picked up on the next run.
 
@@ -172,7 +174,7 @@ This design limits the blast radius of any single failure. If the process crashe
 
 Flink writes checkpoint metadata files into the Iceberg table's `metadata/` directory. These files follow a naming pattern tied to the Flink job ID, which Flink stores in each snapshot's summary under the key `flink.job-id`.
 
-Our implementation extracts the most recent Flink job ID from the table's snapshot history and builds a regex pattern that matches any metadata file associated with that job. Files matching this pattern are technically orphans — unreferenced by Iceberg metadata — but they're excluded from deletion.
+Our implementation extracts the most recent Flink job ID from the table's snapshot history and builds a regex pattern that matches any metadata file associated with that job. Files matching this pattern are technically orphans, unreferenced by Iceberg metadata, but they're excluded from deletion.
 
 This ensures that an active Flink streaming job's checkpoint files are never deleted, even if they look like orphans to Iceberg.
 
@@ -182,7 +184,15 @@ Beyond the configurable retention window, the executor enforces a hard minimum r
 
 ## What We Track
 
-Every orphan cleanup run records detailed metrics:
+Every orphan cleanup run records detailed metrics. Here's what the maintenance history looks like in the IOMETE console:
+
+<Img src="/img/user-guide/table-maintenance/table-history-list.png" alt="IOMETE maintenance history tab showing a list of completed and failed runs for different operation types including Cleanup Orphan Files, Expire Snapshots, Rewrite Data Files, and Rewrite Manifest Files." />
+
+Clicking into a completed orphan cleanup run shows the before/after metrics:
+
+<Img src="/img/user-guide/table-maintenance/run-detail-completed.png" alt="Completed orphan cleanup run detail showing before/after metrics: data file count dropped from 301,979 to 1,827 and data file size from 25.96 GB to 10.72 GB." />
+
+The full set of metrics captured per run:
 
 | Metric | Description |
 |---|---|
@@ -203,19 +213,19 @@ These metrics are captured as before/after pairs and stored alongside every exec
 
 ## Lessons Learned
 
-**Deleting files safely is harder than writing them.** A write that fails leaves behind an orphan — annoying, but harmless. A delete that targets the wrong file causes data loss. That asymmetry means the cleanup process has to be significantly more careful than the write process that created the mess in the first place.
+**Deleting files safely is harder than writing them.** A write that fails leaves behind an orphan. That's annoying, but harmless. A delete that targets the wrong file causes data loss. That asymmetry means the cleanup process has to be significantly more careful than the write process that created the mess in the first place.
 
-**Probabilistic data structures earn their keep at scale.** A Bloom filter with a 0.01% false positive rate and a 24 MB cap replaced what would've been a multi-gigabyte hash set for large tables. The tradeoff — occasionally skipping a real orphan — is negligible compared to the memory savings. That orphan gets caught on the next run anyway.
+**Probabilistic data structures earn their keep at scale.** A Bloom filter with a 0.01% false positive rate and a 24 MB cap replaced what would've been a multi-gigabyte hash set for large tables. The tradeoff of occasionally skipping a real orphan is negligible compared to the memory savings. That orphan gets caught on the next run anyway.
 
 **Safety mechanisms matter more than speed.** The threshold check, batch deletion, and retention enforcement all add latency. That's the cost of not deleting customer data by accident, and it's a trade we'd make again every time.
 
-**Separating counting from deleting changes everything.** Counting orphans first and checking the ratio before deleting anything turns a destructive operation into a two-phase process with an explicit go/no-go gate. Most of the bugs we caught during development would've been invisible in a single-pass implementation — they only showed up because we had that checkpoint in between.
+**Separating counting from deleting changes everything.** Counting orphans first and checking the ratio before deleting anything turns a destructive operation into a two-phase process with an explicit go/no-go gate. Most of the bugs we caught during development would've been invisible in a single-pass implementation. They only showed up because we had that checkpoint in between.
 
 ## Conclusion
 
 Orphan file cleanup is one of those operations that seems trivial until you're running a lakehouse at scale.
 
-Building our own implementation wasn't about replacing Iceberg's capabilities — it was about adding the safety, observability, and operational guarantees you need when this stuff runs automatically across hundreds of tables. Bloom filters keep memory bounded. Threshold checks prevent runaway deletions. Batch deletion with backpressure keeps storage APIs healthy. Flink-aware exclusions protect running pipelines.
+We didn't build our own implementation to replace Iceberg's capabilities. We built it to add the safety, observability, and operational guarantees you need when this stuff runs automatically across hundreds of tables. Bloom filters keep memory bounded. Threshold checks prevent runaway deletions. Batch deletion with backpressure keeps storage APIs healthy. Flink-aware exclusions protect running pipelines.
 
 These guardrails let orphan cleanup run continuously without putting customer data at risk, turning what could be a dangerous maintenance task into a reliable part of everyday lakehouse operations.
 
@@ -227,7 +237,3 @@ These guardrails let orphan cleanup run continuously without putting customer da
 - [Apache Iceberg `remove_orphan_files` Procedure](https://iceberg.apache.org/docs/latest/spark-procedures/#remove_orphan_files): Iceberg's built-in Spark procedure for orphan file removal
 - [Bloom Filters by Example](https://llimllib.github.io/bloomfilter-tutorial/): interactive tutorial on how Bloom filters work
 - [Apache Iceberg Spec: Snapshots](https://iceberg.apache.org/spec/#snapshots): how Iceberg tracks file references through snapshots and manifests
-
-#### IOMETE References
-- [Automated Table Maintenance on IOMETE](/resources/user-guide/table-maintenance/overview): the feature this post describes, including setup and configuration
-- [IOMETE Data Compaction Job](/resources/open-source-spark-jobs/data-compaction): open-source Spark job for scheduled Iceberg compaction
