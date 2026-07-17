@@ -8,9 +8,9 @@ tags2: [Technical, Engineering]
 keywords: [apache iceberg, orphan file cleanup, remove_orphan_files, iceberg maintenance, bloom filter, orphan detection, lakehouse storage, object storage cleanup, data lake maintenance, iceberg file management]
 banner_description: "Deleting data is easy. Deleting the right data safely in a distributed lakehouse is much harder."
 coverImage: img/blog/thumbnails/darkStone.png
-date: 07/13/2026
+date: 07/20/2026
 last_update:
-  date: 2026-07-13
+  date: 2026-07-20
   author: Ujjawal Khare
 ---
 
