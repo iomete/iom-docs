@@ -9,8 +9,7 @@ coverImage: img/blog/thumbnails/darkStone.png
 banner_description: Most maintenance guides explain what operations to run. Few discuss what happens after those operations are deployed across a production lakehouse.
 date: 07/06/2026
 last_update:
-  date: 2026-07-06
-  author: Ujjawal Khare
+  date: 2026-07-20
 ---
 
 import Img from '@site/src/components/Img';

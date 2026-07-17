@@ -9,7 +9,7 @@ banner_description: From open-source projects to fully managed platforms — an 
 coverImage: img/blog/thumbnails/darkStone.png
 date: 06/08/2026
 last_update:
-  date: 2026-06-22
+  date: 2026-07-20
 ---
 
 import Img from '@site/src/components/Img';

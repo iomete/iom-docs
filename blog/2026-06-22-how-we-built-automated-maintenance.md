@@ -10,7 +10,7 @@ banner_description: The goal was simple - customers should not have to think abo
 coverImage: img/blog/thumbnails/darkStone.png
 date: 06/22/2026
 last_update:
-  date: 2026-06-22
+  date: 2026-07-20
 ---
 
 # How We Built Automated Table Maintenance at IOMETE

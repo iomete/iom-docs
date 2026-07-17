@@ -10,7 +10,7 @@ banner_description: Every team running Apache Iceberg in production eventually h
 coverImage: img/blog/thumbnails/darkStone.png
 date: 2026/05/25
 last_update:
-  date: 2026-06-22
+  date: 2026-07-20
 ---
 
 import Img from '@site/src/components/Img';

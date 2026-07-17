@@ -9,7 +9,7 @@ banner_description: Every Iceberg table you're not maintaining is likely getting
 coverImage: img/blog/thumbnails/darkStone.png
 date: 05/11/2026
 last_update:
-  date: 2026-06-22
+  date: 2026-07-20
 ---
 
 # The Hidden Debt in Your Lakehouse Tables (And Why You Should Care)
