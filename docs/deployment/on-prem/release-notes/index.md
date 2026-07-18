@@ -30,7 +30,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Improvements>
 
   <BugFixes>
-    - _TBD_
+    - **Spark Job Notifications**: Fixed a bug introduced in `v3.17.0` that silently blocked completion, failure, and abort notifications for scheduled Spark jobs. Manual runs were unaffected.
   </BugFixes>
 </Release>
 
