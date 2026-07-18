@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 06/22/2026
-  author: Shashank Chaudhary
+  date: 07/03/2026
+  author: Maksym
 ---
 
 import Img from '@site/src/components/Img';
@@ -14,6 +14,33 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.18.0" date="TBD">
+  <NewFeatures>
+    - **Read-Only Admin Role**: Added a new `READ_ONLY_ADMIN` role that grants read-only (GET) access to all admin APIs without any write access. This enables governance and self-serve tooling to read admin endpoints without granting the write permissions that existing admin roles carry.
+  </NewFeatures>
+
+  <Improvements>
+    - **Gateway Rate Limiting**: Added an optional Nginx-level rate limit on the gateway. Each authenticated client gets its own budget, falling back to client IP for unauthenticated requests. Disabled by default and configurable via `services.gateway.rateLimit` Helm values. Note that the limit is enforced per gateway pod, not shared across replicas.
+    - **Gateway Logging Controls**: Added Helm values for `iom-gateway` Nginx logging to make it easier to configure and reduce log volume. You can now:
+      - Set `services.gateway.logging.errorLogLevel` to control gateway error log severity. Default changed from `debug` to `error`.
+      - Set `services.gateway.logging.accessLog.enabled: false` to disable per-request access logs.
+    - **Domain-Scoped Volume & Node Type APIs**: The domain-scoped `GET` endpoints for volumes and node types are now documented in the OpenAPI spec. The API allows non-admin users with access to a domain to list and view node types and volumes without needing an admin role.
+    - **Scoped Service Account Selection**: The "Run as user" dropdown now shows service accounts the current user can manage instead of every service account in the domain.
+    - **Comprehensive API Audit Logging**: All API requests are now logged to `platform_event_logs`, capturing user, timestamp, path, HTTP method, and success status. Health, metrics, and internal service-check endpoints are excluded.
+  </Improvements>
+
+  <BugFixes>
+    - **Resource Bundle Management for Domain Owners**: Fixed an issue where a domain owner could not edit a resource bundle when the bundle was owned by another user or by a group excluding them.
+    - **LDAP Custom Filter: Empty Result Handling**: Fixed an issue where LDAP filter validation blocked saving when any user or group filter returned no members. Empty groups can now be saved and will be populated on subsequent LDAP syncs once members are added.
+    - **Stale Query Cleanup**: Added periodic cleanup for SQL Editor queries stuck in RUNNING or SUBMITTED state after pod restarts or lost Spark connections.
+    - **Query Cancel Detection**: Fixed an issue where cancelling a query in the SQL Editor was not reliably detected by the executing thread.
+    - **Spark Executor Count Tracking**: On long-running apps that cycled through more than 10,000 executors, the UI running-executor count could stall or drop to zero as executors were replaced. Executor state is now tracked with LRU eviction so live executors stay visible past the limit.
+    - **Spark Applications**:
+      - **Job Notifications**: Fixed a bug introduced in `v3.17.0` that silently blocked completion, failure, and abort notifications for scheduled Spark jobs. Manual runs were unaffected.
+      - **Runs Listing**: Fixed an issue where the Spark app run listing and timeline views did not correctly filter results for users with no job access, showing all runs instead of none. Only the runs listing was affected, job and run specific operations were not impacted.
+  </BugFixes>
+</Release>
 
 <Release version="3.17.2" date="June 22nd, 2026">
   <Improvements>
