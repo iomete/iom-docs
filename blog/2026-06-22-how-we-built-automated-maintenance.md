@@ -151,7 +151,7 @@ The tradeoff is more code to maintain, but the benefits are worth it. Metadata o
 | **Snapshot expiration**             | Inside the maintenance service, using the [Iceberg Java API](https://iceberg.apache.org/docs/latest/api/) | This is metadata work. It does not rewrite data, shuffle rows, or need a Spark cluster.                            |
 | **Orphan cleanup**                  | Inside the maintenance service, using a custom routine                                                    | This is mostly storage and metadata work. The stock procedure requires Spark and did not have the safety checks we wanted.    |
 
-Orphan cleanup needed extra care because it deletes files. That makes it the easiest operation to get wrong. Iceberg's built-in procedure runs on Spark and did not include the safety checks we wanted, so we rebuilt it from scratch. How we did that, without Spark and with all the guardrails, is Part 6 of this series.
+Orphan cleanup needed extra care because it deletes files. That makes it the easiest operation to get wrong. Iceberg's built-in procedure runs on Spark and did not include the safety checks we wanted, so we rebuilt it from scratch. How we did that, without Spark and with all the guardrails, is [Part 6](/blog/why-we-rebuilt-orphan-cleanup) of this series.
 
 Each phase runs as its own scheduler on a short loop. Work moves from detect to evaluate to execute through the shared state store. End to end, the decision path looks like this:
 

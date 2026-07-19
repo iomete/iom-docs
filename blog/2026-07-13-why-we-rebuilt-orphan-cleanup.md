@@ -39,7 +39,7 @@ Orphan file cleanup sounds straightforward. Find files that aren't referenced by
 
 This post covers why we built our own implementation, the production problems that forced our hand, and the safety mechanisms we put in place.
 
-## Why Orphan Files Exist
+## What Are Orphan Files?
 
 Orphan files are data or metadata files sitting in a table's storage location that no snapshot references anymore. They pile up silently and eat storage without doing anything useful.
 
@@ -76,7 +76,7 @@ A production Iceberg table can have millions of files spread across `data/` and 
 
 On top of that, building the set of referenced files requires reading every snapshot's manifest list, every manifest file, and every metadata file. For tables with hundreds of snapshots and thousands of manifests, that's a lot of I/O.
 
-Doing both in a single pass while keeping memory bounded isn't something the basic algorithm accounts for.
+Doing both in a single pass while keeping memory bounded isn't something Iceberg's default `remove_orphan_files` procedure accounts for.
 
 ### Temporary Files from Compute Engines
 
@@ -96,9 +96,9 @@ In many production environments, table directories contain files Iceberg didn't 
 Iceberg's [`remove_orphan_files`](https://iceberg.apache.org/docs/latest/spark-procedures/#remove_orphan_files) procedure is a well-designed starting point. We covered how it works in [Part 2](/blog/iceberg-maintenance-operations) of this series. But for a managed platform running cleanup automatically across hundreds of tables, we needed guarantees the built-in procedure doesn't provide:
 
 - **Threshold-based safety.** If the orphan ratio is unusually high, something's probably wrong: a misconfigured table location, corrupted metadata, or a bug in the cleanup logic itself. The default procedure doesn't check for this; it just deletes whatever it finds. We needed an automatic abort mechanism.
-- **Batch deletion with backpressure.** Deleting thousands of files in a single API call can overwhelm object storage rate limits or cause cascading failures. We needed controlled, batched deletion with configurable cooldown periods.
+- **Batch deletion with backpressure.** Deleting thousands of files in a single API call can overwhelm object storage rate limits or cause cascading failures. The default procedure deletes all identified orphans in one pass without any backpressure. We needed controlled, batched deletion with configurable cooldown periods.
 - **Engine-aware exclusions.** Flink checkpoint files must not be deleted while a streaming job is running. The default procedure has no awareness of compute engine state.
-- **Operational metrics.** A success/failure status tells you nothing useful. Every run should report what it actually did: files scanned, orphans found, storage reclaimed.
+- **Operational metrics.** The default procedure returns a list of deleted file paths, which can be overwhelming at scale and lacks structured insight. Every run should report what it actually did: files scanned, orphans found, storage reclaimed.
 - **No Spark dependency.** Once we were building our own implementation anyway, we realized orphan cleanup is fundamentally a metadata-plus-storage operation. It reads Iceberg metadata, lists object storage, and deletes files. None of that needs distributed data processing. Dropping Spark eliminated the compute overhead and the scheduling dependency on cluster availability.
 
 The goal was never to replace Iceberg's capabilities. It was to build the production-grade guardrails needed for an automated platform.
@@ -111,38 +111,40 @@ Before we can identify orphans, we need to know which files are valid, meaning r
 
 The naive approach loads every referenced file path into a `HashSet`. For a table with 10 million data files, that set alone eats hundreds of megabytes of memory. Multiply by the number of tables being cleaned concurrently, and you hit a wall fast.
 
-We use a [Bloom filter](https://en.wikipedia.org/wiki/Bloom_filter) instead. It's a probabilistic data structure that tells you with certainty when a file is *not* in a set, and with a small, configurable error rate when it *might* be. We tuned ours to a 0.01% false positive rate, so at most one in every 10,000 flagged files could actually be valid. And even that one survives, because it still has to clear the retention window and exclusion checks before anything gets deleted.
+We use a [Bloom filter](https://en.wikipedia.org/wiki/Bloom_filter) instead. It's a probabilistic data structure that tells you with certainty when a file is *not* in the valid set (definitely an orphan), but occasionally reports a false positive — saying a file *might* be valid when it actually isn't. We tuned ours to a 0.01% false positive rate. In practice, that means roughly one in every 10,000 true orphans could be misidentified as "possibly valid" and skipped instead of deleted. That's the safe direction: we might miss cleaning up a few orphans, but we never accidentally delete a valid file. Any skipped orphan can be caught in a subsequent cleanup run when the filter contents change.
 
 The filter handles up to 10 million data file entries and 10,000 metadata file entries, capped at around 24 MB, a fraction of what a `HashSet` would need.
 
 Here's how the valid file collection works. We walk through every snapshot in the table:
 
-1. **Metadata files.** All reachable metadata file locations are collected using Iceberg's `ReachableFileUtil`.
-2. **Manifest list files.** Each snapshot's manifest list location gets added.
-3. **Manifest files.** Each manifest is read to extract data file and delete file paths. A manifest cache (LRU, capacity 10,000) ensures manifests shared across snapshots are read only once.
-4. **Statistics files and version hint.** Puffin statistics files and the version hint file go into the metadata set.
+1. **Metadata files.** All reachable metadata file locations are collected using Iceberg's [`ReachableFileUtil`](https://github.com/apache/iceberg/blob/main/core/src/main/java/org/apache/iceberg/ReachableFileUtil.java).
+2. **Manifest list files:** Each snapshot's manifest list location gets added.
+3. **Manifest files:** Each manifest list is read to extract data file and delete file paths. Since the same manifest can be reachable from multiple snapshots, a manifest cache (LRU, capacity 10,000) avoids redundant reads.
+4. **Statistics files and version hint:** Iceberg stores table statistics (like column-level distinct counts and sketches) in files that use the [Puffin format](https://iceberg.apache.org/puffin-spec/). These files, along with the version hint file, go into the metadata set.
 
-To avoid hammering object storage during this phase, we throttle: after every batch of 1,500 files read from manifests, the process pauses for 100 milliseconds. That keeps the I/O rate sustainable for shared storage systems.
+To avoid overloading object storage, we pause for 100 milliseconds after every 1,500 files read from manifests. This keeps the I/O rate sustainable on shared storage systems.
 
-The result is two Bloom filters, one for content files (`data/`) and one for metadata files (`metadata/`), along with the total count and size of all valid files.
+We maintain two separate Bloom filters — one for content files (`data/`) and one for metadata files (`metadata/`) — because the two directories are scanned independently in Step 2 and have different scale characteristics. Alongside the filters, we also track the total count and size of all valid files, which feeds into the threshold safety check in Step 3.
 
 ### Step 2: Counting Orphans Before Deleting Anything
 
-With the valid file sets built, we scan the table's storage directories and classify every file. For each file in `data/` and `metadata/`, we check:
+With the valid file sets built, we list all files under the table's base location and classify every file. For each file in `data/` and `metadata/`, we check:
 
 1. **Is it referenced?** If the Bloom filter says the file might be valid, we treat it as valid. No further checks needed.
-2. **Is it excluded?** Metadata files matching an active Flink job ID pattern are excluded from deletion, even if unreferenced. This protects Flink checkpoint files for running streaming jobs.
-3. **Is it old enough?** Files newer than the retention window (configured as `olderThanTimestamp`) aren't eligible for deletion, regardless of reference status. This protects in-flight commits and retry scenarios.
+2. **Is it excluded?** Metadata files matching an active [Flink job ID](https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/glossary/#flink-job) or [checkpoint](https://nightlies.apache.org/flink/flink-docs-stable/docs/ops/state/checkpoints/) pattern are excluded from deletion, even if unreferenced. This protects Flink checkpoint files for running streaming jobs.
+3. **Is it old enough?** Files newer than the retention window aren't eligible for deletion, regardless of reference status. The retention window is configured as a duration (for example, 3 days), and the system computes the cutoff timestamp from that. This gives in-flight commits, long-running jobs, and delayed cleanup cycles enough time to settle before a file becomes a deletion candidate.
 
 Only files that fail all three checks (unreferenced, not excluded, and older than the retention window) get classified as eligible orphans.
 
 <Img src="/img/blog/2026-05-25-iceberg-maintenance-operations/orphan-file-scan.png" alt="Orphan file classification flow: files from a filesystem listing pass through Gate 1 (metadata referenced-set check) and Gate 2 (retention check), resulting in three outcomes: Keep (referenced files), Skip (orphan but newer than retention window), or Delete (orphan and older than retention)." borderless/>
 
-At this point, we've counted the orphans but haven't deleted anything. That separation is deliberate.
+At this point, we've counted the orphans but haven't deleted anything. That separation is deliberate because counting first lets us run a threshold safety check (Step 3) before committing to any deletions, so we can abort early if the numbers look suspicious.
 
 ### Step 3: Threshold Check: The Safety Net
 
-Before any deletion begins, we calculate the orphan ratio: eligible orphans divided by total files (valid plus orphan).
+Before any deletion begins, we calculate the orphan ratio:
+
+> **orphan ratio = eligible orphans / total files (valid + orphan)**
 
 If this ratio exceeds a configurable threshold (default: 50%), the entire operation aborts. No files are deleted. The run gets recorded as aborted with the orphan statistics, so operators can investigate.
 
