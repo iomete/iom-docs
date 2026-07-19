@@ -154,9 +154,9 @@ This check exists because an unusually high orphan ratio is a strong signal that
 - **Metadata corruption.** The table's metadata may not accurately reflect which files should exist.
 - **Configuration error.** The retention window may be set too aggressively, causing recently written files to look like orphans.
 
-In any of these cases, blindly deleting files would cause real damage. The threshold check stops the process when the numbers don't add up.
+In any of these cases, blindly deleting files would cause real damage. The threshold check stops the process when the numbers don't add up, though we protect against false alarms with a minimum file count threshold (see below).
 
-The threshold only applies when the total file count exceeds a minimum (default: 1,000 files). For small tables with few files, orphan ratios can be naturally volatile, and a threshold would cause unnecessary aborts.
+The threshold only kicks in when the total file count exceeds a configurable minimum (defaults to 1,000 files). For small tables with few files, orphan ratios can be naturally volatile, and enforcing the threshold would cause unnecessary aborts. Both the orphan ratio threshold and the minimum file count are configurable per deployment.
 
 ### Step 4: Batch Deletion with Backpressure
 
@@ -164,15 +164,15 @@ Once the threshold check passes, deletion proceeds in controlled batches.
 
 Instead of issuing a single bulk delete for all orphan files, the process:
 
-1. Collects orphan files into batches of a configurable size (default: 1,000 files).
-2. Deletes each batch using the object store's bulk deletion API when supported (`SupportsBulkOperations`), or falls back to individual file deletion.
+1. Collects orphan files into batches of a configurable size (defaults to 1,000 files).
+2. Deletes each batch using the object store's bulk deletion API when supported ([`SupportsBulkOperations`](https://github.com/apache/iceberg/blob/main/api/src/main/java/org/apache/iceberg/io/SupportsBulkOperations.java)), or falls back to individual file deletion.
 3. Applies a configurable cooldown period between batches to avoid overwhelming the storage API.
 
 If a bulk deletion partially fails (which happens regularly with cloud object storage), the process handles it gracefully. It tracks how many files in the batch succeeded and how many failed, logs the partial failure, and moves on to the next batch. The operation doesn't abort on partial batch failures.
 
-This design limits the blast radius of any single failure. If the process crashes mid-cleanup, only the current batch is affected. The remaining orphan files stay untouched and get picked up on the next run.
+This design limits the blast radius of any single failure. If the process crashes mid-cleanup, only the current batch is affected. The remaining orphan files stay untouched and get picked up on the next orphan cleanup run.
 
-### Step 5: Flink-Aware Exclusions
+### Flink-Aware Exclusions
 
 Flink writes checkpoint metadata files into the Iceberg table's `metadata/` directory. These files follow a naming pattern tied to the Flink job ID, which Flink stores in each snapshot's summary under the key `flink.job-id`.
 
