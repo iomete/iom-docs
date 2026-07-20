@@ -24,6 +24,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Platform Security Updates**
         - Remediated most outstanding critical- and high-severity CVEs across the platform through targeted dependency updates, while avoiding base-image changes or major library version bumps to preserve platform stability.
         - Standardized patched versions of shared networking, JSON, and database-driver libraries across affected services.
+        - Hardened the Spark execution stack, job orchestration components, and core platform services, including identity, catalog, SQL, gateway, and compute proxy.
   </Improvements>
 
   <BugFixes>
