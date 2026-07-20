@@ -131,8 +131,10 @@ We maintain two separate Bloom filters — one for content files (`data/`) and o
 With the valid file sets built, we list all files under the table's base location and classify every file. For each file in `data/` and `metadata/`, we check:
 
 1. **Is it referenced?** If the Bloom filter says the file might be valid, we treat it as valid. No further checks needed.
-2. **Is it excluded?** Metadata files matching an active [Flink job ID](https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/glossary/#flink-job) or [checkpoint](https://nightlies.apache.org/flink/flink-docs-stable/docs/ops/state/checkpoints/) pattern are excluded from deletion, even if unreferenced. This protects Flink checkpoint files for running streaming jobs.
+2. **Is it excluded?** Metadata files matching a Flink job ID pattern are excluded from deletion, even if unreferenced. This protects Flink checkpoint files for running streaming jobs.
 3. **Is it old enough?** Files newer than the retention window aren't eligible for deletion, regardless of reference status. The retention window is configured as a duration (for example, 3 days), and the system computes the cutoff timestamp from that. This gives in-flight commits, long-running jobs, and delayed cleanup cycles enough time to settle before a file becomes a deletion candidate.
+
+Flink stores its [job ID](https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/glossary/#flink-job) in each snapshot's summary under the key `flink.job-id`. Our implementation scans every snapshot's summary using the regex pattern `flink.job-id*`, collects all matching job IDs, and excludes any [checkpoint](https://nightlies.apache.org/flink/flink-docs-stable/docs/ops/state/checkpoints/) metadata files associated with those IDs from deletion.
 
 Only files that fail all three checks (unreferenced, not excluded, and older than the retention window) get classified as eligible orphans.
 
@@ -158,7 +160,7 @@ This check exists because an unusually high orphan ratio is a strong signal that
 
 In any of these cases, blindly deleting files would cause real damage. The threshold check stops the process when the numbers don't add up, though we protect against false alarms with a minimum file count threshold (see below).
 
-The threshold only kicks in when the total file count exceeds a configurable minimum (defaults to 1,000 files). For small tables with few files, orphan ratios can be naturally volatile, and enforcing the threshold would cause unnecessary aborts. Both the orphan ratio threshold and the minimum file count are configurable per deployment.
+The threshold only kicks in when the total file count exceeds a minimum value. For small tables with few files, orphan ratios can be naturally volatile, and enforcing the threshold would cause unnecessary aborts. Both the orphan ratio threshold and the minimum file count are configurable per deployment.
 
 ### Step 4: Batch Deletion with Backpressure
 
@@ -173,14 +175,6 @@ Instead of issuing a single bulk delete for all orphan files, the process:
 If a bulk deletion partially fails (which happens regularly with cloud object storage), the process handles it gracefully. It tracks how many files in the batch succeeded and how many failed, logs the partial failure, and moves on to the next batch. The operation doesn't abort on partial batch failures.
 
 This design limits the blast radius of any single failure. If the process crashes mid-cleanup, only the current batch is affected. The remaining orphan files stay untouched and get picked up on the next orphan cleanup run.
-
-### Flink-Aware Exclusions
-
-Flink writes checkpoint metadata files into the Iceberg table's `metadata/` directory. These files follow a naming pattern tied to the Flink job ID, which Flink stores in each snapshot's summary under the key `flink.job-id`.
-
-Our implementation extracts the most recent Flink job ID from the table's snapshot history and builds a regex pattern that matches any metadata file associated with that job. Files matching this pattern are technically orphans, unreferenced by Iceberg metadata, but they're excluded from deletion.
-
-This ensures that an active Flink streaming job's checkpoint files are never deleted, even if they look like orphans to Iceberg.
 
 ## Minimum Retention Enforcement
 
@@ -209,7 +203,7 @@ The "before" values reflect the state at scan time; the "after" values subtract 
 
 ## Lessons Learned
 
-**Deleting files safely is harder than writing them:** A write that fails leaves behind an orphan. That's annoying, but harmless. A delete that targets the wrong file causes data loss. That asymmetry means the cleanup process has to be significantly more careful than the write process that created the mess in the first place.
+**Deleting files safely is harder than writing them:** A write that fails leaves behind an orphan, annoying but harmless. A delete that targets the wrong file causes data loss. That asymmetry means the cleanup process has to be significantly more careful than the write process that created the mess in the first place.
 
 **Probabilistic data structures earn their keep at scale:** A Bloom filter with a 0.01% false positive rate and a 24 MB cap replaced what would've been a multi-gigabyte hash set for large tables. The tradeoff of occasionally skipping a real orphan is negligible compared to the memory savings. That orphan gets caught on the next run anyway.
 
