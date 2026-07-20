@@ -21,12 +21,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </NewFeatures>
 
   <Improvements>
-    - _TBD_
-
-    **Security**
-
-    - **Compute Proxy Server (`2.1.1`)**: Patched critical and high-severity CVEs — including OpenSSL **CVE-2026-31789** — by rebuilding on a patched, slimmed-down `python:3.13` base. Verified end-to-end against live Arrow Flight traffic.
-    - **Hive Metastore (`7.1.3`)**: Remediated outstanding critical and high-severity CVEs by hardening the image build (checksum-verified downloads), upgrading the PostgreSQL driver and AWS SDK, swapping vulnerable dependencies (Avro, ZooKeeper, Bouncy Castle, Apache Commons), and removing unused no-fix components.
+    - **Platform Security Updates**
+        - Remediated most outstanding critical- and high-severity CVEs across the platform through targeted dependency updates, while avoiding base-image changes or major library version bumps to preserve platform stability.
+        - Standardized patched versions of shared networking, JSON, and database-driver libraries across affected services.
+        - Hardened the Spark execution stack, job orchestration components, and core platform services, including identity, catalog, SQL, gateway, compute proxy, and metastore.
   </Improvements>
 
   <BugFixes>
