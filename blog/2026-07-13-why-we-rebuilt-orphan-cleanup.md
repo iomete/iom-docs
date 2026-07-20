@@ -146,7 +146,9 @@ Before any deletion begins, we calculate the orphan ratio:
 
 > **orphan ratio = eligible orphans / total files (valid + orphan)**
 
-If this ratio exceeds a configurable threshold (default: 50%), the entire operation aborts. No files are deleted. The run gets recorded as aborted with the orphan statistics, so operators can investigate.
+If this ratio exceeds a configurable threshold, the entire operation aborts. No files are deleted. The run gets recorded as aborted with the orphan statistics, so operators can investigate.
+
+<Img src="/img/user-guide/table-maintenance/run-detail-failed.png" alt="IOMETE console showing a failed orphan cleanup run with the error message: Orphan cleanup aborted due to threshold exceeded, showing data file orphan percentage of 32.48% and metadata file orphan percentage of 4.75%." />
 
 This check exists because an unusually high orphan ratio is a strong signal that something's wrong:
 
@@ -194,34 +196,26 @@ Clicking into a completed orphan cleanup run shows the before/after metrics:
 
 <Img src="/img/user-guide/table-maintenance/run-detail-completed.png" alt="Completed orphan cleanup run detail showing before/after metrics: data file count dropped from 301,979 to 1,827 and data file size from 25.96 GB to 10.72 GB." />
 
-The full set of metrics captured per run:
+Each run captures the following metrics as before/after pairs, so you can see exactly what changed:
 
-| Metric | Description |
-|---|---|
-| Total data files | Number of files in the `data/` directory |
-| Total metadata files | Number of files in the `metadata/` directory |
-| Orphan data files | Data files identified as orphans |
-| Orphan metadata files | Metadata files identified as orphans |
-| Deleted data files | Data files actually deleted |
-| Deleted metadata files | Metadata files actually deleted |
-| Total data file size | Storage footprint of all data files |
-| Total metadata file size | Storage footprint of all metadata files |
-| Deleted data file size | Storage reclaimed from data file deletion |
-| Deleted metadata file size | Storage reclaimed from metadata file deletion |
-| Orphan percentage | Ratio of orphans to total files |
-| Aborted due to threshold | Whether the run was stopped by the safety check |
+| Metric               | Description                                    |
+| -------------------- | ---------------------------------------------- |
+| Total data file count    | Number of files in the `data/` directory   |
+| Total metadata file count | Number of files in the `metadata/` directory |
+| Total data file size     | Storage footprint of all data files        |
+| Total metadata file size | Storage footprint of all metadata files     |
 
-These metrics are captured as before/after pairs and stored alongside every execution run, giving operators and users a clear picture of what each cleanup actually accomplished.
+The "before" values reflect the state at scan time; the "after" values subtract whatever was deleted. This gives operators and users a clear picture of what each cleanup actually accomplished.
 
 ## Lessons Learned
 
-**Deleting files safely is harder than writing them.** A write that fails leaves behind an orphan. That's annoying, but harmless. A delete that targets the wrong file causes data loss. That asymmetry means the cleanup process has to be significantly more careful than the write process that created the mess in the first place.
+**Deleting files safely is harder than writing them:** A write that fails leaves behind an orphan. That's annoying, but harmless. A delete that targets the wrong file causes data loss. That asymmetry means the cleanup process has to be significantly more careful than the write process that created the mess in the first place.
 
-**Probabilistic data structures earn their keep at scale.** A Bloom filter with a 0.01% false positive rate and a 24 MB cap replaced what would've been a multi-gigabyte hash set for large tables. The tradeoff of occasionally skipping a real orphan is negligible compared to the memory savings. That orphan gets caught on the next run anyway.
+**Probabilistic data structures earn their keep at scale:** A Bloom filter with a 0.01% false positive rate and a 24 MB cap replaced what would've been a multi-gigabyte hash set for large tables. The tradeoff of occasionally skipping a real orphan is negligible compared to the memory savings. That orphan gets caught on the next run anyway.
 
-**Safety mechanisms matter more than speed.** The threshold check, batch deletion, and retention enforcement all add latency. That's the cost of not deleting customer data by accident, and it's a trade we'd make again every time.
+**Safety mechanisms matter more than speed:** The threshold check, batch deletion, and retention enforcement all add latency. That's the cost of not deleting customer data by accident, and it's a trade we'd make again every time.
 
-**Separating counting from deleting changes everything.** Counting orphans first and checking the ratio before deleting anything turns a destructive operation into a two-phase process with an explicit go/no-go gate. Most of the bugs we caught during development would've been invisible in a single-pass implementation. They only showed up because we had that checkpoint in between.
+**Separating counting from deleting changes everything:** Counting orphans first and checking the ratio before deleting anything turns a destructive operation into a two-phase process with an explicit go/no-go gate. Most of the edge cases we caught during development would've been invisible in a single-pass implementation. They only showed up because we had that checkpoint in between.
 
 ## Conclusion
 
