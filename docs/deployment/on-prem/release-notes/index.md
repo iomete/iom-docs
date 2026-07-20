@@ -30,7 +30,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Improvements>
 
   <BugFixes>
-    - **Spark Job Notifications**: Fixed a bug introduced in `v3.17.0` that silently blocked completion, failure, and abort notifications for scheduled Spark jobs. Manual runs were unaffected.
+    - **Spark Job Notifications**: Fixed a bug introduced in `v3.17.0` that silently blocked completion, failure, and abort notifications for scheduled Spark jobs. Manual runs were unaffected.  
+    - Fixed a migration issue in the new **Classifications** feature that prevented column tags from appearing in the UI.  
   </BugFixes>
 </Release>
 
