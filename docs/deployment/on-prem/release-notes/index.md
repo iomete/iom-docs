@@ -30,6 +30,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <BugFixes>
     - **Spark Job Notifications**: Fixed a bug introduced in `v3.17.0` that silently blocked completion, failure, and abort notifications for scheduled Spark jobs. Manual runs were unaffected.  
     - Fixed a migration issue in the new **Classifications** feature that prevented column tags from appearing in the UI.  
+    - **Table Sorting**: Fixed table sorting in Database Explorer, which broke in `v3.17.0`. Catalogs and databases sorted correctly, but tables did not. Tables now sort alphabetically by name.
+
+    <Img src="/img/database-explorer/table-sorting.png" alt="Tables Sorted" centered style={{ marginTop: "16px" }} />
   </BugFixes>
 </Release>
 
