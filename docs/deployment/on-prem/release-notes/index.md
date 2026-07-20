@@ -24,12 +24,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Platform Security Updates**
         - Remediated most outstanding critical- and high-severity CVEs across the platform through targeted dependency updates, while avoiding base-image changes or major library version bumps to preserve platform stability.
         - Standardized patched versions of shared networking, JSON, and database-driver libraries across affected services.
-        - Hardened the Spark execution stack, job orchestration components, and core platform services, including identity, catalog, SQL, gateway, compute proxy, and metastore.
   </Improvements>
 
   <BugFixes>
     - **Spark Job Notifications**: Fixed a bug introduced in `v3.17.0` that silently blocked completion, failure, and abort notifications for scheduled Spark jobs. Manual runs were unaffected.  
     - Fixed a migration issue in the new **Classifications** feature that prevented column tags from appearing in the UI.  
+    - **Marketplace Query Scheduler**: Fixed an issue in Safari where the text cursor was not visible when editing the Spark image during deployment.
   </BugFixes>
 </Release>
 
