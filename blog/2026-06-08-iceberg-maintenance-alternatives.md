@@ -9,7 +9,7 @@ banner_description: From open-source projects to fully managed platforms — an 
 coverImage: img/blog/thumbnails/darkStone.png
 date: 06/08/2026
 last_update:
-  date: 2026-06-22
+  date: 2026-07-20
 ---
 
 import Img from '@site/src/components/Img';
@@ -24,7 +24,7 @@ import Img from '@site/src/components/Img';
   * **Part 3: The Iceberg Table Maintenance Landscape**
   * Part 4: [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance)
   * Part 5: [Running Iceberg Maintenance in Production](/blog/iceberg-maintenance-production-guide)
-  * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
+  * Part 6: [Why We Rebuilt Orphan File Cleanup from Scratch](/blog/why-we-rebuilt-orphan-cleanup)
 
 </details>
 

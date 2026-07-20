@@ -9,7 +9,7 @@ banner_description: Every Iceberg table you're not maintaining is likely getting
 coverImage: img/blog/thumbnails/darkStone.png
 date: 05/11/2026
 last_update:
-  date: 2026-06-22
+  date: 2026-07-20
 ---
 
 # The Hidden Debt in Your Lakehouse Tables (And Why You Should Care)
@@ -24,7 +24,7 @@ last_update:
   * Part 3: [The Iceberg Table Maintenance Landscape](/blog/iceberg-maintenance-alternatives)
   * Part 4: [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance)
   * Part 5: [Running Iceberg Maintenance in Production](/blog/iceberg-maintenance-production-guide)
-  * Part 6: Why We Rebuilt Orphan File Cleanup from Scratch *(coming soon)*
+  * Part 6: [Why We Rebuilt Orphan File Cleanup from Scratch](/blog/why-we-rebuilt-orphan-cleanup)
 
 </details>
 
