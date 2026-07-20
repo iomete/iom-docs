@@ -30,7 +30,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <BugFixes>
     - **Spark Job Notifications**: Fixed a bug introduced in `v3.17.0` that silently blocked completion, failure, and abort notifications for scheduled Spark jobs. Manual runs were unaffected.  
     - Fixed a migration issue in the new **Classifications** feature that prevented column tags from appearing in the UI.  
-    - **Marketplace Query Scheduler**: Fixed an issue in Safari where the text cursor was not visible when editing the Spark image during deployment.
   </BugFixes>
 </Release>
 
