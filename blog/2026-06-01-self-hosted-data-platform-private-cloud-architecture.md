@@ -60,7 +60,7 @@ For regulated workloads, that demonstrable custody is frequently the whole point
 
 [IOMETE](https://iomete.com/product/deployment) is a self-hosted data platform built on exactly this stack: Kubernetes-native deployment, Apache Iceberg tables on S3-compatible object storage, Apache Spark and a SQL engine for compute, an Iceberg REST catalog for metadata, and fine-grained security enforced in the query path. It runs on-premises, in private or sovereign clouds, hybrid, or fully air-gapped, with no IOMETE-operated data plane. Field Data Engineers handle Kubernetes operations for teams that prefer not to run it themselves.
 
-The scale evidence is in production. Dell Technologies runs a global data lake on this architecture – 40,000+ vCPUs across more than 40 PB, multi-tenant and multi-region, for over two years – and national government, central-banking, and payments platforms run the same stack in sovereign and air-gapped environments. IOMETE was named in the 2025 Gartner® Market Guide for Data Lakehouse Platforms.
+The scale evidence is in production. Dell Technologies runs a global data lake on this architecture – 70,000 vCPUs across 20+ PB, spanning 4 data centers and 14 production clusters, multi-tenant and multi-region, for over two years – and national government, central-banking, and payments platforms run the same stack in sovereign and air-gapped environments. IOMETE was named in the 2025 Gartner® Market Guide for Data Lakehouse Platforms.
 
 To zoom back out to the strategy, the [sovereign data platform pillar](/resources/blog/sovereign-data-platform-private-cloud-ai) ties the architecture to the business case; for the ML angle, see [sovereign AI on a private-cloud lakehouse](/resources/blog/sovereign-ai-ml-private-cloud-lakehouse).
 

@@ -30,7 +30,7 @@ ChatGPT can also be used to generate regular expressions. Data engineers often u
 
 Different SQL dialects can be challenging to work with. It is also an excellent tool for finding equivalent functions between different SQL dialects. It is much easier to use ChatGPT to get the answer you need than to wade through a bunch of unclear results and seemingly unrelated functions from a traditional search engine. For example, if a data engineer knows what they want to do but doesn't know the correct syntax to do it, they can provide a prompt to ChatGPT, and it will generate the correct SQL query.
 
-<MiniCard link="https://iomete.com/pricing" linkName="Learn more">Want a free-forever data lakehouse platform?</MiniCard>
+<MiniCard link="https://iomete.com/pricing" linkName="Learn more">Want a cost-efficient data lakehouse platform?</MiniCard>
 
 ## Error messages
 
@@ -77,20 +77,20 @@ In conclusion, AI tools like ChatGPT are changing the way data engineers work. B
 ---
 
 <FAQSection faqs={[
-  {
-    question: "How can ChatGPT help with data engineering tasks?",
-    answer: "ChatGPT can help data engineers by explaining error messages, generating regular expressions, translating between SQL dialects, drafting boilerplate code, and producing diagrams from plain descriptions. It works best as an assistant for routine or unfamiliar tasks rather than a replacement for engineering judgment. Outputs still need review because the model can produce plausible but incorrect answers, so engineers should verify generated SQL and code before running it on production data."
-  },
-  {
-    question: "Can AI tools write SQL queries reliably?",
-    answer: "AI tools can reliably generate simple to moderate SQL queries but become less dependable as query complexity grows. They are useful for recalling syntax, converting between dialects, and scaffolding queries an engineer then refines. Because generated SQL may reference wrong columns or misread intent, it should be tested against real schemas. Running such queries inside a platform like IOMETE lets engineers validate results against their actual Iceberg tables before relying on them."
-  },
-  {
-    question: "What are the risks of using ChatGPT for data work?",
-    answer: "The main risk is hallucination, where the model produces confident answers that are factually wrong or subtly incorrect. For data work this can mean flawed queries, mismatched syntax, or misleading explanations that look correct at a glance. Engineers should treat AI output as a draft to verify rather than a final answer, and avoid pasting sensitive data into external chatbots. Reviewing results in a controlled environment reduces these risks."
-  },
-  {
-    question: "Will AI replace data engineers?",
-    answer: "AI is unlikely to replace data engineers because the work involves judgment, system design, data quality, and accountability that current models cannot own. Tools like ChatGPT speed up routine tasks but still require an engineer to validate, integrate, and operate the results. The practical effect is a shift in how engineers spend time, not the elimination of the role. Platforms such as IOMETE remain where engineers run, test, and govern the pipelines AI helps draft."
-  }
+{
+question: "How can ChatGPT help with data engineering tasks?",
+answer: "ChatGPT can help data engineers by explaining error messages, generating regular expressions, translating between SQL dialects, drafting boilerplate code, and producing diagrams from plain descriptions. It works best as an assistant for routine or unfamiliar tasks rather than a replacement for engineering judgment. Outputs still need review because the model can produce plausible but incorrect answers, so engineers should verify generated SQL and code before running it on production data."
+},
+{
+question: "Can AI tools write SQL queries reliably?",
+answer: "AI tools can reliably generate simple to moderate SQL queries but become less dependable as query complexity grows. They are useful for recalling syntax, converting between dialects, and scaffolding queries an engineer then refines. Because generated SQL may reference wrong columns or misread intent, it should be tested against real schemas. Running such queries inside a platform like IOMETE lets engineers validate results against their actual Iceberg tables before relying on them."
+},
+{
+question: "What are the risks of using ChatGPT for data work?",
+answer: "The main risk is hallucination, where the model produces confident answers that are factually wrong or subtly incorrect. For data work this can mean flawed queries, mismatched syntax, or misleading explanations that look correct at a glance. Engineers should treat AI output as a draft to verify rather than a final answer, and avoid pasting sensitive data into external chatbots. Reviewing results in a controlled environment reduces these risks."
+},
+{
+question: "Will AI replace data engineers?",
+answer: "AI is unlikely to replace data engineers because the work involves judgment, system design, data quality, and accountability that current models cannot own. Tools like ChatGPT speed up routine tasks but still require an engineer to validate, integrate, and operate the results. The practical effect is a shift in how engineers spend time, not the elimination of the role. Platforms such as IOMETE remain where engineers run, test, and govern the pipelines AI helps draft."
+}
 ]} />
