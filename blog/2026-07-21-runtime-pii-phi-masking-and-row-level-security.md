@@ -25,7 +25,7 @@ IOMETE takes the second approach. Data masking and row-level security are enforc
 
 <Img src="/img/blog/2026-07-21-runtime-masking-rls/access-paths.png" alt="SQL, notebooks, jobs, JDBC, and Spark Connect all pass through the same policy enforcement layer inside the IOMETE query engine" borderless />
 
-## What "runtime" enforcement actually means
+## What "Runtime" Enforcement Actually Means
 
 When a user submits a query against a table with an active masking or row-filter policy, IOMETE doesn't touch the data on disk and doesn't route the query through a proxy. Instead, the engine rewrites the query plan itself before execution begins.
 
@@ -36,7 +36,7 @@ During query analysis (the phase where Spark resolves table and column reference
 
 <Img src="/img/blog/2026-07-21-runtime-masking-rls/plan-rewrite.png" darkImageSrc="/img/blog/2026-07-21-runtime-masking-rls/plan-rewrite-dark.png" alt="IOMETE rewrites the logical query plan with masking expressions and row filters before optimization and execution" borderless />
 
-Because the rewrite happens at the plan level, enforcement is invisible to the user. Queries run normally and return normal-looking results. The engine simply guarantees that the results contain only what the policy allows.
+Because the rewrite happens at the plan level, enforcement is invisible to the user. Queries run normally and return normal-looking results. The engine guarantees that the results contain only what the policy allows.
 
 Rewriting the plan, rather than the data, buys you three guarantees:
 
@@ -46,7 +46,7 @@ Rewriting the plan, rather than the data, buys you three guarantees:
 
 **Policies can't be optimized away.** The masking expressions and row filters become part of the logical plan before the optimizer runs. Predicate pushdown, projection pruning, and other optimizations operate on the already-secured plan.
 
-## Data masking: from redaction to custom SQL
+## Data Masking: From Redaction to Custom SQL
 
 IOMETE ships [eight masking options](/user-guide/data-security/data-masking), covering the transformations that PII, PCI, and PHI requirements ask for most often:
 
@@ -79,9 +79,9 @@ Custom masks can also carry a **condition expression**: a WHERE-style predicate 
 
 Policies target specific users and groups, and conditions are evaluated in order, so the same column can be fully visible to a compliance team, hash-masked for analysts, and nulled for everyone else, all within one policy. The dynamic `{USER}` principal lets a policy reference the current user without hardcoding names.
 
-## Row-level security: one table, many views of it
+## Row-Level Security: One Table, Many Views of It
 
-[Row-level filter policies](/user-guide/data-security/row-level-filter) restrict which rows a user can see, using plain SQL predicates. There is no proprietary policy language to learn: a filter is a WHERE clause.
+You can use [row-level filter policies](/user-guide/data-security/row-level-filter) to restrict which rows a user can see using plain SQL predicates. There is no proprietary policy language to learn: a filter is a WHERE clause.
 
 The canonical example is regional data isolation. A `customers` table serves teams in several countries, and each team should see only its own market:
 
@@ -97,9 +97,9 @@ Because the predicate is injected at the table scan, it composes with anything t
 
 Like masking conditions, row-filter conditions are evaluated in the order they appear in the policy, and policies support validity periods for time-boxed access, useful for audits, contractors, and temporary investigations that should expire on their own.
 
-## Why enforcement location is the real security question
+## Why Enforcement Location Is the Real Security Question
 
-Most platforms can produce a demo where a masked column shows `xxx-xxxx`. The harder questions are about coverage:
+When you evaluate a platform, producing a demo where a masked column shows `xxx-xxxx` is easy. The harder questions are about coverage:
 
 **Does it apply to non-SQL access?** If masking is implemented in a SQL gateway or BI integration, DataFrame code and direct engine access bypass it. In IOMETE, a PySpark job reading a PHI-tagged table gets exactly the same masked output as a dashboard query, because both pass through the same plan-rewrite step.
 
@@ -109,9 +109,9 @@ Most platforms can produce a demo where a masked column shows `xxx-xxxx`. The ha
 
 **What about column access outright?** Masking shows a transformed value to users who may query the column. For users who shouldn't see the column at all, even masked, IOMETE's access policies deny column reads entirely, and the query fails with an access error before execution. Masking and access control are separate tools; regulated deployments typically use both.
 
-## The policy lifecycle: central control, fast propagation, full audit
+## The Policy Lifecycle: Central Control, Fast Propagation, Full Audit
 
-Policies are managed centrally, in the IOMETE console under **Data Security** or programmatically through the [Data Security REST API](/user-guide/data-security/data-security-api), and stored in the platform's control plane. The policy model is built on [Apache Ranger's](https://ranger.apache.org/) proven framework, fully integrated into IOMETE: there is no separate Ranger installation to deploy, operate, or upgrade.
+You manage policies centrally in the IOMETE console under **Data Security** or programmatically through the [Data Security REST API](/user-guide/data-security/data-security-api). IOMETE stores them in the platform's control plane. The policy model is built on [Apache Ranger's](https://ranger.apache.org/) proven framework, fully integrated into IOMETE: there is no separate Ranger installation to deploy, operate, or upgrade.
 
 Running compute clusters synchronize policies on a short interval, so a new or updated policy takes effect across the platform in seconds, without restarting anything. Revoking access is as immediate as granting it.
 
@@ -119,15 +119,15 @@ Every policy change is audit-logged, and every enforcement decision (which user,
 
 For teams governing large estates, resource-based policies (this catalog, this table, this column) are complemented by **tag-based policies**: classify a column as `PII` or `PHI` in the data catalog, and a tag-based masking policy covers it automatically, including columns created next quarter. We covered that model in depth in [Column-Level Data Masking at Scale](/blog/column-level-data-masking-scale).
 
-## All of it inside your infrastructure
+## All of It Inside Your Infrastructure
 
-IOMETE [deploys into your own Kubernetes environment](/getting-started/architecture), on-premises or in your cloud account. The policy store, the enforcement engine, and the audit logs all live inside your perimeter. No query, no policy decision, and no access record crosses to a vendor control plane.
+You [deploy IOMETE into your own Kubernetes environment](/getting-started/architecture), on-premises or in your cloud account. The policy store, the enforcement engine, and the audit logs all live inside your perimeter. No query, no policy decision, and no access record crosses to a vendor control plane.
 
 For organizations under GDPR, HIPAA, or DORA, this simplifies the story considerably. The technical controls for sensitive data (dynamic masking, row-level security, column denial, audit trails) run where the data runs, and the evidence a regulator asks for is generated inside infrastructure you already govern.
 
-## Getting started
+## Getting Started
 
-A masking or row-filter policy takes a few minutes to create:
+You can create a masking or row-filter policy in a few minutes:
 
 1. In the console, go to [**Data Security**](/user-guide/data-security/overview) and choose **Masking** or **Row Level Filter**.
 2. Pick the catalog, database, table, and (for masking) column.
