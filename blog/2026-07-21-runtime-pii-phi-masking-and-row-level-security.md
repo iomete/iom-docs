@@ -15,11 +15,11 @@ last_update:
 import FAQSection from '@site/src/components/FAQSection';
 import Img from '@site/src/components/Img';
 
-Ask a platform vendor whether they support data masking and the answer is always yes. Ask *where* the masking happens, and the answers split into two very different camps. Some platforms put controls in front of the data: a BI tool that hides columns, a semantic layer that filters rows, a view that analysts are told to use instead of the base table. Others put controls inside the engine that executes every query, so there is no path to the data that skips the check.
+Data masking often sounds simple. Ask almost any platform vendor whether they support it, and the answer will be yes. But the more important question is where that masking is enforced. Some platforms place controls in front of the data through a BI tool, semantic layer, or predefined view. Others enforce them inside the query engine itself, so every query is checked before data is returned.
 
-The difference matters most when someone doesn't use the front door. A data scientist opens a Spark notebook. A batch job reads the table directly. An external tool connects over JDBC. If your masking lives in the BI layer, none of those paths are covered. If it lives in the engine, all of them are.
+That difference matters when someone uses a different access path. A data scientist may open a Spark notebook, a batch job may read the table directly, or an external tool may connect over JDBC. If masking exists only in the BI layer, those paths may bypass it. If it is enforced in the engine, the same policies apply consistently everywhere.
 
-IOMETE takes the second approach. Data masking and row-level security are enforced at query execution time, inside the Spark-based compute engine, for every access path the platform serves. This post explains how that works, what it means in practice for teams handling PII and PHI, and why enforcement location is the first question to ask of any platform's data security story.
+IOMETE follows the engine-level approach. Data masking and row-level security are enforced during query execution inside the Spark-based compute engine, across every access path supported by the platform. In this post, we will look at how that works, what it means for teams handling PII and PHI, and why enforcement location should be one of the first questions you ask when evaluating a data platform.
 
 <!-- truncate -->
 
