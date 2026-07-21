@@ -52,7 +52,7 @@ Check out the [Guide on how to start with Apache Iceberg](/reference/iceberg-tab
 
 **About IOMETE**
 
-IOMETE is a leading provider of [data lakehouse](/glossary/data-lakehouse) solutions with Apache Iceberg as its core table format. IOMETE can be deployed on premise, in your private cloud or on any major public cloud. Start on our Free Plan today.
+IOMETE is a leading provider of [data lakehouse](/glossary/data-lakehouse) solutions with Apache Iceberg as its core table format. IOMETE can be deployed on premise, in your private cloud or on any major public cloud. [Get in touch](https://iomete.com/pricing) to get started today.
 
 ---
 

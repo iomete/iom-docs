@@ -15,10 +15,10 @@ function Guides() {
             <div className="flex justify-between h-auto sm:h-[126px] flex-col sm:flex-row gap-6">
               <div className="w-[100%] sm:w-[50%] ">
                 <h4 className="mb-2">
-                  Watch: How to run IOMETE Community Edition on AWS
+                  Watch: How to run IOMETE on AWS
                 </h4>
                 <p className="card-desc mb-0">
-                  Watch 20 minute Youtube video on how to run Community Edition
+                  Watch 20 minute Youtube video on how to run IOMETE
                   on AWS.
                 </p>
               </div>
