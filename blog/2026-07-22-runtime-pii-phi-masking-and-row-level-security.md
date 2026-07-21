@@ -23,7 +23,7 @@ IOMETE follows the engine-level approach. Data masking and row-level security ar
 
 <!-- truncate -->
 
-<Img src="/img/blog/2026-07-21-runtime-masking-rls/access-paths.png" alt="SQL, notebooks, jobs, JDBC, and Spark Connect all pass through the same policy enforcement layer inside the IOMETE query engine" borderless />
+<Img src="/img/blog/2026-07-22-runtime-masking-rls/access-paths.png" alt="SQL, notebooks, jobs, JDBC, and Spark Connect all pass through the same policy enforcement layer inside the IOMETE query engine" borderless />
 
 ## What "Runtime" Enforcement Actually Means
 
@@ -34,7 +34,7 @@ During query analysis (the phase where Spark resolves table and column reference
 - **For a masked column**, the plan is rewritten so that every reference to the original column is replaced with the masking expression. The rewrite propagates through the whole plan: joins, subqueries, CTEs, and derived columns all see the masked value, not the original. There is no window where raw data exists in the result path.
 - **For a row-filter policy**, the engine injects the filter predicate directly above the table scan, exactly as if the user had written the WHERE clause themselves. Every downstream operation, from aggregations to joins to exports, operates only on the rows the user is entitled to see.
 
-<Img src="/img/blog/2026-07-21-runtime-masking-rls/plan-rewrite.png" darkImageSrc="/img/blog/2026-07-21-runtime-masking-rls/plan-rewrite-dark.png" alt="IOMETE rewrites the logical query plan with masking expressions and row filters before optimization and execution" borderless />
+<Img src="/img/blog/2026-07-22-runtime-masking-rls/plan-rewrite.png" darkImageSrc="/img/blog/2026-07-22-runtime-masking-rls/plan-rewrite-dark.png" alt="IOMETE rewrites the logical query plan with masking expressions and row filters before optimization and execution" borderless />
 
 Because the rewrite happens at the plan level, enforcement is invisible to the user. Queries run normally and return normal-looking results. The engine guarantees that the results contain only what the policy allows.
 
@@ -91,7 +91,7 @@ The canonical example is regional data isolation. A `customers` table serves tea
 
 Each user queries the same table with the same SQL, `SELECT * FROM customers`, and each gets a different, policy-defined slice. No views to maintain per region, no table copies per team, no application logic deciding who gets what.
 
-<Img src="/img/blog/2026-07-21-runtime-masking-rls/rls-slices.png" darkImageSrc="/img/blog/2026-07-21-runtime-masking-rls/rls-slices-dark.png" alt="A row-level security policy gives US employees, UK employees, and compliance users different views of the same customers table" borderless />
+<Img src="/img/blog/2026-07-22-runtime-masking-rls/rls-slices.png" darkImageSrc="/img/blog/2026-07-22-runtime-masking-rls/rls-slices-dark.png" alt="A row-level security policy gives US employees, UK employees, and compliance users different views of the same customers table" borderless />
 
 Because the predicate is injected at the table scan, it composes with anything the user builds on top. A JOIN against a filtered table joins only permitted rows. An aggregate over a filtered table counts only permitted rows. A notebook exporting to a file exports only permitted rows. Filters can even contain subqueries, such as `region IN (SELECT region FROM user_regions WHERE user = current_user())`, enabling entitlement-table patterns where row access is driven by data rather than by policy count.
 
