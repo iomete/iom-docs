@@ -86,7 +86,7 @@ Launch **ALL** compressions as **parallel Bash tool calls in a single message**:
 ```bash
 node scripts/process-image.mjs \
   --input "tasks/screenshots/<file>.png" \
-  --compress --quality 80
+  --compress
 ```
 
 (No `--output` flag — overwrites the source file in `tasks/screenshots/`.)
@@ -320,8 +320,7 @@ node scripts/process-image.mjs
 
   --input <path>       Source PNG                          (required)
   --output <path>      Destination path                   (default: overwrites input)
-  --compress           Enable PNG compression
-  --quality <n>        Compression quality 1-100           (default: 80)
+  --compress           Enable lossless PNG compression
 ```
 
 ---
