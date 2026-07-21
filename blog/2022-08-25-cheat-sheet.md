@@ -28,7 +28,7 @@ We included DDL operations for creating databases and tables, altering table str
 
 Download the PDF version [here](/img/blog/2022-08-25-cheat-sheet/iceberg-cheat-sheet.pdf). We hope you find it useful. 🤗
 
-<MiniCard link="https://iomete.com/pricing" linkName="Learn more">Want a free-forever data lakehouse platform?</MiniCard>
+<MiniCard link="https://iomete.com/pricing" linkName="Learn more">Want a cost-efficient data lakehouse platform?</MiniCard>
 
 ## SPARK DDL
 

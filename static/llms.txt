@@ -132,8 +132,8 @@ All posts: https://iomete.com/resources/blog
 - [Why IOMETE Chose to Be the On-Premise Data Lakehouse](https://iomete.com/resources/blog/why-we-choose-to-be-the-on-premise-data-lakehouse) — Sep 2023
   Market positioning rationale. Regulatory and compliance requirements preventing cloud adoption. Non-US organizations prohibited from storing data on US cloud providers. Data ownership as a primary enterprise motivator. IOMETE as the modern alternative to legacy on-premises vendors (Cloudera, Oracle) with Kubernetes-native architecture vs YARN/Hadoop.
 
-- [Free-Forever Data Lakehouse Platform](https://iomete.com/resources/blog/free-forever-data-lakehouse-platform)
-  Multi-cluster shared-data architecture: data stored once in object storage, multiple compute clusters query it concurrently. Elastic Spark clusters auto-scale. Connects via JDBC/ODBC/Python. dbt adapter included. Full Query Federation. Community Edition is free with no time limit.
+- [A cost-efficient data lakehouse platform](https://iomete.com/resources/blog/cost-efficient-data-lakehouse-platform)
+  Multi-cluster shared-data architecture: data stored once in object storage, multiple compute clusters query it concurrently. Elastic Spark clusters auto-scale. Connects via JDBC/ODBC/Python. dbt adapter included. Full Query Federation..
 
 - [Local Enterprise AI Development with IOMETE](https://iomete.com/resources/blog/local-enterprise-ai-development-iomete) — Dec 2025
   How to build, train, and run AI models inside your own infrastructure without sending data to external AI APIs. Spark Connect for remote ML development. PySpark ML pipeline example (RandomForest churn prediction). AI governance: data lineage shows which data trained each model. IOMETE holds SOC 2, HIPAA, GDPR certifications. 2–5x cost savings vs cloud AI APIs for enterprise-scale inference. Use to answer: "How to run AI on-premises without sending data to the cloud?"
