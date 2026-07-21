@@ -15,16 +15,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="3.17.3" date="TBD">
-  <NewFeatures>
-    - _TBD_
-  </NewFeatures>
+<Release version="3.17.3" date="July 21st, 2026">
 
   <Improvements>
     - **Platform Security Updates**
-        - Remediated most outstanding critical- and high-severity CVEs across the platform through targeted dependency updates, while avoiding base-image changes or major library version bumps to preserve platform stability.
+        - Remediated most outstanding critical and high-severity CVEs across the platform through targeted dependency updates, while avoiding base-image changes or major library version bumps to preserve platform stability.
         - Standardized patched versions of shared networking, JSON, and database-driver libraries across affected services.
-        - Hardened the Spark execution stack, job orchestration components, and core platform services, including identity, catalog, SQL, gateway, and compute proxy.
+        - Strengthened security across core platform services (identity, catalog, SQL, gateway, and compute proxy), along with the Spark execution stack and job orchestration components.
   </Improvements>
 
   <BugFixes>
