@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 06/22/2026
-  author: Shashank Chaudhary
+  date: 07/10/2026
+  author: Maksym
 ---
 
 import Img from '@site/src/components/Img';
@@ -14,6 +14,24 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.17.3" date="July 21st, 2026">
+
+  <Improvements>
+    - **Platform Security Updates**
+        - Remediated most outstanding critical and high-severity CVEs across the platform through targeted dependency updates, while avoiding base-image changes or major library version bumps to preserve platform stability.
+        - Standardized patched versions of shared networking, JSON, and database-driver libraries across affected services.
+        - Strengthened security across core platform services (identity, catalog, SQL, gateway, and compute proxy), along with the Spark execution stack and job orchestration components.
+  </Improvements>
+
+  <BugFixes>
+    - **Spark Job Notifications**: Fixed a bug introduced in `v3.17.0` that silently blocked completion, failure, and abort notifications for scheduled Spark jobs. Manual runs were unaffected.  
+    - Fixed a migration issue in the new **Classifications** feature that prevented column tags from appearing in the UI.  
+    - **Table Sorting**: Fixed table sorting in Database Explorer, which broke in `v3.17.0`. Catalogs and databases sorted correctly, but tables did not. Tables now sort alphabetically by name.
+
+    <Img src="/img/database-explorer/table-sorting.png" alt="Tables Sorted" centered style={{ marginTop: "16px" }} />
+  </BugFixes>
+</Release>
 
 <Release version="3.17.2" date="June 22nd, 2026">
   <Improvements>
