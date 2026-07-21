@@ -6,10 +6,10 @@ slug: runtime-pii-phi-masking-row-level-security
 authors: abhishek
 tags2: [Technical, Company]
 coverImage: img/blog/thumbnails/2.png
-date: 07/21/2026
+date: 07/22/2026
 hide_table_of_contents: false
 last_update:
-  date: 2026-07-21
+  date: 2026-07-22
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
