@@ -3,7 +3,7 @@ title: DBeaver
 description: Connect DBeaver to IOMETE using the Arrow Flight SQL JDBC driver.
 sidebar_label: DBeaver
 last_update:
-  date: 2026-06-12
+  date: 2026-07-22
   author: Mateus Aubin
 ---
 
@@ -72,6 +72,39 @@ With the driver registered, you can open a connection and browse your data.
 If the connection succeeds, the **Database Navigator** lists your catalogs, schemas, and tables so you can start querying.
 
 <Img src="/img/database-drivers/dbeaver/explorer.png" alt="Database Navigator showing IOMETE catalogs and tables" />
+
+## Java Version Requirements
+
+If Arrow Flight connections fail the moment you hit **Test Connection**, a modern version of Java is usually the cause. DBeaver bundles and runs its own copy of Java, independent of any Java installed on your machine. On **Java 16 and newer**, the Arrow Flight SQL driver needs a couple of extra startup flags. Without them, it can't set up its memory and the connection fails right away, usually with a `Could not initialize class ...RootAllocator` error. See [Symptoms Without the Flags](/user-guide/driver/arrow-flight-jdbc-driver#symptoms-without-the-flags) in the driver guide for the full error messages.
+
+:::warning Auto-Update Can Trigger This Overnight
+A DBeaver update can silently swap its bundled Java for a newer version. A setup that worked yesterday then starts failing, even though you never touched your driver or connection. So if Arrow Flight breaks right after a DBeaver update, apply the flags below.
+:::
+
+Add the required flags to `dbeaver.ini`:
+
+1. Locate `dbeaver.ini`:
+   - **macOS**: `DBeaver.app/Contents/Eclipse/dbeaver.ini` (right-click the app → **Show Package Contents**)
+   - **Windows**: `dbeaver.ini` next to `dbeaver.exe` in the install folder
+   - **Linux**: `dbeaver.ini` in the install directory
+
+2. Add each flag on its own line **after** the `-vmargs` line (every argument in `dbeaver.ini` must be on a separate line):
+
+   ```ini
+   -vmargs
+   --add-opens=java.base/java.nio=ALL-UNNAMED
+   --sun-misc-unsafe-memory-access=allow
+   ```
+
+   Each flag does the following:
+   - `--add-opens=java.base/java.nio=ALL-UNNAMED` opens Java's internal `java.nio` package so the driver can reach the direct memory it needs. Java's module system blocks this by default on **Java 16 and newer** ([JEP 396](https://openjdk.org/jeps/396)).
+   - `--sun-misc-unsafe-memory-access=allow` re-enables the internal `Unsafe` memory API the driver relies on. **Java 24** only prints a deprecation warning, but **Java 25 and newer** deny it by default, so without this flag the driver can't initialize its memory allocator ([JEP 498](https://openjdk.org/jeps/498)).
+
+   Include `--sun-misc-unsafe-memory-access=allow` only if DBeaver's bundled Java is **version 24 or newer**; on older versions it prevents startup. When unsure, add `--add-opens` first, retry, and add the second flag only if the failure persists.
+
+3. **Fully quit and restart** DBeaver (a window reload isn't enough), then retry **Test Connection**.
+
+For the per-version flag matrix and the reasoning behind each flag, see [Java Version Requirements](/user-guide/driver/arrow-flight-jdbc-driver#java-version-requirements) in the driver guide.
 
 ## Resources
 
