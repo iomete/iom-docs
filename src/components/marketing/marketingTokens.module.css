@@ -1,0 +1,124 @@
+:global(:root) {
+  /* Colors (from iomete.com/roadmap) */
+  --mk-bg: #ffffff;
+  --mk-surface: #fcfcf8;
+  --mk-text: #626261;
+  --mk-text-strong: #202020;
+  --mk-border: #d0d0cd;
+
+  --mk-fluoro: #d3f52c;
+  --mk-fluoro-hover: #c6e51c;
+
+  /* Type */
+  --mk-font-body: Inter, "Palatino Linotype", sans-serif;
+  --mk-font-heading: Archivo, "Palatino Linotype", sans-serif;
+  --mk-font-eyebrow: Dmmono, "Palatino Linotype", sans-serif;
+
+  --mk-h1-size: 36px;
+  --mk-h1-line: 43.2px;
+  --mk-h1-weight: 300;
+
+  --mk-h2-size: 28px;
+  --mk-h2-line: 35px;
+  --mk-h2-weight: 300;
+
+  --mk-body-size: 14px;
+  --mk-body-line: 18.2px;
+  --mk-body-letter: -0.14px;
+
+  /* Layout */
+  --mk-container: 77rem;
+
+  /* UI */
+  --mk-radius-sm: 8px;
+  --mk-radius-md: 12px;
+  --mk-radius-lg: 16px;
+
+  --mk-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --mk-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --mk-shadow-lg: 0 10px 10px rgba(0, 0, 0, 0.1);
+
+  /* Palette */
+  --mk-base-950: #202020;
+  --mk-base-800: #4c4c4c;
+  --mk-base-700: #626261;
+  --mk-base-300: #babab7;
+  --mk-base-200: #d0d0cd;
+  --mk-base-50: #fcfcf8;
+  --mk-base-0: #ffffff;
+
+  --mk-racing-900: #2d382d;
+  --mk-racing-800: #344234;
+  --mk-racing-700: #415441;
+  --mk-racing-500: #617a61;
+  --mk-racing-300: #a0b8a0;
+  --mk-racing-200: #b8cdb8;
+  --mk-racing-100: #d3e5d3;
+
+  --mk-lake-900: #373a63;
+  --mk-lake-800: #424778;
+  --mk-lake-700: #565f9c;
+  --mk-lake-500: #8292e0;
+  --mk-lake-300: #b1c4f2;
+  --mk-lake-200: #cbdcf8;
+  --mk-lake-100: #dce9fa;
+
+  --mk-stone-900: #473733;
+  --mk-stone-800: #54433e;
+  --mk-stone-700: #6b5851;
+  --mk-stone-500: #9e8b82;
+  --mk-stone-300: #c9b9ad;
+  --mk-stone-200: #d6cac1;
+  --mk-stone-100: #e8e1da;
+  --mk-stone-50: #f2eeeb;
+
+  --mk-fluoro-900: #53591e;
+  --mk-fluoro-600: #b7cc3d;
+  --mk-fluoro-500: #c6e51c;
+  --mk-fluoro-400: #d3f52c;
+
+  --mk-geode-900: #523f52;
+  --mk-geode-800: #634b63;
+  --mk-geode-700: #7c5d7d;
+  --mk-geode-500: #b997bd;
+  --mk-geode-300: #d9c5dc;
+  --mk-geode-200: #e7dbea;
+  --mk-geode-100: #ebe4ed;
+
+  --mk-apricot-900: #6b3b1b;
+  --mk-apricot-800: #85491c;
+  --mk-apricot-700: #995b25;
+  --mk-apricot-500: #e39740;
+  --mk-apricot-300: #f7c77e;
+  --mk-apricot-200: #fcdca3;
+  --mk-apricot-100: #fceccc;
+
+  --mk-reef-900: #752414;
+  --mk-reef-800: #96311d;
+  --mk-reef-700: #b03e27;
+  --mk-reef-500: #ed7e68;
+  --mk-reef-300: #f5beb3;
+  --mk-reef-200: #fad0c8;
+  --mk-reef-100: #fae1dc;
+
+  /* Table */
+  --mk-table-head-bg: #fcfcf8;
+  --mk-row-hover: #d0d0cd1a;
+  --mk-row-alt: rgba(255, 255, 255, 0.6);
+
+  /* Buttons */
+  --mk-btn-dark-bg: #202020;
+  --mk-btn-dark-hover-bg: #4c4c4c;
+  --mk-btn-dark-text: #fcfcf8;
+
+  --mk-btn-fluoro-bg: #d3f52c;
+  --mk-btn-fluoro-hover-bg: #c6e51c;
+  --mk-btn-fluoro-text: #202020;
+
+  /* Soft row accents */
+  --mk-row-accent-1: #ffffff; /* base-0 */
+  --mk-row-accent-2: #f2eeeb; /* stone-50 */
+  --mk-row-accent-3: #dce9fa; /* lake-100 */
+  --mk-row-accent-4: #d0d0cd; /* neutral separator */
+  --mk-row-accent-5: #d3e5d3; /* racing-100 */
+}
