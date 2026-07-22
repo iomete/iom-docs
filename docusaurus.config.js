@@ -7,6 +7,10 @@
 import { themes as prismThemes } from "prism-react-renderer";
 import userGuideRedirects from "./userGuideRedirects.js";
 
+// Injects width/height into <Img> usages at build time so images reserve
+// their space before loading (CLS fix). See plugins/remark-image-dimensions.js
+const remarkImageDimensions = require("./plugins/remark-image-dimensions");
+
 const glossaryPlugin = [
   "@docusaurus/plugin-content-blog",
   {
@@ -30,6 +34,7 @@ const glossaryPlugin = [
     showReadingTime: false,
 
     onUntruncatedBlogPosts: "ignore",
+    beforeDefaultRemarkPlugins: [remarkImageDimensions],
   },
 ];
 
@@ -76,6 +81,7 @@ const config = {
           routeBasePath: "/",
           sidebarPath: "./sidebars.js",
           breadcrumbs: true,
+          beforeDefaultRemarkPlugins: [remarkImageDimensions],
         },
         blog: {
           blogSidebarCount: 0,
@@ -88,11 +94,13 @@ const config = {
           blogDescription:
             "Modern lakehouse platform. Save 5x over expensive alternatives | Built on Apache Iceberg and Apache Spark | Cloud, on premise and hybrid solutions.",
           onUntruncatedBlogPosts: "ignore",
+          beforeDefaultRemarkPlugins: [remarkImageDimensions],
         },
 
         theme: {
           customCss: [
             "./src/css/custom.scss",
+            "./src/css/fonts.css",
             require.resolve(
               "./node_modules/@ionic-internal/ionic-ds/dist/tokens/tokens.css"
             ),
@@ -156,7 +164,9 @@ const config = {
           srcDark: `/logo-white.svg`,
           href: "https://iomete.com",
           target: "_self",
-          // height: 24,
+          // Intrinsic dimensions (svg viewBox is 800x138) so the img is
+          // never counted as unsized; rendered size still comes from CSS.
+          height: 22,
           width: 128,
         },
         items: [
@@ -229,48 +239,44 @@ const config = {
       },
     }),
   headTags: [
-    // Inter Variable
+    // Archivo Variable — self-hosted brand display font (headings, above the
+    // fold on every page), so it alone merits a preload. DM Mono (footer
+    // eyebrows, blog card dates) is not preloaded on purpose: it's below the
+    // fold and its metric-matched fallback makes the swap invisible.
+    // The href must be the full /resources/... path (headTags hrefs are
+    // emitted verbatim, without baseUrl) and must byte-match the url() in
+    // src/css/fonts.css, or the browser downloads the font twice.
     {
       tagName: "link",
       attributes: {
         rel: "preload",
-        href: "https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a3594aabfa49cafb5d07e_InterVariable.ttf",
+        href: "/resources/fonts/Archivo-Variable.woff2",
         as: "font",
-        type: "font/ttf",
+        type: "font/woff2",
         crossorigin: "anonymous",
       },
     },
-    // Archivo Variable — self-hosted brand display font (used for headings)
+    // Inter — used by the landing hero and Tailwind font-inter/font-sans.
+    // Loaded as head links instead of the old CSS @import so the fonts CSS
+    // is discovered immediately rather than after the main stylesheet
+    // downloads (kills a render-blocking request chain).
+    {
+      tagName: "link",
+      attributes: { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    },
     {
       tagName: "link",
       attributes: {
-        rel: "preload",
-        href: "/fonts/Archivo-Variable.ttf",
-        as: "font",
-        type: "font/ttf",
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
         crossorigin: "anonymous",
       },
     },
-    // DM Mono Medium
     {
       tagName: "link",
       attributes: {
-        rel: "preload",
-        href: "https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a3657294bb48e01b67f05_DMMono-Medium.ttf",
-        as: "font",
-        type: "font/ttf",
-        crossorigin: "anonymous",
-      },
-    },
-    // DM Mono Regular
-    {
-      tagName: "link",
-      attributes: {
-        rel: "preload",
-        href: "https://cdn.prod.website-files.com/6799ec9d00832d1abf08b380/679a3650d012930b8d8bd5b0_DMMono-Regular.ttf",
-        as: "font",
-        type: "font/ttf",
-        crossorigin: "anonymous",
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap",
       },
     },
   ],
@@ -282,7 +288,7 @@ const config = {
         path: 'user-guide',
         routeBasePath: 'user-guide',
         sidebarPath: './sidebarsUserGuide.js',
-
+        beforeDefaultRemarkPlugins: [remarkImageDimensions],
       },
     ],
     [

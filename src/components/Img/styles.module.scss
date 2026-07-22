@@ -4,6 +4,14 @@
     width: fit-content;
   }
 
+  // Images carry intrinsic width/height attributes (injected at build time)
+  // so the browser reserves space before load. Infima caps them at
+  // max-width: 100%; height: auto keeps the aspect ratio when the cap
+  // kicks in instead of stretching to the height attribute.
+  img {
+    height: auto;
+  }
+
   &.imgCentered {
     margin-left: auto;
     margin-right: auto;

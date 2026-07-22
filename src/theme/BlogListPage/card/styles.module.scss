@@ -10,6 +10,14 @@
 
 .CardImg {
   transition: opacity 0.2s ease;
+  // Reserve the image box before the cover loads so the card grid doesn't
+  // shift (CLS). All blog cover thumbnails are 16:9; object-fit keeps any
+  // stray ratio cropped to the same uniform box.
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
 .CardLink :global(.blog) {

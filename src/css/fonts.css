@@ -1,0 +1,104 @@
+/**
+ * Self-hosted web fonts + metric-matched fallbacks.
+ *
+ * Plain CSS (not SCSS) on purpose: the webpackIgnore comments below must
+ * reach css-loader verbatim so the font URLs stay literal. That keeps the
+ * CSS pointing at the same stable /resources/fonts/... files the preload in
+ * docusaurus.config.js references — otherwise webpack copies fonts to a
+ * hashed URL and the preloaded file is downloaded twice (or, worse, the
+ * preload 404s, which is what happened before this setup).
+ *
+ * The WOFF2 files are subset to Latin + Latin-Extended + IPA (covers
+ * Azerbaijani ə) + common punctuation; unicode-range must match the subset
+ * so uncovered scripts fall back instead of showing tofu. Regenerate with
+ * fonttools pyftsubset if coverage needs to grow.
+ */
+
+/* Archivo — brand display typeface (headings; h1 renders at weight 300). */
+@font-face {
+  font-family: 'Archivo';
+  src:
+    /* webpackIgnore: true */
+    url('/resources/fonts/Archivo-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-007E, U+00A0-00FF, U+0100-02AF, U+02C6-02DC,
+    U+1E00-1EFF, U+2000-206F, U+20A0-20CF, U+2122, U+2190-2199, U+2212;
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src:
+    /* webpackIgnore: true */
+    url('/resources/fonts/Archivo-Italic-Variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0020-007E, U+00A0-00FF, U+0100-02AF, U+02C6-02DC,
+    U+1E00-1EFF, U+2000-206F, U+20A0-20CF, U+2122, U+2190-2199, U+2212;
+}
+
+/* DM Mono — brand secondary/mono typeface (footer eyebrows, blog card
+   dates). Self-hosted; previously hotlinked from the Webflow CDN. */
+@font-face {
+  font-family: 'Dmmono';
+  src:
+    /* webpackIgnore: true */
+    url('/resources/fonts/DMMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-007E, U+00A0-00FF, U+0100-02AF, U+02C6-02DC,
+    U+1E00-1EFF, U+2000-206F, U+20A0-20CF, U+2122, U+2190-2199, U+2212;
+}
+
+@font-face {
+  font-family: 'Dmmono';
+  src:
+    /* webpackIgnore: true */
+    url('/resources/fonts/DMMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-007E, U+00A0-00FF, U+0100-02AF, U+02C6-02DC,
+    U+1E00-1EFF, U+2000-206F, U+20A0-20CF, U+2122, U+2190-2199, U+2212;
+}
+
+/**
+ * Metric-matched local fallback faces, so text rendered before the web
+ * fonts arrive occupies the same space and nothing shifts on font swap
+ * (CLS). Percentages derived from the font tables (fontkit) and tuned
+ * against rendered heading widths in Chrome: Archivo Variable at the h1/h3
+ * weights (300/400) vs Arial, DM Mono Regular vs Courier New, Inter vs
+ * Arial. Recompute if the font files change.
+ */
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Arial');
+  size-adjust: 98.5%;
+  ascent-override: 89.14%;
+  descent-override: 21.32%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Dmmono Fallback';
+  src: local('Courier New');
+  size-adjust: 99.98%;
+  ascent-override: 99.22%;
+  descent-override: 31.01%;
+  line-gap-override: 0%;
+}
+
+/* Inter is loaded from Google Fonts via headTags links in
+   docusaurus.config.js and used by the landing hero + Tailwind
+   font-inter/font-sans utilities. */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial');
+  size-adjust: 107.33%;
+  ascent-override: 90.26%;
+  descent-override: 22.47%;
+  line-gap-override: 0%;
+}

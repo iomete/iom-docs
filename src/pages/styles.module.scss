@@ -1,4 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+// Inter is loaded via <link> tags in docusaurus.config.js headTags — a CSS
+// @import here would hide the fonts CSS behind the main stylesheet download
+// and create a render-blocking request chain.
 
 .HeroContainer {
   & {
@@ -11,7 +13,7 @@
     font-size: 26px !important;
     line-height: 31.47px;
     margin: 8px 0;
-    font-family: Inter, sans-serif;
+    font-family: Inter, "Inter Fallback", sans-serif;
   }
 
   h2 {

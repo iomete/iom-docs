@@ -15,7 +15,17 @@ function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
     <Link to={metadata.permalink} className={styles.CardLink}>
       <div className={clsx("blog", isFeatured && styles.FeaturedCard)}>
         <div className="card__image">
-          <img src={imgUrl} alt="Cover" className={`${styles.CardImg} `} />
+          {/* Featured cover is the list page's LCP image — fetch it eagerly
+              and early; the ~100 grid covers below load lazily (their boxes
+              are reserved by the aspect-ratio rule, so no layout shift). */}
+          <img
+            src={imgUrl}
+            alt="Cover"
+            className={`${styles.CardImg} `}
+            loading={isFeatured ? "eager" : "lazy"}
+            fetchPriority={isFeatured ? "high" : undefined}
+            decoding="async"
+          />
         </div>
         <div className={`card__body p-0 flex flex-col gap-1 min-w-[50%]`}>
           <div className="flex items-center gap-4">

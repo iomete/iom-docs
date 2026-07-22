@@ -34,11 +34,23 @@ jobs:
           aws s3 sync build/assets/ s3://${{ secrets.s3_bucket_name }}/resources/assets \
             --cache-control "public, max-age=31536000, immutable"
 
+          # Unhashed static passthrough content: blog cover thumbnails referenced by
+          # frontmatter URL and self-hosted fonts. These effectively never change in
+          # place (new content gets new filenames), so a 30-day browser cache is safe
+          # and stops repeat visitors re-downloading them daily. The CloudFront
+          # invalidation below still refreshes the edge on every release.
+          aws s3 sync build/img/ s3://${{ secrets.s3_bucket_name }}/resources/img \
+            --cache-control "public, max-age=2592000"
+          aws s3 sync build/fonts/ s3://${{ secrets.s3_bucket_name }}/resources/fonts \
+            --cache-control "public, max-age=2592000"
+
           # Everything else (HTML pages and unhashed static passthrough files like favicons/logos)
           # keeps the existing short-lived cache since their filenames don't change on content updates.
           aws s3 sync build/ s3://${{ secrets.s3_bucket_name }}/resources \
             --delete \
             --exclude "assets/*" \
+            --exclude "img/*" \
+            --exclude "fonts/*" \
             --cache-control "max-age=86400"
 
       - name: CloudFront Invalidation
