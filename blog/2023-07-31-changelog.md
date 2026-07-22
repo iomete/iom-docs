@@ -28,20 +28,6 @@ With these pre-built SQL worksheets, you can now jump-start your data analysis j
 
 ![IOMETE sample SQL worksheets](/img/blog/2023-07-31-changelog/sample-sql-worksheets.png)
 
-## IOMETE Data Lakehouse is Now Available for Google Cloud Platform Users! 🌟
-
-We are thrilled to announce a significant milestone for IOMETE, your go-to data solution! As part of our commitment to expanding accessibility and empowering users across diverse platforms, we are excited to introduce the availability of IOMETE Data Lakehouse for Google Cloud Platform (GCP) users. You can easily [set up](/community-deployment/gcp/install) your clustersin any of the available regions on GCP.
-
-![Google Cloud Platform in IOMETE](/img/blog/2023-07-31-changelog/google-cloud-data-platform.png)
-
-## IOMETE Data Lakehouse is Now Available for Microsoft Azure Users! 🌟
-
-We are excited to expand the reach of IOMETE Data Lakehouse to Microsoft Azure users, empowering them to harness the full potential of their data and drive innovation. Whether you are a data scientist, analyst, or business professional, IOMETE's availability on Azure opens up a world of possibilities for your data management needs.
-
-Take advantage of this powerful combination today! To get started with IOMETE Data Lakehouse on Microsoft Azure, visit for [detailed setup instructions](/community-deployment/azure/install) and explore a new era of data-driven possibilities.
-
-![Microsoft Azure in IOMETE platform](/img/blog/2023-07-31-changelog/azure-data-platform.png)
-
 ## Spark upgrade 3.3.3
 
 As part of the IOMETE platform, Apache Spark is used for large-scale data processing. Spark is fast and easy to use. It can handle ETL processes, analytics, machine learning, and more. You can now work faster, more quickly, and more efficiently with Apache Spark 3.3.3, a cutting-edge advancement.
