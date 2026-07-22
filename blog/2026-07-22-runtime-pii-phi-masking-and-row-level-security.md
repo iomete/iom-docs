@@ -19,7 +19,7 @@ Data masking often sounds simple. Ask almost any platform vendor whether they su
 
 That difference matters when someone uses a different access path. A data scientist may open a Spark notebook, a batch job may read the table directly, or an external tool may connect over JDBC. If masking exists only in the BI layer, those paths may bypass it. If it is enforced in the engine, the same policies apply consistently everywhere.
 
-IOMETE follows the engine-level approach. Data masking and row-level security are enforced during query execution inside the Spark-based compute engine, across every access path supported by the platform. In this post, we will look at how that works, what it means for teams handling PII and PHI, and why enforcement location should be one of the first questions you ask when evaluating a data platform.
+IOMETE follows the engine-level approach. [Data masking and row-level security](/getting-started/architecture) are enforced during query execution inside the Spark-based compute engine, across every access path supported by the platform. In this post, we will look at how that works, what it means for teams handling PII and PHI, and why enforcement location should be one of the first questions you ask when evaluating a data platform.
 
 <!-- truncate -->
 
@@ -63,6 +63,7 @@ IOMETE ships [eight masking options](/user-guide/data-security/data-masking), co
 
 Two of these deserve a closer look.
 
+
 **Hash masking is deterministic.** The same input always produces the same masked output. That sounds like a detail, but it's what keeps analytics workflows alive: a pseudonymized customer ID still joins correctly across tables, still groups correctly in aggregations, and still deduplicates, all without ever exposing the underlying identifier.
 
 **Custom masking is full SQL.** When the built-in types don't fit, you write the expression yourself, using `{col}` to reference the target column:
@@ -78,6 +79,8 @@ regexp_replace({col}, '[0-9]', 'X')
 Custom masks can also carry a **condition expression**: a WHERE-style predicate that controls when the mask applies. Mask only non-null values, mask only records from certain countries, mask only values matching a pattern. The engine compiles this into a conditional expression in the plan, so a single policy can express "mask this column, but only for these rows."
 
 Policies target specific users and groups, and conditions are evaluated in order, so the same column can be fully visible to a compliance team, hash-masked for analysts, and nulled for everyone else, all within one policy. The dynamic `{USER}` principal lets a policy reference the current user without hardcoding names.
+
+Those users and groups come straight from your identity provider. IOMETE syncs them over LDAP, so an Active Directory group like `phi_analysts` can drive a masking policy directly, with no parallel user list to maintain.
 
 ## Row-Level Security: One Table, Many Views of It
 
@@ -107,17 +110,21 @@ When you evaluate a platform, producing a demo where a masked column shows `xxx-
 
 **Can a privileged-looking path skip it?** With engine-level enforcement, the policy check is part of query compilation. There is no "raw" mode to fall into, and no secondary engine reading the same tables without the same rules.
 
-**What about column access outright?** Masking shows a transformed value to users who may query the column. For users who shouldn't see the column at all, even masked, IOMETE's access policies deny column reads entirely, and the query fails with an access error before execution. Masking and access control are separate tools; regulated deployments typically use both.
+**What about column access outright?** Masking shows a transformed value to users who may query the column. For users who shouldn't see the column at all, even masked, IOMETE's [access policies](/user-guide/data-security/access-policy) deny column reads entirely, and the query fails with an access error before execution. Masking and access control are separate tools; regulated deployments typically use both.
 
 ## The Policy Lifecycle: Central Control, Fast Propagation, Full Audit
 
-You manage policies centrally in the IOMETE console under **Data Security** or programmatically through the [Data Security REST API](/user-guide/data-security/data-security-api). IOMETE stores them in the platform's control plane. The policy model is built on [Apache Ranger's](https://ranger.apache.org/) proven framework, fully integrated into IOMETE: there is no separate Ranger installation to deploy, operate, or upgrade.
+You manage policies centrally in the IOMETE console under **Data Security** or programmatically through the [Data Security REST API](/user-guide/data-security/data-security-api). IOMETE stores them in the platform's control plane. The policy model is built on [Apache Ranger's](https://ranger.apache.org/) proven framework (see our deeper look at [Apache Ranger and data security](/blog/apache-ranger-data-security)), fully integrated into IOMETE: there is no separate Ranger installation to deploy, operate, or upgrade.
 
 Running compute clusters synchronize policies on a short interval, so a new or updated policy takes effect across the platform in seconds, without restarting anything. Revoking access is as immediate as granting it.
 
 Every policy change is audit-logged, and every enforcement decision (which user, which resource, which policy applied) is recorded at query time. For compliance teams, this closes the loop: you can show not only that a control exists, but that it fired on real queries.
 
-For teams governing large estates, resource-based policies (this catalog, this table, this column) are complemented by **tag-based policies**: classify a column as `PII` or `PHI` in the data catalog, and a tag-based masking policy covers it automatically, including columns created next quarter. We covered that model in depth in [Column-Level Data Masking at Scale](/blog/column-level-data-masking-scale).
+The audit trail isn't a black box, either. Enforcement records land in queryable system tables, so a compliance analyst can investigate access patterns with the same SQL they use everywhere else, and the stream is built to be pulled into a SIEM, so the anomaly-detection rules watching the rest of your estate can also watch who queried the PHI columns. Because the records are stored as Iceberg tables like everything else on the platform, retention policies apply to your audit history the same way they apply to your data.
+
+<!-- {/* NEEDS_ENGINEERING_INPUT: confirm the supported SIEM export path (API pull from system tables, file export, or streaming) and confirm audit retention follows Iceberg table retention. */} -->
+
+For teams governing large estates, resource-based policies (this catalog, this table, this column) are complemented by **tag-based policies**: apply a [classification tag](/user-guide/data-security/classifications) like `PII` or `PHI` to a column in the data catalog, and a [tag-based masking policy](/user-guide/data-security/tag-based-data-masking) covers it automatically, including columns created next quarter. We covered that model in depth in [Column-Level Data Masking at Scale](/blog/column-level-data-masking-scale).
 
 ## All of It Inside Your Infrastructure
 
@@ -145,19 +152,32 @@ If you're evaluating how runtime enforcement fits your PII/PHI requirements, [ge
 <FAQSection faqs={[
   {
     question: "Does masking change the data stored in my Iceberg tables?",
-    answer: "No. Masking and row filtering are applied to query output at execution time. Data at rest is never modified, so policies can be added, changed, or removed instantly with no data migration."
+    answer: "No. IOMETE applies masking and row filtering to query output at execution time. Data at rest is never modified, so policies can be added, changed, or removed instantly with no data migration."
   },
   {
     question: "Do the policies apply to Spark jobs and notebooks, or only SQL?",
-    answer: "Both. Enforcement happens during query plan analysis inside the engine, so SQL Editor queries, scheduled jobs, PySpark and Scala DataFrame code, JDBC connections, and Spark Connect clients are all subject to the same policies."
+    answer: "Both. IOMETE enforces policies during query plan analysis inside the engine, so SQL Editor queries, scheduled jobs, PySpark and Scala DataFrame code, JDBC connections, and Spark Connect clients are all subject to the same policies."
   },
   {
     question: "Can different users see different maskings of the same column?",
-    answer: "Yes. A single policy holds ordered conditions per group or user: one group can see raw values, another a hash, and another NULL. The dynamic USER principal supports self-referential rules."
+    answer: "Yes. A single IOMETE policy holds ordered conditions per group or user: one group can see raw values, another a hash, and another NULL. The dynamic USER principal supports self-referential rules."
+  },
+  {
+    question: "Do masking policies work with Active Directory groups?",
+    answer: "Yes. IOMETE integrates with Active Directory over LDAP, so existing AD groups appear in the platform and can be referenced directly in masking and row-filter policy conditions. Group membership changes in AD flow through to enforcement without editing the policies themselves."
   },
   {
     question: "How fast do policy changes take effect?",
-    answer: "Running clusters pull policy updates on a short interval, so changes propagate in seconds. No cluster restarts or redeployments are required."
+    answer: "Running IOMETE clusters pull policy updates on a short interval, so changes propagate in seconds. No cluster restarts or redeployments are required."
+  },
+  {
+    question: "Does this help with HIPAA or GDPR compliance for PHI and PII?",
+    answer: "Yes. IOMETE enforces masking, row-level security, column access denial, and audit logging entirely inside your own Kubernetes deployment, so the technical controls regulators ask for (and the evidence that they fired on real queries) are generated inside infrastructure you already govern, rather than at a vendor's control plane."
+  },
+  {
+    // NEEDS_ENGINEERING_INPUT: confirm the supported SIEM export mechanism (API pull, file export, or streaming) before publishing.
+    question: "Can IOMETE audit logs be exported to a SIEM?",
+    answer: "Yes. IOMETE records every enforcement decision at query time (the user, the resource, and the policy that fired) in queryable system tables inside your own infrastructure, and that stream is built to be pulled into your existing SIEM so data-access anomalies surface alongside the rest of your security alerts."
   },
   {
     question: "Is Apache Ranger required as a separate component?",
