@@ -79,7 +79,7 @@ Custom masks can also carry a **condition expression**: a WHERE-style predicate 
 
 Policies target specific users and groups, and conditions are evaluated in order, so the same column can be fully visible to a compliance team, hash-masked for analysts, and nulled for everyone else, all within one policy. The dynamic `{USER}` principal lets a policy reference the current user without hardcoding names.
 
-You can create [users and groups](/user-guide/iam/groups) directly in IOMETE, or sync them from your identity provider over [LDAP](/user-guide/iam/ldap-configuration) or [SCIM](/user-guide/iam/sso/scim). Either way, a group like `phi_analysts`, whether it lives in Active Directory or an IdP like Okta, can drive a masking policy directly, with no parallel user list to maintain.
+You can create [users and groups](/user-guide/groups) directly in IOMETE, or sync them from your identity provider over [LDAP](/user-guide/ldap-configuration) or [SCIM](/user-guide/single-sign-on/scim). Either way, a group like `phi_analysts`, whether it lives in Active Directory or an IdP like Okta, can drive a masking policy directly, with no parallel user list to maintain.
 
 ## Row-Level Security: One Table, Many Views of It
 
