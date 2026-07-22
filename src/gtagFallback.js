@@ -1,8 +1,8 @@
 // Ensures `window.gtag` is always callable.
 //
-// The @docusaurus/plugin-google-gtag route-change handler calls `window.gtag()`
-// on every navigation. If a privacy/ad blocker strips the plugin's inline init
-// script, `window.gtag` is undefined and each page switch throws
+// GA4 is fired through the GTM container (see docusaurus.config.js), which
+// defines the real `window.gtag` at runtime. Until that loads — or if a
+// privacy/ad blocker strips it — any stray `window.gtag()` call would throw
 // "window.gtag is not a function". Defining a no-op fallback here (this module
 // runs during app bootstrap, before any route update) prevents the error while
 // leaving the real gtag untouched when it does load.
