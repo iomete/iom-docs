@@ -8,7 +8,7 @@
  *   node scripts/process-image.mjs \
  *     --input  static/img/feature/overview.png \
  *     --output static/img/feature/overview-detail.png \
- *     --compress --quality 80
+ *     --compress
  *
  * Output (stdout JSON):
  *   { "success": true, "output": "path", "size": 12345 }
@@ -28,7 +28,6 @@ const { values: args } = parseArgs({
     input: { type: "string" },
     output: { type: "string" },
     compress: { type: "boolean", default: false },
-    quality: { type: "string", default: "80" },
   },
   strict: false,
 });
@@ -40,7 +39,6 @@ if (!args.input) {
 
 const outputPath = args.output || args.input;
 const inPlace = outputPath === args.input;
-const quality = parseInt(args.quality, 10);
 
 // ── Main ─────────────────────────────────────────────────────────────────────
 
@@ -54,12 +52,8 @@ async function main() {
 
     if (args.compress) {
       pipeline = pipeline.png({
-        quality,
         compressionLevel: 9,
-        palette: true,
-        colours: 256,
         effort: 10,
-        dither: 1.0,
       });
     }
 
