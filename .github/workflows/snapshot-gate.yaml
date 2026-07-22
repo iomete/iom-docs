@@ -6,19 +6,28 @@ name: Snapshot Gate
 # emitted HTML. Any non-empty diff fails unless the PR carries the
 # `snapshot-acknowledged` label.
 #
-# Scope (two filters):
-#   1. `paths:` — workflow only triggers when package.json or yarn.lock changes
-#   2. Runtime scope check — skips with "ℹ️ skipped" status if the PR ALSO
-#      changes any non-dep file (mixed-scope PRs can't be cleanly validated;
-#      split into separate PRs for dep changes vs content changes)
+# The workflow runs on every PR (no trigger-level path filter) so it can be
+# marked as a required status check in branch protection. A runtime scope
+# check categorizes the PR into one of three states and exits accordingly:
+#
+#   scope=dep    PR has dep changes (package.json/yarn.lock) and nothing
+#                else, OR the PR carries the `dependencies` label (Dependabot
+#                auto-adds this; humans/other bots can also apply it as an
+#                explicit "treat as dep PR" signal). Full gate runs.
+#
+#   scope=mixed  PR changes both dep files and other files. The gate can't
+#                cleanly attribute HTML diffs to dep changes vs intentional
+#                content changes, so it skips with an explanatory comment
+#                and exits success (the build-check workflow still validates
+#                the build itself).
+#
+#   scope=none   PR has no dep changes at all (typical doc/blog/UI PR). The
+#                gate isn't applicable; exits success silently (no comment).
 
 on:
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened, labeled, unlabeled]
-    paths:
-      - 'package.json'
-      - 'yarn.lock'
 
 permissions:
   pull-requests: write
@@ -54,26 +63,46 @@ jobs:
           echo "sha=$BASE" >> "$GITHUB_OUTPUT"
           echo "Base commit: $BASE"
 
-      - name: Check scope (skip if mixed PR)
+      - name: Check scope
         id: scope
+        # Categorize the PR as dep / mixed / none.
+        # Label override: if `dependencies` label is present, treat as dep PR
+        # regardless of file paths (Dependabot auto-applies this; humans can
+        # apply it to force the gate on a mixed-scope PR).
         run: |
           BASE="${{ steps.base.outputs.sha }}"
-          NON_DEP_FILES=$(git diff --name-only "$BASE..HEAD" \
-            | grep -v -E '^(package\.json|yarn\.lock)$' || true)
+          HAS_LABEL="${{ contains(github.event.pull_request.labels.*.name, 'dependencies') }}"
 
-          if [ -n "$NON_DEP_FILES" ]; then
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            {
-              echo 'non_dep_files<<EOF'
-              echo "$NON_DEP_FILES"
-              echo 'EOF'
-            } >> "$GITHUB_OUTPUT"
-            echo "::notice::Skipping snapshot gate — PR changes files beyond package.json/yarn.lock"
-            echo "Files outside dep scope:"
-            echo "$NON_DEP_FILES" | sed 's/^/  /'
+          CHANGED=$(git diff --name-only "$BASE..HEAD")
+          DEP_FILES=$(echo "$CHANGED" | grep -E '^(package\.json|yarn\.lock)$' || true)
+          NON_DEP_FILES=$(echo "$CHANGED" | grep -v -E '^(package\.json|yarn\.lock)$' || true)
+
+          if [ "$HAS_LABEL" = "true" ]; then
+            SCOPE=dep
+            REASON="\`dependencies\` label present"
+          elif [ -n "$DEP_FILES" ] && [ -z "$NON_DEP_FILES" ]; then
+            SCOPE=dep
+            REASON="pure dep change (only package.json/yarn.lock)"
+          elif [ -n "$DEP_FILES" ] && [ -n "$NON_DEP_FILES" ]; then
+            SCOPE=mixed
+            REASON="dep change + non-dep files"
           else
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-            echo "Only dep files changed — proceeding with gate."
+            SCOPE=none
+            REASON="no dep changes"
+          fi
+
+          echo "scope=$SCOPE" >> "$GITHUB_OUTPUT"
+          {
+            echo 'non_dep_files<<EOF'
+            echo "$NON_DEP_FILES"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Scope: $SCOPE ($REASON)"
+          if [ "$SCOPE" = "mixed" ]; then
+            echo "::notice::Snapshot gate skipped — mixed-scope PR"
+            echo "Non-dep files:"
+            echo "$NON_DEP_FILES" | sed 's/^/  /'
           fi
 
       - name: Build base snapshot
@@ -81,7 +110,7 @@ jobs:
         # continue-on-error so a base-build failure (rare — implies main is broken)
         # still posts a clear sticky comment instead of just a red check.
         continue-on-error: true
-        if: steps.scope.outputs.skip != 'true'
+        if: steps.scope.outputs.scope == 'dep'
         # NODE_OPTIONS raises Node's max heap to 6 GB. Default ~4 GB was
         # hit (FATAL: heap out of memory) when running two Docusaurus
         # builds back-to-back on the standard 7 GB Ubuntu runner.
@@ -99,7 +128,7 @@ jobs:
         # continue-on-error so a head-build failure (common: dep bump breaks build)
         # still posts a clear sticky comment instead of just a red check.
         continue-on-error: true
-        if: steps.scope.outputs.skip != 'true'
+        if: steps.scope.outputs.scope == 'dep'
         env:
           NODE_OPTIONS: --max-old-space-size=6144
         run: |
@@ -111,7 +140,7 @@ jobs:
 
       - name: Normalize both snapshots
         if: |
-          steps.scope.outputs.skip != 'true'
+          steps.scope.outputs.scope == 'dep'
           && steps.build_base.outcome == 'success'
           && steps.build_head.outcome == 'success'
         run: |
@@ -121,7 +150,7 @@ jobs:
       - name: Compute diff
         id: diff
         if: |
-          steps.scope.outputs.skip != 'true'
+          steps.scope.outputs.scope == 'dep'
           && steps.build_base.outcome == 'success'
           && steps.build_head.outcome == 'success'
         run: |
@@ -171,7 +200,7 @@ jobs:
 
       - name: Upload diff artifact
         if: |
-          steps.scope.outputs.skip != 'true'
+          steps.scope.outputs.scope == 'dep'
           && steps.build_base.outcome == 'success'
           && steps.build_head.outcome == 'success'
           && steps.diff.outputs.status == 'changed'
@@ -182,6 +211,9 @@ jobs:
           retention-days: 30
 
       - name: Find existing comment
+        # No comment for scope=none — doc PRs and other non-dep PRs get a
+        # silent green check without spamming a "not applicable" comment.
+        if: steps.scope.outputs.scope != 'none'
         id: find-comment
         uses: peter-evans/find-comment@v3
         with:
@@ -190,12 +222,13 @@ jobs:
           body-includes: '<!-- snapshot-gate -->'
 
       - name: Build comment body
+        if: steps.scope.outputs.scope != 'none'
         id: comment
         run: |
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           BASE_SHA="${{ steps.base.outputs.sha }}"
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
-          SKIP="${{ steps.scope.outputs.skip }}"
+          SCOPE="${{ steps.scope.outputs.scope }}"
           NON_DEP_FILES="${{ steps.scope.outputs.non_dep_files }}"
           BASE_BUILD="${{ steps.build_base.outcome }}"
           HEAD_BUILD="${{ steps.build_head.outcome }}"
@@ -208,7 +241,7 @@ jobs:
             echo "### HTML Snapshot Gate"
             echo ""
 
-            if [ "$SKIP" = "true" ]; then
+            if [ "$SCOPE" = "mixed" ]; then
               echo "ℹ️ **Skipped — mixed-scope PR.**"
               echo ""
               echo "The gate only validates pure dep-bump PRs (only \`package.json\` and/or \`yarn.lock\` changed). This PR also touches non-dep files, so the gate cannot cleanly attribute HTML diffs to dep changes vs. content changes."
@@ -275,6 +308,8 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Create or update PR comment
+        # No comment for scope=none — silent success for non-dep PRs.
+        if: steps.scope.outputs.scope != 'none'
         # Non-blocking: if the workflow lacks `pull-requests: write` (e.g.,
         # restricted Dependabot token), failing to post the comment must
         # not turn a clean snapshot gate into a red check.
@@ -288,7 +323,7 @@ jobs:
 
       - name: Determine final gate result
         if: |
-          steps.scope.outputs.skip != 'true' && (
+          steps.scope.outputs.scope == 'dep' && (
             steps.build_base.outcome == 'failure'
             || steps.build_head.outcome == 'failure'
             || (steps.diff.outputs.status == 'changed' && steps.override.outputs.acknowledged != 'true')
