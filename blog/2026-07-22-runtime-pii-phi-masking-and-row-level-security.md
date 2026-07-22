@@ -19,7 +19,7 @@ Data masking often sounds simple. Ask almost any platform vendor whether they su
 
 That difference matters when someone uses a different access path. A data scientist may open a Spark notebook, a batch job may read the table directly, or an external tool may connect over JDBC. If masking exists only in the BI layer, those paths may bypass it. If it is enforced in the engine, the same policies apply consistently everywhere.
 
-IOMETE follows the engine-level approach. [Data masking and row-level security](/getting-started/architecture) are enforced during query execution inside the Spark-based compute engine, across every access path supported by the platform. In this post, we will look at how that works, what it means for teams handling PII and PHI, and why enforcement location should be one of the first questions you ask when evaluating a data platform.
+IOMETE follows the engine-level approach. [Data masking and row-level security](/user-guide/data-security/overview) are enforced during query execution inside the Spark-based compute engine, across every access path supported by the platform. In this post, we will look at how that works, what it means for teams handling PII and PHI, and why enforcement location should be one of the first questions you ask when evaluating a data platform.
 
 <!-- truncate -->
 
@@ -63,7 +63,6 @@ IOMETE ships [eight masking options](/user-guide/data-security/data-masking), co
 
 Two of these deserve a closer look.
 
-
 **Hash masking is deterministic.** The same input always produces the same masked output. That sounds like a detail, but it's what keeps analytics workflows alive: a pseudonymized customer ID still joins correctly across tables, still groups correctly in aggregations, and still deduplicates, all without ever exposing the underlying identifier.
 
 **Custom masking is full SQL.** When the built-in types don't fit, you write the expression yourself, using `{col}` to reference the target column:
@@ -80,7 +79,7 @@ Custom masks can also carry a **condition expression**: a WHERE-style predicate 
 
 Policies target specific users and groups, and conditions are evaluated in order, so the same column can be fully visible to a compliance team, hash-masked for analysts, and nulled for everyone else, all within one policy. The dynamic `{USER}` principal lets a policy reference the current user without hardcoding names.
 
-Those users and groups come straight from your identity provider. IOMETE syncs them over LDAP, so an Active Directory group like `phi_analysts` can drive a masking policy directly, with no parallel user list to maintain.
+You can create [users and groups](/user-guide/iam/groups) directly in IOMETE, or sync them from your identity provider over [LDAP](/user-guide/iam/ldap-configuration) or [SCIM](/user-guide/iam/sso/scim). Either way, a group like `phi_analysts`, whether it lives in Active Directory or an IdP like Okta, can drive a masking policy directly, with no parallel user list to maintain.
 
 ## Row-Level Security: One Table, Many Views of It
 
@@ -120,9 +119,7 @@ Running compute clusters synchronize policies on a short interval, so a new or u
 
 Every policy change is audit-logged, and every enforcement decision (which user, which resource, which policy applied) is recorded at query time. For compliance teams, this closes the loop: you can show not only that a control exists, but that it fired on real queries.
 
-The audit trail isn't a black box, either. Enforcement records land in queryable system tables, so a compliance analyst can investigate access patterns with the same SQL they use everywhere else, and the stream is built to be pulled into a SIEM, so the anomaly-detection rules watching the rest of your estate can also watch who queried the PHI columns. Because the records are stored as Iceberg tables like everything else on the platform, retention policies apply to your audit history the same way they apply to your data.
-
-<!-- {/* NEEDS_ENGINEERING_INPUT: confirm the supported SIEM export path (API pull from system tables, file export, or streaming) and confirm audit retention follows Iceberg table retention. */} -->
+These records are written to the `data_access_audit` [system table](/user-guide/system-tables#data_access_audit), where compliance teams can investigate access patterns using standard SQL. They can also be exported to SIEM platforms, allowing existing security-monitoring and anomaly-detection rules to identify unusual access to sensitive data such as PII or PHI. Because the audit history is stored as an Iceberg table, the same retention and lifecycle policies used for your data can be applied to it as well.
 
 For teams governing large estates, resource-based policies (this catalog, this table, this column) are complemented by **tag-based policies**: apply a [classification tag](/user-guide/data-security/classifications) like `PII` or `PHI` to a column in the data catalog, and a [tag-based masking policy](/user-guide/data-security/tag-based-data-masking) covers it automatically, including columns created next quarter. We covered that model in depth in [Column-Level Data Masking at Scale](/blog/column-level-data-masking-scale).
 
@@ -164,7 +161,7 @@ If you're evaluating how runtime enforcement fits your PII/PHI requirements, [ge
   },
   {
     question: "Do masking policies work with Active Directory groups?",
-    answer: "Yes. IOMETE integrates with Active Directory over LDAP, so existing AD groups appear in the platform and can be referenced directly in masking and row-filter policy conditions. Group membership changes in AD flow through to enforcement without editing the policies themselves."
+    answer: "Yes. IOMETE syncs users and groups from your identity provider over LDAP or SCIM, so existing AD groups (or groups from an IdP like Okta) appear in the platform and can be referenced directly in masking and row-filter policy conditions. Membership changes flow through to enforcement without editing the policies themselves."
   },
   {
     question: "How fast do policy changes take effect?",
@@ -175,9 +172,8 @@ If you're evaluating how runtime enforcement fits your PII/PHI requirements, [ge
     answer: "Yes. IOMETE enforces masking, row-level security, column access denial, and audit logging entirely inside your own Kubernetes deployment, so the technical controls regulators ask for (and the evidence that they fired on real queries) are generated inside infrastructure you already govern, rather than at a vendor's control plane."
   },
   {
-    // NEEDS_ENGINEERING_INPUT: confirm the supported SIEM export mechanism (API pull, file export, or streaming) before publishing.
-    question: "Can IOMETE audit logs be exported to a SIEM?",
-    answer: "Yes. IOMETE records every enforcement decision at query time (the user, the resource, and the policy that fired) in queryable system tables inside your own infrastructure, and that stream is built to be pulled into your existing SIEM so data-access anomalies surface alongside the rest of your security alerts."
+    question: "How can I audit who accessed sensitive data?",
+    answer: "IOMETE records every access attempt, policy evaluation, and access decision at query time in the data_access_audit system table, inside your own infrastructure. Because it is a queryable Iceberg table, you can investigate access patterns with plain SQL or pull the records into your existing SIEM so data-access anomalies surface alongside the rest of your security alerts."
   },
   {
     question: "Is Apache Ranger required as a separate component?",
