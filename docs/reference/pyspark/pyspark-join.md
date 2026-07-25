@@ -15,8 +15,8 @@ Joins are fundamental operations for combining data from multiple sources. PySpa
 - outer joins (left, right, full)
 - left semi and, left anti join
 
-<Img src="/img/learn/pyspark/joins/all-joins.svg"
-     caption="Spark All Joins Types" padding="4px"
+<Img src="/img/learn/pyspark/joins/all-joins.png"
+     caption="Spark All Joins Types" padding="4px" maxWidth="500px"
      alt="Spark All Joins Types"/>
 
 
@@ -66,8 +66,8 @@ In an **Inner Join** between two DataFrames (let's call them A and B), the opera
 
 It's one of the most commonly used joins, allowing you to correlate related data across different sources.
 
-<Img src="/img/learn/pyspark/joins/inner-join.svg"
-     padding="4px"
+<Img src="/img/learn/pyspark/joins/inner-join.png"
+     padding="4px" maxWidth="500px"
      caption="Spark - Inner Join" alt="Spark - Inner Join"/>
 
 Let's use two simple tables to demonstrate how an INNER JOIN works:
@@ -170,8 +170,8 @@ As you've seen in the example, you cannot match `null` values with other null va
 
 A **Cross Join** in PySpark is a join operation that returns the Cartesian product of two DataFrames. In other words, it combines every row from the left DataFrame with every row from the right DataFrame, resulting in a large, unfiltered result.
 
-<Img src="/img/learn/pyspark/joins/cross-join.svg"
-     padding="4px"
+<Img src="/img/learn/pyspark/joins/cross-join.png"
+     padding="4px" maxWidth="500px"
      caption="Spark - Cross Join" alt="Spark - Cross Join"/>
 
 In a Cross Join:
@@ -268,8 +268,8 @@ The result of `df_cross_joined.show()` would include every possible combination 
 
 In a **Left Outer Join** (also called `Left Join`) between two DataFrames (let's call them A and B), the operation first finds all the rows from DataFrame A and then attempts to match each row from A with rows from B where the join condition is true.
 
-<Img src="/img/learn/pyspark/joins/left-join.svg"
-     padding="4px"
+<Img src="/img/learn/pyspark/joins/left-join.png"
+     padding="4px"  maxWidth="500px"
      caption="Spark - Left Outer Join" alt="Spark - Left Outer Join"/>
 
 In a Left Outer Join:
@@ -385,8 +385,8 @@ As you've seen in the example, null `dept_id` doesn't match `null` in the right 
 
 In a **Right Outer Join** (also called `Right Join`) between two DataFrames (let's call them A and B), the operation first finds all the rows from DataFrame B and then attempts to match each row from B with rows from A where the join condition is true.
 
-<Img src="/img/learn/pyspark/joins/right-join.svg"
-     padding="4px"
+<Img src="/img/learn/pyspark/joins/right-join.png"
+     padding="4px"  maxWidth="500px"
      caption="Spark - Right Outer Join" alt="Spark - Right Outer Join"/>
 
 In a Right Outer Join:
@@ -510,8 +510,8 @@ As you've seen in the example, null `dept_id` doesn't match `null` in the left D
 In a Full Outer Join (also known as a Full Join), the operation combines the results of both Left and Right Outer Joins. This join type merge rows from two DataFrames (let's call them A and B) based on a join condition. Unlike Left or Right Joins that prioritize one DataFrame, the Full Outer Join treats both sides equally.
 
 
-<Img src="/img/learn/pyspark/joins/full-join.svg"
-     padding="4px"
+<Img src="/img/learn/pyspark/joins/full-join.png"
+     padding="4px"  maxWidth="500px"
      caption="Spark - Full Outer Join" alt="Spark - Full Outer Join"/>
 
 
@@ -635,8 +635,8 @@ As you see in the example above, `null` values do not match with other `null` va
 ## **Left Semi Join**
 
 Left Semi Join in PySpark is an operation used to filter a DataFrame based on the keys present in another DataFrame. It's essentially a way to narrow down a dataset by keeping only the rows that have a corresponding match in another dataset.
-<Img src="/img/learn/pyspark/joins/left-semi-join.svg"
-     padding="4px"
+<Img src="/img/learn/pyspark/joins/left-semi-join.png"
+     padding="4px"  maxWidth="500px"
      caption="Spark - Left Semi Join" alt="Spark - Left Semi Join"/>
 
 In a Left Semi Join between two datasets (let's call them A and B), the join returns all the rows from the left dataset (A) that have a corresponding match in the right dataset (B). It's the opposite of a Left Anti Join, which returns rows that do not have a match.
@@ -765,8 +765,8 @@ As you've seen in the example, you cannot match `null` values with other null va
 
 Left Anti Join in PySpark is a powerful tool for finding non-matching records between two datasets.
 
-<Img src="/img/learn/pyspark/joins/left-anti-join.svg"
-     padding="4px"
+<Img src="/img/learn/pyspark/joins/left-anti-join.png"
+     padding="4px"  maxWidth="500px"
      caption="Spark - Left Anti Join" alt="Spark - Left Anti Join"/>
 
 Consider two datasets (let's call them A and B). The join returns all the rows from the left dataset (A) that do not have a match in the right dataset (B).
