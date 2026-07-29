@@ -18,6 +18,8 @@ import Img from '@site/src/components/Img';
 
 Kubernetes Gateway API is the next-generation standard for managing ingress traffic in Kubernetes clusters. It's designed to replace traditional Ingress resources with a more powerful, flexible, and vendor-neutral approach. In this documentation, we show how you can use K8S Gateway API as your gateway architecture and connect your system to IOMETE running on your own Kubernetes cluster.
 
+<!-- truncate -->
+
 ---
 
 ## Architecture
