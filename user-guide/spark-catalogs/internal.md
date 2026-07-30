@@ -215,6 +215,32 @@ When enabling case-insensitive identifiers, also configure the client-side cache
 
 ---
 
+## Unique Table Locations
+
+IOMETE gives each Iceberg table its own unique storage directory, so that renaming a table and later recreating one with the same name cannot resolve to the same physical path.
+
+By default, a table's location is derived from its name (`warehouse/namespace/table`). Because renaming a table only updates the catalog pointer and leaves its files in place, recreating a table with the old name would otherwise land in the same directory as the renamed table. Two tables then share one directory, and running [`remove_orphan_files`](/reference/iceberg-tables/maintenance#delete-orphan-files) on one deletes the other's data. This feature appends a short random suffix to the derived path (e.g. `.../sales-9f3a1c7e`) to keep every table in its own directory.
+
+This is a platform-level setting configured via Helm values:
+
+```yaml
+# Helm values
+features:
+  enforceUniqueIcebergTableLocations:
+    enabled: true  # default
+```
+
+When enabled:
+- A table created **without** an explicit `LOCATION` gets a unique-suffixed directory
+- Renaming a table and recreating one with the old name resolve to different directories
+- Tables created **with** an explicit `LOCATION` are unaffected — the given location is used verbatim
+
+:::warning
+Disabling this restores the legacy `warehouse/namespace/table` paths, where a rename followed by recreating a table with the old name share one directory. Running `remove_orphan_files` on either table can then delete the other's data.
+:::
+
+---
+
 ## Operational Settings
 
 ### Overload Protection
