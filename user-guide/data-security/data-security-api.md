@@ -1,7 +1,10 @@
 ---
 title: Data Security API
 sidebar_label: Data Security API
-description: Data Security API allows developers to manage data access, masking, and filtering efficiently.
+description: Manage IOMETE access, masking, filtering and tag-based policies programmatically. Covers endpoints, request bodies, the required admin role and error handling.
+last_update:
+  date: 07/30/2026
+  author: Mateus Aubin
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
