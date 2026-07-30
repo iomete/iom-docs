@@ -204,7 +204,7 @@ curl -X PUT https://example.com/api/v1/admin/data-security/access/policy/123 \
 
 ## Other Features
 
-The same authentication, admin role and error handling rules apply to the other data security APIs. Each one follows the request and response shape shown above, so the sections below list only the base endpoint and point to the corresponding console documentation.
+The same authentication, admin role and error handling rules apply to the other data security APIs. Each policy type has its own request and response format, so the sections below list only the base endpoint and point to the corresponding console documentation.
 
 ### Data Masking API
 
