@@ -31,7 +31,7 @@ These driver sizes assume that the driver only coordinates the work while the ex
 - Broadcasts a table larger than 100 MB in a join.
 - Runs PySpark. Your Python code runs outside the Java heap, so IOMETE reserves 40% of the driver's memory for it instead of the usual 10%.
 
-There is a limit worth knowing about before you go too far down this path: whatever node type you select, a single action can never return more than 2 GB of results to the driver. If your job genuinely needs more, raise `spark.driver.maxResultSize` in its Spark configuration, or write the results to a table and read them back from there.
+There is a limit worth knowing about before you go too far down this path: a single action returns at most 2 GB of results to the driver by default, whatever node type you select, because `spark.driver.maxResultSize` is set to `2048m`. If your job genuinely needs more, raise that property in its Spark configuration, or write the results to a table and read them back from there.
 
 ## Sizing a Compute Cluster
 
@@ -65,9 +65,11 @@ Which one suits you depends on how your users work. Scale out when they run long
 
 ## If the Driver Is Killed Without an OutOfMemoryError
 
-Occasionally Kubernetes kills a driver pod even though the logs contain no `OutOfMemoryError`. When that happens, the driver has run out of the memory that sits outside the Java heap, and moving to a larger node type rarely helps, because IOMETE splits memory between heap and overhead in the same proportion at every size.
+Occasionally Kubernetes kills a driver pod even though the logs contain no `OutOfMemoryError`. First confirm what happened: a pod terminated with reason `OOMKilled` ran out of the memory that sits outside the Java heap, whereas an evicted pod, a failed health check or a lost node all end a driver too and need different fixes.
 
-What helps is changing that proportion. Setting `spark.driver.memoryOverheadFactor` to `0.2` doubles the overhead memory without making the pod any larger, which is usually enough to keep the driver alive. Test the change against your own workload before you apply it more widely, and see [Internal Implementation](./internal-implementation) if you want to follow the calculation yourself.
+Once you have confirmed an `OOMKilled` termination, you have two options. A larger node type gives the driver more overhead memory in absolute terms, since IOMETE keeps the same proportion at every size. If that is more memory than the workload needs elsewhere, change the proportion instead: raising `spark.driver.memoryOverheadFactor` from `0.1` to `0.2` takes overhead from about 9% to about 17% of the pod, without making the pod any larger.
+
+That applies to drivers running on the JVM, which includes every compute cluster and any Scala or Java job. A PySpark job already runs at `0.4`, so setting `0.2` there would *reduce* its overhead and make the problem worse. Test the change against your own workload before you apply it more widely, and see [Internal Implementation](./internal-implementation) if you want to follow the calculation yourself.
 
 ## Executor Sizing
 
@@ -77,9 +79,9 @@ The tables above give you a starting point for each workload. When a workload ne
 
 Suppose a workload needs 20 CPUs in total. You can reach that with ten executors of 2 CPUs each, or with two executors of 10 CPUs each. The totals match, but the two configurations do not behave the same way.
 
-Every executor is a separate pod with its own JVM and its own overhead memory, and it holds its own copy of every table that Spark broadcasts to it. Ten executors therefore mean ten JVMs to start, ten slices of overhead memory taken out of your quota and ten copies of that broadcast table, while Kubernetes has ten pods to schedule and monitor rather than two. Work that stays inside one large executor also stays in memory, whereas the same work spread across many small ones has to cross the network as shuffle traffic.
+Every executor is a separate pod with its own JVM and its own overhead memory, and it holds its own copy of every table that Spark broadcasts to it. Ten executors therefore mean ten JVMs to start, ten slices of overhead memory taken out of your quota and ten copies of that broadcast table, while Kubernetes has ten pods to schedule and monitor rather than two. Fewer, larger executors also keep more of a shuffle's data on the machine that produced it, which cuts the volume crossing the network.
 
-Larger executors handle larger partitions as well, so a job that runs out of memory on a small executor often completes on a bigger one without you having to repartition anything.
+What larger executors do not give you is more memory per task. The recommended ratio scales CPU and memory together, so each concurrent task ends up with roughly the same memory whichever size you pick. A partition too large for a small executor stays too large for a big one, and the fix for that is repartitioning, not a bigger node type.
 
 ### Where the Ceiling Comes From
 
@@ -93,11 +95,11 @@ Allocate around **8 GB of memory per CPU**, which is where the 16-CPU and 128 GB
 
 ### Executor Count and Autoscaling
 
-The Executors column in the tables above is a ceiling rather than a fixed count, because both types of workload add and remove executors on their own.
+The Executors column in the tables above is a ceiling rather than a fixed count, because both types of workload add and remove executors as the work demands.
 
-A Spark job starts with a single executor and adds more as the work demands, up to the number you set, then releases any executor that has been idle for two minutes. Setting a generous maximum therefore costs you nothing on the runs that do not need it.
+A Spark job starts with a single executor and adds more as it needs them, up to the number you set, then releases any executor that has been idle for two minutes. Setting a generous maximum therefore costs you nothing on the runs that do not need it.
 
-A compute cluster scales between the minimum and maximum number of executors you configure and releases idle executors after ten minutes by default. Keep the minimum low enough that a quiet cluster is cheap to leave running, and the maximum high enough to absorb your busiest period.
+A compute cluster with auto scaling enabled, which is the default for multi-node clusters, scales between the minimum and maximum number of executors you configure. Executors scale back down to your minimum after the cluster sits idle for the configured period, 30 minutes by default. Keep the minimum low enough that a quiet cluster is cheap to leave running, and the maximum high enough to absorb your busiest period. See [Creating Clusters](../compute-clusters/creating-clusters.md) for the full range of idle timeout options and how to turn auto scaling off.
 
 :::note  Flowchart: Choosing Executor Size and Number
 
