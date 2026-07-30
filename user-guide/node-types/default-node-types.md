@@ -47,9 +47,9 @@ GCP defaults map to specific machine types. Values reflect allocatable resources
 | driver-medium | Driver | ~4 vCPU | ~24 GiB | e2-highmem-4 (4vCPU/32GB) |
 | driver-large | Driver | ~8 vCPU | ~54 GiB | e2-highmem-8 (8vCPU/64GB) |
 | driver-x-large | Driver | ~16 vCPU | ~115 GiB | e2-highmem-16 (16vCPU/128GB) |
-| executor-small | Executor | ~2 vCPU | ~9 GiB | c2d-highmem-2 (2vCPU/16GB/375GB SSD) |
-| executor-medium | Executor | ~4 vCPU | ~24 GiB | c2d-highmem-4 (4vCPU/32GB/375GB SSD) |
-| executor-large | Executor | ~8 vCPU | ~54 GiB | c2d-highmem-8 (8vCPU/64GB/700GB SSD) |
+| exec-small | Executor | ~2 vCPU | ~9 GiB | c2d-highmem-2 (2vCPU/16GB/375GB SSD) |
+| exec-medium | Executor | ~4 vCPU | ~24 GiB | c2d-highmem-4 (4vCPU/32GB/375GB SSD) |
+| exec-large | Executor | ~8 vCPU | ~54 GiB | c2d-highmem-8 (8vCPU/64GB/700GB SSD) |
 
 ## Azure
 
