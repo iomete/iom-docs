@@ -103,15 +103,14 @@ A compute cluster scales between the minimum and maximum number of executors you
 
 ```mermaid
 graph TD
-  A[Start] --> B{Is executor size <br> 16 CPUs and 128 GB?}
-  B -->|No| C[Increase executor size]
-  C --> B
-  B -->|Yes| D{Need more <br> resources?}
-  D -->|Yes| E[Increase number <br> of executors]
-  D -->|No| F[Optimal configuration <br> reached]
-  E --> J[Monitor and adjust <br> as needed]
-  J --> D
-  F --> K[End]
+  A[Start from the table <br> for your workload] --> B{Need more <br> capacity?}
+  B -->|No| C[Configuration <br> is right]
+  B -->|Yes| D{Executor below <br> 16 CPUs and 128 GB?}
+  D -->|Yes| E[Increase executor size]
+  D -->|No| F[Add more executors]
+  E --> G[Monitor and adjust <br> as needed]
+  F --> G
+  G --> B
 ```
 :::
 
