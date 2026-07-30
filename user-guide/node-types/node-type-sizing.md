@@ -41,7 +41,7 @@ A compute cluster works the other way around. Its driver runs as a SQL server th
 | --- | --- | --- | --- | --- |
 | Small | Up to 10 | 2 vCPU / 16 GiB | 2 vCPU / 16 GiB | 2 |
 | Medium | 10 to 30 | 4 vCPU / 32 GiB | 8 vCPU / 64 GiB | 2-4 |
-| Large | Over 30 | [See below](#supporting-more-than-30-concurrent-users) | 16 vCPU / 128 GiB | 4-8 |
+| Large | Over 30 | 8 vCPU / 64 GiB, or [more clusters](#supporting-more-than-30-concurrent-users) | 16 vCPU / 128 GiB | 4-8 |
 
 As with a Spark job, move one row further down the driver column when something asks more of the driver than coordination alone. On a compute cluster, that usually means one of two things:
 
@@ -58,7 +58,7 @@ What stays behind is the state that each connection keeps alive for as long as i
 
 Once you pass roughly 30 concurrent users, a single driver of the sizes listed above starts to struggle, and you have two ways to go from there:
 
-- **Scale up**: ask your administrator to create a driver node type with 8 vCPU / 64 GiB. You keep a single cluster to manage, but a larger Java heap leads to longer garbage collection pauses.
+- **Scale up**: move the driver to 8 vCPU / 64 GiB. You keep a single cluster to manage, but a larger Java heap leads to longer garbage collection pauses.
 - **Scale out**: create a second compute cluster and split users between them. You have more clusters to manage, but each driver stays small and one heavy user no longer slows everyone else down.
 
 Which one suits you depends on how your users work. Scale out when they run long, heavy queries that would otherwise queue behind each other, and scale up when they run many short ones.

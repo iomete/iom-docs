@@ -3,7 +3,7 @@ title: SDK Usage for Spark Jobs
 sidebar_label: IOMETE SDK
 description: Manage Spark Jobs programmatically with IOMETE's Python SDK — create, update, delete, run, and monitor jobs via Python or cURL.
 last_update:
-  date: 03/17/2026
+  date: 07/29/2026
   author: Abhishek Pathania
 ---
 
@@ -72,8 +72,8 @@ job_payload = {
         "image": "iomete/spark-py:3.5.3-v1",
         "mainApplicationFile": "path/to/job.py",
         "instanceConfig": {
-            "driverType": "driver-x-small",
-            "executorType": "exec-x-small",
+            "driverType": "driver-small",
+            "executorType": "exec-small",
             "executorCount": 1
         }
     }
@@ -99,8 +99,8 @@ curl -X POST 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/s
         "image": "iomete/spark-py:3.5.3-v1",
         "mainApplicationFile": "path/to/job.py",
         "instanceConfig": {
-            "driverType": "driver-x-small",
-            "executorType": "exec-x-small",
+            "driverType": "driver-small",
+            "executorType": "exec-small",
             "executorCount": 1
         }
     }
@@ -185,8 +185,8 @@ curl -X PUT 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/sp
         "image": "iomete/spark-py:3.5.3-v1",
         "mainApplicationFile": "path/to/job.py",
         "instanceConfig": {
-            "driverType": "driver-x-small",
-            "executorType": "exec-x-small",
+            "driverType": "driver-small",
+            "executorType": "exec-small",
             "executorCount": 1
         }
     }
