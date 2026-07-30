@@ -28,7 +28,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Domain-Scoped Volume & Node Type APIs**: The domain-scoped `GET` endpoints for volumes and node types are now documented in the OpenAPI spec. The API allows non-admin users with access to a domain to list and view node types and volumes without needing an admin role.
     - **Scoped Service Account Selection**: The "Run as user" dropdown now shows service accounts the current user can manage instead of every service account in the domain.
     - **Comprehensive API Audit Logging**: All API requests are now logged to `platform_event_logs`, capturing user, timestamp, path, HTTP method, and success status. Health, metrics, and internal service-check endpoints are excluded.
-    - **Vault Secret Caching**: Increased the default cache TTL for Vault authentication tokens from 30 seconds to 60 seconds. IOMETE re-authenticates to the configured Vault server less often when resolving secrets, reducing auth token generation load, with no change to secret-resolution behavior.
+    - **Vault Auth Token Caching**: Increased the default cache TTL for Vault authentication tokens from 30 seconds to 60 seconds. IOMETE re-authenticates to the configured Vault server less often when resolving secrets, reducing auth token generation load, with no change to secret-resolution behavior.
   </Improvements>
 
   <BugFixes>
