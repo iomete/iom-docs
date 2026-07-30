@@ -189,7 +189,7 @@ These flags toggle features without adding or removing services:
 | `caseInsensitiveIcebergIdentifiers` | Iceberg table/database names are case-insensitive | `false` |
 | `iometeSparkLivenessProbe` | Additional liveness probe on Spark driver pods | `true` |
 | `icebergRestCatalogStrictMode` | Database must exist before creating tables | `false` |
-| `enforceUniqueIcebergTableLocations` | Each Iceberg table gets a unique storage directory, so a rename + recreate of the same name can't collide and let `remove_orphan_files` delete a live table's data | `true` |
+| `enforceUniqueIcebergTableLocations` | Tables created without an explicit `LOCATION` get a unique storage directory, so a rename + recreate of the same name can't collide and let `remove_orphan_files` delete a live table's data (tables created with an explicit `LOCATION` are unaffected) | `true` |
 | `priorityClasses` | Spark workloads use PriorityClasses | `false` |
 | `emailNotifications` | Email notifications available | `true` |
 | `sparkJobArchival` | Archival of Spark job history | `false` |
