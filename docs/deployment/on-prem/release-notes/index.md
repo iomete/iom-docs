@@ -18,6 +18,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="3.18.0" date="TBD">
   <NewFeatures>
     - **Read-Only Admin Role**: Added a new `READ_ONLY_ADMIN` role that grants read-only (GET) access to all admin APIs without any write access. This enables governance and self-serve tooling to read admin endpoints without granting the write permissions that existing admin roles carry.
+    - **Create Resource Bundle Role**: Added a new Create resource bundle permission to domain scoped roles. This defines who can create a resource bundle within the domain.
   </NewFeatures>
 
   <Improvements>
