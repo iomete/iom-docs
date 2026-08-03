@@ -1,0 +1,15 @@
+name: Repo maintenance
+
+on:
+  schedule:
+    - cron: '30 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  stale:
+    uses: iomete/infra/.github/workflows/repo-maintenance.yml@main
