@@ -30,7 +30,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Scoped Service Account Selection**: The "Run as user" dropdown now shows service accounts the current user can manage instead of every service account in the domain.
     - **Comprehensive API Audit Logging**: All API requests are now logged to `platform_event_logs`, capturing user, timestamp, path, HTTP method, and success status. Health, metrics, and internal service-check endpoints are excluded.
     - **Vault Authentication Token Caching**: Increased the default cache TTL for Vault authentication tokens from 30 seconds to 60 seconds. IOMETE re-authenticates to the configured Vault server less often when resolving secrets, reducing auth token generation load, with no change to secret-resolution behavior.
-    - **Metastore Image Security Updates**: Patched critical and high-severity CVEs in the Hive Metastore image (`7.1.1` to `7.1.3`) through targeted dependency swaps and removal of unused metastore dependencies. Hive 4.0.0 and Hadoop 3.4.2 are unchanged, metastore behavior is unchanged, and no metastore database migration is required.
+    - **Metastore Image**: Patched critical and high-severity CVEs in the Hive Metastore image through targeted dependency swaps and removal of unused metastore dependencies. The image is now published for both `linux/amd64` and `linux/arm64`, in line with the rest of the platform. Hive and Hadoop versions are unchanged, metastore behavior is unchanged, and no metastore database migration is required.
   </Improvements>
 
   <BugFixes>
