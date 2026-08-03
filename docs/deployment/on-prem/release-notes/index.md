@@ -30,7 +30,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Scoped Service Account Selection**: The "Run as user" dropdown now shows service accounts the current user can manage instead of every service account in the domain.
     - **Comprehensive API Audit Logging**: All API requests are now logged to `platform_event_logs`, capturing user, timestamp, path, HTTP method, and success status. Health, metrics, and internal service-check endpoints are excluded.
     - **Vault Authentication Token Caching**: Increased the default cache TTL for Vault authentication tokens from 30 seconds to 60 seconds. IOMETE re-authenticates to the configured Vault server less often when resolving secrets, reducing auth token generation load, with no change to secret-resolution behavior.
-    - **Metastore Image**: Patched critical and high-severity CVEs in the Hive Metastore image through targeted dependency swaps and removal of unused metastore dependencies. The image is now published for both `linux/amd64` and `linux/arm64`, in line with the rest of the platform. Hive and Hadoop versions are unchanged, metastore behavior is unchanged, and no metastore database migration is required.
+    - **Reduced Job Orchestrator DB Load**: Reduced job orchestrator database storage and write load by disabling unused internal background services.
+    - **Platform Security Updates**
+      - **Metastore Image**: Patched critical and high-severity CVEs in the Hive Metastore image through targeted dependency swaps and removal of unused metastore dependencies. The image is now published for both `linux/amd64` and `linux/arm64`, in line with the rest of the platform. Hive and Hadoop versions are unchanged, metastore behavior is unchanged, and no metastore database migration is required.
+      - **Job Orchestrator Image**: Patched remaining critical and high-severity CVEs in the job orchestrator images, including closing an unauthenticated WebSocket event-ingestion endpoint. The base image was also migrated to remove the affected OS packages entirely, with no change to job orchestrator behavior.
   </Improvements>
 
   <BugFixes>
@@ -41,8 +44,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark Executor Count Tracking**: On long-running apps that cycled through more than 10,000 executors, the UI running-executor count could stall or drop to zero as executors were replaced. Executor state is now tracked with LRU eviction so live executors stay visible past the limit.
     - **Splunk Log Fetching**: Fixed an issue introduced in `v3.17.0` where the Logs tab for a terminated Spark driver returned only a few lines instead of the full log, with the count varying between refreshes. Log pagination on Splunk-backed deployments now returns complete logs. Only deployments using Splunk as the log store were affected.
     - **Spark Applications**:
-      - **Job Notifications**: Fixed a bug introduced in `v3.17.0` that silently blocked completion, failure, and abort notifications for scheduled Spark jobs. Manual runs were unaffected.
-      - **Runs Listing**: Fixed an issue where the Spark app run listing and timeline views did not correctly filter results for users with no job access, showing all runs instead of none. Only the runs listing was affected, job and run specific operations were not impacted.
+      - **Runs Listing**: Fixed a data security issue where users with no access to any Spark job could see all runs in the run listing and timeline views instead of none. Opening a specific job or run still correctly enforced authorization, only the listing views were affected.
+      - **Duplicate Job**: Fixed a `Not found` error when duplicating a Spark job from the Spark Applications page. Duplicating now opens the job template create page correctly, matching the existing behavior when duplicating from the Job Templates tab.
   </BugFixes>
 </Release>
 
