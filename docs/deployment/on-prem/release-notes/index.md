@@ -48,6 +48,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark Applications**:
       - **Runs Listing**: Fixed a data security issue where users with no access to any Spark job could see all runs in the run listing and timeline views instead of none. Opening a specific job or run still correctly enforced authorization, only the listing views were affected.
       - **Duplicate Job**: Fixed a `Not found` error when duplicating a Spark job from the Spark Applications page. Duplicating now opens the job template create page correctly, matching the existing behavior when duplicating from the Job Templates tab.
+    - **Query Monitoring**: Fixed a `timezone mismatch` in the query list. `Start` time and `End` time columns now display in your local timezone, matching the query detail page (previously shown in UTC).
   </BugFixes>
 </Release>
 
@@ -66,6 +67,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Table Sorting**: Fixed table sorting in Database Explorer, which broke in `v3.17.0`. Catalogs and databases sorted correctly, but tables did not. Tables now sort alphabetically by name.
 
     <Img src="/img/database-explorer/table-sorting.png" alt="Tables Sorted" centered style={{ marginTop: "16px" }} />
+
   </BugFixes>
 </Release>
 
