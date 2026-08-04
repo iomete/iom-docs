@@ -31,7 +31,7 @@ These driver sizes assume that the driver only coordinates the work while the ex
 - Broadcasts a table larger than 100 MB in a join.
 - Runs PySpark. Your Python code runs outside the Java heap, so IOMETE reserves 40% of the driver's memory for it instead of the usual 10%.
 
-There is a limit worth knowing about before you go too far down this path: a single action returns at most 2 GB of results to the driver by default, whatever node type you select, because `spark.driver.maxResultSize` is set to `2048m`. If your job genuinely needs more, raise that property in its Spark configuration, or write the results to a table and read them back from there.
+There is a limit worth knowing about before you go too far down this path: a single action returns at most 2 GiB of results to the driver by default, whatever node type you select, because `spark.driver.maxResultSize` is set to `2048m`. If your job genuinely needs more, raise that property in its Spark configuration, or write the results to a table and read them back from there.
 
 ## Sizing a Compute Cluster
 
@@ -73,7 +73,7 @@ That applies to drivers running on the JVM, which includes every compute cluster
 
 ## Executor Sizing
 
-The tables above give you a starting point for each workload. When a workload needs more capacity than that, increase the size of each executor before you increase their number, up to a ceiling of **16 CPUs and 128 GB of memory** per executor.
+The tables above give you a starting point for each workload. When a workload needs more capacity than that, increase the size of each executor before you increase their number, up to a ceiling of **16 CPUs and 128 GiB of memory** per executor.
 
 ### Why Larger Executors Work Better
 
@@ -85,13 +85,13 @@ What larger executors do not give you is more memory per task. The recommended r
 
 ### Where the Ceiling Comes From
 
-Two things put the ceiling at 16 CPUs and 128 GB. The first is the JVM: garbage collection pauses grow along with the heap, and a very large heap eventually spends enough time collecting to cancel out the capacity you added.
+Two things put the ceiling at 16 CPUs and 128 GiB. The first is the JVM: garbage collection pauses grow along with the heap, and a very large heap eventually spends enough time collecting to cancel out the capacity you added.
 
 The second is what happens inside the executor. IOMETE multiplies the vCPU count by a core factor of 1.5, so a 16-CPU executor already runs 24 Spark tasks at the same time (see [Internal Implementation](./internal-implementation) for the calculation). Those tasks share the executor's memory and local disk, and beyond this point they spend more time competing with each other than the extra CPUs give back. An executor also has to fit on a single machine, so the largest one you can actually run is limited by the largest node in your Kubernetes cluster.
 
 ### CPU to Memory Ratio
 
-Allocate around **8 GB of memory per CPU**, which is where the 16-CPU and 128 GB pairing comes from and what the default executor node types follow. Adjust the ratio when your workload leans one way or the other: computation-heavy work over relatively little data runs happily at 1 CPU : 4 GB, while wide joins, large aggregations and anything that caches data benefits from 1 : 8 or more.
+Allocate around **8 GiB of memory per CPU**, which is where the 16-CPU and 128 GiB pairing comes from and what the default executor node types follow. Adjust the ratio when your workload leans one way or the other: computation-heavy work over relatively little data runs happily at 1 CPU : 4 GiB, while wide joins, large aggregations and anything that caches data benefits from 1 : 8 or more.
 
 ### Executor Count and Autoscaling
 
@@ -107,7 +107,7 @@ A compute cluster with auto scaling enabled, which is the default for multi-node
 graph TD
   A[Start from the table <br> for your workload] --> B{Need more <br> capacity?}
   B -->|No| C[Configuration <br> is right]
-  B -->|Yes| D{Executor below <br> 16 CPUs and 128 GB?}
+  B -->|Yes| D{Executor below <br> 16 CPUs and 128 GiB?}
   D -->|Yes| E[Increase executor size]
   D -->|No| F[Add more executors]
   E --> G[Monitor and adjust <br> as needed]
@@ -121,6 +121,6 @@ graph TD
 If you take away four things from this guide, take these:
 
 - Size a Spark job driver by the data it processes, and a compute cluster driver by the number of people querying at once.
-- Grow each executor before you add more of them, and stop at 16 CPUs and 128 GB of memory.
-- Keep roughly 8 GB of memory per CPU, adjusting the ratio to suit the workload.
+- Grow each executor before you add more of them, and stop at 16 CPUs and 128 GiB of memory.
+- Keep roughly 8 GiB of memory per CPU, adjusting the ratio to suit the workload.
 - Treat every size here as a starting point, and revisit it as your data volume, user count and query patterns change.
