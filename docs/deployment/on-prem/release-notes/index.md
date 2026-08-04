@@ -37,6 +37,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Platform Security Updates**
       - **Metastore Image**: Patched critical and high-severity CVEs in the Hive Metastore image through targeted dependency swaps and removal of unused metastore dependencies. The image is now published for both `linux/amd64` and `linux/arm64`, in line with the rest of the platform. Hive and Hadoop versions are unchanged, metastore behavior is unchanged, and no metastore database migration is required.
       - **Job Orchestrator Image**: Patched remaining critical and high-severity CVEs in the job orchestrator images, including closing an unauthenticated WebSocket event-ingestion endpoint. The base image was also migrated to remove the affected OS packages entirely, with no change to job orchestrator behavior.
+      - **Increased Retry Limit**: Updated SparkApplication CRD `RestartPolicy.onFailureRetries` to `1000` to ensure automatic recovery from OOM kills without manual pod restarts.  
+      - **Executor Failure Window**: Configured `spark.executor.failuresValidityInterval=12h` to allow long-running analytical queries (several hours) enough time to fail and retry while clearing failure counts over a daily cycle.
   </Improvements>
 
   <BugFixes>
