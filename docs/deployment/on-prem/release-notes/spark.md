@@ -74,11 +74,11 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
   </ReleaseDescription>
 
   <Improvements>
-    - **Configurable Catalog Sync Interval**: The catalog auto-sync interval is now configurable (default 10s), so it can be widened on busy clusters.
-    - **Compute Driver Socket Exhaustion Detection**: A new driver health check detects ephemeral-port / socket exhaustion and reports the cluster unhealthy, so a stuck driver is restarted automatically instead of silently failing queries.
+    - **Configurable Catalog Sync Interval**: Compute clusters refreshed their catalog configuration on a fixed 10-second tick. The interval is now configurable with `spark.iomete.catalogUpdates.interval`, so deployments with many catalogs or an external REST catalog can widen it. Stop the cluster, then add it under **Spark config** on the [Configurations tab](/user-guide/compute-clusters/creating-clusters#configurations-tab), or use [Global Spark Settings](/user-guide/global-spark-settings) to cover every cluster. Values accept ISO-8601 or short forms (`PT5M`, `1m`, `30s`) and default to 10 seconds; values below the 5-second floor are raised to it with a warning.
+    - **Compute Driver Socket Exhaustion Detection**: A new driver health check samples the driver's ephemeral TCP port usage, logs a warning at 85% and reports the cluster unhealthy at 95%, so the Spark liveness probe restarts a stuck driver automatically instead of leaving it to silently fail queries. The check runs only on the driver and is enabled by default, with the same `spark.iomete.healthChecks.ephemeralPorts.` keys and defaults listed under 3.5.7-v4 above.
   </Improvements>
 
   <BugFixes>
-    - **External Catalog Connection Leak**: Per-session Iceberg REST catalogs were not released when a session ended, so long-running compute clusters could exhaust ephemeral ports and stop servicing queries (`BindException`). Catalogs are now closed across all session paths — Arrow Flight, Thrift `closeSession`, and Spark Connect session expiry — and when a catalog is dropped by auto-sync.
+    - **External Catalog Connection Leak**: Per-session Iceberg REST catalogs were not released when a session ended, so long-running compute clusters could exhaust ephemeral ports and stop servicing queries with `BindException: Cannot assign requested address`, recoverable only by restarting the cluster. Catalogs are now closed across all session paths — Arrow Flight, Thrift `closeSession`, and Spark Connect session expiry — and when a catalog is dropped by auto-sync.
   </BugFixes>
 </Release>
