@@ -4,7 +4,7 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 07/03/2026
+  date: 08/05/2026
   author: Maksym
 ---
 
@@ -15,7 +15,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="3.18.0" date="TBD">
+<Release version="3.18.0" date="August 5th, 2026">
   <NewFeatures>
     - **Read-Only Admin Role**: Added a new `READ_ONLY_ADMIN` role that grants read-only (GET) access to all admin APIs without any write access. This enables governance and self-serve tooling to read admin endpoints without granting the write permissions that existing admin roles carry.
     - **Create Resource Bundle Role**: Added a new Create resource bundle permission to domain scoped roles. This defines who can create a resource bundle within the domain.
