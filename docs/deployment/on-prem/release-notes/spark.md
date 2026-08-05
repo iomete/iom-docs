@@ -14,7 +14,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 IOMETE Spark images ship on their own cadence, independent of platform releases. This page tracks changes between Spark image versions.
 
-<Release name="Spark" version="3.5.7-v4" date="August 3, 2026">
+<Release name="Spark" version="3.5.7-v4" date="August 5, 2026">
   <ReleaseDescription>
     A maintenance and hardening release: catalog session-lifecycle fixes, finer-grained authorization, and a broad round of security patches across bundled dependencies.
   </ReleaseDescription>
