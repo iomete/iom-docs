@@ -22,14 +22,14 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
   <Improvements>
     - **Column-level authorization**: Source columns referenced in expressions and predicates are now authorized, closing a gap in column-level access control.
     - **Iceberg branch/tag authorization**: Branch and tag operations are now authorized against the base table.
-    - **Configurable catalog auto-sync interval**: The catalog auto-sync interval is now configurable.
-    - **Ephemeral-port exhaustion health check**: New driver health check that detects ephemeral-port exhaustion.
+    - **Configurable catalog auto-sync interval**: The catalog auto-sync interval is now configurable (default 10s), so it can be widened on busy clusters.
+    - **Ephemeral-port exhaustion health check**: A new driver health check detects ephemeral-port / socket exhaustion and reports the cluster unhealthy, so a stuck driver is restarted automatically instead of silently failing queries.
     - **Iceberg runtime**: Upgraded to Iceberg `1.9.0-iomete-4`, which restores `iceberg-build.properties` in the published jars.
     - **Security updates**: Patched multiple bundled dependencies — log4j `2.25.4` (CVE-2026-34480, CVE-2026-34481), Netty `4.1.135.Final` (fixes 11 CVEs), Parquet `1.15.2` (CVE-2025-46762), GCS connector `4.0.4` (CVE-2024-7254), jetty-util `9.4.58.v20250814`, MySQL Connector/J `8.2.0` (CVE-2023-22102), and MSSQL/PostgreSQL JDBC drivers (CVE-2025-59250, CVE-2026-42198). The bundled `iceberg-aws-bundle` was also updated to drop a shaded log4j `2.20.0`.
   </Improvements>
 
   <BugFixes>
-    - Fixed per-session Iceberg catalog leaks: catalogs are now closed on Thrift `closeSession`, on Spark Connect session expiry, and when dropped by catalog auto-sync — preventing metadata and connection leaks in long-running sessions.
+    - **Catalog connection leak (port exhaustion)**: Per-session Iceberg REST catalogs were not released when a session ended, so long-running compute clusters could exhaust ephemeral ports and stop servicing queries (`BindException`). Catalogs are now closed across all session paths — Arrow Flight, Thrift `closeSession`, and Spark Connect session expiry — and when a catalog is dropped by auto-sync.
   </BugFixes>
 </Release>
 
