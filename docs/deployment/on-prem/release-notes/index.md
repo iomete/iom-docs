@@ -4,7 +4,7 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 07/10/2026
+  date: 07/03/2026
   author: Maksym
 ---
 
@@ -14,6 +14,50 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="3.18.0" date="TBD">
+  <NewFeatures>
+    - **Read-Only Admin Role**: Added a new `READ_ONLY_ADMIN` role that grants read-only (GET) access to all admin APIs without any write access. This enables governance and self-serve tooling to read admin endpoints without granting the write permissions that existing admin roles carry.
+    - **Create Resource Bundle Role**: Added a new Create resource bundle permission to domain scoped roles. This defines who can create a resource bundle within the domain.
+  </NewFeatures>
+
+  <Improvements>
+    - **Gateway Rate Limiting**: Added an optional Nginx-level rate limit on the gateway. Each authenticated client gets its own budget, falling back to client IP for unauthenticated requests. Disabled by default and configurable via `services.gateway.rateLimit` Helm values. Note that the limit is enforced per gateway pod, not shared across replicas.
+    - **Gateway Logging Controls**: Added Helm values for `iom-gateway` Nginx logging to make it easier to configure and reduce log volume. You can now:
+      - Set `services.gateway.logging.errorLogLevel` to control gateway error log severity. Default changed from `debug` to `error`.
+      - Set `services.gateway.logging.accessLog.enabled: false` to disable per-request access logs.
+    - **Domain-Scoped Volume & Node Type APIs**: The domain-scoped `GET` endpoints for volumes and node types are now documented in the OpenAPI spec. The API allows non-admin users with access to a domain to list and view node types and volumes without needing an admin role.
+    - **Scoped Service Account Selection**: The "Run as user" dropdown now shows service accounts the current user can manage instead of every service account in the domain.
+    - **Spark Application and Job Template Details**: Added **Last updated by** and **Last updated at** fields to Spark application and job template details, making it easier to see who most recently changed them and when.
+    - **Docker Registry Editing**: Added the ability to edit existing Docker registries from the admin Docker settings page. Users can update the registry host, username, and password while name and Kubernetes namespace remain read-only.
+    - **Comprehensive API Audit Logging**: All API requests are now logged to `platform_event_logs`, capturing user, timestamp, path, HTTP method, and success status. Health, metrics, and internal service-check endpoints are excluded.
+    - **Vault Authentication Token Caching**: Increased the default cache TTL for Vault authentication tokens from 30 seconds to 60 seconds. IOMETE re-authenticates to the configured Vault server less often when resolving secrets, reducing auth token generation load, with no change to secret-resolution behavior.
+    - **Reduced Job Orchestrator DB Load**: Reduced job orchestrator database storage and write load by disabling unused internal background services.
+    - **Compute Driver Socket Exhaustion Detection**: Added a driver health check that reports a compute cluster unhealthy when its ephemeral TCP port usage approaches exhaustion. Previously a driver that could no longer open sockets kept reporting healthy while every query failed, and the cluster stayed dead until someone restarted it manually. The driver now logs a warning at 85% port usage and turns unhealthy at 95%, so the existing Kubernetes liveness probe restarts it automatically. The check is enabled by default, with thresholds and interval configurable under `spark.iomete.healthChecks.ephemeralPorts`. Automatic restart relies on the Spark liveness probe (`features.iometeSparkLivenessProbe`), which is also enabled by default.
+    - **Configurable Catalog Sync Interval**: Compute clusters refreshed their catalog configuration on a fixed 10-second tick. The interval is now configurable with `spark.iomete.catalogUpdates.interval`, so deployments with many catalogs or an external REST catalog can widen it and reduce both driver connection churn and load on core services. It accepts ISO-8601 or short forms (`PT5M`, `1m`, `30s`) and defaults to 10 seconds, which preserves the previous behavior. Values below the 5-second floor are raised to it with a warning, and the driver logs the effective interval at startup.
+    - **Platform Security Updates**
+      - **Metastore Image**: Patched critical and high-severity CVEs in the Hive Metastore image through targeted dependency swaps and removal of unused metastore dependencies. The image is now published for both `linux/amd64` and `linux/arm64`, in line with the rest of the platform. Hive and Hadoop versions are unchanged, metastore behavior is unchanged, and no metastore database migration is required.
+      - **Job Orchestrator Image**: Patched remaining critical and high-severity CVEs in the job orchestrator images, including closing an unauthenticated WebSocket event-ingestion endpoint. The base image was also migrated to remove the affected OS packages entirely, with no change to job orchestrator behavior.
+      - **Increased Retry Limit**: Updated SparkApplication CRD `RestartPolicy.onFailureRetries` to `1000` to ensure automatic recovery from OOM kills without manual pod restarts.  
+      - **Executor Failure Window**: Configured `spark.executor.failuresValidityInterval=12h` to allow long-running analytical queries (several hours) enough time to fail and retry while clearing failure counts over a daily cycle.
+  </Improvements>
+
+  <BugFixes>
+    - **Resource Bundle Management for Domain Owners**: Fixed an issue where a domain owner could not edit a resource bundle when the bundle was owned by another user or by a group excluding them.
+    - **LDAP Custom Filter: Empty Result Handling**: Fixed an issue where LDAP filter validation blocked saving when any user or group filter returned no members. Empty groups can now be saved and will be populated on subsequent LDAP syncs once members are added.
+    - **Stale Query Cleanup**: Added periodic cleanup for SQL Editor queries stuck in RUNNING or SUBMITTED state after pod restarts or lost Spark connections.
+    - **Query Cancel Detection**: Fixed an issue where cancelling a query in the SQL Editor was not reliably detected by the executing thread.
+    - **Spark Executor Count Tracking**: On long-running apps that cycled through more than 10,000 executors, the UI running-executor count could stall or drop to zero as executors were replaced. Executor state is now tracked with LRU eviction so live executors stay visible past the limit.
+    - **Splunk Log Fetching**: Fixed an issue introduced in `v3.17.0` where the Logs tab for a terminated Spark driver returned only a few lines instead of the full log, with the count varying between refreshes. Log pagination on Splunk-backed deployments now returns complete logs. Only deployments using Splunk as the log store were affected.
+    - **Spark Applications**:
+      - **Runs Listing**: Fixed a data security issue where users with no access to any Spark job could see all runs in the run listing and timeline views instead of none. Opening a specific job or run still correctly enforced authorization, only the listing views were affected.
+      - **Duplicate Job**: Fixed a `Not found` error when duplicating a Spark job from the Spark Applications page. Duplicating now opens the job template create page correctly, matching the existing behavior when duplicating from the Job Templates tab.
+    - **Query Monitoring**: Fixed a `timezone mismatch` in the query list. `Start` time and `End` time columns now display in your local timezone, matching the query detail page (previously shown in UTC).
+    - **Object Tree Name Casing**: Fixed an issue introduced in `v3.17.2` where table and view names were displayed in lowercase in the SQL editor object tree, so a table created as `MyMixedCaseTable` appeared in all lowercase. Names were always stored with their original case, only the displayed value was folded. Name matching remains case-insensitive, so existing queries keep working, and namespaces continue to display in lowercase. Disable `features.preserveIcebergIdentifierCase` in your Helm values to keep the previous all-lowercase display for downstream tools that depend on it.
+    - **External Catalog Connection Leak**: Fixed a leak where compute clusters using an external Iceberg REST catalog never released that catalog's connections when a session ended. Under sustained use the driver exhausted its local ports and stopped serving queries with `BindException: Cannot assign requested address`, recoverable only by restarting the cluster. Catalog connections are now closed on Thrift session close, Spark Connect session expiry, and Arrow Flight session eviction, as well as when the periodic catalog sync replaces or removes a catalog.
+    - **Secrets in Spark UI Details**: Fixed an issue where secret values supplied through Spark configuration could appear in plain text in the Details sections of the Spark UI, for example a password rendered in a query plan. Compute clusters, user-spawned Spark jobs, and Spark Connect now set `spark.redaction.string.regex`, which redacts secret values inside plan and configuration text in addition to the existing key-based redaction.
+  </BugFixes>
+</Release>
 
 <Release version="3.17.3" date="July 21st, 2026">
 
@@ -30,6 +74,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Table Sorting**: Fixed table sorting in Database Explorer, which broke in `v3.17.0`. Catalogs and databases sorted correctly, but tables did not. Tables now sort alphabetically by name.
 
     <Img src="/img/database-explorer/table-sorting.png" alt="Tables Sorted" centered style={{ marginTop: "16px" }} />
+
   </BugFixes>
 </Release>
 
