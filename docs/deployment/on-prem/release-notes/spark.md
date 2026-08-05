@@ -3,8 +3,8 @@ title: IOMETE Spark Release Notes
 sidebar_label: Spark
 description: Release notes for IOMETE Spark images. Learn about new features, improvements, security updates, and bug fixes in each Spark image release.
 last_update:
-  date: 07/13/2026
-  author: Rovshan Baghirov
+  date: 08/05/2026
+  author: Mateus Aubin
 ---
 
 import Mailer from '@site/src/components/Mailer';
