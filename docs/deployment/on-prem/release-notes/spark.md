@@ -4,7 +4,7 @@ sidebar_label: Spark
 description: Release notes for IOMETE Spark images. Learn about new features, improvements, security updates, and bug fixes in each Spark image release.
 last_update:
   date: 08/05/2026
-  author: Mateus Aubin
+  author: Shashank Chaudhary
 ---
 
 import Mailer from '@site/src/components/Mailer';
@@ -30,6 +30,7 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
 
   <BugFixes>
     - **Catalog connection leak (port exhaustion)**: Per-session Iceberg REST catalogs were not released when a session ended, so long-running compute clusters could exhaust ephemeral ports and stop servicing queries (`BindException`). Catalogs are now closed across all session paths — Arrow Flight, Thrift `closeSession`, and Spark Connect session expiry — and when a catalog is dropped by auto-sync.
+    - **Partial catalog failures in schema/table listing**: `getSchemas`/`getTables` requests could fail entirely if any one federated catalog was down, even when only some catalogs were affected. Broken catalogs (or namespaces) are now isolated and skipped during unfiltered listings, while an explicitly requested catalog still surfaces its error. A single broken table's schema no longer drops the rest of the table listing either.
   </BugFixes>
 </Release>
 
