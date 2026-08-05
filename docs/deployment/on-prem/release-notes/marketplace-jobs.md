@@ -15,7 +15,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | ------------------------ | ----------------------- | -------- | -------------------------------------------------------------------------- |
 | Data Compaction          | iomete_data_compaction  | 1.2.13   | [Open ↗](/resources/open-source-spark-jobs/data-compaction)            |
 | File Streaming           | iomete-file-streaming   | 1.0.1    | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
-| Catalog Sync             | iom-catalog-sync        | 5.0.1    | [Open ↗](/resources/open-source-spark-jobs/catalog-sync)               |
+| Catalog Sync             | iom-catalog-sync        | 5.0.3    | [Open ↗](/resources/open-source-spark-jobs/catalog-sync)               |
 | MySQL Sync               | iomete_mysql_sync       | 3.0.0    | [Open ↗](/resources/open-source-spark-jobs/mysql-db-sync)                  |
 | Kafka Iceberg Stream     | kafka-iceberg-stream    | 1.2.0    | [Open ↗](/resources/open-source-spark-jobs/kafka-iceberg-stream)           |
 | Query Scheduler          | spark-py                | 3.5.7-v1 | [Open ↗](/resources/open-source-spark-jobs/query-scheduler-job)            |
@@ -24,6 +24,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 ---
 
 ## Recent Releases
+
+<Release name="Catalog Sync Job" version="5.0.3" date="July 17, 2026">
+  <Improvements>
+    - **Iceberg metadata extraction**: Added a direct Iceberg metadata path for Iceberg tables, avoiding the per-table Spark SQL metadata queries previously used during catalog sync.
+    - **Faster statistics collection**: Current and historical table metrics are now read from Iceberg snapshot summaries without running per-table Spark jobs.
+    - **Metadata parity**: The optimized path preserves table schemas, comments, partition details, properties, and current and historical table metrics.
+  </Improvements>
+</Release>
 
 <Release name="Cleanup Untracked Table Folders Job" version="0.1.0" date="June 9, 2026">
   <NewFeatures>
