@@ -56,3 +56,18 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     - **JDBC driver upgrades**: PostgreSQL 42.7.2 → 42.7.13, MySQL Connector/J 8.0.33 → 8.2.0, and Microsoft SQL Server 12.2.0 → 12.2.1.
   </Improvements>
 </Release>
+
+<Release name="Spark" version="3.5.5-v16" date="August 5, 2026">
+  <ReleaseDescription>
+    A maintenance release that backports the catalog session-lifecycle fixes and operational health checks from the 3.5.7 line to the 3.5.5 image.
+  </ReleaseDescription>
+
+  <Improvements>
+    - **Configurable catalog auto-sync interval**: The catalog auto-sync interval is now configurable (default 10s), so it can be widened on busy clusters.
+    - **Ephemeral-port exhaustion health check**: A new driver health check detects ephemeral-port / socket exhaustion and reports the cluster unhealthy, so a stuck driver is restarted automatically instead of silently failing queries.
+  </Improvements>
+
+  <BugFixes>
+    - **Catalog connection leak (port exhaustion)**: Per-session Iceberg REST catalogs were not released when a session ended, so long-running compute clusters could exhaust ephemeral ports and stop servicing queries (`BindException`). Catalogs are now closed across all session paths — Arrow Flight, Thrift `closeSession`, and Spark Connect session expiry — and when a catalog is dropped by auto-sync.
+  </BugFixes>
+</Release>
