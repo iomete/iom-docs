@@ -25,10 +25,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 ## Recent Releases
 
-<Release name="Catalog Sync Job" version="5.0.3" date="July 17, 2026">
+<Release name="Catalog Sync Job" version="5.0.3" date="August 6, 2026">
   <Improvements>
     - **Iceberg metadata extraction**: Added a direct Iceberg metadata path for Iceberg tables, avoiding the per-table Spark SQL metadata queries previously used during catalog sync.
-    - **Faster statistics collection**: Current and historical table metrics are now read from Iceberg snapshot summaries without running per-table Spark jobs.
+    - **Faster statistics collection**: Current and historical table metrics are now read from Iceberg snapshot summaries instead of running multiple Spark SQL queries for each table.
     - **Metadata parity**: The optimized path preserves table schemas, comments, partition details, properties, and current and historical table metrics.
   </Improvements>
 </Release>
