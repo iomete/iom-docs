@@ -20,7 +20,7 @@ import Img from '@site/src/components/Img';
 
 For a look at recovery from the storage and metadata side, see our earlier post on [Iceberg disaster recovery](/blog/iceberg-disaster-recovery), which covers snapshot rollback and `register_table`. This post covers the Kubernetes-native layer above it.
 
-## The setup
+## The Setup
 
 IOMETE runs on Kubernetes. We run two clusters: one with an active IOMETE handling all traffic, and another with a passive IOMETE on standby. Both clusters talk to the exact same load balancer endpoints for PostgreSQL and S3, not two different addresses. What differs is what's behind those endpoints: the PostgreSQL load balancer routes to the main database if you're the active side and to its replica if you're passive, while the S3 load balancer routes each side to whichever S3 endpoint is geographically closer, independent of active/passive status.
 
