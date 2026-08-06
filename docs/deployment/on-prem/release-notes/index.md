@@ -26,7 +26,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Gateway Logging Controls**: Added Helm values for `iom-gateway` Nginx logging to make it easier to configure and reduce log volume. You can now:
       - Set `services.gateway.logging.errorLogLevel` to control gateway error log severity. Default changed from `debug` to `error`.
       - Set `services.gateway.logging.accessLog.enabled: false` to disable per-request access logs.
-    - **Domain-Scoped Volume & Node Type APIs**: The domain-scoped `GET` endpoints for volumes and node types are now documented in the OpenAPI spec. The API allows non-admin users with access to a domain to list and view node types and volumes without needing an admin role.
     - **Scoped Service Account Selection**: The "Run as user" dropdown now shows service accounts the current user can manage instead of every service account in the domain.
     - **Spark Application and Job Template Details**: Added **Last updated by** and **Last updated at** fields to Spark application and job template details, making it easier to see who most recently changed them and when.
     - **Docker Registry Editing**: Added the ability to edit existing Docker registries from the admin Docker settings page. Users can update the registry host, username, and password while name and Kubernetes namespace remain read-only.
