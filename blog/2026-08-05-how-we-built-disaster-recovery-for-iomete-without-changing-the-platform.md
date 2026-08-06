@@ -34,7 +34,7 @@ The problem is Kubernetes state. Computes, Spark jobs, scheduled Spark jobs, str
 
 The passive cluster knows nothing about these local Kubernetes objects. So when the active cluster goes down and you switch over, you land on an empty Kubernetes environment even though every piece of metadata is sitting right there in the database.
 
-## What needed to stay in sync
+## What Needed to Stay in Sync
 
 Two things needed to move between clusters on their own.
 
@@ -42,7 +42,7 @@ Two things needed to move between clusters on their own.
 
 **Kubernetes CRDs.** At failover, IOMETE needs to recreate every Compute, Spark job, streaming job, event stream, orchestrator job, and Jupyter container on the new active cluster. The data is in the database, but the K8s resources still need to be triggered into existence.
 
-## Secret sync runs constantly
+## Secret Sync Runs Constantly
 
 We built a CronJob that runs every few minutes on both clusters, staggered a couple of minutes apart so the two runs never land at the same instant. It syncs IOMETE secrets from whichever cluster currently holds the active IOMETE to the other one.
 
@@ -54,7 +54,7 @@ For the secrets themselves, we match IOMETE secret stores and vault credentials 
 
 <Img src="/img/blog/2026-08-05-disaster-recovery/dr-secret-sync.png" darkImageSrc="/img/blog/2026-08-05-disaster-recovery/dr-secret-sync-dark.png" alt="Secret sync CronJob replicating secrets between the active and passive IOMETE clusters" centered />
 
-## CRD sync runs at failover
+## CRD Sync Runs at Failover
 
 The second piece is a one-time Job that runs when you actually trigger the failover. It runs inside the cluster and calls IOMETE's REST APIs on the newly active instance to recreate the K8s resources.
 
@@ -72,7 +72,7 @@ A couple of details matter in Phase 1. Aborted runs are only resubmitted if you 
 
 The Job uses in-cluster DNS, so there are no external URLs to configure, and it auto-detects whether to talk to `iom-cluster` (3.17+) or `iom-core` (3.15.x) by checking which service resolves in DNS.
 
-## Wrapping it into a failover script
+## Wrapping It into a Failover Script
 
 You don't run the CRD sync Job by hand. It's wrapped in a small failover script that handles the entire cutover, confirming with the operator at each step:
 
@@ -85,7 +85,7 @@ You don't run the CRD sync Job by hand. It's wrapped in a small failover script 
 
 <p align="center"><em>A failover swaps roles between the two clusters: the outgoing active side scales down and optionally cleans up Spark CRDs, then the newly active side scales up and runs the CRD sync job before traffic moves over.</em></p>
 
-## What you actually need to set up
+## What You Actually Need to Set Up
 
 Not much. Both clusters already have a `lakehouse-service-account` with the right permissions, and we reuse it everywhere. The only new things are:
 
@@ -97,7 +97,7 @@ Not much. Both clusters already have a `lakehouse-service-account` with the righ
 
 No new service accounts. No new RBAC. No changes to IOMETE itself.
 
-## What we learned
+## What We Learned
 
 The shared database does more of the work than you'd expect. User auth, job definitions, catalog metadata: all of it is just there on the passive cluster already. The real gap is much narrower than it sounds. You need secrets, and a way to kick off CRD recreation at failover time. That's it.
 
