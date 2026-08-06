@@ -81,9 +81,7 @@ You don't run the CRD sync Job by hand. It's wrapped in a small failover script 
 3. Scale the new active side's workloads back up from its saved replica counts.
 4. Once those workloads are ready, trigger the CRD sync Job automatically, asking first whether to resubmit aborted jobs (default: no).
 
-<p align="center">
-<img src="/resources/img/blog/2026-08-05-disaster-recovery/dr-failover-flow.svg" alt="Failover sequence between the two IOMETE clusters" width="650" height="430" style={{width: '100%', maxWidth: '650px'}} />
-</p>
+<Img src="/img/blog/2026-08-05-disaster-recovery/dr-failover-flow.svg" alt="Failover sequence between the two IOMETE clusters" width="650" height="430" maxWidth="650px" centered borderless />
 
 <p align="center"><em>A failover swaps roles between the two clusters: the outgoing active side scales down and optionally cleans up Spark CRDs, then the newly active side scales up and runs the CRD sync job before traffic moves over.</em></p>
 
