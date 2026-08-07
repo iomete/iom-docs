@@ -33,6 +33,17 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     Never an rc push or the tagged commit date; both predate availability.
 */}
 
+<Release name="Spark" version="3.5.7-v5" date="August 7, 2026">
+  <ReleaseDescription>
+    A hotfix for 3.5.7-v4. Upgrade if you are running 3.5.7-v4.
+  </ReleaseDescription>
+
+  <BugFixes>
+    - **Driver and Executor Startup Crashes**: The Netty `4.1.135.Final` upgrade shipped in 3.5.7-v4 conflicted with Netty classes pulled in by upstream jars, so driver and executor pods crashed on startup non-deterministically — roughly half of all attempts, on clean computes. Netty is reverted to `4.1.100.Final`, which restores reliable startup. The conflicting classes come from jars outside IOMETE's control, so `4.1.135.Final` could not be kept. Note the trade-off: this reopens the 11 Netty CVEs that 3.5.7-v4 closed.
+    - **Audit Events Lost on Shutdown**: Pending audit events are now flushed when the JVM shuts down, instead of being dropped.
+  </BugFixes>
+</Release>
+
 <Release name="Spark" version="3.5.7-v4" date="August 5, 2026">
   <ReleaseDescription>
     A maintenance and hardening release: catalog session-lifecycle fixes, finer-grained authorization, and a broad round of security patches across bundled dependencies.
