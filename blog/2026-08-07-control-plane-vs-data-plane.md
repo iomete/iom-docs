@@ -1,5 +1,5 @@
 ---
-title: "Control Plane vs Data Plane: How IOMETE Splits Management from Compute"
+title: "Control Plane vs Data Plane in Kubernetes and IOMETE"
 description: What control plane and data plane mean in Kubernetes (API server, etcd, scheduler, kubelet, CNI, CRI, CSI), and how that same split shows up inside IOMETE, from its own microservices down to Spark pods and namespaces.
 slug: control-plane-vs-data-plane
 authors: [tural]
