@@ -3,8 +3,8 @@ title: IOMETE Spark Release Notes
 sidebar_label: Spark
 description: Release notes for IOMETE Spark images. Learn about new features, improvements, security updates, and bug fixes in each Spark image release.
 last_update:
-  date: 08/05/2026
-  author: Shashank Chaudhary
+  date: 08/07/2026
+  author: Mateus Aubin
 ---
 
 import Mailer from '@site/src/components/Mailer';
@@ -12,7 +12,26 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-IOMETE Spark images ship on their own cadence, independent of platform releases. This page tracks changes between Spark image versions.
+IOMETE Spark images ship on their own cadence, independent of platform releases. This page tracks changes between Spark image versions, newest first across all supported Spark lines.
+
+{/*
+  SORT = date DESC, then version DESC, by hand: the component does not sort.
+  - Version numbers are usually chronological, but not always, and date wins when
+    they disagree: 3.5.7-v2.1 (Jul 13) is a patch on v2 and sits above 3.5.7-v3
+    (Jun 12). Intended, leave it. Keep all of this out of the entries below, which
+    are customer-facing.
+
+  DATE = public announcement date, not image build date.
+  - Shipped as a GA platform default: use that release's date from ./index.md.
+    3.5.7-v4 hit ACR Aug 3, announced with 3.18.0 Aug 5, so this page says Aug 5.
+    Source: defaultSparkVersion at the GA tag (not rcN) in infra
+    deployment/iomete-data-plane-enterprise, the only customer-facing path in
+    that repo. additionalSparkVersions ships [] by design, but if a release ever
+    lists an image there, that release shipped it: date it to that release too.
+  - Otherwise: GA image tag push date, from
+    `az acr repository show-tags -n iomete --repository iomete/spark --detail`.
+    Never an rc push or the tagged commit date; both predate availability.
+*/}
 
 <Release name="Spark" version="3.5.7-v4" date="August 5, 2026">
   <ReleaseDescription>
@@ -57,20 +76,8 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
 
   <BugFixes>
     - **External Catalog Connection Leak**: Per-session Iceberg REST catalogs were not released when a session ended, so long-running compute clusters could exhaust ephemeral ports and stop servicing queries with `BindException: Cannot assign requested address`, recoverable only by restarting the cluster. Catalogs are now closed across all session paths — Arrow Flight, Thrift `closeSession`, and Spark Connect session expiry — and when a catalog is dropped by auto-sync.
-    - **Partial catalog failures in schema/table listing**: `getSchemas`/`getTables` requests could fail entirely if any one federated catalog was down, even when only some catalogs were affected. Broken catalogs (or namespaces) are now isolated and skipped during unfiltered listings, while an explicitly requested catalog still surfaces its error. A single broken table's schema no longer drops the rest of the table listing either.
+    - **Partial Catalog Failures in Schema/Table Listing**: `getSchemas`/`getTables` requests could fail entirely if any one federated catalog was down, even when only some catalogs were affected. Broken catalogs (or namespaces) are now isolated and skipped during unfiltered listings, while an explicitly requested catalog still surfaces its error. A single broken table's schema no longer drops the rest of the table listing either.
   </BugFixes>
-</Release>
-
-<Release name="Spark" version="3.5.7-v3" date="June 8, 2026">
-  <ReleaseDescription>
-    Re-enables the Enterprise Catalog for the 4.x platform and improves external JDBC catalog support.
-  </ReleaseDescription>
-
-  <Improvements>
-    - **Enterprise Catalog**: Re-enabled the Enterprise Catalog for the 4.x platform release.
-    - **Optional S3 Credentials**: S3 credentials are now optional in `CredentialUtil`, allowing instance/role-based S3 authentication.
-    - **Oracle Dialect Registration**: Moved Oracle JDBC dialect registration from the SQL extension to the Spark plugin for more reliable registration.
-  </Improvements>
 </Release>
 
 <Release name="Spark" version="3.5.7-v2.1" date="July 13, 2026">
@@ -81,5 +88,17 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
   <Improvements>
     - **Security Updates**: Patched multiple security vulnerabilities across bundled dependencies.
     - **JDBC Driver Upgrades**: PostgreSQL 42.7.2 → 42.7.13, MySQL Connector/J 8.0.33 → 8.2.0, and Microsoft SQL Server 12.2.0 → 12.2.1.
+  </Improvements>
+</Release>
+
+<Release name="Spark" version="3.5.7-v3" date="June 12, 2026">
+  <ReleaseDescription>
+    Re-enables the Enterprise Catalog for the 4.x platform and improves external JDBC catalog support.
+  </ReleaseDescription>
+
+  <Improvements>
+    - **Enterprise Catalog**: Re-enabled the Enterprise Catalog for the 4.x platform release.
+    - **Optional S3 Credentials**: S3 credentials are now optional in `CredentialUtil`, allowing instance/role-based S3 authentication.
+    - **Oracle Dialect Registration**: Moved Oracle JDBC dialect registration from the SQL extension to the Spark plugin for more reliable registration.
   </Improvements>
 </Release>
