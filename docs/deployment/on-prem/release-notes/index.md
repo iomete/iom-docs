@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 08/05/2026
-  author: Maksym
+  date: 08/07/2026
+  author: Mateus Aubin
 ---
 
 import Img from '@site/src/components/Img';
@@ -32,8 +32,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Comprehensive API Audit Logging**: All API requests are now logged to `platform_event_logs`, capturing user, timestamp, path, HTTP method, and success status. Health, metrics, and internal service-check endpoints are excluded.
     - **Vault Authentication Token Caching**: Increased the default cache TTL for Vault authentication tokens from 30 seconds to 60 seconds. IOMETE re-authenticates to the configured Vault server less often when resolving secrets, reducing auth token generation load, with no change to secret-resolution behavior.
     - **Reduced Job Orchestrator DB Load**: Reduced job orchestrator database storage and write load by disabling unused internal background services.
-    - **Compute Driver Socket Exhaustion Detection**: Compute cluster drivers now report unhealthy when their ephemeral TCP port usage approaches exhaustion, so the Spark liveness probe (`features.iometeSparkLivenessProbe`, enabled by default) restarts a stuck driver instead of leaving it to fail every query while still reporting healthy. See the [Spark release notes](./spark.md) for thresholds and configuration.
-    - **Configurable Catalog Sync Interval**: The compute cluster catalog sync interval, previously a fixed 10-second tick, is now configurable with `spark.iomete.catalogUpdates.interval`. See the [Spark release notes](./spark.md) for accepted values and where to set it.
+    - **Compute Driver Socket Exhaustion Detection**: Compute cluster drivers now report unhealthy when their ephemeral TCP port usage approaches exhaustion, so the Spark liveness probe (`features.iometeSparkLivenessProbe`, enabled by default) restarts a stuck driver instead of leaving it to fail every query while still reporting healthy.
+    - **Configurable Catalog Sync Interval**: The compute cluster catalog sync interval, previously a fixed 10-second tick, is now configurable with `spark.iomete.catalogUpdates.interval`.
     - **Platform Security Updates**
       - **Metastore Image**: Patched critical and high-severity CVEs in the Hive Metastore image through targeted dependency swaps and removal of unused metastore dependencies. The image is now published for both `linux/amd64` and `linux/arm64`, in line with the rest of the platform. Hive and Hadoop versions are unchanged, metastore behavior is unchanged, and no metastore database migration is required.
       - **Job Orchestrator Image**: Patched remaining critical and high-severity CVEs in the job orchestrator images, including closing an unauthenticated WebSocket event-ingestion endpoint. The base image was also migrated to remove the affected OS packages entirely, with no change to job orchestrator behavior.
@@ -53,12 +53,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Duplicate Job**: Fixed a `Not found` error when duplicating a Spark job from the Spark Applications page. Duplicating now opens the job template create page correctly, matching the existing behavior when duplicating from the Job Templates tab.
     - **Query Monitoring**: Fixed a `timezone mismatch` in the query list. `Start` time and `End` time columns now display in your local timezone, matching the query detail page (previously shown in UTC).
     - **Object Tree Name Casing**: Fixed an issue introduced in `v3.17.2` where table and view names were displayed in lowercase in the SQL editor object tree, so a table created as `MyMixedCaseTable` appeared in all lowercase. Names were always stored with their original case, only the displayed value was folded. Name matching remains case-insensitive, so existing queries keep working, and namespaces continue to display in lowercase. Disable `features.preserveIcebergIdentifierCase` in your Helm values to keep the previous all-lowercase display for downstream tools that depend on it.
-    - **External Catalog Connection Leak**: Fixed a leak where compute clusters using an external Iceberg REST catalog never released that catalog's connections when a session ended, eventually exhausting the driver's local ports and failing queries with `BindException: Cannot assign requested address`. See the [Spark release notes](./spark.md) for the affected session paths.
+    - **External Catalog Connection Leak**: Fixed a leak where compute clusters using an external Iceberg REST catalog never released that catalog's connections when a session ended, eventually exhausting the driver's local ports and failing queries with `BindException: Cannot assign requested address`.
     - **Secrets in Spark UI Details**: Fixed an issue where secret values supplied through Spark configuration could appear in plain text in the Details sections of the Spark UI, for example a password rendered in a query plan. Compute clusters, user-spawned Spark jobs, and Spark Connect now set `spark.redaction.string.regex`, which redacts secret values inside plan and configuration text in addition to the existing key-based redaction.
     - **Access Policy PATCH API**: Removed the consolidated `PATCH /api/v1/admin/data-security/access/policy/{policyId}` endpoint because it got introduced in the `v3.17.1` patch release even though it was a new feature. Clients must use the separate `/resources` and `/policy-items` PATCH endpoints instead.
   </BugFixes>
 
-      **Spark version:** [3.5.7-v4](./spark.md)
+      **Spark version:** [3.5.7-v4](./spark.md), [3.5.5-v16](./spark.md)
       **Iceberg version:** 1.9.0-iomete-5
 
 </Release>
