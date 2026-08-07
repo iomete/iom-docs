@@ -12,7 +12,7 @@ last_update:
   date: 2026-08-07
 ---
 
-*"Control Plane" and "Data Plane" get used loosely enough in cloud infrastructure that the terms start to blur. They have a precise origin in Kubernetes, and IOMETE, built on Kubernetes, inherits the same split, just one layer up. This post walks through what the terms mean in K8s, component by component, then traces the same boundary through IOMETE's own services and namespaces.*
+*"Control plane" and "data plane" get used loosely enough in cloud infrastructure that the terms start to blur. The terms predate Kubernetes, but Kubernetes gives them a concrete architectural meaning, and IOMETE, built on Kubernetes, inherits the same split one layer up. This post walks through what the terms mean in K8s, component by component, then traces the same boundary through IOMETE's own services and namespaces.*
 
 import Img from '@site/src/components/Img';
 
