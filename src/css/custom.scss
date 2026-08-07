@@ -118,8 +118,12 @@
 // column, e.g. a short two-column glossary table, leaving empty space to the
 // right instead of stretching. Opt in per-table with this class rather than
 // changing the (intentional) sitewide overflow behavior.
-.full-width-table table {
-  display: table;
+.full-width-table {
+  overflow-x: auto;
+
+  table {
+    display: table;
+  }
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
