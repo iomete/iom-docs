@@ -61,7 +61,7 @@ None of these four components touch a workload's actual traffic or bytes. They'r
 
 ## The Data Plane, Piece by Piece
 
-The data plane has five moving parts, three of them swappable by design:
+Here are the common components that make up the data plane, the layer that actually runs workloads and moves bytes around:
 
 <div className="full-width-table">
 
@@ -89,7 +89,7 @@ Three more interfaces round out the data plane, each swappable by design.
 
 <Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-cni.png" alt="CNI provides IPs and builds the virtual network bridge between pods" maxWidth="700px" centered />
 
-**CRI (Container Runtime Interface)** is the engine that actually pulls images and executes container processes, with containerd, CRI-O, Docker, or rkt sitting behind it.
+**CRI (Container Runtime Interface)** is the interface that actually pulls images and executes container processes, with containerd, CRI-O, or Docker sitting behind it.
 
 <Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-cri.png" alt="CRI is the interface between kubelet and the container runtime that pulls images and executes container processes" maxWidth="700px" centered />
 
@@ -109,7 +109,7 @@ What makes Spark-on-Kubernetes convenient is the same control-plane pattern desc
 
 ## How IOMETE Maps onto This
 
-IOMETE ships as a single Helm chart that deploys a set of always-on platform microservices plus, on demand, the Spark workloads you actually create. On the cluster, that split shows up as two kinds of namespace: one `iomete-control-plane` namespace holding platform services, and one or more `iomete-data-plane` namespaces holding everything Spark creates, sitting right next to whatever other, unrelated namespaces the cluster happens to run.
+IOMETE ships as a single Helm chart that deploys a set of always-on platform microservices plus, on demand, the Spark workloads you actually create. On the cluster, that split shows up as two kinds of namespace: one `iomete-system` namespace (can be configured/renamed) holding platform services, and one or more data plane namespaces that are configurable holding everything Spark creates, sitting right next to whatever other, unrelated namespaces the cluster happens to run.
 
 <Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/iomete-in-kubernetes.png" alt="A Kubernetes cluster with an iomete-control-plane namespace, one or more iomete-data-plane namespaces, and other unrelated namespaces alongside them" maxWidth="700px" centered />
 
