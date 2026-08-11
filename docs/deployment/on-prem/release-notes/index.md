@@ -15,6 +15,81 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="3.18.0" date="August 5th, 2026">
+
+  <BreakingChanges>
+    - **Combined Access Policy PATCH Endpoint Removed**: `PATCH /api/v1/admin/data-security/access/policy/{policyId}`, added in `v3.17.1`, has been removed. Update resources and policy items through `PATCH /access/policy/{policyId}/resources` and `PATCH /access/policy/{policyId}/policy-items` instead. Both endpoints keep the merge and remove behavior introduced in `v3.17.1`.
+  </BreakingChanges>
+
+  <NewFeatures>
+    - **Read-Only Admin Role**: Added a `READ_ONLY_ADMIN` role that grants read-only (`GET`) access to all admin APIs without any write access. Write requests from this role are rejected with `403`. Use it for governance and self-serve tooling that needs to read admin endpoints without the write permissions that the existing admin roles carry.
+    - **Gateway Rate Limiting**: The gateway can now apply an Nginx-level request rate limit, so a single client cannot overwhelm the platform. Clients that exceed the limit receive `429 Too Many Requests` instead of being served. Rate limiting is disabled by default and is turned on through the data plane Helm values.
+  </NewFeatures>
+
+  <Improvements>
+    - **Platform Security Updates**: Patched critical and high-severity CVEs across bundled platform components. Behavior is unchanged in every case, and no configuration change or migration is required.
+      - Core platform services (identity, core, cluster, SQL, and the Iceberg REST catalog) picked up patched networking, JSON, cryptography, and database-driver libraries, along with refreshed service base images.
+      - Metastore updated to `7.1.3`.
+      - Job orchestrator updated to `1.5.2`.
+      - Jupyter containers updated to `2.1.1`.
+      - Compute proxy updated to `2.1.1`.
+      - Websocket service (`iom-socket`) updated to `2.6.1`.
+      - Search engine (Typesense) image patched.
+      - Event Stream loader (`papyrus-loader`) updated to `2.0.2`.
+      - REST catalog rate limiter (`iom-ratelimiter`) updated to `1.0.1`.
+      - Data plane init image patched.
+      - The IOMETE Spark image picked up patched Netty, Log4j, Parquet, GCS connector, and MySQL, PostgreSQL and SQL Server JDBC drivers.
+
+    **Identity and Access**
+    - **Resource Bundle Creation Permission**: Resource bundle creation is now gated by an explicit `resource_bundle:create` permission when RAS domain authorization is disabled, and the permission is available in the Roles screen. A migration grants it to the built-in default and account admin roles, so existing roles keep the ability to create bundles. When RAS domain authorization is enabled, the existing domain bundle permissions remain authoritative.
+    - **Domain Owner Bundle Management**: Domain owners can now perform all bundle management actions on resource bundles in their domain, including updating the bundle, adding, editing and deleting permissions, transferring assets, and archiving. Previously a domain owner was blocked when the bundle was owned by another user or by a group that did not include them. Domain bundles themselves are unchanged and still require bundle ownership.
+    - **Scoped Service Account Selection**: The Run as user pickers on the Spark job, job template, and query schedule forms, and the service account picker in catalog domain maintenance, listed every service account in the workspace. They now list only the service accounts you can manage, which are the ones you share a group with.
+
+    **Catalog**
+    - **Table and View Name Case Preserved on Read**: The Iceberg REST catalog folded stored table and view names to lowercase when returning them, so a mixed-case table or view name was displayed entirely in lowercase. Names are now returned exactly as stored. Matching and uniqueness stay case-insensitive, and namespace names are still returned in lowercase. The new behavior is on by default. Set `features.preserveIcebergIdentifierCase: false` in the data plane Helm values to keep the previous lowercase display. The key is only relevant when case-insensitive identifiers are enabled.
+    - **Enterprise Catalog Toggle**: Enterprise Catalog can now be turned on or off with the `features.enterpriseCatalog.enabled` Helm value. It is disabled by default and remains a preview feature that is not intended for production workloads.
+
+    **Platform**
+    - **Job Orchestrator Database Load**: Disabled three unused job orchestrator server services (outbound analytics, its built-in flow run notifications, and event persistence) to reduce load on its backing database. IOMETE Spark job notifications are unaffected.
+    - **Vault Auth Token Caching**: The auth token used to reach a HashiCorp Vault secret store is now cached for 60 seconds instead of 30, halving how often IOMETE requests a new token. Only deployments using Vault-backed secret stores are affected.
+    - **Docker Registry Editing**: You can now edit an existing Docker registry from the Admin Console instead of deleting and recreating it.
+    - **Last Updated By**: Job templates, Spark applications, streaming jobs, and Spark jobs now always show who last updated them on their details pages.
+
+    **IOMETE Spark**
+
+    This release ships IOMETE Spark **3.5.7-v4**.
+
+    - **Ephemeral Port Health Check**: The Spark driver now tracks how much of its local ephemeral TCP port range is in use, warns as the range fills up, and reports unhealthy once usage crosses a hard threshold. The warning and unhealthy thresholds default to 85% and 95% and are configurable through `spark.iomete.healthChecks.ephemeralPorts.*`. The check runs in the driver pod only and never touches executors.
+    - **Configurable Catalog Auto-Sync Interval**: The interval at which a compute cluster re-reads catalog configuration is now configurable through `spark.iomete.catalogUpdates.interval`. It defaults to `10s`, the previously fixed value, and the lowest accepted value is `5s`. An unreadable value logs a warning and falls back to the default rather than failing the driver.
+    - **Arrow Flight Query Concurrency Limit**: Arrow Flight SQL now serves synchronous and asynchronous queries from one shared pool, sized by `spark.iomete.arrow.flight.sql.maxConcurrentQueries` (default `200`). A query submitted while the pool is full is rejected immediately with a retryable `UNAVAILABLE` "at capacity" error, instead of appearing to be accepted and then never running.
+
+    See [IOMETE Spark Release Notes](/deployment/on-prem/release-notes/spark) for the full set of changes in the Spark image.
+  </Improvements>
+
+  <BugFixes>
+    - **Credentials Visible in Spark UI Query Plans**: Data source options such as `password`, `user`, and JDBC connection URLs were rendered in cleartext in the Spark UI query plan, both for Spark Connect and for user-launched compute clusters and Spark jobs. These values are now redacted. Treat any credential that was visible in the Spark UI before this release as compromised and rotate it.
+    - **Compute Cluster Connection Leak**: Iceberg REST catalog connections opened for a session were never closed when the session ended, for Arrow Flight, Thrift, and Spark Connect sessions alike, and a catalog replaced by auto-sync leaked its connections too. Under sustained query load the leaked sockets accumulated until the driver exhausted its ephemeral port range and the cluster stopped accepting connections with `BindException`, from which it could not recover. Sessions and replaced catalogs now release their connections.
+    - **Column-Level Authorization Bypass**: Column-level access policies only inspected the columns named in a query's output. A restricted column could still be read by wrapping it in an expression, aliasing it, or referencing it only in a `WHERE` clause or a join condition. Every column a query reads is now authorized, wherever it appears in the query. Only deployments using column-level access policies were affected.
+    - **Iceberg Branch and Tag Authorization**: Operations addressed through an Iceberg branch or tag identifier, such as `db.table.branch_x`, were authorized against the branch name rather than the base table. Writes were denied even when a policy granted access to the base table, and reads skipped the base table's column-level checks, masking, and row filtering. Branch and tag operations are now authorized against the base table. Iceberg metadata tables such as `snapshots` and `history` are unchanged.
+    - **Timed-Out Query Cancellation**: A query that reached its Arrow Flight query timeout returned a timeout error to the client but kept running on the cluster. Timed-out queries are now cancelled.
+    - **Splunk Log Fetching**: The Logs tab could return only part of a Spark driver's log on Splunk-backed deployments, because some records in a Splunk export response were skipped. All log records are now returned. Only deployments using Splunk as the log store were affected.
+    - **Query Monitoring Timezone**: Fixed a timezone mismatch in the query list. The `Start` time and `End` time columns now display in your local timezone, matching the query detail page and the hover text on each cell. They were previously shown in UTC.
+    - **LDAP Filter Validation**: Fixed two problems in the LDAP sync filter editor.
+      - A custom filter that matched no LDAP entries blocked saving the LDAP setting. Filters that return no results are now reported as a non-blocking warning, so you can configure LDAP groups before they have members.
+      - Syntax errors in the overall user or group filter were never displayed. They now appear on the first line of the filter editor.
+    - **Resource Bundle Asset Search**: Listing indexed assets for a bundle failed once the bundle held more than a few thousand assets, which pushed the search sync into a full rebuild and could leave the index incomplete. Search and sort results in the Resources tab of a bundle could then miss assets. The listing request now stays within the search engine page limit. An environment where a partial index already exists may still need a reindex.
+    - **Duplicating a Spark Job**: Duplicating a Spark job from the Spark Applications page returned a `Not found` error. It now opens the Spark job create form. Duplicating from the Spark Jobs page was unaffected.
+    - **Compute Logs Instance Dropdown**: Fixed the instance dropdown on the compute Logs tab freezing on long-running clusters.
+    - **Role Permission Toggle**: The toggle all control on the Roles screen skipped some permissions, so not every permission was selected. It now covers all of them.
+    - **Schedule Interval Input**: The schedule interval field could not be rewritten once a value had been entered. You can now edit it freely.
+    - **Image Path Editing**: The typing cursor was not visible while editing an image path field.
+  </BugFixes>
+
+      **Spark version:** 3.5.7-v4
+      **Iceberg version:** 1.9.0-iomete-5
+
+</Release>
+
 <Release version="3.17.3" date="July 21st, 2026">
 
   <Improvements>
