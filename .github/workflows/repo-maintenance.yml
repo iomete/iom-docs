@@ -12,4 +12,6 @@ permissions:
 
 jobs:
   stale:
-    uses: iomete/infra/.github/workflows/repo-maintenance.yml@main
+    uses: iomete/.github/.github/workflows/repo-maintenance.yml@main
+    with:
+      runs-on: ubuntu-latest
