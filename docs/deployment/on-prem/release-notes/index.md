@@ -17,7 +17,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="TBD" date="TBD">
   <BugFixes>
-    - **Job Schedule Next Run Time**: Fixed an issue where a scheduled Spark job's next run time showed the skipped run's start time instead of advancing, when the run was skipped because a previous run was still active under a `Forbid` [concurrency policy](/user-guide/spark-jobs/spark-application-config#concurrency-policy). Applies to Priority-Based deployment flow Spark jobs.
+    - **Job Schedule Next Run Time**: Fixed an issue where a scheduled Spark job's next run time showed the skipped run's start time instead of advancing, when the run was skipped because a previous run was still active under a `Forbid` [concurrency policy](/user-guide/spark-jobs/spark-application-config#concurrency-policy).
   </BugFixes>
 </Release>
 
