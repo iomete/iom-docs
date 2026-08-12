@@ -19,7 +19,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <BugFixes>
     - **Spark UI Proxy Authentication**:
       - **Bearer Token Support**: Fixed programmatic requests to Spark UI and Spark History URLs being redirected to the login page. The proxy previously only read the session cookie; it now also accepts `Authorization: Bearer <token>`.
-      - **Session Token Refresh**: Fixed users being redirected to the login page when opening Spark UI, Spark History, or Grafana after the 6-hour access token TTL elapsed. The proxy now refreshes expired session tokens automatically, matching the main application's behavior.
+      - **Session Token Refresh**: Fixed users being redirected to the login page when opening Spark UI, Spark History, or Grafana after their access token expired. The proxy now refreshes expired session tokens automatically, matching the main application's behavior.
   </BugFixes>
 </Release>
 
