@@ -15,6 +15,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="TBD" date="TBD">
+  <BugFixes>
+    - **Spark UI Proxy Authentication**:
+      - **Bearer Token Support**: Fixed programmatic requests to Spark UI and Spark History URLs being redirected to the login page. The proxy previously only read the session cookie; it now also accepts `Authorization: Bearer <token>`.
+      - **Session Token Refresh**: Fixed users being redirected to the login page when opening Spark UI, Spark History, or Grafana after the 6-hour access token TTL elapsed. The proxy now refreshes expired session tokens automatically, matching the main application's behavior.
+  </BugFixes>
+</Release>
+
 <Release version="3.18.0" date="August 5th, 2026">
   <NewFeatures>
     - **Read-Only Admin Role**: Added a new `READ_ONLY_ADMIN` role that grants read-only (GET) access to all admin APIs without any write access. This enables governance and self-serve tooling to read admin endpoints without granting the write permissions that existing admin roles carry.
