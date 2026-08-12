@@ -16,7 +16,7 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
 
 <Release name="Spark" version="TBD" date="TBD">
   <BugFixes>
-    - **Authorization Check Hardening**: Fixed an internal authorization check (`onlyCatalogOrDatabaseUseAccess`) that could treat a combined catalog/database action as USE-only if just one part of the request was a plain USE, even when the other part required broader access such as CREATE. Both parts must now be USE-only for the check to pass.
+    - **Authorization Check Hardening**: Fixed a minor gap in an internal check that skips extra authorization steps for the root user on plain USE requests. It could treat a combined catalog/database action as USE-only if just one part was a plain USE, even when the other part required broader access such as CREATE. Both parts must now be USE-only before the check applies. Not exposed by any current command; root user only.
   </BugFixes>
 </Release>
 
