@@ -17,7 +17,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="TBD" date="TBD">
   <Improvements>
-    - **Job Orchestrator Log Verbosity**: Reduced default stdout log volume for job orchestrator server and worker pods. Added `services.jobOrchestrator.verboseLogging` Helm value (default `false`) to opt back into verbose logging when needed. See [Helm Chart Settings](/user-guide/spark-jobs/job-orchestrator#helm-chart-settings).
+    - **Job Orchestrator Log Verbosity**: Reduced default stdout log volume for job orchestrator server and worker pods. A new Helm value lets you opt back into verbose logging when needed. See [Helm Chart Settings](/user-guide/spark-jobs/job-orchestrator#helm-chart-settings).
   </Improvements>
 </Release>
 
