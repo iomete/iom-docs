@@ -15,6 +15,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="TBD" date="TBD">
+  <BugFixes>
+    - **Scheduled Job Suspend State Drift**: Fixed an issue where a scheduled Spark job's suspend state could diverge between the database and the underlying Kubernetes schedule after a failed update, silently stopping the job's schedule from firing again with no indication in the UI. Suspend changes now commit to the database first, then apply to Kubernetes with retry, and roll back if the Kubernetes update fails.
+  </BugFixes>
+</Release>
+
 <Release version="3.18.0" date="August 5th, 2026">
   <NewFeatures>
     - **Read-Only Admin Role**: Added a new `READ_ONLY_ADMIN` role that grants read-only (GET) access to all admin APIs without any write access. This enables governance and self-serve tooling to read admin endpoints without granting the write permissions that existing admin roles carry.
