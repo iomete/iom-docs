@@ -1,0 +1,66 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
+  "enabledManagers": [
+    "npm",
+    "github-actions"
+  ],
+  "rangeStrategy": "bump",
+  "ignoreUnstable": true,
+  "respectLatest": true,
+  "dependencyDashboard": true,
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "description": "The self-hosted bot disables vulnerability alerts org-wide, so each repo has to opt in to get security PRs.",
+    "enabled": true,
+    "labels": [
+      "dependencies",
+      "renovate",
+      "security"
+    ]
+  },
+  "lockFileMaintenance": {
+    "description": "Refresh yarn.lock weekly so in-range fixes for transitive deps land; Renovate only bumps what package.json declares.",
+    "enabled": true,
+    "schedule": [
+      "before 5am on monday"
+    ]
+  },
+  "packageRules": [
+    {
+      "description": "Do not create PRs that upgrade to prerelease versions",
+      "matchPackageNames": [
+        "*"
+      ],
+      "allowedVersions": "!/-/"
+    },
+    {
+      "description": "Do not update dependencies that are already on prerelease versions",
+      "matchCurrentVersion": "/-/",
+      "enabled": false
+    },
+    {
+      "description": "Pin GitHub Actions to commit SHA digests to prevent supply chain attacks",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "pinDigests": true
+    },
+    {
+      "description": "Don't touch internal iomete reusable workflow refs - they intentionally track main",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "/^iomete\\//"
+      ],
+      "enabled": false
+    }
+  ]
+}
