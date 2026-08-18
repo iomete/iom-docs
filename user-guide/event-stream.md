@@ -178,7 +178,7 @@ Navigate to the **Connect** tab to find your endpoint URL and ready-to-use code 
 | --- | --- |
 | Method | `POST` |
 | Content-Type | `application/json` |
-| Headers | `token` - Your Personal Access Token |
+| Headers | `Authorization` - Your Personal Access Token |
 |  | `table` - Target table in format `catalog.database.table` |
 | Body | JSON array of events |
 
@@ -213,7 +213,7 @@ For better throughput, send multiple events in a single request:
 ```bash
 curl -X POST "https://<your-domain>/data-plane/<namespace>/event-stream/<stream-name>/ingest" \
   -H "Content-Type: application/json" \
-  -H "token: <your-access-token>" \
+  -H "Authorization: <your-access-token>" \
   -H "table: analytics.events.sales" \
   -d '[{"event_id": "e001", "customer_id": "c123", "product_id": "p456", "quantity": 2, "price": 29.99}]'
 ```
@@ -226,7 +226,7 @@ import requests
 endpoint = "https://<your-domain>/data-plane/<namespace>/event-stream/<stream-name>/ingest"
 headers = {
     "Content-Type": "application/json",
-    "token": "<your-access-token>",
+    "Authorization": "<your-access-token>",
     "table": "analytics.events.sales"
 }
 
@@ -310,7 +310,7 @@ def send_with_retry(events, max_retries=3):
 | 400 | BAD_REQUEST | Invalid JSON | Verify JSON syntax is valid |
 | 400 | BAD_REQUEST | Expected JSON array | Wrap events in array: `[{...}]` even for single events |
 | 400 | BAD_REQUEST | Schema mismatch | Ensure JSON field types match table column types |
-| 401 | UNAUTHORIZED | Missing token header | Add token header with your Personal Access Token |
+| 401 | UNAUTHORIZED | Missing authorization header | Add `Authorization` header with your Personal Access Token |
 | 401 | UNAUTHORIZED | Invalid or expired token | Generate a new Personal Access Token |
 | 403 | FORBIDDEN | No access to Event Stream | Request access to the Event Stream service |
 | 403 | FORBIDDEN | No INSERT permission | Request INSERT permission on the target table |
