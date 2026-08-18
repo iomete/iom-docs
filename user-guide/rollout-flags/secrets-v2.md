@@ -30,7 +30,7 @@ The console's secret selector — ["Use existing secret" / "Create new secret"](
 
 ### Minimum compatible version
 
-IOMETE `3.16.0` or later for Secrets V2 itself. `4.0.0` or later to control it through this rollout flag — before that, `secretsV2` can only be set through the Helm chart value, which requires a normal redeploy to change.
+IOMETE `4.0.0` or later to control it through this rollout flag — before that, `secretsV2` can only be set through the Helm chart value, which requires a normal redeploy to change.
 
 ### Deployment setup changes
 
