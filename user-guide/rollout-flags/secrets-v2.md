@@ -77,11 +77,13 @@ The same two secrets, expressed both ways — a `DB_PASSWORD` environment variab
 
 ```json
 {
-  "envVars": {
-    "DB_PASSWORD": "${secrets.db_password}"
-  },
-  "sparkConf": {
-    "spark.hadoop.fs.s3a.secret.key": "${secrets.s3_secret_key}"
+  "sparkConfig": {
+    "envVars": {
+      "DB_PASSWORD": "${secrets.db_password}"
+    },
+    "sparkConf": {
+      "spark.hadoop.fs.s3a.secret.key": "${secrets.s3_secret_key}"
+    }
   }
 }
 ```
@@ -91,31 +93,33 @@ The same two secrets, expressed both ways — a `DB_PASSWORD` environment variab
 
 ```json
 {
-  "envSecrets": [
-    {
-      "key": "DB_PASSWORD",
-      "secretObject": {
-        "key": "db_password",
-        "source": { "type": "KUBERNETES", "id": "secret-domain" }
+  "sparkConfig": {
+    "envSecrets": [
+      {
+        "key": "DB_PASSWORD",
+        "secretObject": {
+          "key": "db_password",
+          "source": { "type": "KUBERNETES", "id": "secret-domain" }
+        }
       }
-    }
-  ],
-  "sparkConfSecrets": [
-    {
-      "key": "spark.hadoop.fs.s3a.secret.key",
-      "secretObject": {
-        "key": "s3_secret_key",
-        "source": { "type": "VAULT", "id": "vault-config-id" }
+    ],
+    "sparkConfSecrets": [
+      {
+        "key": "spark.hadoop.fs.s3a.secret.key",
+        "secretObject": {
+          "key": "s3_secret_key",
+          "source": { "type": "VAULT", "id": "vault-config-id" }
+        }
       }
-    }
-  ]
+    ]
+  }
 }
 ```
 
   </TabItem>
 </Tabs>
 
-`envVars`/`sparkConf` (plain values) and `envSecrets`/`sparkConfSecrets` (`secretObject` references) are separate fields on the same payload — you can keep non-secret settings in the plain fields while migrating secrets one at a time.
+`envVars`/`sparkConf` (plain values) and `envSecrets`/`sparkConfSecrets` (`secretObject` references) are separate fields inside the same `sparkConfig` object — you can keep non-secret settings in the plain fields while migrating secrets one at a time.
 
 ### Spark Jobs
 
