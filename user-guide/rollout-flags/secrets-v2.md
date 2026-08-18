@@ -9,7 +9,7 @@ last_update:
 
 Enables structured `secretObject` references for compute, Spark jobs, Jupyter containers, and storage configs, backed by IOMETE-managed Kubernetes secrets or read-only HashiCorp Vault integrations. See [Secrets Management](../secrets.md) for the full feature.
 
-This is purely additive: the existing `${secrets.key}` inline-placeholder syntax is a separate code path that this flag does not touch, in any of the areas below. Toggling this flag only changes whether the *new* `secretObject` syntax works — nothing that currently uses `${secrets.key}` changes behavior, whether the flag is on or off.
+This is purely additive: the existing `${secrets.key}` inline-placeholder syntax is a separate code path that this flag does not touch, in any of the areas below. Toggling this flag only changes whether the _new_ `secretObject` syntax works — nothing that currently uses `${secrets.key}` changes behavior, whether the flag is on or off.
 
 |              |                                      |
 | ------------ | ------------------------------------ |
@@ -19,7 +19,17 @@ This is purely additive: the existing `${secrets.key}` inline-placeholder syntax
 
 ## Prerequisites
 
-Requires IOMETE `3.16.0` or later.
+### Minimum compatible version
+
+IOMETE `3.16.0` or later.
+
+### Deployment setup changes
+
+None. No additional Helm values, infrastructure, or configuration are needed to turn this flag on or off.
+
+### Services to restart
+
+None. Toggling the flag through the rollout-flag admin API takes effect automatically — each service picks up the new value on its next refresh, within about a minute, without restarting `iom-core`, `iom-cluster`, or any other service.
 
 ## Impact Area
 
