@@ -1,6 +1,6 @@
 ---
 title: Secrets V2 Rollout Flag
-description: What the secretsV2 rollout flag controls, its dependencies and affected surfaces, and what to check before disabling it.
+description: What the secretsV2 rollout flag controls, its prerequisites and impact area, and what to check before enabling or disabling it.
 sidebar_label: Secrets V2
 last_update:
   date: 08/18/2026
@@ -9,17 +9,17 @@ last_update:
 
 Enables structured `secretObject` references for compute, Spark jobs, Jupyter containers, and storage configs, backed by IOMETE-managed Kubernetes secrets or read-only HashiCorp Vault integrations, alongside the existing legacy `${secrets.key}` inline-placeholder substitution. See [Secrets Management](../secrets.md) for the full feature.
 
-| | |
-| --- | --- |
-| **Flag key** | `secretsV2` |
-| **Scope** | Global only — no per-domain override |
-| **Default** | Enabled |
+|              |                                      |
+| ------------ | ------------------------------------ |
+| **Flag key** | `secretsV2`                          |
+| **Scope**    | Global only — no per-domain override |
+| **Default**  | Enabled                              |
 
-## Dependencies
+## Prerequisites
 
 Requires `iom-cluster` to reach `iom-core`'s rollout-flag evaluation API, and deployments to provide the `secretsV2` rollout-flag default.
 
-## What it affects
+## Impact Area
 
 - Compute cluster environment variables and Spark configuration
 - Spark job and streaming job secrets
@@ -27,7 +27,11 @@ Requires `iom-cluster` to reach `iom-core`'s rollout-flag evaluation API, and de
 - Storage config connection secrets
 - Vault config usage authorization (the RAS **Use** permission check on Vault-backed secret references)
 
-## Before you disable it
+## Rollout Considerations
+
+Enabling `secretsV2` (already the default) turns on structured `secretObject` support — it does not change or require migrating any existing workload. Legacy `${secrets.key}` placeholders keep resolving exactly as before, and V1 and V2 references can coexist on the same workload while you migrate one at a time. To reference a Vault-backed secret through `secretObject`, a Vault integration must already be configured for the domain — see [Vault Integrations](../secrets.md#vault-integrations-hashicorp-vault).
+
+## Rollback Considerations
 
 Disabling `secretsV2` is a breaking change for anything already relying on it, not a safe no-op:
 
@@ -37,7 +41,7 @@ Disabling `secretsV2` is a breaking change for anything already relying on it, n
 
 Before disabling, confirm nothing depends solely on a `secretObject`/`storageSecret` reference, and let affected users know first.
 
-## Learn more
+## References
 
 - [Secrets Management](../secrets.md)
 

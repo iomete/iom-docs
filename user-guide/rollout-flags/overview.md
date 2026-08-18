@@ -53,26 +53,28 @@ For a domain override, set `"scopeType": "DOMAIN"` and include the domain name a
 
 ## What each flag tells you
 
-Every flag ships with a fixed set of metadata, written by the engineering team when the flag is introduced:
+Every flag ships with a fixed set of metadata, written by the engineering team when the flag is introduced. The right column is the heading each field becomes on that flag's documentation page:
 
-| Field                       | Meaning                                                                                                                                                                                     |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Name / Description**      | What the flag does.                                                                                                                                                                         |
-| **Dependencies**            | What has to be true for the flag to work (services reachable, other features configured).                                                                                                   |
-| **Affected Surfaces**       | Which product features change behavior when the flag is toggled.                                                                                                                            |
-| **Rollback Considerations** | What happens — and what could break — if you disable the flag after it's been on. Read this before disabling a flag that's been enabled for a while; it's not always safe to just turn off. |
-| **Documentation Links**     | Where to read more about the feature the flag controls.                                                                                                                                     |
+| Field                       | Meaning                                                                                                                                                                                     | Documented as             |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| **Name / Description**      | What the flag does.                                                                                                                                                                         | Intro paragraph            |
+| **Dependencies**            | What has to be true for the flag to work (services reachable, other features configured).                                                                                                   | `## Prerequisites`         |
+| **Affected Surfaces**       | Which product features change behavior when the flag is toggled.                                                                                                                            | `## Impact Area`           |
+| n/a                         | What to know before turning the flag on — behavior changes, compatibility, anything that must be set up first. Not a stored metadata field; write it from context.                        | `## Rollout Considerations`|
+| **Rollback Considerations** | What happens — and what could break — if you disable the flag after it's been on. Read this before disabling a flag that's been enabled for a while; it's not always safe to just turn off. | `## Rollback Considerations`|
+| **Documentation Links**     | Where to read more about the feature the flag controls.                                                                                                                                     | `## References`            |
 
 ## Documenting a new flag
 
-When a new rollout flag ships, add a page under `rollout-flags/` following this template — it keeps every flag page predictable and maps directly onto the flag's metadata fields (see above), so a reader who knows one flag page already knows how to read the next one.
+When a new rollout flag ships, add a page under `rollout-flags/` following this template — it keeps every flag page predictable, so a reader who knows one flag page already knows how to read the next one.
 
 1. **Intro paragraph** — one or two sentences on what the flag does, from the flag's `description`. Link to the full feature doc if one exists; don't duplicate it.
 2. **Quick-reference table** — `Flag key`, `Scope` (global-only, or domain-overridable), `Default`.
-3. **`## Dependencies`** — from the flag's `dependencies`, if it has any. Omit this section if the flag has none.
-4. **`## What it affects`** — from the flag's `affectedSurfaces`, as a bullet list of product features/surfaces, not raw endpoint paths.
-5. **`## Before you disable it`** — from the flag's `rollbackConsiderations`. Say plainly whether disabling is safe or breaking, and exactly what breaks and for whom.
-6. **`## Learn more`** — from the flag's `documentationLinks`, as a bullet list.
+3. **`## Prerequisites`** — from the flag's `dependencies`, if it has any. Omit this section if the flag has none.
+4. **`## Impact Area`** — from the flag's `affectedSurfaces`, as a bullet list of product features/surfaces, not raw endpoint paths.
+5. **`## Rollout Considerations`** — what a reader should know before enabling: does it change behavior for existing workloads, does anything need to be configured first, can old and new behavior coexist during migration. Keep it even if brief.
+6. **`## Rollback Considerations`** — from the flag's `rollbackConsiderations`. Say plainly whether disabling is safe or breaking, and exactly what breaks and for whom.
+7. **`## References`** — from the flag's `documentationLinks`, as a bullet list.
 
 [Secrets V2](./secrets-v2.md) is the reference example.
 
