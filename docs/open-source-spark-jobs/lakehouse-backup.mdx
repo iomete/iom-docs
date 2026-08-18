@@ -149,7 +149,7 @@ The default copy settings work for most backups. Add a `copy` block only when yo
   "copy": {
     "skipIdentical": true,
     "clockSkewToleranceMs": 30000,
-    "slotsPerVcpu": 2,
+    "slotsPerVcpu": 4,
     "tasksPerSlot": 20,
     "perFileOverheadBytes": 26214400,
     "maxBytesPerTask": 1073741824,
@@ -162,7 +162,7 @@ The default copy settings work for most backups. Add a `copy` block only when yo
 |---|---:|---|
 | `skipIdentical` | `true` | Skips a target file when its size matches and its modification time is sufficiently newer than the source. Set to `false` to copy every source file. |
 | `clockSkewToleranceMs` | `30000` | Required target timestamp margin when deciding whether a file is identical. |
-| `slotsPerVcpu` | `2` | Maximum concurrent file copies per executor vCPU. |
+| `slotsPerVcpu` | `4` | Maximum concurrent file copies per executor vCPU. |
 | `tasksPerSlot` | `20` | Target number of Spark tasks per copy slot. |
 | `perFileOverheadBytes` | `26214400` | Estimated fixed per-file cost used to balance tasks. It does not add bytes to the copy. |
 | `maxBytesPerTask` | `1073741824` | Maximum estimated work assigned to a normal task. A larger individual file remains whole in its own task. |
