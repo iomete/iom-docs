@@ -7,6 +7,9 @@ last_update:
   author: Sourabh Jajoria
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 Enables structured `secretObject` references for compute, Spark jobs, Jupyter containers, and storage configs, backed by IOMETE-managed Kubernetes secrets or read-only HashiCorp Vault integrations. See [Secrets Management](../secrets.md) for the full feature.
 
 This is purely additive: the existing `${secrets.key}` inline-placeholder syntax is a separate code path that this flag does not touch, in any of the areas below. Toggling this flag only changes whether the _new_ `secretObject` syntax works — nothing that currently uses `${secrets.key}` changes behavior, whether the flag is on or off.
@@ -33,11 +36,224 @@ None. Toggling the flag through the rollout-flag admin API takes effect automati
 
 ## Impact Area
 
-**Compute, Spark jobs, streaming jobs, and Jupyter containers** — a `secretObject` entry in `envSecrets` (environment variables) or `sparkConfSecrets` (Spark configuration) resolves to its actual secret value and gets set on the pod when the flag is on. When the flag is off, that entry resolves to nothing: the environment variable or Spark config key is simply absent from the pod, with no error at deploy time. `${secrets.key}` placeholders in the same workload's `envVars`/`sparkConf` are unaffected either way — they go through a separate, always-on resolver.
+Enabling `secretsV2` lets API payloads use a `secretObject` in place of an inline `${secrets.key}` placeholder, per surface below. Existing `${secrets.key}` placeholders keep working regardless of the flag, so workloads can migrate one field at a time.
 
-**Storage configs** — a structured secret reference for the connection secret (S3/MinIO/other cloud storage) resolves the same way when the flag is on. When it's off, IOMETE falls back to the storage config's legacy plaintext secret value instead, if one was ever saved; if it wasn't, the connection secret comes back blank.
+### Secret Object
 
-**Vault config usage authorization** — creating or updating a compute cluster, Spark job, streaming job, or Jupyter container checks that the requesting user has **Use** permission on any Vault configuration referenced in its `secretObject` entries, at request time, before the resource is created. While the flag is off, this check is skipped (consistent with the fact that those references won't resolve to anything anyway) — so a request containing a Vault-backed `secretObject` the user doesn't have **Use** permission for is accepted rather than rejected. This has no effect on Kubernetes-backed secrets or on `${secrets.key}` placeholders, which were never gated by this permission.
+A `secretObject` identifies a secret and its backend:
+
+```json
+{
+  "key": "secret_key_in_store",
+  "source": {
+    "type": "KUBERNETES | VAULT",
+    "id": "<domain-name or vault-config-id>"
+  }
+}
+```
+
+| Field         | Description                                                |
+| ------------- | ----------------------------------------------------------- |
+| `key`         | Secret key name in the store                                |
+| `source.type` | `KUBERNETES` (IOMETE-managed) or `VAULT` (HashiCorp Vault)   |
+| `source.id`   | Domain name for Kubernetes, or Vault config ID for Vault     |
+
+When the flag is off, a `secretObject` entry resolves to nothing instead of a value — the environment variable or Spark config key is simply absent from the workload, with no error at deploy time.
+
+### Compute
+
+**Endpoint:** `POST/PUT /api/v2/domains/{domain}/compute`
+
+<Tabs>
+  <TabItem value="v1" label="V1 — Inline Placeholders" default>
+
+```json
+{
+  "envVars": {
+    "DB_PASSWORD": "${secrets.db_password}"
+  },
+  "sparkConf": {
+    "spark.hadoop.fs.s3a.secret.key": "${secrets.warehouse_path}"
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="v2" label="V2 — SecretObject">
+
+```json
+{
+  "envVars": {
+    "APP_MODE": "production"
+  },
+  "envSecrets": [
+    {
+      "key": "DB_PASSWORD",
+      "secretObject": {
+        "key": "db_password",
+        "source": { "type": "KUBERNETES", "id": "secret-domain" }
+      }
+    }
+  ],
+  "sparkConf": {
+    "spark.executor.memory": "4g"
+  },
+  "sparkConfSecrets": [
+    {
+      "key": "API_TOKEN",
+      "secretObject": {
+        "key": "api_token",
+        "source": { "type": "VAULT", "id": "vault-config-id" }
+      }
+    }
+  ]
+}
+```
+
+  </TabItem>
+</Tabs>
+
+### Spark Jobs
+
+**Endpoints:** `POST/PUT /api/v2/domains/{domain}/spark/jobs`, `POST/PUT /api/v2/domains/{domain}/spark/streaming/jobs`, `POST/PUT /api/v2/domains/{domain}/sdk/spark/jobs` — all three job types use the same structure under `template`.
+
+<Tabs>
+  <TabItem value="v1" label="V1 — Inline Placeholders" default>
+
+```json
+{
+  "template": {
+    "envVars": {
+      "API_KEY": "${secrets.api_key}"
+    },
+    "sparkConf": {
+      "spark.hadoop.fs.s3a.access.key": "${secrets.s3_access_key}"
+    }
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="v2" label="V2 — SecretObject">
+
+```json
+{
+  "template": {
+    "envVars": {
+      "APP_MODE": "production"
+    },
+    "envSecrets": [
+      {
+        "key": "API_TOKEN",
+        "secretObject": {
+          "key": "api_token",
+          "source": { "type": "VAULT", "id": "vault-config-id" }
+        }
+      }
+    ],
+    "sparkConf": {
+      "spark.executor.memory": "4g"
+    },
+    "sparkConfSecrets": [
+      {
+        "key": "spark.hadoop.fs.s3a.access.key",
+        "secretObject": {
+          "key": "s3_access_key",
+          "source": { "type": "KUBERNETES", "id": "secret-domain" }
+        }
+      }
+    ]
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+### Jupyter Containers
+
+**Endpoint:** `POST/PUT /api/v1/domains/{domain}/jupyter-containers`
+
+<Tabs>
+  <TabItem value="v1" label="V1 — Inline Placeholders" default>
+
+```json
+{
+  "config": {
+    "envVars": {
+      "DB_PASSWORD": "${secrets.db_password}"
+    }
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="v2" label="V2 — SecretObject">
+
+```json
+{
+  "config": {
+    "envVars": {
+      "APP_MODE": "production"
+    },
+    "envSecrets": [
+      {
+        "key": "DB_PASSWORD",
+        "secretObject": {
+          "key": "db_password",
+          "source": { "type": "KUBERNETES", "id": "secret-domain" }
+        }
+      },
+      {
+        "key": "API_TOKEN",
+        "secretObject": {
+          "key": "api_token",
+          "source": { "type": "VAULT", "id": "vault-config-id" }
+        }
+      }
+    ]
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+### Storage Configs
+
+**Endpoint:** `POST/PUT /api/v1/domains/{domain}/storage-configs`
+
+Unlike the other surfaces, storage configs keep a legacy plaintext field as a real fallback, not just a separate code path:
+
+<Tabs>
+  <TabItem value="v1" label="V1 — Plaintext" default>
+
+```json
+{
+  "secretKey": "my-plaintext-secret-value"
+}
+```
+
+  </TabItem>
+  <TabItem value="v2" label="V2 — SecretObject">
+
+```json
+{
+  "storageSecret": {
+    "key": "s3_secret_key",
+    "source": { "type": "KUBERNETES", "id": "secret-domain" }
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+When both fields are set, the structured reference takes precedence; when the flag is off, resolution falls back to the plaintext field if one was ever saved, or comes back blank if it wasn't.
+
+### Vault Config Usage Authorization
+
+Creating or updating a compute cluster, Spark job, streaming job, or Jupyter container checks that the requesting user has **Use** permission on any Vault configuration referenced in its `secretObject` entries, at request time, before the resource is created. While the flag is off, this check is skipped (consistent with the fact that those references won't resolve to anything anyway) — so a request containing a Vault-backed `secretObject` the user doesn't have **Use** permission for is accepted rather than rejected. This has no effect on Kubernetes-backed secrets or on `${secrets.key}` placeholders, which were never gated by this permission.
 
 ## Rollout Considerations
 
