@@ -1,19 +1,23 @@
 ---
 title: Secrets V2 Rollout Flag
-description: What the secretsV2 rollout flag controls, why it exists, and what to check before disabling it.
+description: What the secretsV2 rollout flag controls, its dependencies and affected surfaces, and what to check before disabling it.
 sidebar_label: Secrets V2
 last_update:
   date: 08/18/2026
   author: Sourabh Jajoria
 ---
 
-`secretsV2` gates the structured, [`secretObject`-based secret references](../secrets.md#api-migration-guide) used across compute, Spark jobs, streaming jobs, Jupyter containers, and storage configs — the mechanism that lets a workload reference a secret backed by an [IOMETE-managed Kubernetes secret or a read-only HashiCorp Vault integration](../secrets.md#secret-backends), instead of only the older `${secrets.key}` inline placeholder.
+Enables structured `secretObject` references for compute, Spark jobs, Jupyter containers, and storage configs, backed by IOMETE-managed Kubernetes secrets or read-only HashiCorp Vault integrations, alongside the existing legacy `${secrets.key}` inline-placeholder substitution. See [Secrets Management](../secrets.md) for the full feature.
 
-See [Secrets Management](../secrets.md) for the full feature and its [API Migration Guide](../secrets.md#api-migration-guide). This page only covers the flag itself — see [Rollout Flags](./overview.md) for how flags are evaluated and how to change them.
+| | |
+| --- | --- |
+| **Flag key** | `secretsV2` |
+| **Scope** | Global only — no per-domain override |
+| **Default** | Enabled |
 
-## Scope
+## Dependencies
 
-`secretsV2` is a **global-only** flag: it doesn't support a per-domain override, so every domain sees the same value.
+Requires `iom-cluster` to reach `iom-core`'s rollout-flag evaluation API, and deployments to provide the `secretsV2` rollout-flag default.
 
 ## What it affects
 
@@ -22,10 +26,6 @@ See [Secrets Management](../secrets.md) for the full feature and its [API Migrat
 - Jupyter container environment variables
 - Storage config connection secrets
 - Vault config usage authorization (the RAS **Use** permission check on Vault-backed secret references)
-
-## Default
-
-Enabled by default, matching the behavior this flag replaces — existing deployments see no change unless a global override is set.
 
 ## Before you disable it
 
@@ -36,3 +36,11 @@ Disabling `secretsV2` is a breaking change for anything already relying on it, n
 - Vault-Use authorization checks stop being enforced for all Vault-backed secret references while the flag is off.
 
 Before disabling, confirm nothing depends solely on a `secretObject`/`storageSecret` reference, and let affected users know first.
+
+## Learn more
+
+- [Secrets Management](../secrets.md)
+
+---
+
+See [Rollout Flags](./overview.md) for how flags like this one are evaluated and how to change them.

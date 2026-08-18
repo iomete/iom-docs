@@ -125,10 +125,7 @@ const sidebars = {
       type: "category",
       label: "Rollout Flags",
       collapsed: true,
-      items: [
-        "rollout-flags/overview",
-        "rollout-flags/secrets-v2",
-      ],
+      items: ["rollout-flags/overview", "rollout-flags/secrets-v2"],
     },
     {
       type: "category",
@@ -170,10 +167,7 @@ const sidebars = {
           type: "category",
           label: "IOMETE Managed Catalogs",
           collapsed: false,
-          items: [
-            "spark-catalogs/internal",
-            "spark-catalogs/enterprise",
-          ],
+          items: ["spark-catalogs/internal", "spark-catalogs/enterprise"],
         },
         {
           type: "category",
