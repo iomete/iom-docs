@@ -13,7 +13,7 @@ Enables structured `secretObject` references for compute, Spark jobs, Jupyter co
 | ------------ | ------------------------------------ |
 | **Flag key** | `secretsV2`                          |
 | **Scope**    | Global only — no per-domain override |
-| **Default**  | Enabled                              |
+| **Default**  | Disabled                             |
 
 ## Prerequisites
 
@@ -29,7 +29,7 @@ Requires IOMETE `3.16.0` or later.
 
 ## Rollout Considerations
 
-Enabling `secretsV2` (already the default) turns on structured `secretObject` support — it does not change or require migrating any existing workload. Legacy `${secrets.key}` placeholders keep resolving exactly as before, and V1 and V2 references can coexist on the same workload while you migrate one at a time. To reference a Vault-backed secret through `secretObject`, a Vault integration must already be configured for the domain — see [Vault Integrations](../secrets.md#vault-integrations-hashicorp-vault).
+Enabling `secretsV2` turns on structured `secretObject` support — it does not change or require migrating any existing workload. Legacy `${secrets.key}` placeholders keep resolving exactly as before, and V1 and V2 references can coexist on the same workload while you migrate one at a time. To reference a Vault-backed secret through `secretObject`, a Vault integration must already be configured for the domain — see [Vault Integrations](../secrets.md#vault-integrations-hashicorp-vault).
 
 ## Rollback Considerations
 
