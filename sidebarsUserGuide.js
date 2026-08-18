@@ -167,7 +167,10 @@ const sidebars = {
           type: "category",
           label: "IOMETE Managed Catalogs",
           collapsed: false,
-          items: ["spark-catalogs/internal", "spark-catalogs/enterprise"],
+          items: [
+            "spark-catalogs/internal",
+            "spark-catalogs/enterprise",
+          ],
         },
         {
           type: "category",
