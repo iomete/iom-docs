@@ -53,16 +53,18 @@ A `secretObject` identifies a secret and its backend:
 ```
 
 | Field         | Description                                                |
-| ------------- | ----------------------------------------------------------- |
-| `key`         | Secret key name in the store                                |
-| `source.type` | `KUBERNETES` (IOMETE-managed) or `VAULT` (HashiCorp Vault)   |
-| `source.id`   | Domain name for Kubernetes, or Vault config ID for Vault     |
+| ------------- | ---------------------------------------------------------- |
+| `key`         | Secret key name in the store                               |
+| `source.type` | `KUBERNETES` (IOMETE-managed) or `VAULT` (HashiCorp Vault) |
+| `source.id`   | Domain name for Kubernetes, or Vault config ID for Vault   |
 
 When the flag is off, a `secretObject` entry resolves to nothing instead of a value — the environment variable or Spark config key is simply absent from the workload, with no error at deploy time.
 
 ### Compute
 
 **Endpoint:** `POST/PUT /api/v2/domains/{domain}/compute`
+
+The same two secrets, expressed both ways — a `DB_PASSWORD` environment variable and an S3 secret key in Spark config:
 
 <Tabs>
   <TabItem value="v1" label="V1 — Inline Placeholders" default>
@@ -73,7 +75,7 @@ When the flag is off, a `secretObject` entry resolves to nothing instead of a va
     "DB_PASSWORD": "${secrets.db_password}"
   },
   "sparkConf": {
-    "spark.hadoop.fs.s3a.secret.key": "${secrets.warehouse_path}"
+    "spark.hadoop.fs.s3a.secret.key": "${secrets.s3_secret_key}"
   }
 }
 ```
@@ -83,9 +85,6 @@ When the flag is off, a `secretObject` entry resolves to nothing instead of a va
 
 ```json
 {
-  "envVars": {
-    "APP_MODE": "production"
-  },
   "envSecrets": [
     {
       "key": "DB_PASSWORD",
@@ -95,14 +94,11 @@ When the flag is off, a `secretObject` entry resolves to nothing instead of a va
       }
     }
   ],
-  "sparkConf": {
-    "spark.executor.memory": "4g"
-  },
   "sparkConfSecrets": [
     {
-      "key": "API_TOKEN",
+      "key": "spark.hadoop.fs.s3a.secret.key",
       "secretObject": {
-        "key": "api_token",
+        "key": "s3_secret_key",
         "source": { "type": "VAULT", "id": "vault-config-id" }
       }
     }
@@ -113,9 +109,13 @@ When the flag is off, a `secretObject` entry resolves to nothing instead of a va
   </TabItem>
 </Tabs>
 
+`envVars`/`sparkConf` (plain values) and `envSecrets`/`sparkConfSecrets` (`secretObject` references) are separate fields on the same payload — you can keep non-secret settings in the plain fields while migrating secrets one at a time.
+
 ### Spark Jobs
 
 **Endpoints:** `POST/PUT /api/v2/domains/{domain}/spark/jobs`, `POST/PUT /api/v2/domains/{domain}/spark/streaming/jobs`, `POST/PUT /api/v2/domains/{domain}/sdk/spark/jobs` — all three job types use the same structure under `template`.
+
+The same two secrets, expressed both ways — an `API_KEY` environment variable and an S3 access key in Spark config:
 
 <Tabs>
   <TabItem value="v1" label="V1 — Inline Placeholders" default>
@@ -139,21 +139,15 @@ When the flag is off, a `secretObject` entry resolves to nothing instead of a va
 ```json
 {
   "template": {
-    "envVars": {
-      "APP_MODE": "production"
-    },
     "envSecrets": [
       {
-        "key": "API_TOKEN",
+        "key": "API_KEY",
         "secretObject": {
-          "key": "api_token",
+          "key": "api_key",
           "source": { "type": "VAULT", "id": "vault-config-id" }
         }
       }
     ],
-    "sparkConf": {
-      "spark.executor.memory": "4g"
-    },
     "sparkConfSecrets": [
       {
         "key": "spark.hadoop.fs.s3a.access.key",
@@ -174,6 +168,8 @@ When the flag is off, a `secretObject` entry resolves to nothing instead of a va
 
 **Endpoint:** `POST/PUT /api/v1/domains/{domain}/jupyter-containers`
 
+The same secret, expressed both ways — a `DB_PASSWORD` environment variable:
+
 <Tabs>
   <TabItem value="v1" label="V1 — Inline Placeholders" default>
 
@@ -193,22 +189,12 @@ When the flag is off, a `secretObject` entry resolves to nothing instead of a va
 ```json
 {
   "config": {
-    "envVars": {
-      "APP_MODE": "production"
-    },
     "envSecrets": [
       {
         "key": "DB_PASSWORD",
         "secretObject": {
           "key": "db_password",
           "source": { "type": "KUBERNETES", "id": "secret-domain" }
-        }
-      },
-      {
-        "key": "API_TOKEN",
-        "secretObject": {
-          "key": "api_token",
-          "source": { "type": "VAULT", "id": "vault-config-id" }
         }
       }
     ]
@@ -223,7 +209,7 @@ When the flag is off, a `secretObject` entry resolves to nothing instead of a va
 
 **Endpoint:** `POST/PUT /api/v1/domains/{domain}/storage-configs`
 
-Unlike the other surfaces, storage configs keep a legacy plaintext field as a real fallback, not just a separate code path:
+Unlike the other surfaces, storage configs keep a legacy plaintext field as a real fallback, not just a separate code path. The same S3 secret key, expressed both ways:
 
 <Tabs>
   <TabItem value="v1" label="V1 — Plaintext" default>
