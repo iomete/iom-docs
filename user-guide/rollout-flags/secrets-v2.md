@@ -14,6 +14,12 @@ Enables structured `secretObject` references for compute, Spark jobs, Jupyter co
 
 This is purely additive: the existing `${secrets.key}` inline-placeholder syntax is a separate code path that this flag does not touch, in any of the areas below. Toggling this flag only changes whether the _new_ `secretObject` syntax works — nothing that currently uses `${secrets.key}` changes behavior, whether the flag is on or off.
 
+This flag is also what makes **HashiCorp Vault-backed secrets usable at all**. The legacy `${secrets.key}` placeholder only ever resolves IOMETE-managed Kubernetes secrets; there's no Vault path in it. A `secretObject` is the only way to reference a Vault-backed secret in a workload, so Vault integrations are only useful once this flag is on.
+
+:::info Console users are already using secretObject
+The console's secret selector — ["Use existing secret" / "Create new secret"](../secrets.md#how-to-reference-a-secret), the recommended way to attach a secret to a workload — produces a `secretObject` by default, not the legacy placeholder. If this flag is off, secrets picked through that selector won't resolve into the workload (see [Impact Area](#impact-area)), even though the selector itself doesn't check the flag before letting you pick one.
+:::
+
 |              |                                      |
 | ------------ | ------------------------------------ |
 | **Flag key** | `secretsV2`                          |
