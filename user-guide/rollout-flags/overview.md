@@ -7,7 +7,7 @@ last_update:
   author: Sourabh Jajoria
 ---
 
-Rollout flags let IOMETE turn a feature on or off at runtime, without a redeploy.
+From release `4.0.0` forward, rollout flags let IOMETE turn a feature on or off at runtime, without a redeploy.
 
 ## Available flags
 
