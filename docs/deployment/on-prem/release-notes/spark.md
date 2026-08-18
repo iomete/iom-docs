@@ -3,8 +3,8 @@ title: IOMETE Spark Release Notes
 sidebar_label: Spark
 description: Release notes for IOMETE Spark images. Learn about new features, improvements, security updates, and bug fixes in each Spark image release.
 last_update:
-  date: 08/07/2026
-  author: Mateus Aubin
+  date: 08/18/2026
+  author: Rovshan Baghirov
 ---
 
 import Mailer from '@site/src/components/Mailer';
@@ -32,6 +32,16 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     `az acr repository show-tags -n iomete --repository iomete/spark --detail`.
     Never an rc push or the tagged commit date; both predate availability.
 */}
+
+<Release name="Spark" version="3.5.7-v6" date="August 18, 2026">
+  <ReleaseDescription>
+    Continues the authorization hardening started in 3.5.7-v4.
+  </ReleaseDescription>
+
+  <Improvements>
+    - **Consistent Policy Enforcement Across Iceberg Read Paths**: Access policies, data masking, and row-level security are now enforced uniformly however a table's data is addressed — including time travel (`snapshot_id_…`, `at_timestamp_…`, `VERSION AS OF`) and the changelog (`table.changes`) — matching the behavior of a direct table read. Selector classification is fail-closed: unrecognized table suffixes are treated as table data and receive full policy enforcement, so future Iceberg read paths are protected by default. Iceberg metadata tables (`snapshots`, `files`, `history`, …) are unaffected.
+  </Improvements>
+</Release>
 
 <Release name="Spark" version="3.5.7-v5" date="August 7, 2026">
   <ReleaseDescription>
