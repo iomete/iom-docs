@@ -1,0 +1,270 @@
+---
+title: Lakehouse Backup Job
+sidebar_label: Lakehouse Backup
+description: Back up and restore lakehouse files between S3-compatible object stores and HDFS-compatible storage with a Spark job.
+last_update:
+  date: 08/18/2026
+  author: Abhishek Pathania
+---
+
+The **Lakehouse Backup Job** copies all files and folders under a configured storage path between S3-compatible object stores and HDFS-compatible storage. It preserves relative paths and runs file copies in parallel across a Spark cluster, so you can use the same job for scheduled backups and restores.
+
+- **Image:** `iomete.azurecr.io/iomete/iomete-lakehouse-backup:<VERSION>`
+- **Latest version:** [Marketplace Jobs release notes](../deployment/on-prem/release-notes/marketplace-jobs.md)
+- **Source:** [View on GitHub](https://github.com/iomete/iomete-marketplace-jobs/tree/main/iomete-lakehouse-backup)
+
+:::warning
+The job copies files as they exist during the run. It does not create a transactionally consistent snapshot while applications continue writing to the source. Run the backup when the source is not changing.
+:::
+
+## Supported Storage Paths
+
+You can configure either storage type as the source or target.
+
+| Source | Target | Typical use |
+|---|---|---|
+| S3 | S3 | Copy data to another bucket, account, region, or S3-compatible system. |
+| S3 | HDFS | Back up object-store data to Dell Isilon, OneFS, or Hadoop storage. |
+| HDFS | S3 | Restore or migrate HDFS data to object storage. |
+| HDFS | HDFS | Copy data between HDFS-compatible systems. |
+
+S3 support includes AWS S3 and compatible systems such as Dell ECS and Ceph. HDFS support uses simple authentication and works with systems such as Dell Isilon, OneFS, and Hadoop clusters.
+
+## Creating the Job Template
+
+Before you create the job, make sure the source credentials allow reads and the target credentials allow writes. For HDFS, the Spark driver and executors must be able to reach the NameNode and every DataNode.
+
+1. Open **Job Templates** and click **New Job Template**. See [Creating a Spark Job](/resources/user-guide/spark-jobs/creating-spark-job) for a walkthrough of the job form.
+2. Configure the application:
+
+   | Field | Value |
+   |---|---|
+   | Docker image | `iomete.azurecr.io/iomete/iomete-lakehouse-backup:<VERSION>` |
+   | Main application file | `spark-internal` |
+   | Main class | `com.iomete.backup.App` |
+   | Arguments | `/etc/configs/application.json` |
+
+   Replace `<VERSION>` with the version listed in the [Marketplace Jobs release notes](../deployment/on-prem/release-notes/marketplace-jobs.md).
+
+3. Choose an instance size for the amount of data you need to copy.
+4. Under **Configurations → Config Maps**, add a file with the path `/etc/configs/application.json`, then paste your configuration. See [Config Maps](/resources/user-guide/spark-jobs/spark-application-config#config-maps) for details.
+5. Add the credential variables used in `application.json` under **Environment Variables**. Select **Use existing secret** for each value as described in [Using Secrets in Workloads](/resources/user-guide/secrets#usage-in-workloads). IOMETE resolves placeholders such as `${SOURCE_ACCESS_KEY}` when it deploys the job. Do not put credentials directly in the file.
+6. Add a [schedule](/resources/user-guide/spark-jobs/spark-application-config#schedule) if you want the backup to run automatically, then create the job.
+
+The selected instance normally supplies the executor count and CPU settings. If either value is missing, the run fails before copying data and reports the Spark setting you need to add: `spark.kubernetes.executor.limit.cores` and either `spark.executor.instances` or `spark.dynamicAllocation.maxExecutors`.
+
+## Configuring an S3-to-S3 Backup
+
+Use separate source and target credentials when the locations belong to different accounts or systems.
+
+```json
+{
+  "source": {
+    "type": "s3",
+    "bucket": "<SOURCE_BUCKET>",
+    "prefix": "<SOURCE_PREFIX>",
+    "accessKey": "${SOURCE_ACCESS_KEY}",
+    "secretKey": "${SOURCE_SECRET_KEY}"
+  },
+  "target": {
+    "type": "s3",
+    "bucket": "<TARGET_BUCKET>",
+    "prefix": "<TARGET_PREFIX>",
+    "accessKey": "${TARGET_ACCESS_KEY}",
+    "secretKey": "${TARGET_SECRET_KEY}"
+  }
+}
+```
+
+Replace the bucket and prefix placeholders with your storage locations. The job copies every source file under `SOURCE_PREFIX` to the same relative path under `TARGET_PREFIX`.
+
+For a non-AWS S3-compatible system, add its endpoint and enable path-style access when the system requires it:
+
+```json
+{
+  "type": "s3",
+  "bucket": "lakehouse-backup",
+  "prefix": "production",
+  "endpoint": "https://object-storage.example.com",
+  "pathStyleAccess": true,
+  "accessKey": "${S3_ACCESS_KEY}",
+  "secretKey": "${S3_SECRET_KEY}",
+  "region": "us-east-1"
+}
+```
+
+### S3 Configuration
+
+| Field | Required | Default | Description |
+|---|---|---|---|
+| `type` | Yes | — | Set to `s3`. |
+| `bucket` | Yes | — | S3 bucket name. |
+| `prefix` | No | Empty | Folder prefix under the bucket. |
+| `endpoint` | No | AWS default | Endpoint for an S3-compatible system. |
+| `pathStyleAccess` | No | `false` | Uses path-style bucket addressing when set to `true`. |
+| `accessKey` | Yes | — | Access key, normally provided through an IOMETE Secret. |
+| `secretKey` | Yes | — | Secret key, normally provided through an IOMETE Secret. |
+| `region` | No | `us-east-1` | S3 region. |
+
+## Configuring HDFS Storage
+
+Use an HDFS block as either `source` or `target`. This example backs up S3 data to HDFS:
+
+```json
+{
+  "source": {
+    "type": "s3",
+    "bucket": "<SOURCE_BUCKET>",
+    "prefix": "<SOURCE_PREFIX>",
+    "accessKey": "${SOURCE_ACCESS_KEY}",
+    "secretKey": "${SOURCE_SECRET_KEY}"
+  },
+  "target": {
+    "type": "hdfs",
+    "namenode": "isilon.example.com:8020",
+    "path": "backups/lakehouse",
+    "user": "iomete-backup"
+  }
+}
+```
+
+For Dell Isilon or OneFS, use the SmartConnect zone FQDN for `namenode` so connections can be balanced across nodes.
+
+| Field | Required | Default | Description |
+|---|---|---|---|
+| `type` | Yes | — | Set to `hdfs`. |
+| `namenode` | Yes | — | NameNode RPC endpoint in `host:port` format. |
+| `path` | No | Empty | Directory under the filesystem root. |
+| `user` | Yes | — | HDFS user with the required read or write permissions. |
+| `authentication` | No | `simple` | Authentication mode. Only `simple` is supported. |
+
+Simple authentication uses the configured user name without a password. Kerberos-secured HDFS clusters are not supported.
+
+## Configuring Copy Behavior
+
+The default copy settings work for most backups. Add a `copy` block only when you need to force a full copy, limit bandwidth, or tune a measured performance problem.
+
+```json
+{
+  "copy": {
+    "skipIdentical": true,
+    "clockSkewToleranceMs": 30000,
+    "slotsPerVcpu": 4,
+    "tasksPerSlot": 20,
+    "perFileOverheadBytes": 26214400,
+    "maxBytesPerTask": 1073741824,
+    "maxBandwidthMbPerSec": 600
+  }
+}
+```
+
+| Field | Default | Description |
+|---|---:|---|
+| `skipIdentical` | `true` | Skips a target file when its size matches and its modification time is sufficiently newer than the source. Set to `false` to copy every source file. |
+| `clockSkewToleranceMs` | `30000` | Required target timestamp margin when deciding whether a file is identical. |
+| `slotsPerVcpu` | `4` | Maximum concurrent file copies per executor vCPU. |
+| `tasksPerSlot` | `20` | Target number of Spark tasks per copy slot. |
+| `perFileOverheadBytes` | `26214400` | Estimated fixed per-file cost used to balance tasks. It does not add bytes to the copy. |
+| `maxBytesPerTask` | `1073741824` | Maximum estimated work assigned to a normal task. A larger individual file remains whole in its own task. |
+| `maxBandwidthMbPerSec` | Unset | Maximum aggregate copy rate across the whole job in MB/s. Unset means uncapped. |
+
+The job does not split individual files. It stages each write under a temporary target path, verifies that the written length matches the source, and then renames the file into place. It retries temporary failures and fails the run if any file cannot be copied. Files that exist only at the target are not deleted.
+
+## Recording Run History
+
+Run-history recording is enabled by default. The job creates these Iceberg tables on its first run:
+
+| Table | Contents |
+|---|---|
+| `spark_catalog.iomete_system_db.lakehouse_backup_runs` | One row per run with status, counts, byte totals, stage timings, and copy settings. |
+| `spark_catalog.iomete_system_db.lakehouse_backup_run_file_failures` | One row per recorded file failure, joined by `run_id`. |
+
+To disable recording, change its database, or limit recorded failure rows, add a `stats` block:
+
+```json
+{
+  "stats": {
+    "enabled": true,
+    "database": "spark_catalog.iomete_system_db",
+    "maxFailureRows": 1000
+  }
+}
+```
+
+| Field | Default | Description |
+|---|---|---|
+| `enabled` | `true` | Records run history when enabled. |
+| `database` | `spark_catalog.iomete_system_db` | Database for both history tables. You can include or omit the catalog. |
+| `maxFailureRows` | `1000` | Maximum failure details stored for one run. The run table still records the full failure count. |
+
+A history-table write failure produces a warning but does not turn a successful backup into a failed run.
+
+## Running and Checking a Backup
+
+1. Confirm that applications are not changing the source files.
+2. Open the job template and start a run.
+3. Monitor the run as described in [Running a Spark Job](/resources/user-guide/spark-jobs/creating-spark-job#running-a-spark-job).
+4. After it finishes, query the run-history table:
+
+```sql
+SELECT run_id,
+       status,
+       started_at,
+       ended_at,
+       files_copied,
+       files_skipped,
+       files_failed,
+       bytes_copied,
+       error_message
+FROM spark_catalog.iomete_system_db.lakehouse_backup_runs
+ORDER BY started_at DESC
+LIMIT 20;
+```
+
+A complete backup has `status = 'SUCCEEDED'`, `files_failed = 0`, and a populated `ended_at`. A run that remains `RUNNING` long after it started usually means its driver stopped before recording the outcome.
+
+To inspect failed files, replace `<RUN_ID>` and run:
+
+```sql
+SELECT source_path, target_path, attempts_used, error
+FROM spark_catalog.iomete_system_db.lakehouse_backup_run_file_failures
+WHERE run_id = '<RUN_ID>'
+ORDER BY source_path;
+```
+
+## Restoring a Backup
+
+Create a separate job template for restores so a scheduled backup cannot accidentally run with reversed locations. Configure the backup location as `source` and the restore location as `target`, then run it while the restore target is not being written by another process.
+
+For example, restore an HDFS backup to S3 with:
+
+```json
+{
+  "source": {
+    "type": "hdfs",
+    "namenode": "isilon.example.com:8020",
+    "path": "backups/lakehouse",
+    "user": "iomete-backup"
+  },
+  "target": {
+    "type": "s3",
+    "bucket": "<RESTORE_BUCKET>",
+    "prefix": "<RESTORE_PREFIX>",
+    "accessKey": "${RESTORE_ACCESS_KEY}",
+    "secretKey": "${RESTORE_SECRET_KEY}"
+  }
+}
+```
+
+After the run succeeds, validate the restored catalog or workload against the copied files before directing production traffic to it.
+
+## Tuning Copy Performance
+
+Start with the defaults and compare successful runs of the same source before changing anything. The run-history table separates source listing, target listing, planning, copy, and directory-creation time, and it records effective concurrency and task shape.
+
+- Raise `slotsPerVcpu` only when copy slots stay busy and additional concurrency continues to improve throughput.
+- Raise `tasksPerSlot` when too few tasks leave slots idle near the end of the copy.
+- Raise `perFileOverheadBytes` when tasks containing many small files run much longer than others.
+- Set `maxBandwidthMbPerSec` when the backup must leave network capacity for other workloads.
+
+For the full metrics reference and tuning queries, see [Backup run history](https://github.com/iomete/iomete-marketplace-jobs/blob/main/iomete-lakehouse-backup/docs/run-stats.md). To benchmark controlled configuration changes in your environment, follow the [load-testing runbook](https://github.com/iomete/iomete-marketplace-jobs/blob/main/iomete-lakehouse-backup/docs/load-testing.md).

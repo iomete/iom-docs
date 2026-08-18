@@ -2,6 +2,9 @@
 title: Marketplace Jobs
 sidebar_label: Marketplace Jobs
 description: Release notes for IOMETE Marketplace Jobs. Learn about updates, improvements, and bug fixes for various data integration and processing jobs.
+last_update:
+  date: 08/18/2026
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
@@ -20,10 +23,26 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | Kafka Iceberg Stream     | kafka-iceberg-stream    | 1.2.0    | [Open ↗](/resources/open-source-spark-jobs/kafka-iceberg-stream)           |
 | Query Scheduler          | spark-py                | 3.5.7-v1 | [Open ↗](/resources/open-source-spark-jobs/query-scheduler-job)            |
 | TPC-DS Iceberg Generator | tpcds-iceberg-generator | 3.5.5    | Use job-templates in IOMETE                                                |
+| Lakehouse Backup         | iomete-lakehouse-backup | 1.3.0    | [Open ↗](../../../open-source-spark-jobs/lakehouse-backup.mdx)          |
 | Cleanup Untracked Table Folders | cleanup-untracked-table-folders | 0.1.0 | [Open ↗](/resources/open-source-spark-jobs/cleanup-untracked-table-folders) |
 ---
 
 ## Recent Releases
+
+<Release name="Lakehouse Backup Job" version="1.3.0" date="August 18, 2026">
+  <NewFeatures>
+    - **Run history**: Added Iceberg tables for run status, file and byte counts, failures, stage timings, executor timings, and the configuration used by each backup.
+  </NewFeatures>
+  <Improvements>
+    - **Job-wide bandwidth limit**: Added `copy.maxBandwidthMbPerSec` to cap aggregate copy throughput across all executors.
+    - **Copy concurrency**: Added vCPU-based copy slots with `copy.slotsPerVcpu`, allowing network-bound copies to use more concurrency without changing executor CPU requests.
+    - **Weighted task planning**: Balanced tasks by file size and estimated per-file cost with `copy.tasksPerSlot`, `copy.perFileOverheadBytes`, and `copy.maxBytesPerTask`.
+    - **Performance testing**: Added a load-testing runbook for comparing backup throughput with controlled datasets and configuration changes.
+  </Improvements>
+  <BreakingChanges>
+    - **Legacy task-planning settings**: `copy.filesPerTask` and `copy.bytesPerTask` are still accepted but no longer affect planning. Use `copy.tasksPerSlot`, `copy.perFileOverheadBytes`, and `copy.maxBytesPerTask` instead.
+  </BreakingChanges>
+</Release>
 
 <Release name="Catalog Sync Job" version="5.0.3" date="August 6, 2026">
   <Improvements>
@@ -31,6 +50,30 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Faster statistics collection**: Current and historical table metrics are now read from Iceberg snapshot summaries instead of running multiple Spark SQL queries for each table.
     - **Metadata parity**: The optimized path preserves table schemas, comments, partition details, properties, and current and historical table metrics.
   </Improvements>
+</Release>
+
+<Release name="Lakehouse Backup Job" version="1.2.0" date="August 4, 2026">
+  <NewFeatures>
+    - **Idempotent reruns**: Added target-file checks that skip files with the same length and a sufficiently newer modification time. Set `copy.skipIdentical` to `false` to force a full copy.
+  </NewFeatures>
+  <Improvements>
+    - **Verified file publishing**: Files are now written to a temporary target path, checked against the source length, and renamed into place only after verification succeeds.
+    - **Byte-balanced task planning**: Replaced file-count partitioning with size-aware batches so large files start earlier and are distributed more evenly across the cluster.
+  </Improvements>
+</Release>
+
+<Release name="Lakehouse Backup Job" version="1.1.0" date="July 28, 2026">
+  <NewFeatures>
+    - **HDFS backup and restore**: Added HDFS-compatible storage as both a source and a target, enabling copies between S3, Dell Isilon or OneFS, and Hadoop filesystems.
+    - **Empty-directory restore**: Added recreation of empty directories when copying from an HDFS source.
+  </NewFeatures>
+</Release>
+
+<Release name="Lakehouse Backup Job" version="1.0.0" date="July 14, 2026">
+  <NewFeatures>
+    - **Initial release**: Added recursive S3-to-S3 backups with independent source and target credentials, prefix preservation, parallel Spark execution, and per-file retries.
+    - **Failure reporting**: Added run-level failure when any source file cannot be copied, preventing incomplete backups from being reported as successful.
+  </NewFeatures>
 </Release>
 
 <Release name="Cleanup Untracked Table Folders Job" version="0.1.0" date="June 9, 2026">
