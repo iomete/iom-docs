@@ -47,4 +47,4 @@ Before disabling, confirm nothing depends solely on a `secretObject`/`storageSec
 
 ---
 
-See [Rollout Flags](./overview.md) for how flags like this one are evaluated and how to change them.
+See [Rollout Flags](./overview.md) for other flags.
