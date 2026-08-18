@@ -36,10 +36,10 @@ Enabling `secretsV2` (already the default) turns on structured `secretObject` su
 Disabling `secretsV2` is a breaking change for anything already relying on it, not a safe no-op:
 
 - Any compute, Spark job, streaming job, or Jupyter container whose secrets are configured **only** through a structured `secretObject` reference (not the legacy `${secrets.key}` placeholder) will silently lose those secret-backed environment variables and Spark configuration values the next time it deploys. There's no fallback and no error — the workload just starts without the credential.
-- Any storage config set up **only** through `storageSecret` (no legacy `secretKey` value ever saved) loses its connection secret the same way.
+- Any storage config set up **only** through a structured secret reference (no legacy plaintext secret value ever saved) loses its connection secret the same way.
 - Vault-Use authorization checks stop being enforced for all Vault-backed secret references while the flag is off.
 
-Before disabling, confirm nothing depends solely on a `secretObject`/`storageSecret` reference, and let affected users know first.
+Before disabling, confirm nothing depends solely on a `secretObject` reference, and let affected users know first.
 
 ## References
 
