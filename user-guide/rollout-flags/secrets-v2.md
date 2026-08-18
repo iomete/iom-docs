@@ -30,7 +30,7 @@ The console's secret selector — ["Use existing secret" / "Create new secret"](
 
 ### Minimum compatible version
 
-IOMETE `3.16.0` or later.
+IOMETE `3.16.0` or later for Secrets V2 itself. `4.0.0` or later to control it through this rollout flag — before that, `secretsV2` can only be set through the Helm chart value, which requires a normal redeploy to change.
 
 ### Deployment setup changes
 
@@ -38,7 +38,9 @@ None. No additional Helm values, infrastructure, or configuration are needed to 
 
 ### Services to restart
 
-None. Toggling the flag through the rollout-flag admin API takes effect automatically — each service picks up the new value on its next refresh, within about a minute, without restarting `iom-core`, `iom-cluster`, or any other service.
+None **when changed through the rollout-flag admin API** — that's what "no restart" means on this page. Toggling a domain or global override takes effect automatically, within about a minute, without restarting `iom-core`, `iom-cluster`, or any other service.
+
+If you instead change the underlying Helm value this flag falls back to (`features.secretsV2.enabled`) with no override set, that's an ordinary Helm upgrade — it goes through your normal deploy process like any other chart value.
 
 ## Impact Area
 
