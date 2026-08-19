@@ -125,7 +125,7 @@ const sidebars = {
       type: "category",
       label: "Rollout Flags",
       collapsed: true,
-      items: ["rollout-flags/overview", "rollout-flags/secrets-v2"],
+      items: ["rollout-flags/overview", "rollout-flags/secrets-v2", "rollout-flags/ldap-group-inheritance"],
     },
     {
       type: "category",
