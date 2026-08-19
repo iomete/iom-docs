@@ -31,7 +31,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release name="Lakehouse Backup Job" version="1.4.0" date="August 19, 2026">
   <NewFeatures>
-    - **Timestamped backup folders**: Added `copy.targetTimestampFolder` to write backups to hourly, daily, weekly, or monthly UTC folders. Runs started in the same period reuse the folder, allowing retries to skip files already copied when the default `copy.skipIdentical` setting is enabled.
+    - **Timestamped backup folders**: Added `copy.targetTimestampFolder` to write backups to hourly, daily, weekly, or monthly UTC folders. Runs started in the same period reuse the folder, so retries can skip files already copied when `copy.skipIdentical` is enabled.
   </NewFeatures>
 </Release>
 
