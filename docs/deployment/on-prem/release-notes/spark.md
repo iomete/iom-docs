@@ -39,7 +39,7 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
   </ReleaseDescription>
 
   <Improvements>
-    - **Security Policy Support for Iceberg-Specific Queries**: Access policies, data masking, and row-level security now apply to Iceberg-specific queries such as time travel and changelog reads.
+    - Security policy support for Iceberg-specific queries.
   </Improvements>
 
   <BugFixes>
