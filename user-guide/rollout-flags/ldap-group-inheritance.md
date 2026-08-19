@@ -31,7 +31,7 @@ None beyond having LDAP itself configured. This flag has no effect unless [group
 
 None **when changed through the rollout-flag admin API**. Toggling a global override takes effect automatically, within about a minute, without restarting `iom-identity` or any other service — the change applies starting with the next LDAP sync.
 
-If you instead change the underlying Helm value this flag falls back to (`ldapGroupInheritance.enabled`) with no override set, that's an ordinary Helm upgrade — it goes through your normal deploy process like any other chart value.
+If you instead change the underlying Helm value this flag falls back to (`features.ldapGroupInheritance.enabled`) with no override set, that's an ordinary Helm upgrade — it goes through your normal deploy process like any other chart value.
 
 ## Impact Area
 
