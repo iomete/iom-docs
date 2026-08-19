@@ -40,7 +40,7 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
 
   <Improvements>
     - Security policy support for Iceberg-specific queries.
-    - Security policy enforcement is now enabled by default and can no longer be disabled at deployment.
+    - Security policy enforcement is now enabled by default and can not be disabled with the `rangerEnabled` flag.
   </Improvements>
 
   <BugFixes>
