@@ -4,7 +4,7 @@ Five Claude Code agents that turn source code into finished docs. They extract d
 
 ## Prerequisites
 
-- **Node.js 18+** and `npm install` (installs `sharp` for image processing)
+- **Node.js 18+** and `yarn install --frozen-lockfile` (installs `sharp` for image processing)
 - **SSH key** with access to the `iomete` GitHub org (source-extractor clones private repos)
 - **GitHub CLI** (`gh`) installed and authenticated (for PR workflows)
 - **Optional**: [humanizer skill](https://github.com/blader/humanizer) catches AI-sounding text in the language editor:
@@ -228,6 +228,7 @@ cat > .claude/settings.local.json << 'EOF'
       "Bash(node:*)",
       "Bash(npm:*)",
       "Bash(npm run:*)",
+      "Bash(yarn:*)",
       "Bash(ls:*)",
       "Bash(mkdir:*)",
       "Bash(mv:*)",
@@ -281,7 +282,7 @@ All of these are created on first use. Safe to delete; agents recreate them as n
 
 ## Troubleshooting
 
-**sharp not found** -- Run `npm install`. It's a devDependency.
+**sharp not found** -- Run `yarn install --frozen-lockfile`. It's a devDependency.
 
 **SSH clone fails** -- Your SSH key needs access to the `iomete` GitHub org. Test with `ssh -T git@github.com`.
 
