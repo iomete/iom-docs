@@ -3,7 +3,7 @@ title: Marketplace Jobs
 sidebar_label: Marketplace Jobs
 description: Release notes for IOMETE Marketplace Jobs. Learn about updates, improvements, and bug fixes for various data integration and processing jobs.
 last_update:
-  date: 08/18/2026
+  date: 08/19/2026
   author: Abhishek Pathania
 ---
 
@@ -23,11 +23,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | Kafka Iceberg Stream     | kafka-iceberg-stream    | 1.2.0    | [Open ↗](/resources/open-source-spark-jobs/kafka-iceberg-stream)           |
 | Query Scheduler          | spark-py                | 3.5.7-v1 | [Open ↗](/resources/open-source-spark-jobs/query-scheduler-job)            |
 | TPC-DS Iceberg Generator | tpcds-iceberg-generator | 3.5.5    | Use job-templates in IOMETE                                                |
-| Lakehouse Backup         | iomete-lakehouse-backup | 1.3.0    | [Open ↗](../../../open-source-spark-jobs/lakehouse-backup.mdx)          |
+| Lakehouse Backup         | iomete-lakehouse-backup | 1.4.0    | [Open ↗](../../../open-source-spark-jobs/lakehouse-backup.mdx)          |
 | Cleanup Untracked Table Folders | cleanup-untracked-table-folders | 0.1.0 | [Open ↗](/resources/open-source-spark-jobs/cleanup-untracked-table-folders) |
 ---
 
 ## Recent Releases
+
+<Release name="Lakehouse Backup Job" version="1.4.0" date="August 19, 2026">
+  <NewFeatures>
+    - **Timestamped backup folders**: Added `copy.targetTimestampFolder` to write backups to hourly, daily, weekly, or monthly UTC folders. Runs started in the same period reuse the folder, allowing retries to skip files already copied when the default `copy.skipIdentical` setting is enabled.
+  </NewFeatures>
+</Release>
 
 <Release name="Lakehouse Backup Job" version="1.3.0" date="August 18, 2026">
   <NewFeatures>
