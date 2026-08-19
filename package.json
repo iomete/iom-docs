@@ -13,6 +13,7 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids"
   },
+  "//image-size": "Not pinned: ^2.0.2 accepts fix when available. GHSA-w3rx-r6r6-pgpr and GHSA-5p2g-fcmc-qvqq not yet patched upstream. Alerts dismissed as tolerable risk: build-time dep, images from trusted sources.",
   "dependencies": {
     "@docusaurus/core": "^3.10.1",
     "@docusaurus/plugin-client-redirects": "^3.10.1",
