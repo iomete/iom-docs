@@ -15,6 +15,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="TBD" date="TBD">
+  <BugFixes>
+    - **Job Schedule Next Run Time**: Fixed an issue where a scheduled Spark job's next run time showed the skipped run's start time instead of advancing, when the run was skipped because a previous run was still active under a `Forbid` [concurrency policy](/user-guide/spark-jobs/spark-application-config#concurrency-policy).
+  </BugFixes>
+</Release>
+
 <Release version="3.18.0" date="August 5th, 2026">
   <NewFeatures>
     - **Read-Only Admin Role**: Added a new `READ_ONLY_ADMIN` role that grants read-only (GET) access to all admin APIs without any write access. This enables governance and self-serve tooling to read admin endpoints without granting the write permissions that existing admin roles carry.
