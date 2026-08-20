@@ -15,6 +15,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="TBD" date="TBD">
+  <Improvements>
+    - **Stuck Spark Job Reconciliation**: Added periodic reconciliation for Spark jobs stuck in `Enqueued`, `Submitted`, or `Running` state after a missed Kubernetes event. Jobs are now synced against the actual Kubernetes `SparkApplication` state and marked terminal once Kubernetes no longer has the resource, instead of remaining stuck indefinitely.
+  </Improvements>
+</Release>
+
 <Release version="3.18.0" date="August 5th, 2026">
   <NewFeatures>
     - **Read-Only Admin Role**: Added a new `READ_ONLY_ADMIN` role that grants read-only (GET) access to all admin APIs without any write access. This enables governance and self-serve tooling to read admin endpoints without granting the write permissions that existing admin roles carry.
