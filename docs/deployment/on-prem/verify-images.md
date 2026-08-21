@@ -44,16 +44,12 @@ is expected here: IOMETE signs with its own key rather than through a public
 transparency log, so there is no log entry to check, and the flag tells cosign not
 to look for one. The signature itself is still verified against the key.
 
-To check every image in a release, run the same command for each image listed in
-the release notes for your version.
-
-## Verifying the Helm chart
-
-The chart is signed separately, with the provenance file Helm publishes alongside
-it:
+To check more than one image, run the same command for each. The images a version
+deploys, with their tags, come from the data plane chart itself:
 
 ```bash
-helm verify iomete-data-plane-enterprise-<version>.tgz --keyring iomete-pubring.gpg
+helm template iomete-data-plane-enterprise --version <version> \
+  --repo https://chartmuseum.iomete.com | grep -o 'image: .*' | sort -u
 ```
 
 ## If verification fails
