@@ -3,7 +3,7 @@ title: Internal Implementation
 sidebar_label: Internal Implementation
 description: How IOMETE translates node types into Spark and Kubernetes configuration — core calculation, memory overhead, and customizable properties.
 last_update:
-  date: 03/25/2026
+  date: 07/29/2026
   author: Abhishek Pathania
 ---
 
@@ -17,12 +17,14 @@ When you create a node type, IOMETE derives three values from its CPU setting.
 | --- | --- | --- |
 | `spark.driver.cores` / `spark.executor.cores` | `max(ceil(CPU_vCPU * coreFactor), 1)` | Number of Spark cores available to the component. Default `coreFactor` is **1.5**. |
 | `spark.kubernetes.driver.request.cores` / `spark.kubernetes.executor.request.cores` | `{cpu}m` | Kubernetes CPU request, set to the node type's raw millicore value. |
-| `spark.kubernetes.driver.limit.cores` / `spark.kubernetes.executor.limit.cores` | depends on limit factor | Kubernetes CPU limit. Defaults to the request value (`{cpu}m`), adjustable via `spark.iomete.driver.core.limit.factor` / `spark.iomete.executor.core.limit.factor` (default 1.0). |
+| `spark.kubernetes.driver.limit.cores` / `spark.kubernetes.executor.limit.cores` | `{cpu}m` | Kubernetes CPU limit, always equal to the request. |
 
 **Example**: a node type with 2000 millicores (2 vCPU) and the default core factor of 1.5 produces:
 - Spark cores: `ceil(2 * 1.5)` = **3**
 - Kubernetes CPU request: **2000m**
-- Kubernetes CPU limit: **2000m** (with the default limit factor of 1.0)
+- Kubernetes CPU limit: **2000m**
+
+Because the core factor is above 1, Spark runs more tasks than the pod has CPU. This keeps the pod busy while tasks wait on network or disk.
 
 ## Memory Calculation
 
@@ -64,8 +66,6 @@ The defaults work well for most workloads, but you can override them globally, p
 | --- | --- | --- |
 | `spark.iomete.driver.core.factor` | 1.5 | Multiplier applied to driver vCPU count to calculate Spark cores. |
 | `spark.iomete.executor.core.factor` | 1.5 | Multiplier applied to executor vCPU count to calculate Spark cores. |
-| `spark.iomete.driver.core.limit.factor` | 1.0 | Multiplier applied to driver CPU request to set the Kubernetes CPU limit. |
-| `spark.iomete.executor.core.limit.factor` | 1.0 | Multiplier applied to executor CPU request to set the Kubernetes CPU limit. |
 
 For example, a 2 vCPU node with `spark.iomete.executor.core.factor = 3.0` yields Spark executor cores = `ceil(2 * 3.0)` = **6**.
 

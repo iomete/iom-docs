@@ -239,6 +239,7 @@ const sidebars = {
       items: [
         "open-source-spark-jobs/getting-started",
         "open-source-spark-jobs/data-compaction",
+        "open-source-spark-jobs/lakehouse-backup",
         "open-source-spark-jobs/query-scheduler-job",
         "open-source-spark-jobs/catalog-sync",
         "open-source-spark-jobs/cleanup-untracked-table-folders",

@@ -13,6 +13,7 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids"
   },
+  "//image-size": "Not pinned: ^2.0.2 accepts fix when available. GHSA-w3rx-r6r6-pgpr and GHSA-5p2g-fcmc-qvqq not yet patched upstream. Alerts dismissed as tolerable risk: build-time dep, images from trusted sources.",
   "dependencies": {
     "@docusaurus/core": "^3.10.1",
     "@docusaurus/plugin-client-redirects": "^3.10.1",
@@ -22,7 +23,7 @@
     "@ionic-internal/ionic-ds": "^8.0.0",
     "@mdx-js/react": "^3.1.1",
     "@phosphor-icons/react": "^2.1.10",
-    "axios": "^1.16.0",
+    "axios": "^1.18.0",
     "clsx": "^2.1.1",
     "docusaurus-plugin-image-zoom": "^3.0.1",
     "docusaurus-plugin-sass": "^0.2.6",
@@ -40,8 +41,8 @@
     "autoprefixer": "^10.4.23",
     "dotenv": "^17.3.1",
     "playwright": "^1.58.2",
-    "postcss": "^8.5.10",
-    "sharp": "^0.34.5",
+    "postcss": "^8.5.26",
+    "sharp": "^0.35.0",
     "tailwindcss": "^3.4.19"
   },
   "//resolutions": "Pinned to patch vulnerable transitive deps that parent packages still pull at insecure versions. See PRs #380 (picomatch) and #383 (the other 7) for the original Dependabot alerts each entry addresses. ws (#257, webpack-bundle-analyzer) and uuid (#244, sockjs) were added later for the same reason. Note: Dependabot alert #260 (js-yaml DoS via merge keys) cannot be auto-fixed — gray-matter@4.0.3 pins js-yaml@^3 and calls safeLoad/safeDump, which js-yaml 4.2.0 (the only patched release) removed, so forcing it breaks the build; the exposure is build-time only, parsing trusted in-repo frontmatter. Don't remove an entry without confirming the parent no longer needs the vulnerable version — check with `yarn why <pkg>`.",

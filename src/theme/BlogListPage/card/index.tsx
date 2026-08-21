@@ -27,7 +27,12 @@ function Card({ frontMatter, metadata, isFeatured }: ContentExtended) {
             decoding="async"
           />
         </div>
-        <div className={`card__body p-0 flex flex-col gap-1 min-w-[50%]`}>
+        <div
+          className={clsx(
+            "card__body p-0 mt-1 flex flex-col gap-1 min-w-[50%]",
+            isFeatured && "md:mt-0"
+          )}
+        >
           <div className="flex items-center gap-4">
             <CardDate date={metadata.date} />
             <CardTags tags={frontMatter.tags2} />

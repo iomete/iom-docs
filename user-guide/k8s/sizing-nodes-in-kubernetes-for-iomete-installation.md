@@ -89,7 +89,7 @@ Fewer, larger nodes can simplify cluster management:
 
 Below illustration compares resource allocation in Kubernetes clusters with multiple small nodes versus fewer large nodes. It demonstrates how larger nodes significantly reduce the overall operating system overhead, resulting in more efficient resource utilization.
 
-<Img src="/img/k8s/small-nodes-resource-waste.svg"
+<Img src="/img/k8s/small-nodes-resource-waste.png"
 caption="Small Nodes Resource Waste"
 alt="Small Nodes Resource Waste"/>
 
@@ -100,7 +100,7 @@ This illustration demonstrates the advantages of using larger nodes in a Kuberne
 
 It compares two scenarios one with four 4-CPU nodes and another with two 8-CPU nodes, both totaling 16 CPUs. The diagram shows how larger nodes allow for more efficient pod packing and resource utilization. In the small node scenario, only 4 pods (2 CPU each) can be scheduled, leaving 4 CPUs wasted. In contrast, the large node setup accommodates 6 pods, utilizing 12 out of 16 available CPUs. This visual emphasizes how larger nodes can significantly improve cluster efficiency by reducing OS overhead and minimizing unused resources, ultimately allowing for better performance in IOMETE deployments.
 
-<Img src="/img/k8s/kubernetes-node-sizing-pod-packing.svg" 
+<Img src="/img/k8s/kubernetes-node-sizing-pod-packing.png" 
     caption="Node Sizing: Pod Packing" alt="Node Sizing: Pod Packing"/>
 
 
@@ -108,7 +108,7 @@ It compares two scenarios one with four 4-CPU nodes and another with two 8-CPU n
 
 With larger nodes, Kubernetes can schedule larger pods that may require more resources, which might not fit well on smaller nodes.
 
-<Img src="/img/k8s/kubernetes-large-pod-scheduling.svg"
+<Img src="/img/k8s/kubernetes-large-pod-scheduling.png"
 caption="Scheduling larger pods" alt="Scheduling larger pods"/>
 
 ## Recommended Configurations

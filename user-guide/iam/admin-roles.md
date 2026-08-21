@@ -4,19 +4,19 @@ title: Admin Roles
 description: Reference for the built-in IOMETE admin roles that gate platform management actions across IAM, domains, catalogs, security, compute, and system administration.
 sidebar_label: Admin Roles
 last_update:
-  date: 04/27/2026
+  date: 08/05/2026
   author: Soltan Garayev
 ---
 
 ## Overview
 
-Admin roles are built-in, predefined roles that grant permission to manage specific areas of the IOMETE platform. You assign admin roles to users directly or to groups, and group members inherit the role automatically. Each admin role scopes a user to one management area — IAM, domains, Spark catalogs, data security, compute, or system administration — so you can grant only the access a person needs.
+Admin roles are built-in, predefined roles that grant permission to manage specific areas of the IOMETE platform. You assign admin roles to users directly or to groups, and group members inherit the role automatically. Most admin roles scope a user to one management area — IAM, domains, Spark catalogs, data security, compute, or system administration — so you can grant only the access a person needs.
 
 Admin roles are different from **Resource Bundles** (see [Resource Bundles](./ras/ras.md)), which grant resource-scoped access to the resources within a bundle. Admin roles always apply platform-wide within the area they manage; they don't scope down to individual resources.
 
 ## Available Admin Roles
 
-IOMETE ships with six built-in admin roles. The list is fixed — you can't create new admin roles or edit the permissions of existing ones.
+IOMETE ships with seven built-in admin roles. The list is fixed — you can't create new admin roles or edit the permissions of existing ones.
 
 | Value | Label | Description |
 |---|---|---|
@@ -26,6 +26,9 @@ IOMETE ships with six built-in admin roles. The list is fixed — you can't crea
 | `DATA_SECURITY_AND_AUDIT_MANAGER` | Data Security and Audit Manager | Manage data security, Spark catalog permissions, and audit operations. |
 | `COMPUTE_RESOURCES_MANAGER` | Compute Resources Manager | Manage compute resources — Docker registries, volumes, and node types. |
 | `ADMINISTRATION_MANAGER` | Administration Manager | Manage system configurations and event logs. |
+| `READ_ONLY_ADMIN` | Read-Only Admin | Read-only (GET) access to all admin APIs. Cannot create, update, or delete. |
+
+Unlike the six management roles, which each govern one area, **Read-Only Admin** is cross-cutting: it grants read-only (`GET`) access across every admin API rather than management rights over a single area.
 
 A user or group can hold multiple admin roles. Any admin role grants read access to the IAM section (you can view users, groups, and admin roles), but write access is gated by `IAM_MANAGER`.
 

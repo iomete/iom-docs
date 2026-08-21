@@ -21,8 +21,8 @@ yarn-debug.log*
 yarn-error.log*
 /.idea/
 
-# package-lock.json
-# yarn.lock
+# yarn.lock is the only lockfile; keep npm from recreating a second one
+package-lock.json
 
 # Claude Code — ignore contents, then whitelist shared doc-pipeline files
 .claude/*
