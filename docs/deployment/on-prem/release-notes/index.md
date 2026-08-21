@@ -15,6 +15,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="TBD" date="TBD">
+  <NewFeatures>
+    - **Recently Viewed**: Added a new **Recently viewed** tab to the Domain Dashboard so users can quickly return to resources they opened recently. The list supports compute clusters, Jupyter containers, Spark job templates and runs, streaming jobs, resource bundles, and event streams. Each entry shows the resource name, type, ID, and last viewed time, with actions to open the resource, copy its ID, remove one item, or clear all recents.
+    - **Recently Viewed tracking**: Recently viewed records are saved through the domain-scoped dashboard API only after the user remains on a supported resource details page for 3 seconds. This delay helps prevent accidental clicks or short page transitions from filling the list.
+  </NewFeatures>
+</Release>
+
 <Release version="3.18.0" date="August 5th, 2026">
   <NewFeatures>
     - **Read-Only Admin Role**: Added a new `READ_ONLY_ADMIN` role that grants read-only (GET) access to all admin APIs without any write access. This enables governance and self-serve tooling to read admin endpoints without granting the write permissions that existing admin roles carry.
