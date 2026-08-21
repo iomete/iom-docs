@@ -18,11 +18,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="TBD" date="TBD">
   <NewFeatures>
     - **Recently Viewed**: Added a new **Recently viewed** tab to the Domain Dashboard so users can quickly return to resources they opened recently. The list supports compute clusters, Jupyter containers, Spark job templates and runs, streaming jobs, resource bundles, and event streams. Each entry shows the resource name, type, ID, and last viewed time, with actions to open the resource, copy its ID, remove one item, or clear all recents.
-  </NewFeatures>
-
-  <Improvements>
     - **Recently Viewed tracking**: Recently viewed records are saved through the domain-scoped dashboard API only after the user remains on a supported resource details page for 3 seconds. This delay helps prevent accidental clicks or short page transitions from filling the list.
-  </Improvements>
+  </NewFeatures>
 </Release>
 
 <Release version="3.18.0" date="August 5th, 2026">
