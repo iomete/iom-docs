@@ -3,8 +3,8 @@ title: IOMETE Spark Release Notes
 sidebar_label: Spark
 description: Release notes for IOMETE Spark images. Learn about new features, improvements, security updates, and bug fixes in each Spark image release.
 last_update:
-  date: 08/07/2026
-  author: Mateus Aubin
+  date: 08/20/2026
+  author: Shahriyar Novruzov
 ---
 
 import Mailer from '@site/src/components/Mailer';
@@ -32,6 +32,24 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     `az acr repository show-tags -n iomete --repository iomete/spark --detail`.
     Never an rc push or the tagged commit date; both predate availability.
 */}
+
+<Release name="Spark" version="3.5.7-v6" date="August 19, 2026">
+  <ReleaseDescription>
+    Security policy support for Iceberg-specific queries and clearer external catalog errors.
+  </ReleaseDescription>
+
+  <Improvements>
+    - Security policy support for Iceberg-specific queries.
+    - Security policy enforcement is now enabled by default and can not be disabled with the `rangerEnabled` flag.
+  </Improvements>
+
+  <BugFixes>
+    - **External Catalog Authentication Errors**: Queries against an external catalog with an expired or invalid token now return a clear authentication error instead of a generic internal error.
+    - **Spark History Server OOM on Large Event Logs**: The history server no longer attempts to rebuild oversized event logs that exceed the configured size limit (`spark.history.fs.maxEventLogSizeBytes`, default 500MB), preventing OOM crashes caused by long-running apps with large logs.
+    - **Spark History Server Crash on Missing Subfolder**: The Spark History server now auto-creates its required S3 subfolder if it is missing, instead of failing with a startup error.
+    - **View Authorization with Subqueries**: Queries against a view now succeed when the user has access to the view but not to its underlying tables, even when the view definition contains a subquery (for example an aggregate or scalar subquery). Previously the subquery was authorized separately and the query was denied.
+  </BugFixes>
+</Release>
 
 <Release name="Spark" version="3.5.7-v5" date="August 7, 2026">
   <ReleaseDescription>
