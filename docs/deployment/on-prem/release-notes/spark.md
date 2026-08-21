@@ -47,6 +47,7 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     - **External Catalog Authentication Errors**: Queries against an external catalog with an expired or invalid token now return a clear authentication error instead of a generic internal error.
     - **Spark History Server OOM on Large Event Logs**: The history server no longer attempts to rebuild oversized event logs that exceed the configured size limit (`spark.history.fs.maxEventLogSizeBytes`, default 500MB), preventing OOM crashes caused by long-running apps with large logs.
     - **Spark History Server Crash on Missing Subfolder**: The Spark History server now auto-creates its required S3 subfolder if it is missing, instead of failing with a startup error.
+    - **View Authorization with Subqueries**: Queries against a view now succeed when the user has access to the view but not to its underlying tables, even when the view definition contains a subquery (for example an aggregate or scalar subquery). Previously the subquery was authorized separately and the query was denied.
   </BugFixes>
 </Release>
 
