@@ -18,7 +18,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="3.19.0" date="August 24th, 2026">
   <NewFeatures>
     - **Ephemeral Storage Reservation for Volumes**: Added a new **Reserve capacity on the node** option for `EMPTY_DIR` volumes. When enabled, the Kubernetes scheduler reserves ephemeral storage on the node for the executor pod, ensuring capacity is available before scheduling. Enabling this option requires setting a **Max size**, which becomes mandatory. The new `schedulerReserved` field defaults to `false`, so existing volumes are unaffected. Configure this option when creating or editing an `EMPTY_DIR` volume in the console.
-    - **LDAP Group Membership Audit Events**: LDAP group membership changes detected during sync now emit audit events to `platform_event_logs`. When LDAP sync adds or removes a user from a group, each change is recorded as a distinct event, giving administrators a complete audit trail of group membership changes driven by directory sync.
+    - **LDAP Group Membership Audit Events**: LDAP sync now emits an audit event to `platform_event_logs` for every user↔group membership present in the directory. Administrators get a queryable record of group membership as of each sync; removals can be inferred by absence in the next sync. Requires the `identitySoftDelete` feature flag to be enabled.
     - **Data Access Audit for Spark Jobs**: Data access audit logging, previously available only for compute clusters, now covers Spark jobs as well. Ranger audit events from Spark job queries are recorded through the Event Stream audit pipeline, providing a unified audit trail across all Spark workloads.
   </NewFeatures>
 
