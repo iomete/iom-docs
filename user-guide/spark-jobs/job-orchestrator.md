@@ -3,7 +3,7 @@ title: Job Orchestrator
 description: Learn about the new Job Orchestrator for priority-based scheduling, resource-aware execution, and built-in observability for Spark jobs on the IOMETE platform.
 sidebar_label: Job Orchestrator
 last_update:
-   date: 08/12/2026
+   date: 08/24/2026
    author: Shashank Chaudhary
 ---
 
