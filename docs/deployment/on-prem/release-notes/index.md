@@ -49,7 +49,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
       **Spark version:** [3.5.7-v6](./spark.md)
-      **Iceberg version:** {/* TODO: confirm Iceberg version from deployment artifacts */}
+      **Iceberg version:** 1.9.0-iomete-5
 
 </Release>
 
