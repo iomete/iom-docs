@@ -45,7 +45,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Improvements>
 
   <BugFixes>
-    - **Spark Connect Driver Configuration**: Fixed Spark Connect driver pod configuration to apply Helm-level settings to the driver template.
+    - **Spark Connect Driver Configuration**: Updated the Spark Connect driver pod template to align with compute cluster defaults:
+      - Switched the driver image from `spark` to `spark-py`, matching the image used by compute clusters.
+      - Set `spark.driver.memoryOverheadFactor` to `0.4` (40% of driver memory), reducing the likelihood of driver pods being OOM-killed under heavy workloads.
+      - Set `spark.hadoop.hive.server2.idle.session.timeout` to `1h` and `spark.hadoop.hive.server2.session.check.interval` to `1m`, so idle Thrift sessions are automatically expired instead of holding resources indefinitely.
     - **Job Schedule Next Run Time**: Fixed an issue where a scheduled Spark job's next run time showed the skipped run's start time instead of advancing, when the run was skipped because a previous run was still active under a `Forbid` [concurrency policy](/user-guide/spark-jobs/spark-application-config#concurrency-policy).
   </BugFixes>
 
