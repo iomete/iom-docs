@@ -3,8 +3,8 @@ title: Job Orchestrator
 description: Learn about the new Job Orchestrator for priority-based scheduling, resource-aware execution, and built-in observability for Spark jobs on the IOMETE platform.
 sidebar_label: Job Orchestrator
 last_update:
-  date: 03/28/2026
-  author: Vugar Dadalov
+   date: 08/12/2026
+   author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -108,6 +108,8 @@ Configure orchestrator settings in your `values.yaml`:
 ```yaml
 services:
   jobOrchestrator:
+    # Verbose (INFO-level) stdout logging for server/worker pods (default: false, i.e. ERROR-level)
+    verboseLogging: false
     settings:
       # Maximum jobs deployed in a single batch
       batchSize: 20
@@ -122,6 +124,7 @@ services:
 
 | Setting | Default | Since | Description |
 |----------|---------|-------|-------------|
+| `verboseLogging` | false | 3.19.0 | Enables verbose (INFO-level) stdout logging for job orchestrator server and worker pods. Leave disabled for reduced (ERROR-level) log volume. |
 | `settings.batchSize` | 20 | 3.15.0 | Maximum jobs validated and deployed per batch. |
 | `settings.jobRunCleanup.enabled` | true | 3.15.0 | Enable periodic cleanup of completed queue runs and logs. |
 | `settings.jobRunCleanup.retentionPeriod` | 2592000 | 3.15.0 | Retention period in seconds (30 days). Older runs are automatically deleted. |
