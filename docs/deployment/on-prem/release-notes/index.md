@@ -15,6 +15,18 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="TBD" date="TBD">
+  <NewFeatures>
+    - **Recently Viewed**: Added a new **Recently Viewed** tab to the Domain Dashboard so users can quickly return to resources they opened recently.
+      - **Supported resources**: **Compute Clusters**, **Jupyter Containers**, **Spark Job Templates and Runs**, **Streaming Jobs**, **Resource Bundles**, **Event Streams**, and **Data Catalog**.
+      - **Entry details**: Shows the resource name, type, ID, and last viewed time for each entry.
+      - **Actions**: Open the resource, copy its ID, remove one item, or clear all recents.
+      - **Tracking**: Saves resources to the recently viewed list after a short delay on supported resource details pages, preventing accidental clicks or short page transitions from filling the list.
+
+    <Img src="/img/getting-started/release-notes/4.0.0/recently-viewed.png" alt="Recently Viewed tab in Domain Dashboard" centered style={{ marginTop: "16px" }} />
+  </NewFeatures>
+</Release>
+
 <Release version="3.19.0" date="August 24, 2026">
   <NewFeatures>
     - **Ephemeral Storage Reservation for Volumes**: Added a new **Reserve capacity on the node** option for `EMPTY_DIR` volumes. When enabled, the Kubernetes scheduler reserves ephemeral storage on the node for the executor pod, ensuring capacity is available before scheduling. Enabling this option requires setting a **Max size**, which becomes mandatory. The new `schedulerReserved` field defaults to `false`, so existing volumes are unaffected. Configure this option when creating or editing an `EMPTY_DIR` volume in the console.
