@@ -46,6 +46,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <BugFixes>
     - **Spark Connect Driver Configuration**: Fixed Spark Connect driver pod configuration to apply Helm-level settings to the driver template.
+    - **Job Schedule Next Run Time**: Fixed an issue where a scheduled Spark job's next run time showed the skipped run's start time instead of advancing, when the run was skipped because a previous run was still active under a `Forbid` [concurrency policy](/user-guide/spark-jobs/spark-application-config#concurrency-policy).
   </BugFixes>
 
       **Spark version:** [3.5.7-v6](./spark.md)
