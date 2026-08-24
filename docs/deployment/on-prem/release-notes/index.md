@@ -15,7 +15,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="3.19.0" date="August 24th, 2026">
+<Release version="3.19.0" date="August 24, 2026">
   <NewFeatures>
     - **Ephemeral Storage Reservation for Volumes**: Added a new **Reserve capacity on the node** option for `EMPTY_DIR` volumes. When enabled, the Kubernetes scheduler reserves ephemeral storage on the node for the executor pod, ensuring capacity is available before scheduling. Enabling this option requires setting a **Max size**, which becomes mandatory. The new `schedulerReserved` field defaults to `false`, so existing volumes are unaffected. Configure this option when creating or editing an `EMPTY_DIR` volume in the console.
     - **LDAP Group Membership Audit Events**: LDAP sync now emits an audit event to `platform_event_logs` for every user↔group membership present in the directory. Administrators get a queryable record of group membership as of each sync; removals can be inferred by absence in the next sync. Requires the `identitySoftDelete` feature flag to be enabled.
@@ -48,7 +48,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark Connect Driver Configuration**: Fixed Spark Connect driver pod configuration to apply Helm-level settings to the driver template.
   </BugFixes>
 
-      **Spark version:** [3.5.7-v6-rc3](./spark.md)
+      **Spark version:** [3.5.7-v6](./spark.md)
       **Iceberg version:** {/* TODO: confirm Iceberg version from deployment artifacts */}
 
 </Release>
