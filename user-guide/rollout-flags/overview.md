@@ -13,3 +13,4 @@ From release `4.0.0` forward, rollout flags let IOMETE turn a feature on or off 
 
 - [Secrets V2](./secrets-v2.md)
 - [LDAP Group Inheritance](./ldap-group-inheritance.md)
+- [SQL Editor V2](./sql-editor-v2.md)
