@@ -19,17 +19,17 @@ A single flag controls both surfaces — the SQL Editor and Query Monitoring swi
 
 ## Prerequisites
 
-### Minimum compatible version
+### Minimum Compatible Version
 
 IOMETE `4.0.0` or later.
 
 Compute clusters must run Spark image `3.5.7-v4` or later (including Spark 4.x). Queries submitted through V2 against a compute on an older image fail with a message asking to update the compute — so update your compute clusters to a compatible image **before** enabling the flag.
 
-### Deployment setup changes
+### Deployment Setup Changes
 
 None. No additional Helm values, infrastructure, or configuration are needed to turn this flag on or off.
 
-### Services to restart
+### Services to Restart
 
 None. Toggling the flag takes effect automatically — users get the new engine the next time they load or reload the SQL Editor or Query Monitoring page.
 
@@ -49,7 +49,7 @@ Queries are recorded by the engine that ran them: queries submitted on V2 are vi
 
 ## Rollout Considerations
 
-1. Update all compute clusters to a V2-capable Spark image (`3.5.7-v4` or later, including Spark 4.x) — see [Minimum compatible version](#minimum-compatible-version).
+1. Update all compute clusters to a V2-capable Spark image (`3.5.7-v4` or later, including Spark 4.x) — see [Minimum Compatible Version](#minimum-compatible-version).
 2. Enable the `sqlEditorV2` flag.
 3. Users switch to V2 the next time they load or reload the SQL Editor or Query Monitoring page — queries already running on V1 at that moment continue to completion on V1.
 
@@ -67,6 +67,7 @@ Keep in mind:
 ## References
 
 - [SQL Editor](../sql-editor/overview.md)
+- [Query Monitoring](../monitoring/query-monitoring.md)
 
 ---
 
