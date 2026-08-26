@@ -199,7 +199,7 @@ Garage occupies a unique niche: it's built for small-to-medium self-hosted deplo
 
 **Production-proven at small scale.** [Deuxfleurs](https://garagehq.deuxfleurs.fr/) has run Garage in production since 2020 for their own hosting services, and [Triplebit](https://garagehq.deuxfleurs.fr/documentation/design/goals/), a non-profit hosting provider, uses it for static site hosting and Mastodon media storage. The user base is small, no large enterprise deployments are publicly documented; but for the self-hosted niche it targets, it's proven and stable.
 
-**Kubernetes support.** Helm charts for standard deployment, multiple community-developed operators ([dimedis-gmbh/garage-operator](https://github.com/dimedis-gmbh/garage-operator), [rajsinghtech/garage-operator](https://github.com/rajsinghtech/garage-operator)), and experimental COSI (Container Object Storage Interface) driver support.
+**Kubernetes support.** Helm charts for standard deployment, multiple community-developed operators ([rajsinghtech/garage-operator](https://github.com/rajsinghtech/garage-operator)), and experimental COSI (Container Object Storage Interface) driver support.
 
 #### Trade-offs
 
@@ -225,7 +225,7 @@ RustFS is the most direct MinIO replacement on this list. It's also the one that
 
 #### Strengths
 
-**Purpose-built as a MinIO replacement.** RustFS doesn't try to be a general-purpose storage system. It's specifically designed to fill the gap MinIO left: a fast, simple, S3-compatible object store that runs on commodity hardware. It supports [MinIO Client compatibility](https://docs.rustfs.com/developer/mc.html), making migration from MinIO straightforward via standard S3 tools.
+**Purpose-built as a MinIO replacement.** RustFS doesn't try to be a general-purpose storage system. It's specifically designed to fill the gap MinIO left: a fast, simple, S3-compatible object store that runs on commodity hardware. It supports [MinIO Client compatibility](https://docs.rustfs.com/en/), making migration from MinIO straightforward via standard S3 tools.
 
 **Strong small-object performance.** Benchmarks show RustFS achieving 2.3x the throughput of MinIO for 4KB objects. For metadata-heavy Iceberg operations (reading manifests, listing partitions), small-object performance matters. Rust's zero-cost abstractions and memory safety make this performance sustainable without the garbage collection pauses you'd see in Go or Java-based systems.
 

@@ -121,4 +121,4 @@ print(inspector.get_table_names(schema="spark_catalog.default"))
 ## Resources
 
 - [PyPI — iomete-sqlalchemy](https://pypi.org/project/iomete-sqlalchemy/)
-- [GitHub — iomete/iomete-sqlalchemy](https://github.com/iomete/iomete-sqlalchemy)
+- [PyPI — iomete-sqlalchemy](https://pypi.org/project/iomete-sqlalchemy/)

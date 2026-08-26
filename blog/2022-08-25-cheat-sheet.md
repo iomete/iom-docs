@@ -20,7 +20,7 @@ import MiniCard from "@site/src/components/MiniCard";
 
 <!-- truncate -->
 
-In the [data lakehouse](/glossary/data-lakehouse) platform, we are using Apache Iceberg with [Apache Spark](/glossary/apache-spark). Even though Apache Iceberg has great [documentation](https://iceberg.apache.org/docs/latest/getting-started) for working with Spark SQL, we have created a helpful cheat sheet for quick access to the most popular commands.
+In the [data lakehouse](/glossary/data-lakehouse) platform, we are using Apache Iceberg with [Apache Spark](/glossary/apache-spark). Even though Apache Iceberg has great [documentation](https://iceberg.apache.org/docs/latest/spark-getting-started/) for working with Spark SQL, we have created a helpful cheat sheet for quick access to the most popular commands.
 
 We included DDL operations for creating databases and tables, altering table structures, basic read / write queries, SQL queries for time travel. In the third column we included base Apache Iceberg SQL procedures with arguments that are most likely to be used.
 

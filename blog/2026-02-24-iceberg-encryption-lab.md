@@ -44,13 +44,13 @@ We’ll briefly introduce the tools and components used in this hands-on lab. In
 MinIO uses its own internal on-disk format (for example, inlining small objects into metadata files like `xl.meta` and splitting larger ones into shards). This differs from AWS/GCP/Azure internals, but the core behavior is very similar.
 
 #### Key Management System: MinIO KMS (minkms)
-We use [minkms](https://github.com/minio/minkms) as our example KMS. This is intentionally a simple setup to demonstrate mechanics rather than a production-grade configuration. It allows us to show object store–KMS integration and key rotation behavior.
+We use [MinIO KMS](https://docs.min.io/community/minio-object-store/administration/kms.html) as our example KMS. This is intentionally a simple setup to demonstrate mechanics rather than a production-grade configuration. It allows us to show object store–KMS integration and key rotation behavior.
 
 #### Apache Spark
 We will use [Apache Spark](https://spark.apache.org) as our compute engine to help us write data in Apache Iceberg's storage format. We use the official public Spark Docker image with the [spark-sql](https://spark.apache.org/docs/latest/sql-distributed-sql-engine-spark-sql-cli.html) setup. Enthusiasts can also use [PySpark](https://spark.apache.org/docs/latest/api/python/index.html) or Scala via [Spark-Shell](https://spark.apache.org/docs/latest/quick-start.html) if they so prefer.
 
 #### Tools
-We launch a custom Alpine-based container with a number of pre-installed and pre-configured command-line tools. In this lab, we use the [AWS CLI](https://github.com/aws/aws-cli), [mc](https://github.com/minio/mc), and [minkms](https://github.com/minio/minkms) as administration tools for MinIO, as well as [hexdump](https://opensource.com/article/19/8/dig-binary-files-hexdump) and [parq](https://github.com/a-poor/parq) to inspect files stored on disk.
+We launch a custom Alpine-based container with a number of pre-installed and pre-configured command-line tools. In this lab, we use the [AWS CLI](https://github.com/aws/aws-cli), [mc](https://github.com/minio/mc), and [MinIO KMS](https://docs.min.io/community/minio-object-store/administration/kms.html) as administration tools for MinIO, as well as [hexdump](https://opensource.com/article/19/8/dig-binary-files-hexdump) and [parq](https://github.com/a-poor/parq) to inspect files stored on disk.
 
 #### Init containers
 Several init containers run on startup to prepare the environment. They create certificates to ensure [TLS communication](https://en.wikipedia.org/wiki/Transport_Layer_Security) everywhere (which is needed for SSE-C), initialize MinIO and MinIO KMS, and make sure all containers are wired together correctly before the lab begins.
@@ -1009,7 +1009,7 @@ We walked through five encryption approaches, from no encryption through SSE-S3,
 
 The main takeaway: there's no single right answer. SSE-S3 is effortless but gives you no key control. SSE-KMS adds isolation at the cost of complexity. SSE-C and CSE give you full control but shift the operational burden entirely to your side. The [cheat sheet](#encryption-cheat-sheet) at the top summarizes the tradeoffs.
 
-At IOMETE, we specialize in on-premises lakehouses with full [data sovereignty](/blog/data-residency-vs-data-sovereignty). If that's what you're building, [let's talk](https://iomete.com/contact).
+At IOMETE, we specialize in on-premises lakehouses with full [data sovereignty](/blog/data-residency-vs-data-sovereignty). If that's what you're building, [let's talk](https://iomete.com/contact-us).
 
 ---
 
