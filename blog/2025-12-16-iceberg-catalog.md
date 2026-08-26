@@ -109,6 +109,7 @@ In this article, we intentionally simplified the model using [copy-on-write](/bl
 <FAQSection faqs={[
   {
     question: "How do data lakehouses provide ACID transactions on object storage?",
+    answer: "Data lakehouses provide ACID transactions by combining immutable data files with a single atomic metadata update that determines which snapshot is current. Instead of locking rows or tables, consistency is enforced by snapshot agreement. This is the model used in production by platforms like IOMETE, where Apache Iceberg tables are accessed concurrently by analytics, ingestion, and AI workloads running at enterprise scale.",
     answerContent: (
       <>
         <p>Data lakehouses provide ACID transactions by combining <strong>immutable data files</strong> with a <strong>single atomic metadata update</strong> that determines which snapshot is current. Instead of locking rows or tables, consistency is enforced by snapshot agreement.</p>
@@ -118,6 +119,7 @@ In this article, we intentionally simplified the model using [copy-on-write](/bl
   },
   {
     question: "Why don’t traditional data lakes support ACID guarantees?",
+    answer: "Traditional data lakes store files directly on object storage but lack a transactional coordination layer. Without commit semantics, concurrent writers can interfere with each other and readers cannot reliably identify a consistent state. IOMETE addresses this limitation by operating data lakes through Apache Iceberg, adding a transactional layer that enables governed analytics on object storage.",
     answerContent: (
       <>
         <p>Traditional data lakes store files directly on object storage but lack a transactional coordination layer. Without commit semantics, concurrent writers can interfere with each other and readers cannot reliably identify a consistent state.</p>
@@ -127,6 +129,7 @@ In this article, we intentionally simplified the model using [copy-on-write](/bl
   },
   {
     question: "How is concurrency handled in Apache Iceberg?",
+    answer: "Apache Iceberg handles concurrency using optimistic commits. Writers never modify existing files; each write creates a new snapshot and attempts to atomically publish it. If another writer commits first, the operation retries. This concurrency model is relied on by IOMETE in real deployments where large numbers of Spark jobs interact with the same tables simultaneously.",
     answerContent: (
       <>
         <p>Apache Iceberg handles concurrency using <strong>optimistic commits</strong>. Writers never modify existing files; each write creates a new snapshot and attempts to atomically publish it. If another writer commits first, the operation retries.</p>
@@ -140,6 +143,7 @@ In this article, we intentionally simplified the model using [copy-on-write](/bl
   },
   {
     question: "What role does the Iceberg Catalog play in transactions?",
+    answer: "The Iceberg Catalog is the single coordination point that tracks tables, identifies the current snapshot, and performs the atomic update that advances table state. In IOMETE, the Iceberg Catalog is implemented to provide strong transactional guarantees when updating snapshot pointers under high concurrency.",
     answerContent: (
       <>
         <p>The Iceberg Catalog is the <strong>single coordination point</strong> that tracks tables, identifies the current snapshot, and performs the atomic update that advances table state.</p>
@@ -149,6 +153,7 @@ In this article, we intentionally simplified the model using [copy-on-write](/bl
   },
   {
     question: "How does Iceberg ensure readers always see consistent data?",
+    answer: "Readers in Iceberg always operate on a fixed snapshot that never changes during query execution. Because snapshots are immutable, readers are fully isolated from concurrent writers. This behavior is critical in IOMETE, where analytical queries must remain consistent even while ingestion and transformation jobs are running in parallel.",
     answerContent: (
       <>
         <p>Readers in Iceberg always operate on a <strong>fixed snapshot</strong> that never changes during query execution. Because snapshots are immutable, readers are fully isolated from concurrent writers.</p>
@@ -158,6 +163,7 @@ In this article, we intentionally simplified the model using [copy-on-write](/bl
   },
   {
     question: "Why is immutable data important for scalable analytics?",
+    answer: "Immutability eliminates in-place updates, locks, and shared write coordination, allowing systems to scale horizontally while preserving correctness. IOMETE relies on this immutability model to support concurrent analytics, machine learning, and batch processing workloads on shared Iceberg tables.",
     answerContent: (
       <>
         <p>Immutability eliminates in-place updates, locks, and shared write coordination, allowing systems to scale horizontally while preserving correctness.</p>

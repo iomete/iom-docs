@@ -103,6 +103,7 @@ For a detailed look at how DORA and the EU AI Act intersect with data platform a
 <FAQSection faqs={[
   {
     question: "Is IOMETE suitable for regulated industries like financial services and healthcare?",
+    answer: "Yes. IOMETE deploys inside your own Kubernetes infrastructure, which means data never leaves your controlled environment. This architecture directly addresses the compliance requirements of frameworks like DORA, GDPR, and HIPAA, where demonstrable infrastructure control and data residency are not optional. Financial institutions, healthcare organizations, and public sector entities use IOMETE specifically because the self-hosted model satisfies regulatory requirements that managed SaaS platforms cannot meet by design.",
     answerContent: (
       <>
         <p>Yes. IOMETE deploys inside your own Kubernetes infrastructure, which means data never leaves your controlled environment. This architecture directly addresses the compliance requirements of frameworks like DORA, GDPR, and HIPAA, where demonstrable infrastructure control and data residency are not optional. Financial institutions, healthcare organizations, and public sector entities use IOMETE specifically because the self-hosted model satisfies regulatory requirements that managed SaaS platforms cannot meet by design.</p>
@@ -111,6 +112,7 @@ For a detailed look at how DORA and the EU AI Act intersect with data platform a
   },
   {
     question: "How does IOMETE handle data residency requirements?",
+    answer: "IOMETE stores all data in your own S3-compatible object storage – data never moves to vendor-controlled infrastructure. You choose the region, the storage backend, and the access policies. Whether you're running on AWS S3 in a specific region, Azure Blob Storage, GCP Cloud Storage, or on-premises MinIO or Ceph, IOMETE reads and writes to your storage without copying or staging data in a third-party environment. This gives compliance and legal teams a clear, auditable answer to data residency questions.",
     answerContent: (
       <>
         <p>IOMETE stores all data in your own S3-compatible object storage – data never moves to vendor-controlled infrastructure. You choose the region, the storage backend, and the access policies. Whether you're running on AWS S3 in a specific region, Azure Blob Storage, GCP Cloud Storage, or on-premises MinIO or Ceph, IOMETE reads and writes to your storage without copying or staging data in a third-party environment. This gives compliance and legal teams a clear, auditable answer to data residency questions.</p>
@@ -119,6 +121,7 @@ For a detailed look at how DORA and the EU AI Act intersect with data platform a
   },
   {
     question: "What is a self-hosted data lakehouse platform?",
+    answer: "A self-hosted data lakehouse is a platform that deploys inside your own infrastructure rather than running in a vendor's shared cloud environment. In practice, this means the compute (Spark jobs, query engines, metadata services) runs on your Kubernetes cluster, the data sits in your object storage, and you control network access, encryption keys, and audit logs. IOMETE is a self-hosted data lakehouse built on Apache Iceberg and Apache Spark, deployed via Kubernetes.",
     answerContent: (
       <>
         <p>A self-hosted data lakehouse is a platform that deploys inside your own infrastructure rather than running in a vendor's shared cloud environment. In practice, this means the compute (Spark jobs, query engines, metadata services) runs on your Kubernetes cluster, the data sits in your object storage, and you control network access, encryption keys, and audit logs. IOMETE is a self-hosted data lakehouse built on Apache Iceberg and Apache Spark, deployed via Kubernetes.</p>
@@ -127,6 +130,7 @@ For a detailed look at how DORA and the EU AI Act intersect with data platform a
   },
   {
     question: "Does IOMETE support DORA ICT risk management requirements?",
+    answer: "IOMETE's self-hosted architecture supports DORA compliance by keeping critical data processing within the financial entity's own infrastructure. DORA requires financial institutions to maintain operational resilience and ICT risk management over critical systems. Because IOMETE deploys inside your infrastructure, you maintain the custody and control that DORA's ICT risk frameworks require. For a detailed breakdown, see our article on data sovereignty compliance in 2026.",
     answerContent: (
       <>
         <p>IOMETE's self-hosted architecture supports DORA compliance by keeping critical data processing within the financial entity's own infrastructure. DORA requires financial institutions to maintain operational resilience and ICT risk management over critical systems. Because IOMETE deploys inside your infrastructure, you maintain the custody and control that DORA's ICT risk frameworks require. For a detailed breakdown, see our article on <a href="/blog/data-sovereignty-compliance-2026-dora-ai-act">data sovereignty compliance in 2026</a>.</p>
@@ -135,6 +139,7 @@ For a detailed look at how DORA and the EU AI Act intersect with data platform a
   },
   {
     question: "How does encryption key management work in IOMETE?",
+    answer: "IOMETE integrates with your existing key management infrastructure – it does not hold or manage your encryption keys itself. Encryption at rest is handled by your storage layer using your own keys, with support for AWS KMS, Azure Key Vault, Google Cloud KMS, and HashiCorp Vault. Organizations requiring customer-managed keys (CMK) or bring-your-own-key (BYOK) configurations can implement these at the infrastructure level without depending on IOMETE to broker key access. For the full encryption model, see our data lakehouse encryption guide.",
     answerContent: (
       <>
         <p>IOMETE integrates with your existing key management infrastructure – it does not hold or manage your encryption keys itself. Encryption at rest is handled by your storage layer using your own keys, with support for AWS KMS, Azure Key Vault, Google Cloud KMS, and HashiCorp Vault. Organizations requiring customer-managed keys (CMK) or bring-your-own-key (BYOK) configurations can implement these at the infrastructure level without depending on IOMETE to broker key access. For the full encryption model, see our <a href="/blog/data-lakehouse-encryption-iceberg">data lakehouse encryption guide</a>.</p>
@@ -143,6 +148,7 @@ For a detailed look at how DORA and the EU AI Act intersect with data platform a
   },
   {
     question: "Can IOMETE be deployed on-premises?",
+    answer: "Yes. IOMETE is Kubernetes-native and can be deployed on any Kubernetes cluster, including on-premises clusters. Organizations with on-premises infrastructure requirements – due to data sovereignty laws, internal policy, or air-gapped environments – can run IOMETE entirely within their own data centers. IOMETE works with on-premises S3-compatible object storage like MinIO or Ceph. The deployment process and feature set are identical to cloud deployments.",
     answerContent: (
       <>
         <p>Yes. IOMETE is Kubernetes-native and can be deployed on any Kubernetes cluster, including on-premises clusters. Organizations with on-premises infrastructure requirements – due to data sovereignty laws, internal policy, or air-gapped environments – can run IOMETE entirely within their own data centers. IOMETE works with on-premises S3-compatible object storage like MinIO or Ceph. The deployment process and feature set are identical to cloud deployments.</p>
@@ -151,6 +157,7 @@ For a detailed look at how DORA and the EU AI Act intersect with data platform a
   },
   {
     question: "What is Apache Iceberg and why does it matter for regulated enterprises?",
+    answer: "Apache Iceberg is an open table format for large-scale analytics that separates the data files from the platform managing them. For regulated enterprises, this matters because it eliminates vendor lock-in at the data layer. Your data is stored as open Iceberg tables in your own object storage. If you change platforms or need to access data with a different engine, the files don't need to be exported, converted, or migrated. You retain ownership and portability of your data regardless of which tools you use to query it.",
     answerContent: (
       <>
         <p>Apache Iceberg is an open table format for large-scale analytics that separates the data files from the platform managing them. For regulated enterprises, this matters because it eliminates vendor lock-in at the data layer. Your data is stored as open Iceberg tables in your own object storage. If you change platforms or need to access data with a different engine, the files don't need to be exported, converted, or migrated. You retain ownership and portability of your data regardless of which tools you use to query it.</p>
@@ -159,6 +166,7 @@ For a detailed look at how DORA and the EU AI Act intersect with data platform a
   },
   {
     question: "How does IOMETE's access control work for compliance purposes?",
+    answer: "IOMETE supports row-level security, column-level security, dynamic data masking, and tag-based access policies enforced at query time. Access controls are applied inside your infrastructure, not delegated to a third-party access management layer. You can restrict specific users or roles to specific rows or columns within a table, mask sensitive fields dynamically based on user attributes, and apply policies using data classification tags. Every authorization decision is logged, providing a complete audit trail for compliance and security analysis. For how access delegation works at the Iceberg layer, see our article on credential vending and remote signing.",
     answerContent: (
       <>
         <p>IOMETE supports row-level security, column-level security, dynamic data masking, and tag-based access policies enforced at query time. Access controls are applied inside your infrastructure, not delegated to a third-party access management layer. You can restrict specific users or roles to specific rows or columns within a table, mask sensitive fields dynamically based on user attributes, and apply policies using data classification tags. Every authorization decision is logged, providing a complete audit trail for compliance and security analysis. For how access delegation works at the Iceberg layer, see our article on <a href="/blog/iceberg-access-delegation">credential vending and remote signing</a>.</p>

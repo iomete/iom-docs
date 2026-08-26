@@ -69,6 +69,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
 <FAQSection faqs={[
   {
     question: "What is a self-hosted data platform?",
+    answer: "A self-hosted data platform is software that runs entirely inside the customer's own infrastructure, with no control plane or data plane operated by the vendor. The customer deploys, scales, and secures it, and a genuine self-hosted platform can run air-gapped with no outbound connectivity – the test that separates self-hosted from hosted-with-extra-steps. IOMETE is built this way: Kubernetes-native components inside your own account, with no IOMETE-operated data plane in the path.",
     answerContent: (
       <>
         <p>A self-hosted data platform is software that runs entirely inside the customer's own infrastructure, with no control plane or data plane operated by the vendor.</p>
@@ -78,6 +79,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
   },
   {
     question: "Why is Kubernetes used for self-hosted data platforms?",
+    answer: "Kubernetes abstracts away the differences between bare-metal, OpenStack, VMware, sovereign clouds, and hyperscaler regions, so the same platform deploys across all of them without a rewrite. It also decouples compute from storage, enabling independent scaling and multi-tenant isolation on shared infrastructure, which is why IOMETE deploys as Kubernetes-native components across bare-metal, sovereign clouds, and air-gapped clusters from the same packaging.",
     answerContent: (
       <>
         <p>Kubernetes abstracts away the differences between bare-metal, OpenStack, VMware, sovereign clouds, and hyperscaler regions, so the same platform deploys across all of them without a rewrite.</p>
@@ -87,6 +89,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
   },
   {
     question: "Does a self-hosted data platform require a Kubernetes team?",
+    answer: "Not necessarily. The orchestration is available for teams that want full control, while field engineers can handle Kubernetes operations for teams that do not. IOMETE describes this as \"Kubernetes by choice, not by capability\" – the architecture does not force every customer to staff a dedicated platform team.",
     answerContent: (
       <>
         <p>Not necessarily. The orchestration is available for teams that want full control, while field engineers can handle Kubernetes operations for teams that do not.</p>
@@ -96,6 +99,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
   },
   {
     question: "How does a self-hosted lakehouse avoid vendor lock-in?",
+    answer: "By storing data in open Apache Iceberg tables and Parquet files on object storage you control, queried through an open metadata catalog and open engines. IOMETE stores everything as open Iceberg tables and Parquet on object storage you control, and because those tables are readable by any Iceberg-compatible engine, migrating off the platform is symmetric with migrating on – there is no proprietary format holding the data hostage.",
     answerContent: (
       <>
         <p>By storing data in open Apache Iceberg tables and Parquet files on object storage you control, queried through an open metadata catalog and open engines.</p>
@@ -105,6 +109,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
   },
   {
     question: "Can a self-hosted data platform run fully air-gapped?",
+    answer: "Yes. A correctly designed self-hosted platform runs in clusters with no outbound internet connectivity, because no part of its operation depends on a vendor-operated control plane. Air-gapped support is a hard requirement for many defense, government, and financial deployments, and it is only possible when orchestration, metadata, and licensing all run locally – which is how IOMETE is built to deploy.",
     answerContent: (
       <>
         <p>Yes. A correctly designed self-hosted platform runs in clusters with no outbound internet connectivity, because no part of its operation depends on a vendor-operated control plane.</p>
@@ -114,6 +119,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
   },
   {
     question: "What storage does a self-hosted lakehouse use?",
+    answer: "S3-compatible object storage holding data as Apache Iceberg tables with Parquet files underneath, managed through an Iceberg REST catalog. On IOMETE this gives ACID transactions, schema evolution, and time travel on commodity object storage, without depending on a proprietary warehouse engine.",
     answerContent: (
       <>
         <p>S3-compatible object storage holding data as Apache Iceberg tables with Parquet files underneath, managed through an Iceberg REST catalog.</p>
@@ -123,6 +129,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
   },
   {
     question: "How does a self-hosted platform handle data that cannot be moved?",
+    answer: "Through query federation: one SQL surface queries external systems – Oracle, SQL Server, Postgres, Kafka, object storage – where the data already sits, without copying it. This lets you bring siloed and non-movable data into one queryable layer while respecting residency and ownership constraints on the source systems. IOMETE's query federation reaches Oracle, SQL Server, Postgres, Kafka, and object storage where the data already sits.",
     answerContent: (
       <>
         <p>Through query federation: one SQL surface queries external systems – Oracle, SQL Server, Postgres, Kafka, object storage – where the data already sits, without copying it.</p>
@@ -132,6 +139,7 @@ To zoom back out to the strategy, the [sovereign data platform pillar](/resource
   },
   {
     question: "Is a self-hosted data platform compliant with GDPR, HIPAA, and SOC 2?",
+    answer: "Self-hosting makes compliance structural: you can demonstrate custody of encryption keys, compute, and audit logs rather than relying on a vendor's contractual assurances. IOMETE is SOC 2 Type II, HIPAA, and GDPR aligned, with fine-grained access control and masking enforced in the query path and support for air-gapped deployment.",
     answerContent: (
       <>
         <p>Self-hosting makes compliance structural: you can demonstrate custody of encryption keys, compute, and audit logs rather than relying on a vendor's contractual assurances.</p>

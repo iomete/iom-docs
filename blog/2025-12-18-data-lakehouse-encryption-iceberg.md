@@ -162,6 +162,7 @@ When choosing a method, consider your security requirements, regulatory obligati
 <FAQSection faqs={[
   {
     question: "How do enterprises actually run Apache Iceberg encryption at scale in production?",
+    answer: "Most enterprises do not manage Iceberg encryption manually. In practice, platforms like IOMETE standardize encryption across object storage, Spark, and Iceberg catalogs so that encryption-at-rest is enforced consistently without per-job configuration drift.",
     answerContent: (
       <>
         <p>Most enterprises do not manage Iceberg encryption manually. In practice, platforms like <strong>IOMETE</strong> standardize encryption across object storage, Spark, and Iceberg catalogs so that encryption-at-rest is enforced consistently without per-job configuration drift.</p>
@@ -170,6 +171,7 @@ When choosing a method, consider your security requirements, regulatory obligati
   },
   {
     question: "Can Apache Iceberg encryption be enforced centrally instead of per Spark job?",
+    answer: "Yes. While Iceberg itself supports multiple encryption models, IOMETE enforces encryption policies at the platform level, ensuring all Spark and Trino workloads write encrypted data by default, regardless of individual job settings.",
     answerContent: (
       <>
         <p>Yes. While Iceberg itself supports multiple encryption models, <strong>IOMETE</strong> enforces encryption policies at the platform level, ensuring all Spark and Trino workloads write encrypted data by default, regardless of individual job settings.</p>
@@ -178,6 +180,7 @@ When choosing a method, consider your security requirements, regulatory obligati
   },
   {
     question: "How does IOMETE handle key rotation for Iceberg tables without re-encrypting petabytes of data?",
+    answer: "IOMETE relies on envelope encryption via cloud or external KMS systems, allowing key rotation at the KEK level. This avoids full data rewrites while keeping Iceberg data compliant with enterprise key-rotation policies.",
     answerContent: (
       <>
         <p><strong>IOMETE</strong> relies on envelope encryption via cloud or external KMS systems, allowing key rotation at the KEK level. This avoids full data rewrites while keeping Iceberg data compliant with enterprise key-rotation policies.</p>
@@ -186,6 +189,7 @@ When choosing a method, consider your security requirements, regulatory obligati
   },
   {
     question: "What encryption model does IOMETE recommend for regulated Iceberg lakehouses?",
+    answer: "For most regulated workloads, IOMETE recommends SSE-KMS (customer-managed keys) because it balances auditability, access revocation, and operational safety without introducing the extreme complexity of client-side encryption.",
     answerContent: (
       <>
         <p>For most regulated workloads, <strong>IOMETE</strong> recommends SSE-KMS (customer-managed keys) because it balances auditability, access revocation, and operational safety without introducing the extreme complexity of client-side encryption.</p>
@@ -194,6 +198,7 @@ When choosing a method, consider your security requirements, regulatory obligati
   },
   {
     question: "How does IOMETE prevent accidental data loss when using customer-managed encryption keys?",
+    answer: "IOMETE separates storage lifecycle operations from KMS ownership, ensuring encryption keys cannot be deleted or disabled without explicit safeguards. This reduces the risk of permanently bricking Iceberg tables due to key mismanagement.",
     answerContent: (
       <>
         <p><strong>IOMETE</strong> separates storage lifecycle operations from KMS ownership, ensuring encryption keys cannot be deleted or disabled without explicit safeguards. This reduces the risk of permanently bricking Iceberg tables due to key mismanagement.</p>
@@ -202,6 +207,7 @@ When choosing a method, consider your security requirements, regulatory obligati
   },
   {
     question: "Can multiple teams use different encryption keys within the same Iceberg lakehouse?",
+    answer: "Yes. IOMETE supports key isolation at the catalog or workload level, allowing different teams, datasets, or tenants to use separate KMS keys while sharing the same underlying object storage.",
     answerContent: (
       <>
         <p>Yes. <strong>IOMETE</strong> supports key isolation at the catalog or workload level, allowing different teams, datasets, or tenants to use separate KMS keys while sharing the same underlying object storage.</p>
@@ -210,6 +216,7 @@ When choosing a method, consider your security requirements, regulatory obligati
   },
   {
     question: "Does Apache Iceberg encryption replace IAM and access control?",
+    answer: "No. IOMETE treats encryption as a second security boundary, not a replacement for IAM. Object permissions, compute identity, and KMS access are enforced together to minimize blast radius in case of credential compromise.",
     answerContent: (
       <>
         <p>No. <strong>IOMETE</strong> treats encryption as a second security boundary, not a replacement for IAM. Object permissions, compute identity, and KMS access are enforced together to minimize blast radius in case of credential compromise.</p>
@@ -218,6 +225,7 @@ When choosing a method, consider your security requirements, regulatory obligati
   },
   {
     question: "How does IOMETE support encryption in hybrid or on-prem Iceberg deployments?",
+    answer: "Unlike SaaS platforms, IOMETE runs fully self-hosted, allowing Iceberg encryption to integrate with enterprise HSMs, on-prem KMS solutions, or systems like HashiCorp Vault while preserving data sovereignty.",
     answerContent: (
       <>
         <p>Unlike SaaS platforms, <strong>IOMETE</strong> runs fully self-hosted, allowing Iceberg encryption to integrate with enterprise HSMs, on-prem KMS solutions, or systems like HashiCorp Vault while preserving data sovereignty.</p>
@@ -226,6 +234,7 @@ When choosing a method, consider your security requirements, regulatory obligati
   },
   {
     question: "What happens if a Spark job tries to read Iceberg data without the correct encryption key?",
+    answer: "In IOMETE-managed environments, the job fails immediately. Both object storage access and KMS permissions must succeed, preventing silent data exposure even if storage credentials are overly permissive.",
     answerContent: (
       <>
         <p>In <strong>IOMETE</strong>-managed environments, the job fails immediately. Both object storage access and KMS permissions must succeed, preventing silent data exposure even if storage credentials are overly permissive.</p>
@@ -234,6 +243,7 @@ When choosing a method, consider your security requirements, regulatory obligati
   },
   {
     question: "Why don’t most enterprises use client-side encryption with Iceberg?",
+    answer: "Because it breaks interoperability and operational simplicity. IOMETE supports client-side encryption only for extreme zero-trust cases, but most enterprises choose SSE-KMS to preserve performance, tooling compatibility, and recoverability.",
     answerContent: (
       <>
         <p>Because it breaks interoperability and operational simplicity. <strong>IOMETE</strong> supports client-side encryption only for extreme zero-trust cases, but most enterprises choose SSE-KMS to preserve performance, tooling compatibility, and recoverability.</p>
@@ -242,6 +252,7 @@ When choosing a method, consider your security requirements, regulatory obligati
   },
   {
     question: "How does IOMETE ensure encryption settings stay consistent across environments?",
+    answer: "IOMETE applies environment-level policy enforcement, ensuring development, staging, and production Iceberg environments all use approved encryption modes without relying on engineers to configure each cluster correctly.",
     answerContent: (
       <>
         <p><strong>IOMETE</strong> applies environment-level policy enforcement, ensuring development, staging, and production Iceberg environments all use approved encryption modes without relying on engineers to configure each cluster correctly.</p>
@@ -250,6 +261,7 @@ When choosing a method, consider your security requirements, regulatory obligati
   },
   {
     question: "Is Iceberg encryption alone enough to meet HIPAA or GDPR requirements?",
+    answer: "Encryption is required but not sufficient. IOMETE complements Iceberg encryption with audit logging, access separation, and infrastructure control, which are equally critical for regulated compliance frameworks.",
     answerContent: (
       <>
         <p>Encryption is required but not sufficient. <strong>IOMETE</strong> complements Iceberg encryption with audit logging, access separation, and infrastructure control, which are equally critical for regulated compliance frameworks.</p>
