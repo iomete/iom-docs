@@ -1,6 +1,6 @@
 ---
 title: Data Sovereignty Compliance in 2026 - DORA, AI Act, and Why Your SaaS Platform is a Liability
-description: DORA entered enforcement in January 2025. The EU AI Act hits full application in August 2026. Financial institutions, healthcare, and government are repatriating data to meet operational resilience requirements that SaaS platforms cannot provide. Learn what compliance actually requires and why self-hosted infrastructure is the only viable path.
+description: DORA entered enforcement in January 2025. The EU AI Act's high-risk obligations now apply from December 2027. Financial institutions, healthcare, and government are repatriating data to meet operational resilience requirements that SaaS platforms cannot provide. Learn what compliance actually requires and why self-hosted infrastructure is the only viable path.
 slug: data-sovereignty-compliance-2026-dora-ai-act
 authors: aytan
 tags2: ["Technical", "Company"]
@@ -8,7 +8,7 @@ hide_table_of_contents: true
 date: 01/18/2026
 coverImage: img/blog/thumbnails/1.png
 last_update:
-  date: 2026-06-03
+  date: 2026-08-27
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
@@ -19,7 +19,7 @@ January 17, 2025 wasn't just another regulatory deadline. It was the day the Dig
 
 Banks, insurance companies, payment processors, investment firms—every financial institution in the EU now operates under a framework that doesn't just ask "where is your data stored?" It demands proof that you can maintain operational continuity even when third-party ICT providers fail. That you control failover procedures, backup strategies, and incident response without depending on vendor support tickets. That your critical functions aren't concentrated with a single provider who can be compelled by foreign governments to hand over data.
 
-SaaS platforms—Snowflake, Databricks, any vendor where you don't control the infrastructure—can't provide that level of operational independence. And in August 2026, when the EU AI Act reaches full application, the compliance gap widens further.
+SaaS platforms—Snowflake, Databricks, any vendor where you don't control the infrastructure—can't provide that level of operational independence. And when the EU AI Act's high-risk obligations apply — 2 December 2027 for Annex III systems, after the Digital Omnibus on AI (Regulation (EU) 2026/1744, in force 27 July 2026) postponed them from August 2026 — the compliance gap widens further.
 
 This isn't a future problem. Financial institutions are being audited right now. Fines are being levied. And the organizations that waited to act are discovering that migrating off SaaS platforms takes months, not weeks.
 
@@ -91,7 +91,7 @@ In self-hosted environments, you participate in threat intelligence sharing dire
 
 ## The EU AI Act: Why AI Models Make Sovereignty Urgent
 
-The EU AI Act reaches full application on August 2, 2026. While DORA targets operational resilience, the AI Act targets AI system governance—and the two regulations overlap in ways that make SaaS platforms even more problematic.
+The EU AI Act's high-risk obligations apply from 2 December 2027, moved back from August 2026 by the Digital Omnibus on AI ([Regulation (EU) 2026/1744](https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng/xhtml)). Its prohibitions, AI literacy duty, GPAI rules and transparency obligations already apply today. While DORA targets operational resilience, the AI Act targets AI system governance—and the two regulations overlap in ways that make SaaS platforms even more problematic.
 
 High-risk AI systems—those used in recruitment, law enforcement, credit scoring, critical infrastructure management—must demonstrate:
 
@@ -186,7 +186,7 @@ The pattern is consistent: organizations with serious regulatory obligations are
 
 ## What Compliance Actually Costs (And What It Saves)
 
-The question isn't whether to comply. DORA is enforceable now. The AI Act becomes enforceable in August 2026. The question is: what's the cost of compliance, and what's the cost of non-compliance?
+The question isn't whether to comply. DORA is enforceable now. The AI Act's high-risk rules become enforceable on 2 December 2027 (Annex III), with the prohibitions, AI literacy duty, GPAI and transparency rules already in force. The question is: what's the cost of compliance, and what's the cost of non-compliance?
 
 ### Cost of Non-Compliance
 
@@ -214,7 +214,7 @@ The [total cost of ownership](/blog/fortune-500-cost-reduction-self-hosted-vs-sa
 
 ## The Timeline: How Fast Can You Actually Migrate?
 
-DORA is enforceable now. The AI Act becomes enforceable in August 2026. If you're still running critical workloads on SaaS platforms, the timeline is tight.
+DORA is enforceable now. The AI Act's high-risk obligations land on 2 December 2027. If you're still running critical workloads on SaaS platforms, that is one migration window, not two.
 
 **Month 1-2: Assessment and Planning**
 - Inventory current SaaS dependencies and data volumes
@@ -245,7 +245,7 @@ Organizations running IOMETE typically complete migration in 4-6 months with min
 
 ## What Happens If You Don't Act
 
-Regulatory enforcement isn't theoretical anymore. DORA audits are happening. Financial institutions that cannot demonstrate operational resilience are being flagged for remediation. And when the AI Act reaches full enforcement in August 2026, regulators will have even more grounds to challenge SaaS dependencies.
+Regulatory enforcement isn't theoretical anymore. DORA audits are happening. Financial institutions that cannot demonstrate operational resilience are being flagged for remediation. And when the AI Act's high-risk regime applies on 2 December 2027, regulators will have even more grounds to challenge SaaS dependencies.
 
 The organizations that waited are discovering that migration takes longer than they expected. SaaS platforms don't make it easy to export data. Query optimization that worked on vendor infrastructure doesn't translate directly. Governance frameworks need to be rebuilt for self-hosted environments.
 
@@ -293,12 +293,12 @@ If you're operating in financial services, healthcare, or any regulated industry
   },
   {
     question: "What's the timeline for DORA and AI Act enforcement?",
-    answer: "DORA entered full enforcement on January 17, 2025. The EU AI Act reaches full application on August 2, 2026. Organizations still using SaaS platforms for critical workloads have less than a year to migrate before AI Act enforcement begins.",
+    answer: "DORA entered full enforcement on 17 January 2025 and applies today. The EU AI Act's high-risk obligations apply from 2 December 2027 for Annex III systems and 2 August 2028 for high-risk AI inside Annex I regulated products, after the Digital Omnibus on AI (Regulation (EU) 2026/1744) postponed them from August 2026. The prohibitions, AI literacy duty, GPAI model rules and Article 50 transparency obligations are already in force.",
     answerContent: (
       <>
-        <p>DORA entered full enforcement on <strong>January 17, 2025</strong>. The EU AI Act reaches full application on <strong>August 2, 2026</strong>. Organizations still using SaaS platforms for critical workloads have less than a year to migrate before AI Act enforcement begins.</p>
+        <p>DORA entered full enforcement on <strong>January 17, 2025</strong> and applies today. The EU AI Act's high-risk obligations apply from <strong>2 December 2027</strong> for Annex III systems and 2 August 2028 for high-risk AI inside Annex I regulated products, after the Digital Omnibus on AI (Regulation (EU) 2026/1744) postponed them from August 2026. The prohibitions, AI literacy duty, GPAI model rules and Article 50 transparency obligations are already in force.</p>
         <p>Financial institutions are being audited now for DORA compliance. Waiting until AI Act enforcement starts means migrating under regulatory pressure, which is far more expensive and disruptive.</p>
-        <p>Organizations running IOMETE typically complete migration in 4-6 months, making early 2026 the deadline for starting migration if you want to be ready before August enforcement.</p>
+        <p>Organizations running IOMETE typically complete migration in 4-6 months. The later AI Act date does not change the DORA position, which is enforceable now, so the practical planning anchor remains DORA rather than the 2027 AI Act milestone.</p>
       </>
     )
   },

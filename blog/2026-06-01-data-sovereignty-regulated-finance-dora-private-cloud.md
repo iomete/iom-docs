@@ -7,12 +7,12 @@ authors: [aytan]
 hide_table_of_contents: false
 coverImage: img/blog/thumbnails/1.png
 last_update:
-  date: 2026-06-05
+  date: 2026-08-27
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
 
-For a bank, "where does the data live" stopped being an infrastructure question and became a regulatory one. Two EU regulations now ask for evidence of control at the data infrastructure layer, not a contractual promise that control exists somewhere upstream. The [Digital Operational Resilience Act (DORA)](https://eur-lex.europa.eu/eli/reg/2022/2554/oj) has been in force since January 17, 2025. The [EU AI Act](https://eur-lex.europa.eu/eli/reg/2024/1689/oj) adds high-risk enforcement from August 2, 2026. Both point at the same thing: financial institutions have to demonstrate custody and resilience of the systems their data and models run on.
+For a bank, "where does the data live" stopped being an infrastructure question and became a regulatory one. Two EU regulations now ask for evidence of control at the data infrastructure layer, not a contractual promise that control exists somewhere upstream. The [Digital Operational Resilience Act (DORA)](https://eur-lex.europa.eu/eli/reg/2022/2554/oj) has been in force since January 17, 2025. The [EU AI Act](https://eur-lex.europa.eu/eli/reg/2024/1689/oj) adds high-risk obligations from 2 December 2027, moved back from August 2026 by the [Digital Omnibus on AI](https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng/xhtml). Both point at the same thing: financial institutions have to demonstrate custody and resilience of the systems their data and models run on.
 
 That is a data-sovereignty problem wearing a compliance label. This post – the finance entry in a cluster on the [sovereign data platform](/resources/blog/sovereign-data-platform-private-cloud-ai) – walks through what regulated institutions actually need from their data platform, and why a self-hosted, private-cloud lakehouse maps onto the requirements more cleanly than a managed alternative.
 
