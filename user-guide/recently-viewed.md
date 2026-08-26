@@ -7,6 +7,8 @@ last_update:
   author: Ilknur Rahimli
 ---
 
+import Img from '@site/src/components/Img';
+
 Recently Viewed is a personal list on the Home page that helps you get back to resources you opened recently. Use it when you're moving between compute clusters, jobs, resource bundles, event streams, Jupyter containers, and catalog tables without navigating through each section again.
 
 Recently viewed resources are scoped to your user and the current domain. Other users won't see your list.
@@ -21,7 +23,7 @@ The list lives on the domain Home page.
 
 IOMETE remembers the selected Home tab in your browser, so if you leave Home with **Recently viewed** selected, it opens again when you return to that domain.
 
-{/* TODO image: Home page with the Recently viewed tab selected, showing the NEW badge, Clear all recents button, and the table headers. */}
+<Img src="/img/user-guide/recently-viewed/home-recently-viewed.png" alt="Home page with the Recently viewed tab selected" maxWidth="900px"/>
 
 ## How Resources Appear
 
@@ -57,7 +59,7 @@ Click the resource title to open it. The row actions menu also includes:
 - **Copy**: copies the resource ID or display name.
 - **Remove from recents**: removes only that row from Recently Viewed.
 
-{/* TODO image: Recently Viewed table row with the actions menu open, showing View, Copy, and Remove from recents. */}
+<Img src="/img/user-guide/recently-viewed/row-actions-menu.png" alt="Recently Viewed row actions menu showing View, Copy, and Remove from recents" maxWidth="900px"/>
 
 ## Managing the List
 
@@ -67,7 +69,7 @@ To remove one item, open the row actions menu and select **Remove from recents**
 
 To clear the full list for the current domain, click **Clear all recents**. When there are no recent resources, the button stays visible but disabled with a tooltip explaining that there is nothing to clear.
 
-{/* TODO image: Recently Viewed empty state showing "No recently viewed resources" and the disabled Clear all recents button. */}
+<Img src="/img/user-guide/recently-viewed/empty-state.png" alt="Recently Viewed empty state with the disabled Clear all recents button" maxWidth="900px"/>
 
 ## Permissions and Visibility
 
