@@ -1,0 +1,10 @@
+name: PR checks
+
+on:
+  pull_request:
+
+jobs:
+  common:
+    uses: iomete/.github/.github/workflows/common-repository-pr-checks.yml@main
+    with:
+      runs-on: ubuntu-latest
