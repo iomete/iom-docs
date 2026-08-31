@@ -199,7 +199,7 @@ Garage occupies a unique niche: it's built for small-to-medium self-hosted deplo
 
 **Production-proven at small scale.** [Deuxfleurs](https://garagehq.deuxfleurs.fr/) has run Garage in production since 2020 for their own hosting services, and [Triplebit](https://garagehq.deuxfleurs.fr/documentation/design/goals/), a non-profit hosting provider, uses it for static site hosting and Mastodon media storage. The user base is small, no large enterprise deployments are publicly documented; but for the self-hosted niche it targets, it's proven and stable.
 
-**Kubernetes support.** Helm charts for standard deployment, multiple community-developed operators ([rajsinghtech/garage-operator](https://github.com/rajsinghtech/garage-operator)), and experimental COSI (Container Object Storage Interface) driver support.
+**Kubernetes support.** Helm charts for standard deployment, a community-developed operator ([rajsinghtech/garage-operator](https://github.com/rajsinghtech/garage-operator)), and experimental COSI (Container Object Storage Interface) driver support.
 
 #### Trade-offs
 
