@@ -159,6 +159,7 @@ For organizations in healthcare, banking, or financial services working toward G
 <FAQSection faqs={[
   {
     question: "What's the key architectural difference between managed cloud lakehouse masking and IOMETE's approach?",
+    answer: "The core difference is where enforcement happens: inside your infrastructure or inside a vendor's managed service. On managed cloud platforms, masking policies are typically enforced at the vendor's query layer. This works well for traffic through that layer, but it means your governance plane sits outside your own infrastructure perimeter. For EU financial institutions under DORA or organizations with strict data residency requirements, that creates a third-party ICT dependency that requires formal risk management. IOMETE's masking policies are enforced at query execution time inside your own Kubernetes cluster. The policy engine, classification store, and access logs all run within your infrastructure perimeter. There's no vendor control plane involved in enforcement decisions, which simplifies the DORA third-party risk picture and keeps governance metadata under your control.",
     answerContent: (
       <>
         <p>The core difference is where enforcement happens: inside your infrastructure or inside a vendor's managed service.</p>
@@ -169,6 +170,7 @@ For organizations in healthcare, banking, or financial services working toward G
   },
   {
     question: "Can we apply column-level masking to existing tables without rewriting data?",
+    answer: "Yes. IOMETE's masking is dynamic. It applies transformations at query execution time, not to the underlying data at rest. The data in your Iceberg tables remains unchanged. When a query reads a masked column, the compute engine applies the masking function during execution and returns the transformed value. The stored data is never modified. This means you can apply masking policies to existing tables immediately, without reprocessing or rewriting any data, and you can remove or change masking policies without data migration.",
     answerContent: (
       <>
         <p>Yes. IOMETE's masking is dynamic. It applies transformations at query execution time, not to the underlying data at rest.</p>
@@ -178,6 +180,7 @@ For organizations in healthcare, banking, or financial services working toward G
   },
   {
     question: "How does the classification approval workflow work at scale? Won't reviewing thousands of columns become a bottleneck?",
+    answer: "The approval workflow is designed for batch review, not individual approvals. When discovery scripts identify candidate columns matching PHI or PII patterns, those candidates are surfaced to administrators as a batch of pending classification requests. An administrator with the DATA_SECURITY_AND_AUDIT_MANAGER role reviews the batch, typically grouped by source system or schema, and approves or rejects each proposed classification. For a large initial onboarding, this typically means a few focused review sessions rather than ongoing per-column overhead. The audit trail (who requested, who approved, what justification was provided) remains intact for every classification, regardless of whether discovery was manual or automated.",
     answerContent: (
       <>
         <p>The approval workflow is designed for batch review, not individual approvals. When discovery scripts identify candidate columns matching PHI or PII patterns, those candidates are surfaced to administrators as a batch of pending classification requests.</p>
@@ -187,6 +190,7 @@ For organizations in healthcare, banking, or financial services working toward G
   },
   {
     question: "What happens to masking when downstream tables or derived columns are created from tagged data?",
+    answer: "Today, sensitive-data tags and masking rules do not automatically propagate to downstream tables or derived columns created from tagged data. That means a downstream table created from masked or tagged columns will not automatically inherit the same classification or masking behavior. We are planning and building data lineage capabilities that can track dataset relationships, column-level lineage, and transformations across the platform. The goal is to use that lineage foundation in the future to help identify downstream data derived from sensitive columns and support lineage-assisted classification propagation and governance workflows. At the moment, though, this propagation is not available automatically.",
     answerContent: (
       <>
         <p>Today, sensitive-data tags and masking rules do not automatically propagate to downstream tables or derived columns created from tagged data. That means a downstream table created from masked or tagged columns will not automatically inherit the same classification or masking behavior.</p>
@@ -197,6 +201,7 @@ For organizations in healthcare, banking, or financial services working toward G
   },
   {
     question: "Does column-level masking apply to Spark jobs, not just SQL queries?",
+    answer: "Yes. Enforcement happens at the compute layer, not the SQL Editor or BI tool layer. When a Spark job reads a table through IOMETE's compute cluster, the masking policies apply to that read just as they would for an interactive SQL query. A data scientist running a PySpark job against a table with PHI-tagged columns will see masked values for those columns unless their group membership grants them unmasked access. The policy applies to all query paths that go through the IOMETE compute engine: SQL Editor, scheduled queries, Spark jobs, JDBC connections, and Spark Connect clients.",
     answerContent: (
       <>
         <p>Yes. Enforcement happens at the compute layer, not the SQL Editor or BI tool layer.</p>
@@ -206,6 +211,7 @@ For organizations in healthcare, banking, or financial services working toward G
   },
   {
     question: "What masking functions are available?",
+    answer: "IOMETE's masking policies support several masking types that cover the most common regulatory requirements: full masking (replacing the entire value with a null or placeholder), partial masking (exposing the last 4 or first 4 characters, useful for credit card PANs and account numbers), hash masking (one-way transformation useful for pseudonymization), year-only date masking (returning only the year from a date field), and custom masking expressions (SQL expressions that apply arbitrary transformations for any pattern not covered by the built-in types). Different masking functions can be configured for the same classification tag depending on the user group. Clinical staff querying PHI-tagged columns might see actual values; data analysts working on aggregate reports might see year-only masked birth dates. Both behaviors are configured in a single tag-based policy with group-specific masking rules.",
     answerContent: (
       <>
         <p>IOMETE's masking policies support several masking types that cover the most common regulatory requirements: full masking (replacing the entire value with a null or placeholder), partial masking (exposing the last 4 or first 4 characters, useful for credit card PANs and account numbers), hash masking (one-way transformation useful for pseudonymization), year-only date masking (returning only the year from a date field), and custom masking expressions (SQL expressions that apply arbitrary transformations for any pattern not covered by the built-in types).</p>
@@ -215,6 +221,7 @@ For organizations in healthcare, banking, or financial services working toward G
   },
   {
     question: "How do we demonstrate DORA compliance for column-level data access controls?",
+    answer: "DORA Article 8 ICT risk management requires documented controls for access to sensitive data and audit trails showing those controls are operating correctly. In IOMETE deployments, the compliance evidence chain includes: the classification registry (which columns are classified and why, with approval history), the tag-based masking policies (which classifications are masked, for which user groups, with which transformations), and the access logs (which users queried which columns, and whether masking was applied). All of this evidence stays within your infrastructure. The audit logs are available to your existing SIEM and log aggregation tooling, and the classification and policy records are queryable through the Data Security API. There's no dependency on a vendor to produce audit evidence on your behalf.",
     answerContent: (
       <>
         <p>DORA Article 8 ICT risk management requires documented controls for access to sensitive data and audit trails showing those controls are operating correctly.</p>
@@ -224,6 +231,7 @@ For organizations in healthcare, banking, or financial services working toward G
   },
   {
     question: "Can we use the API to automate masking policy creation for a large number of tables?",
+    answer: "Yes. IOMETE exposes a full REST API for all data security operations. Access policies, masking policies, row-level filters, and tag-based policies are all createable, queryable, and manageable programmatically. For large migrations or initial onboarding, the typical pattern is: query the catalog API for columns matching classification heuristics, submit classification requests in batch, and create tag-based masking policies that automatically cover all current and future classified columns. Once the tag-based policies exist, individual column tagging doesn't require policy updates. The policy propagates automatically to newly classified columns. The API also supports listing and auditing existing policies, which feeds into periodic compliance reporting workflows.",
     answerContent: (
       <>
         <p>Yes. IOMETE exposes a full REST API for all data security operations. Access policies, masking policies, row-level filters, and tag-based policies are all createable, queryable, and manageable programmatically.</p>
@@ -233,6 +241,7 @@ For organizations in healthcare, banking, or financial services working toward G
   },
   {
     question: "How does IOMETE handle masking for federated queries across multiple catalogs?",
+    answer: "IOMETE supports multiple Spark catalog configurations, and masking policies defined through the IOMETE data security layer apply to tables accessed through those catalogs when queries are processed by the IOMETE compute engine. For external catalog sources accessed via JDBC federation, masking at the column level depends on whether the data flows through IOMETE's compute layer. Native Iceberg tables stored in your configured storage and accessed through IOMETE's internal or external Iceberg catalog have full masking policy enforcement. For federated queries against external JDBC sources, access control operates at the query routing level, and column-level masking applies to the result set returned to the IOMETE compute layer.",
     answerContent: (
       <>
         <p>IOMETE supports multiple Spark catalog configurations, and masking policies defined through the IOMETE data security layer apply to tables accessed through those catalogs when queries are processed by the IOMETE compute engine.</p>

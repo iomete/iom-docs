@@ -99,6 +99,7 @@ Your data. Your infrastructure. Your jurisdiction. That's what sovereignty actua
 <FAQSection faqs={[
   {
     question: "What's the difference between data residency and data sovereignty?",
+    answer: "Data residency means your data is physically stored in a specific geographic location — say, a data center in Germany. Data sovereignty goes further: it means you have full legal and operational control over that data, including who can access it, under which laws, and through which systems. You can have residency without sovereignty. If a US-headquartered cloud provider operates the infrastructure, US authorities can potentially compel access regardless of where the servers sit.",
     answerContent: (
       <>
         <p>Data residency means your data is physically stored in a specific geographic location — say, a data center in Germany. Data sovereignty goes further: it means you have full legal and operational control over that data, including who can access it, under which laws, and through which systems.</p>
@@ -124,6 +125,7 @@ Your data. Your infrastructure. Your jurisdiction. That's what sovereignty actua
   },
   {
     question: "How does a self-hosted data platform help with sovereignty?",
+    answer: "A self-hosted platform like IOMETE runs entirely within your infrastructure — your data center, your cloud account, your security perimeter. Data never leaves your controlled environment for processing. You manage the encryption keys, the administrator access, the audit trails, and the network configuration. There's no external vendor runtime processing your data in plaintext under a foreign jurisdiction.",
     answerContent: (
       <>
         <p>A self-hosted platform like <strong>IOMETE</strong> runs entirely within your infrastructure — your data center, your cloud account, your security perimeter. Data never leaves your controlled environment for processing.</p>
@@ -137,6 +139,7 @@ Your data. Your infrastructure. Your jurisdiction. That's what sovereignty actua
   },
   {
     question: "Can I achieve data sovereignty on a public cloud?",
+    answer: "Yes — if you control the deployment. Running a self-hosted platform on your own public cloud account (AWS, Azure, GCP) means you control the infrastructure, the network configuration, and the access policies. The key distinction is whether you or a SaaS vendor controls the processing environment. A self-hosted deployment in your cloud account keeps the trust boundary within your control, unlike a vendor-managed SaaS platform.",
     answerContent: (
       <>
         <p>Yes — if you control the deployment. Running a self-hosted platform on your own public cloud account (AWS, Azure, GCP) means you control the infrastructure, the network configuration, and the access policies.</p>

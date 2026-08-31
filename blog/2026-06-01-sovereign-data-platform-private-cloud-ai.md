@@ -77,6 +77,7 @@ If you are working through the same decision, the companion posts go deeper: how
 <FAQSection faqs={[
   {
     question: "What is a sovereign data platform?",
+    answer: "A sovereign data platform keeps data storage, compute, metadata, and audit logs inside infrastructure the customer controls, stores data in open formats the customer can leave with, and runs on a deployment target the customer chooses. If any one of those three properties is missing – perimeter control, deployment freedom, or format ownership – the platform is hosted rather than sovereign. IOMETE is built around all three: self-hosted on your own Kubernetes clusters, deployable on-premises or in a sovereign cloud, with data in open Apache Iceberg tables – the distinction is architectural, not contractual.",
     answerContent: (
       <>
         <p>A sovereign data platform keeps data storage, compute, metadata, and audit logs inside infrastructure the customer controls, stores data in open formats the customer can leave with, and runs on a deployment target the customer chooses.</p>
@@ -86,6 +87,7 @@ If you are working through the same decision, the companion posts go deeper: how
   },
   {
     question: "How is a sovereign data platform different from a managed cloud data platform?",
+    answer: "A sovereign platform runs inside your own infrastructure with no vendor data plane; a managed cloud platform runs your workloads on the vendor's infrastructure. The practical difference shows up in custody of encryption keys, control over where data physically sits, and whether you can operate fully air-gapped. IOMETE runs inside your own infrastructure with no IOMETE-operated data plane, for cases where regulators require infrastructure control, not just contractual guarantees.",
     answerContent: (
       <>
         <p>A sovereign platform runs inside your own infrastructure with no vendor data plane; a managed cloud platform runs your workloads on the vendor's infrastructure.</p>
@@ -95,6 +97,7 @@ If you are working through the same decision, the companion posts go deeper: how
   },
   {
     question: "Can a sovereign data platform run AI and ML workloads?",
+    answer: "Yes. A well-designed sovereign platform runs distributed ML feature engineering, model training, notebooks, and AI agent workloads against lakehouse data without moving it off your infrastructure. On IOMETE this runs on Apache Spark with notebook-native workflows directly against Apache Iceberg tables, so the data never leaves the security perimeter to be trained on.",
     answerContent: (
       <>
         <p>Yes. A well-designed sovereign platform runs distributed ML feature engineering, model training, notebooks, and AI agent workloads against lakehouse data without moving it off your infrastructure.</p>
@@ -104,6 +107,7 @@ If you are working through the same decision, the companion posts go deeper: how
   },
   {
     question: "Does running on a private cloud mean giving up modern lakehouse features?",
+    answer: "No. A modern sovereign platform delivers the same lakehouse capabilities – ACID transactions, time travel, streaming ingestion, fine-grained security – on private cloud or on-premises. Because IOMETE is built on open standards like Apache Iceberg and Spark rather than a proprietary cloud engine, the feature set does not depend on a specific hyperscaler.",
     answerContent: (
       <>
         <p>No. A modern sovereign platform delivers the same lakehouse capabilities – ACID transactions, time travel, streaming ingestion, fine-grained security – on private cloud or on-premises.</p>
@@ -113,6 +117,7 @@ If you are working through the same decision, the companion posts go deeper: how
   },
   {
     question: "What deployment environments does a sovereign platform support?",
+    answer: "The strongest sovereign platforms run on bare-metal, private Kubernetes, OpenStack, VMware, regional sovereign clouds, public cloud regions, air-gapped clusters, or a hybrid of these queried as one surface. Deployment freedom is one of the three defining properties of sovereignty, because it lets residency and cost constraints be answered without re-platforming later. IOMETE runs across all of these targets from one Kubernetes-native packaging.",
     answerContent: (
       <>
         <p>The strongest sovereign platforms run on bare-metal, private Kubernetes, OpenStack, VMware, regional sovereign clouds, public cloud regions, air-gapped clusters, or a hybrid of these queried as one surface.</p>
@@ -122,6 +127,7 @@ If you are working through the same decision, the companion posts go deeper: how
   },
   {
     question: "How does a sovereign data platform support compliance with GDPR, HIPAA, or DORA?",
+    answer: "By keeping data, compute, and logs inside the customer's perimeter, a sovereign platform makes compliance structural rather than dependent on a vendor's contractual promises. Fine-grained access control, masking, lineage, and reproducibility provide the auditable controls these frameworks expect. IOMETE is SOC 2 Type II, HIPAA, and GDPR aligned and supports air-gapped deployment.",
     answerContent: (
       <>
         <p>By keeping data, compute, and logs inside the customer's perimeter, a sovereign platform makes compliance structural rather than dependent on a vendor's contractual promises.</p>
@@ -131,6 +137,7 @@ If you are working through the same decision, the companion posts go deeper: how
   },
   {
     question: "Does a sovereign data platform create vendor lock-in?",
+    answer: "It should do the opposite. Because data is stored in open Apache Iceberg tables and Parquet files queried by open engines, migration off the platform is symmetric with migration on. Lock-in comes from proprietary storage formats and vendor-operated control planes – the things IOMETE avoids by design, storing data in open Iceberg tables with no vendor-operated control plane.",
     answerContent: (
       <>
         <p>It should do the opposite. Because data is stored in open Apache Iceberg tables and Parquet files queried by open engines, migration off the platform is symmetric with migration on.</p>
@@ -140,6 +147,7 @@ If you are working through the same decision, the companion posts go deeper: how
   },
   {
     question: "Is a sovereign data platform more expensive than a SaaS data platform?",
+    answer: "It changes the cost shape rather than simply raising it. Costs scale with infrastructure you already own instead of per-query premiums and vendor-mediated egress fees. For the large, steady-state workloads IOMETE typically runs, that often lowers total cost; the bigger driver is usually whether regulation makes infrastructure control non-negotiable in the first place.",
     answerContent: (
       <>
         <p>It changes the cost shape rather than simply raising it. Costs scale with infrastructure you already own instead of per-query premiums and vendor-mediated egress fees.</p>

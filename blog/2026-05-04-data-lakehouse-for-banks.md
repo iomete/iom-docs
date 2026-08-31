@@ -147,6 +147,7 @@ If you're assessing a banking lakehouse migration and want to talk through your 
 <FAQSection faqs={[
   {
     question: "How many engineers does a self-hosted banking lakehouse actually require to operate?",
+    answer: "A typical banking deployment runs steady-state with 2 to 4 platform engineers familiar with Kubernetes, plus the existing data engineering team for transformation work. In IOMETE banking engagements, the platform team handles cluster operations, Iceberg maintenance jobs like compaction and metadata cleanup, and capacity planning. The data engineering team owns dbt models and Airflow DAGs using skills the bank already has. The operational effort is front-loaded — onboarding and Bronze ingestion are the heavy phases, after which day-to-day operations stabilize. For banks without in-house Kubernetes capacity, Field Data Engineer support during the migration phase is the common pattern.",
     answerContent: (
       <>
         <p>A typical banking deployment runs steady-state with 2 to 4 platform engineers familiar with Kubernetes, plus the existing data engineering team for transformation work.</p>
@@ -156,6 +157,7 @@ If you're assessing a banking lakehouse migration and want to talk through your 
   },
   {
     question: "What does data sovereignty actually mean for a central bank's data platform?",
+    answer: "It means the platform runs inside the bank's trust perimeter, on infrastructure the bank controls, with no vendor data plane mediating access to the data. The test is structural: if the platform vendor can be compelled by their home jurisdiction to produce or restrict access to data, sovereignty is contractual rather than architectural. Central banks running IOMETE on their own Kubernetes infrastructure remove this exposure structurally — there is no vendor-controlled control plane, no required egress to a hosted service, and no provider-managed metadata layer.",
     answerContent: (
       <>
         <p>It means the platform runs inside the bank's trust perimeter, on infrastructure the bank controls, with no vendor data plane mediating access to the data.</p>
@@ -165,6 +167,7 @@ If you're assessing a banking lakehouse migration and want to talk through your 
   },
   {
     question: "How does Apache Iceberg help with banking compliance?",
+    answer: "Iceberg provides snapshot history, time travel, and schema evolution as native table-format capabilities, all of which directly support regulatory audit requirements. In IOMETE production deployments, compliance teams use Iceberg time travel to reconstruct the exact state of any dataset at any historical point using standard SQL. Schema changes are documented automatically. For DORA Article 8 ICT risk management and EU AI Act Article 10 data governance, this means the audit trail is structural rather than bolted on after the fact.",
     answerContent: (
       <>
         <p>Iceberg provides snapshot history, time travel, and schema evolution as native table-format capabilities, all of which directly support regulatory audit requirements.</p>
@@ -174,6 +177,7 @@ If you're assessing a banking lakehouse migration and want to talk through your 
   },
   {
     question: "Can a self-hosted lakehouse replace Oracle Data Integrator?",
+    answer: "Yes. The standard replacement pattern is dbt for transformation logic, Airflow for orchestration, and Spark for compute on top of an Iceberg-based lakehouse. The migration is rarely a one-to-one mapping. Legacy ODI scenarios contain accumulated business logic that should be re-modeled rather than copied. Banks running IOMETE typically find the dbt rebuild produces 30 to 50 percent fewer tables, with explicit dependencies, version-controlled code, and automated tests — none of which the legacy stack supported.",
     answerContent: (
       <>
         <p>Yes. The standard replacement pattern is dbt for transformation logic, Airflow for orchestration, and Spark for compute on top of an Iceberg-based lakehouse.</p>
@@ -183,6 +187,7 @@ If you're assessing a banking lakehouse migration and want to talk through your 
   },
   {
     question: "How do banks implement Medallion architecture in regulated environments?",
+    answer: "Banks separate raw ingestion (Bronze), cleaned and conformed data (Silver), and analytics-ready marts (Gold) into distinct namespaces with enforced access boundaries between layers. This pattern imposes a clear contract: raw data is preserved for audit, business logic lives in Silver, and reporting consumes only Gold. In IOMETE deployments, the separation is enforced through Iceberg namespace controls combined with dbt project structure — making lineage, testing, and governance enforceable in ways flat DWH architectures cannot achieve.",
     answerContent: (
       <>
         <p>Banks separate raw ingestion (Bronze), cleaned and conformed data (Silver), and analytics-ready marts (Gold) into distinct namespaces with enforced access boundaries between layers.</p>
@@ -192,6 +197,7 @@ If you're assessing a banking lakehouse migration and want to talk through your 
   },
   {
     question: "Can a self-hosted lakehouse really handle the same scale as managed cloud platforms?",
+    answer: "Yes. Modern self-hosted lakehouses run on the same engines — Spark and Iceberg — that power managed cloud platforms; the architecture, not the deployment model, determines scale. In IOMETE banking deployments, multi-cluster shared-data architecture lets analyst workloads, batch jobs, and streaming pipelines run on isolated compute clusters that all read from the same Iceberg tables. The bank controls the underlying hardware budget, but the engines scale horizontally the same way they do in any cloud-native deployment. Petabyte-scale central bank workloads run on this pattern in production.",
     answerContent: (
       <>
         <p>Yes. Modern self-hosted lakehouses run on the same engines — Spark and Iceberg — that power managed cloud platforms; the architecture, not the deployment model, determines scale.</p>
@@ -201,6 +207,7 @@ If you're assessing a banking lakehouse migration and want to talk through your 
   },
   {
     question: "How does a sovereign lakehouse handle DORA Article 28 ICT third-party risk requirements?",
+    answer: "DORA Article 28 requires financial entities to maintain control over critical ICT third-party providers, including the ability to exit, audit, and substitute providers without operational disruption. Sovereign lakehouse architecture addresses this structurally. Banks running IOMETE inside their own Kubernetes infrastructure store data in open formats — Apache Iceberg and Parquet — that any compliant query engine can read. There is no vendor-controlled metadata service, no required egress to a hosted control plane, and no proprietary table format. Provider substitution becomes a compute-layer change, not a data migration.",
     answerContent: (
       <>
         <p>DORA Article 28 requires financial entities to maintain control over critical ICT third-party providers, including the ability to exit, audit, and substitute providers without operational disruption.</p>
@@ -210,6 +217,7 @@ If you're assessing a banking lakehouse migration and want to talk through your 
   },
   {
     question: "How long does a banking lakehouse migration typically take?",
+    answer: "18 to 36 months from assessment through legacy DWH decommission for a mid-sized institution. In IOMETE banking engagements, the first production workloads usually go live within 4 to 6 months. The longer end-to-end timeline reflects the parallel-run period for high-stakes reports, the source-system schema work to support reliable incremental load, and the analyst onboarding cycle. Big-bang migrations rarely succeed; phased migration by source domain is the standard pattern.",
     answerContent: (
       <>
         <p>18 to 36 months from assessment through legacy DWH decommission for a mid-sized institution.</p>
