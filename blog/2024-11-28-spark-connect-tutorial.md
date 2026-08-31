@@ -47,7 +47,7 @@ Deep dive into the world of data analytics using IOMETE Spark Connect with PySpa
 
 ## Connect to Spark Connect cluster
 
-- Create a Spark Connect cluster by following the steps mentioned [here](https://iomete.com/resources/user-guide/spark-connect).
+- Create a Spark Connect cluster by following the steps mentioned [here](https://iomete.com/resources/user-guide/compute-clusters/creating-clusters).
 - Open `example.py` and paste this code.
 
   ```

@@ -61,7 +61,7 @@ If we get asked “what do you do?” the shortest way to answer would be “We 
 
 Yes, we do and will continue to do so, but we will not lead with it in our go-to-market motion. We will present ourselves as the on premise lakehouse experts because - frankly - we are.
 
-<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<MiniCard link="https://iomete.com/contact-us" linkName="Talk to us">Discovering the data lakehouse platform?</MiniCard>
 
 ---
 

@@ -89,7 +89,7 @@ The backend for the [Data Catalog](/user-guide/data-catalog/overview). Teams use
 
 ### Iceberg REST Catalog Service
 
-Implements the [Apache Iceberg REST Catalog](https://iceberg.apache.org/concepts/catalog/#rest-catalog) specification so that external tools and Spark engines can access Iceberg table metadata. Every data request passes through [Apache Ranger](https://ranger.apache.org/) policy enforcement, so access control stays consistent no matter how data is queried.
+Implements the [Apache Iceberg REST Catalog](https://iceberg.apache.org/rest-catalog-spec/) specification so that external tools and Spark engines can access Iceberg table metadata. Every data request passes through [Apache Ranger](https://ranger.apache.org/) policy enforcement, so access control stays consistent no matter how data is queried.
 
 ### Health Check Service
 

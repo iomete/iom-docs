@@ -36,7 +36,7 @@ To force the whole dataset to be ordered using Z-ORDER, you can use the followin
    );
    ```
 
-<MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard>
+<MiniCard link="https://iomete.com/contact-us" linkName="Talk to us">Discovering the data lakehouse platform?</MiniCard>
 
 **Additional notes**
 
