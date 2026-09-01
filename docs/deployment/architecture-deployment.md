@@ -244,13 +244,13 @@ All services share a single PostgreSQL server. The init job creates databases wi
 - `<prefix>iceberg_db` (Iceberg catalog metadata)
 - Per-microservice databases (Core, Cluster, Identity, SQL, Catalog, etc.)
 - `<prefix>prefect_db` (Prefect job orchestrator, when enabled)
-- `<prefix>mcp_db` (MCP server, when enabled)
+- `<prefix>mcp_db` (MCP server OAuth state)
 
 **Multi-cluster database support**: You can point `clusterDatabase` at a different server than the main `database`. This is handy in multi-region setups where high-volume operations (Kubernetes/Spark data) hit a local database while metadata stays on a global one.
 
 **SSL**: PostgreSQL SSL is optional. When `ssl.enabled` is true, JDBC connections use `sslmode=verify-full`.
 
-**Connection pooler**: If `database.host` points at a connection pooler (for example PgBouncer), set `database.directHost` / `database.directPort` to the actual PostgreSQL endpoint. Schema migrations (such as the MCP server's, which run automatically at startup) hold a session-scoped advisory lock and cannot run through a transaction pooler; all other traffic keeps using the pooler.
+**Connection pooler**: If `database.host` points at a connection pooler (for example PgBouncer), set `database.directHost` / `database.directPort` to the actual PostgreSQL endpoint. Schema migrations (every platform service's, including the MCP server's, which run automatically at startup) hold a session-scoped advisory lock and cannot run through a transaction pooler; all other traffic keeps using the pooler.
 
 ## Secret Store
 
