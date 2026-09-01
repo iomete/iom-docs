@@ -24,10 +24,11 @@ function tokenize(text) {
   );
 }
 
+// Title + description only. Keywords are scored separately as `keywordHits * 3`,
+// so including them here too made a shared keyword worth 4 points instead of the
+// documented 3 and could push a weak pair past MIN_SCORE.
 function topicTokens(post) {
-  return tokenize(
-    [post.title, post.description, (post.keywords || []).join(" ")].join(" ")
-  );
+  return tokenize([post.title, post.description].join(" "));
 }
 
 function overlap(a, b) {

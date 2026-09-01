@@ -64,6 +64,12 @@
     &:hover {
       color: #fff;
     }
+
+    // Dark-mode primary (#3c89e8) gives white 0.95rem text only ~3.5:1, below
+    // the WCAG AA minimum of 4.5:1. The darker shade (#1668dc) reaches ~5.2:1.
+    [data-theme="dark"] & {
+      background: var(--ifm-color-primary-dark);
+    }
   }
 
   &__secondary {

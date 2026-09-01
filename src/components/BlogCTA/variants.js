@@ -134,12 +134,19 @@ export function selectVariant(post) {
 }
 
 /**
- * Tag outbound clicks so blog-driven leads are attributable per post.
- * Internal `/resources/...` links are left alone.
+ * Tag CTA clicks so blog-driven leads are attributable per post. Applies to
+ * absolute links and to root-relative ones (`/resources/...`, `/product/...`),
+ * because the reference variant points at internal pages and those clicks were
+ * otherwise invisible in analytics. Anchors and query-only hrefs are left alone.
  */
 export function withUtm(href, slug) {
-  if (!/^https?:\/\//.test(href)) return href;
-  const separator = href.includes("?") ? "&" : "?";
+  if (typeof href !== "string" || !href) return href;
+  const isAbsolute = /^https?:\/\//.test(href);
+  const isRootRelative = href.startsWith("/");
+  if (!isAbsolute && !isRootRelative) return href;
+  const [base, hash = ""] = href.split("#");
+  const separator = base.includes("?") ? "&" : "?";
   const campaign = encodeURIComponent(slug || "blog");
-  return `${href}${separator}utm_source=blog&utm_medium=in_article_cta&utm_campaign=${campaign}`;
+  const tagged = `${base}${separator}utm_source=blog&utm_medium=in_article_cta&utm_campaign=${campaign}`;
+  return hash ? `${tagged}#${hash}` : tagged;
 }

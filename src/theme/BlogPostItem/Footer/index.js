@@ -13,10 +13,13 @@ import RelatedPosts from "@site/src/components/RelatedPosts";
 const BLOG_PATH = "/resources/blog/";
 
 function toIndexShape(metadata, frontMatter) {
+  // Keep the full blog-relative permalink, not just the last segment: posts
+  // without a `slug:` frontmatter serve under `<YYYY>/<MM>/<DD>/<name>`, and
+  // truncating to the bare name made a post fail to match itself in the index,
+  // so it ranked as its own top related post.
   const slug = metadata.permalink
     .replace(/\/$/, "")
-    .split("/")
-    .pop();
+    .replace(new RegExp(`^${BLOG_PATH}`), "");
 
   return {
     slug,
