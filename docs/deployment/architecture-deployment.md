@@ -3,8 +3,8 @@ title: Deployment Architecture
 sidebar_label: Deployment Architecture
 description: Technical reference for IOMETE's Kubernetes deployment topology, complete service inventory, feature flags, and infrastructure configuration.
 last_update:
-  date: 03/31/2026
-  author: Abhishek Pathania
+  date: 09/01/2026
+  author: Kamal
 ---
 
 This reference describes how IOMETE maps onto Kubernetes: the Helm chart structure, the full service inventory, feature flags, and infrastructure options. For a conceptual overview of each service, see the [Architecture Overview](../getting-started/architecture.md). For installation steps, see the [On-Premises Deployment Guide](./on-prem/install.md).
@@ -244,10 +244,13 @@ All services share a single PostgreSQL server. The init job creates databases wi
 - `<prefix>iceberg_db` (Iceberg catalog metadata)
 - Per-microservice databases (Core, Cluster, Identity, SQL, Catalog, etc.)
 - `<prefix>prefect_db` (Prefect job orchestrator, when enabled)
+- `<prefix>mcp_db` (MCP server, when enabled)
 
 **Multi-cluster database support**: You can point `clusterDatabase` at a different server than the main `database`. This is handy in multi-region setups where high-volume operations (Kubernetes/Spark data) hit a local database while metadata stays on a global one.
 
 **SSL**: PostgreSQL SSL is optional. When `ssl.enabled` is true, JDBC connections use `sslmode=verify-full`.
+
+**Connection pooler**: If `database.host` points at a connection pooler (for example PgBouncer), set `database.directHost` / `database.directPort` to the actual PostgreSQL endpoint. Schema migrations (such as the MCP server's, which run automatically at startup) hold a session-scoped advisory lock and cannot run through a transaction pooler; all other traffic keeps using the pooler.
 
 ## Secret Store
 

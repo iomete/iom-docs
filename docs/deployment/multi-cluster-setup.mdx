@@ -3,8 +3,8 @@ title: Multi-Cluster Setup
 sidebar_label: Multi-Cluster Setup
 description: How to configure multiple IOMETE instances to share common resources across data centers using a shared global database.
 last_update:
-  date: 02/26/2026
-  author: Fuad
+  date: 09/01/2026
+  author: Kamal
 ---
 
 import Img from "@site/src/components/Img";
@@ -102,6 +102,7 @@ The tables below list which databases and services are global (shared across all
 | `iomete_core_db` | Both | Tables are split — some in global, some in cluster-local |
 | `iomete_iam_db` | Global | |
 | `iomete_iceberg_db` | Global | |
+| `iomete_mcp_db` | Global | |
 | `iomete_metastore_db` | Global | |
 | `iomete_prefect_db` | Cluster-local | |
 | `iomete_sql_db` | Cluster-local | |
@@ -115,6 +116,7 @@ The tables below list which databases and services are global (shared across all
 | `iom-core` | Global | |
 | `data-plane-init` | Both | Initializes both global and cluster-local databases |
 | `iom-identity` | Global | |
+| `iom-mcp-server` | Global | |
 | `iom-rest-catalog` | Global | |
 | `iom-sql` | Cluster-local | |
 | `prefect-server` + `prefect-worker` | Cluster-local | |
