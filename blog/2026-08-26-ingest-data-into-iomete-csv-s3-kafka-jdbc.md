@@ -49,7 +49,7 @@ OPTIONS (
 
 Useful options here: `header`, `delimiter`, `quote`, `inferSchema`, `nullValue`, `dateFormat`, and `mode` – where `PERMISSIVE` (the default) fills missing tokens with nulls, `DROPMALFORMED` silently discards bad rows, and `FAILFAST` aborts. Pick `FAILFAST` while you are still learning the file. Silent row loss is much more expensive than a failed query. The full option list is in the [CSV files reference](/resources/user-guide/reference/data-sources/csv-files).
 
-Two more details matter. Without `inferSchema` every column comes back as a string, so cast explicitly when you define the table. And a folder full of files needs `recursiveFileLookup "true"` with the path pointing at the directory, not a single object – a path that matches nothing produces an empty table with no columns rather than an error, which is the single most confusing failure in this whole flow.
+Two more details matter. Without `inferSchema` every column comes back as a string, so cast explicitly when you define the table. And for a folder of files, point `path` at the directory rather than a single object: Spark reads the top-level files there by default. Only add `recursiveFileLookup "true"` when the files sit in nested subdirectories, and know that it disables partition discovery, so any Hive-style partition columns in the path stop appearing. Either way, a path that matches nothing produces an empty table with no columns rather than an error, which is the single most confusing failure in this whole flow.
 
 Once the schema is confirmed, promote it into a managed Iceberg table with CTAS:
 
@@ -58,7 +58,7 @@ CREATE TABLE analytics.flights
 AS SELECT * FROM tutorial_flights;
 ```
 
-That is the moment the data becomes a real table – versioned, compactable, and governed. Everything before it was a view over someone else's file.
+That is the moment the data becomes a real table, versioned, compactable, and governed. Everything before it was an external table pointing at someone else's file, with the file still the source of truth.
 
 ## Reading a bucket the platform does not own.
 
@@ -117,13 +117,13 @@ OPTIONS (
     dbtable "employees.employees",
     driver 'com.mysql.cj.jdbc.Driver',
     user 'tutorial_user',
-    password '${DB_PASSWORD}'
+    password '<db-password>'
 );
 
 CREATE TABLE demo_db.employees AS SELECT * FROM demo_db.employees_external;
 ```
 
-The same pattern works for PostgreSQL, Oracle, and SQL Server – only the driver class and URL change. Two operational notes: the JDBC driver JAR has to be available to the job, and a driver class that is present in the image but not on the executor classpath is what produces `ClassNotFoundException` when the query runs rather than when the job starts. Credentials go through secrets and environment variable references, never inline.
+The same pattern works for PostgreSQL, Oracle, and SQL Server – only the driver class and URL change. Two operational notes: the JDBC driver JAR has to be available to the job, and a driver class that is present in the image but not on the executor classpath is what produces `ClassNotFoundException` when the query runs rather than when the job starts. On credentials, note that Spark SQL does not expand `${VAR}` placeholders in `OPTIONS`, so a literal `'${DB_PASSWORD}'` is sent to the database as the password and the connection fails. Keep the secret out of saved SQL by creating the table from a job or notebook that reads it from the injected environment variable and builds the statement at runtime.
 
 For repeatable replication rather than a one-off copy, the [open-source ingestion jobs](/resources/open-source-spark-jobs/ingesting-jobs) cover MySQL and Oracle full-load-plus-incremental sync, Kinesis, and Debezium-based CDC from MySQL and PostgreSQL. Reusing one of those is almost always cheaper than maintaining a bespoke sync script, and they run as ordinary jobs on the same cluster as everything else. IOMETE's [data ingestion overview](https://iomete.com/product/data-platform/data-ingestion) shows where these fit in the wider platform.
 
@@ -153,8 +153,8 @@ Ingestion is the easy half. Keeping the tables healthy afterwards is the half th
   },
   {
     question: "Why does my external CSV table have no columns and no rows?",
-    answer: "An empty external table almost always means the path matched no files rather than that the parse failed. Spark creates the table definition from whatever the path resolves to, so a prefix with no objects, a missing recursiveFileLookup option on a directory, or credentials that resolve to a different bucket all produce a table with no schema. IOMETE surfaces the resolved path in the job and query logs, which is the fastest way to confirm what was actually read.",
-    answerContent: (<><p>An empty external table almost always means the path matched no files rather than that the parse failed. Spark builds the table definition from whatever the path resolves to.</p><p>Check three things: the prefix actually contains objects, a directory path carries <code>recursiveFileLookup "true"</code>, and the credentials in use resolve to the intended bucket. IOMETE surfaces the resolved path in the job and query logs, which is the fastest way to confirm what was read.</p></>)
+    answer: "An empty external table almost always means the path matched no files rather than that the parse failed. Spark creates the table definition from whatever the path resolves to, so a prefix with no objects, nested subdirectories without recursiveFileLookup, or credentials that resolve to a different bucket all produce a table with no schema. IOMETE surfaces the resolved path in the job and query logs, which is the fastest way to confirm what was actually read.",
+    answerContent: (<><p>An empty external table almost always means the path matched no files rather than that the parse failed. Spark builds the table definition from whatever the path resolves to.</p><p>Check three things: the prefix actually contains objects, files in nested subdirectories carry <code>recursiveFileLookup "true"</code>, and the credentials in use resolve to the intended bucket. IOMETE surfaces the resolved path in the job and query logs, which is the fastest way to confirm what was read.</p></>)
   },
   {
     question: "How do I give a Spark job credentials for a second S3 bucket?",
