@@ -179,6 +179,7 @@ const sidebars = {
         "reference/iceberg-tables/maintenance",
       ],
     },
+    "reference/spark-41-features",
     {
       type: "category",
       label: "Spark SQL Reference",
