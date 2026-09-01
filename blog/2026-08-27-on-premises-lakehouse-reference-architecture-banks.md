@@ -26,7 +26,7 @@ Three pressures push analytical workloads back inside the perimeter, and they co
 
 **Residency is a hard boundary, not a preference.** Supervisory expectations across the EU treat the location of data and the jurisdiction of the entity processing it as separate questions. A dataset physically stored in-region, processed by an entity subject to foreign disclosure law, is still exposed – the distinction is covered in [data residency vs data sovereignty](/resources/blog/data-residency-vs-data-sovereignty).
 
-**Exit plans have to be real.** [DORA](https://www.digital-operational-resilience-act.com/) requires financial entities to demonstrate that they can exit a critical ICT provider without an unacceptable disruption. That is very hard to evidence when table formats, catalog, and compute are all proprietary to one vendor.
+**Exit plans have to be real.** [DORA](https://eur-lex.europa.eu/eli/reg/2022/2554/oj/eng) requires an exit strategy for every contractual arrangement covering ICT services that support a critical or important function (Article 28(8)), whether or not the provider has been formally designated as critical. The trigger is what the service supports, not the vendor's label, so the scope is wider than most exit plans assume. That is very hard to evidence when table formats, catalog, and compute are all proprietary to one vendor.
 
 **The cost curve inverts at steady state.** Elastic pricing wins for spiky, unpredictable workloads. Regulatory reporting is neither. A risk-data pipeline that runs the same shape of job every night, every quarter-end, for years, is the workload where owned capacity is cheapest.
 
@@ -41,7 +41,7 @@ Split the architecture into four planes before drawing a single box. Each has a 
 | Control | Catalog, scheduler, policy engine, platform services | Who changed a policy, and when? |
 | Access | JDBC, BI tools, APIs, notebooks | How does a request reach the engine, and through which zone? |
 
-The split matters operationally. Losing the control plane for twenty minutes means new jobs cannot be scheduled while running jobs continue – survivable. Losing storage means everything stops. Sizing, replication, and recovery budgets should follow that asymmetry, not be spread evenly. The same boundary inside Kubernetes is walked through in [control plane vs data plane](/resources/blog/control-plane-vs-data-plane).
+The split matters operationally, but be precise about which control service fails. If only the scheduler is down, jobs already running keep going and new ones cannot start, which is survivable for a short window. Lose the catalog or the policy engine and running jobs fail too as soon as they need metadata or an authorization decision, so treat that as a separate, more expensive failure mode. Losing storage means everything stops. Sizing, replication, and recovery budgets should follow that asymmetry, not be spread evenly. The same boundary inside Kubernetes is walked through in [control plane vs data plane](/resources/blog/control-plane-vs-data-plane).
 
 ## Storage layer
 
@@ -52,7 +52,7 @@ Practical layout that holds up over time:
 - **One bucket per trust zone**, not per team. Zones map to your existing data classification (public, internal, confidential, restricted). Teams change; classifications do not.
 - **Iceberg as the table format across all zones.** Portability is the exit plan: an [Apache Iceberg](https://iceberg.apache.org/spec/) table plus its metadata can be read by any Iceberg-compatible engine, which is the concrete answer to "how would we leave".
 - **Separate buckets for warehouse data and for job artifacts.** Mixing them makes lifecycle policies impossible to reason about.
-- **Three replicas minimum in the primary site, asynchronous replication to the secondary.**
+- **State the durability and RPO target, then let the storage platform decide the redundancy scheme.** Ceph and MinIO reach a given durability through different erasure-coding profiles, replication factors, and failure-domain layouts, so a fixed replica count copied from another design either under-protects the data or buys storage you do not need.
 
 Storage choice is where most on-premises designs quietly go wrong – throughput and consistency behaviour differ enough between S3-compatible implementations to change query performance. The trade-offs are benchmarked in [evaluating S3-compatible storage for a lakehouse](/resources/blog/evaluating-s3-compatible-storage-for-lakehouse).
 

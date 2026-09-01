@@ -83,10 +83,10 @@ If you take one thing into the next procurement meeting, make it question three.
 <FAQSection faqs={[
   {
     question: "What is data sovereignty in the public sector?",
-    answer: "Data sovereignty means citizen and government data remains subject only to national law and under the technical control of the agency that holds it. It is a stronger requirement than data residency, which only concerns physical storage location.",
+    answer: "Data sovereignty means citizen and government data is governed under national law and stays under the technical control of the agency that holds it. Architecture alone cannot settle every applicable jurisdiction, since contracts, support access, and data-subject rules also apply. It is a stronger requirement than data residency, which only concerns physical storage location.",
     answerContent: (
       <>
-        <p>Data sovereignty means citizen and government data remains subject only to national law and under the technical control of the agency holding it.</p>
+        <p>Data sovereignty means citizen and government data is governed under national law and stays under the technical control of the agency holding it. Architecture narrows exposure but cannot by itself settle every applicable jurisdiction: contracts, support access paths, and data-subject rules still count.</p>
         <p>It is a stronger requirement than residency, which concerns only where bytes are physically stored – an in-country deployment operated by a foreign entity is still exposed to that entity's jurisdiction. IOMETE addresses this by deploying entirely inside the agency's own Kubernetes clusters, with encryption keys held in the agency's key management system.</p>
       </>
     )
@@ -137,7 +137,7 @@ If you take one thing into the next procurement meeting, make it question three.
     answerContent: (
       <>
         <p>Not necessarily. Self-hosting the infrastructure is a separate question from who operates it day to day.</p>
-        <p>This distinction matters most in public sector organizations, where deep Kubernetes skills are difficult to hire and retain. IOMETE's Field Data Engineers handle cluster operations while the agency's data team works with SQL, jobs, and notebooks.</p>
+        <p>This distinction matters most in public sector organizations, where deep Kubernetes skills are difficult to hire and retain. IOMETE's Field Data Engineers can handle cluster operations while the agency's data team works with SQL, jobs, and notebooks. For that to survive the first procurement question, the contract has to spell out the access model: operator access granted by the agency and time-boxed rather than standing, sessions logged where the agency can audit them, and the agency's key management system outside the operator's reach, so running the platform never becomes a path to reading the data.</p>
       </>
     )
   }
