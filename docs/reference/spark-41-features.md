@@ -238,7 +238,7 @@ SELECT content, file_format, record_count FROM spark_catalog.default.sales.delet
 -- file_format = PUFFIN  (deletion vectors, not v2 delete files)
 ```
 
-**Interoperability warning:** deletion vectors are an Iceberg format-v3 feature.
+**Interoperability warning:** if you delete records from a table on a Compute image version 4.x cluster and then run a `SELECT` on that table from a Compute image version 3.x cluster, those records are returned as if they were never deleted.
 
 ### ✅ MERGE with Schema Evolution
 
