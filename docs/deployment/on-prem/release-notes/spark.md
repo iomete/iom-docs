@@ -33,6 +33,18 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     Never an rc push or the tagged commit date; both predate availability.
 */}
 
+<Release name="Spark" version="4.1.3" date="September 7, 2026">
+  <ReleaseDescription>
+    The first release of the Spark 4 line.
+  </ReleaseDescription>
+
+  <NewFeatures>
+    - Initial support for [Spark 4](../../../reference/spark-4-features.md).
+    - Initial support for Iceberg format V3.
+    - Initial support for Comet.
+  </NewFeatures>
+</Release>
+
 <Release name="Spark" version="3.5.7-v6" date="August 19, 2026">
   <ReleaseDescription>
     Security policy support for Iceberg-specific queries and clearer external catalog errors.
