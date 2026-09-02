@@ -155,7 +155,20 @@ const sidebars = {
       label: "Spark SQL Reference",
       collapsed: false,
       items: [
-        "reference/spark-4-features",
+        {
+          type: "category",
+          label: "Spark 4 Features",
+          collapsed: true,
+          items: [
+            { type: "doc", id: "reference/spark-4-features", label: "Overview" },
+            { type: "link", label: "Nessie Catalog Support", href: "/resources/reference/spark-4-features#nessie-catalog-support" },
+            { type: "link", label: "SQL Language Features", href: "/resources/reference/spark-4-features#sql-language-features" },
+            { type: "link", label: "Data Types", href: "/resources/reference/spark-4-features#data-types" },
+            { type: "link", label: "Iceberg V3 Table Features", href: "/resources/reference/spark-4-features#iceberg-v3-table-features" },
+            { type: "link", label: "Analytics Functions", href: "/resources/reference/spark-4-features#analytics-functions" },
+            { type: "link", label: "Python & Spark Connect", href: "/resources/reference/spark-4-features#python-spark-connect" },
+          ],
+        },
         {
           type: "category",
           label: "DDL",

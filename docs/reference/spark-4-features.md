@@ -1,6 +1,6 @@
 ---
 title: Spark 4 Feature Status
-sidebar_label: Spark 4 Features
+sidebar_label: Overview
 description: Status of the new Spark 4.x and Iceberg V3 features on IOMETE Spark 4 clusters, with verified SQL examples, supported and partially supported functionality, and known limitations.
 last_update:
   date: 09/01/2026
@@ -26,7 +26,7 @@ INSERT INTO sales VALUES
   (5, 'APAC', 'phone',   750.00, DATE'2026-03-05');
 ```
 
-## Nessie Catalog Support on Spark 4 Clusters
+## Nessie Catalog Support on Spark 4 Clusters {#nessie-catalog-support}
 
 Project Nessie catalogs are **not** supported on IOMETE **Spark 4** clusters.
 
@@ -41,9 +41,9 @@ Project Nessie catalogs are **not** supported on IOMETE **Spark 4** clusters.
 
 **When will Spark 4 support Nessie?** IOMETE will restore Nessie support on the Spark 4 engine as soon as Project Nessie publishes a Spark 4-compatible extension. Until then, please route all Nessie tasks to a Spark 3.5 cluster.
 
-## SQL Language Features
+## SQL Language Features {#sql-language-features}
 
-### ✅ SQL Pipe Syntax
+### ✅ SQL Pipe Syntax {#sql-pipe-syntax}
 
 Chain transformations top-to-bottom with the `|>` operator instead of nesting subqueries.
 
@@ -60,7 +60,7 @@ FROM sales
 |> ORDER BY total_sales DESC;
 ```
 
-### ✅ Session Variables
+### ✅ Session Variables {#session-variables}
 
 Session-scoped variables declared and set in SQL, usable in any later query of the same session.
 
@@ -73,7 +73,7 @@ SELECT region, product, amount FROM sales WHERE amount > min_amount;
 DROP TEMPORARY VARIABLE min_amount;
 ```
 
-### ✅ Parameter Markers
+### ✅ Parameter Markers {#parameter-markers}
 
 Positional (`?`) and named (`:name`) parameters — in the DataFrame API, in JDBC prepared statements, and in `EXECUTE IMMEDIATE ... USING`.
 
@@ -88,7 +88,7 @@ spark.sql("SELECT * FROM sales WHERE amount > ?", Array(600.00))
 
 **Note:** requires the current IOMETE Spark 4 engine release.
 
-### ✅ EXECUTE IMMEDIATE
+### ✅ EXECUTE IMMEDIATE {#execute-immediate}
 
 Run dynamically composed SQL, optionally binding parameters and capturing the result into a session variable.
 
@@ -100,7 +100,7 @@ EXECUTE IMMEDIATE 'SELECT COUNT(*) FROM sales' INTO cnt;
 SELECT cnt;
 ```
 
-### ✅ SQL Scripting
+### ✅ SQL Scripting {#sql-scripting}
 
 Procedural blocks with variables, conditionals and loops (`BEGIN ... END`, `IF`, `WHILE`, `FOR`).
 
@@ -116,7 +116,7 @@ BEGIN
 END
 ```
 
-### ✅ Recursive CTEs
+### ✅ Recursive CTEs {#recursive-ctes}
 
 `WITH RECURSIVE` for hierarchies and sequences.
 
@@ -129,7 +129,7 @@ WITH RECURSIVE chain AS (
 ) SELECT * FROM chain ORDER BY lvl, id;
 ```
 
-### ✅ SQL UDFs (CREATE FUNCTION)
+### ✅ SQL UDFs (CREATE FUNCTION) {#sql-udfs}
 
 Reusable functions defined in plain SQL — temporary or persistent, with or without parameters.
 
@@ -144,7 +144,7 @@ SELECT to_hex(255);   -- FF
 
 **Notes:** persistent SQL UDFs are stored in the `spark_catalog`; they cannot be created inside an Iceberg catalog, but once created they can be used in queries over Iceberg tables like any other function. Requires the current IOMETE Spark 4 engine release.
 
-### ✅ View Schema Evolution
+### ✅ View Schema Evolution {#view-schema-evolution}
 
 Views declared `WITH SCHEMA EVOLUTION` adapt automatically when the underlying table's schema changes.
 
@@ -158,9 +158,9 @@ SELECT * FROM v_evo;   -- now includes discount; pre-existing rows show NULL
 
 **Limitation — Iceberg views:** views stored *in an Iceberg catalog* do not evolve — the `WITH SCHEMA EVOLUTION` clause is accepted but has no effect, and the view keeps its creation-time schema. This is about where the view lives — an evolving spark-catalog view over an Iceberg table works fine.
 
-## Data Types
+## Data Types {#data-types}
 
-### ✅ VARIANT Data Type
+### ✅ VARIANT Data Type {#variant-data-type}
 
 Store and query semi-structured JSON-like data with types preserved. Requires Iceberg format version 3 for table storage.
 
@@ -180,7 +180,7 @@ SELECT id,
 FROM events ORDER BY id;
 ```
 
-### ✅ Variant Colon Access Syntax
+### ✅ Variant Colon Access Syntax {#variant-colon-access}
 
 Path shorthand for variant fields, with `::` casts.
 
@@ -192,7 +192,7 @@ SELECT id,
 FROM events ORDER BY id;
 ```
 
-### ✅ Unknown Column Type (Iceberg V3)
+### ✅ Unknown Column Type (Iceberg V3) {#unknown-column-type}
 
 Iceberg format v3 tables can declare columns of the *unknown* type (Spark's `VOID`) — columns that always hold NULL, useful as schema placeholders.
 
@@ -204,11 +204,11 @@ INSERT INTO unk_t VALUES (1, NULL);
 SELECT * FROM unk_t;    -- (1, NULL)
 ```
 
-## Iceberg V3 Table Features
+## Iceberg V3 Table Features {#iceberg-v3-table-features}
 
 *Format v3 is a table-level upgrade that affects every reader of the table — engines without v3 support cannot read v3 tables correctly. Upgrade all consumers before converting shared tables.*
 
-### ✅ Row Lineage
+### ✅ Row Lineage {#row-lineage}
 
 Format v3 tables track each row's identity and last modification via the `_row_id` and `_last_updated_sequence_number` metadata columns.
 
@@ -221,7 +221,7 @@ UPDATE sales SET amount = amount + 1 WHERE region = 'EU';
 -- all other rows are unchanged. Fresh inserts get new _row_id values.
 ```
 
-### ✅ Deletion Vectors
+### ✅ Deletion Vectors {#deletion-vectors}
 
 With merge-on-read, format v3 tables store deletes as compact deletion vectors (Puffin files) instead of rewriting data files.
 
@@ -240,7 +240,7 @@ SELECT content, file_format, record_count FROM spark_catalog.default.sales.delet
 
 **Interoperability warning:** if you delete records from a table on a Compute image version 4.x cluster and then run a `SELECT` on that table from a Compute image version 3.x cluster, those records are returned as if they were never deleted.
 
-### ✅ MERGE with Schema Evolution
+### ✅ MERGE with Schema Evolution {#merge-with-schema-evolution}
 
 `MERGE WITH SCHEMA EVOLUTION` lets the target table gain new columns from the source during the merge.
 
@@ -254,7 +254,7 @@ WHEN NOT MATCHED THEN INSERT *;
 
 **Note:** if a source column's inferred type is narrower than the target's (e.g. a VALUES-inferred `decimal(5,2)` against a `decimal(10,2)` column), evolution fails with "Cannot change column type". Workaround: CAST source columns to the exact target types.
 
-### ⚠️ Column Default Values
+### ⚠️ Column Default Values {#column-default-values}
 
 Supported for spark-catalog tables; not supported by Iceberg tables.
 
@@ -270,9 +270,9 @@ USING iceberg TBLPROPERTIES ('format-version'='3');
 -- [UNSUPPORTED_FEATURE.TABLE_OPERATION] ... does not support column default value
 ```
 
-## Analytics Functions
+## Analytics Functions {#analytics-functions}
 
-### ✅ KLL Sketches
+### ✅ KLL Sketches {#kll-sketches}
 
 Approximate quantiles/ranks over large data via Apache DataSketches KLL, with mergeable sketch aggregates (`kll_sketch_agg_*`, `kll_sketch_get_quantile_*`, `kll_sketch_get_rank_*`, `kll_sketch_merge_*`).
 
@@ -286,7 +286,7 @@ SELECT kll_sketch_get_quantile_double(s, 0.5)  AS p50,   -- ~500
 FROM sk;
 ```
 
-### ✅ Theta Sketches
+### ✅ Theta Sketches {#theta-sketches}
 
 Approximate distinct counting with set operations (union / intersection / difference) across groups.
 
@@ -298,9 +298,9 @@ SELECT
 FROM s;
 ```
 
-## Python & Spark Connect
+## Python & Spark Connect {#python-spark-connect}
 
-### ✅ Lightweight pyspark-client (Spark Connect)
+### ✅ Lightweight pyspark-client (Spark Connect) {#pyspark-client}
 
 ```bash
 pip install pyspark-client==4.1.3
@@ -314,7 +314,7 @@ spark = (SparkSession.builder
 spark.sql("SELECT COUNT(*) FROM sales").show()
 ```
 
-### ✅ Spark Declarative Pipelines
+### ✅ Spark Declarative Pipelines {#declarative-pipelines}
 
 Define materialized views in SQL and Python, and let Spark plan and run them in dependency order — driven by the pipelines CLI over Spark Connect.
 
