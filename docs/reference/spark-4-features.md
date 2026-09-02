@@ -1,13 +1,13 @@
 ---
-title: Spark 4.1 Feature Status
-sidebar_label: Spark 4.1 Features
-description: Status of the new Spark 4.x and Iceberg V3 features on IOMETE Spark 4.1 clusters, with verified SQL examples, supported and partially supported functionality, and known limitations.
+title: Spark 4 Feature Status
+sidebar_label: Spark 4 Features
+description: Status of the new Spark 4.x and Iceberg V3 features on IOMETE Spark 4 clusters, with verified SQL examples, supported and partially supported functionality, and known limitations.
 last_update:
   date: 09/01/2026
   author: Rovshan Baghirov
 ---
 
-Status of the new Spark 4.x and Iceberg V3 features on IOMETE Spark 4.1 clusters. Every example below was verified end-to-end against a live IOMETE Spark 4.1.3 cluster.
+Status of the new Spark 4.x and Iceberg V3 features on IOMETE Spark 4 clusters. Every example below was verified end-to-end against a live IOMETE Spark 4.1.3 cluster.
 
 **Legend:** ✅ supported &nbsp;•&nbsp; ⚠️ partially supported &nbsp;•&nbsp; ❌ not supported
 
@@ -26,20 +26,20 @@ INSERT INTO sales VALUES
   (5, 'APAC', 'phone',   750.00, DATE'2026-03-05');
 ```
 
-## Nessie Catalog Support on Spark 4.1 Clusters
+## Nessie Catalog Support on Spark 4 Clusters
 
-Project Nessie catalogs are **not** supported on IOMETE **Spark 4.1** clusters.
+Project Nessie catalogs are **not** supported on IOMETE **Spark 4** clusters.
 
-**Why is this happening?** Nessie's Spark integration requires an extension library built for specific Spark versions. Project Nessie has **not yet released** an extension compatible with the Spark 4.1 version. This is an upstream limitation, not an IOMETE restriction.
+**Why is this happening?** Nessie's Spark integration requires an extension library built for specific Spark versions. Project Nessie has **not yet released** an extension compatible with the Spark 4 version. This is an upstream limitation, not an IOMETE restriction.
 
 *Track upstream progress:* [Project Nessie Releases](https://github.com/projectnessie/nessie/releases)
 
 **What this means for your workloads**
 
-- ❌ Spark 4.1 clusters: Will not connect to Nessie catalogs.
+- ❌ Spark 4 clusters: Will not connect to Nessie catalogs.
 - ✅ Nessie workloads: Move or keep these running on **Spark 3.5** clusters.
 
-**When will Spark 4 support Nessie?** IOMETE will restore Nessie support on the Spark 4.1 engine as soon as Project Nessie publishes a Spark 4.1-compatible extension. Until then, please route all Nessie tasks to a Spark 3.5 cluster.
+**When will Spark 4 support Nessie?** IOMETE will restore Nessie support on the Spark 4 engine as soon as Project Nessie publishes a Spark 4-compatible extension. Until then, please route all Nessie tasks to a Spark 3.5 cluster.
 
 ## SQL Language Features
 
@@ -86,7 +86,7 @@ EXECUTE IMMEDIATE
 spark.sql("SELECT * FROM sales WHERE amount > ?", Array(600.00))
 ```
 
-**Note:** requires the current IOMETE Spark 4.1 engine release.
+**Note:** requires the current IOMETE Spark 4 engine release.
 
 ### ✅ EXECUTE IMMEDIATE
 
@@ -142,7 +142,7 @@ CREATE FUNCTION to_hex(x INT COMMENT 'Any number between 0 - 255')
 SELECT to_hex(255);   -- FF
 ```
 
-**Notes:** persistent SQL UDFs are stored in the `spark_catalog`; they cannot be created inside an Iceberg catalog, but once created they can be used in queries over Iceberg tables like any other function. Requires the current IOMETE Spark 4.1 engine release.
+**Notes:** persistent SQL UDFs are stored in the `spark_catalog`; they cannot be created inside an Iceberg catalog, but once created they can be used in queries over Iceberg tables like any other function. Requires the current IOMETE Spark 4 engine release.
 
 ### ✅ View Schema Evolution
 

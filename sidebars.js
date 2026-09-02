@@ -150,12 +150,12 @@ const sidebars = {
         "reference/iceberg-tables/maintenance",
       ],
     },
-    "reference/spark-41-features",
     {
       type: "category",
       label: "Spark SQL Reference",
       collapsed: false,
       items: [
+        "reference/spark-4-features",
         {
           type: "category",
           label: "DDL",
