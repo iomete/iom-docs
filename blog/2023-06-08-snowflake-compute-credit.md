@@ -65,7 +65,7 @@ Snowflake does not publish this. Independent researchers inferred the instance c
 Public research suggests XS warehouses run on **[c5d.2xlarge](https://instances.vantage.sh/aws/ec2/c5d.2xlarge?pricing_unit=vcpu)** class instances, so one XS credit is roughly one hour of that node. Treat the numbers below as an estimate, not a vendor confirmed figure.
 
 :::note
-This compares only compute list price against raw EC2 on-demand price. A credit also covers the managed service: the storage layer, cloud services, availability, and support. The multiple is a pricing gap, not a like for like cost comparison.
+This compares only compute list price against raw EC2 on-demand price. A credit also covers the managed service around the compute: cloud services, query optimization, availability, and support. Storage is billed separately, per terabyte, and is not part of a compute credit. The multiple is a pricing gap, not a like for like cost comparison.
 :::
 
 ![Snowflake Computing on AWS EC2](/img/blog/snowflake-compute-credit/reality-of-snowflake-computing.png)
