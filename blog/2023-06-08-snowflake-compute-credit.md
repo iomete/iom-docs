@@ -1,6 +1,6 @@
 ---
 title: What is a Snowflake Compute Credit?
-description: Leverage Snowflake Compute Credits to slash cloud computing bills by 50%. Discover precise savings details on our blog.
+description: How Snowflake compute credits are priced and consumed, and how credit cost compares with the underlying cloud instances.
 slug: snowflake-compute-credit
 image: img/blog/snowflake-compute-credit/snowflake-compute-credits.jpg
 coverImage: img/blog/thumbnails/1.png
@@ -19,10 +19,10 @@ Snowflake credits are used to pay for the consumption of resources on Snowflake.
 <!-- truncate -->
 
 :::note
-Snowflake runs on AWS, Azure or Google Cloud. Snowflake does not disclose what AWS, Azure, or Google Cloud nodes it uses. Many users have asked Snowflake to disclose the nodes it leverages under the hood, but the company choses to keep this close to the vest. Not very transparent. After all, if we fly Delta Airlines they don’t hide whether we’re flying an Airbus 777 or Boeing 767 and we even know whether they use the latest GE or Rolls Royce engine. Why would Snowflake hide what nodes it uses? Show your nodes!!(btw: Great name for a new marketing campaign 😊).
+Snowflake runs on AWS, Azure, or Google Cloud. Snowflake publishes credit consumption per warehouse size, but not the underlying instance types it uses. That is a normal vendor choice, and it means you cannot map credits to hardware yourself.
 :::
 
-## How to calculate Snowflake compute costs
+## How to Calculate Snowflake Compute Costs
 
 Snowflake uses a consumption-based cost model, where the more data one computes, the more one pays. The formula is simple: (a = b x c):
 
@@ -30,7 +30,7 @@ Snowflake uses a consumption-based cost model, where the more data one computes,
 Snowflake compute cost = Number of Compute Credits X Price per Compute Credit.
 :::
 
-## The Price per Snowflake Compute Credit
+## The Price Per Snowflake Compute Credit
 
 The Price per Compute Credit depends on:
 
@@ -54,29 +54,33 @@ For Snowflake accounts running on Amazon Web Services (AWS), a node would be equ
 
 ![Virtual Warehouse sizes](/img/blog/snowflake-compute-credit/virtual-warehouse-sizes.png)
 
-## What is the equivalent of Snowflake XS on AWS EC2?
+## What Is the Equivalent of Snowflake XS on AWS EC2?
 
-As mentioned earlier, Snowflake tries to keep this information close to the vest but the information was leaked. You can read more in [this academic paper](http://vldb.org/pvldb/vol14/p1606-leis.pdf) and the below [Stackoverflow discussion.](https://stackoverflow.com/questions/58973007/what-are-the-specifications-of-a-snowflake-server)
+Snowflake does not publish this. Independent researchers inferred the instance class from performance data. You can read more in [this academic paper](http://vldb.org/pvldb/vol14/p1606-leis.pdf) and the [Stack Overflow discussion](https://stackoverflow.com/questions/58973007/what-are-the-specifications-of-a-snowflake-server).
 
 ![What is Snowflake XS](/img/blog/snowflake-compute-credit/what-is-snowflake-xs.png)
 
 > So Snowflake does not specify the hardware configuration. However, performance debugging information suggests that, on EC2, Snowflake currently relies on relatively small **c5d.2xlarge** instances (8 vCPUs, 16 GB DRAM, one 200 GB NVMe SSD).
 
-Based on this, 1 XS compute credit seems to be equal to using the **[c5d.2xlarge](https://instances.vantage.sh/aws/ec2/c5d.2xlarge?pricing_unit=vcpu)** node on AWS for one hour. As we see in the example below depending on whether one is on the Snowflake Standard, Enterprise or Business Critical Snowflake’s price is between 5 and 10 times higher than the AWS instance that is allegedly used under the hood…
+Public research suggests XS warehouses run on **[c5d.2xlarge](https://instances.vantage.sh/aws/ec2/c5d.2xlarge?pricing_unit=vcpu)** class instances, so one XS credit is roughly one hour of that node. Treat the numbers below as an estimate, not a vendor confirmed figure.
+
+:::note
+This compares only compute list price against raw EC2 on-demand price. A credit also covers the managed service: the storage layer, cloud services, availability, and support. The multiple is a pricing gap, not a like for like cost comparison.
+:::
 
 ![Snowflake Computing on AWS EC2](/img/blog/snowflake-compute-credit/reality-of-snowflake-computing.png)
 
-## In conclusion
+## In Conclusion
 
-One Snowflake Compute Credit cost $2 on the Standard Plan, $3 on the Enterprise Plan and $4 on the Business Critical Plan (note: this is the price for most of the US Regions and varies per region).
+One Snowflake compute credit costs $2 on the Standard plan, $3 on Enterprise, and $4 on Business Critical. These are list prices for most US regions, and they vary by region. Prices verified September 2026 (AWS US East, on-demand list).
 
 One Snowflake Compute Credit = 1 hour XS instance.
 
-Although Snowflake is not transparent about what nodes it uses under the hood, the XS instance that seems to be leveraged for AWS is the c5d.2xlarge.
+Snowflake does not publish the nodes it uses. Based on public research, the XS instance on AWS appears to be a c5d.2xlarge.
 
 1 hour of c5d.2xlarge on-demand pricing is $0.384 for most US AWS regions.
 
-Based on this instance and region, Snowflake prices are 5x, 8x, 10x (for Standard, Enterprise, Business Critical) higher than AWS on-demand pricing.
+On that instance and region, credit list prices are about 5x, 8x, and 10x the AWS on-demand instance price for Standard, Enterprise, and Business Critical. That gap pays for the managed service, so read it as a pricing comparison, not a total cost of ownership figure.
 
 ---
 
