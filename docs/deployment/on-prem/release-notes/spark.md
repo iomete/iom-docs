@@ -40,8 +40,8 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
 
   <NewFeatures>
     - Initial support for [Spark 4](../../../reference/spark-4-features.md).
-    - Initial support for Iceberg format V3.
-    - Initial support for Comet.
+    - Initial support for Iceberg 1.11, including format V3.
+    - Initial support for Comet 1.0.0.
   </NewFeatures>
 </Release>
 
