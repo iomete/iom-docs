@@ -35,12 +35,12 @@ Snowflake compute cost = Number of Compute Credits X Price per Compute Credit.
 The Price per Compute Credit depends on:
 
 1. The Cloud provider (AWS, Azure or Google Cloud).
-2. The Cloud region (e.g. “US East (Northern Virginia)).
+2. The Cloud region (e.g. "US East (Northern Virginia)").
 3. The Snowflake Plan (i.e. Standard, Enterprise, Business Critical, VPS).
 
 ![Snowflake plans](/img/blog/snowflake-compute-credit/snowflake-plans.png)
 
-Snowflake pricing page (May 26, 2023)
+Snowflake pricing page as published on May 26, 2023. Check Snowflake's current pricing page for up-to-date figures.
 
 <!-- <MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard> -->
 
@@ -74,7 +74,7 @@ This compares only compute list price against raw EC2 on-demand price. A credit 
 
 One Snowflake compute credit costs $2 on the Standard plan, $3 on Enterprise, and $4 on Business Critical. These are list prices for most US regions, and they vary by region. Prices verified September 2026 (AWS US East, on-demand list).
 
-One Snowflake Compute Credit = 1 hour XS instance.
+One Snowflake compute credit is roughly one hour of an XS warehouse.
 
 There is no vendor-confirmed mapping of warehouse sizes to instance types. Based on public research, the XS instance on AWS appears to be a c5d.2xlarge.
 
@@ -83,6 +83,8 @@ There is no vendor-confirmed mapping of warehouse sizes to instance types. Based
 On that instance and region, credit list prices are about 5x, 8x, and 10x the AWS on-demand instance price for Standard, Enterprise, and Business Critical. That gap pays for the managed service, so read it as a pricing comparison, not a total cost of ownership figure.
 
 ---
+
+*Snowflake is a trademark of Snowflake Inc. IOMETE is not affiliated with or endorsed by Snowflake Inc. All figures cited here come from publicly available sources.*
 
 <FAQSection faqs={[
   {
