@@ -1,10 +1,6 @@
 /**
- * Redirects from old URL slugs to new user-guide paths.
+ * Redirects from old URL slugs to current documentation paths.
  * These preserve backward compatibility for previously published and indexed URLs.
- *
- * Two categories:
- * 1. Files moved from docs/ to user-guide/ — old URLs had no /user-guide/ prefix
- * 2. Files already in user-guide/ but with custom slugs — old URLs had /user-guide/ prefix
  */
 const userGuideRedirects = [
   // ──────────────────────────────────────────────
@@ -29,12 +25,13 @@ const userGuideRedirects = [
   { from: "/developer-guide/notebook/manage-containers", to: "/user-guide/notebook/manage-containers" },
   { from: "/developer-guide/notebook/using-jupyterlab", to: "/user-guide/notebook/using-jupyterlab" },
 
-  // Spark Jobs (developer-guide/spark-job → user-guide/spark-jobs)
+  // Spark Jobs legacy routes
   { from: "/developer-guide/spark-job/getting-started", to: "/user-guide/spark-jobs/creating-spark-job" },
   { from: "/user-guide/spark-jobs/getting-started", to: "/user-guide/spark-jobs/creating-spark-job" },
   { from: "/developer-guide/spark-job/spark-application-config", to: "/user-guide/spark-jobs/spark-application-config" },
   { from: "/developer-guide/spark-job/iomete-sdk", to: "/user-guide/spark-jobs/iomete-sdk" },
-  { from: "/developer-guide/spark-job/airflow", to: "/user-guide/spark-jobs/airflow" },
+  { from: "/developer-guide/spark-job/airflow", to: "/integrations/airflow/getting-started" },
+  { from: "/user-guide/spark-jobs/airflow", to: "/integrations/airflow/getting-started" },
   { from: "/developer-guide/spark-job/nessie-integration", to: "/user-guide/spark-jobs/nessie-integration" },
   { from: "/developer-guide/spark-job/spark-logging", to: "/user-guide/spark-jobs/spark-logging" },
   { from: "/developer-guide/spark-job/job-orchestrator", to: "/user-guide/spark-jobs/job-orchestrator" },

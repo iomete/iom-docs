@@ -3,8 +3,8 @@ title: Getting started with DBT
 sidebar_label: Getting Started
 description: Learn how to set up the dbt-iomete adapter, connect to your IOMETE lakehouse, and run your first dbt transformation.
 last_update:
-  date: 04/27/2026
-  author: Shashank Chaudhary
+  date: 09/04/2026
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
@@ -93,7 +93,6 @@ dbt init dbt_project
 ```text
 → dbt init dbt_project
 
-08:27:06 Running with dbt=1.7.19
 Your new dbt project "dbt_project" was created!
 
 08:27:06 Setting up your profile.
@@ -151,27 +150,22 @@ dbt debug
 
 ```text
 ➜ dbt debug
-09:01:43  Running with dbt=1.7.19
-09:01:43  dbt version: 1.7.19
-09:01:44  adapter type: iomete
-09:01:44  adapter version: 1.7.9
-09:01:44  Configuration:
-09:01:44    profiles.yml file [OK found and valid]
-09:01:44    dbt_project.yml file [OK found and valid]
-09:01:44  Required dependencies:
-09:01:44   - git [OK found]
+Configuration:
+  profiles.yml file [OK found and valid]
+  dbt_project.yml file [OK found and valid]
+Required dependencies:
+  - git [OK found]
 
-09:01:44  Connection:
-09:01:44    host: dev.iomete.cloud
-09:01:44    port: 443
-09:01:44    dataplane: spark-resources-1
-09:01:44    lakehouse: demo-spark-compute
-09:01:44    database: iomete_analytics
-09:01:44    schema: dbt_database
-09:01:44  Registered adapter: iomete=1.7.9
-09:01:48    Connection test: [OK connection ok]
+Connection:
+  host: dev.iomete.cloud
+  port: 443
+  dataplane: spark-resources-1
+  lakehouse: demo-spark-compute
+  database: iomete_analytics
+  schema: dbt_database
+  Connection test: [OK connection ok]
 
-09:01:48  All checks passed!
+All checks passed!
 ```
 
 ## Running Your First Transformation
@@ -198,12 +192,10 @@ dbt run
 
 ```text
 ➜ dbt run
-09:45:59  Registered adapter: iomete=1.7.9
-09:45:59  Found 1 model, 0 sources, 0 exposures, 0 metrics, 397 macros, 0 groups, 0 semantic models
-09:46:08  Concurrency: 1 threads (target='dev')
-09:46:08  1 of 1 START sql view model dbt_database.employee_salaries ..................... [RUN]
-09:46:12  1 of 1 OK created sql view model dbt_database.employee_salaries ................ [OK in 3.90s]
-09:46:14  Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
+Concurrency: 1 threads (target='dev')
+1 of 1 START sql view model dbt_database.employee_salaries ..................... [RUN]
+1 of 1 OK created sql view model dbt_database.employee_salaries ................ [OK]
+Done. PASS=1 WARN=0 ERROR=0 SKIP=0 TOTAL=1
 ```
 
 <Img src="/img/integrations/dbt/getting-started-view-created.png" alt="employee_salaries view visible in the IOMETE SQL editor" caption="employee_salaries view"/>
@@ -244,6 +236,8 @@ This time the result is an Iceberg table instead of a view:
 
 You now have a working dbt project on IOMETE. From here:
 
-- Explore [dbt-iomete materializations](./dbt-materializations) for `table`, `view`, `incremental`, and snapshots.
-- Learn about [incremental models](./dbt-incremental-models) to handle large datasets efficiently.
-- See [incremental models by example](./dbt-incremental-models-by-examples) for hands-on patterns.
+- Use the [configuration reference](./dbt-configuration-reference.md) for connection, model, and Python model settings.
+- Explore [dbt-iomete materializations](./dbt-materializations.md) for `table`, `view`, `incremental`, and snapshots.
+- Learn about [incremental models](./dbt-incremental-models.md) to handle large datasets efficiently.
+- See [incremental models by example](./dbt-incremental-models-by-examples.md) for hands-on patterns.
+- Check [integration release notes](../../deployment/on-prem/release-notes/integrations.md) before upgrading the adapter.

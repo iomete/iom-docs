@@ -3,8 +3,8 @@ title: Materializations
 sidebar_label: Materializations
 description: DBT Materializations on IOMETE platform. Learn how to set different materialization types (view, table, incremental) and understand their pros & cons
 last_update:
-  date: 04/27/2026
-  author: Shashank Chaudhary
+  date: 09/04/2026
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
@@ -19,11 +19,11 @@ import Img from '@site/src/components/Img';
 
 ## Configuring Materializations
 
-dbt uses `view` materialization by default. You can override this globally in `dbt_project.yaml` or per model in the model file itself.
+dbt uses `view` materialization by default. You can override this globally in `dbt_project.yml` or per model in the model file itself. See the [configuration reference](./dbt-configuration-reference.md) for every IOMETE-specific model setting.
 
 ### Option 1. Globally
 
-Set the materialization in `dbt_project.yaml` to apply it across folders of models at once.
+Set the materialization in `dbt_project.yml` to apply it across folders of models at once.
 
 ```yaml
 # The following dbt_project.yml configures a project that looks like this:

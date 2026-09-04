@@ -3,8 +3,8 @@ title: DBT Incremental Models
 sidebar_label: Incremental Models
 description: Learn how to use the incremental dbt model on the IOMETE data platform to reduce the runtime of transformation and improve warehouse performance
 last_update:
-  date: 04/27/2026
-  author: Shashank Chaudhary
+  date: 09/04/2026
+  author: Abhishek Pathania
 ---
 
 Incremental models skip reprocessing your entire source dataset on every run, which can be the difference between a transformation that finishes in seconds and one that drags on for hours. They're built as tables in your data lake. The first run transforms _all rows_ of source data, and on later runs dbt transforms only the rows you filter for, then inserts them into the existing target table.
@@ -85,12 +85,12 @@ With a `unique_key` set, here's what happens to each row of "new" data your mode
 - If the `unique_key` doesn't exist yet, dbt inserts the entire row, so the behavior is effectively `append-only`.
 
 :::info
-`iomete-dbt` supports two incremental strategies (Iceberg tables only):
+`dbt-iomete` supports the following incremental strategies for Iceberg tables:
 
-- `merge` (default)
-- `append` (optional)
-
-`merge` uses the `unique_key` configuration to upsert rows. `append` inserts all new rows without deduplication.
+- `merge` (default) updates matching rows and inserts new rows.
+- `append` inserts every row without changing existing rows.
+- `delete+insert` replaces rows that match the current result's `unique_key` values and accepts duplicate keys in the source.
+- `insert_overwrite` replaces affected partitions, or the whole table when `partition_by` is not set.
 
 For more, see [Incremental models](https://docs.getdbt.com/docs/build/incremental-models) in the dbt docs.
 :::
@@ -241,7 +241,7 @@ So whenever the model logic changes, run a full-refresh on the incremental model
 
 ## About incremental_strategy
 
-The strategy decides how new rows land in the target table, and the right choice depends on whether you need updates or just inserts. IOMETE supports two: `merge` (the default) and `append`. Set it globally or per model.
+The strategy decides how new rows land in the target table. IOMETE supports `merge` (the default), `append`, `delete+insert`, and `insert_overwrite`. Set it globally or per model.
 
 ### Configuring Incremental Strategy
 
@@ -273,9 +273,48 @@ In the model configuration:
 select ...
 ```
 
+### Using `delete+insert`
+
+Use `delete+insert` when one run can return several rows with the same `unique_key`. Spark rejects duplicate source keys during a `merge`, but this strategy keeps them. Without a `unique_key`, it behaves like `append`.
+
+```sql
+{{
+  config(
+    materialized='incremental',
+    incremental_strategy='delete+insert',
+    unique_key='order_id'
+  )
+}}
+
+select ...
+```
+
+:::caution
+- The delete and insert are separate statements. If the insert fails after the delete succeeds, rerun the model or perform a full refresh to restore the missing rows.
+- `incremental_predicates` limit only the delete rows; every row from the current result is still inserted.
+:::
+
+### Using `insert_overwrite`
+
+Use `insert_overwrite` when each run returns the complete contents of every partition it updates. Existing rows in an affected partition are removed even if the current result has no replacement for them. Partitions absent from the result stay unchanged.
+
+```sql
+{{
+  config(
+    materialized='incremental',
+    incremental_strategy='insert_overwrite',
+    partition_by='days(event_time)'
+  )
+}}
+
+select ...
+```
+
+Without `partition_by`, the current result replaces every row in the target table. The overwrite is one atomic Iceberg operation, and values map to target columns by name. A target column missing from the current result receives `NULL`.
+
 ### Strategy-Specific Configs
 
-A few extra knobs only apply to the `merge` strategy. Reach for these when you need finer control over which columns get rewritten or which target rows get scanned.
+The settings below refine `merge` behavior. `incremental_predicates` also applies to the delete step of `delete+insert`.
 
 #### `merge_update_columns`
 
@@ -311,7 +350,7 @@ select ...
 
 #### `incremental_predicates`
 
-Scanning every row of a large target table to find merge matches gets expensive fast. `incremental_predicates` is an optional list of predicates added to the `MERGE` statement that prunes the target-side scan to a much smaller window.
+Scanning every row of a large target table gets expensive fast. `incremental_predicates` is an optional list of predicates that limits the target rows considered by `merge` or deleted by `delete+insert`.
 
 `predicates` is accepted as an alias for `incremental_predicates`, and both behave the same.
 

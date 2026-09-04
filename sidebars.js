@@ -51,6 +51,7 @@ const sidebars = {
             "deployment/on-prem/release-notes/index",
             "deployment/on-prem/release-notes/spark",
             "deployment/on-prem/release-notes/marketplace-jobs",
+            "deployment/on-prem/release-notes/integrations",
           ],
         },
         {
@@ -88,9 +89,20 @@ const sidebars = {
       collapsed: false,
       items: [
         "integrations/dbt/getting-started-with-iomete-dbt",
+        "integrations/dbt/dbt-configuration-reference",
         "integrations/dbt/dbt-materializations",
         "integrations/dbt/dbt-incremental-models",
         "integrations/dbt/dbt-incremental-models-by-examples",
+      ],
+    },
+    {
+      type: "category",
+      label: "Airflow",
+      collapsed: false,
+      items: [
+        "integrations/airflow/getting-started",
+        "integrations/airflow/operator-reference",
+        "integrations/airflow/examples",
       ],
     },
     {
