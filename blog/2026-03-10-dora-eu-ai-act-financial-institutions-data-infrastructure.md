@@ -1,6 +1,6 @@
 ---
 title: "DORA and EU AI Act compliance: data infrastructure checklist for financial institutions"
-description: "DORA is live. EU AI Act high-risk AI deadline hits August 2026. Here's what your data infrastructure needs to satisfy both — and where self-hosted architecture matters."
+description: "DORA is live and the EU AI Act high-risk deadline moved to December 2027. What your data infrastructure needs to satisfy both regimes."
 slug: "dora-eu-ai-act-financial-institutions-data-infrastructure"
 authors: "aytan"
 tags2: [Educational, Company]
@@ -8,12 +8,12 @@ coverImage: "img/blog/thumbnails/4.png"
 date: "03/10/2026"
 hide_table_of_contents: false
 last_update:
-  date: 2026-06-07
+  date: 2026-08-27
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
 
-DORA went live in January 2025. The EU AI Act's high-risk AI provisions deadline lands August 2, 2026. That puts financial institutions in a five-month window to close whatever gaps remain — and for most, the data infrastructure layer is where the exposure sits.
+DORA went live in January 2025 and applies today. The EU AI Act's high-risk obligations, originally due 2 August 2026, were postponed to 2 December 2027 by the Digital Omnibus on AI ([Regulation (EU) 2026/1744](https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng/xhtml), in force 27 July 2026). Financial institutions therefore face one live regime and one with roughly sixteen extra months — and for both, the data infrastructure layer is where the exposure sits.
 
 This isn't about the business logic of your applications or the model architecture of your AI systems. It's about whether the platform where data is stored, processed, and accessed can produce the audit evidence regulators will ask for, and whether the operational controls are actually inside your governance boundary rather than a vendor's.
 
@@ -41,7 +41,9 @@ The practical implication: if your data platform runs on vendor-managed cloud in
 
 The EU AI Act (Regulation EU 2024/1689) introduces additional requirements for high-risk AI systems. For financial services, high-risk AI includes systems used for creditworthiness assessment, insurance risk and pricing, and certain customer-facing systems.
 
-The August 2, 2026 deadline applies to providers and deployers of high-risk AI systems under Annex III. Key requirements that directly touch your data infrastructure:
+**The timeline changed in July 2026.** The Digital Omnibus on AI (Regulation (EU) 2026/1744, adopted 8 July 2026 and in force since 27 July 2026) moved the application of Chapter III, Sections 1–3 to **2 December 2027** for high-risk systems under Article 6(2) and Annex III, and to **2 August 2028** for high-risk AI inside products regulated under Annex I. Everything already in force stayed in force: the Article 5 prohibitions, the Article 4 AI literacy duty, the GPAI model obligations, and the Article 50 transparency rules.
+
+Treat the new dates as planning room, not as relief. The data-governance evidence the Act asks for is retrospective — it describes datasets that trained a model, so it has to be captured while the data is being produced, not reconstructed in 2027. Key requirements that directly touch your data infrastructure:
 
 **Article 10 — Data and data governance:** Training, validation, and testing datasets for high-risk AI systems must have documented governance practices, including data collection, preparation, labeling, and quality assessment processes. You need to know what data trained each model version, at what point in time, and with what governance controls applied.
 
@@ -158,10 +160,10 @@ The [platform architecture documentation](/blog/iomete-platform-components-enter
   },
   {
     question: "What EU AI Act requirements apply to data infrastructure for financial institutions?",
-    answer: "The EU AI Act's high-risk AI provisions (Annex III) cover creditworthiness assessment, insurance risk and pricing, and certain other financial services use cases. The August 2, 2026 deadline applies to deployers and providers of these systems.",
+    answer: "The EU AI Act's high-risk AI provisions (Annex III) cover creditworthiness assessment, insurance risk and pricing, and certain other financial services use cases. Those obligations apply from 2 December 2027, moved from 2 August 2026 by the Digital Omnibus on AI (Regulation (EU) 2026/1744), and from 2 August 2028 for high-risk AI inside Annex I regulated products.",
     answerContent: (
       <>
-        <p>The EU AI Act's high-risk AI provisions (Annex III) cover creditworthiness assessment, insurance risk and pricing, and certain other financial services use cases. The August 2, 2026 deadline applies to deployers and providers of these systems.</p>
+        <p>The EU AI Act's high-risk AI provisions (Annex III) cover creditworthiness assessment, insurance risk and pricing, and certain other financial services use cases. Those obligations apply from 2 December 2027, moved from 2 August 2026 by the Digital Omnibus on AI (Regulation (EU) 2026/1744), and from 2 August 2028 for high-risk AI inside Annex I regulated products.</p>
         <p>Data infrastructure requirements primarily arise from Articles 10 (data governance for training data), 12 (automatic logging), and 13 (transparency and explainability). You need documented data provenance for model training datasets, auditable data access logs for inference-time queries, and the ability to reconstruct what data was available to a model at any point in its lifecycle. Apache Iceberg's time travel and IOMETE's query logging capability address these requirements when deployed in self-hosted mode.</p>
       </>
     )
@@ -187,11 +189,11 @@ The [platform architecture documentation](/blog/iomete-platform-components-enter
     )
   },
   {
-    question: "Is the August 2026 EU AI Act deadline relevant for data engineering teams?",
-    answer: "Yes, if your organization deploys or provides high-risk AI systems under EU AI Act Annex III — which includes credit scoring, insurance pricing, and certain financial advisory systems.",
+    question: "When do EU AI Act high-risk obligations apply to data engineering teams?",
+    answer: "High-risk obligations under Annex III apply from 2 December 2027, and from 2 August 2028 for high-risk AI inside Annex I regulated products, after the Digital Omnibus on AI (Regulation (EU) 2026/1744) moved them from the original 2 August 2026 date. Annex III covers credit scoring, insurance pricing, and certain financial advisory systems.",
     answerContent: (
       <>
-        <p>Yes, if your organization deploys or provides high-risk AI systems under EU AI Act Annex III — which includes credit scoring, insurance pricing, and certain financial advisory systems.</p>
+        <p>High-risk obligations under Annex III apply from 2 December 2027, and from 2 August 2028 for high-risk AI inside Annex I regulated products. The Digital Omnibus on AI (Regulation (EU) 2026/1744, in force 27 July 2026) moved them from the original 2 August 2026 date. Annex III covers credit scoring, insurance pricing, and certain financial advisory systems.</p>
         <p>Data engineering teams are responsible for the training data governance (Article 10), the data access logs that feed model inference (Article 12), and the data lineage that supports explainability (Article 13). These requirements are infrastructure requirements, not just model requirements. If your data platform can't produce auditable evidence of data provenance and access controls, your AI Act compliance posture has a gap at the foundation layer.</p>
       </>
     )

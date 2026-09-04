@@ -8,7 +8,7 @@ hide_table_of_contents: true
 date: 01/17/2026
 coverImage: img/blog/thumbnails/1.png
 last_update:
-  date: 2026-06-02
+  date: 2026-08-27
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
@@ -17,7 +17,7 @@ import FAQSection from '@site/src/components/FAQSection';
 
 The data infrastructure landscape just hit a regulatory wall.
 
-If you're running Snowflake or Databricks right now, you've probably noticed something shifting in your compliance team's tone. The EU's Digital Operational Resilience Act went live in January 2025. The AI Act hits full enforcement in August 2026. And suddenly, storing your customer data in someone else's multi-tenant cloud doesn't feel like the safe bet it did three years ago.
+If you're running Snowflake or Databricks right now, you've probably noticed something shifting in your compliance team's tone. The EU's Digital Operational Resilience Act went live in January 2025. The AI Act's high-risk obligations now land on 2 December 2027. And suddenly, storing your customer data in someone else's multi-tenant cloud doesn't feel like the safe bet it did three years ago.
 
 This isn't about paranoia. It's about actual fines—up to 7% of global revenue for AI Act violations, and millions more for DORA breaches. The math has changed, and data architects are waking up to a hard truth: SaaS platforms can't guarantee the sovereignty and control that 2026 regulations now demand.
 
@@ -35,7 +35,7 @@ Here's what actually changed:
 
 **[DORA (Digital Operational Resilience Act)](/blog/data-sovereignty-compliance-2026-dora-ai-act)** became enforceable in January 2025, targeting financial institutions across the EU. It doesn't just ask where your data lives—it demands proof that you control operational resilience, that third-party ICT providers are contractually bound, and that you can maintain service continuity even when cloud vendors fail. SaaS platforms, by design, don't give you that level of operational control.
 
-**The EU AI Act** reaches full enforcement in August 2026. High-risk AI systems—including those used in recruitment, law enforcement, and critical infrastructure—must demonstrate adequate risk assessments, activity logs, and human oversight. The penalties for non-compliance go up to 7% of global annual turnover. If your data lakehouse feeds AI systems and you can't prove where data lives, who accessed it, and how models were trained, you're exposed.
+**The EU AI Act** applies to high-risk systems from 2 December 2027, moved from August 2026 by the Digital Omnibus on AI ([Regulation (EU) 2026/1744](https://eur-lex.europa.eu/eli/reg/2026/1744/oj/eng/xhtml), in force 27 July 2026). High-risk AI systems—including those used in recruitment, law enforcement, and critical infrastructure—must demonstrate adequate risk assessments, activity logs, and human oversight. The penalties for non-compliance go up to 7% of global annual turnover. If your data lakehouse feeds AI systems and you can't prove where data lives, who accessed it, and how models were trained, you're exposed.
 
 **The EU Data Act**, which became legally enforceable in September 2025, extends sovereignty beyond personal data to industrial and non-personal data. It grants users rights to access and port information from connected devices while explicitly prohibiting vendor lock-in. That last part is the killer for SaaS platforms—proprietary storage formats and closed ecosystems are now regulatory liabilities.
 
