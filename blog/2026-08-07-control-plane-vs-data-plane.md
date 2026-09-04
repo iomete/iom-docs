@@ -20,9 +20,9 @@ import Img from '@site/src/components/Img';
 
 Kubernetes is a declarative engine for container orchestration: you describe the state you want, and Kubernetes works continuously to make reality match it. Every cluster splits that job into two halves: a control plane that's the "brain," deciding what should exist, and a data plane that's the "muscle," actually running it.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-high-level.png" alt="Kubernetes as a declarative engine: a manifest you declare feeds the control plane, the brain, which schedules onto the data plane, the muscle, which reports actual state back" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-high-level.png" alt="What is K8S: Kubernetes is a declarative engine for container orchestration, with the Control Plane as the brain and the Data Plane as the muscle" maxWidth="700px" centered />
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kuberenets-control-and-data-plane.png" alt="A Kubernetes control plane of etcd, kube-scheduler, kube-apiserver and kube-controller-manager beside a data plane of worker nodes running kubelet, kube-proxy, a container runtime and pods" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kuberenets-control-and-data-plane.png" alt="Kubernetes control plane (etcd, scheduler, API server, controller manager) connected to worker nodes running kubelet, kube-proxy, container runtime, and pods on the data plane" maxWidth="700px" centered />
 
 The split matters because the two halves fail differently and scale differently. Losing the control plane for a few minutes is usually survivable: pods keep running, they just can't be rescheduled. Losing data plane capacity means workloads stop executing immediately. Anyone sizing a cluster ends up reasoning about the two separately.
 
@@ -43,19 +43,19 @@ Four components make up the control plane, and each has one clear job:
 
 **kube-apiserver** is the cluster's front door. Every request, whether from `kubectl`, a service account, or any controller, passes through authentication, authorization, and admission control before it's allowed to touch anything.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-control-plane-apiserver.png" alt="kube-apiserver as the cluster's front door: kubectl and service account requests pass through authentication, authorization and admission control before anything reaches etcd" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-control-plane-apiserver.png" alt="kube-apiserver: HTTP clients and service accounts pass through authentication, authorization, and admission control before reaching etcd" maxWidth="700px" centered />
 
 **etcd** is the source of truth: a distributed key-value store that remembers the state of everything in the cluster. Only the API server talks to it directly; nothing else is allowed to.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-control-plane-etcd.png" alt="etcd as the single source of truth: kube-scheduler, kube-controller-manager and kubelet all reach it through kube-apiserver, and nothing may reach it directly" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-control-plane-etcd.png" alt="etcd is the source of truth, a distributed key-value store that only kube-apiserver communicates with" maxWidth="700px" centered />
 
 **kube-scheduler** is the matchmaker. When a new pod needs a home, the scheduler decides which node it lands on, based on available resources.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-control-plane-scheduler.png" alt="kube-scheduler matching a pending pod to the node that has enough free capacity to run it" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-control-plane-scheduler.png" alt="kube-scheduler assigns new pods to nodes based on available resources" maxWidth="700px" centered />
 
 **kube-controller-manager** is the repairman. It runs control loops that continuously compare actual state against desired state and nudge one toward the other: observe, analyze, act, repeat. "Desired state" isn't a one-time check, it's a loop that never stops running.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-control-plane-controller.png" alt="kube-controller-manager comparing desired state against actual state in a continuous observe, analyze, act loop" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-control-plane-controller.png" alt="kube-controller-manager runs a continuous control loop: observe actual state, analyze against desired state, act, repeat" maxWidth="700px" centered />
 
 None of these four components touch a workload's actual traffic or bytes. They're bookkeeping and decision-making, end to end.
 
@@ -77,25 +77,25 @@ Here are the common components that make up the data plane, the layer that actua
 
 **kubelet** is the node captain. It runs on every node, talks back to the control plane, and manages the full lifecycle of every pod scheduled to it.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kuberenetes-data-plane-kubelet.png" alt="kubelet on a worker node taking pod assignments from kube-apiserver, reporting status back, and owning the lifecycle of every pod on that node" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kuberenetes-data-plane-kubelet.png" alt="kubelet runs on every node, communicates with the control plane, and manages pod lifecycle" maxWidth="700px" centered />
 
 **kube-proxy** is the network manager. It maintains the iptables or IPVS rules that remap a stable Service address to whichever pod IP is actually behind it right now.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kuberenetes-data-plane-network.png" alt="kube-proxy mapping one stable Service address onto the changing pod IPs behind it through iptables or IPVS rules" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kuberenetes-data-plane-network.png" alt="kube-proxy manages network rules that remap a Service to a Pod" maxWidth="700px" centered />
 
 Three more interfaces round out the data plane, each swappable by design.
 
 **CNI (Container Network Interface)** provisions IPs and builds the virtual network between pods: the "city planner" laying roads so pods can reach each other.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-cni.png" alt="CNI assigning every pod its own IP and wiring the pods onto a shared pod network, with swappable plugins underneath" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-cni.png" alt="CNI provides IPs and builds the virtual network bridge between pods" maxWidth="700px" centered />
 
 **CRI (Container Runtime Interface)** is the interface that actually pulls images and executes container processes, with containerd, CRI-O, or Docker sitting behind it.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-cri.png" alt="CRI as the single interface between kubelet and a container runtime such as containerd, CRI-O or Docker, which pulls images from a registry" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-cri.png" alt="CRI is the interface between kubelet and the container runtime that pulls images and executes container processes" maxWidth="700px" centered />
 
 **CSI (Container Storage Interface)** provisions and mounts persistent disks into containers, backed by block, file, or object storage.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-csi.png" alt="CSI provisioning and mounting a persistent volume for a pod's claim, backed by block, file or object storage" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/kubernetes-csi.png" alt="CSI provisions and mounts persistent disks to containers, backed by block, file, or object storage" maxWidth="700px" centered />
 
 Every one of these is where CPU, memory, network, and disk I/O actually get spent: the layer that costs money and does the work.
 
@@ -103,7 +103,7 @@ Every one of these is where CPU, memory, network, and disk I/O actually get spen
 
 Apache Spark on Kubernetes fits this picture directly: a Spark driver and its executors are just pods, scheduled and run the same way as anything else on the data plane.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/apache-spark.png" alt="A SparkApplication custom resource reconciled by the Spark Operator into a driver pod and its executor pods on the data plane" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/apache-spark.png" alt="Apache Spark running on Kubernetes" maxWidth="500px" centered />
 
 What makes Spark-on-Kubernetes convenient is the same control-plane pattern described above, one layer up: the Spark Operator watches for `SparkApplication` and `ScheduledSparkApplication` custom resources and reconciles them into actual driver and executor pods. Declare intent through a CRD, let a controller turn it into running pods: that's the API server / kube-controller-manager pattern, reused for a specific workload type.
 
@@ -111,7 +111,7 @@ What makes Spark-on-Kubernetes convenient is the same control-plane pattern desc
 
 IOMETE ships as a single Helm chart that deploys a set of always-on platform microservices plus, on demand, the Spark workloads you actually create. On the cluster, that split shows up as two kinds of namespace: one `iomete-system` namespace (can be configured/renamed) holding platform services, and one or more data plane namespaces that are configurable holding everything Spark creates, sitting right next to whatever other, unrelated namespaces the cluster happens to run.
 
-<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/iomete-in-kubernetes.png" alt="A Kubernetes cluster holding an iomete-control-plane namespace of platform services, two iomete-data-plane namespaces running Spark drivers and executors, and unrelated namespaces alongside them" maxWidth="700px" centered />
+<Img src="/img/blog/2026-08-07-control-plane-vs-data-plane/iomete-in-kubernetes.png" alt="A Kubernetes cluster with an iomete-control-plane namespace, one or more iomete-data-plane namespaces, and other unrelated namespaces alongside them" maxWidth="700px" centered />
 
 The **iomete-control-plane** namespace holds the platform microservices, the ones that are always running regardless of which features are turned on:
 
