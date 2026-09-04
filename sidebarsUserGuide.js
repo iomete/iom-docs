@@ -231,7 +231,6 @@ const sidebars = {
         "spark-jobs/spark-application-config",
         "spark-jobs/accessing-specific-buckets",
         "spark-jobs/iomete-sdk",
-        "spark-jobs/airflow",
         "spark-jobs/nessie-integration",
         "spark-jobs/spark-logging",
         "spark-jobs/job-orchestrator",

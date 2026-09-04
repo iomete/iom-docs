@@ -1,13 +1,13 @@
 ---
 title: DBT Incremental Models By Examples
 sidebar_label: Incremental Models By Examples
-description: Hands-on examples covering every incremental model configuration for dbt on IOMETE, including append, merge, schema changes, and common error cases.
+description: Hands-on examples covering every incremental strategy and schema-change configuration for dbt on IOMETE.
 last_update:
-  date: 04/27/2026
-  author: Shashank Chaudhary
+  date: 09/04/2026
+  author: Abhishek Pathania
 ---
 
-Incremental models on IOMETE use Iceberg tables and support two strategies (`append` and `merge`), plus a handful of merge-specific options. This page walks through every supported configuration with working SQL examples and shows the table state after each run.
+Incremental models on IOMETE use Iceberg tables and support `append`, `merge`, `delete+insert`, and `insert_overwrite`. This page walks through every supported configuration with working SQL examples and shows the table state after each run.
 
 ## Incremental Models Configurations
 
@@ -16,24 +16,26 @@ Incremental models are trickier to get right than views or tables, so it helps t
 | Parameter | Default value | Expected values                                    |
 | --- | --- |----------------------------------------------------|
 | file_format | `iceberg` | `iceberg` (only supported value)                   |
-| incremental_strategy | `merge` | `append`, `merge`                                  |
+| incremental_strategy | `merge` | `append`, `merge`, `delete+insert`, `insert_overwrite` |
 | on_schema_change | `ignore` | `ignore`, `append_new_columns`, `sync_all_columns`, `fail` |
 
 **Incremental Strategies**
 
 | Incremental Strategy | Description                                                                                             |
 | --- |---------------------------------------------------------------------------------------------------------|
-| append | Each run appends new rows to the table. Example: [_append_](#append)                                 |
+| append | Each run appends new rows to the table. Example: [_append_](#append) |
 | merge | Each run merges new rows with existing rows. Example: [_merge-with-unique_key_](#merge-with-unique_key) |
+| delete+insert | Each run deletes matching keys, then inserts the current result. Example: [`delete+insert`](#deleteinsert) |
+| insert_overwrite | Each run replaces affected partitions. Example: [`insert_overwrite`](#insert-overwrite) |
 
-**Merge Incremental Strategy**
+**Strategy-Specific Settings**
 
-| Configuration | Behavior if not provided                                                                                      | Behavior when provided                                                                                               |
-| --- |----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| unique_key | Runs behave as append-only. Example: [_merge-without-unique_key_](#merge-without-unique_key) | Iceberg runs a merge on the given column. Example: [_merge-with-unique_key_](#merge-with-unique_key) |
-| merge_update_columns | Every column is updated on merge. Example: [_merge-with-unique_key_](#merge-with-unique_key) | Only the listed columns are merged. Example: [_merge-with-update-columns_](#merge-with-update-columns) |
-| merge_exclude_columns | Every column is updated on merge. | The listed columns are skipped, and all others are updated. Example: [_merge-with-exclude-columns_](#merge-with-exclude-columns) |
-| incremental_predicates | Every target row is scanned during merge. | Only target rows matching the predicate are scanned, which speeds up merges on large tables. Example: [_merge-with-incremental-predicates_](#merge-with-incremental-predicates) |
+| Configuration | Applies to | Behavior |
+| --- | --- | --- |
+| unique_key | `merge`, `delete+insert` | Identifies matching target rows. Without it, both strategies append every row. Examples: [_merge without unique_key_](#merge-without-unique_key), [_merge with unique_key_](#merge-with-unique_key), and [`delete+insert`](#deleteinsert). |
+| merge_update_columns | `merge` | Updates only the listed columns. Without it, every column is updated. Example: [_merge with update columns_](#merge-with-update-columns). |
+| merge_exclude_columns | `merge` | Skips the listed columns and updates all others. Without it, every column is updated. Example: [_merge with excluded columns_](#merge-with-exclude-columns). |
+| incremental_predicates | `merge`, `delete+insert` | Limits target rows scanned by `merge` or deleted by `delete+insert`. Example: [_merge with incremental predicates_](#merge-with-incremental-predicates). |
 
 
 **Schema Changes**
@@ -96,6 +98,92 @@ Results
 +-----+----------+
 
 ```
+---
+
+### Delete+Insert
+
+Use this strategy when the current result can contain duplicate `unique_key` values.
+
+```sql title="models/incremental_strategies/models_iceberg/delete_insert_unique_key.sql"
+{{ config(
+    materialized = 'incremental',
+    incremental_strategy = 'delete+insert',
+    unique_key = 'id'
+) }}
+
+{% if not is_incremental() %}
+
+select cast(1 as bigint) as id, 'hello' as msg
+union all
+select cast(2 as bigint) as id, 'goodbye' as msg
+
+{% else %}
+
+select cast(2 as bigint) as id, 'yo' as msg
+union all
+select cast(2 as bigint) as id, 'again' as msg
+union all
+select cast(3 as bigint) as id, 'anyway' as msg
+
+{% endif %}
+```
+
+Results
+
+```text
+# After 2nd run
++-----+----------+
+| id  | msg      |
++-----+----------+
+| 1   | hello    |
+| 2   | yo       |
+| 2   | again    |
+| 3   | anyway   |
++-----+----------+
+```
+
+:::caution
+The delete and insert are separate statements. If the insert fails, rerun the model or perform a full refresh.
+:::
+
+---
+
+### Insert Overwrite
+
+This example replaces only the dates present in the second run. Rows in other partitions stay unchanged.
+
+```sql title="models/incremental_strategies/models_iceberg/insert_overwrite_partitions.sql"
+{{ config(
+    materialized = 'incremental',
+    incremental_strategy = 'insert_overwrite',
+    partition_by = 'event_date'
+) }}
+
+{% if not is_incremental() %}
+
+select 1 as id, date '2026-09-01' as event_date, 'keep' as msg
+union all
+select 2 as id, date '2026-09-02' as event_date, 'old' as msg
+
+{% else %}
+
+select 3 as id, date '2026-09-02' as event_date, 'replacement' as msg
+
+{% endif %}
+```
+
+Results
+
+```text
+# After 2nd run
++-----+------------+-------------+
+| id  | event_date | msg         |
++-----+------------+-------------+
+| 1   | 2026-09-01 | keep        |
+| 3   | 2026-09-02 | replacement |
++-----+------------+-------------+
+```
+
 ---
 
 ### Merge Without unique_key
@@ -797,10 +885,6 @@ select 1
 
 ```bash
 Invalid incremental strategy provided: something_else
-    Expected one of: 'append', 'merge', 'insert_overwrite'
+    Expected one of: 'append', 'merge', 'delete+insert', 'insert_overwrite'
 ```
-
-:::note
-The error lists `insert_overwrite` as a recognized value, but it isn't usable in practice. `insert_overwrite` requires a non-iceberg file format, which is also rejected. Stick with `append` or `merge`.
-:::
 ---

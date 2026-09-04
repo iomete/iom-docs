@@ -1,0 +1,149 @@
+---
+title: Getting Started with Airflow
+sidebar_label: Getting Started
+description: Install the IOMETE Airflow Plugin, configure credentials, and trigger your first IOMETE Spark job.
+last_update:
+  date: 09/04/2026
+  author: Abhishek Pathania
+---
+
+import Card from "@site/src/components/Card";
+import GridBox from "@site/src/components/GridBox";
+import { Article, Key, GithubLogo } from "@phosphor-icons/react";
+
+# Getting Started with Airflow
+
+The IOMETE Airflow Plugin lets you trigger and manage IOMETE Spark jobs from an Airflow DAG. It submits each job run, monitors its status, and cancels the run if its Airflow task is killed.
+
+## Installation
+
+### Prerequisites
+
+- Python 3.10–3.13
+- Apache Airflow `>=2.10.5,<4.0.0`
+
+### Setting Up Airflow Locally
+
+:::note
+Skip this section if you already have Airflow installed and configured.
+:::
+
+You can use Docker Compose to start a local Airflow environment with the plugin. Clone the integrations repository and run the Compose project from the plugin directory:
+
+```bash
+git clone https://github.com/iomete/iomete-integrations.git
+cd iomete-integrations/iomete-airflow-plugin
+docker compose up --build
+```
+
+This builds a local Airflow image, installs the latest plugin package from PyPI, and starts the Airflow webserver at `http://localhost:8080`. Startup can take a few minutes.
+
+For Kubernetes, install Airflow with the [official Helm chart](https://artifacthub.io/packages/helm/apache-airflow/airflow), then configure an image that includes the IOMETE plugin and supports your Airflow version.
+
+### Installing the Plugin in Existing Airflow
+
+If Airflow is already installed, run:
+
+```bash
+pip install iomete-airflow-plugin
+```
+
+Restart the Airflow webserver after installation.
+
+## Configuration
+
+The operator needs an IOMETE endpoint and credentials. Pass these parameters directly to `IometeOperator`, or share them across tasks through the DAG's `default_args`:
+
+- `host`: IOMETE platform URL, such as `https://sandbox.iomete.cloud`.
+- `domain`: IOMETE domain identifier.
+- A personal access token supplied through `access_token` or `access_token_variable`.
+
+Per-task credentials let one Airflow instance trigger jobs in different IOMETE environments.
+
+### Providing the Access Token
+
+Supply exactly one token parameter:
+
+- `access_token`: Raw token string. This field is not templatable because Airflow stores rendered template fields in its metadata database and displays them in the UI.
+- `access_token_variable`: Name of an Airflow Variable containing the token. The plugin resolves it when the task runs, so the token does not appear in DAG code or rendered fields. This is the recommended option.
+
+To use `access_token_variable`, open **Admin → Variables** in Airflow and create a Variable such as `iomete_access_token`. If the Variable is missing or empty when the task runs, the task fails.
+
+:::tip Multiple IOMETE Environments
+Store one Variable per environment, such as `iomete_prod_token` and `iomete_dev_token`, then pass the appropriate Variable name to each task.
+:::
+
+## Triggering Your First Job
+
+Place this DAG in your Airflow `dags/` directory. Replace the host, domain, job ID, and Airflow Variable name with your values:
+
+```python
+import pendulum
+from airflow import DAG
+from iomete_airflow_plugin.iomete_operator import IometeOperator
+
+args = {
+    "owner": "airflow",
+    "email": ["airflow@example.com"],
+    "depends_on_past": False,
+    "start_date": pendulum.today("UTC"),
+}
+
+dag = DAG(dag_id="iomete-task", default_args=args, schedule=None)
+
+task = IometeOperator(
+    task_id="iomete-spark-job",
+    job_id="YOUR_JOB_ID",
+    host="https://YOUR.iomete.host",
+    domain="YOUR_DOMAIN",
+    access_token_variable="YOUR_TOKEN_VARIABLE",
+    dag=dag,
+)
+```
+
+When the task runs, the operator submits the Spark job and waits for it to reach a final state. A failed or aborted job fails the Airflow task.
+
+## Migrating from 2.x
+
+The 2.x plugin read connection details from four Airflow Variables: `iomete_host`, `iomete_access_token`, `iomete_domain`, and `iomete_host_verify`. It also used `variable_prefix` to namespace them.
+
+Version 3.0.0 removed that configuration model. Pass `host`, `domain`, and either `access_token` or `access_token_variable` directly to `IometeOperator`. If you previously used `variable_prefix`, pass the complete Airflow Variable name through `access_token_variable`, such as `iomete_prod_token`.
+
+## Next Steps
+
+- Review every field in the [IometeOperator Reference](./operator-reference.md).
+- Use the [DAG Examples](./examples.md) for runtime overrides, sequential jobs, and XCom.
+
+## Support
+
+Use the IOMETE platform's support section or contact [support@iomete.com](mailto:support@iomete.com).
+
+## Resources
+
+<GridBox>
+
+<Card
+  title="API Token"
+  icon={<Key />}
+  link="user-guide/access-tokens/personal"
+>
+  Create a personal access token for the IOMETE API
+</Card>
+
+<Card
+  title="GitHub Repository"
+  icon={<GithubLogo />}
+  link="https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin"
+>
+  View the plugin source and examples
+</Card>
+
+<Card
+  title="Integration Release Notes"
+  icon={<Article />}
+  link="deployment/on-prem/release-notes/integrations"
+>
+  Review changes before upgrading the plugin
+</Card>
+
+</GridBox>
