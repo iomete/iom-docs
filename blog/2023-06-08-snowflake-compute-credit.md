@@ -1,6 +1,6 @@
 ---
 title: What is a Snowflake Compute Credit?
-description: How Snowflake compute credits are priced and consumed, and how credit cost compares with the underlying cloud instances.
+description: How Snowflake compute credits are defined, consumed, and priced, and what actually drives your compute bill.
 slug: snowflake-compute-credit
 image: img/blog/snowflake-compute-credit/snowflake-compute-credits.jpg
 coverImage: img/blog/thumbnails/1.png
@@ -54,33 +54,25 @@ For Snowflake accounts running on Amazon Web Services (AWS), a node would be equ
 
 ![Virtual Warehouse sizes](/img/blog/snowflake-compute-credit/virtual-warehouse-sizes.png)
 
-## What Is the Equivalent of Snowflake XS on AWS EC2?
+## Why You Cannot Convert Credits Into Instance Hours
 
-Snowflake does not publish a vendor-confirmed hardware mapping. Independent researchers inferred the instance class from performance data. You can read more in [this academic paper](http://vldb.org/pvldb/vol14/p1606-leis.pdf) and the [Stack Overflow discussion](https://stackoverflow.com/questions/58973007/what-are-the-specifications-of-a-snowflake-server).
+Snowflake does not publish which cloud instance types back each warehouse size, so there is no vendor-confirmed way to convert a credit into an equivalent number of EC2, Azure, or Google Cloud instance hours. Any such conversion would be an assumption, and it could change at any time without notice, because the vendor is free to change the hardware behind a warehouse size.
 
-![What is Snowflake XS](/img/blog/snowflake-compute-credit/what-is-snowflake-xs.png)
-
-> So Snowflake does not specify the hardware configuration. However, performance debugging information suggests that, on EC2, Snowflake currently relies on relatively small **c5d.2xlarge** instances (8 vCPUs, 16 GB DRAM, one 200 GB NVMe SSD).
-
-Public research suggests XS warehouses run on **[c5d.2xlarge](https://instances.vantage.sh/aws/ec2/c5d.2xlarge?pricing_unit=vcpu)** class instances, so one XS credit is roughly one hour of that node. Treat the numbers below as an estimate, not a vendor-confirmed figure.
+What you can work with is the part Snowflake does publish: credits consumed per warehouse size per hour, and the price per credit for your plan and region.
 
 :::note
-This compares only compute list price against raw EC2 on-demand price. A credit also covers the managed service around the compute: cloud services, query optimization, availability, and support. Storage is billed separately, per terabyte, and is not part of a compute credit. The multiple is a pricing gap, not a like for like cost comparison.
+A credit is not only raw compute. It also covers the managed service around it: cloud services, query optimization, availability, and support. Storage is billed separately, per terabyte, and is not part of a compute credit.
 :::
-
-![Snowflake Computing on AWS EC2](/img/blog/snowflake-compute-credit/reality-of-snowflake-computing.png)
 
 ## In Conclusion
 
-One Snowflake compute credit costs $2 on the Standard plan, $3 on Enterprise, and $4 on Business Critical. These are list prices for most US regions, and they vary by region. Prices verified September 2026 (AWS US East, on-demand list).
+Snowflake compute cost is credits consumed multiplied by the price per credit.
 
-One Snowflake compute credit is roughly one hour of an XS warehouse.
+Credits consumed depend on warehouse size and how long the warehouse runs. Each step up in size roughly doubles both capacity and credits per hour.
 
-There is no vendor-confirmed mapping of warehouse sizes to instance types. Based on public research, the XS instance on AWS appears to be a c5d.2xlarge.
+Price per credit depends on cloud provider, region, and plan. As of September 2026, list prices in most US regions are $2 per credit on Standard, $3 on Enterprise, and $4 on Business Critical. Always check Snowflake's current pricing page, since prices vary by region and change over time.
 
-1 hour of c5d.2xlarge on-demand pricing is $0.384 for most US AWS regions.
-
-On that instance and region, credit list prices are about 5x, 8x, and 10x the AWS on-demand instance price for Standard, Enterprise, and Business Critical. That gap pays for the managed service, so read it as a pricing comparison, not a total cost of ownership figure.
+The practical way to control this spend is to control runtime and size: right-size warehouses, suspend idle ones, and cache repeated results. If you want direct control over the compute instances themselves rather than paying per vendor-defined credit, a self-hosted lakehouse such as IOMETE runs the compute in your own cloud account.
 
 ---
 
