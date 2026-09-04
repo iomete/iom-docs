@@ -28,15 +28,7 @@ The IOMETE Airflow Plugin lets you trigger and manage IOMETE Spark jobs from an 
 Skip this section if you already have Airflow installed and configured.
 :::
 
-You can use Docker Compose to start a local Airflow environment with the plugin. Clone the integrations repository and run the Compose project from the plugin directory:
-
-```bash
-git clone https://github.com/iomete/iomete-integrations.git
-cd iomete-integrations/iomete-airflow-plugin
-docker compose up --build
-```
-
-This builds a local Airflow image, installs the latest plugin package from PyPI, and starts the Airflow webserver at `http://localhost:8080`. Startup can take a few minutes.
+Install a supported Airflow version with the official [Docker Compose quick start](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html), using an `apache/airflow` image of 2.10.5 or later. Then add the plugin as described below.
 
 For Kubernetes, install Airflow with the [official Helm chart](https://artifacthub.io/packages/helm/apache-airflow/airflow), then configure an image that includes the IOMETE plugin and supports your Airflow version.
 
@@ -48,7 +40,7 @@ If Airflow is already installed, run:
 pip install iomete-airflow-plugin
 ```
 
-Restart the Airflow webserver after installation.
+Restart every Airflow component that runs DAG code after installation: the scheduler, the workers, and the API server on Airflow 3 or the webserver on Airflow 2.
 
 ## Configuration
 

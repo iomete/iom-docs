@@ -58,7 +58,7 @@ Set model configuration in a model's `config()` block or under `models` in `dbt_
 
 | Setting | Available Since | Applies to | Default | Description |
 | --- | --- | --- | --- | --- |
-| `materialized` | 1.0.0 | SQL and Python models | `view` | Materialization type. IOMETE supports `view`, `table`, and `incremental`. |
+| `materialized` | 1.0.0 | SQL and Python models | `view` | Materialization type. IOMETE supports `view`, `table`, and `incremental` for SQL models, and `table` and `incremental` for Python models. Because the default is `view`, set this explicitly in every Python model. |
 | `file_format` | 1.0.0 | SQL tables and incremental models | `iceberg` | Spark table provider. Incremental models require `iceberg`. |
 | `location_root` | 1.0.0 | SQL tables | — | Root storage location. The adapter appends the model alias to this path. |
 | `partition_by` | 1.0.0 | SQL tables and incremental models | — | Column name or list of columns used to partition the table. |

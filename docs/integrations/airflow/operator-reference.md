@@ -78,7 +78,7 @@ When `do_xcom_push=True`, the operator publishes:
 
 | Key | Description |
 | --- | --- |
-| `job_id` | ID of the submitted IOMETE Spark job. |
+| `job_id` | Value passed to the operator's `job_id` parameter, which is either the job's ID or its name. |
 | `job_run_id` | ID of the specific job run. |
 
 See [Passing Run Details with XCom](./examples.md#passing-run-details-with-xcom) for usage.
