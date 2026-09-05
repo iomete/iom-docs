@@ -1,0 +1,103 @@
+// Slim in-article CTA. Sits inside the text column, mid-post: a hairline rule
+// above and below, a fluoro accent tick, one line of copy and one link. No
+// card, no wide box — brand guardrails keep FLUORO-400 as an accent only.
+.blog-cta {
+  margin: 2.25rem 0;
+  padding: 0.85rem 0 0.9rem 0.9rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  border-left: 2px solid var(--fluoro-400);
+  background: none;
+
+  &--sovereign {
+    border-left-color: var(--fluoro-400);
+  }
+
+  &--reference {
+    border-left-color: var(--ifm-color-emphasis-300);
+  }
+
+  &__eyebrow {
+    margin: 0 0 0.2rem;
+    font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ifm-color-emphasis-600);
+  }
+
+  &__body {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--ifm-color-emphasis-800);
+  }
+
+  &__link {
+    white-space: nowrap;
+    font-weight: 600;
+    color: var(--ifm-color-primary);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__arrow {
+    margin-left: 0.3rem;
+  }
+}
+
+.related-posts {
+  margin: 2.5rem 0 1rem;
+
+  &__heading {
+    margin: 0 0 1rem;
+    font-size: 1.15rem;
+  }
+
+  &__list {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    margin: 0;
+  }
+
+  &__link {
+    display: block;
+    height: 100%;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--ifm-color-emphasis-200);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--ifm-font-color-base);
+    transition: border-color 0.15s ease, background 0.15s ease;
+
+    &:hover {
+      text-decoration: none;
+      border-color: var(--ifm-color-primary);
+      background: var(--ifm-color-emphasis-100);
+    }
+  }
+
+  &__title {
+    display: block;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  &__description {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--ifm-color-emphasis-700);
+  }
+}
