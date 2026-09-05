@@ -16,41 +16,26 @@
 export const VARIANTS = {
   sovereign: {
     eyebrow: "Sovereign by architecture",
-    heading: "Need this running inside your own perimeter?",
-    body: "IOMETE deploys as a Kubernetes-native lakehouse on your own infrastructure — on-premises, private cloud, or air-gapped — on open Apache Iceberg and Spark, so your data and your exit rights stay yours.",
+    line: "IOMETE runs this inside your own perimeter — on-premises, private cloud, or air-gapped.",
     primary: {
       label: "Talk to a data architect",
       href: "https://iomete.com/contact-us",
     },
-    secondary: {
-      label: "See on-premises deployment",
-      href: "https://iomete.com/product/deployment?type=on-premises",
-    },
   },
   product: {
     eyebrow: "How IOMETE does this",
-    heading: "See it in the platform",
-    body: "IOMETE brings Spark compute, ETL jobs, notebooks, SQL, catalog, and RBAC together in one self-hosted platform you run yourself.",
+    line: "Spark, ETL, notebooks, SQL, catalog and RBAC in one self-hosted platform.",
     primary: {
       label: "Explore the platform",
       href: "https://iomete.com/product/data-platform/platform-overview",
     },
-    secondary: {
-      label: "See pricing",
-      href: "https://iomete.com/pricing",
-    },
   },
   reference: {
     eyebrow: "Try it on your own data",
-    heading: "Run this on your own lakehouse",
-    body: "Managed Spark, notebooks, and an Iceberg catalog on infrastructure you control. Start in the docs — no sales call required.",
+    line: "Run this on your own lakehouse — Spark, notebooks and an Iceberg catalog you control.",
     primary: {
       label: "Read the docs",
       href: "/resources/getting-started/what-is-iomete",
-    },
-    secondary: {
-      label: "IOMETE on GitHub",
-      href: "https://github.com/iomete",
     },
   },
 };

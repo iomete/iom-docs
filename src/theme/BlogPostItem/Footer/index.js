@@ -4,7 +4,6 @@ import Footer from "@theme-original/BlogPostItem/Footer";
 import EditMetaRow from "@theme/EditMetaRow";
 import { ThemeClassNames } from "@docusaurus/theme-common";
 import { useBlogPost } from "@docusaurus/plugin-content-blog/client";
-import BlogCTA from "@site/src/components/BlogCTA";
 import RelatedPosts from "@site/src/components/RelatedPosts";
 
 // Blog posts serve under /resources/blog/. The glossary is a second instance of
@@ -58,12 +57,9 @@ export default function FooterWrapper(props) {
 
   return (
     <>
-      {post && (
-        <>
-          <BlogCTA post={post} />
-          <RelatedPosts current={post} />
-        </>
-      )}
+      {/* The in-article CTA is injected mid-post by plugins/remark-blog-cta.js;
+          only related posts belong in the footer. */}
+      {post && <RelatedPosts current={post} />}
       <Footer {...props} />
       {showLastUpdated && (
         <footer className="docusaurus-mt-lg">
