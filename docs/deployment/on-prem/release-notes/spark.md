@@ -33,7 +33,7 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     Never an rc push or the tagged commit date; both predate availability.
 */}
 
-<Release name="Spark" version="4.1.3" date="September 7, 2026">
+<Release name="Spark" version="4.1.3-v1" date="September 7, 2026">
   <ReleaseDescription>
     The first release of the Spark 4 line.
   </ReleaseDescription>
