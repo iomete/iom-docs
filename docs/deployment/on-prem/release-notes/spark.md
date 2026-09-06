@@ -45,7 +45,7 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
   </NewFeatures>
 </Release>
 
-<Release name="Spark" version="3.5.7-v7" date="September 2026 (set to GA date)">
+<Release name="Spark" version="3.5.7-v7" date="September 7, 2026">
   <ReleaseDescription>
     Correct query-to-cluster attribution in multi-data-plane deployments, plus Spark History Server reliability fixes.
   </ReleaseDescription>
