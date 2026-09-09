@@ -91,11 +91,15 @@ IOMETE is a data lakehouse platform. It combines the storage scalability of a da
 
 ### BI Tools — Connecting Dashboards to IOMETE
 
-- [Power BI via Spark connector](https://iomete.com/resources/integrations/bi/power-bi): Connect Power BI to IOMETE using the built-in Spark connector. Protocol: HTTP. Connectivity modes: Import (recommended for most) or DirectQuery (for real-time). Connection details from IOMETE Console → Lakehouse → Connections → Power BI tab.
+- [Power BI via Spark connector](https://iomete.com/resources/integrations/bi/power-bi/thrift): Connect Power BI to IOMETE using the built-in Spark connector. Protocol: HTTP. Connectivity modes: Import (recommended for most) or DirectQuery (for real-time). Connection details from IOMETE Console → Lakehouse → Connections → Power BI tab.
 
-- [Power BI via ODBC (Simba)](https://iomete.com/resources/integrations/bi/power-bi-odbc): Connect Power BI to IOMETE using Simba Spark ODBC Driver. Setup via Windows ODBC Data Source Administrator. Connection details from IOMETE Console.
+- [Power BI via ODBC (Simba)](https://iomete.com/resources/integrations/bi/power-bi/odbc): Connect Power BI to IOMETE using Simba Spark ODBC Driver. Setup via Windows ODBC Data Source Administrator. Connection details from IOMETE Console.
 
-- [Power BI via Arrow Flight (IOMETE native ODBC)](https://iomete.com/resources/integrations/bi/power-bi-arrow-flight): High-performance Power BI connection using IOMETE's custom ODBC driver over the Arrow Flight protocol. Supports multi-catalog access (query multiple Spark catalogs through one connection). Download connector from `iomete/iomete-artifacts` on GitHub. Supports Direct Query and Import modes.
+- [Power BI via Arrow Flight (IOMETE native ODBC)](https://iomete.com/resources/integrations/bi/power-bi/arrow-flight): High-performance Power BI connection using IOMETE's custom ODBC driver over the Arrow Flight protocol. Supports multi-catalog access (query multiple Spark catalogs through one connection). Download connector from `iomete/iomete-artifacts` on GitHub. Supports Direct Query and Import modes.
+
+- [Tableau via Arrow Flight (IOMETE connector)](https://iomete.com/resources/integrations/bi/tableau/arrow-flight): Connect Tableau Desktop or Server 2024.2+ to IOMETE with the IOMETE `.taco` connector over the Arrow Flight SQL JDBC driver. Covers connector and driver install paths, importing the `iomete-taco.cer` signing certificate into Tableau's JRE truststore, and the connection fields (server, port, compute cluster, namespace, catalog, username, access token). Supports live and extract connections.
+
+- [Tableau via Thrift (Spark SQL)](https://iomete.com/resources/integrations/bi/tableau/thrift): Connect Tableau to IOMETE through Thrift Server using Tableau's built-in Spark SQL driver or the CData Spark SQL connector. Password field takes a personal access token, not an account password.
 
 - [Apache Superset](https://iomete.com/resources/integrations/bi/apache-superset): Connect Apache Superset to IOMETE using the `py-hive-iomete` Python driver. SQLAlchemy connection string: `iomete://admin:{accessToken}@{host}/default?lakehouse={lakehouse-name}`. Supports charts, dashboards, and data exploration.
 

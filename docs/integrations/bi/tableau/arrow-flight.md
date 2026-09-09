@@ -168,6 +168,13 @@ tsm configuration set -k native_api.disable_verify_connector_plugin_signature -v
 tsm pending-changes apply
 ```
 
+The Desktop flags last only for that launch, but the TSM setting survives restarts. Re-enable verification as soon as the test finishes:
+
+```bash
+tsm configuration set -k native_api.disable_verify_connector_plugin_signature -v false --force-keys
+tsm pending-changes apply
+```
+
 ## Troubleshooting
 
 ### The Connector Does Not Appear
