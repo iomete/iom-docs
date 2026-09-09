@@ -1,18 +1,21 @@
 ---
-title: Power BI (ODBC) - Connecting to IOMETE
-sidebar_label: Power BI (ODBC)
-description: Effortlessly integrate IOMETE with Power BI using ODBC Driver - Step-by-step guide to connect, visualize and analyze data. Create reports and visualizations with Power BI resources.
+title: Power BI (Thrift ODBC) - Connecting to IOMETE
+sidebar_label: Thrift ODBC
+description: Connect Power BI to IOMETE through Thrift using the Simba Spark ODBC driver.
 image: img/guides/power-bi/power-bi-connecting-to-iomete.png
+last_update:
+  date: 09/09/2026
+  author: Abhishek Pathania
 ---
 
-# Power BI (ODBC) - Connecting to IOMETE
+# Power BI (Thrift ODBC) - Connecting to IOMETE
 
 
 import Img from '@site/src/components/Img';
 
 ![Power BI & IOMETE connecting](/img/guides/power-bi/power-bi-connecting-to-iomete.png)
 
-If you need to connect to the default Spark Catalog, and work with Iceberg and Metastore tables, please refer to [Power BI](power-bi.md) documentation. However, if you need to connect to an additional Spark Catalog, you must use the ODBC driver.  
+If you need to connect to the default Spark Catalog, and work with Iceberg and Metastore tables, please refer to [Power BI (Thrift)](./thrift.md) documentation. However, if you need to connect to an additional Spark Catalog, you must use the ODBC driver.
 
 This guide will show you how to connect Power BI to IOMETE using the ODBC driver.  
 

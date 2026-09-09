@@ -1,15 +1,14 @@
 ---
-title: Power BI - Connecting to IOMETE
-sidebar_label: Power BI
-description: Effortlessly integrate IOMETE with Power BI - Step-by-step guide to connect, visualize and analyze data. Create reports and visualizations with Power BI resources.
+title: Power BI (Thrift) - Connecting to IOMETE
+sidebar_label: Thrift
+description: Connect Power BI to IOMETE through Thrift using Power BI's built-in Spark connector.
 image: img/guides/power-bi/power-bi-connecting-to-iomete.png
+last_update:
+  date: 09/09/2026
+  author: Abhishek Pathania
 ---
 
-# Power BI - Connecting to IOMETE
-
-<!-- <head>
-  <meta property="og:image" content="/img/power-bi/power-bi-connecting-to-iomete.png" />
-</head> -->
+# Power BI (Thrift) - Connecting to IOMETE
 
 import Img from '@site/src/components/Img';
 

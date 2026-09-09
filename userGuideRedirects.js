@@ -83,6 +83,12 @@ const userGuideRedirects = [
 
   // spark-rest-catalogs merged into spark-catalogs/internal
   { from: "/user-guide/spark-rest-catalogs", to: "/user-guide/spark-catalogs/internal" },
+
+  // BI pages split per protocol under a per-tool path — old flat URLs land on the recommended one
+  { from: "/integrations/bi/power-bi", to: "/integrations/bi/power-bi/arrow-flight" },
+  { from: "/integrations/bi/power-bi-arrow-flight", to: "/integrations/bi/power-bi/arrow-flight" },
+  { from: "/integrations/bi/power-bi-odbc", to: "/integrations/bi/power-bi/odbc" },
+  { from: "/integrations/bi/tableau", to: "/integrations/bi/tableau/arrow-flight" },
 ];
 
 export default userGuideRedirects;

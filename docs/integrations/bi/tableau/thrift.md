@@ -1,26 +1,27 @@
 ---
-title: Tableau - Connecting to IOMETE
-sidebar_label: Tableau
-description: Connect Tableau to IOMETE using the built-in Spark SQL driver or the CData Spark SQL connector to build interactive dashboards and reports on your lakehouse data.
+title: Tableau (Thrift) - Connecting to IOMETE
+sidebar_label: Thrift
+description: Connect Tableau to IOMETE through Thrift Server using Tableau's built-in Spark SQL driver or the CData Spark SQL connector.
 image: img/guides/iomete-tableau-integration/iomete-tableau.png
 last_update:
-  date: 04/06/2026
-  author: Nurlan Mammadov
+  date: 09/09/2026
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
-import GridBox from "@site/src/components/GridBox";
 
 ## Overview
 
 If you're using Tableau for dashboards and reporting, you can point it straight at your IOMETE data. There's no need to copy anything into a separate analytics database.
 
-Two connection methods are available:
+For the Arrow Flight SQL connection, see [Tableau (Arrow Flight)](./arrow-flight.md).
 
-- **Spark SQL driver**: Tableau's built-in Spark SQL connector (recommended)
+Two Thrift connection methods are available:
+
+- **Spark SQL driver**: Tableau's built-in Spark SQL connector
 - **CData Spark SQL connector**: a third-party option from CData
 
-Both use the Spark Thrift Server (Hive2 protocol) over HTTP transport, which is enabled by default on every IOMETE compute cluster.
+Both use the Thrift Server (Hive2 protocol) over HTTP transport, which is enabled by default on every IOMETE compute cluster.
 
 ## Prerequisites
 
@@ -128,32 +129,4 @@ The **Password** field takes a **Personal Access Token**, not your account passw
 
 5. Click **Connect**.
 
-## Building a Dashboard
-
-With the connection in place, you're ready to turn your IOMETE data into visualizations.
-
-1. Select a schema, drag tables into the canvas, then click **Sheet 1** to open a new sheet.
-
-<Img src="/img/guides/iomete-tableau-integration/table-report.png" alt="Table data preview in Tableau"/>
-
-2. Right-click a dimension or measure and select **Add to Sheet**.
-
-<Img src="/img/guides/iomete-tableau-integration/report-to-sheet-tableau.png" alt="Adding a field to a Tableau sheet" maxWidth="400px"/>
-
-3. Drag additional fields into rows, columns, or filters to refine the report.
-
-<GridBox>
-<Img src="/img/guides/iomete-tableau-integration/gender-sheet-tableau.png" alt="Adding gender dimension to the Tableau report" maxWidth="400px"/>
-
-<Img src="/img/guides/iomete-tableau-integration/employees-sheet-tableau.png" alt="Adding employee count to the report" maxWidth="400px"/>
-</GridBox>
-
-4. Pick a visualization type and customize the layout to finish your dashboard.
-
-<Img src="/img/guides/iomete-tableau-integration/iomete-tableau-dashboard.png" alt="Completed Tableau dashboard with IOMETE data"/>
-
-## Next Steps
-
-- [Creating a Personal Access Token](/user-guide/access-tokens/personal): generate tokens for Tableau authentication
-- [Compute Clusters](/user-guide/compute-clusters/overview): create and manage the compute clusters Tableau connects to
-- [Power BI](./power-bi): connect Power BI to IOMETE as an alternative BI tool
+With the connection in place, continue to [Building a Dashboard](./overview.md#building-a-dashboard).

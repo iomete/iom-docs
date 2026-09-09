@@ -177,8 +177,8 @@ WHEN NOT MATCHED
 
 [Apache Superset](/integrations/bi/apache-superset)
 
-[Power BI](/integrations/bi/power-bi)
+[Power BI](/integrations/bi/power-bi/overview)
 
-[Tableau](/integrations/bi/tableau)
+[Tableau](/integrations/bi/tableau/overview)
 
 Congratulations 🎉🎉🎉

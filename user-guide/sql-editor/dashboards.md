@@ -15,7 +15,7 @@ import GridBox from '@site/src/components/GridBox';
 From release `3.15.0` forward, IOMETE includes built-in dashboard capabilities for creating quick visualizations directly from your SQL query results. 
 These native dashboards are designed for day-to-day exploration and simple monitoring, not as a replacement for full-featured BI platforms like PowerBI or Tableau. 
 For basic charting needs, you can use IOMETE's dashboards without deploying additional tools. 
-For advanced analytics, enterprise reporting, or complex visualizations, integrate external BI tools like [PowerBI](/integrations/bi/power-bi-arrow-flight) or [Tableau](/integrations/bi/tableau).
+For advanced analytics, enterprise reporting, or complex visualizations, integrate external BI tools like [PowerBI](/integrations/bi/power-bi/arrow-flight) or [Tableau](/integrations/bi/tableau/arrow-flight).
 
 <Img src="/img/user-guide/sql-editor/dashboards/dashboards.png" alt="IOMETE Dashboards" />
 
