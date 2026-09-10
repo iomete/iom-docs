@@ -38,9 +38,9 @@ In this post I will discuss the reasoning behind focusing on on premise deployme
 
 > "If you know the enemy and know yourself, you need not fear the result of a hundred battles. If you know yourself but not the enemy, for every victory gained you will also suffer a defeat. If you know neither the enemy nor yourself, you will succumb in every battle." - Sun Tzu
 
-Companies like [Snowflake](/blog/snowflake-iomete) and [Databricks](/blog/databricks-alternatives) built magnificent brands and sales organizations. Even though we know IOMETE combines the strengths of Snowflake and Databricks - is better, faster and easier to use at less than half the cost - we realize it is hard to fight a perception that has been carefully crafted over the past decade on the back of billions of VC funding.
+The managed cloud data platforms built magnificent brands and sales organizations over the past decade, backed by billions in venture funding. That perception is hard to shift head-on, however good your product is.
 
-The on premise market is served by companies like [Cloudera](/blog/cloudera-alternatives) and [Oracle](/blog/oracle-to-spark-migration) that have archaic architecture compared to IOMETE.
+The on premise market, by contrast, is served largely by legacy on-premises analytics platforms and [traditional database vendors](/blog/oracle-to-spark-migration) built on an older generation of architecture. That is the lane where our architecture — Kubernetes-native, open formats, deployed inside your own perimeter — is the clearest fit.
 
 ## On premise is here to stay
 
@@ -55,7 +55,7 @@ It’s hard to get exact numbers on the on premise market. It is clear that clou
 
 ## It makes sense
 
-If we get asked “what do you do?” the shortest way to answer would be “We are Snowflake for on premise”. If we swim in the same lane as Snowflake and Databricks, we would have to answer “We are like Snowflake or Databricks but better for reasons A, B and C”. Even though it might be true, it’s just a hard sell because you get pushed in defensive mode and you are fighting against the billions of marketing spend Snowflake and Databricks used to bend perception in their favor.
+If we get asked “what do you do?” the shortest way to answer is “We are the data lakehouse for on premise”. If we swim in the same lane as the managed cloud data platforms, every conversation starts as a point-by-point comparison against their category — a defensive position, and one where marketing spend, not architecture, decides the outcome. Leading with what IOMETE is — a lakehouse that runs entirely inside your own infrastructure — is a much clearer conversation.
 
 ## So will IOMETE not serve any cloud customers?
 

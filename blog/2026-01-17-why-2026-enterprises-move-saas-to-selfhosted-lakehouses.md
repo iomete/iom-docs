@@ -1,6 +1,6 @@
 ---
 title: Why 2026 Is the Year Enterprises Move From SaaS to Self-Hosted Data Lakehouses?
-description: Regulatory enforcement, data sovereignty requirements, and cost economics are driving enterprises away from Snowflake and Databricks toward self-hosted lakehouse architectures. Learn why DORA, the EU AI Act, and the US CLOUD Act make self-hosted the only viable option for regulated industries.
+description: Regulatory enforcement, data sovereignty requirements, and cost economics are driving enterprises away from managed cloud data platforms toward self-hosted lakehouse architectures. Learn why DORA, the EU AI Act, and the US CLOUD Act make self-hosted the only viable option for regulated industries.
 slug: why-2026-enterprises-move-saas-to-selfhosted-lakehouses
 authors: aytan
 tags2: ["Technical", "Company"]
@@ -17,7 +17,7 @@ import FAQSection from '@site/src/components/FAQSection';
 
 The data infrastructure landscape just hit a regulatory wall.
 
-If you're running Snowflake or Databricks right now, you've probably noticed something shifting in your compliance team's tone. The EU's Digital Operational Resilience Act went live in January 2025. The AI Act's high-risk obligations now land on 2 December 2027. And suddenly, storing your customer data in someone else's multi-tenant cloud doesn't feel like the safe bet it did three years ago.
+If you're running a managed cloud data platform right now, you've probably noticed something shifting in your compliance team's tone. The EU's Digital Operational Resilience Act went live in January 2025. The AI Act's high-risk obligations now land on 2 December 2027. And suddenly, storing your customer data in someone else's multi-tenant cloud doesn't feel like the safe bet it did three years ago.
 
 This isn't about paranoia. It's about actual fines—up to 7% of global revenue for AI Act violations, and millions more for DORA breaches. The math has changed, and data architects are waking up to a hard truth: SaaS platforms can't guarantee the sovereignty and control that 2026 regulations now demand.
 
@@ -41,7 +41,7 @@ Here's what actually changed:
 
 **Data sovereignty laws** in India, Saudi Arabia, China, and dozens of other jurisdictions now require local storage and prior approval for cross-border transfers. If you're operating globally and your SaaS vendor routes data through US-based infrastructure, you're in violation the moment that data crosses a border.
 
-And then there's the **US [CLOUD Act](/blog/cloud-act-reality-check)**, which allows American authorities to compel disclosure of data held by US-based providers regardless of physical location. That directly conflicts with EU sovereignty efforts. Companies storing EU citizen data in Snowflake or Databricks are caught in the middle of this jurisdictional tug-of-war, and regulators have made it clear: ignorance is not a defense.
+And then there's the **US [CLOUD Act](/blog/cloud-act-reality-check)**, which allows American authorities to compel disclosure of data held by US-based providers regardless of physical location. That directly conflicts with EU sovereignty efforts. Companies storing EU citizen data with managed SaaS lakehouse vendors are caught in the middle of this jurisdictional tug-of-war, and regulators have made it clear: ignorance is not a defense.
 
 The shift isn't subtle. Seventy-one percent of organizations now cite cross-border data transfer compliance as their top regulatory challenge. Gartner predicts that more than 75% of all enterprises will have a digital sovereignty strategy by 2030. IBM just launched Sovereign Core specifically to address this, calling it "the industry's first AI-ready sovereign-enabled software."
 
@@ -51,7 +51,7 @@ This is no longer a European problem. It's a global infrastructure problem, and 
 
 ## Why SaaS Platforms Can't Solve the Sovereignty Problem
 
-Snowflake and Databricks have both rolled out "sovereign cloud" instances—dedicated regions in the EU, Middle East, and other jurisdictions where data supposedly stays local. On paper, this should solve the problem.
+Several managed cloud data platforms have rolled out "sovereign cloud" instances—dedicated regions in the EU, Middle East, and other jurisdictions where data supposedly stays local. On paper, this should solve the problem.
 
 But it doesn't.
 
@@ -61,15 +61,15 @@ Data residency means your data is stored in a specific geographic region. Data s
 
 When you use a SaaS platform, even one with "sovereign cloud" branding, you're still operating under the vendor's terms of service. You're still dependent on their infrastructure decisions, their patch cycles, their uptime guarantees. And crucially, you're still exposed to foreign government access laws.
 
-The US CLOUD Act is the clearest example. It allows US law enforcement to demand data from American companies, even if that data is stored in EU data centers. Snowflake and Databricks are both US-based companies, which means data stored in their EU regions is still subject to CLOUD Act requests. That's a direct violation of GDPR's Schrems II ruling, which invalidated data transfers to the US precisely because of inadequate protection against government surveillance.
+The US CLOUD Act is the clearest example. It allows US law enforcement to demand data from American companies, even if that data is stored in EU data centers. Where a platform is operated by a US-based provider, data held in its EU regions can still fall within scope of CLOUD Act requests. That tension sits at the heart of GDPR's Schrems II ruling, which invalidated data transfers to the US precisely because of inadequate protection against government surveillance.
 
 European regulators have been clear: storing data in a US company's EU region is not sufficient. You need operational independence—meaning the vendor cannot access your data without your explicit authorization, and foreign governments cannot compel the vendor to hand over data without going through proper legal channels in the data's jurisdiction.
 
 SaaS platforms can't provide that. Their business model depends on centralized control, shared infrastructure, and the ability to push updates and patches across all customers simultaneously. That's great for operational efficiency, but it's fundamentally incompatible with the level of sovereignty that 2026 regulations require.
 
-Add to that the governance fragmentation problem. When data moves between Snowflake and Databricks—which happens frequently in modern enterprises using both platforms—security policies don't automatically carry over. Databricks' Lakehouse Federation lets you query Snowflake data directly, but it uses service accounts for authentication, bypassing user-specific access controls. Power BI's Import Mode does the same thing, copying data from Snowflake or Databricks into Power BI's internal columnar database, completely outside the original governance perimeter.
+Add to that the governance fragmentation problem. When data moves between two managed platforms—which happens frequently in enterprises running more than one—security policies don't automatically carry over. Federated query features typically authenticate with service accounts, which means user-level access controls in the source system are not the ones being evaluated. BI tools that import and cache data into their own internal storage create the same effect: a copy of the data now lives outside the original governance perimeter.
 
-You can bolt on third-party governance tools like Satori to enforce consistent policies across platforms, but now you're managing multiple vendors, multiple contractual relationships, and multiple compliance attestations. Every additional vendor is another point of failure, another jurisdiction to navigate, another audit to pass.
+You can bolt on third-party governance tools to enforce consistent policies across platforms, but now you're managing multiple vendors, multiple contractual relationships, and multiple compliance attestations. Every additional vendor is another point of failure, another jurisdiction to navigate, another audit to pass.
 
 This is the hidden cost of SaaS platforms: compliance complexity scales exponentially with the number of vendors in your stack.
 
@@ -113,21 +113,21 @@ For years, SaaS vendors pushed the narrative that self-hosted infrastructure is 
 
 That made sense in 2018. It doesn't in 2026.
 
-Here's why: **SaaS platforms charge a massive markup on compute.**
+Here's the mechanism: **consumption pricing decouples what you pay from what the compute costs.**
 
-Snowflake and Databricks both use consumption-based pricing, where you pay for [compute credits](/blog/snowflake-compute-credit) used to run queries and processes. But those credits don't map directly to underlying cloud costs. The markup can be 3x to 5x higher than what you'd pay if you provisioned the same compute directly from AWS, Azure, or Google Cloud.
+Managed cloud data platforms typically bill in abstract consumption units rather than in the underlying instance hours they run on. Because that unit is priced by the vendor, the relationship between your bill and the raw cloud cost of the same capacity is set commercially, not by your cloud agreements — and any discounts you have negotiated with your cloud provider don't apply to it.
 
-With IOMETE, you pay $500 per vCPU per year for the platform license. The underlying infrastructure—compute, storage, networking—is billed directly by your cloud provider or runs on your own hardware. You can apply existing cloud discounts, reserved instances, and committed use contracts. For organizations already operating in AWS or Azure with enterprise agreements, the effective cost of running a self-hosted lakehouse is [40-60% lower than equivalent SaaS workloads](/blog/fortune-500-cost-reduction-self-hosted-vs-saas-tco).
+With IOMETE, you pay $500 per vCPU per year for the platform license. The underlying infrastructure—compute, storage, networking—is billed directly by your cloud provider or runs on your own hardware. You can apply existing cloud discounts, reserved instances, and committed use contracts. For organizations already operating in AWS or Azure with enterprise agreements, this changes the [total cost of ownership picture](/blog/fortune-500-cost-reduction-self-hosted-vs-saas-tco) materially.
 
-Let's put numbers on it. A typical enterprise data team running Snowflake might consume $2 million per year in compute credits. Switch to IOMETE with equivalent vCPU capacity (say, 200 vCPUs at $500/year = $100K licensing), and you're paying maybe $600K in total infrastructure costs. That's a $1.4 million annual saving, recurring every year.
+The structure is what matters. With a per-vCPU license, your platform cost is a function of capacity you decide on, and your infrastructure cost is whatever you have already negotiated with your cloud provider or paid for in hardware. Both are knowable in advance.
 
-And there's no surprise billing. SaaS platforms meter usage down to the second, which sounds efficient until you realize that query optimization, data engineering workloads, and AI model training all generate unpredictable compute spikes. Your bill can double quarter-over-quarter if usage patterns shift. With self-hosted infrastructure, you provision capacity based on predictable demand and scale when needed—no vendor markup, no surprise charges.
+Consumption billing behaves differently by design: it meters usage continuously, which sounds efficient until you realize that query tuning cycles, data engineering backfills, and AI model training all generate unpredictable compute spikes. Spend then tracks activity rather than plan. With self-hosted infrastructure, you provision capacity based on predictable demand and scale when needed—no vendor markup, no surprise charges.
 
 The operational complexity argument has also collapsed. Kubernetes is now the default orchestration layer for enterprise infrastructure. If your organization is already running containerized workloads—and most are—adding a self-hosted lakehouse is a natural extension. IOMETE handles cluster provisioning, auto-scaling, and workload isolation automatically within Kubernetes. You're not managing bare-metal servers or wrestling with distributed systems from scratch.
 
-And if you're worried about breaking production during upgrades, IOMETE lets you control version rollouts. SaaS vendors push updates on their schedule, and if something breaks, you're stuck waiting for a fix. With self-hosted, you test in staging, validate compatibility, and promote to production only when you're ready.
+And IOMETE lets you control version rollouts: you test in staging, validate compatibility, and promote to production only when you're ready, rather than adopting a release on someone else's schedule.
 
-The cost equation has flipped. Self-hosted is now cheaper, more predictable, and more operationally sound than SaaS for any organization running serious data workloads.
+The cost equation has changed shape. Self-hosted deployment puts capacity, discounts, and upgrade timing on your side of the line, which is what makes spend predictable for organizations running serious data workloads.
 
 ---
 
@@ -181,7 +181,7 @@ If you're still running critical workloads on SaaS platforms in 2026, you're not
     )
   },
   {
-    question: "Can self-hosted platforms really handle the same scale as Snowflake or Databricks?",
+    question: "Can self-hosted platforms really handle the same scale as managed cloud data platforms?",
     answer: "Yes. The underlying technology—Apache Iceberg for table format, Apache Spark for compute, and object storage for data—is the same foundational stack that powers both SaaS and self-hosted lakehouses. The difference is who operates it.",
     answerContent: (
       <>
@@ -212,13 +212,13 @@ If you're still running critical workloads on SaaS platforms in 2026, you're not
     )
   },
   {
-    question: "Is self-hosted infrastructure really cheaper than SaaS?",
-    answer: "For serious workloads, yes. SaaS platforms apply a 3x to 5x markup on underlying cloud costs. A typical enterprise spending $2 million annually on Snowflake credits might pay $100K for IOMETE licensing plus $500K in direct infrastructure costs, saving $1.4 million per year.",
+    question: "Is self-hosted infrastructure cheaper than SaaS?",
+    answer: "It depends on your workload, but the cost structure is different. IOMETE is licensed per vCPU per year, and the underlying compute and storage are billed directly by your cloud provider or run on hardware you already own, so your own discounts and reserved capacity apply.",
     answerContent: (
       <>
-        <p>For serious workloads, yes. SaaS platforms apply a <strong>3x to 5x markup</strong> on underlying cloud costs.</p>
-        <p>A typical enterprise spending $2 million annually on Snowflake credits might pay $100K for IOMETE licensing (200 vCPUs at $500/year) plus $500K in direct infrastructure costs, saving <strong>$1.4 million per year</strong>.</p>
-        <p>The savings come from eliminating vendor markup, using existing cloud discounts, and avoiding consumption-based billing spikes. Organizations already operating Kubernetes clusters find the incremental cost of adding a self-hosted lakehouse is minimal compared to SaaS alternatives.</p>
+        <p>It depends on your workload, but the cost structure is different. IOMETE is licensed <strong>per vCPU per year</strong> ($500), and the underlying compute and storage are billed directly by your cloud provider or run on hardware you already own.</p>
+        <p>That means your existing cloud discounts, reserved instances, and committed-use contracts apply to the infrastructure layer — which is not the case when compute is resold to you as an abstract consumption unit.</p>
+        <p>The savings, where they appear, come from using your own infrastructure pricing and from planning capacity rather than absorbing consumption spikes. Organizations already operating Kubernetes clusters find the incremental cost of adding a self-hosted lakehouse is minimal compared to SaaS alternatives.</p>
       </>
     )
   },

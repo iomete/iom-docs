@@ -17,7 +17,7 @@ Financial Services, Health Care Services, and Government organizations deal with
 
 ## Secure data processing architecture
 
-In order to serve the security purposes of the data, the data sometimes doesn’t move from the On-Prem / Private Data centers into the cloud to take advantage of the awesome tools such as [Snowflake](/blog/snowflake-iomete) / [Databricks](/blog/databricks-alternatives), etc.
+In order to serve the security purposes of the data, the data sometimes doesn’t move from the On-Prem / Private Data centers into the cloud to take advantage of managed cloud data platforms and SaaS lakehouse services.
 
 Even when they push the data into the cloud, the data goes through a security-first setup with Demilitarized Zone (DMZ) in between before it hits the VNet of the client from the service provider. DMZ is set up as a spoke in a Hub-Spoke architecture for the network. So all communication goes from spoke to Hub to spoke where other resources are going to stay. Hub is used to monitor the data packets coming from the external world and then go through the firewall to review for any abnormal packets.
 
@@ -37,7 +37,7 @@ The architecture has three significant impacts:
 
 ## Ingress/Egress charges on data analysis
 
-The above challenges don’t look immediately in the face when the client is onboarding. But he sees his Snowflake or similar SaaS solution costs are skyrocketing. It’s because of how the network is set up and delivered to create value. This can be a similar situation with Confluent Kafka or any other SaaS storing the data. Confluent Kafka adds one more challenge the data ingress and egress are charged not just egress. Snowflake while it communicates to be open with Iceberg format, is only probably really ready in 2024 - 2025 as its native format.
+The above challenges don’t look immediately in the face when the client is onboarding. But over time the cost of a managed SaaS data platform can climb steeply. It’s because of how the network is set up and delivered to create value: every hop between zones and every byte crossing a boundary carries a charge. This can be a similar situation with any SaaS service that stores the data on your behalf, and some of them bill both data ingress and egress rather than egress alone. Support for open table formats such as Iceberg also varies between managed services, so it is worth verifying how natively a given platform reads and writes the format before you depend on it.
 
 ## Secure data processing without migration
 

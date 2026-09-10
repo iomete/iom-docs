@@ -33,11 +33,11 @@ import Img from '@site/src/components/Img';
 
 ---
 
-We kept having the same conversation with customers. They would migrate from a platform like Snowflake, Databricks, Cloudera, or Dremio, create a few hundred Iceberg tables, and within weeks see queries slow down while storage costs creep up.
+We kept having the same conversation with customers. They would migrate from a managed cloud data platform or a legacy on-premises analytics platform, create a few hundred Iceberg tables, and within weeks see queries slow down while storage costs creep up.
 
 Most teams already had some maintenance in place, usually custom Spark jobs on a schedule. We had shipped a basic version too: a [scheduled Data Compaction Job](/resources/open-source-spark-jobs/data-compaction) on our Spark scheduler. It helped, but it was not enough. Scheduled jobs were fragile, did not scale cleanly past a few dozen tables, and could not adapt to different write patterns. Iceberg gives you the maintenance primitives, but it leaves the operating model to you. A static cron job is a weak substitute for that operating model.
 
-As we covered in [Part 3](/blog/iceberg-maintenance-alternatives), Snowflake, Databricks, AWS, Dremio, and Cloudera all run maintenance quietly in the background for their managed tables. Customers expected the same from IOMETE: tables that stay healthy without someone checking them every day.
+As we covered in [Part 3](/blog/iceberg-maintenance-alternatives), managed cloud data platforms and commercial lakehouse vendors generally run maintenance quietly in the background for their managed tables. Customers expected the same from IOMETE: tables that stay healthy without someone checking them every day.
 
 So we built a system that can decide which tables need maintenance, when to run it, and how that work should be executed. This post walks through the decisions behind that system: what we tried, what we rejected, and the production tradeoffs that shaped the final design.
 
@@ -88,7 +88,7 @@ The architecture follows directly from those rules.
 
 The result is a single pipeline with three phases: detect, evaluate, and execute. Each phase filters out unnecessary work before passing the rest to the next phase, and all three share the same state store.
 
-<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines (Spark, Trino, Flink, Databricks, Cloudera) sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
+<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines such as Spark, Trino and Flink, alongside external lakehouse engines, sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
 
 The service runs on [Kubernetes](https://kubernetes.io/) and uses [PostgreSQL](https://www.postgresql.org/) to
 track operational state. Older run history is periodically archived to Iceberg tables, keeping the operational database lean while maintaining a complete long-term audit trail.
@@ -223,7 +223,6 @@ That is the difference between scheduled maintenance and automated maintenance. 
 
 - [AutoComp: Automated Data Compaction for Log-Structured Tables in Data Lakes](https://arxiv.org/abs/2504.04186): LinkedIn's research on cost-aware, automated compaction for Iceberg, Delta Lake, and Hudi.
 - [Floe and Apache Polaris: Policy-Driven Table Maintenance](https://polaris.apache.org/blog/2026/02/04/floe-and-apache-polaris-policy-driven-table-maintenance-for-apache-iceberg/): signal-based maintenance policies for Apache Iceberg.
-- [Compaction in Apache Iceberg: Fine-Tuning Your Data Files](https://www.dremio.com/blog/compaction-in-apache-iceberg-fine-tuning-your-iceberg-tables-data-files/): a deeper look at bin-pack and sort compaction strategies.
 - [Maintaining Tables by Using Compaction](https://docs.aws.amazon.com/prescriptive-guidance/latest/apache-iceberg-on-aws/best-practices-compaction.html): AWS guidance on compaction scheduling and file sizing.
 - [Partition-Aware Compaction: A Fail-Safe Strategy for Streaming Data Lakes](https://medium.com/@shahsoumil519/partition-aware-compaction-a-fail-safe-strategy-for-streaming-data-lakes-with-apache-iceberg-c2abfbef6a52): using partition filters to reduce conflicts with streaming writes.
 - [Manage Concurrent Write Conflicts in Iceberg on AWS Glue](https://aws.amazon.com/blogs/big-data/manage-concurrent-write-conflicts-in-apache-iceberg-on-the-aws-glue-data-catalog/): handling commit conflicts between maintenance and write workloads.

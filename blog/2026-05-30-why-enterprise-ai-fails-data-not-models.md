@@ -28,7 +28,7 @@ Recent industry research makes the gap look structural rather than tactical. Fou
 
 - **68% of enterprises name data silos as their top concern** (DATAVERSITY, 2026). The single biggest blocker to AI is still that the data lives in the wrong places.
 - **Only 20% have a mature governance model for autonomous AI agents** (Deloitte, 2026). Most enterprises are deploying agents into environments they can't yet supervise.
-- **Only 7% say more than half of their unstructured data is AI-ready** (Snowflake, 2026). The asset class AI needs most — documents, tickets, calls, contracts — is the one least prepared.
+- **Only 7% say more than half of their unstructured data is AI-ready** (industry survey, 2026). The asset class AI needs most — documents, tickets, calls, contracts — is the one least prepared.
 - **Only 20% have a tested AI incident response plan** (Grant Thornton, 2026). When AI fails, and it will, most teams have no rehearsed way to find out why.
 
 These aren't edge cases. They describe the median enterprise. And they explain why so much AI spend in 2026 still produces demos instead of deployments.
@@ -73,7 +73,7 @@ The argument is short to state and worth restating: in the AI era, the platform 
 <FAQSection faqs={[
   {
     question: "Why do most enterprise AI projects fail?",
-    answer: "Most enterprise AI projects fail because of the data underneath, not the model — the data is siloed, ungoverned, unprepared, or impossible to reproduce. Industry surveys put numbers on it: 68% of enterprises name data silos as their top AI blocker (DATAVERSITY, 2026) and only 7% say more than half of their unstructured data is AI-ready (Snowflake, 2026). A larger model cannot compensate for a data layer that feeds it a partial view. IOMETE addresses this at the data layer, unifying, governing, curating, and versioning data on one self-hosted lakehouse."
+    answer: "Most enterprise AI projects fail because of the data underneath, not the model — the data is siloed, ungoverned, unprepared, or impossible to reproduce. Industry surveys put numbers on it: 68% of enterprises name data silos as their top AI blocker (DATAVERSITY, 2026) and only 7% say more than half of their unstructured data is AI-ready (industry survey, 2026). A larger model cannot compensate for a data layer that feeds it a partial view. IOMETE addresses this at the data layer, unifying, governing, curating, and versioning data on one self-hosted lakehouse."
   },
   {
     question: "Is the bottleneck for enterprise AI the model or the data?",
@@ -81,7 +81,7 @@ The argument is short to state and worth restating: in the AI era, the platform 
   },
   {
     question: "How much enterprise data is actually ready for AI?",
-    answer: "Very little: only about 7% of enterprises report that more than half of their unstructured data is AI-ready (Snowflake, 2026). Documents, tickets, call transcripts, and contracts usually sit in separate systems with no consistent storage, governance, or feature pipeline, so they never reach training or retrieval in usable form. Closing that gap means unifying and curating data on one platform — the role a lakehouse like IOMETE plays, preparing data with distributed Spark against open Iceberg tables."
+    answer: "Very little: only about 7% of enterprises report that more than half of their unstructured data is AI-ready (industry survey, 2026). Documents, tickets, call transcripts, and contracts usually sit in separate systems with no consistent storage, governance, or feature pipeline, so they never reach training or retrieval in usable form. Closing that gap means unifying and curating data on one platform — the role a lakehouse like IOMETE plays, preparing data with distributed Spark against open Iceberg tables."
   },
   {
     question: "Do you have to move data to the cloud to make it AI-ready?",

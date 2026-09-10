@@ -59,7 +59,7 @@ These aren't four nice-to-haves. They're the four things an AI-ready data platfo
 
 ## 3. Curation and preparation
 
-**The problem.** Only 7% of enterprises say more than half of their unstructured data is AI-ready (Snowflake, 2026). Models are only as good as the features fed into them; agents are only as useful as the documents they can reliably retrieve. Curation is the unglamorous middle layer where most AI initiatives stall.
+**The problem.** Only 7% of enterprises say more than half of their unstructured data is AI-ready (industry survey, 2026). Models are only as good as the features fed into them; agents are only as useful as the documents they can reliably retrieve. Curation is the unglamorous middle layer where most AI initiatives stall.
 
 **What it requires.** Distributed compute strong enough to engineer features over years of history. [ACID guarantees](/glossary/acid-transactions) on the storage layer, so concurrent reads and writes don't corrupt training sets. A workflow that doesn't require copying data out to a separate ML platform.
 

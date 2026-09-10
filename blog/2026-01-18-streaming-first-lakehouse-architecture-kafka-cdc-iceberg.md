@@ -37,7 +37,7 @@ Traditional data architectures split the world into two systems:
 
 **Operational databases** handle transactions—inserts, updates, deletes—with ACID guarantees and sub-second latency. These are PostgreSQL, MySQL, Oracle, Mongo running your applications.
 
-**Analytical warehouses** handle queries—aggregations, joins, time-series analysis—optimized for read performance on large datasets. These are Snowflake, Redshift, BigQuery running your reports.
+**Analytical warehouses** handle queries—aggregations, joins, time-series analysis—optimized for read performance on large datasets. These are the cloud data warehouses and managed cloud data platforms running your reports.
 
 The connection between them? Batch ETL. Every night (or every hour, if you're fancy), extract data from operational databases, transform it into analytical schemas, load it into the warehouse. Rinse, repeat.
 

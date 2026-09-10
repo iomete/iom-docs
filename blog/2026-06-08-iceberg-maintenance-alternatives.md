@@ -1,6 +1,6 @@
 ---
 title: "The Iceberg Table Maintenance Landscape: From Open-Source to Fully Managed"
-description: Honest comparison of every Iceberg table maintenance option — Apache Amoro, Snowflake, Databricks, AWS, and more. What each offers and what's still missing.
+description: An honest comparison of the Iceberg table maintenance options available today — open-source projects, managed cloud data platforms, on-premises analytics platforms, and engine-agnostic orchestrators.
 slug: iceberg-maintenance-alternatives
 authors: abhishek
 hide_table_of_contents: false
@@ -46,7 +46,7 @@ This post looks at the broader landscape. Open-source projects, cloud-native pla
 
 And more importantly, where each of them still falls short.
 
-<Img src="/img/blog/2026-06-08-iceberg-maintenance-alternatives/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines (Spark, Trino, Flink, Databricks, Cloudera) sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
+<Img src="/img/blog/2026-06-08-iceberg-maintenance-alternatives/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines such as Spark, Trino, and Flink sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
 
 ## Open-Source Projects
 
@@ -90,31 +90,29 @@ But there is an important catch.
 
 This experience only works as long as your tables live inside that platform’s ecosystem. The moment your Iceberg tables sit in an external catalog, or need to work across multiple engines, the magic starts to disappear.
 
-### Snowflake
+### Fully managed lakehouse tables
 
-Snowflake's [managed Iceberg tables](https://docs.snowflake.com/en/user-guide/tables-iceberg-manage) get full automatic maintenance. Compaction, manifest optimization, and snapshot expiry all run by default, with almost no user control.
+On managed cloud data platforms, Iceberg tables created and owned by the platform typically get maintenance for free. Compaction, manifest optimization, and snapshot expiry run automatically in the background, usually with very little user-facing configuration beyond enabling the feature and setting a retention window.
 
 This is the ideal experience. Maintenance just happens, and you don't have to think about it.
 
-The tradeoff shows up quickly. It only applies to tables managed within Snowflake. External catalogs get none of it. And while some [history is exposed](https://docs.snowflake.com/en/sql-reference/account-usage/iceberg_storage_optimization_history), visibility is partial. Data compaction is visible, but manifest optimization and snapshot expiry largely remain opaque.
+The tradeoff shows up quickly. That automation is scoped to tables the platform manages itself. Tables registered through an external catalog generally get none of it, so you are back to running procedures yourself for anything outside the platform boundary.
 
-### Databricks
+### Automation that decides *when*, not just *what*
 
-Databricks takes a similar approach with [Predictive Optimization](https://docs.databricks.com/aws/en/optimizations/predictive-optimization). It automatically runs OPTIMIZE, VACUUM, and ANALYZE for tables in [Unity Catalog](https://docs.databricks.com/aws/en/data-governance/unity-catalog/), using serverless compute.
+The more interesting versions of this model go beyond a fixed schedule. Instead of running the same operations every night, the platform observes table state and decides when each operation is worth running, using its own serverless compute to execute it.
 
-The interesting part is not just automation, but timing. The system decides when each operation should run, not just what to run.
+That is closer to how a production maintenance system should behave: driven by table health rather than by the clock.
 
-The boundaries, however, are the same. It only works within the Databricks ecosystem. External Iceberg tables are excluded, and configuration remains coarse, mostly limited to enable or disable settings and retention policies.
+The boundaries are still the same, though. The decision engine only sees tables inside the platform's own catalog, and the controls exposed to users tend to be coarse — on or off, plus retention policies.
 
-### Dremio
+### Catalog-based automation on open foundations
 
-Dremio sits slightly differently. It offers [`OPTIMIZE TABLE`](https://docs.dremio.com/current/reference/sql/commands/apache-iceberg-tables/optimize-table/) as a manual operation, and adds automatic maintenance through its [Open Catalog](https://docs.dremio.com/current/developer/data-formats/apache-iceberg/table-maintenance-optimization/automated-maintenance/) built on [Apache Polaris](https://polaris.apache.org/).
+Some commercial lakehouse vendors build their automation on an open catalog foundation and expose an `OPTIMIZE`-style command for manual runs alongside background optimization for tables registered in that catalog. Building on an open catalog standard such as [Apache Polaris](https://polaris.apache.org/) points toward a more portable approach than a fully proprietary metadata layer.
 
-The Polaris foundation points toward a more open approach compared to fully proprietary platforms.
+But the limitation still holds. Automation applies to tables inside that vendor's catalog. Outside that boundary, you're back to manual execution.
 
-But the limitation still holds. Automation only applies to tables inside Dremio's catalog. Outside that boundary, you're back to manual execution.
-
-**Across all three, the takeaway is simple.** Automatic maintenance works extremely well when the platform owns the table, catalog, and execution layer. The moment you step into multi-engine or multi-cloud setups, that experience starts to break down.
+**Across all of these, the takeaway is simple.** Automatic maintenance works extremely well when one platform owns the table, the catalog, and the execution layer. The moment you step into multi-engine or multi-cloud setups, that experience starts to break down.
 
 ## On-Prem and Hybrid Platforms
 
@@ -126,23 +124,21 @@ But the tradeoff is familiar.
 
 The maintenance experience is still tied to the platform around it. You get automation, but only as long as your tables, catalogs, and workloads live inside that ecosystem.
 
-### Cloudera
+### Policy-driven optimizers
 
-Cloudera builds on top of standard Iceberg procedures with its [Lakehouse Optimizer (CLO)](https://docs.cloudera.com/management-console/cloud/clo/index.html), a managed service that automates maintenance through policy-based rules.
+Some platforms layer a managed optimizer service on top of the standard Iceberg procedures and drive it with policy-based rules.
 
-What stands out is the flexibility. CLO supports both schedule-based execution and event-driven triggers on insert, update, or delete, and uses table metadata to prioritize what actually needs maintenance. This moves closer to a system that reacts to table state rather than blindly following schedules.
+What stands out in this design is flexibility. These optimizers support both schedule-based execution and event-driven triggers on insert, update, or delete, and they use table metadata to prioritize what actually needs maintenance. That moves closer to a system reacting to table state rather than blindly following schedules.
 
-The catch is portability. CLO requires [Cloudera's platform](https://www.cloudera.com/products/cloudera-data-platform.html). The underlying Spark procedures are portable, but the automation layer is not. Tables outside Cloudera's catalog don't benefit.
+The catch is portability. The underlying Spark procedures travel anywhere, but the automation layer does not: it needs the vendor's own platform, and tables outside that platform's catalog don't benefit.
 
-### Starburst
+### Scope-based scheduling in query-engine platforms
 
-Starburst takes a simpler approach with [automated table maintenance](https://docs.starburst.io/starburst-galaxy/data-engineering/optimization-performance-and-quality/observability/data-maintenance.html) in its Galaxy platform, with the same capabilities available in its [self-hosted offering](https://docs.starburst.io/latest/data-engineering/data-maintenance.html). You define maintenance at the table, schema, or catalog level, which is practical when managing large numbers of tables.
-
-It's [Trino](https://trino.io/)-native, so there's no need for a separate Spark cluster, and the scope-based scheduling works well for broad coverage.
+A simpler variant appears in platforms built around a distributed SQL engine. You define maintenance once at the table, schema, or catalog level, which is practical when you are managing large numbers of tables. Because these are [Trino](https://trino.io/)-native, there's no need to stand up a separate Spark cluster, and the scope-based scheduling gives you broad coverage with little configuration.
 
 The limitation is that it remains schedule-driven. If a streaming table suddenly accumulates small files, it waits for the next window. There's no concept of table health driving when operations should run.
 
-**The lesson is similar across both platforms.** They bring real automation and work well in hybrid environments, but the automation is still tied to their platform layer. If your lakehouse already runs on Cloudera or Starburst, the experience is solid. Outside those ecosystems, the value drops quickly.
+**The lesson is similar across both designs.** They bring real automation and work well in hybrid environments, but the automation is still tied to their own platform layer. If your lakehouse already runs entirely on one of these stacks, the experience is solid. Outside that ecosystem, the value drops quickly.
 
 ## Engine-Agnostic Platforms
 
@@ -152,11 +148,11 @@ Cloud platforms work beautifully inside their own ecosystem. On-prem and hybrid 
 
 Engine-agnostic platforms try to solve the opposite problem.
 
-Instead of asking you to move your tables, catalogs, or engines into a specific ecosystem, they sit above the stack you already have. Spark, Trino, Flink, Snowflake, Athena, different catalogs, different clouds. The goal is to orchestrate maintenance across all of them without forcing one engine or one platform to become the center of gravity.
+Instead of asking you to move your tables, catalogs, or engines into a specific ecosystem, they sit above the stack you already have: Spark, Trino, Flink, cloud data warehouses, different catalogs, different clouds. The goal is to orchestrate maintenance across all of them without forcing one engine or one platform to become the center of gravity.
 
 That makes this category especially interesting for real-world Iceberg deployments, where the lakehouse is rarely as clean as the architecture diagram.
 
-The tradeoff is maturity. These are newer products with less production history than Snowflake, Databricks, Cloudera, or Starburst. But they are also aiming directly at the gap those platforms leave behind.
+The tradeoff is maturity. These are newer products with less production history than the established cloud and on-premises platforms. But they are also aiming directly at the gap those platforms leave behind.
 
 ### Ryft
 
@@ -166,7 +162,7 @@ The important idea is that maintenance is not just schedule-based.
 
 Ryft watches how tables are actually used. It looks at query and ingestion patterns per table, then adjusts what should run based on that behavior. That puts it closer to workload-aware maintenance than the usual "run compaction every night" model.
 
-Its positioning is also intentionally broad. Ryft is engine-agnostic, catalog-agnostic, and multi-cloud. If your stack spans [Spark](https://spark.apache.org/), [Trino](https://trino.io/), [Snowflake](https://www.snowflake.com/en/), and [Athena](https://aws.amazon.com/athena/), Ryft is one of the few options that does not force you to pick a side.
+Its positioning is also intentionally broad. Ryft is engine-agnostic, catalog-agnostic, and multi-cloud. If your stack spans [Spark](https://spark.apache.org/), [Trino](https://trino.io/), and one or more cloud data warehouses, Ryft is one of the few options that does not force you to pick a side.
 
 The caveat is that it is still early as a company. The scope is ambitious, and the multi-engine approach addresses a real gap, but teams should validate operational maturity before treating it like established infrastructure.
 
@@ -180,7 +176,7 @@ That is worth paying attention to, because compaction is often where maintenance
 
 LakeOps also leans into telemetry-driven maintenance. Instead of only running jobs on a fixed schedule, it can trigger work based on table size changes, query latency degradation, or cost spikes.
 
-Like Ryft, it is multi-engine and multi-cloud, with support across Spark, Trino, [Flink](https://flink.apache.org/), Snowflake, and Databricks. The control-plane framing is the key difference. LakeOps does not try to replace your lakehouse stack. It tries to coordinate and optimize what is already there.
+Like Ryft, it is multi-engine and multi-cloud, with support across Spark, Trino, [Flink](https://flink.apache.org/), and major cloud data platforms. The control-plane framing is the key difference. LakeOps does not try to replace your lakehouse stack. It tries to coordinate and optimize what is already there.
 
 **Across both platforms, the pattern is very different from cloud-native and on-prem systems.**
 
@@ -196,8 +192,8 @@ There is no single best maintenance model for every Iceberg deployment. The righ
 
 | If your setup looks like this                                           | The practical path                                                                                  |
 | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| You use a single managed platform like Snowflake, Databricks, or Dremio | Use the built-in automation. This is where maintenance feels closest to invisible.                  |
-| You run in an on-prem or hybrid platform like Cloudera or Starburst     | Use the platform's maintenance layer, but understand that the automation is tied to that ecosystem. |
+| You use a single managed cloud data platform end to end                 | Use the built-in automation. This is where maintenance feels closest to invisible.                  |
+| You run on a legacy on-premises or hybrid analytics platform             | Use the platform's maintenance layer, but understand that the automation is tied to that ecosystem. |
 | You run Iceberg across multiple engines, catalogs, or clouds            | Use an engine-agnostic orchestration layer, or build one that fits your architecture.               |
 
 That last category is where we landed.
@@ -216,7 +212,7 @@ Looking across the landscape, a few design principles became hard to ignore.
 
 Those lessons shaped the system we built at IOMETE.
 
-We needed maintenance that felt invisible like the best cloud platforms, reacted to table health like the strongest hybrid systems, worked across real multi-engine lakehouse environments, and stayed native to IOMETE's Kubernetes-based architecture.
+We needed maintenance that felt invisible like the best managed cloud data platforms, reacted to table health like the strongest hybrid systems, worked across real multi-engine lakehouse environments, and stayed native to IOMETE's Kubernetes-based architecture. Unlike managed SaaS lakehouse vendors, IOMETE runs entirely inside your own infrastructure, so that automation applies to the catalogs and engines you already operate.
 
 That led us toward a detect, evaluate, execute pipeline with event-based detection, threshold-based triggering, separate execution paths for heavy and lightweight operations, inherited configuration, and full run-level observability.
 
@@ -230,16 +226,8 @@ We will go deeper into the engineering behind that system in our next post.
 - [Apache Amoro](https://amoro.apache.org/): incubating project for self-optimizing Iceberg tables with continuous monitoring
 - [Floe](https://github.com/nssalian/floe): declarative, policy-driven Iceberg maintenance with signal-based triggers
 
-#### Cloud-Native Platforms
-- [Snowflake Managed Iceberg Tables](https://docs.snowflake.com/en/user-guide/tables-iceberg-manage): automatic compaction, manifest optimization, and snapshot expiry
-- [Snowflake ICEBERG_STORAGE_OPTIMIZATION_HISTORY](https://docs.snowflake.com/en/sql-reference/account-usage/iceberg_storage_optimization_history): Account Usage view for compaction history
-- [Databricks Predictive Optimization](https://docs.databricks.com/aws/en/optimizations/predictive-optimization): automatic OPTIMIZE, VACUUM, and ANALYZE for Unity Catalog tables
-- [Dremio Automated Maintenance](https://docs.dremio.com/current/developer/data-formats/apache-iceberg/table-maintenance-optimization/automated-maintenance/): automatic optimization via Enterprise Catalog
-
-#### On-Prem and Hybrid Platforms
-- [Cloudera Lakehouse Optimizer (CLO)](https://docs.cloudera.com/management-console/cloud/clo/index.html): policy-based automation with schedule and event triggers
-- [Starburst Galaxy Automated Table Maintenance](https://docs.starburst.io/starburst-galaxy/data-engineering/optimization-performance-and-quality/observability/data-maintenance.html): scheduled Iceberg maintenance at table, schema, or catalog scope
-- [Starburst Enterprise Data Maintenance](https://docs.starburst.io/latest/data-engineering/data-maintenance.html): self-hosted scheduled maintenance with cron expressions
+#### Catalog Standards
+- [Apache Polaris](https://polaris.apache.org/): open catalog standard used as a foundation for portable Iceberg metadata and automation
 
 #### Engine-Agnostic Platforms
 - [Ryft](https://www.ryft.io/): workload-aware Iceberg table management platform
