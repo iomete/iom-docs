@@ -88,7 +88,7 @@ The architecture follows directly from those rules.
 
 The result is a single pipeline with three phases: detect, evaluate, and execute. Each phase filters out unnecessary work before passing the rest to the next phase, and all three share the same state store.
 
-<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines such as Spark, Trino and Flink, alongside external lakehouse engines, sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
+<Img src="/img/blog/2026-06-22-how-we-built-automated-maintenance/maintenance-orchestration-layer.png" alt="The Maintenance Orchestration Layer: query engines such as Spark, Trino, and Flink, alongside external lakehouse engines, sit above a Detect-Evaluate-Execute orchestration layer that continuously monitors Iceberg tables across cloud and on-prem object storage" borderless/>
 
 The service runs on [Kubernetes](https://kubernetes.io/) and uses [PostgreSQL](https://www.postgresql.org/) to
 track operational state. Older run history is periodically archived to Iceberg tables, keeping the operational database lean while maintaining a complete long-term audit trail.

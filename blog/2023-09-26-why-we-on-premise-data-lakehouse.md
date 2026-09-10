@@ -40,7 +40,7 @@ In this post I will discuss the reasoning behind focusing on on premise deployme
 
 The managed cloud data platforms built magnificent brands and sales organizations over the past decade, backed by billions in venture funding. That perception is hard to shift head-on, however good your product is.
 
-The on premise market, by contrast, is served largely by legacy on-premises analytics platforms and [traditional database vendors](/blog/oracle-to-spark-migration) built on an older generation of architecture. That is the lane where our architecture — Kubernetes-native, open formats, deployed inside your own perimeter — is the clearest fit.
+The on-premises market, by contrast, is served largely by legacy on-premises analytics platforms and [traditional database vendors](/blog/oracle-to-spark-migration) built on an older generation of architecture. That is the lane where our architecture — Kubernetes-native, open formats, deployed inside your own perimeter — is the clearest fit.
 
 ## On premise is here to stay
 
