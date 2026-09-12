@@ -3,7 +3,7 @@ title: Integration Release Notes
 sidebar_label: Integrations
 description: Release notes for IOMETE integrations, including dbt-iomete, the IOMETE Airflow Plugin, and the IOMETE Tableau connector.
 last_update:
-  date: 09/09/2026
+  date: 09/14/2026
   author: Abhishek Pathania
 ---
 
@@ -23,7 +23,7 @@ IOMETE integrations are released independently from the IOMETE platform. Check t
 
 ## Recent Releases
 
-<Release name="IOMETE Tableau Connector" version="0.1.0" date="September 9, 2026">
+<Release name="Tableau Connector" version="0.1.0" date="September 14, 2026">
   <NewFeatures>
     - **Tableau over Arrow Flight SQL**: Added a signed `.taco` connector that adds an **IOMETE (Arrow Flight SQL)** dialog to Tableau Desktop and Server 2024.2 and later, on Windows, macOS, and Linux. See [Tableau (Arrow Flight)](../../../integrations/bi/tableau/arrow-flight.md).
     - **Spark-accurate calculations and filters**: Tuned the connector's SQL dialect and capabilities for Spark, so `CONTAINS` handles search terms containing regular-expression characters, numeric casts of a date return Tableau's date numbering, and boolean fields group and filter without failing the query.
