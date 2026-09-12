@@ -324,7 +324,6 @@ const config = {
 
     // Generate llms-full.txt at build time
     require("./plugins/llms-txt-plugin"),
-    require("./plugins/blog-index-plugin"),
   ].filter(Boolean),
 };
 
