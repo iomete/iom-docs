@@ -91,7 +91,7 @@ Four queries took longer with Comet, and it is worth knowing what they look like
 
 Enabling Comet by hand means adding a plugin, a session extension, and a shuffle manager to your Spark configuration, choosing an off-heap memory size, and rebalancing executor memory so the pods still fit on your nodes. In IOMETE 4.0 all of that is behind one switch.
 
-{/* 📸 SCREENSHOT NEEDED: Query acceleration switch on the General tab of the compute form (dev.iomete.cloud) */}
+<Img src="/img/blog/2026-09-07-comet-spark-acceleration/query-acceleration-switch.png" alt="Query acceleration switch on the General tab of the IOMETE compute form" borderless/>
 
 The switch is off by default in 4.0, and it is available on any compute that runs a Spark 4 image. Since 4.1.3 is the default image, a new compute qualifies without any other change. Comet needs Spark 4 on IOMETE, so the platform will not let you enable it on a Spark 3.5 image.
 
@@ -114,6 +114,8 @@ If a workload is built around operators that Comet cannot run natively, the swit
 If a compute is memory-constrained and depends on a large JVM heap, for example one that caches big DataFrames or collects large results to the driver, halving the executor heap may hurt more than native execution helps. Lower the off-heap fraction first, and leave Comet off if that is not enough.
 
 Either decision applies to one compute and nothing else. There is no cluster-wide setting to coordinate and no SQL to rewrite.
+
+<Img src="/img/blog/2026-09-07-comet-spark-acceleration/compute-details-query-acceleration.png" alt="Compute details in IOMETE showing Query acceleration disabled by default" maxWidth="700px" centered/>
 
 ## Getting Started
 
