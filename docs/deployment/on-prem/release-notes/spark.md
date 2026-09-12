@@ -14,6 +14,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 IOMETE Spark images ship on their own cadence, independent of platform releases. This page tracks changes between Spark image versions, newest first across all supported Spark lines.
 
+<Release name="Spark" version="TBD" date="TBD">
+  <BugFixes>
+    - **Authorization Check Hardening**: Fixed a minor gap in an internal check that skips extra authorization steps for the root user on plain USE requests. It could treat a combined catalog/database action as USE-only if just one part was a plain USE, even when the other part required broader access such as CREATE. Both parts must now be USE-only before the check applies. Not exposed by any current command; root user only.
+  </BugFixes>
+</Release>
+
 {/*
   SORT = date DESC, then version DESC, by hand: the component does not sort.
   - Version numbers are usually chronological, but not always, and date wins when
