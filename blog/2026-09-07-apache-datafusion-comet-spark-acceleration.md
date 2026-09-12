@@ -29,7 +29,7 @@ Comet is a plugin for [Apache Spark](https://spark.apache.org/), and it matters 
 
 The mechanism is a physical plan rewrite. After Spark's optimizer finishes, Comet's session extension walks the physical plan and looks at each operator. Filters, projections, hash aggregates, sorts, joins, and Parquet or Iceberg scans that Comet supports get swapped for Comet versions. Runs of consecutive Comet operators are grouped into a single native stage, serialized as a protobuf plan, and passed across the JNI boundary. DataFusion executes that stage and returns the results as Apache Arrow batches.
 
-Whatever Comet does not support stays in Spark. An expression it cannot translate yet, an unusual data type, a user-defined function: Comet leaves that operator alone and inserts the conversion the two sides need to exchange data. The query still runs and still returns the same rows. Part of it simply runs at Spark speed instead of Comet speed. That per-operator fallback is what makes it safe to turn on for a workload you already run. Nothing stops working when Comet is enabled.
+Whatever Comet does not support stays in Spark. An expression it cannot translate yet, an unusual data type, a user-defined function: Comet leaves that operator alone and inserts the conversion the two sides need to exchange data. The query still runs and still returns the same rows. Part of it simply runs at Spark speed instead of Comet speed. That per-operator fallback is what makes Comet low-risk to try on a workload you already run, but it is not a blanket compatibility guarantee: the upstream 1.0 notes document edge cases, such as a `NullType` column in Parquet, that fail inside native decoding before fallback can take over. Validate your own workload on a non-production compute before turning the switch on for good.
 
 Version 1.0 is also where Comet adopted semantic versioning, which is what we wanted before shipping it on the platform. It supports Spark 3.4 through 4.1 and Iceberg 1.11, including format version 3.
 
@@ -49,14 +49,14 @@ Four changes do the work, and each one removes a different tax the JVM plan pays
 
 Comet cut the total runtime of the 103 TPC-DS queries from 28.6 minutes to 16.5 minutes, a saving of 42%. Every percentage below is time saved, so a query that took 10 seconds and now takes 6 saved 40%.
 
-The workload was TPC-DS at the 100 GB scale factor, 103 queries in total (the 99 standard queries, four of which have two variants), each run once, one at a time. Both runs used the same compute: one driver with 4 vCPU and 16 GiB, and four executors with 8 vCPU and 64 GiB each, on the IOMETE Spark 4.1.3 image. The only difference between the runs was the Query acceleration switch.
+The workload was TPC-DS at the 100 GB scale factor, 103 queries in total (the 99 standard queries, four of which have two variants), each run once, one at a time. Both runs used the same compute: one driver with 4 vCPU and 16 GiB, and four executors with 8 vCPU and 64 GiB each, on the IOMETE Spark 4.1.3 image. The only difference between the runs was the Query acceleration switch. Each query ran once, so these are single-run measurements without a variance estimate: read the large differences as real and treat anything within roughly 10% as indistinguishable from run-to-run noise.
 
 |  | Comet off | Comet on |
 |---|---|---|
 | Total time, 103 queries | 28.6 min | 16.5 min |
 | Time saved |  | 42% |
 
-Ninety-nine of the 103 queries got faster. The median query saved 40%.
+Ninety-nine of the 103 queries were faster in this run. The median query saved 40%.
 
 | Time saved | Queries |
 |---|---|
@@ -81,7 +81,7 @@ The heavy queries improved as much as the light ones. q9, which scans the store 
 
 ## Where It Got Slower
 
-Four queries took longer with Comet, and it is worth knowing what they look like before you flip the switch on a production workload. Three of them regressed by small margins: q59 by 13%, q77 by 7%, and q69 by 2%. The fourth is q72, which joins catalog sales against inventory, warehouses, items, two demographics tables and three copies of the date dimension to count promoted versus unpromoted sales. It is one of the heaviest joins in the suite and the query that comes up in every Spark discussion of TPC-DS. It went from 60 seconds to 109, an 82% increase. We are looking into the plan for that query. If one of your workloads hits a case like it, the fix is one switch on one compute, described below.
+Four queries took longer with Comet, and it is worth knowing what they look like before you flip the switch on a production workload. Three of them were slower by small margins: q59 by 13%, q77 by 7%, and q69 by 2% — small enough, on a single run each, that we would not call them measured regressions. The fourth is q72, which joins catalog sales against inventory, warehouses, items, two demographics tables and three copies of the date dimension to count promoted versus unpromoted sales. It is one of the heaviest joins in the suite and the query that comes up in every Spark discussion of TPC-DS. It went from 60 seconds to 109, an 82% increase. We are looking into the plan for that query. If one of your workloads hits a case like it, the fix is one switch on one compute, described below.
 
 ## A Note on Scale
 
@@ -111,7 +111,7 @@ There are two situations where leaving it off is the better call.
 
 If a workload is built around operators that Comet cannot run natively, the switch may cost more than it saves. A query that spends most of its time in an operator that falls back to Spark pays for the columnar conversion at the boundary without getting the native speedup to make up for it. Workloads built around Scala or Python UDFs are the usual example, and q72 above shows that a plain SQL query can hit the same wall. Turn it on, check the plan for the queries that matter, and turn it back off if they regress.
 
-If a compute is memory-constrained and depends on a large JVM heap, for example one that caches big DataFrames or collects large results to the driver, halving the executor heap may hurt more than native execution helps. Lower the off-heap fraction first, and leave Comet off if that is not enough.
+If a compute is memory-constrained and depends on a large executor JVM heap, for example one that caches big DataFrames in executor memory or runs wide aggregations and joins that spill once the heap shrinks, halving the executor heap may hurt more than native execution helps. (The driver keeps its full heap either way, so driver-side work is unaffected.) Lower the off-heap fraction first, and leave Comet off if that is not enough.
 
 Either decision applies to one compute and nothing else. There is no cluster-wide setting to coordinate and no SQL to rewrite.
 
@@ -153,8 +153,8 @@ For details on the compute form, see [Creating a Compute Cluster](/user-guide/co
   },
   {
     question: "Which workloads should keep Comet turned off?",
-    answer: "Two kinds: workloads dominated by operators Comet cannot run natively, such as Scala or Python UDFs, and memory-constrained computes that depend on a large JVM heap for caching or large driver collects. On IOMETE the switch is per compute, so a workload that regresses can stay on plain Spark while the rest of the platform runs accelerated.",
-    answerContent: (<><p>Two kinds. Workloads dominated by operators Comet cannot run natively, such as Scala or Python UDFs, pay for columnar conversion at the boundary without the native speedup. Memory-constrained computes that depend on a large JVM heap for caching or large driver collects can also lose more than they gain.</p><p>On IOMETE the switch is per compute, so a workload that regresses can stay on plain Spark while the rest of the platform runs accelerated.</p></>)
+    answer: "Two kinds: workloads dominated by operators Comet cannot run natively, such as Scala or Python UDFs, and memory-constrained computes that depend on a large executor JVM heap for caching or for aggregations and joins that would otherwise spill. On IOMETE the switch is per compute, so a workload that regresses can stay on plain Spark while the rest of the platform runs accelerated.",
+    answerContent: (<><p>Two kinds. Workloads dominated by operators Comet cannot run natively, such as Scala or Python UDFs, pay for columnar conversion at the boundary without the native speedup. Memory-constrained computes that depend on a large executor JVM heap for caching, or for aggregations and joins that spill once the heap shrinks, can also lose more than they gain; the driver heap is untouched.</p><p>On IOMETE the switch is per compute, so a workload that regresses can stay on plain Spark while the rest of the platform runs accelerated.</p></>)
   },
   {
     question: "Does Comet work with Apache Iceberg tables?",
