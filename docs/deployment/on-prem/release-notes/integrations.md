@@ -1,7 +1,7 @@
 ---
 title: Integration Release Notes
 sidebar_label: Integrations
-description: Release notes for IOMETE integrations, including dbt-iomete, the IOMETE Airflow Plugin, and the IOMETE Tableau connector.
+description: Release notes for IOMETE integrations, including dbt-iomete, the IOMETE Airflow Plugin, the IOMETE Tableau connector, and the Arrow Flight SQL JDBC driver.
 last_update:
   date: 09/14/2026
   author: Abhishek Pathania
@@ -9,7 +9,7 @@ last_update:
 
 import { Release, NewFeatures, Improvements, BugFixes, BreakingChanges } from '@site/src/components/Release';
 
-IOMETE integrations are released independently from the IOMETE platform. Check this page before upgrading one, especially if your environment pins package versions.
+IOMETE integrations and drivers are released independently from the IOMETE platform. Check this page before upgrading one, especially if your environment pins package versions.
 
 ## Latest Versions
 
@@ -18,10 +18,18 @@ IOMETE integrations are released independently from the IOMETE platform. Check t
 | dbt | [`dbt-iomete`](https://pypi.org/project/dbt-iomete/) | 1.8.3 | dbt Core 1.8.x; Python 3.9–3.12 | [Open](../../../integrations/dbt/getting-started-with-iomete-dbt.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/dbt-iomete) |
 | Airflow | [`iomete-airflow-plugin`](https://pypi.org/project/iomete-airflow-plugin/) | 3.1.0 | Airflow `>=2.10.5,<4.0.0`; Python 3.10–3.13 | [Open](../../../integrations/airflow/getting-started.mdx) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) |
 | Tableau | [`tableau-connector`](https://github.com/iomete/iomete-integrations/releases?q=tableau-connector) | 0.1.0 | Tableau Desktop and Server 2024.2 and later | [Open](../../../integrations/bi/tableau/arrow-flight.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/tableau-connector) |
+| Arrow Flight SQL JDBC | [`flight-sql-jdbc-driver`](https://github.com/iomete/iomete-artifacts) | 19.0.0-iomete.4 | Java 11 or later; Tableau Desktop and Server 2024.2 or later | [Open](/user-guide/driver/arrow-flight-jdbc-driver) | Closed source |
 
 ---
 
 ## Recent Releases
+
+<Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.4" date="September 14, 2026">
+  <BugFixes>
+    - **Pre-1970 timestamps**: Corrected timestamps before 1970 that include a time-of-day component, preventing affected dates from being reported one day late.
+    - **Tableau timestamp precision**: Added `compatibilityMode=tableau`, which reports zoned timestamp columns as JDBC `TIMESTAMP` metadata so Tableau preserves fractional seconds. Timestamp values and metadata for other clients remain unchanged.
+  </BugFixes>
+</Release>
 
 <Release name="Tableau Connector" version="0.1.0" date="September 14, 2026">
   <NewFeatures>
@@ -44,6 +52,17 @@ IOMETE integrations are released independently from the IOMETE platform. Check t
     - **Separate metadata concurrency**: Added `list_relations_threads` to control how many relations dbt inspects at once without increasing the `threads` used to build models. The default is `100`; lower it if metadata discovery puts too much load on your data plane.
     - **Configuration cleanup**: Removed the `IOMETE_DBT_SCHEMA_TIMEOUT_SECONDS` setting. Delete it from your environment after upgrading.
   </Improvements>
+</Release>
+
+<Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.3" date="July 22, 2026">
+  <Improvements>
+    - **Catalog scoping for BI tools**: Added opt-in catalog filtering for clients that use two-part table names. Set `compatibilityMode=oracle` or `catalogFilterEnabled=true`, then provide the catalog through `schema`.
+    - **Actionable query errors**: Moved the server error, SQL statement, and compute cluster name into the top-level `SQLException`. Set `enrichErrorMessages=false` to retain the previous error format.
+  </Improvements>
+
+  <BugFixes>
+    - **Empty result metadata**: Preserved column metadata when a query or metadata call returns no rows, so JDBC clients can still resolve columns by name.
+  </BugFixes>
 </Release>
 
 <Release name="dbt-iomete" version="1.8.1" date="June 25, 2026">
@@ -101,6 +120,25 @@ IOMETE integrations are released independently from the IOMETE platform. Check t
   <Improvements>
     - **Airflow security updates**: Raised the minimum Airflow version from 3.2.0 to 3.2.1 to include upstream security fixes.
   </Improvements>
+</Release>
+
+<Release name="Arrow Flight SQL JDBC Driver" version="17.0.0-iomete.1" date="May 22, 2026">
+  <NewFeatures>
+    - **Java 8 compatibility**: Added a Java 8 build with HTTP CONNECT proxy support, connection-level query timeouts, named parameters, and catalog selection through JDBC session options.
+  </NewFeatures>
+</Release>
+
+<Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.2" date="May 14, 2026">
+  <NewFeatures>
+    - **Connection-level query timeout**: Added the `queryTimeout` connection property, which applies a default timeout to every statement on the connection.
+    - **Named parameters**: Added `:name` parameters to prepared statements as an alternative to positional `?` markers.
+  </NewFeatures>
+</Release>
+
+<Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.1" date="May 14, 2026">
+  <NewFeatures>
+    - **HTTP CONNECT proxy support**: Added automatic JVM proxy detection and connection-specific proxy settings for routing Arrow Flight traffic through enterprise HTTP proxies.
+  </NewFeatures>
 </Release>
 
 <Release name="IOMETE Airflow Plugin" version="2.0.0" date="February 25, 2026">
