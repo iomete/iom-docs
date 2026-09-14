@@ -112,10 +112,27 @@ const sidebars = {
       items: [
         "integrations/bi/metabase",
         "integrations/bi/apache-superset",
-        "integrations/bi/power-bi",
-        "integrations/bi/power-bi-odbc",
-        "integrations/bi/power-bi-arrow-flight",
-        "integrations/bi/tableau",
+        {
+          type: "category",
+          label: "Power BI",
+          collapsed: true,
+          items: [
+            "integrations/bi/power-bi/overview",
+            "integrations/bi/power-bi/arrow-flight",
+            "integrations/bi/power-bi/thrift",
+            "integrations/bi/power-bi/odbc",
+          ],
+        },
+        {
+          type: "category",
+          label: "Tableau",
+          collapsed: true,
+          items: [
+            "integrations/bi/tableau/overview",
+            "integrations/bi/tableau/arrow-flight",
+            "integrations/bi/tableau/thrift",
+          ],
+        },
         "integrations/bi/redash",
       ],
     },

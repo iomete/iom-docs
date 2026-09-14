@@ -1,12 +1,15 @@
 ---
-title: Power BI Arrow Flight - IOMETE ODBC Connector
-sidebar_label: Power BI Arrow Flight
-description: Effortlessly integrate IOMETE with Power BI using ODBC Driver - Step-by-step guide to connect, visualize and analyze data. Create reports and visualizations with Power BI resources.
+title: Power BI (Arrow Flight) - IOMETE ODBC Connector
+sidebar_label: Arrow Flight
+description: Connect Power BI to IOMETE using the IOMETE ODBC connector over Arrow Flight.
+last_update:
+  date: 09/09/2026
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
 
-# Power BI Arrow Flight - IOMETE ODBC Connector
+# Power BI (Arrow Flight) - IOMETE ODBC Connector
 
 This guide provides step-by-step instructions on how to download, install, and configure the IOMETE ODBC driver using the Arrow Flight protocol for Power BI.  
 
