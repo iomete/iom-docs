@@ -1,11 +1,11 @@
 ---
-title: Snowflake cost cutting
-description: Using Snowflake Compute Credit to save your cloud computing bills by 50%. Want to know how much does it means exactly? Check our blog
+title: Cutting cloud data platform costs
+description: How teams cut the compute bill on consumption-priced cloud data platforms, and where a self-hosted lakehouse changes the economics.
 slug: snowflake-cost-cutting
 hide_table_of_contents: true
 tags2: [Engineering]
 authors: aytan
-banner_description: How to cut your Snowflake bills
+banner_description: How to cut your cloud analytics bills
 coverImage: img/blog/thumbnails/1.png
 ---
 
@@ -13,37 +13,35 @@ import FAQSection from '@site/src/components/FAQSection';
 
 import MiniCard from "@site/src/components/MiniCard";
 
-In the ever-evolving landscape of data analytics and cloud computing, cost optimization has become a paramount concern for businesses, both large and small. One recent example that has garnered attention is Instacart's journey to reduce its Snowflake bill, shedding light on the importance of managing [data architecture](/blog/evolution-of-data-architecture) costs efficiently in these economic times.
+In the ever-evolving landscape of data analytics and cloud computing, cost optimization has become a paramount concern for businesses, both large and small. As analytics adoption spreads across teams, the compute bill on managed cloud data platforms tends to grow faster than expected, which puts a spotlight on managing [data architecture](/blog/evolution-of-data-architecture) costs efficiently in these economic times.
 
 <!-- truncate -->
 
-## Instacart's Snowflake Bill: A Case Study
+## Why consumption-based bills grow
 
-According to recent S-1 filings, Instacart's expenditure on Snowflake, a cloud-based [data warehousing](/glossary/data-warehouse) solution, was a staggering $13 million in 2020, which escalated to $28 million in 2021, and further ballooned to $51 million in 2022. However, in a surprising turn of events, their projected Snowflake bill for 2023 is expected to decrease to $15 million. While the specifics of their cost-cutting strategies have not been publicly disclosed, it's safe to assume that Instacart has implemented substantial changes behind the scenes.
+Managed cloud data platforms price compute by consumption: you are charged for every hour a compute cluster runs, at a per-unit rate that depends on cluster size, region, and plan tier. That model is easy to start with and easy to lose track of. Query volume rises, concurrency rises, dashboards refresh more often, clusters get sized up and then left running — and the bill compounds. Nothing is broken when this happens; the spend simply reflects how much compute ran and for how long.
 
-## How to cut your Snowflake bills?
+## How to cut your cloud analytics bills
 
-Speculating on the strategies that Instacart might have employed to optimize their costs, we can consider several possibilities:
+Teams that bring these bills back down usually pull the same handful of levers:
 
-1. **Limiting Access:** One approach could involve limiting employee access to Snowflake's warehouse units. By restricting access to only those who require it for their specific tasks, Instacart could reduce the demand for resources.
-2. **Caching Layers:** Another cost-saving measure could be the implementation of caching layers for reporting purposes. This would reduce the need for real-time querying of data in Snowflake, as cached results can be served faster and more cost-effectively.
-3. **Resource Management:** Snowflake's costs can be heavily influenced by resource management. Instacart might have fine-tuned their resource allocation to ensure optimal performance while minimizing expenses.
-4. **Alternative Solutions:** Instacart might have explored alternative solutions for specific use cases. For instance, Snowflake might not be the most cost-effective option for [real-time analytics](/glossary/real-time-analytics), leading them to adopt more suitable and affordable tools.
+1. **Limiting Access:** Restrict access to compute clusters to the people and workloads that actually need it, so demand for resources is not created by accident.
+2. **Caching Layers:** Add caching layers for reporting. Cached results are served faster and more cheaply than re-querying live data for every dashboard load.
+3. **Resource Management:** Tune resource allocation — right-size clusters, set aggressive auto-suspend, and consolidate overlapping workloads — to get the performance you need without paying for idle capacity.
+4. **Fit-for-purpose tooling:** Move specific use cases to tools designed for them. A general-purpose [data warehousing](/glossary/data-warehouse) engine is not always the most economical place to run [real-time analytics](/glossary/real-time-analytics), for example.
 
 <!-- <MiniCard link="https://sandbox.iomete.com/auth/realms/iomete/protocol/openid-connect/registrations?client_id=app&response_type=code&scope=openid&redirect_uri=http://sandbox.iomete.com" linkName="Try Sandbox">Discovering the data lakehouse platform?</MiniCard> -->
 
-## Snowflake cost cutting solution - IOMETE
+## A cost-cutting option: IOMETE
 
-One noteworthy [data lakehouse](/glossary/data-lakehouse) solutions like Snowflake is IOMETE. Here are some key aspects of that make it an attractive option:
+Beyond tuning, some teams change the architecture itself. Unlike managed SaaS platforms, IOMETE is a [data lakehouse](/glossary/data-lakehouse) that deploys entirely inside your own infrastructure, so you control the compute instances directly. Key aspects that make it an attractive option:
 
-1. **Query Federation:** IOMETE offers computing data directly from storage itself without migrating.
+1. **Query Federation:** IOMETE can compute over data directly from storage and source systems without migrating it first.
 2. **Scalability:** IOMETE enables separate scaling of data storage and concurrency, providing flexibility and cost efficiency.
-3. **Fast Queries:** The system is known for its high-speed query processing, ensuring quick access to insights.
-4. **AI Integration:** IOMETE recently introduced an text to AI solution for built-in SQL editor
-5. **Data policy:** IOMETE allows you to create limitations on access for user based on rows, columns, provided tag name and masking.
-6. **Jupyter Notebook:** to explore and analyze data stored in IOMETE's data lake directly from your local environment.
-
-
+3. **Fast Queries:** The system is built for high-speed query processing, ensuring quick access to insights.
+4. **AI Integration:** IOMETE includes a text-to-SQL AI assistant in its built-in SQL editor.
+5. **Data policy:** IOMETE allows you to create access limitations per user based on rows, columns, tag names, and masking.
+6. **Jupyter Notebook:** Explore and analyze data stored in IOMETE's data lake directly from your local environment.
 
 ## The Need for Specialized Solutions
 
@@ -51,9 +49,9 @@ While some platforms attempt to offer hybrid solutions that combine real-time an
 
 ## Key Takeaways
 
-Instacart's journey to cut costs with Snowflake is a compelling example of the ongoing need for cost optimization in the world of data analytics. While the specifics of their strategies remain undisclosed, their experience highlights the importance of managing costs effectively in these economically challenging times.
+Cost optimization is an ongoing discipline in the world of data analytics, not a one-off project. On consumption-priced platforms, spend follows compute runtime and cluster size, so the levers that work are the ones that reduce both: tighter access, caching, right-sizing, and matching workloads to the right engine.
 
-The realm of real-time analytics presents its own set of challenges, and businesses are increasingly turning to specialized solutions like IOMETE and others to address these issues. As technology continues to evolve, finding the right balance between cost, performance, and functionality will remain a top priority for organizations striving to stay competitive in the data-driven era.
+Where the economics still do not work, architecture is the next lever. Businesses are increasingly turning to lakehouse platforms such as IOMETE, which store data in open formats and run compute on infrastructure the organization controls. As technology continues to evolve, finding the right balance between cost, performance, and functionality will remain a top priority for organizations striving to stay competitive in the data-driven era.
 
 ---
 

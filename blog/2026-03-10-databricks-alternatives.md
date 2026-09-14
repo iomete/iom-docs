@@ -1,6 +1,6 @@
 ---
-title: "Databricks alternatives for self-hosted data lakehouses in 2026"
-description: "Organizations evaluating Databricks alternatives for compliance, cost control, or data sovereignty. A technical comparison of self-hosted lakehouse options for regulated industries."
+title: "Self-hosted data lakehouse alternatives to managed cloud platforms in 2026"
+description: "For organizations evaluating alternatives to managed cloud data platforms for compliance, cost control, or data sovereignty. A technical comparison of self-hosted lakehouse options for regulated industries."
 slug: databricks-alternatives
 authors: aytan
 hide_table_of_contents: false
@@ -49,7 +49,7 @@ The reasons teams evaluate alternatives are also real:
 
 **CLOUD Act exposure.** US cloud providers and US-incorporated SaaS vendors are subject to the US CLOUD Act, which allows US law enforcement to compel disclosure of data regardless of where servers are located. Encryption at rest doesn't fully solve this because decryption happens on vendor infrastructure during query processing. Self-hosted architecture removes data from that exposure entirely.
 
-**Unpredictable compute costs.** Per-unit consumption pricing — including models like Databricks' DBU-based pricing — is most predictable when query volumes are stable. For teams running variable workloads — large batch jobs, concurrent user-facing dashboards, periodic heavy ETL — consumption pricing creates budget variance that requires careful capacity planning to manage.
+**Unpredictable compute costs.** Per-unit consumption pricing — the billing model used by most managed cloud data platforms, where each query consumes metered compute units — is most predictable when query volumes are stable. For teams running variable workloads — large batch jobs, concurrent user-facing dashboards, periodic heavy ETL — consumption pricing creates budget variance that requires careful capacity planning to manage.
 
 **Table format portability.** Moving large datasets between table formats with limited cross-engine compatibility requires a conversion pass across all data. Teams that have built years of pipelines against a format not natively supported by other engines face a migration effort that functions as real switching cost, independent of the platform's other merits.
 
@@ -138,7 +138,7 @@ The TCO advantage of self-hosted architecture is most pronounced for organizatio
 
 The practical migration question is: how do we move data from a managed platform's table format into an open format without a multi-month project?
 
-If your current platform uses Apache Iceberg natively (Databricks, for example, now supports Iceberg alongside Delta Lake), migration is substantially simpler — you're moving Iceberg tables between environments, not converting formats.
+If your current platform already supports Apache Iceberg natively — an increasing number of commercial lakehouse vendors do — migration is substantially simpler — you're moving Iceberg tables between environments, not converting formats.
 
 If your current platform uses a proprietary format, the migration involves:
 
@@ -156,22 +156,22 @@ The IOMETE platform's Iceberg-native architecture means the target state for mig
 
 <FAQSection faqs={[
   {
-    question: "What is the best self-hosted alternative to Databricks for regulated industries?",
+    question: "What is the best self-hosted alternative to a managed cloud lakehouse for regulated industries?",
     answer: "IOMETE is purpose-built for regulated enterprises that need a data lakehouse running entirely within their own infrastructure — on-premises, sovereign cloud, or private cloud.",
     answerContent: (
       <>
         <p>IOMETE is purpose-built for regulated enterprises that need a data lakehouse running entirely within their own infrastructure — on-premises, sovereign cloud, or private cloud.</p>
-        <p>The core architectural difference from Databricks is deployment model: Databricks runs your data plane in its own cloud infrastructure, which creates DORA third-party ICT risk obligations and CLOUD Act exposure for EU financial institutions. IOMETE's data plane runs inside your infrastructure boundary, which removes both. For teams where data sovereignty is a hard requirement rather than a preference, that difference is decisive.</p>
+        <p>The core architectural difference from managed SaaS lakehouse vendors is the deployment model: in a managed model, the data plane runs in the vendor's cloud infrastructure, which brings DORA third-party ICT risk obligations and, for US-incorporated vendors, CLOUD Act considerations into scope. IOMETE's data plane runs inside your own infrastructure boundary. For teams where data sovereignty is a hard requirement rather than a preference, that difference is decisive.</p>
       </>
     )
   },
   {
-    question: "Can you run Databricks workloads on a self-hosted lakehouse without rewriting everything?",
-    answer: "Standard Spark workloads — jobs using SparkSession APIs, DataFrame operations, and Spark SQL — run on IOMETE with minimal changes. IOMETE uses the same Apache Spark execution engine Databricks is built on.",
+    question: "Can you run existing Spark workloads on a self-hosted lakehouse without rewriting everything?",
+    answer: "Standard Spark workloads — jobs using SparkSession APIs, DataFrame operations, and Spark SQL — run on IOMETE with minimal changes, because IOMETE runs Apache Spark itself.",
     answerContent: (
       <>
-        <p>Standard Spark workloads — jobs using SparkSession APIs, DataFrame operations, and Spark SQL — run on IOMETE with minimal changes. IOMETE uses the same Apache Spark execution engine Databricks is built on.</p>
-        <p>The migration effort concentrates in two areas: data format conversion (if you're moving from Delta Lake to Apache Iceberg tables) and any code that uses Databricks-specific APIs or proprietary extensions. Pure Spark jobs and most SQL workloads transfer with little or no rewriting. Jobs that depend on Databricks-specific ML runtime features or Unity Catalog APIs need more evaluation.</p>
+        <p>Standard Spark workloads — jobs using SparkSession APIs, DataFrame operations, and Spark SQL — run on IOMETE with minimal changes, because IOMETE runs Apache Spark itself.</p>
+        <p>The migration effort concentrates in two areas: data format conversion (if you are moving from another table format to Apache Iceberg tables) and any code written against a platform's proprietary APIs or runtime extensions. Pure Spark jobs and most SQL workloads transfer with little or no rewriting. Jobs that depend on a vendor-specific ML runtime or a proprietary catalog API need more evaluation.</p>
       </>
     )
   },
@@ -181,57 +181,57 @@ The IOMETE platform's Iceberg-native architecture means the target state for mig
     answerContent: (
       <>
         <p>Both are open source table formats that add ACID transactions, schema evolution, and time travel to object storage. The practical difference is multi-engine support breadth.</p>
-        <p>Apache Iceberg has broader native support across query engines — Spark, Trino, Flink, DuckDB, and all three major cloud providers have added Iceberg support as a first-class feature. Delta Lake's full feature parity outside Databricks' own compute stack has historically been narrower, though Databricks has invested in improving cross-engine compatibility. For teams that want to query the same tables with multiple engines without conversion, Iceberg's current ecosystem coverage is wider.</p>
+        <p>Apache Iceberg has broad native support across query engines — Spark, Trino, Flink, DuckDB, and all three major cloud providers have added Iceberg support as a first-class feature. Delta Lake, created by a commercial lakehouse vendor, is also open source, and cross-engine support for it continues to improve. For teams that want to query the same tables with multiple engines without conversion, Iceberg's current ecosystem coverage is wider.</p>
       </>
     )
   },
   {
-    question: "Is Databricks compliant with DORA for EU financial institutions?",
-    answer: "Databricks can be deployed in EU regions, but as a US-incorporated managed SaaS platform it falls within the scope of the US CLOUD Act, and as a critical ICT third-party provider it triggers DORA Article 28 formal arrangement requirements.",
+    question: "How does DORA apply to managed cloud data platforms?",
+    answer: "Any managed platform that processes your data is a potential ICT third party under DORA, which means EU financial entities need formal arrangements, audit rights, and exit strategies for it.",
     answerContent: (
       <>
-        <p>Databricks can be deployed in EU regions, but as a US-incorporated managed SaaS platform it falls within the scope of the US CLOUD Act, and as a critical ICT third-party provider it triggers DORA Article 28 formal arrangement requirements.</p>
-        <p>DORA Article 28 requires EU financial entities to maintain documented arrangements with critical ICT third-party providers including audit rights, incident notification obligations, and exit strategies. Databricks as a managed platform creates that third-party dependency. IOMETE deployed on your own infrastructure removes it — IOMETE is software you license and operate, not a service your data flows through.</p>
+        <p>Any managed platform that processes your data is a potential ICT third party under DORA, which means EU financial entities need formal arrangements, audit rights, and exit strategies for it.</p>
+        <p>DORA Article 28 requires EU financial entities to maintain documented arrangements with critical ICT third-party providers, including audit rights, incident notification obligations, and exit strategies. A SaaS lakehouse creates that third-party dependency by design. IOMETE deployed on your own infrastructure changes the classification: IOMETE is software you license and operate, not a service your data flows through. Regional deployment options from managed vendors can address data residency, but they do not remove the third-party relationship itself.</p>
       </>
     )
   },
   {
-    question: "How much does it cost to migrate from Databricks to a self-hosted lakehouse?",
+    question: "How much does it cost to migrate from a managed platform to a self-hosted lakehouse?",
     answer: "Migration cost has three components: data format conversion, pipeline code updates, and operational setup for the new platform.",
     answerContent: (
       <>
         <p>Migration cost has three components: data format conversion, pipeline code updates, and operational setup for the new platform.</p>
-        <p>If your Databricks environment uses Iceberg tables (Databricks now supports Iceberg alongside Delta Lake), the data format step is eliminated — you're moving Iceberg tables between environments, not converting them. Pipeline code using standard SparkSession APIs typically migrates with minimal changes. The largest variable is how much code uses Databricks-specific APIs versus portable Spark APIs. For environments where most workloads use standard Spark, individual domain migrations typically complete in days to weeks per domain.</p>
+        <p>If your current environment already stores Iceberg tables, the data format step is eliminated — you are moving Iceberg tables between environments, not converting them. Pipeline code using standard SparkSession APIs typically migrates with minimal changes. The largest variable is how much code uses platform-specific APIs versus portable Spark APIs. For environments where most workloads use standard Spark, individual domain migrations typically complete in days to weeks per domain.</p>
       </>
     )
   },
   {
-    question: "What are the TCO differences between Databricks and a self-hosted lakehouse like IOMETE?",
-    answer: "Databricks prices on DBU consumption — compute units that scale with query complexity and cluster size. IOMETE costs infrastructure plus licensing, with no per-query markup.",
+    question: "What are the TCO differences between a managed cloud data platform and a self-hosted lakehouse like IOMETE?",
+    answer: "Managed platforms generally bill on metered compute consumption. IOMETE costs infrastructure plus licensing, with no per-query markup.",
     answerContent: (
       <>
-        <p>Databricks prices on DBU consumption — compute units that scale with query complexity and cluster size. IOMETE costs infrastructure plus licensing, with no per-query markup.</p>
-        <p>The TCO advantage is most pronounced for teams running large batch workloads, many concurrent users, or those who can leverage existing cloud provider agreements, reserved instances, or spot capacity. Organizations that already operate Kubernetes clusters have lower marginal infrastructure cost for self-hosted deployment — the platform licensing cost is additive to infrastructure already in place, not a net-new line item. For greenfield deployments, infrastructure setup cost should be factored into any comparison alongside the per-query savings.</p>
+        <p>Managed platforms generally bill on metered compute consumption, so cost scales with query complexity and cluster size. IOMETE costs infrastructure plus licensing, with no per-query markup.</p>
+        <p>The TCO advantage is most pronounced for teams running large batch workloads, many concurrent users, or those who can leverage existing cloud provider agreements, reserved instances, or spot capacity. Organizations that already operate Kubernetes clusters have lower marginal infrastructure cost for self-hosted deployment — the platform licensing cost is additive to infrastructure already in place, not a net-new line item. For greenfield deployments, infrastructure setup cost should be factored into any comparison.</p>
       </>
     )
   },
   {
-    question: "Does IOMETE support the same governance features as Databricks Unity Catalog?",
+    question: "Does IOMETE provide governance features comparable to a managed catalog service?",
     answer: "IOMETE provides row-level security, column-level masking, tag-based access policies, and audit logging enforced at query time — the core governance capabilities enterprises need for compliance.",
     answerContent: (
       <>
         <p>IOMETE provides row-level security, column-level masking, tag-based access policies, and audit logging enforced at query time — the core governance capabilities enterprises need for compliance.</p>
-        <p>The key architectural difference is where governance runs: IOMETE's access controls operate inside your infrastructure, integrated with your existing identity provider. Unity Catalog is a Databricks-managed service. For regulated industries where audit log integrity must be provably under your governance, self-hosted enforcement is a compliance requirement, not just a preference.</p>
+        <p>The key architectural difference is where governance runs: IOMETE's access controls operate inside your infrastructure, integrated with your existing identity provider, and access logs stay in your governance perimeter. Managed catalog services run governance as an external service. For regulated industries where audit log integrity must be provably under your own governance, self-hosted enforcement is a compliance requirement, not just a preference.</p>
       </>
     )
   },
   {
-    question: "Can IOMETE replace Databricks for machine learning workloads?",
+    question: "Can IOMETE handle machine learning workloads?",
     answer: "IOMETE handles ML workloads running on Apache Spark — feature engineering, batch scoring, and pipeline orchestration all run natively. Jupyter notebook integration is supported for interactive data science work.",
     answerContent: (
       <>
         <p>IOMETE handles ML workloads running on Apache Spark — feature engineering, batch scoring, and pipeline orchestration all run natively. Jupyter notebook integration is supported for interactive data science work. MLflow can be deployed and integrated within your IOMETE environment, keeping experiment tracking and model metadata inside your infrastructure boundary — which is a compliance advantage for regulated industries.</p>
-        <p>Databricks offers a more fully managed ML experience — MLflow is Databricks-originated and tightly integrated as a managed service, and Databricks' ML runtime includes curated GPU configurations and AutoML features. For teams whose ML work is primarily Spark-based data preparation and batch scoring, IOMETE covers the workload well. For teams that rely heavily on Databricks' managed MLflow server, AutoML, or model serving infrastructure as a fully operated service, evaluate what operational responsibility shifts to your team in a self-hosted model before committing to a migration.</p>
+        <p>Managed cloud data platforms typically bundle a more fully operated ML experience, including hosted experiment tracking, curated GPU runtimes, and managed model serving. For teams whose ML work is primarily Spark-based data preparation and batch scoring, IOMETE covers the workload well. For teams that rely on a fully managed ML service, evaluate which operational responsibilities shift to your team in a self-hosted model before committing to a migration.</p>
       </>
     )
   }

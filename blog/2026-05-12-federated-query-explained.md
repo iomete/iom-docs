@@ -68,7 +68,7 @@ It's also worth being honest about the limits, because they're real.
 
 **Network is the bottleneck.** Every byte that crosses between the engine and the source system has to traverse a network. If a query needs to scan a 500GB Postgres table, federation will not save you. The query will time out, or it will saturate the source database, or both.
 
-**Cost-based optimization across systems is weak.** A central engine doesn't have full statistics on remote sources. It doesn't know how a Postgres index will behave, or how Snowflake's micro-partitions are laid out today. So join order, partition pruning, and predicate pushdown are best-effort. Complex multi-source joins often run worse than the planner expects.
+**Cost-based optimization across systems is weak.** A central engine doesn't have full statistics on remote sources. It doesn't know how a Postgres index will behave, or how a remote cloud data warehouse has physically laid out its storage today. So join order, partition pruning, and predicate pushdown are best-effort. Complex multi-source joins often run worse than the planner expects.
 
 **Connector quality is uneven.** A Postgres JDBC driver is mature and well-tested. A connector to a niche SaaS API is probably someone's side project. The weakest connector in your federation graph sets the ceiling for what you can reliably build.
 

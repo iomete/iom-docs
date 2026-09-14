@@ -71,9 +71,9 @@ For any great change an idea is the trigger, similar is the case of Alternative 
 
 ## **How to enable insights into Alternative Data?**
 
-IOMETE provides a versatile analytical platform to merge the data which is sometimes available in the Snowflake Data Platform and merge that data with your local data using Query Federation. What does this mean, data is staying in their source system for testing purposes, and need not be loaded into a central platform or anywhere for working on it.
+IOMETE provides a versatile analytical platform that merges data hosted on a cloud data platform with your local data using Query Federation. This means the data stays in its source system for testing purposes and does not need to be loaded into a central platform in order to work with it.
 
-IOMETE provides an efficient processing engine once the data is onboarded and delivers a very efficient way to connect to the data which is available in the Snowflake Marketplace or any other marketplace for delivering insights to the portfolio managers.
+IOMETE provides an efficient processing engine once the data is onboarded and delivers a very efficient way to connect to the data which is available in any commercial data marketplace for delivering insights to the portfolio managers.
 
 Portfolio managers, Data Analysts, and Data Engineers can equally benefit to use the platform with a fixed flat fee for the usage of the platform, while not worrying about too many costs but only enabling the teams and delivering value.
 

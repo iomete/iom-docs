@@ -96,7 +96,7 @@ These tools integrate well with Kubernetes, and **IOMETE** is building support f
 ## Summary: The Future Is Modular and Composable
 
 The Kubernetes-native data stack is becoming:
-- **Modular**: Every service is a building block (Spark, Trino, Airflow, ClickHouse)
+- **Modular**: Every service is a building block (Spark, Trino, Airflow, OLAP engines)
 - **Composable**: Components talk to each other via open APIs and shared formats
 - **Cloud-Agnostic**: Deploy the same stack across clouds or [on-prem](/blog/on-prem-vs-cloud-data-lakehouse)
 - **Self-Service**: Teams operate independently, but within a governed framework
