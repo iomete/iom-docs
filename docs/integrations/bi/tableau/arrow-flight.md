@@ -68,8 +68,8 @@ On Linux, create `/opt/tableau/connectors` only if it is missing, then copy both
 
 ```bash
 sudo mkdir -p /opt/tableau/connectors /opt/tableau/tableau_driver/jdbc
-sudo cp /path/to/<connector>.taco /opt/tableau/connectors/
-sudo cp /path/to/<driver>.jar /opt/tableau/tableau_driver/jdbc/
+sudo cp "/path/to/<connector>.taco" /opt/tableau/connectors/
+sudo cp "/path/to/<driver>.jar" /opt/tableau/tableau_driver/jdbc/
 ```
 
 Check the Tableau Server run-as username:
@@ -81,8 +81,8 @@ tsm configuration get -k service.runas.username
 The following commands use `tableau`, the default run-as username. Replace it if the previous command returns another username:
 
 ```bash
-sudo chown -R tableau:tableau /opt/tableau/connectors
-sudo chown -R tableau:tableau /opt/tableau/tableau_driver/jdbc
+sudo chown tableau:tableau "/opt/tableau/connectors/<connector>.taco"
+sudo chown tableau:tableau "/opt/tableau/tableau_driver/jdbc/<driver>.jar"
 ```
 
 Files copied as `root` may remain `640 root:root`, which prevents the run-as user from loading them.
@@ -160,6 +160,37 @@ tsm status -v
 ```
 
 Repeat these steps on every node in a multi-node cluster. A Tableau upgrade creates a new `repository.<build>` directory, so repeat the certificate import after each upgrade.
+
+### Tableau Server on Windows
+
+Run PowerShell as Administrator. Check the running version and find the truststores under the default installation directory:
+
+```powershell
+tsm version
+Get-ChildItem 'C:\Program Files\Tableau\Tableau Server' -Filter cacerts -Recurse
+```
+
+Adjust the base path for a custom installation. Match the running version to its `repository.<build>` directory, then replace `<build>` below:
+
+```powershell
+$TableauJre = 'C:\Program Files\Tableau\Tableau Server\packages\repository.<build>\jre'
+Copy-Item "$TableauJre\lib\security\cacerts" "$TableauJre\lib\security\cacerts.bak"
+& "$TableauJre\bin\keytool.exe" -importcert -noprompt -alias iomete-taco `
+  -file C:\path\to\iomete-taco.cer `
+  -keystore "$TableauJre\lib\security\cacerts" -storepass changeit
+& "$TableauJre\bin\keytool.exe" -list `
+  -keystore "$TableauJre\lib\security\cacerts" `
+  -storepass changeit -alias iomete-taco
+```
+
+Restart Tableau Server and confirm that its services are healthy:
+
+```powershell
+tsm restart
+tsm status -v
+```
+
+Repeat the import for every current-build truststore, on every node, and after each Tableau upgrade.
 
 ## Connecting to IOMETE
 
@@ -253,19 +284,23 @@ Confirm that:
 
 ### Package Signature Verification Failed During Connection Creation
 
-If Tableau reports `Package signature verification failed during connection creation.`, check the following before changing the connector:
+If Tableau reports `Package signature verification failed during connection creation.`, set these variables to the current Linux build and installed connector:
+
+```bash
+JRE="/opt/tableau/tableau_server/packages/repository.<build>/jre"
+TACO="/opt/tableau/connectors/<connector>.taco"
+```
+
+Then check the following:
 
 - Run the alias verification command against every `cacerts` under the current Tableau build.
 - Compare each truststore's mode with its `.bak` file and keep the owner as `root:root`. If the modes differ, run `sudo chmod --reference="$JRE/lib/security/cacerts.bak" "$JRE/lib/security/cacerts"`.
-
 - Confirm that the downloaded certificate matches the certificate embedded in the `.taco`. The two SHA256 fingerprints must match, and `jarsigner` must report `jar verified`:
 
   ```bash
   keytool -printcert -file /path/to/iomete-taco.cer | grep SHA256
-  "$JRE/bin/keytool" -printcert \
-    -jarfile /opt/tableau/connectors/<connector>.taco | grep SHA256
-  "$JRE/bin/jarsigner" -verify -verbose -certs \
-    /opt/tableau/connectors/<connector>.taco
+  "$JRE/bin/keytool" -printcert -jarfile "$TACO" | grep SHA256
+  "$JRE/bin/jarsigner" -verify -verbose -certs "$TACO"
   ```
 
   Tableau also requires a valid timestamp. If `jarsigner` reports that the signature does not include one, download a corrected `.taco`; importing the certificate cannot add a timestamp.
