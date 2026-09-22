@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 08/24/2026
-  author: Ujjawal Khare
+  date: 09/22/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -14,6 +14,12 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="4.0.0" date="TBD">
+  <BreakingChanges>
+    - **Job Orchestrator Always Enabled**: The `jobOrchestrator` feature flag has been removed. Priority-based job orchestration (powered by Prefect) was already always enabled in every deployment of this chart, so this is a configuration cleanup rather than a behavior change: `features.jobOrchestrator.enabled` no longer has any effect and can be removed from your `values.yaml`. The per-job Legacy vs. Priority-Based deployment flow choice on the Spark job form is unaffected. See [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator) for details.
+  </BreakingChanges>
+</Release>
 
 <Release version="3.19.0" date="August 24, 2026">
   <NewFeatures>
