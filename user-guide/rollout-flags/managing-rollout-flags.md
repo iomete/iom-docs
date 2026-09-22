@@ -1,6 +1,6 @@
 ---
 title: Managing Rollout Flags
-description: How to view rollout flags and change their global default or per-domain overrides from the admin panel.
+description: How to view rollout flags and change their global default from the admin panel.
 sidebar_label: Managing Flags
 last_update:
   date: 09/22/2026
@@ -11,7 +11,7 @@ import Img from "@site/src/components/Img";
 
 From release `4.0.0` forward, you manage rollout flags directly in the admin panel, under **Administration → Rollout Flags**. Changes take effect at runtime — within about a minute, without redeploying or restarting any service.
 
-Every admin panel user can view the flags. Changing them — the global default or a domain override — requires the [Administration Manager admin role](../iam/admin-roles.md); without it, the controls are disabled with an access tooltip.
+Every admin panel user can view the flags. Changing one requires the [Administration Manager admin role](../iam/admin-roles.md); without it, the controls are disabled with an access tooltip.
 
 ## Viewing Flags
 
@@ -21,13 +21,11 @@ The list shows every rollout flag the platform ships with, its flag key, its cur
 
 The status reflects the flag's global default:
 
-| Status       | Meaning                                                                                                          |
-| ------------ | ---------------------------------------------------------------------------------------------------------------- |
-| **Enabled**  | The flag is on by default everywhere.                                                                             |
-| **Disabled** | The flag is off by default everywhere.                                                                            |
-| **Not set**  | Nothing is configured; the flag falls back to its Helm chart value, or off where the chart doesn't define one.    |
-
-If a flag has domain overrides that diverge from the global default, the status also shows a hint such as _Disabled in 2 domains_.
+| Status       | Meaning                                                                                                        |
+| ------------ | -------------------------------------------------------------------------------------------------------------- |
+| **Enabled**  | The flag is on by default everywhere.                                                                          |
+| **Disabled** | The flag is off by default everywhere.                                                                         |
+| **Not set**  | Nothing is configured; the flag falls back to its Helm chart value, or off where the chart doesn't define one. |
 
 ## Reviewing a Flag Before Toggling
 
@@ -43,12 +41,6 @@ Toggle the **Global default** switch. Before anything changes, a confirmation di
 
 Confirming applies the change at runtime. Services pick it up automatically within about a minute — no restart, no redeploy. Rollback considerations differ per flag — some are safe to flip back freely, others are breaking — so read the dialog (or the flag's page under [Available flags](./overview.md#available-flags)) before disabling anything.
 
-## Domain Overrides
+## Scope
 
-Flags that support per-domain scope show an **Overrides** section on the details page, where you can roll a feature out gradually:
-
-- **Add Override** — pick one or more domains to give a value different from the global default.
-- Toggle or remove an override from its row. Removing one puts the domain back on the global default.
-- Each override records notes plus who changed it and when.
-
-A domain override always wins over the global default for that domain. Flags marked **Global only** on their documentation page (currently all shipped flags) don't have this section — they can only be toggled globally.
+All flags currently support **global changes only** — a toggle applies everywhere at once, and each flag's documentation page records this as _Global only — no per-domain override_. Per-domain overrides, which will let you enable a feature for specific domains before turning it on everywhere, are planned for a future release.
