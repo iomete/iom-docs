@@ -43,7 +43,7 @@ Includes a Prometheus exporter and ready-to-use Grafana dashboard to track:
 - Resource allocation patterns.
 
 ### Per-Job Opt-In
-Job orchestration is enabled by default for every IOMETE deployment — no system-level configuration is required. Each job independently opts in or out via its **Deployment Flow** setting, allowing gradual migration and testing.
+Each job independently opts in or out via its **Deployment Flow** setting, allowing gradual migration and testing.
 
 ---
 

@@ -17,7 +17,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="4.0.0" date="TBD">
   <BreakingChanges>
-    - **Job Orchestrator Always Enabled**: The `jobOrchestrator` feature flag has been removed. Priority-based job orchestration (powered by Prefect) was already always enabled in every deployment of this chart, so this is a configuration cleanup rather than a behavior change: `features.jobOrchestrator.enabled` no longer has any effect and can be removed from your `values.yaml`. The per-job Legacy vs. Priority-Based deployment flow choice on the Spark job form is unaffected. See [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator) for details.
+    - **Job Orchestrator Always Enabled**: The `jobOrchestrator` feature flag has been removed. `features.jobOrchestrator.enabled` no longer has any effect and can be removed from your `values.yaml`. The per-job Legacy vs. Priority-Based deployment flow choice on the Spark job form is unaffected. See [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator) for details.
   </BreakingChanges>
 </Release>
 
