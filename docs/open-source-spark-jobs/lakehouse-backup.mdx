@@ -48,7 +48,7 @@ Before you create the job, make sure the source credentials allow reads and the 
 
 3. Choose an instance size for the amount of data you need to copy.
 4. Under **Configurations → Config Maps**, add a file with the path `/etc/configs/application.json`, then paste your configuration. See [Config Maps](/resources/user-guide/spark-jobs/spark-application-config#config-maps) for details.
-5. Add the credential variables used in `application.json` under **Environment Variables**. The variable name must match the placeholder without `${}`, so `${SOURCE_ACCESS_KEY}` requires an environment variable named `SOURCE_ACCESS_KEY`. Select **Use existing secret** for each value as described in [Using Secrets in Workloads](/resources/user-guide/secrets#usage-in-workloads). The job replaces each placeholder at startup and reports any missing variables before copying files. Placeholders must be the complete JSON string value; partial values such as `https://${HOST}/path` are not supported.
+5. Add each credential as an [environment variable](/resources/user-guide/spark-jobs/spark-application-config#environment-variables) whose name matches the `${VAR_NAME}` value in the JSON. Set its value from an [IOMETE Secret](/resources/user-guide/secrets#usage-in-workloads) (recommended).
 6. Add a [schedule](/resources/user-guide/spark-jobs/spark-application-config#schedule) if you want the backup to run automatically, then create the job.
 
 The selected instance normally supplies the executor count and CPU settings. If either value is missing, the run fails before copying data and reports the Spark setting you need to add: `spark.kubernetes.executor.limit.cores` and either `spark.executor.instances` or `spark.dynamicAllocation.maxExecutors`.
