@@ -23,7 +23,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | Kafka Iceberg Stream     | kafka-iceberg-stream    | 1.2.0    | [Open ↗](/resources/open-source-spark-jobs/kafka-iceberg-stream)           |
 | Query Scheduler          | spark-py                | 3.5.7-v1 | [Open ↗](/resources/open-source-spark-jobs/query-scheduler-job)            |
 | TPC-DS Iceberg Generator | tpcds-iceberg-generator | 3.5.5    | Use job-templates in IOMETE                                                |
-| Lakehouse Backup         | iomete-lakehouse-backup | 1.4.1    | [Open ↗](../../../open-source-spark-jobs/lakehouse-backup.mdx)          |
+| Lakehouse Backup         | iomete-lakehouse-backup | 1.4.2    | [Open ↗](../../../open-source-spark-jobs/lakehouse-backup.mdx)          |
 | Cleanup Untracked Table Folders | cleanup-untracked-table-folders | 0.1.0 | [Open ↗](/resources/open-source-spark-jobs/cleanup-untracked-table-folders) |
 ---
 
@@ -43,6 +43,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Added support for the job to connect back to the platform when job is running in a separate data-plane cluster.
       - Needed for multi-cluster deployments. No impact on single-cluster deployments.
   </Improvements>
+</Release>
+
+<Release name="Lakehouse Backup Job" version="1.4.2" date="September 22, 2026">
+  <NewFeatures>
+    - **Environment variable placeholders**: Added support for complete string values such as `${VAR_NAME}`. The job resolves them at startup and reports missing variables before copying files.
+  </NewFeatures>
 </Release>
 
 <Release name="Lakehouse Backup Job" version="1.4.1" date="September 1, 2026">
