@@ -9,6 +9,8 @@ last_update:
 
 From release `4.0.0` forward, rollout flags let IOMETE turn a feature on or off at runtime, without a redeploy.
 
+Admins control them from the admin panel under **Administration → Rollout Flags** — see [Managing Rollout Flags](./managing-rollout-flags.md).
+
 ## Available flags
 
 - [Secrets V2](./secrets-v2.md)
