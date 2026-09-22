@@ -47,7 +47,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release name="Lakehouse Backup Job" version="1.4.2" date="September 22, 2026">
   <NewFeatures>
-    - **Environment variable placeholders**: Added support for complete string values such as `${VAR_NAME}`. The job resolves them at startup and reports missing variables before copying files.
+    - **Environment variable configuration**: Added support for environment variables in `application.json`. For example, set `"accessKey": "${SOURCE_ACCESS_KEY}"`, then add `SOURCE_ACCESS_KEY` to the job's **Environment Variables**.
   </NewFeatures>
 </Release>
 
