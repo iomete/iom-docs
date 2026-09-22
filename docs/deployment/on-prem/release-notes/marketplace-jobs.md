@@ -3,8 +3,8 @@ title: Marketplace Jobs
 sidebar_label: Marketplace Jobs
 description: Release notes for IOMETE Marketplace Jobs. Learn about updates, improvements, and bug fixes for various data integration and processing jobs.
 last_update:
-  date: 09/01/2026
-  author: Abhishek Pathania
+  date: 09/22/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -16,9 +16,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 | Name                     | Image                   | Version  | Link                                                                       |
 | ------------------------ | ----------------------- | -------- | -------------------------------------------------------------------------- |
-| Data Compaction          | iomete_data_compaction  | 1.2.13   | [Open ↗](/resources/open-source-spark-jobs/data-compaction)            |
+| Data Compaction          | iomete_data_compaction  | 1.2.14   | [Open ↗](/resources/open-source-spark-jobs/data-compaction)            |
 | File Streaming           | iomete-file-streaming   | 1.0.1    | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
-| Catalog Sync             | iom-catalog-sync        | 5.0.3    | [Open ↗](/resources/open-source-spark-jobs/catalog-sync)               |
+| Catalog Sync             | iom-catalog-sync        | 5.0.4    | [Open ↗](/resources/open-source-spark-jobs/catalog-sync)               |
 | MySQL Sync               | iomete_mysql_sync       | 3.0.0    | [Open ↗](/resources/open-source-spark-jobs/mysql-db-sync)                  |
 | Kafka Iceberg Stream     | kafka-iceberg-stream    | 1.2.0    | [Open ↗](/resources/open-source-spark-jobs/kafka-iceberg-stream)           |
 | Query Scheduler          | spark-py                | 3.5.7-v1 | [Open ↗](/resources/open-source-spark-jobs/query-scheduler-job)            |
@@ -28,6 +28,22 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 ---
 
 ## Recent Releases
+
+<Release name="Data Compaction Job" version="1.2.14" date="September 18, 2026">
+  <Improvements>
+    - **Multi-cluster connectivity**
+      - Added support for the job to connect back to the platform when job is running in a separate data-plane cluster.
+      - Needed for multi-cluster deployments. No impact on single-cluster deployments.
+  </Improvements>
+</Release>
+
+<Release name="Catalog Sync Job" version="5.0.4" date="September 18, 2026">
+  <Improvements>
+    - **Multi-cluster connectivity**
+      - Added support for the job to connect back to the platform when job is running in a separate data-plane cluster.
+      - Needed for multi-cluster deployments. No impact on single-cluster deployments.
+  </Improvements>
+</Release>
 
 <Release name="Lakehouse Backup Job" version="1.4.1" date="September 1, 2026">
   <BugFixes>
