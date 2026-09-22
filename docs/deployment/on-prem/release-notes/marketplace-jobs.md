@@ -30,9 +30,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 ## Recent Releases
 
 <Release name="Lakehouse Backup Job" version="1.4.2" date="September 22, 2026">
-  <NewFeatures>
-    - **Environment variable configuration**: Added support for environment variables in `application.json`. For example, set `"accessKey": "${SOURCE_ACCESS_KEY}"`, then add `SOURCE_ACCESS_KEY` to the job's **Environment Variables**.
-  </NewFeatures>
+  <BugFixes>
+    - **Environment variable credentials**: Fixed `${VAR_NAME}` references in `application.json` being passed as literal values. The job now resolves them from **Environment Variables** at startup.
+  </BugFixes>
 </Release>
 
 <Release name="Data Compaction Job" version="1.2.14" date="September 18, 2026">
