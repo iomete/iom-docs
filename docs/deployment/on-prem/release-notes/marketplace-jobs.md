@@ -29,6 +29,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 ## Recent Releases
 
+<Release name="Lakehouse Backup Job" version="1.4.2" date="September 22, 2026">
+  <NewFeatures>
+    - **Environment variable configuration**: Added support for environment variables in `application.json`. For example, set `"accessKey": "${SOURCE_ACCESS_KEY}"`, then add `SOURCE_ACCESS_KEY` to the job's **Environment Variables**.
+  </NewFeatures>
+</Release>
+
 <Release name="Data Compaction Job" version="1.2.14" date="September 18, 2026">
   <Improvements>
     - **Multi-cluster connectivity**
@@ -43,12 +49,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Added support for the job to connect back to the platform when job is running in a separate data-plane cluster.
       - Needed for multi-cluster deployments. No impact on single-cluster deployments.
   </Improvements>
-</Release>
-
-<Release name="Lakehouse Backup Job" version="1.4.2" date="September 22, 2026">
-  <NewFeatures>
-    - **Environment variable configuration**: Added support for environment variables in `application.json`. For example, set `"accessKey": "${SOURCE_ACCESS_KEY}"`, then add `SOURCE_ACCESS_KEY` to the job's **Environment Variables**.
-  </NewFeatures>
 </Release>
 
 <Release name="Lakehouse Backup Job" version="1.4.1" date="September 1, 2026">
