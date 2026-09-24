@@ -1,58 +1,213 @@
 ---
 title: Data Compaction Job
-description: IOMETE provides built-in job to run data compactions for iceberg tables that slow down over the time and require to run data compaction to clean up tables
+sidebar_label: Data Compaction
+description: Keep Iceberg tables fast by running snapshot expiration, orphan file cleanup, data file compaction, and manifest rewrites on a schedule.
 last_update:
-  date: 08/16/2024
-  author: Vugar Dadalov
+  date: 09/24/2026
+  author: Maksym Kryvchun
 ---
 
 import FlexButton from "@site/src/components/FlexButton";
-import Img from "@site/src/components/Img";
+import { Plus, Play } from "@phosphor-icons/react";
 
 ---
 
-Over the time iceberg tables could slow down and require to run data compaction to clean up tables.
-IOMETE provides built-in job to run data compactions for each table. This job triggers the next iceberg processes:
+Iceberg tables slow down over time as small files, old snapshots, and unused files pile up. The **Data Compaction Job** cleans them up on a schedule. For every Iceberg table it processes, it runs four maintenance operations in this order:
 
-1. ExpireSnapshots [Maintenance - Expire Snapshots](/reference/iceberg-tables/maintenance#expire-snapshots)
-2. Delete Orphan Files - See [Maintenance - Delete Orphan Files](/reference/iceberg-tables/maintenance#delete-orphan-files)
-3. Rewrite Data Files - See [Maintenance - Rewrite Data Files](/reference/iceberg-tables/maintenance#compact-data-files)
-4. Rewrite Manifests - See [Maintenance](/reference/iceberg-tables/maintenance#rewrite-manifests)
+1. **Rewrite manifests**: reorganizes table metadata for faster planning. See [Rewrite Manifests](../reference/iceberg-tables/maintenance.mdx#rewrite-manifests).
+2. **Rewrite data files**: merges small files into larger ones. See [Compact Data Files](../reference/iceberg-tables/maintenance.mdx#compact-data-files).
+3. **Expire snapshots**: removes old snapshots. See [Expire Snapshots](../reference/iceberg-tables/maintenance.mdx#expire-snapshots).
+4. **Remove orphan files**: deletes files no snapshot refers to. See [Delete Orphan Files](../reference/iceberg-tables/maintenance.mdx#delete-orphan-files).
 
-To enable data compaction spark job follow the next steps:
+Tables in other formats, such as Hive or Parquet tables, are skipped.
 
-1. Navigate to the `Job Templates`, then click the `Deploy` button on the **Data Compaction Job** card.
+- **Version:** `1.2.14` (see the [Marketplace Jobs release notes](../deployment/on-prem/release-notes/marketplace-jobs.md) for the latest version)
+- **Source:** [View on GitHub](https://github.com/iomete/iomete-marketplace-jobs/tree/main/data-compaction-job)
 
-<Img
-  src="/img/spark-job/data-compaction/data-compaction-card.png"
-  alt="IOMETE Spark Jobs"
-/>
+## Installation
 
-2. You will see the job creation page with all inputs filled.
+### Marketplace
 
-<Img
-  src="/img/spark-job/data-compaction/data-compaction-create-general.png"
-  alt="Create data compaction job"
-  maxWidth="550px"
-/>
+Open **Job Templates** and click **Marketplace**. Find the **data-compaction** card, click the **⋮** menu, and select **Deploy**.
 
-**Job Configurations**
+The job form opens pre-filled with recommended defaults and a weekly schedule. Review the config file (see [Configuration](#configuration)), then click **Create**.
 
-<Img
-  src="/img/spark-job/data-compaction/data-compaction-create-conf.png"
-  alt="Data compaction job configurations"
-  maxWidth="550px"
-/>
+### Manual Setup
 
-**Instance**
+Open **Job Templates** in the sidebar and click <FlexButton label='New Job Template' primary><Plus size={16} /></FlexButton>.
 
-<Img
-  src="/img/spark-job/data-compaction/data-compaction-create-instance.png"
-  alt="Data compaction job instance"
-  maxWidth="550px"
-/>
+**1. Name, Schedule, and Application**
 
-### Github
+- **Name:** any name you like, for example `data-compaction`
+- **Schedule:** `0 12 * * 0` (every Sunday at 12:00). Use any cron expression that fits your needs. Without a schedule, the job only runs when you start it.
+- **Application type:** `Python`
+- **Docker image:** `iomete/iomete_data_compaction:1.2.14` (replace with the [latest version](../deployment/on-prem/release-notes/marketplace-jobs.md))
+- **Main application file:** `local:///app/driver.py`
 
-We've created initial job for data-compaction which will be enough in most cases. Feel free to fork and create new data compaction image based on your company requirements.
-[View in Github](https://github.com/iomete/iomete-marketplace-jobs/tree/main/data-compaction-job)
+**2. Config File**
+
+Expand **Configurations**, select the **Config Maps** tab, and add a file named `application.conf` mounted at `/etc/configs`. Paste the HOCON template below.
+
+```hocon
+{
+    catalog: "spark_catalog",
+    expire_snapshot: {
+        retain_last: 1
+    },
+    rewrite_data_files: {
+        options: {
+            "min-input-files": 2,
+            "target-file-size-bytes": 536870912
+        }
+    },
+    rewrite_manifests: {
+        use_caching: true
+    }
+}
+```
+
+**3. Instance Resources**
+
+Pick driver and executor instance types that fit the size of your tables.
+
+Click <FlexButton label="Create" primary /> to save the job.
+
+## Configuration
+
+The config file is HOCON. Only `catalog` is required. Every other field is optional and falls back to the default shown below.
+
+### Choosing Tables
+
+By default the job processes every table in every database of the catalog.
+
+| Field | Default | Description |
+|---|---|---|
+| `catalog` | required | The catalog to compact, for example `spark_catalog`. |
+| `databases` | `[]` | Databases to process. Empty means all databases in the catalog. |
+| `table_include` | `[]` | Tables to process. See the notes below. |
+| `table_exclude` | `[]` | Tables to skip. |
+
+Tables in `table_include` and `table_exclude` can be written as `database.table` to target one table, or as `table` to match that name in every database.
+
+:::warning
+- `table_include` only limits the databases it mentions. Databases with no table in the list are still processed in full. To compact only a few tables, also set `databases` to just the databases those tables are in.
+- If `table_include` is in the config at all, even as `[]`, `table_exclude` is ignored. Leave `table_include` out when you use `table_exclude`.
+:::
+
+### Operation Settings
+
+Each operation has its own block. Set `enabled: false` in a block to skip that operation.
+
+:::warning
+With the default settings, each run keeps only the latest snapshot of every table, so you cannot time travel to earlier versions. Set `expire_snapshot.older_than_days` or a higher `retain_last` if you need history. A snapshot is kept if it is one of the last `retain_last` snapshots, or if it is newer than `older_than_days`.
+:::
+
+| Field | Default | Description |
+|---|---|---|
+| `expire_snapshot.enabled` | `true` | Run snapshot expiration. |
+| `expire_snapshot.retain_last` | `1` | Always keep the N most recent snapshots. |
+| `expire_snapshot.older_than_days` | not set | Remove snapshots older than N days. When not set, any snapshot older than 5 minutes can be removed. |
+| `remove_orphan_files.enabled` | `true` | Run orphan file cleanup. |
+| `remove_orphan_files.older_than_days` | `1` | Only delete orphan files older than N days. |
+| `remove_orphan_files.max_files_per_record` | `100` | Maximum number of removed file paths stored in one metrics row. Longer lists are split across rows. |
+| `rewrite_data_files.enabled` | `true` | Run data file compaction. |
+| `rewrite_data_files.strategy` | `binpack` | `binpack` merges small files. `sort` also sorts rows, which is slower but can speed up queries. |
+| `rewrite_data_files.sort_order` | not set | Columns to sort by when `strategy` is `sort`, for example `"user_id ASC, event_time DESC"`. |
+| `rewrite_data_files.where` | not set | Only compact rows that match this SQL filter, for example `"date <= CURRENT_DATE - 1"`. |
+| `rewrite_data_files.options` | `{}` | Iceberg [rewrite options](https://iceberg.apache.org/docs/latest/spark-procedures/#rewrite_data_files) such as `min-input-files` and `target-file-size-bytes`. |
+| `rewrite_manifests.enabled` | `true` | Run manifest rewrites. |
+| `rewrite_manifests.use_caching` | Iceberg default (`true`) | Use Spark caching during the rewrite. Setting it to `false` has no effect, the Iceberg default still applies. |
+
+### Other Settings
+
+| Field | Default | Description |
+|---|---|---|
+| `parallelism` | `4` | Number of tables processed at the same time. |
+| `stats_batch_size` | `100` | Number of result rows collected before they are written to the metrics table. |
+| `table_overrides` | not set | Per-table operation settings. See [Example 2](#example-2-different-settings-for-one-table). |
+| `gc_handling.enabled` | `false` | For tables with garbage collection turned off, turn it on for the run and off again afterwards. |
+| `lock.enabled` | `false` | Stop two job runs from compacting the same table at once. See [Table Locking](#table-locking). |
+| `lock.ttl_seconds` | `172800` | How long a lock lasts before it expires (48 hours). |
+
+## Examples
+
+### Example 1: Compact Selected Databases
+
+Processes every table in `analytics` and `production` except `production.raw_ingest`.
+
+```hocon
+{
+    catalog: "spark_catalog",
+    databases: ["analytics", "production"],
+    table_exclude: ["production.raw_ingest"]
+}
+```
+
+### Example 2: Different Settings for One Table
+
+Keeps 7 days of snapshots everywhere, but 30 days and sort compaction for `analytics.user_events`.
+
+```hocon
+{
+    catalog: "spark_catalog",
+    expire_snapshot: {
+        older_than_days: 7
+    },
+    table_overrides: {
+        analytics.user_events: {
+            expire_snapshot: {
+                older_than_days: 30
+            },
+            rewrite_data_files: {
+                strategy: "sort",
+                sort_order: "user_id ASC"
+            }
+        }
+    }
+}
+```
+
+### Example 3: Only Clean Up, No Rewrites
+
+Expires snapshots and removes orphan files, but skips both rewrite operations.
+
+```hocon
+{
+    catalog: "spark_catalog",
+    rewrite_data_files: {
+        enabled: false
+    },
+    rewrite_manifests: {
+        enabled: false
+    }
+}
+```
+
+## Table Locking
+
+When `lock.enabled` is `true`, the job marks each table with the `iomete.compaction.lock` table property while it works on it. Other runs skip a table that is already locked. The lock is removed when the table is done.
+
+If a run crashes, its locks expire on their own after `lock.ttl_seconds`. To check or clear a lock by hand:
+
+```sql
+SHOW TBLPROPERTIES spark_catalog.analytics.user_events;
+
+ALTER TABLE spark_catalog.analytics.user_events UNSET TBLPROPERTIES ('iomete.compaction.lock');
+```
+
+Set `ttl_seconds` longer than your slowest table takes to compact, or the lock can expire while the job is still working on it.
+
+## Checking Results
+
+A run can finish successfully even when some tables fail, because the job logs the error and moves on to the next table. Check these tables after a run:
+
+| Table | Contents |
+|---|---|
+| `spark_catalog.iomete_system_db.table_optimisation_run_metrics` | One row per operation on each table, with its result. |
+| `spark_catalog.iomete_system_db.table_optimisation_run_errors` | Tables where an operation failed, with the error. |
+
+## Running the Job
+
+The Marketplace template runs every Sunday at 12:00. To trigger a run on demand, open the job and click <FlexButton label='Run' primary><Play size={12} weight="fill" /></FlexButton>.
+
+To change the schedule, edit the job and set the **Schedule** parameter (cron expression).
