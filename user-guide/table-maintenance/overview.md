@@ -49,7 +49,7 @@ Before configuring table maintenance, confirm:
   - Catalog isn't in the excluded list (the built-in `spark_catalog` is excluded)
 <Img src="/img/user-guide/table-maintenance/iceberg-rest-catalog.png" alt="Catalog Details tab showing ICEBERG, REST, and INTERNAL type chips that mark the catalog as eligible for maintenance"/>
 - The catalog has an [owner domain](./catalog-configuration#catalog-owner-domain) assigned. All maintenance resources (compute cluster, service account) are scoped to it.
-<Img src="/img/user-guide/table-maintenance/catalog-owner-set.png" alt="Catalog Domain permissions tab showing a domain marked as Catalog Owner"/>
+<Img src="/img/user-guide/table-maintenance/catalog-owner-set.png" alt="Catalog Domain permissions tab showing the domain that owns the catalog"/>
 - You're a domain owner of the catalog's owner domain, or a platform administrator.
 - The `iom-maintenance` service is deployed. If it isn't, ask your platform administrator to enable it in Helm (see [Feature Flag](./deployment#feature-flag)).
 
