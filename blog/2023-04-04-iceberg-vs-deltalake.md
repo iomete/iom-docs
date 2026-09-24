@@ -26,15 +26,15 @@ In the beginning, Delta Lake's tight coupling provided a competitive advantage, 
 
 ## **Fully Open Source Apache Iceberg**
 
-In addition to its open-source nature, Apache Iceberg is also a part of the Apache Software Foundation. This means that Iceberg is a fully open-source project and is not owned by any company. This is a big advantage of Apache Iceberg over Delta Lake because Delta Lake is owned by Databricks.
+In addition to its open-source nature, Apache Iceberg is also a part of the Apache Software Foundation. This means that Iceberg is a fully open-source project and is not owned by any company. This is a big advantage of Apache Iceberg over Delta Lake, which was created and is stewarded by a commercial lakehouse vendor.
 
 Being fully open source means that Iceberg is community-driven and has a wider range of contributors. This can lead to faster development and more innovation.
 
 ## **Becoming a Standard in the Industry**
 
-While Delta Lake is mostly backed by Databricks, Iceberg is backed by many companies, including Netflix, Adobe, Alibaba, and many others. This means that Iceberg is becoming a standard in the industry. Wider open source commitment and adoption are huge by the industry.
+While Delta Lake is mostly backed by a single commercial lakehouse vendor, Iceberg is backed by many companies, including Netflix, Adobe, Alibaba, and many others. This means that Iceberg is becoming a standard in the industry. Wider open source commitment and adoption are huge by the industry.
 
-Many vendors are already baking Iceberg support. For example, DuckDB, Snowflake, ClickHouse, and many others have announced Iceberg support. This means that Iceberg is a safe choice for the future, as it is likely to be supported by many different platforms.
+Many vendors are already baking Iceberg support. For example, DuckDB along with a range of cloud data warehouses and proprietary query engines have announced Iceberg support. This means that Iceberg is a safe choice for the future, as it is likely to be supported by many different platforms.
 
 ## **Limitations of Iceberg**
 

@@ -15,7 +15,7 @@ import FAQSection from '@site/src/components/FAQSection';
 
 # Apache Iceberg Production Anti-Patterns: What Breaks in 2026 (And How to Fix It)
 
-[Apache Iceberg](/blog/why-apache-iceberg-is-winning-table-format) has become the table format of choice for modern [data lakehouses](/glossary/data-lakehouse). Spark, Trino, Flink, Snowflake, Databricks—everyone supports it. The specification is solid. The features are powerful. [Time travel](/reference/iceberg-tables/time-travel), schema evolution, [ACID transactions](/glossary/acid-transactions) on object storage—it all works exactly as advertised.
+[Apache Iceberg](/blog/why-apache-iceberg-is-winning-table-format) has become the table format of choice for modern [data lakehouses](/glossary/data-lakehouse). Spark, Trino, Flink, and the major cloud data platforms—everyone supports it. The specification is solid. The features are powerful. [Time travel](/reference/iceberg-tables/time-travel), schema evolution, [ACID transactions](/glossary/acid-transactions) on object storage—it all works exactly as advertised.
 
 Until it doesn't.
 
@@ -114,7 +114,7 @@ Running these out of order can leave orphaned data, corrupt time travel, or trig
 
 ## Anti-Pattern #3: The Catalog Wars—Choosing the Wrong Metadata Layer
 
-2026 is seeing a "Catalog War" across the Iceberg ecosystem. REST Catalog, AWS Glue, Databricks Unity Catalog, Polaris, Hive Metastore—each has different compatibility guarantees, latency characteristics, and operational constraints.
+2026 is seeing a "Catalog War" across the Iceberg ecosystem. REST Catalog, AWS Glue, vendor-managed catalog services, Polaris, Hive Metastore—each has different compatibility guarantees, latency characteristics, and operational constraints.
 
 Choosing the wrong catalog locks you into vendor-specific behavior or introduces query planning bottlenecks that can't be fixed without migrating the entire table.
 
@@ -347,7 +347,7 @@ The difference isn't the technology. It's how you operate it.
     answerContent: (
       <>
         <p><strong>REST Catalog</strong> is the safest choice for multi-engine compatibility. It works with Spark, Trino, Flink, and most other Iceberg-compatible engines without vendor lock-in.</p>
-        <p>AWS Glue works well if you're exclusively in AWS, but has higher latency and eventual consistency issues. Databricks Unity Catalog only works within the Databricks ecosystem.</p>
+        <p>Cloud-provider and vendor-managed catalog services can be a good fit when you already run everything inside that one platform, but they tie catalog behavior to that environment. Check latency, consistency semantics, and cross-engine access before committing.</p>
         <p>In IOMETE deployments, REST Catalog is the default for its combination of performance, compatibility, and operational simplicity.</p>
       </>
     )

@@ -59,7 +59,7 @@ These aren't four nice-to-haves. They're the four things an AI-ready data platfo
 
 ## 3. Curation and preparation
 
-**The problem.** Only 7% of enterprises say more than half of their unstructured data is AI-ready (Snowflake, 2026). Models are only as good as the features fed into them; agents are only as useful as the documents they can reliably retrieve. Curation is the unglamorous middle layer where most AI initiatives stall.
+**The problem.** Across recent enterprise surveys, only a small minority of organizations say most of their unstructured data is AI-ready. Models are only as good as the features fed into them; agents are only as useful as the documents they can reliably retrieve. Curation is the unglamorous middle layer where most AI initiatives stall.
 
 **What it requires.** Distributed compute strong enough to engineer features over years of history. [ACID guarantees](/glossary/acid-transactions) on the storage layer, so concurrent reads and writes don't corrupt training sets. A workflow that doesn't require copying data out to a separate ML platform.
 
@@ -100,7 +100,7 @@ Each pillar, on its own, is solvable with a point tool. The catch is that AI-rea
 |---|---|---|
 | Unification | 68% blocked by silos | Event Ingestion · Query Federation · Spark · Scheduler |
 | Governance | 20% mature on agent governance | Access Control · Masking · Lineage · Documentation |
-| Curation | 7% with AI-ready unstructured data | Spark feature engineering · Iceberg ACID · Notebooks |
+| Curation | Little AI-ready unstructured data | Spark feature engineering · Iceberg ACID · Notebooks |
 | Reproducibility | 20% with tested AI incident response | Time Travel · Dataset Tagging · Lineage Replay |
 
 Stitching four point tools together is not the same answer. Each integration seam is a place where credentials drift, lineage breaks, and the audit trail goes dark — and AI-readiness is exactly the property that doesn't survive those seams.
