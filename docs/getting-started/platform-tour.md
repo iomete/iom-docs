@@ -19,7 +19,7 @@ The IOMETE interface has three areas:
 
 ## Home
 
-The Home page is your starting point after login. It displays a resource quota overview and quick access cards for user guides, integrations, the API reference, and support.
+The Home page is your starting point after login. It displays [recently viewed resources](/user-guide/recently-viewed), a resource quota overview, and quick access cards for user guides, integrations, the API reference, and support.
 
 <Img src="/img/getting-started/platform-tour/home-page.png" alt="Home page" maxWidth="900px"/>
 
