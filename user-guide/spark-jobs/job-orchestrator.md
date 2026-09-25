@@ -3,7 +3,7 @@ title: Job Orchestrator
 description: Learn about the new Job Orchestrator for priority-based scheduling, resource-aware execution, and built-in observability for Spark jobs on the IOMETE platform.
 sidebar_label: Job Orchestrator
 last_update:
-   date: 08/24/2026
+   date: 09/22/2026
    author: Shashank Chaudhary
 ---
 
@@ -42,8 +42,8 @@ Includes a Prometheus exporter and ready-to-use Grafana dashboard to track:
 - Job wait times by priority level.
 - Resource allocation patterns.
 
-### Flexible Enable/Disable Options
-You can opt in or out at the **system level** or **individual job level**, allowing gradual migration and testing.
+### Per-Job Opt-In
+Each job independently opts in or out via its **Deployment Flow** setting, allowing gradual migration and testing.
 
 ---
 
@@ -51,16 +51,6 @@ You can opt in or out at the **system level** or **individual job level**, allow
 
 ### How to Enable
 
-#### Enable First at the System Level
-In your Helm `values.yaml`, enable the feature:
-```yaml
-features:
-  jobOrchestrator:
-    enabled: true
-```
-This will deploy the orchestrator server, workers, and metrics exporter components across your IOMETE deployment.
-
-#### Then at a Job Level
 1. Navigate to **Spark Jobs** and create a new job or configure an existing one.
 2. Go to **Advanced Settings** section
 3. Change **Deployment Flow** from `Legacy` to `Priority-Based`
@@ -76,14 +66,10 @@ Start by testing the orchestrator with non-critical jobs before migrating produc
 
 ### How to Disable
 
-#### At the job level
-Change `Deployment Flow` back to `Legacy` in the job's advanced settings to opt out of orchestration for specific jobs.
+Change `Deployment Flow` back to `Legacy` in the job's advanced settings to opt out of orchestration for a specific job.
 
-#### At the system level
-Set `features.jobOrchestrator.enabled: false` in your Helm values to disable orchestration platform-wide.
-
-:::note
-Before disabling the flag, please move all jobs back to the `Legacy` flow at once by using this API endpoint:
+:::tip
+To move all jobs in a domain back to the `Legacy` flow at once, use this API endpoint:
 
 ```bash
 curl --location 'https://<IOMETE_URL>/api/v1/domains/<DOMAIN_NAME>/spark/jobs/migrate-from-prefect' \
