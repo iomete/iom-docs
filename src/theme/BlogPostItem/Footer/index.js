@@ -27,6 +27,8 @@ export default function FooterWrapper(props) {
 
   return (
     <>
+      {/* The in-article CTA is injected mid-post by plugins/remark-blog-cta.js,
+          so the footer stays as the theme intends. */}
       <Footer {...props} />
       {showLastUpdated && (
         <footer className="docusaurus-mt-lg">
