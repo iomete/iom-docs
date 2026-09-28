@@ -89,6 +89,13 @@ const userGuideRedirects = [
   { from: "/integrations/bi/power-bi-arrow-flight", to: "/integrations/bi/power-bi/arrow-flight" },
   { from: "/integrations/bi/power-bi-odbc", to: "/integrations/bi/power-bi/odbc" },
   { from: "/integrations/bi/tableau", to: "/integrations/bi/tableau/arrow-flight" },
+
+  // Rollout Flags renamed to Feature Flags (PLA-1536)
+  { from: "/user-guide/rollout-flags/overview", to: "/user-guide/feature-flags/overview" },
+  { from: "/user-guide/rollout-flags/managing-rollout-flags", to: "/user-guide/feature-flags/managing-feature-flags" },
+  { from: "/user-guide/rollout-flags/secrets-v2", to: "/user-guide/feature-flags/secrets-v2" },
+  { from: "/user-guide/rollout-flags/ldap-group-inheritance", to: "/user-guide/feature-flags/ldap-group-inheritance" },
+  { from: "/user-guide/rollout-flags/sql-editor-v2", to: "/user-guide/feature-flags/sql-editor-v2" },
 ];
 
 export default userGuideRedirects;

@@ -23,7 +23,7 @@ Every admin panel user can view the flags. Changing one requires the [Administra
 
 The list shows the feature flags in your platform version, each with its flag key, current status, and a short description.
 
-<Img src="/img/user-guide/rollout-flags/rollout-flags-list.png" alt="Feature Flags list in the admin panel" />
+<Img src="/img/user-guide/feature-flags/feature-flags-list.png" alt="Feature Flags list in the admin panel" />
 
 The status reflects the flag's global default:
 
@@ -37,13 +37,13 @@ The status reflects the flag's global default:
 
 Click a flag to open its details. Each flag documents what it controls, what it requires, which surfaces it touches, and what happens if you roll it back — plus links to its documentation. The **Global default** card also shows who last changed the flag and when. A flag nobody has touched shows the value inherited from the Helm chart, recorded as _Default from helm (values.yaml)_ by `system`.
 
-<Img src="/img/user-guide/rollout-flags/rollout-flag-details.png" alt="Feature flag details page" />
+<Img src="/img/user-guide/feature-flags/feature-flag-details.png" alt="Feature flag details page" />
 
 ## Changing the Global Default
 
 Toggle the **Global default** switch. Before anything changes, a confirmation dialog repeats the flag's affected surfaces and rollback considerations, so you see the impact before you commit:
 
-<Img src="/img/user-guide/rollout-flags/rollout-flag-confirm.png" alt="Confirmation dialog when disabling a feature flag" maxWidth="480px" centered />
+<Img src="/img/user-guide/feature-flags/feature-flag-confirm.png" alt="Confirmation dialog when disabling a feature flag" maxWidth="480px" centered />
 
 Confirming applies the change at runtime. Services pick it up automatically within about a minute — no restart, no redeploy. Rollback considerations differ per flag — some are safe to flip back freely, others are breaking — so read the dialog (or the flag's page under [Available flags](./overview.md#available-flags)) before disabling anything.
 
