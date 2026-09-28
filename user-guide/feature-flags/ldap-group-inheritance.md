@@ -1,6 +1,6 @@
 ---
-title: LDAP Group Inheritance Rollout Flag
-description: What the ldapGroupInheritance rollout flag controls, its prerequisites and impact area, and what to check before enabling or disabling it.
+title: LDAP Group Inheritance Feature Flag
+description: What the ldapGroupInheritance feature flag controls, its prerequisites and impact area, and what to check before enabling or disabling it.
 sidebar_label: LDAP Group Inheritance
 last_update:
   date: 08/18/2026
@@ -21,7 +21,7 @@ This only affects **group-to-group** relationships built during LDAP sync (a gro
 
 ### Minimum compatible version
 
-IOMETE `4.0.0` or later to control it through this rollout flag — before that, `ldapGroupInheritance` can only be set through the Helm chart value, which requires a normal redeploy to change.
+IOMETE `4.0.0` or later to control it through this feature flag — before that, `ldapGroupInheritance` can only be set through the Helm chart value, which requires a normal redeploy to change.
 
 ### Deployment setup changes
 
@@ -29,7 +29,7 @@ None beyond having LDAP itself configured. This flag has no effect unless [group
 
 ### Services to restart
 
-None **when changed through the rollout-flag admin API**. Toggling a global override takes effect automatically, within about a minute, without restarting `iom-identity` or any other service — the change applies starting with the next LDAP sync.
+None **when changed through the feature-flag admin API**. Toggling a global override takes effect automatically, within about a minute, without restarting `iom-identity` or any other service — the change applies starting with the next LDAP sync.
 
 If you instead change the underlying Helm value this flag falls back to (`features.ldapGroupInheritance.enabled`) with no override set, that's an ordinary Helm upgrade — it goes through your normal deploy process like any other chart value.
 
@@ -66,4 +66,4 @@ Before disabling, confirm no access grant relies solely on inherited group membe
 
 ---
 
-See [Rollout Flags](./overview.md) for other flags.
+See [Feature Flags](./overview.md) for other flags.

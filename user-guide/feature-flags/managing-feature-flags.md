@@ -1,6 +1,6 @@
 ---
-title: Managing Rollout Flags
-description: How to view rollout flags and change their global default from the admin panel.
+title: Managing Feature Flags
+description: How to view feature flags and change their global default from the admin panel.
 sidebar_label: Managing Flags
 last_update:
   date: 09/22/2026
@@ -9,11 +9,11 @@ last_update:
 
 import Img from "@site/src/components/Img";
 
-From release `4.0.0` forward, you manage rollout flags directly in the admin panel, under **Administration → Rollout Flags**. Changes take effect at runtime — within about a minute, without redeploying or restarting any service.
+From release `4.0.0` forward, you manage feature flags directly in the admin panel, under **Administration → Feature Flags**. Changes take effect at runtime — within about a minute, without redeploying or restarting any service.
 
-## What a Rollout Flag Is
+## What a Feature Flag Is
 
-A rollout flag is a runtime switch for one piece of platform behavior. When a release changes how an existing feature works — the SQL Editor engine, for example — the new behavior ships behind a flag, so you can turn it on when you're ready and switch back without a redeploy if it causes problems.
+A feature flag is a runtime switch for one piece of platform behavior. When a release changes how an existing feature works — the SQL Editor engine, for example — the new behavior ships behind a flag, so you can turn it on when you're ready and switch back without a redeploy if it causes problems.
 
 Flags ship with the platform itself, so what you see depends on your version, and the list grows over time: new releases add flags for new behavior, and once a behavior has proven stable, its flag is removed and the behavior becomes permanent. [Available flags](./overview.md#available-flags) lists the current flags, each with its own documentation page.
 
@@ -21,9 +21,9 @@ Every admin panel user can view the flags. Changing one requires the [Administra
 
 ## Viewing Flags
 
-The list shows the rollout flags in your platform version, each with its flag key, current status, and a short description.
+The list shows the feature flags in your platform version, each with its flag key, current status, and a short description.
 
-<Img src="/img/user-guide/rollout-flags/rollout-flags-list.png" alt="Rollout Flags list in the admin panel" />
+<Img src="/img/user-guide/rollout-flags/rollout-flags-list.png" alt="Feature Flags list in the admin panel" />
 
 The status reflects the flag's global default:
 
@@ -37,13 +37,13 @@ The status reflects the flag's global default:
 
 Click a flag to open its details. Each flag documents what it controls, what it requires, which surfaces it touches, and what happens if you roll it back — plus links to its documentation. The **Global default** card also shows who last changed the flag and when. A flag nobody has touched shows the value inherited from the Helm chart, recorded as _Default from helm (values.yaml)_ by `system`.
 
-<Img src="/img/user-guide/rollout-flags/rollout-flag-details.png" alt="Rollout flag details page" />
+<Img src="/img/user-guide/rollout-flags/rollout-flag-details.png" alt="Feature flag details page" />
 
 ## Changing the Global Default
 
 Toggle the **Global default** switch. Before anything changes, a confirmation dialog repeats the flag's affected surfaces and rollback considerations, so you see the impact before you commit:
 
-<Img src="/img/user-guide/rollout-flags/rollout-flag-confirm.png" alt="Confirmation dialog when disabling a rollout flag" maxWidth="480px" centered />
+<Img src="/img/user-guide/rollout-flags/rollout-flag-confirm.png" alt="Confirmation dialog when disabling a feature flag" maxWidth="480px" centered />
 
 Confirming applies the change at runtime. Services pick it up automatically within about a minute — no restart, no redeploy. Rollback considerations differ per flag — some are safe to flip back freely, others are breaking — so read the dialog (or the flag's page under [Available flags](./overview.md#available-flags)) before disabling anything.
 

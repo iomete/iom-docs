@@ -123,14 +123,14 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Rollout Flags",
+      label: "Feature Flags",
       collapsed: true,
       items: [
-        "rollout-flags/overview",
-        "rollout-flags/managing-rollout-flags",
-        "rollout-flags/secrets-v2",
-        "rollout-flags/ldap-group-inheritance",
-        "rollout-flags/sql-editor-v2",
+        "feature-flags/overview",
+        "feature-flags/managing-feature-flags",
+        "feature-flags/secrets-v2",
+        "feature-flags/ldap-group-inheritance",
+        "feature-flags/sql-editor-v2",
       ],
     },
     {

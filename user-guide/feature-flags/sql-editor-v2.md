@@ -1,6 +1,6 @@
 ---
-title: SQL Editor V2 Rollout Flag
-description: What the sqlEditorV2 rollout flag controls, its prerequisites and impact area, and what to check before enabling or disabling it.
+title: SQL Editor V2 Feature Flag
+description: What the sqlEditorV2 feature flag controls, its prerequisites and impact area, and what to check before enabling or disabling it.
 sidebar_label: SQL Editor V2
 last_update:
   date: 08/25/2026
@@ -71,4 +71,4 @@ Keep in mind:
 
 ---
 
-See [Rollout Flags](./overview.md) for other flags.
+See [Feature Flags](./overview.md) for other flags.
