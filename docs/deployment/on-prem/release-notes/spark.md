@@ -3,8 +3,8 @@ title: IOMETE Spark Release Notes
 sidebar_label: Spark
 description: Release notes for IOMETE Spark images. Learn about new features, improvements, security updates, and bug fixes in each Spark image release.
 last_update:
-  date: 08/20/2026
-  author: Shahriyar Novruzov
+  date: 10/01/2026
+  author: Rovshan Baghirov
 ---
 
 import Mailer from '@site/src/components/Mailer';
@@ -33,7 +33,7 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     Never an rc push or the tagged commit date; both predate availability.
 */}
 
-<Release name="Spark" version="4.1.3-v1" date="September 7, 2026">
+<Release name="Spark" version="4.1.3-v1" date="October 1, 2026">
   <ReleaseDescription>
     The first release of the Spark 4 line.
   </ReleaseDescription>
@@ -43,11 +43,16 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     - Initial support for Iceberg 1.11, including format V3.
     - Initial support for Comet 1.0.0.
   </NewFeatures>
+
+  <Improvements>
+    - **Security Updates**: Security-related upgrades to bundled dependencies, including the Ranger plugin and the PostgreSQL JDBC driver.
+    - Includes every fix and improvement shipped in 3.5.7-v7.
+  </Improvements>
 </Release>
 
-<Release name="Spark" version="3.5.7-v7" date="September 7, 2026">
+<Release name="Spark" version="3.5.7-v7" date="October 1, 2026">
   <ReleaseDescription>
-    Correct query-to-cluster attribution in multi-data-plane deployments, plus Spark History Server reliability fixes.
+    A fix for data-security policies that stopped refreshing on long-running clusters, correct query-to-cluster attribution in multi-data-plane deployments, and Spark History Server reliability fixes.
   </ReleaseDescription>
 
   <Improvements>
@@ -55,6 +60,8 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
   </Improvements>
 
   <BugFixes>
+    - **Data-Security Policies Stopped Refreshing**: A compute cluster could stop picking up data-security policy changes after a brief interruption of the identity service, and only a restart brought it back. The Ranger plugin is upgraded from 2.4.0 to 2.8.0, which carries the upstream fix. Audit output is unchanged.
+    - **Driver Logs Silenced**: An older SLF4J bundled with the catalog extension shadowed Spark's logging and left driver logs empty. It is no longer bundled, so driver logs are back.
     - **Spark History Server — Storage Failures No Longer Hidden**: When object-storage access fails, the history server now surfaces the real storage error instead of reporting the application as "not found," so storage incidents are no longer misdiagnosed as missing Spark applications.
     - **Spark History Server — Recovery from an Unusable Storage Client**: The history server now detects when its storage client has become locally unusable and recovers without a manual pod restart, while still correctly distinguishing this from a genuine object-storage (S3/ECS) outage. Filesystem resources are also reliably released on shutdown.
   </BugFixes>
