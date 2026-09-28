@@ -1,6 +1,6 @@
 ---
-title: Secrets V2 Rollout Flag
-description: What the secretsV2 rollout flag controls, its prerequisites and impact area, and what to check before enabling or disabling it.
+title: Secrets V2 Feature Flag
+description: What the secretsV2 feature flag controls, its prerequisites and impact area, and what to check before enabling or disabling it.
 sidebar_label: Secrets V2
 last_update:
   date: 08/18/2026
@@ -30,7 +30,7 @@ The console's secret selector — ["Use existing secret" / "Create new secret"](
 
 ### Minimum compatible version
 
-IOMETE `4.0.0` or later to control it through this rollout flag — before that, `secretsV2` can only be set through the Helm chart value, which requires a normal redeploy to change.
+IOMETE `4.0.0` or later to control it through this feature flag — before that, `secretsV2` can only be set through the Helm chart value, which requires a normal redeploy to change.
 
 ### Deployment setup changes
 
@@ -38,7 +38,7 @@ None. No additional Helm values, infrastructure, or configuration are needed to 
 
 ### Services to restart
 
-None **when changed through the rollout-flag admin API** — that's what "no restart" means on this page. Toggling a domain or global override takes effect automatically, within about a minute, without restarting `iom-core`, `iom-cluster`, or any other service.
+None **when changed through the feature-flag admin API** — that's what "no restart" means on this page. Toggling a domain or global override takes effect automatically, within about a minute, without restarting `iom-core`, `iom-cluster`, or any other service.
 
 If you instead change the underlying Helm value this flag falls back to (`features.secretsV2.enabled`) with no override set, that's an ordinary Helm upgrade — it goes through your normal deploy process like any other chart value.
 
@@ -269,4 +269,4 @@ Before disabling, confirm nothing depends solely on a structured secret referenc
 
 ---
 
-See [Rollout Flags](./overview.md) for other flags.
+See [Feature Flags](./overview.md) for other flags.
