@@ -24,10 +24,24 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | Query Scheduler          | spark-py                | 3.5.7-v1 | [Open ↗](/resources/open-source-spark-jobs/query-scheduler-job)            |
 | TPC-DS Iceberg Generator | tpcds-iceberg-generator | 3.5.5    | Use job-templates in IOMETE                                                |
 | Lakehouse Backup         | iomete-lakehouse-backup | 1.4.2    | [Open ↗](../../../open-source-spark-jobs/lakehouse-backup.mdx)          |
-| Cleanup Untracked Table Folders | cleanup-untracked-table-folders | 0.1.0 | [Open ↗](/resources/open-source-spark-jobs/cleanup-untracked-table-folders) |
+| Cleanup Untracked Table Folders | cleanup-untracked-table-folders | 0.1.4 | [Open ↗](/resources/open-source-spark-jobs/cleanup-untracked-table-folders) |
 ---
 
 ## Recent Releases
+
+<Release name="Cleanup Untracked Table Folders Job" version="0.1.4" date="September 25, 2026">
+  <BugFixes>
+    - **Catalog-scoped object storage access**: Fixed a failure where the job used Spark's global Hadoop configuration for direct object-storage operations. When the selected catalog used a different S3-compatible endpoint than the platform storage, storage folder discovery could fail with a bucket-not-found error even though catalog discovery succeeded. The job now resolves the selected catalog's own storage settings and uses an isolated filesystem instance for discovery, size collection, and deletion.
+  </BugFixes>
+
+  <Improvements>
+    - ✅ Platform storage credentials are no longer inherited when accessing a catalog that declares its own endpoint
+    - ✅ The job fails closed when a catalog's storage configuration cannot be resolved, instead of falling back to platform storage
+    - ✅ New `BLOCKED` audit status for databases where a table's storage location cannot be read. Storage reconciliation still runs and reports what it found, but nothing is deleted (`status_reason=unresolved_catalog_ownership`)
+    - ✅ New audit columns `unresolved_table_count` and `potentially_untracked_folder_count`. `candidate_folder_count` is now reserved for folders confirmed as eligible for deletion
+    - ✅ Reworked end-of-run summary report in the driver logs, with separate sections for protected, excluded, untracked, and deleted folders
+  </Improvements>
+</Release>
 
 <Release name="Lakehouse Backup Job" version="1.4.2" date="September 22, 2026">
   <BugFixes>
