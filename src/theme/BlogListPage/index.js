@@ -13,7 +13,7 @@ import "./styles.scss";
 function BlogListPageMetadata(props) {
   const { metadata } = props;
 
-  const canonicalUrl = "https://iomete.com/blog" + (metadata.permalink || "");
+  const canonicalUrl = "https://iomete.com" + (metadata.permalink || "/resources/blog");
   const blogImage = "IOMETE-og-blog.png";
 
   return (
