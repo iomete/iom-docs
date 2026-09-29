@@ -3,7 +3,7 @@ import BlogTagsListPage from '@theme-original/BlogTagsListPage';
 import Head from '@docusaurus/Head';
 
 export default function BlogTagsListPageWrapper(props) {
-  const canonicalUrl = "https://iomete.com/blog";
+  const canonicalUrl = "https://iomete.com/resources/blog";
   return (
     <>
       <Head>
