@@ -15,6 +15,196 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="4.0.0-rc10" date="TBD">
+  <NewFeatures>
+    - **Control Plane and Data Planes**: A deployment now separates the control plane from one or more data planes. The control plane keeps the console, identity, catalog and SQL services, while each data plane runs its own compute, Jupyter containers, Event Streams, Docker registries, metastore and object storage, and enrolls with the control plane over HTTPS. Namespaces, computes, Spark jobs, Jupyter containers, Docker registries, worksheets and query history now carry the data plane that owns them and can be filtered by it.
+      - **Data Plane Administration**: New admin endpoints list the data planes connected to a control plane with their status, address, version and live namespace quota usage. A data plane that cannot be reached is still listed, without usage figures.
+      - **Remote Workloads**: Computes, Spark jobs and Jupyter containers can be created on a named data plane. Each is given its own plane's Iceberg catalog, metastore, Ranger policy and storage addresses, and its Spark UI, Spark History, metrics and pod logs are relayed back through the owning plane.
+      - **Plane-to-Plane Trust**: Calls between a control plane and its data planes are verified against a shared trust secret and routed through each side's gateway. The control plane generates the secret on install and keeps it across upgrades, and a data plane install that is not given the same secret stops with a message naming the value to set.
+    - **Encrypted Secret Storage**: Platform secrets are now held in the database, encrypted with AES-256-GCM and scoped per domain, instead of in Kubernetes Secrets. Existing Kubernetes secrets, including Vault login credentials, are migrated on upgrade, and the encryption key is generated at install time and preserved across every later upgrade.
+    - **SQL Editor V2**: A rebuilt SQL Editor and Query Monitoring that execute over Arrow Flight, with streamed result sets, streamed CSV export, search and batch-status APIs, and query archival to Iceberg. Table Maintenance runs through the same path. Turn it on with the `sqlEditorV2` feature flag, which replaces the `sql-editor.version` system configuration.
+    - **Managed MCP Server**: IOMETE ships a Model Context Protocol server as a data-plane component, so desktop and CLI MCP clients can query the lakehouse. Disabled by default, and access is granted through the new `mcp/use` permission.
+
+      ```yaml
+      # Helm values
+      features:
+        mcpServer:
+          enabled: false   # default
+      services:
+        mcpServer:
+          urls:
+            public: ""     # browser-facing address, required when enabled
+            internal: ""   # in-cluster address the server calls IOMETE on
+      ```
+
+    - **AI Services**: An LLM gateway ships as a data-plane component, served through `iom-gateway` under `/llm-gateway`. Disabled by default.
+
+      ```yaml
+      # Helm values
+      features:
+        aiServices:
+          enabled: false   # default
+      ```
+
+    - **Comet Execution Engine**: Compute clusters have a new **Enable Comet** toggle that runs queries through the Apache Comet native execution engine. Off by default, so existing computes are unchanged.
+    - **Active-Active Control Planes**: Two control planes can share one database and serve behind a load balancer. Leader election and scheduled background work are coordinated through PostgreSQL so only one of them runs each job, and every install answers an unauthenticated `GET /healthz` with `200` while it can take traffic and `503` when it cannot, which is what the load balancer health check should point at.
+  </NewFeatures>
+
+  <Improvements>
+    - **Installation**
+      - **Chart-Managed Prerequisites**: The data plane chart can now create the Spark Operator custom resource definitions, the lakehouse service account with its Role and RoleBinding, and the Spark webhook certificates, removing the `kubectl apply` steps that used to precede a Helm install. All three switches default to `false`, so an existing install renders as before, and objects created outside Helm are left untouched.
+
+        ```yaml
+        # Helm values
+        crds:
+          create: false          # default
+        serviceAccount:
+          create: false          # default
+          annotations: {}        # for cloud workload identity
+        webhook:
+          create: false          # default
+        ```
+
+      - **Control Plane Without a Bundled Data Plane**: A control plane can be installed on its own and have its data planes added afterwards. Left at the default, the install still brings up its own data plane and registers it as `default`.
+
+        ```yaml
+        # Helm values
+        defaultDataPlane:
+          enabled: true   # default
+        ```
+
+      - **Reusing Existing Secrets**: The secret-store encryption key, the `iom-socket` system token and the plane trust secret can each be pointed at a Kubernetes Secret that already exists, so two installs can share the same material. The charts still generate their own when nothing is set.
+    - **Database**
+      - **Standby Reads**: Reads that tolerate slightly stale data, including platform health history, Ranger policy downloads and audit log browsing, can be sent to a read-only standby of the same database. Left empty, which is the default, every read goes to the primary as before.
+
+        ```yaml
+        # Helm values
+        database:
+          readHost: ""       # default: empty, all reads go to the primary
+          readPort: ""       # optional, when the standby answers on another port
+          readUser: ""       # optional, read-only login
+          readPassword: ""   # optional
+        ```
+
+      - **Connection Pooler Support**: The platform can be pointed at a connection pooler while database schema upgrades still reach the database directly, which is the one thing a pooler cannot carry. Unset, the default, an install without a pooler is unaffected.
+
+        ```yaml
+        # Helm values
+        database:
+          host: pgbouncer.example.internal
+          directHost: ""   # default: empty, falls back to host
+        ```
+
+      - **Upgrades Across a Shared Database**: A cluster running an older version now starts against a database that another cluster has already upgraded, instead of refusing to start, so clusters sharing a database can be upgraded one at a time.
+      - **Metastore Connection Pool**: The metastore's database connection pools are now sized per install and keep far fewer connections open while idle. Plan for at most `3 x maxPoolSize + compactorMaxPoolSize + 2` connections per metastore, and raise `maxPoolSize` if metadata requests time out under heavy load.
+
+        ```yaml
+        # Helm values
+        services:
+          metastore:
+            connectionPool:
+              maxPoolSize: 10            # default (was 67 across pools), per main pool
+              compactorMaxPoolSize: 5    # default
+              minimumIdle: 1             # default (was 10)
+        ```
+
+    - **Generic S3-Compatible Storage**: A single `s3_compatible` storage block replaces the MinIO-specific and Dell ECS-specific ones, so any S3-compatible endpoint can be configured without choosing a vendor. The old keys still work.
+
+      ```yaml
+      # Helm values
+      storage:
+        bucketName: "lakehouse"
+        type: "s3_compatible"
+        s3CompatibleSettings:
+          endpoint: "https://s3.example.com"
+          accessKey: "admin"
+          secretKey: "password"
+          # or read the secret key from an existing Secret instead:
+          # secretKeySecret:
+          #   name: storage-credentials
+          #   key: secret-key
+      ```
+
+    - **Storage Region**: An optional `storage.region` now applies to every S3 request, shared by every catalog, the default catalog and query result storage, so an install on MinIO can attach catalogs backed by an AWS S3 bucket outside `us-east-1`. Unset, the default, AWS installs keep using `cloud.region` and MinIO and Dell ECS keep `us-east-1`.
+    - **Chart Changes for 4.0**: Several feature flags are no longer configurable, and three deployments are no longer installed.
+      - `jobOrchestrator`, `onboardComputeRas`, `onboardSparkJobRas`, `onboardWorkspaceRas` and `onboardNamespaceMappingRas` are fixed on. The `emailNotifications` and `enableAutomatedMaintenance` flags are gone, so email notifications and automated Iceberg table maintenance are always available.
+      - `domainLevelBundleAuthorization` and `scheduling` are fixed off, both having previously defaulted to on. SQL query scheduling is no longer deployed.
+      - The collaborative SQL editor, the NATS server and the job orchestrator metrics exporter are no longer deployed, and the `services.nats` and `services.jobOrchestratorMetricsExporter` value blocks are removed.
+    - **External Event Streams Enabled by Default**: Event Streams now install by default, adding the Event Stream proxy and its gateway route. The separate `internalEventStream` switch, which the audit log depends on, is unchanged.
+
+      ```yaml
+      # Helm values
+      features:
+        eventStream:
+          enabled: true   # default
+      ```
+
+    - **Feature Flags**: Rollout flags are now called feature flags throughout the console, and the admin API paths were renamed to match. The old paths are removed rather than dual-served, so any client calling them directly must be updated.
+      - `/api/v1/admin/rollout-flags` is now `/api/v1/admin/feature-flags`
+      - `/api/v1/domains/{domain}/rollout-flags` is now `/api/v1/domains/{domain}/feature-flags`
+      - `/api/v1/rollout-flags/values` is now `/api/v1/feature-flags/values`
+    - **Platform Health**: The health page now reports the Event Stream service, keeps its 48-hour history in the database so it survives pod restarts and deploys, and reflects the database in its readiness check instead of reporting every service healthy through a database outage. Background jobs that poll the database stand down while it is unreachable rather than retrying at full rate.
+    - **Spark Applications**
+      - **Run Retention**: Archived Spark application run history now has a configurable retention policy, and metrics enrichment during archival tolerates an unavailable source service instead of failing the archive.
+      - **Unresolved Runs**: A run whose Kubernetes resource disappeared without a final event is recorded as `UNKNOWN` rather than `FAILED`, so a run that finished cleanly is no longer reported as a failure.
+      - **Named Container Ports**: Spark driver pods now declare named container ports, allowing protocol detection and service discovery by name.
+      - **Pod Templates Deprecated**: Pod templates are no longer created by the data plane chart. They remain in the previous chart for backward compatibility, so existing legacy scheduled jobs keep running.
+    - **Data Catalog**
+      - **Search Index Reconciliation**: The search index is brought up to date by a per-cluster reconciler every 30 seconds instead of being written directly from every console edit and schema ingest, so an index that falls behind now recovers on its own.
+      - **Bundle Asset Search**: Resource bundle asset search is served from the database rather than the search index, and renaming an asset elsewhere in the console updates the name stored against the bundle.
+      - **Classification Auto-Approval**: Data Security and Audit Managers can create a classification change request with `autoApprove=true` and skip manual review.
+    - **Roles and Permissions**
+      - **Shared Worksheets and Git Repositories**: The default role can now read shared worksheets and the git repository tree. Both permissions previously sat only on the account admin role, so ordinary domain members saw neither area.
+      - **Event Stream Creation**: Event Stream creation can be granted through a role on installations still using the role-based permission model, and is granted to the default role.
+      - **Node Types and Volumes**: New user-level `GET /api/v1/node-types` and `GET /api/v1/volumes` endpoints expose the platform-wide catalog that was previously admin-gated or domain-scoped. Default node types are also now consistent across AWS, GCP, Azure and on-premise installs.
+    - **Table Maintenance**
+      - **Untracked Folder Cleanup**: A new `cleanup-untracked-table-folders` marketplace job removes table folders in object storage that no table points at.
+      - **Self-Healing Detection**: Maintenance detection now catches up on the window it missed after downtime, and execution runs are serialized per table so different tables are still processed concurrently.
+    - **Enterprise Catalog**: The Enterprise Catalog is available again after being disabled ahead of the 3.17 release branch, and now carries the six S3 and Iceberg Spark properties it was silently missing.
+    - **Proxied UI Sessions**: Spark UI, Spark History and Grafana sessions refresh automatically when the six-hour access token behind them expires, instead of failing until the page is reloaded.
+    - **Query Monitoring**
+      - **Faster Stale Query Detection**: A query left behind by a stopped compute is detected in far less time than the previous ten to fifteen minutes.
+      - **Clearer Recovery Messages**: A query the compute no longer knows about, and a result fetch that fails mid-stream, now report what happened instead of a raw I/O error. An incompatible cluster error also names the Spark image required for SQL Editor V2.
+      - **Results Without a Handshake**: A completed query's results open from a worksheet even when its compute has since been stopped.
+    - **Platform Security Updates**
+      - Upgraded Quarkus to `3.38.3` and Kotlin to `2.4.10` across the backend services, and centralized the pins for Netty, Jackson, BouncyCastle, the PostgreSQL driver and the Hadoop transitive dependencies, resolving critical and high-severity CVEs across all services with no change in behavior.
+      - Patched critical and high-severity CVEs in the Jupyter notebook image, including its bundled PySpark jars, and in the Typesense, Hive Metastore and job orchestrator images. No migration is required.
+  </Improvements>
+
+  <BugFixes>
+    - **Private Registry Pull Secrets**: Fixed `docker.imagePullSecrets` having no effect. The value was documented in both charts but read by no template, so images from a private registry still failed with `ImagePullBackOff`. It is now attached to the service account the platform services and Spark pods run as, and the Secret must exist in the release namespace and in every namespace listed under `namespaces`.
+    - **Scheduled Spark Jobs**
+      - **Cron Schedules**: Fixed Priority-Based Spark jobs running on the wrong schedule. A seconds field was prepended to standard five-field cron expressions, so a job scheduled daily ran monthly.
+      - **Blank Schedules**: A scheduled Spark job can no longer be saved with an empty or whitespace-only schedule.
+      - **Suspend and Resume**: Fixed suspending a job writing the Kubernetes resource before the change was committed, which could leave the resource suspended permanently, and fixed in-place updates of a scheduled job deleting and recreating its Kubernetes resource.
+      - **Finished Runs**: Runs that had already completed on the job orchestrator no longer show `waiting in queue`.
+      - **Aborted Runs**: Aborting a run from the Spark Applications list now emits a status change, so the list updates without a manual refresh.
+    - **SQL Editor**
+      - **Query Cancellation**: Fixed cancelling a running query hanging until the caller gave up, leaving the query stuck in `RUNNING`. Every cancel path, HTTP, JDBC and Arrow Flight, now has a deadline.
+      - **Null Values**: A SQL `NULL` is returned as `null` instead of the key being omitted, which had made rows narrower than the column list returned alongside them.
+      - **Sorting**: An explicit sort in query monitoring is now applied, instead of results always coming back ordered by end time.
+      - **Git Tokens**: `/api/v1/git/tokens` no longer returns the token value in any response, where it was previously rendered as copyable text in the console. GitLab token errors now reach the UI with their message, and a deleted linked token reports as not configured instead of a generic `404`.
+      - **Query Ownership**: Six query endpoints, including status, cancel, CSV export and batch status, now check who owns the query.
+      - **Arrow Connection String**: The Arrow Flight JDBC connection string on a compute's Connections tab uses the `{access_token}` placeholder instead of `{password}`, matching every other connection string.
+    - **Security Hardening**
+      - **REST Catalog Configuration**: The Iceberg REST catalog's `/v1/config` endpoint no longer returns server-side credentials, including the database password and S3 access keys, to Spark clients.
+      - **Catalog Reads**: Catalog read responses now mask the access key and endpoint in addition to the secret key.
+      - **Error Responses**: Unexpected errors no longer return stack traces and raw exception messages to API clients in production, and Spark History `5xx` responses are sanitized before reaching the browser.
+      - **Token Validation**: Refresh tokens are verified against the signing key before new tokens are issued, and each environment now signs with its own key, so a token minted in one environment is no longer accepted by another.
+      - **Forced Password Change**: A user changing a temporary password can no longer set it to the value it already had.
+    - **Login With Multiple Identity Replicas**: Fixed intermittent login failures when `iom-identity` runs more than one pod. Single-use authorization codes were held in each pod's own memory, so a code issued by one pod could not be redeemed by another. They are now stored in the database.
+    - **Iceberg and Catalogs**
+      - **Complex Column Types**: The table schema endpoint serializes struct, list and map columns through the Iceberg schema parser, instead of a form clients could not read.
+      - **Catalog Storage Settings**: Per-catalog storage settings are sent as configuration defaults rather than overrides, so a client's own setting is no longer replaced, and a catalog with no credentials of its own falls back to the installation's storage credentials instead of sending none.
+      - **Unknown Identifiers**: Data catalog lookups for a catalog, namespace, table, column or bookmark that does not exist return `404` instead of `500`.
+    - **Startup Resilience**: Data plane services retry the settings read they perform at startup when the Kubernetes API is briefly unreachable, instead of giving up and failing to start.
+  </BugFixes>
+
+      **Spark version:** [3.5.7-v7-rc1](./spark.md)
+      **Iceberg version:** 1.9.0-iomete-5
+
+</Release>
+
 <Release version="3.19.0" date="August 24, 2026">
   <NewFeatures>
     - **Ephemeral Storage Reservation for Volumes**: Added a new **Reserve capacity on the node** option for `EMPTY_DIR` volumes. When enabled, the Kubernetes scheduler reserves ephemeral storage on the node for the executor pod, ensuring capacity is available before scheduling. Enabling this option requires setting a **Max size**, which becomes mandatory. The new `schedulerReserved` field defaults to `false`, so existing volumes are unaffected. Configure this option when creating or editing an `EMPTY_DIR` volume in the console.
