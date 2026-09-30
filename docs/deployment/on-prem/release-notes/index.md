@@ -77,6 +77,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         ```
 
       - **Reusing Existing Secrets**: Installs can now use Kubernetes Secrets you already have for their encryption keys and system tokens, instead of generating new ones. This lets two control planes share the same keys, for example in an active-active setup. If you don't set anything, IOMETE generates them as before.
+      - **Credential Changes Apply on Upgrade**: Changing database or object storage credentials, or the `namespaces` list, in your Helm values now restarts the affected services on `helm upgrade`, so the new values take effect without a manual pod restart. Credentials read from your own existing Secrets aren't covered: restart the services yourself after rotating them.
     - **Database**
       - **Standby Reads**: Reads that tolerate slightly stale data, including platform health history, Ranger policy downloads and audit log browsing, can be sent to a read-only standby of the same database. Left empty, which is the default, every read goes to the primary as before.
 
