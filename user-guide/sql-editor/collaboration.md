@@ -3,8 +3,8 @@ title: Collaboration & Permissions
 description: Collaborate on worksheets in real time, browse Git repository SQL files, and manage workspace-level and role-based permissions in the IOMETE SQL Editor.
 sidebar_label: Collaboration & Permissions
 last_update:
-  date: 03/26/2026
-  author: Abhishek Pathania
+  date: 09/30/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from "@site/src/components/Img";
@@ -18,6 +18,14 @@ If your team stores SQL in a Git repository, you can browse and run those files 
 Unlike regular worksheets, Git worksheets share their compute cluster, catalog/namespace, and query variable settings at the repository level rather than per file.
 
 To connect a repository, go to **Settings > Git Repository** or click **Add Git repository** on the SQL Home screen. See [Git Integration](/integrations/git/git-integration) for details.
+
+Each repository in the sidebar has an actions menu with **Checkout branch**, **Configure** and **Delete**. To remove a repository, select **Delete**, then type the repository name to confirm. **Delete** appears only if you have the **Manage Git Repository** permission.
+
+<Img src="/img/user-guide/sql-editor/git-repositories/repo-actions-menu.png" alt="Repository actions menu in the SQL Editor sidebar with Checkout branch, Configure, and Delete" maxWidth="320px" />
+
+Git access tokens belong to individual users, so each user links their own token to a repository. You can do this from **Configure** even without the **Manage Git Repository** permission. If a repository can't load, the sidebar shows the error from Git, with a **Configure token** button when you haven't linked a token yet.
+
+<Img src="/img/user-guide/sql-editor/git-repositories/repo-token-error.png" alt="Repositories in the SQL Editor sidebar showing a 401 Unauthorized error and a Git token not configured error with a Configure token button" maxWidth="460px" />
 
 ## Notebook and Dashboard Files
 

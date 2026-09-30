@@ -3,7 +3,7 @@ title: Run History & Metrics
 description: View maintenance run history with before/after metrics, and manually trigger operations on demand.
 sidebar_label: Run History & Metrics
 last_update:
-  date: 05/13/2026
+  date: 09/30/2026
   author: Shashank Chaudhary
 ---
 
@@ -12,7 +12,7 @@ import Img from '@site/src/components/Img';
 You can view maintenance runs at two levels:
 
 - **Table-level history** lives on the table's **Maintenance** tab and shows runs for that table only.
-- **Catalog-level history** lives under **Monitoring > Maintenance** in the side panel and shows runs across every catalog the domain owns, with filters to narrow the results.
+- **Catalog-level history** lives under **Monitoring > Table Maintenance** in the side panel and shows runs across every catalog the domain owns, with filters to narrow the results.
 
 Both views open the same per-run detail page when you click a row.
 
@@ -32,7 +32,7 @@ The table's **Maintenance** tab lists every maintenance run for that table. It's
     - **Time range**: a date-range picker (maximum range is 30 days).
     - **Triggered by**: filter by the username who triggered the run.
     - **Operation type**: filter by a specific operation.
-    - **Status**: filter by status (All, Pending, Running, Completed, etc.).
+    - **Status**: filter by status: Pending, Running, Completed, Failed, or Skipped (the operation was disabled when its turn came).
 5. The **Reason** column shows why an operation was scheduled: which threshold condition was met (small average file size, high delete-file ratio, excessive snapshot count, etc.) or whether it was a manual trigger.
 <Img src="/img/user-guide/table-maintenance/table-history-reason-entry.png" alt="Maintenance history row with the Reason tooltip expanded showing the threshold conditions that triggered the run"/>
 6. For a failed run, hover over the **Failed** badge to see the error message inline.
@@ -46,7 +46,7 @@ The catalog-level history shows runs across every catalog domain owns and adds C
 
 <Img src="/img/user-guide/table-maintenance/catalog-history-list.png" alt="Catalog-level Maintenance page under Monitoring with Operation Type, Status, Triggered By, time range, Catalog, Database, and Table filters listing runs across multiple tables"/>
 
-1. From the side panel, go to **Monitoring > Maintenance**.
+1. From the side panel, go to **Monitoring > Table Maintenance**.
 2. Use the filters at the top of the page:
     - **Operation Type**, **Status**, **Triggered By**, **Time range** — same as on the table-level view.
     - **Catalog**, **Database**, **Table** — narrow to a specific scope.

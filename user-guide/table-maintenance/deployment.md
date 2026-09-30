@@ -1,23 +1,13 @@
 ---
 title: Kubernetes Deployment
-description: Deploy and tune the iom-maintenance service — feature flag, resource limits, and archival configuration.
+description: Tune the iom-maintenance service — resource limits and archival configuration.
 sidebar_label: Deployment
 last_update:
-  date: 03/09/2026
+  date: 09/30/2026
   author: Shashank Chaudhary
 ---
 
-This section covers deployment and tuning for Kubernetes administrators.
-
-## Feature Flag
-
-The maintenance service is disabled by default. Enable it in your Helm values:
-
-```yaml
-features:
-  enableAutomatedMaintenance:
-    enabled: true
-```
+This section covers deployment and tuning for Kubernetes administrators. The `iom-maintenance` service is always deployed, so there is no feature flag to enable.
 
 ## Resource Defaults
 
@@ -51,4 +41,15 @@ services:
       retentionDays: 30
 ```
 
-The archival batch size is `500` records per cycle and archival runs hourly by default.
+How archival works:
+
+- **Schedule**: archival runs every hour.
+- **What moves**: finished runs older than `retentionDays` are moved in batches of 500.
+- **Where they go**: three Iceberg tables in `spark_catalog.iomete_system_db`:
+  - `maintenance_evaluation_runs`
+  - `maintenance_execution_runs`
+  - `maintenance_sql_runs`
+
+:::note
+Archived runs no longer appear in the console's run history. To see runs older than `retentionDays`, query the archive tables in the SQL Editor.
+:::

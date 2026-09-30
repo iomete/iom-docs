@@ -3,7 +3,7 @@ title: Table Maintenance Overview
 description: Automated Iceberg table housekeeping — compaction, snapshot expiry, orphan file cleanup, and manifest optimization.
 sidebar_label: Overview
 last_update:
-  date: 05/13/2026
+  date: 09/30/2026
   author: Shashank Chaudhary
 ---
 
@@ -35,6 +35,8 @@ Automatic maintenance only runs when a table meets the configured conditions. If
 - **Catalog as master switch**: catalog-level maintenance must be enabled before any table in it can run maintenance. Enabling table maintenance while catalog maintenance is disabled is not allowed.
 - **Tables don't auto-inherit the enabled state**: even when catalog maintenance is on, each table must be explicitly enabled. This is a deliberate beta safeguard. Individual operation settings (e.g., Rewrite Data Files, Expire Snapshots) still inherit normally.
 - **Cooldown between runs**: after each successful run, the system enforces a **60-minute cooldown** before the same table and operation can be picked up again. This prevents redundant back-to-back executions on frequently updated tables. Manual triggers bypass the cooldown and run immediately.
+- **One run per table at a time**: operations on the same table run one after another, while different tables are processed in parallel.
+- **Catching up after downtime**: if the service is down, detection resumes where it left off when it restarts, looking back up to 12 hours. Changes older than that are picked up the next time the table changes.
 :::
 
 
@@ -50,8 +52,7 @@ Before configuring table maintenance, confirm:
 <Img src="/img/user-guide/table-maintenance/iceberg-rest-catalog.png" alt="Catalog Details tab showing ICEBERG, REST, and INTERNAL type chips that mark the catalog as eligible for maintenance"/>
 - The catalog has an [owner domain](./catalog-configuration#catalog-owner-domain) assigned. All maintenance resources (compute cluster, service account) are scoped to it.
 <Img src="/img/user-guide/table-maintenance/catalog-owner-set.png" alt="Catalog Domain permissions tab showing a domain marked as Catalog Owner"/>
-- You're a domain owner of the catalog's owner domain, or a platform administrator.
-- The `iom-maintenance` service is deployed. If it isn't, ask your platform administrator to enable it in Helm (see [Feature Flag](./deployment#feature-flag)).
+- To view maintenance settings and run history, your domain must own the catalog. To change settings or trigger a run, you must be a domain owner of that domain. Admins with the **Spark Catalog Manager** role can also configure or disable maintenance from the Admin Portal.
 
 
 ## Next Steps
@@ -65,6 +66,6 @@ Before configuring table maintenance, confirm:
 - [Advanced Configuration](./advanced-configuration) — per-operation properties, defaults, and override behavior.
 
 **Deploy the service** (platform admins):
-- [Kubernetes Deployment](./deployment) — feature flag, resource limits, and archival settings.
+- [Kubernetes Deployment](./deployment) — resource limits and archival settings.
 
 **Troubleshooting?** See the [FAQs](./faqs).

@@ -57,11 +57,11 @@ Knowing which services run (and which are optional) helps you plan resource allo
 | typesense | Deployment | Always | Search engine (20Gi PVC) |
 | iom-collab | Deployment | `enableCollaborativeSqlEditor` | Collaborative SQL editing |
 | nats | StatefulSet (3 replicas) | `services.nats.enabled` | JetStream messaging |
-| iom-event-stream | StatefulSet (2 replicas) | `eventStream` | Event ingestion + Iceberg writer |
+| iom-event-stream | StatefulSet (2 replicas) | Always | Event ingestion + Iceberg writer |
 | iom-event-stream-proxy | Deployment | `eventStream` | Ingestion request routing |
 | prefect-server | Deployment | Always | Workflow orchestration |
 | prefect-worker | Deployment (per-namespace) | Always | Scheduled job execution |
-| iom-maintenance | Deployment | `enableAutomatedMaintenance` | Table compaction |
+| iom-maintenance | Deployment | Always | Table compaction |
 | iom-ratelimiter | Deployment | `ratelimiter` | Redis-based rate limiting |
 | spark-proxy-server | Deployment (per-namespace) | `sparkProxyForArrowFlight` | Arrow Flight proxy |
 
@@ -168,9 +168,8 @@ These flags control whether entire services or subsystems are deployed at all:
 |---|---|---|
 | `enableCollaborativeSqlEditor` | iom-collab | `false` |
 | `services.nats.enabled` | NATS cluster | `false` |
-| `eventStream` | iom-event-stream, iom-event-stream-proxy | `false` |
+| `eventStream` | iom-event-stream-proxy | `false` |
 | `sparkProxyForArrowFlight` | spark-proxy-server (per-namespace) | `false` |
-| `enableAutomatedMaintenance` | iom-maintenance | `false` |
 | `ratelimiter` | iom-ratelimiter | `false` |
 | `jupyterContainers` | jupyter-containers ConfigMap | `false` |
 
