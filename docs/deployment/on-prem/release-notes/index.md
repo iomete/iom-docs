@@ -154,6 +154,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Suspend and Resume**: Fixed suspending a job writing the Kubernetes resource before the change was committed, which could leave the resource suspended permanently.
       - **Finished Runs**: Runs that had already completed on the job orchestrator no longer show `waiting in queue`.
       - **Aborted Runs**: Aborting a run from the Spark Applications list now emits a status change, so the list updates without a manual refresh.
+    - **Spark Application Status**: Fixed Spark applications that finished successfully being reported as `FAILED` with `driver pod not found` when the driver pod was removed right after it finished, which could make external schedulers rerun completed work. The final status now comes from the driver's own terminal state, and a genuine failure keeps its original error instead of the generic message.
     - **SQL Editor**
       - **SQL Scripting**: Fixed `BEGIN … END` blocks being split into separate statements when saving schedules, and fixed compound scripts returning empty results through the Arrow execution path.
       - **Query Cancellation**: Fixed cancelling a running query hanging until the caller gave up, leaving the query stuck in `RUNNING`. Every cancel path, HTTP, JDBC and Arrow Flight, now has a deadline.
