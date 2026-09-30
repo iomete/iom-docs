@@ -58,6 +58,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Database**: If you manage databases yourself, create `<prefix>mcp_db` before enabling the server and give the platform database user full access to it. IOMETE creates it on install and upgrade when `database.adminCredentials` is set. The server keeps its OAuth sign-in state there.
       - **Network and Certificates**: Cloud-hosted clients need the public address (`services.mcpServer.urls.public`) to be reachable from the internet. Browser-based MCP clients aren't supported. If a private certificate authority issues the certificate for the public address, provide its CA bundle in `services.mcpServer.iometeTls`. Without the bundle, the MCP server might fail to connect to IOMETE.
 
+    - **CSV Export**: SQL Editor V2 supports streaming CSV export of query results directly from the result tabs.
+    - **Docker Registry Credential Management**: New API endpoints for managing Docker registry credentials. Update credentials with `PUT /api/v1/admin/docker/registries/{id}` and view registry details with `GET /api/v1/admin/docker/registries/{id}`.
     - **Comet Execution Engine**: Compute clusters have a new **Enable Comet** toggle that runs queries through the Apache Comet native execution engine. Off by default, so existing computes are unchanged.
     - **Active-Active Control Planes**: You can now run two control planes side by side behind a load balancer, sharing the same database. Background jobs run only once, even with both active. Point your load balancer health check at `/healthz`, which reports whether each control plane is ready to take traffic.
     - **Feature Flags**: Feature flags let IOMETE turn a feature on or off at runtime, without a redeploy. Admins control them from the admin panel under **Administration → Feature Flags**, where each flag can be enabled platform-wide or per domain. See [Feature Flags](/user-guide/feature-flags/overview) for the available flags and how to manage them.
@@ -78,6 +80,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       - **Reusing Existing Secrets**: Installs can now use Kubernetes Secrets you already have for their encryption keys and system tokens, instead of generating new ones. This lets two control planes share the same keys, for example in an active-active setup. If you don't set anything, IOMETE generates them as before.
       - **Credential Changes Apply on Upgrade**: Changing database or object storage credentials, or the `namespaces` list, in your Helm values now restarts the affected services on `helm upgrade`, so the new values take effect without a manual pod restart. Credentials read from your own existing Secrets aren't covered: restart the services yourself after rotating them.
+      - **Stable Pod Identity Across Upgrades**: Fixed an issue where every pod restarted on each Helm chart revision, even when nothing in its spec changed. Upgrades now only restart pods whose configuration actually changed.
+      - **Startup Probe Configuration**: Administrators can now tune control plane startup probe timings via Helm values, allowing customization for environments with slower startup times.
     - **Database**
       - **Standby Reads**: Reads that tolerate slightly stale data, including platform health history, Ranger policy downloads and audit log browsing, can be sent to a read-only standby of the same database. Left empty, which is the default, every read goes to the primary as before.
 
@@ -155,6 +159,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Faster Stale Query Detection**: A query left behind by a stopped compute is detected in far less time than the previous ten to fifteen minutes.
       - **Clearer Recovery Messages**: A query the compute no longer knows about, and a result fetch that fails mid-stream, now report what happened instead of a raw I/O error. An incompatible cluster error also names the Spark image required for SQL Editor V2.
       - **Results Without a Handshake**: A completed query's results open from a worksheet even when its compute has since been stopped.
+    - **Gateway Rate Limiting**: Added per-client rate limiting on the gateway. Personal access token callers are rate-limited by token instead of by IP address.
+    - **Spark Connect Service Port**: Arrow Flight SQL and Spark Connect traffic now has a dedicated service port on `iom-gateway`, fixing connectivity issues for customers using Spark Connect or SQL Editor V2 through the gateway.
+    - **Query Result Retention**: The default query result archival retention is now 8 days and is configurable via SystemConfig, instead of the previous fixed retention period.
+    - **Audit Data from Iceberg**: The audit page now reads from Iceberg tables instead of Ranger ORC files, fixing a timeout issue that occurred as audit data grew.
     - **Platform Security Updates**
       - Upgraded Quarkus to `3.38.3` and Kotlin to `2.4.10` across the backend services, and centralized the pins for Netty, Jackson, BouncyCastle, the PostgreSQL driver and the Hadoop transitive dependencies, resolving critical and high-severity CVEs across all services with no change in behavior.
       - Patched critical and high-severity CVEs in the Jupyter notebook image, including its bundled PySpark jars, and in the Typesense, Hive Metastore and job orchestrator images. No migration is required.
@@ -190,6 +198,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Catalog Storage Settings**: Per-catalog storage settings are sent as configuration defaults rather than overrides, so a client's own setting is no longer replaced, and a catalog with no credentials of its own falls back to the installation's storage credentials instead of sending none.
       - **Unknown Identifiers**: Data catalog lookups for a catalog, namespace, table, column or bookmark that does not exist return `404` instead of `500`.
     - **Startup Resilience**: Data plane services retry the settings read they perform at startup when the Kubernetes API is briefly unreachable, instead of giving up and failing to start.
+    - **PySpark Memory Overhead**: Switched to 40% PySpark memory overhead, fixing frequent compute restarts caused by out-of-memory conditions in PySpark workloads.
+    - **Spark History Server**: Fixed the Spark History Server failing to start after upgrade and deleting finished job history at startup due to invalid chart settings.
+    - **Access Token Notifications**: Fixed token expiry notifications using stale timestamps and missing account names, causing incorrect or unclear expiry alerts.
+    - **Sanitized 5xx Responses**: Backend exception details and stack traces in Spark History Server 5xx responses are no longer exposed to users. The server now returns a generic 503 response.
+    - **Event Stream Storage**: Fixed Event Stream pods failing to start without pre-provisioned storage by always mounting `/event_stream` with an `emptyDir` fallback.
+    - **Spark Job Notifications**: Fixed Spark job notification failures triggered by status updates, where job status change notifications were failing silently.
+    - **Custom Tags on Suspend**: Fixed custom resource tags being lost when suspending a Spark job.
+    - **Active Maintenance Jobs in History**: Fixed running maintenance jobs not appearing in the job history list.
+    - **Enterprise Catalog Spark Properties**: Fixed enterprise catalogs missing essential S3 and Iceberg Spark properties, which could cause query failures on catalogs created via the enterprise catalog feature.
+    - **Data Security Policy PATCH Validation**: Fixed incorrect validation on the data security policy PATCH endpoint that rejected valid requests.
+    - **Distributed Locking for Onboarding**: Added distributed locking to domain onboarding and Typesense collection creation, fixing a race condition where simultaneous onboarding in multi-replica identity deployments could corrupt state.
   </BugFixes>
 
       **Spark version:** [3.5.7-v7-rc1](./spark.md)
