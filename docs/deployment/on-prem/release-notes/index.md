@@ -127,10 +127,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       ```
 
     - **Storage Region**: An optional `storage.region` now applies to every S3 request, shared by every catalog, the default catalog and query result storage, so an install on MinIO can attach catalogs backed by an AWS S3 bucket outside `us-east-1`. Unset, the default, AWS installs keep using `cloud.region` and MinIO and Dell ECS keep `us-east-1`.
-    - **Chart Changes for 4.0**: Several feature flags are no longer configurable, and three deployments are no longer installed.
-      - `jobOrchestrator`, `onboardComputeRas`, `onboardSparkJobRas`, `onboardWorkspaceRas` and `onboardNamespaceMappingRas` are fixed on. The `emailNotifications` and `enableAutomatedMaintenance` flags are gone, so email notifications and automated Iceberg table maintenance are always available.
-      - `domainLevelBundleAuthorization` and `scheduling` are fixed off, both having previously defaulted to on. SQL query scheduling is no longer deployed.
-      - The collaborative SQL editor, the NATS server and the job orchestrator metrics exporter are no longer deployed, and the `services.nats` and `services.jobOrchestratorMetricsExporter` value blocks are removed.
+    - **Chart Changes for 4.0**: Several feature flags are no longer configurable. `jobOrchestrator`, `onboardComputeRas`, `onboardSparkJobRas`, `onboardWorkspaceRas` and `onboardNamespaceMappingRas` are fixed on. The `emailNotifications` and `enableAutomatedMaintenance` flags are gone, so email notifications and automated Iceberg table maintenance are always available.
     - **External Event Streams Enabled by Default**: Event Streams now install by default, adding the Event Stream proxy and its gateway route. The separate `internalEventStream` switch, which the audit log depends on, is unchanged.
 
       ```yaml
