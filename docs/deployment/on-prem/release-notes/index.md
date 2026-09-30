@@ -200,7 +200,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Startup Resilience**: Data plane services retry the settings read they perform at startup when the Kubernetes API is briefly unreachable, instead of giving up and failing to start.
     - **PySpark Memory Overhead**: Switched to 40% PySpark memory overhead, fixing frequent compute restarts caused by out-of-memory conditions in PySpark workloads.
     - **Spark History Server**: Fixed the Spark History Server failing to start after upgrade and deleting finished job history at startup due to invalid chart settings.
-    - **Access Token Notifications**: Fixed token expiry notifications using stale timestamps and missing account names, causing incorrect or unclear expiry alerts.
     - **Sanitized 5xx Responses**: Backend exception details and stack traces in Spark History Server 5xx responses are no longer exposed to users. The server now returns a generic 503 response.
     - **Event Stream Storage**: Fixed Event Stream pods failing to start without pre-provisioned storage by always mounting `/event_stream` with an `emptyDir` fallback.
     - **Spark Job Notifications**: Fixed Spark job notification failures triggered by status updates, where job status change notifications were failing silently.
