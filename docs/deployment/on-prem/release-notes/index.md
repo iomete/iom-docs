@@ -153,6 +153,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Cron Schedules**: Fixed Priority-Based Spark jobs running on the wrong schedule. A seconds field was prepended to standard five-field cron expressions, so a job scheduled daily ran monthly.
       - **Suspend and Resume**: Fixed suspending a job writing the Kubernetes resource before the change was committed, which could leave the resource suspended permanently.
       - **Finished Runs**: Runs that had already completed on the job orchestrator no longer show `waiting in queue`.
+      - **Orphaned Runs**: Runs interrupted by a job orchestrator worker failure are now marked failed automatically after some time, instead of staying `Running`.
       - **Aborted Runs**: Aborting a run from the Spark Applications list now emits a status change, so the list updates without a manual refresh.
     - **Spark Application Status**: Fixed Spark applications that finished successfully being reported as `FAILED` with `driver pod not found` when the driver pod was removed right after it finished, which could make external schedulers rerun completed work. The final status now comes from the driver's own terminal state, and a genuine failure keeps its original error instead of the generic message.
     - **SQL Editor**
