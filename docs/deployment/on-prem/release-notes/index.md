@@ -278,7 +278,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <Improvements>
     - **JVM Service Startup and Resources**: On busy nodes, some JVM services were killed before they finished starting.
       - `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog`, and `iom-rest-catalog` had no startup probe, so the default liveness probe killed a container that was still booting after about 30 seconds. Every JVM service now gets 120 seconds to start listening before liveness checks apply. The hardcoded probes on `iom-identity`, `iom-health-check`, and `iom-spark-connect-rest-client` are replaced by the same shared timings, which are now configurable under `services.probes`.
-      - CPU requests rose from `100m` to `300m` for `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog`, and `iom-rest-catalog`, and from `10m` to `50m` for Typesense. `iom-identity` now requests `2000m` CPU and `2000Mi` memory. Check that your nodes have room for the higher requests before upgrading.
+      - CPU requests rose from `100m` to `300m` for `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog`, and `iom-rest-catalog`, and from `10m` to `50m` for Typesense. `iom-identity` now requests `2000m` CPU and `4000Mi` memory, up from `100m` and `500Mi`, and its limits rose to `4000m` CPU and `8000Mi` memory. Check that your nodes have room for the higher requests before upgrading.
 
       ```yaml
       # Helm values
@@ -287,7 +287,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
           resources:
             requests:
               cpu: 2000m
-              memory: 2000Mi
+              memory: 4000Mi
             limits:
               cpu: 4000m
               memory: 8000Mi
@@ -297,7 +297,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Improvements>
 
   <BugFixes>
-    - **Numeric Helm Values in Scientific Notation**: Large numbers set in `values.yaml` or a values file reached service configuration in scientific notation, so the default `maxEventLogSizeBytes` of `524288000` arrived as `5.24288e+08` and left the Spark History Server in `CrashLoopBackOff` with a `NumberFormatException`. Introduced in `v3.19.0`, it also affected the job orchestrator's `jobRunCleanup.retentionPeriod` and `services.sparkHistory.settings.cleaner.maxNum`; values passed with `--set` were unaffected. An unparseable value now fails the Helm render and names the offending path, instead of silently becoming `0`.
+    - **Numeric Helm Values in Scientific Notation**: Large numbers set in `values.yaml` or a values file reached service configuration in scientific notation, so the default `maxEventLogSizeBytes` of `524288000` arrived as `5.24288e+08` and left the Spark History Server in `CrashLoopBackOff` with a `NumberFormatException`. Introduced in `v3.19.0`, it also affected the job orchestrator's `jobRunCleanup.retentionPeriod` and `services.sparkHistory.settings.cleaner.maxNum`; values passed with `--set` were unaffected. A value that is not a positive whole number, including `0`, now fails the Helm render with a message naming the setting.
     - **Job Orchestrator Database Password**: With `database.passwordSecret` set, the job orchestrator could not log in to its database, because the chart still built its connection URL from the plaintext `database.password`, which defaults to `iomete_pass`. The password now reaches the job orchestrator through `PGPASSWORD`, so `database.passwordSecret` on its own covers every service and the `connectionUrlSecret` workaround, which stored the password a second time, is no longer needed. Installs using a plaintext `database.password` or `connectionUrlSecret` keep working unchanged.
     - **Data Plane Drift Reconciliation**: When a data plane object was edited or deleted by hand, the IOMETE operator often did not notice and the change stood until the next scheduled reconcile. Every namespaced object in the chart now sets its namespace explicitly, and the operator restores those objects within seconds. Objects in additional Spark namespaces and Secrets marked `helm.sh/resource-policy: keep` still wait for the scheduled reconcile, and `iom-gateway` restarts once during the upgrade.
     - **Private Registry Image Pull Secrets**: `docker.imagePullSecrets` was a documented value that no chart template read, so pulls from a private registry still failed with `ImagePullBackOff` and the service account had to be edited by hand. Where the chart creates the lakehouse service account, the secrets are now attached to it, covering both the platform services and Spark pods. The chart does not copy the secret between namespaces, so it must exist in the release namespace and in every namespace listed under `namespaces`.
