@@ -276,6 +276,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Lakehouse Role Permissions**: The `iomete-lakehouse-role` Role no longer lets IOMETE manage Kubernetes Roles and RoleBindings. No IOMETE service used this.
       - Whoever installs the chart, including the IOMETE operator, no longer needs the `escalate` and `bind` permissions.
       - This applies when the chart creates the Role (`serviceAccount.create: true`). If you created the Role yourself, the chart does not change it, and you can remove the `roles` and `rolebindings` rule from it.
+    - **S3-Compatible Storage Setting**: A new `storage.type: s3_compatible` works with any S3-compatible storage, such as MinIO, Dell ECS or IBM Cloud Object Storage.
+      - Set the endpoint and credentials under `storage.s3CompatibleSettings`.
+      - `minio` and `dell_ecs` still work and behave the same as `s3_compatible`, so existing installations need no change.
   </Improvements>
 
   <BugFixes>
@@ -297,6 +300,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Blank Job Schedules**: A scheduled Spark job could be saved with an empty schedule, or one made only of spaces. Saving now fails for these, and also for a schedule with spaces at the start or end, such as `" 0 * * * *"`. If you create jobs through the API, trim the schedule before you send it.
     - **Spark History Error Responses**: A 5xx response from the Spark History server passed backend exception detail through to the browser. Those responses now return a generic temporary-unavailable message. Successful responses and application-not-found responses are unchanged.
   </BugFixes>
+
+  <Deprecations>
+    - **MinIO and Dell ECS Storage Settings**: `storage.minioSettings` and `storage.dellEcsSettings` are deprecated. Use `storage.s3CompatibleSettings` instead. The old settings still work when `s3CompatibleSettings` is not set.
+  </Deprecations>
 
       **Spark version:** [3.5.7-v6](./spark.md)
       **Iceberg version:** 1.9.0-iomete-5
