@@ -1,6 +1,6 @@
 ---
 title: Job Orchestrator
-description: Learn about the new Job Orchestrator for priority-based scheduling, resource-aware execution, and built-in observability for Spark jobs on the IOMETE platform.
+description: Learn about the new Job Orchestrator for priority-based scheduling and resource-aware execution for Spark jobs on the IOMETE platform.
 sidebar_label: Job Orchestrator
 last_update:
    date: 09/30/2026
@@ -16,7 +16,6 @@ import Img from '@site/src/components/Img';
 The **Job Orchestrator** is a new addition to IOMETE’s job management platform, designed to enable
 - **Priority-based scheduling**: Prioritize business-critical jobs over routine workloads.
 - **Resource-aware execution**: Submit jobs only when sufficient cluster resources are available.
-- **Built-in observability**: Gain real-time visibility into job execution and resource usage.
 
 ---
 
@@ -35,12 +34,6 @@ Within each priority level, jobs are processed in **First-In-First-Out (FIFO) or
 - High-priority queue is always processed before normal-priority queue.
 - Within each queue, jobs execute in the order they were submitted.
 - If the first job in queue cannot run due to resource constraints, subsequent jobs wait until resources become available or the blocking job completes.
-
-### Integrated Monitoring
-Includes a Prometheus exporter and ready-to-use Grafana dashboard to track:
-- Cluster usage trends per namespace, domain, priority & job.
-- Job wait times by priority level.
-- Resource allocation patterns.
 
 ### Per-Job Opt-In
 Each job independently opts in or out via its **Deployment Flow** setting, allowing gradual migration and testing.
@@ -201,42 +194,6 @@ Jobs incorrectly scheduled due to stale quota data are now automatically retried
 ### Cleanup & Maintenance [3.15.0+]
 
 The orchestrator automatically cleans up completed queue runs and logs to prevent unbounded data growth. Configure retention via `jobRunCleanup` settings in Helm values.
-
----
-
-## Monitoring
-
-Monitoring is enabled out-of-the-box with a complete observability stack:
-
-**Components:**
-- **Metrics Exporter** - Deployed alongside the orchestrator to collect performance data.
-- **Prometheus Integration** - Scrapes metrics for storage and alerting.
-- **Grafana Dashboards** - Pre-built visualizations for job resources usage & run metrics.
-
-<Img src="/img/guides/spark-job/job-metrics-monitoring-graphs.png" alt="Job Monitoring Graph" />
-
-### Custom Prometheus Setup
-
-If you have your own **Prometheus** installation, add this scrape configuration:
-
-```yaml
-# Job Orchestrator Metrics
-- job_name: 'job-orchestrator-metrics'
-  scrape_interval: 30s
-  kubernetes_sd_configs:
-    - role: pod
-      namespaces:
-        names:
-          - {{ .Release.Namespace }}
-  metrics_path: /metrics
-  relabel_configs:
-    - source_labels: [__meta_kubernetes_pod_label_app]
-      regex: iom-job-orchestrator-metrics-exporter
-      action: keep
-```
-:::note
-By default, metrics from the `iom-job-orchestrator-metrics-exporter` are exposed on port `8000`.
-:::
 
 ---
 

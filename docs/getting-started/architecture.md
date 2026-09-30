@@ -3,8 +3,8 @@ title: Architecture Overview
 sidebar_label: Architecture
 description: Understand IOMETE's microservices architecture, Spark infrastructure, security model, and how all components work together on Kubernetes.
 last_update:
-  date: 03/31/2026
-  author: Abhishek Pathania
+  date: 09/30/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -200,7 +200,6 @@ If you need scheduled, dependency-aware Spark job execution, the Job Orchestrato
 
 - **Prefect Server**: orchestration engine that manages workflow state
 - **Prefect Worker**: runs scheduled Spark jobs (deployed per-namespace)
-- **Metrics Exporter**: exposes [Prometheus](https://prometheus.io/) metrics for job orchestration monitoring
 
 See [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator) for configuration details.
 
