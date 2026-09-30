@@ -23,6 +23,7 @@ const sidebars = {
       label: "User Guide",
       collapsed: false,
       items: [
+        "recently-viewed",
         "theme-switcher",
         {
           type: "category",
