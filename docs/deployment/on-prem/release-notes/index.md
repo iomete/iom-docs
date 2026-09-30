@@ -72,7 +72,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
           enabled: true   # default
         ```
 
-      - **Reusing Existing Secrets**: The secret-store encryption key, the `iom-socket` system token and the plane trust secret can each be pointed at a Kubernetes Secret that already exists, so two installs can share the same material. The charts still generate their own when nothing is set.
+      - **Reusing Existing Secrets**: Installs can now use Kubernetes Secrets you already have for their encryption keys and system tokens, instead of generating new ones. This lets two control planes share the same keys, for example in an active-active setup. If you don't set anything, IOMETE generates them as before.
     - **Database**
       - **Standby Reads**: Reads that tolerate slightly stale data, including platform health history, Ranger policy downloads and audit log browsing, can be sent to a read-only standby of the same database. Left empty, which is the default, every read goes to the primary as before.
 
