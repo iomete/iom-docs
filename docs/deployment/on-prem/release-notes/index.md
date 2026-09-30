@@ -48,6 +48,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
     - **Comet Execution Engine**: Compute clusters have a new **Enable Comet** toggle that runs queries through the Apache Comet native execution engine. Off by default, so existing computes are unchanged.
     - **Active-Active Control Planes**: Two control planes can share one database and serve behind a load balancer. Leader election and scheduled background work are coordinated through PostgreSQL so only one of them runs each job, and every install answers an unauthenticated `GET /healthz` with `200` while it can take traffic and `503` when it cannot, which is what the load balancer health check should point at.
+    - **Feature Flags**: Feature flags let IOMETE turn a feature on or off at runtime, without a redeploy. Admins control them from the admin panel under **Administration → Feature Flags**, where each flag can be enabled platform-wide or per domain. See [Feature Flags](/user-guide/feature-flags/overview) for the available flags and how to manage them.
   </NewFeatures>
 
   <Improvements>
@@ -139,10 +140,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
           enabled: true   # default
       ```
 
-    - **Feature Flags**: Rollout flags are now called feature flags throughout the console, and the admin API paths were renamed to match. The old paths are removed rather than dual-served, so any client calling them directly must be updated.
-      - `/api/v1/admin/rollout-flags` is now `/api/v1/admin/feature-flags`
-      - `/api/v1/domains/{domain}/rollout-flags` is now `/api/v1/domains/{domain}/feature-flags`
-      - `/api/v1/rollout-flags/values` is now `/api/v1/feature-flags/values`
     - **Platform Health**: The health page now reports the Event Stream service, keeps its 48-hour history in the database so it survives pod restarts and deploys, and reflects the database in its readiness check instead of reporting every service healthy through a database outage. Background jobs that poll the database stand down while it is unreachable rather than retrying at full rate.
     - **Spark Applications**
       - **Run Retention**: Archived Spark application run history now has a configurable retention policy, and metrics enrichment during archival tolerates an unavailable source service instead of failing the archive.
