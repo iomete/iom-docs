@@ -15,7 +15,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="4.0.0-rc10" date="TBD">
+<Release version="4.0.0" date="TBD">
   <NewFeatures>
     - **Control Plane and Data Planes**: A deployment now separates the control plane from one or more data planes. The control plane keeps the console, identity, catalog and SQL services, while each data plane runs its own compute, Jupyter containers, Event Streams, Docker registries, metastore and object storage, and enrolls with the control plane over HTTPS. Namespaces, computes, Spark jobs, Jupyter containers, Docker registries, worksheets and query history now carry the data plane that owns them and can be filtered by it.
       - **Data Plane Administration**: New admin endpoints list the data planes connected to a control plane with their status, address, version and live namespace quota usage. A data plane that cannot be reached is still listed, without usage figures.
