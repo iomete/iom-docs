@@ -291,7 +291,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - The chart does not copy the secret. Create it in the release namespace and in every namespace listed under `namespaces`.
       - If you created the service account yourself, the chart does not change it. Keep adding the secrets manually, as described in [Private Docker Registry Authentication](/user-guide/k8s/private-docker-registry).
     - **Spark Applications**
-      - **Scheduled Job Updates**: Updating a scheduled job on the legacy deployment flow within the same namespace deleted its Kubernetes resource before redeploying it. If the redeploy then failed, the database transaction rolled back while the resource stayed deleted, leaving the job configured as scheduled but no longer running. The resource is now updated in place, and deletion still happens only where it is required, such as a namespace change or a switch to the manual, streaming, or priority flow.
+      - **Scheduled Job Updates**: Editing a scheduled Spark job could stop it from running. If the update failed, the job still showed as scheduled, but it no longer ran.
+        - This affected jobs on the **Legacy** deployment flow. IOMETE deleted the job's schedule in Kubernetes before redeploying it, and a failed redeploy left it deleted.
+        - Edits that keep the job in the same namespace now update the schedule in place. If the update fails, the job keeps running on its previous schedule.
+        - Other edits are not covered yet. If an update fails while you move the job to another namespace, change it to a manual or streaming job, or switch it to **Priority-Based**, check that the job is still running on schedule and save it again if it isn't.
       - **Blank Job Schedules**: A scheduled Spark job could be saved with an empty schedule, or one made only of spaces. Saving now fails for these, and also for a schedule with spaces at the start or end, such as `" 0 * * * *"`. If you create jobs through the API, trim the schedule before you send it.
     - **Spark History Error Responses**: A 5xx response from the Spark History server passed backend exception detail through to the browser. Those responses now return a generic temporary-unavailable message. Successful responses and application-not-found responses are unchanged.
   </BugFixes>
