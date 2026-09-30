@@ -4,7 +4,7 @@ sidebar_label: Deployment Architecture
 description: Technical reference for IOMETE's Kubernetes deployment topology, complete service inventory, feature flags, and infrastructure configuration.
 last_update:
   date: 09/30/2026
-  author: Mateus Aubin
+  author: Shashank Chaudhary
 ---
 
 This reference describes how IOMETE maps onto Kubernetes: the Helm chart structure, the full service inventory, feature flags, and infrastructure options. For a conceptual overview of each service, see the [Architecture Overview](../getting-started/architecture.md). For installation steps, see the [On-Premises Deployment Guide](./on-prem/install.md).
