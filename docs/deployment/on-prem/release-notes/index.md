@@ -53,19 +53,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <Improvements>
     - **Installation**
-      - **Chart-Managed Prerequisites**: The data plane chart can now create the Spark Operator custom resource definitions, the lakehouse service account with its Role and RoleBinding, and the Spark webhook certificates, removing the `kubectl apply` steps that used to precede a Helm install. All three switches default to `false`, so an existing install renders as before, and objects created outside Helm are left untouched.
-
-        ```yaml
-        # Helm values
-        crds:
-          create: false          # default
-        serviceAccount:
-          create: false          # default
-          annotations: {}        # for cloud workload identity
-        webhook:
-          create: false          # default
-        ```
-
       - **Control Plane Without a Bundled Data Plane**: A control plane can be installed on its own and have its data planes added afterwards. Left at the default, the install still brings up its own data plane and registers it as `default`.
 
         ```yaml
@@ -154,11 +141,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Improvements>
 
   <BugFixes>
-    - **Private Registry Pull Secrets**: Fixed `docker.imagePullSecrets` having no effect. The value was documented in both charts but read by no template, so images from a private registry still failed with `ImagePullBackOff`. It is now attached to the service account the platform services and Spark pods run as, and the Secret must exist in the release namespace and in every namespace listed under `namespaces`.
     - **Scheduled Spark Jobs**
       - **Cron Schedules**: Fixed Priority-Based Spark jobs running on the wrong schedule. A seconds field was prepended to standard five-field cron expressions, so a job scheduled daily ran monthly.
-      - **Blank Schedules**: A scheduled Spark job can no longer be saved with an empty or whitespace-only schedule.
-      - **Suspend and Resume**: Fixed suspending a job writing the Kubernetes resource before the change was committed, which could leave the resource suspended permanently, and fixed in-place updates of a scheduled job deleting and recreating its Kubernetes resource.
+      - **Suspend and Resume**: Fixed suspending a job writing the Kubernetes resource before the change was committed, which could leave the resource suspended permanently.
       - **Finished Runs**: Runs that had already completed on the job orchestrator no longer show `waiting in queue`.
       - **Aborted Runs**: Aborting a run from the Spark Applications list now emits a status change, so the list updates without a manual refresh.
     - **SQL Editor**
@@ -171,7 +156,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Security Hardening**
       - **REST Catalog Configuration**: The Iceberg REST catalog's `/v1/config` endpoint no longer returns server-side credentials, including the database password and S3 access keys, to Spark clients.
       - **Catalog Reads**: Catalog read responses now mask the access key and endpoint in addition to the secret key.
-      - **Error Responses**: Unexpected errors no longer return stack traces and raw exception messages to API clients in production, and Spark History `5xx` responses are sanitized before reaching the browser.
+      - **Error Responses**: Unexpected errors no longer return stack traces and raw exception messages to API clients in production.
       - **Token Validation**: Refresh tokens are verified against the signing key before new tokens are issued, and each environment now signs with its own key, so a token minted in one environment is no longer accepted by another.
       - **Forced Password Change**: A user changing a temporary password can no longer set it to the value it already had.
     - **Login With Multiple Identity Replicas**: Fixed intermittent login failures when `iom-identity` runs more than one pod. Single-use authorization codes were held in each pod's own memory, so a code issued by one pod could not be redeemed by another. They are now stored in the database.
