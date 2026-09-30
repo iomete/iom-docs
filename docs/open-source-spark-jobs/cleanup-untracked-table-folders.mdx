@@ -3,7 +3,7 @@ title: Cleanup Untracked Table Folders Job
 sidebar_label: Cleanup Untracked Folders
 description: Identify and optionally delete table folders that remain in object storage but are no longer tracked by the catalog.
 last_update:
-  date: 06/09/2026
+  date: 09/25/2026
   author: Hasan
 ---
 
@@ -15,7 +15,7 @@ The **Cleanup Untracked Table Folders Job** helps find table folders that still 
 
 Use this job when tables were dropped without purging their physical files. It can run in dry-run mode to report candidate folders, and it deletes folders only when deletion is explicitly enabled.
 
-- **Version**: `0.1.0`
+- **Version**: `0.1.4`
 - **Source**: [View on GitHub](https://github.com/iomete/iomete-marketplace-jobs/tree/main/cleanup-untracked-table-folders-job)
 
 :::warning
@@ -42,7 +42,7 @@ Specify the following parameters when creating the job manually:
 | Field | Value |
 |---|---|
 | Name | `cleanup-untracked-table-folders` |
-| Docker image | `iomete.azurecr.io/iomete/cleanup-untracked-table-folders:0.1.0` |
+| Docker image | `iomete.azurecr.io/iomete/cleanup-untracked-table-folders:0.1.4` |
 | Main class | `com.iomete.cleanup.untrackedtablefolders.App` |
 | Main application file | `spark-internal` |
 | Config file path | `/etc/configs/application.json` |
@@ -131,7 +131,15 @@ The job is designed to fail closed. If it cannot prove that a path is safe to de
 | `older_than_hours` | Filters out folders newer than the configured cutoff. |
 | `max_candidate_folders_per_database` | Skips cleanup when too many candidates are detected. |
 | Empty-database guard | Skips databases with no active table locations by default. |
+| Catalog-scoped storage access | Uses the selected catalog's own storage settings, and fails closed if they cannot be resolved. |
+| Unresolved ownership guard | Blocks deletion for a database when any table's storage location cannot be read. |
 | Audit table | Records success, skipped, and failed outcomes for each database. |
+
+## Object Storage Access
+
+You do not configure storage settings or credentials for this job. Cleanup always uses the storage configuration associated with the catalog you selected in `catalog`.
+
+If that storage configuration cannot be resolved safely, the job stops for that database and records `FAILED`. It does not fall back to any other storage configuration. This helps ensure cleanup remains within the storage associated with the selected catalog.
 
 ## Excluding Paths
 
@@ -188,14 +196,16 @@ Use the audit table to review candidates, skipped databases, deleted folders, ru
 | `cutoff_time` | Timestamp cutoff derived from `older_than_hours`. |
 | `max_candidate_folders_per_database` | Candidate-count safety limit used for this run. |
 | `excluded_paths` | Effective excluded paths used during candidate detection. |
-| `status` | `SUCCESS`, `SKIPPED`, or `FAILED`. |
+| `status` | `SUCCESS`, `SKIPPED`, `BLOCKED`, or `FAILED`. |
 | `status_reason` | Machine-readable reason for skipped or failed outcomes. |
 | `error_message` | Error details for failed or intentionally skipped outcomes. |
 | `discovered_database_location` | Database location discovered from the catalog. |
 | `storage_scan_location` | Object-storage root scanned by the job. |
 | `active_table_count` | Number of active tables discovered for the database. |
+| `unresolved_table_count` | Number of tables whose storage location could not be read during discovery. |
 | `storage_folder_count` | Number of immediate storage folders discovered. |
-| `candidate_folder_count` | Number of folders selected as cleanup candidates. |
+| `candidate_folder_count` | Number of folders confirmed as untracked and eligible for deletion. |
+| `potentially_untracked_folder_count` | Number of folders with no verified catalog owner, reported for review only when table storage ownership could not be fully verified. |
 | `deleted_folder_count` | Number of folders deleted. |
 | `candidate_folders` | Candidate folder paths. |
 | `deleted_folders` | Deleted folder paths. |
@@ -203,7 +213,7 @@ Use the audit table to review candidates, skipped databases, deleted folders, ru
 | `candidate_total_size_bytes` | Estimated candidate size when size statistics are collected. |
 | `deleted_object_count` | Object count for deleted folders when size statistics are collected. |
 | `deleted_total_size_bytes` | Deleted size when size statistics are collected. |
-| `metrics` | Additional contextual metadata for troubleshooting. |
+| `diagnostic_details` | Additional contextual metadata for troubleshooting, such as path samples and truncation flags. |
 | `start_time` | Database processing start time. |
 | `end_time` | Database processing end time. |
 
@@ -248,6 +258,7 @@ LIMIT 20;
 |---|---|
 | `SUCCESS` | The database was processed normally. Candidates may or may not have been found. |
 | `SKIPPED` | The job intentionally refused to process or delete for a safety reason. |
+| `BLOCKED` | Reconciliation completed far enough to inspect catalog and storage state, but a safety condition prevented cleanup. The findings are still reported. |
 | `FAILED` | An unexpected failure occurred while processing the database. |
 
 Common `status_reason` values include:
@@ -258,17 +269,35 @@ Common `status_reason` values include:
 | `database_location_missing` | Database exists but has no usable storage location. |
 | `no_active_tables_in_database` | Database has no active table locations, so cleanup is skipped by default. |
 | `too_many_candidate_folders` | Candidate count exceeded `max_candidate_folders_per_database`. |
+| `unresolved_catalog_ownership` | At least one table's storage location could not be read, so no folder in the database could be confirmed as untracked. |
+
+## Unresolved Table Storage Ownership
+
+A table is unresolved when it exists in the catalog but the job cannot read its Iceberg metadata or storage location during the run. This does not mean the table is unhealthy or unwanted. It only means the job does not know which storage folder that table owns.
+
+Storage reconciliation still runs and reports what it found. What changes is what the job is allowed to conclude. If any table in the database is unresolved, that table could own any of the unmatched folders, so no folder in that database can be proven untracked. For that database:
+
+- Every unmatched folder is reported as potentially untracked, not as a candidate.
+- `potentially_untracked_folder_count` carries those folders, and `candidate_folder_count` stays `0`.
+- Nothing is deleted, in dry-run mode or in deletion mode.
+- The audit row is written with `status=BLOCKED` and `status_reason=unresolved_catalog_ownership`.
+
+Other configured databases are unaffected and continue to run.
 
 ## Understanding Summary Logs
 
-The job prints several folder lists in the driver logs. Two of them are commonly confused:
+At the end of each database, the job prints a `CLEANUP REPORT` block in the driver logs. Its sections are:
 
-| Log section | Source | Meaning |
+| Report section | Source | Meaning |
 |---|---|---|
-| `Protected catalog active table locations` | Catalog metadata | Active table locations discovered from the catalog. These paths are used as the protection set and must not be deleted. This list may include paths outside the selected storage scan root. |
-| `Storage folders not selected as candidates` | Object-storage scan | Physical folders found under the scan root but skipped because they matched a protection rule, such as active table location, excluded path, excluded database folder, or age filter. |
-| `Untracked candidate folders selected for cleanup` | Candidate detection | Scanned folders that were not protected and passed cleanup filters. These are the folders the job would delete in deletion mode. |
-| `Deleted folders` | Deletion result | Candidate folders actually deleted when `dry_run=false` and `delete_enabled=true`. |
+| `CATALOG` | Catalog metadata | Counts of tables found, tables with verified storage locations, and tables whose storage location could not be read. |
+| `TABLES WHOSE STORAGE LOCATION COULD NOT BE RESOLVED` | Catalog metadata | Tables that exist in the catalog but whose Iceberg metadata or storage location could not be read. Shown only when there are any. |
+| `STORAGE` | Object-storage scan | Counts of folders discovered under the scan root, folders belonging to verified catalog tables, and folders with no verified owner. |
+| `STORAGE FOLDERS PROTECTED BY A VERIFIED CATALOG TABLE` | Catalog metadata | Active table locations discovered from the catalog. These are the protection set and must not be deleted. This list may include paths outside the selected storage scan root. |
+| `STORAGE FOLDERS EXCLUDED BY CONFIGURATION` | Configuration | Paths protected by `exclude_paths` or `exclude_database_folders`. |
+| `UNTRACKED STORAGE FOLDERS` | Candidate detection | Folders that were not protected and passed the cleanup filters. These are the folders the job would delete in deletion mode. |
+| `POTENTIALLY UNTRACKED STORAGE FOLDERS` | Candidate detection | Shown instead of the section above when a table's storage location could not be read. These folders have no verified catalog owner, but they cannot be proven untracked, so none of them are deletion candidates. |
+| `DELETION` | Deletion result | Folders actually deleted when `dry_run=false` and `delete_enabled=true`, or `BLOCKED` with the reason when deletion was prevented. |
 
 In short, catalog active table locations come from catalog metadata, while storage folders come from the physical object-storage scan.
 
