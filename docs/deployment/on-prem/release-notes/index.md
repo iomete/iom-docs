@@ -138,6 +138,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Untracked Folder Cleanup**: A new `cleanup-untracked-table-folders` marketplace job removes table folders in object storage that no table points at.
       - **Self-Healing Detection**: Maintenance detection now catches up on the window it missed after downtime, and execution runs are serialized per table so different tables are still processed concurrently.
     - **Proxied UI Sessions**: Spark UI, Spark History and Grafana sessions refresh automatically when the six-hour access token behind them expires, instead of failing until the page is reloaded.
+    - **Git Repositories**
+      - **Deleting Repositories**: Git repositories can now be deleted from the SQL Editor sidebar by users with the **Manage Git Repository** permission.
+      - **Linking Your Own Token**: Users without that permission can now link their own token to a repository from its **Configure** drawer. A deleted linked token now reports as not configured.
+      - **Clearer Errors**: The repository tree and branch picker show the actual Git error instead of a generic message, with a **Configure token** button when no token is linked. Checking out an unknown branch now returns a clear error.
+      - **Hidden Token Values**: Git access tokens are no longer returned by the API or shown in the console, and the copy option is removed. When editing a token, leave the field blank to keep the current value.
+
+      See [Git Repository Worksheets](/user-guide/sql-editor/collaboration#git-repository-worksheets).
     - **SQL Editor Appearance**: Added settings for the editor color scheme, font family, font size, and optional statement block highlighting. The selected scheme's light or dark variant follows the Console theme. Changes preview immediately and are saved with **Save**. See [Customizing Editor Appearance](/resources/user-guide/sql-editor/query-results#customizing-editor-appearance).
     - **Query Monitoring**
       - **Faster Stale Query Detection**: A query left behind by a stopped compute is detected in far less time than the previous ten to fifteen minutes.
@@ -161,7 +168,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Query Cancellation**: Fixed cancelling a running query hanging until the caller gave up, leaving the query stuck in `RUNNING`. Every cancel path, HTTP, JDBC and Arrow Flight, now has a deadline.
       - **Null Values**: A SQL `NULL` is returned as `null` instead of the key being omitted, which had made rows narrower than the column list returned alongside them.
       - **Sorting**: An explicit sort in query monitoring is now applied, instead of results always coming back ordered by end time.
-      - **Git Tokens**: `/api/v1/git/tokens` no longer returns the token value in any response, where it was previously rendered as copyable text in the console. GitLab token errors now reach the UI with their message, and a deleted linked token reports as not configured instead of a generic `404`.
       - **Query Ownership**: Six query endpoints, including status, cancel, CSV export and batch status, now check who owns the query.
       - **Arrow Connection String**: The Arrow Flight JDBC connection string on a compute's Connections tab uses the `{access_token}` placeholder instead of `{password}`, matching every other connection string.
     - **Security Hardening**
