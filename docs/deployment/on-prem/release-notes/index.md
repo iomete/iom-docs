@@ -265,8 +265,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <Improvements>
     - **Service Startup Timeouts**: On busy nodes, some IOMETE services were restarted before they finished starting.
-      - Every IOMETE service now gets up to 120 seconds to start, and a running service is restarted only after about 60 seconds of failed health checks.
-      - `iom-identity`, `iom-health-check` and `iom-spark-connect-rest-client` had their own limit of about 350 seconds. They now use the same timings as the other services. If they restart during startup on slow nodes, raise `services.probes.startup.failureThreshold`.
+      - `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog` and `iom-rest-catalog` now get up to 120 seconds to start, instead of about 30.
+      - `iom-identity`, `iom-health-check` and `iom-spark-connect-rest-client` had their own limit of about 350 seconds. They now use the same 120 seconds, so all these services follow one set of timings. If they restart during startup on slow nodes, raise `services.probes.startup.failureThreshold`.
+      - A running service is now restarted only after about 60 seconds of failed health checks, instead of 30.
       - You can change these timings under `services.probes`.
     - **Higher Resource Requests**: Some IOMETE services now request more CPU and memory, so they start faster and stay available on busy nodes.
       - `iom-identity` now requests `2000m` CPU and `4000Mi` memory, up from `100m` and `500Mi`.
@@ -300,8 +301,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - This affected jobs on the **Legacy** deployment flow. IOMETE deleted the job's schedule in Kubernetes before redeploying it, and a failed redeploy left it deleted.
         - Edits that keep the job in the same namespace now update the schedule in place. If the update fails, the job keeps running on its previous schedule.
         - Other edits are not covered yet. If an update fails while you move the job to another namespace, change it to a manual or streaming job, or switch it to **Priority-Based**, check that the job is still running on schedule and save it again if it isn't.
-      - **Blank Job Schedules**: A scheduled Spark job could be saved with an empty schedule, or one made only of spaces. Saving now fails for these, and also for a schedule with spaces at the start or end, such as `" 0 * * * *"`. If you create jobs through the API, trim the schedule before you send it.
-    - **Spark History Error Messages**: When the Spark History Server returned a server error, the browser showed internal error details from the backend. It now shows "Spark history is temporarily unavailable. Please try again shortly." Other responses are unchanged.
+      - **Blank Job Schedules**: A scheduled Spark job could be saved with an empty schedule, or one made only of spaces.
+        - Saving now fails for these, and also for a schedule with spaces at the start or end, such as `" 0 * * * *"`.
+        - If you create jobs through the API, trim the schedule before you send it.
+    - **Spark History Error Messages**: When the Spark History Server returned a server error, the browser showed internal error details from the backend.
+      - It now shows "Spark history is temporarily unavailable. Please try again shortly." instead.
+      - Other responses are unchanged.
   </BugFixes>
 
   <Deprecations>
