@@ -271,6 +271,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Higher Resource Requests**: Some IOMETE services now request more CPU and memory, so they start faster and stay available on busy nodes.
       - `iom-identity` now requests `2000m` CPU and `4000Mi` memory, up from `100m` and `500Mi`.
       - `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog` and `iom-rest-catalog` now request `300m` CPU, up from `100m`.
+      - These are new chart defaults. If you already set your own requests for these services in your values file, your values still apply.
       - Check that your nodes have room before you upgrade. See the [install requirements](../install.md#essential-requirements-before-you-start).
     - **Lakehouse Role Permissions**: The `iomete-lakehouse-role` Role no longer grants access to Kubernetes Roles and RoleBindings, which no IOMETE service creates. Whatever installs the chart, including the IOMETE operator, no longer needs the `escalate` and `bind` verbs in order to create it.
   </Improvements>
