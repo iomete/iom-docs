@@ -48,6 +48,7 @@ The new namespace needs `lakehouse-service-account` with its Role and RoleBindin
 
 - **If `serviceAccount.create` is `true` in `values.yaml`**, skip this step. The Helm upgrade below creates them.
 - **If it is `false`**, have a Kubernetes administrator re-create the file from step 1 of [Option 2 in the install guide](./on-prem/install.md#option-2-have-an-administrator-create-them) and apply it before you upgrade. The file covers every namespace listed in `values.yaml`, so it includes the new one.
+- **On 3.19.0 or earlier**, create them manually before you upgrade, as shown in [Installing 3.19.0 or Earlier](#installing-3190-or-earlier).
 
 ### Add the Namespace to the Webhook
 
@@ -65,9 +66,14 @@ If the webhook was created with `gencerts.sh`, skip this step. The `iomete.com/m
 
 ### Upgrade IOMETE
 
+Use the chart version you already run, so the upgrade doesn't move you to a newer release:
+
 ```shell showLineNumbers
-# helm repo update iomete
-helm upgrade --install -n iomete-system data-plane iomete/iomete-data-plane-enterprise -f values.yaml
+export IOMETE_VERSION="<chart-version>"   # the version you installed, for example 3.19.1
+
+helm upgrade --install -n iomete-system data-plane iomete/iomete-data-plane-enterprise \
+  --version "$IOMETE_VERSION" \
+  -f values.yaml
 ```
 
 ### Installing 3.19.0 or Earlier
