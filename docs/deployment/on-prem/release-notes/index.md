@@ -144,7 +144,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Table Maintenance**
       - **Untracked Folder Cleanup**: A new `cleanup-untracked-table-folders` marketplace job removes table folders in object storage that no table points at.
       - **Self-Healing Detection**: Maintenance detection now catches up on the window it missed after downtime, and execution runs are serialized per table so different tables are still processed concurrently.
-    - **Enterprise Catalog**: The Enterprise Catalog is available again after being disabled ahead of the 3.17 release branch, and now carries the six S3 and Iceberg Spark properties it was silently missing.
     - **Proxied UI Sessions**: Spark UI, Spark History and Grafana sessions refresh automatically when the six-hour access token behind them expires, instead of failing until the page is reloaded.
     - **SQL Editor Appearance**: Added settings for the editor color scheme, font family, font size, and optional statement block highlighting. The selected scheme's light or dark variant follows the Console theme. Changes preview immediately and are saved with **Save**. See [Customizing Editor Appearance](/resources/user-guide/sql-editor/query-results#customizing-editor-appearance).
     - **Query Monitoring**
