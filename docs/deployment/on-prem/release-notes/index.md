@@ -129,7 +129,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Unresolved Runs**: A run whose Kubernetes resource disappeared without a final event is recorded as `UNKNOWN` rather than `FAILED`, so a run that finished cleanly is no longer reported as a failure.
       - **Named Container Ports**: Spark driver pods now declare named container ports, allowing protocol detection and service discovery by name.
       - **Pod Templates Deprecated**: Pod templates are no longer created by the data plane chart. They remain in the previous chart for backward compatibility, so existing legacy scheduled jobs keep running.
-    - **Classification Auto-Approval**: Data Security and Audit Managers can create a classification change request with `autoApprove=true` and skip manual review.
+    - **Classification Auto-Approval**: Data Security and Audit Managers can now approve their own classification requests on submission, using the **Auto-approve this request** checkbox in the request form or `autoApprove=true` in the API. See [Auto-Approving a Request](/user-guide/data-catalog/classification-tags#auto-approving-a-request).
     - **Roles and Permissions**
       - **Shared Worksheets and Git Repositories**: The default role can now read shared worksheets and the git repository tree. Both permissions previously sat only on the account admin role, so ordinary domain members saw neither area.
       - **Event Stream Creation**: Event Stream creation can be granted through a role on installations still using the role-based permission model, and is granted to the default role.
