@@ -264,23 +264,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </NewFeatures>
 
   <Improvements>
-    - **JVM Service Startup and Resources**: On busy nodes, some JVM services were killed before they finished starting.
-      - `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog`, and `iom-rest-catalog` had no startup probe, so the default liveness probe killed a container that was still booting after about 30 seconds. Every JVM service now gets 120 seconds to start listening before liveness checks apply. The hardcoded probes on `iom-identity`, `iom-health-check`, and `iom-spark-connect-rest-client` are replaced by the same shared timings, which are now configurable under `services.probes`.
-      - CPU requests rose from `100m` to `300m` for `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog`, and `iom-rest-catalog`, and from `10m` to `50m` for Typesense. `iom-identity` now requests `2000m` CPU and `4000Mi` memory, up from `100m` and `500Mi`, and its limits rose to `4000m` CPU and `8000Mi` memory. Check that your nodes have room for the higher requests before upgrading.
-
-      ```yaml
-      # Helm values
-      services:
-        identity:
-          resources:
-            requests:
-              cpu: 2000m
-              memory: 4000Mi
-            limits:
-              cpu: 4000m
-              memory: 8000Mi
-      ```
-
+    - **Service Startup Timeouts**: On busy nodes, some IOMETE services were restarted before they finished starting.
+      - Every IOMETE service now gets up to 120 seconds to start, and a running service is restarted only after about 60 seconds of failed health checks.
+      - `iom-identity`, `iom-health-check` and `iom-spark-connect-rest-client` had their own limit of about 350 seconds. They now use the same timings as the other services. If they restart during startup on slow nodes, raise `services.probes.startup.failureThreshold`.
+      - You can change these timings under `services.probes`.
+    - **Higher Resource Requests**: Some IOMETE services now request more CPU and memory, so they start faster and stay available on busy nodes.
+      - `iom-identity` now requests `2000m` CPU and `4000Mi` memory, up from `100m` and `500Mi`.
+      - `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog` and `iom-rest-catalog` now request `300m` CPU, up from `100m`.
+      - Check that your nodes have room before you upgrade. See the [install requirements](../install.md#essential-requirements-before-you-start).
     - **Lakehouse Role Permissions**: The `iomete-lakehouse-role` Role no longer grants access to Kubernetes Roles and RoleBindings, which no IOMETE service creates. Whatever installs the chart, including the IOMETE operator, no longer needs the `escalate` and `bind` verbs in order to create it.
   </Improvements>
 
