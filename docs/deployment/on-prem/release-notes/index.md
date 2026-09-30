@@ -307,6 +307,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark History Error Messages**: When the Spark History Server returned a server error, the browser showed internal error details from the backend.
       - It now shows "Spark history is temporarily unavailable. Please try again shortly." instead.
       - Other responses are unchanged.
+    - **Domain Members List Stuck on the First Page**: On **Admin Portal → Domains → _domain_ → Members**, moving to another page did nothing. The pager advanced, but the list kept showing the same first members.
+      - The console sent the page number twice in the same request, and the server used the first one, which was always the first page. Changing the page size had the same problem.
+      - Paging, the page size selector and the **Users**/**Groups** filter now work together.
   </BugFixes>
 
   <Deprecations>
