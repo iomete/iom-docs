@@ -15,7 +15,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="4.0.0" date="TBD">
+<Release version="4.0.0" date="September 30, 2026">
   <NewFeatures>
     - **Control Plane and Data Planes**: IOMETE is now split into one control plane and one or more data planes. The control plane hosts the console and shared services, and each data plane runs your workloads, such as compute clusters, Spark jobs and Jupyter containers, with its own storage. Resources in the console now show which data plane they belong to, and you can filter by data plane.
       - **Data Plane Administration**: A new **Data Planes** page in the admin area shows every data plane connected to the control plane, with its status, version and CPU and memory quota usage. The same information is available through the API: `GET /api/v1/admin/multi-cluster/data-planes` lists all data planes, and `GET /api/v1/admin/multi-cluster/data-planes/{id}` returns one data plane with a per-namespace quota breakdown. Data planes that can't be reached still appear, just without usage figures.
@@ -61,6 +61,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Comet Execution Engine**: Compute clusters have a new **Enable Comet** toggle that runs queries through the Apache Comet native execution engine. Off by default, so existing computes are unchanged.
     - **Active-Active Control Planes**: You can now run two control planes side by side behind a load balancer, sharing the same database. Background jobs run only once, even with both active. Point your load balancer health check at `/healthz`, which reports whether each control plane is ready to take traffic.
     - **Feature Flags**: Feature flags let IOMETE turn a feature on or off at runtime, without a redeploy. Admins control them from the admin panel under **Administration → Feature Flags**, where each flag can be enabled platform-wide or per domain. See [Feature Flags](/user-guide/feature-flags/overview) for the available flags and how to manage them.
+    - **Recently Viewed**: Added a new **Recently Viewed** tab to the Domain Dashboard so users can quickly return to resources they opened recently.
+      - Supports **Compute Clusters**, **Jupyter Containers**, **Spark Job Templates and Runs**, **Streaming Jobs**, **Resource Bundles**, **Event Streams**, and **Data Catalog**.
+      - Shows the resource name, type, ID, and last viewed time for each entry.
+      - Includes actions to open the resource, copy its ID, remove one item, or clear all recents.
+      - Saves resources after a short delay, helping keep the recently viewed list clean and relevant.
+
+      <Img src="/img/getting-started/release-notes/4.0.0/recently-viewed.png" alt="Recently Viewed tab in Domain Dashboard" centered style={{ marginTop: "16px" }} />
     - **Console Theme Switcher**: Added **Light**, **Dark**, and **System Preferences** options under **Theme** in the user menu. Changes apply immediately and are saved in the browser. **System Preferences** follows the operating system's appearance automatically. See [Changing the Console Theme](/resources/user-guide/theme-switcher).
 
       <Img src="/img/user-guide/theme-switcher/theme-menu.png" alt="Console user menu with System Preferences, Light, and Dark theme options" maxWidth="518px" />
