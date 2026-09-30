@@ -153,7 +153,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Roles and Permissions**
       - **Shared Worksheets and Git Repositories**: The default role can now read shared worksheets and the git repository tree. Both permissions previously sat only on the account admin role, so ordinary domain members saw neither area.
       - **Event Stream Creation**: Event Stream creation can be granted through a role on installations still using the role-based permission model, and is granted to the default role.
-      - **Node Types and Volumes**: New user-level `GET /api/v1/node-types` and `GET /api/v1/volumes` endpoints expose the platform-wide catalog that was previously admin-gated or domain-scoped. Default node types are also now consistent across AWS, GCP, Azure and on-premise installs.
+      - **Node Types and Volumes**: Any signed-in user can now list the platform's node types and volumes through `GET /api/v1/node-types` and `GET /api/v1/volumes`. Both catalogs were previously visible only to admins or one domain at a time.
     - **Table Maintenance**
       - **Untracked Folder Cleanup**: A new `cleanup-untracked-table-folders` marketplace job removes table folders in object storage that no table points at.
       - **Self-Healing Detection**: Maintenance detection now catches up on the window it missed after downtime, and execution runs are serialized per table so different tables are still processed concurrently.
