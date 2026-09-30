@@ -260,6 +260,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Turn these on with `serviceAccount.create`, `crds.create` and `webhook.create`. All three are `false` by default.
       - If your Helm user lacks the permissions, a cluster administrator can create the resources from the chart instead.
       - Existing installations are not affected. The chart never takes over resources it did not create.
+      - Helm creates the CRDs only on the first installation and never updates them. When a later release changes them, apply them yourself, as described in [Upgrading the CRDs](../install.md#upgrading-the-crds).
       - A new `serviceAccount.annotations` value adds cloud workload identity annotations to the service account.
   </NewFeatures>
 
@@ -296,6 +297,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - With `serviceAccount.create: true`, the chart now adds these secrets to `lakehouse-service-account`, which both IOMETE services and Spark pods use.
       - The chart does not copy the secret. Create it in the release namespace and in every namespace listed under `namespaces`.
       - If you created the service account yourself, the chart does not change it. Keep adding the secrets manually, as described in [Private Docker Registry Authentication](/user-guide/k8s/private-docker-registry).
+    - **Spark Connect Failed With Helm 4**: Installing or upgrading with Helm 4 failed on the `iom-spark-connect` SparkApplication with `spec.volumes in body must be of type array: "null"`.
+      - Helm 4 applies resources server-side by default, and the chart wrote empty lists as `null` when the Java trust store was off, which is the default.
+      - The chart now leaves these fields out when they are empty. Helm 3 was not affected.
+    - **External Catalogs With Newer Spark Images**: Newer IOMETE Spark images turn on Ranger by default, which broke adding an external catalog and listing its schemas through `iom-spark-connect`.
+      - The chart now turns Ranger off for `iom-spark-connect` by setting `spark.sql.hive.sessionStateBuilder` under `services.sparkConnect.sparkConf`.
     - **Spark Applications**
       - **Scheduled Job Updates**: Editing a scheduled Spark job could stop it from running. If the update failed, the job still showed as scheduled, but it no longer ran.
         - This affected jobs on the **Legacy** deployment flow. IOMETE deleted the job's schedule in Kubernetes before redeploying it, and a failed redeploy left it deleted.
@@ -316,7 +322,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **MinIO and Dell ECS Storage Settings**: `storage.minioSettings` and `storage.dellEcsSettings` are deprecated. Use `storage.s3CompatibleSettings` instead. The old settings still work when `s3CompatibleSettings` is not set.
   </Deprecations>
 
-      **Spark version:** [3.5.7-v6](./spark.md)
+      **Spark version:** [3.5.7-v7](./spark.md)
       **Iceberg version:** 1.9.0-iomete-5
 
 </Release>
