@@ -140,8 +140,8 @@ A Kubernetes administrator generates the resources from the chart and applies th
      --version "$IOMETE_VERSION" \
      --values example-data-plane-values.yaml \
      --set serviceAccount.create=true \
-     --show-only templates/service-account.yaml \
-     | yq 'del(.metadata.annotations."helm.sh/hook", .metadata.annotations."helm.sh/hook-weight")' \
+     | yq 'select(.metadata.name == "lakehouse-service-account" or .metadata.name == "iomete-lakehouse-role" or .metadata.name == "iomete-lakehouse-role-binding")
+           | del(.metadata.annotations."helm.sh/hook", .metadata.annotations."helm.sh/hook-weight")' \
      > lakehouse-service-account.yaml
 
    kubectl apply -f lakehouse-service-account.yaml
@@ -155,7 +155,7 @@ A Kubernetes administrator generates the resources from the chart and applies th
      --version "$IOMETE_VERSION" \
      --values example-data-plane-values.yaml \
      --set crds.create=true \
-     --show-only templates/spark-crds.yaml \
+     | yq 'select(.kind == "CustomResourceDefinition")' \
      > spark-crds.yaml
 
    kubectl apply --server-side -f spark-crds.yaml
@@ -169,7 +169,7 @@ A Kubernetes administrator generates the resources from the chart and applies th
      --version "$IOMETE_VERSION" \
      --values example-data-plane-values.yaml \
      --set webhook.create=true \
-     --show-only templates/spark-operator-webhook-certs.yaml \
+     | yq 'select(.kind == "MutatingWebhookConfiguration" or (.kind == "Secret" and .metadata.name == "spark-operator-webhook-certs"))' \
      > spark-operator-webhook.yaml
 
    kubectl apply -f spark-operator-webhook.yaml
