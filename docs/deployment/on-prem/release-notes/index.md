@@ -39,6 +39,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       Existing queries and APIs keep working; the only addition is a new `PENDING` status for a query accepted but not yet started on the compute. Requires compute clusters on Spark image `3.5.7-v4` or later (Spark 4.x included) — queries on an older image fail with a message naming the image to update to. Turn it on with the `sqlEditorV2` feature flag.
 
+    - **Automated Table Maintenance `BETA`**: You no longer have to think about table maintenance. As Iceberg tables take writes, small files, old snapshots and orphan files pile up, so queries slow down and storage costs creep up. IOMETE now handles this in the background. It detects which tables changed, checks them against health thresholds, and runs compaction, snapshot expiry, manifest rewrites or orphan file cleanup only on the tables that need it, instead of on a fixed schedule.
+      - **Catalog and Table Settings**: Enable maintenance and set defaults per catalog, then override them per table if needed.
+      - **Run History and Metrics**: Each run records before-and-after metrics, so you can check that a table actually got healthier. Any operation can also be triggered manually.
+
+      <Img src="/img/user-guide/table-maintenance/run-detail-completed.png" alt="Completed Cleanup Orphan Files run with before-and-after metrics for data file count and size" maxWidth="900px" />
+
+      See [Table Maintenance](/user-guide/table-maintenance/overview) to set it up, and [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance) for the design behind it.
+
     - **Managed MCP Server**: IOMETE ships a Model Context Protocol (MCP) server as a data-plane component. AI agents in MCP clients such as Claude Code, Codex, and Devin can use its 17 tools to find and describe tables and run SQL. The tools also inspect query plans, preview rows, and profile columns. A ready-made `discover-then-query` prompt guides them through the workflow. The server is disabled by default. To enable it, set `features.mcpServer.enabled: true`. Also set `services.mcpServer.urls.public` to the address users reach IOMETE at, and add that host to `authentication.redirectUrlWhitelist`.
       - **Runs as the Signed-In User**: Tool calls use the user's own IOMETE access, so the same access policies apply as in the SQL Editor. SQL that changes data isn't allowed by default, and administrators can allow it with `services.mcpServer.statementPolicy`.
       - **Access**: The **Use MCP Server** permission (`mcp/use`) on a role grants access per domain. On upgrade, IOMETE adds it to existing `account-admin` roles. Other roles (including `default`) don't include it, so administrators may need to grant it on a role for other users. The admin user created at installation, Domain Managers, and domain owners already have access. A new grant can take a short while to apply.
@@ -134,9 +142,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Shared Worksheets and Git Repositories**: The default role can now read shared worksheets and the git repository tree. Both permissions previously sat only on the account admin role, so ordinary domain members saw neither area.
       - **Event Stream Creation**: Event Stream creation can be granted through a role on installations still using the role-based permission model, and is granted to the default role.
       - **Node Types and Volumes**: Any signed-in user can now list the platform's node types and volumes through `GET /api/v1/node-types` and `GET /api/v1/volumes`. Both catalogs were previously visible only to admins or one domain at a time.
-    - **Table Maintenance**
-      - **Untracked Folder Cleanup**: A new `cleanup-untracked-table-folders` marketplace job removes table folders in object storage that no table points at.
-      - **Self-Healing Detection**: Maintenance detection now catches up on the window it missed after downtime, and execution runs are serialized per table so different tables are still processed concurrently.
     - **Proxied UI Sessions**: Spark UI, Spark History and Grafana sessions refresh automatically when the six-hour access token behind them expires, instead of failing until the page is reloaded.
     - **Git Repositories**
       - **Deleting Repositories**: Git repositories can now be deleted from the SQL Editor sidebar by users with the **Manage Git Repository** permission.
