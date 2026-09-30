@@ -119,7 +119,8 @@ services:
     s3Logging:
       enabled: true  # disabled by default
       # Optional overrides — credentials and endpoint are derived from storage.s3CompatibleSettings
-      # by default (storage.minioSettings or storage.dellEcsSettings before 3.19.1).
+      # by default, or from the deprecated storage.minioSettings or storage.dellEcsSettings
+      # when s3CompatibleSettings is not set.
       # Override only if using a separate bucket.
       # endpoint: "https://your-s3-endpoint"
       # accessKey: "your-access-key"
