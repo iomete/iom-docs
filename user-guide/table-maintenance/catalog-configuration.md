@@ -3,8 +3,8 @@ title: Catalog-Level Configuration
 description: Configure compute resources, service accounts, and maintenance operations at the catalog level.
 sidebar_label: Catalog Configuration
 last_update:
-  date: 05/13/2026
-  author: Shashank Chaudhary
+  date: 09/17/2026
+  author: Vugar Dadalov
 ---
 
 import Img from '@site/src/components/Img';
@@ -76,11 +76,19 @@ Click **Save Changes** to commit all settings on the page (Enable maintenance, r
 
 Every catalog that uses maintenance must have an **owner domain** assigned. The owner domain determines which compute clusters and service accounts are available for maintenance jobs. Resources are always scoped to a domain, so the catalog must belong to one before any maintenance configuration is possible.
 
+The catalog's **Details** tab shows the current owner under **Owner domain**, or **Not assigned** when the catalog has no owner yet.
+
 To assign an owner domain:
 
 1. Open the catalog in **Admin Portal > Spark Catalogs**.
-2. Select the catalog.
-3. Go to the **Domain permissions** tab.
-4. Click the `⋮` (three-dot menu) next to the domain and select **Set as Catalog Owner**.
+2. Select the catalog. The **Details** tab opens by default.
+3. On the **Owner domain** row, click **Set Owner** (or **Change**, if the catalog already has one).
+4. Pick a domain and click **Set**.
 
-<Img src="/img/user-guide/table-maintenance/assign-catalog-owner.png" alt="Domain permissions tab with the three-dot menu open on a domain showing the Set as Catalog Owner option"/>
+The picker lists only the domains that already have access to the catalog, because a domain must hold a catalog permission before it can own it. If the catalog has no domains yet, use **Manage Domain Permissions** in the picker to grant access first, then come back and set the owner. You can also set the owner from the **Domain permissions** tab, using the `⋮` menu next to a domain.
+
+To leave a catalog without an owner, click **Remove** on the same row.
+
+:::note Who can change the owner
+Changing a catalog owner requires the **Data Security and Audit Manager** admin role. Without it, the row still shows the current owner but its actions are disabled. Outside the Admin Portal the row is read-only.
+:::
