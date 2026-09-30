@@ -5,7 +5,7 @@ description: Get latest release notes for IOMETE. Learn about new features, enha
 hide_table_of_contents: true
 last_update:
   date: 09/30/2026
-  author: Mammad Mammadli
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
@@ -254,25 +254,13 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 </Release>
 
-<Release version="3.19.1" date="TBD">
+<Release version="3.19.1" date="September 30, 2026">
   <NewFeatures>
-    - **Chart-Managed Install Prerequisites**: The data plane chart can now create the Kubernetes objects that previously had to be applied by hand before `helm install`. Each one is gated by its own switch, all of which default to `false`. The chart creates an object only when it is absent or already owned by the release, so objects created with `kubectl` or Terraform on an existing install are left exactly as they are.
-      - **Spark Webhook Certificate**: The chart mints the Spark Operator admission webhook certificate and owns the `MutatingWebhookConfiguration`, replacing the `gencerts.sh` script. The certificate is reused on every upgrade instead of being rotated.
-      - **Lakehouse Service Account**: The chart creates `lakehouse-service-account`, the `iomete-lakehouse-role` Role, and its role binding in the release namespace and in every namespace listed under `namespaces`. A new `serviceAccount.annotations` value carries cloud workload identity annotations.
-      - **Spark Operator CRDs**: The chart installs the Spark Operator custom resource definitions, replacing the manual `kubectl apply -f iomete-crds.yaml` step. They are marked `helm.sh/resource-policy: keep`, so uninstalling the chart cannot cascade-delete your `SparkApplication` resources.
-
-      ```yaml
-      # Helm values
-      webhook:
-        create: false      # default
-      serviceAccount:
-        create: false      # default
-        annotations: {}    # cloud workload identity
-      crds:
-        create: false      # default
-      ```
-
-      If your Helm identity cannot create cluster-scoped objects or RBAC, render these objects with `helm template --show-only`, have a cluster administrator apply them, and install with the switches left at `false`.
+    - **Helm Chart Creates Cluster-Level Resources**: The data plane chart can now create the Spark Operator CRDs, the `lakehouse-service-account` with its Role and RoleBinding, and the Spark Operator webhook with its certificate, so you don't have to run `gencerts.sh` or `kubectl apply` them yourself before installing. See [Create Cluster-Level Resources](../install.md#create-cluster-level-resources).
+      - Turn these on with `serviceAccount.create`, `crds.create` and `webhook.create`. All three are `false` by default.
+      - If your Helm user lacks the permissions, a cluster administrator can create the resources from the chart instead.
+      - Existing installations are not affected. The chart never takes over resources it did not create.
+      - A new `serviceAccount.annotations` value adds cloud workload identity annotations to the service account.
   </NewFeatures>
 
   <Improvements>
