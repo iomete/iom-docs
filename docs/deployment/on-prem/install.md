@@ -120,12 +120,16 @@ webhook:
   create: true
 ```
 
-With these set, Helm creates the resources during installation and keeps them up to date on every upgrade.
+With these set, Helm creates the resources during installation. It keeps the service account and the webhook up to date on every upgrade. It creates the CRDs only on the first installation and never updates them, so apply CRD changes yourself as described in [Upgrading the CRDs](#upgrading-the-crds).
+
+If another Helm release or an administrator already manages the Spark Operator CRDs, leave `crds.create` set to `false`. Helm 4 fails the installation when an existing CRD differs from the one in the chart.
 
 Your Helm user needs permission to create CRDs, a `MutatingWebhookConfiguration`, service accounts, Roles, RoleBindings and Secrets. If the installation fails with a `forbidden` error, set the failing switch back to `false` and use option 2 for that resource.
 
 :::note Upgrading an existing installation
 If you created these resources by hand in an earlier installation, the chart leaves them as they are. You don't need to change anything.
+
+Turning on `crds.create` for an existing installation creates nothing, because Helm installs CRDs only on a release's first installation.
 :::
 
 #### Option 2: Have an Administrator Create Them
@@ -147,18 +151,14 @@ A Kubernetes administrator generates the resources from the chart and applies th
    kubectl apply -f lakehouse-service-account.yaml
    ```
 
-2. Create the Spark Operator CRDs. The CRD files are large, so they must be applied with `--server-side`:
+2. Create the Spark Operator CRDs. The chart ships them as plain files, so download the chart and apply them from it. The CRD files are large, so they must be applied with `--server-side`:
 
    ```shell
-   helm template data-plane iomete/iomete-data-plane-enterprise \
-     --namespace iomete-system \
+   helm pull iomete/iomete-data-plane-enterprise \
      --version "$IOMETE_VERSION" \
-     --values example-data-plane-values.yaml \
-     --set crds.create=true \
-     | yq 'select(.kind == "CustomResourceDefinition")' \
-     > spark-crds.yaml
+     --untar --untardir "chart-$IOMETE_VERSION"
 
-   kubectl apply --server-side -f spark-crds.yaml
+   kubectl apply --server-side -f "chart-$IOMETE_VERSION"/iomete-data-plane-enterprise/charts/operator-crds/crds/
    ```
 
 3. Create the webhook and its certificate:
@@ -186,11 +186,25 @@ A Kubernetes administrator generates the resources from the chart and applies th
      create: false
    ```
 
-Helm doesn't update resources an administrator created. Repeat step 1 after you [add a namespace](../connect-namespace.md) or change `namespaces`, `docker.imagePullSecrets` or `serviceAccount.annotations`, and repeat step 2 when you upgrade to a new chart version.
+Helm doesn't update resources an administrator created. Repeat step 1 after you [add a namespace](../connect-namespace.md) or change `namespaces`, `docker.imagePullSecrets` or `serviceAccount.annotations`, and apply CRD changes as described in [Upgrading the CRDs](#upgrading-the-crds) when you upgrade to a new chart version.
 
 :::tip Mixing both options
 You can combine the two options. For example, let Helm create the service account and have an administrator create the CRDs and the webhook. Set each switch to `true` only for what Helm creates.
 :::
+
+#### Upgrading the CRDs
+
+`helm upgrade` never updates or deletes the Spark Operator CRDs, whether Helm or an administrator created them. When the release notes for the version you are upgrading to say the CRDs changed, apply them before you run the upgrade:
+
+```shell
+helm pull iomete/iomete-data-plane-enterprise \
+  --version "$IOMETE_VERSION" \
+  --untar --untardir "chart-$IOMETE_VERSION"
+
+kubectl apply --server-side --force-conflicts -f "chart-$IOMETE_VERSION"/iomete-data-plane-enterprise/charts/operator-crds/crds/
+```
+
+`--force-conflicts` lets `kubectl` take over the fields Helm set when it created the CRDs. Without it, `kubectl` refuses the change.
 
 #### Installing 3.19.0 or Earlier
 
