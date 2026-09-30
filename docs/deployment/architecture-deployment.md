@@ -3,8 +3,8 @@ title: Deployment Architecture
 sidebar_label: Deployment Architecture
 description: Technical reference for IOMETE's Kubernetes deployment topology, complete service inventory, feature flags, and infrastructure configuration.
 last_update:
-  date: 09/01/2026
-  author: Kamal
+  date: 09/30/2026
+  author: Shashank Chaudhary
 ---
 
 This reference describes how IOMETE maps onto Kubernetes: the Helm chart structure, the full service inventory, feature flags, and infrastructure options. For a conceptual overview of each service, see the [Architecture Overview](../getting-started/architecture.md). For installation steps, see the [On-Premises Deployment Guide](./on-prem/install.md).
@@ -59,9 +59,8 @@ Knowing which services run (and which are optional) helps you plan resource allo
 | nats | StatefulSet (3 replicas) | `services.nats.enabled` | JetStream messaging |
 | iom-event-stream | StatefulSet (2 replicas) | `eventStream` | Event ingestion + Iceberg writer |
 | iom-event-stream-proxy | Deployment | `eventStream` | Ingestion request routing |
-| prefect-server | Deployment | `jobOrchestrator` | Workflow orchestration |
-| prefect-worker | Deployment (per-namespace) | `jobOrchestrator` | Scheduled job execution |
-| job-orchestrator-metrics-exporter | Deployment | `jobOrchestrator` | Prometheus metrics |
+| prefect-server | Deployment | Always | Workflow orchestration |
+| prefect-worker | Deployment (per-namespace) | Always | Scheduled job execution |
 | iom-maintenance | Deployment | `enableAutomatedMaintenance` | Table compaction |
 | iom-ratelimiter | Deployment | `ratelimiter` | Redis-based rate limiting |
 | spark-proxy-server | Deployment (per-namespace) | `sparkProxyForArrowFlight` | Arrow Flight proxy |
@@ -170,7 +169,6 @@ These flags control whether entire services or subsystems are deployed at all:
 | `enableCollaborativeSqlEditor` | iom-collab | `false` |
 | `services.nats.enabled` | NATS cluster | `false` |
 | `eventStream` | iom-event-stream, iom-event-stream-proxy | `false` |
-| `jobOrchestrator` | prefect-server, prefect-worker, metrics-exporter | `false` |
 | `sparkProxyForArrowFlight` | spark-proxy-server (per-namespace) | `false` |
 | `enableAutomatedMaintenance` | iom-maintenance | `false` |
 | `ratelimiter` | iom-ratelimiter | `false` |
@@ -201,7 +199,6 @@ These flags toggle features without adding or removing services:
 | `secretsV2` | New secrets management system | `false` |
 | `dataAccessAudit` | Data access audit logging | `false` |
 | `icebergMetrics` | Iceberg table metrics sent to event stream | `true` |
-| `scheduling` | SQL scheduling (requires `jobOrchestrator`) | `false` |
 | `ldapGroupInheritance` | LDAP group hierarchy inheritance | `true` |
 | `identitySoftDelete` | Soft delete for users/groups | `false` |
 | `showExecutorLogs` | Executor logs visible in UI | `true` |
@@ -243,7 +240,7 @@ All services share a single PostgreSQL server. The init job creates databases wi
 - `<prefix>ranger_db` (Ranger policies)
 - `<prefix>iceberg_db` (Iceberg catalog metadata)
 - Per-microservice databases (Core, Cluster, Identity, SQL, Catalog, etc.)
-- `<prefix>prefect_db` (Prefect job orchestrator, when enabled)
+- `<prefix>prefect_db` (Prefect job orchestrator)
 - `<prefix>mcp_db` (MCP server OAuth state)
 
 **Multi-cluster database support**: You can point `clusterDatabase` at a different server than the main `database`. This is handy in multi-region setups where high-volume operations (Kubernetes/Spark data) hit a local database while metadata stays on a global one.
