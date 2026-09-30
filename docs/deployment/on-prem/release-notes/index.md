@@ -300,8 +300,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark Connect Failed With Helm 4**: Installing or upgrading with Helm 4 failed on the `iom-spark-connect` SparkApplication with `spec.volumes in body must be of type array: "null"`.
       - Helm 4 applies resources server-side by default, and the chart wrote empty lists as `null` when the Java trust store was off, which is the default.
       - The chart now leaves these fields out when they are empty. Helm 3 was not affected.
-    - **External Catalogs With Newer Spark Images**: Newer IOMETE Spark images turn on Ranger by default, which broke adding an external catalog and listing its schemas through `iom-spark-connect`.
-      - The chart now turns Ranger off for `iom-spark-connect` by setting `spark.sql.hive.sessionStateBuilder` under `services.sparkConnect.sparkConf`.
     - **Spark Applications**
       - **Scheduled Job Updates**: Editing a scheduled Spark job could stop it from running. If the update failed, the job still showed as scheduled, but it no longer ran.
         - This affected jobs on the **Legacy** deployment flow. IOMETE deleted the job's schedule in Kubernetes before redeploying it, and a failed redeploy left it deleted.
