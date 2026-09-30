@@ -143,7 +143,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Shared Worksheets and Git Repositories**: The default role can now read shared worksheets and the git repository tree. Both permissions previously sat only on the account admin role, so ordinary domain members saw neither area.
       - **Event Stream Creation**: Event Stream creation can be granted through a role on installations still using the role-based permission model, and is granted to the default role.
       - **Node Types and Volumes**: Any signed-in user can now list the platform's node types and volumes through `GET /api/v1/node-types` and `GET /api/v1/volumes`. Both catalogs were previously visible only to admins or one domain at a time.
-    - **Proxied UI Sessions**: Spark UI, Spark History and Grafana sessions refresh automatically when the six-hour access token behind them expires, instead of failing until the page is reloaded.
     - **Git Repositories**
       - **Deleting Repositories**: Git repositories can now be deleted from the SQL Editor sidebar by users with the **Manage Git Repository** permission.
       - **Linking Your Own Token**: Users without that permission can now link their own token to a repository from its **Configure** drawer. A deleted linked token now reports as not configured.
@@ -182,6 +181,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Error Responses**: Unexpected errors no longer return stack traces and raw exception messages to API clients in production.
       - **Token Validation**: Refresh tokens are verified against the signing key before new tokens are issued, and each environment now signs with its own key, so a token minted in one environment is no longer accepted by another.
       - **Forced Password Change**: A user changing a temporary password can no longer set it to the value it already had.
+    - **Spark UI Proxy Authentication**:
+      - **Bearer Token Support**: Fixed programmatic requests to Spark UI and Spark History URLs being redirected to the login page. The proxy previously only read the session cookie; it now also accepts `Authorization: Bearer <token>`.
+      - **Session Token Refresh**: Fixed users being redirected to the login page when opening Spark UI, Spark History, or Grafana after their access token expired. The proxy now refreshes expired session tokens automatically, matching the main application's behavior.
     - **Login With Multiple Identity Replicas**: Fixed intermittent login failures when `iom-identity` runs more than one pod. Single-use authorization codes were held in each pod's own memory, so a code issued by one pod could not be redeemed by another. They are now stored in the database.
     - **Iceberg and Catalogs**
       - **Complex Column Types**: The table schema endpoint serializes struct, list and map columns through the Iceberg schema parser, instead of a form clients could not read.
