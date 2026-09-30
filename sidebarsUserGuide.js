@@ -23,6 +23,7 @@ const sidebars = {
       label: "User Guide",
       collapsed: false,
       items: [
+        "theme-switcher",
         {
           type: "category",
           label: "Compute Clusters",
