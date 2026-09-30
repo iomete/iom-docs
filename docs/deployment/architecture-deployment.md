@@ -4,7 +4,7 @@ sidebar_label: Deployment Architecture
 description: Technical reference for IOMETE's Kubernetes deployment topology, complete service inventory, feature flags, and infrastructure configuration.
 last_update:
   date: 09/30/2026
-  author: Shashank Chaudhary
+  author: Mateus Aubin
 ---
 
 This reference describes how IOMETE maps onto Kubernetes: the Helm chart structure, the full service inventory, feature flags, and infrastructure options. For a conceptual overview of each service, see the [Architecture Overview](../getting-started/architecture.md). For installation steps, see the [On-Premises Deployment Guide](./on-prem/install.md).
@@ -57,7 +57,7 @@ Knowing which services run (and which are optional) helps you plan resource allo
 | typesense | Deployment | Always | Search engine (20Gi PVC) |
 | iom-collab | Deployment | `enableCollaborativeSqlEditor` | Collaborative SQL editing |
 | nats | StatefulSet (3 replicas) | `services.nats.enabled` | JetStream messaging |
-| iom-event-stream | StatefulSet (2 replicas) | `eventStream` | Event ingestion + Iceberg writer |
+| iom-event-stream | StatefulSet (2 replicas) | Always | Event ingestion + Iceberg writer |
 | iom-event-stream-proxy | Deployment | `eventStream` | Ingestion request routing |
 | prefect-server | Deployment | Always | Workflow orchestration |
 | prefect-worker | Deployment (per-namespace) | Always | Scheduled job execution |
@@ -168,7 +168,7 @@ These flags control whether entire services or subsystems are deployed at all:
 |---|---|---|
 | `enableCollaborativeSqlEditor` | iom-collab | `false` |
 | `services.nats.enabled` | NATS cluster | `false` |
-| `eventStream` | iom-event-stream, iom-event-stream-proxy | `false` |
+| `eventStream` | iom-event-stream-proxy | `false` |
 | `sparkProxyForArrowFlight` | spark-proxy-server (per-namespace) | `false` |
 | `enableAutomatedMaintenance` | iom-maintenance | `false` |
 | `ratelimiter` | iom-ratelimiter | `false` |

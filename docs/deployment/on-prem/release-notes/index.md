@@ -39,19 +39,15 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       Existing queries and APIs keep working; the only addition is a new `PENDING` status for a query accepted but not yet started on the compute. Requires compute clusters on Spark image `3.5.7-v4` or later (Spark 4.x included) — queries on an older image fail with a message naming the image to update to. Turn it on with the `sqlEditorV2` feature flag.
 
-    - **Managed MCP Server**: IOMETE ships a Model Context Protocol server as a data-plane component, so desktop and CLI MCP clients can query the lakehouse. Disabled by default, and access is granted through the new `mcp/use` permission.
-
-      ```yaml
-      # Helm values
-      features:
-        mcpServer:
-          enabled: false   # default
-      services:
-        mcpServer:
-          urls:
-            public: ""     # browser-facing address, required when enabled
-            internal: ""   # in-cluster address the server calls IOMETE on
-      ```
+    - **Managed MCP Server**: IOMETE ships a Model Context Protocol (MCP) server as a data-plane component. AI agents in MCP clients such as Claude Code, Codex, and Devin can use its 17 tools to find and describe tables and run SQL. The tools also inspect query plans, preview rows, and profile columns. A ready-made `discover-then-query` prompt guides them through the workflow. The server is disabled by default. To enable it, set `features.mcpServer.enabled: true`. Also set `services.mcpServer.urls.public` to the address users reach IOMETE at, and add that host to `authentication.redirectUrlWhitelist`.
+      - **Runs as the Signed-In User**: Tool calls use the user's own IOMETE access, so the same access policies apply as in the SQL Editor. SQL that changes data isn't allowed by default, and administrators can allow it with `services.mcpServer.statementPolicy`.
+      - **Access**: The **Use MCP Server** permission (`mcp/use`) on a role grants access per domain. On upgrade, IOMETE adds it to existing `account-admin` roles. Other roles (including `default`) don't include it, so administrators may need to grant it on a role for other users. The admin user created at installation, Domain Managers, and domain owners already have access. A new grant can take a short while to apply.
+      - **Sign-In**: Users sign in with their IOMETE login over OAuth, or connect with a personal access token.
+      - **Data Catalog Sync**: `search_tables`, `describe_table`, and `plan_column_profile` read the data catalog. Schedule the [Data Catalog Sync](../../../open-source-spark-jobs/catalog-sync.mdx) job, because without a recent run they can return stale data or miss new tables.
+      - **Safeguards**: Cancelling a query and running a heavy column profile each need explicit confirmation. Running queries, explaining queries, and running column profiles are rate-limited per user.
+      - **Paging**: `list_namespaces`, `list_tables`, `search_tables`, and `get_query_result` return data in pages. Pass `pagination.next_cursor` as `cursor` to get the next page. A query result can be paged up to 10,000 rows when its SQL ends with a `LIMIT`.
+      - **Audit**: MCP tool calls are recorded in the `platform_event_logs` system table. Records are written only when the table exists, and it isn't created automatically. See [System Tables](/user-guide/system-tables).
+      - **Network and Certificates**: Cloud-hosted clients need the public address (`services.mcpServer.urls.public`) to be reachable from the internet. Browser-based MCP clients aren't supported. If a private certificate authority issues the certificate for the public address, provide its CA bundle in `services.mcpServer.iometeTls`. Without the bundle, the MCP server might fail to connect to IOMETE.
 
     - **AI Services**: An LLM gateway ships as a data-plane component, served through `iom-gateway` under `/llm-gateway`. Disabled by default.
 
