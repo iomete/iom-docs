@@ -3,7 +3,7 @@ title: Advanced Configuration
 description: Detailed reference for all four maintenance operations — properties, thresholds, execution model, and property resolution.
 sidebar_label: Advanced Configuration
 last_update:
-  date: 05/13/2026
+  date: 09/30/2026
   author: Shashank Chaudhary
 ---
 
@@ -34,14 +34,14 @@ This operation combines small files into larger ones, targeting an optimal file 
 | Where Clause | String | —                    | Optional filter to restrict which files are compacted.                                                                                          |
 | Target File Size Bytes | Long | 512 MB               | Desired output file size after compaction                                                                                                       |
 | Min File Size Bytes | Long | 128 MB  | Files smaller than this are candidates for compaction.                                                                                          |
-| Max File Size Bytes | Long | 1 GB   | Files larger than this are excluded.                                                                                                            |
+| Max File Size Bytes | Long | 1 GB   | Files larger than this are candidates for rewriting. |
 | Min Input Files | Integer | 5                    | Minimum number of files required to trigger compaction in a group.                                                                              |
 | Max Concurrent File Group Rewrites | Integer | 5                    | Higher values increase parallelism but risk commit conflicts.                                                                                   |
 | Delete File Threshold | Integer | 2,147,483,647        | Number of delete files that triggers compaction of a file group.                                                                                |
 | Delete Ratio Threshold | Double | 0.3                  | Ratio of delete entries to data rows that triggers compaction.                                                                                  |
 | Partial Progress Enabled | Boolean | false                | Commits progress incrementally instead of all at once. Useful for very large tables.                                                            |
 | Partial Progress Max Commits | Integer | 10                   | Max number of incremental commits per run.                                                                                                      |
-| Partial Progress Max Failed Commits | Integer | 10                   | Maximum number of commits that this rewrite is allowed to produce if partial progress is enabled.                                               |
+| Partial Progress Max Failed Commits | Integer | 10                   | Maximum number of failed commits allowed before the rewrite fails, when partial progress is enabled. |
 | Max File Group Size Bytes | Long | 100 GB | Largest amount of data that should be rewritten in a single file group.                                                                         |
 | Remove Dangling Deletes | Boolean | false                | Remove delete files that no longer reference any data rows.                                                                                     |
 
@@ -68,7 +68,7 @@ Expiring snapshots removes those beyond a retention window, freeing the referenc
 
 Failed writes, aborted jobs, and certain table operations can leave files on storage that aren't referenced by any snapshot. These "orphan" files consume storage without serving any purpose. This operation scans the entire table storage location and removes unreferenced files.
 
-Because this operation performs a full scan, it **runs on its own cron schedule** instead of triggering on every table change.
+Because this operation performs a full scan, it doesn't run immediately when a table changes. A changed table is queued for orphan cleanup, which then runs at the next time on its **cron schedule**.
 
 | Property | Type | Default | Description                                                                                 |
 |---|---|---|---------------------------------------------------------------------------------------------|
@@ -77,10 +77,10 @@ Because this operation performs a full scan, it **runs on its own cron schedule*
 
 Orphan cleanup has several built-in safety mechanisms:
 
-- **Minimum retention period**: the backend enforces a minimum retention period of 3 days. If the configured `Older Than` value is below this minimum, the run fails with a non-retryable error.
+- **Minimum retention period**: `Older Than` must be between 3 and 365 days. Lower values are rejected when you save.
 - **Orphan percentage threshold**: the operation aborts if orphan files exceed 30% of total files, to prevent against accidental mass deletion. When this happens, check for misconfiguration or data corruption first, then run `remove_orphan_files` manually via the SQL Editor.
 - **Batched deletion**: files are deleted in batches with a cooldown between each batch to avoid overwhelming storage.
-- **Flink file exclusion**: files matching an active Flink job's checkpoint pattern (`flink.job-id.*`) are automatically skipped, even if they appear unreferenced.
+- **Flink file exclusion**: IOMETE reads the `flink.job-id` from the latest snapshot and skips metadata files whose names match that job ID, even if they appear unreferenced. Data files written by Flink aren't affected.
 
 ---
 

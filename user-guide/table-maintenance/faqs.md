@@ -3,7 +3,7 @@ title: Table Maintenance FAQs
 description: Frequently asked questions about IOMETE table maintenance — configuration, troubleshooting, and operational behavior.
 sidebar_label: FAQs
 last_update:
-  date: 03/09/2026
+  date: 09/30/2026
   author: Shashank Chaudhary
 ---
 
@@ -50,7 +50,7 @@ import FAQSection from '@site/src/components/FAQSection';
     answerContent: (
       <>
         <p>This usually means the table doesn't exist in the selected catalog, or your account doesn't have the required permissions to access it.</p>
-        <p>Verify the table exists, confirm you're looking in the right catalog, and check that you're a member of the catalog's owner domain or a platform administrator.</p>
+        <p>Verify the table exists, confirm you're looking in the right catalog, and check that your domain owns the catalog.</p>
       </>
     )
   },
@@ -58,7 +58,7 @@ import FAQSection from '@site/src/components/FAQSection';
     question: "What happens if the catalog owner domain is changed?",
     answerContent: (
       <>
-        <p>Reassigning the owner domain disables maintenance and clears all configured resources (compute clusters and service accounts). After the change, you must re-enable maintenance and reconfigure resources under the new owner domain.</p>
+        <p>Changing or removing the owner domain disables maintenance, and resources from the previous domain no longer apply. After the change, re-enable maintenance and select new resources under the new owner domain.</p>
       </>
     )
   },
@@ -78,6 +78,7 @@ import FAQSection from '@site/src/components/FAQSection';
     answerContent: (
       <>
         <p>Jobs that remain in <code>PENDING</code> for more than <strong>24 hours</strong> are automatically marked as failed. This prevents stale jobs from accumulating.</p>
+        <p>Rewrite Data Files and Rewrite Manifest Files run as SQL on the compute cluster and have a separate limit: they're marked as failed if they stay pending or running for more than <strong>6 hours</strong>.</p>
       </>
     )
   },
@@ -95,7 +96,8 @@ import FAQSection from '@site/src/components/FAQSection';
     answerContent: (
       <>
         <p>Yes. When a maintenance operation fails (for example, due to commit conflicts from concurrent writes), the system automatically returns the job to <code>PENDING</code> and retries it.</p>
-        <p>Up to <strong>3 retries</strong> are attempted. If all retries fail, the operation moves to <code>FAILED</code> and is not retried automatically. You can view the retry count in the History tab by enabling the <strong>Retries</strong> column.</p>
+        <p>Up to <strong>3 retries</strong> are attempted. If all retries fail, the operation moves to <code>FAILED</code> and is not retried automatically. You can view the retry count in the <strong>Retries</strong> column of the maintenance run history.</p>
+        <p>Some failures are never retried: orphan cleanup safety aborts (such as the 30% orphan threshold) and failures from invalid thresholds move straight to <code>FAILED</code>.</p>
       </>
     )
   },

@@ -24,6 +24,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "recently-viewed",
+        "theme-switcher",
         {
           type: "category",
           label: "Compute Clusters",

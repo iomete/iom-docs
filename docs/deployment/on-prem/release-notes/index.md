@@ -22,7 +22,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Remote Workloads**: Computes, Spark jobs and Jupyter containers can be created on a named data plane. Each is given its own plane's Iceberg catalog, metastore, Ranger policy and storage addresses, and its Spark UI, Spark History, metrics and pod logs are relayed back through the owning plane.
       - **Plane-to-Plane Trust**: Calls between a control plane and its data planes are verified against a shared trust secret and routed through each side's gateway. The control plane generates the secret on install and keeps it across upgrades, and a data plane install that is not given the same secret stops with a message naming the value to set.
     - **Encrypted Secret Storage**: Platform secrets are now held in the database, encrypted with AES-256-GCM and scoped per domain, instead of in Kubernetes Secrets. Existing Kubernetes secrets, including Vault login credentials, are migrated on upgrade, and the encryption key is generated at install time and preserved across every later upgrade.
-    - **SQL Editor V2**: A rebuilt SQL Editor and Query Monitoring that execute over Arrow Flight, with streamed result sets, streamed CSV export, search and batch-status APIs, and query archival to Iceberg. Table Maintenance runs through the same path. Turn it on with the `sqlEditorV2` feature flag, which replaces the `sql-editor.version` system configuration.
+    - **SQL Editor V2**: A rebuilt SQL Editor and Query Monitoring, executing over Arrow Flight instead of a JDBC connection held open inside the service. Spark writes results straight to object storage, so a large result no longer risks taking the service down, and query state lives in the database rather than in memory, so running queries survive a restart of the SQL service and stale ones are picked up automatically. Query Monitoring and search are much faster on large query histories. Table Maintenance runs through the same path.
+
+      Error messages are rewritten throughout: a failing query reports what went wrong instead of a Java stack trace, and a compute that is stopped, unreachable, or on an unsupported image each say so plainly.
+
       - **Multi-Statement Execution**: Added support for running highlighted statements or an entire worksheet in sequence. Execution stops at the first error, skips remaining statements, and can be stopped manually.
       - **Result Tabs**: Added a separate result tab for each submitted statement, with its own table, chart, SQL view, and CSV export.
       - **Pinned and Named Results**: Added result-tab renaming and pinning. Pinned tabs and their names persist across subsequent runs, page reloads, and devices while the underlying results remain available.
@@ -34,32 +37,33 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       See [Running Queries](/resources/user-guide/sql-editor/running-queries#running-multiple-statements) and [Query Results & Settings](/resources/user-guide/sql-editor/query-results) for execution options and result-tab controls.
 
-    - **Managed MCP Server**: IOMETE ships a Model Context Protocol server as a data-plane component, so desktop and CLI MCP clients can query the lakehouse. Disabled by default, and access is granted through the new `mcp/use` permission.
+      Existing queries and APIs keep working; the only addition is a new `PENDING` status for a query accepted but not yet started on the compute. Requires compute clusters on Spark image `3.5.7-v4` or later (Spark 4.x included) — queries on an older image fail with a message naming the image to update to. Turn it on with the `sqlEditorV2` feature flag.
 
-      ```yaml
-      # Helm values
-      features:
-        mcpServer:
-          enabled: false   # default
-      services:
-        mcpServer:
-          urls:
-            public: ""     # browser-facing address, required when enabled
-            internal: ""   # in-cluster address the server calls IOMETE on
-      ```
+    - **Automated Table Maintenance `BETA`**: You no longer have to think about table maintenance. As Iceberg tables take writes, small files, old snapshots and orphan files pile up, so queries slow down and storage costs creep up. IOMETE now handles this in the background. It detects which tables changed, checks them against health thresholds, and runs compaction, snapshot expiry, manifest rewrites or orphan file cleanup only on the tables that need it, instead of on a fixed schedule.
+      - **Catalog and Table Settings**: Enable maintenance and set defaults per catalog, then override them per table if needed.
+      - **Run History and Metrics**: Each run records before-and-after metrics, so you can check that a table actually got healthier. Any operation can also be triggered manually.
 
-    - **AI Services**: An LLM gateway ships as a data-plane component, served through `iom-gateway` under `/llm-gateway`. Disabled by default.
+      <Img src="/img/user-guide/table-maintenance/run-detail-completed.png" alt="Completed Cleanup Orphan Files run with before-and-after metrics for data file count and size" maxWidth="900px" />
 
-      ```yaml
-      # Helm values
-      features:
-        aiServices:
-          enabled: false   # default
-      ```
+      See [Table Maintenance](/user-guide/table-maintenance/overview) to set it up, and [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance) for the design behind it.
+
+    - **Managed MCP Server**: IOMETE ships a Model Context Protocol (MCP) server as a data-plane component. AI agents in MCP clients such as Claude Code, Codex, and Devin can use its 17 tools to find and describe tables and run SQL. The tools also inspect query plans, preview rows, and profile columns. A ready-made `discover-then-query` prompt guides them through the workflow. The server is disabled by default. To enable it, set `features.mcpServer.enabled: true`. Also set `services.mcpServer.urls.public` to the address users reach IOMETE at, and add that host to `authentication.redirectUrlWhitelist`.
+      - **Runs as the Signed-In User**: Tool calls use the user's own IOMETE access, so the same access policies apply as in the SQL Editor. SQL that changes data isn't allowed by default, and administrators can allow it with `services.mcpServer.statementPolicy`.
+      - **Access**: The **Use MCP Server** permission (`mcp/use`) on a role grants access per domain. On upgrade, IOMETE adds it to existing `account-admin` roles. Other roles (including `default`) don't include it, so administrators may need to grant it on a role for other users. The admin user created at installation, Domain Managers, and domain owners already have access. A new grant can take a short while to apply.
+      - **Sign-In**: Users sign in with their IOMETE login over OAuth, or connect with a personal access token.
+      - **Data Catalog Sync**: `search_tables`, `describe_table`, and `plan_column_profile` read the data catalog. Schedule the [Data Catalog Sync](../../../open-source-spark-jobs/catalog-sync.mdx) job, because without a recent run they can return stale data or miss new tables.
+      - **Safeguards**: Cancelling a query and running a heavy column profile each need explicit confirmation. Running queries, explaining queries, and running column profiles are rate-limited per user.
+      - **Paging**: `list_namespaces`, `list_tables`, `search_tables`, and `get_query_result` return data in pages. Pass `pagination.next_cursor` as `cursor` to get the next page. A query result can be paged up to 10,000 rows when its SQL ends with a `LIMIT`.
+      - **Audit**: MCP tool calls are recorded in the `platform_event_logs` system table. Records are written only when the table exists, and it isn't created automatically. See [System Tables](/user-guide/system-tables).
+      - **Database**: If you manage databases yourself, create `<prefix>mcp_db` before enabling the server and give the platform database user full access to it. IOMETE creates it on install and upgrade when `database.adminCredentials` is set. The server keeps its OAuth sign-in state there.
+      - **Network and Certificates**: Cloud-hosted clients need the public address (`services.mcpServer.urls.public`) to be reachable from the internet. Browser-based MCP clients aren't supported. If a private certificate authority issues the certificate for the public address, provide its CA bundle in `services.mcpServer.iometeTls`. Without the bundle, the MCP server might fail to connect to IOMETE.
 
     - **Comet Execution Engine**: Compute clusters have a new **Enable Comet** toggle that runs queries through the Apache Comet native execution engine. Off by default, so existing computes are unchanged.
     - **Active-Active Control Planes**: You can now run two control planes side by side behind a load balancer, sharing the same database. Background jobs run only once, even with both active. Point your load balancer health check at `/healthz`, which reports whether each control plane is ready to take traffic.
     - **Feature Flags**: Feature flags let IOMETE turn a feature on or off at runtime, without a redeploy. Admins control them from the admin panel under **Administration → Feature Flags**, where each flag can be enabled platform-wide or per domain. See [Feature Flags](/user-guide/feature-flags/overview) for the available flags and how to manage them.
+    - **Console Theme Switcher**: Added **Light**, **Dark**, and **System Preferences** options under **Theme** in the user menu. Changes apply immediately and are saved in the browser. **System Preferences** follows the operating system's appearance automatically. See [Changing the Console Theme](/resources/user-guide/theme-switcher).
+
+      <Img src="/img/user-guide/theme-switcher/theme-menu.png" alt="Console user menu with System Preferences, Light, and Dark theme options" maxWidth="518px" />
   </NewFeatures>
 
   <Improvements>
@@ -73,6 +77,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         ```
 
       - **Reusing Existing Secrets**: Installs can now use Kubernetes Secrets you already have for their encryption keys and system tokens, instead of generating new ones. This lets two control planes share the same keys, for example in an active-active setup. If you don't set anything, IOMETE generates them as before.
+      - **Credential Changes Apply on Upgrade**: Changing database or object storage credentials, or the `namespaces` list, in your Helm values now restarts the affected services on `helm upgrade`, so the new values take effect without a manual pod restart. Credentials read from your own existing Secrets aren't covered: restart the services yourself after rotating them.
     - **Database**
       - **Standby Reads**: Reads that tolerate slightly stale data, including platform health history, Ranger policy downloads and audit log browsing, can be sent to a read-only standby of the same database. Left empty, which is the default, every read goes to the primary as before.
 
@@ -128,20 +133,23 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Chart Changes for 4.0**: Several feature flags are no longer configurable. `jobOrchestrator`, `onboardComputeRas`, `onboardSparkJobRas`, `onboardWorkspaceRas` and `onboardNamespaceMappingRas` are fixed on. The `emailNotifications` and `enableAutomatedMaintenance` flags are gone, so email notifications and automated Iceberg table maintenance are always available.
     - **Platform Health**: The health page now reports the Event Stream service, keeps its 48-hour history in the database so it survives pod restarts and deploys, and reflects the database in its readiness check instead of reporting every service healthy through a database outage. Background jobs that poll the database stand down while it is unreachable rather than retrying at full rate.
     - **Spark Applications**
+      - **Priority-Based by Default**: New Spark jobs created in the console now default to the `Priority-Based` deployment flow, and the **Deployment Flow** and **Priority** fields are always shown instead of sitting in a collapsed **Advanced settings** section. Existing jobs and streaming jobs keep their current flow, and jobs created through the API still default to `LEGACY`. See [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator#how-to-enable).
       - **Run Retention**: Archived Spark application run history now has a configurable retention policy, and metrics enrichment during archival tolerates an unavailable source service instead of failing the archive.
       - **Unresolved Runs**: A run whose Kubernetes resource disappeared without a final event is recorded as `UNKNOWN` rather than `FAILED`, so a run that finished cleanly is no longer reported as a failure.
       - **Named Container Ports**: Spark driver pods now declare named container ports, allowing protocol detection and service discovery by name.
       - **Pod Templates Deprecated**: Pod templates are no longer created by the data plane chart. They remain in the previous chart for backward compatibility, so existing legacy scheduled jobs keep running.
-    - **Classification Auto-Approval**: Data Security and Audit Managers can create a classification change request with `autoApprove=true` and skip manual review.
+    - **Classification Auto-Approval**: Data Security and Audit Managers can now approve their own classification requests on submission, using the **Auto-approve this request** checkbox in the request form or `autoApprove=true` in the API. See [Auto-Approving a Request](/user-guide/data-catalog/classification-tags#auto-approving-a-request).
     - **Roles and Permissions**
       - **Shared Worksheets and Git Repositories**: The default role can now read shared worksheets and the git repository tree. Both permissions previously sat only on the account admin role, so ordinary domain members saw neither area.
       - **Event Stream Creation**: Event Stream creation can be granted through a role on installations still using the role-based permission model, and is granted to the default role.
       - **Node Types and Volumes**: Any signed-in user can now list the platform's node types and volumes through `GET /api/v1/node-types` and `GET /api/v1/volumes`. Both catalogs were previously visible only to admins or one domain at a time.
-    - **Table Maintenance**
-      - **Untracked Folder Cleanup**: A new `cleanup-untracked-table-folders` marketplace job removes table folders in object storage that no table points at.
-      - **Self-Healing Detection**: Maintenance detection now catches up on the window it missed after downtime, and execution runs are serialized per table so different tables are still processed concurrently.
-    - **Enterprise Catalog**: The Enterprise Catalog is available again after being disabled ahead of the 3.17 release branch, and now carries the six S3 and Iceberg Spark properties it was silently missing.
-    - **Proxied UI Sessions**: Spark UI, Spark History and Grafana sessions refresh automatically when the six-hour access token behind them expires, instead of failing until the page is reloaded.
+    - **Git Repositories**
+      - **Deleting Repositories**: Git repositories can now be deleted from the SQL Editor sidebar by users with the **Manage Git Repository** permission.
+      - **Linking Your Own Token**: Users without that permission can now link their own token to a repository from its **Configure** drawer. A deleted linked token now reports as not configured.
+      - **Clearer Errors**: The repository tree and branch picker show the actual Git error instead of a generic message, with a **Configure token** button when no token is linked. Checking out an unknown branch now returns a clear error.
+      - **Hidden Token Values**: Git access tokens are no longer returned by the API or shown in the console, and the copy option is removed. When editing a token, leave the field blank to keep the current value.
+
+      See [Git Repository Worksheets](/user-guide/sql-editor/collaboration#git-repository-worksheets).
     - **SQL Editor Appearance**: Added settings for the editor color scheme, font family, font size, and optional statement block highlighting. The selected scheme's light or dark variant follows the Console theme. Changes preview immediately and are saved with **Save**. See [Customizing Editor Appearance](/resources/user-guide/sql-editor/query-results#customizing-editor-appearance).
     - **Query Monitoring**
       - **Faster Stale Query Detection**: A query left behind by a stopped compute is detected in far less time than the previous ten to fifteen minutes.
@@ -157,13 +165,14 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Cron Schedules**: Fixed Priority-Based Spark jobs running on the wrong schedule. A seconds field was prepended to standard five-field cron expressions, so a job scheduled daily ran monthly.
       - **Suspend and Resume**: Fixed suspending a job writing the Kubernetes resource before the change was committed, which could leave the resource suspended permanently.
       - **Finished Runs**: Runs that had already completed on the job orchestrator no longer show `waiting in queue`.
+      - **Orphaned Runs**: Runs interrupted by a job orchestrator worker failure are now marked failed automatically after some time, instead of staying `Running`.
       - **Aborted Runs**: Aborting a run from the Spark Applications list now emits a status change, so the list updates without a manual refresh.
+    - **Spark Application Status**: Fixed Spark applications that finished successfully being reported as `FAILED` with `driver pod not found` when the driver pod was removed right after it finished, which could make external schedulers rerun completed work. The final status now comes from the driver's own terminal state, and a genuine failure keeps its original error instead of the generic message.
     - **SQL Editor**
       - **SQL Scripting**: Fixed `BEGIN … END` blocks being split into separate statements when saving schedules, and fixed compound scripts returning empty results through the Arrow execution path.
       - **Query Cancellation**: Fixed cancelling a running query hanging until the caller gave up, leaving the query stuck in `RUNNING`. Every cancel path, HTTP, JDBC and Arrow Flight, now has a deadline.
       - **Null Values**: A SQL `NULL` is returned as `null` instead of the key being omitted, which had made rows narrower than the column list returned alongside them.
       - **Sorting**: An explicit sort in query monitoring is now applied, instead of results always coming back ordered by end time.
-      - **Git Tokens**: `/api/v1/git/tokens` no longer returns the token value in any response, where it was previously rendered as copyable text in the console. GitLab token errors now reach the UI with their message, and a deleted linked token reports as not configured instead of a generic `404`.
       - **Query Ownership**: Six query endpoints, including status, cancel, CSV export and batch status, now check who owns the query.
       - **Arrow Connection String**: The Arrow Flight JDBC connection string on a compute's Connections tab uses the `{access_token}` placeholder instead of `{password}`, matching every other connection string.
     - **Security Hardening**
@@ -172,6 +181,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Error Responses**: Unexpected errors no longer return stack traces and raw exception messages to API clients in production.
       - **Token Validation**: Refresh tokens are verified against the signing key before new tokens are issued, and each environment now signs with its own key, so a token minted in one environment is no longer accepted by another.
       - **Forced Password Change**: A user changing a temporary password can no longer set it to the value it already had.
+    - **Spark UI Proxy Authentication**:
+      - **Bearer Token Support**: Fixed programmatic requests to Spark UI and Spark History URLs being redirected to the login page. The proxy previously only read the session cookie; it now also accepts `Authorization: Bearer <token>`.
+      - **Session Token Refresh**: Fixed users being redirected to the login page when opening Spark UI, Spark History, or Grafana after their access token expired. The proxy now refreshes expired session tokens automatically, matching the main application's behavior.
     - **Login With Multiple Identity Replicas**: Fixed intermittent login failures when `iom-identity` runs more than one pod. Single-use authorization codes were held in each pod's own memory, so a code issued by one pod could not be redeemed by another. They are now stored in the database.
     - **Iceberg and Catalogs**
       - **Complex Column Types**: The table schema endpoint serializes struct, list and map columns through the Iceberg schema parser, instead of a form clients could not read.
