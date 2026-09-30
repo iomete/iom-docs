@@ -206,7 +206,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Custom Tags on Suspend**: Fixed custom resource tags being lost when suspending a Spark job.
     - **Active Maintenance Jobs in History**: Fixed running maintenance jobs not appearing in the job history list.
     - **Enterprise Catalog Spark Properties**: Fixed enterprise catalogs missing essential S3 and Iceberg Spark properties, which could cause query failures on catalogs created via the enterprise catalog feature.
-    - **Data Security Policy PATCH Validation**: Fixed incorrect validation on the data security policy PATCH endpoint that rejected valid requests.
     - **Distributed Locking for Onboarding**: Added distributed locking to domain onboarding and Typesense collection creation, fixing a race condition where simultaneous onboarding in multi-replica identity deployments could corrupt state.
     - **Identity Service Stability Under Load**: Fixed `iom-identity` running out of memory and restarting under load. Audit events now go through a bounded queue instead of one unbounded thread per event when the audit sink is slow, and Ranger policy downloads serve cached pre-serialized responses instead of re-serializing on every request.
   </BugFixes>
