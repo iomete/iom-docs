@@ -44,14 +44,15 @@ Each job independently opts in or out via its **Deployment Flow** setting, allow
 
 ### How to Enable
 
-1. Navigate to **Spark Jobs** and create a new job or configure an existing one.
-2. Go to **Advanced Settings** section
-3. Change **Deployment Flow** from `Legacy` to `Priority-Based`
-4. Select your **Priority**:
+New Spark jobs created in the console use `Priority-Based` by default. To move an existing job:
+
+1. Navigate to **Spark Jobs** and open the job's configuration.
+2. Change **Deployment Flow** from `Legacy` to `Priority-Based`.
+3. Select your **Priority**:
    - **High** - for time-sensitive, business-critical tasks
    - **Normal** - for regular data processing workloads
 
-<Img src="/img/guides/spark-job/job-update-page-renamed.png" alt="Job Update Page" />
+<Img src="/img/guides/spark-job/job-update-page-renamed.png" alt="Spark job form with Priority-Based selected as the deployment flow and Normal priority" />
 
 :::tip
 Start by testing the orchestrator with non-critical jobs before migrating production workloads.
@@ -59,7 +60,7 @@ Start by testing the orchestrator with non-critical jobs before migrating produc
 
 ### How to Disable
 
-Change `Deployment Flow` back to `Legacy` in the job's advanced settings to opt out of orchestration for a specific job.
+Change **Deployment Flow** to `Legacy` in the job's configuration to opt out of orchestration for a specific job.
 
 :::tip
 To move all jobs in a domain back to the `Legacy` flow at once, use this API endpoint:
