@@ -103,10 +103,10 @@ If your server certificate comes from your organization's own CA and that CA is 
 
 If you use a PEM file instead, it must contain the root CA certificate as Base64 text starting with `-----BEGIN CERTIFICATE-----`. Put the file at the same path on every machine that runs the report, including every gateway node, and make sure the user running Power BI or the gateway service can read it.
 
-To see which CA issued your server certificate, run this from any machine with OpenSSL. The last `i:` line names the root CA:
+To see which CA issued your server certificate, run this from any machine with OpenSSL, replacing `<server-host>:<port>` with your **Server URL**. If your Server URL has no port, the connector uses `443`. The last `i:` line names the root CA:
 
 ```bash
-openssl s_client -connect <server-host>:443 -showcerts </dev/null | grep -E 's:|i:'
+openssl s_client -connect <server-host>:<port> -showcerts </dev/null | grep -E 's:|i:'
 ```
 
 ## Upgrading From an Earlier Connector Version
