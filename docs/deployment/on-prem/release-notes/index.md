@@ -47,7 +47,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       ```
 
     - **Comet Execution Engine**: Compute clusters have a new **Enable Comet** toggle that runs queries through the Apache Comet native execution engine. Off by default, so existing computes are unchanged.
-    - **Active-Active Control Planes**: Two control planes can share one database and serve behind a load balancer. Leader election and scheduled background work are coordinated through PostgreSQL so only one of them runs each job, and every install answers an unauthenticated `GET /healthz` with `200` while it can take traffic and `503` when it cannot, which is what the load balancer health check should point at.
+    - **Active-Active Control Planes**: You can now run two control planes side by side behind a load balancer, sharing the same database. Background jobs run only once, even with both active. Point your load balancer health check at `/healthz`, which reports whether each control plane is ready to take traffic.
     - **Feature Flags**: Feature flags let IOMETE turn a feature on or off at runtime, without a redeploy. Admins control them from the admin panel under **Administration → Feature Flags**, where each flag can be enabled platform-wide or per domain. See [Feature Flags](/user-guide/feature-flags/overview) for the available flags and how to manage them.
   </NewFeatures>
 
