@@ -22,7 +22,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Remote Workloads**: Computes, Spark jobs and Jupyter containers can be created on a named data plane. Each is given its own plane's Iceberg catalog, metastore, Ranger policy and storage addresses, and its Spark UI, Spark History, metrics and pod logs are relayed back through the owning plane.
       - **Plane-to-Plane Trust**: Calls between a control plane and its data planes are verified against a shared trust secret and routed through each side's gateway. The control plane generates the secret on install and keeps it across upgrades, and a data plane install that is not given the same secret stops with a message naming the value to set.
     - **Encrypted Secret Storage**: Platform secrets are now held in the database, encrypted with AES-256-GCM and scoped per domain, instead of in Kubernetes Secrets. Existing Kubernetes secrets, including Vault login credentials, are migrated on upgrade, and the encryption key is generated at install time and preserved across every later upgrade.
-    - **SQL Editor V2**: A rebuilt SQL Editor and Query Monitoring that execute over Arrow Flight, with streamed result sets, streamed CSV export, search and batch-status APIs, and query archival to Iceberg. Table Maintenance runs through the same path. Turn it on with the `sqlEditorV2` feature flag, which replaces the `sql-editor.version` system configuration.
+    - **SQL Editor V2**: A rebuilt SQL Editor and Query Monitoring, executing over Arrow Flight instead of a JDBC connection held open inside the service. Spark writes results straight to object storage, so a large result no longer risks taking the service down, and query state lives in the database rather than in memory, so running queries survive a restart of the SQL service and stale ones are picked up automatically. Query Monitoring and search are much faster on large query histories. Table Maintenance runs through the same path.
+
+      Error messages are rewritten throughout: a failing query reports what went wrong instead of a Java stack trace, and a compute that is stopped, unreachable, or on an unsupported image each say so plainly.
+
       - **Multi-Statement Execution**: Added support for running highlighted statements or an entire worksheet in sequence. Execution stops at the first error, skips remaining statements, and can be stopped manually.
       - **Result Tabs**: Added a separate result tab for each submitted statement, with its own table, chart, SQL view, and CSV export.
       - **Pinned and Named Results**: Added result-tab renaming and pinning. Pinned tabs and their names persist across subsequent runs, page reloads, and devices while the underlying results remain available.
@@ -33,6 +36,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       <Img src="/img/user-guide/sql-editor/multi-statement/overview.png" alt="SQL Editor with three selected statements, named result tabs, a pinned Cities tab, and country comparison results" maxWidth="900px" />
 
       See [Running Queries](/resources/user-guide/sql-editor/running-queries#running-multiple-statements) and [Query Results & Settings](/resources/user-guide/sql-editor/query-results) for execution options and result-tab controls.
+
+      Existing queries and APIs keep working; the only addition is a new `PENDING` status for a query accepted but not yet started on the compute. Requires compute clusters on Spark image `3.5.7-v4` or later (Spark 4.x included) — queries on an older image fail with a message naming the image to update to. Turn it on with the `sqlEditorV2` feature flag.
 
     - **Managed MCP Server**: IOMETE ships a Model Context Protocol server as a data-plane component, so desktop and CLI MCP clients can query the lakehouse. Disabled by default, and access is granted through the new `mcp/use` permission.
 
