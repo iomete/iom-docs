@@ -287,7 +287,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Any value of 1,000,000 or more written without quotes in your own values file had the same problem.
       - Large numbers now reach the services as plain digits. The same fix applies to `jobRunCleanup.retentionPeriod` and `cleaner.maxNum`.
       - If one of these settings is not a positive whole number, `helm install` and `helm upgrade` stop with an error that names the setting.
-    - **Job Orchestrator Database Password**: With `database.passwordSecret` set, the job orchestrator could not log in to its database, because the chart still built its connection URL from the plaintext `database.password`, which defaults to `iomete_pass`. The password now reaches the job orchestrator through `PGPASSWORD`, so `database.passwordSecret` on its own covers every service and the `connectionUrlSecret` workaround, which stored the password a second time, is no longer needed. Installs using a plaintext `database.password` or `connectionUrlSecret` keep working unchanged.
+    - **Job Orchestrator Database Password**: With `database.passwordSecret` set, the job orchestrator could not connect to its database. It still used the plain `database.password` value, which defaults to `iomete_pass`.
+      - The job orchestrator now reads the password from `database.passwordSecret`, like the other services.
+      - You no longer need the `services.jobOrchestrator.database.connectionUrlSecret` workaround, which stored the password a second time.
+      - Installations that use `database.password` or `connectionUrlSecret` keep working as before.
     - **Private Registry Image Pull Secrets**: Setting `docker.imagePullSecrets` had no effect, so pulling images from a private registry failed with `ImagePullBackOff` unless you edited the service account manually.
       - With `serviceAccount.create: true`, the chart now adds these secrets to `lakehouse-service-account`, which both IOMETE services and Spark pods use.
       - The chart does not copy the secret. Create it in the release namespace and in every namespace listed under `namespaces`.
@@ -298,7 +301,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Edits that keep the job in the same namespace now update the schedule in place. If the update fails, the job keeps running on its previous schedule.
         - Other edits are not covered yet. If an update fails while you move the job to another namespace, change it to a manual or streaming job, or switch it to **Priority-Based**, check that the job is still running on schedule and save it again if it isn't.
       - **Blank Job Schedules**: A scheduled Spark job could be saved with an empty schedule, or one made only of spaces. Saving now fails for these, and also for a schedule with spaces at the start or end, such as `" 0 * * * *"`. If you create jobs through the API, trim the schedule before you send it.
-    - **Spark History Error Responses**: A 5xx response from the Spark History server passed backend exception detail through to the browser. Those responses now return a generic temporary-unavailable message. Successful responses and application-not-found responses are unchanged.
+    - **Spark History Error Messages**: When the Spark History Server returned a server error, the browser showed internal error details from the backend. It now shows "Spark history is temporarily unavailable. Please try again shortly." Other responses are unchanged.
   </BugFixes>
 
   <Deprecations>
