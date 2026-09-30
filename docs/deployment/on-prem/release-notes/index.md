@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 08/24/2026
-  author: Ujjawal Khare
+  date: 09/30/2026
+  author: Mammad Mammadli
 ---
 
 import Img from '@site/src/components/Img';
@@ -23,6 +23,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Plane-to-Plane Trust**: Calls between a control plane and its data planes are verified against a shared trust secret and routed through each side's gateway. The control plane generates the secret on install and keeps it across upgrades, and a data plane install that is not given the same secret stops with a message naming the value to set.
     - **Encrypted Secret Storage**: Platform secrets are now held in the database, encrypted with AES-256-GCM and scoped per domain, instead of in Kubernetes Secrets. Existing Kubernetes secrets, including Vault login credentials, are migrated on upgrade, and the encryption key is generated at install time and preserved across every later upgrade.
     - **SQL Editor V2**: A rebuilt SQL Editor and Query Monitoring that execute over Arrow Flight, with streamed result sets, streamed CSV export, search and batch-status APIs, and query archival to Iceberg. Table Maintenance runs through the same path. Turn it on with the `sqlEditorV2` feature flag, which replaces the `sql-editor.version` system configuration.
+      - **Multi-Statement Execution**: Added support for running highlighted statements or an entire worksheet in sequence. Execution stops at the first error, skips remaining statements, and can be stopped manually.
+      - **Result Tabs**: Added a separate result tab for each submitted statement, with its own table, chart, SQL view, and CSV export.
+      - **Pinned and Named Results**: Added result-tab renaming and pinning. Pinned tabs and their names persist across subsequent runs, page reloads, and devices while the underlying results remain available.
+      - **Restoring Results**: Added restoration of the latest run's result tabs when reopening a worksheet or refreshing the page. Unsubmitted statements do not resume automatically.
+      - **Refreshing Individual Results**: Added a Refresh action to rerun a result tab's original SQL without rerunning the worksheet. The result updates in place, preserving its name and pin.
+      - **Keyboard Shortcuts**: Added shortcuts for running all statements, opening run options, and collapsing, repositioning, or expanding the results panel to fullscreen.
+
+      <Img src="/img/user-guide/sql-editor/multi-statement/overview.png" alt="SQL Editor with three selected statements, named result tabs, a pinned Cities tab, and country comparison results" maxWidth="900px" />
+
+      See [Running Queries](/resources/user-guide/sql-editor/running-queries#running-multiple-statements) and [Query Results & Settings](/resources/user-guide/sql-editor/query-results) for execution options and result-tab controls.
+
     - **Managed MCP Server**: IOMETE ships a Model Context Protocol server as a data-plane component, so desktop and CLI MCP clients can query the lakehouse. Disabled by default, and access is granted through the new `mcp/use` permission.
 
       ```yaml
@@ -144,6 +155,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Self-Healing Detection**: Maintenance detection now catches up on the window it missed after downtime, and execution runs are serialized per table so different tables are still processed concurrently.
     - **Enterprise Catalog**: The Enterprise Catalog is available again after being disabled ahead of the 3.17 release branch, and now carries the six S3 and Iceberg Spark properties it was silently missing.
     - **Proxied UI Sessions**: Spark UI, Spark History and Grafana sessions refresh automatically when the six-hour access token behind them expires, instead of failing until the page is reloaded.
+    - **SQL Editor Appearance**: Added settings for the editor color scheme, font family, font size, and optional statement block highlighting. The selected scheme's light or dark variant follows the Console theme. Changes preview immediately and are saved with **Save**. See [Customizing Editor Appearance](/resources/user-guide/sql-editor/query-results#customizing-editor-appearance).
     - **Query Monitoring**
       - **Faster Stale Query Detection**: A query left behind by a stopped compute is detected in far less time than the previous ten to fifteen minutes.
       - **Clearer Recovery Messages**: A query the compute no longer knows about, and a result fetch that fails mid-stream, now report what happened instead of a raw I/O error. An incompatible cluster error also names the Spark image required for SQL Editor V2.
@@ -162,6 +174,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Finished Runs**: Runs that had already completed on the job orchestrator no longer show `waiting in queue`.
       - **Aborted Runs**: Aborting a run from the Spark Applications list now emits a status change, so the list updates without a manual refresh.
     - **SQL Editor**
+      - **SQL Scripting**: Fixed `BEGIN … END` blocks being split into separate statements when saving schedules, and fixed compound scripts returning empty results through the Arrow execution path.
       - **Query Cancellation**: Fixed cancelling a running query hanging until the caller gave up, leaving the query stuck in `RUNNING`. Every cancel path, HTTP, JDBC and Arrow Flight, now has a deadline.
       - **Null Values**: A SQL `NULL` is returned as `null` instead of the key being omitted, which had made rows narrower than the column list returned alongside them.
       - **Sorting**: An explicit sort in query monitoring is now applied, instead of results always coming back ordered by end time.
