@@ -209,6 +209,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Enterprise Catalog Spark Properties**: Fixed enterprise catalogs missing essential S3 and Iceberg Spark properties, which could cause query failures on catalogs created via the enterprise catalog feature.
     - **Data Security Policy PATCH Validation**: Fixed incorrect validation on the data security policy PATCH endpoint that rejected valid requests.
     - **Distributed Locking for Onboarding**: Added distributed locking to domain onboarding and Typesense collection creation, fixing a race condition where simultaneous onboarding in multi-replica identity deployments could corrupt state.
+    - **Identity Service Stability Under Load**: Fixed `iom-identity` running out of memory and restarting under load. Audit events now go through a bounded queue instead of one unbounded thread per event when the audit sink is slow, and Ranger policy downloads serve cached pre-serialized responses instead of re-serializing on every request.
   </BugFixes>
 
       **Spark version:** [3.5.7-v7-rc1](./spark.md)
