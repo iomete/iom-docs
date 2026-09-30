@@ -3,8 +3,8 @@ title: AWS S3 Buckets Access
 sidebar_label: S3 Buckets Access
 description: Learn how to provide access to external S3 buckets in IOMETE, a hybrid (cloud & on-premises based) data platform for data storage and analysis. This guide outlines simple steps to connect to S3 buckets and grant permission to the Lakehouse role.
 last_update:
-  date: 05/05/2024
-  author: Vusal Dadalov
+  date: 09/30/2026
+  author: Abhishek Pathania
 ---
 
 IOMETE is a hybrid (cloud & on-premises) platform that allows users to store, manage, and analyze large amounts of data.
@@ -19,6 +19,14 @@ the `Lakehouse Role ARN` field.
 
 :::info What is the Lakehouse Role?
 The Lakehouse role is an AWS IAM role used by IOMETE Data Plane compute resources (Spark driver and executor pods) to access S3. On AWS, it works via [IRSA (IAM Roles for Service Accounts)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) — the pods run under the [`lakehouse-service-account`](https://kubernetes.io/docs/concepts/security/service-accounts/) Kubernetes service account, which is annotated with the role ARN so AWS automatically issues temporary credentials. The Lakehouse role is created during the IOMETE Data Plane installation process.
+
+From 3.19.1, if the Helm chart creates the service account (`serviceAccount.create: true`), set the role ARN annotation in `values.yaml`:
+
+```yaml
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/<lakehouse-role>
+```
 :::
 
 :::note Running IOMETE outside AWS?
