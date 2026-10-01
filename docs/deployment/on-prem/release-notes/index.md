@@ -43,7 +43,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Catalog and Table Settings**: Enable maintenance and set defaults per catalog, then override them per table if needed.
       - **Run History and Metrics**: Each run records before-and-after metrics, so you can check that a table actually got healthier. Any operation can also be triggered manually.
 
-      <Img src="/img/user-guide/table-maintenance/run-detail-completed.png" alt="Completed Cleanup Orphan Files run with before-and-after metrics for data file count and size" maxWidth="900px" />
+      <Img src="/img/user-guide/table-maintenance/table-history-list.png" alt="Table Maintenance tab with maintenance enabled, listing completed and failed runs with their operation type, reason, retries, duration, and status" maxWidth="900px" />
 
       See [Table Maintenance](/user-guide/table-maintenance/overview) to set it up, and [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance) for the design behind it.
 
