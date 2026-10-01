@@ -254,6 +254,64 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 </Release>
 
+<Release version="3.19.1" date="TBD">
+  <NewFeatures>
+    - **Chart-Managed Install Prerequisites**: The data plane chart can now create the Kubernetes objects that previously had to be applied by hand before `helm install`. Each one is gated by its own switch, all of which default to `false`. The chart creates an object only when it is absent or already owned by the release, so objects created with `kubectl` or Terraform on an existing install are left exactly as they are.
+      - **Spark Webhook Certificate**: The chart mints the Spark Operator admission webhook certificate and owns the `MutatingWebhookConfiguration`, replacing the `gencerts.sh` script. The certificate is reused on every upgrade instead of being rotated.
+      - **Lakehouse Service Account**: The chart creates `lakehouse-service-account`, the `iomete-lakehouse-role` Role, and its role binding in the release namespace and in every namespace listed under `namespaces`. A new `serviceAccount.annotations` value carries cloud workload identity annotations.
+      - **Spark Operator CRDs**: The chart installs the Spark Operator custom resource definitions, replacing the manual `kubectl apply -f iomete-crds.yaml` step. They are marked `helm.sh/resource-policy: keep`, so uninstalling the chart cannot cascade-delete your `SparkApplication` resources.
+
+      ```yaml
+      # Helm values
+      webhook:
+        create: false      # default
+      serviceAccount:
+        create: false      # default
+        annotations: {}    # cloud workload identity
+      crds:
+        create: false      # default
+      ```
+
+      If your Helm identity cannot create cluster-scoped objects or RBAC, render these objects with `helm template --show-only`, have a cluster administrator apply them, and install with the switches left at `false`.
+  </NewFeatures>
+
+  <Improvements>
+    - **JVM Service Startup and Resources**: On busy nodes, some JVM services were killed before they finished starting.
+      - `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog`, and `iom-rest-catalog` had no startup probe, so the default liveness probe killed a container that was still booting after about 30 seconds. Every JVM service now gets 120 seconds to start listening before liveness checks apply. The hardcoded probes on `iom-identity`, `iom-health-check`, and `iom-spark-connect-rest-client` are replaced by the same shared timings, which are now configurable under `services.probes`.
+      - CPU requests rose from `100m` to `300m` for `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog`, and `iom-rest-catalog`, and from `10m` to `50m` for Typesense. `iom-identity` now requests `2000m` CPU and `2000Mi` memory. Check that your nodes have room for the higher requests before upgrading.
+
+      ```yaml
+      # Helm values
+      services:
+        identity:
+          resources:
+            requests:
+              cpu: 2000m
+              memory: 2000Mi
+            limits:
+              cpu: 4000m
+              memory: 8000Mi
+      ```
+
+    - **Lakehouse Role Permissions**: The `iomete-lakehouse-role` Role no longer grants access to Kubernetes Roles and RoleBindings, which no IOMETE service creates. Whatever installs the chart, including the IOMETE operator, no longer needs the `escalate` and `bind` verbs in order to create it.
+  </Improvements>
+
+  <BugFixes>
+    - **Numeric Helm Values in Scientific Notation**: Large numbers set in `values.yaml` or a values file reached service configuration in scientific notation, so the default `maxEventLogSizeBytes` of `524288000` arrived as `5.24288e+08` and left the Spark History Server in `CrashLoopBackOff` with a `NumberFormatException`. Introduced in `v3.19.0`, it also affected the job orchestrator's `jobRunCleanup.retentionPeriod` and `services.sparkHistory.settings.cleaner.maxNum`; values passed with `--set` were unaffected. An unparseable value now fails the Helm render and names the offending path, instead of silently becoming `0`.
+    - **Job Orchestrator Database Password**: With `database.passwordSecret` set, the job orchestrator could not log in to its database, because the chart still built its connection URL from the plaintext `database.password`, which defaults to `iomete_pass`. The password now reaches the job orchestrator through `PGPASSWORD`, so `database.passwordSecret` on its own covers every service and the `connectionUrlSecret` workaround, which stored the password a second time, is no longer needed. Installs using a plaintext `database.password` or `connectionUrlSecret` keep working unchanged.
+    - **Data Plane Drift Reconciliation**: When a data plane object was edited or deleted by hand, the IOMETE operator often did not notice and the change stood until the next scheduled reconcile. Every namespaced object in the chart now sets its namespace explicitly, and the operator restores those objects within seconds. Objects in additional Spark namespaces and Secrets marked `helm.sh/resource-policy: keep` still wait for the scheduled reconcile, and `iom-gateway` restarts once during the upgrade.
+    - **Private Registry Image Pull Secrets**: `docker.imagePullSecrets` was a documented value that no chart template read, so pulls from a private registry still failed with `ImagePullBackOff` and the service account had to be edited by hand. Where the chart creates the lakehouse service account, the secrets are now attached to it, covering both the platform services and Spark pods. The chart does not copy the secret between namespaces, so it must exist in the release namespace and in every namespace listed under `namespaces`.
+    - **Spark Applications**
+      - **Scheduled Job Updates**: Updating a scheduled job on the legacy deployment flow within the same namespace deleted its Kubernetes resource before redeploying it. If the redeploy then failed, the database transaction rolled back while the resource stayed deleted, leaving the job configured as scheduled but no longer running. The resource is now updated in place, and deletion still happens only where it is required, such as a namespace change or a switch to the manual, streaming, or priority flow.
+      - **Blank Job Schedules**: A scheduled Spark job could be saved with a blank or whitespace-only schedule. Such a schedule is now rejected.
+    - **Spark History Error Responses**: A 5xx response from the Spark History server passed backend exception detail through to the browser. Those responses now return a generic temporary-unavailable message. Successful responses and application-not-found responses are unchanged.
+  </BugFixes>
+
+      **Spark version:** [3.5.7-v6](./spark.md)
+      **Iceberg version:** 1.9.0-iomete-5
+
+</Release>
+
 <Release version="3.19.0" date="August 24, 2026">
   <NewFeatures>
     - **Ephemeral Storage Reservation for Volumes**: Added a new **Reserve capacity on the node** option for `EMPTY_DIR` volumes. When enabled, the Kubernetes scheduler reserves ephemeral storage on the node for the executor pod, ensuring capacity is available before scheduling. Enabling this option requires setting a **Max size**, which becomes mandatory. The new `schedulerReserved` field defaults to `false`, so existing volumes are unaffected. Configure this option when creating or editing an `EMPTY_DIR` volume in the console.
