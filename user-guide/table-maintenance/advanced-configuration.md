@@ -15,7 +15,7 @@ Open the **Advanced Settings** panel on any operation card to view overridden pr
 
 To remove an override and fall back to the [inherited default](#how-property-values-are-resolved), click the `❌` button next to the property.
 
-<Img src="/img/user-guide/table-maintenance/operation-advanced-props.png" alt="Rewrite data files Advanced Settings panel with Min Input Files overridden and the Add Property dropdown open, showing a tooltip with Description and Default Value Source for Max Concurrent File Group Rewrites"/>
+<Img src="/img/user-guide/table-maintenance/operation-advanced-props.png" alt="Rewrite data files Advanced Settings panel with Min Input Files overridden and the Add Property dropdown open, showing a tooltip with the Description and Default value source for Min File Size Bytes"/>
 
 _Validation errors display inline below each field. If an error is inside a collapsed **Advanced Settings** panel, the panel expands automatically and the page scrolls to the first invalid field._
 
