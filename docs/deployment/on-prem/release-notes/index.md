@@ -58,7 +58,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Database**: If you manage databases yourself, create `<prefix>mcp_db` before enabling the server and give the platform database user full access to it. IOMETE creates it on install and upgrade when `database.adminCredentials` is set. The server keeps its OAuth sign-in state there.
       - **Network and Certificates**: Cloud-hosted clients need the public address (`services.mcpServer.urls.public`) to be reachable from the internet. Browser-based MCP clients aren't supported. If a private certificate authority issues the certificate for the public address, provide its CA bundle in `services.mcpServer.iometeTls`. Without the bundle, the MCP server might fail to connect to IOMETE.
 
-    - **CSV Export**: SQL Editor V2 supports streaming CSV export of query results directly from the result tabs.
     - **Docker Registry Credential Management**: New API endpoints for managing Docker registry credentials. Update credentials with `PUT /api/v1/admin/docker/registries/{id}` and view registry details with `GET /api/v1/admin/docker/registries/{id}`.
     - **Comet Execution Engine**: Compute clusters have a new **Enable Comet** toggle that runs queries through the Apache Comet native execution engine. Off by default, so existing computes are unchanged.
     - **Active-Active Control Planes**: You can now run two control planes side by side behind a load balancer, sharing the same database. Background jobs run only once, even with both active. Point your load balancer health check at `/healthz`, which reports whether each control plane is ready to take traffic.
@@ -200,7 +199,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Startup Resilience**: Data plane services retry the settings read they perform at startup when the Kubernetes API is briefly unreachable, instead of giving up and failing to start.
     - **PySpark Memory Overhead**: Switched to 40% PySpark memory overhead, fixing frequent compute restarts caused by out-of-memory conditions in PySpark workloads.
     - **Spark History Server**: Fixed the Spark History Server failing to start after upgrade and deleting finished job history at startup due to invalid chart settings.
-    - **Sanitized 5xx Responses**: Backend exception details and stack traces in Spark History Server 5xx responses are no longer exposed to users. The server now returns a generic 503 response.
     - **Event Stream Storage**: Fixed Event Stream pods failing to start without pre-provisioned storage by always mounting `/event_stream` with an `emptyDir` fallback.
     - **Spark Job Notifications**: Fixed Spark job notification failures triggered by status updates, where job status change notifications were failing silently.
     - **Custom Tags on Suspend**: Fixed custom resource tags being lost when suspending a Spark job.
