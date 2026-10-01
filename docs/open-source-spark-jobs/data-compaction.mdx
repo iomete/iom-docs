@@ -8,6 +8,7 @@ last_update:
 ---
 
 import FlexButton from "@site/src/components/FlexButton";
+import Img from "@site/src/components/Img";
 import { Plus, Play } from "@phosphor-icons/react";
 
 ---
@@ -30,23 +31,39 @@ Tables in other formats, such as Hive or Parquet tables, are skipped.
 
 Open **Job Templates** and click **Marketplace**. Find the **data-compaction** card, click the **⋮** menu, and select **Deploy**.
 
+<Img
+  src="/img/spark-job/marketplace/data-compaction/marketplace-deploy.png"
+  alt="Deploy data-compaction from the Marketplace"
+/>
+
 The job form opens pre-filled with recommended defaults and a weekly schedule. Review the config file (see [Configuration](#configuration)), then click **Create**.
 
 ### Manual Setup
 
-Open **Job Templates** in the sidebar and click <FlexButton label='New Job Template' primary><Plus size={16} /></FlexButton>.
+Open **Job Templates** in the sidebar and click <FlexButton label='New job template' primary><Plus size={16} /></FlexButton>.
 
 **1. Name, Schedule, and Application**
 
 - **Name:** any name you like, for example `data-compaction`
 - **Schedule:** `0 12 * * 0` (every Sunday at 12:00). Use any cron expression that fits your needs. Without a schedule, the job only runs when you start it.
 - **Application type:** `Python`
+- **Docker registry:** `default`
 - **Docker image:** `iomete/iomete_data_compaction:1.2.14` (replace with the [latest version](../deployment/on-prem/release-notes/marketplace-jobs.md))
 - **Main application file:** `local:///app/driver.py`
 
+<Img
+  src="/img/spark-job/marketplace/data-compaction/form-application.png"
+  alt="Schedule, application type, Docker image, and main application file fields"
+/>
+
 **2. Config File**
 
-Expand **Configurations**, select the **Config Maps** tab, and add a file named `application.conf` mounted at `/etc/configs`. Paste the HOCON template below.
+Under **Configurations**, select the **Config Maps** tab and click **Add config**. Set **File path** to `/etc/configs/application.conf` and paste the HOCON template below.
+
+<Img
+  src="/img/spark-job/marketplace/data-compaction/form-configurations.png"
+  alt="Config Maps tab with the application.conf file"
+/>
 
 ```hocon
 {
