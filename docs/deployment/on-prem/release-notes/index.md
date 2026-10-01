@@ -4,7 +4,7 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 09/30/2026
+  date: 10/01/2026
   author: Abhishek Pathania
 ---
 
@@ -254,7 +254,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 </Release>
 
-<Release version="3.19.1" date="September 30, 2026">
+<Release version="3.19.1" date="October 1, 2026">
   <NewFeatures>
     - **Helm Chart Creates Cluster-Level Resources**: The data plane chart can now create the Spark Operator CRDs, the `lakehouse-service-account` with its Role and RoleBinding, and the Spark Operator webhook with its certificate, so you don't have to run `gencerts.sh` or `kubectl apply` them yourself before installing. See [Create Cluster-Level Resources](../install.md#create-cluster-level-resources).
       - Turn these on with `serviceAccount.create`, `crds.create` and `webhook.create`. All three are `false` by default.
