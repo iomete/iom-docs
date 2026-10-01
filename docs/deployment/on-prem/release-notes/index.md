@@ -254,7 +254,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 </Release>
 
-<Release version="3.19.1" date="TBD">
+<Release version="3.19.1" date="October 1, 2026">
   <NewFeatures>
     - **Chart-Managed Install Prerequisites**: The data plane chart can now create the Kubernetes objects that previously had to be applied by hand before `helm install`. Each one is gated by its own switch, all of which default to `false`. The chart creates an object only when it is absent or already owned by the release, so objects created with `kubectl` or Terraform on an existing install are left exactly as they are.
       - **Spark Webhook Certificate**: The chart mints the Spark Operator admission webhook certificate and owns the `MutatingWebhookConfiguration`, replacing the `gencerts.sh` script. The certificate is reused on every upgrade instead of being rotated.
