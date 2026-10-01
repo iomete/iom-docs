@@ -72,6 +72,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Console Theme Switcher**: Added **Light**, **Dark**, and **System Preferences** options under **Theme** in the user menu. Changes apply immediately and are saved in the browser. **System Preferences** follows the operating system's appearance automatically. See [Changing the Console Theme](/resources/user-guide/theme-switcher).
 
       <Img src="/img/user-guide/theme-switcher/theme-menu.png" alt="Console user menu with System Preferences, Light, and Dark theme options" maxWidth="518px" />
+    - **Data Plane Topology**: The **Data Planes** admin page has a **Table / Graph** toggle. The graph draws the control plane and every data plane connected to it, with each plane's address, connection status, and CPU and memory quota usage. The graph can be expanded to fullscreen.
+    - **Namespace Quotas**: Namespace quotas are now a table. **Administration → Monitoring → Namespace Quotas** lists every namespace across all data planes, grouped by data plane, with quota usage per workload type (Spark job, Notebook, Compute): the current and maximum value, a utilization bar, and a **Normal**, **Near limit** (60% or more) or **Exhausted** (80% or more) status. Search the list, or filter it by status or data plane. Domain users see the same table on the **Namespace quotas** tab of the domain home page, which shows a warning icon when a quota is critical. The previous card view has been removed.
   </NewFeatures>
 
   <Improvements>
@@ -172,6 +174,19 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Platform Security Updates**
       - Upgraded Quarkus to `3.38.3` and Kotlin to `2.4.10` across the backend services, and centralized the pins for Netty, Jackson, BouncyCastle, the PostgreSQL driver and the Hadoop transitive dependencies, resolving critical and high-severity CVEs across all services with no change in behavior.
       - Patched critical and high-severity CVEs in the Jupyter notebook image, including its bundled PySpark jars, and in the Typesense, Hive Metastore and job orchestrator images. No migration is required.
+    - **Redesigned Console**: The console has been rebuilt on IOMETE's own component library, and Ant Design is gone from every page. Navigation, page headers, breadcrumbs, forms, dialogs, filters and tables share one visual language in both the light and dark themes. Tables let you pin a column, drag columns into a new order, and show or hide them from **View settings**; the console remembers each table's column order and visibility.
+    - **Breadcrumbs**: Breadcrumbs are now defined on the routes themselves, so detail, create and configure pages show the full path, such as **Vault Integrations → <name> → Configure**, with the real resource name in place of an ID. Pages such as Vault Integrations, Secrets and data security policies previously showed only the current page.
+    - **Data Plane in Resource Lists**: Compute clusters, Spark job templates, streaming jobs, Spark applications and Query Monitoring now show a **Data plane** column or detail row. Namespace pickers group namespaces under their data plane, so the same namespace name on two data planes is no longer ambiguous, and namespace filters take both in one control, with an **All namespaces** row for each data plane.
+    - **Health Check by Data Plane**: The platform health page groups services into **Control plane services** and **Data plane services**, with one collapsible group per data plane. Live updates are matched per service and data plane, so one plane's data no longer affects identically named services on another.
+    - **Resource Bundle Permissions**: Adding members to a resource bundle is now a single drawer: choose the users and groups, set one shared permission set, and save, instead of working through nested drawers. Every permission and resource type shows a plain-language description, and users and groups that already hold access to the bundle are left out of the member pickers.
+    - **Data Explorer Table Details**: The Data Explorer table list is served by the data catalog, so **Size** and **Number of files** show real values instead of always reporting zero.
+    - **Failed Loads Report the Error**: A table, tree or picker that fails to load now shows the error with a **Retry** action, instead of an empty "No results" state that made a failed request look like an empty resource. This covers the Data Explorer, Kubernetes events, compute activity, the worksheet folder tree, and the compute, resource bundle, namespace, node type, volume, image, domain, user, group and classification tag pickers.
+    - **Console Forms**: Optional fields are marked **(optional)**, validation errors appear directly under the field instead of below its description, and every create and edit page and drawer follows the same **Create** / **Configure** naming. Duplicate environment variable and Spark configuration keys are rejected before save, instead of one being picked silently.
+    - **Administration Console**
+      - Role descriptions are shown in the assign-role pickers for users and groups, and on the role page.
+      - The custom LDAP user and group filter fields expand to a fullscreen editor.
+      - Classification request columns were reordered and widened so the catalog, schema, table and column values are readable.
+      - SSO provider cards are clickable across their whole surface.
   </Improvements>
 
   <BugFixes>
@@ -212,7 +227,29 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Enterprise Catalog Spark Properties**: Fixed enterprise catalogs missing essential S3 and Iceberg Spark properties, which could cause query failures on catalogs created via the enterprise catalog feature.
     - **Distributed Locking for Onboarding**: Added distributed locking to domain onboarding and Typesense collection creation, fixing a race condition where simultaneous onboarding in multi-replica identity deployments could corrupt state.
     - **Identity Service Stability Under Load**: Fixed `iom-identity` running out of memory and restarting under load. Audit events now go through a bounded queue instead of one unbounded thread per event when the audit sink is slow, and Ranger policy downloads serve cached pre-serialized responses instead of re-serializing on every request.
+    - **Console Sessions**
+      - **Malformed Access Token**: A stored access token that could not be decoded made every request fail before it was sent, and the user was never redirected to sign in; clearing browser storage by hand was the only way out. Such a token is now treated as expired and follows the normal refresh and sign-in path.
+      - **Sign-In Redirect**: Removing the authorization code from the URL after sign-in dropped the `?` separator, corrupting any remaining query parameters on the destination page.
+    - **Data Catalog**
+      - **Owner and Description Edits**: Adding or removing a table owner, and editing a table description, no longer revert when you switch tabs or open another table.
+      - **Snapshots and Search**: A table whose snapshot summary is missing or malformed no longer breaks the Snapshots tab, and a table with a blank owner entry no longer breaks the search result cards.
+      - **Classification Lists**: Classification tags and requests are cached separately for the administration and domain views, so the two lists no longer show each other's data. Creating a classification tag with a name that already exists now reports the conflict on the field instead of failing silently.
+    - **Domain Members**
+      - Deleting a domain member called an endpoint that returned `404`, so the deletion silently failed. Add and delete are now also disabled, with an explanation, for users who cannot manage members.
+      - A member search containing `&`, `#` or `+` corrupted the request and dropped the group filter.
+    - **Spark Catalog Tabs**: The **Domain permissions** and **Maintenance** tabs were enabled for every Admin Portal user and then failed with a `403` on open. They are now gated on the roles the backend enforces, with an access-denied tooltip.
+    - **Enterprise Catalog Option**: The Enterprise catalog type is hidden when the feature is disabled, instead of failing on create with a "Bad input" error.
+    - **Query Monitoring User Filter**: The user filter was enabled only for the domain owner. It is now available to anyone who can manage domain members.
+    - **Admin Node Types and Volumes**: The admin lists no longer show a single domain's node types and volumes after navigating from a domain.
+    - **Worksheet Repository Tree**: The SQL Editor repository tree refreshes after you create, check out a branch of, or delete a repository.
   </BugFixes>
+
+  <Deprecations>
+    - **Legacy Pre-Resource-Bundle Screens**: The older Compute, Jupyter Containers and Namespaces screens, the legacy worksheet tree sidebar and the deprecated Docker Images API have been removed from the console. The Domain roles and members screens for installations without domain-level bundle authorization, and Secrets V1, remain available behind their existing flags.
+    - **Admin Namespaces Page**: The **Namespaces** item in the admin sidebar now opens **Data Planes**, where namespaces are listed per data plane.
+    - **Data Products**: The Data Products page and its sidebar entry have been removed.
+    - **Jupyter Kernels**: The Jupyter Kernels page and its sidebar entry have been removed. Jupyter Containers is unaffected.
+  </Deprecations>
 
       **Spark version:** [3.5.7-v7-rc1](./spark.md)
       **Iceberg version:** 1.9.0-iomete-5
