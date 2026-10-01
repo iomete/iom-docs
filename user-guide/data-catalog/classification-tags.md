@@ -3,8 +3,8 @@ title: Working with Classification Tags
 description: Request, approve, and manage classification tag assignments on tables and columns in the IOMETE Data Catalog.
 sidebar_label: Classification Tags
 last_update:
-  date: 03/26/2026
-  author: Abhishek Pathania
+  date: 09/30/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -37,6 +37,14 @@ Sometimes a classification no longer applies. Maybe a column was anonymized, or 
 
 <Img src="/img/data-catalog/removal-modal.png" alt="Classification Tag Request modal for removing a tag" />
 
+## Auto-Approving a Request
+
+If you have the **Data Security and Audit Manager** admin role, the request form shows an **Auto-approve this request** checkbox. Select it to submit the request already approved, so the tag change applies right away without a separate review.
+
+The checkbox is unchecked by default and hidden for other users.
+
+<Img src="/img/data-catalog/assign-modal-auto-approve.png" alt="Assign classification modal with the Auto-approve this request checkbox selected" maxWidth="500px" />
+
 ## Request Statuses
 
 Tracking where your request stands helps you know whether to wait, follow up, or resubmit. Every classification request moves through one of four states:
@@ -44,7 +52,7 @@ Tracking where your request stands helps you know whether to wait, follow up, or
 | Status | Meaning |
 |--------|---------|
 | `IN_REVIEW` | The default state. Your request appears in the **Classification Requests** tab and as a pending tag on the asset. You can cancel it while it's still in review. |
-| `APPROVED` | An admin approved the change. The tag updates immediately and the search index reflects it. |
+| `APPROVED` | An admin approved the change, or it was auto-approved on submission. The tag updates immediately and the search index reflects it. |
 | `REJECTED` | An admin rejected it, so no tag change is applied. |
 | `CANCELLED` | You cancelled it yourself before an admin reviewed it. |
 

@@ -3,8 +3,8 @@ title: Workspaces
 description: Organize SQL worksheets using workspaces with custom folders, storage backends, and access permissions in the IOMETE SQL Editor.
 sidebar_label: Workspaces
 last_update:
-  date: 03/26/2026
-  author: Abhishek Pathania
+  date: 09/30/2026
+  author: Mammad Mammadli
 ---
 
 import { DotsThreeVertical } from "@phosphor-icons/react";
@@ -20,7 +20,7 @@ In the SQL Editor, you can view all workspaces in the left sidebar under the **W
 - **Shared**: The shared workspace accessible to all users (always visible)
 - **Custom Workspaces**: Any additional workspaces where you have `VIEW` or `PUT` permissions (configured via resource bundles)
 
-<Img src="/img/user-guide/workspaces/workspace-list.png" alt="Workspaces List" />
+<Img src="/img/user-guide/workspaces/workspace-sidebar.png" alt="Worksheets sidebar showing My Workspace, Shared, and Repositories" maxWidth="360px" />
 
 All users can see "My Workspace" and "Shared Workspace" regardless of permissions. Other workspaces appear if you have at least `VIEW` or `PUT` permission.
 
@@ -32,8 +32,7 @@ To create a new workspace:
 2. Select **New workspace** from the menu.
 3. Fill in the workspace details in the dialog.
 
-<Img src="/img/user-guide/workspaces/workspace-create-button.png" alt="Create Workspace Button" maxWidth="600px" centered />
-<Img src="/img/user-guide/workspaces/workspace-create-dialog.png" alt="Create Workspace Dialog" maxWidth="600px" centered />
+<Img src="/img/user-guide/workspaces/workspace-create-dialog.png" alt="Create workspace form with Name, Storage configuration, and Resource bundle fields" maxWidth="672px" centered />
 
 ### Workspace Configuration
 
@@ -73,10 +72,10 @@ To create a new folder:
 
 <div class="row">
     <div class="col col--6">
-      <Img src="/img/user-guide/workspaces/workspace-folder-access.png" alt="Folder Context Menu" />
+      <Img src="/img/user-guide/workspaces/workspace-folder-access.png" alt="My Workspace menu with New folder alongside worksheet, dashboard, and import actions" maxWidth="366px" />
     </div>
     <div class="col col--6">
-      <Img src="/img/user-guide/workspaces/workspace-folder-disabled-access.png" alt="Folder Context Menu Disabled" />
+      <Img src="/img/user-guide/workspaces/workspace-folder-name.png" alt="Entering Analytics as the name of a new folder in My Workspace" maxWidth="366px" />
     </div>
   </div>
 
@@ -90,9 +89,6 @@ To move a folder to a different location:
 2. A dialog will show available target workspaces (only workspaces where you have `PUT` permission).
 3. Select the target workspace and optionally choose a destination folder.
 4. Confirm the move.
-
-<Img src="/img/user-guide/workspaces/workspace-move-dialog.png" alt="Move Dialog" />
-<Img src="/img/user-guide/workspaces/workspace-move-dialog-disabled.png" alt="Move Dialog Disabled" />
 
 :::warning Name Conflicts
 If a folder with the same name already exists in the destination, the move operation will fail. You'll need to rename one of the folders before proceeding.
@@ -129,6 +125,8 @@ To move a worksheet to a different location:
 2. Choose from available workspaces.
 3. Optionally select a destination folder or subfolder.
 4. Confirm the move.
+
+<Img src="/img/user-guide/workspaces/worksheet-move-dialog.png" alt="Move worksheet dialog with Analytics selected as the destination for Welcome.sql" maxWidth="906px" />
 
 ### Deleting Worksheets
 

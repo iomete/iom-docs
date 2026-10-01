@@ -3,19 +3,21 @@ title: Worksheets Overview
 description: Create, organize, and run SQL queries using worksheets in the IOMETE SQL Editor with real-time collaboration, query variables, and chart visualizations.
 sidebar_label: Worksheets Overview
 last_update:
-  date: 03/26/2026
-  author: Abhishek Pathania
+  date: 09/30/2026
+  author: Mammad Mammadli
 ---
 
 import Img from "@site/src/components/Img";
 
-If you spend most of your day writing and iterating on SQL, worksheets are where that happens. Each worksheet holds a query plus its full context: compute cluster, catalog, database namespace, and any query variables. That context persists between sessions, so you pick up right where you left off.
+Each worksheet holds your SQL statements and their context: compute cluster, catalog, database namespace, and query variables. That context persists between sessions, so you can continue where you left off.
 
 You organize worksheets in a three-level hierarchy (**Workspaces > Folders > Worksheets**), structured however fits your team. Beyond basic query editing, worksheets support:
 
 - [Real-time collaboration](/user-guide/sql-editor/collaboration) with teammates
 - [Chart visualizations and CSV export](/user-guide/sql-editor/query-results)
 - Parameterized [query variables](/user-guide/sql-editor/running-queries#using-query-variables)
+- [Multi-statement execution](./running-queries.md#running-multiple-statements) and [pinned, named result tabs](./query-results.md#managing-result-tabs) with SQL Editor V2
+- [Editor appearance settings](./query-results.md#customizing-editor-appearance) for color schemes, fonts, and statement highlighting
 - File imports (`.sql`, `.ipynb`, `.dash`)
 - Read-only browsing of SQL files from connected [Git repositories](/user-guide/sql-editor/collaboration#git-repository-worksheets)
 
@@ -62,7 +64,7 @@ Click any worksheet in the sidebar to open it as a tab. Each tab is divided into
 - **Toolbar** at the top (run button, compute selector, collaboration avatars, and more)
 - An optional **Query variables bar**
 - The **Code editor**
-- A resizable **Results panel** at the bottom
+- A resizable **Results panel** at the bottom or right, with a tab for each submitted statement on V2
 
 <Img src="/img/user-guide/sql-editor/worksheets/worksheet-layout.png" alt="Open worksheet showing toolbar, code editor with SQL, and results panel with data grid" />
 
@@ -96,6 +98,10 @@ Deleting a worksheet permanently removes it and its contents. This can't be undo
 
 | Action | Mac | Windows / Linux |
 |--------|-----|-----------------|
-| Run query | **Cmd+Enter** | **Ctrl+Enter** |
+| Run one active statement; open run options for multiple or no active statements on V2 | **Cmd+Enter** | **Ctrl+Enter** |
+| Run all statements (V2) | **Cmd+Shift+Enter** | **Ctrl+Shift+Enter** |
+| Open run options (V2) | **Cmd+Option+Enter** | **Ctrl+Alt+Enter** |
 | Save worksheet | **Cmd+S** | **Ctrl+S** |
 | Open autocomplete | **Cmd+Space** | **Ctrl+Space** |
+
+See [Arranging the Results Panel](./query-results.md#arranging-the-results-panel) for shortcuts to collapse, reposition, or expand the results panel to fullscreen.

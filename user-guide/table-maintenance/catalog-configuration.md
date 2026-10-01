@@ -3,7 +3,7 @@ title: Catalog-Level Configuration
 description: Configure compute resources, service accounts, and maintenance operations at the catalog level.
 sidebar_label: Catalog Configuration
 last_update:
-  date: 05/13/2026
+  date: 09/30/2026
   author: Shashank Chaudhary
 ---
 
@@ -31,7 +31,7 @@ See [Catalog Owner Domain](#catalog-owner-domain) to assign one.
 
 1. Turn on the **Enable maintenance** toggle at the top of the tab. This is the master switch for the entire catalog. No operation runs while it's off.
 2. Select a **Compute** cluster from the dropdown. The list shows clusters that belong to the catalog's owner domain.
-3. Select a **Service Account** from the dropdown. The list shows all service accounts in the domain.
+3. Select a **Service Account** from the dropdown. The list shows service accounts you can manage, meaning those in a group you belong to.
 
 <Img src="/img/user-guide/table-maintenance/configure-resources.png" alt="Catalog Maintenance tab with Enable maintenance toggled on, a Compute cluster, and a Service Account selected"/>
 
@@ -39,7 +39,7 @@ See [Catalog Owner Domain](#catalog-owner-domain) to assign one.
 - The compute cluster must be active when a maintenance job runs. If it's stopped or disabled, the operation fails.
 - The service account must have `CONSUME` permission on the chosen compute cluster. Otherwise, the save is rejected with a permission error. See [Granting Access to Users and Groups](/user-guide/ras/resource-bundles#granting-access-to-users-and-groups) to assign the required permission.
 - The service account must have write access on the tables included in maintenance. Without it, maintenance operations on those tables will fail.
-- Reassigning the owner domain for a catalog disables maintenance and clears all configured resources. Re-enable maintenance and reconfigure resources after the change.
+- Changing or removing the catalog's owner domain disables maintenance, and resources from the previous domain no longer apply. Re-enable maintenance and select new resources after the change.
 :::
 
 <details>
@@ -74,7 +74,7 @@ Click **Save Changes** to commit all settings on the page (Enable maintenance, r
 
 ## Catalog Owner Domain
 
-Every catalog that uses maintenance must have an **owner domain** assigned. The owner domain determines which compute clusters and service accounts are available for maintenance jobs. Resources are always scoped to a domain, so the catalog must belong to one before any maintenance configuration is possible.
+Every catalog that uses maintenance must have an **owner domain** assigned. The owner domain determines which compute clusters are available for maintenance jobs. Resources are always scoped to a domain, so the catalog must belong to one before any maintenance configuration is possible.
 
 To assign an owner domain:
 

@@ -2,8 +2,8 @@
 title: Git Integration
 description: This documentation provides details on how to integrate Git with SQL Editor.
 last_update:
-  date: 05/02/2025
-  author: Alokh Pullanikkatt
+  date: 09/30/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -35,6 +35,10 @@ If you don't have a token configured already we can create a new token by clicki
 <Img src="/img/integrations/git/git-integration/create-token.png" alt="create token"/>
 
 Tokens can also be managed from the Git Integration tab.
+
+A token belongs to the user who created it, and each user links their own token to a repository. Users without the **Manage Git Repository** permission can still link their token from the repository's **Configure** option in the SQL Editor. See [Git Repository Worksheets](/user-guide/sql-editor/collaboration#git-repository-worksheets).
+
+Token values are never shown after you save them. To change a token, use **Configure** on it, and leave the token field blank to keep the current value.
 
 Once the token is set click on the create button to register the repository.
 

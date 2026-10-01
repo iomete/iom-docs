@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 08/24/2026
-  author: Ujjawal Khare
+  date: 09/30/2026
+  author: Mammad Mammadli
 ---
 
 import Img from '@site/src/components/Img';
@@ -14,6 +14,247 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="4.0.0" date="September 30, 2026">
+  <NewFeatures>
+    - **Control Plane and Data Planes**: IOMETE is now split into one control plane and one or more data planes. The control plane hosts the console and shared services, and each data plane runs your workloads, such as compute clusters, Spark jobs and Jupyter containers, with its own storage. Resources in the console now show which data plane they belong to, and you can filter by data plane.
+      - **Data Plane Administration**: A new **Data Planes** page in the admin area shows every data plane connected to the control plane, with its status, version and CPU and memory quota usage. The same information is available through the API: `GET /api/v1/admin/multi-cluster/data-planes` lists all data planes, and `GET /api/v1/admin/multi-cluster/data-planes/{id}` returns one data plane with a per-namespace quota breakdown. Data planes that can't be reached still appear, just without usage figures.
+      - **Remote Workloads**: Computes, Spark jobs and Jupyter containers can be created on a named data plane. Each is given its own plane's Iceberg catalog, metastore, Ranger policy and storage addresses, and its Spark UI, Spark History, metrics and pod logs are relayed back through the owning plane.
+      - **Plane-to-Plane Trust**: Calls between a control plane and its data planes are verified against a shared trust secret and routed through each side's gateway. The control plane generates the secret on install and keeps it across upgrades, and a data plane install that is not given the same secret stops with a message naming the value to set.
+    - **Encrypted Secret Storage**: Platform secrets are now held in the database, encrypted with AES-256-GCM and scoped per domain, instead of in Kubernetes Secrets. Existing Kubernetes secrets, including Vault login credentials, are migrated on upgrade, and the encryption key is generated at install time and preserved across every later upgrade.
+    - **SQL Editor V2**: A rebuilt SQL Editor and Query Monitoring, executing over Arrow Flight instead of a JDBC connection held open inside the service. Spark writes results straight to object storage, so a large result no longer risks taking the service down, and query state lives in the database rather than in memory, so running queries survive a restart of the SQL service and stale ones are picked up automatically. Query Monitoring and search are much faster on large query histories. Table Maintenance runs through the same path.
+
+      Error messages are rewritten throughout: a failing query reports what went wrong instead of a Java stack trace, and a compute that is stopped, unreachable, or on an unsupported image each say so plainly.
+
+      - **Multi-Statement Execution**: Added support for running highlighted statements or an entire worksheet in sequence. Execution stops at the first error, skips remaining statements, and can be stopped manually.
+      - **Result Tabs**: Added a separate result tab for each submitted statement, with its own table, chart, SQL view, and CSV export.
+      - **Pinned and Named Results**: Added result-tab renaming and pinning. Pinned tabs and their names persist across subsequent runs, page reloads, and devices while the underlying results remain available.
+      - **Restoring Results**: Added restoration of the latest run's result tabs when reopening a worksheet or refreshing the page. Unsubmitted statements do not resume automatically.
+      - **Refreshing Individual Results**: Added a Refresh action to rerun a result tab's original SQL without rerunning the worksheet. The result updates in place, preserving its name and pin.
+      - **Keyboard Shortcuts**: Added shortcuts for running all statements, opening run options, and collapsing, repositioning, or expanding the results panel to fullscreen.
+
+      <Img src="/img/user-guide/sql-editor/multi-statement/overview.png" alt="SQL Editor with three selected statements, named result tabs, a pinned Cities tab, and country comparison results" maxWidth="900px" />
+
+      See [Running Queries](/resources/user-guide/sql-editor/running-queries#running-multiple-statements) and [Query Results & Settings](/resources/user-guide/sql-editor/query-results) for execution options and result-tab controls.
+
+      Existing queries and APIs keep working; the only addition is a new `PENDING` status for a query accepted but not yet started on the compute. Requires compute clusters on Spark image `3.5.7-v4` or later (Spark 4.x included) — queries on an older image fail with a message naming the image to update to. Turn it on with the `sqlEditorV2` feature flag.
+
+    - **Automated Table Maintenance `BETA`**: You no longer have to think about table maintenance. As Iceberg tables take writes, small files, old snapshots and orphan files pile up, so queries slow down and storage costs creep up. IOMETE now handles this in the background. It detects which tables changed, checks them against health thresholds, and runs compaction, snapshot expiry, manifest rewrites or orphan file cleanup only on the tables that need it, instead of on a fixed schedule.
+      - **Catalog and Table Settings**: Enable maintenance and set defaults per catalog, then override them per table if needed.
+      - **Run History and Metrics**: Each run records before-and-after metrics, so you can check that a table actually got healthier. Any operation can also be triggered manually.
+
+      <Img src="/img/user-guide/table-maintenance/run-detail-completed.png" alt="Completed Cleanup Orphan Files run with before-and-after metrics for data file count and size" maxWidth="900px" />
+
+      See [Table Maintenance](/user-guide/table-maintenance/overview) to set it up, and [How We Built Automated Table Maintenance](/blog/how-we-built-automated-maintenance) for the design behind it.
+
+    - **Managed MCP Server**: IOMETE ships a Model Context Protocol (MCP) server as a data-plane component. AI agents in MCP clients such as Claude Code, Codex, and Devin can use its 17 tools to find and describe tables and run SQL. The tools also inspect query plans, preview rows, and profile columns. A ready-made `discover-then-query` prompt guides them through the workflow. The server is disabled by default. To enable it, set `features.mcpServer.enabled: true`. Also set `services.mcpServer.urls.public` to the address users reach IOMETE at, and add that host to `authentication.redirectUrlWhitelist`.
+      - **Runs as the Signed-In User**: Tool calls use the user's own IOMETE access, so the same access policies apply as in the SQL Editor. SQL that changes data isn't allowed by default, and administrators can allow it with `services.mcpServer.statementPolicy`.
+      - **Access**: The **Use MCP Server** permission (`mcp/use`) on a role grants access per domain. On upgrade, IOMETE adds it to existing `account-admin` roles. Other roles (including `default`) don't include it, so administrators may need to grant it on a role for other users. The admin user created at installation, Domain Managers, and domain owners already have access. A new grant can take a short while to apply.
+      - **Sign-In**: Users sign in with their IOMETE login over OAuth, or connect with a personal access token.
+      - **Data Catalog Sync**: `search_tables`, `describe_table`, and `plan_column_profile` read the data catalog. Schedule the [Data Catalog Sync](../../../open-source-spark-jobs/catalog-sync.mdx) job, because without a recent run they can return stale data or miss new tables.
+      - **Safeguards**: Cancelling a query and running a heavy column profile each need explicit confirmation. Running queries, explaining queries, and running column profiles are rate-limited per user.
+      - **Paging**: `list_namespaces`, `list_tables`, `search_tables`, and `get_query_result` return data in pages. Pass `pagination.next_cursor` as `cursor` to get the next page. A query result can be paged up to 10,000 rows when its SQL ends with a `LIMIT`.
+      - **Audit**: MCP tool calls are recorded in the `platform_event_logs` system table. Records are written only when the table exists, and it isn't created automatically. See [System Tables](/user-guide/system-tables).
+      - **Database**: If you manage databases yourself, create `<prefix>mcp_db` before enabling the server and give the platform database user full access to it. IOMETE creates it on install and upgrade when `database.adminCredentials` is set. The server keeps its OAuth sign-in state there.
+      - **Network and Certificates**: Cloud-hosted clients need the public address (`services.mcpServer.urls.public`) to be reachable from the internet. Browser-based MCP clients aren't supported. If a private certificate authority issues the certificate for the public address, provide its CA bundle in `services.mcpServer.iometeTls`. Without the bundle, the MCP server might fail to connect to IOMETE.
+
+    - **Docker Registry Credential Management**: New API endpoints for managing Docker registry credentials. Update credentials with `PUT /api/v1/admin/docker/registries/{id}` and view registry details with `GET /api/v1/admin/docker/registries/{id}`.
+    - **Comet Execution Engine**: Compute clusters have a new **Enable Comet** toggle that runs queries through the Apache Comet native execution engine. Off by default, so existing computes are unchanged.
+    - **Active-Active Control Planes**: You can now run two control planes side by side behind a load balancer, sharing the same database. Background jobs run only once, even with both active. Point your load balancer health check at `/healthz`, which reports whether each control plane is ready to take traffic.
+    - **Feature Flags**: Feature flags let IOMETE turn a feature on or off at runtime, without a redeploy. Admins control them from the admin panel under **Administration → Feature Flags**, where each flag can be enabled platform-wide or per domain. See [Feature Flags](/user-guide/feature-flags/overview) for the available flags and how to manage them.
+    - **Recently Viewed**: Added a new **Recently Viewed** tab to the Domain Dashboard so users can quickly return to resources they opened recently.
+      - Supports **Compute Clusters**, **Jupyter Containers**, **Spark Job Templates and Runs**, **Streaming Jobs**, **Resource Bundles**, **Event Streams**, and **Data Catalog**.
+      - Shows the resource name, type, ID, and last viewed time for each entry.
+      - Includes actions to open the resource, copy its ID, remove one item, or clear all recents.
+      - Saves resources after a short delay, helping keep the recently viewed list clean and relevant.
+
+      <Img src="/img/getting-started/release-notes/4.0.0/recently-viewed.png" alt="Recently Viewed tab in Domain Dashboard" centered style={{ marginTop: "16px" }} />
+    - **Console Theme Switcher**: Added **Light**, **Dark**, and **System Preferences** options under **Theme** in the user menu. Changes apply immediately and are saved in the browser. **System Preferences** follows the operating system's appearance automatically. See [Changing the Console Theme](/resources/user-guide/theme-switcher).
+
+      <Img src="/img/user-guide/theme-switcher/theme-menu.png" alt="Console user menu with System Preferences, Light, and Dark theme options" maxWidth="518px" />
+    - **Data Plane Topology**: The **Data Planes** admin page has a **Table / Graph** toggle. The graph draws the control plane and every data plane connected to it, with each plane's address, connection status, and CPU and memory quota usage. The graph can be expanded to fullscreen.
+    - **Namespace Quotas**: Namespace quotas are now a table. **Administration → Monitoring → Namespace Quotas** lists every namespace across all data planes, grouped by data plane, with quota usage per workload type (Spark job, Notebook, Compute): the current and maximum value, a utilization bar, and a **Normal**, **Near limit** (60% or more) or **Exhausted** (80% or more) status. Search the list, or filter it by status or data plane. Domain users see the same table on the **Namespace quotas** tab of the domain home page, which shows a warning icon when a quota is critical. The previous card view has been removed.
+  </NewFeatures>
+
+  <Improvements>
+    - **Installation**
+      - **Control Plane Without a Bundled Data Plane**: A control plane can be installed on its own and have its data planes added afterwards. Left at the default, the install still brings up its own data plane and registers it as `default`.
+
+        ```yaml
+        # Helm values
+        defaultDataPlane:
+          enabled: true   # default
+        ```
+
+      - **Reusing Existing Secrets**: Installs can now use Kubernetes Secrets you already have for their encryption keys and system tokens, instead of generating new ones. This lets two control planes share the same keys, for example in an active-active setup. If you don't set anything, IOMETE generates them as before.
+      - **Credential Changes Apply on Upgrade**: Changing database or object storage credentials, or the `namespaces` list, in your Helm values now restarts the affected services on `helm upgrade`, so the new values take effect without a manual pod restart. Credentials read from your own existing Secrets aren't covered: restart the services yourself after rotating them.
+      - **Stable Pod Identity Across Upgrades**: Fixed an issue where every pod restarted on each Helm chart revision, even when nothing in its spec changed. Upgrades now only restart pods whose configuration actually changed.
+      - **Startup Probe Configuration**: Administrators can now tune control plane startup probe timings via Helm values, allowing customization for environments with slower startup times.
+    - **Database**
+      - **Standby Reads**: Reads that tolerate slightly stale data, including platform health history, Ranger policy downloads and audit log browsing, can be sent to a read-only standby of the same database. Left empty, which is the default, every read goes to the primary as before.
+
+        ```yaml
+        # Helm values
+        database:
+          readHost: ""       # default: empty, all reads go to the primary
+          readPort: ""       # optional, when the standby answers on another port
+          readUser: ""       # optional, read-only login
+          readPassword: ""   # optional
+        ```
+
+      - **Connection Pooler Support**: The platform can be pointed at a connection pooler while database schema upgrades still reach the database directly, which is the one thing a pooler cannot carry. Unset, the default, an install without a pooler is unaffected.
+
+        ```yaml
+        # Helm values
+        database:
+          host: pgbouncer.example.internal
+          directHost: ""   # default: empty, falls back to host
+        ```
+
+      - **Upgrades Across a Shared Database**: A cluster running an older version now starts against a database that another cluster has already upgraded, instead of refusing to start, so clusters sharing a database can be upgraded one at a time.
+      - **Metastore Connection Pool**: The metastore's database connection pools are now sized per install and keep far fewer connections open while idle. Plan for at most `3 x maxPoolSize + compactorMaxPoolSize + 2` connections per metastore, and raise `maxPoolSize` if metadata requests time out under heavy load.
+
+        ```yaml
+        # Helm values
+        services:
+          metastore:
+            connectionPool:
+              maxPoolSize: 10            # default (was 67 across pools), per main pool
+              compactorMaxPoolSize: 5    # default
+              minimumIdle: 1             # default (was 10)
+        ```
+
+    - **Generic S3-Compatible Storage**: A single `s3_compatible` storage block replaces the MinIO-specific and Dell ECS-specific ones, so any S3-compatible endpoint can be configured without choosing a vendor. The old keys still work.
+
+      ```yaml
+      # Helm values
+      storage:
+        bucketName: "lakehouse"
+        type: "s3_compatible"
+        s3CompatibleSettings:
+          endpoint: "https://s3.example.com"
+          accessKey: "admin"
+          secretKey: "password"
+          # or read the secret key from an existing Secret instead:
+          # secretKeySecret:
+          #   name: storage-credentials
+          #   key: secret-key
+      ```
+
+    - **Storage Region**: An optional `storage.region` now applies to every S3 request, shared by every catalog, the default catalog and query result storage, so an install on MinIO can attach catalogs backed by an AWS S3 bucket outside `us-east-1`. Unset, the default, AWS installs keep using `cloud.region` and MinIO and Dell ECS keep `us-east-1`.
+    - **Chart Changes for 4.0**: Several feature flags are no longer configurable. `jobOrchestrator`, `onboardComputeRas`, `onboardSparkJobRas`, `onboardWorkspaceRas` and `onboardNamespaceMappingRas` are fixed on. The `emailNotifications` and `enableAutomatedMaintenance` flags are gone, so email notifications and automated Iceberg table maintenance are always available.
+    - **Platform Health**: The health page now reports the Event Stream service, keeps its 48-hour history in the database so it survives pod restarts and deploys, and reflects the database in its readiness check instead of reporting every service healthy through a database outage. Background jobs that poll the database stand down while it is unreachable rather than retrying at full rate.
+    - **Spark Applications**
+      - **Priority-Based by Default**: New Spark jobs created in the console now default to the `Priority-Based` deployment flow, and the **Deployment Flow** and **Priority** fields are always shown instead of sitting in a collapsed **Advanced settings** section. Existing jobs and streaming jobs keep their current flow, and jobs created through the API still default to `LEGACY`. See [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator#how-to-enable).
+      - **Run Retention**: Archived Spark application run history now has a configurable retention policy, and metrics enrichment during archival tolerates an unavailable source service instead of failing the archive.
+      - **Unresolved Runs**: A run whose Kubernetes resource disappeared without a final event is recorded as `UNKNOWN` rather than `FAILED`, so a run that finished cleanly is no longer reported as a failure.
+      - **Named Container Ports**: Spark driver pods now declare named container ports, allowing protocol detection and service discovery by name.
+      - **Pod Templates Deprecated**: Pod templates are no longer created by the data plane chart. They remain in the previous chart for backward compatibility, so existing legacy scheduled jobs keep running.
+    - **Classification Auto-Approval**: Data Security and Audit Managers can now approve their own classification requests on submission, using the **Auto-approve this request** checkbox in the request form or `autoApprove=true` in the API. See [Auto-Approving a Request](/user-guide/data-catalog/classification-tags#auto-approving-a-request).
+    - **Roles and Permissions**
+      - **Shared Worksheets and Git Repositories**: The default role can now read shared worksheets and the git repository tree. Both permissions previously sat only on the account admin role, so ordinary domain members saw neither area.
+      - **Event Stream Creation**: Event Stream creation can be granted through a role on installations still using the role-based permission model, and is granted to the default role.
+      - **Node Types and Volumes**: Any signed-in user can now list the platform's node types and volumes through `GET /api/v1/node-types` and `GET /api/v1/volumes`. Both catalogs were previously visible only to admins or one domain at a time.
+    - **Git Repositories**
+      - **Deleting Repositories**: Git repositories can now be deleted from the SQL Editor sidebar by users with the **Manage Git Repository** permission.
+      - **Linking Your Own Token**: Users without that permission can now link their own token to a repository from its **Configure** drawer. A deleted linked token now reports as not configured.
+      - **Clearer Errors**: The repository tree and branch picker show the actual Git error instead of a generic message, with a **Configure token** button when no token is linked. Checking out an unknown branch now returns a clear error.
+      - **Hidden Token Values**: Git access tokens are no longer returned by the API or shown in the console, and the copy option is removed. When editing a token, leave the field blank to keep the current value.
+
+      See [Git Repository Worksheets](/user-guide/sql-editor/collaboration#git-repository-worksheets).
+    - **SQL Editor Appearance**: Added settings for the editor color scheme, font family, font size, and optional statement block highlighting. The selected scheme's light or dark variant follows the Console theme. Changes preview immediately and are saved with **Save**. See [Customizing Editor Appearance](/resources/user-guide/sql-editor/query-results#customizing-editor-appearance).
+    - **Query Monitoring**
+      - **Faster Stale Query Detection**: A query left behind by a stopped compute is detected in far less time than the previous ten to fifteen minutes.
+      - **Clearer Recovery Messages**: A query the compute no longer knows about, and a result fetch that fails mid-stream, now report what happened instead of a raw I/O error. An incompatible cluster error also names the Spark image required for SQL Editor V2.
+      - **Results Without a Handshake**: A completed query's results open from a worksheet even when its compute has since been stopped.
+    - **Gateway Rate Limiting**: Added per-client rate limiting on the gateway. Personal access token callers are rate-limited by token instead of by IP address.
+    - **Spark Connect Service Port**: Arrow Flight SQL and Spark Connect traffic now has a dedicated service port on `iom-gateway`, fixing connectivity issues for customers using Spark Connect or SQL Editor V2 through the gateway.
+    - **Query Result Retention**: The default query result archival retention is now 8 days and is configurable via SystemConfig, instead of the previous fixed retention period.
+    - **Audit Data from Iceberg**: The audit page now reads from Iceberg tables instead of Ranger ORC files, fixing a timeout issue that occurred as audit data grew.
+    - **Platform Security Updates**
+      - Upgraded Quarkus to `3.38.3` and Kotlin to `2.4.10` across the backend services, and centralized the pins for Netty, Jackson, BouncyCastle, the PostgreSQL driver and the Hadoop transitive dependencies, resolving critical and high-severity CVEs across all services with no change in behavior.
+      - Patched critical and high-severity CVEs in the Jupyter notebook image, including its bundled PySpark jars, and in the Typesense, Hive Metastore and job orchestrator images. No migration is required.
+    - **Redesigned Console**: The console has been rebuilt on IOMETE's own component library, and Ant Design is gone from every page. Navigation, page headers, breadcrumbs, forms, dialogs, filters and tables share one visual language in both the light and dark themes. Tables let you pin a column, drag columns into a new order, and show or hide them from **View settings**; the console remembers each table's column order and visibility.
+    - **Breadcrumbs**: Breadcrumbs are now defined on the routes themselves, so detail, create and configure pages show the full path, such as **Vault Integrations → my-vault → Configure**, with the real resource name in place of an ID. Pages such as Vault Integrations, Secrets and data security policies previously showed only the current page.
+    - **Data Plane in Resource Lists**: Compute clusters, Spark job templates, streaming jobs, Spark applications and Query Monitoring now show a **Data plane** column or detail row. Namespace pickers group namespaces under their data plane, so the same namespace name on two data planes is no longer ambiguous, and namespace filters take both in one control, with an **All namespaces** row for each data plane.
+    - **Health Check by Data Plane**: The platform health page groups services into **Control plane services** and **Data plane services**, with one collapsible group per data plane. Live updates are matched per service and data plane, so one plane's data no longer affects identically named services on another.
+    - **Resource Bundle Permissions**: Adding members to a resource bundle is now a single drawer: choose the users and groups, set one shared permission set, and save, instead of working through nested drawers. Every permission and resource type shows a plain-language description, and users and groups that already hold access to the bundle are left out of the member pickers.
+    - **Data Explorer Table Details**: The Data Explorer table list is served by the data catalog, so **Size** and **Number of files** show real values instead of always reporting zero.
+    - **Failed Loads Report the Error**: A table, tree or picker that fails to load now shows the error with a **Retry** action, instead of an empty "No results" state that made a failed request look like an empty resource. This covers the Data Explorer, Kubernetes events, compute activity, the worksheet folder tree, and the compute, resource bundle, namespace, node type, volume, image, domain, user, group and classification tag pickers.
+    - **Console Forms**: Optional fields are marked **(optional)**, validation errors appear directly under the field instead of below its description, and every create and edit page and drawer follows the same **Create** / **Configure** naming. Duplicate environment variable and Spark configuration keys are rejected before save, instead of one being picked silently.
+    - **Administration Console**
+      - Role descriptions are shown in the assign-role pickers for users and groups, and on the role page.
+      - The custom LDAP user and group filter fields expand to a fullscreen editor.
+      - Classification request columns were reordered and widened so the catalog, schema, table and column values are readable.
+      - SSO provider cards are clickable across their whole surface.
+  </Improvements>
+
+  <BugFixes>
+    - **Scheduled Spark Jobs**
+      - **Cron Schedules**: Fixed Priority-Based Spark jobs running on the wrong schedule. A seconds field was prepended to standard five-field cron expressions, so a job scheduled daily ran monthly.
+      - **Suspend and Resume**: Fixed suspending a job writing the Kubernetes resource before the change was committed, which could leave the resource suspended permanently.
+      - **Finished Runs**: Runs that had already completed on the job orchestrator no longer show `waiting in queue`.
+      - **Orphaned Runs**: Runs interrupted by a job orchestrator worker failure are now marked failed automatically after some time, instead of staying `Running`.
+      - **Aborted Runs**: Aborting a run from the Spark Applications list now emits a status change, so the list updates without a manual refresh.
+    - **Spark Application Status**: Fixed Spark applications that finished successfully being reported as `FAILED` with `driver pod not found` when the driver pod was removed right after it finished, which could make external schedulers rerun completed work. The final status now comes from the driver's own terminal state, and a genuine failure keeps its original error instead of the generic message.
+    - **SQL Editor**
+      - **SQL Scripting**: Fixed `BEGIN … END` blocks being split into separate statements when saving schedules, and fixed compound scripts returning empty results through the Arrow execution path.
+      - **Query Cancellation**: Fixed cancelling a running query hanging until the caller gave up, leaving the query stuck in `RUNNING`. Every cancel path, HTTP, JDBC and Arrow Flight, now has a deadline.
+      - **Null Values**: A SQL `NULL` is returned as `null` instead of the key being omitted, which had made rows narrower than the column list returned alongside them.
+      - **Sorting**: An explicit sort in query monitoring is now applied, instead of results always coming back ordered by end time.
+      - **Query Ownership**: Six query endpoints, including status, cancel, CSV export and batch status, now check who owns the query.
+      - **Arrow Connection String**: The Arrow Flight JDBC connection string on a compute's Connections tab uses the `{access_token}` placeholder instead of `{password}`, matching every other connection string.
+    - **Security Hardening**
+      - **REST Catalog Configuration**: The Iceberg REST catalog's `/v1/config` endpoint no longer returns server-side credentials, including the database password and S3 access keys, to Spark clients.
+      - **Catalog Reads**: Catalog read responses now mask the access key and endpoint in addition to the secret key.
+      - **Error Responses**: Unexpected errors no longer return stack traces and raw exception messages to API clients in production.
+      - **Token Validation**: Refresh tokens are verified against the signing key before new tokens are issued, and each environment now signs with its own key, so a token minted in one environment is no longer accepted by another.
+      - **Forced Password Change**: A user changing a temporary password can no longer set it to the value it already had.
+    - **Spark UI Proxy Authentication**:
+      - **Bearer Token Support**: Fixed programmatic requests to Spark UI and Spark History URLs being redirected to the login page. The proxy previously only read the session cookie; it now also accepts `Authorization: Bearer <token>`.
+      - **Session Token Refresh**: Fixed users being redirected to the login page when opening Spark UI, Spark History, or Grafana after their access token expired. The proxy now refreshes expired session tokens automatically, matching the main application's behavior.
+    - **Login With Multiple Identity Replicas**: Fixed intermittent login failures when `iom-identity` runs more than one pod. Single-use authorization codes were held in each pod's own memory, so a code issued by one pod could not be redeemed by another. They are now stored in the database.
+    - **Iceberg and Catalogs**
+      - **Complex Column Types**: The table schema endpoint serializes struct, list and map columns through the Iceberg schema parser, instead of a form clients could not read.
+      - **Catalog Storage Settings**: Per-catalog storage settings are sent as configuration defaults rather than overrides, so a client's own setting is no longer replaced, and a catalog with no credentials of its own falls back to the installation's storage credentials instead of sending none.
+      - **Unknown Identifiers**: Data catalog lookups for a catalog, namespace, table, column or bookmark that does not exist return `404` instead of `500`.
+    - **Startup Resilience**: Data plane services retry the settings read they perform at startup when the Kubernetes API is briefly unreachable, instead of giving up and failing to start.
+    - **PySpark Memory Overhead**: Switched to 40% PySpark memory overhead, fixing frequent compute restarts caused by out-of-memory conditions in PySpark workloads.
+    - **Spark History Server**: Fixed the Spark History Server failing to start after upgrade and deleting finished job history at startup due to invalid chart settings.
+    - **Event Stream Storage**: Fixed Event Stream pods failing to start without pre-provisioned storage by always mounting `/event_stream` with an `emptyDir` fallback.
+    - **Spark Job Notifications**: Fixed Spark job notification failures triggered by status updates, where job status change notifications were failing silently.
+    - **Custom Tags on Suspend**: Fixed custom resource tags being lost when suspending a Spark job.
+    - **Enterprise Catalog Spark Properties**: Fixed enterprise catalogs missing essential S3 and Iceberg Spark properties, which could cause query failures on catalogs created via the enterprise catalog feature.
+    - **Distributed Locking for Onboarding**: Added distributed locking to domain onboarding and Typesense collection creation, fixing a race condition where simultaneous onboarding in multi-replica identity deployments could corrupt state.
+    - **Identity Service Stability Under Load**: Fixed `iom-identity` running out of memory and restarting under load. Audit events now go through a bounded queue instead of one unbounded thread per event when the audit sink is slow, and Ranger policy downloads serve cached pre-serialized responses instead of re-serializing on every request.
+    - **Console Sessions**
+      - **Malformed Access Token**: A stored access token that could not be decoded made every request fail before it was sent, and the user was never redirected to sign in; clearing browser storage by hand was the only way out. Such a token is now treated as expired and follows the normal refresh and sign-in path.
+      - **Sign-In Redirect**: Removing the authorization code from the URL after sign-in dropped the `?` separator, corrupting any remaining query parameters on the destination page.
+    - **Data Catalog**
+      - **Owner and Description Edits**: Adding or removing a table owner, and editing a table description, no longer revert when you switch tabs or open another table.
+      - **Snapshots and Search**: A table whose snapshot summary is missing or malformed no longer breaks the Snapshots tab, and a table with a blank owner entry no longer breaks the search result cards.
+      - **Classification Lists**: Classification tags and requests are cached separately for the administration and domain views, so the two lists no longer show each other's data. Creating a classification tag with a name that already exists now reports the conflict on the field instead of failing silently.
+    - **Domain Members**
+      - Deleting a domain member called an endpoint that returned `404`, so the deletion silently failed. Add and delete are now also disabled, with an explanation, for users who cannot manage members.
+      - A member search containing `&`, `#` or `+` corrupted the request and dropped the group filter.
+    - **Spark Catalog Tabs**: The **Domain permissions** and **Maintenance** tabs were enabled for every Admin Portal user and then failed with a `403` on open. They are now gated on the roles the backend enforces, with an access-denied tooltip.
+    - **Enterprise Catalog Option**: The Enterprise catalog type is hidden when the feature is disabled, instead of failing on create with a "Bad input" error.
+    - **Query Monitoring User Filter**: The user filter was enabled only for the domain owner. It is now available to anyone who can manage domain members.
+    - **Admin Node Types and Volumes**: The admin lists no longer show a single domain's node types and volumes after navigating from a domain.
+    - **Worksheet Repository Tree**: The SQL Editor repository tree refreshes after you create, check out a branch of, or delete a repository.
+  </BugFixes>
+
+  <Deprecations>
+    - **Legacy Pre-Resource-Bundle Screens**: The older Compute, Jupyter Containers and Namespaces screens, the legacy worksheet tree sidebar and the deprecated Docker Images API have been removed from the console. The Domain roles and members screens for installations without domain-level bundle authorization, and Secrets V1, remain available behind their existing flags.
+    - **Admin Namespaces Page**: The **Namespaces** item in the admin sidebar now opens **Data Planes**, where namespaces are listed per data plane.
+    - **Data Products**: The Data Products page and its sidebar entry have been removed.
+    - **Jupyter Kernels**: The Jupyter Kernels page and its sidebar entry have been removed. Jupyter Containers is unaffected.
+  </Deprecations>
+
+      **Spark version:** [3.5.7-v7-rc1](./spark.md)
+      **Iceberg version:** 1.9.0-iomete-5
+
+</Release>
 
 <Release version="3.19.0" date="August 24, 2026">
   <NewFeatures>

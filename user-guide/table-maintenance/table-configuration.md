@@ -3,7 +3,7 @@ title: Table-Level Configuration
 description: Override catalog maintenance defaults for individual tables — enable, disable, or customize operations per table.
 sidebar_label: Table Configuration
 last_update:
-  date: 05/13/2026
+  date: 09/30/2026
   author: Shashank Chaudhary
 ---
 
@@ -31,6 +31,6 @@ Table-level settings override catalog defaults for a specific table. This is use
 <Img src="/img/user-guide/table-maintenance/table-configure-drawer.png" alt="Configure Maintenance drawer with the Enable maintenance toggle and four operation cards each set to Inherit"/>
 
 :::info Table Maintenance Defaults
-- Tables are disabled for maintenance by default. You must explicitly enable each one (V1 rollout safeguard).
+- Tables are disabled for maintenance by default. You must explicitly enable each one (beta safeguard).
 - Table maintenance can't be enabled while catalog-level maintenance is disabled.
 :::
