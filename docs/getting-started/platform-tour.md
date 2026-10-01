@@ -19,7 +19,7 @@ The IOMETE interface has three areas:
 
 ## Home
 
-The Home page is your starting point after login. It displays [recently viewed resources](/user-guide/recently-viewed), a resource quota overview, and quick access cards for user guides, integrations, the API reference, and support.
+The Home page is your starting point after login. It displays [recently viewed resources](/user-guide/recently-viewed), a [namespace quota](/user-guide/namespace-quotas) overview, and quick access cards for user guides, integrations, the API reference, and support.
 
 <Img src="/img/getting-started/platform-tour/home-page.png" alt="Home page" maxWidth="900px"/>
 
@@ -150,7 +150,7 @@ Platform administrators manage users, security, and infrastructure from the Admi
 
 - **IAM**: [Users](/user-guide/users), [Groups](/user-guide/groups), Admin Roles, [LDAP](/user-guide/ldap-configuration), and [Single Sign-On (SSO)](/user-guide/single-sign-on).
 - **Data Governance**: [Spark Catalogs](/user-guide/spark-catalogs/overview), [Data Security](/user-guide/data-security/overview) policies, and Audit logs.
-- **Compute**: [Node Types](/user-guide/node-types/overview), [Volumes](/user-guide/volumes), Namespaces, and [Docker Settings](/user-guide/private-docker-registry).
+- **Compute**: [Node Types](/user-guide/node-types/overview), [Volumes](/user-guide/volumes), [Namespaces](/user-guide/namespace-quotas), and [Docker Settings](/user-guide/private-docker-registry).
 - **Administration**: System Config, Event Logs, [Email Config](/user-guide/email-settings), and Orphaned Resources.
 
 <Img src="/img/getting-started/platform-tour/admin-portal.png" alt="Admin Portal page" maxWidth="900px"/>

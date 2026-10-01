@@ -96,6 +96,6 @@ Attach **Resource tags** (key-value metadata pairs) to categorize the cluster. T
 
 This tab shows a read-only summary of your configuration. Look it over, and if anything needs adjusting, click the relevant tab to go back. When everything looks correct, click **Create**.
 
-If creation succeeds, IOMETE provisions the cluster and redirects you to its detail page. If the cluster name is already taken, you're returned to the **General** tab with a validation error. If resource quotas are exceeded, the form highlights the affected fields with error messages.
+If creation succeeds, IOMETE provisions the cluster and redirects you to its detail page. If the cluster name is already taken, you're returned to the **General** tab with a validation error. If resource quotas are exceeded, the form highlights the affected fields with error messages. See [Namespace Quotas](../namespace-quotas.md#checking-quota-before-creating-a-resource).
 
 <Img src="/img/user-guide/compute-clusters/create-review.png" alt="Create compute cluster -- Review & Create tab" maxWidth="700px" />

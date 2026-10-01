@@ -114,6 +114,7 @@ const sidebars = {
             "node-types/node-type-sizing",
           ],
         },
+        "namespace-quotas",
         "volumes",
         "secrets",
         "api-reference",

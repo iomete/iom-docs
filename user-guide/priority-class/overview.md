@@ -110,4 +110,4 @@ Test priority class changes in a staging environment before applying them to pro
 
 ## Resource Quotas by Priority
 
-You can have further granular control by defining [ResourceQuotas scoped to priority classes](https://kubernetes.io/docs/concepts/policy/resource-quotas/#resource-quota-per-priorityclass). This lets you cap how much CPU or memory each priority level can consume within a namespace, giving administrators tighter control over resource allocation alongside scheduling priority.
+You can have further granular control by defining [ResourceQuotas scoped to priority classes](https://kubernetes.io/docs/concepts/policy/resource-quotas/#resource-quota-per-priorityclass). This lets you cap how much CPU or memory each priority level can consume within a namespace, giving administrators tighter control over resource allocation alongside scheduling priority. See [Namespace Quotas](../namespace-quotas.md#setting-quotas) for an example and for how these quotas appear in the console.
