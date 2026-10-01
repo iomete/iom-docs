@@ -1,13 +1,18 @@
 ---
-title: DBT Incremental Models By Examples
+title: "dbt Incremental Strategy Examples: merge, append, overwrite"
+title_meta: "dbt Incremental Strategy Examples: merge, append, overwrite"
 sidebar_label: Incremental Models By Examples
-description: Hands-on examples covering every incremental strategy and schema-change configuration for dbt on IOMETE.
+description: "Runnable dbt incremental model examples for every strategy (merge, append, insert_overwrite) and on_schema_change setting, using Apache Iceberg on Spark."
 last_update:
-  date: 09/04/2026
+  date: 10/01/2026
   author: Abhishek Pathania
 ---
 
+import DemoCta from '@site/src/components/DemoCta';
+
 Incremental models on IOMETE use Iceberg tables and support `append`, `merge`, `delete+insert`, and `insert_overwrite`. This page walks through every supported configuration with working SQL examples and shows the table state after each run.
+
+For how incremental models work and when to use them, see [incremental models](./dbt-incremental-models.md).
 
 ## Incremental Models Configurations
 
@@ -46,6 +51,8 @@ Incremental models are trickier to get right than views or tables, so it helps t
 | append_new_columns | Adds new fields and keeps removed ones. Example: [_append-new-columns_](#append-new-columns) |
 | sync_all_columns | Adds new fields and drops missing ones. Example: [_sync-all-columns_](#sync-all-columns)              |
 | fail | Fails the run when a schema change is detected. Example: [_fail_](#fail)                                        |
+
+<DemoCta variant="A" page="dbt-incremental-models-by-examples" position="mid" />
 
 ## Examples
 
@@ -887,4 +894,5 @@ select 1
 Invalid incremental strategy provided: something_else
     Expected one of: 'append', 'merge', 'delete+insert', 'insert_overwrite'
 ```
----
+
+<DemoCta variant="A" page="dbt-incremental-models-by-examples" position="end" />

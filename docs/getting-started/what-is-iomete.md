@@ -1,16 +1,20 @@
 ---
-title: What is IOMETE?
+title: "What Is IOMETE? Self-Hosted Spark + Iceberg Lakehouse"
+title_meta: "What Is IOMETE? Self-Hosted Spark + Iceberg Lakehouse"
 sidebar_label: What is IOMETE?
-description: IOMETE is a state-of-the-art, fast, scalable, user-friendly Data Lakehouse Platform for AI and Analytics.
+description: "IOMETE is a Kubernetes-native data lakehouse built on Apache Spark and Iceberg that runs entirely in your own environment: on-prem, cloud or air-gapped."
 last_update:
-  date: 04/14/2026
+  date: 10/01/2026
   author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
+import DemoCta from '@site/src/components/DemoCta';
 
 IOMETE is a state-of-the-art, fast, scalable, user-friendly **Data Lakehouse Platform for AI and Analytics**.
 It offers flexibility and can be deployed anywhere – on-premises, in the cloud, or in a hybrid environment.
+
+<DemoCta variant="B" page="what-is-iomete" position="top" />
 
 ## Introduction to IOMETE
 
@@ -217,3 +221,5 @@ Explore the rest of the Getting Started section to learn more about the platform
 - [Platform Tour](./platform-tour) - navigate the IOMETE console, sidebar menus, and domain vs. admin areas
 - [Scalability](./scalability) - four scaling layers, autoscaling configuration, and cost optimization
 - [Support](./support) - getting help and contacting the IOMETE team
+
+<DemoCta variant="B" page="what-is-iomete" position="end" />

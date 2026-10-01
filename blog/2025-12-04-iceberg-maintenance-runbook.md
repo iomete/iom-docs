@@ -11,6 +11,7 @@ last_update:
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
+import DemoCta from '@site/src/components/DemoCta';
 
 Keeping [Iceberg](/blog/cheat-sheet-for-apache-iceberg) tables fast and consistent requires understanding how metadata layers work and running maintenance in the right order. This runbook explains the mental model, the safe lifecycle (expire snapshots -> remove orphan files -> rewrite manifests), common failure modes, and how IOMETE automates the entire pipeline for regulated, self-hosted environments.
 
@@ -140,3 +141,5 @@ Metadata is Iceberg's superpower when maintained correctly. With a clear snapsho
     answer: "It automates expiration, orphan cleanup, manifest compaction, and monitoring with workload-aware safety checks."
   }
 ]} />
+
+<DemoCta variant="A" page="iceberg-maintenance-runbook" position="end" />

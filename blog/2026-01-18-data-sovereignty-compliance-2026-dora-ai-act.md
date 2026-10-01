@@ -1,6 +1,7 @@
 ---
-title: Data Sovereignty Compliance in 2026 - DORA, AI Act, and Why Your SaaS Platform is a Liability
-description: DORA entered enforcement in January 2025. The EU AI Act's high-risk obligations now apply from December 2027. Financial institutions, healthcare, and government are repatriating data to meet operational resilience requirements that SaaS platforms cannot provide. Learn what compliance actually requires and why self-hosted infrastructure is the only viable path.
+title: "Data Sovereignty in 2026: DORA & EU AI Act Guide"
+title_meta: "Data Sovereignty in 2026: DORA & EU AI Act Guide | IOMETE"
+description: "What DORA and the EU AI Act mean for your data platform: third-party ICT risk, exit strategies, audit rights and data residency."
 slug: data-sovereignty-compliance-2026-dora-ai-act
 authors: aytan
 tags2: ["Technical", "Company"]
@@ -8,12 +9,13 @@ hide_table_of_contents: true
 date: 01/18/2026
 coverImage: img/blog/thumbnails/1.png
 last_update:
-  date: 2026-08-27
+  date: 2026-10-01
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
+import DemoCta from '@site/src/components/DemoCta';
 
-# Data Sovereignty Compliance in 2026: DORA, AI Act, and Why Your SaaS Platform is a Liability
+# Data Sovereignty in 2026: DORA and the EU AI Act
 
 January 17, 2025 wasn't just another regulatory deadline. It was the day the Digital Operational Resilience Act went into full force across the EU, fundamentally changing what it means to operate a data platform in the financial sector.
 
@@ -24,6 +26,8 @@ SaaS platforms—Snowflake, Databricks, any vendor where you don't control the i
 This isn't a future problem. Financial institutions are being audited right now. Fines are being levied. And the organizations that waited to act are discovering that migrating off SaaS platforms takes months, not weeks.
 
 <!-- truncate -->
+
+<DemoCta variant="C" page="data-sovereignty-compliance-2026-dora-ai-act" position="intro" />
 
 ---
 
@@ -162,7 +166,7 @@ Self-hosted platforms provide operational independence by design:
 
 Organizations running IOMETE demonstrate DORA compliance by showing their own monitoring dashboards, their own incident runbooks, their own DR test results. They demonstrate AI Act compliance by providing complete data lineage from source systems through model training to production inference. They demonstrate data sovereignty by deploying in their own VPCs, data centers, or air-gapped networks.
 
-This isn't just better compliance. It's the only viable path to compliance for regulated industries.
+Self-hosted infrastructure is one path regulated industries use to meet these requirements.
 
 ---
 
@@ -355,3 +359,5 @@ If you're operating in financial services, healthcare, or any regulated industry
 IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, [Apache Spark](/glossary/apache-spark), and Kubernetes. It runs entirely within your infrastructure—[on-premise](/blog/how-to-build-on-prem-data-lakehouse), in your VPC, or in air-gapped environments—giving you complete control over data sovereignty, operational resilience, and compliance. With DORA-ready monitoring, AI Act-compliant audit trails, and complete operational independence from vendor dependencies, IOMETE is designed for financial services, healthcare, and government organizations that cannot compromise on regulatory compliance.
 
 Learn more at [iomete.com](https://iomete.com) or [schedule a demo](https://iomete.com/contact-us) to see how self-hosted lakehouse architecture meets DORA and AI Act requirements.
+
+<DemoCta variant="B" page="data-sovereignty-compliance-2026-dora-ai-act" position="end" />

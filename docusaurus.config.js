@@ -6,6 +6,7 @@
 
 import { themes as prismThemes } from "prism-react-renderer";
 import userGuideRedirects from "./userGuideRedirects.js";
+import { DEMO_PATH } from "./src/components/DemoCta/paths.js";
 
 // Injects width/height into <Img> usages at build time so images reserve
 // their space before loading (CLS fix). See plugins/remark-image-dimensions.js
@@ -97,7 +98,7 @@ const config = {
           blogTagsPostsComponent: "/src/theme/BlogListPage/index.js",
           blogTitle: "IOMETE Blog",
           blogDescription:
-            "Modern lakehouse platform. Save 5x over expensive alternatives | Built on Apache Iceberg and Apache Spark | Cloud, on premise and hybrid solutions.",
+            "Modern lakehouse platform built on Apache Iceberg and Apache Spark. Cloud, on-premises and hybrid deployment.",
           onUntruncatedBlogPosts: "ignore",
           beforeDefaultRemarkPlugins: [remarkImageDimensions, remarkBlogCTA],
         },
@@ -211,6 +212,13 @@ const config = {
             type: "search",
             position: "right",
             className: "navbar-search",
+          },
+          {
+            href: `${DEMO_PATH}?ref=docs-nav&cta=nav`,
+            label: "Book a demo",
+            position: "right",
+            className: "navbar-demo-cta",
+            target: "_self",
           },
         ],
       },

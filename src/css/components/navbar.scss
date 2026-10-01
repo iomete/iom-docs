@@ -172,3 +172,24 @@ html[data-theme="dark"] {
     }
   }
 }
+
+// [TODO: design to swap `#2f6bff` for IOMETE's brand colour.]
+.navbar-demo-cta {
+  background: #2f6bff;
+  color: #fff !important;
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem !important;
+  font-weight: 600;
+  margin-left: 0.5rem;
+
+  &:hover {
+    color: #fff !important;
+    text-decoration: none;
+  }
+
+  // Same-site marketing URL is treated as external, so the theme adds an
+  // "opens in new tab" icon even with target=_self.
+  svg[class^="iconExternalLink"] {
+    display: none;
+  }
+}

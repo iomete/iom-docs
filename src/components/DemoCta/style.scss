@@ -1,0 +1,65 @@
+// [TODO: design to swap `#2f6bff` for IOMETE's brand colour.]
+$iomete-cta-accent: #2f6bff;
+
+.iomete-cta {
+  border: 1px solid var(--ifm-color-emphasis-300, #d0d7de);
+  border-left: 4px solid $iomete-cta-accent;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 28px 0;
+  background: var(--ifm-background-surface-color, #f8fafc);
+
+  &__eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin: 0 0 4px;
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin: 0 0 6px;
+  }
+
+  &__body {
+    margin: 0 0 12px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+
+  &__btn {
+    background: $iomete-cta-accent;
+    color: #fff !important;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none !important;
+
+    &:hover {
+      color: #fff !important;
+      text-decoration: none !important;
+    }
+  }
+
+  &__btn--sm {
+    padding: 4px 12px;
+    margin-left: 8px;
+    font-size: 0.9rem;
+  }
+
+  &__link {
+    font-weight: 600;
+  }
+
+  &--c {
+    padding: 10px 16px;
+  }
+}
