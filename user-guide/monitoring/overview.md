@@ -22,7 +22,7 @@ Each card has a thumbnail image, a title, and a short description, so you don't 
 | Card | What It Opens | Description |
 |------|---------------|--------------|
 | **Control-Plane health** | The [Health Check](./health-check.md) page | Shows core infrastructure health at a glance. |
-| **Namespace quotas overview** | The Namespaces page (**Compute** group in the sidebar) | Tracks resource allocation and consumption across Kubernetes namespaces. |
+| **Namespace quotas overview** | The Namespaces page (**Compute** group in the sidebar) | Tracks resource allocation and consumption across Kubernetes namespaces. See [Namespace Quotas](../namespace-quotas.md). |
 | **SQL query monitoring** | The [Query Monitoring](./query-monitoring.md) page | Tracks query execution times and resource consumption patterns. |
 | **Search engine (Typesense)** | The [Search Engine Monitoring](./typesense.md) page | Tracks search collections, system metrics, and request statistics. |
 

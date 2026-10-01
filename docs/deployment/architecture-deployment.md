@@ -126,7 +126,7 @@ Each extra namespace gets its own copies of:
 - Spark Proxy Server (when Arrow Flight proxy is enabled)
 - Event Stream pods (when event streams are enabled)
 
-For details, see [Connect Namespace](./connect-namespace.md). For full multi-cluster topology, see [Multi-Cluster Setup](./multi-cluster-setup.mdx).
+IOMETE doesn't create the quotas themselves. See [Namespace Quotas](/user-guide/namespace-quotas#setting-quotas). For details, see [Connect Namespace](./connect-namespace.md). For full multi-cluster topology, see [Multi-Cluster Setup](./multi-cluster-setup.mdx).
 
 ## Priority Classes
 
