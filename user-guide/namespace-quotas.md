@@ -207,7 +207,7 @@ Keep these rules in mind:
 - **Requests are required**: once a quota limits CPU or memory, Kubernetes rejects pods without CPU and memory requests. Set defaults with a [LimitRange](https://kubernetes.io/docs/concepts/policy/limit-range/).
 - **Sum of quotas**: if the quotas across namespaces add up to more than the cluster, teams can be under quota and still wait for capacity. See [Quota Is Not Capacity](#quota-is-not-capacity).
 
-## FAQs
+---
 
 <FAQSection faqs={[
   {
