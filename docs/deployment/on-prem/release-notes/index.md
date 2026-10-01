@@ -251,7 +251,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Jupyter Kernels**: The Jupyter Kernels page and its sidebar entry have been removed. Jupyter Containers is unaffected.
   </Deprecations>
 
-      **Spark version:** [3.5.7-v7-rc1](./spark.md)
+      **Spark version:** [3.5.7-v7](./spark.md)
       **Iceberg version:** 1.9.0-iomete-5
 
 </Release>
