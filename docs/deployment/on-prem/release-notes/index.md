@@ -36,6 +36,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       Existing queries and APIs keep working; the only addition is a new `PENDING` status for a query accepted but not yet started on the compute. Requires compute clusters on Spark image `3.5.7-v4` or later (Spark 4.x included) — queries on an older image fail with a message naming the image to update to. Turn it on with the `sqlEditorV2` feature flag.
 
+      Query history older than the monitoring window is archived to a system table, which has to be created first. The SQL Editor works without it, but archival does not.
+
+      📄 System Tables: [System Tables Documentation](/user-guide/system-tables#query_archive)
+
     - **Automated Table Maintenance `BETA`**: You no longer have to think about table maintenance. As Iceberg tables take writes, small files, old snapshots and orphan files pile up, so queries slow down and storage costs creep up. IOMETE now handles this in the background. It detects which tables changed, checks them against health thresholds, and runs compaction, snapshot expiry, manifest rewrites or orphan file cleanup only on the tables that need it, instead of on a fixed schedule.
       - **Catalog and Table Settings**: Enable maintenance and set defaults per catalog, then override them per table if needed.
       - **Run History and Metrics**: Each run records before-and-after metrics, so you can check that a table actually got healthier. Any operation can also be triggered manually.
