@@ -4,7 +4,7 @@ sidebar_label: Deployment Architecture
 description: Technical reference for IOMETE's Kubernetes deployment topology, complete service inventory, feature flags, and infrastructure configuration.
 last_update:
   date: 09/30/2026
-  author: Shashank Chaudhary
+  author: Abhishek Pathania
 ---
 
 This reference describes how IOMETE maps onto Kubernetes: the Helm chart structure, the full service inventory, feature flags, and infrastructure options. For a conceptual overview of each service, see the [Architecture Overview](../getting-started/architecture.md). For installation steps, see the [On-Premises Deployment Guide](./on-prem/install.md).
@@ -65,7 +65,7 @@ Knowing which services run (and which are optional) helps you plan resource allo
 | iom-ratelimiter | Deployment | `ratelimiter` | Redis-based rate limiting |
 | spark-proxy-server | Deployment (per-namespace) | `sparkProxyForArrowFlight` | Arrow Flight proxy |
 
-All Quarkus-based services expose `/health` for liveness and readiness probes. They use a `RollingUpdate` strategy (`maxUnavailable: 0, maxSurge: 1`), so at least one replica stays available during deploys.
+All Quarkus-based services expose `/health` for startup, liveness and readiness probes. From 3.19.1, you can change the probe timings under `services.probes` in `values.yaml`. They use a `RollingUpdate` strategy (`maxUnavailable: 0, maxSurge: 1`), so at least one replica stays available during deploys.
 
 ## Gateway Routing
 
@@ -214,12 +214,15 @@ All table data, Spark event logs, and SQL results live in object storage, making
 
 | Storage Type | Config Key | URI Scheme | Required Settings |
 |---|---|---|---|
-| MinIO | `minio` | `s3a://` | endpoint, accessKey, secretKey |
-| Dell ECS | `dell_ecs` | `s3a://` | endpoint, accessKey, secretKey |
+| S3-compatible (MinIO, Dell ECS, IBM Cloud Object Storage, and others) | `s3_compatible` | `s3a://` | endpoint, accessKey, secretKey |
+| MinIO (deprecated) | `minio` | `s3a://` | endpoint, accessKey, secretKey |
+| Dell ECS (deprecated) | `dell_ecs` | `s3a://` | endpoint, accessKey, secretKey |
 | AWS S3 | `aws_s3` | `s3a://` | IAM role, cloud.region |
 | Google Cloud Storage | `gcs` | `gs://` | GCP service account |
 | Azure Blob (Gen1) | `azure_gen1` | `wasbs://` | storageAccountName, storageAccountKey |
 | Azure Data Lake (Gen2) | `azure_gen2` | `abfs://` | storageAccountName, storageAccountKey |
+
+From 3.19.1, use `s3_compatible` for any S3-compatible storage and set its endpoint and keys under `storage.s3CompatibleSettings`. The `minio` and `dell_ecs` types and their `storage.minioSettings` and `storage.dellEcsSettings` blocks are deprecated.
 
 **Object storage paths**:
 

@@ -4,7 +4,7 @@ description: Learn about the new Job Orchestrator for priority-based scheduling 
 sidebar_label: Job Orchestrator
 last_update:
    date: 09/30/2026
-   author: Shashank Chaudhary
+   author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
@@ -118,8 +118,10 @@ services:
   jobOrchestrator:
     s3Logging:
       enabled: true  # disabled by default
-      # Optional overrides — credentials and endpoint are derived from storage.minioSettings
-      # or storage.dellEcsSettings by default. Override only if using a separate bucket.
+      # Optional overrides — credentials and endpoint are derived from storage.s3CompatibleSettings
+      # by default, or from the deprecated storage.minioSettings or storage.dellEcsSettings
+      # when s3CompatibleSettings is not set.
+      # Override only if using a separate bucket.
       # endpoint: "https://your-s3-endpoint"
       # accessKey: "your-access-key"
       # secretKey: "your-secret-key"
