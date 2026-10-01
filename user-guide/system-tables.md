@@ -27,6 +27,7 @@ Knowing which flag controls which table saves you from guessing during setup. Th
 | `data_access_audit` | `dataAccessAudit` | Enabled | Also writes to Ranger's own S3 audit store (see below). |
 | `iceberg_commit_report` | `icebergMetrics` | Enabled | A single flag covers both Iceberg report tables. |
 | `iceberg_scan_report` | `icebergMetrics` | Enabled | A single flag covers both Iceberg report tables. |
+| `query_archive` | `sqlEditorV2` | Disabled | A rollout flag, set in the admin panel rather than Helm values. |
 
 A table that exists but has its feature flag off just stays empty until you enable it. No errors, no surprises.
 
@@ -205,6 +206,48 @@ CREATE TABLE IF NOT EXISTS spark_catalog.iomete_system_db.iceberg_scan_report (
   indexed_delete_files BIGINT COMMENT 'Number of indexed delete files',
   equality_delete_files BIGINT COMMENT 'Number of equality delete files',
   positional_delete_files BIGINT COMMENT 'Number of positional delete files')
+USING iceberg
+PARTITIONED BY (days(__ts__), __write_id__);
+```
+
+---
+
+## query_archive
+
+The `query_archive` table keeps the long-term history of queries run from the SQL Editor. Query Monitoring reads recent queries from the platform database, and an hourly job moves older ones here, so this is where you look for queries beyond that window — along with their status, duration, row count and execution metrics.
+
+:::note Enablement
+Unlike the other system tables, `sqlEditorV2` is a rollout flag you set in the admin panel under **Administration → Feature Flags**, not in your Helm values.
+
+The SQL Editor itself works with or without this table — only archival needs it. Until the table exists, the hourly archival job fails and logs an error, and queries stay in the platform database rather than being lost. They are archived on the next run after you create it.
+:::
+
+```sql
+CREATE TABLE IF NOT EXISTS spark_catalog.iomete_system_db.query_archive (
+  __id__ STRING NOT NULL COMMENT 'Unique identifier for the event',
+  __ts__ TIMESTAMP NOT NULL COMMENT 'Timestamp when the event was recorded',
+  __write_id__ STRING NOT NULL COMMENT 'Write batch identifier',
+  query_id STRING COMMENT 'ID of the archived query',
+  statement STRING COMMENT 'The SQL statement that was run',
+  database_name STRING COMMENT 'Database the query ran against',
+  namespace STRING COMMENT 'Kubernetes namespace of the compute cluster',
+  compute_cluster STRING COMMENT 'Compute cluster that ran the query',
+  source STRING COMMENT 'Where the query came from, such as the SQL Editor or an integration',
+  domain STRING COMMENT 'Domain the query was run in',
+  user_id STRING COMMENT 'ID of the user who ran the query',
+  status STRING COMMENT 'Final status of the query',
+  error_message STRING COMMENT 'Error text, null unless the query failed',
+  row_count BIGINT COMMENT 'Number of rows returned',
+  start_time BIGINT COMMENT 'When the query started, in epoch milliseconds',
+  end_time BIGINT COMMENT 'When the query finished, in epoch milliseconds',
+  duration BIGINT COMMENT 'How long the query took, in milliseconds',
+  session_id STRING COMMENT 'Editor session the query belonged to',
+  execution_id STRING COMMENT 'Spark execution ID',
+  total_executor_time BIGINT COMMENT 'Total executor time across tasks, in milliseconds',
+  total_memory_bytes BIGINT COMMENT 'Peak memory used, in bytes',
+  performance_metrics STRING COMMENT 'Spark execution metrics in JSON format',
+  cancelled_by STRING COMMENT 'ID of the user who cancelled the query, if cancelled',
+  created_at BIGINT COMMENT 'When the query record was created, in epoch milliseconds')
 USING iceberg
 PARTITIONED BY (days(__ts__), __write_id__);
 ```
