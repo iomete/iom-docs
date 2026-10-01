@@ -3,7 +3,7 @@ title: Data Compaction Job
 sidebar_label: Data Compaction
 description: Keep Iceberg tables fast by running snapshot expiration, orphan file cleanup, data file compaction, and manifest rewrites on a schedule.
 last_update:
-  date: 09/24/2026
+  date: 10/01/2026
   author: Maksym Kryvchun
 ---
 
@@ -109,21 +109,18 @@ With the default settings, each run keeps only the latest snapshot of every tabl
 | `expire_snapshot.older_than_days` | not set | Remove snapshots older than N days. When not set, any snapshot older than 5 minutes can be removed. |
 | `remove_orphan_files.enabled` | `true` | Run orphan file cleanup. |
 | `remove_orphan_files.older_than_days` | `1` | Only delete orphan files older than N days. |
-| `remove_orphan_files.max_files_per_record` | `100` | Maximum number of removed file paths stored in one metrics row. Longer lists are split across rows. |
 | `rewrite_data_files.enabled` | `true` | Run data file compaction. |
 | `rewrite_data_files.strategy` | `binpack` | `binpack` merges small files. `sort` also sorts rows, which is slower but can speed up queries. |
 | `rewrite_data_files.sort_order` | not set | Columns to sort by when `strategy` is `sort`, for example `"user_id ASC, event_time DESC"`. |
 | `rewrite_data_files.where` | not set | Only compact rows that match this SQL filter, for example `"date <= CURRENT_DATE - 1"`. |
 | `rewrite_data_files.options` | `{}` | Iceberg [rewrite options](https://iceberg.apache.org/docs/latest/spark-procedures/#rewrite_data_files) such as `min-input-files` and `target-file-size-bytes`. |
 | `rewrite_manifests.enabled` | `true` | Run manifest rewrites. |
-| `rewrite_manifests.use_caching` | Iceberg default (`true`) | Use Spark caching during the rewrite. Setting it to `false` has no effect, the Iceberg default still applies. |
 
 ### Other Settings
 
 | Field | Default | Description |
 |---|---|---|
 | `parallelism` | `4` | Number of tables processed at the same time. |
-| `stats_batch_size` | `100` | Number of result rows collected before they are written to the metrics table. |
 | `table_overrides` | not set | Per-table operation settings. See [Example 2](#example-2-different-settings-for-one-table). |
 | `gc_handling.enabled` | `false` | For tables with garbage collection turned off, turn it on for the run and off again afterwards. |
 | `lock.enabled` | `false` | Stop two job runs from compacting the same table at once. See [Table Locking](#table-locking). |
@@ -199,7 +196,7 @@ Set `ttl_seconds` longer than your slowest table takes to compact, or the lock c
 
 ## Checking Results
 
-A run can finish successfully even when some tables fail, because the job logs the error and moves on to the next table. Check these tables after a run:
+If one table fails, the job records the error and continues with the next table, so a run can show as successful even when some tables failed. Check these tables after a run:
 
 | Table | Contents |
 |---|---|
