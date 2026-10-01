@@ -22,10 +22,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Remote Workloads**: Computes, Spark jobs and Jupyter containers can be created on a named data plane. Each is given its own plane's Iceberg catalog, metastore, Ranger policy and storage addresses, and its Spark UI, Spark History, metrics and pod logs are relayed back through the owning plane.
       - **Plane-to-Plane Trust**: Calls between a control plane and its data planes are verified against a shared trust secret and routed through each side's gateway. The control plane generates the secret on install and keeps it across upgrades, and a data plane install that is not given the same secret stops with a message naming the value to set.
     - **Encrypted Secret Storage**: Platform secrets are now held in the database, encrypted with AES-256-GCM and scoped per domain, instead of in Kubernetes Secrets. Existing Kubernetes secrets, including Vault login credentials, are migrated on upgrade, and the encryption key is generated at install time and preserved across every later upgrade.
-    - **SQL Editor V2**: A rebuilt SQL Editor and Query Monitoring, executing over Arrow Flight instead of a JDBC connection held open inside the service. Spark writes results straight to object storage, so a large result no longer risks taking the service down, and query state lives in the database rather than in memory, so running queries survive a restart of the SQL service and stale ones are picked up automatically. Query Monitoring and search are much faster on large query histories. Table Maintenance runs through the same path.
-
-      Error messages are rewritten throughout: a failing query reports what went wrong instead of a Java stack trace, and a compute that is stopped, unreachable, or on an unsupported image each say so plainly.
-
+    - **SQL Editor V2**: A rebuilt SQL Editor and Query Monitoring, executing over Arrow Flight instead of a JDBC connection held open inside the service. Spark writes results straight to object storage, so a large result no longer risks taking the service down, and query state lives in the database rather than in memory, so running queries survive a restart of the SQL service and stale ones are picked up automatically.
       - **Multi-Statement Execution**: Added support for running highlighted statements or an entire worksheet in sequence. Execution stops at the first error, skips remaining statements, and can be stopped manually.
       - **Result Tabs**: Added a separate result tab for each submitted statement, with its own table, chart, SQL view, and CSV export.
       - **Pinned and Named Results**: Added result-tab renaming and pinning. Pinned tabs and their names persist across subsequent runs, page reloads, and devices while the underlying results remain available.
@@ -60,12 +57,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
     - **Docker Registry Credential Management**: New API endpoints for managing Docker registry credentials. Update credentials with `PUT /api/v1/admin/docker/registries/{id}` and view registry details with `GET /api/v1/admin/docker/registries/{id}`.
     - **Comet Execution Engine**: Compute clusters have a new **Enable Comet** toggle that runs queries through the Apache Comet native execution engine. Off by default, so existing computes are unchanged.
-    - **Active-Active Control Planes**: You can now run two control planes side by side behind a load balancer, sharing the same database. Background jobs run only once, even with both active. Point your load balancer health check at `/healthz`, which reports whether each control plane is ready to take traffic.
+    - **Active-Active Control Planes**: You can now run two control planes side by side behind a load balancer to enable HA for IOMETE control plane, sharing the same HA database.
     - **Feature Flags**: Feature flags let IOMETE turn a feature on or off at runtime, without a redeploy. Admins control them from the admin panel under **Administration → Feature Flags**, where each flag can be enabled platform-wide or per domain. See [Feature Flags](/user-guide/feature-flags/overview) for the available flags and how to manage them.
     - **Recently Viewed**: Added a new **Recently Viewed** tab to the Domain Dashboard so users can quickly return to resources they opened recently.
       - Supports **Compute Clusters**, **Jupyter Containers**, **Spark Job Templates and Runs**, **Streaming Jobs**, **Resource Bundles**, **Event Streams**, and **Data Catalog**.
-      - Shows the resource name, type, ID, and last viewed time for each entry.
-      - Includes actions to open the resource, copy its ID, remove one item, or clear all recents.
       - Saves resources after a short delay, helping keep the recently viewed list clean and relevant.
 
       <Img src="/img/getting-started/release-notes/4.0.0/recently-viewed.png" alt="Recently Viewed tab in Domain Dashboard" centered style={{ marginTop: "16px" }} />
@@ -74,6 +69,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       <Img src="/img/user-guide/theme-switcher/theme-menu.png" alt="Console user menu with System Preferences, Light, and Dark theme options" maxWidth="518px" />
     - **Data Plane Topology**: The **Data Planes** admin page has a **Table / Graph** toggle. The graph draws the control plane and every data plane connected to it, with each plane's address, connection status, and CPU and memory quota usage. The graph can be expanded to fullscreen.
     - **Namespace Quotas**: Namespace quotas are now a table. **Administration → Monitoring → Namespace Quotas** lists every namespace across all data planes, grouped by data plane, with quota usage per workload type (Spark job, Notebook, Compute): the current and maximum value, a utilization bar, and a **Normal**, **Near limit** (60% or more) or **Exhausted** (80% or more) status. Search the list, or filter it by status or data plane. Domain users see the same table on the **Namespace quotas** tab of the domain home page, which shows a warning icon when a quota is critical. The previous card view has been removed.
+
   </NewFeatures>
 
   <Improvements>
@@ -146,7 +142,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Platform Health**: The health page now reports the Event Stream service, keeps its 48-hour history in the database so it survives pod restarts and deploys, and reflects the database in its readiness check instead of reporting every service healthy through a database outage. Background jobs that poll the database stand down while it is unreachable rather than retrying at full rate.
     - **Spark Applications**
       - **Priority-Based by Default**: New Spark jobs created in the console now default to the `Priority-Based` deployment flow, and the **Deployment Flow** and **Priority** fields are always shown instead of sitting in a collapsed **Advanced settings** section. Existing jobs and streaming jobs keep their current flow, and jobs created through the API still default to `LEGACY`. See [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator#how-to-enable).
-      - **Run Retention**: Archived Spark application run history now has a configurable retention policy, and metrics enrichment during archival tolerates an unavailable source service instead of failing the archive.
+      - **Run Retention**: Spark application run history can now be automatically cleaned up to keep the database lean. By default, runs are kept indefinitely. Set `spark-application.retention-days` to delete runs older than the specified number of days.
       - **Unresolved Runs**: A run whose Kubernetes resource disappeared without a final event is recorded as `UNKNOWN` rather than `FAILED`, so a run that finished cleanly is no longer reported as a failure.
       - **Named Container Ports**: Spark driver pods now declare named container ports, allowing protocol detection and service discovery by name.
       - **Pod Templates Deprecated**: Pod templates are no longer created by the data plane chart. They remain in the previous chart for backward compatibility, so existing legacy scheduled jobs keep running.
@@ -158,7 +154,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Git Repositories**
       - **Deleting Repositories**: Git repositories can now be deleted from the SQL Editor sidebar by users with the **Manage Git Repository** permission.
       - **Linking Your Own Token**: Users without that permission can now link their own token to a repository from its **Configure** drawer. A deleted linked token now reports as not configured.
-      - **Clearer Errors**: The repository tree and branch picker show the actual Git error instead of a generic message, with a **Configure token** button when no token is linked. Checking out an unknown branch now returns a clear error.
       - **Hidden Token Values**: Git access tokens are no longer returned by the API or shown in the console, and the copy option is removed. When editing a token, leave the field blank to keep the current value.
 
       See [Git Repository Worksheets](/user-guide/sql-editor/collaboration#git-repository-worksheets).
@@ -175,7 +170,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Upgraded Quarkus to `3.38.3` and Kotlin to `2.4.10` across the backend services, and centralized the pins for Netty, Jackson, BouncyCastle, the PostgreSQL driver and the Hadoop transitive dependencies, resolving critical and high-severity CVEs across all services with no change in behavior.
       - Patched critical and high-severity CVEs in the Jupyter notebook image, including its bundled PySpark jars, and in the Typesense, Hive Metastore and job orchestrator images. No migration is required.
     - **Redesigned Console**: The console has been rebuilt on IOMETE's own component library, and Ant Design is gone from every page. Navigation, page headers, breadcrumbs, forms, dialogs, filters and tables share one visual language in both the light and dark themes. Tables let you pin a column, drag columns into a new order, and show or hide them from **View settings**; the console remembers each table's column order and visibility.
-    - **Breadcrumbs**: Breadcrumbs are now defined on the routes themselves, so detail, create and configure pages show the full path, such as **Vault Integrations → my-vault → Configure**, with the real resource name in place of an ID. Pages such as Vault Integrations, Secrets and data security policies previously showed only the current page.
     - **Data Plane in Resource Lists**: Compute clusters, Spark job templates, streaming jobs, Spark applications and Query Monitoring now show a **Data plane** column or detail row. Namespace pickers group namespaces under their data plane, so the same namespace name on two data planes is no longer ambiguous, and namespace filters take both in one control, with an **All namespaces** row for each data plane.
     - **Health Check by Data Plane**: The platform health page groups services into **Control plane services** and **Data plane services**, with one collapsible group per data plane. Live updates are matched per service and data plane, so one plane's data no longer affects identically named services on another.
     - **Resource Bundle Permissions**: Adding members to a resource bundle is now a single drawer: choose the users and groups, set one shared permission set, and save, instead of working through nested drawers. Every permission and resource type shows a plain-language description, and users and groups that already hold access to the bundle are left out of the member pickers.
@@ -187,6 +181,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - The custom LDAP user and group filter fields expand to a fullscreen editor.
       - Classification request columns were reordered and widened so the catalog, schema, table and column values are readable.
       - SSO provider cards are clickable across their whole surface.
+
   </Improvements>
 
   <BugFixes>
@@ -247,8 +242,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <Deprecations>
     - **Legacy Pre-Resource-Bundle Screens**: The older Compute, Jupyter Containers and Namespaces screens, the legacy worksheet tree sidebar and the deprecated Docker Images API have been removed from the console. The Domain roles and members screens for installations without domain-level bundle authorization, and Secrets V1, remain available behind their existing flags.
     - **Admin Namespaces Page**: The **Namespaces** item in the admin sidebar now opens **Data Planes**, where namespaces are listed per data plane.
-    - **Data Products**: The Data Products page and its sidebar entry have been removed.
-    - **Jupyter Kernels**: The Jupyter Kernels page and its sidebar entry have been removed. Jupyter Containers is unaffected.
+    - **Jupyter Kernels**: The deprecated Jupyter Kernels functionality has been removed. Jupyter Containers is now the primary service for working with Jupyter notebooks.  
   </Deprecations>
 
       **Spark version:** [3.5.7-v7](./spark.md)
