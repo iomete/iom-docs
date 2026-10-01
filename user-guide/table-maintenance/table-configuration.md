@@ -20,15 +20,15 @@ Table-level settings override catalog defaults for a specific table. This is use
 <Img src="/img/user-guide/table-maintenance/table-maintenance-tab-unconfigured.png" alt="Table Maintenance tab showing the Maintenance is currently Disabled banner with a Configure button and an empty run history list"/>
 
 4. Click **Configure** in the banner to open the **Configure Maintenance** drawer.
-5. Use the **Enable maintenance** toggle at the top of the drawer to enable or disable maintenance for this table.
+5. Use the **Enable maintenance** toggle at the top of the drawer to enable or disable maintenance for this table. If catalog maintenance is off, the drawer shows a warning and the toggle stays off.
 6. For each of the four operations, pick one of three states from the dropdown:
    - **Inherit**: uses the catalog-level setting. The card shows the inherited state, for example _"Enabled (Inherited from Catalog)"_.
    - **Enabled**: explicitly enables this operation for this table, regardless of the catalog setting.
    - **Disabled**: explicitly disables this operation for this table.
 7. To configure operation-specific thresholds, expand **Advanced Settings** on any operation card and add the properties you want to override. See [Advanced Configuration](./advanced-configuration) for all available options.
-8. Click **Save Changes** to save. Click **Reset** to discard unsaved changes.
+8. Click **Save Changes** to save. **Reset** appears once you have unsaved changes; click it to discard them.
 
-<Img src="/img/user-guide/table-maintenance/table-configure-drawer.png" alt="Configure Maintenance drawer with the Enable maintenance toggle and four operation cards each set to Inherit"/>
+<Img src="/img/user-guide/table-maintenance/table-configure-drawer.png" alt="Configure Maintenance drawer with the Enable maintenance toggle and four operation cards each set to Inherit and showing Enabled (Inherited from Catalog)"/>
 
 :::info Table Maintenance Defaults
 - Tables are disabled for maintenance by default. You must explicitly enable each one (beta safeguard).

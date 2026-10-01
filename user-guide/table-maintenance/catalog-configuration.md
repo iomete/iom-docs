@@ -19,11 +19,11 @@ Catalog-level maintenance sets the default behavior for all tables in a catalog.
 2. Open a qualifying catalog (see [Prerequisites](./overview#prerequisites)).
 3. Click the **Maintenance** tab.
 
-<Img src="/img/user-guide/table-maintenance/catalog-maintenance-tab-unconfigured.png" alt="Catalog Maintenance tab in its unconfigured state with the Enable maintenance toggle off, empty Compute and Service Account dropdowns, and operation cards inherited from the platform default"/>
+<Img src="/img/user-guide/table-maintenance/catalog-maintenance-tab-unconfigured.png" alt="Catalog Maintenance tab, marked BETA, in its unconfigured state with the Enable maintenance toggle off, empty Compute and Service Account dropdowns, and the four operation cards"/>
 
 :::info Owner domain required
 Maintenance controls are disabled until an owner domain is assigned. The tab shows a banner with an **Assign owner** shortcut.
-<Img src="/img/user-guide/table-maintenance/missing-owner-error-maintenance-tab.png" alt="Catalog Maintenance tab showing the owner domain missing banner with the Assign owner link"/>
+<Img src="/img/user-guide/table-maintenance/missing-owner-error-maintenance-tab.png" alt="Catalog Maintenance tab showing the banner asking to assign a catalog owner, with an Assign owner button"/>
 See [Catalog Owner Domain](#catalog-owner-domain) to assign one.
 :::
 
@@ -67,7 +67,7 @@ For each of the four operations, choose **Enabled** or **Disabled** from the dro
 
 To configure operation-specific thresholds, expand **Advanced Settings** on any enabled operation card and add the properties you want to override. See [Advanced Configuration](./advanced-configuration) for all available options.
 
-<Img src="/img/user-guide/table-maintenance/configure-catalog-config.png" alt="Catalog Maintenance tab showing four operation cards — Rewrite data files, Rewrite manifest files, Expire snapshots, and Cleanup orphan files — each with its own enable dropdown and Advanced Settings panel"/>
+<Img src="/img/user-guide/table-maintenance/configure-catalog-config.png" alt="Catalog Maintenance tab showing four operation cards — Rewrite data files, Rewrite manifest files, Expire snapshots, and Cleanup orphan files — each with its own enable dropdown, Advanced Settings on the enabled ones, and Reset and Save Changes buttons"/>
 
 Click **Save Changes** to commit all settings on the page (Enable maintenance, resources, and operations). Click **Reset** to discard unsaved changes.
 

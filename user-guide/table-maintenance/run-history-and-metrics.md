@@ -14,7 +14,7 @@ You can view maintenance runs at two levels:
 - **Table-level history** lives on the table's **Maintenance** tab and shows runs for that table only.
 - **Catalog-level history** lives under **Monitoring > Table Maintenance** in the side panel and shows runs across every catalog the domain owns, with filters to narrow the results.
 
-Both views open the same per-run detail page when you click a row.
+Both views open the same per-run detail page when you click a run's ID.
 
 
 ## Viewing Table-Level History
@@ -37,20 +37,21 @@ The table's **Maintenance** tab lists every maintenance run for that table. It's
 <Img src="/img/user-guide/table-maintenance/table-history-reason-entry.png" alt="Maintenance history row with the Reason tooltip expanded showing the threshold conditions that triggered the run"/>
 6. For a failed run, hover over the **Failed** badge to see the error message inline.
 <Img src="/img/user-guide/table-maintenance/table-history-failed-entry.png" alt="Maintenance history with the error message tooltip visible on hover over the Failed status badge"/>
-7. Click any row to open its [run detail page](#viewing-a-run-detail-page).
+7. Click a run's ID to open its [run detail page](#viewing-a-run-detail-page).
 
 
 ## Viewing Catalog-Level History
 
 The catalog-level history shows runs across every catalog domain owns and adds Catalog, Database, and Table filters so you can scope the runs however you need.
 
-<Img src="/img/user-guide/table-maintenance/catalog-history-list.png" alt="Catalog-level Maintenance page under Monitoring with Operation Type, Status, Triggered By, time range, Catalog, Database, and Table filters listing runs across multiple tables"/>
+<Img src="/img/user-guide/table-maintenance/catalog-history-list.png" alt="Table Maintenance page under Monitoring with Triggered by, time range, Catalog, Database, Table, and More filters, listing runs across multiple tables"/>
 
 1. From the side panel, go to **Monitoring > Table Maintenance**.
 2. Use the filters at the top of the page:
-    - **Operation Type**, **Status**, **Triggered By**, **Time range** — same as on the table-level view.
-    - **Catalog**, **Database**, **Table** — narrow to a specific scope.
-3. The **Table** column shows the full `catalog.database.table` path for each run. Click it to open the [run detail page](#viewing-a-run-detail-page).
+    - **Triggered by** and **Time range** — same as on the table-level view.
+    - **Catalog**, **Database**, **Table** — narrow to a specific scope. Pick a catalog first to enable the Database filter, and a database to enable the Table filter.
+    - **More filters** — **Operation type** and **Status**.
+3. The **Table** column shows each run's ID, with its `catalog.database.table` path below. Click the ID to open the [run detail page](#viewing-a-run-detail-page).
 
 
 ## Viewing a Run Detail Page
