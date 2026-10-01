@@ -4,8 +4,8 @@ sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 hide_table_of_contents: true
 last_update:
-  date: 09/30/2026
-  author: Mammad Mammadli
+  date: 10/01/2026
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
@@ -254,60 +254,73 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 </Release>
 
-<Release version="3.19.1" date="TBD">
+<Release version="3.19.1" date="October 1, 2026">
   <NewFeatures>
-    - **Chart-Managed Install Prerequisites**: The data plane chart can now create the Kubernetes objects that previously had to be applied by hand before `helm install`. Each one is gated by its own switch, all of which default to `false`. The chart creates an object only when it is absent or already owned by the release, so objects created with `kubectl` or Terraform on an existing install are left exactly as they are.
-      - **Spark Webhook Certificate**: The chart mints the Spark Operator admission webhook certificate and owns the `MutatingWebhookConfiguration`, replacing the `gencerts.sh` script. The certificate is reused on every upgrade instead of being rotated.
-      - **Lakehouse Service Account**: The chart creates `lakehouse-service-account`, the `iomete-lakehouse-role` Role, and its role binding in the release namespace and in every namespace listed under `namespaces`. A new `serviceAccount.annotations` value carries cloud workload identity annotations.
-      - **Spark Operator CRDs**: The chart installs the Spark Operator custom resource definitions, replacing the manual `kubectl apply -f iomete-crds.yaml` step. They are marked `helm.sh/resource-policy: keep`, so uninstalling the chart cannot cascade-delete your `SparkApplication` resources.
-
-      ```yaml
-      # Helm values
-      webhook:
-        create: false      # default
-      serviceAccount:
-        create: false      # default
-        annotations: {}    # cloud workload identity
-      crds:
-        create: false      # default
-      ```
-
-      If your Helm identity cannot create cluster-scoped objects or RBAC, render these objects with `helm template --show-only`, have a cluster administrator apply them, and install with the switches left at `false`.
+    - **Helm Chart Creates Cluster-Level Resources**: The data plane chart can now create the Spark Operator CRDs, the `lakehouse-service-account` with its Role and RoleBinding, and the Spark Operator webhook with its certificate, so you don't have to run `gencerts.sh` or `kubectl apply` them yourself before installing. See [Create Cluster-Level Resources](../install.md#create-cluster-level-resources).
+      - Turn these on with `serviceAccount.create`, `crds.create` and `webhook.create`. All three are `false` by default.
+      - If your Helm user lacks the permissions, a cluster administrator can create the resources from the chart instead.
+      - Existing installations are not affected. The chart never takes over resources it did not create.
+      - Helm creates the CRDs only on the first installation and never updates them. When a later release changes them, apply them yourself, as described in [Upgrading the CRDs](../install.md#upgrading-the-crds).
+      - A new `serviceAccount.annotations` value adds cloud workload identity annotations to the service account.
   </NewFeatures>
 
   <Improvements>
-    - **JVM Service Startup and Resources**: On busy nodes, some JVM services were killed before they finished starting.
-      - `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog`, and `iom-rest-catalog` had no startup probe, so the default liveness probe killed a container that was still booting after about 30 seconds. Every JVM service now gets 120 seconds to start listening before liveness checks apply. The hardcoded probes on `iom-identity`, `iom-health-check`, and `iom-spark-connect-rest-client` are replaced by the same shared timings, which are now configurable under `services.probes`.
-      - CPU requests rose from `100m` to `300m` for `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog`, and `iom-rest-catalog`, and from `10m` to `50m` for Typesense. `iom-identity` now requests `2000m` CPU and `2000Mi` memory. Check that your nodes have room for the higher requests before upgrading.
-
-      ```yaml
-      # Helm values
-      services:
-        identity:
-          resources:
-            requests:
-              cpu: 2000m
-              memory: 2000Mi
-            limits:
-              cpu: 4000m
-              memory: 8000Mi
-      ```
-
-    - **Lakehouse Role Permissions**: The `iomete-lakehouse-role` Role no longer grants access to Kubernetes Roles and RoleBindings, which no IOMETE service creates. Whatever installs the chart, including the IOMETE operator, no longer needs the `escalate` and `bind` verbs in order to create it.
+    - **Service Startup Timeouts**: On busy nodes, some IOMETE services were restarted before they finished starting.
+      - `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog` and `iom-rest-catalog` now get up to 120 seconds to start, instead of about 30.
+      - `iom-identity`, `iom-health-check` and `iom-spark-connect-rest-client` had their own limit of about 350 seconds. They now use the same 120 seconds, so all these services follow one set of timings. If they restart during startup on slow nodes, raise `services.probes.startup.failureThreshold`.
+      - A running service is now restarted only after about 60 seconds of failed health checks, instead of 30.
+      - You can change these timings under `services.probes`.
+    - **Higher Resource Requests**: Some IOMETE services now request more CPU and memory, so they start faster and stay available on busy nodes.
+      - `iom-identity` now requests `2000m` CPU and `4000Mi` memory, up from `100m` and `500Mi`.
+      - `iom-core`, `iom-sql`, `iom-cluster`, `iom-catalog` and `iom-rest-catalog` now request `300m` CPU, up from `100m`.
+      - These are new chart defaults. If you already set your own requests for these services in your values file, your values still apply.
+      - Check that your nodes have room before you upgrade. See the [install requirements](../install.md#essential-requirements-before-you-start).
+    - **Lakehouse Role Permissions**: The `iomete-lakehouse-role` Role no longer lets IOMETE manage Kubernetes Roles and RoleBindings. No IOMETE service used this.
+      - Whoever installs the chart, including the IOMETE operator, no longer needs the `escalate` and `bind` permissions.
+      - This applies when the chart creates the Role (`serviceAccount.create: true`). If you created the Role yourself, the chart does not change it, and you can remove the `roles` and `rolebindings` rule from it.
+    - **S3-Compatible Storage Setting**: A new `storage.type: s3_compatible` works with any S3-compatible storage, such as MinIO, Dell ECS or IBM Cloud Object Storage.
+      - Set the endpoint and credentials under `storage.s3CompatibleSettings`.
+      - `minio` and `dell_ecs` still work and behave the same as `s3_compatible`, so existing installations need no change.
   </Improvements>
 
   <BugFixes>
-    - **Numeric Helm Values in Scientific Notation**: Large numbers set in `values.yaml` or a values file reached service configuration in scientific notation, so the default `maxEventLogSizeBytes` of `524288000` arrived as `5.24288e+08` and left the Spark History Server in `CrashLoopBackOff` with a `NumberFormatException`. Introduced in `v3.19.0`, it also affected the job orchestrator's `jobRunCleanup.retentionPeriod` and `services.sparkHistory.settings.cleaner.maxNum`; values passed with `--set` were unaffected. An unparseable value now fails the Helm render and names the offending path, instead of silently becoming `0`.
-    - **Job Orchestrator Database Password**: With `database.passwordSecret` set, the job orchestrator could not log in to its database, because the chart still built its connection URL from the plaintext `database.password`, which defaults to `iomete_pass`. The password now reaches the job orchestrator through `PGPASSWORD`, so `database.passwordSecret` on its own covers every service and the `connectionUrlSecret` workaround, which stored the password a second time, is no longer needed. Installs using a plaintext `database.password` or `connectionUrlSecret` keep working unchanged.
-    - **Data Plane Drift Reconciliation**: When a data plane object was edited or deleted by hand, the IOMETE operator often did not notice and the change stood until the next scheduled reconcile. Every namespaced object in the chart now sets its namespace explicitly, and the operator restores those objects within seconds. Objects in additional Spark namespaces and Secrets marked `helm.sh/resource-policy: keep` still wait for the scheduled reconcile, and `iom-gateway` restarts once during the upgrade.
-    - **Private Registry Image Pull Secrets**: `docker.imagePullSecrets` was a documented value that no chart template read, so pulls from a private registry still failed with `ImagePullBackOff` and the service account had to be edited by hand. Where the chart creates the lakehouse service account, the secrets are now attached to it, covering both the platform services and Spark pods. The chart does not copy the secret between namespaces, so it must exist in the release namespace and in every namespace listed under `namespaces`.
+    - **Spark History Server Failed to Start**: In 3.19.0, the Spark History Server stayed in `CrashLoopBackOff` with the default settings.
+      - Helm wrote large numbers from values files in scientific notation. The default `maxEventLogSizeBytes` of `524288000` reached Spark as `5.24288e+08`, which Spark cannot read.
+      - Any value of 1,000,000 or more written without quotes in your own values file had the same problem.
+      - Large numbers now reach the services as plain digits. The same fix applies to `jobRunCleanup.retentionPeriod` and `cleaner.maxNum`.
+      - If one of these settings is not a positive whole number, `helm install` and `helm upgrade` stop with an error that names the setting.
+    - **Job Orchestrator Database Password**: With `database.passwordSecret` set, the job orchestrator could not connect to its database. It still used the plain `database.password` value, which defaults to `iomete_pass`.
+      - The job orchestrator now reads the password from `database.passwordSecret`, like the other services.
+      - You no longer need the `services.jobOrchestrator.database.connectionUrlSecret` workaround, which stored the password a second time.
+      - Installations that use `database.password` or `connectionUrlSecret` keep working as before.
+    - **Private Registry Image Pull Secrets**: Setting `docker.imagePullSecrets` had no effect, so pulling images from a private registry failed with `ImagePullBackOff` unless you edited the service account manually.
+      - With `serviceAccount.create: true`, the chart now adds these secrets to `lakehouse-service-account`, which both IOMETE services and Spark pods use.
+      - The chart does not copy the secret. Create it in the release namespace and in every namespace listed under `namespaces`.
+      - If you created the service account yourself, the chart does not change it. Keep adding the secrets manually, as described in [Private Docker Registry Authentication](/user-guide/k8s/private-docker-registry).
+    - **Spark Connect Failed With Helm 4**: Installing or upgrading with Helm 4 failed on the `iom-spark-connect` SparkApplication with `spec.volumes in body must be of type array: "null"`.
+      - Helm 4 applies resources server-side by default, and the chart wrote empty lists as `null` when the Java trust store was off, which is the default.
+      - The chart now leaves these fields out when they are empty. Helm 3 was not affected.
     - **Spark Applications**
-      - **Scheduled Job Updates**: Updating a scheduled job on the legacy deployment flow within the same namespace deleted its Kubernetes resource before redeploying it. If the redeploy then failed, the database transaction rolled back while the resource stayed deleted, leaving the job configured as scheduled but no longer running. The resource is now updated in place, and deletion still happens only where it is required, such as a namespace change or a switch to the manual, streaming, or priority flow.
-      - **Blank Job Schedules**: A scheduled Spark job could be saved with a blank or whitespace-only schedule. Such a schedule is now rejected.
-    - **Spark History Error Responses**: A 5xx response from the Spark History server passed backend exception detail through to the browser. Those responses now return a generic temporary-unavailable message. Successful responses and application-not-found responses are unchanged.
+      - **Scheduled Job Updates**: Editing a scheduled Spark job could stop it from running. If the update failed, the job still showed as scheduled, but it no longer ran.
+        - This affected jobs on the **Legacy** deployment flow. IOMETE deleted the job's schedule in Kubernetes before redeploying it, and a failed redeploy left it deleted.
+        - Edits that keep the job in the same namespace now update the schedule in place. If the update fails, the job keeps running on its previous schedule.
+        - Other edits are not covered yet. If an update fails while you move the job to another namespace, change it to a manual or streaming job, or switch it to **Priority-Based**, check that the job is still running on schedule and save it again if it isn't.
+      - **Blank Job Schedules**: A scheduled Spark job could be saved with an empty schedule, or one made only of spaces.
+        - Saving now fails for these, and also for a schedule with spaces at the start or end, such as `" 0 * * * *"`.
+        - If you create jobs through the API, trim the schedule before you send it.
+    - **Spark History Error Messages**: When the Spark History Server returned a server error, the browser showed internal error details from the backend.
+      - It now shows "Spark history is temporarily unavailable. Please try again shortly." instead.
+      - Other responses are unchanged.
+    - **Domain Members List Stuck on the First Page**: On **Admin Portal → Domains → _domain_ → Members**, moving to another page did nothing. The pager advanced, but the list kept showing the same first members.
+      - The console sent the page number twice in the same request, and the server used the first one, which was always the first page. Changing the page size had the same problem.
+      - Paging, the page size selector and the **Users**/**Groups** filter now work together.
   </BugFixes>
 
-      **Spark version:** [3.5.7-v6](./spark.md)
+  <Deprecations>
+    - **MinIO and Dell ECS Storage Settings**: `storage.minioSettings` and `storage.dellEcsSettings` are deprecated. Use `storage.s3CompatibleSettings` instead. The old settings still work when `s3CompatibleSettings` is not set.
+  </Deprecations>
+
+      **Spark version:** [3.5.7-v7](./spark.md)
       **Iceberg version:** 1.9.0-iomete-5
 
 </Release>
