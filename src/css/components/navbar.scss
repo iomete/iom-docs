@@ -173,22 +173,24 @@ html[data-theme="dark"] {
   }
 }
 
-// [TODO: design to swap `#2f6bff` for IOMETE's brand colour.]
-.navbar-demo-cta {
-  background: #2f6bff;
-  color: #fff !important;
-  border-radius: 6px;
-  padding: 0.35rem 0.75rem !important;
-  font-weight: 600;
+// Book a demo uses .iomete-btn (fluoro, same control as the in-article CTA).
+// These rules only win the navbar link color and hide the external-link icon
+// Docusaurus adds for the absolute iomete.com URL.
+#__docusaurus .navbar a.navbar-demo-cta {
   margin-left: 0.5rem;
+  height: 2rem;
+  padding: 0 0.625rem !important;
+  border-radius: 0.25rem;
+  color: var(--base-950) !important;
+  background-color: var(--fluoro-400);
 
-  &:hover {
-    color: #fff !important;
+  &:hover,
+  &:active {
+    color: var(--base-950) !important;
+    background-color: var(--fluoro-500);
     text-decoration: none;
   }
 
-  // Same-site marketing URL is treated as external, so the theme adds an
-  // "opens in new tab" icon even with target=_self.
   svg[class^="iconExternalLink"] {
     display: none;
   }

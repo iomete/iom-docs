@@ -1,6 +1,7 @@
 import React from "react";
 import { DEMO_PATH, FREE_PLAN_PATH } from "./paths";
-import "./style.scss";
+// Styles live in ./style.scss and are pulled in from src/css/custom.scss so
+// the navbar can share .iomete-btn on pages that do not render this component.
 
 const COPY = {
   A: {
@@ -43,7 +44,7 @@ export default function DemoCta({
         <strong>Data that can't leave your perimeter?</strong> IOMETE runs the
         whole lakehouse inside it, even air-gapped.{" "}
         <a
-          className="iomete-cta__btn iomete-cta__btn--sm"
+          className="iomete-btn iomete-cta__btn iomete-cta__btn--sm"
           data-cta-type="demo"
           href={DEMO_PATH + q}
         >
@@ -63,7 +64,11 @@ export default function DemoCta({
       <p className="iomete-cta__title">{c.title}</p>
       <p className="iomete-cta__body">{c.body}</p>
       <p className="iomete-cta__actions">
-        <a className="iomete-cta__btn" data-cta-type="demo" href={DEMO_PATH + q}>
+        <a
+          className="iomete-btn iomete-cta__btn"
+          data-cta-type="demo"
+          href={DEMO_PATH + q}
+        >
           {primaryLabel}
         </a>
         <a

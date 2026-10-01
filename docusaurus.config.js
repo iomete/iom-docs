@@ -217,7 +217,7 @@ const config = {
             href: `${DEMO_PATH}?ref=docs-nav&cta=nav`,
             label: "Book a demo",
             position: "right",
-            className: "navbar-demo-cta",
+            className: "navbar-demo-cta iomete-btn",
             target: "_self",
           },
         ],
