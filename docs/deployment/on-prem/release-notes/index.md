@@ -209,7 +209,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Event Stream Storage**: Fixed Event Stream pods failing to start without pre-provisioned storage by always mounting `/event_stream` with an `emptyDir` fallback.
     - **Spark Job Notifications**: Fixed Spark job notification failures triggered by status updates, where job status change notifications were failing silently.
     - **Custom Tags on Suspend**: Fixed custom resource tags being lost when suspending a Spark job.
-    - **Active Maintenance Jobs in History**: Fixed running maintenance jobs not appearing in the job history list.
     - **Enterprise Catalog Spark Properties**: Fixed enterprise catalogs missing essential S3 and Iceberg Spark properties, which could cause query failures on catalogs created via the enterprise catalog feature.
     - **Distributed Locking for Onboarding**: Added distributed locking to domain onboarding and Typesense collection creation, fixing a race condition where simultaneous onboarding in multi-replica identity deployments could corrupt state.
     - **Identity Service Stability Under Load**: Fixed `iom-identity` running out of memory and restarting under load. Audit events now go through a bounded queue instead of one unbounded thread per event when the audit sink is slow, and Ranger policy downloads serve cached pre-serialized responses instead of re-serializing on every request.
