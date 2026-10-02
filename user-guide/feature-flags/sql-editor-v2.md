@@ -9,7 +9,7 @@ last_update:
 
 Switches the [SQL Editor](../sql-editor/overview.md), Query Monitoring and the SQL that [Table Maintenance](../table-maintenance/overview.md) runs to the V2 engine. V2 brings more reliable query execution, automatic recovery of interrupted queries, better handling of large results, real-time status updates, and faster monitoring and search.
 
-A single flag controls all three — the SQL Editor, Query Monitoring and Table Maintenance switch together. When the flag is disabled, all three run on the V1 engine.
+A single flag controls all three: the SQL Editor, Query Monitoring and the SQL that Table Maintenance runs. When the flag is disabled, all three run on the V1 engine.
 
 |              |                                      |
 | ------------ | ------------------------------------ |
@@ -49,7 +49,7 @@ Queries are recorded by the engine that ran them: queries submitted on V2 are vi
 
 ### Table Maintenance
 
-The SQL that table maintenance runs on your tables is submitted through the selected engine.
+**Rewrite Data Files** and **Rewrite Manifest Files** run as Spark SQL, so they use the selected engine. **Expire Snapshots** and **Cleanup Orphan Files** run directly on the `iom-maintenance` service and aren't affected by this flag. See [Execution Model](../table-maintenance/advanced-configuration.md#execution-model).
 
 ## Rollout Considerations
 

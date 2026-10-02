@@ -34,9 +34,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Namespace pickers group namespaces under their data plane, so the same namespace name on two data planes is no longer ambiguous.
         - Namespace filters pick the data plane and namespace in one control, with an **All namespaces** row for each data plane.
       - **Health Check by Data Plane**: The platform health page groups services into **Control plane services** and **Data plane services**, with one collapsible group per data plane. Live updates are matched per service and data plane, so one plane's data no longer affects identically named services on another.
-      - **Plane-to-Plane Trust**: Calls between a control plane and its data planes are verified with a shared trust secret and routed through each side's gateway.
-        - The control plane generates the secret on install and keeps it across upgrades.
-        - A data plane install that isn't given the same secret stops with a message naming the value to set.
+      - **Plane-to-Plane Trust**: Calls between a control plane and its data planes are verified with a shared trust secret and routed through each side's gateway. The control plane generates the secret on install and keeps it across upgrades.
       - **Active-Active Control Planes**: For high availability, you can now run two control planes side by side behind a load balancer, sharing the same HA database.
 
       To install a control plane without its own data plane, see **Control Plane Without a Bundled Data Plane** under **Installation and Helm** below.
@@ -97,9 +95,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Cloud-hosted clients need the public address (`services.mcpServer.urls.public`) to be reachable from the internet.
         - Browser-based MCP clients aren't supported.
         - If a private certificate authority issues the certificate for the public address, provide its CA bundle in `services.mcpServer.iometeTls`. Without it, the MCP server might fail to connect to IOMETE.
-    - **Recently Viewed**: Added a **Recently Viewed** tab to the Domain Dashboard, so users can quickly return to resources they opened recently.
-      - Covers **Compute Clusters**, **Jupyter Containers**, **Spark Job Templates and Runs**, **Streaming Jobs**, **Resource Bundles**, **Event Streams** and **Data Catalog**.
-      - A resource is added after a short delay, which keeps the list relevant.
+    - **Recently Viewed**: Added a **Recently Viewed** tab to the Domain Dashboard, so users can quickly return to resources they opened recently. It covers **Compute Clusters**, **Jupyter Containers**, **Spark Job Templates and Runs**, **Streaming Jobs**, **Resource Bundles**, **Event Streams** and **Data Catalog**.
 
       <Img src="/img/getting-started/release-notes/4.0.0/recently-viewed.png" alt="Recently Viewed tab in Domain Dashboard" centered style={{ marginTop: "16px" }} />
 
@@ -110,8 +106,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - ⚠️ **Chart Changes for 4.0**: Several feature flags are no longer configurable.
         - Always on: `jobOrchestrator`, `onboardComputeRas`, `onboardSparkJobRas`, `onboardWorkspaceRas` and `onboardNamespaceMappingRas`.
         - Removed: `emailNotifications` and `enableAutomatedMaintenance`. Email notifications and automated Iceberg table maintenance are always available.
-      - **Credential Changes Apply on Upgrade**: When you change database or object storage credentials, or the `namespaces` list, in your Helm values, `helm upgrade` now restarts the affected services. The new values take effect without a manual pod restart.
-        - Credentials read from your own existing Secrets aren't covered. Restart the services yourself after rotating them.
+      - **Credential Changes Apply on Upgrade**: When you change database or object storage credentials, or the `namespaces` list, in your Helm values, `helm upgrade` now restarts the affected services. The new values take effect without a manual pod restart. Credentials read from your own existing Secrets aren't covered. Restart the services yourself after rotating them.
       - **Spark Connect Service Port**: Arrow Flight SQL and Spark Connect traffic now has a dedicated service port on `iom-gateway`, fixing connectivity issues for customers using Spark Connect or SQL Editor V2 through the gateway.
       - **Control Plane Without a Bundled Data Plane**: A control plane can be installed on its own and have its data planes added afterwards. By default, the install still brings up its own data plane and registers it as `default`.
 
@@ -162,7 +157,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
           directHost: ""   # default: empty, falls back to host
         ```
     - **Console**
-      - **Redesigned Console**: The console is rebuilt on IOMETE's own component library, replacing Ant Design on every page. Navigation, page headers, breadcrumbs, forms, dialogs, filters and tables share one look in both the light and dark themes.
+      - **Redesigned Console**: Every page of the console has a new design. Navigation, page headers, breadcrumbs, forms, dialogs, filters and tables share one look in both the light and dark themes.
         - Tables let you pin a column, drag columns into a new order, and show or hide them from **View settings**.
         - The console remembers each table's column order and visibility.
       - **Theme Switcher**: Added **Light**, **Dark**, and **System Preferences** options under **Theme** in the user menu. Changes apply immediately and are saved in the browser. **System Preferences** follows the operating system's appearance automatically. See [Changing the Console Theme](/resources/user-guide/theme-switcher).
@@ -214,8 +209,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       See [Git Repository Worksheets](/user-guide/sql-editor/collaboration#git-repository-worksheets).
     - **Security**
       - **Gateway Rate Limiting**: Added per-client rate limiting on the gateway. Personal access token callers are rate-limited by token instead of by IP address.
-      - **Backend Dependencies**: Upgraded Quarkus to `3.38.3` and Kotlin to `2.4.10` across the backend services, and centralized the pins for Netty, Jackson, BouncyCastle, the PostgreSQL driver and the Hadoop transitive dependencies, resolving critical and high-severity CVEs across all services with no change in behavior.
-      - **Image CVE Patches**: Patched critical and high-severity CVEs in the Jupyter notebook image, including its bundled PySpark jars, and in the Typesense, Hive Metastore and job orchestrator images. No migration is required.
+      - **CVE Fixes**: Resolved critical and high-severity CVEs in the backend services and in the Jupyter notebook, Typesense, Hive Metastore and job orchestrator images. No change in behavior and no migration required.
     - **Storage**
       - **Generic S3-Compatible Storage**: A single `s3_compatible` storage block replaces the MinIO-specific and Dell ECS-specific ones, so any S3-compatible endpoint can be configured without choosing a vendor. The old keys still work.
 
@@ -293,8 +287,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Worksheet Repository Tree**: The SQL Editor repository tree refreshes after you create, check out a branch of, or delete a repository.
     - **Iceberg and Catalogs**
       - **Complex Column Types**: The table schema endpoint serializes struct, list and map columns through the Iceberg schema parser, instead of a form clients could not read.
-      - **Catalog Storage Settings**: Per-catalog storage settings are sent as configuration defaults instead of overrides, so a client's own setting is no longer replaced.
-        - A catalog without its own credentials falls back to the installation's storage credentials, instead of sending none.
+      - **Catalog Storage Settings**: Per-catalog storage settings are sent as configuration defaults instead of overrides, so a client's own setting is no longer replaced. A catalog without its own credentials falls back to the installation's storage credentials, instead of sending none.
       - **Unknown Identifiers**: Data catalog lookups for a catalog, namespace, table, column or bookmark that does not exist return `404` instead of `500`.
       - **Enterprise Catalog Spark Properties**: Fixed enterprise catalogs missing essential S3 and Iceberg Spark properties, which could cause query failures on catalogs created via the enterprise catalog feature.
       - **Enterprise Catalog Option**: The Enterprise catalog type is hidden when the feature is disabled, instead of failing on create with a "Bad input" error.
@@ -318,8 +311,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
   <Deprecations>
-    - ⚠️ **Legacy Pre-Resource-Bundle Screens**: Removed from the console: the older Compute, Jupyter Containers and Namespaces screens, the legacy worksheet tree sidebar, and the deprecated Docker Images API.
-      - Still available behind their existing flags: Secrets V1, and the Domain roles and members screens for installations without domain-level bundle authorization.
+    - ⚠️ **Legacy Pre-Resource-Bundle Screens**: Removed from the console: the older Compute, Jupyter Containers and Namespaces screens, the legacy worksheet tree sidebar, and the deprecated Docker Images API. Still available behind their existing flags: Secrets V1, and the Domain roles and members screens for installations without domain-level bundle authorization.
     - **Admin Namespaces Page**: The **Namespaces** item in the admin sidebar now opens **Data Planes**, where namespaces are listed per data plane.
     - ⚠️ **Jupyter Kernels**: The deprecated Jupyter Kernels functionality has been removed. Jupyter Containers is now the primary service for working with Jupyter notebooks.  
     - **Pod Templates**: Pod templates are no longer created by the data plane chart. They remain in the previous chart for backward compatibility, so existing legacy scheduled jobs keep running.
