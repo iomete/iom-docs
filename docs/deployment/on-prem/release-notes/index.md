@@ -76,6 +76,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       <Img src="/img/user-guide/feature-flags/feature-flags-list.png" alt="Feature Flags page listing the Secrets V2, LDAP group inheritance and SQL Editor V2 flags with their status and description" maxWidth="900px" />
     - **Managed MCP Server**: IOMETE ships a Model Context Protocol (MCP) server as a data plane component. AI agents in MCP clients such as Claude Code, Codex and Devin use its 17 tools to find and describe tables, run SQL, inspect query plans, preview rows and profile columns. A ready-made `discover-then-query` prompt guides them through the workflow.
+
+      <Img src="/img/getting-started/release-notes/4.0.0/mcp-tools.png" alt="An MCP client listing the 17 IOMETE MCP tools, from whoami and list_tables to run_query and execute_column_profile" maxWidth="700px" />
+
       - **Enabling the Server**: The server is disabled by default. To enable it:
         - Set `features.mcpServer.enabled: true`.
         - Set `services.mcpServer.urls.public` to the address users reach IOMETE at.
