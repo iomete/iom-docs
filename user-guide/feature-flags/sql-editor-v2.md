@@ -3,13 +3,13 @@ title: SQL Editor V2 Feature Flag
 description: What the sqlEditorV2 feature flag controls, its prerequisites and impact area, and what to check before enabling or disabling it.
 sidebar_label: SQL Editor V2
 last_update:
-  date: 08/25/2026
-  author: Shahriyar Novruzov
+  date: 10/02/2026
+  author: Shashank Chaudhary
 ---
 
-Switches the [SQL Editor](../sql-editor/overview.md) and Query Monitoring to the V2 engine. V2 brings more reliable query execution, automatic recovery of interrupted queries, better handling of large results, real-time status updates, and faster monitoring and search.
+Switches the [SQL Editor](../sql-editor/overview.md), Query Monitoring and the SQL that [Table Maintenance](../table-maintenance/overview.md) runs to the V2 engine. V2 brings more reliable query execution, automatic recovery of interrupted queries, better handling of large results, real-time status updates, and faster monitoring and search.
 
-A single flag controls both surfaces — the SQL Editor and Query Monitoring switch together. When the flag is disabled, both run on the V1 engine.
+A single flag controls all three: the SQL Editor, Query Monitoring and the SQL that Table Maintenance runs. When the flag is disabled, all three run on the V1 engine.
 
 |              |                                      |
 | ------------ | ------------------------------------ |
@@ -35,7 +35,7 @@ None. Toggling the flag takes effect automatically — users get the new engine 
 
 ## Impact Area
 
-Both surfaces switch between engines together:
+All three switch between engines together:
 
 ### SQL Editor
 
@@ -46,6 +46,10 @@ Query submission, execution, results, cancellation, and query history all run th
 The Query Monitoring (Activity Monitoring) pages and APIs read from the selected engine's history. V2 monitoring is faster and search is more responsive.
 
 Queries are recorded by the engine that ran them: queries submitted on V2 are visible in V2 monitoring, and queries submitted on V1 are visible in V1 monitoring.
+
+### Table Maintenance
+
+**Rewrite Data Files** and **Rewrite Manifest Files** run as Spark SQL, so they use the selected engine. **Expire Snapshots** and **Cleanup Orphan Files** run directly on the `iom-maintenance` service and aren't affected by this flag. See [Execution Model](../table-maintenance/advanced-configuration.md#execution-model).
 
 ## Rollout Considerations
 
@@ -68,6 +72,7 @@ Keep in mind:
 
 - [SQL Editor](../sql-editor/overview.md)
 - [Query Monitoring](../monitoring/query-monitoring.md)
+- [Table Maintenance](../table-maintenance/overview.md)
 
 ---
 
