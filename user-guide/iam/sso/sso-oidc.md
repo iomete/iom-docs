@@ -34,7 +34,7 @@ In your IdP's admin console, create a new web application (sometimes called a cl
 3. Allow the `openid`, `profile`, and `email` scopes.
 4. Assign the users or groups who should be able to sign in to IOMETE.
 5. Copy these values from the app:
-   - **Issuer URL**: the base URL of your IdP, for example `https://your-company.okta.com`.
+   - **Issuer URL**: copy it exactly as your IdP shows it. Some include a path, for example `https://login.microsoftonline.com/<tenant-id>/v2.0` for Microsoft Entra ID or `https://keycloak.example.com/realms/<realm>` for Keycloak.
    - **Client ID**
    - **Client secret**
 
@@ -47,7 +47,7 @@ Back on the OIDC page, fill in the form:
 | Field | Description |
 |---|---|
 | **IOMETE redirect URL** | Read-only. The URL you added to your IdP app. |
-| **IDP URL** | The issuer URL of your IdP, without a trailing slash. IOMETE adds `/.well-known/openid-configuration` to it to find your IdP's settings. |
+| **IDP URL** | The issuer URL of your IdP, including any path but without a trailing slash. IOMETE adds `/.well-known/openid-configuration` to it to find your IdP's settings. |
 | **Client ID** | The client ID of the app you created. |
 | **Client secret** | The client secret of the app you created. |
 | **Scope** | The scopes IOMETE asks for. The default `openid profile email` works for most IdPs. |
