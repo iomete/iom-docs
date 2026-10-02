@@ -1,3 +1,4 @@
+import Heading from "@theme/Heading";
 import styles from "./styles.module.scss";
 
 const SECTION_TYPES = {
@@ -16,9 +17,10 @@ const Release = ({ name, version, date, children }) => {
     <article className={styles.releaseContainer}>
       <div className={styles.releaseHeader}>
         <div className={styles.releaseDate}>{date}</div>
-        <h2 id={idVersion} className={styles.releaseTitle}>
+        {/* Heading registers the anchor that the TOC from plugins/remark-release-toc.js links to */}
+        <Heading as="h2" id={idVersion} className={styles.releaseTitle}>
           {displayVersion}
-        </h2>
+        </Heading>
       </div>
       {children}
     </article>
