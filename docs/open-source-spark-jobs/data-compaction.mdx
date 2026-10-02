@@ -3,7 +3,7 @@ title: Data Compaction Job
 sidebar_label: Data Compaction
 description: Keep Iceberg tables fast by running snapshot expiration, orphan file cleanup, data file compaction, and manifest rewrites on a schedule.
 last_update:
-  date: 10/01/2026
+  date: 10/02/2026
   author: Maksym Kryvchun
 ---
 
@@ -13,12 +13,12 @@ import { Plus, Play } from "@phosphor-icons/react";
 
 ---
 
-Iceberg tables slow down over time as small files, old snapshots, and unused files pile up. The **Data Compaction Job** cleans them up on a schedule. For every Iceberg table it processes, it runs four maintenance operations in this order:
+Iceberg tables slow down over time as small files, old snapshots, and unused files pile up. The **Data Compaction Job** cleans them up on a schedule. For every Iceberg table it processes, it runs four maintenance operations:
 
-1. **Rewrite manifests**: reorganizes table metadata for faster planning. See [Rewrite Manifests](../reference/iceberg-tables/maintenance.mdx#rewrite-manifests).
-2. **Rewrite data files**: merges small files into larger ones. See [Compact Data Files](../reference/iceberg-tables/maintenance.mdx#compact-data-files).
-3. **Expire snapshots**: removes old snapshots. See [Expire Snapshots](../reference/iceberg-tables/maintenance.mdx#expire-snapshots).
-4. **Remove orphan files**: deletes files no snapshot refers to. See [Delete Orphan Files](../reference/iceberg-tables/maintenance.mdx#delete-orphan-files).
+- **Rewrite manifests**: reorganizes table metadata for faster planning. See [Rewrite Manifests](../reference/iceberg-tables/maintenance.mdx#rewrite-manifests).
+- **Rewrite data files**: merges small files into larger ones. See [Compact Data Files](../reference/iceberg-tables/maintenance.mdx#compact-data-files).
+- **Expire snapshots**: removes old snapshots. See [Expire Snapshots](../reference/iceberg-tables/maintenance.mdx#expire-snapshots).
+- **Remove orphan files**: deletes files no snapshot refers to. See [Delete Orphan Files](../reference/iceberg-tables/maintenance.mdx#delete-orphan-files).
 
 Tables in other formats, such as Hive or Parquet tables, are skipped.
 
@@ -45,7 +45,7 @@ Open **Job Templates** in the sidebar and click <FlexButton label='New job templ
 **1. Name, Schedule, and Application**
 
 - **Name:** any name you like, for example `data-compaction`
-- **Schedule:** `0 12 * * 0` (every Sunday at 12:00). Use any cron expression that fits your needs. Without a schedule, the job only runs when you start it.
+- **Schedule:** select **Cron** and enter `0 12 * * 0` (every Sunday at 12:00). Use any cron expression that fits your needs. Without a schedule, the job only runs when you start it.
 - **Application type:** `Python`
 - **Docker registry:** `default`
 - **Docker image:** `iomete/iomete_data_compaction:1.2.14` (replace with the [latest version](../deployment/on-prem/release-notes/marketplace-jobs.md))
@@ -76,9 +76,6 @@ Under **Configurations**, select the **Config Maps** tab and click **Add config*
             "min-input-files": 2,
             "target-file-size-bytes": 536870912
         }
-    },
-    rewrite_manifests: {
-        use_caching: true
     }
 }
 ```
@@ -104,7 +101,7 @@ By default the job processes every table in every database of the catalog.
 | `table_include` | `[]` | Tables to process. See the notes below. |
 | `table_exclude` | `[]` | Tables to skip. |
 
-Tables in `table_include` and `table_exclude` can be written as `database.table` to target one table, or as `table` to match that name in every database.
+Tables in `table_include` and `table_exclude` can be written as `database.table` to target one table, or as `table` to match that name in every database. Write table names in lowercase and without quotes, here and in `table_overrides`. A name that doesn't match a table is skipped without a warning.
 
 :::warning
 - `table_include` only limits the databases it mentions. Databases with no table in the list are still processed in full. To compact only a few tables, also set `databases` to just the databases those tables are in.
@@ -116,7 +113,7 @@ Tables in `table_include` and `table_exclude` can be written as `database.table`
 Each operation has its own block. Set `enabled: false` in a block to skip that operation.
 
 :::warning
-With the default settings, each run keeps only the latest snapshot of every table, so you cannot time travel to earlier versions. Set `expire_snapshot.older_than_days` or a higher `retain_last` if you need history. A snapshot is kept if it is one of the last `retain_last` snapshots, or if it is newer than `older_than_days`.
+With the default settings, each run keeps only the latest snapshot of every table. You cannot time travel to earlier versions, and long-running queries can fail. Set `expire_snapshot.older_than_days` or a higher `retain_last` if you need history. A snapshot is kept if it is one of the last `retain_last` snapshots, or if it is newer than `older_than_days`.
 :::
 
 | Field | Default | Description |
@@ -125,7 +122,7 @@ With the default settings, each run keeps only the latest snapshot of every tabl
 | `expire_snapshot.retain_last` | `1` | Always keep the N most recent snapshots. |
 | `expire_snapshot.older_than_days` | not set | Remove snapshots older than N days. When not set, any snapshot older than 5 minutes can be removed. |
 | `remove_orphan_files.enabled` | `true` | Run orphan file cleanup. |
-| `remove_orphan_files.older_than_days` | `1` | Only delete orphan files older than N days. |
+| `remove_orphan_files.older_than_days` | `1` | Only delete orphan files older than N days. Set this longer than your longest-running write, or files from a write still in progress can be deleted. |
 | `rewrite_data_files.enabled` | `true` | Run data file compaction. |
 | `rewrite_data_files.strategy` | `binpack` | `binpack` merges small files. `sort` also sorts rows, which is slower but can speed up queries. |
 | `rewrite_data_files.sort_order` | not set | Columns to sort by when `strategy` is `sort`, for example `"user_id ASC, event_time DESC"`. |
@@ -139,9 +136,13 @@ With the default settings, each run keeps only the latest snapshot of every tabl
 |---|---|---|
 | `parallelism` | `4` | Number of tables processed at the same time. |
 | `table_overrides` | not set | Per-table operation settings. See [Example 2](#example-2-different-settings-for-one-table). |
-| `gc_handling.enabled` | `false` | For tables with garbage collection turned off, turn it on for the run and off again afterwards. |
-| `lock.enabled` | `false` | Stop two job runs from compacting the same table at once. See [Table Locking](#table-locking). |
+| `gc_handling.enabled` | `false` | For tables with garbage collection turned off, turn it on for the run and off again afterwards. See the warning below. |
+| `lock.enabled` | `false` | Skip tables that another run is already compacting. See [Table Locking](#table-locking). |
 | `lock.ttl_seconds` | `172800` | How long a lock lasts before it expires (48 hours). |
+
+:::danger
+Leave `gc_handling` off unless you know why garbage collection was turned off on a table. Some tables, such as copies that share files with another table, have it off on purpose. Turning it on can delete files the other table still needs.
+:::
 
 ## Examples
 
@@ -159,7 +160,7 @@ Processes every table in `analytics` and `production` except `production.raw_ing
 
 ### Example 2: Different Settings for One Table
 
-Keeps 7 days of snapshots everywhere, but 30 days and sort compaction for `analytics.user_events`.
+Keeps 7 days of snapshots everywhere, but 30 days for `analytics.user_events`, and rewrites that table sorted by `user_id`. `rewrite-all` rewrites every file, not just small ones, so the whole table ends up sorted.
 
 ```hocon
 {
@@ -174,7 +175,10 @@ Keeps 7 days of snapshots everywhere, but 30 days and sort compaction for `analy
             },
             rewrite_data_files: {
                 strategy: "sort",
-                sort_order: "user_id ASC"
+                sort_order: "user_id ASC",
+                options: {
+                    "rewrite-all": true
+                }
             }
         }
     }
@@ -199,7 +203,7 @@ Expires snapshots and removes orphan files, but skips both rewrite operations.
 
 ## Table Locking
 
-When `lock.enabled` is `true`, the job marks each table with the `iomete.compaction.lock` table property while it works on it. Other runs skip a table that is already locked. The lock is removed when the table is done.
+When `lock.enabled` is `true`, the job marks each table with the `iomete.compaction.lock` table property while it works on it. Other runs that also have `lock.enabled` set skip a table that is already locked. Runs without it ignore the lock, so turn it on in every job that compacts the same tables. The lock is removed when the table is done.
 
 If a run crashes, its locks expire on their own after `lock.ttl_seconds`. To check or clear a lock by hand:
 
@@ -213,11 +217,11 @@ Set `ttl_seconds` longer than your slowest table takes to compact, or the lock c
 
 ## Checking Results
 
-If one table fails, the job records the error and continues with the next table, so a run can show as successful even when some tables failed. Check these tables after a run:
+A run can show as successful even when some tables failed, because the job continues with the next table. After a run, check these tables and the job's logs:
 
 | Table | Contents |
 |---|---|
-| `spark_catalog.iomete_system_db.table_optimisation_run_metrics` | One row per operation on each table, with its result. |
+| `spark_catalog.iomete_system_db.table_optimisation_run_metrics` | Results of each operation on each table. |
 | `spark_catalog.iomete_system_db.table_optimisation_run_errors` | Tables where an operation failed, with the error. |
 
 ## Running the Job
