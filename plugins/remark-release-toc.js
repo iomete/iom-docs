@@ -5,10 +5,10 @@
  * <Release> renders its version heading as JSX, and Docusaurus only collects
  * markdown headings into the TOC, so these pages would otherwise list no
  * releases. On a page with top-level <Release> elements, this plugin replaces
- * the `toc` export with the page's top-level markdown headings plus one entry
- * per release, in document order. A release that follows a `##` heading is
- * nested under it. Headings inside a <Release> are left out, so the TOC lists
- * versions rather than every heading in every release.
+ * the `toc` export with the page's top-level markdown headings, followed by
+ * the releases grouped by product (or by version line on single-product
+ * pages). Headings inside a <Release> are left out, so the TOC lists versions
+ * rather than every heading in every release.
  *
  * It must run after the default remark plugins (`remarkPlugins`, not
  * `beforeDefaultRemarkPlugins`): it reads the heading ids those plugins assign
@@ -62,21 +62,42 @@ function isTocExport(node) {
   );
 }
 
-function releaseTocItem(node, level) {
+function releaseInfo(node) {
   const version = getAttribute(node, "version");
   if (!version) return null;
   const name = getAttribute(node, "name");
   const date = getAttribute(node, "date");
-  const label = escapeHtml(name ? `${name} - v${version}` : `v${version}`);
   return {
-    value: date
-      ? `${label}<span class="release-toc-date">${escapeHtml(formatDate(date))}</span>`
-      : label,
+    name,
+    version,
     id: name
       ? `${name.toLowerCase().replace(/\s+/g, "-")}-v${version}`
       : `v${version}`,
-    level,
+    label: `v${escapeHtml(version)}`,
+    dateHtml: date
+      ? `<span class="release-toc-date">${escapeHtml(formatDate(date))}</span>`
+      : "",
   };
+}
+
+// "3.19.1" -> "v3.19", "3.5.7-v7" -> "v3.5". Falls back to the full version.
+function versionLine(version) {
+  const match = /^(\d+)\.(\d+)/.exec(version);
+  return match ? `v${match[1]}.${match[2]}` : `v${version}`;
+}
+
+// Groups releases for the TOC, keeping first-appearance order (pages list
+// releases newest first). A page with several products groups by product name;
+// a single-product page groups by version line.
+function groupReleases(releases) {
+  const multiProduct = new Set(releases.map((r) => r.name)).size > 1;
+  const groups = new Map();
+  for (const release of releases) {
+    const key = multiProduct ? release.name : versionLine(release.version);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(release);
+  }
+  return [...groups].map(([key, items]) => ({ label: escapeHtml(key), items }));
 }
 
 function plugin() {
@@ -85,7 +106,7 @@ function plugin() {
 
     const { toString } = await import("mdast-util-to-string");
     const tocItems = [];
-    let underHeading = false;
+    const releases = [];
     for (const node of root.children) {
       if (node.type === "heading" && node.depth >= 2 && node.depth <= 3 && node.data?.id) {
         tocItems.push({
@@ -93,10 +114,19 @@ function plugin() {
           id: node.data.id,
           level: node.depth,
         });
-        if (node.depth === 2) underHeading = true;
       } else if (isRelease(node)) {
-        const item = releaseTocItem(node, underHeading ? 3 : 2);
-        if (item) tocItems.push(item);
+        const release = releaseInfo(node);
+        if (release) releases.push(release);
+      }
+    }
+
+    // A group has no heading of its own, so it links to its newest release.
+    // Groups sit at level 2 and releases at level 3: Docusaurus hides TOC
+    // levels below 3 by default.
+    for (const group of groupReleases(releases)) {
+      tocItems.push({ value: group.label, id: group.items[0].id, level: 2 });
+      for (const release of group.items) {
+        tocItems.push({ value: release.label + release.dateHtml, id: release.id, level: 3 });
       }
     }
 
