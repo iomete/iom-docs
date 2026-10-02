@@ -2,7 +2,6 @@
 title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
-hide_table_of_contents: true
 last_update:
   date: 10/01/2026
   author: Abhishek Pathania

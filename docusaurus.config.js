@@ -12,6 +12,9 @@ import userGuideRedirects from "./userGuideRedirects.js";
 const remarkImageDimensions = require("./plugins/remark-image-dimensions");
 // Places the slim in-article CTA in the middle of blog posts.
 const remarkBlogCTA = require("./plugins/remark-blog-cta");
+// Release-notes pages render version headings in JSX, so build their TOC from
+// <Release> elements. See plugins/remark-release-toc.js
+const remarkReleaseToc = require("./plugins/remark-release-toc");
 
 const glossaryPlugin = [
   "@docusaurus/plugin-content-blog",
@@ -87,6 +90,7 @@ const config = {
           sidebarPath: "./sidebars.js",
           breadcrumbs: true,
           beforeDefaultRemarkPlugins: [remarkImageDimensions],
+          remarkPlugins: [remarkReleaseToc],
         },
         blog: {
           blogSidebarCount: 0,

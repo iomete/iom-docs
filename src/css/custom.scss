@@ -371,3 +371,10 @@ p > img {
     visibility: visible;
   }
 }
+
+// Release date under each version in the release-notes TOC (plugins/remark-release-toc.js).
+.release-toc-date {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-600);
+}
