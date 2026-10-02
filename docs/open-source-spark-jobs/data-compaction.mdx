@@ -22,6 +22,10 @@ Iceberg tables slow down over time as small files, old snapshots, and unused fil
 
 Tables in other formats, such as Hive or Parquet tables, are skipped.
 
+:::tip
+IOMETE also offers built-in [Table Maintenance](/user-guide/table-maintenance/overview) (beta), which runs these operations automatically when a table needs them. Use either the built-in feature or this job for a given table, not both.
+:::
+
 - **Version:** `1.2.14` (see the [Marketplace Jobs release notes](../deployment/on-prem/release-notes/marketplace-jobs.md) for the latest version)
 - **Source:** [View on GitHub](https://github.com/iomete/iomete-marketplace-jobs/tree/main/data-compaction-job)
 
