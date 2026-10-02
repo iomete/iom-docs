@@ -25,6 +25,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - `GET /api/v1/admin/multi-cluster/data-planes` lists all data planes through the API.
         - `GET /api/v1/admin/multi-cluster/data-planes/{id}` returns one data plane with a per-namespace quota breakdown.
 
+        <Img src="/img/getting-started/release-notes/4.0.0/data-planes-table.png" alt="Data Planes admin page in table view, listing each data plane with its address, connection status, runtime version, CPU and memory usage, and creation time" maxWidth="900px" />
+
       - **Data Plane Topology**: The **Data Planes** admin page has a **Table / Graph** toggle. The graph draws the control plane and every data plane connected to it, with each plane's address, connection status, and CPU and memory quota usage. The graph can be expanded to fullscreen.
 
       - **Remote Workloads**: Computes, Spark jobs and Jupyter containers can be created on a named data plane. Each is given its own plane's Iceberg catalog, metastore, Ranger policy and storage addresses, and its Spark UI, Spark History, metrics and pod logs are relayed back through the owning plane.
@@ -105,7 +107,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <Improvements>
     - **Installation and Helm**
-      - **Chart Changes for 4.0**: Several feature flags are no longer configurable.
+      - ⚠️ **Chart Changes for 4.0**: Several feature flags are no longer configurable.
         - Always on: `jobOrchestrator`, `onboardComputeRas`, `onboardSparkJobRas`, `onboardWorkspaceRas` and `onboardNamespaceMappingRas`.
         - Removed: `emailNotifications` and `enableAutomatedMaintenance`. Email notifications and automated Iceberg table maintenance are always available.
       - **Credential Changes Apply on Upgrade**: When you change database or object storage credentials, or the `namespaces` list, in your Helm values, `helm upgrade` now restarts the affected services. The new values take effect without a manual pod restart.
@@ -121,7 +123,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Reusing Existing Secrets**: Installs can now use Kubernetes Secrets you already have for their encryption keys and system tokens, instead of generating new ones. This lets two control planes share the same keys, for example in an active-active setup. If you don't set anything, IOMETE generates them as before.
       - **Startup Probe Configuration**: Administrators can now tune control plane startup probe timings via Helm values, allowing customization for environments with slower startup times.
     - **Spark Applications**
-      - **Priority-Based by Default**: New Spark jobs created in the console now default to the `Priority-Based` deployment flow. See [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator#how-to-enable).
+      - ⚠️ **Priority-Based by Default**: New Spark jobs created in the console now default to the `Priority-Based` deployment flow. See [Job Orchestrator](/user-guide/spark-jobs/job-orchestrator#how-to-enable).
         - The **Deployment Flow** and **Priority** fields are always shown, instead of in a collapsed **Advanced settings** section.
         - Existing jobs and streaming jobs keep their current flow.
         - Jobs created through the API still default to `LEGACY`.
@@ -129,7 +131,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Unresolved Runs**: A run whose Kubernetes resource disappeared without a final event is recorded as `UNKNOWN` rather than `FAILED`, so a run that finished cleanly is no longer reported as a failure.
       - **Named Container Ports**: Spark driver pods now declare named container ports, allowing protocol detection and service discovery by name.
     - **Database**
-      - **Metastore Connection Pool**: The metastore's database connection pools are now sized per install and keep far fewer connections open while idle. Plan for at most `3 x maxPoolSize + compactorMaxPoolSize + 2` connections per metastore, and raise `maxPoolSize` if metadata requests time out under heavy load.
+      - ⚠️ **Metastore Connection Pool**: The metastore's database connection pools are now sized per install and keep far fewer connections open while idle. Plan for at most `3 x maxPoolSize + compactorMaxPoolSize + 2` connections per metastore, and raise `maxPoolSize` if metadata requests time out under heavy load.
 
         ```yaml
         # Helm values
@@ -251,7 +253,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
   <BugFixes>
     - **Security Hardening**
-      - **REST Catalog Configuration**: The Iceberg REST catalog's `/v1/config` endpoint no longer returns server-side credentials, including the database password and S3 access keys, to Spark clients.
+      - ⚠️ **REST Catalog Configuration**: The Iceberg REST catalog's `/v1/config` endpoint no longer returns server-side credentials, including the database password and S3 access keys, to Spark clients.
       - **Catalog Reads**: Catalog read responses now mask the access key and endpoint in addition to the secret key.
       - **Error Responses**: Unexpected errors no longer return stack traces and raw exception messages to API clients in production.
       - **Token Validation**: Refresh tokens are verified against the signing key before new tokens are issued, and each environment now signs with its own key, so a token minted in one environment is no longer accepted by another.
@@ -316,10 +318,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
   <Deprecations>
-    - **Legacy Pre-Resource-Bundle Screens**: Removed from the console: the older Compute, Jupyter Containers and Namespaces screens, the legacy worksheet tree sidebar, and the deprecated Docker Images API.
+    - ⚠️ **Legacy Pre-Resource-Bundle Screens**: Removed from the console: the older Compute, Jupyter Containers and Namespaces screens, the legacy worksheet tree sidebar, and the deprecated Docker Images API.
       - Still available behind their existing flags: Secrets V1, and the Domain roles and members screens for installations without domain-level bundle authorization.
     - **Admin Namespaces Page**: The **Namespaces** item in the admin sidebar now opens **Data Planes**, where namespaces are listed per data plane.
-    - **Jupyter Kernels**: The deprecated Jupyter Kernels functionality has been removed. Jupyter Containers is now the primary service for working with Jupyter notebooks.  
+    - ⚠️ **Jupyter Kernels**: The deprecated Jupyter Kernels functionality has been removed. Jupyter Containers is now the primary service for working with Jupyter notebooks.  
     - **Pod Templates**: Pod templates are no longer created by the data plane chart. They remain in the previous chart for backward compatibility, so existing legacy scheduled jobs keep running.
   </Deprecations>
 
