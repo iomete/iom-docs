@@ -76,6 +76,6 @@ To turn SSO off, click **Disable OIDC SSO**. To remove the settings completely, 
 
 ## Troubleshooting
 
-- **"Access Restricted" after signing in**: the user signed in at your IdP, but no IOMETE user matches their username or email. Add the user in IOMETE, or check that the IdP sends the right username or email.
+- **"Access Restricted" after signing in**: the user signed in at your IdP, but no IOMETE user matches. Check the username your IdP sends (`preferred_username`), or the email if it sends no username, and make sure an IOMETE user has that value as their username or email.
 - **"Authentication Failed"**: IOMETE couldn't complete the sign-in with your IdP. Check that the IDP URL, client ID, client secret, and redirect URL are correct. Also check that the scopes include `profile` and `email`, so your IdP sends a username or email.
 - **Can't enable OIDC**: another SSO method is already enabled. Disable SAML 2.0 first.
