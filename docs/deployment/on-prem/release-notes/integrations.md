@@ -1,9 +1,9 @@
 ---
 title: Integration Release Notes
 sidebar_label: Integrations
-description: Release notes for IOMETE integrations, including dbt-iomete, the IOMETE Airflow Plugin, the IOMETE Tableau connector, and the Arrow Flight SQL JDBC driver.
+description: Release notes for IOMETE integrations, including dbt-iomete, the IOMETE Airflow Plugin, the IOMETE Tableau connector, the IOMETE Power BI connector, and the Arrow Flight SQL ODBC and JDBC drivers.
 last_update:
-  date: 09/14/2026
+  date: 10/03/2026
   author: Abhishek Pathania
 ---
 
@@ -18,11 +18,23 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
 | dbt | [`dbt-iomete`](https://pypi.org/project/dbt-iomete/) | 1.8.3 | dbt Core 1.8.x; Python 3.9–3.12 | [Open](../../../integrations/dbt/getting-started-with-iomete-dbt.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/dbt-iomete) |
 | Airflow | [`iomete-airflow-plugin`](https://pypi.org/project/iomete-airflow-plugin/) | 3.1.0 | Airflow `>=2.10.5,<4.0.0`; Python 3.10–3.13 | [Open](../../../integrations/airflow/getting-started.mdx) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) |
 | Tableau | [`tableau-connector`](https://github.com/iomete/iomete-integrations/releases?q=tableau-connector) | 0.1.0 | Tableau Desktop and Server 2024.2 and later | [Open](../../../integrations/bi/tableau/arrow-flight.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/tableau-connector) |
+| Power BI and Arrow Flight SQL ODBC | [`iomete-odbc-connector`](https://github.com/iomete/iomete-artifacts) | 24.0.0-iomete.2 | Power BI Desktop and on-premises data gateway on Windows x64 | [Open](../../../integrations/bi/power-bi/arrow-flight.md) | Closed source |
 | Arrow Flight SQL JDBC | [`flight-sql-jdbc-driver`](https://github.com/iomete/iomete-artifacts) | 19.0.0-iomete.4 | Java 11 or later; Tableau Desktop and Server 2024.2 or later | [Open](/user-guide/driver/arrow-flight-jdbc-driver) | Closed source |
 
 ---
 
 ## Recent Releases
+
+<Release name="Power BI Connector and ODBC Driver" version="24.0.0-iomete.2" date="October 3, 2026">
+  <BugFixes>
+    - **On-premises data gateway**: Fixed saving credentials for an IOMETE data source in the on-premises data gateway, which always failed with "3 arguments were passed to a function that expects 4". You can now refresh published reports through a gateway. Power BI Desktop was not affected. See [Refreshing Through an On-premises Data Gateway](../../../integrations/bi/power-bi/arrow-flight.md#refreshing-through-an-on-premises-data-gateway).
+    - **Certificate Path**: Made **Certificate Path** optional and fixed it being ignored. Leave it blank to trust the Windows certificate store, or enter the path to a PEM file to trust only the certificates in that file. Earlier versions always used the Windows certificate store. See [Trusting the Server Certificate](../../../integrations/bi/power-bi/arrow-flight.md#trusting-the-server-certificate).
+  </BugFixes>
+
+  <BreakingChanges>
+    - **Saved credentials and gateway connections**: Changed the connector's data source path. After upgrading, re-enter saved credentials in Power BI Desktop and recreate gateway connections. A **Certificate Path** set in a report must point to a readable PEM file on every machine that refreshes it, including every gateway node. See [Upgrading From an Earlier Connector Version](../../../integrations/bi/power-bi/arrow-flight.md#upgrading-from-an-earlier-connector-version).
+  </BreakingChanges>
+</Release>
 
 <Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.4" date="September 14, 2026">
   <BugFixes>
@@ -97,6 +109,14 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
   <Improvements>
     - **Security update**: Raised the `requests` floor to 2.33.0 so installations receive the patched dependency.
   </Improvements>
+</Release>
+
+<Release name="Power BI Connector and ODBC Driver" version="24.0.0-iomete.1" date="June 5, 2026">
+  <NewFeatures>
+    - **Arrow Flight SQL ODBC driver on Apache Arrow 24.0.0**: Released the IOMETE build of the Apache Arrow Flight SQL ODBC driver for Windows x64. The driver still registers as `Arrow Flight Odbc IOMETE`, so existing DSNs keep working after the upgrade.
+    - **Versioned Power BI connector**: Released `IOMETEConnector.mez` together with the driver under the same version, both in `iomete-odbc-connector.zip`. The connector adds an **IOMETE Arrow Flight Connector** data source to Power BI Desktop with Import and DirectQuery support. See [Power BI (Arrow Flight)](../../../integrations/bi/power-bi/arrow-flight.md).
+    - **Signed bundle**: Signed `iomete-odbc-connector.zip` with the IOMETE Enterprise GPG key. Verify it against `iomete-odbc-connector.zip.asc` with `iomete_enterprise_public_key.asc`.
+  </NewFeatures>
 </Release>
 
 <Release name="IOMETE Airflow Plugin" version="3.0.0" date="June 4, 2026">
