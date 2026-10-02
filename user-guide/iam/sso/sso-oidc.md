@@ -14,7 +14,7 @@ With OpenID Connect (OIDC) single sign-on, users sign in to IOMETE with their ac
 
 Before you start:
 
-- You need an admin account that can manage IAM in the **Admin portal**.
+- You need the **IAM Manager** [admin role](../admin-roles.md). Other admin roles can view the SSO page but can't save or enable it.
 - Every user who signs in with SSO must already exist in IOMETE. Add them on the [Users](../users.md) page, sync them from [LDAP](../ldap-configuration.md), or provision them with [SCIM](scim.md). IOMETE doesn't create accounts on first sign-in.
 
 ## Opening the OIDC Settings
@@ -38,7 +38,9 @@ In your IdP's admin console, create a new web application (sometimes called a cl
    - **Client ID**
    - **Client secret**
 
-IOMETE matches the person signing in to an IOMETE user by their username (the `preferred_username` claim), or by their email address if the IdP doesn't send a username. Make sure one of these matches the user's username or email in IOMETE.
+If your IdP asks how the app authenticates, choose **client secret basic** (`client_secret_basic`).
+
+To find the IOMETE user, IOMETE takes the username your IdP sends (the `preferred_username` claim). Only if there is no username does it use the email instead. That one value must match the user's username or email in IOMETE. For example, if your IdP sends the username `jdoe`, the IOMETE user's username or email must be `jdoe`. A matching email alone isn't enough.
 
 ## Configuring OIDC in IOMETE
 
@@ -54,7 +56,11 @@ Back on the OIDC page, fill in the form:
 
 <Img src="/img/user-guide/iam/sso/oidc.png" alt="OIDC page with the redirect URL, IDP URL, client ID, client secret, and scope fields" maxWidth="700px" />
 
-Click **Save**. The settings are saved but not active yet. To turn on SSO, click **Enable OIDC SSO** and confirm.
+Click **Save**. The first time, the settings are saved but not active yet. To turn on SSO, click **Enable OIDC SSO** and confirm.
+
+:::warning
+Once OIDC is enabled, every **Save** takes effect at the next sign-in. A wrong value breaks SSO for all users, so double-check before saving.
+:::
 
 :::info
 Only one SSO method can be active at a time. If [SAML 2.0](sso-saml.md) is enabled, disable it before you enable OIDC.
@@ -71,6 +77,5 @@ To turn SSO off, click **Disable OIDC SSO**. To remove the settings completely, 
 ## Troubleshooting
 
 - **"Access Restricted" after signing in**: the user signed in at your IdP, but no IOMETE user matches their username or email. Add the user in IOMETE, or check that the IdP sends the right username or email.
-- **"Authentication Failed"**: IOMETE couldn't complete the sign-in with your IdP. Check that the IDP URL, client ID, client secret, and redirect URL are correct, and that the user is assigned to the app in your IdP.
+- **"Authentication Failed"**: IOMETE couldn't complete the sign-in with your IdP. Check that the IDP URL, client ID, client secret, and redirect URL are correct. Also check that the scopes include `profile` and `email`, so your IdP sends a username or email.
 - **Can't enable OIDC**: another SSO method is already enabled. Disable SAML 2.0 first.
-- **Changes in your IdP don't apply right away**: IOMETE caches your IdP's settings for up to an hour.
