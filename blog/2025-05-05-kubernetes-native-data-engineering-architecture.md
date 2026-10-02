@@ -24,7 +24,7 @@ Platforms like **IOMETE** exemplify this evolution. As a Spark-based lakehouse d
 
 This article walks through everything you need to know about Kubernetes-native deployment in a data engineering context: the architectural patterns, the ecosystem of tools, deployment techniques, real-world practices, and the role platforms like IOMETE play in helping teams go from legacy-bound to cloud-native.
 
-Whether you’re modernizing a [Cloudera](/blog/cloudera-alternatives) stack, scaling dbt transformations, or deploying real-time ML pipelines, Kubernetes-native deployment isn’t just a trend — it’s your future-ready foundation.
+Whether you’re modernizing a [legacy on-premises analytics platform](/blog/cloudera-alternatives), scaling dbt transformations, or deploying real-time ML pipelines, Kubernetes-native deployment isn’t just a trend — it’s your future-ready foundation.
 
 ---
 

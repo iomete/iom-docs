@@ -36,7 +36,7 @@ The pressure is not abstract. Recent industry research keeps pointing at the sam
 
 - 68% of enterprises name data silos as their top concern ([DATAVERSITY, 2026](https://www.dataversity.net/)).
 - Only 20% have a mature governance model for autonomous AI agents (Deloitte, 2026).
-- Only 7% say more than half of their unstructured data is AI-ready (Snowflake, 2026).
+- Only a small minority of enterprises say most of their unstructured data is AI-ready.
 - Only 20% have a tested AI incident response plan (Grant Thornton, 2026).
 
 Read those together and a pattern shows up. Most AI investment in 2026 still produces demos instead of deployments, and the reason is rarely the model. It is that the data is fragmented, ungoverned, and sitting in places the AI is not allowed to reach. A platform that moves the data to the AI solves accessibility by breaking sovereignty. A sovereign platform refuses that trade and brings the AI to the data.

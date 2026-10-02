@@ -20,7 +20,7 @@ import FAQSection from '@site/src/components/FAQSection';
 
 ## Our Hate List
 
-In the last financial crisis (2007/2008) AWS existed only for two years and the likes of Snowflake, Databricks and Fivetran had not even been founded yet. The cloud has come a long way since then, but... a lot remains to be desired. Our Hate List consists of four - somewhat related - things we believe are wrong with The Data Cloud (note: by The Data Cloud we mean the collective of leading incumbents in this industry, i.e. the establishment).
+In the last financial crisis (2007/2008) AWS existed only for two years and most of today's leading cloud data platforms had not even been founded yet. The cloud has come a long way since then, but... a lot remains to be desired. Our Hate List consists of four - somewhat related - things we believe are wrong with The Data Cloud (note: by The Data Cloud we mean the collective of leading incumbents in this industry, i.e. the establishment).
 
 1. The Data Cloud prioritizes investor interest over customer interest.
 
@@ -58,9 +58,9 @@ Our answer:
 
 ## Observation #3: The Data Cloud relies heavily on "push-sales".
 
-Snowflake - the leading Data Cloud - is still not profitable ten years after inception despite a 70% gross margin (their management recently announced at their annual summit it expects gross margin to increase to 80% -> Who will pay for that?)
+The prevailing business model in this industry targets very high gross margins, and several of its best-known players have pursued growth for a decade without turning a profit.
 
-That 70%-plus gross margin comes with a burden; one needs a large marketing & sales apparatus and - in our opinion - unpleasantries like cold emailing campaigns, cold calling sales representatives and data summits in Las Vegas to convince customers to use one's product.
+A 70%-plus gross margin target comes with a burden; one needs a large marketing & sales apparatus and - in our opinion - unpleasantries like cold emailing campaigns, cold calling sales representatives and data summits in Las Vegas to convince customers to use one's product.
 
 We believe: **the better the deal for the customer, the less push-selling it takes.** If it takes you billions of funding to get to $1Bn in revenue and are still unprofitable, your product might not be as great as you think.
 

@@ -38,7 +38,7 @@ On-premise data warehouse solutions are perfect for organizations for which [dat
 
 ## Hybrid data warehousing solutions
 
-Large enterprises often have a complex data infrastructure that has grown over decades and may include cloud data warehousing as well as on premise data warehousing. We call this a “hybrid data warehousing environment”. Most existing data warehousing solutions are cloud-only. [Snowflake](/blog/snowflake-iomete) and [Databricks](/blog/databricks-alternatives) do not offer on premise solutions. IOMETE’s architecture allows for flexible deployment options and supports hybrid solutions. The big advantage is a unified environment for all data, irrespective of where the data lives.
+Large enterprises often have a complex data infrastructure that has grown over decades and may include cloud data warehousing as well as on premise data warehousing. We call this a “hybrid data warehousing environment”. Most existing data warehousing solutions are cloud-only: managed SaaS lakehouse vendors typically run only in their own cloud environments. IOMETE, by contrast, deploys inside your own infrastructure, with flexible deployment options and support for hybrid solutions. The big advantage is a unified environment for all data, irrespective of where the data lives.
 
 ## What is better: an on premise or cloud-based data warehousing solution?
 

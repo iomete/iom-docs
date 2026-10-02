@@ -1,6 +1,6 @@
 ---
 title: Data Lakehouse Architecture in 2025 — Why Control and Cost Matter More Than Ever
-description: When most people compare Databricks, Snowflake, Dremio, Cloudera, or IOMETE, they focus on engines, pricing, and performance. But the bigger story — and the one few talk about — is where the
+description: When most people compare lakehouse platforms, they focus on engines, pricing, and performance. But the bigger story — and the one few talk about — is where the control plane lives.
 tags2: [Educational, Technical]
 slug: datalakehouse-architecture-in-2025
 coverImage: img/blog/thumbnails/4.png
@@ -26,7 +26,7 @@ It’s not about features they don’t like. It’s about **things they didn’t
 
 ## The aha moment: the control plane is the real lock-in
 
-When most people compare [Databricks](/blog/databricks-alternatives), [Snowflake](/blog/snowflake-iomete), Dremio, [Cloudera](/blog/cloudera-alternatives), or IOMETE, they focus on engines, pricing, and performance. But the bigger story — and the one few talk about — is where the **control plane** lives.
+When most people compare lakehouse platforms — managed cloud data platforms, commercial lakehouse vendors, legacy on-premises analytics platforms, or IOMETE — they focus on engines, pricing, and performance. But the bigger story — and the one few talk about — is where the **control plane** lives.
 
 In a **vendor-hosted SaaS lakehouse**, the control plane - the system that holds your catalogs, governance rules, audit logs, and cluster definitions, lives in the vendor’s environment. That choice has long-term consequences:
 
@@ -53,8 +53,8 @@ For years, choosing a lakehouse felt like choosing sides in a format battle: Del
 
 That’s no longer true. Today, the market has quietly converged:
 
-- **Databricks** ships Iceberg GA in Unity Catalog alongside Delta.
-- **Snowflake** supports both managed and externally managed Iceberg.
+- **Commercial lakehouse vendors** now ship Iceberg support alongside their own table formats.
+- **Cloud data warehouses** support Iceberg tables, both vendor-managed and externally managed.
 - **IOMETE** is Iceberg-native across all workloads (SQL, ETL, ML, streaming) on a single Spark engine.
 
 Iceberg brings [ACID transactions](/glossary/acid-transactions), schema evolution, and [time travel](/reference/iceberg-tables/time-travel) — but the real shift is **engine independence**. Once your data sits in Iceberg, you can query it with any compatible engine without rewriting a single byte.
@@ -73,8 +73,8 @@ If the **control plane** lives in your vendor’s cloud account, it’s the vend
 
 Here’s why that matters:
 
-- **Snowflake** credits are fixed-rate. Even if AWS is offering you a deep reserved instance discount, you can’t attach it.
-- **Databricks** supports running workers on spot instances, but the driver runs on on-demand instances managed by their control plane. That means you can’t fully integrate spot usage — or other cost governance policies — across the entire cluster.
+- **Managed consumption pricing** is billed in the vendor’s own units. Discounts you have negotiated with your cloud provider — reserved capacity, committed use — apply to instances, not to those units, so they can’t be attached.
+- **Partially managed compute** narrows the problem without removing it: where any part of a cluster is provisioned by the vendor’s control plane, your spot and cost-governance policies can only cover the part you provision yourself.
 - **IOMETE** runs entirely in your tenancy, so you decide: reserved, spot, mixed — and the savings go directly to your budget.
 
 This matters because cost control is already a universal pain point. **Flexera’s 2025 State of the Cloud report found that 84% of organizations rank managing cloud spend as their top challenge**, and cloud waste still averages 32%. If you don’t own the levers that control how your compute runs, you’re starting that fight with one hand tied behind your back.
@@ -105,16 +105,20 @@ Owning the control plane decides your real cost leverage, governance agility, an
 
 When you put these principles into a real-world comparison, the picture is clear: most vendors force trade-offs, SaaS platforms give up control, hybrid stacks add complexity, while IOMETE delivers full control, cost flexibility, and architectural simplicity in one package.
 
-### Feature Comparison Table
+### Comparing deployment models
 
-| **Feature**                | **Databricks (SaaS)** | **Snowflake (SaaS)**               | **Dremio Cloud / Software** | **Cloudera CDP (Hybrid)**        | **IOMETE (Self-Hosted)**                       |
-| -------------------------- | --------------------- | ---------------------------------- | --------------------------- | -------------------------------- | ---------------------------------------------- |
-| **Control Plane Location** | Vendor-hosted         | Vendor-hosted                      | Vendor or self-hosted       | Customer or vendor-hosted        | **Fully self-hosted**                          |
-| **Cost Leverage**          | Spot for workers only | None                               | Yes (self-hosted)           | Yes                              | **Full - spot, reserved, hybrid**              |
-| **Governance Control**     | Vendor-managed        | Vendor-managed                     | Moderate (self-hosted)      | Enterprise-grade                 | **Full in-infra integration**                  |
-| **[Data Sovereignty](/blog/data-residency-vs-data-sovereignty)**       | Vendor environment    | Vendor environment                 | Better in self-hosted       | Full control                     | **Full control**                               |
-| **Engine**                 | Spark + Photon        | Single proprietary engine          | Arrow-based engine          | Multi-engine (Hive/Impala/Spark) | **Single-engine Apache Spark (all workloads)** |
-| **Table Format**           | Delta + Iceberg (GA)  | Native Table Format + Iceberg (GA) | Iceberg                     | Iceberg                          | Iceberg                                        |
+Rather than comparing brands, it helps to compare the capability categories they represent — because the trade-offs follow from the deployment model, not the logo.
+
+| **Capability**                                                   | **Vendor-hosted SaaS lakehouse** | **Hybrid / self-managed distribution** | **IOMETE (self-hosted)**                       |
+| ---------------------------------------------------------------- | -------------------------------- | -------------------------------------- | ---------------------------------------------- |
+| **Control plane location**                                       | Vendor environment               | Customer or vendor environment         | **Fully self-hosted**                          |
+| **Cost leverage**                                                | Limited to vendor-exposed options | Available, varies by component         | **Full — spot, reserved, hybrid**              |
+| **Governance control**                                           | Vendor-managed                   | Mixed, per component                   | **Full in-infrastructure integration**         |
+| **[Data sovereignty](/blog/data-residency-vs-data-sovereignty)**  | Vendor environment               | Depends on deployment                  | **Full control**                               |
+| **Engine footprint**                                             | One or more vendor engines       | Often multi-engine                     | **Single Apache Spark engine (all workloads)** |
+| **Table format**                                                 | Vendor format plus Iceberg        | Iceberg                                | Iceberg                                        |
+
+The pattern is consistent: the further the control plane sits from your environment, the fewer levers you hold over cost, governance, and placement.
 
 ---
 
@@ -127,7 +131,7 @@ In regulated sectors like finance, healthcare, government, and telecom, control 
 - **You keep architectural simplicity**: one engine (Apache Spark) for SQL, ETL, streaming, and ML, all on Iceberg. No sprawling multi-engine complexity.
 - **You keep your options open**: Iceberg tables mean you’re never tied to one engine or one vendor.
 
-It’s not about replacing Databricks, Snowflake, Cloudera, or Dremio everywhere — it’s about putting yourself in a position where **you choose what runs where**.
+It’s not about replacing every other platform everywhere — it’s about putting yourself in a position where **you choose what runs where**.
 
 That’s what true architectural control means.
 

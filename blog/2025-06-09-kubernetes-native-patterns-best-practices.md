@@ -37,7 +37,7 @@ Stateless services, like dbt runners or Airflow schedulers, don’t retain data 
 
 ### **Stateful Applications**
 
-Stateful systems (e.g. Spark driver pods, ClickHouse nodes, or metadata services) require stable identities and persistent storage. These use **StatefulSets** with **PersistentVolumeClaims (PVCs)** to maintain continuity across Pod lifecycles.
+Stateful systems (e.g. Spark driver pods, columnar OLAP nodes, or metadata services) require stable identities and persistent storage. These use **StatefulSets** with **PersistentVolumeClaims (PVCs)** to maintain continuity across Pod lifecycles.
 
 **In IOMETE**, [Spark](/glossary/apache-spark) compute clusters are deployed using patterns similar to StatefulSets — ensuring persistent execution context for long-running transformations and interactive SQL endpoints, even as compute scales up or down.
 

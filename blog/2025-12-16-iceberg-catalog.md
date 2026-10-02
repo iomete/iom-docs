@@ -70,7 +70,7 @@ Iceberg optimizes for read and write throughput by aligning its access model wit
 
 This design also cleanly separates “compute” from “storage”. In a traditional database system, a single server must be sized for peak load. With Iceberg, additional compute resources can be added during peak hours to handle writes. The storage scales independently from the instances handling the reads/writes.
 
-As a trade-off, Iceberg accepts that writers may need to retry commits when contention occurs. Failed commits can leave behind stale files (aka [orphan files](https://iceberg.apache.org/docs/latest/maintenance/#delete-orphan-files)), which are later cleaned up through maintenance operations. Additionally, every system interacting with an Iceberg table must implement Iceberg’s semantics. In practice, this is already handled by most major engines, including [Spark](/glossary/apache-spark), Trino, and Snowflake.
+As a trade-off, Iceberg accepts that writers may need to retry commits when contention occurs. Failed commits can leave behind stale files (aka [orphan files](https://iceberg.apache.org/docs/latest/maintenance/#delete-orphan-files)), which are later cleaned up through maintenance operations. Additionally, every system interacting with an Iceberg table must implement Iceberg’s semantics. In practice, this is already handled by most major engines, including [Spark](/glossary/apache-spark), Trino, and the major cloud data platforms.
 
 This setup allows Iceberg to scale horizontally: thousands of writers can work simultaneously, with the only coordination required being agreement on which snapshot is marked as "current”. That decision requires strong guarantees, and this is where the Iceberg Catalog comes into play.
 

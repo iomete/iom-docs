@@ -14,7 +14,7 @@ import FAQSection from '@site/src/components/FAQSection';
 
 # Local Enterprise AI Development with IOMETE Platform
 
-A 2025 Cloudera survey of nearly 1,500 IT leaders revealed that 53% of organizations rank data privacy as their top concern when implementing AI. The challenge is clear: enterprises want AI capabilities, but not at the cost of losing control over sensitive data.
+Data privacy consistently ranks as the top concern for IT leaders implementing AI. The challenge is clear: enterprises want AI capabilities, but not at the cost of losing control over sensitive data.
 
 Local AI development solves this problem. You keep your data within your infrastructure while building production-grade AI systems. IOMETE's self-hosted [data lakehouse](/glossary/data-lakehouse) platform makes this practical for teams of any size.
 
@@ -326,7 +326,7 @@ If you're evaluating options for your AI infrastructure, consider starting with 
     )
   },
   {
-    question: "How does local AI compare to managed AI platforms like Databricks?",
+    question: "How does local AI compare to managed cloud data platforms?",
     answer: "The primary difference is control. Managed platforms prioritize convenience, while local platforms prioritize: Data sovereignty; On-prem or air-gapped deployments; Predictable infrastructure costs; Independence from external control planes. IOMETE is designed for organizations that require the latter.",
     answerContent: (
       <>

@@ -19,7 +19,7 @@ January 17, 2025 wasn't just another regulatory deadline. It was the day the Dig
 
 Banks, insurance companies, payment processors, investment firms—every financial institution in the EU now operates under a framework that doesn't just ask "where is your data stored?" It demands proof that you can maintain operational continuity even when third-party ICT providers fail. That you control failover procedures, backup strategies, and incident response without depending on vendor support tickets. That your critical functions aren't concentrated with a single provider who can be compelled by foreign governments to hand over data.
 
-SaaS platforms—Snowflake, Databricks, any vendor where you don't control the infrastructure—can't provide that level of operational independence. And when the EU AI Act's high-risk obligations apply — 2 December 2027 for Annex III systems, after the Digital Omnibus on AI (Regulation (EU) 2026/1744, in force 27 July 2026) postponed them from August 2026 — the compliance gap widens further.
+Managed SaaS lakehouse platforms—any model where you don't control the infrastructure—can't provide that level of operational independence by design. And when the EU AI Act's high-risk obligations apply — 2 December 2027 for Annex III systems, after the Digital Omnibus on AI (Regulation (EU) 2026/1744, in force 27 July 2026) postponed them from August 2026 — the compliance gap widens further.
 
 This isn't a future problem. Financial institutions are being audited right now. Fines are being levied. And the organizations that waited to act are discovering that migrating off SaaS platforms takes months, not weeks.
 
@@ -39,7 +39,7 @@ The five pillars of DORA map directly to infrastructure control:
 
 Financial entities must establish internal governance and control frameworks for ICT risk management. This includes identifying risks, protecting systems, detecting threats, responding to incidents, and recovering operations.
 
-Here's the problem: if your [data lakehouse](/glossary/data-lakehouse) runs on Snowflake or Databricks, you don't control the infrastructure. You can't implement your own threat detection systems. You can't configure custom failover procedures. You're dependent on the vendor's risk management framework, which is designed for their operational needs, not yours.
+Here's the problem: if your [data lakehouse](/glossary/data-lakehouse) runs on a managed cloud data platform, you don't control the infrastructure. You can't implement your own threat detection systems. You can't configure custom failover procedures. You're dependent on the vendor's risk management framework, which is designed for their operational needs, not yours.
 
 DORA requires ongoing monitoring of ICT risks, including risks from third-party providers. But SaaS platforms don't expose the level of infrastructure visibility needed for real-time risk assessment. You can't see resource utilization across their clusters. You can't monitor network traffic for anomalies. You can't audit patch cycles or configuration changes.
 
@@ -51,7 +51,7 @@ DORA mandates structured processes for reporting significant ICT-related inciden
 
 When a SaaS platform experiences an outage, you're a passenger. You get status page updates hours after the incident started. You have no visibility into root cause analysis. You can't independently verify the scope of impact or validate the vendor's timeline. And when regulators ask for incident reports, you're relying on whatever the vendor chooses to disclose.
 
-This isn't theoretical. Snowflake experienced credential-stuffing incidents in mid-2024 that exposed customer data. Organizations using Snowflake had to report incidents they didn't detect, couldn't investigate, and couldn't remediate independently. That's a DORA violation waiting to happen.
+The structural issue is detection and evidence: when the platform layer belongs to someone else, the regulated entity is reporting on an incident it did not detect, cannot investigate, and cannot remediate on its own timeline.
 
 In self-hosted deployments, you detect incidents through your own monitoring. You investigate using your own logs. You control the timeline for reporting because you control the infrastructure. When an auditor asks for proof of incident detection capabilities, you show them your alerting rules, your runbooks, your post-incident reviews—all internal, all under your control.
 
@@ -73,7 +73,7 @@ The regulation requires financial entities to assess and continuously monitor ri
 
 But here's the clause that breaks SaaS models: financial entities must ensure that their critical and important functions are not too heavily concentrated with a single provider or small group of providers.
 
-If your entire data lakehouse runs on Snowflake, you've violated this requirement. If all your analytics queries, all your ML pipelines, all your regulatory reporting depends on one vendor's infrastructure, you have unacceptable concentration risk.
+If your entire data lakehouse runs on a single managed platform, that requirement is hard to satisfy. If all your analytics queries, all your ML pipelines, all your regulatory reporting depends on one vendor's infrastructure, you have unacceptable concentration risk.
 
 DORA explicitly states that financial entities cannot contract with ICT providers who cannot meet resilience requirements. Competent authorities are empowered to suspend or terminate contracts that don't comply.
 
@@ -104,7 +104,7 @@ The penalties for non-compliance go up to 7% of global annual turnover—higher 
 
 Now consider how AI workloads run on SaaS platforms:
 
-You train a fraud detection model using customer transaction data in Snowflake. The training happens on vendor infrastructure. The feature engineering uses vendor compute. The model artifacts are stored in vendor-managed object storage.
+You train a fraud detection model using customer transaction data held in a managed cloud data platform. The training happens on vendor infrastructure. The feature engineering uses vendor compute. The model artifacts are stored in vendor-managed object storage.
 
 When a regulator asks to see your AI risk assessment, can you prove that the vendor's infrastructure meets AI Act requirements? Can you demonstrate that training data was handled according to GDPR data minimization principles? Can you show activity logs proving that no unauthorized personnel accessed training datasets?
 
@@ -136,7 +136,7 @@ DORA and the AI Act are EU regulations, but data sovereignty is a global concern
 
 **The US [CLOUD Act](/blog/cloud-act-reality-check)** allows American authorities to compel disclosure of data held by US-based providers, regardless of where that data is physically stored.
 
-These laws create irreconcilable conflicts for SaaS platforms. Snowflake and Databricks are US-based companies. If EU regulators demand proof that US authorities cannot access EU citizen data, SaaS vendors cannot provide it. The CLOUD Act explicitly gives US law enforcement the power to demand data from US companies, even data stored in EU data centers.
+These laws create hard conflicts for the managed SaaS model. Where the platform provider is a US-incorporated company, and EU regulators ask for proof that US authorities cannot access EU citizen data, that proof is structurally unavailable: the CLOUD Act gives US law enforcement the power to demand data from US companies, even data stored in EU data centers.
 
 This isn't hypothetical. GDPR's Schrems II ruling invalidated data transfers to the US precisely because of inadequate protection against government surveillance. Organizations using US-based SaaS platforms to process EU data are in violation the moment that data crosses a border or becomes accessible to a US-based vendor.
 
@@ -170,7 +170,7 @@ This isn't just better compliance. It's the only viable path to compliance for r
 
 The migration from SaaS to self-hosted isn't future planning. It's happening right now:
 
-**European banks** are [repatriating data](/blog/cloud-repatriation) from US-based SaaS platforms to meet DORA operational resilience requirements. They can't afford vendor concentration risk, and they can't accept that a single outage at Snowflake or Databricks takes down their entire analytics infrastructure.
+**European banks** are [repatriating data](/blog/cloud-repatriation) from US-based SaaS platforms to meet DORA operational resilience requirements. They can't afford vendor concentration risk, and they can't accept that a single outage at one managed platform takes down their entire analytics infrastructure.
 
 **Insurance companies** subject to DORA are moving ML pipelines to self-hosted platforms because they need complete audit trails for AI risk assessments. They can't demonstrate AI Act compliance when model training happens on vendor infrastructure they don't control.
 

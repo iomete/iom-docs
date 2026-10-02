@@ -91,13 +91,13 @@ While IOMETE’s core runtime is based on Spark, it complements Flink workloads 
 
 ---
 
-### **ClickHouse, Trino, and Other Cloud-Native Engines**
+### **Trino, OLAP Engines, and Other Cloud-Native Query Layers**
 
 Query engines and OLAP databases are increasingly being deployed Kubernetes-natively, bringing compute closer to your data and removing the need for managed services.
 
-#### **ClickHouse**
+#### **Open-Source Columnar OLAP Engines**
 
-- Columnar OLAP engine optimized for high-speed analytics  
+- Columnar engines optimized for high-speed analytics  
 - Uses StatefulSets and PVCs for durable, performant storage  
 - Integrates with Kubernetes-native monitoring and backup tools
 
@@ -108,7 +108,7 @@ Query engines and OLAP databases are increasingly being deployed Kubernetes-nati
 
 **How IOMETE fits in:**
 
-These engines can be deployed alongside IOMETE in the same Kubernetes environment. Trino can directly query IOMETE’s Iceberg-backed catalogs. ClickHouse can consume from object storage buckets written by IOMETE’s ETL jobs.
+These engines can be deployed alongside IOMETE in the same Kubernetes environment. Trino can directly query IOMETE’s Iceberg-backed catalogs. Columnar OLAP engines can consume from object storage buckets written by IOMETE’s ETL jobs.
 
 This modularity exemplifies the “composable data stack” philosophy: each service operates independently, yet integrates seamlessly via Kubernetes and open standards.
 
@@ -139,7 +139,7 @@ These tools form the foundation of Kubernetes-native data platforms. When deploy
 <FAQSection faqs={[
   {
     question: "What tools make up a Kubernetes-native data stack?",
-    answer: "A Kubernetes-native data stack typically combines Apache Airflow for orchestration, the Spark Operator for batch compute, the Flink Operator for streaming, query engines like Trino or ClickHouse, object storage such as MinIO, and Prometheus with Grafana for monitoring. These run as native Kubernetes workloads. IOMETE packages Spark compute, an Iceberg catalog, and governance into one platform that integrates with these tools rather than replacing them."
+    answer: "A Kubernetes-native data stack typically combines Apache Airflow for orchestration, the Spark Operator for batch compute, the Flink Operator for streaming, query engines such as Trino or an open-source columnar OLAP engine, object storage such as MinIO, and Prometheus with Grafana for monitoring. These run as native Kubernetes workloads. IOMETE packages Spark compute, an Iceberg catalog, and governance into one platform that integrates with these tools rather than replacing them."
   },
   {
     question: "Why run Apache Airflow with the KubernetesExecutor?",
