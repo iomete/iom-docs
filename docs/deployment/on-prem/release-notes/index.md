@@ -29,7 +29,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
       - **Data Plane Topology**: The **Data Planes** admin page has a **Table / Graph** toggle. The graph draws the control plane and every data plane connected to it, with each plane's address, connection status, and CPU and memory quota usage. The graph can be expanded to fullscreen.
 
-      - **Remote Workloads**: Computes, Spark jobs and Jupyter containers can be created on a named data plane. Each is given its own plane's Iceberg catalog, metastore, Ranger policy and storage addresses, and its Spark UI, Spark History, metrics and pod logs are relayed back through the owning plane.
+      - **Remote Workloads**: Computes, Spark jobs and Jupyter containers can be created on a named data plane. Each workload uses its own plane's catalog, metastore and storage. Its Spark UI, Spark History, metrics and pod logs stay available from the console.
       - **Data Plane in Resource Lists**: Compute clusters, Spark job templates, streaming jobs, Spark applications and Query Monitoring now show a **Data plane** column or detail row.
         - Namespace pickers group namespaces under their data plane, so the same namespace name on two data planes is no longer ambiguous.
         - Namespace filters pick the data plane and namespace in one control, with an **All namespaces** row for each data plane.
@@ -258,7 +258,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - A real failure keeps its original error, instead of the generic message.
       - **PySpark Memory Overhead**: Switched to 40% PySpark memory overhead, fixing frequent compute restarts caused by out-of-memory conditions in PySpark workloads.
       - **Spark History Server**: Fixed the Spark History Server failing to start after upgrade and deleting finished job history at startup due to invalid chart settings.
-      - **Spark Job Notifications**: Fixed Spark job notification failures triggered by status updates, where job status change notifications were failing silently.
       - **Custom Tags on Suspend**: Fixed custom resource tags being lost when suspending a Spark job.
     - **Scheduled Spark Jobs**
       - **Cron Schedules**: Fixed Priority-Based Spark jobs running on the wrong schedule. A seconds field was prepended to standard five-field cron expressions, so a job scheduled daily ran monthly.
@@ -268,19 +267,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Aborted Runs**: Aborting a run from the Spark Applications list now emits a status change, so the list updates without a manual refresh.
     - **Identity and Sign-In**
       - **Login With Multiple Identity Replicas**: Fixed intermittent login failures when `iom-identity` runs more than one pod. Single-use authorization codes were held in each pod's own memory, so a code issued by one pod could not be redeemed by another. They are now stored in the database.
-      - **Identity Service Stability Under Load**: Fixed `iom-identity` running out of memory and restarting under load.
-        - When the audit sink is slow, audit events now go through a bounded queue, instead of one unbounded thread per event.
-        - Ranger policy downloads serve cached, pre-serialized responses, instead of re-serializing on every request.
+      - **Identity Service Stability Under Load**: Fixed `iom-identity` running out of memory and restarting under load, when audit logging was slow or many Ranger policies were downloaded.
       - **Distributed Locking for Onboarding**: Added distributed locking to domain onboarding and Typesense collection creation, fixing a race condition where simultaneous onboarding in multi-replica identity deployments could corrupt state.
-      - **Malformed Access Token**: A stored access token that couldn't be decoded made every request fail before it was sent. The user was never redirected to sign in, and clearing browser storage by hand was the only way out. Such a token is now treated as expired and follows the normal refresh and sign-in path.
+      - **Malformed Access Token**: Fixed users getting stuck when the browser held an access token that couldn't be decoded. Such a token is now treated as expired, and the user is sent to sign in.
       - **Sign-In Redirect**: Removing the authorization code from the URL after sign-in dropped the `?` separator, corrupting any remaining query parameters on the destination page.
-      - **Spark UI Bearer Tokens**: Fixed programmatic requests to Spark UI and Spark History URLs being redirected to the login page. The proxy previously only read the session cookie; it now also accepts `Authorization: Bearer <token>`.
-      - **Spark UI Session Refresh**: Fixed users being redirected to the login page when opening Spark UI, Spark History, or Grafana after their access token expired. The proxy now refreshes expired session tokens automatically, matching the main application's behavior.
+      - **Spark UI Bearer Tokens**: Fixed programmatic requests to Spark UI and Spark History URLs being redirected to the login page. The proxy now also accepts `Authorization: Bearer <token>`.
+      - **Spark UI Session Refresh**: Fixed users being redirected to the login page when opening Spark UI, Spark History, or Grafana after their access token expired. The proxy now refreshes expired session tokens automatically.
     - **SQL Editor**
       - **Query Ownership**: Six query endpoints, including status, cancel, CSV export and batch status, now check who owns the query.
-      - **Query Cancellation**: Fixed cancelling a running query hanging until the caller gave up, leaving the query stuck in `RUNNING`. Every cancel path, HTTP, JDBC and Arrow Flight, now has a deadline.
+      - **Query Cancellation**: Fixed cancelling a running query hanging until the caller gave up, leaving the query stuck in `RUNNING`.
       - **SQL Scripting**: Fixed `BEGIN … END` blocks being split into separate statements when saving schedules, and fixed compound scripts returning empty results through the Arrow execution path.
-      - **Null Values**: A SQL `NULL` is returned as `null` instead of the key being omitted, which had made rows narrower than the column list returned alongside them.
+      - **Null Values**: A SQL `NULL` is returned as `null` instead of the key being omitted.
       - **Sorting**: An explicit sort in query monitoring is now applied, instead of results always coming back ordered by end time.
       - **Arrow Connection String**: The Arrow Flight JDBC connection string on a compute's Connections tab uses the `{access_token}` placeholder instead of `{password}`, matching every other connection string.
       - **Query Monitoring User Filter**: The user filter was enabled only for the domain owner. It is now available to anyone who can manage domain members.
@@ -289,7 +286,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Complex Column Types**: The table schema endpoint serializes struct, list and map columns through the Iceberg schema parser, instead of a form clients could not read.
       - **Catalog Storage Settings**: Per-catalog storage settings are sent as configuration defaults instead of overrides, so a client's own setting is no longer replaced. A catalog without its own credentials falls back to the installation's storage credentials, instead of sending none.
       - **Unknown Identifiers**: Data catalog lookups for a catalog, namespace, table, column or bookmark that does not exist return `404` instead of `500`.
-      - **Enterprise Catalog Spark Properties**: Fixed enterprise catalogs missing essential S3 and Iceberg Spark properties, which could cause query failures on catalogs created via the enterprise catalog feature.
+      - **Enterprise Catalog Spark Properties**: Fixed enterprise catalogs missing essential S3 and Iceberg Spark properties, which could cause query failures.
       - **Enterprise Catalog Option**: The Enterprise catalog type is hidden when the feature is disabled, instead of failing on create with a "Bad input" error.
       - **Spark Catalog Tabs**: The **Domain permissions** and **Maintenance** tabs were enabled for every Admin Portal user and then failed with a `403` on open. They are now gated on the roles the backend enforces, with an access-denied tooltip.
     - **Platform Services**
