@@ -133,4 +133,9 @@ A short way to put it: **a Hadoop distribution gives you components to assemble 
 
 *Red Hat and OpenShift are trademarks of Red Hat, Inc. Apache®, Apache Hadoop®, Apache Hive™, Apache Impala™, Apache Spark™, Apache Iceberg™, Apache Ranger™ and Apache Airflow™ are trademarks of the Apache Software Foundation. Names are used only to identify products.*
 
-**Sources:** Iceberg procedures: https://iceberg.apache.org/docs/latest/spark-procedures/ · IOMETE capabilities: https://iomete.com/llms.txt, https://iomete.com/product/deployment (accessed 2026-10-01) · OpenShift certification: IOMETE announcement, 2026-05-20 [TODO: link the Red Hat catalog entry]. Pains are from internal VoC (not quoted).
+## Sources
+
+- [Apache Iceberg Spark procedures](https://iceberg.apache.org/docs/latest/spark-procedures/).
+- [IOMETE deployment options](https://iomete.com/product/deployment), accessed 1 October 2026.
+- [IOMETE capability summary](https://iomete.com/llms.txt), accessed 1 October 2026.
+- OpenShift certification: IOMETE announcement, 20 May 2026. [TODO: link the Red Hat catalog entry.]
