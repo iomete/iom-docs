@@ -3,8 +3,8 @@ title: On-Premises Deployment Guide
 sidebar_label: Install
 description:  Detailed instructions for deploying IOMETE on-premises within a Kubernetes environment.
 last_update:
-  date: 09/30/2026
-  author: Abhishek Pathania
+  date: 10/03/2026
+  author: Maksym Kryvchun
 ---
 
 import Img from '@site/src/components/Img';
@@ -66,6 +66,8 @@ If you need an object storage system, consider deploying MinIO, object storage s
 
 For metadata storage, you need a PostgreSQL database. Please follow the instructions [here](../postgresql-deployment.md).
 
+Write down the PostgreSQL admin password. You need it for the values file below.
+
 ### Add IOMETE Helm Repository
 
 Add the IOMETE helm repository for access to necessary charts:
@@ -78,7 +80,7 @@ helm repo update
 Set the chart version you are installing. Every `helm` command below uses it, so all of them work from the same chart:
 
 ```shell title="Set the chart version"
-export IOMETE_VERSION="<chart-version>"   # for example 3.19.1
+export IOMETE_VERSION="<chart-version>"   # for example 4.0.0
 ```
 
 ### Prepare Your Values File
@@ -91,7 +93,14 @@ Required file: [example-data-plane-values.yaml](https://github.com/iomete/iomete
 wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/on-prem/example-data-plane-values.yaml
 ```
 
-This is a sample file. Edit it for your setup before you continue. For every available setting, see the [IOMETE Data Plane Enterprise](https://artifacthub.io/packages/helm/iomete/iomete-data-plane-enterprise) page on Artifact Hub.
+Open the file and update it for your setup:
+
+- `database`: your PostgreSQL address. Replace `<set-a-strong-password>` with the PostgreSQL admin password.
+- `storage`: your bucket name, endpoint and access keys.
+- `ingress.httpsEnabled`: `false` for HTTP, `true` for HTTPS.
+- `adminUser`: the first user who logs in. The default is `admin` / `admin`.
+
+For every available setting, see the [IOMETE Data Plane Enterprise](https://artifacthub.io/packages/helm/iomete/iomete-data-plane-enterprise) page on Artifact Hub.
 
 ### Create Cluster-Level Resources
 
@@ -255,7 +264,30 @@ helm upgrade --install -n iomete-system data-plane \
 
 Run the same command later to upgrade.
 
+Wait until all pods show `Running`. This takes a few minutes the first time:
+
+```shell title="Watch the IOMETE pods start"
+kubectl get pods -n iomete-system --watch
+```
+
 ### Configure ISTIO Ingress Gateway
 
-Please follow the [Configure ISTIO Ingress Gateway](/deployment/configure-ingress) to configure the Ingress Gateway for
-IOMETE Data Plane to be able to access the UI.
+Follow [Configure ISTIO Ingress Gateway](../configure-ingress.md) so you can open the IOMETE UI in a browser.
+
+### Logging In
+
+Get the IOMETE address:
+
+```shell title="Get the ingress gateway address"
+kubectl get service istio-ingress -n istio-system
+```
+
+Open the `EXTERNAL-IP` in your browser.
+
+If it shows `<pending>`, your cluster has no load balancer. Run this instead and open `http://localhost:8080`:
+
+```shell title="Open IOMETE without a load balancer"
+kubectl port-forward -n istio-system service/istio-ingress 8080:80
+```
+
+Log in with your `adminUser` (default `admin` / `admin`). You are asked to set a new password.

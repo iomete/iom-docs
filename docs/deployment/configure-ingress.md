@@ -3,8 +3,8 @@ title: Configure ISTIO Ingress
 sidebar_label: Configure Ingress
 description: Configure ISTIO as an ingress controller on a Kubernetes cluster and configure it for use with IOMETE
 last_update:
-  date: 04/28/2024
-  author: Vusal Dadalov
+  date: 10/03/2026
+  author: Maksym Kryvchun
 ---
 
 This guide walks you through the process of installing ISTIO as an ingress controller on a Kubernetes cluster and configuring it for use with IOMETE.
@@ -24,12 +24,12 @@ helm repo update
 
 ### Deploy ISTIO Components via Helm
 
-Execute these commands to install the necessary ISTIO components:
+Run these commands to install ISTIO. If your Kubernetes version is not supported by this ISTIO version, pick another one from the [Istio support status](https://istio.io/latest/docs/releases/supported-releases/) page.
 
 ```shell
-helm upgrade --install -n istio-system base istio/base --version 1.17.2
-helm upgrade --install -n istio-system istiod istio/istiod --version 1.17.2
-helm upgrade --install -n istio-system istio-ingress istio/gateway --version 1.17.2
+helm upgrade --install -n istio-system --create-namespace base istio/base --version 1.30.4
+helm upgrade --install -n istio-system istiod istio/istiod --version 1.30.4 --wait
+helm upgrade --install -n istio-system istio-ingress istio/gateway --version 1.30.4
 ```
 
 ## Configuring the Gateway
@@ -63,7 +63,7 @@ To set up a secure gateway using TLS:
 #### Prerequisites
 
 Before you begin, ensure you have the following ready:
-- **DNS Configuration**: The DNS for your IOMETE Data Plane must be set up. See [Configure Custom DNS for IOMETE Data Plane](/deployment/configure-custom-dns).
+- **DNS Configuration**: The DNS for your IOMETE Data Plane must be set up. See [Configure Custom DNS for IOMETE Data Plane](./configure-custom-dns.md).
 - **TLS Certificate and Private Key**: You need a TLS certificate and a private key, valid for your IOMETE Data Plane's DNS name.
 
 :::info Why do I need a custom DNS?
@@ -121,4 +121,4 @@ Also, make sure in the `ingress.httpsEnabled=true` in the data plane values. If 
 ---
 ## Follow-Up Steps
 
-If you want to set up a custom DNS for your IOMETE Data Plane, refer to the [Configure Custom DNS](../deployment/configure-custom-dns.md) guide.
+If you want to set up a custom DNS for your IOMETE Data Plane, refer to the [Configure Custom DNS](./configure-custom-dns.md) guide.

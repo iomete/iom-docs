@@ -3,8 +3,8 @@ title: Deploy Minio & Prepare Buckets
 sidebar_label: Minio Deployment
 description:  Deploy Minio and prepare buckets for the IOMETE deployment.
 last_update:
-  date: 08/15/2024
-  author: Vusal Dadalov
+  date: 10/03/2026
+  author: Maksym Kryvchun
 ---
 
 ## Test Minio deployment
@@ -29,6 +29,14 @@ This Minio deployment is for testing purposes only. For production, please use y
 
 
 This bucket will store the data lakehouse (data lake).
+
+First, open a connection to MinIO and leave it running:
+
+```shell
+kubectl port-forward -n iomete-system service/minio 9000:9000
+```
+
+Then run these commands in a new terminal:
 
 ```shell showLineNumbers
 # export access key and secret key
