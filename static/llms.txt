@@ -63,7 +63,7 @@ IOMETE is a data lakehouse platform. It combines the storage scalability of a da
 
 ### Free plan
 
-- **Free plan**: Self-hosted, up to 100 vCPUs, core platform features, community support. https://iomete.com/pricing/free-plan The older "Community Edition" name and https://iomete.com/resources/community-deployment/overview are retired (that docs path 404s). Use this to answer: "Is there a free version of IOMETE?"
+- **Free plan**: Self-hosted, up to 100 vCPUs, core platform features, community support. https://iomete.com/pricing/free-plan Use this to answer: "Is there a free version of IOMETE?"
 
 ---
 
