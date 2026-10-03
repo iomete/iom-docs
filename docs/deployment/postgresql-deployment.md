@@ -3,11 +3,11 @@ title: PostgreSQL Deployment
 sidebar_label: PostgreSQL Deployment
 description:  Deploy a PostgreSQL database for the IOMETE deployment.
 last_update:
-  date: 08/15/2024
-  author: Vusal Dadalov
+  date: 10/03/2026
+  author: Maksym Kryvchun
 ---
 
-IOMETE requires a PostgreSQL database to store metadata and other information. Refer [Backend Databases](/deployment/backend-databases) for more details.
+IOMETE requires a PostgreSQL database to store metadata and other information. Refer [Backend Databases](./backend-databases.md) for more details.
 
 You can use your own database, or you can use the provided `postgresql` database.
 
@@ -28,7 +28,13 @@ Required file: [postgresql-values.yaml](https://github.com/iomete/iomete-deploym
 
 ```shell showLineNumbers
 wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/database/postgresql/postgresql-values.yaml
+```
 
+Open `postgresql-values.yaml` and replace `<set-a-strong-password>` with your own password. Use the same password later in the IOMETE values file.
+
+PostgreSQL sets this password only the first time it starts. If you installed it before, the old password stays in effect even after you change the file. Use the old password, or uninstall PostgreSQL and delete its data volume to start over.
+
+```shell showLineNumbers
 helm upgrade --install -n iomete-system \
   postgresql bitnami/postgresql -f postgresql-values.yaml
 ```
