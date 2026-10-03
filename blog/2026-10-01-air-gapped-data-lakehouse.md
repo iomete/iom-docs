@@ -97,8 +97,6 @@ What these teams share: they want modern analytics (open formats, Spark, SQL, no
 7. Run the post-install validation.
 8. Upgrade procedure for future releases.]
 
-Link the finished steps to the docs: `/resources/deployment/air-gapped-install` (new). Link from `/resources/deployment/on-prem/install`.
-
 <FAQSection faqs={[
   {
     question: "Can a data lakehouse run with no internet access at all?",
@@ -134,4 +132,9 @@ Link the finished steps to the docs: `/resources/deployment/air-gapped-install` 
 
 *Red Hat and OpenShift are trademarks of Red Hat, Inc. Apache®, Apache Spark™, Apache Iceberg™ and Apache Ranger™ are trademarks of the Apache Software Foundation. Other names are trademarks of their respective owners.*
 
-**Sources:** https://iomete.com/product/deployment ("Support for air-gapped environments", OpenShift), https://iomete.com/llms.txt (air-gapped, storage list, Ranger, observability), https://iomete.com/faq (air-gapped definition); OpenShift Operator certification announcement 2026-05-20. Engineering must confirm every TODO.
+## Sources
+
+- [IOMETE deployment options](https://iomete.com/product/deployment). "Support for air-gapped environments" and OpenShift.
+- [IOMETE capability summary](https://iomete.com/llms.txt). Air-gapped deployment, storage, Ranger, and observability.
+- [IOMETE FAQ](https://iomete.com/faq). Air-gapped definition.
+- OpenShift Operator certification announcement, 20 May 2026.
