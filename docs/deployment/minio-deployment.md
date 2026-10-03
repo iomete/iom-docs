@@ -30,7 +30,13 @@ This Minio deployment is for testing purposes only. For production, please use y
 
 This bucket will store the data lakehouse (data lake).
 
-First, open a connection to MinIO and leave it running:
+Wait for MinIO to start:
+
+```shell
+kubectl wait pod -n iomete-system -l app=minio --for=condition=Ready --timeout=5m
+```
+
+Then open a connection to MinIO and leave it running:
 
 ```shell
 kubectl port-forward -n iomete-system service/minio 9000:9000

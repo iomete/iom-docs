@@ -32,6 +32,8 @@ wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/database/po
 
 Open `postgresql-values.yaml` and replace `<set-a-strong-password>` with your own password. Use the same password later in the IOMETE values file.
 
+PostgreSQL sets this password only the first time it starts. If you installed it before, the old password stays in effect even after you change the file. Use the old password, or uninstall PostgreSQL and delete its data volume to start over.
+
 ```shell showLineNumbers
 helm upgrade --install -n iomete-system \
   postgresql bitnami/postgresql -f postgresql-values.yaml

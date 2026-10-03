@@ -24,12 +24,20 @@ helm repo update
 
 ### Deploy ISTIO Components via Helm
 
-Run these commands to install ISTIO. If your Kubernetes version is not supported by this ISTIO version, pick another one from the [Istio support status](https://istio.io/latest/docs/releases/supported-releases/) page.
+These commands are for a cluster without Istio. If Istio is already installed, keep it and skip to [Configuring the Gateway](#configuring-the-gateway). To upgrade an older Istio, follow the [Istio upgrade guide](https://istio.io/latest/docs/setup/upgrade/), because Helm can't jump across many Istio versions in one step.
+
+Set the Istio version. If this version doesn't support your Kubernetes version, pick another one from the [Istio support status](https://istio.io/latest/docs/releases/supported-releases/) page.
 
 ```shell
-helm upgrade --install -n istio-system --create-namespace base istio/base --version 1.30.4
-helm upgrade --install -n istio-system istiod istio/istiod --version 1.30.4 --wait
-helm upgrade --install -n istio-system istio-ingress istio/gateway --version 1.30.4
+export ISTIO_VERSION=1.30.5
+```
+
+Install Istio:
+
+```shell
+helm upgrade --install -n istio-system --create-namespace base istio/base --version "$ISTIO_VERSION"
+helm upgrade --install -n istio-system istiod istio/istiod --version "$ISTIO_VERSION" --wait
+helm upgrade --install -n istio-system istio-ingress istio/gateway --version "$ISTIO_VERSION"
 ```
 
 ## Configuring the Gateway
