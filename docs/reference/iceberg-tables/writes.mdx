@@ -1,11 +1,14 @@
 ---
-title: "Iceberg tables INSERT, MERGE, and DELETE Operations"
+title: "Iceberg MERGE INTO, INSERT OVERWRITE & DELETE (Spark SQL)"
+title_meta: "Iceberg MERGE INTO, INSERT OVERWRITE & DELETE (Spark SQL)"
 sidebar_label: Writes
-description: Learn how to use IOMETE for row-level updates and replacing data in partitioned tables using INSERT INTO, MERGE INTO, and INSERT OVERWRITE operations.
+description: "Spark SQL examples for writing to Apache Iceberg tables: INSERT INTO, MERGE INTO upserts, INSERT OVERWRITE on partitions, and DELETE, with gotchas."
 last_update:
-  date: 03/25/2026
+  date: 10/01/2026
   author: Abhishek Pathania
 ---
+
+import DemoCta from '@site/src/components/DemoCta';
 
 ### Writing with SQL
 
@@ -25,7 +28,7 @@ INSERT INTO db.table VALUES (1, 'a'), (2, 'b')
 INSERT INTO db.table SELECT ...
 ```
 
-<br />
+<DemoCta variant="A" page="iceberg-writes" position="mid" />
 
 ### `MERGE INTO`
 
@@ -252,3 +255,5 @@ This type conversion table describes how Iceberg types are converted to the Spar
 | struct                     | struct    |               |
 | list                       | array     |               |
 | map                        | map       |               |
+
+<DemoCta variant="A" page="iceberg-writes" position="end" />

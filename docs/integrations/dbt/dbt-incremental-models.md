@@ -1,13 +1,18 @@
 ---
-title: DBT Incremental Models
+title: "dbt Incremental Models: How They Work and When to Use Them"
+title_meta: "dbt Incremental Models: How They Work and When to Use Them"
 sidebar_label: Incremental Models
-description: Learn how to use the incremental dbt model on the IOMETE data platform to reduce the runtime of transformation and improve warehouse performance
+description: "What dbt incremental models are, how is_incremental() and unique_key work, and how to choose a strategy, with examples on Apache Spark and Iceberg."
 last_update:
-  date: 09/04/2026
+  date: 10/01/2026
   author: Abhishek Pathania
 ---
 
+import DemoCta from '@site/src/components/DemoCta';
+
 Incremental models skip reprocessing your entire source dataset on every run, which can be the difference between a transformation that finishes in seconds and one that drags on for hours. They're built as tables in your data lake. The first run transforms _all rows_ of source data, and on later runs dbt transforms only the rows you filter for, then inserts them into the existing target table.
+
+For runnable examples of every strategy, see [incremental models by example](./dbt-incremental-models-by-examples.md).
 
 Usually you filter for rows created or updated since the last run. That's why your model **gets built incrementally** with each dbt run.
 
@@ -369,3 +374,5 @@ select ...
 :::caution
 Predicates reference `DBT_INTERNAL_DEST` (the target table alias). A wrong predicate can silently skip rows during the merge, so run `--full-refresh` to recover.
 :::
+
+<DemoCta variant="A" page="dbt-incremental-models" position="end" />

@@ -1,6 +1,7 @@
 ---
-title: Interpreting the Gartner® Market Guide for Data Lakehouse Platforms
-description: Why Gartner's Market Guide matters, what it says about the lakehouse category, and how IOMETE's self-hosted approach meets enterprise demands.
+title: "IOMETE in the 2025 Gartner® Market Guide for Lakehouses"
+title_meta: "IOMETE in the 2025 Gartner® Market Guide for Lakehouses"
+description: "IOMETE was included in the 2025 Gartner® Market Guide for Data Lakehouse Platforms. What the guide says about the category and self-hosted platforms."
 slug: iomete-gartner-market-guide-2025
 authors: aytan
 tags2: [Announcement, Company]
@@ -8,7 +9,7 @@ featured_blog: true
 date: 12/05/2025
 coverImage: img/blog/thumbnails/2.png
 last_update:
-  date: 2026-06-05
+  date: 2026-10-01
 ---
 
 import Img from '@site/src/components/Img';

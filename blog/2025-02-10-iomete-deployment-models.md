@@ -1,6 +1,7 @@
 ---
-title: IOMETE Deployment Models and Architecture
-description: IOMETE runs within the organization's data center, offering maximum control over the entire stack
+title: "IOMETE Deployment Models: On-Prem, Cloud, Hybrid, Air-Gap"
+title_meta: "IOMETE Deployment Models: On-Prem, Cloud, Hybrid, Air-Gap"
+description: "How IOMETE deploys: a control plane and data planes on Kubernetes in your data center, private cloud, public cloud or an air-gapped network."
 authors: vusal
 tags2: [Technical, Educational]
 slug: iomete-deployment-models
@@ -8,7 +9,7 @@ coverImage: img/blog/2025-02-10-iomete-deployment-models/cover.png
 banner_description: IOMETE runs within the organization's data center, offering maximum control over the entire stack
 date: 02/10/2025
 last_update:
-  date: 2026-06-02
+  date: 2026-10-01
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";

@@ -1,6 +1,7 @@
 ---
-title: What is a Snowflake Compute Credit?
-description: How Snowflake compute credits are defined, consumed, and priced, and what actually drives your compute bill.
+title: "Snowflake Credits Explained: What a Credit Costs & Uses"
+title_meta: "Snowflake Credits Explained: What a Credit Costs & Uses"
+description: "How Snowflake compute credits are consumed by warehouse size and runtime, what drives credit cost, and how to estimate a bill. Sourced from Snowflake docs."
 slug: snowflake-compute-credit
 image: img/blog/snowflake-compute-credit/snowflake-compute-credits.jpg
 coverImage: img/blog/thumbnails/1.png
@@ -11,6 +12,7 @@ banner_description: Understanding your consumption of Snowflake credits
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
+import DemoCta from '@site/src/components/DemoCta';
 
 import MiniCard from "@site/src/components/MiniCard";
 
@@ -96,3 +98,5 @@ The practical way to control this spend is to control runtime and size: right-si
     answer: "Teams can reduce compute costs by right-sizing clusters, suspending idle warehouses, caching frequent results, and limiting access to compute resources to only the workloads that need them. Choosing architectures that separate storage from compute lets each scale independently and avoids paying for idle capacity. Running analytics on a self-hosted lakehouse such as IOMETE gives teams direct control over the compute instances and their utilization rather than paying per vendor-defined credit."
   }
 ]} />
+
+<DemoCta variant="B" page="snowflake-compute-credit" position="end" />

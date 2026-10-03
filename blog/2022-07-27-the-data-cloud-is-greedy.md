@@ -1,7 +1,8 @@
 ---
 slug: the-data-cloud-is-greedy
-title: The Data Cloud is Greedy
-description: In this blog post we discuss the status quo in the data cloud industry - the prioritization of investor interest over customer interest.
+title: "The Data Cloud Is Greedy: Who Pays for SaaS Margins?"
+title_meta: "The Data Cloud Is Greedy: Who Pays for SaaS Margins?"
+description: "An opinion piece on data cloud economics: how SaaS pricing models align with investor interests, and what that means for data teams' costs."
 authors: piet
 hide_table_of_contents: true
 tags2: [Company]
@@ -15,6 +16,8 @@ banner_description: In this post we explained why we believe "The Data Cloud" - 
 import FAQSection from '@site/src/components/FAQSection';
 
 ![The Data Cloud is Greedy](/img/blog/2022-07-27-the-data-cloud-is-greedy/the-data-cloud-is-greedy.jpeg)
+
+*This is an opinion piece.*
 
 <!-- truncate -->
 

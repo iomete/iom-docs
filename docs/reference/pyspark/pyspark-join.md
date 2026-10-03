@@ -1,14 +1,16 @@
 ---
-title: A Comprehensive Guide to PySpark Joins
+title: "PySpark Join: All Join Types with Examples (Inner to Anti)"
+title_meta: "PySpark Join: All Join Types with Examples (Inner to Anti)"
 sidebar_label: Joins
-description: Master PySpark joins with a comprehensive guide covering inner, cross, outer, left semi, and left anti joins. Explore syntax, examples, best practices, and FAQs to effectively combine data from multiple sources using PySpark.
+description: "PySpark join syntax with runnable examples for inner, left, right, full outer, cross, left semi and left anti joins, plus tips to avoid duplicate columns."
 last_update:
-  date: 03/25/2026
+  date: 10/01/2026
   author: Abhishek Pathania
 ---
 
 
 import Img from '@site/src/components/Img';
+import DemoCta from '@site/src/components/DemoCta';
 
 Joins are fundamental operations for combining data from multiple sources. PySpark provides different types of joins, including
 - inner and cross joins
@@ -164,6 +166,8 @@ The result of `df_joined.show()` would include rows with matching `dept_id` valu
 :::tip Handling Null Values in Inner Join
 As you've seen in the example, you cannot match `null` values with other null values. Therefore, rows with null values as the join key are excluded from the result.
 :::
+
+<DemoCta variant="A" page="pyspark-join" position="mid" />
 
 ---
 ## **Cross Join**
@@ -982,3 +986,5 @@ As you've seen in the example, even though there's a null in the purchases table
 
 ### Partitioning
 **Partitioning**: The process of dividing a large DataFrame into smaller pieces (partitions) that can be processed in parallel. Effective partitioning is crucial for optimizing join operations in distributed computing.
+
+<DemoCta variant="A" page="pyspark-join" position="end" />
