@@ -34,7 +34,7 @@ IOMETE is a data lakehouse platform. It combines the storage scalability of a da
 **Cost:** [TODO: approved savings claim, or delete this line]
 **Book a demo:** https://iomete.com/contact-us [TODO: until /demo is live, use https://iomete.com/contact-us]
 **Kubernetes-native:** Installed with Helm on standard Kubernetes or Red Hat OpenShift. The IOMETE Operator is Red Hat OpenShift Certified. [TODO: Red Hat catalog URL]
-**Legacy Hadoop migration:** [TODO: add the guide URL once published]
+**Legacy Hadoop migration:** https://iomete.com/resources/blog/legacy-hadoop-to-lakehouse
 **Air-gapped data lakehouse:** [TODO: add once published]
 
 ---
