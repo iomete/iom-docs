@@ -264,7 +264,7 @@ helm upgrade --install -n iomete-system data-plane \
 
 Run the same command later to upgrade.
 
-Wait until all pods show `Running`. This takes a few minutes the first time:
+Wait until every pod is ready (`READY` shows `1/1`, `2/2` and so on) or shows `Completed`. This takes a few minutes the first time:
 
 ```shell title="Watch the IOMETE pods start"
 kubectl get pods -n iomete-system --watch
@@ -282,9 +282,9 @@ Get the IOMETE address:
 kubectl get service istio-ingress -n istio-system
 ```
 
-Open the `EXTERNAL-IP` in your browser.
+Open the `EXTERNAL-IP` in your browser. If you set up HTTPS, open your DNS name instead, for example `https://iomete.example.com`.
 
-If it shows `<pending>`, your cluster has no load balancer. Run this instead and open `http://localhost:8080`:
+If `EXTERNAL-IP` stays `<pending>`, the cluster has not given the gateway an address. For an HTTP setup, run this instead and open `http://localhost:8080`:
 
 ```shell title="Open IOMETE without a load balancer"
 kubectl port-forward -n istio-system service/istio-ingress 8080:80
