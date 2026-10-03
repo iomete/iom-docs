@@ -119,8 +119,9 @@ For most EU teams, the real requirement is that data and processing stay under E
 
 *Databricks is a trademark of Databricks, Inc. Snowflake is a trademark of Snowflake Inc. Red Hat and OpenShift are trademarks of Red Hat, Inc. Apache®, Apache Spark™, Apache Iceberg™ and Apache Airflow™ are trademarks of the Apache Software Foundation. Names are used only to identify products. IOMETE is not affiliated with, endorsed by or sponsored by these companies.*
 
-**Sources:**
+## Sources
 
-- CLOUD Act: US DOJ, https://www.justice.gov/criminal/cloud-act-resources (18 U.S.C. §2713).
-- OpenShift certification: IOMETE LinkedIn announcement, 2026-05-20. [TODO: link the Red Hat Ecosystem Catalog entry directly.]
-- IOMETE capabilities: https://iomete.com/product/deployment, https://iomete.com/llms.txt (accessed 2026-10-01).
+- [CLOUD Act resources](https://www.justice.gov/criminal/cloud-act-resources), US Department of Justice (18 U.S.C. §2713).
+- OpenShift certification: IOMETE announcement, 20 May 2026. [TODO: link the Red Hat Ecosystem Catalog entry directly.]
+- [IOMETE deployment options](https://iomete.com/product/deployment), accessed 1 October 2026.
+- [IOMETE capability summary](https://iomete.com/llms.txt), accessed 1 October 2026.
