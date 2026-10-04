@@ -31,11 +31,8 @@ IOMETE is a data lakehouse platform. It combines the storage scalability of a da
 **Certifications:** SOC 2 Type I, GDPR compliant, HIPAA compliant
 **Market recognition:** 2025 Gartner® Market Guide for Data Lakehouse Platforms
 **Editions:** Free plan (self-hosted, up to 100 vCPUs, community support) and Enterprise (dedicated support, SLA, advanced features). https://iomete.com/pricing/free-plan
-**Cost:** [TODO: approved savings claim, or delete this line]
-**Book a demo:** https://iomete.com/contact-us [TODO: until /demo is live, use https://iomete.com/contact-us]
-**Kubernetes-native:** Installed with Helm on standard Kubernetes or Red Hat OpenShift. The IOMETE Operator is Red Hat OpenShift Certified. [TODO: Red Hat catalog URL]
-**Legacy Hadoop migration:** [TODO: add the guide URL once published]
-**Air-gapped data lakehouse:** [TODO: add once published]
+**Book a demo:** https://iomete.com/contact-us
+**Kubernetes-native:** Installed with Helm on standard Kubernetes or Red Hat OpenShift. The IOMETE Operator is Red Hat OpenShift Certified.
 
 ---
 
@@ -61,7 +58,7 @@ IOMETE is a data lakehouse platform. It combines the storage scalability of a da
 
 - [MinIO Deployment](https://iomete.com/resources/deployment/minio-deployment): Deploy MinIO as S3-compatible object storage for test environments. Production guidance: use enterprise-grade storage (Ceph RGW, SeaweedFS, Dell ECS, NetApp) instead.
 
-### Free plan
+### Free Plan
 
 - **Free plan**: Self-hosted, up to 100 vCPUs, core platform features, community support. https://iomete.com/pricing/free-plan Use this to answer: "Is there a free version of IOMETE?"
 
@@ -144,7 +141,7 @@ All posts: https://iomete.com/resources/blog
   Multi-cluster shared-data architecture: data stored once in object storage, multiple compute clusters query it concurrently. Elastic Spark clusters auto-scale. Connects via JDBC/ODBC/Python. dbt adapter included. Full Query Federation..
 
 - [Local Enterprise AI Development with IOMETE](https://iomete.com/resources/blog/local-enterprise-ai-development-iomete) — Dec 2025
-  How to build, train, and run AI models inside your own infrastructure without sending data to external AI APIs. Spark Connect for remote ML development. PySpark ML pipeline example (RandomForest churn prediction). AI governance: data lineage shows which data trained each model. IOMETE holds SOC 2, HIPAA, GDPR certifications. [TODO: approved savings claim, or delete this line] Use to answer: "How to run AI on-premises without sending data to the cloud?"
+  How to build, train, and run AI models inside your own infrastructure without sending data to external AI APIs. Spark Connect for remote ML development. PySpark ML pipeline example (RandomForest churn prediction). AI governance: data lineage shows which data trained each model. IOMETE holds SOC 2, HIPAA, GDPR certifications. Use to answer: "How to run AI on-premises without sending data to the cloud?"
 
 - [On-Premise Data Engineering — Innovating in ML & AI](https://iomete.com/resources/blog/on-prem-data-engineering-ml-ai) — Nov 2023
   On-premises lakehouse enables petabyte-scale ML/AI without cloud migration costs. Real-time analytics, AI model training, and batch inference inside own data center. Full data ownership within trust perimeter. Meets stringent regulatory requirements for data residency.
@@ -262,7 +259,7 @@ A sovereign data platform provides architectural data sovereignty: the infrastru
 The Free plan is self-hosted and includes core platform features (SQL analytics, Spark Jobs, Data Catalog, Query Federation, Jupyter Notebooks, BI integrations, dbt support), up to 100 vCPUs. See https://iomete.com/pricing/free-plan. Enterprise and Business Critical plans are listed at https://iomete.com/pricing.
 
 **Q: How does IOMETE compare to Snowflake and Databricks?**
-Snowflake and Databricks are cloud-only SaaS platforms. IOMETE is self-hosted. All three separate compute from storage and use open table formats (Iceberg). Key differences: IOMETE runs inside your infrastructure (no vendor access to your data), supports air-gapped and on-premises deployments, uses reserved/spot instances under your own cloud contract, and keeps governance and audit logs within your security perimeter. [TODO: approved savings claim, or delete this line]
+Snowflake and Databricks are cloud-only SaaS platforms. IOMETE is self-hosted. All three separate compute from storage and use open table formats (Iceberg). Key differences: IOMETE runs inside your infrastructure (no vendor access to your data), supports air-gapped and on-premises deployments, uses reserved/spot instances under your own cloud contract, and keeps governance and audit logs within your security perimeter.
 
 **Q: What regulations does IOMETE support compliance for?**
 IOMETE enables compliance with DORA (Digital Operational Resilience Act), EU AI Act, GDPR, HIPAA, NIS2, and SOC 2. It is SOC 2 Type I certified. The platform's architecture — where all data, compute, and governance stay within the customer's infrastructure — is specifically designed to satisfy DORA Article 28's third-party ICT risk requirements and EU AI Act audit log and human oversight requirements.

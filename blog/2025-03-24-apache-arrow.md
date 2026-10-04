@@ -254,4 +254,4 @@ The advantages of Arrow go beyond speed. By simplifying the exchange of data bet
   }
 ]} />
 
-<DemoCta variant="A" page="apache-arrow-format" position="end" />
+<DemoCta variant="A" refId="blog-apache-arrow-format" position="end" />

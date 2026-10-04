@@ -27,7 +27,7 @@ Self-hosted data lakehouses aren't a niche preference anymore. They're becoming 
 
 <!-- truncate -->
 
-<DemoCta variant="C" page="why-2026-enterprises-move-saas-to-selfhosted-lakehouses" position="intro" />
+<DemoCta variant="C" refId="blog-why-2026-enterprises-move-saas-to-selfhosted-lakehouses" position="intro" />
 
 ---
 
@@ -267,4 +267,4 @@ IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, Apache 
 
 Learn more at [iomete.com](https://iomete.com) or [schedule a demo](https://iomete.com/contact-us) to see how self-hosted lakehouse architecture can solve your compliance and cost challenges.
 
-<DemoCta variant="B" page="why-2026-enterprises-move-saas-to-selfhosted-lakehouses" position="end" />
+<DemoCta variant="B" refId="blog-why-2026-enterprises-move-saas-to-selfhosted-lakehouses" position="end" />

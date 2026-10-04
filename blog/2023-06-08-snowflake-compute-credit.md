@@ -1,6 +1,6 @@
 ---
-title: "Snowflake Credits Explained: What a Credit Costs & Uses"
-title_meta: "Snowflake Credits Explained: What a Credit Costs & Uses"
+title: "Snowflake Credits Explained: Cost, Usage & Pricing"
+title_meta: "Snowflake Credits Explained: Cost, Usage & Pricing"
 description: "How Snowflake compute credits are consumed by warehouse size and runtime, what drives credit cost, and how to estimate a bill. Sourced from Snowflake docs."
 slug: snowflake-compute-credit
 image: img/blog/snowflake-compute-credit/snowflake-compute-credits.jpg
@@ -99,4 +99,4 @@ The practical way to control this spend is to control runtime and size: right-si
   }
 ]} />
 
-<DemoCta variant="B" page="snowflake-compute-credit" position="end" />
+<DemoCta variant="B" refId="blog-snowflake-compute-credit" position="end" />

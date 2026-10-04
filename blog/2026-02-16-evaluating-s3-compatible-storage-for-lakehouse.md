@@ -27,7 +27,7 @@ This article evaluates the realistic alternatives with a practical assessment of
 
 <!-- truncate -->
 
-<DemoCta variant="C" page="evaluating-s3-compatible-storage-for-lakehouse" position="intro" />
+<DemoCta variant="C" refId="blog-evaluating-s3-compatible-storage-for-lakehouse" position="intro" />
 
 ---
 
@@ -352,4 +352,4 @@ This is by design. The storage layer is the one piece of infrastructure that sho
 
 If you're evaluating object storage for a self-hosted lakehouse deployment, [get in touch](https://iomete.com/contact-us) — we've helped teams navigate this decision across a range of scales and infrastructure constraints.
 
-<DemoCta variant="B" page="evaluating-s3-compatible-storage-for-lakehouse" position="end" />
+<DemoCta variant="B" refId="blog-evaluating-s3-compatible-storage-for-lakehouse" position="end" />

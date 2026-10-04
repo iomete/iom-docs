@@ -65,7 +65,7 @@ The key insight: **streaming ingestion and batch compaction are complementary, n
 
 ---
 
-<DemoCta variant="A" page="apache-iceberg-production-antipatterns-2026" position="mid" />
+<DemoCta variant="A" refId="blog-apache-iceberg-production-antipatterns-2026" position="mid" />
 
 ## Anti-Pattern #2: Metadata Bloat from Snapshot Accumulation
 
@@ -387,4 +387,4 @@ IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, [Apache
 
 Learn more at [iomete.com](https://iomete.com) or [schedule a demo](https://iomete.com/contact-us) to see how IOMETE handles Iceberg operations in production environments.
 
-<DemoCta variant="A" page="apache-iceberg-production-antipatterns-2026" position="end" />
+<DemoCta variant="A" refId="blog-apache-iceberg-production-antipatterns-2026" position="end" />

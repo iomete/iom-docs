@@ -142,4 +142,4 @@ Metadata is Iceberg's superpower when maintained correctly. With a clear snapsho
   }
 ]} />
 
-<DemoCta variant="A" page="iceberg-maintenance-runbook" position="end" />
+<DemoCta variant="A" refId="blog-iceberg-maintenance-runbook" position="end" />

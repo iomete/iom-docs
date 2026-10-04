@@ -244,4 +244,4 @@ Learn more details in: [Apache Iceberg documentation](https://iceberg.apache.org
 
 Learn more about [IOMETE](https://iomete.com/)
 
-<DemoCta variant="A" page="cheat-sheet-for-apache-iceberg" position="end" />
+<DemoCta variant="A" refId="blog-cheat-sheet-for-apache-iceberg" position="end" />

@@ -27,7 +27,7 @@ This isn't a future problem. Financial institutions are being audited right now.
 
 <!-- truncate -->
 
-<DemoCta variant="C" page="data-sovereignty-compliance-2026-dora-ai-act" position="intro" />
+<DemoCta variant="C" refId="blog-data-sovereignty-compliance-2026-dora-ai-act" position="intro" />
 
 ---
 
@@ -360,4 +360,4 @@ IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, [Apache
 
 Learn more at [iomete.com](https://iomete.com) or [schedule a demo](https://iomete.com/contact-us) to see how self-hosted lakehouse architecture meets DORA and AI Act requirements.
 
-<DemoCta variant="B" page="data-sovereignty-compliance-2026-dora-ai-act" position="end" />
+<DemoCta variant="B" refId="blog-data-sovereignty-compliance-2026-dora-ai-act" position="end" />

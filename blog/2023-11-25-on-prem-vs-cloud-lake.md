@@ -18,7 +18,7 @@ In the dynamic world of data management, the choice between a cloud-based and an
 
 <!-- truncate -->
 
-<DemoCta variant="C" page="on-prem-vs-cloud-data-lakehouse" position="intro" />
+<DemoCta variant="C" refId="blog-on-prem-vs-cloud-data-lakehouse" position="intro" />
 
 Each approach comes with its own set of strengths and weaknesses, making it crucial for businesses to understand these differences to choose the solution that best aligns with their needs.
 
@@ -96,4 +96,4 @@ The IOMETE data lakehouse platform unifies all your data - regardless of where y
   }
 ]} />
 
-<DemoCta variant="B" page="on-prem-vs-cloud-data-lakehouse" position="end" />
+<DemoCta variant="B" refId="blog-on-prem-vs-cloud-data-lakehouse" position="end" />
