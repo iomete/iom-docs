@@ -55,7 +55,7 @@
     "**/glob": "^10.5.0",
     "**/cross-spawn": "^7.0.5",
     "**/glob/minimatch": "^9.0.7",
-    "**/serve-handler/minimatch": "^3.1.4",
+    "**/serve-handler/minimatch": "^3.1.5",
     "**/qs": "^6.16.0",
     "**/webpack-bundle-analyzer/ws": "^7.5.11",
     "**/sockjs/uuid": "^11.1.1"
