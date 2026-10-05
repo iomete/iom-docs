@@ -54,7 +54,7 @@
     "**/serialize-javascript": "^7.0.7",
     "**/glob": "^10.5.0",
     "**/cross-spawn": "^7.0.6",
-    "**/glob/minimatch": "^9.0.7",
+    "**/glob/minimatch": "^9.0.9",
     "**/serve-handler/minimatch": "^3.1.5",
     "**/qs": "^6.16.0",
     "**/webpack-bundle-analyzer/ws": "^7.5.11",
