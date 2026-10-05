@@ -6356,10 +6356,15 @@ ignore@^5.2.0, ignore@^5.2.4:
   resolved "https://registry.npmjs.org/ignore/-/ignore-5.3.2.tgz"
   integrity sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==
 
-image-size@^2.0.2, image-size@^2.0.3:
+image-size@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-2.0.3.tgz#5225a99e99851b1dfc5fdcd6fcdeeebeeaf6a6a4"
   integrity sha512-9BJAtVCBth+76NwqnEfWr3PiRnYhbquk6K/USuQ1GQajz5NgLzO7tNsnoNjHfO7LuftgkBf+CCH6j28hjMbIYQ==
+
+image-size@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/image-size/-/image-size-2.0.4.tgz#bbc1933173e4ee1adbbdf9d4958ded15fdb710e3"
+  integrity sha512-QRUkFFsRV/6fuESxb9Vkq+a0LkSrgKXuc2NEqfikiXxxN/G3tjWt5EVUlMaImRBZRZK/jRBEbYvpPYZL8t08Zw==
 
 immutable@^5.0.2:
   version "5.1.9"
