@@ -1,8 +1,8 @@
 ---
 # title: On-premise vs. Cloud Data Lakehouse | Understanding Their Strengths and Weaknesses
-title: Comparing On-Premise vs. Cloud Data Lakehouses
-
-description: The cloud-based Data Lakehouse represents the convergence of cloud computing's scalability and a Data Lakehouse architecture's advanced data management capabilities.
+title: "On-Prem vs Cloud Data Lakehouse: Cost, Control, Compliance"
+title_meta: "On-Prem vs Cloud Data Lakehouse: Cost, Control, Compliance"
+description: "On-premise vs cloud data lakehouse compared on cost model, control, data residency, scaling and operations, plus how hybrid setups combine both."
 slug: on-prem-vs-cloud-data-lakehouse
 hide_table_of_contents: true
 tags2: [Engineering]
@@ -12,10 +12,13 @@ coverImage: img/blog/thumbnails/1.png
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
+import DemoCta from '@site/src/components/DemoCta';
 
 In the dynamic world of data management, the choice between a cloud-based and an on-premise [Data Lakehouse](/glossary/data-lakehouse) is a pivotal decision for organizations.
 
 <!-- truncate -->
+
+<DemoCta variant="C" refId="blog-on-prem-vs-cloud-data-lakehouse" position="intro" />
 
 Each approach comes with its own set of strengths and weaknesses, making it crucial for businesses to understand these differences to choose the solution that best aligns with their needs.
 
@@ -92,3 +95,5 @@ The IOMETE data lakehouse platform unifies all your data - regardless of where y
     answer: "Yes, a hybrid data lakehouse can analyze data across on-premises data centers and cloud environments without first consolidating everything in one place. This lets organizations keep regulated data on-site while still running large-scale analytics across their full data set. The key is a platform that reads data wherever it resides. IOMETE unifies data regardless of where it resides and can analyze multi-terabyte to petabyte-scale data across on-premises and cloud environments."
   }
 ]} />
+
+<DemoCta variant="B" refId="blog-on-prem-vs-cloud-data-lakehouse" position="end" />

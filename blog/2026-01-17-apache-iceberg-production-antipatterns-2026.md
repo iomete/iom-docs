@@ -12,6 +12,7 @@ last_update:
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
+import DemoCta from '@site/src/components/DemoCta';
 
 # Apache Iceberg Production Anti-Patterns: What Breaks in 2026 (And How to Fix It)
 
@@ -63,6 +64,8 @@ In IOMETE deployments handling streaming workloads, compaction jobs run automati
 The key insight: **streaming ingestion and batch compaction are complementary, not competing.** Stream data in small batches for freshness. Compact periodically for query performance. Both need to happen, and you need infrastructure that handles both.
 
 ---
+
+<DemoCta variant="A" refId="blog-apache-iceberg-production-antipatterns-2026" position="mid" />
 
 ## Anti-Pattern #2: Metadata Bloat from Snapshot Accumulation
 
@@ -383,3 +386,5 @@ The difference isn't the technology. It's how you operate it.
 IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, [Apache Spark](/glossary/apache-spark), and [Kubernetes](/blog/kubernetes-native-data-engineering-architecture). It runs entirely within your infrastructure—[on-premise](/blog/how-to-build-on-prem-data-lakehouse), in your VPC, or in air-gapped environments—giving you complete control over [data sovereignty](/blog/data-residency-vs-data-sovereignty), compliance, and cost. With automated Iceberg maintenance, table health monitoring, and workload-aware optimization policies, IOMETE eliminates the operational burden of running production lakehouse workloads at scale.
 
 Learn more at [iomete.com](https://iomete.com) or [schedule a demo](https://iomete.com/contact-us) to see how IOMETE handles Iceberg operations in production environments.
+
+<DemoCta variant="A" refId="blog-apache-iceberg-production-antipatterns-2026" position="end" />

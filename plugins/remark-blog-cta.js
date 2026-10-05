@@ -199,7 +199,9 @@ module.exports = function remarkBlogCTA() {
 
     // Already placed by hand in the MDX: respect the author's position.
     const manual = tree.children.some(
-      (n) => n.type === "mdxJsxFlowElement" && n.name === "BlogCTA"
+      (n) =>
+        n.type === "mdxJsxFlowElement" &&
+        (n.name === "BlogCTA" || n.name === "DemoCta")
     );
     if (manual) return;
 

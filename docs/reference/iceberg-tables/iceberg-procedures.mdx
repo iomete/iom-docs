@@ -3,9 +3,11 @@ title: Iceberg Spark Procedures for Snapshot and Metadata
 sidebar_label: Iceberg Procedures
 description: Iceberg Spark Procedures Usage Procedures that can be used from any configured Iceberg catalog with CALL in the namespace system
 last_update:
-  date: 03/25/2026
+  date: 10/01/2026
   author: Abhishek Pathania
 ---
+
+import DemoCta from '@site/src/components/DemoCta';
 
 ## Spark Procedures
 
@@ -666,3 +668,5 @@ CALL catalog_name.system.create_changelog_view(
   identifier_columns => array('id')
 )
 ```
+
+<DemoCta variant="A" page="iceberg-procedures" position="end" />

@@ -13,6 +13,7 @@ featured_content: Apache Iceberg is a high-performance format for huge analytic 
 ---
 
 import MiniCard from "@site/src/components/MiniCard";
+import DemoCta from '@site/src/components/DemoCta';
 
 [Apache Iceberg](/reference/iceberg-tables/getting-started) is a high-performance format for huge analytic tables. It has built-in metadata tables for inspection and procedures for data compaction and [table maintenance](/reference/iceberg-tables/maintenance). Also, its snapshot architecture making it easy time-travel over data versions.
 
@@ -242,3 +243,5 @@ CALL spark_catalog.system. rewrite_manifests('db.sample')
 Learn more details in: [Apache Iceberg documentation](https://iceberg.apache.org/docs/latest/)
 
 Learn more about [IOMETE](https://iomete.com/)
+
+<DemoCta variant="A" refId="blog-cheat-sheet-for-apache-iceberg" position="end" />

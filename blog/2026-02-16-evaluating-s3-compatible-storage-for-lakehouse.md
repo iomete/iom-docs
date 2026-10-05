@@ -1,19 +1,21 @@
 ---
-title: "Evaluating S3-Compatible Object Storage for Your Data Lakehouse"
-description: "MinIO is archived. Compare the best self-hosted S3-compatible object storage for your data lakehouse in 2026: Ceph RGW, SeaweedFS, Garage, and RustFS — with Kubernetes support, licensing, and production readiness."
+title: "Self-Hosted S3 Storage Compared: Ceph, SeaweedFS, Garage"
+title_meta: "Self-Hosted S3 Storage Compared: Ceph, SeaweedFS, Garage"
+description: "MinIO alternatives for an on-prem lakehouse: Ceph RGW, SeaweedFS, Garage and RustFS compared on Kubernetes support, licensing and production readiness."
 slug: "evaluating-s3-compatible-storage-for-lakehouse"
 authors: "Shashank"
 tags2: ["Technical", "Engineering"]
 coverImage: "img/blog/thumbnails/structure-2.png"
 date: "02/16/2026"
 last_update:
-  date: 2026-06-08
+  date: 2026-10-01
 ---
 
 import Img from '@site/src/components/Img';
 import FAQSection from '@site/src/components/FAQSection';
+import DemoCta from '@site/src/components/DemoCta';
 
-# Evaluating S3-Compatible Object Storage for Your Data Lakehouse
+# Self-Hosted S3 Storage Compared: Ceph, SeaweedFS, Garage
 
 Choosing object storage for a self-hosted lakehouse is one of the hardest decisions to reverse. Every [Parquet](/glossary/parquet) file, every Iceberg manifest, and every piece of metadata lives in the object store. Spark reads from it and Flink writes to it in real time. If the storage layer fails, stalls, or disappears; everything above it stops.
 
@@ -24,6 +26,8 @@ That changed in late 2025, when [MinIO](https://www.min.io/) entered maintenance
 This article evaluates the realistic alternatives with a practical assessment of what each option means for teams running lakehouse workloads on their own infrastructure.
 
 <!-- truncate -->
+
+<DemoCta variant="C" refId="blog-evaluating-s3-compatible-storage-for-lakehouse" position="intro" />
 
 ---
 
@@ -347,3 +351,5 @@ This is by design. The storage layer is the one piece of infrastructure that sho
 ---
 
 If you're evaluating object storage for a self-hosted lakehouse deployment, [get in touch](https://iomete.com/contact-us) — we've helped teams navigate this decision across a range of scales and infrastructure constraints.
+
+<DemoCta variant="B" refId="blog-evaluating-s3-compatible-storage-for-lakehouse" position="end" />

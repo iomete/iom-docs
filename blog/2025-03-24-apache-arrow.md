@@ -1,6 +1,7 @@
 ---
-title: Apache Arrow explained
-description: A deep dive into the Apache Arrow format—how it stores data, why it's so fast, and how it's transforming data interoperability across systems
+title: "Apache Arrow Format Explained: Columnar In-Memory Data"
+title_meta: "Apache Arrow Format Explained: Columnar In-Memory Data"
+description: "What Apache Arrow is, how its columnar in-memory format is laid out, and why it enables zero-copy data exchange."
 tags2: [Educational, Technical]
 slug: apache-arrow-format
 coverImage: img/blog/thumbnails/3.png
@@ -8,11 +9,12 @@ banner_description: deep dive into the Apache Arrow format—how it stores data?
 date: 03/24/2025
 authors: rocco
 last_update:
-  date: 2026-06-08
+  date: 2026-10-01
 ---
 
 import YoutubeCard from "@site/src/components/YoutubeCard";
 import Img from '@site/src/components/Img';
+import DemoCta from '@site/src/components/DemoCta';
 import FAQSection from '@site/src/components/FAQSection';
 
 Apache Arrow has been taking the data world by storm over the last few years. In essence, it is a language-agnostic format designed for efficient in-memory storage and transfer of data. As such, it shares similarities with popular formats like JSON, [Parquet](/glossary/parquet), and XML.
@@ -251,3 +253,5 @@ The advantages of Arrow go beyond speed. By simplifying the exchange of data bet
     answer: "Zero-copy data sharing means different processes or programming languages can operate directly on the same Arrow-formatted data in shared memory without exporting, serializing, and re-importing it. Because the format is standardized, no conversion or pointer rewriting is needed to pass data along. This reduces the time and resources spent on data interoperability, a benefit that data analytics platforms inherit when they adopt Arrow internally."
   }
 ]} />
+
+<DemoCta variant="A" refId="blog-apache-arrow-format" position="end" />

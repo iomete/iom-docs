@@ -1,12 +1,14 @@
 ---
-title: CPU vs vCPU - Understanding vCPUs and IOMETE Licensing on Kubernetes
+title: "vCPU vs CPU: What Is a vCPU? (Kubernetes Explained)"
+title_meta: "vCPU vs CPU: What Is a vCPU? (Kubernetes Explained)"
 sidebar_label: CPU vs vCPU
-description: CPU vs vCPU -  Understanding vCPUs and IOMETE Licensing on Kubernetes
+description: "What a vCPU is, how hyper-threading maps vCPUs to physical cores on Intel, AMD and Graviton instances, and how Kubernetes counts CPU."
 last_update:
-  date: 03/08/2024
+  date: 10/01/2026
   author: Vusal Dadalov
 ---
 import Img from '@site/src/components/Img';
+import DemoCta from '@site/src/components/DemoCta';
 
 IOMETE is a powerful Data Lakehouse platform designed to run on Kubernetes. Our licensing model is based on per-vCPU usage, as vCPUs are the visible metric for IOMETE. 
 This article explains how vCPUs differ from physical CPUs, how they are allocated in on-premises, private and public cloud environments, and how they impact IOMETE licensing costs.
@@ -93,3 +95,5 @@ These mappings can change as new instance types and processor generations are in
 ## vCPUs in Kubernetes
 
 Kubernetes sees and works with vCPUs as reported by the underlying infrastructure. When running on bare metal, this typically corresponds to the number of hardware threads. In cloud environments, it matches the vCPUs provided by the cloud instance.
+
+<DemoCta variant="B" page="cpu-vs-vcpu" position="end" />

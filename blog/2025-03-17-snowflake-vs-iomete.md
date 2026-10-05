@@ -1,6 +1,7 @@
 ---
-title: Snowflake alternatives
-description: Did you know that IOMETE is self-hosted data analytics platform like Snowflake that provides similar separation of storage and compute while maintaining deployment flexibility and cost control
+title: "Snowflake Alternatives for Self-Hosted and On-Prem Data"
+title_meta: "Snowflake Alternatives for Self-Hosted and On-Prem Data"
+description: "For teams that must run analytics in their own data center or cloud account: a self-hosted lakehouse on Spark and Iceberg, on-prem or air-gapped."
 slug: snowflake-iomete
 hide_table_of_contents: true
 tags2: [Company]
@@ -8,7 +9,7 @@ authors: vusal
 banner_description: Snowflake but self-hosted
 coverImage: img/blog/thumbnails/1.png
 last_update:
-  date: 2026-06-06
+  date: 2026-10-01
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
