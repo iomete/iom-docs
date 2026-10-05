@@ -40,7 +40,7 @@
     "@docusaurus/types": "^3.10.1",
     "autoprefixer": "^10.6.1",
     "dotenv": "^17.4.2",
-    "playwright": "^1.58.2",
+    "playwright": "^1.63.0",
     "postcss": "^8.5.29",
     "sharp": "^0.35.5",
     "tailwindcss": "^3.4.19"
