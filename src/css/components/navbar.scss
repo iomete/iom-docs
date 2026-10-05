@@ -195,3 +195,31 @@ html[data-theme="dark"] {
     display: none;
   }
 }
+// Mobile menu: Docusaurus portals .navbar-sidebar outside #__docusaurus, so
+// the rule above does not match there, and .menu__link clears the button
+// background. Restate the button so it stays fluoro with dark text in both
+// themes.
+.navbar-sidebar a.menu__link.navbar-demo-cta {
+  display: inline-flex;
+  width: auto;
+  height: 2rem;
+  margin: 0.5rem 0 0 var(--ifm-menu-link-padding-horizontal, 0.75rem);
+  padding: 0 0.625rem !important;
+  border-radius: 0.25rem;
+  color: var(--base-950) !important;
+  background-color: var(--fluoro-400) !important;
+  opacity: 1;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: var(--base-950) !important;
+    background-color: var(--fluoro-500) !important;
+    text-decoration: none;
+    opacity: 1;
+  }
+
+  svg[class^="iconExternalLink"] {
+    display: none;
+  }
+}
