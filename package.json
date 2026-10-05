@@ -57,7 +57,7 @@
     "**/glob/minimatch": "^9.0.9",
     "**/serve-handler/minimatch": "^3.1.5",
     "**/qs": "^6.16.0",
-    "**/webpack-bundle-analyzer/ws": "^7.5.11",
+    "**/webpack-bundle-analyzer/ws": "^7.5.13",
     "**/sockjs/uuid": "^11.1.1"
   },
   "browserslist": {
