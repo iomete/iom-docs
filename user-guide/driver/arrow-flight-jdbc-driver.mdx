@@ -1,10 +1,10 @@
 ---
 title: Arrow Flight SQL JDBC Driver
 sidebar_label: Arrow Flight SQL JDBC Driver
-description: IOMETE's Arrow Flight SQL JDBC driver, a fork of the standard driver adding proxy support, query timeout, named parameters, and BI catalog scoping.
+description: IOMETE's Arrow Flight SQL JDBC driver, a fork of the standard driver adding proxy support, query timeout, named parameters, BI catalog scoping, and default string column lengths.
 last_update:
-  date: 2026-07-22
-  author: Mateus Aubin
+  date: 2026-10-06
+  author: Sanan Ahmadov
 ---
 
 import Card from "@site/src/components/Card";
@@ -17,6 +17,7 @@ It's functionally identical to the upstream driver, with a few IOMETE-specific a
 - **Connection-level query timeout**: sets a per-connection default timeout applied to every statement&nbsp;[›](#query-timeout)
 - **Named parameters**: allows `:name` syntax as an alternative to positional `?` markers&nbsp;[›](#named-parameters)
 - **Catalog scoping for BI tools**: pins a connection to one catalog for clients that aren't catalog-aware (such as Oracle)&nbsp;[›](#catalog-scoping-for-bi-tools)
+- **Default string column length**: reports a length for Spark `STRING` columns to tools that size columns from JDBC metadata (such as Oracle BI Publisher)&nbsp;[›](#default-string-column-length)
 
 It also supports standard mutual TLS and can present a client certificate when your endpoint requires one. See [Client Certificates (mTLS)](#client-certificates-mtls).
 
@@ -95,6 +96,27 @@ Append the catalog parameters to your base JDBC URL (`jdbc:arrow-flight-sql://<h
 :::note
 - Existing connections are unaffected: without `compatibilityMode` or `catalogFilterEnabled`, `schema` behaves exactly as before.
 - If `schema` is malformed, the driver ignores the filter and logs a warning instead of failing the connection.
+:::
+
+## Default String Column Length
+
+*Requires driver **≥ 19.0.0-iomete.7**.*
+
+Spark `STRING` columns have no declared length, so the driver reports their precision and display size in `ResultSetMetaData` as `0`. Most clients ignore this, but tools that size string columns from that metadata, such as **Oracle BI Publisher**, render those columns empty.
+
+To report a length instead, set `defaultStringColumnLength` to a positive integer in the JDBC URL or as a connection property:
+
+```
+jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>&defaultStringColumnLength=255
+```
+
+The driver then reports that value as the precision and display size of every string column in a query result. Choose a length that fits the longest values in your string columns, because tools that size columns from this metadata may cut off longer values.
+
+:::note
+- Existing connections are unaffected: without `defaultStringColumnLength`, string columns report `0` as before. A blank value counts as unset.
+- A length sent by the server always takes precedence over the configured value.
+- The setting applies to query result metadata only. `DatabaseMetaData` results, including `COLUMN_SIZE` from `getColumns`, are unchanged.
+- An invalid value (`0`, a negative number, or a non-numeric value) makes queries fail with an error that names the property.
 :::
 
 ## HTTP Proxy Configuration

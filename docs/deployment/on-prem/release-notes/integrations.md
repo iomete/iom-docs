@@ -3,7 +3,7 @@ title: Integration Release Notes
 sidebar_label: Integrations
 description: Release notes for IOMETE integrations, including dbt-iomete, the IOMETE Airflow Plugin, the IOMETE Tableau connector, the IOMETE Power BI connector, and the Arrow Flight SQL ODBC and JDBC drivers.
 last_update:
-  date: 10/05/2026
+  date: 10/06/2026
   author: Sanan Ahmadov
 ---
 
@@ -19,7 +19,7 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
 | Airflow | [`iomete-airflow-plugin`](https://pypi.org/project/iomete-airflow-plugin/) | 3.1.0 | Airflow `>=2.10.5,<4.0.0`; Python 3.10–3.13 | [Open](../../../integrations/airflow/getting-started.mdx) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) |
 | Tableau | [`tableau-connector`](https://github.com/iomete/iomete-integrations/releases?q=tableau-connector) | 0.1.0 | Tableau Desktop and Server 2024.2 and later | [Open](../../../integrations/bi/tableau/arrow-flight.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/tableau-connector) |
 | Power BI and Arrow Flight SQL ODBC | [`iomete-odbc-connector`](https://github.com/iomete/iomete-artifacts) | 24.0.0-iomete.2 | Power BI Desktop and on-premises data gateway on Windows x64 | [Open](../../../integrations/bi/power-bi/arrow-flight.md) | Closed source |
-| Arrow Flight SQL JDBC | [`flight-sql-jdbc-driver`](https://github.com/iomete/iomete-artifacts) | 19.0.0-iomete.6 | Java 11 or later; Tableau Desktop and Server 2024.2 or later | [Open](/user-guide/driver/arrow-flight-jdbc-driver) | Closed source |
+| Arrow Flight SQL JDBC | [`flight-sql-jdbc-driver`](https://github.com/iomete/iomete-artifacts) | 19.0.0-iomete.7 | Java 11 or later; Tableau Desktop and Server 2024.2 or later | [Open](/user-guide/driver/arrow-flight-jdbc-driver) | Closed source |
 
 ---
 
@@ -34,6 +34,12 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
   <BreakingChanges>
     - **Saved credentials and gateway connections**: Changed the connector's data source path. After upgrading, re-enter saved credentials in Power BI Desktop and recreate gateway connections. A **Certificate Path** set in a report must point to a readable PEM file on every machine that refreshes it, including every gateway node. See [Upgrading From an Earlier Connector Version](../../../integrations/bi/power-bi/arrow-flight.md#upgrading-from-an-earlier-connector-version).
   </BreakingChanges>
+</Release>
+
+<Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.7" date="October 6, 2026">
+  <BugFixes>
+    - **Empty string columns in BI Publisher**: Added the `defaultStringColumnLength` connection property for tools that size string columns from JDBC metadata. Spark `STRING` columns have no declared length, so `ResultSetMetaData` reported a precision and display size of `0`, and Oracle BI Publisher rendered those columns empty. Set `defaultStringColumnLength` to a positive integer to report that length for string columns the server sends without one. The property is opt-in, a length sent by the server always takes precedence, and `DatabaseMetaData.getColumns` is unchanged. See [Default String Column Length](/user-guide/driver/arrow-flight-jdbc-driver#default-string-column-length).
+  </BugFixes>
 </Release>
 
 <Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.6" date="September 23, 2026">
