@@ -75,7 +75,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Feature Flags**: Feature flags turn a feature on or off at runtime, without a redeploy. Admins manage them under **Administration → Feature Flags**, and each flag applies platform-wide. See [Feature Flags](/user-guide/feature-flags/overview) for the available flags and how to manage them.
 
       <Img src="/img/user-guide/feature-flags/feature-flags-list.png" alt="Feature Flags page listing the Secrets V2, LDAP group inheritance and SQL Editor V2 flags with their status and description" maxWidth="900px" />
-    - **Managed MCP Server**: IOMETE ships a Model Context Protocol (MCP) server as a data plane component. AI agents in MCP clients such as Claude Code, Codex and Devin use its 17 tools to find and describe tables, run SQL, inspect query plans, preview rows and profile columns. A ready-made `discover-then-query` prompt guides them through the workflow.
+    - **Managed MCP Server `BETA`**: IOMETE ships a Model Context Protocol (MCP) server as a data plane component. AI agents in MCP clients such as Claude Code, Codex and Devin use its 17 tools to find and describe tables, run SQL, inspect query plans, preview rows and profile columns. A ready-made `discover-then-query` prompt guides them through the workflow.
 
       <Img src="/img/getting-started/release-notes/4.0.0/mcp-tools.png" alt="An MCP client listing the 17 IOMETE MCP tools, from whoami and list_tables to run_query and execute_column_profile" maxWidth="700px" />
 
