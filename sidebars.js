@@ -43,6 +43,7 @@ const sidebars = {
       items: [
         "deployment/on-prem/install",
         "deployment/architecture-deployment",
+        "deployment/storage-migration",
         {
           type: "category",
           label: "Release Notes",
