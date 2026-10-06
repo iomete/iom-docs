@@ -57,8 +57,12 @@ storage:
   s3CompatibleSettings:
     endpoint: "https://<new-endpoint-host>:<port>"
     accessKey: "<unchanged>"
-    secretKey: "<unchanged>"
+    secretKeySecret:                 # unchanged
+      name: "<secret-name>"
+      key: "<key-in-secret>"
 ```
+
+Only the endpoint changes. Keep the credentials as they are. This example reads the secret key from a Kubernetes Secret in the release namespace through `secretKeySecret`, which keeps it out of the values file. If you set it inline with `secretKey` instead, keep that.
 
 In the switch step, apply the change with the chart and chart version you already run, so the endpoint change does not also become a version upgrade. `helm list -n <namespace>` shows both in its `CHART` column.
 
