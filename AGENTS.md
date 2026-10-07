@@ -10,7 +10,7 @@ yarn start                       # dev server at http://localhost:3000/resources
 yarn build                       # production build into build/
 ```
 
-Fresh worktrees have no `node_modules` (~1.3G once installed; `build/` adds ~216M, both gitignored). Skip the install and both scripts fail with `sh: docusaurus: command not found`, exit 127. The build is slow, so redirect and grep it: `yarn build > /tmp/build.log 2>&1`. A clean tree builds with no `[WARNING]` lines at all, so every warning you see is yours. `devbox.json` pins `nodejs@18`, but newer Node builds fine. `yarn.lock` is the only lockfile, so never let a run rewrite it as a side effect, and never use `npm install` here: it recreates a second lockfile that nothing installs from and that quietly holds vulnerable versions.
+Fresh worktrees have no `node_modules` (~1.3G once installed; `build/` adds ~216M, both gitignored). Skip the install and both scripts fail with `sh: docusaurus: command not found`, exit 127. The build is slow, so redirect and grep it: `yarn build > /tmp/build.log 2>&1`. A clean tree builds with no `[WARNING]` lines at all, so every warning you see is yours. `devbox.json` pins `nodejs@22`. `yarn.lock` is the only lockfile, so never let a run rewrite it as a side effect, and never use `npm install` here: it recreates a second lockfile that nothing installs from and that quietly holds vulnerable versions.
 
 ## Authoring
 
