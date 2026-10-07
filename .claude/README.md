@@ -4,7 +4,7 @@ Five Claude Code agents that turn source code into finished docs. They extract d
 
 ## Prerequisites
 
-- **Node.js 18+** and `yarn install --frozen-lockfile` (installs `sharp` for image processing)
+- **Node.js 22.12+** and `yarn install --frozen-lockfile` (installs `sharp` for image processing)
 - **SSH key** with access to the `iomete` GitHub org (source-extractor clones private repos)
 - **GitHub CLI** (`gh`) installed and authenticated (for PR workflows)
 - **Optional**: [humanizer skill](https://github.com/blader/humanizer) catches AI-sounding text in the language editor:
