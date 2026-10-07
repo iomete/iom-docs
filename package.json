@@ -45,7 +45,7 @@
     "sharp": "^0.35.5",
     "tailwindcss": "^3.4.19"
   },
-  "//resolutions": "Pinned to patch vulnerable transitive deps that parent packages still pull at insecure versions. See PRs #380 (picomatch) and #383 (the other 7) for the original Dependabot alerts each entry addresses. ws (#257, webpack-bundle-analyzer) and uuid (#244, sockjs) were added later for the same reason. tinypool (#414, #415, prototype pollution RCE via @docusaurus/core), postcss-selector-parser (#416, quadratic complexity — flat resolution forces all copies to 7.x), and katex (#421, prototype pollution via mermaid, pinned to exact 0.18.4 because 0.18.5+ pulls commander@15 which requires Node >=22) were added to address later alerts. Note: Dependabot alert #260 (js-yaml DoS via merge keys) cannot be auto-fixed — gray-matter@4.0.3 pins js-yaml@^3 and calls safeLoad/safeDump, which js-yaml 4.2.0 (the only patched release) removed, so forcing it breaks the build; the exposure is build-time only, parsing trusted in-repo frontmatter. Dependabot alert #412 (braces stack exhaustion) has no patched release yet; 3.0.3 is the latest. Dependabot alert #422 (sprintf-js DoS) has no patched release; all versions <= 1.1.3 are vulnerable, build-time only via argparse. Don't remove an entry without confirming the parent no longer needs the vulnerable version — check with `yarn why <pkg>`.",
+  "//resolutions": "Pinned to patch vulnerable transitive deps that parent packages still pull at insecure versions. See PRs #380 (picomatch) and #383 (the other 7) for the original Dependabot alerts each entry addresses. ws (#257, webpack-bundle-analyzer) and uuid (#244, sockjs) were added later for the same reason. tinypool (#414, #415, prototype pollution RCE via @docusaurus/core), postcss-selector-parser (#416, quadratic complexity — flat resolution forces all copies to 7.x), and katex (#421, prototype pollution via mermaid) were added to address later alerts. Note: Dependabot alert #260 (js-yaml DoS via merge keys) cannot be auto-fixed — gray-matter@4.0.3 pins js-yaml@^3 and calls safeLoad/safeDump, which js-yaml 4.2.0 (the only patched release) removed, so forcing it breaks the build; the exposure is build-time only, parsing trusted in-repo frontmatter. Dependabot alert #412 (braces stack exhaustion) has no patched release yet; 3.0.3 is the latest. Dependabot alert #422 (sprintf-js DoS) has no patched release; all versions <= 1.1.3 are vulnerable, build-time only via argparse. Don't remove an entry without confirming the parent no longer needs the vulnerable version — check with `yarn why <pkg>`.",
   "resolutions": {
     "**/@parcel/watcher/picomatch": "^4.0.7",
     "**/picomatch": "^2.3.2",
@@ -61,7 +61,7 @@
     "**/sockjs/uuid": "^11.1.1",
     "**/tinypool": "^2.1.2",
     "postcss-selector-parser": "^7.1.6",
-    "**/katex": "0.18.4"
+    "**/katex": "^0.18.2"
   },
   "browserslist": {
     "production": [
