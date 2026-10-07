@@ -61,7 +61,7 @@
     "**/sockjs/uuid": "^11.1.1",
     "**/tinypool": "^2.1.2",
     "postcss-selector-parser": "^7.1.6",
-    "**/katex": "^0.18.2"
+    "**/katex": "^0.18.10"
   },
   "browserslist": {
     "production": [
