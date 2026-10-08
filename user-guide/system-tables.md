@@ -74,12 +74,12 @@ For API requests made with an access token, `payload` records which token was us
 {"token_id": "5f0c…", "token_masked": "iomt_ABC…XYZ"}
 ```
 
-To find every request made with one token:
+To find every request made with one token, filter on the masked token shown in the **Access Tokens** list. Administrators can filter on `$.token_id` instead, which stays unique:
 
 ```sql
 SELECT occurred_at, user_id, service, action, success
 FROM spark_catalog.iomete_system_db.platform_event_logs
-WHERE get_json_object(payload, '$.token_id') = '<token id>'
+WHERE get_json_object(payload, '$.token_masked') = 'iomt_ABC…XYZ'
 ORDER BY occurred_at DESC;
 ```
 
