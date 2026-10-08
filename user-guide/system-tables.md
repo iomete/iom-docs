@@ -2,8 +2,8 @@
 title: System Tables
 description: Learn about IOMETE system tables used for internal platform operations, audit logging, and event streaming.
 last_update:
-  date: 09/30/2026
-  author: Mateus Aubin
+  date: 10/08/2026
+  author: Maksym Kryvchun
 ---
 
 IOMETE system tables live in the `spark_catalog.iomete_system_db` database. These tables give you a SQL-queryable view into key platform activity, including audit events, data access decisions, and Iceberg read/write metrics. All tables are automatically populated by the IOMETE Event Stream pipeline, so you can analyze platform behavior directly using SQL.
@@ -64,20 +64,20 @@ CREATE TABLE IF NOT EXISTS spark_catalog.iomete_system_db.platform_event_logs (
   action STRING COMMENT 'The action that was performed',
   success BOOLEAN COMMENT 'Whether the action was successful',
   payload STRING COMMENT 'Additional event data in JSON format',
-  token_id STRING COMMENT 'ID of the access token used, empty for console sessions',
+  token_id STRING COMMENT 'ID of the access token used, NULL for session logins',
   token_masked STRING COMMENT 'Masked access token, for example iomt_ABC…XYZ')
 USING iceberg
 PARTITIONED BY (days(__ts__), __write_id__);
 ```
 
-For requests made with an access token, `token_id` and `token_masked` record which token was used, so you can tell a user's tokens apart and trace a leaked one. The full token is never stored.
+For requests made with an access token, `token_id` and `token_masked` record which token was used, so you can tell a user's tokens apart and trace a leaked one. The full token is never stored. Requests from a session login leave both columns NULL.
 
-To find every request made with one token, filter on the masked token shown in the **Access Tokens** list. Administrators can filter on `token_id` instead, which stays unique:
+To find every request made with one token, filter on its owner and the masked token shown in the **Access Tokens** list, since masked values are short and can repeat across users. Administrators can filter on `token_id` instead, which is unique and returned by the admin access token API:
 
 ```sql
 SELECT occurred_at, user_id, service, action, success
 FROM spark_catalog.iomete_system_db.platform_event_logs
-WHERE token_masked = 'iomt_ABC…XYZ'
+WHERE user_id = '<user id>' AND token_masked = 'iomt_ABC…XYZ'
 ORDER BY occurred_at DESC;
 ```
 
@@ -85,7 +85,7 @@ If you created this table before these columns existed, add them. Until you do, 
 
 ```sql
 ALTER TABLE spark_catalog.iomete_system_db.platform_event_logs ADD COLUMNS (
-  token_id STRING COMMENT 'ID of the access token used, empty for console sessions',
+  token_id STRING COMMENT 'ID of the access token used, NULL for session logins',
   token_masked STRING COMMENT 'Masked access token, for example iomt_ABC…XYZ');
 ```
 
