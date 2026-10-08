@@ -63,21 +63,24 @@ CREATE TABLE IF NOT EXISTS spark_catalog.iomete_system_db.platform_event_logs (
   service STRING COMMENT 'The service that generated the event',
   action STRING COMMENT 'The action that was performed',
   success BOOLEAN COMMENT 'Whether the action was successful',
-  payload STRING COMMENT 'Additional event data in JSON format',
-  token_id STRING COMMENT 'ID of the access token used, empty for console sessions',
-  token_masked STRING COMMENT 'Masked access token, for example iomt_ABC…XYZ')
+  payload STRING COMMENT 'Additional event data in JSON format')
 USING iceberg
 PARTITIONED BY (days(__ts__), __write_id__);
 ```
 
-For requests made with an access token, `token_id` and `token_masked` record which token was used, so you can tell a user's tokens apart and trace a leaked one. The full token is never stored.
+For API requests made with an access token, `payload` records which token was used, so you can tell a user's tokens apart and trace a leaked one. It holds the token's ID and masked form, never the full token:
 
-If you created this table before these columns existed, add them. Until you do, events are still recorded, just without the token:
+```json
+{"token_id": "5f0c…", "token_masked": "iomt_ABC…XYZ"}
+```
+
+To find every request made with one token:
 
 ```sql
-ALTER TABLE spark_catalog.iomete_system_db.platform_event_logs ADD COLUMNS (
-  token_id STRING COMMENT 'ID of the access token used, empty for console sessions',
-  token_masked STRING COMMENT 'Masked access token, for example iomt_ABC…XYZ');
+SELECT occurred_at, user_id, service, action, success
+FROM spark_catalog.iomete_system_db.platform_event_logs
+WHERE get_json_object(payload, '$.token_id') = '<token id>'
+ORDER BY occurred_at DESC;
 ```
 
 ---
