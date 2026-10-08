@@ -58,7 +58,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **SQL Editor**: The Query History timer stops when a query finishes, instead of continuing to count.
     - **Spark Job Runs**: Running, retrying or aborting a run no longer briefly shows another run's details, metrics or events.
     - **Data Security Policies**
-      - Typing a name in **Groups** or **Users** and pressing Enter selected `public` or `{USER}` instead of the match.
+      - On the policy form, the **Groups** and **Users** pickers kept the default `public` (every user) and `{USER}` entries pinned at the top even while searching. Typing a name such as `fin` and pressing Enter picked that pinned default instead of the match, such as `finance`, risking a policy granted to everyone instead of the intended group or user.
       - Escape on a closed resource picker (Catalog, Database, Table or Column) cleared its selected values, including the seeded `*`.
     - **Resource Bundles**: On the **Resources** tab, Namespace links opened **General Info**, and streaming jobs opened as job templates. Both now open the right page.
     - **MCP Server**
