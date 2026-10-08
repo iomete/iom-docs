@@ -3,7 +3,7 @@ title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 last_update:
-  date: 10/07/2026
+  date: 10/08/2026
   author: Sourabh Jajoria
 ---
 
@@ -14,7 +14,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="4.0.1" date="October 7, 2026">
+<Release version="4.0.1" date="October 8, 2026">
   <Improvements>
     - **Access Tokens**
       - **Recognizable Tokens**: New access tokens start with `iomt_` and end with a checksum, so a mistyped or made-up token is rejected immediately. Existing tokens keep working unchanged.
