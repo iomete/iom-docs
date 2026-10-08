@@ -36,6 +36,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Storage Config Details**: Storage configs have a read-only details page with location, access, tags and audit information. Credentials stay hidden.
       - **Documentation Links**: Data Catalog **Favorites**, **Namespace quotas** and **Recently Viewed** link to their guides.
       - **Data Security Policy Form**: Timezone sits next to the validity period, and the Users and Groups search moved into the picker popup.
+      - **Data Security Policy Details**: Access, Masking, Row Filter and Tag policies now have a read-only details page, separate from the edit form. Open a policy from the list to view it, and use **Configure** to edit.
       - **Namespace Quotas**: Quota metrics are sorted alphabetically.
       - **Maintenance Properties**: The property picker shows each property's description, default and source in separate sections.
     - **JVM Diagnostics**: `jcmd` and `jmap` are now available in the platform service containers for heap dumps and JVM troubleshooting.
@@ -52,10 +53,17 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Storage Errors**: Storage failures now return their real status, such as `403` for a bucket the platform can't access, `404` for a missing bucket and `400` for a malformed endpoint, instead of a generic `500`.
     - **System Tokens**: Fixed intermittent `500` errors when the access token lifetime limit was set below 30 days.
     - **Namespaces**: Namespaces assigned to a domain before data planes existed now show their data plane.
+    - **Data Planes**: Fixed the Data Planes page failing to load after upgrading from an older release, caused by leftover rows from before data planes existed.
+    - **Live Updates**: Added a startup probe to the socket service, so live updates in the console recover more reliably when the platform is under heavy load.
     - **SQL Editor**: The Query History timer stops when a query finishes, instead of continuing to count.
     - **Spark Job Runs**: Running, retrying or aborting a run no longer briefly shows another run's details, metrics or events.
-    - **Data Security Policies**: Typing a name in **Groups** or **Users** and pressing Enter selected `public` or `{USER}` instead of the match.
+    - **Data Security Policies**
+      - Typing a name in **Groups** or **Users** and pressing Enter selected `public` or `{USER}` instead of the match.
+      - Escape on a closed resource picker (Catalog, Database, Table or Column) cleared its selected values, including the seeded `*`.
     - **Resource Bundles**: On the **Resources** tab, Namespace links opened **General Info**, and streaming jobs opened as job templates. Both now open the right page.
+    - **MCP Server**
+      - An abandoned tool call, such as a column profile, now stops when the client disconnects, instead of continuing to run.
+      - `sample_table` is now rate-limited like the other query tools.
     - **Navigation**
       - After a page crashed, moving to another page from the sidebar now recovers without a browser reload.
       - A crash in a settings page or in the header breadcrumb no longer hides the sidebar or settings menu.
