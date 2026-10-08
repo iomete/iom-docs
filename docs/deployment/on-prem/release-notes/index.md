@@ -3,8 +3,8 @@ title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 last_update:
-  date: 10/01/2026
-  author: Abhishek Pathania
+  date: 10/08/2026
+  author: Sourabh Jajoria
 ---
 
 import Img from '@site/src/components/Img';
@@ -13,6 +13,62 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+<Release version="4.0.1" date="October 8, 2026">
+  <Improvements>
+    - **Access Tokens**
+      - **Recognizable Tokens**: New access tokens start with `iomt_` and end with a checksum, so a mistyped or made-up token is rejected immediately. Existing tokens keep working unchanged.
+      - **Shown Once**: A token's full value is shown only when it is created. After that, token lists show a masked form such as `iomt_ABC…XYZ`, and the copy action is removed. New tokens are stored only as a one-way hash.
+      - **Create Form**: New tokens default to a 30-day expiry, or the longest preset the expiration policy allows. After creation, a warning reminds you to store the token, since it can't be shown again.
+    - **Spark Applications**
+      - **Run Retention Default**: Spark application runs are now kept for 60 days by default, then removed after being archived to Iceberg. Previously they were kept indefinitely. Change it with the `spark-application.retention-days` setting, where `0` keeps everything.
+      - **Kubernetes Events**: Events are now processed in batches and deduplicated, which reduces database load.
+    - **Event Stream Pod Sizing**: The CPU and memory of Event Stream pods can now be set with `services.cluster.eventStream.papyrus` and `services.cluster.eventStream.papyrusLoader`. Unset by default, which keeps the current sizes.
+    - **MCP Server**
+      - **Resource Defaults**: `services.mcpServer.resources` defaults were raised to requests of `256Mi` / `250m` (was `128Mi` / `50m`) and limits of `2Gi` / `2` CPU (was `512Mi` / `500m`).
+      - **Faster Column Profiles**: `execute_column_profile` answers range columns from Iceberg table metadata instead of scanning the whole table.
+    - **SQL Editor**
+      - **Compact Query History**: Query history shows one compact row per query, with status, start time, duration, SQL and query ID. Status filters moved to the top left, next to an expandable search.
+      - **Shortcut Hints**: Run shortcuts show keyboard icons instead of text labels.
+      - **Database Explorer**: Expanding a tree node shows a loading spinner, and a reopened branch refreshes in the background instead of reloading.
+    - **Console**
+      - **Data Planes Graph Refresh**: The Data Planes graph view has a **Refresh** button, including in fullscreen.
+      - **Storage Config Details**: Storage configs have a read-only details page with location, access, tags and audit information. Credentials stay hidden.
+      - **Documentation Links**: Data Catalog **Favorites**, **Namespace quotas** and **Recently Viewed** link to their guides.
+      - **Data Security Policy Form**: Timezone sits next to the validity period, and the Users and Groups search moved into the picker popup.
+      - **Namespace Quotas**: Quota metrics are sorted alphabetically.
+      - **Maintenance Properties**: The property picker shows each property's description, default and source in separate sections.
+    - **JVM Diagnostics**: `jcmd` and `jmap` are now available in the platform service containers for heap dumps and JVM troubleshooting.
+    - **Security**
+      - **Domain Permissions**: Docker image and tag alias endpoints, Spark job file uploads and catalog table registration now require access to the domain and the matching permission. Before, any signed-in user could call them.
+      - **Token Sign-In**: A failed token sign-in no longer reveals whether the username exists.
+      - **CVE Fixes**: Resolved high-severity CVEs in the console's bundled JavaScript dependencies. No change in behavior.
+  </Improvements>
+
+  <BugFixes>
+    - **Compute Clusters**: Fixed the driver of a compute cluster exiting and dropping every session after a handful of executor failures within 24 hours. The cap (`spark.executor.maxNumFailures`) is now the larger of 100 and twice the maximum executors. A value set in the compute's Spark settings still wins. Single-node computes and Spark jobs are unchanged.
+    - **Gateway Rate Limiting**: Fixed JDBC and Spark Connect users being rate-limited because of another busy user. Each JDBC session, Spark Connect token and browser session now gets its own allowance.
+    - **Spark History Server**: Fixed the Spark History Server being restarted periodically after running out of memory.
+    - **Storage Errors**: Storage failures now return their real status, such as `403` for a bucket the platform can't access, `404` for a missing bucket and `400` for a malformed endpoint, instead of a generic `500`.
+    - **System Tokens**: Fixed intermittent `500` errors when the access token lifetime limit was set below 30 days.
+    - **Namespaces**: Namespaces assigned to a domain before data planes existed now show their data plane.
+    - **SQL Editor**: The Query History timer stops when a query finishes, instead of continuing to count.
+    - **Spark Job Runs**: Running, retrying or aborting a run no longer briefly shows another run's details, metrics or events.
+    - **Data Security Policies**: Typing a name in **Groups** or **Users** and pressing Enter selected `public` or `{USER}` instead of the match.
+    - **Resource Bundles**: On the **Resources** tab, Namespace links opened **General Info**, and streaming jobs opened as job templates. Both now open the right page.
+    - **Navigation**
+      - After a page crashed, moving to another page from the sidebar now recovers without a browser reload.
+      - A crash in a settings page or in the header breadcrumb no longer hides the sidebar or settings menu.
+      - Leaving a missing table's details page returns to where you came from, such as the SQL Editor.
+      - Switching tabs on an admin domain's details page clears the previous tab's search and filters.
+    - **Error States**: More list and detail pages show the error when loading fails, instead of an empty list.
+    - **Layout**: Fixed tooltips breaking words mid-word, a cut-off Data Plane search placeholder, and columns too narrow to read in the classification tag, access token and storage config lists.
+  </BugFixes>
+
+  **Spark version:** [3.5.7-v7](./spark.md)
+  **Iceberg version:** 1.9.0-iomete-5
+
+</Release>
 
 <Release version="4.0.0" date="September 30, 2026">
   <NewFeatures>
