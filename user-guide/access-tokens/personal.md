@@ -3,8 +3,8 @@ title: Personal Access Tokens
 description: An Access Token is pivotal for secure authentication. This guide elucidates the process of generating an Access Token in IOMETE.
 sidebar_label: Personal Tokens
 last_update:
-  date: 01/29/2024
-  author: Vugar Dadalov
+  date: 10/09/2026
+  author: Maksym Kryvchun
 ---
 
 import Img from '@site/src/components/Img';
@@ -32,9 +32,27 @@ In the form includes following fields:
 
 <Img src="/img/user-guide/pat/access-token-create-rps.png" alt="Access token create with" maxWidth="500px"/>
 
-Once you filled inputs click to `Generate`. That is it! You have successfully created an access token. You can copy the token value and use it for authentication in your API requests.
+Once you filled inputs click to `Generate`. That is it! You have successfully created an access token. Copy the token value and use it for authentication in your API requests.
+
+:::warning Copy your token now
+The full token value is shown only once, right after you create it. After that, the token list shows only a shortened version, such as `iomt_ABC…XYZ`, and there is no way to see the full value again. Store it somewhere safe, such as a password manager or secrets store.
+
+If you lose a token, you cannot recover it. Delete it and generate a new one.
+:::
 
 <Img src="/img/user-guide/pat/access-tokens-rps.png" alt="Access token rps"/>
+
+### Token Format
+
+New access tokens start with `iomt_`. The prefix makes IOMETE tokens easy to recognize, and lets secret scanners flag one that is accidentally committed to a repository or pasted into a log.
+
+The last characters of each token are a check value. IOMETE rejects a mistyped or incomplete token straight away as invalid.
+
+Tokens created before this format was introduced have no prefix. They keep working as before.
+
+### Renaming a Token
+
+To rename a token, open its actions menu in the token list and choose **Rename**. Only the name changes, so anything using the token keeps working. You can rename active, suspended and expired tokens. The new name must be unique among your tokens.
 
 :::success How to use Access Token
 **IOMETE API** can be accessed through code or CLI tools using the Access Token. You should send the API token in the HTTP header `X-API-Token`. Below we provided simple example written in Python.
@@ -45,7 +63,7 @@ You will see your **IOMETE region host** instead of _\{your_iomete_account_host}
  import requests
 
   r = requests.get("https://{your_iomete_account_host}/api/v1/....", headers = {
-	  "X-API-Token": "**************************"
+	  "X-API-Token": "iomt_**************************"
   })
 ```
 
