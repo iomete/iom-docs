@@ -29,7 +29,7 @@ New tokens start with `iomt_`. Older tokens without it keep working.
 
 ## Using a Token
 
-Send the token in the `X-API-Token` header:
+Send the token in the `X-API-Token` header. Replace `{your_iomete_host}` with the address you use to open IOMETE.
 
 ```python
 import requests
@@ -45,16 +45,16 @@ Open the **⋮** menu next to a token:
 
 | Action | What it does |
 | -- | -- |
-| **Suspend** | Blocks the token right away. You can turn it back on with **Activate**. |
+| **Suspend** | Blocks the token right away. Turn it back on with **Activate**. Not available for expired tokens. |
 | **Rename** | Changes only the name. Anything using the token keeps working. |
 | **Delete** | Removes the token for good. |
 
 <Img src="/img/user-guide/pat/access-token-suspend.png" alt="Token actions menu with Suspend, Rename, Copy name and Delete"/>
 
-## Rate Limiting
-
-To stop one client from overloading the [Iceberg REST Catalog](../spark-catalogs/internal.md#rate-limiting), set **Max RPS** (requests per second) when you create a token. The field appears only when your administrator turns on rate limiting.
+:::tip Need a request limit?
+To cap how many requests per second a token can make, use a [service account token](./service-account.md).
+:::
 
 ## Expiry Notifications
 
-IOMETE can email you before a token expires. See [Access Token Expiry Notifications](./expiry-notifications).
+IOMETE can email you before a token expires. See [Access Token Expiry Notifications](./expiry-notifications.md).
