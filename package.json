@@ -15,11 +15,11 @@
   },
   "//image-size": "Not pinned: ^2.0.2 accepts fix when available. GHSA-w3rx-r6r6-pgpr and GHSA-5p2g-fcmc-qvqq not yet patched upstream. Alerts dismissed as tolerable risk: build-time dep, images from trusted sources.",
   "dependencies": {
-    "@docusaurus/core": "^3.10.1",
-    "@docusaurus/plugin-client-redirects": "^3.10.1",
-    "@docusaurus/plugin-content-blog": "^3.10.1",
-    "@docusaurus/preset-classic": "^3.10.1",
-    "@docusaurus/theme-mermaid": "^3.10.1",
+    "@docusaurus/core": "^3.10.2",
+    "@docusaurus/plugin-client-redirects": "^3.10.2",
+    "@docusaurus/plugin-content-blog": "^3.10.2",
+    "@docusaurus/preset-classic": "^3.10.2",
+    "@docusaurus/theme-mermaid": "^3.10.2",
     "@ionic-internal/ionic-ds": "^8.0.0",
     "@mdx-js/react": "^3.1.1",
     "@phosphor-icons/react": "^2.1.10",
@@ -36,8 +36,8 @@
     "serialize-javascript": "^7.1.2"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.10.1",
-    "@docusaurus/types": "^3.10.1",
+    "@docusaurus/module-type-aliases": "^3.10.2",
+    "@docusaurus/types": "^3.10.2",
     "autoprefixer": "^10.6.1",
     "dotenv": "^17.4.2",
     "playwright": "^1.64.0",
