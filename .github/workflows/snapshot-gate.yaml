@@ -2,8 +2,8 @@ name: Snapshot Gate
 
 # Validates pure dependency-bump PRs by building the docs site against both
 # `merge-base(origin/main, HEAD)` and the PR head, normalizing webpack content
-# hashes + sourcemap comments + JSON-LD `dateModified`, and diffing the
-# emitted HTML. Any non-empty diff fails unless the PR carries the
+# hashes + sourcemap comments + JSON-LD `dateModified` + the Docusaurus
+# generator meta tag, and diffing the emitted HTML. Any non-empty diff fails unless the PR carries the
 # `snapshot-acknowledged` label.
 #
 # Scope (two filters):

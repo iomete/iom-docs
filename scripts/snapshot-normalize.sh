@@ -9,7 +9,7 @@
 #   3. JSON-LD `dateModified`:   build-time ISO timestamp → `NORMALIZED`
 #      (Docusaurus injects build-time `dateModified` into schema.org metadata
 #       in <script type="application/ld+json"> blocks on doc pages)
-#   4. Generator meta tag:      `Docusaurus v3.10.2` → `Docusaurus vNORMALIZED`
+#   4. Generator meta tag:       `Docusaurus v3.10.2` → `Docusaurus vNORMALIZED`
 #      (changes on every page with each Docusaurus bump)
 #
 # Used by .github/workflows/snapshot-gate.yaml to prepare base and head
@@ -29,7 +29,7 @@ find "$DIR" -type f -name "*.html" -exec sed -i.bak \
   -e 's/\.[a-f0-9]\{8,20\}\.\(js\|css\|map\)/.HASH.\1/g' \
   -e '/^\/\/[#@] sourceMappingURL=/d' \
   -e 's/"dateModified":"[^"]*"/"dateModified":"NORMALIZED"/g' \
-  -e 's/content="Docusaurus v[^"]*"/content="Docusaurus vNORMALIZED"/g' \
+  -e 's/name="generator" content="Docusaurus v[^"]*"/name="generator" content="Docusaurus vNORMALIZED"/g' \
   {} +
 
 # Clean up sed backup files
