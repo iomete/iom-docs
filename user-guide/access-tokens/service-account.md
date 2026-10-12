@@ -15,36 +15,28 @@ This guide focuses on what's different about service account tokens. For the bas
 
 ## Owners and Run-As Principals
 
-Every service account carries an explicit list of principals, and each one holds exactly one of two roles.
+Every service account has a list of principals, and each one is either an owner or a run-as principal.
 
-| Role | What it grants |
-|---|---|
-| **Owner** | Full control: view and manage the account's tokens, and add or remove other owners and run-as principals. |
-| **Run-as** | Standing to run workloads as the account, with no management rights. An owner still controls the tokens and the access list. |
+- **Owner:** Manages the account's tokens, and adds or removes other owners and run-as principals.
+- **Run-as:** Runs workloads as the account. No management rights.
 
-A principal is either a user or a group. A group counts as one entry rather than one entry per member, so adding someone to an owning group gives them access immediately, without touching the service account itself. Nested groups count too: if a group owns the account, members of its sub-groups get the same access.
+A principal is either a user or a group. Adding someone to a group that owns the account gives them the same access, including through nested groups.
 
-:::note Nested Groups and Expiry Emails
-Access follows nested groups, but expiry notification emails only reach the direct members of an owning group. Someone who owns an account through a sub-group can manage its tokens without being emailed before they expire. Add them as a direct owner if they need the warnings.
-:::
-
-IAM managers and super admins can view and manage any service account whatever these lists say. That's the escape hatch for an account whose owners have all left.
+IAM managers and super admins can view and manage any service account.
 
 :::info Upgrading from Group Sharing
-Earlier releases granted access implicitly: sharing any group with a service account was enough to manage its tokens. Access is now an explicit owner entry instead. The upgrade converted each account's previously-sharing groups into group owner entries, so nobody lost access along the way.
+Earlier releases granted access implicitly: sharing a group with a service account was enough to manage its tokens. Access is now an explicit owner entry. The upgrade converted each account's previously-sharing groups into group owners, so nobody lost access.
 :::
 
 ## Prerequisites
 
 To manage a service account's tokens, you need one of the following:
 
-- An owner entry on that service account, either directly as a user or through a group that owns it.
+- An owner entry on that service account, directly or through a group.
 - The IAM manager admin role, or super admin.
 
-Sharing a group with the account grants nothing on its own, and you don't need an admin role to manage an account you own.
-
 :::warning Access Denied
-If you see _"may not access owners or run-as of service account"_, you hold neither an owner entry nor the IAM manager role. Ask an existing owner or an IAM manager to add you as an owner.
+If you see _"may not access owners or run-as of service account"_, you're not an owner and don't hold the IAM manager role. Ask an existing owner or an IAM manager to add you.
 :::
 
 ## Finding the Token Management Page
@@ -78,31 +70,13 @@ You create, suspend, and delete service account tokens the same way as personal 
 
 <Img src="/img/user-guide/service-account-access-tokens/generate-token.png" alt="Generate Access Token dialog with Token name, Max RPS, and expiration options" />
 
-## Managing Owners and Run-As Principals
+## Owners and Run-As API
 
-Owners and run-as principals have their own endpoints under `/api/v1/service-accounts/{serviceAccount}`.
-
-### Reading the Access List
-
-```http
-GET /api/v1/service-accounts/{serviceAccount}/access
-```
-
-This returns a flat list of every principal attached to the account:
-
-```json
-[
-  { "id": "data-platform", "type": "GROUP", "role": "OWNER" },
-  { "id": "jane.doe", "type": "USER", "role": "RUN_AS" }
-]
-```
-
-An account with nothing assigned returns an empty list. Reading takes the same standing as writing: owner or IAM manager.
-
-### Assigning and Removing Principals
+Base path: `/api/v1/service-accounts/{serviceAccount}`
 
 | Method | Path | Purpose |
 |--------|------|---------|
+| GET | `/access` | List the account's owners and run-as principals |
 | POST | `/owners/users` | Add users as owners |
 | DELETE | `/owners/users` | Remove users as owners |
 | POST | `/owners/groups` | Add groups as owners |
@@ -112,32 +86,22 @@ An account with nothing assigned returns an empty list. Reading takes the same s
 | POST | `/run-as/groups` | Add groups as run-as principals |
 | DELETE | `/run-as/groups` | Remove groups as run-as principals |
 
-Every write takes a plain list body, so one call can assign or remove several principals at once:
+`GET /access` returns every principal on the account:
+
+```json
+[
+  { "id": "data-platform", "type": "GROUP", "role": "OWNER" },
+  { "id": "jane.doe", "type": "USER", "role": "RUN_AS" }
+]
+```
+
+Each write takes a list, so one call can assign or remove several principals at once:
 
 ```json
 ["jane.doe", "john.smith"]
 ```
 
-Writes are atomic. Validation runs across the whole list first, and a single bad entry rejects the call without writing anything. Removals are idempotent, so removing a principal that was never assigned still succeeds.
-
-### Changing a Principal's Role
-
-A principal holds exactly one role at a time. Promoting a run-as principal to owner updates its existing entry rather than adding a second one, so a single call does it:
-
-```http
-POST /api/v1/service-accounts/{serviceAccount}/owners/users
-["jane.doe"]
-```
-
-Going the other way takes two calls. Owner already covers everything run-as grants, so adding run-as to someone who already owns the account does nothing. Remove the owner entry first, then add the run-as entry:
-
-```http
-DELETE /api/v1/service-accounts/{serviceAccount}/owners/users
-["jane.doe"]
-
-POST /api/v1/service-accounts/{serviceAccount}/run-as/users
-["jane.doe"]
-```
+Requires ownership of the service account, or the IAM manager role.
 
 ## Token API Endpoints
 
@@ -167,7 +131,7 @@ Base path: `/api/v1/auth/service-accounts/{serviceAccountId}`
 | PATCH | `/tokens/{name}` | Update a token (status, maxRps) |
 | DELETE | `/tokens/{name}` | Delete a token |
 
-Requires ownership of the service account. No admin role is needed here, so a non-admin owner can manage their own service account's tokens.
+Requires ownership of the service account. An admin role isn't needed, so a non-admin owner can manage their own account's tokens.
 
 :::info Deprecated Endpoint
 The older `POST /service-accounts/tokens` endpoint (with `serviceAccountId` in the request body) is deprecated. Use the path-parameter versions above instead.
@@ -177,9 +141,8 @@ The older `POST /service-accounts/tokens` endpoint (with `serviceAccountId` in t
 
 | Action | Who can do it |
 |---|---|
-| View a service account's owners and run-as principals | Owners, IAM managers |
-| Add or remove owners and run-as principals | Owners, IAM managers |
-| List, create, update, delete the account's tokens | Owners, IAM managers |
+| View and manage owners and run-as principals | Owners, IAM managers, super admins |
+| List, create, update, delete the account's tokens | Owners |
 | Run workloads as the service account | Owners, run-as principals |
 
 Domain-level token endpoints also require the `access_token.manage` role permission. Configure it through [Roles](/user-guide/roles).
