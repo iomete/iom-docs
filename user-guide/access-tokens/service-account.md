@@ -70,6 +70,18 @@ You create, suspend, and delete service account tokens the same way as personal 
 
 <Img src="/img/user-guide/service-account-access-tokens/generate-token.png" alt="Generate Access Token dialog with Token name, Max RPS, and expiration options" />
 
+## Assigning Owners and Run-As Principals
+
+Open the service account from **Settings** > **Members** > **Service accounts**, then go to the **Access** tab. It lists everyone attached to the account with their identity and role, and you can filter by users or groups, or by owners or run-as.
+
+<Img src="/img/user-guide/service-account-access-tokens/sa-access-tab.png" alt="Access tab on a service account showing a group owner, a user owner, and a run-as user" />
+
+Click **Assign members** to add more. Pick groups or users, set each to **Owner** or **Run-as**, then click **Assign**.
+
+<Img src="/img/user-guide/service-account-access-tokens/sa-assign-members.png" alt="Assign members dialog with group and user pickers, each with an Owner or Run-as toggle" maxWidth="560px" centered />
+
+Use the row menu to change someone's role or remove them.
+
 ## Owners and Run-As API
 
 Base path: `/api/v1/service-accounts/{serviceAccount}`
