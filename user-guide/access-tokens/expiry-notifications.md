@@ -1,10 +1,10 @@
 ---
 title: Access Token Expiry Notifications
-description: Configure email alerts for access token expiry so token owners and service account groups are notified before tokens expire.
+description: Configure email alerts for access token expiry so token owners and service account owners are notified before tokens expire.
 sidebar_label: Expiry Notifications
 last_update:
-  date: 04/28/2026
-  author: Shashank Chaudhary
+  date: 10/12/2026
+  author: Sourabh Jajoria
 ---
 
 Expired tokens break integrations without warning, so IOMETE can email token owners ahead of time.
@@ -37,6 +37,14 @@ Recipients depend on the token type:
 | Token type | Recipients |
 |---|---|
 | **Personal token** | The token owner's email address |
-| **Service account token** | All human users in groups that have permissions on the service account |
+| **Service account token** | The account's [owners](./service-account#owners-and-run-as-principals) |
+
+For a service account, each owner entry resolves to one or more email addresses. A user owner resolves to that user's own address. A group owner resolves to the addresses of that group's direct members, and members of nested sub-groups are left out.
+
+Run-as principals never get these emails, only owners do. Someone who owns the account both directly and through a group is still emailed once.
+
+:::note No Owners Assigned
+A service account with no owners has nobody to notify, so the scheduler logs the token and moves on without sending anything. Give an account at least one owner if you want expiry alerts for it.
+:::
 
 Each token gets at most one email per threshold level. The scheduler tracks which levels have already been sent, so a warning email won't repeat, and the critical email only goes out once its threshold is reached.
