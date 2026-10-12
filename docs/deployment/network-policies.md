@@ -3,8 +3,8 @@ title: Kubernetes Network Policies
 sidebar_label: Network Policies
 description: Learn how to configure network policies for IOMETE services in a Kubernetes cluster.
 last_update:
-  date: 04/28/2024
-  author: Vusal Dadalov
+  date: 10/12/2026
+  author: Maksym Kryvchun
 ---
 
 IOMETE services rely on specific network configurations to function properly in a Kubernetes cluster. These network policies govern how different components communicate securely and efficiently.
@@ -50,13 +50,20 @@ Replace `[API_SERVER_IP]` in the YAML file with the actual IP address.
 
 This policy ensures that all IOMETE control plane and data plane services can communicate securely across namespaces, using the label `iomete.com/managed: "true"`.
 
+It leaves out Jupyter Container pods. Kubernetes combines policies by allowing anything any of them allows, so a policy that selects every pod would cancel out the [Jupyter Containers policy](#jupyter-containers-policy).
+
 ```yaml title="iomete-ingress-egress.yaml"
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: iomete-ingress-egress
 spec:
-  podSelector: {}
+  podSelector:
+    matchExpressions:
+      - key: iomete.com/appType
+        operator: NotIn
+        values:
+          - jupyterContainer
   ingress:
     - from:
         - namespaceSelector:
@@ -68,6 +75,44 @@ spec:
     - Ingress
     - Egress
 ```
+
+---
+
+## Jupyter Containers Policy
+
+Jupyter Containers run user code, so the data plane Helm chart installs a policy named `iomete-jupyter-containers` in the data plane namespace and every Spark namespace. With it:
+
+- Only the IOMETE gateway can reach notebooks.
+- Notebooks can reach DNS, your ingress controller and the internet.
+- Notebooks can't reach private, link-local (cloud metadata) or carrier-grade NAT addresses.
+
+Notebooks connect to compute clusters through your ingress controller. If yours isn't Istio's `istio-system/ingressgateway` or `ingress-nginx`, or your platform host resolves to a private IP, adjust the policy in `values.yaml`:
+
+```yaml title="values.yaml"
+networkPolicies:
+  jupyterContainers:
+    ingressControllers:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: my-ingress
+        podSelector:
+          matchLabels:
+            app: my-ingress-controller
+    extraEgress:
+      - to:
+          - ipBlock:
+              cidr: 10.20.30.40/32 # internal load balancer or private data source
+        ports:
+          - protocol: TCP
+            port: 443
+```
+
+| Setting | Use it to |
+|---|---|
+| `ingressControllers` | Match the pods of the ingress controller serving the platform host. |
+| `extraEgress` | Allow an internal address notebooks need. |
+| `blockedCidrs` | Change which address ranges count as internal. |
+| `enabled` | Turn the policy off. |
 
 ---
 
