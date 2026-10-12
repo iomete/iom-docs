@@ -20,7 +20,7 @@ Every service account has a list of principals, and each one is either an owner 
 - **Owner:** Manages the account's tokens and access, and runs workloads as the account.
 - **Run-as:** Runs workloads as the account. No management rights.
 
-A principal is either a user or a group. Adding someone to a group that owns the account gives them the same access, including through nested groups.
+A principal is either a user or a group. Adding someone to a group that owns the account gives them the same access. This only applies to direct membership in that group, not a group nested under it.
 
 IAM managers and super admins can view and manage any service account.
 
