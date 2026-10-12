@@ -17,7 +17,7 @@ This guide focuses on what's different about service account tokens. For the bas
 
 Every service account has a list of principals, and each one is either an owner or a run-as principal.
 
-- **Owner:** Manages the account's tokens, and adds or removes other owners and run-as principals.
+- **Owner:** Manages the account's tokens and access, and runs workloads as the account.
 - **Run-as:** Runs workloads as the account. No management rights.
 
 A principal is either a user or a group. Adding someone to a group that owns the account gives them the same access, including through nested groups.
@@ -113,7 +113,7 @@ Each write takes a list, so one call can assign or remove several principals at 
 ["jane.doe", "john.smith"]
 ```
 
-Requires ownership of the service account, or the IAM manager role.
+Requires ownership of the service account, or the IAM manager or super admin role.
 
 ## Token API Endpoints
 
@@ -130,7 +130,7 @@ Base path: `/api/v1/domains/{domain}/auth/service-accounts/{serviceAccountId}`
 | PATCH | `/tokens/{name}` | Update a token (status, maxRps) |
 | DELETE | `/tokens/{name}` | Delete a token |
 
-Requires `access_token.manage` ([Roles](/user-guide/roles)), plus ownership of the service account.
+Requires `access_token.manage` ([Roles](../iam/roles.md)), plus ownership of the service account.
 
 ### Admin-Level Endpoints
 
@@ -157,4 +157,4 @@ The older `POST /service-accounts/tokens` endpoint (with `serviceAccountId` in t
 | List, create, update, delete the account's tokens | Owners |
 | Run workloads as the service account | Owners, run-as principals |
 
-Domain-level token endpoints also require the `access_token.manage` role permission. Configure it through [Roles](/user-guide/roles).
+Domain-level token endpoints also require the `access_token.manage` role permission. Configure it through [Roles](../iam/roles.md).
