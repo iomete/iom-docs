@@ -274,7 +274,7 @@ Enabling request tracking adds per-client labels (`iomete_user_id`, `iomete_pat`
 
 ### Rate Limiting
 
-Per-token rate limiting prevents individual clients from overwhelming the catalog. Each [Access Token](../access-tokens/personal.md) can have a configurable **max requests per second (maxRPS)**.
+Per-token rate limiting prevents individual clients from overwhelming the catalog. Each [service account access token](../access-tokens/service-account.md) can have a configurable **max requests per second (maxRPS)**.
 
 ```yaml
 # Helm values
@@ -285,7 +285,7 @@ features:
 
 When enabled, IOMETE deploys a dedicated rate limiter pod alongside the REST catalog.
 
-See [Access Tokens](../access-tokens/personal.md) for configuring maxRPS per token.
+See [Service Account Access Tokens](../access-tokens/service-account.md) for configuring maxRPS per token.
 
 ### Scaling
 

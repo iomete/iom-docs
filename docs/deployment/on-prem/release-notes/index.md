@@ -904,7 +904,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
         Access tokens can now be **suspended** to immediately block all requests using that PAT token, without deleting it. A suspended token can be reactivated at any time to restore access — no service restart or redeployment required.
 
-        📄 Learn more: [Access Tokens — Suspending and Reactivating](/user-guide/access-tokens/personal#suspending-and-reactivating-tokens)
+        📄 Learn more: [Access Tokens — Suspending and Reactivating](/user-guide/access-tokens/personal#managing-a-token)
 
       - **New Feature: Multi-Cluster Deployment**
 

@@ -1,91 +1,60 @@
 ---
 title: Personal Access Tokens
-description: An Access Token is pivotal for secure authentication. This guide elucidates the process of generating an Access Token in IOMETE.
+description: Create and manage personal access tokens to call the IOMETE API without a password.
 sidebar_label: Personal Tokens
 last_update:
-  date: 01/29/2024
-  author: Vugar Dadalov
+  date: 10/09/2026
+  author: Maksym Kryvchun
 ---
 
 import Img from '@site/src/components/Img';
 
-You can create an access token to use in place of a password with the **IOMETE API**.
+Use a personal access token to call the **IOMETE API** from code or scripts, instead of your password.
 
----
+## Creating a Token
 
-Access tokens are an alternative to using passwords for authentication to IOMETE when using IOMETE API. In this article, we will explain to you how to create and use Access Tokens for IOMETE API.
+1. Go to **Settings** > **Access Tokens** and click **New access token**.
+2. Enter a **Token name**, pick an **Expiration**, and click **Create**.
+3. Copy the token.
 
-### Create new access token
+<Img src="/img/user-guide/pat/access-token-create.png" alt="Create access token form" maxWidth="600px"/>
 
-To manage access tokens navigate to **Settings** -> **Access Tokens** tab. To create new access token click **`Generate new token`** button.
+:::warning You see the token only once
+Copy it right away and keep it somewhere safe, such as a password manager. If you lose it, delete it and create a new one.
+:::
 
+<Img src="/img/user-guide/pat/access-token-created.png" alt="Access token created, with a Copy button" maxWidth="500px"/>
 
-<Img src="/img/user-guide/pat/access-tokens.png"
-  alt="Access tokens"/>
+New tokens start with `iomt_`. Older tokens without it keep working.
 
+## Using a Token
 
-In the form includes following fields:
-
-- **Token name**: A descriptive name for the token to identify its purpose.
-- **Max RPS**: (Optional) Maximum requests per second allowed for this token.
-- **Expiration**: (Optional) Set an expiration date for the token to enhance security.
-
-<Img src="/img/user-guide/pat/access-token-create-rps.png" alt="Access token create with" maxWidth="500px"/>
-
-Once you filled inputs click to `Generate`. That is it! You have successfully created an access token. You can copy the token value and use it for authentication in your API requests.
-
-<Img src="/img/user-guide/pat/access-tokens-rps.png" alt="Access token rps"/>
-
-:::success How to use Access Token
-**IOMETE API** can be accessed through code or CLI tools using the Access Token. You should send the API token in the HTTP header `X-API-Token`. Below we provided simple example written in Python.
-
-You will see your **IOMETE region host** instead of _\{your_iomete_account_host}_
+Send the token in the `X-API-Token` header. Replace `{your_iomete_host}` with the address you use to open IOMETE.
 
 ```python
- import requests
+import requests
 
-  r = requests.get("https://{your_iomete_account_host}/api/v1/....", headers = {
-	  "X-API-Token": "**************************"
-  })
+r = requests.get("https://{your_iomete_host}/api/v1/....", headers={
+    "X-API-Token": "iomt_**************************"
+})
 ```
 
+## Managing a Token
+
+Open the **⋮** menu next to a token:
+
+| Action | What it does |
+| -- | -- |
+| **Suspend** | Blocks the token right away. Turn it back on with **Activate**. Not available for expired tokens. |
+| **Rename** | Changes only the name. Anything using the token keeps working. |
+| **Delete** | Removes the token for good. |
+
+<Img src="/img/user-guide/pat/access-token-suspend.png" alt="Token actions menu with Suspend, Rename, Copy name and Delete"/>
+
+:::tip Need a request limit?
+To cap how many requests per second a token can make, use a [service account token](./service-account.md).
 :::
 
----
+## Expiry Notifications
 
-### Suspending and Reactivating Tokens
-
-:::info New in 3.16.0
-:::
-
-Access tokens can be **suspended** to immediately block all requests using that token, without deleting it. This is useful for:
-- Temporarily disabling a misbehaving client
-- Revoking access during an investigation
-- Rotating access without recreating tokens
-
-<Img src="/img/user-guide/pat/access-token-suspend.png" alt="Access token suspend"/>
-
-A suspended token can be **reactivated** at any time to restore access. No service restart or redeployment is required.
-
-<Img src="/img/user-guide/pat/access-token-activate.png" alt="Access token activate"/>
-
-### Rate Limiting (maxRPS)
-
-:::info New in 3.16.0
-:::
-
-Each access token can have a **maximum requests per second (maxRPS)** configured. When set, the token is rate-limited at the [Iceberg REST Catalog](/user-guide/spark-catalogs/internal#rate-limiting) level.
-
-This is useful for controlling external client throughput and preventing any single client from overwhelming the catalog.
-
-<Img src="/img/user-guide/pat/access-token-create-rps.png" alt="Access token create with" maxWidth="500px"/>
-<Img src="/img/user-guide/pat/access-tokens-rps.png" alt="Access token rps"/>
-
-
-:::note
-Rate limiting requires the `features.ratelimiter.enabled` Helm flag to be set to `true`. See the [Iceberg REST Catalog — Rate Limiting](/user-guide/spark-catalogs/internal#rate-limiting) documentation for details.
-:::
-
-### Expiry Notifications
-
-IOMETE can email you before your tokens expire. See [Access Token Expiry Notifications](./expiry-notifications) for setup and configuration.
+IOMETE can email you before a token expires. See [Access Token Expiry Notifications](./expiry-notifications.md).
