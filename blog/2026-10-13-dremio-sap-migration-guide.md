@@ -50,7 +50,7 @@ This one is older than the deal, but it matters more now. Since Dremio 26.0, Dre
 
 Dremio is clear that no query text, results, or business data are sent, and we have no reason to doubt that. Even so, for a bank or hospital running a "self-hosted" platform, a required outbound connection to a vendor is a third-party dependency that has to be documented. The company at the other end of that connection is now SAP.
 
-That matters in the EU because SAP is itself one of the providers the European regulators have [designated as critical under DORA](https://www.esma.europa.eu/sites/default/files/2025-11/List_of_designated_CTPPs.pdf), the EU's operational resilience rules for financial firms. If you were using Dremio partly to avoid depending on one of the large providers on that list, the acquisition has put you back in that position.
+This matters in the EU because DORA, the EU's operational resilience rules for financial firms, asks banks to check how much they depend on any single provider (Article 29). Many banks already run SAP for finance, HR, and supply chain. With Dremio inside SAP, the analytics platform now depends on that same provider, so more of the bank's critical systems rely on one company. SAP is also one of the providers EU regulators have [designated as critical](https://www.esma.europa.eu/sites/default/files/2025-11/List_of_designated_CTPPs.pdf) because so many financial firms already depend on it. That's worth recording in your concentration risk assessment.
 
 ## What is still yours: the tables, if you planned for it
 
@@ -168,7 +168,7 @@ If you want help with an evaluation, [talk to our team](https://iomete.com/conta
   },
   {
     question: "Does the acquisition affect DORA compliance for Dremio customers?",
-    answer: "It changes your third-party picture. Record the change of control in your DORA register of information, and note that SAP is itself designated as a critical ICT third-party provider under DORA. This is also a good time to revisit exit terms while contracts move to SAP."
+    answer: "It changes your third-party picture. Record the change of control in your DORA register of information, and update your concentration risk assessment (Article 29), especially if you already rely on SAP for other critical systems. This is also a good time to revisit exit terms while contracts move to SAP."
   },
   {
     question: "Is there a self-hosted Dremio alternative for air-gapped environments?",
