@@ -7,6 +7,8 @@ last_update:
   author: Vugar Dadalov
 ---
 
+import Img from "@site/src/components/Img";
+
 When a user can't query a table, or sees data they shouldn't, you need to know which policy is responsible. **Check access** reports what a user can do with a table or database, and which policy decides each answer. Use it to confirm that your policies work as intended, before and after you change them.
 
 The answer comes from the same policy engine that Spark uses, so the allowed and denied answers match what the user gets when they run a query. Data masking isn't part of the check yet. The check never reads table data.
@@ -20,7 +22,15 @@ Run a check when you need to know whether a user can read or change a specific t
 3. To check a table, select it under **Table**. To check the database itself, leave **Table** empty.
 4. Click **Check**.
 
-{/* 📸 SCREENSHOT NEEDED: Check access form with User, Catalog, Database, and Table filled in, and a partial-access result below it */}
+<Img
+  src="/img/user-guide/data-security/check-access/user-select.png"
+  alt="Check access form with User"
+/>
+
+<Img
+  src="/img/user-guide/data-security/check-access/submit-check.png"
+  alt="Check access form with User, Catalog, Database, and Table filled in, and a partial-access result below it"
+/>
 
 The page keeps your selection in its URL. Share the link with a teammate, or reopen it later to run the same check again.
 
@@ -33,6 +43,13 @@ The result tells you at a glance whether the user has access, then gives the rea
 - **Policies updated** and **Tags loaded**: the latest policy change and tag load that the policy engine used for the answer.
 - **Actions**: one row per action, with the result and the reason.
 
+<Img
+  src="/img/user-guide/data-security/check-access/allow-result.png"
+  alt="Result with the Summary, User, Groups, Roles, Policies updated, Tags loaded, and Actions tables"
+/>
+
+
+
 The actions depend on what you check:
 
 - Table check: `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `ALTER`, and `DROP`
@@ -43,6 +60,11 @@ The actions depend on what you check:
 | **Access** | **Allowed** or **Denied**. |
 | **Decided by** | The policy that decided the answer. Click it to open the policy. **No matching policy** means no policy grants the action, so the action is denied. |
 | **Matched as** | How the user matched the policy: directly as a **User**, through a **Group** or **Role**, or as **Everyone**. |
+
+<Img
+  src="/img/user-guide/data-security/check-access/allow-result-columns.png"
+  alt="Result with the Columns table and the Rows are filtered notice"
+/>
 
 **Decided by** can also display these values:
 
@@ -72,7 +94,14 @@ If the check reports a denied action, you can create the missing policy without 
 2. Enter a **Name**, choose the **Permissions** to grant, and click **Create**.
 3. Open your check link again, or select the same user and resource in **Check access**, and click **Check** to confirm the change.
 
-{/* 📸 SCREENSHOT NEEDED: a denied result with the Create access policy button below the summary */}
+<Img
+  src="/img/user-guide/data-security/check-access/deny-result.png"
+  alt="Result with a denied action and the Create access policy button below the summary"
+/>
+<Img
+  src="/img/user-guide/data-security/check-access/deny-result-columns.png"
+  alt="Result with a denied action and the Create access policy button below the summary"
+/>
 
 After a database check, **Tables** and **Columns** are set to `*`, so the policy covers every table in the database. Narrow them if that grants more than you need.
 
