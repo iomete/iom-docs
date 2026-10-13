@@ -16,7 +16,7 @@
 export const VARIANTS = {
   sovereign: {
     eyebrow: "Sovereign by architecture",
-    line: "IOMETE runs this inside your own perimeter — on-premises, private cloud, or air-gapped.",
+    line: "IOMETE runs this inside your own perimeter: on-premises, private cloud, or air-gapped.",
     primary: {
       label: "Talk to a data architect",
       href: "https://iomete.com/contact-us",
@@ -32,7 +32,7 @@ export const VARIANTS = {
   },
   reference: {
     eyebrow: "Try it on your own data",
-    line: "Run this on your own lakehouse — Spark, notebooks and an Iceberg catalog you control.",
+    line: "Run this on your own lakehouse: Spark, notebooks and an Iceberg catalog you control.",
     primary: {
       label: "Read the docs",
       href: "/resources/getting-started/what-is-iomete",
