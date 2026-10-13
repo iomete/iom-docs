@@ -1,0 +1,95 @@
+---
+title: Check Access
+description: See what a user can do with a table or database, which policy decides each answer, and turn a denied result into a new policy.
+sidebar_label: Check Access
+last_update:
+  date: 10/12/2026
+  author: Vugar Dadalov
+---
+
+When a user can't query a table, or sees data they shouldn't, you need to know which policy is responsible. **Check access** reports what a user can do with a table or database, and which policy decides each answer. Use it to confirm that your policies work as intended, before and after you change them.
+
+The answer comes from the same policy engine that Spark uses, so the allowed and denied answers match what the user gets when they run a query. Data masking isn't part of the check yet. The check never reads table data.
+
+## Running a Check
+
+Run a check when you need to know whether a user can read or change a specific table or database.
+
+1. Go to **Data Security** and, under **Tools**, click **Check access**.
+2. Select a **User**, a **Catalog**, and a **Database**.
+3. To check a table, select it under **Table**. To check the database itself, leave **Table** empty.
+4. Click **Check**.
+
+{/* 📸 SCREENSHOT NEEDED: Check access form with User, Catalog, Database, and Table filled in, and a partial-access result below it */}
+
+The page keeps your selection in its URL. Share the link with a teammate, or reopen it later to run the same check again.
+
+## Reading the Result
+
+The result tells you at a glance whether the user has access, then gives the reason for every action.
+
+- **Summary**: the user's overall access (full, partial, or none) and the actions they can and can't perform.
+- **User**, **Groups**, and **Roles**: who the user is and which groups and roles they belong to.
+- **Policies updated** and **Tags loaded**: the latest policy change and tag load that the policy engine used for the answer.
+- **Actions**: one row per action, with the result and the reason.
+
+The actions depend on what you check:
+
+- Table check: `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `ALTER`, and `DROP`
+- Database check: `USE`, `CREATE`, `ALTER DATABASE`, and `DROP DATABASE`
+
+| Column | What it shows |
+|---|---|
+| **Access** | **Allowed** or **Denied**. |
+| **Decided by** | The policy that decided the answer. Click it to open the policy. **No matching policy** means no policy grants the action, so the action is denied. |
+| **Matched as** | How the user matched the policy: directly as a **User**, through a **Group** or **Role**, or as **Everyone**. |
+
+**Decided by** can also display these values:
+
+- **Deleted policy (ID n)**: a policy that someone deleted after the policy engine loaded it. Run the check again in about 20 seconds.
+- `system-iceberg-temp-catalog-policy`: a built-in policy that IOMETE adds for every user. It has no page of its own.
+
+Each answer names the one policy that decided it. Other policies may grant the same access, so removing the named policy doesn't always remove the access.
+
+## Checking Columns and Row Filters
+
+Policies and tags can apply to single columns or limit rows, so a table check also tells you which data the user can reach.
+
+- **Columns**: `SELECT` on each column, the way Spark checks a query. Filter the list by **Allowed** or **Denied**, or search for a column.
+- **Row filter**: if a row filter policy applies, a **Rows are filtered** notice displays its expression and the policy behind it. For example, `region = 'EU'` means the user only sees rows where the region is `EU`.
+
+{/* 📸 SCREENSHOT NEEDED: Columns table with the Allowed and Denied filter, and the "Rows are filtered" notice */}
+
+If a table has more than 1,000 columns, or its columns can't be read, a **Columns were not checked** notice replaces the list. In that case, only table-level access is checked.
+
+The check doesn't include masking policies yet. An allowed column can still return masked values, so review the [data masking](./data-masking.mdx) and [tag-based data masking](./tag-based-data-masking.mdx) policies for sensitive columns.
+
+## Creating a Policy From a Denied Result
+
+If the check reports a denied action, you can create the missing policy without retyping the user and the resource.
+
+1. Click **Create access policy** below the summary. The new access policy form opens with the user under **Allow** and the catalog, database, and table under **Resources**.
+2. Enter a **Name**, choose the **Permissions** to grant, and click **Create**.
+3. Open your check link again, or select the same user and resource in **Check access**, and click **Check** to confirm the change.
+
+{/* 📸 SCREENSHOT NEEDED: a denied result with the Create access policy button below the summary */}
+
+After a database check, **Tables** and **Columns** are set to `*`, so the policy covers every table in the database. Narrow them if that grants more than you need.
+
+A new policy can take up to about 20 seconds to reach the policy engine. If the answer hasn't changed yet, wait and check again.
+
+:::warning Deny Policies Still Win
+If a deny policy blocks the action, a new allow policy doesn't change the answer. Switch the new policy to **Override**, or change the deny policy. See [Access Policy](./access-policy.mdx).
+:::
+
+## Access Permissions
+
+Checking access only reads policies, so you can run checks with the **Read-Only Admin** role too. Creating a policy needs the **Data Security and Audit Manager** role.
+
+| Admin role | Run a check | Create a policy from a denied result |
+|---|---|---|
+| **Data Security and Audit Manager** | ✅ | ✅ |
+| **Read-Only Admin** | ✅ | ❌ |
+| Other admin roles | ❌ | ❌ |
+
+Read-only admins see **Create access policy**, but it's disabled. IOMETE records every check in the event log. For more on roles, see [Admin Roles](../iam/admin-roles.md).
