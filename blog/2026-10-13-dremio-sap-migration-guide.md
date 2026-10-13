@@ -65,31 +65,33 @@ Tables are only part of it, though. To leave a platform cleanly, you also need t
 
 Open table formats solve the first problem. The rest depend on where your catalog, policies, and logs live, and on whether you can export them without the vendor's help. It is worth checking each one now, while nothing is urgent.
 
-## If you are in a regulated EU industry
+## If you are an EU financial entity under DORA
 
 We have written about DORA in detail before, in [DORA and the EU AI Act for financial institutions](/resources/blog/dora-eu-ai-act-financial-institutions-data-infrastructure) and [data sovereignty for regulated finance](/resources/blog/data-sovereignty-regulated-finance-dora-private-cloud). For Dremio customers specifically, four steps are worth doing this quarter, whatever you decide about the platform:
 
 1. **Update your register of information** (DORA Article 28) to record that Dremio is now controlled by SAP.
 2. **Ask for a written commitment** on the future of the self-hosted edition: the support timeline, and whether it will keep the same features as the managed cloud version.
-3. **Revisit the exit clause** (DORA Article 30) while your contract is being moved over to SAP. That is when you can negotiate what an exit includes, such as catalog export, permissions, and audit history.
+3. **Revisit the exit clause** (DORA Article 30) at your next renewal, or sooner if your contract is transferred to SAP. That is when you can negotiate what an exit includes, such as catalog export, permissions, and audit history.
 4. **Rehearse an exit.** Pick a few real tables and move them to a second catalog and engine. A tested exit plan carries more weight with a regulator than a written one.
 
 ## How a move off Dremio works, step by step
 
 If you decide to look at alternatives, here is the work involved. It applies to any platform that runs on Iceberg, not only ours.
 
-The safest approach is to run both platforms side by side on the same data, then move workloads over one at a time. Nobody has to switch everything over in a single weekend.
+The safest approach is to run both platforms side by side, then move workloads over one table at a time. Nobody has to switch everything over in a single weekend. Until a table moves, Dremio stays its only owner, and the pilot runs on copies.
 
 ```mermaid
 flowchart LR
-  S[("Your object storage<br/>Iceberg tables")]
-  D["Dremio<br/>(writes, until cutover)"]
-  I["IOMETE<br/>(reads during the pilot)"]
+  D["Dremio<br/>(owns live tables until cutover)"]
+  S[("Live Iceberg tables")]
+  P[("Pilot copies")]
+  I["IOMETE<br/>(pilot)"]
   D --> S
-  S --> I
+  D -- "copy" --> P
+  P --> I
 ```
 
-### Step 1: Register your tables in the new catalog
+### Step 1: Move your tables to the new catalog
 
 Iceberg tables can be added to a new catalog without copying any data. Iceberg's `register_table` procedure points the new catalog at a table's existing metadata file:
 
@@ -100,10 +102,16 @@ CALL spark_catalog.system.register_table(
 );
 ```
 
-Two things to know before you do this:
+Register each table once, at cutover, and treat it as a move. If two catalogs track the same live table, updates made through one never reach the other, and Dremio's cleanup jobs can delete files the other catalog still needs.
 
-- **It is a point-in-time copy of the table's state.** The new catalog sees the table as it was in that metadata file. New writes from Dremio won't show up until you register the newer metadata file. That is fine for a pilot. At cutover, register the latest file and switch your pipelines over.
-- **Only one platform should write to a table, and only one should clean it up.** If both catalogs write to the same table, each loses track of the other's commits. If both run snapshot expiry or orphan file cleanup, one can delete files the other still needs. Until cutover, keep Dremio as the only writer and turn off maintenance for those tables on the new platform.
+So the cutover for each table is:
+
+1. Stop writes and maintenance on the table in Dremio.
+2. Register the latest metadata file in the new catalog.
+3. Point your pipelines and dashboards at the new platform.
+4. Remove the table from Dremio's catalog, after checking that doing so won't delete its files.
+
+For the pilot, don't register live tables. Write copies of a few representative tables to a separate location, for example with `CREATE TABLE AS SELECT` from Dremio, and register those copies instead. The new platform owns them outright, so nothing either side does can break the other.
 
 The full procedure is in our [Iceberg procedures reference](/resources/reference/iceberg-tables/iceberg-procedures).
 
@@ -141,11 +149,11 @@ There are trade-offs too. IOMETE assumes your team is comfortable running Kubern
 ## Which path fits you
 
 - **Stay on Dremio** if your company is committed to SAP and Business Data Cloud. Ask SAP for written answers on the self-hosted edition, the licensing model, and the connectors you depend on.
-- **Run an evaluation** if you chose Dremio for independence or data sovereignty. Register a handful of real tables in a second catalog, translate your most important views, and compare results on your own workloads before your renewal date.
+- **Run an evaluation** if you chose Dremio for independence or data sovereignty. Copy a handful of real tables to a second platform, translate your most important views, and compare results on your own workloads before your renewal date.
 
 Either way, keep your tables in Iceberg on storage you own, and make sure your catalog, permissions, and audit history can be exported. Then the next acquisition, including one of us, doesn't become your problem.
 
-If you want help with an evaluation, [talk to our team](https://iomete.com/contact-us). We can run a pilot against your existing Iceberg tables, in your environment, without moving any data.
+If you want help with an evaluation, [talk to our team](https://iomete.com/contact-us). We can run a pilot on copies of your own Iceberg tables, in your environment, without touching production.
 
 ## FAQ
 
@@ -156,11 +164,11 @@ If you want help with an evaluation, [talk to our team](https://iomete.com/conta
   },
   {
     question: "Can I migrate from Dremio without copying my data?",
-    answer: "If your Dremio tables are Apache Iceberg tables in your own object storage, yes. Iceberg's register_table procedure adds an existing table to a new catalog by pointing it at the table's metadata file, so the data files stay where they are. Views, Reflections, federated sources, and access policies still need to be moved separately."
+    answer: "If your Dremio tables are Apache Iceberg tables in your own object storage, yes. Iceberg's register_table procedure adds an existing table to a new catalog by pointing it at the table's metadata file, so the data files stay where they are. Do it once per table, after Dremio has stopped writing to and maintaining it. Views, Reflections, federated sources, and access policies still need to be moved separately."
   },
   {
     question: "Can Dremio and IOMETE use the same Iceberg tables at the same time?",
-    answer: "Yes for reading, with care. Keep a single platform writing to each table and running maintenance on it until cutover. A registered table reflects the metadata file you registered, so refresh it by registering the newer metadata file when you need newer data."
+    answer: "Not safely through two catalogs. Each catalog keeps its own pointer to the table's metadata, so writes through one never reach the other, and Dremio's snapshot expiry can delete files the other catalog still needs. Run the pilot on copies, and register each production table once, at cutover, after Dremio stops writing to and maintaining it."
   },
   {
     question: "Do Dremio Reflections migrate to another platform?",
@@ -168,7 +176,7 @@ If you want help with an evaluation, [talk to our team](https://iomete.com/conta
   },
   {
     question: "Does the acquisition affect DORA compliance for Dremio customers?",
-    answer: "It changes your third-party picture. Record the change of control in your DORA register of information, and update your concentration risk assessment (Article 29), especially if you already rely on SAP for other critical systems. This is also a good time to revisit exit terms while contracts move to SAP."
+    answer: "It changes your third-party picture. Record the change of control in your DORA register of information, and update your concentration risk assessment (Article 29), especially if you already rely on SAP for other critical systems. Revisit exit terms at your next renewal, or sooner if your contract is transferred to SAP."
   },
   {
     question: "Is there a self-hosted Dremio alternative for air-gapped environments?",
