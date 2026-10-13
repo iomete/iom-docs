@@ -1,27 +1,42 @@
 ---
 title: Service Account Access Tokens
-description: Generate and manage access tokens for service accounts to enable secure, automated API access to IOMETE.
+description: Generate and manage access tokens for service accounts, and control who owns a service account through explicit owners and run-as principals.
 sidebar_label: Service Account Tokens
 last_update:
-  date: 04/09/2026
-  author: Abhishek Pathania
+  date: 10/12/2026
+  author: Sourabh Jajoria
 ---
 
 import Img from '@site/src/components/Img';
 
-If you need automated systems, CI/CD pipelines, or external integrations to call the IOMETE API, service account access tokens are the way to go. They work like [personal access tokens](./personal), but they're tied to a service account instead of a human user. 
+If you need automated systems, CI/CD pipelines, or external integrations to call the IOMETE API, service account access tokens are the way to go. They work like [personal access tokens](./personal), but they're tied to a service account instead of a human user.
 
 This guide focuses on what's different about service account tokens. For the basics of creating, suspending, and rate-limiting tokens, see the [Personal Access Tokens](./personal) guide.
 
+## Owners and Run-As Principals
+
+Every service account has a list of principals, and each one is either an owner or a run-as principal.
+
+- **Owner:** Manages the account's tokens and access, and runs workloads as the account.
+- **Run-as:** Runs workloads as the account. No management rights.
+
+A principal is either a user or a group. Adding someone to a group that owns the account gives them the same access. This only applies to direct membership in that group, not a group nested under it.
+
+IAM managers and super admins can view and manage any service account.
+
+:::info Upgrading from Group Sharing
+Earlier releases granted access implicitly: sharing a group with a service account was enough to manage its tokens. Access is now an explicit owner entry. The upgrade converted each account's previously-sharing groups into group owners, so nobody lost access.
+:::
+
 ## Prerequisites
 
-To manage service account tokens, ensure that the following prerequisites are met:
+To manage a service account's tokens, you need one of the following:
 
-- **Group membership**: You must share at least one group with the service account. Without this, the token list returns a 403 error.
-- **Permission**: Either the `access_token.manage` role permission ([Roles](/user-guide/roles)) or any admin role. The **Generate new token** button stays disabled if you lack the required permission.
+- An owner entry on that service account, directly or through a group.
+- The IAM manager admin role, or super admin.
 
-:::warning Group Membership
-If you see _"You must be in the same group as this service account to view and manage tokens"_, ask your admin to add you to one of the service account's groups.
+:::warning Access Denied
+If you see _"may not access owners or run-as of service account"_, you're not an owner and don't hold the IAM manager role. Ask an existing owner or an IAM manager to add you.
 :::
 
 ## Finding the Token Management Page
@@ -44,20 +59,65 @@ You manage service account tokens from the account's detail page. The **Access T
 
 <Img src="/img/user-guide/service-account-access-tokens/admin-access-tokens-tab.png" alt="Service account token list at admin level showing the Max RPS column" />
 
-Both paths lead to the same interface. The difference is permissions: domain-level access requires the `access_token.manage` role permission, while admin-level access is open to any admin user.
+Both paths lead to the same interface and apply the same ownership check.
 
 ## Managing Service Account Tokens
 
 You create, suspend, and delete service account tokens the same way as personal tokens — with a few key differences. See the [Personal Access Tokens](./personal) guide for the full workflow.
 
 - **Max RPS column**: The token list includes a **Max RPS** column (only visible for service accounts) that displays the configured requests-per-second cap, or "None" if unset.
-- **Expiry notifications**: When token expiry notifications are enabled, emails are sent to all human users in groups that have permissions on the service account. See [Access Token Expiry Notifications](./expiry-notifications) for setup.
+- **Expiry notifications**: When token expiry notifications are enabled, emails go to the account's owners. See [Access Token Expiry Notifications](./expiry-notifications) for who exactly gets notified.
 
 <Img src="/img/user-guide/service-account-access-tokens/generate-token.png" alt="Generate Access Token dialog with Token name, Max RPS, and expiration options" />
 
-## API Endpoints
+## Assigning Owners and Run-As Principals
 
-If you're calling the API directly, service account tokens use their own set of endpoints (separate from personal token endpoints). Every endpoint enforces the same-group requirement on top of standard permissions.
+Open the service account from **Settings** > **Members** > **Service accounts**, then go to the **Access** tab. It lists everyone attached to the account with their identity and role, and you can filter by users or groups, or by owners or run-as.
+
+<Img src="/img/user-guide/service-account-access-tokens/sa-access-tab.png" alt="Access tab on a service account showing a group owner, a user owner, and a run-as user" />
+
+Click **Assign members** to add more. Pick groups or users, set each to **Owner** or **Run-as**, then click **Assign**.
+
+<Img src="/img/user-guide/service-account-access-tokens/sa-assign-members.png" alt="Assign members dialog with group and user pickers, each with an Owner or Run-as toggle" maxWidth="560px" centered />
+
+Use the row menu to change someone's role or remove them.
+
+## Owners and Run-As API
+
+Base path: `/api/v1/service-accounts/{serviceAccount}`
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/access` | List the account's owners and run-as principals |
+| POST | `/owners/users` | Add users as owners |
+| DELETE | `/owners/users` | Remove users as owners |
+| POST | `/owners/groups` | Add groups as owners |
+| DELETE | `/owners/groups` | Remove groups as owners |
+| POST | `/run-as/users` | Add users as run-as principals |
+| DELETE | `/run-as/users` | Remove users as run-as principals |
+| POST | `/run-as/groups` | Add groups as run-as principals |
+| DELETE | `/run-as/groups` | Remove groups as run-as principals |
+
+`GET /access` returns every principal on the account:
+
+```json
+[
+  { "id": "data-platform", "type": "GROUP", "role": "OWNER" },
+  { "id": "jane.doe", "type": "USER", "role": "RUN_AS" }
+]
+```
+
+Each write takes a list, so one call can assign or remove several principals at once:
+
+```json
+["jane.doe", "john.smith"]
+```
+
+Requires ownership of the service account, or the IAM manager or super admin role.
+
+## Token API Endpoints
+
+If you're calling the API directly, service account tokens use their own set of endpoints, separate from personal token endpoints.
 
 ### Domain-Level Endpoints
 
@@ -70,7 +130,7 @@ Base path: `/api/v1/domains/{domain}/auth/service-accounts/{serviceAccountId}`
 | PATCH | `/tokens/{name}` | Update a token (status, maxRps) |
 | DELETE | `/tokens/{name}` | Delete a token |
 
-Requires `access_token.manage`, plus same-group membership.
+Requires `access_token.manage` ([Roles](../iam/roles.md)), plus ownership of the service account.
 
 ### Admin-Level Endpoints
 
@@ -83,7 +143,7 @@ Base path: `/api/v1/auth/service-accounts/{serviceAccountId}`
 | PATCH | `/tokens/{name}` | Update a token (status, maxRps) |
 | DELETE | `/tokens/{name}` | Delete a token |
 
-Requires any admin role, plus same-group membership.
+Requires ownership of the service account. An admin role isn't needed, so a non-admin owner can manage their own account's tokens.
 
 :::info Deprecated Endpoint
 The older `POST /service-accounts/tokens` endpoint (with `serviceAccountId` in the request body) is deprecated. Use the path-parameter versions above instead.
@@ -91,11 +151,10 @@ The older `POST /service-accounts/tokens` endpoint (with `serviceAccountId` in t
 
 ## Access Permissions
 
-Different permission models control who can manage service account tokens. The same-group check applies in all contexts, even for admins.
+| Action | Who can do it |
+|---|---|
+| View and manage owners and run-as principals | Owners, IAM managers, super admins |
+| List, create, update, delete the account's tokens | Owners |
+| Run workloads as the service account | Owners, run-as principals |
 
-| Context | Required Permission | Same-Group Required |
-|---------|--------------------|--------------------|
-| Domain | `access_token.manage` | Yes |
-| Admin | Any admin role | Yes |
-
-Configure `access_token.manage` through [Roles](/user-guide/roles).
+Domain-level token endpoints also require the `access_token.manage` role permission. Configure it through [Roles](../iam/roles.md).
