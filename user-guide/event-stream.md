@@ -346,5 +346,7 @@ These are advanced configuration options. The default values are optimized for t
 | `WRITE_PARTITION_SIZE_IN_BYTES` | `100000000` (100 MB) | 50 MB | 200 MB | Maximum write partition size in bytes before creating a new partition. Increase for higher throughput workloads. |
 | `CATALOG_REFRESH_INTERVAL_MINUTES` | `5` | 2 | 15 | How often (in minutes) to refresh catalog configurations from the API. Lower values detect catalog changes faster but increase API calls. |
 | `INCREMENTAL_COMPACTION_THRESHOLD` | `20` | 10 | 50 | Number of files processed before triggering incremental compaction. Lower values compact more frequently, improving query performance but using more resources. |
-| `HEALTH_PENDING_FILES_PER_TABLE` | `20` | 10 | 30 | Pending files per table threshold for health checks. The service reports unhealthy if any table exceeds this limit, triggering backpressure. |
+| `DISK_BACKPRESSURE_PERCENT` | `50` | 1 | 99 | Disk usage of the event stream volume at which ingestion pauses. The loader reports not ready, and the ingestion service applies backpressure until the loader catches up. |
+| `DISK_RECOVER_PERCENT` | `40` | 1 | 99 | Disk usage at which ingestion resumes. Keep it below `DISK_BACKPRESSURE_PERCENT` so a value sitting on the threshold does not toggle backpressure repeatedly. |
+| `SCAN_TIMEOUT_SECONDS` | `1800` (30 min) | 1 | - | How long without a completed folder scan before the loader reports unhealthy and is restarted. A scan takes as long as the backlog it works through, so keep this well above the slowest cycle. |
 | `EMPTY_FOLDER_TTL_DAYS` | `10` | 10 | 30 | Minimum age (in days) before empty folders are eligible for cleanup. |
