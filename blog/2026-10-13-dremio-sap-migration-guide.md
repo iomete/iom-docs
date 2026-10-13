@@ -5,7 +5,7 @@ keywords: [dremio alternative, migrate from dremio, sap dremio acquisition, drem
 slug: dremio-sap-migration-guide
 authors: abhishek
 tags2: [Educational, Technical]
-coverImage: img/blog/thumbnails/darkReef.png
+coverImage: img/blog/thumbnails/3.png
 date: 10/13/2026
 hide_table_of_contents: false
 last_update:
