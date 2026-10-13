@@ -349,4 +349,6 @@ These are advanced configuration options. The default values are optimized for t
 | `DISK_BACKPRESSURE_PERCENT` | `50` | 1 | 99 | Disk usage of the event stream volume at which ingestion pauses. The loader reports not ready, and the ingestion service applies backpressure until the loader catches up. |
 | `DISK_RECOVER_PERCENT` | `40` | 1 | 99 | Disk usage at which ingestion resumes. Keep it below `DISK_BACKPRESSURE_PERCENT` so a value sitting on the threshold does not toggle backpressure repeatedly. |
 | `SCAN_TIMEOUT_SECONDS` | `1800` (30 min) | 1 | - | How long without a completed folder scan before the loader reports unhealthy and is restarted. A scan takes as long as the backlog it works through, so keep this well above the slowest cycle. |
+| `MAX_COMPACTION_ATTEMPTS` | `3` | 1 | - | How many times a write batch is allowed to fail its final compaction before the loader gives up on it. The data is already stored; only the compaction is skipped, and the files stay queryable. |
+| `COMPACTION_LOCK_TIMEOUT_SECONDS` | `300` (5 min) | 1 | - | How long the final compaction waits for an in-progress compaction of the same write batch before leaving it for the next cycle. |
 | `EMPTY_FOLDER_TTL_DAYS` | `10` | 10 | 30 | Minimum age (in days) before empty folders are eligible for cleanup. |
