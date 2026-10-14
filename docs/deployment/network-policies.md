@@ -88,6 +88,8 @@ networkPolicies:
     enabled: true
 ```
 
+The policy only restricts traffic when your cluster's network plugin enforces NetworkPolicies, so check that before relying on it.
+
 With it:
 
 - Only the IOMETE gateway can reach notebooks.
