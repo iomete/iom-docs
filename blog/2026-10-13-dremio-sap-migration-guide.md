@@ -36,7 +36,7 @@ The rest of this post is for teams where that isn't the case.
 
 Before the deal, Dremio decided what to build based on what lakehouse buyers asked for. Now those decisions are made inside a much larger company, and the stated goal for the product is to make Business Data Cloud stronger.
 
-Some of what you care about will line up with that goal. Some of it won't. Think about connectors to non-SAP systems, the self-hosted edition, and pricing that doesn't assume a wider SAP contract. Those items now compete for engineers with integration work SAP has promised in public. You no longer have a direct say in which ones win.
+SAP says the platform will serve both SAP and non-SAP data. Neither SAP nor Dremio has said anything public yet about the self-hosted edition, licensing that doesn't assume a wider SAP contract, or connectors to non-SAP systems. If any of those matter to you, ask for written commitments on each before your renewal.
 
 ### "We picked an independent vendor" no longer holds
 
@@ -46,9 +46,9 @@ The product didn't get worse overnight. But the risk section of the business cas
 
 ### Self-hosted Dremio already talks to the vendor
 
-This one is older than the deal, but it matters more now. Since Dremio 26.0, Dremio Enterprise on Kubernetes [sends telemetry to `observability.dremio.com`](https://docs.dremio.com/current/admin/service-telemetry-kubernetes/). Dremio's documentation says it "must remain enabled" because usage-based billing depends on it. Air-gapped clusters are the exception and report usage through a separate offline process.
+This one is older than the deal, but it matters more now. Since Dremio 26.0, Dremio Enterprise on Kubernetes [sends telemetry to `observability.dremio.com` by default](https://docs.dremio.com/current/admin/service-telemetry-kubernetes/), and usage-based billing is calculated from it. Turning it off is a contract decision. Under Dremio's [Software Consumption Model Appendix](https://www.dremio.com/legal/dremio-subscription-agreement/dremio-software-consumption-model-appendix/), customers who opt out must buy at least Gold support, and support moves to an offline, degraded mode. Air-gapped clusters report usage through a separate offline process.
 
-Dremio is clear that no query text, results, or business data are sent, and we have no reason to doubt that. Even so, for a bank or hospital running a "self-hosted" platform, a required outbound connection to a vendor is a third-party dependency that has to be documented. The company at the other end of that connection is now SAP.
+Dremio lists what is never sent, including query text, results, query profiles, and audit logs. What is sent is operational: counts of queries and views, plus JVM and Kubernetes metrics. For a bank or hospital, an outbound connection from a self-hosted platform to its vendor still belongs in the third-party register. Dremio is now owned by SAP, so confirm with your account team which entity receives that data and which one you contract with.
 
 This matters in the EU because DORA, the EU's operational resilience rules for financial firms, asks banks to check how much they depend on any single provider (Article 29). Many banks already run SAP for finance, HR, and supply chain. With Dremio inside SAP, the analytics platform now depends on that same provider, so more of the bank's critical systems rely on one company. SAP is also one of the providers EU regulators have [designated as critical](https://www.esma.europa.eu/sites/default/files/2025-11/List_of_designated_CTPPs.pdf) because so many financial firms already depend on it. That's worth recording in your concentration risk assessment.
 
@@ -121,9 +121,9 @@ Dremio views (Dremio calls them virtual datasets) are written in Dremio's SQL di
 
 ### Step 3: Replace Reflections
 
-Reflections are Dremio's own caching layer, and they don't move to any other platform. You'll reach the same speed differently, with materialized tables, good partitioning and sort order, regular compaction, and properly sized compute.
+Reflections are Dremio's own acceleration layer, and they don't move to any other platform. What you lose is the automatic part: Dremio picks a Reflection and rewrites the query for you. On another platform you build that acceleration yourself, with pre-aggregated tables that your dashboards query directly, partitioning and sort order that match your filters, regular compaction, and properly sized compute. Whether that closes the gap depends on your workload.
 
-On IOMETE, the [Apache DataFusion Comet acceleration in IOMETE 4.0](/resources/blog/apache-datafusion-comet-spark-acceleration) cut total TPC-DS run time by 42% without changing any SQL. Still, test the dashboards your business actually depends on rather than relying on a benchmark, ours included.
+On IOMETE, the [Apache DataFusion Comet acceleration in IOMETE 4.0](/resources/blog/apache-datafusion-comet-spark-acceleration) cut total TPC-DS run time by 42% in our test without changing any SQL. That result compares IOMETE configurations, not IOMETE against Dremio, so test the dashboards your business actually depends on rather than relying on a benchmark, ours included.
 
 ### Step 4: Check every federated source
 
@@ -172,7 +172,7 @@ If you want help with an evaluation, [talk to our team](https://iomete.com/conta
   },
   {
     question: "Do Dremio Reflections migrate to another platform?",
-    answer: "No. Reflections are specific to Dremio. On another platform you reach similar performance with materialized tables, partitioning and sort order, compaction, and properly sized compute."
+    answer: "No. Reflections are specific to Dremio, including the automatic query rewriting that uses them. On another platform you rebuild acceleration explicitly with pre-aggregated tables, partitioning and sort order, and compaction, and you should test the dashboards that matter most."
   },
   {
     question: "Does the acquisition affect DORA compliance for Dremio customers?",
