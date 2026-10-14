@@ -86,18 +86,13 @@ Jupyter Containers run user code, so the data plane Helm chart installs a policy
 - Notebooks can reach DNS, your ingress controller and the internet.
 - Notebooks can't reach private, link-local (cloud metadata) or carrier-grade NAT addresses.
 
-Notebooks connect to compute clusters through your ingress controller. If yours isn't Istio's `istio-system/ingressgateway` or `ingress-nginx`, or your platform host resolves to a private IP, adjust the policy in `values.yaml`:
+Notebooks connect to compute clusters through your ingress controller. The policy allows the `istio-system`, `istio-ingress`, `ingress-nginx`, `openshift-ingress` and `traefik` namespaces. If your controller runs elsewhere, or your platform host resolves to a private IP, adjust the policy in `values.yaml`:
 
 ```yaml title="values.yaml"
 networkPolicies:
   jupyterContainers:
-    ingressControllers:
-      - namespaceSelector:
-          matchLabels:
-            kubernetes.io/metadata.name: my-ingress
-        podSelector:
-          matchLabels:
-            app: my-ingress-controller
+    ingressNamespaces:
+      - my-ingress
     extraEgress:
       - to:
           - ipBlock:
@@ -109,10 +104,12 @@ networkPolicies:
 
 | Setting | Use it to |
 |---|---|
-| `ingressControllers` | Match the pods of the ingress controller serving the platform host. |
+| `ingressNamespaces` | List the namespaces of the ingress controller serving the platform host. Setting it replaces the default list. |
 | `extraEgress` | Allow an internal address notebooks need. |
 | `blockedCidrs` | Change which address ranges count as internal. |
 | `enabled` | Turn the policy off. |
+
+If notebooks open but can't connect to a compute cluster, add your ingress controller's namespace to `ingressNamespaces`.
 
 ---
 
