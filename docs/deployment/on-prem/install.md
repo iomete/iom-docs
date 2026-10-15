@@ -28,7 +28,7 @@ Have the following ready before you start:
 - **Kubernetes cluster** with room for two kinds of workloads:
   - **IOMETE services:** at least 12 CPU cores and 24GB of RAM. This includes headroom for Kubernetes system pods and Istio.
   - **Spark workloads:** at least one node with 4 CPU cores and 32GB of RAM for Spark drivers and executors.
-- **Object storage:** MinIO, Dell ECS, IBM Cloud Object Storage, Apache Ozone or any other S3-compatible storage, AWS S3, Azure Blob Storage, or Google Cloud Storage. If you don't have one, see [Apache Ozone deployment](../ozone-deployment.md) or [MinIO deployment](../minio-deployment.md).
+- **Object storage:** Apache Ozone, Dell ECS, IBM Cloud Object Storage, MinIO or any other S3-compatible storage, AWS S3, Azure Blob Storage, or Google Cloud Storage. If you don't have one, see [Apache Ozone deployment](../ozone-deployment.md) or [MinIO deployment](../minio-deployment.md).
 - **PostgreSQL database** for IOMETE metadata. If you don't have one, see [PostgreSQL deployment](../postgresql-deployment.md).
 - **Istio**, to give users access to the IOMETE UI. See [Configure ISTIO Ingress Gateway](../configure-ingress.md).
 - **Tools:**

@@ -9,8 +9,16 @@ last_update:
 
 [Apache Ozone](https://ozone.apache.org/) is an open-source (Apache License 2.0) distributed object store with an S3-compatible API. IOMETE connects to it through Ozone's S3 Gateway, the same way it connects to any S3-compatible storage.
 
-:::info
-This Ozone deployment is for testing purposes only. For production, use your own object storage that is optimized for production use.
+:::info Production use
+The values files on this page set up Ozone for testing: one datanode, one copy of each object, and no authentication or TLS.
+
+You can run Apache Ozone in production, but you install and operate it yourself. Plan for:
+- Three Ozone Managers and three Storage Container Managers for high availability, and enough datanodes for three copies of each object.
+- Kerberos authentication and TLS.
+- Fast, mirrored disks (SSD or NVMe) for Ozone's metadata.
+- Upgrades, monitoring, and capacity planning.
+
+See [Installing Ozone In Production](https://ozone.apache.org/docs/administrator-guide/installation/) in the Apache Ozone documentation.
 :::
 
 ## Deploying Apache Ozone

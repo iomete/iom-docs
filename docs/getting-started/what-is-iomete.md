@@ -69,8 +69,8 @@ IOMETE supports various storage backends. You can choose the storage backend tha
   - Digital Ocean Spaces,
 - S3 Compatible Object Storages
   - Apache Ozone
-  - MinIO
   - Dell EMC ECS
+  - MinIO
 - Hadoop HDFS
 - Network File Systems (NFS)
 - And, even local file systems.
