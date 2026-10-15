@@ -3,7 +3,7 @@ title: Kubernetes Network Policies
 sidebar_label: Network Policies
 description: Learn how to configure network policies for IOMETE services in a Kubernetes cluster.
 last_update:
-  date: 10/14/2026
+  date: 10/15/2026
   author: Maksym Kryvchun
 ---
 
@@ -93,7 +93,7 @@ The policy only restricts traffic when your cluster's network plugin enforces Ne
 With it:
 
 - Only the IOMETE gateway can reach notebooks.
-- Notebooks can reach DNS, your ingress controller and the internet.
+- Notebooks can reach DNS, your ingress controller and the internet over IPv4 and IPv6.
 - Notebooks can't reach private, link-local (cloud metadata) or carrier-grade NAT addresses.
 
 Notebooks connect to compute clusters through your ingress controller. The policy allows the `istio-system`, `istio-ingress`, `ingress-nginx`, `openshift-ingress` and `traefik` namespaces. If your controller runs elsewhere, or your platform host resolves to a private IP, adjust the policy in `values.yaml`:
@@ -116,7 +116,8 @@ networkPolicies:
 |---|---|
 | `ingressNamespaces` | List the namespaces of the ingress controller serving the platform host. Setting it replaces the default list. |
 | `extraEgress` | Allow an internal address notebooks need. |
-| `blockedCidrs` | Change which address ranges count as internal. |
+| `blockedCidrs` | Change which IPv4 and IPv6 ranges count as internal. |
+| `dnsPorts` | Change the ports notebooks use for DNS, for example add `5353` on OpenShift. |
 | `enabled` | Turn the policy on. |
 
 If notebooks open but can't connect to a compute cluster, add your ingress controller's namespace to `ingressNamespaces`.
@@ -176,6 +177,11 @@ spec:
               - 192.168.0.0/16
               - 169.254.0.0/16
               - 100.64.0.0/10
+        - ipBlock:
+            cidr: "::/0"
+            except:
+              - fc00::/7
+              - fe80::/10
 ```
 
 ```bash
