@@ -30,7 +30,7 @@ serviceAccount:
 :::
 
 :::note Running IOMETE outside AWS?
-If your data plane runs on-prem with MinIO, Dell ECS, or another S3-compatible store, the AWS IAM role does not apply. S3 access uses static access/secret keys and an endpoint URL configured in the data plane Helm values — there is no IAM role to update. The rest of this page covers AWS deployments only.
+If your data plane runs on-prem with MinIO, Dell ECS, Apache Ozone, or another S3-compatible store, the AWS IAM role does not apply. S3 access uses static access/secret keys and an endpoint URL configured in the data plane Helm values — there is no IAM role to update. The rest of this page covers AWS deployments only.
 :::
 
 ## Options to provide access to S3 buckets

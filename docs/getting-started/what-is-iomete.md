@@ -68,6 +68,7 @@ IOMETE supports various storage backends. You can choose the storage backend tha
   - Google Cloud Storage
   - Digital Ocean Spaces,
 - S3 Compatible Object Storages
+  - Apache Ozone
   - MinIO
   - Dell EMC ECS
 - Hadoop HDFS
@@ -185,7 +186,7 @@ IOMETE Enterprise Edition offers a control plane and multi-data plane architectu
 
 Before diving deeper into IOMETE, familiarize yourself with the key terms and concepts used in the platform:
 
-- **Object Storage**: A durable and available object storage system, with MinIO configured for optimal performance.
+- **Object Storage**: A durable and available object storage system, with Apache Ozone configured for optimal performance.
 
 - **Compute Cluster with Kubernetes**: Kubernetes orchestrates IOMETE services, including Compute Clusters and Spark job clusters, providing elasticity and scalability.
 

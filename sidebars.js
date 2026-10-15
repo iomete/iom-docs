@@ -61,6 +61,7 @@ const sidebars = {
           collapsed: true,
           items: [
             "deployment/minio-deployment",
+            "deployment/ozone-deployment",
             "deployment/configure-ingress",
             "deployment/configure-custom-dns",
             "deployment/backend-databases",

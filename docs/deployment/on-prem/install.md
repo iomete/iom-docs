@@ -28,13 +28,13 @@ Have the following ready before you start:
 - **Kubernetes cluster** with room for two kinds of workloads:
   - **IOMETE services:** at least 12 CPU cores and 24GB of RAM. This includes headroom for Kubernetes system pods and Istio.
   - **Spark workloads:** at least one node with 4 CPU cores and 32GB of RAM for Spark drivers and executors.
-- **Object storage:** MinIO, Dell ECS, IBM Cloud Object Storage or any other S3-compatible storage, AWS S3, Azure Blob Storage, or Google Cloud Storage. If you don't have one, see [MinIO deployment](../minio-deployment.md).
+- **Object storage:** MinIO, Dell ECS, IBM Cloud Object Storage, Apache Ozone or any other S3-compatible storage, AWS S3, Azure Blob Storage, or Google Cloud Storage. If you don't have one, see [Apache Ozone deployment](../ozone-deployment.md) or [MinIO deployment](../minio-deployment.md).
 - **PostgreSQL database** for IOMETE metadata. If you don't have one, see [PostgreSQL deployment](../postgresql-deployment.md).
 - **Istio**, to give users access to the IOMETE UI. See [Configure ISTIO Ingress Gateway](../configure-ingress.md).
 - **Tools:**
   - `kubectl` and `helm`, set up for the target cluster.
   - `yq` v4, only if an administrator creates the cluster-level resources (option 2 below).
-  - `aws` CLI (optional), to create a bucket when you use MinIO.
+  - `aws` CLI (optional), to create a bucket when you use Apache Ozone or MinIO.
 
 ## Deployment Steps
 
@@ -58,9 +58,9 @@ To run Spark workloads in more namespaces, see [Install Data-Plane (Namespace)](
 :::
 
 
-### Object Storage (MinIO)
+### Object Storage
 
-If you need an object storage system, consider deploying MinIO, object storage solution. Follow the instructions [here](../minio-deployment.md).
+If you need an object storage system, you can deploy Apache Ozone, an open-source S3-compatible object store. Follow the instructions in [Apache Ozone deployment](../ozone-deployment.md). You can also use [MinIO](../minio-deployment.md).
 
 ### Deploying Metadata Database (PostgreSQL)
 

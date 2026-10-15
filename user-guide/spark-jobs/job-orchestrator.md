@@ -111,7 +111,7 @@ services:
 
 ### S3 Log Storage [3.17.0+]
 
-Job orchestrator logs can be persisted to S3-compatible object storage (MinIO, Dell ECS, etc.).
+Job orchestrator logs can be persisted to S3-compatible object storage (MinIO, Dell ECS, Apache Ozone, etc.).
 
 ```yaml
 services:
