@@ -70,7 +70,7 @@ kubectl exec -n iomete-system ozone-scm-0 -c scm -- ozone admin pipeline list
 The output should list a `RATIS/ONE` pipeline in the `OPEN` state.
 
 :::tip Other Ozone deployment examples
-- [ozone-values-local-path.yaml](https://github.com/iomete/iomete-deployment/blob/main/ozone/ozone-values-local-path.yaml): for clusters without a default StorageClass. It stores the volumes on the node's disk through the [local-path provisioner](https://github.com/rancher/local-path-provisioner), and exposes the S3 API outside the cluster on NodePort `31878`. Install the provisioner first:
+- [ozone-values-local-path.yaml](https://github.com/iomete/iomete-deployment/blob/main/ozone/ozone-values-local-path.yaml): for clusters without a default StorageClass. It stores the volumes on the node's disk through the [local-path provisioner](https://github.com/rancher/local-path-provisioner), which doesn't enforce volume sizes, so Ozone can use all free space on that disk. Install the provisioner first:
   ```shell
   kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.37/deploy/local-path-storage.yaml
   ```
