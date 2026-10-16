@@ -1,10 +1,10 @@
 ---
 title: Integrations Overview
 sidebar_label: Overview
-description: Explore third-party integrations that work with IOMETE, including data governance, security, observability, and infrastructure tools.
+description: Explore third-party integrations that work with IOMETE, including data governance, observability, analytics, and storage tools.
 last_update:
-  date: 07/11/2026
-  author: Fuad Musayev
+  date: 10/16/2026
+  author: Abhishek Pathania
 ---
 
 import Card from "@site/src/components/Card";
@@ -12,10 +12,14 @@ import Card from "@site/src/components/Card";
 import AtaccamaLogo from "@site/static/img/integrations/logos/ataccama.svg";
 import ThoughtSpotLogo from "@site/static/img/integrations/logos/thought-spot.svg";
 import MonteCarloLogo from "@site/static/img/integrations/logos/monte-carlo.svg";
+import OpenMetadataLogo from "@site/static/img/integrations/logos/openmetadata.svg";
+import CollateLogo from "@site/static/img/integrations/logos/collate.svg";
+import WasabiLogo from "@site/static/img/integrations/logos/wasabi.svg";
+import StardogLogo from "@site/static/img/integrations/logos/stardog.svg";
 
 # Integrations
 
-IOMETE works with a broad ecosystem of third-party tools for data governance, security, observability, and infrastructure management. Click a card below to open the vendor's documentation.
+IOMETE works with a broad ecosystem of third-party tools for data governance, observability, analytics, and storage. Click a card below to open the vendor's documentation.
 
 <div className="grid grid-cols-2 gap-4">
 
@@ -23,12 +27,28 @@ IOMETE works with a broad ecosystem of third-party tools for data governance, se
 Unified data quality, governance, and master data management for your lakehouse data.
 </Card>
 
-<Card title="ThoughtSpot" link="https://preview-thoughtspot.vercel.app/cloud/latest/connections-iomete-add" icon={<ThoughtSpotLogo width="140px" height="32px" />} style={{ marginBottom: 0 }}>
+<Card title="ThoughtSpot" link="https://docs.thoughtspot.com/cloud/latest/connections-iomete-add" icon={<ThoughtSpotLogo width="140px" height="32px" />} style={{ marginBottom: 0 }}>
 Questions asked in ThoughtSpot translate to SQL that runs directly against IOMETE.
 </Card>
 
 <Card title="Monte Carlo" link="https://docs.getmontecarlo.com/docs/example-iomete" icon={<MonteCarloLogo width="100px" height="32px" />} style={{ marginBottom: 0 }}>
 Data observability platform for detecting, resolving, and preventing data incidents.
+</Card>
+
+<Card title="OpenMetadata" link="https://docs.open-metadata.org/latest/connectors/database/iomete" icon={<OpenMetadataLogo width="78px" height="32px" />} style={{ marginBottom: 0 }}>
+Open-source metadata platform for cataloging, profiling, and tracing the lineage of your IOMETE tables.
+</Card>
+
+<Card title="Collate" link="https://docs.getcollate.io/connectors/database/iomete" icon={<CollateLogo width="139px" height="32px" />} style={{ marginBottom: 0 }}>
+Managed OpenMetadata with AI-assisted data discovery, quality, and governance for your IOMETE catalog.
+</Card>
+
+<Card title="Wasabi" link="https://docs.wasabi.com/docs/iomete-with-wasabi" icon={<WasabiLogo width="137px" height="32px" />} style={{ marginBottom: 0 }}>
+S3-compatible cloud object storage that holds the data and metadata of your IOMETE Iceberg tables.
+</Card>
+
+<Card title="Stardog" link="https://docs.stardog.com/virtual-graphs/data-sources/supported-data-sources#relational-databases" icon={<StardogLogo width="102px" height="32px" />} style={{ marginBottom: 0 }}>
+Knowledge graph platform that queries IOMETE tables in place through Virtual Graphs.
 </Card>
 
 </div>
