@@ -81,8 +81,10 @@ Policies and tags can apply to single columns, mask their values, or limit rows.
 - **Masked columns**: the user can read a **Masked** column but sees changed values. The **Mask** column names the mask type, such as **Mask Hash**, and the masking policy behind it. A custom mask also shows the expression that replaces the value and the rows it applies to.
 - **Row filter**: if a row filter policy applies, a **Rows are filtered** notice displays its expression and the policy behind it. For example, `region = 'EU'` means the user only sees rows where the region is `EU`.
 
-{/* 📸 SCREENSHOT NEEDED: Columns table with a Masked column, the Allowed, Masked, and Denied filter, and the "Rows are filtered" notice */}
-
+<Img
+  src="/img/user-guide/data-security/check-access/masked-columns.png"
+  alt="Masked column, the Allowed, Masked, and Denied filter, and the Rows are filtered notice"
+/>
 If a table has more than 1,000 columns, or its columns can't be read, a **Columns were not checked** notice replaces the list. In that case, only table-level access is checked.
 
 A mask only matters for a column the user can select. A denied column shows **Denied**, even if a [data masking](./data-masking.mdx) or [tag-based data masking](./tag-based-data-masking.mdx) policy covers it.
