@@ -3,7 +3,7 @@ title: Check Access
 description: See what a user can do with a table or database, which policy decides each answer, and turn a denied result into a new policy.
 sidebar_label: Check Access
 last_update:
-  date: 10/12/2026
+  date: 10/16/2026
   author: Vugar Dadalov
 ---
 
@@ -11,7 +11,7 @@ import Img from "@site/src/components/Img";
 
 When a user can't query a table, or sees data they shouldn't, you need to know which policy is responsible. **Check access** reports what a user can do with a table or database, and which policy decides each answer. Use it to confirm that your policies work as intended, before and after you change them.
 
-The answer comes from the same policy engine that Spark uses, so the allowed and denied answers match what the user gets when they run a query. Data masking isn't part of the check yet. The check never reads table data.
+The answer comes from the same policy engine that Spark uses, so it matches what the user gets when they run a query. The check never reads table data.
 
 ## Running a Check
 
@@ -75,16 +75,17 @@ Each answer names the one policy that decided it. Other policies may grant the s
 
 ## Checking Columns and Row Filters
 
-Policies and tags can apply to single columns or limit rows, so a table check also tells you which data the user can reach.
+Policies and tags can apply to single columns, mask their values, or limit rows. A table check tells you which data the user can reach and how they see it.
 
-- **Columns**: `SELECT` on each column, the way Spark checks a query. Filter the list by **Allowed** or **Denied**, or search for a column.
+- **Columns**: `SELECT` on each column, the way Spark checks a query. Filter the list by **Allowed**, **Masked**, and **Denied**, or search for a column.
+- **Masked columns**: the user can read a **Masked** column but sees changed values. The **Mask** column names the mask type, such as **Mask Hash**, and the masking policy behind it. A custom mask also shows the expression that replaces the value and the rows it applies to.
 - **Row filter**: if a row filter policy applies, a **Rows are filtered** notice displays its expression and the policy behind it. For example, `region = 'EU'` means the user only sees rows where the region is `EU`.
 
-{/* 📸 SCREENSHOT NEEDED: Columns table with the Allowed and Denied filter, and the "Rows are filtered" notice */}
+{/* 📸 SCREENSHOT NEEDED: Columns table with a Masked column, the Allowed, Masked, and Denied filter, and the "Rows are filtered" notice */}
 
 If a table has more than 1,000 columns, or its columns can't be read, a **Columns were not checked** notice replaces the list. In that case, only table-level access is checked.
 
-The check doesn't include masking policies yet. An allowed column can still return masked values, so review the [data masking](./data-masking.mdx) and [tag-based data masking](./tag-based-data-masking.mdx) policies for sensitive columns.
+A mask only matters for a column the user can select. A denied column shows **Denied**, even if a [data masking](./data-masking.mdx) or [tag-based data masking](./tag-based-data-masking.mdx) policy covers it.
 
 ## Creating a Policy From a Denied Result
 
