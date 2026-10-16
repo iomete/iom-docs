@@ -224,6 +224,7 @@ const sidebars = {
         "data-security/row-level-filter",
         "data-security/tag-based-access-policy",
         "data-security/tag-based-data-masking",
+        "data-security/check-access",
         "data-security/data-security-api",
         "data-security/classifications",
         "data-security/classification-best-practices",
