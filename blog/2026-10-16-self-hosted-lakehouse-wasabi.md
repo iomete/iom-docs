@@ -6,10 +6,10 @@ slug: hybrid-iceberg-lakehouse-wasabi
 authors: abhishek
 tags2: [Technical, Educational]
 coverImage: img/blog/thumbnails/lake-3.png
-date: 10/15/2026
+date: 10/16/2026
 hide_table_of_contents: false
 last_update:
-  date: 2026-10-15
+  date: 2026-10-16
   author: Abhishek Pathania
 ---
 
