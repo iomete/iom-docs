@@ -1,8 +1,8 @@
 ---
 title: "IOMETE and Wasabi: A Reference Architecture for a Self-Hosted Lakehouse"
-description: "A hybrid Iceberg lakehouse reference architecture with IOMETE and Wasabi: how it works, where to place data, and which enterprise workloads fit best."
-keywords: [hybrid lakehouse, apache iceberg, wasabi hot cloud storage, iceberg rest catalog, s3-compatible storage, self-hosted lakehouse, on-premises lakehouse]
-slug: hybrid-iceberg-lakehouse-wasabi
+description: "A reference architecture for a self-hosted lakehouse with IOMETE and Wasabi: how it works, where to place data, and which enterprise workloads fit best."
+keywords: [self-hosted lakehouse, apache iceberg, wasabi hot cloud storage, iceberg rest catalog, s3-compatible storage, on-premises lakehouse]
+slug: self-hosted-lakehouse-wasabi
 authors: abhishek
 tags2: [Technical, Educational]
 coverImage: img/blog/thumbnails/lake-3.png
