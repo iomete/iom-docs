@@ -1,5 +1,5 @@
 ---
-title: "IOMETE and Wasabi: A Reference Architecture for a Hybrid Iceberg Lakehouse"
+title: "IOMETE and Wasabi: A Reference Architecture for a Self-Hosted Lakehouse"
 description: "A hybrid Iceberg lakehouse reference architecture with IOMETE and Wasabi: how it works, where to place data, and which enterprise workloads fit best."
 keywords: [hybrid lakehouse, apache iceberg, wasabi hot cloud storage, iceberg rest catalog, s3-compatible storage, self-hosted lakehouse, on-premises lakehouse]
 slug: hybrid-iceberg-lakehouse-wasabi
@@ -114,8 +114,8 @@ Wasabi's [IOMETE with Wasabi guide](https://docs.wasabi.com/docs/iomete-with-was
 
 <FAQSection faqs={[
   {
-    question: "What is a hybrid Iceberg lakehouse with IOMETE and Wasabi?",
-    answer: "It is a lakehouse that uses both on-premises object storage and Wasabi Hot Cloud Storage for Apache Iceberg tables. IOMETE runs the query compute, catalog service and governance in your environment. Each catalog has its own default storage location, so you can keep selected tables local and place approved datasets on Wasabi."
+    question: "What is a self-hosted lakehouse with IOMETE and Wasabi?",
+    answer: "It is a lakehouse where you run IOMETE's query compute, catalog service and governance on infrastructure you control, while Wasabi Hot Cloud Storage stores Apache Iceberg tables. You can also use local object storage alongside Wasabi, with separate catalogs defining the default storage location for their tables."
   },
   {
     question: "Can one query join on-premises tables with tables stored on Wasabi?",
