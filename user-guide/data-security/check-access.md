@@ -91,11 +91,7 @@ A mask only matters for a column the user can select. A denied column shows **De
 
 ## Creating a Policy From a Denied Result
 
-If the check reports a denied action, you can create the missing policy without retyping the user and the resource.
-
-1. Click **Create access policy** below the summary. The new access policy form opens with the user under **Allow** and the catalog, database, and table under **Resources**.
-2. Enter a **Name**, choose the **Permissions** to grant, and click **Create**.
-3. Open your check link again, or select the same user and resource in **Check access**, and click **Check** to confirm the change.
+If the check reports a denied action, click **Create access policy** below the summary. The new access policy form opens with the user under **Allow** and the catalog, database, and table under **Resources**. To fill in the rest of the policy, see [Access Policy](./access-policy.mdx).
 
 <Img
   src="/img/user-guide/data-security/check-access/deny-result.png"
@@ -108,7 +104,7 @@ If the check reports a denied action, you can create the missing policy without 
 
 After a database check, **Tables** and **Columns** are set to `*`, so the policy covers every table in the database. Narrow them if that grants more than you need.
 
-A new policy can take up to about 20 seconds to reach the policy engine. If the answer hasn't changed yet, wait and check again.
+Run the check again to confirm the change. A new policy can take up to about 20 seconds to reach the policy engine.
 
 :::warning Deny Policies Still Win
 If a deny policy blocks the action, a new allow policy doesn't change the answer. Switch the new policy to **Override**, or change the deny policy. See [Access Policy](./access-policy.mdx).
@@ -124,4 +120,4 @@ Checking access only reads policies, so you can run checks with the **Read-Only 
 | **Read-Only Admin** | ✅ | ❌ |
 | Other admin roles | ❌ | ❌ |
 
-Read-only admins see **Create access policy**, but it's disabled. IOMETE records every check in the event log. For more on roles, see [Admin Roles](../iam/admin-roles.md).
+IOMETE records every check in the event log. For more on roles, see [Admin Roles](../iam/admin-roles.md).
