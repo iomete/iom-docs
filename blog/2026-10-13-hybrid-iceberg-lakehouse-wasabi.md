@@ -15,15 +15,15 @@ last_update:
 import FAQSection from '@site/src/components/FAQSection';
 import Img from '@site/src/components/Img';
 
-An on-premises lakehouse runs out of storage before it runs out of compute. Adding capacity means a hardware purchase sized for three to five years of growth, while the hyperscaler alternative charges egress and request fees every time an engine outside its cloud scans a table. A hybrid Iceberg lakehouse avoids both: keep restricted data on the storage you own and put everything else on flat-priced, S3-compatible cloud storage, all under one catalog and one set of access policies.
+If you run a lakehouse on your own hardware, storage is usually the first thing to fill up. Adding more means another hardware purchase, sized for years of growth. Moving the overflow to AWS or Azure is cheap to store, but you pay every time your on-premises engines read it back.
 
-This reference architecture shows how to split a lakehouse across on-premises object storage and [Wasabi Hot Cloud Storage](https://wasabi.com), how to decide which data goes where, who the design suits and who it doesn't, and what to check before you put production tables on it.
+A hybrid Iceberg lakehouse sits between the two. You keep restricted data on storage you own and put the rest on flat-priced, S3-compatible cloud storage such as [Wasabi Hot Cloud Storage](https://wasabi.com), with one catalog and one set of access policies across both. This guide walks through how to split the data, who the setup suits and who it doesn't, and what to check before you put production tables on it.
 
 {/* truncate */}
 
 ## Why Lakehouse Storage Gets Stuck Between CapEx and Egress
 
-On-premises object storage is the right home for data that must never leave your data center. The problem is how it grows. Storage arrives in purchase cycles, each cycle needs budget approval and lead time, and the erasure-coding or replication overhead means you buy more raw capacity than the data needs. A lakehouse also grows faster than the source data, because every Iceberg snapshot keeps old files around until maintenance removes them.
+On-premises object storage is the right home for data that must never leave your data center. The problem is how it grows. Storage arrives in purchase cycles, and each cycle needs budget approval and lead time. You also buy more disk than your data takes up, because the storage system keeps extra copies or recovery data so it can survive a failed disk. A lakehouse also grows faster than the source data, because every Iceberg snapshot keeps old files around until maintenance removes them.
 
 Hyperscaler object storage removes the purchase cycle but changes what you pay for. Storing a terabyte is cheap. Reading it from outside that cloud is not: [Amazon S3 list pricing](https://aws.amazon.com/s3/pricing/) charges for data transfer out to the internet, starting at $0.09 per GB in US East, plus a fee per thousand GET and LIST requests. If your Spark cluster runs on-premises and scans 100 TB a month from S3, transfer alone comes to close to $8,000 a month at list price, before request fees.
 
