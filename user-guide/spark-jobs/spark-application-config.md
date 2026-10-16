@@ -247,7 +247,7 @@ If you choose **OnFailure**, four additional fields appear:
 On restart, IOMETE cleans up old resources (driver pod, UI service, etc.) before submitting a new run.
 
 :::note
-For jobs triggered from Airflow, keep the policy at **Never** and configure retries in Airflow instead. See [Airflow Retries](/integrations/airflow/operator-reference#retries).
+If an external orchestrator such as Airflow triggers this job, keep the policy at **Never** and configure retries in the orchestrator. The orchestrator treats the first failed run as final, so an IOMETE restart runs outside its control and can overlap with its own retry. For Airflow, see [Retries](/integrations/airflow/operator-reference#retries).
 :::
 
 ---
