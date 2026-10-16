@@ -3,7 +3,7 @@ title: Marketplace Jobs
 sidebar_label: Marketplace Jobs
 description: Release notes for IOMETE Marketplace Jobs. Learn about updates, improvements, and bug fixes for various data integration and processing jobs.
 last_update:
-  date: 09/22/2026
+  date: 10/16/2026
   author: Shashank Chaudhary
 ---
 
@@ -24,10 +24,40 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | Query Scheduler          | spark-py                | 3.5.7-v1 | [Open ↗](/resources/open-source-spark-jobs/query-scheduler-job)            |
 | TPC-DS Iceberg Generator | tpcds-iceberg-generator | 3.5.5    | Use job-templates in IOMETE                                                |
 | Lakehouse Backup         | iomete-lakehouse-backup | 1.4.2    | [Open ↗](../../../open-source-spark-jobs/lakehouse-backup.mdx)          |
-| Cleanup Untracked Table Folders | cleanup-untracked-table-folders | 0.1.4 | [Open ↗](/resources/open-source-spark-jobs/cleanup-untracked-table-folders) |
+| Cleanup Untracked Table Folders | cleanup-untracked-table-folders | 0.1.5 | [Open ↗](/resources/open-source-spark-jobs/cleanup-untracked-table-folders) |
 ---
 
 ## Recent Releases
+
+<Release name="Cleanup Untracked Table Folders Job" version="0.1.5" date="October 16, 2026">
+  <ReleaseDescription>
+    This release builds on v0.1.4 with the following changes.
+  </ReleaseDescription>
+
+  <NewFeatures>
+    - **Report-only storage roots**: When a database's tables are stored under more than one folder, the job now also lists those folders for review, including locations you approve in the new optional `report_only_storage_roots` setting. Nothing in a report-only root is ever deleted.
+    - **Protection for other databases and Iceberg write paths**: Storage that belongs to another database visible in the catalog, and folders named by an Iceberg table's `write.data.path`, `write.metadata.path`, `write.object-storage.path`, or `write.folder-storage.path`, are never deletion candidates.
+  </NewFeatures>
+
+  <BugFixes>
+    - **Table metadata edge cases**: Tables whose storage could be misread as absent, such as a table with a column named `provider` or `location`, a table with no location, or a table lookup that was denied, now block deletion for their database instead of leaving their folders unprotected.
+  </BugFixes>
+
+  <Improvements>
+    - **Folder age**: A folder's age is now the modification time of the newest object inside it. Folders whose age cannot be established are skipped.
+    - **Safer cleanup roots**: Databases whose location is a bucket root, or equals or contains the catalog warehouse root, are no longer scanned and are reported as `SKIPPED`. Deletion is also blocked when no visible table is stored under the cleanup root.
+    - **Unresolved table ownership**: More cases now block deletion with `status_reason=unresolved_catalog_ownership`, including Iceberg tables with `gc.enabled` set to anything but `true`, a custom `write.location-provider.impl`, or a write path without a scheme and bucket.
+    - **Deletion and audit failures**: A deletion that fails partway is recorded as `FAILED` with `status_reason=deletion_failed` and lists only the folders that were actually deleted. If an audit row cannot be written, the job deletes nothing more in that run.
+    - **Cleanup report**: The end-of-run report in the driver logs shows whether the run was a dry run, separates folders that belong to catalog tables from folders protected or skipped for other reasons, lists storage roots, and reports table locations outside the scanned root.
+    - **Size statistics**: Object count and size are always collected for candidate folders. The `collect_size_statistics` setting is deprecated and ignored; no action is required, and it can be removed from your configuration.
+  </Improvements>
+
+  <BreakingChanges>
+    - **Action required for `exclude_paths`**: Every entry must be a full path with a scheme and bucket, such as `s3a://bucket/data/analytics/manual_archive`. A configuration with a path like `/data/analytics/manual_archive` now fails at startup. Such entries never matched a folder in earlier versions.
+    - **Unsupported storage**: Databases stored on filesystems other than S3-compatible storage, Google Cloud Storage, or Azure storage, such as HDFS, are reported as `SKIPPED` with `status_reason=invalid_storage_location`.
+    - **Stricter deletion rules**: Some databases that were cleaned by earlier versions may now be reported as `SKIPPED` or `BLOCKED`, for example a database whose location is the catalog warehouse root. Run in dry-run mode after upgrading and review the audit table before enabling deletion.
+  </BreakingChanges>
+</Release>
 
 <Release name="Cleanup Untracked Table Folders Job" version="0.1.4" date="September 25, 2026">
   <BugFixes>
@@ -35,11 +65,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
   <Improvements>
-    - ✅ Platform storage credentials are no longer inherited when accessing a catalog that declares its own endpoint
-    - ✅ The job fails closed when a catalog's storage configuration cannot be resolved, instead of falling back to platform storage
-    - ✅ New `BLOCKED` audit status for databases where a table's storage location cannot be read. Storage reconciliation still runs and reports what it found, but nothing is deleted (`status_reason=unresolved_catalog_ownership`)
-    - ✅ New audit columns `unresolved_table_count` and `potentially_untracked_folder_count`. `candidate_folder_count` is now reserved for folders confirmed as eligible for deletion
-    - ✅ Reworked end-of-run summary report in the driver logs, with separate sections for protected, excluded, untracked, and deleted folders
+    - Platform storage credentials are no longer inherited when accessing a catalog that declares its own endpoint
+    - The job fails closed when a catalog's storage configuration cannot be resolved, instead of falling back to platform storage
+    - New `BLOCKED` audit status for databases where a table's storage location cannot be read. Storage reconciliation still runs and reports what it found, but nothing is deleted (`status_reason=unresolved_catalog_ownership`)
+    - New audit columns `unresolved_table_count` and `potentially_untracked_folder_count`. `candidate_folder_count` is now reserved for folders confirmed as eligible for deletion
+    - Reworked end-of-run summary report in the driver logs, with separate sections for protected, excluded, untracked, and deleted folders
   </Improvements>
 </Release>
 
@@ -130,11 +160,11 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
     This first release introduces an on-demand cleanup workflow that compares catalog active table locations with physical storage folders before taking any destructive action.
 
-    - ✅ Dry-run mode to review cleanup candidates before deletion
-    - ✅ Active table protection based on catalog metadata
-    - ✅ Exclusion rules for protected paths and database folders
-    - ✅ Age filtering and candidate limits for safer cleanup
-    - ✅ Controlled deletion with audit logging for each run
+    - Dry-run mode to review cleanup candidates before deletion
+    - Active table protection based on catalog metadata
+    - Exclusion rules for protected paths and database folders
+    - Age filtering and candidate limits for safer cleanup
+    - Controlled deletion with audit logging for each run
   </NewFeatures>
 </Release>
 

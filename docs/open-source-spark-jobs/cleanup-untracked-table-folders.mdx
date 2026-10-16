@@ -3,7 +3,7 @@ title: Cleanup Untracked Table Folders Job
 sidebar_label: Cleanup Untracked Folders
 description: Identify and optionally delete table folders that remain in object storage but are no longer tracked by the catalog.
 last_update:
-  date: 09/25/2026
+  date: 10/16/2026
   author: Hasan
 ---
 
@@ -15,7 +15,7 @@ The **Cleanup Untracked Table Folders Job** helps find table folders that still 
 
 Use this job when tables were dropped without purging their physical files. It can run in dry-run mode to report candidate folders, and it deletes folders only when deletion is explicitly enabled.
 
-- **Version**: `0.1.4`
+- **Version**: `0.1.5`
 - **Source**: [View on GitHub](https://github.com/iomete/iomete-marketplace-jobs/tree/main/cleanup-untracked-table-folders-job)
 
 :::warning
@@ -42,7 +42,7 @@ Specify the following parameters when creating the job manually:
 | Field | Value |
 |---|---|
 | Name | `cleanup-untracked-table-folders` |
-| Docker image | `iomete.azurecr.io/iomete/cleanup-untracked-table-folders:0.1.4` |
+| Docker image | `iomete.azurecr.io/iomete/cleanup-untracked-table-folders:0.1.5` |
 | Main class | `com.iomete.cleanup.untrackedtablefolders.App` |
 | Main application file | `spark-internal` |
 | Config file path | `/etc/configs/application.json` |
@@ -65,8 +65,7 @@ Use dry-run mode first to inspect candidates without deleting data.
   "older_than_hours": 24,
   "dry_run": true,
   "delete_enabled": false,
-  "max_candidate_folders_per_database": 10,
-  "collect_size_statistics": true
+  "max_candidate_folders_per_database": 10
 }
 ```
 
@@ -85,8 +84,7 @@ Enable deletion only after reviewing the dry-run output.
   "older_than_hours": 24,
   "dry_run": false,
   "delete_enabled": true,
-  "max_candidate_folders_per_database": 5,
-  "collect_size_statistics": true
+  "max_candidate_folders_per_database": 5
 }
 ```
 
@@ -94,24 +92,28 @@ Enable deletion only after reviewing the dry-run output.
 
 | Field | Default | Description |
 |---|---:|---|
-| `catalog` | `spark_catalog` | Catalog to inspect. |
-| `databases` | required | List of databases to scan. The job does not scan all databases automatically. |
-| `exclude_paths` | `[]` | Full object-storage paths that must never be selected as candidates. |
-| `exclude_database_folders` | `[]` | Database-relative folder exclusions in the format `database.folder`. |
-| `older_than_hours` | `24` | Candidate folders must be older than this cutoff. |
+| `catalog` | required | Catalog to inspect, for example `spark_catalog`. |
+| `databases` | required | List of database names to scan. The job does not scan all databases automatically. |
+| `exclude_paths` | `[]` | Full object-storage paths that must never be selected as candidates. Each entry must include a scheme and bucket, such as `s3a://bucket/data/analytics/manual_archive`; otherwise the job fails at startup. |
+| `exclude_database_folders` | `[]` | Database-relative folder exclusions in the format `database.folder`. The database must be listed in `databases`, and the folder must be an immediate child folder name without `/`. |
+| `older_than_hours` | `24` | A folder becomes a candidate only when the newest object inside it is at least this old. |
 | `dry_run` | `true` | Reports candidates without deleting data. |
-| `delete_enabled` | `false` | Must be `true` together with `dry_run=false` before deletion can happen. |
+| `delete_enabled` | `false` | Must be `true` together with `dry_run=false` before deletion can happen. Setting `dry_run=false` without `delete_enabled=true` stops the job at startup. |
 | `max_candidate_folders_per_database` | `10` | Safety limit. If more candidates are detected for a database, the database is skipped. |
-| `collect_size_statistics` | `true` | Estimates candidate and deleted-folder sizes for audit reporting. |
+| `report_only_storage_roots` | `{}` | Optional. Additional storage locations per database to list for review. Nothing in them is deleted. See [Storage Roots](#storage-roots). |
+| `collect_size_statistics` | ignored | Deprecated and ignored. Object count and size are always collected for candidate folders. You can remove this field. |
+
+Unknown fields in `application.json` are rejected at startup, so check the spelling of every field name.
 
 ## Recommended Workflow
 
 1. Run with `dry_run=true` and `delete_enabled=false`.
 2. Review the driver logs and audit table output.
-3. Add `exclude_paths` or `exclude_database_folders` for anything that must be protected.
-4. Keep `max_candidate_folders_per_database` low for the first delete-enabled run.
-5. Enable deletion only after the dry-run output is reviewed.
-6. Query the audit table after the run.
+3. Check the `STORAGE ROOTS` section of the report and any `partial_scan_coverage` status for table locations the cleanup did not cover.
+4. Add `exclude_paths` or `exclude_database_folders` for anything that must be protected.
+5. Keep `max_candidate_folders_per_database` low for the first delete-enabled run.
+6. Enable deletion only after the dry-run output is reviewed.
+7. Query the audit table after the run.
 
 ## Safety Controls
 
@@ -123,17 +125,23 @@ The job is designed to fail closed. If it cannot prove that a path is safe to de
 | `delete_enabled=false` by default | Requires explicit confirmation before destructive cleanup. |
 | Explicit database list | Limits cleanup scope to configured databases. |
 | Scan-root validation | Prevents scanning outside the database storage boundary. |
-| Active table protection | Protects folders that are active table locations or contain active table locations. |
-| Pre-delete recheck | Re-discovers active table locations immediately before deletion. |
+| Bucket-root and warehouse-root rejection | Never scans a database whose location is a bucket root, or equals or contains the catalog warehouse root, where other databases live. |
+| Supported storage only | Refuses databases on storage other than S3-compatible storage, Google Cloud Storage, or Azure storage. |
+| Active table protection | Protects folders that are active table locations, contain active table locations, or sit inside them. |
+| Other database protection | Protects storage of other databases visible in the catalog that sits inside the cleanup root. |
+| Iceberg write path protection | Protects folders named by an Iceberg table's `write.*.path` properties. |
+| Visible table anchor | Blocks deletion when no visible table is stored under the cleanup root. |
+| Pre-delete recheck | Re-discovers active table locations and write paths immediately before deletion, and stops if a table's storage can no longer be resolved. |
 | `exclude_paths` | Protects explicitly configured storage paths. |
 | `exclude_database_folders` | Protects database-relative folders without requiring full object-storage paths. |
 | Sentinel folder exclusion | Skips Spark/Hadoop staging folders such as `_temporary` and `.spark-staging*`. |
-| `older_than_hours` | Filters out folders newer than the configured cutoff. |
+| `older_than_hours` | Skips folders with recently written objects, and folders whose age cannot be established. |
 | `max_candidate_folders_per_database` | Skips cleanup when too many candidates are detected. |
-| Empty-database guard | Skips databases with no active table locations by default. |
+| Empty-database guard | Skips databases with no active table locations. |
 | Catalog-scoped storage access | Uses the selected catalog's own storage settings, and fails closed if they cannot be resolved. |
-| Unresolved ownership guard | Blocks deletion for a database when any table's storage location cannot be read. |
-| Audit table | Records success, skipped, and failed outcomes for each database. |
+| Unresolved ownership guard | Blocks deletion for a database when any table's storage location cannot be established. |
+| Audit integrity guard | Stops deleting for the rest of the run if an audit row cannot be written. |
+| Audit table | Records the outcome for each database. |
 
 ## Object Storage Access
 
@@ -141,9 +149,52 @@ You do not configure storage settings or credentials for this job. Cleanup alway
 
 If that storage configuration cannot be resolved safely, the job stops for that database and records `FAILED`. It does not fall back to any other storage configuration. This helps ensure cleanup remains within the storage associated with the selected catalog.
 
+The job cleans databases stored on S3-compatible storage, Google Cloud Storage, or Azure storage. A database stored on another filesystem, such as HDFS, is skipped with `status_reason=invalid_storage_location`.
+
+## Storage Roots
+
+The job deletes folders only under one location per database, the **cleanup root**. It chooses the cleanup root from the database's table locations: when the tables share one parent folder, that folder is the cleanup root; otherwise the job uses the database location. The cleanup root must stay inside the database location, or the same path without the `.db` suffix.
+
+When tables are stored under more than one parent folder, table locations outside the cleanup root are not checked in that run. The job reports them under `TABLE LOCATIONS OUTSIDE THE SCANNED ROOT`, and a successful audit row gets `status_reason=partial_scan_coverage`.
+
+The job also lists other roots one level deep for review. **Nothing in these report-only roots is ever deleted.** A root is listed when it sits inside the database's own storage:
+
+- the database location, or the same path without the `.db` suffix;
+- for `spark_catalog` and IOMETE-managed REST catalogs, the catalog's namespace folder for the database;
+- a location you approve in `report_only_storage_roots`, as long as at least one visible table of the database is stored under it.
+
+```json
+{
+  "report_only_storage_roots": {
+    "sales": ["s3a://other-bucket/external/sales_events"]
+  }
+}
+```
+
+:::warning
+Report-only roots are never deleted. A folder in a report-only root that is not matched to a visible table is not necessarily orphaned, because a table the job cannot see may own it. Approved report-only roots are not fully checked for ownership across databases.
+:::
+
+Each key must be listed in `databases`. Approve only locations that belong to the database they are listed under. The job does not compare approved locations with the storage of other databases.
+
+Other table parents are reported as `not_scanned` with a reason:
+
+| Reason | Meaning |
+|---|---|
+| `outside_database_boundary` | The parent is outside the database's own storage, in the same or another bucket. |
+| `bucket_root` | The parent is a bucket root. |
+| `contains_warehouse_root` | The parent equals or contains the catalog warehouse root. |
+| `inside_table_location` | The parent sits inside another table's folder. |
+| `contains_database_storage` | The location would contain the database's own location or namespace folder. |
+| `no_visible_table` | An approved location holds no visible table of the database. |
+| `invalid_location` | The location cannot be parsed. |
+| `root_limit_reached` | More than 25 additional roots were found; the rest are not listed. |
+
+Folders in report-only roots that do not belong to a visible table are listed under `FOLDERS IN REPORT-ONLY ROOTS NOT MATCHED TO A VISIBLE TABLE`. A table the job cannot see may still own them, so treat them as items to review, not as orphans.
+
 ## Excluding Paths
 
-Use `exclude_paths` when you know the full object-storage path to protect:
+Use `exclude_paths` when you know the full object-storage path to protect. Each entry must include a scheme and bucket:
 
 ```json
 {
@@ -163,7 +214,17 @@ Use `exclude_database_folders` when you want to protect a folder relative to a c
 }
 ```
 
+A folder is skipped when it equals an excluded path, contains one, or sits inside one. Paths are compared by whole path segments, so `manual_archive` does not protect `manual_archive_v2`. A `database.folder` exclusion also applies to the same folder name under every report-only root of that database.
+
 Both forms are included in the effective excluded-path list written to the audit table.
+
+## Other Databases and Iceberg Write Paths
+
+Before choosing candidates, the job reads the location of every database it can see in the catalog. Storage of another database at or inside the cleanup root is protected and is never a candidate. On catalogs with many databases this step can take some time; the driver log reports how many databases were read and how long it took.
+
+If the storage of other databases cannot be established, for example because a database location cannot be read, the database is `BLOCKED` with `status_reason=other_database_storage_unknown` and nothing is deleted.
+
+For Iceberg tables, folders named by `write.data.path`, `write.metadata.path`, `write.object-storage.path`, and `write.folder-storage.path` are protected like the table location, both during candidate detection and in the pre-delete recheck.
 
 ## Audit Table
 
@@ -261,19 +322,42 @@ LIMIT 20;
 | `BLOCKED` | Reconciliation completed far enough to inspect catalog and storage state, but a safety condition prevented cleanup. The findings are still reported. |
 | `FAILED` | An unexpected failure occurred while processing the database. |
 
-Common `status_reason` values include:
+`status_reason` values:
 
-| Reason | Description |
-|---|---|
-| `database_not_found` | Configured database does not exist or cannot be discovered. |
-| `database_location_missing` | Database exists but has no usable storage location. |
-| `no_active_tables_in_database` | Database has no active table locations, so cleanup is skipped by default. |
-| `too_many_candidate_folders` | Candidate count exceeded `max_candidate_folders_per_database`. |
-| `unresolved_catalog_ownership` | At least one table's storage location could not be read, so no folder in the database could be confirmed as untracked. |
+| Status | Reason | Triggered when | What to check |
+|---|---|---|---|
+| `SUCCESS` | `partial_scan_coverage` | Some table locations are outside the cleanup root, so storage around them was not checked. | Review `TABLE LOCATIONS OUTSIDE THE SCANNED ROOT` and `STORAGE ROOTS` in the report. |
+| `SKIPPED` | `database_not_found` | The configured database does not exist in the selected catalog. | Check the database name in `databases` and the `catalog` value. |
+| `SKIPPED` | `database_location_missing` | The catalog returns no storage location for the database. | Run `DESCRIBE DATABASE EXTENDED` and check its `Location`. |
+| `SKIPPED` | `no_active_tables_in_database` | No table in the database has a readable storage location, for example a database with no tables or only views. | Nothing to clean. If the database has tables, check them for unreadable locations. |
+| `SKIPPED` | `too_many_candidate_folders` | More candidate folders were found than `max_candidate_folders_per_database` allows, counted before the age check. | Review the candidate list in the audit row. Add exclusions or raise the limit only after review. |
+| `SKIPPED` | `database_location_is_bucket_root` | The database location is a bucket root. | The job cannot clean this database. |
+| `SKIPPED` | `database_location_contains_warehouse_root` | The database location equals or contains the catalog warehouse root, such as a `default` database at the warehouse root. | The job cannot clean this database. |
+| `SKIPPED` | `catalog_warehouse_unknown` | The selected catalog has no warehouse location configured. | Check the catalog's warehouse setting. |
+| `SKIPPED` | `scan_root_outside_database_boundary` | The folder that holds the database's tables is outside the database location. | Compare the table locations with the database location. |
+| `SKIPPED` | `invalid_storage_location` | The database or warehouse location has no scheme or bucket, a database, table, or warehouse location cannot be parsed, or the database is on unsupported storage such as HDFS. | Check that the locations are full URIs such as `s3a://bucket/path` on supported storage. |
+| `BLOCKED` | `unresolved_catalog_ownership` | At least one table's storage could not be established, so no folder in the database is deleted. | Check the tables under `TABLES WHOSE STORAGE LOCATION COULD NOT BE RESOLVED` and the reason logged for each. See [Unresolved Table Storage Ownership](#unresolved-table-storage-ownership). |
+| `BLOCKED` | `cleanup_root_has_no_visible_table` | No visible table is stored under the cleanup root. | Compare the table locations with the database location. |
+| `BLOCKED` | `other_database_storage_unknown` | The locations of other databases in the catalog could not be read or compared. | Check the driver log and the locations of the catalog's other databases. See [Other Databases and Iceberg Write Paths](#other-databases-and-iceberg-write-paths). |
+| `BLOCKED` | `audit_integrity_lost` | An earlier audit write in the same run failed, so no more folders are deleted. | Check the driver log for the audit error and access to the audit table, then rerun. |
+| `FAILED` | `deletion_failed` | A folder could not be deleted, or a delete reported no change for a folder that still exists. Folders deleted before it stay deleted. | Check the folder named in `diagnostic_details.deletion_failed_folder_path`, when present, in object storage before the next run. See [Partial Deletion and Audit Failures](#partial-deletion-and-audit-failures). |
+| `FAILED` | `unexpected_error` | Any other error while processing the database. | Check the driver log for the exception. |
+
+For databases skipped with `database_location_is_bucket_root`, `database_location_contains_warehouse_root`, or `scan_root_outside_database_boundary`, the job still lists report-only roots whose own checks pass and prints a `STORAGE ROOT REPORT` in the driver logs. Nothing is deleted.
+
+## Partial Deletion and Audit Failures
+
+Candidate folders are deleted one at a time. If a folder cannot be deleted, the job stops for that database and records `FAILED` with `status_reason=deletion_failed`.
+
+- `deleted_folder_count` and `deleted_folders` list only the folders confirmed deleted before the failure, so they can be greater than zero on a `FAILED` row.
+- `diagnostic_details.deletion_failed_folder_path` names the folder that failed. Check it in object storage before the next run.
+- Other configured databases continue, as long as this database's audit row was written.
+
+If an audit row cannot be written during a run, the job no longer has a reliable record of what it did. It deletes no more folders in that run, records later databases that would have been eligible for deletion as `BLOCKED` with `status_reason=audit_integrity_lost`, and fails at the end of the run. A database whose own audit row failed has no row in the audit table; use the driver log for that database.
 
 ## Unresolved Table Storage Ownership
 
-A table is unresolved when it exists in the catalog but the job cannot read its Iceberg metadata or storage location during the run. This does not mean the table is unhealthy or unwanted. It only means the job does not know which storage folder that table owns.
+A table is unresolved when it exists in the catalog but the job cannot establish which storage it owns. This includes a table whose Iceberg metadata, location, or properties cannot be read, a table with a missing or blank location (views excepted), a location without a scheme and bucket, an Iceberg table with `gc.enabled` set to anything but `true` or with `write.location-provider.impl` set, and an Iceberg write path that is blank or has no scheme and bucket. This does not mean the table is unhealthy or unwanted. It only means the job does not know which storage folder that table owns.
 
 Storage reconciliation still runs and reports what it found. What changes is what the job is allowed to conclude. If any table in the database is unresolved, that table could own any of the unmatched folders, so no folder in that database can be proven untracked. For that database:
 
@@ -286,20 +370,37 @@ Other configured databases are unaffected and continue to run.
 
 ## Understanding Summary Logs
 
-At the end of each database, the job prints a `CLEANUP REPORT` block in the driver logs. Its sections are:
+At the end of each database, the job prints a `CLEANUP REPORT` block in the driver logs. The header shows the run mode: `Mode: dry run, nothing is deleted` or `Mode: deletion enabled`. Its sections are:
 
 | Report section | Source | Meaning |
 |---|---|---|
 | `CATALOG` | Catalog metadata | Counts of tables found, tables with verified storage locations, and tables whose storage location could not be read. |
-| `TABLES WHOSE STORAGE LOCATION COULD NOT BE RESOLVED` | Catalog metadata | Tables that exist in the catalog but whose Iceberg metadata or storage location could not be read. Shown only when there are any. |
-| `STORAGE` | Object-storage scan | Counts of folders discovered under the scan root, folders belonging to verified catalog tables, and folders with no verified owner. |
-| `STORAGE FOLDERS PROTECTED BY A VERIFIED CATALOG TABLE` | Catalog metadata | Active table locations discovered from the catalog. These are the protection set and must not be deleted. This list may include paths outside the selected storage scan root. |
+| `TABLES WHOSE STORAGE LOCATION COULD NOT BE RESOLVED` | Catalog metadata | Tables that exist in the catalog but whose storage could not be established. Shown only when there are any. |
+| `STORAGE` | Object-storage scan | Counts of folders discovered under the cleanup root, folders belonging to verified catalog tables, folders protected or skipped for other reasons, and folders with no verified owner. |
+| `STORAGE FOLDERS PROTECTED BY A VERIFIED CATALOG TABLE` | Catalog metadata | Active table locations discovered from the catalog. These are the protection set and must not be deleted. This list may include paths outside the cleanup root. |
 | `STORAGE FOLDERS EXCLUDED BY CONFIGURATION` | Configuration | Paths protected by `exclude_paths` or `exclude_database_folders`. |
-| `UNTRACKED STORAGE FOLDERS` | Candidate detection | Folders that were not protected and passed the cleanup filters. These are the folders the job would delete in deletion mode. |
-| `POTENTIALLY UNTRACKED STORAGE FOLDERS` | Candidate detection | Shown instead of the section above when a table's storage location could not be read. These folders have no verified catalog owner, but they cannot be proven untracked, so none of them are deletion candidates. |
-| `DELETION` | Deletion result | Folders actually deleted when `dry_run=false` and `delete_enabled=true`, or `BLOCKED` with the reason when deletion was prevented. |
+| `STORAGE FOLDERS PROTECTED OR SKIPPED FOR OTHER REASONS` | Candidate detection | Folders that are excluded, belong to another database or an Iceberg write path, are framework working folders, or are too new or of unknown age. Shown only when there are any. |
+| `TABLE LOCATIONS OUTSIDE THE SCANNED ROOT` | Catalog metadata | Table locations outside the cleanup root. Storage around them was not checked in this run. |
+| `STORAGE ROOTS` | Object-storage scan | The cleanup root and report-only roots, with their status (`scanned`, `absent`, or `listing_failed`) and the roots that were not scanned. |
+| `FOLDERS IN REPORT-ONLY ROOTS NOT MATCHED TO A VISIBLE TABLE` | Object-storage scan | Folders in report-only roots that no visible table owns. These are never deleted. |
+| `TABLE LOCATIONS OUTSIDE EVERY LISTED ROOT` | Catalog metadata | Table locations that no listed root covers. |
+| `UNTRACKED STORAGE FOLDERS` | Candidate detection | Folders that were not protected and passed the cleanup filters. These are the folders the job would delete in deletion mode. When deletion is blocked, this section is titled `UNTRACKED STORAGE FOLDERS (DELETION BLOCKED)`. |
+| `POTENTIALLY UNTRACKED STORAGE FOLDERS` | Candidate detection | Shown instead of the section above when a table's storage location could not be established. These folders have no verified catalog owner, but they cannot be proven untracked, so none of them are deletion candidates. |
+| `DELETION` | Deletion result | Folders actually deleted when `dry_run=false` and `delete_enabled=true`, `Dry run. No folder was deleted.` in dry-run mode, or `BLOCKED` with the reason when deletion was prevented. |
 
 In short, catalog active table locations come from catalog metadata, while storage folders come from the physical object-storage scan.
+
+## Known Limitations
+
+- Ownership is checked against the tables and databases the job can see in the catalog. A table or database the job cannot see does not protect its folder.
+- Another database's table stored at a custom location inside the cleanup root is not protected.
+- Files that an Iceberg table reaches without a write path property, for example through `add_files`, `migrate`, `snapshot`, or an earlier table location, are not protected.
+- A Hive partition stored outside its table's folder is not protected.
+- The job deletes whole untracked table folders, not individual orphan files inside active table folders.
+- Folder names are compared case-sensitively, because `ORDERS` and `orders` are different object-storage prefixes.
+- A database whose location equals or contains the catalog warehouse root cannot be cleaned by this job.
+- Catalogs that use vended or remotely signed credentials are not supported for storage access.
+- Folder age and size require listing every object in each candidate folder. This can take time for folders with many objects.
 
 ## Summary
 
