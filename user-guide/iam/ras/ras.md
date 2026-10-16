@@ -7,8 +7,6 @@ last_update:
   author: Soltan Garayev
 ---
 
-import acorn from 'acorn';
-import { mdxExpression } from 'micromark-extension-mdx-expression';
 import Img from '@site/src/components/Img';
 
 # Resource Authorization System

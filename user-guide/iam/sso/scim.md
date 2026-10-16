@@ -7,9 +7,6 @@ last_update:
   author: Soltan Garayev
 ---
 
-import acorn from 'acorn';
-import { mdxExpression } from 'micromark-extension-mdx-expression';
-
 # SCIM
 
   
