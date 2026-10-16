@@ -3,7 +3,7 @@ title: Application Config
 description: Reference for configuring Spark Jobs in IOMETE — Docker images, instances, environment variables, dependencies, scheduling, and more.
 sidebar_label: Application Config
 last_update:
-  date: 03/16/2026
+  date: 10/16/2026
   author: Abhishek Pathania
 ---
 
@@ -245,6 +245,10 @@ If you choose **OnFailure**, four additional fields appear:
 | Runtime failure retry interval | `5` | Seconds between runtime retries. |
 
 On restart, IOMETE cleans up old resources (driver pod, UI service, etc.) before submitting a new run.
+
+:::note
+For jobs triggered from Airflow, keep the policy at **Never** and configure retries in Airflow instead. See [Airflow Retries](/integrations/airflow/operator-reference#retries).
+:::
 
 ---
 

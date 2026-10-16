@@ -1,9 +1,9 @@
 ---
 title: IometeOperator Reference
 sidebar_label: Operator Reference
-description: Reference for IometeOperator parameters, configuration overrides, templates, and job run states.
+description: Reference for IometeOperator parameters, configuration overrides, templates, job run states, and retries.
 last_update:
-  date: 09/04/2026
+  date: 10/16/2026
   author: Abhishek Pathania
 ---
 
@@ -71,6 +71,12 @@ See [DAG Examples](./examples.md#overriding-job-configuration) for a templated r
 | `ABORTING` | Job cancellation is in progress. | No |
 
 A `FAILED` or `ABORTED` run raises an `AirflowException`. If the Airflow task is killed, the operator cancels the active IOMETE job run.
+
+## Retries
+
+Configure retries on the Airflow task with `retries` and `retry_delay`, either on the operator or in `default_args`. Each Airflow retry submits a new IOMETE job run, so every attempt appears in the Airflow UI with its own logs.
+
+Keep the job's [Restart Policy](/user-guide/spark-jobs/spark-application-config#restart-policy) set to **Never**, the default. The operator fails the task on the first `FAILED` state it sees and doesn't wait for IOMETE to restart the run. With **Always** or **OnFailure**, IOMETE can restart the job after Airflow has already marked the task failed, and that restart can overlap with an Airflow retry.
 
 ## XCom Values
 
