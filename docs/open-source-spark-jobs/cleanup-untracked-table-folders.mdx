@@ -324,24 +324,24 @@ LIMIT 20;
 
 `status_reason` values:
 
-| Status | Reason | Description |
-|---|---|---|
-| `SUCCESS` | `partial_scan_coverage` | Some table locations are outside the scanned cleanup root and were not checked in this run. |
-| `SKIPPED` | `database_not_found` | Configured database does not exist or cannot be discovered. |
-| `SKIPPED` | `database_location_missing` | Database exists but has no usable storage location. |
-| `SKIPPED` | `no_active_tables_in_database` | Database has no active table locations, so cleanup is skipped. |
-| `SKIPPED` | `too_many_candidate_folders` | Candidate count exceeded `max_candidate_folders_per_database`. |
-| `SKIPPED` | `database_location_is_bucket_root` | The database location is a bucket root. |
-| `SKIPPED` | `database_location_contains_warehouse_root` | The database location equals or contains the catalog warehouse root. |
-| `SKIPPED` | `catalog_warehouse_unknown` | The catalog warehouse location is not configured, so the database location cannot be checked against it. |
-| `SKIPPED` | `scan_root_outside_database_boundary` | The cleanup root would fall outside the database location. |
-| `SKIPPED` | `invalid_storage_location` | A location cannot be parsed, has no scheme or bucket, or uses storage the job does not support. |
-| `BLOCKED` | `unresolved_catalog_ownership` | At least one table's storage location could not be established, so no folder in the database could be confirmed as untracked. |
-| `BLOCKED` | `cleanup_root_has_no_visible_table` | No visible table is stored under the cleanup root. |
-| `BLOCKED` | `other_database_storage_unknown` | The storage of other databases could not be established. |
-| `BLOCKED` | `audit_integrity_lost` | An earlier audit write in the same run failed, so no more folders are deleted. |
-| `FAILED` | `deletion_failed` | Deletion stopped partway through the candidates. |
-| `FAILED` | `unexpected_error` | An unexpected catalog, storage, or processing error occurred. |
+| Status | Reason | Triggered when | What to check |
+|---|---|---|---|
+| `SUCCESS` | `partial_scan_coverage` | Some table locations are outside the cleanup root, so storage around them was not checked. | Review `TABLE LOCATIONS OUTSIDE THE SCANNED ROOT` and `STORAGE ROOTS` in the report. |
+| `SKIPPED` | `database_not_found` | The configured database does not exist in the selected catalog. | Check the database name in `databases` and the `catalog` value. |
+| `SKIPPED` | `database_location_missing` | The catalog returns no storage location for the database. | Run `DESCRIBE DATABASE EXTENDED` and check its `Location`. |
+| `SKIPPED` | `no_active_tables_in_database` | No table in the database has a readable storage location, for example a database with no tables or only views. | Nothing to clean. If the database has tables, check them for unreadable locations. |
+| `SKIPPED` | `too_many_candidate_folders` | More candidate folders were found than `max_candidate_folders_per_database` allows, counted before the age check. | Review the candidate list in the audit row. Add exclusions or raise the limit only after review. |
+| `SKIPPED` | `database_location_is_bucket_root` | The database location is a bucket root. | The job cannot clean this database. |
+| `SKIPPED` | `database_location_contains_warehouse_root` | The database location equals or contains the catalog warehouse root, such as a `default` database at the warehouse root. | The job cannot clean this database. |
+| `SKIPPED` | `catalog_warehouse_unknown` | The selected catalog has no warehouse location configured. | Check the catalog's warehouse setting. |
+| `SKIPPED` | `scan_root_outside_database_boundary` | The folder that holds the database's tables is outside the database location. | Compare the table locations with the database location. |
+| `SKIPPED` | `invalid_storage_location` | The database or warehouse location has no scheme or bucket, a database, table, or warehouse location cannot be parsed, or the database is on unsupported storage such as HDFS. | Check that the locations are full URIs such as `s3a://bucket/path` on supported storage. |
+| `BLOCKED` | `unresolved_catalog_ownership` | At least one table's storage could not be established, so no folder in the database is deleted. | Check the tables under `TABLES WHOSE STORAGE LOCATION COULD NOT BE RESOLVED` and the reason logged for each. See [Unresolved Table Storage Ownership](#unresolved-table-storage-ownership). |
+| `BLOCKED` | `cleanup_root_has_no_visible_table` | No visible table is stored under the cleanup root. | Compare the table locations with the database location. |
+| `BLOCKED` | `other_database_storage_unknown` | The locations of other databases in the catalog could not be read or compared. | Check the driver log and the locations of the catalog's other databases. See [Other Databases and Iceberg Write Paths](#other-databases-and-iceberg-write-paths). |
+| `BLOCKED` | `audit_integrity_lost` | An earlier audit write in the same run failed, so no more folders are deleted. | Check the driver log for the audit error and access to the audit table, then rerun. |
+| `FAILED` | `deletion_failed` | A folder could not be deleted, or a delete reported no change for a folder that still exists. Folders deleted before it stay deleted. | Check the folder named in `diagnostic_details.deletion_failed_folder_path`, when present, in object storage before the next run. See [Partial Deletion and Audit Failures](#partial-deletion-and-audit-failures). |
+| `FAILED` | `unexpected_error` | Any other error while processing the database. | Check the driver log for the exception. |
 
 For databases skipped with `database_location_is_bucket_root`, `database_location_contains_warehouse_root`, or `scan_root_outside_database_boundary`, the job still lists report-only roots whose own checks pass and prints a `STORAGE ROOT REPORT` in the driver logs. Nothing is deleted.
 
