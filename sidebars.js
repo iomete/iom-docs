@@ -60,6 +60,7 @@ const sidebars = {
           label: "Advanced Settings",
           collapsed: true,
           items: [
+            "deployment/ozone-deployment",
             "deployment/minio-deployment",
             "deployment/configure-ingress",
             "deployment/configure-custom-dns",

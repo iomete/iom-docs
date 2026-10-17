@@ -22,7 +22,7 @@ To add the Nessie dependency, follow these steps:
      ```
 
    - Option 2: **Using JAR Files:**
-     Upload the JAR file to the default lakehouse bucket specified during the IOMETE installation. This could be S3, Minio, or Dell ECS. Then, add the JAR file path:
+     Upload the JAR file to the default lakehouse bucket specified during the IOMETE installation. This could be AWS S3 or S3-compatible storage such as Apache Ozone, Dell ECS or MinIO. Then, add the JAR file path:
      ```
      spark.jars s3a://lakehouse_bucket/nessie-spark-extensions-3.5_2.12-0.78.0.jar
      ```

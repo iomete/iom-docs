@@ -7,7 +7,7 @@ last_update:
   author: Abhishek Pathania
 ---
 
-This guide explains how to move the S3-compatible storage behind IOMETE to new storage, for example new hardware, a new data center or another S3-compatible product, when the **bucket names stay the same** and the **storage endpoint changes**. It covers what to change in IOMETE, what to restart, how to cut over without losing data and how to check the result.
+This guide explains how to move the S3-compatible storage behind IOMETE to new storage, for example new hardware, a new data center or another S3-compatible product (such as moving from MinIO to Apache Ozone), when the **bucket names stay the same** and the **storage endpoint changes**. It covers what to change in IOMETE, what to restart, how to cut over without losing data and how to check the result.
 
 :::warning Bucket names must stay the same
 Iceberg table metadata stores absolute paths such as `s3a://lakehouse/data/...`. These paths contain the bucket name but not the endpoint, which is why an endpoint change is safe. Moving data to a bucket with a **different name** breaks every table and is not covered by this guide. Contact IOMETE support if you need to rename a bucket.
