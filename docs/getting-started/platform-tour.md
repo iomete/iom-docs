@@ -53,7 +53,7 @@ Details in the [Event Stream](/user-guide/event-stream) guide.
 
 ## Workspace
 
-Most of your day-to-day SQL work happens in the [Workspace](/user-guide/sql-editor/workspaces). The sidebar groups three tools: SQL Editor, Query Monitoring, and Schedules.
+Most of your day-to-day SQL work happens in the [Workspace](/user-guide/sql-editor/workspaces). The sidebar groups two tools: SQL Editor and Query Monitoring.
 
 ### SQL Editor
 
@@ -74,14 +74,6 @@ Learn more in the [SQL Editor](/user-guide/sql-editor/worksheets) guide.
 Keeping tabs on what's running across your clusters prevents bottlenecks. This view lists active queries across all compute clusters, so you can spot long-running or stuck queries early.
 
 <Img src="/img/getting-started/platform-tour/query-monitoring.png" alt="Query Monitoring page" maxWidth="900px"/>
-
-### Schedules
-
-Recurring SQL work like transformations, reports, and maintenance doesn't have to be manual. Set up cron-based schedules and track each run's status and results.
-
-<Img src="/img/getting-started/platform-tour/schedules.png" alt="Schedules page" maxWidth="900px"/>
-
-The [Query Scheduling](/user-guide/sql-editor/scheduling) guide walks through setup.
 
 ## Applications
 
@@ -156,5 +148,5 @@ Platform administrators manage users, security, and infrastructure from the Admi
 <Img src="/img/getting-started/platform-tour/admin-portal.png" alt="Admin Portal page" maxWidth="900px"/>
 
 :::info Feature Availability
-Some features (Jupyter Containers, Event Streams, Query Monitoring, and Schedules) may not be visible depending on your deployment configuration.
+Some features (Jupyter Containers, Event Streams, and Query Monitoring) may not be visible depending on your deployment configuration.
 :::

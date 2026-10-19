@@ -62,6 +62,9 @@ const userGuideRedirects = [
   { from: "/user-guide/node-type-sizing", to: "/user-guide/node-types/node-type-sizing" },
   { from: "/user-guide/workspaces", to: "/user-guide/sql-editor/workspaces" },
 
+  // Query Scheduling page removed (feature not shipped)
+  { from: "/user-guide/sql-editor/scheduling", to: "/user-guide/sql-editor/overview" },
+
   // Slug removed — old slug-based URL → new file-path-based URL
   { from: "/developer-guide/jupyter-containers", to: "/user-guide/notebook/jupyter-containers" },
 
