@@ -70,7 +70,6 @@ const sidebars = {
             "sql-editor/database-explorer-api-migration",
             "sql-editor/query-history",
             "sql-editor/dashboards",
-            "sql-editor/scheduling",
           ],
         },
         {

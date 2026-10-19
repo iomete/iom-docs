@@ -78,7 +78,7 @@ Provides the backend for the [SQL Editor](/user-guide/sql-editor/overview), wher
 - [Git integration](/integrations/git/git-integration) for version-controlled SQL
 - [Query history](/user-guide/sql-editor/query-history) and monitoring
 - [Database explorer](/user-guide/sql-editor/database-explorer) for schema and catalog browsing
-- [Dashboards](/user-guide/sql-editor/dashboards) and [scheduling](/user-guide/sql-editor/scheduling)
+- [Dashboards](/user-guide/sql-editor/dashboards)
 
 ### Catalog Service
 

@@ -45,4 +45,3 @@ Each guide below covers a specific part of the SQL Editor in detail.
 | [Database Explorer](/user-guide/sql-editor/database-explorer) | Browsing catalogs, namespaces, tables, and columns |
 | [Query History](/user-guide/sql-editor/query-history) | Viewing and reusing previously run queries |
 | [Dashboards](/user-guide/sql-editor/dashboards) | Building and managing dashboards |
-| [Scheduling](/user-guide/sql-editor/scheduling) | Scheduling queries to run automatically |

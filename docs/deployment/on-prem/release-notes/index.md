@@ -791,8 +791,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
         You can now schedule SQL queries directly from the SQL Editor. This feature enables automated query execution on custom intervals with full monitoring and management capabilities.
 
-        <Img src="/img/user-guide/sql-editor/scheduling/create-schedule.png" alt="Create Schedule Modal" maxWidth="800px" centered />
-
         :::warning Beta Feature
         This is a beta feature and may be unstable.
         :::
@@ -804,8 +802,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - **Parameter support** — Configure query parameters at schedule time
         - **Centralized management** — View and manage all schedules from the new Schedules menu in the Workspace section
         - **Run history & monitoring** — Track execution history with detailed run information, task breakdowns, and execution graphs
-
-        📄 Learn more: [Query Scheduling Documentation](/user-guide/sql-editor/scheduling)
 
 
       - **Event Streams `BETA`**
