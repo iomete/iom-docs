@@ -18,12 +18,18 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
 | dbt | [`dbt-iomete`](https://pypi.org/project/dbt-iomete/) | 1.8.3 | dbt Core 1.8.x; Python 3.9–3.12 | [Open](../../../integrations/dbt/getting-started-with-iomete-dbt.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/dbt-iomete) |
 | Airflow | [`iomete-airflow-plugin`](https://pypi.org/project/iomete-airflow-plugin/) | 3.1.0 | Airflow `>=2.10.5,<4.0.0`; Python 3.10–3.13 | [Open](../../../integrations/airflow/getting-started.mdx) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) |
 | Tableau | [`tableau-connector`](https://github.com/iomete/iomete-integrations/releases?q=tableau-connector) | 0.1.0 | Tableau Desktop and Server 2024.2 and later | [Open](../../../integrations/bi/tableau/arrow-flight.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/tableau-connector) |
-| Power BI and Arrow Flight SQL ODBC | [`iomete-odbc-connector`](https://github.com/iomete/iomete-artifacts) | 24.0.0-iomete.2 | Power BI Desktop and on-premises data gateway on Windows x64 | [Open](../../../integrations/bi/power-bi/arrow-flight.md) | Closed source |
+| Power BI and Arrow Flight SQL ODBC | [`iomete-odbc-connector`](https://github.com/iomete/iomete-artifacts) | 24.0.0-iomete.3 | Power BI Desktop and on-premises data gateway on Windows x64 | [Open](../../../integrations/bi/power-bi/arrow-flight.md) | Closed source |
 | Arrow Flight SQL JDBC | [`flight-sql-jdbc-driver`](https://github.com/iomete/iomete-artifacts) | 19.0.0-iomete.7 | Java 11 or later; Tableau Desktop and Server 2024.2 or later | [Open](/user-guide/driver/arrow-flight-jdbc-driver) | Closed source |
 
 ---
 
 ## Recent Releases
+
+<Release name="Power BI Connector and ODBC Driver" version="24.0.0-iomete.3" date="October 19, 2026">
+  <BugFixes>
+    - **Connecting to IOMETE 4.0 and later**: Fixed DSN **Test Connection**, queries, and Power BI refreshes failing with "No client transport implementation for arrow-flight-reuse-connection" on IOMETE 4.0 and later, where Arrow Flight traffic goes through the Spark proxy server by default. The driver now reads results over the connection it already has open. If you turned off `features.sparkProxyForArrowFlight` to work around this error, you can turn it back on after upgrading. See [Troubleshooting](../../../integrations/bi/power-bi/arrow-flight.md#connection-fails-with-no-client-transport-implementation-for-arrow-flight-reuse-connection).
+  </BugFixes>
+</Release>
 
 <Release name="Power BI Connector and ODBC Driver" version="24.0.0-iomete.2" date="October 3, 2026">
   <BugFixes>

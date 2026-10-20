@@ -147,6 +147,10 @@ When a report works in Power BI Desktop but fails through the gateway, the cause
 
 The driver shows this generic error when the connection closes before login finishes, and the real cause isn't passed on. It most often means a wrong **Server URL**, **Cluster**, or **Data Plane**, such as a data plane that doesn't contain the cluster. It can also come from an invalid access token or an untrusted server certificate. Check the three connection values first, then your credentials, then [Trusting the Server Certificate](#trusting-the-server-certificate).
 
+### Connection Fails With "No client transport implementation for arrow-flight-reuse-connection"
+
+ODBC driver versions earlier than `24.0.0-iomete.3` show this error on IOMETE 4.0 and later, in both **Test Connection** and queries. [Download](#downloading-the-connector-bundle) and [install](#installing-the-odbc-driver) the current driver.
+
 ### "Data source name not found and no default driver specified"
 
 The ODBC driver is not registered on the machine running the query. [Install the ODBC driver](#installing-the-odbc-driver) on that machine. For gateway refreshes, install it on every gateway node.
