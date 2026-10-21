@@ -3,8 +3,8 @@ title: Marketplace Jobs
 sidebar_label: Marketplace Jobs
 description: Release notes for IOMETE Marketplace Jobs. Learn about updates, improvements, and bug fixes for various data integration and processing jobs.
 last_update:
-  date: 10/16/2026
-  author: Shashank Chaudhary
+  date: 10/21/2026
+  author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
@@ -18,7 +18,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | ------------------------ | ----------------------- | -------- | -------------------------------------------------------------------------- |
 | Data Compaction          | iomete_data_compaction  | 1.2.14   | [Open ↗](/resources/open-source-spark-jobs/data-compaction)            |
 | File Streaming           | iomete-file-streaming   | 1.0.1    | [Open ↗](/resources/open-source-spark-jobs/file-streaming-job)             |
-| Catalog Sync             | iom-catalog-sync        | 5.0.4    | [Open ↗](/resources/open-source-spark-jobs/catalog-sync)               |
+| Catalog Sync             | iom-catalog-sync        | 5.1.0    | [Open ↗](/resources/open-source-spark-jobs/catalog-sync)               |
 | MySQL Sync               | iomete_mysql_sync       | 3.0.0    | [Open ↗](/resources/open-source-spark-jobs/mysql-db-sync)                  |
 | Kafka Iceberg Stream     | kafka-iceberg-stream    | 1.2.0    | [Open ↗](/resources/open-source-spark-jobs/kafka-iceberg-stream)           |
 | Query Scheduler          | spark-py                | 3.5.7-v1 | [Open ↗](/resources/open-source-spark-jobs/query-scheduler-job)            |
@@ -28,6 +28,16 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 ---
 
 ## Recent Releases
+
+<Release name="Catalog Sync Job" version="5.1.0" date="October 21, 2026">
+  <BugFixes>
+    - **Catalog configuration in logs**: Fixed the job writing a catalog's full configuration, including object-storage credentials such as `fs.s3a.access.key` and `fs.s3a.secret.key`, to the job logs when the catalog was excluded from indexing by name or by properties. The log message now contains only the catalog name. If you ran an earlier version with catalog exclusion rules, rotate the storage credentials of the excluded catalogs and remove old job logs.
+  </BugFixes>
+
+  <Improvements>
+    - **Spark upgrade**: The job image base moved from Spark 3.5.5 to Spark 3.5.7.
+  </Improvements>
+</Release>
 
 <Release name="Cleanup Untracked Table Folders Job" version="0.1.5" date="October 16, 2026">
   <ReleaseDescription>
