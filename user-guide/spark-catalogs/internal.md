@@ -31,7 +31,7 @@ Select **Iceberg REST Catalog** from the **Managed Catalogs** section, and provi
 By default, IOMETE uses the S3-compatible storage and credentials configured by your administrator during installation.
 To use different credentials or a different storage provider for this catalog, enable the **Custom Credentials** checkbox:
 
-- **Endpoint** — Required for MinIO and Dell ECS. Can be omitted for AWS S3.
+- **Endpoint** — Required for S3-compatible storage such as Apache Ozone, Dell ECS or MinIO. Can be omitted for AWS S3.
 - **Access key**
 - **Secret key**
 

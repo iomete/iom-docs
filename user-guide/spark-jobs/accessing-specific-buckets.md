@@ -35,7 +35,7 @@ Replace `<bucket-name>` with the exact name of the S3 bucket (without the `s3a:/
 |-----|---------------|-------------|
 | `spark.hadoop.fs.s3a.bucket.<bucket-name>.access.key` | `<AWS_ACCESS_KEY_ID>` | AWS access key ID for this bucket. |
 | `spark.hadoop.fs.s3a.bucket.<bucket-name>.secret.key` | `<AWS_SECRET_ACCESS_KEY>` | AWS secret access key for this bucket. |
-| `spark.hadoop.fs.s3a.bucket.<bucket-name>.endpoint` | `s3.us-west-2.amazonaws.com` | Optional. Overrides the S3 endpoint. Required for non-standard regions or S3-compatible services like MinIO. |
+| `spark.hadoop.fs.s3a.bucket.<bucket-name>.endpoint` | `s3.us-west-2.amazonaws.com` | Optional. Overrides the S3 endpoint. Required for non-standard regions or S3-compatible services like Apache Ozone or MinIO. |
 
 **Example:** for a bucket named `my-specific-bucket`:
 

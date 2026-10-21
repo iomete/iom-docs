@@ -98,7 +98,7 @@ For setup instructions and architecture diagrams, see the [Multi-Cluster Setup](
 
 ## Storage Scalability
 
-Because IOMETE decouples storage from compute, your data layer scales independently of your processing power. Data lives in object storage (Amazon S3, Google Cloud Storage, Azure Data Lake Storage, MinIO, or Dell ECS), and compute clusters access it on demand.
+Because IOMETE decouples storage from compute, your data layer scales independently of your processing power. Data lives in object storage (Amazon S3, Google Cloud Storage, Azure Data Lake Storage, Apache Ozone, Dell ECS, or MinIO), and compute clusters access it on demand.
 
 Object storage scales automatically with no capacity planning, so you pay only for what you store. Adding more compute clusters doesn't require additional storage infrastructure either. Multiple clusters can read from the same data simultaneously.
 

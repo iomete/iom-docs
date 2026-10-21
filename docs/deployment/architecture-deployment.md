@@ -214,7 +214,7 @@ All table data, Spark event logs, and SQL results live in object storage, making
 
 | Storage Type | Config Key | URI Scheme | Required Settings |
 |---|---|---|---|
-| S3-compatible (MinIO, Dell ECS, IBM Cloud Object Storage, and others) | `s3_compatible` | `s3a://` | endpoint, accessKey, secretKey |
+| S3-compatible (Apache Ozone, Dell ECS, IBM Cloud Object Storage, MinIO, and others) | `s3_compatible` | `s3a://` | endpoint, accessKey, secretKey |
 | MinIO (deprecated) | `minio` | `s3a://` | endpoint, accessKey, secretKey |
 | Dell ECS (deprecated) | `dell_ecs` | `s3a://` | endpoint, accessKey, secretKey |
 | AWS S3 | `aws_s3` | `s3a://` | IAM role, cloud.region |
