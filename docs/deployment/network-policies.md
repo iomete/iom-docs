@@ -3,8 +3,8 @@ title: Kubernetes Network Policies
 sidebar_label: Network Policies
 description: Learn how to configure network policies for IOMETE services in a Kubernetes cluster.
 last_update:
-  date: 04/28/2024
-  author: Vusal Dadalov
+  date: 10/15/2026
+  author: Maksym Kryvchun
 ---
 
 IOMETE services rely on specific network configurations to function properly in a Kubernetes cluster. These network policies govern how different components communicate securely and efficiently.
@@ -50,13 +50,22 @@ Replace `[API_SERVER_IP]` in the YAML file with the actual IP address.
 
 This policy ensures that all IOMETE control plane and data plane services can communicate securely across namespaces, using the label `iomete.com/managed: "true"`.
 
+It leaves out Jupyter Container pods. Kubernetes combines policies by allowing anything any of them allows, so a policy that selects every pod would cancel out the [Jupyter Containers policy](#jupyter-containers-policy).
+
+Use the `NotIn` selector below only when the Jupyter Containers policy is installed. Without it, notebooks match no policy and become fully open, so keep `podSelector: {}` instead.
+
 ```yaml title="iomete-ingress-egress.yaml"
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: iomete-ingress-egress
 spec:
-  podSelector: {}
+  podSelector:
+    matchExpressions:
+      - key: iomete.com/appType
+        operator: NotIn
+        values:
+          - jupyterContainer
   ingress:
     - from:
         - namespaceSelector:
@@ -67,6 +76,125 @@ spec:
   policyTypes:
     - Ingress
     - Egress
+```
+
+---
+
+## Jupyter Containers Policy
+
+Jupyter Containers run user code, so the data plane Helm chart can install a policy named `iomete-jupyter-containers` in the data plane namespace and every Spark namespace. It's off by default. To turn it on, set this in `values.yaml` and run the Helm upgrade:
+
+```yaml title="values.yaml"
+networkPolicies:
+  jupyterContainers:
+    enabled: true
+```
+
+The policy only restricts traffic when your cluster's network plugin enforces NetworkPolicies, so check that before relying on it.
+
+With it:
+
+- Only the IOMETE gateway can reach notebooks.
+- Notebooks can reach DNS, your ingress controller and the internet over IPv4 and IPv6.
+- Apart from DNS, your ingress controller and any `extraEgress` entries, notebooks can't reach private, link-local (cloud metadata) or carrier-grade NAT addresses.
+
+If you applied `iomete-ingress-egress` before, it may still select every pod and cancel this policy. Re-apply the [updated version](#iomete-namespaces-communication-policy) and check its `podSelector` uses `NotIn jupyterContainer`:
+
+```bash
+kubectl get networkpolicy iomete-ingress-egress -n <namespace> -o yaml
+```
+
+Notebooks connect to compute clusters through your ingress controller. The policy allows the `istio-system`, `istio-ingress`, `ingress-nginx`, `openshift-ingress` and `traefik` namespaces. If your controller runs elsewhere, or your platform host resolves to a private IP, adjust the policy in `values.yaml`:
+
+```yaml title="values.yaml"
+networkPolicies:
+  jupyterContainers:
+    ingressNamespaces:
+      - my-ingress
+    extraEgress:
+      - to:
+          - ipBlock:
+              cidr: 10.20.30.40/32 # internal load balancer or private data source
+        ports:
+          - protocol: TCP
+            port: 443
+```
+
+| Setting | Use it to |
+|---|---|
+| `ingressNamespaces` | List the namespaces of the ingress controller serving the platform host. Setting it replaces the default list. |
+| `extraEgress` | Allow an internal address notebooks need. |
+| `blockedCidrs` | Change which IPv4 and IPv6 ranges count as internal. |
+| `dnsPorts` | Change the ports notebooks use for DNS, for example add `5353` on OpenShift. |
+| `enabled` | Turn the policy on. |
+
+If notebooks open but can't connect to a compute cluster, add your ingress controller's namespace to `ingressNamespaces`.
+
+To apply the policy yourself instead of through the chart, save it as `iomete-jupyter-containers.yaml`, replace `<iomete-namespace>` with the data plane namespace, and apply it to the data plane namespace and every Spark namespace:
+
+```yaml title="iomete-jupyter-containers.yaml"
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: iomete-jupyter-containers
+spec:
+  podSelector:
+    matchLabels:
+      iomete.com/appType: jupyterContainer
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: <iomete-namespace>
+          podSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - iom-gateway
+                  - iom-gateway-dp
+      ports:
+        - protocol: TCP
+          port: 8888
+  egress:
+    - ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - to:
+        - namespaceSelector:
+            matchExpressions:
+              - key: kubernetes.io/metadata.name
+                operator: In
+                values:
+                  - istio-system
+                  - istio-ingress
+                  - ingress-nginx
+                  - openshift-ingress
+                  - traefik
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 10.0.0.0/8
+              - 172.16.0.0/12
+              - 192.168.0.0/16
+              - 169.254.0.0/16
+              - 100.64.0.0/10
+        - ipBlock:
+            cidr: "::/0"
+            except:
+              - fc00::/7
+              - fe80::/10
+```
+
+```bash
+kubectl apply -f iomete-jupyter-containers.yaml -n <iomete-namespace>
+kubectl apply -f iomete-jupyter-containers.yaml -n <spark-namespace>
 ```
 
 ---
