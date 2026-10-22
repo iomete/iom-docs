@@ -36,11 +36,11 @@ Get the URL from your chat tool first. You paste it into IOMETE in the next sect
 
 1. In the Teams channel, open the **⋯** menu and choose **Workflows**.
 2. Pick the **Send webhook alerts to a channel** template, then finish the wizard.
-3. Copy the URL it shows. It ends in `logic.azure.com` or `powerplatform.com`.
+3. Copy the URL it shows. Its host ends in `logic.azure.com` or `powerplatform.com`, and its path contains `/workflows/`.
 
 **Generic**
 
-Any `https://` URL that accepts a `POST` with a JSON body.
+Any `https://` URL that accepts a `POST` with a JSON body. Your administrator can limit which hosts Generic webhooks may use; if a URL is refused, ask them.
 
 ## Adding a Webhook
 
@@ -81,9 +81,9 @@ X-Iomete-Signature: t=1792656000,v1=5f2b...e9a1
 
 `t` is the send time in Unix seconds. `v1` is an HMAC-SHA256 of `<t>.<raw request body>`, keyed with the signing secret, in hex. To check a request:
 
-1. Rebuild the HMAC from the raw body, before any JSON parsing.
-2. Accept the request if it matches any `v1` value.
-3. Reject it if `t` is more than 5 minutes old, so old requests cannot be replayed.
+1. Reject the request if `t` is more than 5 minutes off your clock, so old requests cannot be replayed.
+2. Rebuild the HMAC from the raw body, before any JSON parsing.
+3. Accept the request only if it matches one of the `v1` values.
 
 ```python
 import hashlib
@@ -92,10 +92,13 @@ import time
 
 
 def is_from_iomete(secret: str, header: str, body: bytes) -> bool:
-    pairs = [part.split("=", 1) for part in header.split(",")]
-    timestamp = next(value for key, value in pairs if key == "t")
+    pairs = [part.split("=", 1) for part in header.split(",") if "=" in part]
+    timestamps = [value for key, value in pairs if key == "t"]
     signatures = [value for key, value in pairs if key == "v1"]
+    if len(timestamps) != 1 or not timestamps[0].isdigit() or not signatures:
+        return False
 
+    timestamp = timestamps[0]
     if abs(time.time() - int(timestamp)) > 300:
         return False
 

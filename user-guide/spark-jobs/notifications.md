@@ -14,7 +14,7 @@ import { Bell, BellSlash } from '@phosphor-icons/react';
 Job notification subscriptions let you register one or more email recipients to receive alerts for specific events on a Spark job or Spark Streaming job. Point them at any email address, including team distribution lists or on-call rotations, and pick exactly which events should trigger an alert.
 
 :::info Prerequisites
-An SMTP server must be configured before notifications can be sent. See [Email Configuration](../email-settings.md) to set it up.
+Email notifications need an SMTP server. Webhooks do not. See [Email Configuration](../email-settings.md) to set it up.
 :::
 
 :::tip
@@ -29,8 +29,8 @@ To send job alerts to Slack, Microsoft Teams or your own endpoint, see [Webhook 
 2. Click the **Notifications** tab in the job detail.
 3. Click <FlexButton label="Subscribe" primary><Bell size={14} /></FlexButton>.
 4. The **Subscribe to job notifications** modal opens.
-5. Select one or more **Event Types** using the checkboxes, or click **Select all** to subscribe to every event. Available event types: **On Success**, **On Failure**, **On Abort**, **On Startup Timeout**, **On Execution Timeout**.
-6. Enter a **Recipient** email address. Your own email is pre-filled, but you can replace it with any valid address.
+5. Select one or more **Event Types** using the checkboxes, or click **Select all** to subscribe to every event. Available event types: **On Success**, **On Failure**, **On Abort**, **On Startup Timeout**, **On Execution Timeout**, **On Suspend**, **On Resume**.
+6. Enter a **Recipient** email address. Your own email is pre-filled, but you can replace it with any valid address. When webhooks are set up, pick the **Webhook** channel and a webhook instead.
 7. Click <FlexButton label="Subscribe" primary /> to save.
 
 <Img src="/img/guides/spark-job/notifications-subscribe-modal.png" alt="Subscribe to job notifications modal showing event type checkboxes and a recipient email field" />
@@ -51,7 +51,7 @@ Each `(job, recipient)` pair must be unique. If a subscription already exists fo
 
 ## Silencing Job Notifications
 
-Silencing temporarily suppresses email delivery for every subscription on a job without removing the subscriptions themselves. Reach for it during planned maintenance or known incidents to prevent alert noise.
+Silencing temporarily suppresses email and webhook delivery for every subscription on a job without removing the subscriptions themselves. Reach for it during planned maintenance or known incidents to prevent alert noise.
 
 1. On the **Notifications** tab, click <FlexButton label="Silence"><BellSlash size={14} /></FlexButton>.
 2. A **Silence notifications** popover opens with a grid of duration choices: 15 min, 30 min, 1 hour, 2 hours, 4 hours, 8 hours, 12 hours, 1 day, 2 days, and 1 week.
