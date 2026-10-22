@@ -100,6 +100,7 @@ const sidebars = {
         "private-docker-registry",
         "docker-tag-aliases",
         "email-settings",
+        "webhook-notifications",
         {
           type: "category",
           label: "Node Types",

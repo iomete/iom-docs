@@ -17,6 +17,10 @@ Job notification subscriptions let you register one or more email recipients to 
 An SMTP server must be configured before notifications can be sent. See [Email Configuration](../email-settings.md) to set it up.
 :::
 
+:::tip
+To send job alerts to Slack, Microsoft Teams or your own endpoint, see [Webhook Notifications](../webhook-notifications.md).
+:::
+
 ## Subscribing to a Job
 
 <Img src="/img/guides/spark-job/notifications-tab.png" alt="Notifications tab on a job detail page showing the Email and Event types table with Silence and Subscribe buttons" />
