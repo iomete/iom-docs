@@ -21,6 +21,10 @@ This guide provides detailed instructions for deploying IOMETE on-premises withi
 There is also a [Terraform configuration](https://github.com/iomete/iomete-deployment/tree/main/terraform) that handles all the steps below in one go (Kubernetes cluster, PostgreSQL, Apache Ozone, data plane, and monitoring). This is currently available for Azure.
 :::
 
+:::tip Nutanix Kubernetes Platform
+Installing on Nutanix Kubernetes Platform (NKP)? Follow this guide together with [Deploying IOMETE on NKP](../nutanix-nkp.md), which covers the NKP-specific settings for Nutanix Objects, Nutanix Volumes, CloudNativePG and the built-in Traefik ingress. Istio is not needed on NKP.
+:::
+
 ## Essential Requirements Before You Start
 
 Have the following ready before you start:

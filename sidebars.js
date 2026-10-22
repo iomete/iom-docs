@@ -71,6 +71,7 @@ const sidebars = {
             "deployment/truststore",
             "deployment/network-policies",
             "deployment/connect-namespace",
+            "deployment/nutanix-nkp",
             "deployment/kubernetes",
             "deployment/multi-cluster-setup",
           ],
