@@ -52,6 +52,8 @@ This policy ensures that all IOMETE control plane and data plane services can co
 
 It leaves out Jupyter Container pods. Kubernetes combines policies by allowing anything any of them allows, so a policy that selects every pod would cancel out the [Jupyter Containers policy](#jupyter-containers-policy).
 
+Use the `NotIn` selector below only when the Jupyter Containers policy is installed. Without it, notebooks match no policy and become fully open, so keep `podSelector: {}` instead.
+
 ```yaml title="iomete-ingress-egress.yaml"
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -94,7 +96,13 @@ With it:
 
 - Only the IOMETE gateway can reach notebooks.
 - Notebooks can reach DNS, your ingress controller and the internet over IPv4 and IPv6.
-- Notebooks can't reach private, link-local (cloud metadata) or carrier-grade NAT addresses.
+- Apart from DNS, your ingress controller and any `extraEgress` entries, notebooks can't reach private, link-local (cloud metadata) or carrier-grade NAT addresses.
+
+If you applied `iomete-ingress-egress` before, it may still select every pod and cancel this policy. Re-apply the [updated version](#iomete-namespaces-communication-policy) and check its `podSelector` uses `NotIn jupyterContainer`:
+
+```bash
+kubectl get networkpolicy iomete-ingress-egress -n <namespace> -o yaml
+```
 
 Notebooks connect to compute clusters through your ingress controller. The policy allows the `istio-system`, `istio-ingress`, `ingress-nginx`, `openshift-ingress` and `traefik` namespaces. If your controller runs elsewhere, or your platform host resolves to a private IP, adjust the policy in `values.yaml`:
 
