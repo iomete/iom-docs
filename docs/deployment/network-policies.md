@@ -3,7 +3,7 @@ title: Kubernetes Network Policies
 sidebar_label: Network Policies
 description: Learn how to configure network policies for IOMETE services in a Kubernetes cluster.
 last_update:
-  date: 10/15/2026
+  date: 10/23/2026
   author: Maksym Kryvchun
 ---
 
@@ -196,6 +196,37 @@ spec:
 kubectl apply -f iomete-jupyter-containers.yaml -n <iomete-namespace>
 kubectl apply -f iomete-jupyter-containers.yaml -n <spark-namespace>
 ```
+
+---
+
+## Data Plane Workloads Policy
+
+Spark compute, Spark jobs and event streams run user code too. This policy keeps them away from the platform's internal services: they reach the control plane only through the data plane gateway, plus the metastore, the lakehouse agent, DNS, and addresses outside the blocked ranges. The control plane gets a matching policy that accepts data plane traffic only through the gateway.
+
+The chart manages both policies. They are off by default. Turn them on under `networkPolicies.dataPlaneWorkloads` in your values file:
+
+```yaml title="values.yaml"
+networkPolicies:
+  dataPlaneWorkloads:
+    enabled: true
+    kubernetesApi:
+      cidrs:
+        - <api-server-ip>/32   # required: Spark drivers create executors through the API server
+    extraEgress: []
+```
+
+Find the API server address with `kubectl cluster-info | grep master`. Without `kubernetesApi.cidrs`, Spark drivers cannot start their executors and jobs fail.
+
+| Setting | Use it to |
+|---|---|
+| `enabled` | Turn the policies on. |
+| `kubernetesApi.cidrs` | List the Kubernetes API server addresses. Required when enabled, so drivers can create executors. |
+| `extraEgress` | Allow a private address the workloads need, such as object storage or the activity-monitoring Postgres. |
+| `blockedCidrs` | Change which ranges count as internal. Setting it replaces the default list. |
+| `monitoringNamespaces` | List extra namespaces allowed to scrape Spark metrics, besides `monitoring`. |
+| `dnsPorts` | Change the ports used for DNS. |
+
+If Spark jobs fail to launch executors after turning this on, check that `kubernetesApi.cidrs` covers every API server address. If a job cannot reach a private data source, add it to `extraEgress`.
 
 ---
 
