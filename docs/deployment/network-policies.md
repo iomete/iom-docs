@@ -201,41 +201,40 @@ kubectl apply -f iomete-jupyter-containers.yaml -n <spark-namespace>
 
 ## Data Plane Workloads Policy
 
-Spark compute, Spark jobs and event streams run user code too. This policy keeps them away from the platform's internal services: they reach the control plane only through the data plane gateway, plus the metastore, the lakehouse agent, DNS, and addresses outside the blocked ranges. The control plane gets a matching policy that accepts data plane traffic only through the gateway.
+Spark compute, Spark jobs and event streams run user code, so this policy keeps them away from the platform's internal services. They can still reach the data plane gateway, the metastore, the lakehouse agent, DNS, the Kubernetes API, and public addresses. The control plane gets a matching policy that only accepts data plane traffic through the gateway.
 
-The chart manages both policies. They are off by default. Turn them on under `networkPolicies.dataPlaneWorkloads` in your values file:
+The chart manages both policies, and they are off by default. To turn them on, set this in your values file and apply it with `helm upgrade`:
 
 ```yaml title="values.yaml"
 networkPolicies:
   dataPlaneWorkloads:
     enabled: true
-    kubernetesApi:
-      cidrs:
-        - <api-server-ip>/32   # required: Spark drivers create executors through the API server
-      ports: [443, 6443]       # override only if your API server uses a different port
+```
+
+**One thing to check first.** The policy blocks private addresses (anything in `10.x`, `172.16-31.x` or `192.168.x`). If your object storage or any data source sits on a private address, list it under `extraEgress`, or Spark jobs will not be able to reach it:
+
+```yaml title="values.yaml"
+networkPolicies:
+  dataPlaneWorkloads:
+    enabled: true
     extraEgress:
-      # Example: allow object storage or the activity-monitoring Postgres on a private address.
       - to:
           - ipBlock:
-              cidr: 10.20.30.40/32
+              cidr: 10.20.30.40/32   # your object storage, database, etc.
         ports:
           - protocol: TCP
             port: 443
 ```
 
-Find the API server address with `kubectl get endpoints kubernetes`. Without `kubernetesApi.cidrs`, Spark drivers cannot start their executors and jobs fail. Apply the change with `helm upgrade`.
-
 | Setting | Use it to |
 |---|---|
 | `enabled` | Turn the policies on. |
-| `kubernetesApi.cidrs` | List the Kubernetes API server addresses. Required when enabled, so drivers can create executors. |
-| `kubernetesApi.ports` | Override the API server ports if they aren't the default `443` and `6443`. |
-| `extraEgress` | Allow a private address the workloads need, such as object storage or the activity-monitoring Postgres. |
-| `blockedCidrs` | Change which ranges count as internal. Setting it replaces the default list. |
-| `monitoringNamespaces` | List extra namespaces allowed to scrape Spark metrics, besides `monitoring`. |
-| `dnsPorts` | Change the ports used for DNS. |
+| `extraEgress` | Allow a private address the workloads need, such as object storage or a database. |
+| `kubernetesApi.cidrs` | Optional. Pin the API-server egress to these addresses. Left empty, the API ports stay open to any address. |
+| `blockedCidrs` | Change which ranges count as private. Setting it replaces the default list. |
+| `monitoringNamespaces` | Allow extra namespaces to scrape Spark metrics, besides `monitoring`. |
 
-If Spark jobs fail to launch executors after turning this on, check that `kubernetesApi.cidrs` covers every API server address and that `kubernetesApi.ports` matches your cluster. If a job cannot reach a private data source, add it to `extraEgress`.
+If Spark jobs fail after you turn this on, it is almost always a private address missing from `extraEgress`.
 
 ---
 
