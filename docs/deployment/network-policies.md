@@ -39,7 +39,7 @@ spec:
 Use the following command to retrieve the API server IP and update the policy:
 
 ```bash
-kubectl cluster-info | grep master
+kubectl cluster-info | grep -iE 'control plane|master'
 ```
 
 Replace `[API_SERVER_IP]` in the YAML file with the actual IP address.
@@ -212,21 +212,30 @@ networkPolicies:
     kubernetesApi:
       cidrs:
         - <api-server-ip>/32   # required: Spark drivers create executors through the API server
-    extraEgress: []
+      ports: [443, 6443]       # override only if your API server uses a different port
+    extraEgress:
+      # Example: allow object storage or the activity-monitoring Postgres on a private address.
+      - to:
+          - ipBlock:
+              cidr: 10.20.30.40/32
+        ports:
+          - protocol: TCP
+            port: 443
 ```
 
-Find the API server address with `kubectl cluster-info | grep master`. Without `kubernetesApi.cidrs`, Spark drivers cannot start their executors and jobs fail.
+Find the API server address with `kubectl get endpoints kubernetes`. Without `kubernetesApi.cidrs`, Spark drivers cannot start their executors and jobs fail. Apply the change with `helm upgrade`.
 
 | Setting | Use it to |
 |---|---|
 | `enabled` | Turn the policies on. |
 | `kubernetesApi.cidrs` | List the Kubernetes API server addresses. Required when enabled, so drivers can create executors. |
+| `kubernetesApi.ports` | Override the API server ports if they aren't the default `443` and `6443`. |
 | `extraEgress` | Allow a private address the workloads need, such as object storage or the activity-monitoring Postgres. |
 | `blockedCidrs` | Change which ranges count as internal. Setting it replaces the default list. |
 | `monitoringNamespaces` | List extra namespaces allowed to scrape Spark metrics, besides `monitoring`. |
 | `dnsPorts` | Change the ports used for DNS. |
 
-If Spark jobs fail to launch executors after turning this on, check that `kubernetesApi.cidrs` covers every API server address. If a job cannot reach a private data source, add it to `extraEgress`.
+If Spark jobs fail to launch executors after turning this on, check that `kubernetesApi.cidrs` covers every API server address and that `kubernetesApi.ports` matches your cluster. If a job cannot reach a private data source, add it to `extraEgress`.
 
 ---
 
@@ -235,7 +244,7 @@ If Spark jobs fail to launch executors after turning this on, check that `kubern
 The following steps explain how to apply network policies to IOMETE control plane and data plane namespaces.
 
 1. Save both `iomete-spark-operator.yaml` and `iomete-ingress-egress.yaml` files.
-2. In the `iomete-spark-operator.yaml`, replace: `[API_SERVER_IP]` with your Kubernetes API server's IP address (obtain this using `kubectl cluster-info | grep master`).
+2. In the `iomete-spark-operator.yaml`, replace: `[API_SERVER_IP]` with your Kubernetes API server's IP address (obtain this using `kubectl cluster-info | grep -iE 'control plane|master'`).
 3. Apply the policies using `kubectl` to the respective namespaces:
 ```bash
 kubectl apply -f iomete-spark-operator.yaml -n <iomete-namespace>
@@ -259,7 +268,7 @@ kubectl get networkpolicies -n <namespace>
 2. **Check API Server Access**:
 Confirm that the API server can reach the webhook:
 ```bash
-kubectl cluster-info | grep master
+kubectl cluster-info | grep -iE 'control plane|master'
 ```
 
 3. **Connectivity Issues**:
