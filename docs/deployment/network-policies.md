@@ -3,7 +3,7 @@ title: Kubernetes Network Policies
 sidebar_label: Network Policies
 description: Learn how to configure network policies for IOMETE services in a Kubernetes cluster.
 last_update:
-  date: 10/15/2026
+  date: 10/23/2026
   author: Maksym Kryvchun
 ---
 
@@ -39,7 +39,7 @@ spec:
 Use the following command to retrieve the API server IP and update the policy:
 
 ```bash
-kubectl cluster-info | grep master
+kubectl cluster-info | grep -iE 'control plane|master'
 ```
 
 Replace `[API_SERVER_IP]` in the YAML file with the actual IP address.
@@ -199,12 +199,51 @@ kubectl apply -f iomete-jupyter-containers.yaml -n <spark-namespace>
 
 ---
 
+## Data Plane Workloads Policy
+
+Spark compute, Spark jobs and event streams run user code, so this policy keeps them away from the platform's internal services. They can still reach the data plane gateway, the metastore, the lakehouse agent, DNS, the Kubernetes API, and public addresses. The control plane gets a matching policy that only accepts data plane traffic through the gateway.
+
+The chart manages both policies, and they are off by default. To turn them on, set this in your values file and apply it with `helm upgrade`:
+
+```yaml title="values.yaml"
+networkPolicies:
+  dataPlaneWorkloads:
+    enabled: true
+```
+
+**One thing to check first.** The policy blocks private addresses (anything in `10.x`, `172.16-31.x` or `192.168.x`). If your object storage or any data source sits on a private address, list it under `extraEgress`, or Spark jobs will not be able to reach it:
+
+```yaml title="values.yaml"
+networkPolicies:
+  dataPlaneWorkloads:
+    enabled: true
+    extraEgress:
+      - to:
+          - ipBlock:
+              cidr: 10.20.30.40/32   # your object storage, database, etc.
+        ports:
+          - protocol: TCP
+            port: 443
+```
+
+| Setting | Use it to |
+|---|---|
+| `enabled` | Turn the policies on. |
+| `extraEgress` | Allow a private address the workloads need, such as object storage or a database. |
+| `kubernetesApi.cidrs` | Optional. Pin the API-server egress to these addresses. Left empty, the API ports stay open to any address. |
+| `blockedCidrs` | Change which ranges count as private. Setting it replaces the default list. |
+| `monitoringNamespaces` | Allow extra namespaces to scrape Spark metrics, besides `monitoring`. |
+
+If Spark jobs fail after you turn this on, it is almost always a private address missing from `extraEgress`.
+
+---
+
 ## Applying Network Policies
 
 The following steps explain how to apply network policies to IOMETE control plane and data plane namespaces.
 
 1. Save both `iomete-spark-operator.yaml` and `iomete-ingress-egress.yaml` files.
-2. In the `iomete-spark-operator.yaml`, replace: `[API_SERVER_IP]` with your Kubernetes API server's IP address (obtain this using `kubectl cluster-info | grep master`).
+2. In the `iomete-spark-operator.yaml`, replace: `[API_SERVER_IP]` with your Kubernetes API server's IP address (obtain this using `kubectl cluster-info | grep -iE 'control plane|master'`).
 3. Apply the policies using `kubectl` to the respective namespaces:
 ```bash
 kubectl apply -f iomete-spark-operator.yaml -n <iomete-namespace>
@@ -228,7 +267,7 @@ kubectl get networkpolicies -n <namespace>
 2. **Check API Server Access**:
 Confirm that the API server can reach the webhook:
 ```bash
-kubectl cluster-info | grep master
+kubectl cluster-info | grep -iE 'control plane|master'
 ```
 
 3. **Connectivity Issues**:
