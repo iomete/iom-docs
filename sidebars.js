@@ -43,6 +43,7 @@ const sidebars = {
       items: [
         "deployment/on-prem/install",
         "deployment/on-prem/verify-images",
+        "deployment/on-prem/verify-installation",
         "deployment/architecture-deployment",
         {
           type: "category",
