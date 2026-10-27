@@ -64,7 +64,7 @@ storage:
 
 `s3CompatibleSettings` needs IOMETE 3.19.1 or later. For earlier versions, see [Object Storage](./architecture-deployment.md#object-storage).
 
-If the Objects endpoint uses HTTPS with a certificate from a private CA, add that CA to IOMETE's truststore. See [Custom Java Truststore](./truststore.md).
+If the Objects endpoint uses HTTPS with a certificate from a private CA, give that CA to IOMETE. See [Custom CA Certificates](./truststore.md).
 
 ### Metadata Database: CloudNativePG
 

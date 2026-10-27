@@ -131,19 +131,20 @@ services:
 
 ### SSL Database Connection [3.17.0+]
 
-The job orchestrator can connect to its backing PostgreSQL database over SSL. Enable it in your `values.yaml`:
+The job orchestrator can connect to its backing PostgreSQL database over SSL. Give it the CA bundle through `caCertificates` (IOMETE 4.0.2 or later) and enable SSL in your `values.yaml`:
 
 ```yaml
-javaTrustStore:
-  enabled: true
-  caCertFileName: your_file.crt   # key name of the PEM certificate chain in the java-truststore secret
+caCertificates:
+  existingSecret: iomete-ca   # must hold ca.crt and truststore.jks, see Custom CA Certificates
+  pemKey: ca.crt              # key name of the PEM certificate chain in the Secret
 
-clusterDatabase:
+database:
   ssl:
     enabled: true
+    mode: verify-full
 ```
 
-The `caCertFileName` must match the key name of a PEM certificate chain file stored in the `java-truststore` Kubernetes secret. See [Custom Java Truststore](/deployment/truststore) for setup instructions.
+Set `mode` to `verify-full`; the default, `disable`, leaves the connection in clear text even with `enabled: true`. The Secret must also hold the keystore named in `jvm.keystoreKey` (`truststore.jks` by default): `database.ssl` applies to every service, and the JVM services verify the database certificate with the keystore, not the PEM. Before 4.0.2, set `javaTrustStore.enabled: true` and `javaTrustStore.caCertFileName` to the key name of the PEM certificate chain in the `java-truststore` Secret instead; that setting still works but is deprecated. See [Custom CA Certificates](/deployment/truststore) for setup instructions.
 
 ### System Properties
 
