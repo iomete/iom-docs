@@ -101,4 +101,4 @@ services:
       caBundleKey: ca.crt
 ```
 
-The `javaTrustStore` Secret is created the same way, under the name in `secretName`. `existingCaBundleConfigMap` names a ConfigMap that holds the PEM under `caBundleKey`. Both settings still work and are ignored once `caCertificates` is set. Remove them once you no longer install a version without `caCertificates`; they will be removed in a later release. Keep the old Secret until every compute cluster, job and event stream has restarted: those created before the switch still mount it.
+The `javaTrustStore` Secret is created the same way, under the name in `secretName`. `existingCaBundleConfigMap` names a ConfigMap that holds the PEM under `caBundleKey`. Both settings are deprecated. They still work and are ignored once `caCertificates` is set. Remove them once you no longer install a version without `caCertificates`; they will be removed in a later release. Keep the old Secret until every compute cluster, job and event stream has restarted: those created before the switch still mount it.
