@@ -48,7 +48,7 @@ kubectl create secret generic java-truststore \
 
 From IOMETE 4.0.2, the MCP server reads its CA certificates from the `caCertificates` Helm setting. Other services move to it over time; until then they keep using `javaTrustStore` above, so keep that set too.
 
-Add a PEM bundle with the public root CAs plus your own to the `java-truststore` Secret from step 3 (the path of the public bundle depends on your system). Recreate the Secret with both files; if `truststore.jks` is no longer at hand, the second command copies it from the cluster:
+Add a PEM bundle with the public root CAs plus your own to the `java-truststore` Secret from step 3 (the path of the public bundle depends on your system). Recreate the Secret with both files; if `truststore.jks` is no longer at hand, the second command copies it from the cluster. `your_ca.crt` must be PEM; convert a DER `.cer` with `openssl x509 -inform der -in your_ca.cer -out your_ca.crt`.
 
 ```bash showLineNumbers
 cat /etc/ssl/certs/ca-certificates.crt your_ca.crt > ca.crt
@@ -69,7 +69,7 @@ caCertificates:
   pemKey: ca.crt
 ```
 
-The bundle must hold every private CA the MCP server talks to: the IOMETE endpoint and, with database TLS on, the database.
+The bundle must hold every private CA the MCP server talks to: the IOMETE endpoint and, with database TLS on, the database. With database TLS on, the MCP server then also verifies the database certificate, even in `require` mode.
 
 After you change the bundle, a `helm upgrade` restarts the MCP server. If you deploy manifests rendered with `helm template`, restart it yourself:
 
@@ -77,7 +77,7 @@ After you change the bundle, a `helm upgrade` restarts the MCP server. If you de
 kubectl rollout restart deployment/iom-mcp-server -n iomete-system
 ```
 
-`services.mcpServer.iometeTls` is deprecated. It still works and is ignored once `caCertificates` is set. Keep it while you may still install a version older than 4.0.2: older versions ignore `caCertificates`.
+`services.mcpServer.iometeTls` is deprecated. It still works and is ignored once `caCertificates` is set. Keep it while you may still install a version older than 4.0.2: older versions ignore `caCertificates`. If your bundle is in a ConfigMap or inline in `iometeTls`, copy the PEM into the Secret as above and add the public root CAs: `caCertificates` reads only a Secret.
 
 ## Conclusion
 
