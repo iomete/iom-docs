@@ -46,7 +46,7 @@ kubectl create secret generic java-truststore \
 
 ## MCP Server
 
-From IOMETE 4.0.2, the MCP server reads its CA certificates from the `caCertificates` Helm setting. Other services move to it over time; until then they keep using `javaTrustStore` above, so keep that set too.
+From IOMETE 4.1, the MCP server reads its CA certificates from the `caCertificates` Helm setting. Other services move to it over time; until then they keep using `javaTrustStore` above, so keep that set too.
 
 Add a PEM bundle with the public root CAs plus your own to the `java-truststore` Secret from step 3 (the path of the public bundle depends on your system). Recreate the Secret with both files; if `truststore.jks` is no longer at hand, the second command copies it from the cluster. `your_ca.crt` must be PEM; convert a DER `.cer` with `openssl x509 -inform der -in your_ca.cer -out your_ca.crt`.
 
@@ -77,7 +77,7 @@ After you change the bundle, a `helm upgrade` restarts the MCP server. If you de
 kubectl rollout restart deployment/iom-mcp-server -n iomete-system
 ```
 
-`services.mcpServer.iometeTls` is deprecated. It still works and is ignored once `caCertificates` is set. Keep it while you may still install a version older than 4.0.2: older versions ignore `caCertificates`. If your bundle is in a ConfigMap or inline in `iometeTls`, copy the PEM into the Secret as above and add the public root CAs: `caCertificates` reads only a Secret.
+`services.mcpServer.iometeTls` is deprecated. It still works and is ignored once `caCertificates` is set. Keep it while you may still install a version older than 4.1: older versions ignore `caCertificates`. If your bundle is in a ConfigMap or inline in `iometeTls`, copy the PEM into the Secret as above and add the public root CAs: `caCertificates` reads only a Secret.
 
 ## Conclusion
 
