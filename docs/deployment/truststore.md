@@ -63,6 +63,10 @@ caCertificates:
   pemKey: ca.crt
 ```
 
+The bundle must hold every private CA the MCP server talks to: the IOMETE endpoint and, with database TLS on, the database.
+
+After you change the bundle, a `helm upgrade` against the cluster restarts the MCP server. When you deploy from rendered manifests (`helm template`, GitOps), restart it yourself.
+
 `services.mcpServer.iometeTls` is deprecated. It still works and is ignored once `caCertificates` is set.
 
 ## Conclusion
