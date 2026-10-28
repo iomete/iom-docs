@@ -48,14 +48,18 @@ kubectl create secret generic java-truststore \
 
 From IOMETE 4.0.2, the MCP server reads its CA certificates from the `caCertificates` Helm setting. Other services move to it over time; until then they keep using `javaTrustStore` above, so keep that set too.
 
-Add a PEM bundle with the public root CAs plus your own to the `java-truststore` Secret from step 3 (the path of the public bundle depends on your system):
+Add a PEM bundle with the public root CAs plus your own to the `java-truststore` Secret from step 3 (the path of the public bundle depends on your system). Recreate the Secret with both files; if `truststore.jks` is no longer at hand, the second command copies it from the cluster:
 
-```bash
+```bash showLineNumbers
 cat /etc/ssl/certs/ca-certificates.crt your_ca.crt > ca.crt
+kubectl get secret java-truststore -n iomete-system \
+  -o jsonpath='{.data.truststore\.jks}' | base64 -d > truststore.jks
+kubectl delete secret java-truststore -n iomete-system
 kubectl create secret generic java-truststore \
-  --from-file=truststore.jks --from-file=ca.crt -n iomete-system \
-  --dry-run=client -o yaml | kubectl apply -f -
+  --from-file=truststore.jks --from-file=ca.crt -n iomete-system
 ```
+
+Whenever you run step 3 again, add `--from-file=ca.crt` to it, or the MCP server fails at its next restart. If you do not use `javaTrustStore`, a Secret with only `ca.crt` is enough: create it with `kubectl create secret generic <name> --from-file=ca.crt -n iomete-system` and set `existingSecret` to its name.
 
 Then point `caCertificates` at it in your Helm values:
 
@@ -67,9 +71,13 @@ caCertificates:
 
 The bundle must hold every private CA the MCP server talks to: the IOMETE endpoint and, with database TLS on, the database.
 
-After you change the bundle, a `helm upgrade` against the cluster restarts the MCP server. When you deploy from rendered manifests (`helm template`, GitOps), restart it yourself.
+After you change the bundle, a `helm upgrade` restarts the MCP server. If you deploy manifests rendered with `helm template`, restart it yourself:
 
-`services.mcpServer.iometeTls` is deprecated. It still works and is ignored once `caCertificates` is set.
+```bash
+kubectl rollout restart deployment/iom-mcp-server -n iomete-system
+```
+
+`services.mcpServer.iometeTls` is deprecated. It still works and is ignored once `caCertificates` is set. Keep it while you may still install a version older than 4.0.2: older versions ignore `caCertificates`.
 
 ## Conclusion
 
