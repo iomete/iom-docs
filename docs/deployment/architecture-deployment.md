@@ -283,7 +283,7 @@ If you run [Prometheus](https://prometheus.io/), set `monitoring.enabled` to tru
 
 ## TLS and TrustStore
 
-If your environment uses self-signed certificates, give all services your CA certificates through a Kubernetes Secret. The bundle must include both the default public certificates and your custom ones. See [Custom CA Certificates](./truststore.md) for setup details.
+If your environment uses self-signed certificates, mount a Java TrustStore into all services via a Kubernetes Secret. The TrustStore must include both the default public certificates and your custom ones. See [TrustStore Configuration](./truststore.md) for setup details.
 
 ## Ingress
 
