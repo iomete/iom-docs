@@ -48,29 +48,36 @@ kubectl create secret generic java-truststore \
 
 From IOMETE 4.1, the MCP server reads its CA certificates from the `caCertificates` Helm setting. Other services move to it over time; until then they keep using the `javaTrustStore` Helm setting (`javaTrustStore.enabled: true`), which reads the Secret from step 3, so keep that set too.
 
-Add a PEM bundle with the public root CAs plus your own to the `java-truststore` Secret from step 3 (the path of the public bundle depends on your system). `your_ca.crt` must be PEM; convert a DER `.cer` with `openssl x509 -inform der -in your_ca.cer -out your_ca.crt`.
+The MCP server needs a PEM bundle with the public root CAs plus every private CA it connects to. That includes your database's CA when `database.ssl.enabled` is `true`, even if a cloud provider issued it.
 
-If you already set `javaTrustStore.caCertFileName` and that file holds the public root CAs plus your own, skip this step and set `pemKey` to that key.
+If `javaTrustStore.caCertFileName` already names a file with this bundle, skip to the Helm values below and set `pemKey` to that name.
 
-If `truststore.jks` is no longer at hand, copy it from the cluster first:
+Otherwise, save your CAs as PEM in `your_ca.crt` (convert a DER `.cer` with `openssl x509 -inform der -in your_ca.cer -out your_ca.crt`). Then build the bundle, using your system's public bundle path:
+
+```bash
+cat /etc/ssl/certs/ca-certificates.crt your_ca.crt > ca.crt
+```
+
+If `javaTrustStore` isn't enabled, put the bundle in its own Secret with `kubectl create secret generic <name> --from-file=ca.crt -n iomete-system`.
+
+If it's enabled, add the bundle to the `java-truststore` Secret from step 3. Recreating the Secret drops every file you don't pass again, so list them first with `kubectl describe secret java-truststore -n iomete-system`. Copy back any file you no longer have, as here for `truststore.jks`:
 
 ```bash
 kubectl get secret java-truststore -n iomete-system \
   -o jsonpath='{.data.truststore\.jks}' | base64 -d > truststore.jks
 ```
 
-Then recreate the Secret. If it holds other files, add a `--from-file` for each:
+Then recreate the Secret with every listed file plus `ca.crt`:
 
 ```bash showLineNumbers
-cat /etc/ssl/certs/ca-certificates.crt your_ca.crt > ca.crt
 kubectl delete secret java-truststore -n iomete-system
 kubectl create secret generic java-truststore \
   --from-file=truststore.jks --from-file=ca.crt -n iomete-system
 ```
 
-Whenever you run step 3 again, add `--from-file=ca.crt` to it, or the MCP server fails at its next restart. If `javaTrustStore` is not enabled, a Secret with only `ca.crt` is enough: create it with `kubectl create secret generic <name> --from-file=ca.crt -n iomete-system` and set `existingSecret` to its name.
+Whenever you rerun step 3, pass `ca.crt` and the other files too, or the MCP server fails at its next restart.
 
-Then point `caCertificates` at it in your Helm values:
+Then point `caCertificates` at the Secret in your Helm values (`existingSecret` is the Secret's name):
 
 ```yaml
 caCertificates:
@@ -78,7 +85,7 @@ caCertificates:
   pemKey: ca.crt
 ```
 
-The bundle must hold every private CA the MCP server talks to: the IOMETE endpoint and, with `database.ssl.enabled: true`, the CA that signs your database certificate, also when it is a cloud provider's CA. The MCP server then verifies the database certificate, even with `database.ssl.mode: require`.
+With `database.ssl.enabled: true`, the MCP server checks the database certificate against this bundle, even with `database.ssl.mode: require`.
 
 After you change the bundle, a `helm upgrade` restarts the MCP server. If you deploy manifests rendered with `helm template`, restart it yourself:
 
