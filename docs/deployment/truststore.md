@@ -46,7 +46,7 @@ kubectl create secret generic java-truststore \
 
 ## MCP Server
 
-From IOMETE 4.1, the MCP server reads its CA certificates from the `caCertificates` Helm setting. Other services move to it over time; until then they keep using `javaTrustStore` above, so keep that set too.
+From IOMETE 4.1, the MCP server reads its CA certificates from the `caCertificates` Helm setting. Other services move to it over time; until then they keep using the `javaTrustStore` Helm setting (`javaTrustStore.enabled: true`), which reads the Secret from step 3, so keep that set too.
 
 Add a PEM bundle with the public root CAs plus your own to the `java-truststore` Secret from step 3 (the path of the public bundle depends on your system). `your_ca.crt` must be PEM; convert a DER `.cer` with `openssl x509 -inform der -in your_ca.cer -out your_ca.crt`.
 
@@ -68,7 +68,7 @@ kubectl create secret generic java-truststore \
   --from-file=truststore.jks --from-file=ca.crt -n iomete-system
 ```
 
-Whenever you run step 3 again, add `--from-file=ca.crt` to it, or the MCP server fails at its next restart. If you do not use `javaTrustStore`, a Secret with only `ca.crt` is enough: create it with `kubectl create secret generic <name> --from-file=ca.crt -n iomete-system` and set `existingSecret` to its name.
+Whenever you run step 3 again, add `--from-file=ca.crt` to it, or the MCP server fails at its next restart. If `javaTrustStore` is not enabled, a Secret with only `ca.crt` is enough: create it with `kubectl create secret generic <name> --from-file=ca.crt -n iomete-system` and set `existingSecret` to its name.
 
 Then point `caCertificates` at it in your Helm values:
 
