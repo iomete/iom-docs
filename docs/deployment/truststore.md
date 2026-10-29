@@ -48,12 +48,21 @@ kubectl create secret generic java-truststore \
 
 From IOMETE 4.1, the MCP server reads its CA certificates from the `caCertificates` Helm setting. Other services move to it over time; until then they keep using `javaTrustStore` above, so keep that set too.
 
-Add a PEM bundle with the public root CAs plus your own to the `java-truststore` Secret from step 3 (the path of the public bundle depends on your system). Recreate the Secret with both files; if `truststore.jks` is no longer at hand, the second command copies it from the cluster. `your_ca.crt` must be PEM; convert a DER `.cer` with `openssl x509 -inform der -in your_ca.cer -out your_ca.crt`.
+Add a PEM bundle with the public root CAs plus your own to the `java-truststore` Secret from step 3 (the path of the public bundle depends on your system). `your_ca.crt` must be PEM; convert a DER `.cer` with `openssl x509 -inform der -in your_ca.cer -out your_ca.crt`.
+
+If you already set `javaTrustStore.caCertFileName` and that file holds the public root CAs plus your own, skip this step and set `pemKey` to that key.
+
+If `truststore.jks` is no longer at hand, copy it from the cluster first:
+
+```bash
+kubectl get secret java-truststore -n iomete-system \
+  -o jsonpath='{.data.truststore\.jks}' | base64 -d > truststore.jks
+```
+
+Then recreate the Secret. If it holds other files, add a `--from-file` for each:
 
 ```bash showLineNumbers
 cat /etc/ssl/certs/ca-certificates.crt your_ca.crt > ca.crt
-kubectl get secret java-truststore -n iomete-system \
-  -o jsonpath='{.data.truststore\.jks}' | base64 -d > truststore.jks
 kubectl delete secret java-truststore -n iomete-system
 kubectl create secret generic java-truststore \
   --from-file=truststore.jks --from-file=ca.crt -n iomete-system
