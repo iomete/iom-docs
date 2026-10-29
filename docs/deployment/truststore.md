@@ -90,4 +90,4 @@ kubectl rollout restart deployment/iom-mcp-server -n iomete-system
 
 ## Conclusion
 
-By following these steps, you will create a `truststore.jks` file that includes both global root CA certificates and your custom CA certificate, and you will securely store it as a Kubernetes secret for use in IOMETE platform.
+By following these steps, you will create a `truststore.jks` file that includes both global root CA certificates and your custom CA certificate, and, for the MCP server, a PEM bundle in the same Secret, and you will securely store it as a Kubernetes secret for use in IOMETE platform.
