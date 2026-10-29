@@ -44,7 +44,7 @@ kubectl create secret generic java-truststore \
   --from-file=truststore.jks -n iomete-system
 ```
 
-## MCP Server
+## Setting CA Certificates for the MCP Server
 
 From IOMETE 4.1, the MCP server reads its CA certificates from the `caCertificates` Helm setting. Other services move to it over time; until then they keep using the `javaTrustStore` Helm setting (`javaTrustStore.enabled: true`), which reads the Secret from step 3, so keep that set too.
 
