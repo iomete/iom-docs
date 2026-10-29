@@ -78,7 +78,7 @@ caCertificates:
   pemKey: ca.crt
 ```
 
-The bundle must hold every private CA the MCP server talks to: the IOMETE endpoint and, with database TLS on, the database. With database TLS on, the MCP server then also verifies the database certificate, even in `require` mode.
+The bundle must hold every private CA the MCP server talks to: the IOMETE endpoint and, with `database.ssl.enabled: true`, the CA that signs your database certificate, also when it is a cloud provider's CA. The MCP server then verifies the database certificate, even with `database.ssl.mode: require`.
 
 After you change the bundle, a `helm upgrade` restarts the MCP server. If you deploy manifests rendered with `helm template`, restart it yourself:
 
