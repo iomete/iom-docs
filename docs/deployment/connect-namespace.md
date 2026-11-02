@@ -3,8 +3,8 @@ title: Install Data-Plane to Kubernetes Namespace
 sidebar_label: Install Data-Plane (Namespace)
 description: Learn how to install and connect a new Data-Plane to IOMETE Control-Plane.
 last_update:
-  date: 09/30/2026
-  author: Abhishek Pathania
+  date: 11/02/2026
+  author: Vusal Dadalov
 ---
 
 import Img from '@site/src/components/Img';
@@ -64,6 +64,14 @@ kubectl patch mutatingwebhookconfiguration spark-operator-iomete-system \
 
 If the webhook was created with `gencerts.sh`, skip this step. The `iomete.com/managed=true` label you added to the namespace is enough.
 
+### Create Secrets in the New Namespace
+
+The Helm upgrade doesn't copy Secrets, and pods in the new namespace can't start without the ones they use. Before you upgrade, create each of these that applies to your install:
+
+- **Private registry:** every Secret under `docker.imagePullSecrets`. See [Private Docker Registry Authentication](/user-guide/k8s/private-docker-registry). If you patched `lakehouse-service-account` by hand, patch it in the new namespace too.
+- **`javaTrustStore.enabled` is `true`:** the `java-truststore` Secret. See [Create a Kubernetes Secret](./truststore.md#3-create-a-kubernetes-secret-with-the-truststorejks-file).
+- **`database.passwordSecret` is set:** the Secret it names.
+
 ### Upgrade IOMETE
 
 Use the chart version you already run, so the upgrade doesn't move you to a newer release:
@@ -75,6 +83,43 @@ helm upgrade --install -n iomete-system data-plane iomete/iomete-data-plane-ente
   --version "$IOMETE_VERSION" \
   -f values.yaml
 ```
+
+### Restart `iom-cluster`
+
+`iom-cluster` reads the namespace list once, when it starts, and checks every assignment against that list. Until it restarts, it refuses the new namespace. On 4.0.0 or later, the console already offers the namespace during that time. On earlier versions, the console doesn't list it until the restart.
+
+- **On 4.0.2 or later**, the Helm upgrade restarts it. Wait for the rollout to finish:
+
+  ```shell
+  kubectl rollout status deployment/iom-cluster -n iomete-system
+  ```
+
+- **On 3.16 through 4.0.1**, the Helm upgrade doesn't restart it, so restart it yourself:
+
+  ```shell
+  kubectl rollout restart deployment/iom-cluster -n iomete-system
+  kubectl rollout status deployment/iom-cluster -n iomete-system
+  ```
+
+- **On 3.15 or earlier**, run the same two commands with `deployment/iom-core`.
+
+Then check that the pods in the new namespace are running:
+
+```shell
+kubectl get pods -n data-plane-ns
+```
+
+`helm rollback` doesn't restore the namespace list. After rolling back across a `namespaces` change, run the Helm upgrade with the list you want, then restart `iom-cluster` yourself, on any version.
+
+### Assign the Namespace to a Domain
+
+1. In the admin console, open **Domains** and select the domain.
+2. Open the **Namespaces** tab.
+3. Select **Add Namespace** and choose the new namespace. On 4.0.0 or later, then select **Add**.
+
+:::info Assignment fails
+If the assignment fails with `Namespace data-plane-ns is not allowed`, `iom-cluster` is still using the old list. This isn't a permissions problem. Follow [Restart `iom-cluster`](#restart-iom-cluster), then try again. On 4.0.2 or later, the same failure reads `Namespace data-plane-ns is not known to iom-cluster for data plane default`.
+:::
 
 ### Installing 3.19.0 or Earlier
 

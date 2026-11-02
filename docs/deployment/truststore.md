@@ -3,7 +3,7 @@ title: Custom Java Truststore
 sidebar_label: Custom Java Truststore
 description: Create and use a `truststore.jks` file with custom CA certificates to prevent certificate errors when accessing known websites.
 last_update:
-  date: 04/28/2024
+  date: 11/02/2026
   author: Vusal Dadalov
 ---
 **Creating and Using `truststore.jks` with Custom CA Certificates**
@@ -43,6 +43,8 @@ kubectl delete secret java-truststore -n iomete-system
 kubectl create secret generic java-truststore \
   --from-file=truststore.jks -n iomete-system
 ```
+
+Repeat these commands for every namespace under `namespaces` in `values.yaml`, including each time you replace the Secret. Pods read it from their own namespace, and the Helm chart doesn't copy it.
 
 ## Conclusion
 
