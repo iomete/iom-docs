@@ -66,11 +66,10 @@ If the webhook was created with `gencerts.sh`, skip this step. The `iomete.com/m
 
 ### Create Secrets in the New Namespace
 
-The Helm upgrade doesn't copy Secrets, and pods in the new namespace can't start without the ones they use. Before you upgrade, create each of these that applies to your install:
+The Helm upgrade doesn't copy these Secrets, and pods in the new namespace can't start without the ones they use. Before you upgrade, create each of these that applies to your install:
 
 - **Private registry:** every Secret under `docker.imagePullSecrets`. See [Private Docker Registry Authentication](/user-guide/k8s/private-docker-registry). If you patched `lakehouse-service-account` by hand, patch it in the new namespace too.
 - **`javaTrustStore.enabled` is `true`:** the `java-truststore` Secret. See [Create a Kubernetes Secret](./truststore.md#3-create-a-kubernetes-secret-with-the-truststorejks-file).
-- **`database.passwordSecret` is set:** the Secret it names.
 
 ### Upgrade IOMETE
 
