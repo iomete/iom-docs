@@ -2,7 +2,7 @@
 title: System Tables
 description: Learn about IOMETE system tables used for internal platform operations, audit logging, and event streaming.
 last_update:
-  date: 10/08/2026
+  date: 10/30/2026
   author: Maksym Kryvchun
 ---
 
@@ -13,7 +13,7 @@ Setup only takes a few steps. Once the system tables are available, you can quer
 :::info Before you begin
 System tables aren't created automatically. You set them up once, then they fill in on their own. Two things need to be in place before a table starts collecting data:
 
-1. **Create the table.** Run the `CREATE TABLE` statement for each table you want (provided below). If a table doesn't exist yet, the pipeline drops its events quietly and harmlessly. The originating query, commit, or data access still succeeds, so nothing breaks while you get set up.
+1. **Create the table.** Run the `CREATE TABLE` statement for each table you want (provided below). If a table doesn't exist yet, you can lose the events written to it, and the services that send them log errors. Your queries, commits, and data access still succeed, so nothing breaks while you get set up.
 2. **Enable the table's feature flag.** Each table starts receiving data once its producer feature flag is on (see the summary below).
 :::
 
