@@ -3,7 +3,7 @@ title: Getting Started with Airflow
 sidebar_label: Getting Started
 description: Install the IOMETE Airflow Plugin, configure credentials, and trigger your first IOMETE Spark job.
 last_update:
-  date: 09/04/2026
+  date: 11/02/2026
   author: Abhishek Pathania
 ---
 
@@ -19,8 +19,10 @@ The IOMETE Airflow Plugin lets you trigger and manage IOMETE Spark jobs from an 
 
 ### Prerequisites
 
-- Python 3.10–3.13
-- Apache Airflow `>=2.10.5,<4.0.0`
+- Python 3.11–3.13
+- Apache Airflow `>=3.3.0,<4.0.0`
+
+On Airflow 2.10.5 or later, stay on the 3.x line with `pip install "iomete-airflow-plugin>=3.1.0,<4"`. See the [Integration Release Notes](../../deployment/on-prem/release-notes/integrations.md) for what changed in 4.0.0.
 
 ### Setting Up Airflow Locally
 
@@ -28,7 +30,7 @@ The IOMETE Airflow Plugin lets you trigger and manage IOMETE Spark jobs from an 
 Skip this section if you already have Airflow installed and configured.
 :::
 
-Install a supported Airflow version with the official [Docker Compose quick start](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html), using an `apache/airflow` image of 2.10.5 or later. Then add the plugin as described below.
+Install a supported Airflow version with the official [Docker Compose quick start](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/index.html), using an `apache/airflow` image of 3.3.0 or later. Then add the plugin as described below.
 
 For Kubernetes, install Airflow with the [official Helm chart](https://artifacthub.io/packages/helm/apache-airflow/airflow), then configure an image that includes the IOMETE plugin and supports your Airflow version.
 
@@ -40,7 +42,7 @@ If Airflow is already installed, run:
 pip install iomete-airflow-plugin
 ```
 
-Restart every Airflow component that runs DAG code after installation: the scheduler, the workers, and the API server on Airflow 3 or the webserver on Airflow 2.
+Restart every Airflow component that runs DAG code after installation: the scheduler, the workers, and the API server.
 
 ## Configuration
 
