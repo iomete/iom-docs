@@ -201,9 +201,11 @@ kubectl apply -f iomete-jupyter-containers.yaml -n <spark-namespace>
 
 ## Data Plane Workloads Policy
 
-Spark compute, Spark jobs and event streams run user code, so this policy keeps them away from the platform's internal services. They can still reach the data plane gateway, the metastore, the lakehouse agent, DNS, the Kubernetes API, and public addresses. The control plane gets a matching policy that only accepts data plane traffic through the gateway.
+Spark compute, Spark jobs and event streams run user code, so this policy keeps them away from the platform's internal services. They can still reach the data plane gateway, the metastore, the lakehouse agent, DNS, the Kubernetes API, and public addresses.
 
-The chart manages both policies, and they are off by default. To turn them on, set this in your values file and apply it with `helm upgrade`:
+This policy only limits what the workloads can send. It does not lock down the platform pods themselves. For that, also turn on the [Control Plane Policy](#control-plane-policy).
+
+The policy is off by default. To turn it on, set this in your values file and apply it with `helm upgrade`:
 
 ```yaml title="values.yaml"
 networkPolicies:
@@ -228,13 +230,35 @@ networkPolicies:
 
 | Setting | Use it to |
 |---|---|
-| `enabled` | Turn the policies on. |
+| `enabled` | Turn the policy on. |
 | `extraEgress` | Allow a private address the workloads need, such as object storage or a database. |
 | `kubernetesApi.cidrs` | Optional. Pin the API-server egress to these addresses. Left empty, the API ports stay open to any address. |
 | `blockedCidrs` | Change which ranges count as private. Setting it replaces the default list. |
 | `monitoringNamespaces` | Allow extra namespaces to scrape Spark metrics, besides `monitoring`. |
 
 If Spark jobs fail after you turn this on, it is almost always a private address missing from `extraEgress`.
+
+### Control Plane Policy
+
+This policy restricts who can reach the platform's own pods. They accept traffic only from each other, your ingress controller, monitoring, and the Kubernetes API's webhook calls. User workloads can reach only the gateway, the metastore and the lakehouse agent.
+
+It has its own switch and is off by default, even when the workloads policy is on:
+
+```yaml title="values.yaml"
+networkPolicies:
+  controlPlane:
+    enabled: true
+```
+
+**One thing to check first.** If your ingress controller runs in a namespace that is not listed under `ingressNamespaces`, the console and API become unreachable. Add that namespace before you turn this on.
+
+| Setting | Use it to |
+|---|---|
+| `enabled` | Turn the policy on. |
+| `ingressNamespaces` | List the namespaces your ingress controller runs in. Defaults to `istio-system`, `istio-ingress`, `ingress-nginx`, `openshift-ingress` and `traefik`. |
+| `monitoringNamespaces` | Allow extra namespaces to scrape platform metrics, besides `monitoring`. |
+| `webhookPorts` | Ports the platform's admission webhooks listen on. They stay open to any source. Defaults to `9443`. |
+| `extraIngress` | Add your own ingress rules, for a client that is not covered above. |
 
 ---
 
