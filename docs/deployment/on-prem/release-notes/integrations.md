@@ -3,8 +3,8 @@ title: Integration Release Notes
 sidebar_label: Integrations
 description: Release notes for IOMETE integrations, including dbt-iomete, the IOMETE Airflow Plugin, the IOMETE Tableau connector, the IOMETE Power BI connector, and the Arrow Flight SQL ODBC and JDBC drivers.
 last_update:
-  date: 10/20/2026
-  author: Shahriyar Novruzov
+  date: 11/02/2026
+  author: Abhishek Pathania
 ---
 
 import { Release, NewFeatures, Improvements, BugFixes, BreakingChanges } from '@site/src/components/Release';
@@ -16,7 +16,7 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
 | Integration | Package | Version | Compatibility | Guide | Source |
 | --- | --- | --- | --- | --- | --- |
 | dbt | [`dbt-iomete`](https://pypi.org/project/dbt-iomete/) | 1.8.3 | dbt Core 1.8.x; Python 3.9–3.12 | [Open](../../../integrations/dbt/getting-started-with-iomete-dbt.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/dbt-iomete) |
-| Airflow | [`iomete-airflow-plugin`](https://pypi.org/project/iomete-airflow-plugin/) | 3.1.0 | Airflow `>=2.10.5,<4.0.0`; Python 3.10–3.13 | [Open](../../../integrations/airflow/getting-started.mdx) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) |
+| Airflow | [`iomete-airflow-plugin`](https://pypi.org/project/iomete-airflow-plugin/) | 4.0.0 | Airflow `>=3.3.0,<4.0.0`; Python 3.11–3.13 | [Open](../../../integrations/airflow/getting-started.mdx) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) |
 | Tableau | [`tableau-connector`](https://github.com/iomete/iomete-integrations/releases?q=tableau-connector) | 0.1.0 | Tableau Desktop and Server 2024.2 and later | [Open](../../../integrations/bi/tableau/arrow-flight.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/tableau-connector) |
 | Power BI and Arrow Flight SQL ODBC | [`iomete-odbc-connector`](https://github.com/iomete/iomete-artifacts) | 24.0.0-iomete.3 | Power BI Desktop and on-premises data gateway on Windows x64 | [Open](../../../integrations/bi/power-bi/arrow-flight.md) | Closed source |
 | Arrow Flight SQL JDBC | [`flight-sql-jdbc-driver`](https://github.com/iomete/iomete-artifacts) | 19.0.0-iomete.8 | Java 11 or later; Tableau Desktop and Server 2024.2 or later | [Open](/user-guide/driver/arrow-flight-jdbc-driver) | Closed source |
@@ -24,6 +24,22 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
 ---
 
 ## Recent Releases
+
+<Release name="IOMETE Airflow Plugin" version="4.0.0" date="November 2, 2026">
+  <Improvements>
+    - **Status polling**: Changed job status checks to retry network errors, HTTP 429, and HTTP 5xx responses. The task fails after five consecutive failed checks; other HTTP 4xx responses still fail it immediately. See [Job Run States](../../../integrations/airflow/operator-reference.md#job-run-states).
+    - **Security update**: Raised the dependency floors to `certifi` 2026.10.19 (GHSA-6q48-6c7w-9gw2), `dnspython` 2.9.0 (CVE-2026-114605), `urllib3` 2.8.0, and `python-multipart` 0.0.31.
+  </Improvements>
+
+  <BugFixes>
+    - **Job run states**: Fixed tasks failing with a `ValueError` when IOMETE reported a state the plugin did not recognize, such as `ORCHESTRATOR_ENQUEUED` or `PENDING_RERUN`. The operator now handles every IOMETE job run state and treats `SUBMISSION_FAILED` as a failure.
+  </BugFixes>
+
+  <BreakingChanges>
+    - **Airflow 2 support removed**: Raised the minimum Airflow version from 2.10.5 to 3.3.0. On Airflow 3.0–3.2, upgrade Airflow before upgrading the plugin. On Airflow 2.10.5 or later, pin `iomete-airflow-plugin>=3.1.0,<4` to stay on the 3.x line.
+    - **Python 3.10 support removed**: Raised the minimum Python version to 3.11, because the patched `dnspython` requires it.
+  </BreakingChanges>
+</Release>
 
 <Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.8" date="October 20, 2026">
   <BugFixes>

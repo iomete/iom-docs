@@ -3,7 +3,7 @@ title: IometeOperator Reference
 sidebar_label: Operator Reference
 description: Reference for IometeOperator parameters, configuration overrides, templates, job run states, and retries.
 last_update:
-  date: 10/16/2026
+  date: 11/02/2026
   author: Abhishek Pathania
 ---
 
@@ -62,15 +62,26 @@ See [DAG Examples](./examples.md#overriding-job-configuration) for a templated r
 
 | State | Description | Final? |
 | --- | --- | --- |
+| `ORCHESTRATOR_ENQUEUED` | Job is waiting in the Job Orchestrator queue. | No |
 | `ENQUEUED` | Job is queued. | No |
 | `SUBMITTED` | Job is being deployed. | No |
+| `SUBMISSION_FAILED` | Job could not be deployed. | Yes |
 | `RUNNING` | Job is running. | No |
+| `PENDING_RERUN` | Job is waiting to be restarted. | No |
+| `INVALIDATING` | Job is being stopped so it can be redeployed. | No |
+| `SUCCEEDING` | Job finished and its completion is being recorded. | No |
 | `COMPLETED` | Job completed successfully. | Yes |
+| `FAILING` | Job failed and its failure is being recorded. | No |
 | `FAILED` | Job failed. | Yes |
 | `ABORTED` | Job was cancelled. | Yes |
 | `ABORTING` | Job cancellation is in progress. | No |
+| `UNKNOWN` | IOMETE has not received the job's outcome yet. The operator keeps polling. | No |
 
-A `FAILED` or `ABORTED` run raises an `AirflowException`. If the Airflow task is killed, the operator cancels the active IOMETE job run.
+IOMETE platform 4.0.0 introduced `UNKNOWN`, and IOMETE platform 4.0.2 introduces `ORCHESTRATOR_ENQUEUED`. Earlier platform versions never report them.
+
+A `FAILED`, `SUBMISSION_FAILED`, or `ABORTED` run raises an `AirflowException`. If the Airflow task is killed, the operator cancels the active IOMETE job run.
+
+If a status check fails with a network error, HTTP 429, or an HTTP 5xx response, the operator waits `polling_period_seconds` and checks again. The task fails after five consecutive failed checks. Any other HTTP 4xx response, such as 401 or 404, fails the task immediately.
 
 ## Retries
 
