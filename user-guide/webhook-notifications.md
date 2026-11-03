@@ -65,7 +65,7 @@ For a **Generic** webhook, IOMETE shows a signing secret once, right after you c
 <Img src="/img/guides/webhooks/webhooks-signing-secret.png" alt="Webhook created panel showing the signing secret with a Copy button and a warning that it is shown only once" maxWidth="560px" />
 
 :::note
-IOMETE stores the URL encrypted and never shows it in full again. The webhook's page shows only the host, plus a short webhook id for Slack and Teams, so you can tell webhooks apart. Slack and Teams alerts show the same id. To point a webhook somewhere else, open it, click **Configure**, and paste a new URL.
+IOMETE stores the URL encrypted and never shows it in full again. For Slack, Teams and Generic, the webhook's page shows only the host, plus the Slack or Teams webhook id, so you can tell webhooks apart. PagerDuty keys are hidden completely. Slack and Teams alerts name the webhook that sent them. To point a webhook somewhere else, open it, click **Configure**, and paste a new URL.
 :::
 
 ### PagerDuty Incidents
@@ -73,7 +73,7 @@ IOMETE stores the URL encrypted and never shows it in full again. The webhook's 
 <Img src="/img/guides/webhooks/webhooks-create-pagerduty.png" alt="Create webhook drawer with PagerDuty selected, a name, and a 32-character integration key filled in" maxWidth="560px" />
 
 - Each job or compute has at most one open incident. Repeat alerts update it instead of opening new ones.
-- Failed runs and timeouts open an `error` incident. Other events open a `warning` incident.
+- Failed runs and timeouts open an `error` incident. Every other event, including **On Suspend** and **On Resume**, opens a `warning` incident, so subscribe PagerDuty only to events that should page someone.
 - A job's next successful run resolves its incident, so subscribe the job to **On Success** as well.
 - Compute restart incidents do not close on their own. Resolve them in PagerDuty.
 - **Send test message** opens an `info` incident and resolves it right away.
@@ -214,6 +214,6 @@ Account admins control where Generic webhooks may send, in **Admin** → **Syste
 | `webhooks.generic.internal-hosts` | Hosts that may resolve to a private network address, for example a receiver inside your own network. |
 | `webhooks.generic.allowed-hosts` | When set, Generic webhooks may only send to these hosts, on the default HTTPS port. Leave it empty to allow any public host. |
 
-Both take a comma-separated list of host names or `*.domain` wildcards, for example `alerts.corp.internal,*.example.com`. `internal-hosts` also takes IPv4 addresses. `localhost`, link-local and cloud metadata addresses stay blocked whatever you list.
+Both take a comma-separated list of host names, IPv4 addresses or `*.domain` wildcards, for example `alerts.corp.internal,*.example.com`. A wildcard matches subdomains only, so add `example.com` separately if you need it. Loopback, link-local, cloud metadata and other reserved addresses stay blocked whatever you list.
 
 IOMETE checks the host when you save a webhook and again before every send, so a host that later points to a private address is still refused. Slack, Teams and PagerDuty webhooks are not affected by these settings.
