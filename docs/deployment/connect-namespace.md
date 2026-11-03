@@ -71,6 +71,8 @@ The Helm upgrade doesn't copy these Secrets, and pods in the new namespace can't
 - **Private registry:** every Secret under `docker.imagePullSecrets`. See [Private Docker Registry Authentication](/user-guide/k8s/private-docker-registry). If you patched `lakehouse-service-account` by hand, patch it in the new namespace too.
 - **`javaTrustStore.enabled` is `true`:** the `java-truststore` Secret. See [Create a Kubernetes Secret](./truststore.md#3-create-a-kubernetes-secret-with-the-truststorejks-file).
 
+A default install uses neither, so it can skip this step.
+
 ### Upgrade IOMETE
 
 Use the chart version you already run, so the upgrade doesn't move you to a newer release:
