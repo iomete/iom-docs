@@ -72,7 +72,7 @@ IOMETE stores the URL encrypted and never shows it in full again. The webhook's 
 
 <Img src="/img/guides/webhooks/webhooks-create-pagerduty.png" alt="Create webhook drawer with PagerDuty selected, a name, and a 32-character integration key filled in" maxWidth="560px" />
 
-- Each job or compute has one incident. Repeat alerts update it instead of opening new ones.
+- Each job or compute has at most one open incident. Repeat alerts update it instead of opening new ones.
 - Failed runs and timeouts open an `error` incident. Other events open a `warning` incident.
 - A job's next successful run resolves its incident, so subscribe the job to **On Success** as well.
 - Compute restart incidents do not close on their own. Resolve them in PagerDuty.
