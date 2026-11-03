@@ -47,7 +47,7 @@ Get the URL, or for PagerDuty the integration key, first. You paste it into IOME
 
 **Generic**
 
-Any `https://` URL that accepts a `POST` with a JSON body. By default it must resolve to a public address. Private networks, `localhost` and cloud metadata addresses are refused, unless an account admin [allows the host](#allowing-generic-webhook-hosts).
+Any `https://` URL that accepts a `POST` with a JSON body. By default it must resolve to a public address. A host on a private network works only if an account admin [allows it](#allowing-generic-webhook-hosts). `localhost` and cloud metadata addresses are always refused.
 
 ## Adding a Webhook
 
