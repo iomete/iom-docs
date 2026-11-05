@@ -1,7 +1,7 @@
 ---
 slug: /single-sign-on/saml
 title: SSO with SAML 2.0
-description: Learn how to integrate SAML SSO within the IOMETE Data Plane
+description: Learn how to integrate SAML SSO within IOMETE
 last_update:
   date: 10/18/2024
   author: Vugar Dadalov
