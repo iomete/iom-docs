@@ -1,63 +1,78 @@
 ---
-title: Configure custom DNS for IOMETE Data Plane
+title: Configuring IOMETE Hostnames
 sidebar_label: Custom DNS
-description: Learn how to easily configure a custom DNS for your IOMETE Data Plane with our step-by-step guide. Covering everything from identifying the Istio Ingress Gateway address to creating DNS records, this document simplifies DNS setup to enhance your data plane's accessibility.
+description: Choose hostnames for the control plane and additional data planes, point them at ingress, and verify DNS and TLS access.
 last_update:
-  date: 02/01/2024
-  author: Vusal Dadalov
+  date: 11/05/2026
+  author: IOMETE
 ---
 
-This document aims to provide you with a straightforward, step-by-step approach to setting up a DNS name for your IOMETE data plane, enhancing its accessibility and ease of use. 
+Give the control plane a stable hostname, such as `iomete.example.com`. Users open that address to access the console. An additional data plane uses a separate compute hostname, such as `compute-east.example.com`; it does not provide another console.
 
----
+## Choosing the Addresses {#understanding-the-basics}
 
-## Understanding the Basics
+| Address | Who uses it | Example |
+|---|---|---|
+| Control-plane URL | Users, API clients and enrolled data planes | `https://iomete.example.com` |
+| Additional plane's `multiCluster.externalUrl` | Compute clients and the control plane's SQL service | `https://compute-east.example.com` |
+| Additional plane's `multiCluster.selfUrl` | Control-plane enrollment and plane-to-plane API calls | A reachable private gateway address or the plane's HTTPS hostname |
 
-Before we dive into the technical steps, let's clarify some key concepts:
+Two hostnames can resolve to the same ingress address when the planes share a Kubernetes cluster. Their ingress routes must still select the correct plane's service namespace. A Kubernetes namespace does not automatically receive a public hostname.
 
-- **IOMETE Data Plane**: This is the infrastructure component that handles the processing and movement of data within the IOMETE ecosystem.
-- **DNS (Domain Name System)**: DNS translates human-friendly domain names (like `www.example.com`) into IP addresses that computers use to identify each other on the network.
-- **Istio Ingress Gateway**: This is a crucial component within the IOMETE setup that directs incoming traffic to the right destinations within your data plane.
+Choose data-plane addresses before enrollment. IOMETE records them when the plane enrolls; changing DNS, Helm values or restarting the agent is not a general procedure for replacing an already registered address. Plan an address migration separately if an enrolled plane must move to a different URL. See [Multi-Cluster Setup](./multi-cluster-setup.mdx).
 
 ## Identifying the Istio Ingress Gateway Address
 
-The first step in configuring your DNS is to locate the external IP address of the Istio Ingress Gateway, as all traffic to the IOMETE data-plane goes through it.
+The hostname must resolve from every network that needs it. In particular, the control plane must reach an additional plane's compute hostname on TLS port 443, even if the two planes also use a private address for their API calls.
 
 ### If Your Setup Uses a `LoadBalancer`
 
-IOMETE typically configures the Istio **ingress gateway** as a `LoadBalancer`. To find its external address, use the following command in your terminal:
+Find the ingress Service. These names match the [Istio installation example](./configure-ingress.md):
 
 ```shell
-kubectl get svc istio-ingress -n istio-system
+kubectl config current-context
+kubectl get service istio-ingress --namespace istio-system
 ```
 
-This command returns the external address of the ingress gateway. 
-
-:::info
-Note this address, as it could be either an **IP** or a **DNS** address.
-:::
+Use the address in `EXTERNAL-IP`, which may be an IP address or a load-balancer DNS name. If it remains pending, finish the load-balancer configuration before creating DNS records. For a different controller or release name, use that controller's Service.
 
 ### If Your Setup Uses a `NodePort`
 
-In cases where the gateway is configured as a `NodePort`, you'll need to identify the IP address of a Kubernetes worker node, ideally the one hosting the Istio ingress gateway.
+DNS maps a name to an address; it does not map port 443 to a Kubernetes NodePort. Configure a reachable load balancer, reverse proxy or firewall forwarding rule that accepts the required public ports and forwards to the ingress NodePorts. Use that stable frontend address for DNS. Pointing DNS at an arbitrary worker node is not enough to provide HTTPS on port 443.
 
 ## Creating Your DNS Record
 
-With the external address of the Istio Ingress Gateway in hand, you're ready to create a DNS record. This step involves going to your DNS provider and setting up the record that will point to the IOMETE data plane.
+Create the record for the chosen hostname with your DNS administrator or provider:
 
-- **For an IP Address**: Create an `A` record with your DNS provider, pointing to the IP address you've identified.
-- **For a DNS Name**: Create a `CNAME` record that points to the DNS name of the ingress gateway.
+- Use an `A` record for an IPv4 address, or an `AAAA` record for an IPv6 address.
+- Use a `CNAME` for a load-balancer DNS name where your DNS provider permits it. Use the provider's supported alias mechanism if you need a record at the domain apex.
 
-Here's a simplified overview of what to do next:
+Repeat for an additional plane's hostname if it has a separate endpoint. Public DNS is not required for a private deployment, but the names must resolve from users' networks, the control plane and the participating data planes as appropriate.
 
-1. **Access Your DNS Provider**: Log into the platform where your domain's DNS settings are managed.
-2. **Navigate to DNS Management**: Look for the section where you can add or modify DNS records.
-3. **Add the Record**: Depending on your external address:
-    - For an IP address, add an `A` record pointing to this IP.
-    - For a DNS name, add a `CNAME` record pointing to this name.
-4. **Save Changes**: Apply and save your changes. DNS propagation can take some time, so it might not work immediately.
+Verify the answer from the networks that will use it:
 
+```shell
+dig +short iomete.example.com
+dig +short compute-east.example.com
+```
 
-:::tip
-Remember, DNS changes can take a while to propagate across the internet, so give it some time before testing.
-:::
+Only run the second check if you configured that additional plane. Allow for your DNS records' TTL when changing an existing address.
+
+## Configuring TLS and Routing
+
+Follow [Configuring Ingress](./configure-ingress.md) to bind each hostname to the correct services and install a certificate covering the hostname. DNS alone does not configure ingress or TLS.
+
+Keep the configured control-plane platform URL (`platform.url`) and additional planes' `multiCluster.controlPlaneAddress` consistent with the control-plane URL. For new data-plane enrollment, also check the control plane's `multiCluster.trustedDomains` allows the host in `selfUrl`. The trust allowlist is separate from DNS resolution and certificate trust.
+
+Use a certificate trusted by all clients, including IOMETE services that connect to an additional plane. With a private CA, configure the [truststore](./truststore.md) and client trust before enrollment or compute tests.
+
+## Verifying the Result
+
+```shell
+curl --fail --show-error --silent --output /dev/null \
+  --write-out 'HTTP %{http_code}\n' https://iomete.example.com/
+```
+
+For a private CA, add `--cacert <ca-certificate.pem>`. Do not use `--insecure` to decide whether TLS is configured correctly.
+
+Open the control-plane URL in a browser and sign in. Then verify compute access by running `SELECT 1` on the affected data plane. A successful DNS lookup or console response does not verify the separate HTTP/2 route used by compute connections.

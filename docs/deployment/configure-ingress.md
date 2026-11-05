@@ -1,124 +1,217 @@
 ---
-title: Configure ISTIO Ingress
+title: Configuring Istio Ingress
 sidebar_label: Configure Ingress
-description: Configure ISTIO as an ingress controller on a Kubernetes cluster and configure it for use with IOMETE
+description: Route the IOMETE console, compute traffic and cross-plane requests through an Istio ingress with TLS and HTTP/2.
 last_update:
-  date: 04/28/2024
-  author: Vusal Dadalov
+  date: 11/05/2026
+  author: IOMETE
 ---
 
-This guide walks you through the process of installing ISTIO as an ingress controller on a Kubernetes cluster and configuring it for use with IOMETE.
+Use ingress to expose the **control-plane console and APIs** and, when needed, the compute endpoint of an additional data plane. An additional data plane does not have a separate console: its root page redirects to the control plane.
 
-## Deploying ISTIO
+This guide uses Istio and the gateway Services in the IOMETE 4.0 charts. If you use another ingress controller, configure the same destinations with HTTP/2 support for gRPC and WebSocket support for notebooks. For the platform's topology, see [Multi-Cluster Setup](./multi-cluster-setup.mdx).
 
-:::note
-For AWS, GCP, and Azure deployments, terraform script is already deployed ISTIO as an ingress controller. If that's the case, you can skip this section.
-:::
+## Deploying Istio {#deploying-istio}
 
-### Adding the ISTIO Helm Repository
+If your cluster already has an ingress controller, review its existing listeners and routes before changing it. Do not install a second controller or overwrite a shared Gateway just to add IOMETE.
+
+### Adding the Istio Helm Repository {#adding-the-istio-helm-repository}
 
 ```shell
+kubectl config current-context
 helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo update
 ```
 
-### Deploy ISTIO Components via Helm
+### Installing Istio Components {#deploy-istio-components-via-helm}
 
-Execute these commands to install the necessary ISTIO components:
+For a new Istio installation, select a version compatible with your Kubernetes version and approved for your environment. Follow the [Istio Helm installation guide](https://istio.io/latest/docs/setup/install/helm/), using the same pinned version for all components. The following example creates a gateway release named `istio-ingress`:
 
 ```shell
-helm upgrade --install -n istio-system base istio/base --version 1.17.2
-helm upgrade --install -n istio-system istiod istio/istiod --version 1.17.2
-helm upgrade --install -n istio-system istio-ingress istio/gateway --version 1.17.2
+ISTIO_VERSION="<approved-istio-version>"
+helm install base istio/base \
+  --namespace istio-system --create-namespace --version "$ISTIO_VERSION"
+helm install istiod istio/istiod \
+  --namespace istio-system --version "$ISTIO_VERSION" --wait
+helm install istio-ingress istio/gateway \
+  --namespace istio-system --version "$ISTIO_VERSION" --wait
+```
+
+These commands are for a new installation. Upgrade an existing Istio installation using its own release names, values and upgrade procedure. Verify that its Service exposes the ports you intend to use:
+
+```shell
+kubectl get services,pods --namespace istio-system
+kubectl get pods --namespace istio-system --show-labels
 ```
 
 ## Configuring the Gateway
 
-You need to configure the ISTIO ingress gateway to access the IOMETE Data Plane UI.
+The example below assumes:
 
----
-### For HTTP (Non-TLS Mode)
+- Control-plane release `data-plane` in `iomete-system`.
+- Control-plane hostname `iomete.example.com`, resolving to the ingress address.
+- Istio gateway pods in `istio-system` with label `istio: ingress`.
+- A certificate valid for `iomete.example.com`, trusted by browsers and IOMETE services.
 
-Apply the following configuration for an HTTP gateway:
+Replace the hostname, namespace and pod selector for your installation. The IOMETE chart creates its internal gateway Services; you configure the ingress listener and routing separately.
 
-
-Required file: [gateway-http.yaml](https://github.com/iomete/iomete-deployment/blob/main/istio-ingress/gateway-http.yaml)
-
-```shell showLineNumbers
-# Download the HTTP gateway configuration:
-wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/istio-ingress/gateway-http.yaml
-
-# Apply the HTTP gateway configuration:
-kubectl -n istio-system apply -f gateway-http.yaml
-```
-
----
-### For HTTPS (TLS Mode)
-
-
-To set up a secure gateway using TLS:
-1. **Create a TLS Secret:** Use the template below, replacing placeholder values with your actual base64 encoded certificate and key.
-2. **Deploy the HTTPS Gateway:** After creating the secret, apply the HTTPS gateway configuration.
+### Configuring HTTPS {#for-https-tls-mode}
 
 #### Prerequisites
 
-Before you begin, ensure you have the following ready:
-- **DNS Configuration**: The DNS for your IOMETE Data Plane must be set up. See [Configure Custom DNS for IOMETE Data Plane](/deployment/configure-custom-dns).
-- **TLS Certificate and Private Key**: You need a TLS certificate and a private key, valid for your IOMETE Data Plane's DNS name.
+Set up [DNS](./configure-custom-dns.md) and obtain a certificate from your organization's certificate authority or a public CA. If you use a private CA, configure the relevant clients and [IOMETE truststores](./truststore.md) to trust it. Skipping certificate verification is not a replacement for trust configuration.
 
-:::info Why do I need a custom DNS?
-In order to set up HTTPS, you need to have a DNS address. This ensures that the TLS certificate is valid for the DNS name. 
-Technically, you can enable HTTPs without a DNS, but creating TLS certificates for IP addresses is not recommended.
-:::
+#### Creating the TLS Secret {#create-a-tls-secret}
 
-:::info Where can I get a TLS certificate?
-You can obtain a TLS certificate from a certificate authority (CA) or generate a self-signed certificate. Please, ask your network administrator or IT department for assistance. Alternatively, you can use services like [Let's Encrypt](https://letsencrypt.org/) to get a free TLS certificate.
-:::
+Use the certificate chain and matching private key in `tls.crt` and `tls.key`. The Secret belongs in the namespace of the Istio gateway pods:
 
-
-#### Create a TLS Secret
-
-Once you have your TLS certificate and private key, you need to create a Kubernetes secret to store them. This secret will be used by the ISTIO ingress gateway to enable TLS traffic.
-
-Given that the certificate and key are stored in `tls.crt` and `tls.key` files, respectively. You can create a secret using the following command:
-
-```shell showLineNumbers
-kubectl -n istio-system \
-  create secret tls tls-secret \
-   --key tls.key --cert tls.crt
+```shell
+kubectl create secret tls iomete-ingress-tls \
+  --namespace istio-system --cert=tls.crt --key=tls.key \
+  --dry-run=client -o yaml | kubectl apply -f -
 ```
 
+#### Configuring the HTTPS Listener {#deploy-the-https-gateway}
 
-Alternatively, you can create a secret using a YAML file with the following content:
-```yaml showLineNumbers title="tls-secret.yaml"
-apiVersion: v1
-kind: Secret
+Save this as `iomete-gateway.yaml`. It redirects HTTP to HTTPS and terminates TLS on port 443:
+
+```yaml title="iomete-gateway.yaml"
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
 metadata:
-  name: tls-secret # Replace with your secret name
+  name: iomete-gateway
   namespace: istio-system
-type: kubernetes.io/tls
-data:
-  tls.crt: <base64-encoded certificate>
-  tls.key: <base64-encoded key>
+spec:
+  selector:
+    istio: ingress
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - iomete.example.com
+      tls:
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - iomete.example.com
+      tls:
+        mode: SIMPLE
+        credentialName: iomete-ingress-tls
 ```
 
-#### Deploy the HTTPS Gateway
+For an existing shared Gateway, merge the IOMETE hostname and TLS listener into the managed configuration. Preserve other hosts, certificates and any required TCP listeners, such as an existing JDBC route. Do not replace the entire resource with this example.
 
-After creating the secret, apply the HTTPS gateway configuration. If you use a different secret name, update the `tls-secret` value in the gateway-https.yaml file.
+### Routing Requests to IOMETE
 
-Required file: [gateway-https.yaml](https://github.com/iomete/iomete-deployment/blob/main/istio-ingress/gateway-https.yaml)
+Check the Services first:
 
-```shell showLineNumbers
-# Download the HTTPS gateway configuration:
-wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/istio-ingress/gateway-https.yaml
-
-# Apply the HTTPS gateway configuration:
-kubectl -n istio-system apply -f gateway-https.yaml
+```shell
+kubectl get service iom-gateway iom-gateway-cross-ingress \
+  --namespace iomete-system -o yaml
 ```
 
-Also, make sure in the `ingress.httpsEnabled=true` in the data plane values. If not set, set it to `true` and upgrade the data plane.
+The example uses three destinations from the 4.0 charts:
 
----
-## Follow-Up Steps
+| Traffic | Destination | Why |
+|---|---|---|
+| Spark Connect and Arrow Flight gRPC | `iom-gateway:8081` | This Service port declares HTTP/2 for the upstream connection. |
+| `/cross-plane/` requests | `iom-gateway-cross-ingress:8083` | Plane-to-plane API calls pass through the gateway's trust check. |
+| Console, public APIs and WebSockets | `iom-gateway:80` | Supports ordinary HTTP and notebook WebSocket upgrades. |
 
-If you want to set up a custom DNS for your IOMETE Data Plane, refer to the [Configure Custom DNS](../deployment/configure-custom-dns.md) guide.
+If your installed chart exposes different Services or ports, use the ingress configuration for that version. Do not add a port to a chart-managed Service manually as an upgrade workaround.
+
+Save the following as `iomete-route.yaml`. Keep the specific path matches before the final catch-all route:
+
+```yaml title="iomete-route.yaml"
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: iomete-control-plane
+  namespace: iomete-system
+spec:
+  hosts:
+    - iomete.example.com
+  gateways:
+    - istio-system/iomete-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /spark.connect.
+        - uri:
+            prefix: /arrow.flight.protocol.FlightService
+      route:
+        - destination:
+            host: iom-gateway.iomete-system.svc.cluster.local
+            port:
+              number: 8081
+    - match:
+        - uri:
+            prefix: /cross-plane/
+      route:
+        - destination:
+            host: iom-gateway-cross-ingress.iomete-system.svc.cluster.local
+            port:
+              number: 8083
+    - route:
+        - destination:
+            host: iom-gateway.iomete-system.svc.cluster.local
+            port:
+              number: 80
+```
+
+Use your cluster's DNS suffix if it differs from `cluster.local`. Apply the reviewed configuration:
+
+```shell
+kubectl apply -f iomete-gateway.yaml -f iomete-route.yaml
+```
+
+Set this in the **complete values file** for the IOMETE release, then follow the [upgrade procedure](./life-cycle-management.mdx#upgrade-example):
+
+```yaml title="values.yaml"
+ingress:
+  httpsEnabled: true
+```
+
+This setting tells IOMETE that the public connection uses HTTPS. It does not enable TLS by itself. Keep the existing namespace list and other release settings when applying it.
+
+### Routing an Additional Data Plane
+
+An additional plane needs its own hostname, for example `compute-east.example.com`, and its own runtime release, for example in `iomete-dp-east`. Add that hostname to an appropriate HTTPS Gateway with a certificate covering it. Create a separate VirtualService using the route structure above, with these substitutions:
+
+| Field | Additional-plane value |
+|---|---|
+| VirtualService name | `iomete-dp-east` |
+| VirtualService namespace | `iomete-dp-east` |
+| Hostname | `compute-east.example.com` |
+| Destination Service namespace | `iomete-dp-east` in all three destination hosts |
+| Gateway reference | The Gateway serving this hostname |
+
+Do not send the additional plane's hostname to the control-plane namespace. Avoid wildcard catch-all routes that can also match another plane's hostname. Set `ingress.httpsEnabled: true` in the runtime release's values too.
+
+The plane's `multiCluster.externalUrl` is the compute URL clients use, such as `https://compute-east.example.com`. Its `multiCluster.selfUrl` is the address the control plane uses for enrollment and plane-to-plane calls; it can be an internal service address when both planes share a Kubernetes cluster. A private `selfUrl` does not replace the compute endpoint: the control plane's SQL service also needs access to the external compute hostname on **TLS port 443 with HTTP/2**.
+
+Decide these addresses before enrolling the plane. They are recorded during enrollment, and changing Helm values alone does not reliably change an already registered address. See [Multi-Cluster Setup](./multi-cluster-setup.mdx) for enrollment prerequisites.
+
+Do not change the ordinary port 80 Service to force HTTP/2: notebooks need its WebSocket upgrade behavior. Use the dedicated gRPC port. See [Istio protocol selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection/) for upstream protocol handling.
+
+### Using HTTP for a Local Evaluation {#for-http-non-tls-mode}
+
+For a local evaluation of the control plane and its default data plane, you can use an HTTP listener on port 80 without `httpsRedirect` and set `ingress.httpsEnabled: false`. Keep the hostname-specific VirtualService and route destinations above. Do not submit real credentials over an untrusted HTTP connection.
+
+HTTP-only console access does not validate an additional data plane's compute connectivity. The remote SQL path requires the TLS endpoint described above.
+
+## Verifying Access {#follow-up-steps}
+
+```shell
+curl --fail --show-error --silent --output /dev/null \
+  --write-out 'HTTP %{http_code}\n' https://iomete.example.com/
+```
+
+With a private CA, use `--cacert <ca-certificate.pem>` for this check. Expect a successful console response, then sign in using a browser. For an additional plane, visiting its root URL should redirect to the control plane.
+
+Complete the functional checks: confirm the plane is connected, run `SELECT 1` on one of its compute clusters, and open a Jupyter container if you use notebooks. An HTTP response from the console does not verify gRPC or WebSockets. If SQL fails while the plane remains connected, check TLS trust, port 443 reachability and the gRPC route to Service port 8081.
