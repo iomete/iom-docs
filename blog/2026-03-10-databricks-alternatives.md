@@ -100,7 +100,7 @@ For EU banks, public bodies, healthcare providers and defence suppliers, "where 
   },
   {
     question: "Is there a European alternative to Databricks?",
-    answer: "For most EU teams, the real requirement is that data and processing stay under EU control. A self-hosted platform deployed in your own EU data center or EU cloud region meets that requirement by design: you operate the platform, and the vendor never holds your data."
+    answer: "For most EU teams, the real requirement is that data and processing stay under EU control. With a self-hosted platform, the software vendor never holds or operates your data. Control then depends on where you run it: in your own EU data center you hold the whole stack, while in a cloud region you also need to assess the infrastructure provider's jurisdiction and access."
   }
 ]} />
 
