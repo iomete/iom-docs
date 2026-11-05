@@ -1,39 +1,122 @@
 ---
 title: GCS Bucket Access
 sidebar_label: GCS Bucket Access
-description: Learn how to provide access to external GCS buckets in IOMETE, a hybrid (cloud & on-premises based) data platform for data storage and analysis. This guide outlines simple steps to connect to GCS buckets and grant permission to the Lakehouse Service Account.
+description: Identify the Google Cloud identity used by an IOMETE workload, grant bucket-scoped access, and verify a read from the intended data plane and namespace.
 last_update:
-  date: 05/05/2024
+  date: 11/05/2026
   author: Vusal Dadalov
 ---
 
-IOMETE is a hybrid (cloud & on-premises) platform that allows users to store, manage, and analyze large amounts of data.
-One of the key features of IOMETE is the ability to connect any `Google Cloud Storage Buckets` and access data from them.
+Grant Cloud Storage access to the identity used by the compute or Spark job that reads the bucket. A Kubernetes service account is not a Google Cloud IAM service account. On GKE, a workload can use a federated Kubernetes identity directly or impersonate an IAM service account.
 
-In order to do this, you need to provide permission to the `Lakehouse Service Account`.
+This guide covers existing Workload Identity Federation for GKE setups. If your deployment uses another credential method, ask your platform administrator to identify the effective principal before changing bucket permissions.
 
-:::info Identify the Lakehouse Service Account
-Go to the IOMETE **Console > Settings > Data Plane > General** to locate the `Lakehouse Service Account` email address, which will be in the form `<service-account-name>@<project-id>.iam.gserviceaccount.com`.
-:::
+## Identify the Workload's Identity
 
-:::info `What is the Lakehouse Service Account?`
-The Lakehouse Service Account is a Google Cloud IAM service account that is used by IOMETE Data Plane compute resources to access GCS buckets.
-The Lakehouse Service Account is created during the IOMETE Data Plane installation process.
-:::
+On the workload's **Details** tab in IOMETE, record **Data plane** and **Namespace**. Obtain the Kubernetes context for the cluster hosting that data plane. Use the workload namespace, which can differ from the data plane's management namespace.
 
-## Provide access to GCS bucket
+```bash
+KUBE_CONTEXT="<context-for-the-selected-data-plane>"
+WORKLOAD_NS="analytics"
 
-1. Go to your [Google Cloud Console](https://console.cloud.google.com/) and select your desired bucket.
-2. Click on the "Permissions" tab, and then click on "Add".
-3. Add the `Lakehouse Service Account` as a member and provide the necessary permissions. See [Permission Levels](#permission-levels) for the available permission levels.
+kubectl --context "$KUBE_CONTEXT" -n "$WORKLOAD_NS" get pods \
+  -o custom-columns=NAME:.metadata.name,SERVICEACCOUNT:.spec.serviceAccountName
+
+WORKLOAD_POD="<pod-for-the-intended-workload>"
+WORKLOAD_SA=$(kubectl --context "$KUBE_CONTEXT" -n "$WORKLOAD_NS" \
+  get pod "$WORKLOAD_POD" -o jsonpath='{.spec.serviceAccountName}')
+printf 'Kubernetes service account: %s\n' "$WORKLOAD_SA"
+
+kubectl --context "$KUBE_CONTEXT" -n "$WORKLOAD_NS" \
+  get serviceaccount "$WORKLOAD_SA" \
+  -o jsonpath='{.metadata.annotations.iam\.gke\.io/gcp-service-account}{"\n"}'
+```
+
+Use the pod's actual service account, even if you expect the chart's usual `lakehouse-service-account` name. Interpret the annotation result according to the configured identity method:
+
+- **IAM service-account impersonation:** the annotation contains an email such as `analytics-reader@example-project.iam.gserviceaccount.com`. Confirm that this IAM account grants `roles/iam.workloadIdentityUser` to the correct workload pool, namespace, and Kubernetes service account. The annotation and IAM binding are both required.
+- **Direct federated access:** there may be no IAM service-account annotation or email. Your administrator identifies the principal from the workload pool, namespace, and Kubernetes service account instead.
+
+See Google's [GKE workload authentication guide](https://docs.cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) for both methods and their prerequisites. Creating a data plane or a Kubernetes service account does not itself create a Google Cloud IAM service account or grant bucket access.
+
+For chart-managed Kubernetes accounts, the owning IOMETE release accepts `serviceAccount.annotations`. In an existing impersonation setup, its values can include:
+
+```yaml
+serviceAccount:
+  annotations:
+    iam.gke.io/gcp-service-account: analytics-reader@example-project.iam.gserviceaccount.com
+```
+
+The chart applies these annotations to each Kubernetes account it creates in its managed namespaces. It does not create the IAM account, configure Workload Identity Federation, or grant impersonation permission. Preserve the release's existing ownership and identity configuration.
+
+## Provide Access to GCS Bucket {#provide-access-to-gcs-bucket}
+
+Grant permissions on the intended bucket to the verified principal. Start with **Storage Object Viewer** for read-only access.
+
+### IAM Service-Account Impersonation
+
+For the impersonation method, add the annotated IAM service-account email to the bucket's IAM policy:
+
+```bash
+GCS_BUCKET="<bucket-name>"
+GCS_IAM_SA="<verified-iam-service-account-email>"
+
+gcloud storage buckets add-iam-policy-binding "gs://$GCS_BUCKET" \
+  --member="serviceAccount:$GCS_IAM_SA" \
+  --role="roles/storage.objectViewer"
+```
+
+### Direct Federated Access
+
+Direct federated principals require [uniform bucket-level access](https://docs.cloud.google.com/storage/docs/uniform-bucket-level-access). Check the bucket before granting access:
+
+```bash
+GCS_BUCKET="<bucket-name>"
+gcloud storage buckets describe "gs://$GCS_BUCKET" \
+  --format="default(uniform_bucket_level_access)"
+```
+
+Continue when the output shows `uniform_bucket_level_access: true`. If it is disabled, ask your storage administrator to review existing ACL-based access before enabling it: enabling this setting disables bucket and object ACLs. Adding a federated principal to the IAM policy alone does not grant access while this setting is disabled.
+
+For direct access, use the exact Kubernetes principal identified by your administrator. The standard GKE principal format is:
+
+```text
+principal://iam.googleapis.com/projects/<pool-project-number>/locations/global/workloadIdentityPools/<pool-project-id>.svc.id.goog/subject/ns/<namespace>/sa/<kubernetes-service-account>
+```
+
+The project number and ID belong to the workload identity pool, which can differ from the project owning the bucket. Use the actual namespace and service account discovered above:
+
+```bash
+GCS_BUCKET="<bucket-name>"
+GCS_PRINCIPAL="<verified-principal-identifier>"
+
+gcloud storage buckets add-iam-policy-binding "gs://$GCS_BUCKET" \
+  --member="$GCS_PRINCIPAL" \
+  --role="roles/storage.objectViewer"
+```
+
+A Kubernetes service-account name alone is not enough to identify the principal. Conversely, matching namespace/service-account identities in clusters that share a workload identity pool can receive the same IAM access. Check that scope before granting access; see [GKE identity sameness](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/workload-identity#identity_sameness).
 
 ### Permission Levels
 
-Google Cloud Storage provides several permission levels that you can assign to the Lakehouse Service Account:
+Choose the role required by the workload and grant it at bucket scope:
 
-- **Storage Object User**: Allows the Lakehouse Service Account to view, create, and delete objects in the bucket (read-write access).
-- **Storage Object Viewer**: Allows the Lakehouse Service Account to view objects in the bucket (readonly access).
-- **Storage Object Admin**: Allows the Lakehouse Service Account to view, create, and delete objects in the bucket (full admin access).
+| Role | Purpose |
+| --- | --- |
+| **Storage Object Viewer** (`roles/storage.objectViewer`) | Read objects and list them. |
+| **Storage Object User** (`roles/storage.objectUser`) | Read, create, update, and delete objects. |
+| **Storage Object Admin** (`roles/storage.objectAdmin`) | Manage objects and their permissions. This is not full bucket administration. |
 
+See [Cloud Storage IAM roles](https://docs.cloud.google.com/storage/docs/access-control/iam-roles) for the complete permission sets. Keep existing unrelated bucket bindings when adding access.
 
-Please, consult the [IAM roles for Cloud Storage](https://cloud.google.com/storage/docs/access-control/iam-roles) and [IAM permissions for Cloud Storage](https://cloud.google.com/storage/docs/access-control/iam-permissions) documentation for more information.
+## Verify Access from the Workload
+
+Saving an IAM binding does not prove the workload can use it. Select the intended compute in SQL Editor and read a known small Parquet file in the bucket:
+
+```sql
+SELECT * FROM parquet.`gs://<bucket-name>/sample.parquet` LIMIT 1;
+```
+
+For a Spark job, perform the equivalent read in that job on its selected data plane and namespace. The runtime must have its GCS connector and authentication configured. A successful read verifies that path for that workload, not write access or access from another data plane. A read from your laptop tests your local credentials instead.
+
+If credentials are unavailable, check Workload Identity Federation on the cluster and the workload's node pool, the actual pod service account, and any impersonation binding. If access is denied, check the bucket principal and role. Application-supplied credentials can override the identity you expected from the Kubernetes account, so inspect the application's configured credential source as well.
