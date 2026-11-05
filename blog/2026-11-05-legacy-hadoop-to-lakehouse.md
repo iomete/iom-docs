@@ -15,7 +15,7 @@ last_update:
 import DemoCta from '@site/src/components/DemoCta';
 import FAQSection from '@site/src/components/FAQSection';
 
-**Short answer:** Most legacy Hadoop modernisations follow the same path:
+**Short answer:** Most legacy Hadoop modernizations follow the same path:
 
 1. Move data from HDFS to S3-compatible object storage.
 2. Convert Hive tables to Apache Iceberg.
@@ -31,7 +31,7 @@ IOMETE is a ready-made lakehouse for the target state: one Spark engine, one sec
 
 ## Why Teams Are Planning a Legacy Hadoop Exit
 
-- **Licence and hardware cost** that keeps rising, while the platform itself changes slowly.
+- **License and hardware cost** that keeps rising, while the platform itself changes slowly.
 - **Slow, risky upgrades.** Major version moves become multi-month projects, so clusters fall behind.
 - **VM-era operations.** Clusters are managed node by node, separately from the Kubernetes platforms the rest of IT now runs.
 - **Many engines, many policy sets.** Hive, Impala, Spark and others each need their own tuning and access configuration.
@@ -64,12 +64,14 @@ A short way to put it: **a Hadoop distribution gives you components to assemble 
    - BI connections
 2. **Stand up the target in parallel** on your Kubernetes: OpenShift, Rancher or another distribution. Connect object storage and LDAP/SSO ([on-prem install docs](/deployment/on-prem/install)).
 3. **Move the data.** Copy HDFS data to object storage, for example with `distcp` or Spark copy jobs. Start with one domain.
-4. **Convert to Iceberg** with Apache Iceberg's Spark procedures ([docs](https://iceberg.apache.org/docs/latest/spark-procedures/)). First register the object-storage copies as staging tables, partition locations included, and leave the live Hive definitions alone. Run the procedures against the staging tables. Otherwise Iceberg keeps pointing at HDFS, and the table breaks when you decommission it.
-   - `snapshot` to test without touching the source
-   - `migrate` to convert a staging table
-   - `add_files` to register existing Parquet/ORC files
+4. **Convert to Iceberg in IOMETE's REST catalog.** First register the object-storage copies as staging tables, partition locations included, and leave the live Hive definitions alone. Then create each target Iceberg table in IOMETE's Iceberg REST catalog and bring the data in with Iceberg's Spark procedures ([IOMETE reference](/reference/iceberg-tables/iceberg-procedures), [Apache docs](https://iceberg.apache.org/docs/latest/spark-procedures/)):
+   - `snapshot` to test against a staging table without changing it
+   - `add_files` to register a staging table's Parquet/ORC files in the new Iceberg table, without rewriting them
+   - `CREATE TABLE ... AS SELECT` to rewrite the data into the new table instead
 
-   These procedures suit non-transactional Parquet and ORC tables. Full-ACID Hive tables keep their state in delta and delete-delta files, so export and rewrite them with a query (for example `CREATE TABLE ... AS SELECT`) instead.
+   Don't use `migrate` for the final conversion. It replaces the table in place, so the result stays in the Hive Metastore (`spark_catalog`) instead of the REST catalog, and IOMETE's automated table maintenance only covers IOMETE-managed REST catalogs. Always work from the object-storage copies, not HDFS. Otherwise Iceberg keeps pointing at HDFS, and the table breaks when you decommission it.
+
+   File registration suits non-transactional Parquet and ORC tables. Full-ACID Hive tables keep their state in delta and delete-delta files, so rewrite them with `CREATE TABLE ... AS SELECT`.
 5. **Port workloads.** Spark jobs mostly need configuration changes. Review Hive/Impala SQL against Spark SQL. Move schedules to [Airflow](/integrations/airflow/getting-started).
 6. **Re-tune for object storage.** Jobs tuned for years on HDFS data locality can behave differently on object storage. Budget time to re-check file sizes, partitioning and parallelism for the heaviest jobs.
 7. **Re-create access policies** as IOMETE data security policies. Map each table-level Ranger policy (table and column access, row filters, masking, tags) to its IOMETE equivalent as part of each domain move, and use tags to apply PII masking consistently. HDFS path policies don't carry over, so plan object-storage access separately.
@@ -79,15 +81,15 @@ A short way to put it: **a Hadoop distribution gives you components to assemble 
 
 ## Who Typically Makes This Move
 
-- **Banks and central banks** modernising regulatory reporting and risk data while staying on-premises.
+- **Banks and central banks** modernizing regulatory reporting and risk data while staying on-premises.
 - **Telcos** replacing Hadoop plus MPP warehouses for very high-volume event data.
 - **Government agencies** consolidating departmental clusters into one shared, governed platform.
-- **Media and research organisations** with long-running Hadoop clusters and growing interactive query needs.
+- **Media and research organizations** with long-running Hadoop clusters and growing interactive query needs.
 
 <FAQSection faqs={[
   {
     question: "Can I convert Hive tables to Iceberg without rewriting the data?",
-    answer: "For non-transactional Parquet and ORC tables, yes. Iceberg's migrate and add_files procedures create Iceberg metadata over existing files, once the copies sit in object storage and are registered as staging tables. Full-ACID Hive tables keep transactional state in delta files, so rewrite them with a query instead."
+    answer: "For non-transactional Parquet and ORC tables, yes. Once the copies sit in object storage and are registered as staging tables, Iceberg's add_files procedure registers their files in an Iceberg table you create in IOMETE's REST catalog, without rewriting them. Full-ACID Hive tables keep transactional state in delta files, so rewrite them with a query instead."
   },
   {
     question: "Do we have to leave on-premises?",
@@ -122,8 +124,9 @@ A short way to put it: **a Hadoop distribution gives you components to assemble 
 ## Sources
 
 - [Apache Iceberg Spark procedures](https://iceberg.apache.org/docs/latest/spark-procedures/).
+- [Iceberg Spark procedures](/reference/iceberg-tables/iceberg-procedures), IOMETE reference.
 - [IOMETE deployment options](https://iomete.com/product/deployment), accessed 5 November 2026.
 - [IOMETE capability summary](https://iomete.com/llms.txt), accessed 5 November 2026.
-- [IOMETE Operator in the Red Hat Ecosystem Catalog](https://catalog.redhat.com/en/search?q=IOMETE). Certification announced 20 May 2026.
+- [IOMETE Operator in Red Hat's certified-operators repository](https://github.com/redhat-openshift-ecosystem/certified-operators/tree/main/operators/iomete-operator). Certification announced 20 May 2026.
 - [Proof at scale: the sovereign lakehouse in production](/blog/sovereign-lakehouse-proof-at-scale), IOMETE blog.
  
