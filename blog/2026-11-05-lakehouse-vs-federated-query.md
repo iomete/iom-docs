@@ -79,5 +79,5 @@ A common pattern: federate to explore a new source, then land the tables that ma
 - [Federated query: how it works and when to use it](/blog/federated-query-explained)
 - [Control plane vs data plane](/blog/control-plane-vs-data-plane)
 
-*Trino is a trademark of The Linux Foundation. Apache®, Apache Spark™ and Apache Iceberg™ are trademarks of the Apache Software Foundation.*
+*Trino is a trademark of the Trino Software Foundation. Apache®, Apache Spark™ and Apache Iceberg™ are trademarks of the Apache Software Foundation.*
  
