@@ -24,15 +24,17 @@ import FAQSection from '@site/src/components/FAQSection';
 - a catalog
 - fine-grained access control
 
-Everything the platform needs is delivered offline: container images, Helm charts, licences and updates. IOMETE supports fully air-gapped deployment on Kubernetes, including Red Hat OpenShift.
+Everything the platform needs is delivered offline: container images, Helm charts, licenses and updates. IOMETE supports fully air-gapped deployment on Kubernetes, including Red Hat OpenShift.
 
 <DemoCta variant="B" refId="blog-air-gapped" position="top" />
 
 {/* truncate */}
 
+{/* TODO on publish: add this post to static/llms.txt and replace the link placeholder in blog/2026-03-10-databricks-alternatives.md. */}
+
 ## Who Needs an Air-Gapped Lakehouse
 
-- **Defence and aerospace:** classified programmes and ministry-of-defence-grade environments.
+- **Defense and aerospace:** classified programs and ministry-of-defense-grade environments.
 - **Intelligence and public safety:** sensitive investigative data.
 - **Central banks and critical financial infrastructure:** isolated networks for supervisory and market data.
 - **Government and national data platforms:** sovereign environments with strict network segmentation.
@@ -46,13 +48,13 @@ What these teams share: they want modern analytics (open formats, Spark, SQL, no
 |---|---|---|
 | **No outbound connectivity** | No call-home, external package repositories or SaaS control plane | The control plane and data planes both run inside your network |
 | **Offline delivery of software** | Images and charts must arrive through an approved transfer process | Container images and Helm charts loaded into your internal registry [TODO: engineering to confirm the delivery format: image bundle / tarball / OCI archive] |
-| **Offline licensing** | Licence checks can't reach the internet | [TODO: engineering/sales to confirm how licences are activated and renewed offline] |
+| **Offline licensing** | License checks can't reach the internet | [TODO: engineering/sales to confirm how licenses are activated and renewed offline] |
 | **Local identity** | Users come from the classified directory | LDAP/Active Directory sync, SAML/OIDC SSO with internal identity providers |
 | **Fine-grained, auditable access** | Need-to-know and data classification | Data security policies enforced in the engine: table/column access, row filters, masking, tag-based policies (classify once, enforce everywhere), audit of which policy applied to each query |
 | **Local storage** | No cloud object storage | S3-compatible storage inside the enclave: Ceph, MinIO, Dell ECS, Pure, NetApp StorageGRID |
 | **Local observability** | Logs and metrics stay inside | Pod logs forwarded to your ELK or Loki stack; Prometheus/Grafana |
 | **Controlled upgrades** | Every change goes through accreditation | Versioned releases delivered offline and applied on your schedule [TODO: engineering to describe the offline upgrade procedure] |
-| **Isolation between programmes or teams** | Different classification levels or projects | Domains mapped to Kubernetes namespaces, each with its own quotas, catalog permissions and audit logs |
+| **Isolation between programs or teams** | Different classification levels or projects | Separate domains with their own quotas and catalog permissions [TODO: engineering to confirm how domains map to namespaces and data planes (a domain can span several), and whether audit logs can be separated per domain] |
 
 ## Reference Architecture
 
@@ -94,7 +96,7 @@ What these teams share: they want modern analytics (open formats, Spark, SQL, no
 3. Push images to the internal registry and point Helm values / the Operator at it.
 4. Install the control plane and data plane with offline values (no external repositories).
 5. Configure storage, identity, TLS and logging.
-6. Apply the licence offline.
+6. Apply the license offline.
 7. Run the post-install validation.
 8. Upgrade procedure for future releases.]
 
