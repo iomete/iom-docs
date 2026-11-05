@@ -33,6 +33,7 @@ IOMETE is a data lakehouse platform. It combines the storage scalability of a da
 **Editions:** Free plan (self-hosted, up to 100 vCPUs, community support) and Enterprise (dedicated support, SLA, advanced features). https://iomete.com/pricing/free-plan
 **Book a demo:** https://iomete.com/contact-us
 **Kubernetes-native:** Installed with Helm on standard Kubernetes or Red Hat OpenShift. The IOMETE Operator is Red Hat OpenShift Certified.
+**Legacy Hadoop migration:** https://iomete.com/resources/blog/legacy-hadoop-to-lakehouse
 
 ---
 
