@@ -13,7 +13,7 @@ Once a cluster is created, you can manage it from its detail page: check status,
 
 The page title reads **Compute: \{name\}**, and the breadcrumb shows **Compute > \{name\}**. The header contains state-aware action buttons (see [Lifecycle Actions](#lifecycle-actions)) plus two monitoring links:
 
-- **Spark Metrics UI**: opens the Spark metrics dashboard. Always available.
+- **Spark Metrics UI**: opens the Spark metrics dashboard when monitoring is enabled for the deployment.
 - **Spark UI**: opens the live Spark web interface. Active only when the driver is `ACTIVE`.
 
 If another user deletes the cluster while you're viewing it, a yellow banner appears: **This compute has been deleted.**

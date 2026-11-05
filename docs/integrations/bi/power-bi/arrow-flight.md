@@ -3,7 +3,7 @@ title: Power BI (Arrow Flight) - Connecting to IOMETE
 sidebar_label: Arrow Flight
 description: Install the IOMETE Power BI connector and connect Power BI Desktop or an on-premises data gateway to IOMETE through Arrow Flight SQL.
 last_update:
-  date: 10/02/2026
+  date: 11/05/2026
   author: Abhishek Pathania
 ---
 
@@ -60,7 +60,7 @@ The Navigator then lists the catalogs and tables you can access, and you can sta
 
 | Field | Value | Example |
 |---|---|---|
-| Server URL | Host and port of your IOMETE Arrow Flight endpoint | `dev.iomete.com:443` |
+| Server URL | Host and port from the intended compute's **Connections → Power BI** settings | `dev.iomete.com:443` |
 | Cluster | Name of the compute cluster | `medium-cluster` |
 | Data Plane | Kubernetes namespace where the compute cluster runs | `spark-resources` |
 | Certificate Path | Optional. Leave blank to use the Windows certificate store. See [Trusting the Server Certificate](#trusting-the-server-certificate). | `C:\certs\iomete-ca.pem` |
@@ -145,7 +145,7 @@ When a report works in Power BI Desktop but fails through the gateway, the cause
 
 ### Connection Fails With "Could not finish writing before closing"
 
-The driver shows this generic error when the connection closes before login finishes, and the real cause isn't passed on. It most often means a wrong **Server URL**, **Cluster**, or **Data Plane**, such as a data plane that doesn't contain the cluster. It can also come from an invalid access token or an untrusted server certificate. Check the three connection values first, then your credentials, then [Trusting the Server Certificate](#trusting-the-server-certificate).
+The driver shows this generic error when the connection closes before login finishes, and the real cause isn't passed on. It most often means a wrong **Server URL**, **Cluster**, or **Data Plane**, such as a Kubernetes namespace that does not contain the compute, or a host for a different data plane. The connector's **Data Plane** field takes the compute's Kubernetes namespace. It can also come from an invalid access token or an untrusted server certificate. Check the three connection values first, then your credentials, then [Trusting the Server Certificate](#trusting-the-server-certificate).
 
 ### Connection Fails With "No client transport implementation for arrow-flight-reuse-connection"
 

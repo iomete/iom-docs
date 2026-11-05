@@ -3,7 +3,7 @@ title: Secrets Management
 description: Securely store and use credentials in IOMETE
 sidebar_label: Secrets
 last_update:
-  date: 04/27/2026
+  date: 11/05/2026
   author: Sourabh Jajoria
 ---
 
@@ -180,7 +180,7 @@ While the selector is the recommended approach, legacy `${secrets.key}` placehol
 
 IOMETE supports two backends that can be used simultaneously:
 
-- **Kubernetes** (default): Secrets stored in opaque Secret objects (`iomete-secret-store-{domain}` for domain, `iomete-secret-store` for global) within the same namespace as the data-plane installation
+- **Kubernetes-backed storage**: In versions that use Kubernetes Secret objects, secrets are stored in opaque Secret objects (`iomete-secret-store-{domain}` for domain, `iomete-secret-store` for global) in the control-plane release namespace used by `iom-cluster`. Selecting a workload namespace on another data plane does not move these Secret objects.
 - **HashiCorp Vault**: Customer-managed, read-only integration
 
 ## Feature Flag

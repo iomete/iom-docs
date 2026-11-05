@@ -1,28 +1,21 @@
 ---
 title: Log Configurations
+sidebar_label: Log Configurations
 description: When creating a Spark job deployment programmatically with IOMETE, you would run a command similar to the following
 last_update:
-  date: 10/04/2022
+  date: 11/05/2026
+  author: IOMETE
 ---
 
 import Img from '@site/src/components/Img';
 
-By default, the logging level for Spark applications is set to INFO, which provides a good balance between useful information and minimal log verbosity. However, users may need to adjust the log level or customize the logging configuration to suit specific operational needs.
+A Spark application's log level comes from its runtime logging configuration. You can override it for a job when you need more detail for troubleshooting or less verbose output.
 
-This documentation provides a comprehensive guide on how to control the log level of Spark jobs and configure a custom log4j2 logging configuration using the IOMETE Console. It includes instructions for setting the log level globally via the Helm chart, configuring custom log4j2 properties, and dynamically controlling the log level using environment variables.
+Use the IOMETE Console to supply a custom log4j2 configuration and set a job's log level through environment variables.
 
 ## 1. Global Log Level Configuration
 
-By default, the log level for all Spark applications deployed on the IOMETE Platform is set to `INFO`. This global configuration can be modified during the deployment of the data-plane instance by adjusting the Helm chart.
-
-Steps to Set Global Log Level:  
-1. **Locate the Helm Chart**: When deploying the data-plane instance, find the `values.yaml` file in the Helm chart.  
-2. **Modify the Log Level**: Set the desired log level in the `spark` section of the `values.yaml` file as shown below:  
-   ```yaml
-   spark:
-     logLevel: info
-   ```
-   Replace `info` with the desired log level (e.g., `debug`, `warn`, `error`).
+Deployment-wide defaults depend on the Spark runtime image and its log4j2 configuration. Check the image and configuration used by your workloads before changing a shared default. To change one job, use the custom configuration below; creating another data plane or namespace does not itself set a Spark log level.
 
 ## 2. Custom Log Configurations
 
@@ -69,6 +62,8 @@ appender.console.layout.pattern = %d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n%ex
 In the IOMETE Console, when configuring the Spark job, navigate to the **Environment Variables** section and define `LOG_LEVEL` with the desired log level (e.g., `debug`, `warn`).
 
 <Img src="/img/spark-job/logging/spark-logging-env.png" alt="Logging environment variables" />
+
+Start a new job run, confirm its **Data plane** and **Namespace** on the **Details** tab, and inspect its **Logs** to verify the requested verbosity. Editing the job configuration does not change the logging configuration inside an already-running pod.
 
 
 ## 3. Base log4j2 Configuration Template

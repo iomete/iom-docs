@@ -1,8 +1,9 @@
 ---
 title: System Tables
+sidebar_label: System Tables
 description: Learn about IOMETE system tables used for internal platform operations, audit logging, and event streaming.
 last_update:
-  date: 10/30/2026
+  date: 11/05/2026
   author: Maksym Kryvchun
 ---
 
@@ -31,7 +32,7 @@ Knowing which flag controls which table saves you from guessing during setup. Th
 
 A table that exists but has its feature flag off just stays empty until you enable it. No errors, no surprises.
 
-You set these flags in your data plane Helm chart's `values.yaml`, under the `features` block. Each flag follows the `features.<flag>.enabled` notation:
+Set the Helm-managed flags in the values for your control-plane release (`iomete-data-plane-enterprise` chart), under the `features` block. The `sqlEditorV2` rollout flag remains an admin-panel setting, as shown above. Each flag follows the `features.<flag>.enabled` notation:
 
 ```yaml
 features:
@@ -41,7 +42,7 @@ features:
     enabled: true   # iceberg_commit_report and iceberg_scan_report
 ```
 
-Apply the change with a `helm upgrade` to roll it out.
+Apply the values change to that control-plane release with your usual `helm upgrade` workflow, using its Kubernetes context and release namespace. A workload namespace or remote runtime release is not the target for these control-plane feature flags.
 
 ---
 
