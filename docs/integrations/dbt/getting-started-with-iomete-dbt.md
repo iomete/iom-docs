@@ -3,8 +3,8 @@ title: Getting started with DBT
 sidebar_label: Getting Started
 description: Learn how to set up the dbt-iomete adapter, connect to your IOMETE lakehouse, and run your first dbt transformation.
 last_update:
-  date: 09/04/2026
-  author: Abhishek Pathania
+  date: 11/05/2026
+  author: Turkel Mammadli
 ---
 
 import Img from '@site/src/components/Img';
@@ -22,7 +22,7 @@ This guide walks you through your first dbt project on IOMETE.
 Before you start, make sure you have:
 
 - A running IOMETE compute cluster (see [Compute Clusters](/user-guide/compute-clusters/overview) for setup details).
-- Python 3.9 or later.
+- Python 3.10–3.12.
 
 ## Setting Up Sample Data
 
