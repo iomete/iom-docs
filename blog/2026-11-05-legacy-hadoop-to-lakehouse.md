@@ -24,7 +24,7 @@ import JsonLd from '@site/src/components/JsonLd';
     {"@type": "HowToStep", "name": "Inventory the estate", "text": "List databases and tables, HDFS paths, Spark, Hive and Impala jobs, schedules, Ranger policies, Kerberos/LDAP integration and BI connections."},
     {"@type": "HowToStep", "name": "Stand up the target in parallel", "text": "Install IOMETE on your Kubernetes or OpenShift cluster and connect object storage and LDAP/SSO."},
     {"@type": "HowToStep", "name": "Move the data", "text": "Copy HDFS data to S3-compatible object storage, starting with one domain."},
-    {"@type": "HowToStep", "name": "Convert to Iceberg", "text": "Use Apache Iceberg Spark procedures: snapshot to test, migrate to convert in place, add_files to register existing files."},
+    {"@type": "HowToStep", "name": "Convert to Iceberg", "text": "Register the object-storage copies as staging tables, then use Apache Iceberg Spark procedures: snapshot to test, migrate to convert, add_files to register existing files. Rewrite full-ACID Hive tables with a query instead."},
     {"@type": "HowToStep", "name": "Port workloads", "text": "Update Spark job configuration, review Hive and Impala SQL against Spark SQL, and move schedules to Airflow."},
     {"@type": "HowToStep", "name": "Re-tune for object storage", "text": "Re-check file sizes, partitioning and parallelism for the heaviest jobs."},
     {"@type": "HowToStep", "name": "Re-create access policies", "text": "Re-create each Ranger policy as an IOMETE data security policy and use tags for consistent masking."},
@@ -81,10 +81,12 @@ A short way to put it: **a Hadoop distribution gives you components to assemble 
    - BI connections
 2. **Stand up the target in parallel** on your Kubernetes: OpenShift, Rancher or another distribution. Connect object storage and LDAP/SSO ([on-prem install docs](/deployment/on-prem/install)).
 3. **Move the data.** Copy HDFS data to object storage, for example with `distcp` or Spark copy jobs. Start with one domain.
-4. **Convert to Iceberg** with Apache Iceberg's Spark procedures ([docs](https://iceberg.apache.org/docs/latest/spark-procedures/)):
+4. **Convert to Iceberg** with Apache Iceberg's Spark procedures ([docs](https://iceberg.apache.org/docs/latest/spark-procedures/)). First register the object-storage copies as staging tables, partition locations included, and leave the live Hive definitions alone. Run the procedures against the staging tables. Otherwise Iceberg keeps pointing at HDFS, and the table breaks when you decommission it.
    - `snapshot` to test without touching the source
-   - `migrate` to convert in place
+   - `migrate` to convert a staging table
    - `add_files` to register existing Parquet/ORC files
+
+   These procedures suit non-transactional Parquet and ORC tables. Full-ACID Hive tables keep their state in delta and delete-delta files, so export and rewrite them with a query (for example `CREATE TABLE ... AS SELECT`) instead.
 5. **Port workloads.** Spark jobs mostly need configuration changes. Review Hive/Impala SQL against Spark SQL. Move schedules to [Airflow](/integrations/airflow/getting-started).
 6. **Re-tune for object storage.** Jobs tuned for years on HDFS data locality can behave differently on object storage. Budget time to re-check file sizes, partitioning and parallelism for the heaviest jobs.
 7. **Re-create access policies** as IOMETE data security policies. Map each Ranger policy (table and column access, row filters, masking, tags) to its IOMETE equivalent as part of each domain move, and use tags to apply PII masking consistently.
@@ -102,7 +104,7 @@ A short way to put it: **a Hadoop distribution gives you components to assemble 
 <FAQSection faqs={[
   {
     question: "Can I convert Hive tables to Iceberg without rewriting the data?",
-    answer: "For Parquet and ORC tables, yes. Iceberg's migrate and add_files procedures create Iceberg metadata over existing files, once the files sit in storage the new platform can reach."
+    answer: "For non-transactional Parquet and ORC tables, yes. Iceberg's migrate and add_files procedures create Iceberg metadata over existing files, once the copies sit in object storage and are registered as staging tables. Full-ACID Hive tables keep transactional state in delta files, so rewrite them with a query instead."
   },
   {
     question: "Do we have to leave on-premises?",
