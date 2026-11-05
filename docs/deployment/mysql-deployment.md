@@ -1,15 +1,19 @@
 ---
 title: MySQL Deployment
 sidebar_label: MySQL Deployment
-description:  Deploy a MySQL database for the IOMETE deployment.
+description: Legacy MySQL deployment example for older IOMETE installations. Current enterprise and runtime charts require PostgreSQL.
 last_update:
-  date: 08/15/2024
+  date: 11/05/2026
   author: Vusal Dadalov
 ---
 
-IOMETE requires a database to store metadata and other information. Refer [Backend Databases](/deployment/backend-databases) for more details.
+:::info Legacy deployment example
+This page is retained for older installations whose chart supports MySQL. Current enterprise and runtime charts, including published 4.0.1, support PostgreSQL only. For a new installation, follow [Backend Databases](./backend-databases.md) and [PostgreSQL Deployment](./postgresql-deployment.md).
 
-You can use your own database, or you can use the provided `mysql` database.
+Do not change an existing installation's database engine by substituting these deployment commands. Confirm the migration procedure for that installation first.
+:::
+
+For a legacy installation that requires MySQL, you can use an existing database or the test deployment below.
 
 :::info
 This mysql database is for testing purpose only. For production, please use your own database that is optimized for production use.
