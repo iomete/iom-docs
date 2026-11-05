@@ -3,7 +3,7 @@ title: IOMETE Spark Release Notes
 sidebar_label: Spark
 description: Release notes for IOMETE Spark images. Learn about new features, improvements, security updates, and bug fixes in each Spark image release.
 last_update:
-  date: 10/01/2026
+  date: 11/04/2026
   author: Rovshan Baghirov
 ---
 
@@ -32,6 +32,26 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     `az acr repository show-tags -n iomete --repository iomete/spark --detail`.
     Never an rc push or the tagged commit date; both predate availability.
 */}
+
+<Release name="Spark" version="4.1.3-v2" date="November 4, 2026">
+  <ReleaseDescription>
+    A maintenance release for the Spark 4 line: data-security fixes for column-scoped users, Arrow Flight streaming that no longer overloads the driver, `SHOW VIEWS` on JDBC catalogs, and security updates to bundled dependencies.
+  </ReleaseDescription>
+
+  <Improvements>
+    - **SHOW VIEWS on JDBC Catalogs**: `SHOW VIEWS` now works on JDBC catalogs, where it previously failed with `MISSING_CATALOG_ABILITY.VIEWS`. Data-security policies apply as they do to `SHOW TABLES`: `USE` on the schema is required and only permitted views are listed. The IOMETE Spark extension that provides this is enabled on compute clusters by default; set `spark.iomete.extension.enabled=false` to opt out.
+    - **Arrow Flight Streaming to Slow Clients**: A client that reads results slower than Spark produces them, such as a Tableau extract, no longer makes the driver buffer the whole result in memory until it is killed. Result batches are now paced to what the client is ready to receive, and cancelling the query also ends a stream that is waiting on the client. The statement timeout still covers the whole transfer, so a very large extract read slowly can hit the default one-hour limit.
+    - **Flight SQL Column Precision**: Column metadata returned to Arrow Flight SQL clients now reports the JDBC/ODBC column size (digits for numeric types, 10 for `DATE`, 26 for timestamps) instead of Spark's in-memory byte estimate, which showed `INT` and `DATE` as 4 and `STRING` as 20.
+    - **Oracle Boolean Pushdown by Default**: The IOMETE Spark plugin that fixes boolean-literal filter pushdown to Oracle versions before 23c now loads on compute clusters by default instead of only where `spark.plugins` was set by hand. Set `spark.iomete.plugin.enabled=false` to opt out. Spark jobs with their own entrypoint are unaffected.
+    - **Security Updates**: Bundled dependencies are updated, closing 94 published security advisories.
+    - **Dependency Upgrades**: Scala `2.13.18`, ORC `2.3.1`, Avro `1.12.2` and Jersey `3.1.12`, among other library updates.
+  </Improvements>
+
+  <BugFixes>
+    - **Column-Scoped Access Broken by Masking and Row-Filter Policies**: A user granted `SELECT` on some columns of a table was denied every query on it as soon as a masking policy existed on the table, even for queries touching only granted columns. A row-filter policy whose predicate used a column the user was not granted caused the same denial. Columns a policy injects no longer count as the user's reads; a user's own predicate on an ungranted column is still denied.
+    - **CREATE VIEW over an Iceberg View**: Creating a view over an Iceberg view was denied for want of `SELECT` on the base tables, even when the user had `SELECT` on the view and `CREATE` on the target. It is now authorized against the view, as a plain `SELECT` from it already was, and requires `SELECT` only on the columns the view references.
+  </BugFixes>
+</Release>
 
 <Release name="Spark" version="4.1.3-v1" date="October 1, 2026">
   <ReleaseDescription>
