@@ -73,8 +73,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Layout**: Fixed tooltips breaking words mid-word, a cut-off Data Plane search placeholder, and columns too narrow to read in the classification tag, access token and storage config lists.
   </BugFixes>
 
-  **Spark version:** [3.5.7-v7](./spark.md)
-  **Iceberg version:** 1.9.0-iomete-5
+**Spark version:** [3.5.7-v7](./spark.md)
+**Iceberg version:** 1.9.0-iomete-5
 
 </Release>
 
@@ -312,6 +312,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - The custom LDAP user and group filter fields expand to a fullscreen editor.
       - Classification request columns were reordered and widened so the catalog, schema, table and column values are readable.
       - SSO provider cards are clickable across their whole surface.
+
   </Improvements>
 
   <BugFixes>
@@ -875,7 +876,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
         IOMETE implements both modes defined by the Iceberg REST specification:
 
-        - **Credential Vending** — The catalog issues temporary, scoped credentials per table. Permissions are derived from Apache Ranger policies (`SELECT` → read-only, `INSERT`/`DELETE` → read-write). Credentials are short-lived and automatically scoped to the table's path.
+        - **Credential Vending** — The catalog issues temporary, scoped credentials per table. Permissions are derived from data security policies (`SELECT` → read-only, `INSERT`/`DELETE` → read-write). Credentials are short-lived and automatically scoped to the table's path.
         - **Remote Signing** — The catalog signs requests on behalf of clients using presigned requests. Credentials never leave the server.
 
         Both modes are disabled by default. They can be enabled globally via System Configs (`iceberg-catalog.vended-credentials.enabled` / `iceberg-catalog.remote-signing.enabled`) or per catalog via additional catalog properties.

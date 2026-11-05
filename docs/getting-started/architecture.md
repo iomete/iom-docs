@@ -66,7 +66,7 @@ Controls who can access the platform and what they're allowed to see or change:
 - [User](/user-guide/users) and [group management](/user-guide/groups)
 - [Role management](/user-guide/roles) and member assignment
 - [LDAP](/user-guide/ldap-configuration), [SAML](/user-guide/single-sign-on/saml), and [OIDC](/user-guide/single-sign-on/oidc) integrations for [single sign-on](/user-guide/single-sign-on)
-- Apache Ranger policy management for [data security](/user-guide/data-security/overview) (row-level filtering, [column masking](/user-guide/data-security/data-masking))
+- Policy management for [data security](/user-guide/data-security/overview) (row-level filtering, [column masking](/user-guide/data-security/data-masking))
 - Bundle-based authorization
 
 ### SQL Service
@@ -91,7 +91,7 @@ The backend for the [Data Catalog](/user-guide/data-catalog/overview). Teams use
 
 ### Iceberg REST Catalog Service
 
-Implements the [Apache Iceberg REST Catalog](https://iceberg.apache.org/rest-catalog-spec/) specification so that external tools and Spark engines can access Iceberg table metadata. Every data request passes through [Apache Ranger](https://ranger.apache.org/) policy enforcement, so access control stays consistent no matter how data is queried.
+Implements the [Apache Iceberg REST Catalog](https://iceberg.apache.org/rest-catalog-spec/) specification so that external tools and Spark engines can access Iceberg table metadata. Every data request passes through data security policy enforcement, so access control stays consistent no matter how data is queried.
 
 ### Health Check Service
 
@@ -145,7 +145,7 @@ Real-time data ingestion endpoints powered by Papyrus, a Rust-based ingestion en
 
 ## Security Architecture
 
-IOMETE handles security at multiple layers. Authentication confirms your identity, authorization decides what you can do, and [Apache Ranger](https://ranger.apache.org/) policies control which rows and columns you can see.
+IOMETE handles security at multiple layers. Authentication confirms your identity, authorization decides what you can do, and data security policies control which rows and columns you can see.
 
 ### Authentication
 
@@ -162,7 +162,7 @@ The login flow follows a redirect-based OIDC pattern: the console redirects to t
 Authorization operates at three levels:
 
 1. **Platform-level**: The Core Service checks whether you can perform platform operations like creating compute clusters or managing settings.
-2. **Data-level ([Apache Ranger](https://ranger.apache.org/))**: The Iceberg REST Catalog enforces Ranger policies on every data access request. Ranger policies are managed through the Identity Service and control row-level filtering, column masking, and table-level permissions.
+2. **Data-level**: The Iceberg REST Catalog enforces security policies on every data access request. Data security policies are managed through the Identity Service and control row-level filtering, column masking, and table-level permissions.
 3. **Resource Access Service (RAS)**: A granular permission model that assigns per-resource permissions (VIEW, UPDATE, MANAGE) to compute clusters, Spark jobs, workspaces, and namespaces.
 
 See [Data Security](/user-guide/data-security/overview), [Roles](/user-guide/roles), and [Resource Access Service](/user-guide/ras/resource-bundles) for details on configuring security policies.
@@ -175,19 +175,19 @@ Everything IOMETE stores (table data, Spark event logs, SQL results, worksheets)
 
 IOMETE supports multiple storage backends. The URI scheme depends on the provider:
 
-| Storage Provider | URI Scheme |
-|---|---|
-| [Apache Ozone](https://ozone.apache.org/) | `s3a://` |
-| [Dell ECS](https://www.dell.com/en-us/dt/storage/ecs/index.htm) | `s3a://` |
-| [MinIO](https://min.io/) | `s3a://` |
-| [AWS S3](https://aws.amazon.com/s3/) | `s3a://` |
-| [Google Cloud Storage](https://cloud.google.com/storage) | `gs://` |
-| [Azure Blob Storage (Gen1)](https://azure.microsoft.com/en-us/products/storage/blobs) | `wasbs://` |
-| [Azure Data Lake Storage (Gen2)](https://azure.microsoft.com/en-us/products/storage/data-lake-storage) | `abfs://` |
+| Storage Provider                                                                                       | URI Scheme |
+| ------------------------------------------------------------------------------------------------------ | ---------- |
+| [Apache Ozone](https://ozone.apache.org/)                                                              | `s3a://`   |
+| [Dell ECS](https://www.dell.com/en-us/dt/storage/ecs/index.htm)                                        | `s3a://`   |
+| [MinIO](https://min.io/)                                                                               | `s3a://`   |
+| [AWS S3](https://aws.amazon.com/s3/)                                                                   | `s3a://`   |
+| [Google Cloud Storage](https://cloud.google.com/storage)                                               | `gs://`    |
+| [Azure Blob Storage (Gen1)](https://azure.microsoft.com/en-us/products/storage/blobs)                  | `wasbs://` |
+| [Azure Data Lake Storage (Gen2)](https://azure.microsoft.com/en-us/products/storage/data-lake-storage) | `abfs://`  |
 
 ### Database
 
-All services share a single [PostgreSQL](https://www.postgresql.org/) server. The platform automatically creates separate databases for each service (Hive Metastore, Ranger policies, Iceberg catalog, and each microservice), so there's no manual database provisioning required.
+All services share a single [PostgreSQL](https://www.postgresql.org/) server. The platform automatically creates separate databases for each service (Hive Metastore, Iceberg catalog, and each microservice), so there's no manual database provisioning required.
 
 ## Real-Time Communication
 

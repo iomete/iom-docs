@@ -32,7 +32,7 @@
     "prism-react-renderer": "^2.4.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "sass": "^1.107.0",
+    "sass": "^1.107.1",
     "serialize-javascript": "^7.1.4"
   },
   "devDependencies": {
@@ -76,6 +76,6 @@
     ]
   },
   "engines": {
-    "node": ">=22.23.4"
+    "node": ">=22"
   }
 }

@@ -41,6 +41,13 @@
       "allowedVersions": "!/-/"
     },
     {
+      "description": "Keep engines.node at the major-version floor. Bumping it to an exact patch breaks CI whenever the runner's Node 22 lags behind (yarn install fails the engine check).",
+      "matchDepTypes": [
+        "engines"
+      ],
+      "enabled": false
+    },
+    {
       "description": "Do not update dependencies that are already on prerelease versions",
       "matchCurrentVersion": "/-/",
       "enabled": false

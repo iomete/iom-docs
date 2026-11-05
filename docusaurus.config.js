@@ -213,16 +213,16 @@ const config = {
           },
           { to: "/blog", label: "Blog", position: "left" },
           {
-            type: "search",
-            position: "right",
-            className: "navbar-search",
-          },
-          {
             href: `${DEMO_PATH}?ref=docs-nav&cta=nav`,
             label: "Book a demo",
             position: "right",
             className: "navbar-demo-cta iomete-btn",
             target: "_self",
+          },
+          {
+            type: "search",
+            position: "right",
+            className: "navbar-search",
           },
         ],
       },
