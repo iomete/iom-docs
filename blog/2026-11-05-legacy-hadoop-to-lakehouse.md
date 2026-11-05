@@ -14,23 +14,6 @@ last_update:
 
 import DemoCta from '@site/src/components/DemoCta';
 import FAQSection from '@site/src/components/FAQSection';
-import JsonLd from '@site/src/components/JsonLd';
-
-<JsonLd data={{
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  "name": "Migrate a legacy Hadoop estate to an Apache Iceberg lakehouse on Kubernetes",
-  "step": [
-    {"@type": "HowToStep", "name": "Inventory the estate", "text": "List databases and tables, HDFS paths, Spark, Hive and Impala jobs, schedules, Ranger policies, Kerberos/LDAP integration and BI connections."},
-    {"@type": "HowToStep", "name": "Stand up the target in parallel", "text": "Install IOMETE on your Kubernetes or OpenShift cluster and connect object storage and LDAP/SSO."},
-    {"@type": "HowToStep", "name": "Move the data", "text": "Copy HDFS data to S3-compatible object storage, starting with one domain."},
-    {"@type": "HowToStep", "name": "Convert to Iceberg", "text": "Register the object-storage copies as staging tables, then use Apache Iceberg Spark procedures: snapshot to test, migrate to convert, add_files to register existing files. Rewrite full-ACID Hive tables with a query instead."},
-    {"@type": "HowToStep", "name": "Port workloads", "text": "Update Spark job configuration, review Hive and Impala SQL against Spark SQL, and move schedules to Airflow."},
-    {"@type": "HowToStep", "name": "Re-tune for object storage", "text": "Re-check file sizes, partitioning and parallelism for the heaviest jobs."},
-    {"@type": "HowToStep", "name": "Re-create access policies", "text": "Re-create each Ranger policy as an IOMETE data security policy and use tags for consistent masking."},
-    {"@type": "HowToStep", "name": "Validate and cut over", "text": "Compare counts, checksums and report outputs per domain, re-point BI, then decommission."}
-  ]
-}} />
 
 **Short answer:** Most legacy Hadoop modernisations follow the same path:
 
@@ -89,7 +72,7 @@ A short way to put it: **a Hadoop distribution gives you components to assemble 
    These procedures suit non-transactional Parquet and ORC tables. Full-ACID Hive tables keep their state in delta and delete-delta files, so export and rewrite them with a query (for example `CREATE TABLE ... AS SELECT`) instead.
 5. **Port workloads.** Spark jobs mostly need configuration changes. Review Hive/Impala SQL against Spark SQL. Move schedules to [Airflow](/integrations/airflow/getting-started).
 6. **Re-tune for object storage.** Jobs tuned for years on HDFS data locality can behave differently on object storage. Budget time to re-check file sizes, partitioning and parallelism for the heaviest jobs.
-7. **Re-create access policies** as IOMETE data security policies. Map each Ranger policy (table and column access, row filters, masking, tags) to its IOMETE equivalent as part of each domain move, and use tags to apply PII masking consistently.
+7. **Re-create access policies** as IOMETE data security policies. Map each table-level Ranger policy (table and column access, row filters, masking, tags) to its IOMETE equivalent as part of each domain move, and use tags to apply PII masking consistently. HDFS path policies don't carry over, so plan object-storage access separately.
 8. **Validate and cut over** one domain at a time: compare counts, checksums and report outputs, then re-point BI and decommission.
 
 **At scale:** a global technology manufacturer consolidated five legacy analytics platforms onto one IOMETE lakehouse. It runs on 100,000+ vCPUs across four of its own data centers. [See the proof points](/blog/sovereign-lakehouse-proof-at-scale).
@@ -120,7 +103,7 @@ A short way to put it: **a Hadoop distribution gives you components to assemble 
   },
   {
     question: "What happens to our Ranger policies?",
-    answer: "You re-create them as IOMETE data security policies. The same concepts exist on both sides (table and column access, row filters, masking and tags), so each policy maps to an IOMETE equivalent during the domain move."
+    answer: "You re-create them as IOMETE data security policies. Table-level Ranger policies (table and column access, row filters, masking and tags) map to IOMETE equivalents during the domain move. HDFS path policies have no IOMETE equivalent, so plan object-storage access separately."
   }
 ]} />
 
