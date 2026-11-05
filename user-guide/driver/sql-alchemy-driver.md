@@ -1,8 +1,9 @@
 ---
 title: SQLAlchemy Driver
+sidebar_label: SQLAlchemy Driver
 description: IOMETE lakehouse endpoints are compatible with the py-hive-iomete driver, and you can use the samples repository for a quick start
 last_update:
-  date: 10/04/2023
+  date: 11/05/2026
   author: Vusal Dadalov
 ---
 
@@ -13,6 +14,12 @@ IOMETE compute endpoints are compatible with the [py-hive-iomete](https://pypi.o
 :::info
 For additional DB-API and SQLAlchemy reference examples, see: https://github.com/iomete/iomete-integrations/tree/main/py-hive-iomete
 :::
+
+## Connection Values
+
+Open **Compute → select a compute → Connections → Python** and copy that compute's host, port, and namespace. The host routes to the selected data plane and can differ from the console host.
+
+The driver's legacy parameter name `data_plane` takes the compute's **Kubernetes namespace**, not the registered data plane ID. For a compute in namespace `analytics` on data plane `dp-2`, use `data_plane="analytics"` with the host shown in Connections. The `database` parameter selects a SQL database independently of workload placement.
 
 ## DB-API
 
@@ -31,7 +38,7 @@ connection = hive.connect(
     host="<host>",
     port="<port>",
     scheme="<https or http>",
-    data_plane="<data_plane_name>", # Optional, skip if using default data-plane
+    data_plane="<kubernetes_namespace>",
     lakehouse="<lakehouse_cluster_name>",
     database="default",  # For tables in a non-default catalog, use "<catalog>.<database>"
     username="<username>",
@@ -55,7 +62,7 @@ connection = hive.connect(
     host="<host>",
     port="<port>",
     scheme="<https or http>",
-    data_plane="<data_plane_name>", # Optional, skip if using default data-plane
+    data_plane="<kubernetes_namespace>",
     lakehouse="<lakehouse_cluster_name>",
     database="default",  # For tables in a non-default catalog, use "<catalog>.<database>"
     username="<username>",
@@ -101,11 +108,7 @@ from sqlalchemy.orm import sessionmaker
 # iomete+https
 
 engine = create_engine(
-    'iomete+https://<username>:<personal_access_token>@<host>:<port>/<database>?data_plane=<data_plane_name>&lakehouse=<lakehouse_cluster_name>')
-
-# or if using default data-plane
-# engine = create_engine(
-#     'iomete+https://<username>:<personal_access_token>@<host>:<port>/<database>?lakehouse=<lakehouse_cluster_name>')
+    'iomete+https://<username>:<personal_access_token>@<host>:<port>/<database>?data_plane=<kubernetes_namespace>&lakehouse=<lakehouse_cluster_name>')
 
 session = sessionmaker(bind=engine)()
 records = (
@@ -123,7 +126,7 @@ print(records)
 
 # If your table is in a non-default catalog, specify the path as <catalog>.<database>.
 # Example:
-# iomete+https://<username>:<personal_access_token>@<host>:<port>/<catalog>.<database>?data_plane=<data_plane_name>&lakehouse=<lakehouse_cluster_name>
+# iomete+https://<username>:<personal_access_token>@<host>:<port>/<catalog>.<database>?data_plane=<kubernetes_namespace>&lakehouse=<lakehouse_cluster_name>
 
 # Example: use a non-default catalog in the connection URL and specify
 # schema="<database_b>" when the reflected table belongs to a different
@@ -134,7 +137,7 @@ print(records)
 # Both belong to the same <catalog>.
 
 engine = create_engine(
-    "iomete+https://<username>:<personal_access_token>@<host>:<port>/<catalog>.<database_a>?data_plane=<data_plane_name>&lakehouse=<lakehouse_cluster_name>"
+    "iomete+https://<username>:<personal_access_token>@<host>:<port>/<catalog>.<database_a>?data_plane=<kubernetes_namespace>&lakehouse=<lakehouse_cluster_name>"
 )
 
 session = sessionmaker(bind=engine)()

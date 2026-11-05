@@ -3,7 +3,7 @@ title: Namespace Quotas
 description: Understand how Kubernetes resource quotas limit IOMETE workloads in each namespace, how to read quota usage in the console, and why usage can exceed 100% or pods can wait while you're under quota.
 sidebar_label: Namespace Quotas
 last_update:
-  date: 10/02/2026
+  date: 11/05/2026
   author: Shashank Chaudhary
 ---
 
@@ -93,7 +93,11 @@ When you create or edit a compute cluster, Spark job, or Jupyter container, the 
 
 ### Selecting a Namespace
 
-The **Deploy to Kubernetes namespace** dropdown groups namespaces by data plane. Next to each one, it shows what would be left after your selection, for example **477.6 vCPU left / 3.9 TB left / 104 pods left**. The color tells you how well your selection fits:
+The **Deploy to Kubernetes namespace** dropdown groups namespaces by data plane. Select both together: for example, choose `analytics` under `dp-2`. A namespace named `analytics` under another data plane is a different selection.
+
+The choices come from namespace assignments in your domain and your [Use permissions](./iam/ras/ras-permissions.md#namespace). Selecting one does not create a Kubernetes namespace or register a data plane. If the dropdown shows **No namespaces available**, ask your administrator to check the domain assignment and namespace permissions, then refresh the list.
+
+Next to each namespace, it shows what would be left after your selection, for example **477.6 vCPU left / 3.9 TB left / 104 pods left**. The color tells you how well your selection fits:
 
 | Indicator | Example | Meaning |
 |-----------|---------|---------|
@@ -136,6 +140,8 @@ While usage is above the limit, Kubernetes rejects every new pod in that namespa
 
 A quota is a ceiling, not a reservation. It sets the most a namespace may use, but it doesn't set aside nodes for it. See [Quota and Cluster Capacity](https://kubernetes.io/docs/concepts/policy/resource-quotas/#quota-and-cluster-capacity) in the Kubernetes docs.
 
+Multiple namespaces, and even multiple data planes, can share one Kubernetes cluster. When data planes share a cluster, their workloads compete for the same node capacity.
+
 Administrators often give each team's namespace a generous quota. Added together, the quotas of all namespaces can be more than the cluster's real CPU and memory. When several teams are busy at once, the cluster fills up before any one namespace reaches its quota.
 
 When that happens, the namespace quotas tab shows plenty of room, but new pods stay **Pending** because no node has enough free CPU or memory.
@@ -161,7 +167,7 @@ Both problems stop new pods from starting, but the cause and the fix are differe
 ## Setting Quotas
 
 :::info
-This section is for Kubernetes administrators. You create quotas with `kubectl` or your own deployment tooling, not in the IOMETE console.
+This section is for Kubernetes administrators. You create quotas with `kubectl` or your own deployment tooling, not in the IOMETE console. Use the Kubernetes context for the cluster hosting the selected data plane, and set `metadata.namespace` to the workload namespace. Creating a quota does not assign that namespace to an IOMETE domain.
 :::
 
 A namespace-level quota limits everything in the namespace:
