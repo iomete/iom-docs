@@ -51,7 +51,7 @@ IOMETE is a self-hosted lakehouse on Kubernetes:
 
 ## Using Both
 
-Iceberg is an open format, so Iceberg-compatible engines, including Trino, can read the tables IOMETE writes. They connect through IOMETE's managed Iceberg REST Catalog with an access token, and the same data security policies apply to them. The [Iceberg REST Catalog guide](/user-guide/spark-catalogs/internal) shows the connection settings.
+Iceberg is an open format, so Iceberg-compatible engines, including Trino, can read the tables IOMETE writes. They connect through IOMETE's managed Iceberg REST Catalog with an access token, and IOMETE's access policies control which catalogs, namespaces and tables they can read. Row filters and column masking are enforced by IOMETE's engine. The [Iceberg REST Catalog guide](/user-guide/spark-catalogs/internal) shows the connection settings.
 
 A common pattern: federate to explore a new source, then land the tables that matter in Iceberg and serve dashboards from there.
 
@@ -66,7 +66,7 @@ A common pattern: federate to explore a new source, then land the tables that ma
   },
   {
     question: "Can Trino read IOMETE tables?",
-    answer: "Yes. IOMETE stores data as Apache Iceberg tables and exposes them through an Iceberg REST Catalog. Iceberg-compatible engines such as Trino connect to it with an access token, and IOMETE's data security policies still apply."
+    answer: "Yes. IOMETE stores data as Apache Iceberg tables and exposes them through an Iceberg REST Catalog. Iceberg-compatible engines such as Trino connect to it with an access token, and IOMETE's access policies decide which tables they can read."
   }
 ]} />
 
@@ -80,4 +80,9 @@ A common pattern: federate to explore a new source, then land the tables that ma
 - [Control plane vs data plane](/blog/control-plane-vs-data-plane)
 
 *Trino is a trademark of the Trino Software Foundation. Apache®, Apache Spark™ and Apache Iceberg™ are trademarks of the Apache Software Foundation.*
- 
+
+## Sources
+
+- [Iceberg REST Catalog](/user-guide/spark-catalogs/internal), IOMETE user guide.
+- [Query federation](/reference/sql-quick-start/query-federation), IOMETE reference.
+- [Trino documentation](https://trino.io/docs/current/), accessed 5 November 2026.
