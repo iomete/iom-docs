@@ -3,11 +3,88 @@ title: Kubernetes Network Policies
 sidebar_label: Network Policies
 description: Learn how to configure network policies for IOMETE services in a Kubernetes cluster.
 last_update:
-  date: 10/15/2026
-  author: Maksym Kryvchun
+  date: 11/05/2026
+  author: Rovshan Baghirov
 ---
 
 IOMETE services rely on specific network configurations to function properly in a Kubernetes cluster. These network policies govern how different components communicate securely and efficiently.
+
+## NetworkPolicy Enforcement Is a Prerequisite for Doris Computes
+
+Doris computes depend on Kubernetes NetworkPolicy. For each Doris compute, IOMETE creates a policy named `cc-<name>-ingress`. It lets only the compute's own frontend and backend pods, the compute proxy and doris-operator reach the Doris pods.
+
+The policy matters because Doris's internal ports accept no login at all. These are the frontend's Thrift RPC port `9020`, its edit log port `9010` and every backend port. The Thrift port runs statements as any user named in the request. Without the policy, any pod in the data plane namespace could use these ports. That includes user code in Spark drivers and executors.
+
+Kubernetes stores a NetworkPolicy on any cluster, but only the cluster's network plugin enforces it. On a cluster that doesn't enforce policies, `kubectl apply` succeeds and the policy has no effect.
+
+These platforms enforce NetworkPolicies by default:
+
+- OpenShift, with OVN-Kubernetes or OpenShift SDN.
+- k3s, through its embedded policy controller, unless it runs with `--disable-network-policy`.
+- AKS with `networkPolicy` set to `azure`, `calico` or `cilium`.
+- GKE with Dataplane V2.
+- Any cluster that runs Cilium or Calico.
+
+These platforms accept NetworkPolicies but ignore them until you switch enforcement on:
+
+- AKS without a network policy mode (`networkPolicy: none`).
+- GKE without Dataplane V2 or the network policy add-on.
+- EKS Auto Mode, until you create the `amazon-vpc-cni` ConfigMap in the `kube-system` namespace with `enable-network-policy-controller: "true"`. The ConfigMap doesn't exist by default.
+- Classic EKS, until you set `enableNetworkPolicy: "true"` in the VPC CNI add-on configuration, or install a CNI that enforces policies, such as Calico or Cilium. The `enableNetworkPolicy` setting needs VPC CNI add-on version 1.14 or later.
+- Any cluster with a plain network plugin such as Flannel.
+
+A policy is enforced on the node that receives the traffic. So enforcement must be on for every node pool the Doris pods can run on. On EKS Auto Mode, that means every NodeClass.
+
+IOMETE's data plane agent also checks enforcement itself. It runs a canary pod on the node pool where the agent runs. If the data plane doesn't enforce policies, the agent refuses to place Doris computes on it. The agent repeats the check after a restart. So after you switch enforcement on, restart the lakehouse agent.
+
+### Checking That Your Cluster Enforces NetworkPolicies
+
+This check works on any cluster. It starts a pod that listens on a port, blocks all traffic to it with a NetworkPolicy, and then tries to connect from another pod. It runs in a throwaway namespace, because other policies in a namespace can allow the traffic and hide the result.
+
+The commands use the `busybox` image. On an air-gapped cluster, use any image you have that can listen on a port.
+
+1. Create the namespace and the listening pod. The pod runs the small web server built into `busybox` on port `8080`. The check only tests whether a TCP connection opens, so what the server answers doesn't matter:
+
+   ```bash
+   kubectl create namespace np-check
+   kubectl run np-server -n np-check --image=busybox:1.36 --labels=app=np-server -- httpd -f -p 8080
+   kubectl wait --for=condition=Ready pod/np-server -n np-check --timeout=120s
+   SERVER_IP=$(kubectl get pod np-server -n np-check -o jsonpath='{.status.podIP}')
+   ```
+
+2. Connect from another pod. This should print `CONNECTED`, which shows the test itself works:
+
+   ```bash
+   kubectl run np-client -n np-check --image=busybox:1.36 --rm -i --restart=Never -- \
+     sh -c "nc -z -w 3 $SERVER_IP 8080 && echo CONNECTED || echo BLOCKED"
+   ```
+
+3. Apply a policy that selects the listening pod and allows no ingress:
+
+   ```bash
+   kubectl apply -n np-check -f - <<'YAML'
+   apiVersion: networking.k8s.io/v1
+   kind: NetworkPolicy
+   metadata:
+     name: np-check-deny-ingress
+   spec:
+     podSelector:
+       matchLabels:
+         app: np-server
+     policyTypes:
+       - Ingress
+   YAML
+   ```
+
+4. Wait a few seconds, then run the command from step 2 again. It should now print `BLOCKED`. If it prints `CONNECTED`, your cluster does not enforce NetworkPolicies. Switch enforcement on before you create Doris computes.
+
+5. Clean up:
+
+   ```bash
+   kubectl delete namespace np-check
+   ```
+
+---
 
 ## Spark Operator Webhook Policy
 
@@ -90,7 +167,7 @@ networkPolicies:
     enabled: true
 ```
 
-The policy only restricts traffic when your cluster's network plugin enforces NetworkPolicies, so check that before relying on it.
+The policy only restricts traffic when your cluster's network plugin enforces NetworkPolicies, so [check that](#checking-that-your-cluster-enforces-networkpolicies) before relying on it.
 
 With it:
 
