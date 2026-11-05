@@ -3,8 +3,8 @@ title: Integration Release Notes
 sidebar_label: Integrations
 description: Release notes for IOMETE integrations, including dbt-iomete, the IOMETE Airflow Plugin, the IOMETE Tableau connector, the IOMETE Power BI connector, and the Arrow Flight SQL ODBC and JDBC drivers.
 last_update:
-  date: 11/02/2026
-  author: Abhishek Pathania
+  date: 11/05/2026
+  author: Turkel Mammadli
 ---
 
 import { Release, NewFeatures, Improvements, BugFixes, BreakingChanges } from '@site/src/components/Release';
@@ -15,7 +15,7 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
 
 | Integration | Package | Version | Compatibility | Guide | Source |
 | --- | --- | --- | --- | --- | --- |
-| dbt | [`dbt-iomete`](https://pypi.org/project/dbt-iomete/) | 1.8.3 | dbt Core 1.8.x; Python 3.9–3.12 | [Open](../../../integrations/dbt/getting-started-with-iomete-dbt.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/dbt-iomete) |
+| dbt | [`dbt-iomete`](https://pypi.org/project/dbt-iomete/) | 1.12.0 | dbt Core 1.12.x; Python 3.10–3.12 | [Open](../../../integrations/dbt/getting-started-with-iomete-dbt.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/dbt-iomete) |
 | Airflow | [`iomete-airflow-plugin`](https://pypi.org/project/iomete-airflow-plugin/) | 4.0.0 | Airflow `>=3.3.0,<4.0.0`; Python 3.11–3.13 | [Open](../../../integrations/airflow/getting-started.mdx) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) |
 | Tableau | [`tableau-connector`](https://github.com/iomete/iomete-integrations/releases?q=tableau-connector) | 0.1.0 | Tableau Desktop and Server 2024.2 and later | [Open](../../../integrations/bi/tableau/arrow-flight.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/tableau-connector) |
 | Power BI and Arrow Flight SQL ODBC | [`iomete-odbc-connector`](https://github.com/iomete/iomete-artifacts) | 24.0.0-iomete.3 | Power BI Desktop and on-premises data gateway on Windows x64 | [Open](../../../integrations/bi/power-bi/arrow-flight.md) | Closed source |
@@ -24,6 +24,22 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
 ---
 
 ## Recent Releases
+
+<Release name="dbt-iomete" version="1.12.0" date="November 5, 2026">
+  <NewFeatures>
+    - **Snapshot configurations from dbt 1.9**: Added support for the snapshot configurations introduced in dbt 1.9. Use `snapshot_meta_column_names` to rename the `dbt_` metadata columns, `dbt_valid_to_current` to give current records a fixed `dbt_valid_to` value instead of `NULL`, `hard_deletes: new_record` to add a row marked as deleted when a record disappears from the source, and a list `unique_key` to identify a record by several columns.
+  </NewFeatures>
+
+  <Improvements>
+    - **dbt Core 1.12 support**: Upgraded the adapter from dbt Core 1.8 to 1.12, with minimum versions of `dbt-adapters` 1.24.5 and `dbt-common` 1.37.5.
+    - **protobuf 6**: Upgraded the pinned `protobuf` version from 5.29.6 to 6.33.6, the 6.x line that dbt Core 1.12 requires.
+  </Improvements>
+
+  <BreakingChanges>
+    - **dbt Core 1.12 required**: Installing this version upgrades dbt Core to 1.12.x. Review dbt's upgrade guides for versions 1.9 through 1.12 before upgrading, as later dbt versions change behavior and deprecate some project configurations.
+    - **Python 3.9 support removed**: Raised the minimum Python version to 3.10, because dbt Core 1.12 does not support Python 3.9. Upgrade to Python 3.10–3.12 first, or pin `dbt-iomete>=1.8.3,<1.9` to stay on the 1.8 line.
+  </BreakingChanges>
+</Release>
 
 <Release name="IOMETE Airflow Plugin" version="4.0.0" date="November 2, 2026">
   <Improvements>
