@@ -3,7 +3,7 @@ title: Database Migration
 sidebar_label: Database Migration
 description: Move the PostgreSQL databases used by IOMETE while preserving the installation and coordinating all affected control planes and data planes.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Vusal Dadalov
 ---
 
@@ -79,7 +79,12 @@ helm upgrade data-plane iomete/iomete-data-plane-enterprise \
   --wait
 ```
 
-For an affected additional data plane, use its `iomete-lakehouse-runtime` release and its own values file:
+If an additional data plane uses the database being moved, update its release as well before restoring workloads.
+
+<details>
+<summary>Applying the connection settings to an additional data plane</summary>
+
+Use its `iomete-lakehouse-runtime` release and its own values file:
 
 ```bash
 helm upgrade <runtime-release> iomete/iomete-lakehouse-runtime \
@@ -89,6 +94,8 @@ helm upgrade <runtime-release> iomete/iomete-lakehouse-runtime \
   --values <updated-runtime-values-file> \
   --wait
 ```
+
+</details>
 
 Restore the control plane first, then its additional data planes. Use the recorded replica counts from the maintenance procedure; do not assume Helm restores every manually scaled or autoscaled service to its previous count. A service left at zero may need its recorded count restored while an upgrade is waiting for readiness.
 

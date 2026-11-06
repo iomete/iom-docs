@@ -4,7 +4,7 @@ title: Temporary Shutdown for Maintenance
 sidebar_label: Maintenance Shutdown
 description: Pause and restore the IOMETE services and workloads affected by a maintenance window, including installations with multiple data planes.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Vusal Dadalov
 ---
 
@@ -46,11 +46,11 @@ helm list --kube-context "$IOMETE_CONTEXT" --namespace "$RELEASE_NAMESPACE"
 
 Record the installed chart version from the **CHART** column, not just the application version. For example, `iomete-data-plane-enterprise-4.0.1` means chart version `4.0.1`.
 
-Set `IOMETE_NAMESPACES` to the service namespace **and every workload namespace managed by this release**, using its values file. The array below is an example, not a list to copy unchanged:
+Set `IOMETE_NAMESPACES` to the service namespace **and every workload namespace managed by this release**, using its values file. This example release manages the `finance` and `marketing` workload namespaces. Replace the array with the complete list from your release:
 
 ```bash
 IOMETE_VERSION="<installed-chart-version>"
-IOMETE_NAMESPACES=(iomete-system iomete-compute)
+IOMETE_NAMESPACES=(iomete-system finance marketing)
 IOMETE_MAINTENANCE_DIR="maintenance-$RELEASE_NAME"
 
 umask 077
@@ -87,7 +87,7 @@ While the console and runtime services are still available:
 For example, inspect an affected namespace with:
 
 ```bash
-kubectl --context "$IOMETE_CONTEXT" -n iomete-compute get pods
+kubectl --context "$IOMETE_CONTEXT" -n finance get pods
 ```
 
 The control plane also has an internal Spark application for the database explorer in chart versions that deploy `iom-spark-connect`. If your recorded enterprise manifest includes it, stop it **before** scaling down the Spark operator:
