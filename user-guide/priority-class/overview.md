@@ -101,10 +101,8 @@ priorityClassMappings:
 
 The names are only references: the PriorityClass resources’ numeric values and preemption policies determine behavior. Ensure every mapped name exists in the workload’s Kubernetes cluster.
 
-<details>
+<details id="additional-data-planes">
 <summary>Configuring mappings for an additional data plane</summary>
-
-### Additional Data Planes
 
 The agent reads `priority-class-mappings` from **its own service namespace**, such as `iomete-analytics`. The published 4.0.1 runtime chart does not render this ConfigMap from `priorityClassMappings`, so adding the enterprise values to that runtime release alone is insufficient.
 

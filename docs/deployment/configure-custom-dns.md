@@ -36,10 +36,8 @@ kubectl get service istio-ingress --namespace istio-system
 
 Use the address in `EXTERNAL-IP`, which may be an IP address or a load-balancer DNS name. If it remains pending, finish the load-balancer configuration before creating DNS records. For a different controller or release name, use that controller's Service.
 
-<details>
+<details id="if-your-setup-uses-a-nodeport">
 <summary>Using NodePort instead of a LoadBalancer</summary>
-
-### If Your Setup Uses a `NodePort`
 
 DNS maps a name to an address; it does not map port 443 to a Kubernetes NodePort. Configure a reachable load balancer, reverse proxy or firewall forwarding rule that accepts the required public ports and forwards to the ingress NodePorts. Use that stable frontend address for DNS. Pointing DNS at an arbitrary worker node is not enough to provide HTTPS on port 443.
 

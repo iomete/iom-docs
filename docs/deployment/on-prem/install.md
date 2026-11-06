@@ -186,10 +186,8 @@ Keep the values file and approved chart version for [future upgrades](../life-cy
 
 ## Alternative Setup and Upgrade Procedures
 
-<details>
+<details id="option-2-have-an-administrator-create-them">
 <summary>Option 2: Administrator-managed service accounts, CRDs, and webhook</summary>
-
-#### Option 2: Have an Administrator Create Them
 
 A Kubernetes administrator generates the resources from the chart and applies them. The commands need [`yq`](https://github.com/mikefarah/yq) v4 and must run with the same values file you install with.
 
@@ -251,10 +249,8 @@ You can combine the two options. For example, let Helm create the service accoun
 
 </details>
 
-<details>
+<details id="upgrading-the-crds">
 <summary>Updating Spark Operator CRDs during an upgrade</summary>
-
-#### Upgrading the CRDs
 
 `helm upgrade` never updates or deletes the Spark Operator CRDs, whether Helm or an administrator created them. When the release notes for the version you are upgrading to say the CRDs changed, apply them before you run the upgrade:
 
