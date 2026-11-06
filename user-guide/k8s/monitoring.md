@@ -98,7 +98,7 @@ Manual import works with or without Prometheus Operator:
 
 A successful import adds the dashboard to Grafana. Confirm that at least one expected service or running workload has data before configuring IOMETE's dashboard links.
 
-<details id="for-prometheus-operator-setup">
+<details id="for-prometheus-operator-setup" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
 <summary>Alternative: Provisioning dashboards automatically</summary>
 
 Some monitoring stacks bundle Grafana with a **dashboard sidecar**: a container that watches labeled ConfigMaps and copies their JSON files into Grafana's dashboard directory. Automatic discovery works only when that sidecar is enabled, the ConfigMaps match its label selector, and it can read their namespaces. Check those settings in your Grafana chart. The Prometheus Operator itself does not perform this import.
