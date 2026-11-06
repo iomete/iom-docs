@@ -3,18 +3,18 @@ title: Configuring IOMETE Hostnames
 sidebar_label: Custom DNS
 description: Choose hostnames for the control plane and additional data planes, point them at ingress, and verify DNS and TLS access.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: IOMETE
 ---
 
-Give the control plane a stable hostname, such as `iomete.example.com`. Users open that address to access the console. An additional data plane uses a separate compute hostname, such as `compute-east.example.com`; it does not provide another console.
+Give the control plane a stable hostname, such as `iomete.example.com`. Users open that address to access the console. An additional data plane uses a separate compute hostname, such as `analytics.example.com`; it does not provide another console.
 
 ## Choosing the Addresses {#understanding-the-basics}
 
 | Address | Who uses it | Example |
 |---|---|---|
 | Control-plane URL | Users, API clients and enrolled data planes | `https://iomete.example.com` |
-| Additional plane's `multiCluster.externalUrl` | Compute clients and the control plane's SQL service | `https://compute-east.example.com` |
+| Additional plane's `multiCluster.externalUrl` | Compute clients and the control plane's SQL service | `https://analytics.example.com` |
 | Additional plane's `multiCluster.selfUrl` | Control-plane enrollment and plane-to-plane API calls | A reachable private gateway address or the plane's HTTPS hostname |
 
 Two hostnames can resolve to the same ingress address when the planes share a Kubernetes cluster. Their ingress routes must still select the correct plane's service namespace. A Kubernetes namespace does not automatically receive a public hostname.
@@ -36,9 +36,14 @@ kubectl get service istio-ingress --namespace istio-system
 
 Use the address in `EXTERNAL-IP`, which may be an IP address or a load-balancer DNS name. If it remains pending, finish the load-balancer configuration before creating DNS records. For a different controller or release name, use that controller's Service.
 
+<details>
+<summary>Using NodePort instead of a LoadBalancer</summary>
+
 ### If Your Setup Uses a `NodePort`
 
 DNS maps a name to an address; it does not map port 443 to a Kubernetes NodePort. Configure a reachable load balancer, reverse proxy or firewall forwarding rule that accepts the required public ports and forwards to the ingress NodePorts. Use that stable frontend address for DNS. Pointing DNS at an arbitrary worker node is not enough to provide HTTPS on port 443.
+
+</details>
 
 ## Creating Your DNS Record
 
@@ -53,7 +58,7 @@ Verify the answer from the networks that will use it:
 
 ```shell
 dig +short iomete.example.com
-dig +short compute-east.example.com
+dig +short analytics.example.com
 ```
 
 Only run the second check if you configured that additional plane. Allow for your DNS records' TTL when changing an existing address.

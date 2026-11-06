@@ -3,7 +3,7 @@ title: Configuring Istio Ingress
 sidebar_label: Configure Ingress
 description: Route the IOMETE console, compute traffic and cross-plane requests through an Istio ingress with TLS and HTTP/2.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: IOMETE
 ---
 
@@ -179,31 +179,7 @@ ingress:
 
 This setting tells IOMETE that the public connection uses HTTPS. It does not enable TLS by itself. Keep the existing namespace list and other release settings when applying it.
 
-### Routing an Additional Data Plane
-
-An additional plane needs its own hostname, for example `compute-east.example.com`, and its own runtime release, for example in `iomete-dp-east`. Add that hostname to an appropriate HTTPS Gateway with a certificate covering it. Create a separate VirtualService using the route structure above, with these substitutions:
-
-| Field | Additional-plane value |
-|---|---|
-| VirtualService name | `iomete-dp-east` |
-| VirtualService namespace | `iomete-dp-east` |
-| Hostname | `compute-east.example.com` |
-| Destination Service namespace | `iomete-dp-east` in all three destination hosts |
-| Gateway reference | The Gateway serving this hostname |
-
-Do not send the additional plane's hostname to the control-plane namespace. Avoid wildcard catch-all routes that can also match another plane's hostname. Set `ingress.httpsEnabled: true` in the runtime release's values too.
-
-The plane's `multiCluster.externalUrl` is the compute URL clients use, such as `https://compute-east.example.com`. Its `multiCluster.selfUrl` is the address the control plane uses for enrollment and plane-to-plane calls; it can be an internal service address when both planes share a Kubernetes cluster. A private `selfUrl` does not replace the compute endpoint: the control plane's SQL service also needs access to the external compute hostname on **TLS port 443 with HTTP/2**.
-
-Decide these addresses before enrolling the plane. They are recorded during enrollment, and changing Helm values alone does not reliably change an already registered address. See [Multi-Cluster Setup](./multi-cluster-setup.mdx) for enrollment prerequisites.
-
-Do not change the ordinary port 80 Service to force HTTP/2: notebooks need its WebSocket upgrade behavior. Use the dedicated gRPC port. See [Istio protocol selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection/) for upstream protocol handling.
-
-### Using HTTP for a Local Evaluation {#for-http-non-tls-mode}
-
-For a local evaluation of the control plane and its default data plane, you can use an HTTP listener on port 80 without `httpsRedirect` and set `ingress.httpsEnabled: false`. Keep the hostname-specific VirtualService and route destinations above. Do not submit real credentials over an untrusted HTTP connection.
-
-HTTP-only console access does not validate an additional data plane's compute connectivity. The remote SQL path requires the TLS endpoint described above.
+For an additional runtime, complete [Routing an Additional Data Plane](#routing-an-additional-data-plane) before the checks below.
 
 ## Verifying Access {#follow-up-steps}
 
@@ -215,3 +191,41 @@ curl --fail --show-error --silent --output /dev/null \
 With a private CA, use `--cacert <ca-certificate.pem>` for this check. Expect a successful console response, then sign in using a browser. For an additional plane, visiting its root URL should redirect to the control plane.
 
 Complete the functional checks: confirm the plane is connected, run `SELECT 1` on one of its compute clusters, and open a Jupyter container if you use notebooks. An HTTP response from the console does not verify gRPC or WebSockets. If SQL fails while the plane remains connected, check TLS trust, port 443 reachability and the gRPC route to Service port 8081.
+
+## Other Deployment Scenarios
+
+<details>
+<summary>Routing an additional data plane</summary>
+
+### Routing an Additional Data Plane
+
+An additional plane needs its own hostname, for example `analytics.example.com`, and its own runtime release, for example in `iomete-analytics`. Add that hostname to an appropriate HTTPS Gateway with a certificate covering it. Create a separate VirtualService using the route structure above, with these substitutions:
+
+| Field | Additional-plane value |
+|---|---|
+| VirtualService name | `iomete-analytics` |
+| VirtualService namespace | `iomete-analytics` |
+| Hostname | `analytics.example.com` |
+| Destination Service namespace | `iomete-analytics` in all three destination hosts |
+| Gateway reference | The Gateway serving this hostname |
+
+Do not send the additional plane's hostname to the control-plane namespace. Avoid wildcard catch-all routes that can also match another plane's hostname. Set `ingress.httpsEnabled: true` in the runtime release's values too.
+
+The plane's `multiCluster.externalUrl` is the compute URL clients use, such as `https://analytics.example.com`. Its `multiCluster.selfUrl` is the address the control plane uses for enrollment and plane-to-plane calls; it can be an internal service address when both planes share a Kubernetes cluster. A private `selfUrl` does not replace the compute endpoint: the control plane's SQL service also needs access to the external compute hostname on **TLS port 443 with HTTP/2**.
+
+Decide these addresses before enrolling the plane. They are recorded during enrollment, and changing Helm values alone does not reliably change an already registered address. See [Multi-Cluster Setup](./multi-cluster-setup.mdx) for enrollment prerequisites.
+
+Do not change the ordinary port 80 Service to force HTTP/2: notebooks need its WebSocket upgrade behavior. Use the dedicated gRPC port. See [Istio protocol selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection/) for upstream protocol handling.
+
+</details>
+
+<details>
+<summary>HTTP-only access for a local evaluation</summary>
+
+### Using HTTP for a Local Evaluation {#for-http-non-tls-mode}
+
+For a local evaluation of the control plane and its default data plane, you can use an HTTP listener on port 80 without `httpsRedirect` and set `ingress.httpsEnabled: false`. Keep the hostname-specific VirtualService and route destinations above. Do not submit real credentials over an untrusted HTTP connection.
+
+HTTP-only console access does not validate an additional data plane's compute connectivity. The remote SQL path requires the TLS endpoint described above.
+
+</details>

@@ -3,7 +3,7 @@ title: Migrating to New Object Storage
 sidebar_label: Storage Migration
 description: Move IOMETE's S3-compatible lakehouse storage to new hardware, a new endpoint or a new provider while keeping the same bucket names. Covers configuration, restarts, cutover and validation.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Abhishek Pathania
 ---
 
@@ -193,16 +193,9 @@ Stop everything that writes to storage or to the catalog:
 3. Terminate [compute clusters](/resources/user-guide/compute-clusters/managing-clusters#terminating-a-cluster), Spark Connect clusters and [Jupyter containers](/resources/user-guide/notebook/manage-containers#terminating-a-container).
 4. Disable [automated table maintenance](/resources/user-guide/table-maintenance/overview) if it is enabled.
 5. Stop external tools that write to the storage or use the IOMETE catalog.
-6. Scale down the IOMETE services in the release’s service namespace **and each managed workload namespace**. Review the selected resources first and keep a separate record of desired replica counts for each namespace. Run these commands for each namespace:
+6. Follow [Temporary Shutdown for Maintenance](/resources/user-guide/shutdown-for-maintenance) through **Pausing the Selected Services** for every affected release. Record the original replica counts, pause autoscaling and reconciliation, and wait for workloads to stop before scaling runtime services to zero. Include the internal Spark application if present, the service namespace, and every managed workload namespace.
 
-   ```shell
-   kubectl get deployment,statefulset -n <namespace> -l app.kubernetes.io/instance=<release-name> \
-     -o custom-columns=KIND:.kind,NAME:.metadata.name,REPLICAS:.spec.replicas \
-     > replicas-before-migration-<namespace>.txt
-   kubectl scale deployment,statefulset -n <namespace> -l app.kubernetes.io/instance=<release-name> --replicas=0
-   ```
-
-   The label selects resources belonging to this release in the specified namespace. Confirm that separately managed PostgreSQL and storage services are not selected and stay available for the backup. If you are migrating an additional plane’s storage, also stop any control-plane or external process that writes to that storage; scaling down the runtime release alone does not stop other writers.
+   Keep PostgreSQL and storage available for the backup. Include any control-plane or external process that writes to the affected storage; stopping an additional runtime alone does not stop those writers.
 
 7. Back up the IOMETE PostgreSQL databases. This backup matches the storage at this moment and is your rollback point.
 
@@ -215,16 +208,17 @@ Stop everything that writes to storage or to the catalog:
 ### 5. Switch
 
 1. Switch to the new storage:
-   - **Keeping the host name:** update the DNS record, then scale the IOMETE services back up to the replica counts in the per-namespace replica records.
-   - **Changing the endpoint:** run the Helm upgrade with the new endpoint and any certificate changes. Services scaled down in the freeze start again with the new settings. Restore any that stay at zero replicas from the per-namespace replica records. Then apply the changes from [Settings Entered Manually](#settings-entered-manually).
-2. [Restart services and workloads](#restarting-services-and-workloads).
-3. Run the [validation checks](#validating-the-migration).
+   - **Keeping the host name:** update the DNS record, then scale the IOMETE services back up to their recorded replica counts.
+   - **Changing the endpoint:** run the Helm upgrade with the new endpoint and any certificate changes. Services scaled down in the freeze start again with the new settings. Restore any that stay at zero replicas from the recorded replica counts. Then apply the changes from [Settings Entered Manually](#settings-entered-manually).
+2. Complete **Restoring Services and Workloads** in the [maintenance procedure](/resources/user-guide/shutdown-for-maintenance), using the updated configuration and recorded replica counts. Recreate any chart-managed resources removed during shutdown. Keep schedules and external producers paused until validation passes.
+3. [Restart services and workloads](#restarting-services-and-workloads).
+4. Run the [validation checks](#validating-the-migration).
 
 ### 6. Reopen
 
 1. Resume the scheduled jobs you suspended, through the console or API. This also refreshes legacy jobs.
 2. For an endpoint change, refresh any legacy scheduled job that was not suspended, then confirm the [legacy job check](#finding-remaining-references) returns nothing.
-3. Restart streaming jobs, re-enable table maintenance and let external tools connect.
+3. Restore autoscaling and reconciliation with the new settings. Restart streaming jobs, re-enable table maintenance, and let external tools connect.
 
 ### Rolling Back
 

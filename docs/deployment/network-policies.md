@@ -3,7 +3,7 @@ title: Kubernetes Network Policies
 sidebar_label: Network Policies
 description: Learn how to configure network policies for IOMETE services in a Kubernetes cluster.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Maksym Kryvchun
 ---
 
@@ -115,7 +115,7 @@ helm show values iomete/iomete-data-plane-enterprise \
   --version <installed-chart-version> > installed-chart-defaults.yaml
 ```
 
-Look for the `networkPolicies.jupyterContainers` block in that file. If it is absent, adding the key to Helm values has no effect; use the manual policy below or an approved chart upgrade. If the setting is available, enable it in the release's **complete values file**, preserving all existing namespaces, then follow the [upgrade procedure](./life-cycle-management.mdx#upgrade-example):
+Look for the `networkPolicies.jupyterContainers` block in that file. If it is absent, adding the key to Helm values has no effect; use the expandable manual policy below or an approved chart upgrade. If the setting is available, enable it in the release's **complete values file**, preserving all existing namespaces, then follow the [upgrade procedure](./life-cycle-management.mdx#upgrade-example):
 
 ```yaml title="values.yaml"
 networkPolicies:
@@ -162,6 +162,9 @@ networkPolicies:
 | `enabled` | Turn the policy on. |
 
 If notebooks open but cannot connect to compute, check the resolved destination and blocked-flow logs. A connection through a private load-balancer IP may need an `extraEgress` IP rule as well as `ingressNamespaces`; namespace selectors alone do not cover every load-balancer path.
+
+<details>
+<summary>Alternative: Managing the notebook policy without Helm</summary>
 
 To manage the policy yourself, save it as `iomete-jupyter-containers.yaml`. Replace `<iomete-namespace>` with the **service namespace of the plane that owns these notebooks**, and adjust the ingress namespaces and private destination exceptions for your network. Apply it separately in that service namespace and each managed workload namespace. Do not also enable chart ownership for the same policy without an explicit ownership migration.
 
@@ -229,6 +232,8 @@ spec:
 kubectl apply -f iomete-jupyter-containers.yaml -n <iomete-namespace>
 kubectl apply -f iomete-jupyter-containers.yaml -n <spark-namespace>
 ```
+
+</details>
 
 ---
 

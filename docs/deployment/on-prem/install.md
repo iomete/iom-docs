@@ -3,7 +3,7 @@ title: On-Premises Deployment Guide
 sidebar_label: Install
 description:  Detailed instructions for deploying IOMETE on-premises within a Kubernetes environment.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Abhishek Pathania
 ---
 
@@ -18,6 +18,9 @@ This guide installs an IOMETE **control plane and its default data plane** in th
 
 One data plane can manage several workload namespaces in its Kubernetes cluster. Several data planes can share a Kubernetes cluster when their releases and managed namespaces are separate. A workload namespace must not be managed by two IOMETE releases.
 
+<details>
+<summary>Platform-specific installation options</summary>
+
 :::tip Terraform option
 There is also a [Terraform configuration](https://github.com/iomete/iomete-deployment/tree/main/terraform) that handles all the steps below in one go (Kubernetes cluster, PostgreSQL, Apache Ozone, data plane, and monitoring). This is currently available for Azure.
 :::
@@ -25,6 +28,8 @@ There is also a [Terraform configuration](https://github.com/iomete/iomete-deplo
 :::tip Nutanix Kubernetes Platform
 Installing on Nutanix Kubernetes Platform (NKP)? Follow this guide together with [Deploying IOMETE on NKP](../nutanix-nkp.md), which covers the NKP-specific settings for Nutanix Objects, Nutanix Volumes, CloudNativePG and the built-in Traefik ingress. Istio is not needed on NKP.
 :::
+
+</details>
 
 ## Essential Requirements Before You Start
 
@@ -72,11 +77,11 @@ The release namespace is included automatically in the plane’s managed namespa
 
 ### Object Storage
 
-If you need an object storage system, you can deploy Apache Ozone, an open-source S3-compatible object store. Follow the instructions in [Apache Ozone deployment](../ozone-deployment.md). You can also use [MinIO](../minio-deployment.md).
+Have the object storage endpoint, bucket, and access credentials from the prerequisites ready for your values file.
 
 ### Deploying Metadata Database (PostgreSQL)
 
-For metadata storage, you need a PostgreSQL database. Please follow the instructions [here](../postgresql-deployment.md).
+Have the PostgreSQL host and credentials ready. If you still need a server, follow [PostgreSQL Deployment](../postgresql-deployment.md) before continuing.
 
 ### Add IOMETE Helm Repository
 
@@ -124,7 +129,7 @@ IOMETE needs the following Kubernetes resources. Service accounts, Roles, RoleBi
 - The Spark Operator CRDs.
 - The Spark Operator webhook and its certificate.
 
-The Helm chart can create all of them for you. Use option 1 if your Helm user has permission to create them. If it doesn't, use option 2 and have a Kubernetes administrator create them.
+The Helm chart can create all of them for you. Use option 1 if your Helm user has permission to create them. If it doesn't, complete [option 2](#option-2-have-an-administrator-create-them) before installing IOMETE.
 
 :::info Installing 3.19.0 or earlier?
 The chart creates these resources from version 3.19.1 onward. On 3.19.0 or earlier, option 1 isn't available. Create the same resources by hand, as described in [Installing 3.19.0 or Earlier](#installing-3190-or-earlier).
@@ -147,13 +152,42 @@ With these set, Helm creates the resources during installation. It keeps resourc
 
 If another Helm release or an administrator already manages the Spark Operator CRDs, leave `crds.create` set to `false`. Helm 4 fails the installation when an existing CRD differs from the one in the chart.
 
-Your Helm user needs permission to create CRDs, a `MutatingWebhookConfiguration`, service accounts, Roles, RoleBindings and Secrets. If the installation fails with a `forbidden` error, set the failing switch back to `false` and use option 2 for that resource.
+Your Helm user needs permission to create CRDs, a `MutatingWebhookConfiguration`, service accounts, Roles, RoleBindings and Secrets. If the installation fails with a `forbidden` error, set the failing switch back to `false` and use [option 2](#option-2-have-an-administrator-create-them) for that resource.
 
-:::note Upgrading an existing installation
-If you created these resources by hand in an earlier installation, the chart leaves them as they are. You don't need to change anything.
 
-Turning on `crds.create` for an existing installation creates nothing, because Helm installs CRDs only on a release's first installation.
-:::
+
+### Installing IOMETE {#launching-iomete-data-plane}
+
+```shell title="Install the control plane and default data plane"
+helm install data-plane iomete/iomete-data-plane-enterprise \
+  --namespace iomete-system \
+  --version "$IOMETE_VERSION" \
+  --values example-data-plane-values.yaml \
+  --wait --timeout 15m
+```
+
+Check the release and its services:
+
+```shell
+helm status data-plane --namespace iomete-system
+kubectl get deployments,pods --namespace iomete-system
+kubectl get events --namespace iomete-system --sort-by=.lastTimestamp
+```
+
+The release should be `deployed` and the service Deployments should have their requested ready replicas. If installation fails, inspect the failing pod or initialization Job before retrying. A registry pull error, missing Secret or database connection error needs a configuration fix; increasing the timeout does not resolve it.
+
+### Configuring Ingress and Verifying Access {#configure-istio-ingress-gateway}
+
+Follow [Configuring Ingress](../configure-ingress.md) to route your hostname to the control plane. Open that hostname in a browser and sign in with the admin credentials from your values file. Change the temporary password when prompted.
+
+Verify that the default data plane is connected. Then follow [Adding a Kubernetes Namespace](../connect-namespace.md) if you need separate workload namespaces, assign a namespace to a domain, and run a small compute query such as `SELECT 1`. This checks workload access in addition to console access.
+
+Keep the values file and approved chart version for [future upgrades](../life-cycle-management.mdx).
+
+## Alternative Setup and Upgrade Procedures
+
+<details>
+<summary>Option 2: Administrator-managed service accounts, CRDs, and webhook</summary>
 
 #### Option 2: Have an Administrator Create Them
 
@@ -215,6 +249,11 @@ Helm doesn't update resources an administrator created. Repeat step 1 after you 
 You can combine the two options. For example, let Helm create the service account and have an administrator create the CRDs and the webhook. Set each switch to `true` only for what Helm creates.
 :::
 
+</details>
+
+<details>
+<summary>Updating Spark Operator CRDs during an upgrade</summary>
+
 #### Upgrading the CRDs
 
 `helm upgrade` never updates or deletes the Spark Operator CRDs, whether Helm or an administrator created them. When the release notes for the version you are upgrading to say the CRDs changed, apply them before you run the upgrade:
@@ -228,6 +267,8 @@ kubectl apply --server-side -f "chart-$IOMETE_VERSION"/iomete-data-plane-enterpr
 ```
 
 CRDs are shared by every Spark Operator in the Kubernetes cluster. Coordinate the change with their owners and check version compatibility first. If server-side apply reports a field ownership conflict, review the conflicting fields with the administrator; use `--force-conflicts` only when intentionally taking ownership of those fields.
+
+</details>
 
 #### Installing 3.19.0 or Earlier
 
@@ -266,31 +307,3 @@ These are the same three resources as in option 2, but the files come from the [
 When you later upgrade to 3.19.1 or newer, you don't need to redo anything. The chart finds these resources and leaves them as they are.
 
 </details>
-
-### Installing IOMETE {#launching-iomete-data-plane}
-
-```shell title="Install the control plane and default data plane"
-helm install data-plane iomete/iomete-data-plane-enterprise \
-  --namespace iomete-system \
-  --version "$IOMETE_VERSION" \
-  --values example-data-plane-values.yaml \
-  --wait --timeout 15m
-```
-
-Check the release and its services:
-
-```shell
-helm status data-plane --namespace iomete-system
-kubectl get deployments,pods --namespace iomete-system
-kubectl get events --namespace iomete-system --sort-by=.lastTimestamp
-```
-
-The release should be `deployed` and the service Deployments should have their requested ready replicas. If installation fails, inspect the failing pod or initialization Job before retrying. A registry pull error, missing Secret or database connection error needs a configuration fix; increasing the timeout does not resolve it.
-
-### Configuring Ingress and Verifying Access {#configure-istio-ingress-gateway}
-
-Follow [Configuring Ingress](../configure-ingress.md) to route your hostname to the control plane. Open that hostname in a browser and sign in with the admin credentials from your values file. Change the temporary password when prompted.
-
-Verify that the default data plane is connected. Then follow [Adding a Kubernetes Namespace](../connect-namespace.md) if you need separate workload namespaces, assign a namespace to a domain, and run a small compute query such as `SELECT 1`. This checks workload access in addition to console access.
-
-Keep the values file and approved chart version for [future upgrades](../life-cycle-management.mdx).

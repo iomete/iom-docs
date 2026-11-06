@@ -3,7 +3,7 @@ title: Priority Classes
 sidebar_label: Priority Classes
 description: Configure Kubernetes PriorityClasses for IOMETE workloads to control scheduling and preemption when cluster resources are limited.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: IOMETE
 ---
 
@@ -32,7 +32,7 @@ Choose priority values and preemption policies according to which workloads may 
 
 - You need access to update the control-plane enterprise release's complete values file.
 - A Kubernetes administrator must create every referenced PriorityClass in each cluster that runs the affected pods. PriorityClasses are **cluster-scoped**, so they are shared by data planes in the same Kubernetes cluster; do not create one copy per namespace.
-- For an additional data plane, also configure that plane's mappings as described below. The control plane's mapping is not copied to other planes.
+- For an additional data plane, complete [Additional Data Planes](#additional-data-planes) before reloading the configuration. The control plane's mapping is not copied to other planes.
 
 Here is a minimal example for one class:
 
@@ -101,9 +101,12 @@ priorityClassMappings:
 
 The names are only references: the PriorityClass resources’ numeric values and preemption policies determine behavior. Ensure every mapped name exists in the workload’s Kubernetes cluster.
 
+<details>
+<summary>Configuring mappings for an additional data plane</summary>
+
 ### Additional Data Planes
 
-The agent reads `priority-class-mappings` from **its own service namespace**, such as `iomete-dp-east`. The published 4.0.1 runtime chart does not render this ConfigMap from `priorityClassMappings`, so adding the enterprise values to that runtime release alone is insufficient.
+The agent reads `priority-class-mappings` from **its own service namespace**, such as `iomete-analytics`. The published 4.0.1 runtime chart does not render this ConfigMap from `priorityClassMappings`, so adding the enterprise values to that runtime release alone is insufficient.
 
 For a runtime chart that does not manage this resource, an administrator can manage the mapping separately. If a mapping already exists, update its owned configuration and preserve the intended entries. For example:
 
@@ -112,7 +115,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: priority-class-mappings
-  namespace: iomete-dp-east
+  namespace: iomete-analytics
 data:
   iomete-compute: my-high-priority
   iomete-spark-job: my-medium-priority
@@ -124,6 +127,8 @@ kubectl --context <runtime-cluster-context> apply -f runtime-priority-mappings.y
 ```
 
 Replace the namespace and class names for your plane. Keep the feature enabled on the control plane. Do not assume that the operational-support mapping applies to every runtime release: the 4.0.1 runtime workers do not set `priorityClassName` from that mapping.
+
+</details>
 
 ## Reloading and Verifying the Configuration {#verifying-the-configuration}
 

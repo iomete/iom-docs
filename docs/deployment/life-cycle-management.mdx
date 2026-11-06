@@ -3,7 +3,7 @@ title: Life Cycle Management (LCM)
 sidebar_label: Life Cycle Management (LCM)
 description: Identify the correct IOMETE Helm release, preserve its configuration, and verify upgrades and recovery.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: IOMETE
 ---
 
@@ -117,6 +117,9 @@ A ready agent proves only that its pod is running. It does not prove that the co
 
 ## Recovering From a Failed Upgrade {#rollback-process}
 
+<details>
+<summary>Diagnosing a failed upgrade and restoring a known configuration</summary>
+
 Inspect the failure before choosing a recovery action:
 
 ```shell
@@ -142,6 +145,8 @@ helm upgrade "$RELEASE" "$CHART" \
 ```
 
 If database changes are not backward compatible, use the agreed database and storage restoration procedure instead. Do not attempt the command above to test whether a downgrade works. After recovery, repeat the readiness and product checks and follow any required service restarts in the release-specific instructions. For stale default-plane namespace configuration, see [namespace troubleshooting](./connect-namespace.md).
+
+</details>
 
 ## Monitoring and Management
 
