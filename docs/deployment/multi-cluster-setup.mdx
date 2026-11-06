@@ -152,14 +152,15 @@ If registration succeeds but the query fails, check compute readiness, the publi
 - Plane connectivity is a dependency. A disconnected runtime can stop receiving management operations even if some existing workload pods continue running.
 - Shared control-plane databases and services need their own availability and backup plan. Multiple runtimes do not make the control plane highly available by themselves.
 
-<details>
-<summary>Independent and legacy installation models</summary>
-
-### Multiple Independent Installations
+<details id="multiple-independent-installations">
+<summary>Running independent IOMETE installations</summary>
 
 Separate full IOMETE installations each have their own control plane, console, configuration, and workloads. Choose this when environments require independent administration and state. Installing another enterprise chart does not automatically enroll it as a data plane of the first installation.
 
-### Legacy Shared-Database Installations {#multi-cluster-setup-shared-global-database}
+</details>
+
+<details id="multi-cluster-setup-shared-global-database">
+<summary>Legacy shared-database installations</summary>
 
 Earlier chart versions supported `database` for shared platform resources and `clusterDatabase` for installation-local operational data. Each participating installation still had its own control plane and UI. Sharing database records was not the same as routing work through one control plane.
 
@@ -179,10 +180,8 @@ The current charts no longer use `clusterDatabase` to separate those databases. 
 
 </details>
 
-<details>
+<details id="roadmap">
 <summary>Planning a transition from a legacy topology</summary>
-
-## Moving from a Legacy Topology {#roadmap}
 
 A unified control plane is part of the 4.x architecture, rather than a future roadmap item. Existing shared-database installations still need an explicit transition plan: identify their chart versions, database ownership, runtime identities, catalogs, storage, and workload locations before changing the deployment model. Do not repoint databases or reinstall runtimes solely to make an old configuration resemble the examples above.
 
