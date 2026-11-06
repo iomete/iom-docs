@@ -62,7 +62,7 @@ In the IOMETE Console, when configuring the Spark job, navigate to the **Environ
 Start a new job run, confirm its **Data plane** and **Namespace** on the **Details** tab, and inspect its **Logs** to verify the requested verbosity. Editing the job configuration does not change the logging configuration inside an already-running pod.
 
 
-<details id="3-base-log4j2-configuration-template">
+<details id="3-base-log4j2-configuration-template" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
 <summary>Base log4j2 configuration template</summary>
 
 Below is a base template for the `log4j2.properties` file. This template can be customized as needed for specific logging requirements.
