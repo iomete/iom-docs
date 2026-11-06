@@ -71,10 +71,8 @@ gcloud storage buckets add-iam-policy-binding "gs://$GCS_BUCKET" \
   --role="roles/storage.objectViewer"
 ```
 
-<details>
+<details id="direct-federated-access">
 <summary>Using a direct federated identity instead of an IAM service account</summary>
-
-### Direct Federated Access
 
 Direct federated principals require [uniform bucket-level access](https://docs.cloud.google.com/storage/docs/uniform-bucket-level-access). Check the bucket before granting access:
 
@@ -119,10 +117,8 @@ For a Spark job, perform the equivalent read in that job on its selected data pl
 
 If credentials are unavailable, check Workload Identity Federation on the cluster and the workload's node pool, the actual pod service account, and any impersonation binding. If access is denied, check the bucket principal and role. Application-supplied credentials can override the identity you expected from the Kubernetes account, so inspect the application's configured credential source as well.
 
-<details>
+<details id="permission-levels">
 <summary>Choosing a role for write access or object administration</summary>
-
-### Permission Levels
 
 Choose the role required by the workload and grant it at bucket scope:
 

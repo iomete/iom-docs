@@ -34,10 +34,8 @@ printf 'Kubernetes service account: %s\n' "$WORKLOAD_SA"
 
 The IOMETE charts normally use `lakehouse-service-account`, but read the pod's actual value. Then expand the method your installation uses to identify its IAM role. Ask your administrator if you do not know which method is configured.
 
-<details>
+<details id="iam-roles-for-service-accounts-irsa">
 <summary>Finding the role for IRSA</summary>
-
-### IAM Roles for Service Accounts (IRSA)
 
 For IRSA, inspect the service account's role annotation:
 
@@ -61,10 +59,8 @@ The chart applies these annotations to the service accounts it creates in its ma
 
 </details>
 
-<details>
+<details id="eks-pod-identity">
 <summary>Finding the role for EKS Pod Identity</summary>
-
-### EKS Pod Identity
 
 EKS Pod Identity uses an association for a specific cluster, namespace, and service account. It does not require an IRSA annotation on the Kubernetes account. With AWS CLI access to the selected EKS cluster, inspect the association:
 
@@ -165,10 +161,8 @@ If access is denied, check the effective identity, bucket and object policy scop
 
 Use these examples when the read-only bucket policy does not match the workload's requirements. Apply only the permissions it needs, then repeat the workload verification above.
 
-<details>
+<details id="example-1-full-readwrite-access-to-your-bucket-from-lakehouse-role">
 <summary>Granting read and write access</summary>
-
-### Example 1. Read/Write Bucket Access {#example-1-full-readwrite-access-to-your-bucket-from-lakehouse-role}
 
 Use this policy when the workload needs to read, write, and delete objects. Replace `<workload_role_arn>` with the full IAM role ARN and `<your_bucket>` with the bucket name.
 
@@ -205,10 +199,8 @@ This policy provides full read/write access to your bucket from the workload rol
 
 </details>
 
-<details>
+<details id="example-3-read-only-access-to-a-specific-folder-in-your-bucket-from-lakehouse-role">
 <summary>Restricting read access to one folder</summary>
-
-### Example 3. Reading One Folder {#example-3-read-only-access-to-a-specific-folder-in-your-bucket-from-lakehouse-role}
 
 ```json showLineNumbers
 {
@@ -253,9 +245,6 @@ This policy provides full read/write access to your bucket from the workload rol
 This example permits object reads under `folder/` and listing with that prefix. It does not grant listing of the bucket root. See [S3 prefix conditions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/amazon-s3-policy-keys.html#amazon-s3-policy-keys-prefix).
 
 </details>
-
-<details>
-<summary>Alternative: Attaching an IAM role policy</summary>
 
 ## IAM Role Policy
 
@@ -375,5 +364,3 @@ the workload role.
 In the `Resource` field, you can specify multiple resources by separating them with a comma to provide access to
 multiple buckets or folders.
 :::
-
-</details>
