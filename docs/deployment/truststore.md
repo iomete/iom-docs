@@ -3,7 +3,7 @@ title: Custom Java Truststore
 sidebar_label: Custom Java Truststore
 description: Configure IOMETE to trust a private certificate authority while keeping the default public certificate authorities.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Vusal Dadalov
 ---
 Use a custom truststore when IOMETE connects to a service whose TLS certificate is issued by your organization's private certificate authority (CA). The truststore tells Java which CAs to trust.
@@ -41,9 +41,14 @@ kubectl create secret generic java-truststore \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
-Repeat the command for **every workload namespace** in the `namespaces` list of your values file, replacing `iomete-system` with that namespace. For example, use `--namespace analytics` for a new `analytics` namespace. Kubernetes reads Secrets from the pod's own namespace; Helm does not copy them.
+Repeat the command for **every workload namespace** in the `namespaces` list of your values file, replacing `iomete-system` with that namespace. For example, use `--namespace finance` for a new `finance` namespace. Kubernetes reads Secrets from the pod's own namespace; Helm does not copy them.
+
+<details>
+<summary>Including a PEM bundle for services that do not read JKS</summary>
 
 If you configured `javaTrustStore.caCertFileName`, include that PEM file in the same Secret as well, for example by adding `--from-file=ca.crt`. The PEM bundle should contain the public CAs and your private CA, just like the JKS file. Services that cannot read JKS use this file.
+
+</details>
 
 ### 4. Enable the Truststore in IOMETE
 

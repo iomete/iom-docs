@@ -3,7 +3,7 @@ title: Adding a Kubernetes Namespace
 sidebar_label: Adding a Namespace
 description: Add a workload namespace to an existing IOMETE data plane, assign it to a domain, and verify that a compute runs there.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Vusal Dadalov
 ---
 
@@ -25,17 +25,16 @@ For example, this is a valid arrangement within **one Kubernetes cluster**:
 
 ```mermaid
 flowchart LR
-  subgraph kubernetesCluster["One Kubernetes cluster"]
-    defaultPlane["Data plane: default"] -->|manages| computeNamespace["Namespace: iomete-compute"]
-    defaultPlane -->|manages| analyticsNamespace["Namespace: analytics"]
-    secondPlane["Data plane: dp-2"] -->|manages| secondAnalytics["Namespace: dp2-analytics"]
-    secondPlane -->|manages| secondBatch["Namespace: dp2-batch"]
+  subgraph cluster["One Kubernetes cluster"]
+    control["Control plane"] --> defaultPlane["Data plane: default"]
+    defaultPlane -->|manages| existing["Namespace: marketing"]
+    defaultPlane -->|manages| added["Namespace: finance"]
   end
 ```
 
-The arrows show which data plane manages each workload namespace. The data plane's services also run in a namespace: for example, `iomete-system` for `default` and `iomete-dp-2` for `dp-2`. These namespaces are all at the same level in Kubernetes; they are not nested inside one another.
+This guide adds `finance` to the existing `default` data plane. Both namespaces share the Kubernetes cluster's capacity. A domain gives users access to the namespaces assigned to it.
 
-An **IOMETE domain** controls which users can access resources. Assigning a namespace to a domain makes it available to that domain, subject to its users' permissions. It does not create or move a Kubernetes namespace.
+A cluster can also host additional data planes, each managing its own namespaces. See [Multi-Cluster Setup](./multi-cluster-setup.mdx) for that topology.
 
 ## Before You Start
 
@@ -47,8 +46,8 @@ The examples use these names. Replace them with your installation's names where 
 | --- | --- |
 | `data-plane` | Existing Helm release |
 | `iomete-system` | Namespace containing the control plane and default data plane services |
-| `iomete-compute` | An existing workload namespace to keep |
-| `analytics` | New workload namespace to add |
+| `marketing` | An existing workload namespace to keep |
+| `finance` | New workload namespace to add |
 
 Check the release and installed chart version:
 
@@ -59,7 +58,7 @@ helm list --namespace iomete-system
 Use the version from the **CHART** column for the upgrade below: for example, `iomete-data-plane-enterprise-4.0.1` means version `4.0.1`. Keep your complete values file; the YAML examples on this page show only the settings to change.
 
 :::info Separately installed data planes
-If you are adding a namespace to another data plane, such as `dp-2`, update that data plane's own `iomete-lakehouse-runtime` release and values file. See [Adding a Namespace to Another Data Plane](#adding-a-namespace-to-another-data-plane) for the differences.
+If you are adding a namespace to another data plane, such as `research`, update that data plane's own `iomete-lakehouse-runtime` release and values file. See [Adding a Namespace to Another Data Plane](#adding-a-namespace-to-another-data-plane) for the differences.
 :::
 
 ## 1. Creating the Namespace
@@ -67,20 +66,20 @@ If you are adding a namespace to another data plane, such as `dp-2`, update that
 Run these commands in the Kubernetes cluster that hosts the data plane:
 
 ```shell
-kubectl create namespace analytics
-kubectl label namespace analytics iomete.com/managed=true
+kubectl create namespace finance
+kubectl label namespace finance iomete.com/managed=true
 ```
 
 If the namespace already exists, first check that another IOMETE data plane does not already manage it in this Kubernetes cluster. Use separate workload namespaces for separate data planes so their releases do not compete to manage the same resources. For an existing namespace you intend to use here, run only the label command, adding `--overwrite` if needed.
 
 ## 2. Updating Your Values File
 
-Add `analytics` to the `namespaces` list in your existing `values.yaml`. **Keep every namespace already in the list.** For example:
+Add `finance` to the `namespaces` list in your existing `values.yaml`. **Keep every namespace already in the list.** For example:
 
 ```yaml title="values.yaml"
 namespaces:
-  - iomete-compute # Existing namespace: keep this entry.
-  - analytics     # New namespace.
+  - marketing # Existing namespace: keep this entry.
+  - finance   # New namespace.
 ```
 
 The namespace containing the data plane's services is managed automatically, so you do not need to add `iomete-system` to this list.
@@ -92,8 +91,8 @@ The namespace containing the data plane's services is managed automatically, so 
 The namespace needs `lakehouse-service-account`, a Role, and a RoleBinding so IOMETE can manage workloads there.
 
 - If `serviceAccount.create: true`, Helm creates these during the upgrade. No manual step is needed.
-- If `serviceAccount.create: false`, ask your Kubernetes administrator to regenerate and apply them using [Option 2 in the installation guide](./on-prem/install.md#option-2-have-an-administrator-create-them). Use the updated values file so the generated resources include `analytics`.
-- For chart versions 3.19.0 or earlier, use the [manual setup below](#installing-3190-or-earlier).
+- If `serviceAccount.create: false`, ask your Kubernetes administrator to regenerate and apply them using [Option 2 in the installation guide](./on-prem/install.md#option-2-have-an-administrator-create-them). Use the updated values file so the generated resources include `finance`.
+- For chart versions 3.19.0 or earlier, complete the [manual setup below](#installing-3190-or-earlier).
 
 ### Spark Operator Webhook
 
@@ -103,19 +102,29 @@ The webhook prepares Spark pods when Kubernetes creates them.
 - If you created it with `gencerts.sh`, the `iomete.com/managed=true` label is enough.
 - If an administrator created it using the installation guide, update its namespace list before upgrading.
 
-For the last case, include the service namespace and **all** workload namespaces. An existing administrator-managed webhook still needs this update even if you later set `webhook.create: true`. This example keeps `iomete-compute` and adds `analytics`; replace the webhook name if you configured a different `webhook.name`:
+<details>
+<summary>Updating an administrator-managed webhook</summary>
+
+For the last case, include the service namespace and **all** workload namespaces. An existing administrator-managed webhook still needs this update even if you later set `webhook.create: true`. This example keeps `marketing` and adds `finance`; replace the webhook name if you configured a different `webhook.name`:
 
 ```shell
 kubectl patch mutatingwebhookconfiguration spark-operator-iomete-system \
   --type=strategic \
-  -p='{"webhooks":[{"name":"webhook.sparkoperator.k8s.io","namespaceSelector":{"matchExpressions":[{"key":"kubernetes.io/metadata.name","operator":"In","values":["iomete-system","iomete-compute","analytics"]}]}}]}'
+  -p='{"webhooks":[{"name":"webhook.sparkoperator.k8s.io","namespaceSelector":{"matchExpressions":[{"key":"kubernetes.io/metadata.name","operator":"In","values":["iomete-system","marketing","finance"]}]}}]}'
 ```
+
+</details>
 
 ### Optional Secrets
 
-Kubernetes reads a pod's Secrets from the pod's own namespace. Helm does not copy your existing Secrets into `analytics`.
+If you use a private image registry or a custom Java truststore, create the required Secrets before upgrading. Otherwise, continue to step 4.
 
-| If your installation uses… | Create in `analytics` before upgrading |
+<details>
+<summary>Preparing registry and truststore Secrets</summary>
+
+Kubernetes reads a pod's Secrets from the pod's own namespace. Helm does not copy your existing Secrets into `finance`.
+
+| If your installation uses… | Create in `finance` before upgrading |
 | --- | --- |
 | A private image registry | Each Secret listed under `docker.imagePullSecrets`. See [Private Docker Registry Authentication](/resources/user-guide/k8s/private-docker-registry). |
 | A custom Java truststore | The Secret named by `javaTrustStore.secretName` when `javaTrustStore.enabled: true`. The default name is `java-truststore`. See [Creating the Truststore Secret](./truststore.md#3-create-a-kubernetes-secret-with-the-truststorejks-file). |
@@ -123,6 +132,8 @@ Kubernetes reads a pod's Secrets from the pod's own namespace. Helm does not cop
 If neither applies, skip this step. For an older or customized installation, also check whether its workload templates reference any other Secrets.
 
 For Helm-created service accounts, list the registry Secret names under `docker.imagePullSecrets` in your values file; Helm attaches them when it creates the account during the upgrade. Do this even if you previously configured registry access by patching an account manually. If you manage the service account yourself, add its image pull Secrets after creating the account in step 3 and before upgrading.
+
+</details>
 
 ## 4. Upgrading the Existing Release
 
@@ -140,13 +151,13 @@ helm upgrade data-plane iomete/iomete-data-plane-enterprise \
 
 ## 5. Waiting for IOMETE {#restart-iom-cluster}
 
-IOMETE must load the updated namespace list before you can assign `analytics` to a domain. Wait for the namespace management service to be ready:
+IOMETE must load the updated namespace list before you can assign `finance` to a domain. Wait for the namespace management service to be ready:
 
 ```shell
 kubectl rollout status deployment/iom-cluster -n iomete-system
 ```
 
-Charts with automatic namespace restarts reload the list during the upgrade. Older charts may leave the service running with the previous list. If `analytics` is missing or its assignment is rejected in the next step, follow [Refreshing the Namespace List](#refreshing-the-namespace-list).
+Charts with automatic namespace restarts reload the list during the upgrade. Older charts may leave the service running with the previous list. If `finance` is missing or its assignment is rejected in the next step, follow [Refreshing the Namespace List](#refreshing-the-namespace-list).
 
 On IOMETE 3.15 or earlier, use `deployment/iom-core` instead of `deployment/iom-cluster`.
 
@@ -154,17 +165,17 @@ On IOMETE 3.15 or earlier, use `deployment/iom-core` instead of `deployment/iom-
 
 1. In the admin console, open **Domains** and select the domain that should use the namespace.
 2. Open **Namespaces** and select **Add Namespace**.
-3. Choose `analytics`. If the picker groups namespaces by data plane, choose it under **default**.
+3. Choose `finance`. If the picker groups namespaces by data plane, choose it under **default**.
 4. Confirm the assignment with **Add**, if shown.
 
-Check that `analytics` appears in the domain's namespace list under the expected data plane.
+Check that `finance` appears in the domain's namespace list under the expected data plane.
 
 ## 7. Verifying a Workload
 
-In that domain, create and start a small compute with `analytics` selected as its namespace. Run a query such as `SELECT 1` in the SQL editor, then check its pods:
+In that domain, create and start a small compute with `finance` selected as its namespace. Run a query such as `SELECT 1` in the SQL editor, then check its pods:
 
 ```shell
-kubectl get pods -n analytics
+kubectl get pods -n finance
 ```
 
 The compute's driver should be `Running`. A compute configured with executors should also have executor pods there. A successful query confirms that the namespace is usable, beyond just appearing in the console.
@@ -173,7 +184,7 @@ The compute's driver should be `Running`. A compute configured with executors sh
 
 ### Refreshing the Namespace List
 
-If the namespace is missing, or assignment reports `Namespace analytics is not allowed` or `Namespace analytics is not known to iom-cluster for data plane default`, first check that you updated the correct Helm release and kept `analytics` in its `namespaces` list.
+If the namespace is missing, or assignment reports `Namespace finance is not allowed` or `Namespace finance is not known to iom-cluster for data plane default`, first check that you updated the correct Helm release and kept `finance` in its `namespaces` list.
 
 For the default data plane, refresh the list with:
 
@@ -189,6 +200,9 @@ Then retry the assignment. On IOMETE 3.15 or earlier, replace `iom-cluster` with
 For the default data plane, `helm rollback` alone does not restore the namespace settings stored by IOMETE. Put the intended complete namespace list in your values file, apply it with `helm upgrade`, and restart `iom-cluster` with the commands above, even if your chart normally restarts it automatically. On IOMETE 3.15 or earlier, restart `iom-core` instead.
 
 ## Adding a Namespace to Another Data Plane
+
+<details>
+<summary>Steps for a separately installed runtime</summary>
 
 For a separately installed data plane in IOMETE 4.0 or later, the Kubernetes namespace and preparation steps are similar, but the configuration belongs to that data plane's own release:
 
@@ -215,6 +229,8 @@ For a separately installed data plane in IOMETE 4.0 or later, the Kubernetes nam
 
 The agent reports these namespaces to the control plane. You do not need to restart the control plane's `iom-cluster` to refresh an additional data plane's namespace list.
 
+</details>
+
 ## Installing 3.19.0 or Earlier {#installing-3190-or-earlier}
 
 <details>
@@ -224,7 +240,7 @@ Create the service account and permissions before the Helm upgrade:
 
 ```shell
 wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/service-account.yaml
-kubectl apply -n analytics -f service-account.yaml
+kubectl apply -n finance -f service-account.yaml
 
 wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/role-binding-to-control-plane.yaml
 export CP_NAMESPACE=iomete-system
@@ -233,7 +249,7 @@ sed -i "s/{{control-plane-namespace}}/$CP_NAMESPACE/g" role-binding-to-control-p
 # On macOS, use this form instead:
 # sed -i '' "s/{{control-plane-namespace}}/$CP_NAMESPACE/g" role-binding-to-control-plane.yaml
 
-kubectl apply -n analytics -f role-binding-to-control-plane.yaml
+kubectl apply -n finance -f role-binding-to-control-plane.yaml
 ```
 
 </details>
