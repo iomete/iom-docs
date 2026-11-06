@@ -1,9 +1,9 @@
 ---
 title: Log Configurations
 sidebar_label: Log Configurations
-description: When creating a Spark job deployment programmatically with IOMETE, you would run a command similar to the following
+description: Configure a Spark job’s log level with log4j2 properties and environment variables, then verify the output in a new run.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: IOMETE
 ---
 
@@ -13,11 +13,7 @@ A Spark application's log level comes from its runtime logging configuration. Yo
 
 Use the IOMETE Console to supply a custom log4j2 configuration and set a job's log level through environment variables.
 
-## 1. Global Log Level Configuration
-
-Deployment-wide defaults depend on the Spark runtime image and its log4j2 configuration. Check the image and configuration used by your workloads before changing a shared default. To change one job, use the custom configuration below; creating another data plane or namespace does not itself set a Spark log level.
-
-## 2. Custom Log Configurations
+## Configuring a Job’s Log Level {#2-custom-log-configurations}
 
 Individual Spark jobs may require different logging levels or configurations. The IOMETE Platform allows users to define custom log configurations by providing a log4j2 properties file and setting the log level dynamically using environment variables.
 
@@ -66,7 +62,10 @@ In the IOMETE Console, when configuring the Spark job, navigate to the **Environ
 Start a new job run, confirm its **Data plane** and **Namespace** on the **Details** tab, and inspect its **Logs** to verify the requested verbosity. Editing the job configuration does not change the logging configuration inside an already-running pod.
 
 
-## 3. Base log4j2 Configuration Template
+<details>
+<summary>Base log4j2 configuration template</summary>
+
+## Base log4j2 Configuration Template {#3-base-log4j2-configuration-template}
 
 Below is a base template for the `log4j2.properties` file. This template can be customized as needed for specific logging requirements.
 
@@ -116,6 +115,8 @@ appender.console.filter.1.onMismatch = neutral
 ```
 
 
+</details>
+
 ## Troubleshooting
 
 ### SLF4J StaticLoggerBinder Warning
@@ -131,3 +132,7 @@ This warning only happens in slf4j version 1.7.x (and earlier versions) and it 
 ```
 spark.driver.extraClassPath    /opt/spark/jars/slf4j-api-2.0.7.jar
 ```
+
+## Deployment-Wide Defaults {#1-global-log-level-configuration}
+
+Deployment-wide defaults depend on the Spark runtime image and its log4j2 configuration. Check the image and configuration used by your workloads before changing a shared default. To change one job, use the job configuration above.

@@ -4,7 +4,7 @@ title: RAS Permissions Reference
 description: Detailed reference for every Resource Authorization System (RAS) permission, what each one allows, and which resource types accept it.
 sidebar_label: RAS Permissions
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Ruturaj Bhokre
 ---
 
@@ -140,7 +140,7 @@ A vault configuration entry points the platform at an external secrets vault (Ha
 
 ### Namespace
 
-A namespace resource represents a domain's assignment of a Kubernetes namespace on a specific data plane. For example, `analytics` on `dp-2` and `analytics` on `default` are separate assignments, even though their namespace names match. Compute clusters, Spark jobs, and Jupyter containers use these assignments as deployment targets.
+A namespace resource represents a domain's assignment of a Kubernetes namespace on a specific data plane. For example, `finance` on `analytics` and `finance` on `default` are separate assignments, even though their namespace names match. Compute clusters, Spark jobs, and Jupyter containers use these assignments as deployment targets.
 
 | Permission | What it allows |
 |---|---|

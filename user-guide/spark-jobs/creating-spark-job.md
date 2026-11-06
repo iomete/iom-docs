@@ -3,7 +3,7 @@ title: Creating Spark Job
 sidebar_label: Creating Spark Job
 description: Learn how to run your first Spark Job on the IOMETE platform using PySpark. Follow our step-by-step guide and get started with Spark Jobs today!
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Ujjawal Khare
 ---
 
@@ -33,7 +33,7 @@ You can also click the <button className="button button--primary button-iom"><Co
 
 ### Namespace
 
-- **Deploy to Kubernetes namespace**: Choose a namespace under the data plane that should run the job, for example `analytics` under `dp-2`. If only one choice is available to you, it is selected automatically. This selects an existing deployment target; it does not create a namespace or a data plane. See [Deployment Namespace](./spark-application-config.md#deployment-namespace) for permissions and an empty list.
+- **Deploy to Kubernetes namespace**: Choose the namespace under the data plane that should run the job, for example `finance` under `analytics`. Only deployment targets available to your account appear. See [Selecting a Namespace](../namespace-quotas.md#selecting-a-namespace) if the list is empty.
 
 ### Run as User
 

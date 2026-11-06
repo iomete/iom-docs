@@ -3,7 +3,7 @@ title: IOMETE SQLAlchemy Driver
 description: Connect to IOMETE using the iomete-sqlalchemy dialect, which uses Arrow Flight SQL for high-performance gRPC-based connectivity.
 sidebar_label: IOMETE SQLAlchemy
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Sanan Ahmadli
 ---
 
@@ -43,7 +43,7 @@ iomete://<user>:<password>@<host>:<port>/<catalog>/<schema>?cluster=<cluster>&da
 | `tls` | Use `grpc+tls` transport | `true` |
 | `max_msg_size` | Max gRPC message size in bytes | `134217728` (128 MB) |
 
-Find the host, port, and compute name under **Compute → select a compute → Connections**. Use the compute's **Namespace** value for `data_plane`. For example, a compute in namespace `analytics` on data plane `dp-2` uses `data_plane=analytics` with that data plane's host.
+Find the host, port, and compute name under **Compute → select a compute → Connections**. Use the compute's **Namespace** value for `data_plane`. For example, a compute in namespace `finance` on data plane `analytics` uses `data_plane=finance` with that data plane's host.
 
 The `catalog` and `schema` URL path segments select data to query. They are independent of the Kubernetes namespace used to route the connection.
 

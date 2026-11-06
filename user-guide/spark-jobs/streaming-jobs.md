@@ -3,7 +3,7 @@ title: Streaming Jobs
 sidebar_label: Streaming Jobs
 description: Learn how to create, manage, and monitor long-running Spark Streaming Jobs on the IOMETE platform for continuous data processing.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Nurlan Mammadov
 ---
 
@@ -33,7 +33,7 @@ The create form walks you through several sections.
 - **Name** (required): Allowed characters: alphanumeric, dashes, underscores, dots, and spaces (up to 255 characters).
 - **Description** (optional): A brief note so others know what the job does.
 - **Resource bundle**: Pick a [resource bundle](../iam/ras/ras.md) that controls access to this job. Resource limits come from the deployment namespace's [quota](../namespace-quotas.md).
-- **Deploy to Kubernetes namespace**: Choose a namespace under the data plane that should run the job. If only one choice is available to you, it is selected automatically. Check both values, such as `dp-2` and `analytics`. See [Deployment Namespace](./spark-application-config.md#deployment-namespace) for domain assignments and permissions.
+- **Deploy to Kubernetes namespace**: Choose a namespace under the data plane that should run the job. If only one choice is available to you, it is selected automatically. Check both values, such as `analytics` and `finance`. See [Deployment Namespace](./spark-application-config.md#deployment-namespace) for domain assignments and permissions.
 - **Run as user**: The user identity the job runs under. Defaults to your own account, but you can pick another user or a service account.
 
 ### Application

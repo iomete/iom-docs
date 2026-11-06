@@ -3,7 +3,7 @@ title: Application Config
 description: Reference for configuring Spark Jobs in IOMETE — Docker images, instances, environment variables, dependencies, scheduling, and more.
 sidebar_label: Application Config
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Abhishek Pathania
 ---
 
@@ -19,9 +19,9 @@ Creating and managing Spark Jobs requires appropriate IAM permissions within you
 
 ## Deployment Namespace
 
-In **Deploy to Kubernetes namespace**, choose a namespace under the data plane that should run the job. For example, selecting `analytics` under `dp-2` places the job in that data plane's `analytics` namespace. The same namespace name can appear under more than one data plane, so check both values. The job and each run show **Data plane** and **Namespace** on their **Details** tabs.
+In **Deploy to Kubernetes namespace**, choose a namespace under the data plane that should run the job. For example, selecting `finance` under `analytics` places the job in that data plane's `finance` namespace. The same namespace name can appear under more than one data plane, so check both values. The job and each run show **Data plane** and **Namespace** on their **Details** tabs.
 
-Your administrator must first assign the namespace and data plane to your domain, and your account must have [Use permission](../iam/ras/ras-permissions.md#namespace) on that namespace mapping. If the list is empty, ask your administrator to check the assignment and permissions, then refresh the list. Selecting a namespace here does not create Kubernetes resources for the namespace or register a data plane.
+Choose an existing deployment target assigned to your domain. If the list is empty, see [Selecting a Namespace](../namespace-quotas.md#selecting-a-namespace) for the required assignment and permissions.
 
 The selected namespace's [quota](../namespace-quotas.md) limits the workload's resources. The job's resource bundle controls access to the job.
 
@@ -354,15 +354,15 @@ The table below maps each console field to its JSON path in the API payload.
 
 ### Full JSON Example
 
-Here's an example API payload. Replace the bundle and node type IDs, image, and application path with your own values. The `dp-2` / `analytics` deployment target must already be available in your domain. Send both `dataPlane` and `namespace` to identify the target explicitly.
+Here's an example API payload. Replace the bundle and node type IDs, image, and application path with your own values. The `analytics` / `finance` deployment target must already be available in your domain. Send both `dataPlane` and `namespace` to identify the target explicitly.
 
 ```json
 {
   "name": "sample-job",
   "description": "Sample PySpark job",
   "bundleId": "<bundle-id>",
-  "dataPlane": "dp-2",
-  "namespace": "analytics",
+  "dataPlane": "analytics",
+  "namespace": "finance",
   "jobUser": "admin",
   "jobType": "SCHEDULED",
   "schedule": "*/30 * * * *",

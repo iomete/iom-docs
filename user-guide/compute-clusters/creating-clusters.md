@@ -3,7 +3,7 @@ title: Creating a Cluster
 description: Step-by-step guide to creating a compute cluster, covering the General, Configurations, Dependencies, Docker settings, Tags, and Review tabs.
 sidebar_label: Creating a Cluster
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Abhishek Pathania
 ---
 
@@ -32,7 +32,7 @@ This is where you set identity, sizing, and scaling for the cluster.
 
 - **Bundle** (required if resource-level access control is enabled): Links the cluster to a resource bundle that defines access permissions. Hidden when resource-level access control is disabled. Like the name, this can't be changed later.
 
-- **Deploy to Kubernetes namespace** (required): Choose a namespace under the data plane that should run the cluster, for example `analytics` under `dp-2`. The selection identifies both the data plane and namespace; the same namespace name can appear under another data plane. Only namespaces assigned to your domain and available to your account appear. Selecting one does not create a Kubernetes namespace or a data plane. See [Selecting a Namespace](../namespace-quotas.md#selecting-a-namespace) if the list is empty.
+- **Deploy to Kubernetes namespace** (required): Choose the namespace under the data plane that should run the cluster, for example `finance` under `analytics`. Only deployment targets available to your account appear. See [Selecting a Namespace](../namespace-quotas.md#selecting-a-namespace) if the list is empty.
 
 - **Deployment type**: Choose between:
   - **Multi-node** (default): Uses separate driver and executor pods.

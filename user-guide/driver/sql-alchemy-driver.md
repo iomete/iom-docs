@@ -3,7 +3,7 @@ title: SQLAlchemy Driver
 sidebar_label: SQLAlchemy Driver
 description: IOMETE lakehouse endpoints are compatible with the py-hive-iomete driver, and you can use the samples repository for a quick start
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Vusal Dadalov
 ---
 
@@ -19,7 +19,7 @@ For additional DB-API and SQLAlchemy reference examples, see: https://github.com
 
 Open **Compute → select a compute → Connections → Python** and copy that compute's host, port, and namespace. The host routes to the selected data plane and can differ from the console host.
 
-The driver's legacy parameter name `data_plane` takes the compute's **Kubernetes namespace**, not the registered data plane ID. For a compute in namespace `analytics` on data plane `dp-2`, use `data_plane="analytics"` with the host shown in Connections. The `database` parameter selects a SQL database independently of workload placement.
+The driver's legacy parameter name `data_plane` takes the compute's **Kubernetes namespace**, not the registered data plane ID. For a compute in namespace `finance` on data plane `analytics`, use `data_plane="finance"` with the host shown in Connections. The `database` parameter selects a SQL database independently of workload placement.
 
 ## DB-API
 

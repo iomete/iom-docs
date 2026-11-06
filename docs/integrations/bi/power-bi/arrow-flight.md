@@ -3,7 +3,7 @@ title: Power BI (Arrow Flight) - Connecting to IOMETE
 sidebar_label: Arrow Flight
 description: Install the IOMETE Power BI connector and connect Power BI Desktop or an on-premises data gateway to IOMETE through Arrow Flight SQL.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Abhishek Pathania
 ---
 
@@ -60,7 +60,7 @@ The Navigator then lists the catalogs and tables you can access, and you can sta
 
 | Field | Value | Example |
 |---|---|---|
-| Server URL | Host and port from the intended compute's **Connections → Power BI** settings | `dev.iomete.com:443` |
+| Server URL | Host and port from the intended compute's **Connections → Power BI** settings | `analytics.example.com:443` |
 | Cluster | Name of the compute cluster | `medium-cluster` |
 | Data Plane | Kubernetes namespace where the compute cluster runs | `spark-resources` |
 | Certificate Path | Optional. Leave blank to use the Windows certificate store. See [Trusting the Server Certificate](#trusting-the-server-certificate). | `C:\certs\iomete-ca.pem` |
@@ -168,7 +168,7 @@ The gateway hasn't loaded the connector, or the cluster doesn't allow custom con
 
 ### Refresh Does Not Use the Gateway Connection
 
-If the semantic model settings show the IOMETE data source without a mapped connection, the **Server URL**, **Cluster**, or **Data Plane** on the gateway connection differs from the values in your report. They must match character for character, including the port, so `dev.iomete.com` and `dev.iomete.com:443` count as different data sources. Recreate the connection with **Manually add to gateway**, as described in [Creating the Gateway Connection](#creating-the-gateway-connection).
+If the semantic model settings show the IOMETE data source without a mapped connection, the **Server URL**, **Cluster**, or **Data Plane** on the gateway connection differs from the values in your report. They must match character for character, including the port, so `dev.iomete.com` and `analytics.example.com:443` count as different data sources. Recreate the connection with **Manually add to gateway**, as described in [Creating the Gateway Connection](#creating-the-gateway-connection).
 
 ### Connection Fails With "Could not open certificate"
 

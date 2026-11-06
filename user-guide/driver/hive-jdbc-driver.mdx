@@ -3,7 +3,7 @@ title: Hive JDBC Driver
 sidebar_label: Hive JDBC Driver
 description: Connect to IOMETE over HiveServer2 using the Hive JDBC driver for BI tools, dbt, and other SQL clients.
 last_update:
-  date: 2026-11-05
+  date: 2026-11-06
   author: Mateus Aubin
 ---
 
@@ -46,7 +46,7 @@ jdbc:hive2://<host>/;transportMode=http;ssl=true;httpPath=/data-plane/<namespace
 
 To avoid assembling the URL by hand, copy the exact connection string for your compute from the IOMETE Console under **Compute → select a compute → Connections tab → JDBC**.
 
-Use the host for that compute's data plane. In the `httpPath`, `<namespace>` is the compute's **Kubernetes namespace**, such as `analytics`; it is not the data plane ID, such as `dp-2`, or a SQL database name. The `/data-plane/` segment is part of the connection route and does not change what the namespace value means.
+Use the host for that compute's data plane. In the `httpPath`, `<namespace>` is the compute's **Kubernetes namespace**, such as `finance`; it is not the data plane ID, such as `analytics`, or a SQL database name. The `/data-plane/` segment is part of the connection route and does not change what the namespace value means.
 
 ## Known Issues
 

@@ -3,7 +3,7 @@ title: Namespace Quotas
 description: Understand how Kubernetes resource quotas limit IOMETE workloads in each namespace, how to read quota usage in the console, and why usage can exceed 100% or pods can wait while you're under quota.
 sidebar_label: Namespace Quotas
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Shashank Chaudhary
 ---
 
@@ -93,7 +93,7 @@ When you create or edit a compute cluster, Spark job, or Jupyter container, the 
 
 ### Selecting a Namespace
 
-The **Deploy to Kubernetes namespace** dropdown groups namespaces by data plane. Select both together: for example, choose `analytics` under `dp-2`. A namespace named `analytics` under another data plane is a different selection.
+The **Deploy to Kubernetes namespace** dropdown groups namespaces by data plane. Select both together: for example, choose `finance` under `analytics`. A namespace named `finance` under another data plane is a different selection.
 
 The choices come from namespace assignments in your domain and your [Use permissions](./iam/ras/ras-permissions.md#namespace). Selecting one does not create a Kubernetes namespace or register a data plane. If the dropdown shows **No namespaces available**, ask your administrator to check the domain assignment and namespace permissions, then refresh the list.
 
