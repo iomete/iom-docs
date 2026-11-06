@@ -3,8 +3,8 @@ title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 last_update:
-  date: 10/08/2026
-  author: Sourabh Jajoria
+  date: 11/06/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -13,6 +13,23 @@ import Mailer from '@site/src/components/Mailer';
 import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Deprecations, BreakingChanges } from '@site/src/components/Release';
 
 <Mailer/>
+
+{/* TODO(LKH-1082): set the 4.0.2 release date, and replace 4.1.3-vX with the released spark-py tag that holds the arrow-server fixes. */}
+
+<Release version="4.0.2" date="TBD">
+  <NewFeatures>
+    - **V1 Schema API Forwarding**: Added the [`schemaV1ForwardToV2`](/resources/user-guide/feature-flags/schema-v1-forward-to-v2) feature flag to forward V1 schema requests to V2 without changing client URLs. The flag is disabled by default and requires `arrowFlightForDbExplorer`. Forwarded requests always retrieve live metadata; **List Catalogs** remains on V1.
+  </NewFeatures>
+
+  <Improvements>
+    - **Database Explorer API**: Aligned V2 response fields, types, and status codes more closely with V1. All table details fixes require the shared schema server to run `spark-py:4.1.3-vX` or later (Spark 4.1). See [Database Explorer API Migration](/resources/user-guide/sql-editor/database-explorer-api-migration).
+  </Improvements>
+
+  <BreakingChanges>
+    - **V1 Schema API Routing**: Removed automatic V1 forwarding when `arrowFlightForDbExplorer` is enabled. Enable `schemaV1ForwardToV2` to retain forwarding after upgrading. Without forwarding, V1 requires the `iom-spark-connect-rest-client` service. See [Forwarding V1 Routes to V2](/resources/user-guide/sql-editor/database-explorer-api-migration#forwarding-v1-to-v2).
+    - **V2 Schema API Responses**: Changed status codes, type names, the table comment field location, and secret redaction. Review the [Behavior Differences](/resources/user-guide/sql-editor/database-explorer-api-migration#behavior-differences) before upgrading clients that call V2 or forward V1 requests to V2.
+  </BreakingChanges>
+</Release>
 
 <Release version="4.0.1" date="October 8, 2026">
   <Improvements>

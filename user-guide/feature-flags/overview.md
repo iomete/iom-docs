@@ -11,8 +11,9 @@ From release `4.0.0` forward, feature flags let IOMETE turn a feature on or off 
 
 Admins control them from the admin panel under **Administration → Feature Flags** — see [Managing Feature Flags](./managing-feature-flags.md).
 
-## Available flags
+## Available Flags
 
 - [Secrets V2](./secrets-v2.md)
 - [LDAP Group Inheritance](./ldap-group-inheritance.md)
 - [SQL Editor V2](./sql-editor-v2.md)
+- [V1 Schema API Forwarding](./schema-v1-forward-to-v2.md)
