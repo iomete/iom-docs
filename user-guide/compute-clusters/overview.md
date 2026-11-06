@@ -3,7 +3,7 @@ title: Compute Clusters
 description: Dedicated Apache Spark compute clusters that provide isolated CPU and memory resources for query processing while sharing data stored in object storage.
 sidebar_label: Overview
 last_update:
-  date: 02/26/2026
+  date: 11/05/2026
   author: Abhishek Pathania
 ---
 
@@ -27,7 +27,7 @@ Each row represents one cluster:
 | **Name**         | Opens the cluster detail page. The cluster ID appears below the name (hover to copy). |
 | **Driver**       | Driver status (`STARTING`, `ACTIVE`, `STOPPED`, `FAILED`) and node type. Sortable by status. |
 | **Executor**     | Executor state (for example, `Running 2/4`) and node type. Shows **Single node** for single-node clusters. |
-| **Namespace**    | Kubernetes namespace where the cluster runs. Sortable. |
+| **Namespace**    | Data plane and Kubernetes namespace where the cluster runs, shown together in this column. Sortable by namespace. |
 | **Auto scaling** | Idle timeout for auto-suspend. Shows **Single node** for single-node clusters. |
 | **Image**        | Docker image name. Hidden by default; use the column selector to reveal it. |
 | **Actions**      | Ellipsis menu with state-dependent actions. See [Managing a Compute Cluster](./managing-clusters.md). |
@@ -36,7 +36,7 @@ Each row represents one cluster:
 
 Controls above the table narrow the list:
 
-* **Namespace**: deployment namespace.
+* **Namespace**: choose a namespace under a data plane, or **All namespaces** within that data plane.
 * **Status**: driver state (`Starting`, `Active`, `Stopped`, `Failed`).
 * **Search**: cluster name or ID.
 
@@ -51,6 +51,8 @@ Who can see and interact with a cluster depends on permissions granted to users 
 
 - **Resource level**
   Per-cluster permissions (`VIEW`, `EXECUTE`, `CONSUME`, `UPDATE`, `DELETE`) come from the cluster's resource bundle. `CONSUME` lets a user submit queries against the cluster. The cluster list only shows clusters where you have at least `VIEW` permission. See [Resource Bundles](/user-guide/ras/resource-bundles) for bundle-based access control.
+
+Creating a cluster also requires access to its deployment namespace. See [Namespace Permissions](../iam/ras/ras-permissions.md#namespace) for how domain assignments and **Use** permission work.
 
 ## Next Steps
 
