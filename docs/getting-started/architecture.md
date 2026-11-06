@@ -4,13 +4,13 @@ title_meta: "IOMETE Architecture: Control Plane, Data Planes, Kubernetes"
 sidebar_label: Architecture
 description: "How IOMETE works on Kubernetes: control plane, data planes, Spark compute, Iceberg storage, catalog and security model, and how the components connect."
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Shashank Chaudhary
 ---
 
 import DemoCta from '@site/src/components/DemoCta';
 
-IOMETE is a Data Lakehouse Platform for AI and Analytics built on [Apache Spark](https://spark.apache.org/), [Apache Iceberg](https://iceberg.apache.org/), and [Kubernetes](https://kubernetes.io/). It deploys as a [Helm](https://helm.sh/) chart into a Kubernetes cluster and uses object storage ([AWS S3](https://aws.amazon.com/s3/), [Google Cloud Storage](https://cloud.google.com/storage), [Azure Blob/ADLS](https://azure.microsoft.com/en-us/products/storage/blobs), [Apache Ozone](https://ozone.apache.org/), [Dell ECS](https://www.dell.com/en-us/dt/storage/ecs/index.htm), [MinIO](https://min.io/)) as its data layer. From a single console, you can manage compute clusters, run Spark jobs, query data with SQL, browse the data catalog, and enforce security policies.
+IOMETE is a data lakehouse platform built on [Apache Spark](https://spark.apache.org/), [Apache Iceberg](https://iceberg.apache.org/), and [Kubernetes](https://kubernetes.io/). It runs on Kubernetes and stores table data in object storage. From a single console, you can manage compute clusters, run Spark jobs, query data with SQL, browse the data catalog, and enforce security policies.
 
 ## High-Level Architecture
 
@@ -19,9 +19,9 @@ IOMETE separates **management**, **execution**, and **storage**. In the 4.x arch
 | Component | Responsibility | Example |
 | --- | --- | --- |
 | **Control plane** | Provides the console, APIs, identity, catalog, and workload management | One console for all your teams and data planes |
-| **Data plane** | Runs the services that create, monitor, and connect to workloads in its Kubernetes cluster | `default` for existing workloads, `dp-2` for a separate runtime |
-| **Kubernetes namespace** | Contains pods and other Kubernetes resources; can have its own quotas and access rules | `dp2-analytics` and `dp2-batch`, both managed by `dp-2` |
-| **IOMETE domain** | Organizes members, permissions, and platform resources | A `finance` domain assigned namespaces on one or more data planes |
+| **Data plane** | Runs the services that create, monitor, and connect to workloads in its Kubernetes cluster | `default` for existing workloads, `analytics` for a separate runtime |
+| **Kubernetes namespace** | Contains pods and other Kubernetes resources; can have its own quotas and access rules | `finance` and `marketing`, both managed by `analytics` |
+| **IOMETE domain** | Organizes members, permissions, and platform resources | A `business` domain assigned namespaces on one or more data planes |
 | **Storage** | Holds table data and platform files; PostgreSQL holds platform metadata | Object storage for Iceberg tables, PostgreSQL for configuration |
 
 The default installation includes a control plane and a colocated data plane named `default`. Additional data planes run their own runtime services and register with that control plane. They can be in the same cluster, another data center, or another cloud region.
@@ -29,16 +29,16 @@ The default installation includes a control plane and a colocated data plane nam
 ```mermaid
 flowchart TB
   accTitle: One control plane manages multiple data planes
-  accDescr: The control plane manages the default data plane and dp-2. Data plane dp-2 manages the dp2-analytics and dp2-batch namespaces.
+  accDescr: The control plane manages the default data plane and analytics. Data plane analytics manages the finance and marketing namespaces.
   CP["Control plane"] --> Default["Data plane<br/>default"]
-  CP --> DP2["Data plane<br/>dp-2"]
-  DP2 --> Analytics["Namespace<br/>dp2-analytics"]
-  DP2 --> Batch["Namespace<br/>dp2-batch"]
+  CP --> AnalyticsPlane["Data plane<br/>analytics"]
+  AnalyticsPlane --> FinanceNamespace["Namespace<br/>finance"]
+  AnalyticsPlane --> MarketingNamespace["Namespace<br/>marketing"]
 ```
 
 This diagram shows management relationships, not nested Kubernetes namespaces. The control-plane namespace, each runtime's service namespace, and its workload namespaces are peers in Kubernetes. You can place all the components above in one cluster or place the data planes in separate clusters.
 
-For example, a `finance` domain can use both `dp2-analytics` and `dp2-batch` on `dp-2`. A compute created in `dp2-batch` runs there; assigning the namespace to the domain does not create another data plane or move existing workloads. See [Multi-Cluster Setup](../deployment/multi-cluster-setup.mdx) for topology choices.
+For example, a `business` domain can use both `finance` and `marketing` on `analytics`. A compute created in `marketing` runs there; assigning the namespace to the domain does not create another data plane or move existing workloads. See [Multi-Cluster Setup](../deployment/multi-cluster-setup.mdx) for topology choices.
 
 ## Platform Services
 

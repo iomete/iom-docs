@@ -3,7 +3,7 @@ title: Scalability
 description: Understand how IOMETE scales across Kubernetes infrastructure, platform services, compute clusters, and storage to handle growing data workloads efficiently.
 sidebar_label: Scalability
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Abhishek Pathania
 ---
 
@@ -60,7 +60,7 @@ This separation keeps compute-heavy Spark workloads from starving platform servi
 
 ### Multi-Namespace
 
-One data plane can manage several workload namespaces. For example, `dp-2` can manage `dp2-analytics` and `dp2-batch`, each with its own Kubernetes ResourceQuota. Assign those namespaces to IOMETE domains, then select the intended namespace when creating a compute or job.
+One data plane can manage several workload namespaces. For example, `analytics` can manage `finance` and `marketing`, each with its own Kubernetes ResourceQuota. Assign those namespaces to IOMETE domains, then select the intended namespace when creating a compute or job.
 
 The runtime deploys supporting resources in its managed namespaces, such as Prefect workers and Spark proxies where enabled. Account for their resource requests when setting quotas. A namespace provides a scope for quotas and access rules; node placement and network policies determine additional isolation. Adding a namespace does not add worker nodes.
 
@@ -91,9 +91,9 @@ A single IOMETE control plane can manage data planes in the same Kubernetes clus
 | Workloads need a separate runtime, region, or cluster | Another data plane registered with the same control plane |
 | Environments need independent administration and state | Separate IOMETE installations |
 
-For example, `default` and `dp-2` can share a Kubernetes cluster while `dp-2` manages two namespaces. This creates separate runtimes, not additional physical capacity: their workloads still compete for the cluster's nodes unless you configure placement and quotas. A data plane in a separate cluster has its own Kubernetes capacity, but still depends on connectivity to the shared control plane and the storage it uses.
+For example, `default` and `analytics` can share a Kubernetes cluster while `analytics` manages two namespaces. This creates separate runtimes, not additional physical capacity: their workloads still compete for the cluster's nodes unless you configure placement and quotas. A data plane in a separate cluster has its own Kubernetes capacity, but still depends on connectivity to the shared control plane and the storage it uses.
 
-An additional data plane does not automatically replicate table data or fail workloads over between clusters. Plan storage access, network latency, backup, and recovery separately. The older shared-global-database model also did not provide a single console across independent installations. See [Multi-Cluster Setup](../deployment/multi-cluster-setup.mdx) for the current model and the legacy distinction.
+An additional data plane does not automatically replicate table data or fail workloads over between clusters. Plan storage access, network latency, backup, and recovery separately. See [Multi-Cluster Setup](../deployment/multi-cluster-setup.mdx) for topology choices.
 
 ## Storage Scalability
 

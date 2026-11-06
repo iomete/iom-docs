@@ -3,7 +3,7 @@ title: Deployment Architecture
 sidebar_label: Deployment Architecture
 description: How IOMETE control-plane and runtime charts map onto Kubernetes, including service placement, workload namespaces, storage, and network connections.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Abhishek Pathania
 ---
 
@@ -39,7 +39,7 @@ If a hook fails, Helm does not finish the installation or upgrade. Inspect the f
 
 The chart supplies Helm settings to the services through Kubernetes Secrets, ConfigMaps, and environment variables. Several settings are read at process startup. Updating a values file alone changes nothing; apply it with Helm and wait for the affected services to roll out before verifying the new behavior.
 
-Keep the values file for each release separate. For example, adding `dp2-batch` to the runtime release `dp-2` does not update the enterprise release's namespace list. Follow [Adding a Namespace](./connect-namespace.md) for that operation, including upgrades where a restart is needed.
+Keep the values file for each release separate. For example, adding `marketing` to the runtime release `analytics` does not update the enterprise release's namespace list. Follow [Adding a Namespace](./connect-namespace.md) for that operation, including upgrades where a restart is needed.
 
 ## Service Inventory
 
@@ -106,15 +106,15 @@ These names describe IOMETE roles; they do not require placing IOMETE services o
 
 ## Multi-Namespace Support
 
-A data plane's `namespaces` list adds workload namespaces to the release's own service namespace, which is managed automatically. For example, a runtime installed as release `dp-2` in `iomete-dp-2` can use:
+A data plane's `namespaces` list adds workload namespaces to the release's own service namespace, which is managed automatically. For example, a runtime installed as release `analytics` in `iomete-analytics` can use:
 
-```yaml title="Excerpt from dp-2 values"
+```yaml title="Excerpt from analytics values"
 namespaces:
-  - dp2-analytics
-  - dp2-batch
+  - finance
+  - marketing
 ```
 
-All three namespaces are siblings in Kubernetes. The runtime services remain in `iomete-dp-2`; computes and jobs can run in the selected workload namespace. Supporting resources are also installed in the managed namespaces as required.
+All three namespaces are siblings in Kubernetes. The runtime services remain in `iomete-analytics`; computes and jobs can run in the selected workload namespace. Supporting resources are also installed in the managed namespaces as required.
 
 Create the namespaces, arrange service accounts and RBAC through the chart or an administrator, configure the runtime to manage them, then assign them to an IOMETE domain. Configure Kubernetes ResourceQuotas to enforce resource budgets. The namespace list alone does not create quotas, domain assignments, or extra nodes.
 
@@ -189,7 +189,7 @@ For PostgreSQL TLS, configure the chart's database SSL settings and certificate 
 
 ## Secret Store
 
-IOMETE manages application secrets separately from Kubernetes infrastructure credentials. Database, registry, storage, and trust Secrets must be available where the relevant chart or workload expects them. Kubernetes Secrets are namespace-scoped: a Secret in `iomete-system` is not automatically available in `dp2-batch`.
+IOMETE manages application secrets separately from Kubernetes infrastructure credentials. Database, registry, storage, and trust Secrets must be available where the relevant chart or workload expects them. Kubernetes Secrets are namespace-scoped: a Secret in `iomete-system` is not automatically available in `marketing`.
 
 Use the [Secrets guide](/resources/user-guide/secrets) for application secrets and [Adding a Namespace](./connect-namespace.md) for which infrastructure resources a new workload namespace needs. Do not use a historical secret-store backend table as a migration procedure.
 

@@ -3,7 +3,7 @@ title: Multi-Cluster Setup
 sidebar_label: Multi-Cluster Setup
 description: Plan one IOMETE control plane with multiple data planes, understand namespace ownership, and distinguish the current architecture from legacy shared-database installations.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Fuad
 ---
 
@@ -13,9 +13,7 @@ In IOMETE 4.x, **one control plane manages multiple data planes**. Users sign in
 
 A data plane is not a Kubernetes cluster or a namespace. You can run several data planes in the **same** Kubernetes cluster, and each data plane can manage **several** workload namespaces. Separate clusters are useful when you need different infrastructure, regions, or failure boundaries; they are not required just to add another data plane.
 
-:::note Existing Shared-Database Installations
-Older versions of this page described independent IOMETE installations sharing a global database through `clusterDatabase`. That legacy model did not provide one control plane or a combined console. It is different from the current data-plane enrollment model. See [Legacy Shared-Database Installations](#multi-cluster-setup-shared-global-database) before reusing an older values file.
-:::
+If you are updating an older shared-database installation, read the [legacy guidance](#multi-cluster-setup-shared-global-database) before changing its values.
 
 ## Deployment Models
 
@@ -23,7 +21,7 @@ Older versions of this page described independent IOMETE installations sharing a
 
 The enterprise chart installs the control plane and a colocated data plane named `default`. You can add workload namespaces to that plane without installing another runtime or another Kubernetes cluster.
 
-For example, a single `default` data plane can manage `analytics` and `batch`. Assign either or both namespaces to a domain, then choose the namespace when creating a compute or job. See [Adding a Namespace](./connect-namespace.md).
+For example, a single `default` data plane can manage `engineering` and `operations`. Assign either or both namespaces to a domain, then choose the namespace when creating a compute or job. See [Adding a Namespace](./connect-namespace.md).
 
 ### One Control Plane with Multiple Data Planes
 
@@ -34,39 +32,17 @@ The following example fits in **one Kubernetes cluster**:
 | Purpose | Data Plane | Kubernetes Namespace |
 | --- | --- | --- |
 | Control plane and its default runtime | `default` | `iomete-system` |
-| Additional runtime services | `dp-2` | `iomete-dp-2` |
-| Analytics workloads on the additional runtime | `dp-2` | `dp2-analytics` |
-| Batch workloads on the additional runtime | `dp-2` | `dp2-batch` |
+| Additional runtime services | `analytics` | `iomete-analytics` |
+| Finance workloads on the additional runtime | `analytics` | `finance` |
+| Marketing workloads on the additional runtime | `analytics` | `marketing` |
 
-These are sibling namespaces, not namespaces nested inside `iomete-dp-2`. The `dp-2` runtime manages its service namespace plus the two configured workload namespaces. An IOMETE domain such as `finance` can be assigned `dp2-analytics` and `dp2-batch`; a compute created in `dp2-batch` runs there.
+These are sibling namespaces, not namespaces nested inside `iomete-analytics`. The `analytics` runtime manages its service namespace plus the two configured workload namespaces. An IOMETE domain such as `business` can be assigned `finance` and `marketing`; a compute created in `marketing` runs there.
 
-You can instead place the `dp-2` runtime and its workload namespaces in another Kubernetes cluster. The control plane still manages it through the agent and gateways, provided that the network and trust requirements below are met.
+You can instead place the `analytics` runtime and its workload namespaces in another Kubernetes cluster. The control plane still manages it through the agent and gateways, provided that the network and trust requirements below are met.
 
 :::tip Choosing the Boundary
 Use another namespace for a separate resource budget within a runtime. Use another data plane for a separate runtime or Kubernetes environment. Add worker capacity when you need more CPU or memory: a new namespace or data plane in the same cluster does not add nodes.
 :::
-
-### Multiple Independent Installations
-
-Separate full IOMETE installations each have their own control plane, console, configuration, and workloads. Choose this when environments require independent administration and state. Installing another enterprise chart does not automatically enroll it as a data plane of the first installation.
-
-### Legacy Shared-Database Installations {#multi-cluster-setup-shared-global-database}
-
-Earlier chart versions supported `database` for shared platform resources and `clusterDatabase` for installation-local operational data. Each participating installation still had its own control plane and UI. Sharing database records was not the same as routing work through one control plane.
-
-A historical values file could contain this structure:
-
-```yaml title="Historical structure only — not a 4.x configuration"
-database:
-  host: postgresql-global.shared.internal
-  # Existing shared-database connection settings
-
-clusterDatabase:
-  host: postgresql-local.datacenter-a.internal
-  # Existing installation-local connection settings
-```
-
-The current charts no longer use `clusterDatabase` to separate those databases. Do not add it to a 4.x values file to enable multi-data-plane operation, and do not treat upgrading a chart as an automatic migration of a legacy installation. Preserve the existing database layout and plan the transition for the versions you run.
 
 ## How It Works
 
@@ -105,7 +81,12 @@ Plan the topology and connections before installing the runtime. Keep a separate
 
 The enterprise chart includes the `default` data plane when `defaultDataPlane.enabled` is true. Additional namespaces belong in that release's `namespaces` list.
 
+<details>
+<summary>Running all user workloads on separate data planes</summary>
+
 For an installation whose user workloads all run on separately installed runtimes, the enterprise chart supports `defaultDataPlane.enabled: false`. Its internal metadata services still require some Spark infrastructure; this setting is not a promise to remove every Spark pod from the control-plane namespace.
+
+</details>
 
 ### Additional Data Plane {#multi-cluster-setup}
 
@@ -113,26 +94,31 @@ The important runtime settings serve different purposes:
 
 | Runtime Setting | Purpose | Example |
 | --- | --- | --- |
-| `multiCluster.dataPlaneName` | Unique data-plane ID within the control plane | `dp-2` |
+| `multiCluster.dataPlaneName` | Unique data-plane ID within the control plane | `analytics` |
 | `multiCluster.controlPlaneAddress` | Control-plane URL reachable from the runtime | `https://iomete.example.com` |
-| `multiCluster.selfUrl` | Address the control plane uses to call this runtime | `https://dp2.example.com` |
-| `multiCluster.externalUrl` | Compute URL reachable by clients and the control-plane SQL service | `https://dp2.example.com` |
-| `namespaces` | Additional workload namespaces managed by this runtime | `dp2-analytics`, `dp2-batch` |
+| `multiCluster.selfUrl` | Address the control plane uses to call this runtime | `https://analytics.example.com` |
+| `multiCluster.externalUrl` | Compute URL reachable by clients and the control-plane SQL service | `https://analytics.example.com` |
+| `namespaces` | Additional workload namespaces managed by this runtime | `finance`, `marketing` |
 | `multiCluster.trustSecret` | Matching trust material for plane-to-plane requests | Provision consistently across the control plane and runtimes |
+
+<details>
+<summary>Using different internal and client addresses</summary>
 
 `selfUrl` and `externalUrl` may be different. When both planes share a cluster, the control plane can use an internal service address while users use a public hostname. An address ending in `.svc.cluster.local` is ordinarily reachable only inside its Kubernetes cluster. Do not use it for a plane in another cluster unless your networking explicitly supports that DNS name and route.
 
+</details>
+
 Choose stable addresses before enrolling. The registry can preserve the original address across later handshakes; editing Helm values alone is not a reliable way to rename or move an already registered plane.
 
-For the example topology, the namespace portion of the `dp-2` runtime values is:
+For the example topology, the namespace portion of the `analytics` runtime values is:
 
 ```yaml title="Namespace excerpt — not a complete runtime values file"
 namespaces:
-  - dp2-analytics
-  - dp2-batch
+  - finance
+  - marketing
 ```
 
-The runtime release namespace, `iomete-dp-2`, is included automatically. Create the additional namespaces before installation, and arrange their service accounts and RBAC through the chart (`serviceAccount.create: true`) or a Kubernetes administrator. Preserve all existing namespace entries when adding a namespace later.
+The runtime release namespace, `iomete-analytics`, is included automatically. Create the additional namespaces before installation, and arrange their service accounts and RBAC through the chart (`serviceAccount.create: true`) or a Kubernetes administrator. Preserve all existing namespace entries when adding a namespace later.
 
 Complete the remaining prerequisites for your environment:
 
@@ -166,9 +152,41 @@ If registration succeeds but the query fails, check compute readiness, the publi
 - Plane connectivity is a dependency. A disconnected runtime can stop receiving management operations even if some existing workload pods continue running.
 - Shared control-plane databases and services need their own availability and backup plan. Multiple runtimes do not make the control plane highly available by themselves.
 
+<details>
+<summary>Independent and legacy installation models</summary>
+
+### Multiple Independent Installations
+
+Separate full IOMETE installations each have their own control plane, console, configuration, and workloads. Choose this when environments require independent administration and state. Installing another enterprise chart does not automatically enroll it as a data plane of the first installation.
+
+### Legacy Shared-Database Installations {#multi-cluster-setup-shared-global-database}
+
+Earlier chart versions supported `database` for shared platform resources and `clusterDatabase` for installation-local operational data. Each participating installation still had its own control plane and UI. Sharing database records was not the same as routing work through one control plane.
+
+A historical values file could contain this structure:
+
+```yaml title="Historical structure only — not a 4.x configuration"
+database:
+  host: postgresql-global.shared.internal
+  # Existing shared-database connection settings
+
+clusterDatabase:
+  host: postgresql-local.datacenter-a.internal
+  # Existing installation-local connection settings
+```
+
+The current charts no longer use `clusterDatabase` to separate those databases. Do not add it to a 4.x values file to enable multi-data-plane operation, and do not treat upgrading a chart as an automatic migration of a legacy installation. Preserve the existing database layout and plan the transition for the versions you run.
+
+</details>
+
+<details>
+<summary>Planning a transition from a legacy topology</summary>
+
 ## Moving from a Legacy Topology {#roadmap}
 
 A unified control plane is part of the 4.x architecture, rather than a future roadmap item. Existing shared-database installations still need an explicit transition plan: identify their chart versions, database ownership, runtime identities, catalogs, storage, and workload locations before changing the deployment model. Do not repoint databases or reinstall runtimes solely to make an old configuration resemble the examples above.
+
+</details>
 
 ## Related Documentation
 
