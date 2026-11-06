@@ -62,10 +62,8 @@ In the IOMETE Console, when configuring the Spark job, navigate to the **Environ
 Start a new job run, confirm its **Data plane** and **Namespace** on the **Details** tab, and inspect its **Logs** to verify the requested verbosity. Editing the job configuration does not change the logging configuration inside an already-running pod.
 
 
-<details>
+<details id="3-base-log4j2-configuration-template">
 <summary>Base log4j2 configuration template</summary>
-
-## Base log4j2 Configuration Template {#3-base-log4j2-configuration-template}
 
 Below is a base template for the `log4j2.properties` file. This template can be customized as needed for specific logging requirements.
 
@@ -113,7 +111,6 @@ appender.console.filter.1.regex = .*Thrift error occurred during processing of m
 appender.console.filter.1.onMatch = deny
 appender.console.filter.1.onMismatch = neutral
 ```
-
 
 </details>
 
