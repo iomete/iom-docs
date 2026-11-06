@@ -64,6 +64,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - A result too large for one response now says how to recover, such as how many columns to ask for per call, or how to page through the rest.
       - `run_query` reports that a query needs confirmation only when the statement policy will actually refuse to run it without one.
       - Audit records are written out on a timer instead of only at shutdown.
+      - Large query results use less memory, since tools read only the data they need.
     - **Gateway Rate Limiting**: Requests with no credential now have their own rate-limit pool, so anonymous traffic can no longer use up signed-in users' allowance. The defaults under `services.gateway.rateLimit.unauthenticated` match the previous shared limit, so upgrades change nothing.
     - **Login Lockout**: Ten failed sign-ins for an account within 15 minutes now block password sign-in for the rest of that window, and each lockout is recorded in the audit log. On by default, with a feature flag to turn it off.
     - **Private Certificate Authorities**: A new `caCertificates` setting points the platform at one Secret holding your CA bundle. The MCP server reads it first, and `services.mcpServer.iometeTls` is deprecated in its favour but keeps working. Nothing to change on upgrade.
@@ -100,7 +101,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Event Stream**: Fixed ingestion failing with `Invalid or expired token` on data planes that reach the control plane through the gateway.
     - **Data Plane Health and Links**: Data plane services report their real status on installs upgraded from 3.x, instead of always showing **No data**, and existing computes, Spark jobs and namespaces keep their link to their data plane instead of losing it.
     - **SSO Sign-In**: Fixed users who sign in through SSO being sent back to the login page about once a day.
-    - **CSV Export**: Exported CSV files now start with a byte order mark, so Excel on Windows shows non-ASCII characters correctly instead of mojibake.
+    - **CSV Export**
+      - Exported CSV files now start with a byte order mark, so Excel on Windows shows non-ASCII characters correctly instead of mojibake.
+      - Large exports no longer restart the SQL service, and exporting or storing results no longer fills its disk with temporary files.
     - **Shared Worksheets**: Fixed the API letting any domain member list, rename, move or duplicate shared worksheets. **List** and **Manage** on Shared Worksheet are now enforced, and a refused call returns `403`. The console already enforced this.
     - **Compute Clusters**
       - Fixed deleting a compute whose driver was still starting hanging for about 70 seconds and then failing, leaving the compute in the list with nothing behind it.
@@ -111,7 +114,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Moving to **Shared** no longer drops a folder's contents, and a newly created folder appears in **Move to**.
       - Autocomplete keeps working when a schema lookup fails.
       - The Jupyter connection URL no longer contains the token twice.
-    - **Data Catalog**: The V2 table and schema APIs now answer like V1. A missing table or schema returns `404` or `403` instead of `200` with an empty list, table details carry the comment, V1 type names and the details, metadata columns and defaults that `DESCRIBE` reports, and the catalog list is sorted by name.
+    - **Data Catalog**
+      - The V2 table and schema APIs now answer like V1. A missing table or schema returns `404` or `403` instead of `200` with an empty list, table details carry the comment, V1 type names and the details, metadata columns and defaults that `DESCRIBE` reports, and the catalog list is sorted by name.
+      - Catalog search returns `404 Not Found` before the first index run and `400 Bad Request` for a bad filter or page size, instead of `500 Internal Server Error`.
     - **Webhooks**: Fixed saving a change to a webhook failing with a `412` through the gateway.
     - **Console**
       - After signing in, you return to the page you were on.
