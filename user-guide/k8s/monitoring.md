@@ -3,7 +3,7 @@ title: Monitoring - Grafana Dashboards
 sidebar_label: Monitoring
 description: Configure Prometheus collection and Grafana dashboards for IOMETE services and Spark workloads across data planes and Kubernetes namespaces.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: IOMETE
 ---
 import Img from '@site/src/components/Img';
@@ -20,7 +20,7 @@ Before changing IOMETE settings, identify:
 - A running Grafana installation with a working Prometheus data source and permission to import dashboards.
 - The Kubernetes cluster, Helm release, service namespace, and workload namespaces for each IOMETE installation you want to monitor.
 
-For example, one cluster might contain the control plane in `iomete-system`, an additional data plane named `dp-2` with services in `iomete-dp-2`, and its workloads in `dp2-analytics` and `dp2-batch`. Prometheus must discover all four namespaces to cover those services and workloads. A second data plane does not require a second Grafana installation.
+This example uses one Kubernetes cluster with the control plane in `iomete-system`, an additional data plane named `analytics` with services in `iomete-analytics`, and its workloads in `finance` and `marketing`. Prometheus must discover all four namespaces to cover those services and workloads. A second data plane does not require a second Grafana installation.
 
 ### Enabling Monitoring
 
@@ -46,7 +46,7 @@ kubectl --context "$IOMETE_CONTEXT" -n iomete-system \
   get deployment iom-core \
   -o jsonpath='{.spec.template.metadata.annotations}{"\n"}'
 
-kubectl --context "$IOMETE_CONTEXT" -n iomete-dp-2 \
+kubectl --context "$IOMETE_CONTEXT" -n iomete-analytics \
   get deployment spark-operator \
   -o jsonpath='{.spec.template.metadata.annotations}{"\n"}'
 ```
@@ -63,16 +63,21 @@ Use the discovery mechanism supported by your monitoring installation:
 | Prometheus with Kubernetes service discovery | Configure scrape jobs for the required namespaces and endpoints. If you use annotations, configure relabeling to interpret them and resolve the annotated ports; Prometheus does not read them automatically. |
 | Separate IOMETE monitoring chart | Configure that chart's discovery scope. Its `iometeSystemNamespace` and `dataPlaneNamespaces` values belong to the monitoring chart, not the enterprise or runtime release. Check the values for your monitoring chart version. |
 
+<details>
+<summary>Values for the separate IOMETE monitoring chart</summary>
+
 For the separate IOMETE monitoring chart, the example scope is:
 
 ```yaml
 # Values for the monitoring chart only.
 iometeSystemNamespace: iomete-system
 dataPlaneNamespaces:
-  - iomete-dp-2
-  - dp2-analytics
-  - dp2-batch
+  - iomete-analytics
+  - finance
+  - marketing
 ```
+
+</details>
 
 Include any other default-plane or additional-plane workload namespaces as well. Namespace discovery also requires matching Kubernetes RBAC and network access. For data planes in other Kubernetes clusters, configure collection in those clusters and make the resulting metrics available to Grafana.
 
@@ -81,12 +86,6 @@ In Prometheus, open the target status page and confirm that the expected service
 ## Deploying Grafana Dashboards
 
 Dashboard provisioning is a Grafana configuration task. Installing Prometheus Operator or enabling IOMETE monitoring does not, by itself, import dashboards into Grafana.
-
-### Using Prometheus Operator {#for-prometheus-operator-setup}
-
-Some monitoring stacks bundle Grafana with a **dashboard sidecar**: a container that watches labeled ConfigMaps and copies their JSON files into Grafana's dashboard directory. Automatic discovery works only when that sidecar is enabled, the ConfigMaps match its label selector, and it can read their namespaces. Check those settings in your Grafana chart. The Prometheus Operator itself does not perform this import.
-
-The separate IOMETE monitoring chart uses another approach: it mounts its bundled dashboard ConfigMaps into Grafana and supplies file-provisioning configuration. An unrelated Grafana installation will not discover those ConfigMaps automatically. For details of file provisioning, see [Grafana's provisioning guide](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards).
 
 ### Importing Dashboards Manually {#for-non-prometheus-operator-setup}
 
@@ -99,6 +98,17 @@ Manual import works with or without Prometheus Operator:
 
 A successful import adds the dashboard to Grafana. Confirm that at least one expected service or running workload has data before configuring IOMETE's dashboard links.
 
+<details>
+<summary>Alternative: Provisioning dashboards automatically</summary>
+
+### Using Prometheus Operator {#for-prometheus-operator-setup}
+
+Some monitoring stacks bundle Grafana with a **dashboard sidecar**: a container that watches labeled ConfigMaps and copies their JSON files into Grafana's dashboard directory. Automatic discovery works only when that sidecar is enabled, the ConfigMaps match its label selector, and it can read their namespaces. Check those settings in your Grafana chart. The Prometheus Operator itself does not perform this import.
+
+The separate IOMETE monitoring chart uses another approach: it mounts its bundled dashboard ConfigMaps into Grafana and supplies file-provisioning configuration. An unrelated Grafana installation will not discover those ConfigMaps automatically. For details of file provisioning, see [Grafana's provisioning guide](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards).
+
+</details>
+
 ### Selecting a Cluster, Data Plane, and Namespace
 
 The linked dashboard JSON files provide a Prometheus data-source selector and namespace filters. They do **not** provide a built-in data-plane or cluster selector.
@@ -107,9 +117,9 @@ The linked dashboard JSON files provide a Prometheus data-source selector and na
 | --- | --- |
 | IOMETE Service Dashboard | The namespace of the JVM services, such as `iomete-system`, then the service. |
 | Spark Operator Dashboard | The namespace represented by the operator metrics. Check the metric's actual labels, especially if your scrape configuration also adds a namespace label. |
-| IOMETE Job Metrics Dashboard | The workload namespace, such as `dp2-analytics`, then the Spark driver pod. Repeat with `dp2-batch` for workloads there. |
+| IOMETE Job Metrics Dashboard | The workload namespace, such as `finance`, then the Spark driver pod. Repeat with `marketing` for workloads there. |
 
-When multiple clusters reuse namespace or pod names, select a data source restricted to the intended cluster. If your Prometheus data source combines clusters, add a cluster label, dashboard variable, and matching filters to **all relevant queries** before relying on it for comparison. A namespace name alone does not identify a cluster, and selecting `dp-2` is not a substitute for selecting its workload namespace.
+When multiple clusters reuse namespace or pod names, select a data source restricted to the intended cluster. If your Prometheus data source combines clusters, add a cluster label, dashboard variable, and matching filters to **all relevant queries** before relying on it for comparison. A namespace name alone does not identify a cluster, and selecting `analytics` is not a substitute for selecting its workload namespace.
 
 ## Grafana Dashboards
 
@@ -151,21 +161,6 @@ alt="Spark Job - Grafana Dashboard"/>
 
 The panels show collected samples. Their freshness depends on the Prometheus scrape interval and Grafana's refresh interval; they are not a continuous record of every Spark event.
 
-:::note Short-Running Spark Jobs
-
-A short job can finish before Prometheus discovers and scrapes its driver. Some queries also need more than one sample. There is no universal one- or two-minute threshold: discovery delay, scrape interval, and the query determine what appears.
-
-<Img src="/img/k8s/monitoring/short-running-spark-job.png"
-caption="Short-Running Spark Job"
-alt="Short-Running Spark Job"/>
-
-<Img src="/img/k8s/monitoring/spark-job-dashboard-for-short-running-job.png"
-caption="Short-Running Spark Job - Grafana Dashboard"
-alt="Short-Running Spark Job - Grafana Dashboard"/>
-
-An empty dashboard does not prove that a job is optimized or that it ran without problems. Check the run status, logs, and Spark UI or History Server when available. Confirm the dashboard's time range and Prometheus retention. A shorter scrape interval may capture more detail in future runs, at the cost of collection and storage load; it cannot recover samples that were never collected.
-:::
-
 #### Setting Up the Job Metrics Dashboard
 
 1. Import the [IOMETE Job Metrics Dashboard JSON](https://github.com/iomete/on-prem-deployment/blob/main/observability/monitoring/grafana/iom-job-metrics-dashboard.json), selecting the appropriate Prometheus data source.
@@ -197,6 +192,23 @@ An empty dashboard does not prove that a job is optimized or that it ran without
 4. Open **Metrics** for a run with collected samples. Confirm that the URL selects the run's workload namespace and driver, and that the Grafana data source contains metrics from the right cluster.
 
 For the separate links on the admin portal's Monitoring page, see [External Grafana Dashboards](../monitoring/overview.md#external-grafana-dashboards).
+
+<details>
+<summary>Why a short job can have an empty dashboard</summary>
+
+A short job can finish before Prometheus discovers and scrapes its driver. Some queries also need more than one sample. There is no universal one- or two-minute threshold: discovery delay, scrape interval, and the query determine what appears.
+
+<Img src="/img/k8s/monitoring/short-running-spark-job.png"
+caption="Short-Running Spark Job"
+alt="Short-Running Spark Job"/>
+
+<Img src="/img/k8s/monitoring/spark-job-dashboard-for-short-running-job.png"
+caption="Short-Running Spark Job - Grafana Dashboard"
+alt="Short-Running Spark Job - Grafana Dashboard"/>
+
+An empty dashboard does not prove that a job is optimized or that it ran without problems. Check the run status, logs, and Spark UI or History Server when available. Confirm the dashboard's time range and Prometheus retention. A shorter scrape interval may capture more detail in future runs, at the cost of collection and storage load; it cannot recover samples that were never collected.
+
+</details>
 
 ## Troubleshooting
 
