@@ -3,7 +3,7 @@ title: Security Overview
 sidebar_label: Security Overview
 description: Understand how IAM, RAS, Data Security, and Network Policies work together to form IOMETE's layered security model.
 last_update:
-  date: 04/27/2026
+  date: 11/05/2026
   author: Sourabh Jajoria
 ---
 
@@ -13,27 +13,27 @@ IOMETE security is organized into four complementary layers. Each layer answers 
 
 | # | Layer | Component | Question Answered |
 |---|---|---|---|
-| 1 | Infrastructure | [Network Policies](/deployment/network-policies) | Can components reach each other inside the cluster? |
+| 1 | Infrastructure | [Network Policies](/resources/deployment/network-policies) | Can components reach each other inside the cluster? |
 | 2 | Identity | [IAM](./iam/users.md) | Who is this user, and how did they authenticate? |
 | 3 | Resource | [RAS – Resource Bundles](./iam/ras/ras.md) | Which compute clusters, Spark jobs, and workspaces can this user operate? |
 | 4 | Data | [Data Security](./data-security/overview.mdx) | Which databases, tables, columns, and rows can this user query? |
 
-A request to run a Spark query passes through all four layers in order. A failure at any layer blocks the request regardless of what the other layers permit.
+Running a query depends on network connectivity, authentication, resource permission and data permission. These are separate checks, rather than one fixed sequence through four components.
 
 ---
 
 ## Network Policies
 
-Network Policies are Kubernetes `NetworkPolicy` resources that control traffic between IOMETE pods and namespaces. They are configured once during deployment and rarely need to change afterward.
+Kubernetes `NetworkPolicy` resources restrict traffic to and from selected pods when the cluster's network plugin enforces them. Without a policy isolating a pod in a direction, traffic in that direction is allowed by default. Review the rules whenever you add namespaces, data planes, ingress endpoints or data sources.
 
-Two policies are required for a working IOMETE installation:
+The deployment guide provides examples for two required connections:
 
-- **Spark Operator Webhook Policy** — allows the Kubernetes API server to reach the Spark operator's admission webhook. Without this, Spark job submissions time out.
-- **IOMETE Namespaces Communication Policy** — permits cross-namespace traffic between control-plane and data-plane pods using the `iomete.com/managed: "true"` label.
+- **Spark Operator webhook access** — the Kubernetes API server must reach the operator's admission webhook to create or update Spark applications. Restrictive policies can block that connection and cause submission timeouts.
+- **Service and workload communication** — the example allows traffic from namespaces labeled `iomete.com/managed: "true"` and from the ingress controller. It is one possible rule set, not a requirement to use that label for every network path. Cross-cluster connections and external dependencies need appropriate rules for their actual addresses.
 
-Network Policies operate entirely at the infrastructure level. They have no knowledge of IOMETE users, groups, or data. If these policies are missing or misconfigured, no users can work at all.
+Network policies select Kubernetes pods, namespaces and IP ranges, not IOMETE users or groups. The broad communication example does not isolate domains from each other. Jupyter containers have a separate restrictive policy; another policy granting wider access can cancel that restriction.
 
-See [Kubernetes Network Policies](/deployment/network-policies) for YAML examples and troubleshooting steps.
+See [Kubernetes Network Policies](/resources/deployment/network-policies) for YAML examples and troubleshooting steps.
 
 ---
 
@@ -108,18 +108,18 @@ Access policies and masking policies reference the same users and groups that ar
 
 The following example shows how a data analyst in the `analytics-team` group accesses a production table:
 
-1. **Network** — The analyst's query reaches the Spark operator because the namespace communication policy permits it.
+1. **Network** — The analyst can reach IOMETE, and the SQL service can connect to the selected compute through its gateway and proxy. The Spark operator manages Spark applications; SQL requests do not pass through it.
 2. **IAM** — The analyst authenticates via SSO. IOMETE resolves their identity and group memberships.
 3. **RAS** — The `analytics-prod` Resource Bundle grants `analytics-team` permission to use the `prod-cluster` compute cluster. The query runs on that cluster.
 4. **Data Security** — An Access Policy grants `analytics-team` SELECT on `prod_db.orders`. A row-level filter limits results to the analyst's assigned region. A masking policy replaces the `credit_card` column with `****`.
 
-If any of these layers denied the request — a missing network policy, an authentication failure, no bundle permission for the cluster, or no access policy for the table — the query would not reach the next layer.
+A blocked network connection, failed authentication, missing compute permission or denied table access can prevent the query from succeeding. Investigate the failed check rather than assuming that a working console proves compute connectivity.
 
 ---
 
 ## Groups as the Common Thread
 
-Groups are the single abstraction that spans every layer:
+Groups connect the three application-level permission layers:
 
 - **IAM** — defines the group and its members (including nested groups from LDAP or IDP).
 - **RAS** — grants resource-level permissions to the group on a bundle.
@@ -154,4 +154,4 @@ Organizing permissions around groups rather than individual users means that onb
 - [Data Masking](./data-security/data-masking.mdx)
 - [Row-Level Filter](./data-security/row-level-filter.mdx)
 - [Classifications](./data-security/classifications.mdx)
-- [Kubernetes Network Policies](/deployment/network-policies)
+- [Kubernetes Network Policies](/resources/deployment/network-policies)
