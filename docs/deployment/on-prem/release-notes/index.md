@@ -14,6 +14,117 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="4.0.2" date="TBD">
+  <NewFeatures>
+    - **Webhook Notifications**: Job and compute alerts can now go to Slack, Microsoft Teams, PagerDuty or your own HTTPS endpoint, as well as by email. Domain admins manage them under the domain's **Settings → Webhooks**, and the feature is on by default.
+      - **Subscribing**: Subscribe a Spark job to a webhook from its **Notifications** tab, and a compute to its restart alerts. Silencing a job also silences its webhooks, and deleting a webhook removes it from every job.
+      - **Events**: Job run outcomes, the new **On Suspend** and **On Resume** job events, and automatic compute restarts.
+      - **Generic Webhooks**: Each notification arrives as JSON with an `apiVersion` and a stable event type such as `job.run.failed`, signed with an `X-Iomete-Signature` header so the receiver can confirm it came from IOMETE. You can add custom request headers whose values come from the domain's secrets.
+      - **Allowed Targets**: Generic webhooks can't post to private networks, localhost or cloud metadata addresses. Admins allow specific internal hosts on the **System Config** page.
+      - **Delivery**: Deliveries are queued and retried for about a day. A webhook that fails 20 times in a row is switched off and the domain owners are emailed. Each webhook shows its latest delivery, and a **Send test** action checks one before you rely on it.
+      - **Admin Overview**: **Administration → Webhooks** lists every domain's webhooks with its type, state and recent failures. Webhook URLs are stored encrypted and are never returned after saving.
+    - **Check Access**: **Administration → Data Security → Check access** shows what a user may do on a database or table, which policy decided each answer, and which columns are masked or row-filtered. Data Security admins and read-only admins can use it, and `GET /api/v1/admin/data-security/users/{user}/access` returns the same answer.
+    - **Service Account Owners and Run-As Users**: A service account now has an **Access** tab where you assign users and groups as **Owner** or **Run-as**. Owners manage the account's tokens and access, Run-as members can only run as it. Existing accounts are unchanged: their current groups are recorded as owners on upgrade.
+    - **GitHub Repositories in the SQL Editor**: Git repositories can now be on GitHub, both github.com and GitHub Enterprise Server, next to GitLab.
+      - **Shared Read Token**: An admin saves one read-only token on a repository, and everyone in the domain can then browse it, open its worksheets and switch branches without adding a token of their own. A user's own linked token is always used first. The token is verified when saved, stored encrypted and never shown again.
+      - Repositories added before this release keep working as they are, with each user linking their own token, until an admin saves a read-only token on them.
+    - **SQL Syntax Checking**: The SQL Editor underlines syntax errors as you type and lists them in a new **Problems** panel, where clicking one jumps to it. It is advisory, works without a running compute, and never blocks **Run**.
+    - **Resource Group Roles**: A role can now grant access to resource groups and to namespaces, rather than only per-resource permissions. Assign roles on a resource group's **Roles** tab, and manage built-in and custom resource roles under **Settings → Roles → Resource roles**. Turn it on with the `resourceGroupRoles` rollout flag, which is off by default. While it is off, only per-resource permissions apply, and role assignments are kept but have no effect.
+    - **OIDC Single Logout**: A **Sign out of identity provider** switch on the OIDC provider page ends the user's session with the identity provider when they sign out of IOMETE. Off by default. Register the redirect URL shown on the page with your provider first.
+  </NewFeatures>
+
+  <Improvements>
+    - **Spark 4 Is the Default**: New compute clusters and Spark jobs now default to the Spark image `4.1.3-v2`, moving the platform default from the Spark 3.5 line to Spark 4.1. `3.5.7-v7` stays selectable, and existing computes and jobs keep the image they already use. See the [Spark release notes](./spark.md).
+    - **Marketplace Jobs**: Job templates now deploy the marketplace job versions this release ships: Data Compaction `1.2.14`, File Streaming `1.0.1`, Catalog Sync `5.1.1`, MySQL Sync `3.0.0`, Kafka Iceberg Stream `1.2.0` and Cleanup Untracked Table Folders `0.1.5`. See the [Marketplace Jobs release notes](./marketplace-jobs.md) for what changed in each.
+    - **Access Tokens**
+      - **Rename and Regenerate**: A token can be renamed, and its secret can be replaced in place while keeping its name and settings. Regenerating an expired token's secret also makes it active again, with a fresh expiry.
+      - **Read-Only Admins**: A user with only the `READ_ONLY_ADMIN` role can create, rename, regenerate and delete their own tokens under **Administration → Access Tokens**. `POST /api/v1/auth/tokens` now rejects a `serviceAccountId` in the body with a `400`. Use `POST /api/v1/auth/service-accounts/{id}/tokens` for service account tokens.
+      - **Audit**: The `platform_event_logs` system table now records which access token made each API request, in `token_id` and `token_masked`. If you already have this table, add the two columns with the `ALTER TABLE` statement in [System Tables](/user-guide/system-tables#platform_event_logs). Until you do, events are recorded without the token.
+    - **Spark Applications**
+      - **Why a Run Is Queued**: A run with status **Enqueued** now explains itself on its detail page: that the namespace's job scheduler is missing, paused or down, how many runs are ahead of it, or which run at the front of the queue is waiting for namespace quota and the CPU and memory it needs. High-priority runs that have not started yet now show `HIGH` instead of `NORMAL`.
+      - **Paged List API**: `GET /api/v3/domains/{domain}/spark/applications` returns the list with `page` and `size` paging, an exact total, an optional time range, and server-side status and search filters, along with a matching `/timeline`. The v2 endpoint is unchanged.
+      - **Kubernetes Resource Names**: Spark job resources are now named `job-<id>`, and executor pods are named after their driver even when the job sets its own application name. Existing jobs keep their current names.
+      - **Scheduled Runs**: A scheduled run now shows `Scheduler` as its trigger.
+    - **Compute Clusters**
+      - **Restart Alerts**: A compute's **Notifications** tab has an **On Restart** event, so subscribers hear when it restarts automatically. A crash-looping compute sends at most one alert every 30 minutes.
+      - **Restart Count**: Compute details and the Compute API report how many times the current Spark application has restarted automatically.
+    - **Deleting Unused Resources**
+      - **Domains**: A domain can be deleted once nothing in it is running. The refusal names each compute, notebook, event stream, Spark job and queued run that still needs removing.
+      - **Data Planes**: A disconnected data plane can be deleted once no namespaces are assigned to it, and the refusal names the domains whose namespaces still hold it.
+    - **Resource Groups**: **Resource Bundles** are now called **Resource groups** throughout the console, and a group can carry key/value tags, shown on its list, form and details.
+    - **Data Explorer**: Database and table lists have a **Total Storage** column next to **Size**, covering history and metadata as well as the current snapshot.
+    - **Power BI and Tableau**: On a compute's **Connections** tab, the Power BI and Tableau tabs show the Arrow Flight connector settings when Arrow Flight is enabled, instead of the Thrift server URL, which those connectors don't accept.
+    - **Console**
+      - **Faster First Load**: First-load JavaScript is about 30% smaller, and CSS is compressed with fonts and hashed assets cached, so the console opens faster.
+      - **Refreshing Lists and Pickers**: List filters, form pickers and assign pickers have a **Refresh** action, and a refresh that fails is reported above the list you already have instead of replacing it.
+      - **Links to People**: User and group names in lists, detail pages and Data Security policy conditions link to their pages.
+      - **Namespaces**: Domain **Settings → Namespaces** shows each namespace's data plane.
+    - **Query Result Paging**: `GET /api/v1/domains/{domain}/sql/queries/{query_id}/result` accepts `offset` and `limit`, so a large result can be read a page at a time instead of loading all of it at once. Calls without the parameters are unchanged.
+    - **MCP Server**
+      - A result too large for one response now says how to recover, such as how many columns to ask for per call, or how to page through the rest.
+      - `run_query` reports that a query needs confirmation only when the statement policy will actually refuse to run it without one.
+      - Audit records are written out on a timer instead of only at shutdown.
+    - **Gateway Rate Limiting**: Requests with no credential now have their own rate-limit pool, so anonymous traffic can no longer use up signed-in users' allowance. The defaults under `services.gateway.rateLimit.unauthenticated` match the previous shared limit, so upgrades change nothing.
+    - **Login Lockout**: Ten failed sign-ins for an account within 15 minutes now block password sign-in for the rest of that window, and each lockout is recorded in the audit log. On by default, with a feature flag to turn it off.
+    - **Private Certificate Authorities**: A new `caCertificates` setting points the platform at one Secret holding your CA bundle. The MCP server reads it first, and `services.mcpServer.iometeTls` is deprecated in its favour but keeps working. Nothing to change on upgrade.
+    - **Jupyter Network Policy**: An optional network policy stops Jupyter containers reaching internal services and cloud metadata, leaving only the IOMETE gateway and the internet. Off by default, turn it on with `networkPolicies.jupyterContainers.enabled: true`.
+    - **SQL Service Memory**: `iom-sql` now defaults its Java heap to 78% of its memory limit, down from 85%, so an overloaded pod logs an `OutOfMemoryError` instead of being killed without a trace. Set `services.sql.maxRAMPercentage` to change it for this service alone. A lower global `javaOpts.maxRAMPercentage` still wins.
+    - **Event Stream**
+      - ⚠️ **Parallel Pod Start**: Event Stream pods now start in parallel, so one pod under backpressure no longer stops the others from being created. The upgrade recreates the StatefulSet and keeps the running pods. If you supply your own service account (`serviceAccount.create: false`), give it permission to get and delete StatefulSets in the IOMETE namespace before upgrading.
+      - **Loader Memory**: The loader now gets the same Java heap share as the other services, fixing out-of-memory failures during compaction.
+    - **Hive Metastore**: The metastore's logs now reach the pod output, and its deployment has readiness and liveness checks, so a metastore that has lost its database is reported instead of staying `Running`.
+    - **Lakehouse Agent**: The data plane agent runs two pods by default, so Spark sign-ins survive one pod restarting.
+    - **JVM Diagnostics**: Platform services expose thread dumps, thread state summaries and deadlock detection under `/api/v1/admin/diagnostics/threads`, for Domain Managers.
+    - **Platform Security Updates**: Resolved critical and high-severity CVEs in the backend services and in the Jupyter notebook, gateway, rate limiter, Hive Metastore, Typesense and job orchestrator images. No change in behavior and no migration required.
+    - **Security Hardening**
+      - The API reference and Swagger UI now require signing in, and the login, SSO and API documentation pages refuse to be embedded in other sites.
+      - Gateway responses no longer reveal the proxy name or its version, and gateway access logs no longer record login codes.
+      - Malformed requests and invalid password reset codes return a client error instead of a `500`, and REST catalog errors no longer return Java stack traces.
+      - A password reset code is now accepted only on the reset page, closing a way to change a password without knowing the current one.
+      - Jupyter containers no longer receive a Kubernetes API token or internal control plane addresses.
+      - Compute deployment logs no longer contain the rendered specification with its resolved secrets, and the REST catalog rate limiter no longer stores or returns token secrets.
+      - Table details no longer return a data source's connection options in plain text, such as a JDBC password. They are listed as storage properties with secrets redacted.
+      - The domain catalog, schema, S3 browser and Spark properties routes now check that you have access to the domain.
+  </Improvements>
+
+  <BugFixes>
+    - **Spark Job Scheduling**: Fixed the job scheduler's workers growing in memory on busy namespaces until they were killed, which briefly stopped job scheduling for that namespace. Events were failing to reach the scheduler through the gateway, and a failed worker's memory was never freed when it was replaced.
+    - **Spark Connect REST Client**: Fixed API requests failing on larger workloads because the service ran out of memory while creating catalog sessions. Its heap now uses the same share of its memory limit as the other services.
+    - **Spark Applications**: Fixed a run staying in `PendingRerun` forever when the previous attempt's Spark UI service or ingress had not finished being removed.
+    - **Logs**
+      - Fixed **Download all logs** failing with a `500` for long logs on Splunk-based installs. The download now runs a single search and streams lines as they arrive.
+      - Fixed lines going missing from long Splunk logs, where lines written in the same millisecond as a page boundary could be skipped.
+      - Job logs that take too long to load from Splunk now report a timeout and ask for a shorter time range, instead of showing the gateway's error page. The 45 second limit can be changed per data plane in the Splunk settings.
+      - Jupyter container logs now open on installs that send logs to Elasticsearch or Splunk, instead of showing an error.
+      - Compute driver logs can be viewed and downloaded again on Loki-based installs.
+    - **Event Stream**: Fixed ingestion failing with `Invalid or expired token` on data planes that reach the control plane through the gateway.
+    - **Data Plane Health and Links**: Data plane services report their real status on installs upgraded from 3.x, instead of always showing **No data**, and existing computes, Spark jobs and namespaces keep their link to their data plane instead of losing it.
+    - **SSO Sign-In**: Fixed users who sign in through SSO being sent back to the login page about once a day.
+    - **CSV Export**: Exported CSV files now start with a byte order mark, so Excel on Windows shows non-ASCII characters correctly instead of mojibake.
+    - **Shared Worksheets**: Fixed the API letting any domain member list, rename, move or duplicate shared worksheets. **List** and **Manage** on Shared Worksheet are now enforced, and a refused call returns `403`. The console already enforced this.
+    - **Compute Clusters**
+      - Fixed deleting a compute whose driver was still starting hanging for about 70 seconds and then failing, leaving the compute in the list with nothing behind it.
+      - A compute left behind on a data plane an admin has removed can now be deleted.
+    - **SQL Editor**
+      - Numeric results are sorted without losing precision.
+      - Moving a worksheet or folder no longer leaves the source folder behind, and empty subfolders are kept.
+      - Moving to **Shared** no longer drops a folder's contents, and a newly created folder appears in **Move to**.
+      - Autocomplete keeps working when a schema lookup fails.
+      - The Jupyter connection URL no longer contains the token twice.
+    - **Data Catalog**: The V2 table and schema APIs now answer like V1. A missing table or schema returns `404` or `403` instead of `200` with an empty list, table details carry the comment, V1 type names and the details, metadata columns and defaults that `DESCRIBE` reports, and the catalog list is sorted by name.
+    - **Webhooks**: Fixed saving a change to a webhook failing with a `412` through the gateway.
+    - **Console**
+      - After signing in, you return to the page you were on.
+      - Opening a link to a domain you can't access now says so, instead of failing silently.
+      - A compute's executor state is shown next to its driver state again.
+      - Deleting a Marketplace application returns to the Marketplace list.
+  </BugFixes>
+
+**Spark version:** [4.1.3-v2](./spark.md)
+**Iceberg version:** 1.9.0-iomete-5
+
+</Release>
+
 <Release version="4.0.1" date="October 8, 2026">
   <Improvements>
     - **Access Tokens**
