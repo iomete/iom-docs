@@ -4,7 +4,7 @@ title_meta: "What Is IOMETE? Self-Hosted Spark + Iceberg Lakehouse"
 sidebar_label: What is IOMETE?
 description: "IOMETE is a Kubernetes-native data lakehouse built on Apache Spark and Iceberg that runs entirely in your own environment: on-prem, cloud or air-gapped."
 last_update:
-  date: 10/01/2026
+  date: 11/05/2026
   author: Abhishek Pathania
 ---
 
@@ -143,7 +143,7 @@ Rest assured that IOMETE prioritizes your data security and privacy. The platfor
 
 ## Multi-Region Support
 
-IOMETE Enterprise Edition offers a control plane and multi-data plane architecture. This means you can deploy IOMETE across multiple regions and manage them from a single control plane. This feature is invaluable for disaster recovery, high availability, and multi-region deployments.
+IOMETE Enterprise Edition uses one control plane to manage multiple data planes. Data planes can run in the same Kubernetes cluster or in separate clusters and regions, and each can manage several workload namespaces. This lets you place workloads near their data while using one console. Data replication, backup, and failover need their own design; adding a data plane does not configure them automatically. See [Multi-Cluster Setup](../deployment/multi-cluster-setup.mdx) for topology choices.
 
 ## Benefits of Using IOMETE
 

@@ -1,224 +1,198 @@
 ---
 title: Multi-Cluster Setup
 sidebar_label: Multi-Cluster Setup
-description: How to configure multiple IOMETE instances to share common resources across data centers using a shared global database.
+description: Plan one IOMETE control plane with multiple data planes, understand namespace ownership, and distinguish the current architecture from legacy shared-database installations.
 last_update:
-  date: 02/26/2026
+  date: 11/06/2026
   author: Fuad
 ---
 
-import Img from "@site/src/components/Img";
-
 ## Overview
 
-Starting from version **3.16.x**, IOMETE supports multi-cluster deployments. This allows multiple IOMETE instances — each running in its own Kubernetes cluster — to share a set of common resources through a shared global database.
+In IOMETE 4.x, **one control plane manages multiple data planes**. Users sign in to one console to manage their domains, computes, and jobs. Each data plane runs the services that execute and monitor workloads in its Kubernetes environment.
 
-This is useful when you have IOMETE deployed across multiple data centers or environments and want certain resources (like users, catalogs, and domains) to stay in sync without manually duplicating them.
+A data plane is not a Kubernetes cluster or a namespace. You can run several data planes in the **same** Kubernetes cluster, and each data plane can manage **several** workload namespaces. Separate clusters are useful when you need different infrastructure, regions, or failure boundaries; they are not required just to add another data plane.
 
-:::note Current Limitation
-This implementation does **not** provide a unified control plane or a single view across instances. Each IOMETE instance is still operated and maintained independently. A true single control plane architecture is planned for a future release. See [Roadmap](#roadmap) below.
-:::
-
----
+If you are updating an older shared-database installation, read the [legacy guidance](#multi-cluster-setup-shared-global-database) before changing its values.
 
 ## Deployment Models
 
-IOMETE can be deployed in three ways depending on your scale and requirements.
-
----
-
 ### Single Installation
 
-The simplest setup: one IOMETE instance, one Kubernetes cluster, one database. The `clusterDatabase` is not configured, so IOMETE uses the same database for both global and cluster-scoped data.
+The enterprise chart installs the control plane and a colocated data plane named `default`. You can add workload namespaces to that plane without installing another runtime or another Kubernetes cluster.
 
-This is the default and requires no additional configuration.
+For example, a single `default` data plane can manage `engineering` and `operations`. Assign either or both namespaces to a domain, then choose the namespace when creating a compute or job. See [Adding a Namespace](./connect-namespace.md).
 
-{/* TODO: Add diagram */}
+### One Control Plane with Multiple Data Planes
 
-<Img
-  src="/img/guides/deployments/multi-cluster/single-installation.jpeg"
-  alt="Single IOMETE installation"
-  caption="Single installation — one Kubernetes cluster, one database"
-/>
+Install an additional runtime with the `iomete-lakehouse-runtime` chart and register it with the existing control plane. The runtime provides an agent, gateway, Spark infrastructure, metastore, and workload-support services. It does not install another console or a copy of all management services.
 
----
+The following example fits in **one Kubernetes cluster**:
 
-### Multiple Independent Installations
+| Purpose | Data Plane | Kubernetes Namespace |
+| --- | --- | --- |
+| Control plane and its default runtime | `default` | `iomete-system` |
+| Additional runtime services | `analytics` | `iomete-analytics` |
+| Finance workloads on the additional runtime | `analytics` | `finance` |
+| Marketing workloads on the additional runtime | `analytics` | `marketing` |
 
-As teams and environments grow, you may run many separate IOMETE instances — each fully independent, with its own database, its own users, and its own workloads. There is no shared state between them.
+These are sibling namespaces, not namespaces nested inside `iomete-analytics`. The `analytics` runtime manages its service namespace plus the two configured workload namespaces. An IOMETE domain such as `business` can be assigned `finance` and `marketing`; a compute created in `marketing` runs there.
 
-This is common when different business units, regions, or environments (dev, staging, production) each need their own isolated IOMETE deployment. Each instance is managed separately, and there is no synchronization between them.
+You can instead place the `analytics` runtime and its workload namespaces in another Kubernetes cluster. The control plane still manages it through the agent and gateways, provided that the network and trust requirements below are met.
 
-{/* TODO: Add diagram */}
-
-<Img
-  src="/img/guides/deployments/multi-cluster/independent-installations.png"
-  alt="Multiple independent IOMETE installations"
-  caption="Multiple independent installations — no shared state, each managed separately"
-/>
-
----
-
-### Multi-Cluster Setup (Shared Global Database)
-
-When you need certain resources — users, catalogs, domains — to be consistent across multiple instances, you configure a shared global database. Each instance still runs independently and has its own cluster-local database for Kubernetes and Spark workloads, but all instances read from and write to the same global database for shared resources.
-
-**Example:** Instance A (data center A) and Instance B (data center B) both point to the same global database. A user created in Instance A is immediately visible in Instance B. Each instance still manages its own Spark jobs and clusters locally.
-
-This is what the `clusterDatabase` configuration enables. When provided, IOMETE routes cluster-specific, high-volume operations to the local database and uses the global database only for shared resources.
-
-{/* TODO: Add diagram */}
-
-<Img
-  src="/img/guides/deployments/multi-cluster/shared-global-database.png"
-  alt="Multi-cluster setup with shared global database"
-  caption="Multi-cluster setup — each instance has a local cluster database, all share a common global database"
-/>
-
----
+:::tip Choosing the Boundary
+Use another namespace for a separate resource budget within a runtime. Use another data plane for a separate runtime or Kubernetes environment. Add worker capacity when you need more CPU or memory: a new namespace or data plane in the same cluster does not add nodes.
+:::
 
 ## How It Works
 
-Each IOMETE instance uses two databases:
+1. **Register the runtime.** The data-plane agent contacts the control plane using its configured address, identifies the data plane, and provides an address the control plane can call back.
+2. **Report its environment.** The agent reports the plane's managed namespaces, quotas, and runtime health. It also forwards Kubernetes workload events.
+3. **Assign namespaces to domains.** An administrator selects a data plane and namespace for each domain assignment. A domain is an IOMETE organizational boundary; the namespace is where Kubernetes resources run.
+4. **Create and use a workload.** The control plane sends lifecycle operations to the selected data plane. The runtime creates the workload in the chosen namespace, and compute connections use that plane's gateway.
 
-- **Global database** (`database`) — shared across all instances. Stores resources that are common across the fleet, such as users, catalogs, and domains. This is always required.
-- **Cluster database** (`clusterDatabase`) — local to each instance. Stores Kubernetes and Spark-related data specific to that installation, such as clusters, jobs, and workloads.
+A plane appearing as **CONNECTED** confirms registration and communication. It does not prove that a compute can start, authenticate, reach its storage, or accept a SQL connection. Verify those paths separately before making the plane available to users.
 
-When `clusterDatabase` is **not configured**, IOMETE treats the deployment as a single-instance setup and uses the same database for both global and cluster-scoped data.
-
-When `clusterDatabase` **is configured**, the global database is shared with other instances while high-volume cluster-specific operations are offloaded to the local database.
-
----
-
-## Global vs. Cluster Resources
-
-The tables below list which databases and services are global (shared across all instances) and which are cluster-local (specific to each instance).
+## Control Plane and Runtime Resources {#global-vs-cluster-resources}
 
 ### Databases
 
-| Database | Scope | Notes |
-|---|---|---|
-| `iomete_catalog_db` | Global | |
-| `iomete_core_db` | Both | Tables are split — some in global, some in cluster-local |
-| `iomete_iam_db` | Global | |
-| `iomete_iceberg_db` | Global | |
-| `iomete_metastore_db` | Global | |
-| `iomete_prefect_db` | Cluster-local | |
-| `iomete_sql_db` | Cluster-local | |
+The control plane keeps platform state in PostgreSQL, including identity, configuration, workload records, SQL metadata, and catalog metadata. An additional runtime needs its metastore database, but it does not need its own copy of every control-plane database.
+
+Provision database access according to the chart being installed. In particular, the additional runtime's metastore database must exist before installation. Sharing a PostgreSQL server is an infrastructure choice; it is not how a runtime registers with the control plane. See [Backend Databases](./backend-databases.md).
 
 ### Services
 
-| Service | Database Scope | Notes |
-|---|---|---|
-| `iom-catalog` | Global | |
-| `iom-cluster` | Cluster-local | |
-| `iom-core` | Global | |
-| `data-plane-init` | Both | Initializes both global and cluster-local databases |
-| `iom-identity` | Global | |
-| `iom-rest-catalog` | Global | |
-| `iom-sql` | Cluster-local | |
-| `prefect-server` + `prefect-worker` | Cluster-local | |
-| `metastore` | Global | |
+| Central Control Plane | Each Data Plane |
+| --- | --- |
+| Console and management APIs | Agent and runtime gateway |
+| Identity, domains, and permission management | Kubernetes operations and workload events |
+| Compute and job definitions | Spark operator and workload execution |
+| SQL Editor and query management | Compute connection endpoints |
+| Platform/catalog state | Metastore, Spark history, and local workload support |
 
----
+See [Deployment Architecture](./architecture-deployment.md#service-inventory) for service placement. Keep control-plane and runtime versions compatible; do not assume that independently deployable images can be mixed arbitrarily.
 
 ## Configuration
 
+Plan the topology and connections before installing the runtime. Keep a separate values file for each Helm release, and use the values supplied with the selected chart version.
+
 ### Single Instance (Default)
 
-No changes needed. When `clusterDatabase` is omitted, both the global and cluster-scoped data go into the same database.
+The enterprise chart includes the `default` data plane when `defaultDataPlane.enabled` is true. Additional namespaces belong in that release's `namespaces` list.
 
-```yaml title="data-plane-values.yaml"
-database:
-  type: postgresql
-  host: "postgresql"
-  port: "5432"
-  user: "iomete_user"
-  password: "iomete_pass"
-  prefix: "iomete_"
+<details>
+<summary>Running all user workloads on separate data planes</summary>
+
+For an installation whose user workloads all run on separately installed runtimes, the enterprise chart supports `defaultDataPlane.enabled: false`. Its internal metadata services still require some Spark infrastructure; this setting is not a promise to remove every Spark pod from the control-plane namespace.
+
+</details>
+
+### Additional Data Plane {#multi-cluster-setup}
+
+The important runtime settings serve different purposes:
+
+| Runtime Setting | Purpose | Example |
+| --- | --- | --- |
+| `multiCluster.dataPlaneName` | Unique data-plane ID within the control plane | `analytics` |
+| `multiCluster.controlPlaneAddress` | Control-plane URL reachable from the runtime | `https://iomete.example.com` |
+| `multiCluster.selfUrl` | Address the control plane uses to call this runtime | `https://analytics.example.com` |
+| `multiCluster.externalUrl` | Compute URL reachable by clients and the control-plane SQL service | `https://analytics.example.com` |
+| `namespaces` | Additional workload namespaces managed by this runtime | `finance`, `marketing` |
+| `multiCluster.trustSecret` | Matching trust material for plane-to-plane requests | Provision consistently across the control plane and runtimes |
+
+<details>
+<summary>Using different internal and client addresses</summary>
+
+`selfUrl` and `externalUrl` may be different. When both planes share a cluster, the control plane can use an internal service address while users use a public hostname. An address ending in `.svc.cluster.local` is ordinarily reachable only inside its Kubernetes cluster. Do not use it for a plane in another cluster unless your networking explicitly supports that DNS name and route.
+
+</details>
+
+Choose stable addresses before enrolling. The registry can preserve the original address across later handshakes; editing Helm values alone is not a reliable way to rename or move an already registered plane.
+
+For the example topology, the namespace portion of the `analytics` runtime values is:
+
+```yaml title="Namespace excerpt — not a complete runtime values file"
+namespaces:
+  - finance
+  - marketing
 ```
 
-### Multi-Cluster Setup
+The runtime release namespace, `iomete-analytics`, is included automatically. Create the additional namespaces before installation, and arrange their service accounts and RBAC through the chart (`serviceAccount.create: true`) or a Kubernetes administrator. Preserve all existing namespace entries when adding a namespace later.
 
-Add the `clusterDatabase` section alongside the main `database` block. The `database` section becomes the shared global database; `clusterDatabase` is the instance-local database.
+Complete the remaining prerequisites for your environment:
 
-```yaml title="data-plane-values.yaml"
-# Global database — shared across all IOMETE instances.
-# Stores users, catalogs, domains, and other cross-instance resources.
-database:
-  type: postgresql
-  host: "postgresql-global.shared.internal"
-  port: "5432"
-  user: "iomete_user"
-  password: "iomete_pass"
-  prefix: "iomete_"
-  adminCredentials:
-    user: "postgres"
-    password: "password"
-  ssl:
-    enabled: false
-    mode: "disable"
+- **Network paths:** the runtime can reach the control plane, and the control plane can call the runtime's `selfUrl`. Configure the plane-to-plane gateway routes as well as the public console and workload routes.
+- **Trust:** the control plane permits the `selfUrl` host in `multiCluster.trustedDomains`, and the gateways use matching fleet trust material. Private-CA HTTPS endpoints also need certificate trust in the services that call them.
+- **Compute ingress:** the public runtime hostname resolves correctly and supports the workload protocols. Remote-plane SQL uses TLS on port 443 and gRPC/HTTP2; an HTTP-only ingress can allow registration while SQL connections still fail.
+- **Storage and metastore:** configure reachable storage, its credentials or workload identity, and an existing metastore database. Check the runtime's supported storage providers; do not assume it supports every provider listed by the enterprise chart.
+- **Namespace access:** provide the service accounts and RBAC, registry credentials where needed, and quotas for the managed namespaces. Assign the namespaces to domains after the plane reports them.
 
-# Cluster-local database — specific to this IOMETE instance.
-# Stores Kubernetes and Spark operational data for this control plane.
-# Offloads high-volume operations from the global database.
-clusterDatabase:
-  type: postgresql
-  host: "postgresql-local.datacenter-a.internal"
-  port: "5432"
-  user: "iomete_user"
-  password: "iomete_pass"
-  prefix: "iomete_cluster_"
-  adminCredentials:
-    user: "postgres"
-    password: "password"
-  ssl:
-    enabled: false
-    mode: "disable"
-```
+When several runtimes share a Kubernetes cluster, keep their service and workload namespaces separate. Coordinate cluster-wide Spark CRDs and scope each operator and webhook to its own namespaces. Different clusters can reuse a namespace name, so retain the data-plane ID alongside the namespace when making assignments or API calls.
 
-Repeat this on every IOMETE instance, each with its own `clusterDatabase` host, all pointing to the **same** `database` (global) host.
+### Applying and Verifying the Configuration {#applying-the-configuration}
 
-:::important
-The global database must be reachable from every participating Kubernetes cluster. Verify firewall rules and network policies allow connectivity from each cluster to the global database host before deployment.
-:::
+Use the deployment procedure and values for your selected enterprise/runtime chart versions. This page describes topology and prerequisites; its excerpts are not a complete installation values file. Start with the [Installation Guide](./on-prem/install.md), [Ingress guide](./configure-ingress.md), and [Deployment Architecture](./architecture-deployment.md) for the infrastructure setup.
 
-### Applying the Configuration
+After installing or updating an additional runtime:
 
-```shell
-helm upgrade --install -n iomete-system data-plane \
-  iomete/iomete-data-plane-enterprise \
-  -f data-plane-values.yaml
-```
+1. Wait for its init job and service rollouts to complete in the runtime's service namespace.
+2. In **Admin → Data Planes**, confirm that the intended ID appears as **CONNECTED** and its addresses are correct.
+3. Confirm that the intended namespaces are reported, then assign the data plane and namespace pairs to a domain.
+4. Create a small compute in each intended workload namespace. Check its placement and running instances.
+5. Execute a query through the connection path users will use. For example, `SELECT COUNT(*), SUM(id) FROM range(100)` should return `100` and `4950`. This checks execution; the compute details and Kubernetes pods establish its placement.
 
-Run this on each instance after updating its values file.
-
----
+If registration succeeds but the query fails, check compute readiness, the public runtime hostname, TLS and HTTP/2 routing, certificate trust, and runtime/image compatibility. Repeatedly re-enrolling the plane does not fix those paths.
 
 ## Behavior and Expectations
 
-- Changes to global resources (users, catalogs, domains) on any instance are immediately visible on all connected instances.
-- Each instance has its own UI and access endpoint. There is no aggregated view across instances.
-- Instances can be upgraded independently, as long as all connected instances remain compatible with the global database schema.
-- If the global database becomes unavailable, operations that depend on global resources will be affected across all instances.
+- One control plane gives users a shared management view of its registered data planes. Workloads still execute in the selected plane and namespace.
+- Adding a plane does not copy existing computes, move running jobs, replicate object storage, or configure failover.
+- A shared cluster shares node capacity and cluster-level failure risks. Quotas, node placement, network policies, and separate clusters provide different forms of isolation.
+- Plane connectivity is a dependency. A disconnected runtime can stop receiving management operations even if some existing workload pods continue running.
+- Shared control-plane databases and services need their own availability and backup plan. Multiple runtimes do not make the control plane highly available by themselves.
 
----
+<details id="multiple-independent-installations" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
+<summary>Running independent IOMETE installations</summary>
 
-## Roadmap
+Separate full IOMETE installations each have their own control plane, console, configuration, and workloads. Choose this when environments require independent administration and state. Installing another enterprise chart does not automatically enroll it as a data plane of the first installation.
 
-The current multi-cluster implementation is a first step. In upcoming releases, IOMETE plans to introduce a **single control plane** architecture:
+</details>
 
-- One main control plane managing configuration and global state.
-- Multiple lightweight data planes (B, C, …) running in separate environments with a reduced set of services.
-- A unified view across all data planes from the control plane UI.
+<details id="multi-cluster-setup-shared-global-database" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
+<summary>Legacy shared-database installations</summary>
 
-This will replace the shared-database approach with a proper distributed control model.
+Earlier chart versions supported `database` for shared platform resources and `clusterDatabase` for installation-local operational data. Each participating installation still had its own control plane and UI. Sharing database records was not the same as routing work through one control plane.
 
----
+A historical values file could contain this structure:
+
+```yaml title="Historical structure only — not a 4.x configuration"
+database:
+  host: postgresql-global.shared.internal
+  # Existing shared-database connection settings
+
+clusterDatabase:
+  host: postgresql-local.datacenter-a.internal
+  # Existing installation-local connection settings
+```
+
+The current charts no longer use `clusterDatabase` to separate those databases. Do not add it to a 4.x values file to enable multi-data-plane operation, and do not treat upgrading a chart as an automatic migration of a legacy installation. Preserve the existing database layout and plan the transition for the versions you run.
+
+</details>
+
+<details id="roadmap" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
+<summary>Planning a transition from a legacy topology</summary>
+
+A unified control plane is part of the 4.x architecture, rather than a future roadmap item. Existing shared-database installations still need an explicit transition plan: identify their chart versions, database ownership, runtime identities, catalogs, storage, and workload locations before changing the deployment model. Do not repoint databases or reinstall runtimes solely to make an old configuration resemble the examples above.
+
+</details>
 
 ## Related Documentation
 
-- [Backend Databases](/deployment/backend-databases)
-- [On-Premises Deployment Guide](/deployment/on-prem/install)
-- [Life Cycle Management](/deployment/life-cycle-management)
-- [Network Policies](/deployment/network-policies)
+- [Architecture Overview](../getting-started/architecture.md)
+- [Scalability](../getting-started/scalability.md)
+- [Deployment Architecture](./architecture-deployment.md)
+- [Adding a Namespace](./connect-namespace.md)
+- [Backend Databases](./backend-databases.md)
+- [On-Premises Deployment Guide](./on-prem/install.md)
+- [Network Policies](./network-policies.md)
