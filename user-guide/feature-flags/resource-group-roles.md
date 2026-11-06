@@ -31,13 +31,17 @@ None. A change reaches all services within a couple of minutes, without a restar
 
 ## Impact Area
 
-### Resource Groups
+### Resource group access
 
-Adds a **Roles** tab to resource groups, where administrators assign roles on the group. Who can see and use the resources in a group now also depends on the roles they hold there.
+Enabling the flag unlocks role-based access on resource groups: an administrator can grant a person a role on a group, and that role decides what they can see and use among the group's resources. Role-based access is added to the permissions the group already grants, so existing access is unchanged.
 
-### Settings
+### Namespace deployment
 
-Adds the **Roles**, **Members** and **Namespaces** pages under **Settings**. On the Namespaces page, a domain role decides which namespaces its members can deploy to.
+Enabling the flag also unlocks namespace control on domain roles: a domain role can define which namespaces its members are allowed to deploy to. Without the flag, a role-based namespace list is not applied.
+
+### Role management
+
+Roles, their members, and their namespace lists become manageable. Role assignments and namespace lists are stored, and only take effect while the flag is on.
 
 ## Rollout Considerations
 
