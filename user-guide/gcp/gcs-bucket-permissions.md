@@ -3,7 +3,7 @@ title: GCS Bucket Access
 sidebar_label: GCS Bucket Access
 description: Identify the Google Cloud identity used by an IOMETE workload, grant bucket-scoped access, and verify a read from the intended data plane and namespace.
 last_update:
-  date: 11/05/2026
+  date: 11/06/2026
   author: Vusal Dadalov
 ---
 
@@ -11,13 +11,13 @@ Grant Cloud Storage access to the identity used by the compute or Spark job that
 
 This guide covers existing Workload Identity Federation for GKE setups. If your deployment uses another credential method, ask your platform administrator to identify the effective principal before changing bucket permissions.
 
-## Identify the Workload's Identity
+## 1. Identifying the Workload’s Identity {#identify-the-workloads-identity}
 
 On the workload's **Details** tab in IOMETE, record **Data plane** and **Namespace**. Obtain the Kubernetes context for the cluster hosting that data plane. Use the workload namespace, which can differ from the data plane's management namespace.
 
 ```bash
 KUBE_CONTEXT="<context-for-the-selected-data-plane>"
-WORKLOAD_NS="analytics"
+WORKLOAD_NS="finance"
 
 kubectl --context "$KUBE_CONTEXT" -n "$WORKLOAD_NS" get pods \
   -o custom-columns=NAME:.metadata.name,SERVICEACCOUNT:.spec.serviceAccountName
@@ -34,24 +34,29 @@ kubectl --context "$KUBE_CONTEXT" -n "$WORKLOAD_NS" \
 
 Use the pod's actual service account, even if you expect the chart's usual `lakehouse-service-account` name. Interpret the annotation result according to the configured identity method:
 
-- **IAM service-account impersonation:** the annotation contains an email such as `analytics-reader@example-project.iam.gserviceaccount.com`. Confirm that this IAM account grants `roles/iam.workloadIdentityUser` to the correct workload pool, namespace, and Kubernetes service account. The annotation and IAM binding are both required.
+- **IAM service-account impersonation:** the annotation contains an email such as `finance-reader@example-project.iam.gserviceaccount.com`. Confirm that this IAM account grants `roles/iam.workloadIdentityUser` to the correct workload pool, namespace, and Kubernetes service account. The annotation and IAM binding are both required.
 - **Direct federated access:** there may be no IAM service-account annotation or email. Your administrator identifies the principal from the workload pool, namespace, and Kubernetes service account instead.
 
 See Google's [GKE workload authentication guide](https://docs.cloud.google.com/kubernetes-engine/docs/how-to/workload-identity) for both methods and their prerequisites. Creating a data plane or a Kubernetes service account does not itself create a Google Cloud IAM service account or grant bucket access.
+
+<details>
+<summary>Maintaining an existing service-account annotation in Helm</summary>
 
 For chart-managed Kubernetes accounts, the owning IOMETE release accepts `serviceAccount.annotations`. In an existing impersonation setup, its values can include:
 
 ```yaml
 serviceAccount:
   annotations:
-    iam.gke.io/gcp-service-account: analytics-reader@example-project.iam.gserviceaccount.com
+    iam.gke.io/gcp-service-account: finance-reader@example-project.iam.gserviceaccount.com
 ```
 
 The chart applies these annotations to each Kubernetes account it creates in its managed namespaces. It does not create the IAM account, configure Workload Identity Federation, or grant impersonation permission. Preserve the release's existing ownership and identity configuration.
 
-## Provide Access to GCS Bucket {#provide-access-to-gcs-bucket}
+</details>
 
-Grant permissions on the intended bucket to the verified principal. Start with **Storage Object Viewer** for read-only access.
+## 2. Granting Read Access {#provide-access-to-gcs-bucket}
+
+Grant permissions on the intended bucket to the verified principal. Use **Storage Object Viewer** for this read-only example. Follow the section matching the identity method you identified above, then verify the read in step 3.
 
 ### IAM Service-Account Impersonation
 
@@ -65,6 +70,9 @@ gcloud storage buckets add-iam-policy-binding "gs://$GCS_BUCKET" \
   --member="serviceAccount:$GCS_IAM_SA" \
   --role="roles/storage.objectViewer"
 ```
+
+<details>
+<summary>Using a direct federated identity instead of an IAM service account</summary>
 
 ### Direct Federated Access
 
@@ -97,6 +105,23 @@ gcloud storage buckets add-iam-policy-binding "gs://$GCS_BUCKET" \
 
 A Kubernetes service-account name alone is not enough to identify the principal. Conversely, matching namespace/service-account identities in clusters that share a workload identity pool can receive the same IAM access. Check that scope before granting access; see [GKE identity sameness](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/workload-identity#identity_sameness).
 
+</details>
+
+## 3. Verifying Access from the Workload {#verify-access-from-the-workload}
+
+Saving an IAM binding does not prove the workload can use it. Select the intended compute in SQL Editor and read a known small Parquet file in the bucket:
+
+```sql
+SELECT * FROM parquet.`gs://<bucket-name>/sample.parquet` LIMIT 1;
+```
+
+For a Spark job, perform the equivalent read in that job on its selected data plane and namespace. The runtime must have its GCS connector and authentication configured. A successful read verifies that path for that workload, not write access or access from another data plane. A read from your laptop tests your local credentials instead.
+
+If credentials are unavailable, check Workload Identity Federation on the cluster and the workload's node pool, the actual pod service account, and any impersonation binding. If access is denied, check the bucket principal and role. Application-supplied credentials can override the identity you expected from the Kubernetes account, so inspect the application's configured credential source as well.
+
+<details>
+<summary>Choosing a role for write access or object administration</summary>
+
 ### Permission Levels
 
 Choose the role required by the workload and grant it at bucket scope:
@@ -109,14 +134,4 @@ Choose the role required by the workload and grant it at bucket scope:
 
 See [Cloud Storage IAM roles](https://docs.cloud.google.com/storage/docs/access-control/iam-roles) for the complete permission sets. Keep existing unrelated bucket bindings when adding access.
 
-## Verify Access from the Workload
-
-Saving an IAM binding does not prove the workload can use it. Select the intended compute in SQL Editor and read a known small Parquet file in the bucket:
-
-```sql
-SELECT * FROM parquet.`gs://<bucket-name>/sample.parquet` LIMIT 1;
-```
-
-For a Spark job, perform the equivalent read in that job on its selected data plane and namespace. The runtime must have its GCS connector and authentication configured. A successful read verifies that path for that workload, not write access or access from another data plane. A read from your laptop tests your local credentials instead.
-
-If credentials are unavailable, check Workload Identity Federation on the cluster and the workload's node pool, the actual pod service account, and any impersonation binding. If access is denied, check the bucket principal and role. Application-supplied credentials can override the identity you expected from the Kubernetes account, so inspect the application's configured credential source as well.
+</details>
