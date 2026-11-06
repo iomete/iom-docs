@@ -194,7 +194,7 @@ Complete the functional checks: confirm the plane is connected, run `SELECT 1` o
 
 ## Other Deployment Scenarios
 
-<details id="routing-an-additional-data-plane">
+<details id="routing-an-additional-data-plane" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
 <summary>Routing an additional data plane</summary>
 
 An additional plane needs its own hostname, for example `analytics.example.com`, and its own runtime release, for example in `iomete-analytics`. Add that hostname to an appropriate HTTPS Gateway with a certificate covering it. Create a separate VirtualService using the route structure above, with these substitutions:
@@ -217,7 +217,7 @@ Do not change the ordinary port 80 Service to force HTTP/2: notebooks need its W
 
 </details>
 
-<details id="for-http-non-tls-mode">
+<details id="for-http-non-tls-mode" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
 <summary>HTTP-only access for a local evaluation</summary>
 
 For a local evaluation of the control plane and its default data plane, you can use an HTTP listener on port 80 without `httpsRedirect` and set `ingress.httpsEnabled: false`. Keep the hostname-specific VirtualService and route destinations above. Do not submit real credentials over an untrusted HTTP connection.
