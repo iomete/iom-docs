@@ -1,17 +1,17 @@
 ---
 title: Health Check
-description: Monitor the live operational status of every IOMETE control-plane service from the admin portal.
+description: Monitor control-plane services and services grouped by data plane from the admin portal.
 sidebar_label: Health Check
 last_update:
-  date: 04/28/2026
+  date: 11/05/2026
   author: Ruturaj Bhokre
 ---
 
 import Img from '@site/src/components/Img';
 
-Health Check is the admin-portal page that shows the live status of every IOMETE control-plane service in your data plane. When something looks wrong, it's the fastest way to confirm whether the problem is a known control-plane issue, check uptime trends over the last 48 hours, or correlate failures with specific timestamps from broken jobs and queries.
+Health Check shows service status in two groups: **Control plane services**, which support the shared platform, and **Data plane services**, grouped by the data plane that runs them. Use it to check whether an incident affects a shared service or a particular data plane, review uptime over the last 48 hours, and compare failures with the timing of broken jobs and queries.
 
-A probe service hits each endpoint every 10 seconds and keeps 48 hours of results, aggregated into 1-hour bars. Each service renders as a card with a status badge, a 48-bar timeline, and an uptime percentage.
+Health results are collected from the control plane and reported by data planes. The page displays 48 hours of results, aggregated into 1-hour bars. Each service renders as a card with a status badge, a 48-bar timeline, and an uptime percentage.
 
 ## Opening the Health Check Page
 
@@ -27,7 +27,7 @@ You can reach Health Check two ways from the admin portal. Both land on the same
 
 1. Sign in with an admin account and open the admin portal.
 2. In the left sidebar, click **Monitoring**.
-3. On the Monitoring page, click the **Control-Plane health** card.
+3. On the Monitoring page, click the **Control-plane and data planes health** card.
 
 <Img src="/img/health-check/sidebar-monitoring.png" alt="Admin sidebar with Monitoring highlighted, showing the Monitoring landing page and the Control-Plane health card on the right" />
 
@@ -35,7 +35,7 @@ Either path opens the Health Check page.
 
 ## Reading the Page
 
-Once the page is open, you see a toolbar at the top and a grid of service cards below. Knowing what each region tells you saves time when you're triaging an incident.
+Once the page is open, you see a toolbar followed by **Control plane services** and **Data plane services**. Expand a data plane to inspect its service cards. When investigating a workload failure, use the **Data plane** shown on that workload's **Details** tab to find the relevant group.
 
 <Img src="/img/health-check/overview.png" alt="Full Health Check page showing the metric selector toolbar at the top and a grid of service cards below, all reporting healthy uptime" />
 
@@ -51,7 +51,7 @@ The toolbar runs across the top of the page and contains:
 
 ### Service Cards
 
-The grid below the toolbar shows one card per service. Each card has the service name, a status badge, a 48-bar timeline, and a footer with the start of the window, the uptime percentage, and **Now**.
+Each section shows one card per service. A service name can appear under several data planes, so keep the data plane name with the service name when reporting a problem. Each card has the service name, a status badge, a 48-bar timeline, and a footer with the start of the window, the uptime percentage, and **Now**.
 
 <Img src="/img/health-check/service-card.png" alt="Close-up of a single service card showing the service name, the 48-bar timeline of green hourly status bars, and the footer with 48 hours ago, uptime percentage, and Now labels" />
 
@@ -93,6 +93,6 @@ Use **P100** to see every individual probe failure as red, which is useful for c
 
 ## Troubleshooting
 
-The Health Check page doesn't expose individual probe logs, so for deeper investigation, inspect the affected IOMETE service pod directly with your usual Kubernetes tooling.
+The Health Check page doesn't expose individual probe logs. For deeper investigation, inspect the affected service with your usual Kubernetes tooling in the cluster and namespace hosting that service. A data plane's management services can run in a different namespace from its workloads.
 
-If the Health Check page itself fails to load while other admin pages work normally, the `iom-health-check` deployment is unhealthy. Check the pod status and the deployment's own Kubernetes liveness and readiness probes.
+If the page itself fails to load, check the failed request and control-plane logs for `iom-core`, which serves the health-check API. A page-load failure alone does not identify which monitored service is unhealthy.
