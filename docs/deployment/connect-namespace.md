@@ -27,16 +27,22 @@ These don't map one to one:
 For example, this is a valid arrangement within one Kubernetes cluster:
 
 ```mermaid
+---
+config:
+  htmlLabels: false
+  flowchart:
+    htmlLabels: false
+---
 flowchart LR
   accTitle: Data planes and workload namespaces in one Kubernetes cluster
   accDescr: The control plane manages two data planes. The default data plane manages the workload namespace reporting, and this guide adds sales to it. The additional data plane analytics manages finance and marketing.
   subgraph cluster["One Kubernetes cluster"]
-    control["Control plane"] --> defaultPlane["Data plane: default"]
-    control --> analyticsPlane["Data plane: analytics"]
-    defaultPlane -->|manages| reporting["Namespace: reporting"]
-    defaultPlane -.->|added in this guide| sales["Namespace: sales"]
-    analyticsPlane -->|manages| finance["Namespace: finance"]
-    analyticsPlane -->|manages| marketing["Namespace: marketing"]
+    control["Control plane"] --> defaultPlane["Data plane<br/>default"]
+    control --> analyticsPlane["Data plane<br/>analytics"]
+    defaultPlane -->|manages| reporting["Namespace<br/>reporting"]
+    defaultPlane -.->|added in this guide| sales["Namespace<br/>sales"]
+    analyticsPlane -->|manages| finance["Namespace<br/>finance"]
+    analyticsPlane -->|manages| marketing["Namespace<br/>marketing"]
   end
 ```
 
