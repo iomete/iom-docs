@@ -3,7 +3,7 @@ title: Configuring IOMETE Hostnames
 sidebar_label: Custom DNS
 description: Choose hostnames for the control plane and additional data planes, point them at ingress, and verify DNS and TLS access.
 last_update:
-  date: 11/06/2026
+  date: 11/07/2026
   author: IOMETE
 ---
 
@@ -14,12 +14,12 @@ Give the control plane a stable hostname, such as `iomete.example.com`. Users op
 | Address | Who uses it | Example |
 |---|---|---|
 | Control-plane URL | Users, API clients and enrolled data planes | `https://iomete.example.com` |
-| Additional plane's `multiCluster.externalUrl` | Compute clients and the control plane's SQL service | `https://analytics.example.com` |
-| Additional plane's `multiCluster.selfUrl` | Control-plane enrollment and plane-to-plane API calls | A reachable private gateway address or the plane's HTTPS hostname |
+| Additional data plane's `multiCluster.externalUrl` | Compute clients and the control plane's SQL service | `https://analytics.example.com` |
+| Additional data plane's `multiCluster.selfUrl` | Control-plane enrollment and plane-to-plane API calls | A reachable private gateway address or the plane's HTTPS hostname |
 
 Two hostnames can resolve to the same ingress address when the planes share a Kubernetes cluster. Their ingress routes must still select the correct plane's service namespace. A Kubernetes namespace does not automatically receive a public hostname.
 
-Choose data-plane addresses before enrollment. IOMETE records them when the plane enrolls; changing DNS, Helm values or restarting the agent is not a general procedure for replacing an already registered address. Plan an address migration separately if an enrolled plane must move to a different URL. See [Multi-Cluster Setup](./multi-cluster-setup.mdx).
+Choose data-plane addresses before enrollment. The control plane stores them when the plane first enrolls and does not read them again, so changing Helm values or restarting the agent later does not change them. Plan an address migration separately if an enrolled plane must move to a different URL. See [Multi-Cluster Setup](./multi-cluster-setup.mdx).
 
 ## Identifying the Istio Ingress Gateway Address
 
@@ -41,6 +41,8 @@ Use the address in `EXTERNAL-IP`, which may be an IP address or a load-balancer 
 
 DNS maps a name to an address; it does not map port 443 to a Kubernetes NodePort. Configure a reachable load balancer, reverse proxy or firewall forwarding rule that accepts the required public ports and forwards to the ingress NodePorts. Use that stable frontend address for DNS. Pointing DNS at an arbitrary worker node is not enough to provide HTTPS on port 443.
 
+The `PORT(S)` column of `kubectl get service istio-ingress --namespace istio-system` shows the node ports. In `443:32507/TCP`, for example, `32507` is the node port that receives HTTPS traffic.
+
 </details>
 
 ## Creating Your DNS Record
@@ -59,13 +61,18 @@ dig +short iomete.example.com
 dig +short analytics.example.com
 ```
 
-Only run the second check if you configured that additional plane. Allow for your DNS records' TTL when changing an existing address.
+Each command should print the ingress address, or the load balancer's DNS name followed by its addresses. Only run the second check if you configured that additional data plane. Allow for your DNS records' TTL when changing an existing address.
 
 ## Configuring TLS and Routing
 
 Follow [Configuring Ingress](./configure-ingress.md) to bind each hostname to the correct services and install a certificate covering the hostname. DNS alone does not configure ingress or TLS.
 
-Keep the configured control-plane platform URL (`platform.url`) and additional planes' `multiCluster.controlPlaneAddress` consistent with the control-plane URL. For new data-plane enrollment, also check the control plane's `multiCluster.trustedDomains` allows the host in `selfUrl`. The trust allowlist is separate from DNS resolution and certificate trust.
+Use the control-plane URL, such as `https://iomete.example.com`, in two more places:
+
+- **`platform.url` in System Config.** In the console, open the **Admin Portal** from the user menu, then **System Config**, and set `platform.url` to the control-plane URL. IOMETE uses it to build links in notifications. It is a console setting, not a Helm value.
+- **`multiCluster.controlPlaneAddress` in each additional data plane's runtime release.** The plane's agent enrolls with the control plane at this address.
+
+Before enrolling an additional data plane, also check that the control-plane release's `multiCluster.trustedDomains` allows the host in the plane's `selfUrl`. The trust allowlist is separate from DNS resolution and certificate trust.
 
 Use a certificate trusted by all clients, including IOMETE services that connect to an additional plane. With a private CA, configure the [truststore](./truststore.md) and client trust before enrollment or compute tests.
 
@@ -76,6 +83,6 @@ curl --fail --show-error --silent --output /dev/null \
   --write-out 'HTTP %{http_code}\n' https://iomete.example.com/
 ```
 
-For a private CA, add `--cacert <ca-certificate.pem>`. Do not use `--insecure` to decide whether TLS is configured correctly.
+Expect `HTTP 200`. For a private CA, add `--cacert <ca-certificate.pem>`. Do not use `--insecure` to decide whether TLS is configured correctly.
 
 Open the control-plane URL in a browser and sign in. Then verify compute access by running `SELECT 1` on the affected data plane. A successful DNS lookup or console response does not verify the separate HTTP/2 route used by compute connections.
