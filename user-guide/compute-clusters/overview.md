@@ -3,7 +3,7 @@ title: Compute Clusters
 description: Dedicated Apache Spark compute clusters that provide isolated CPU and memory resources for query processing while sharing data stored in object storage.
 sidebar_label: Overview
 last_update:
-  date: 11/05/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -27,32 +27,31 @@ Each row represents one cluster:
 | **Name**         | Opens the cluster detail page. The cluster ID appears below the name (hover to copy). |
 | **Driver**       | Driver status (`STARTING`, `ACTIVE`, `STOPPED`, `FAILED`) and node type. Sortable by status. |
 | **Executor**     | Executor state (for example, `Running 2/4`) and node type. Shows **Single node** for single-node clusters. |
-| **Namespace**    | Data plane and Kubernetes namespace where the cluster runs, shown together in this column. Sortable by namespace. |
+| **Data plane**   | Data plane that runs the cluster, for example `analytics`. Sortable. |
+| **Namespace**    | Kubernetes namespace on that data plane where the cluster runs, for example `finance`. Sortable. |
 | **Auto scaling** | Idle timeout for auto-suspend. Shows **Single node** for single-node clusters. |
-| **Image**        | Docker image name. Hidden by default; use the column selector to reveal it. |
+| **Image**        | Docker image name. |
 | **Actions**      | Ellipsis menu with state-dependent actions. See [Managing a Compute Cluster](./managing-clusters.md). |
 
 ### Filtering the List
 
 Controls above the table narrow the list:
 
-* **Namespace**: choose a namespace under a data plane, or **All namespaces** within that data plane.
+* **Data plane · Namespace**: the options are grouped by data plane. Choose a data plane (marked **All namespaces**) to show its clusters in every namespace, or choose one namespace under it.
 * **Status**: driver state (`Starting`, `Active`, `Stopped`, `Failed`).
 * **Search**: cluster name or ID.
-
-<Img src="/img/user-guide/compute-clusters/list-filters.png" alt="Compute cluster list with filters" />
 
 ## Access Permissions
 
 Who can see and interact with a cluster depends on permissions granted to users or groups at two levels:
 
 - **Domain level**
-  The **Create Compute** permission lets a user create new clusters. Admins assign it through [Roles](/user-guide/roles).
+  The **Create New Compute** permission lets a user create new clusters. Admins assign it through [Roles](/user-guide/roles).
 
 - **Resource level**
   Per-cluster permissions (`VIEW`, `EXECUTE`, `CONSUME`, `UPDATE`, `DELETE`) come from the cluster's resource bundle. `CONSUME` lets a user submit queries against the cluster. The cluster list only shows clusters where you have at least `VIEW` permission. See [Resource Bundles](/user-guide/ras/resource-bundles) for bundle-based access control.
 
-Creating a cluster also requires access to its deployment namespace. See [Namespace Permissions](../iam/ras/ras-permissions.md#namespace) for how domain assignments and **Use** permission work.
+Creating, configuring, or starting a cluster also requires **Use** permission on its namespace, and the namespace must be assigned to your domain on that data plane. See [Namespace Permissions](../iam/ras/ras-permissions.md#namespace).
 
 ## Next Steps
 
