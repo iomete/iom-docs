@@ -3,7 +3,7 @@ title: Creating Spark Job
 sidebar_label: Creating Spark Job
 description: Learn how to run your first Spark Job on the IOMETE platform using PySpark. Follow our step-by-step guide and get started with Spark Jobs today!
 last_update:
-  date: 11/06/2026
+  date: 11/07/2026
   author: Ujjawal Khare
 ---
 
@@ -14,7 +14,7 @@ import { Plus, Code } from "@phosphor-icons/react";
 Each Spark Job runs as an isolated Spark application with its own driver and (optionally) executors. Here's how to create one:
 
 1. In the left sidebar, under **Applications**, click **Job Templates**.
-2. Click <button className="button button--primary button-iom"><Plus size={16} /><b>New Job Template</b></button> in the top-right corner.
+2. Click <button className="button button--primary button-iom"><Plus size={16} /><b>New job template</b></button> in the top-right corner.
 3. Fill in the form sections described below.
 4. Click <button className="button button--primary button-iom">Create</button> to submit.
 
@@ -33,11 +33,11 @@ You can also click the <button className="button button--primary button-iom"><Co
 
 ### Namespace
 
-- **Deploy to Kubernetes namespace**: Choose the namespace under the data plane that should run the job, for example `finance` under `analytics`. Only deployment targets available to your account appear. See [Selecting a Namespace](../namespace-quotas.md#selecting-a-namespace) if the list is empty.
+- **Deploy to Kubernetes namespace** (required): Choose the namespace under the data plane that should run the job, for example `finance` under `analytics`. Only namespaces that are assigned to your domain and that you have **Use** permission on appear. Auto-selects if only one namespace is available. See [Selecting a Namespace](../namespace-quotas.md#selecting-a-namespace) if the list is empty.
 
 ### Run as User
 
-- **Run as user**: The user identity the job runs under. Defaults to the currently logged-in user.
+- **Run as user**: The user identity the job runs under. Defaults to the currently logged-in user. This user also needs **Use** permission on the selected namespace: IOMETE checks it when you create, update, or run the job. See [Namespace Permissions](../iam/ras/ras-permissions.md#namespace).
 
 ### Schedule
 
