@@ -80,7 +80,7 @@ NAME        NAMESPACE      REVISION  UPDATED                                  ST
 data-plane  iomete-system  12        2026-10-08 09:14:02.511278 +0000 UTC     deployed  iomete-data-plane-enterprise-4.0.1  4.0.1
 ```
 
-Note the version at the end of the **CHART** column, here `4.0.1`. Step 4 upgrades to the same version, so the upgrade changes only the namespace list.
+In the `data-plane` row, note the version at the end of the **CHART** column, here `4.0.1`. Other releases in the namespace, such as a PostgreSQL release, can appear too. Step 4 upgrades to the same version, so the upgrade changes only the namespace list.
 
 The upgrade needs your complete values file. The YAML on this page shows only the settings to change. If you don't have the file, save the values the release was installed or last upgraded with:
 
@@ -160,13 +160,15 @@ If you set `webhook.name`, use that name instead of `spark-operator-iomete-syste
 | Selector uses `iomete.com/managed` | The webhook selects namespaces by label, as older installations set it up. | Nothing. The label from step 1 is enough. |
 | First line is empty, and the selector lists namespace names | An administrator created the webhook. Helm doesn't change it, even with `webhook.create: true`. | Add `sales` before upgrading, with the command below. |
 
-To update an administrator-managed webhook, list the service namespace and **all** workload namespaces. This example keeps `reporting` and adds `sales`:
+Run the patch only in this last case. To update the webhook, list the service namespace and **all** workload namespaces. This example keeps `reporting` and adds `sales`:
 
 ```shell
 kubectl patch mutatingwebhookconfiguration spark-operator-iomete-system \
   --type=strategic \
   -p='{"webhooks":[{"name":"webhook.sparkoperator.k8s.io","namespaceSelector":{"matchExpressions":[{"key":"kubernetes.io/metadata.name","operator":"In","values":["iomete-system","reporting","sales"]}]}}]}'
 ```
+
+On a webhook that selects namespaces by the `iomete.com/managed` label, this patch would add a second condition, so only namespaces with the label **and** in the list would match.
 
 ### Secrets in the New Namespace
 
