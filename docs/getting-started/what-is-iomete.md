@@ -4,7 +4,7 @@ title_meta: "What Is IOMETE? Self-Hosted Spark + Iceberg Lakehouse"
 sidebar_label: What is IOMETE?
 description: "IOMETE is a Kubernetes-native data lakehouse built on Apache Spark and Iceberg that runs entirely in your own environment: on-prem, cloud or air-gapped."
 last_update:
-  date: 10/01/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -51,7 +51,26 @@ This means you can perform operations like ACID transactions, updates, deletes, 
 IOMETE utilizes a decoupled compute and storage architecture, which allows for the independent scaling of compute and storage. To put it simply, IOMETE acts as the computation, management, and governance layer that connects to the storage layer.
 IOMETE's architecture is designed to provide optimal performance and flexibility for data processing.
 
-<Img src="/img/getting-started/architecture.png" alt="IOMETE Architecture High-Level Overview"/>
+```mermaid
+---
+config:
+  htmlLabels: false
+  flowchart:
+    htmlLabels: false
+---
+flowchart TB
+  accTitle: IOMETE between your tools and your storage
+  accDescr: BI tools, SQL clients, notebooks, dbt, and Airflow connect to IOMETE, which runs Apache Spark compute on Kubernetes and manages the catalogs and access control. Table data stays in your object storage as Apache Iceberg tables.
+  Tools["Your tools<br/>BI tools<br/>SQL clients<br/>notebooks<br/>dbt, Airflow"]
+  subgraph Platform["IOMETE on Kubernetes"]
+    Compute["Apache Spark<br/>compute"]
+    Governance["Catalogs and<br/>access control"]
+  end
+  Storage[("Object storage<br/>Iceberg tables")]
+  Tools --> Compute
+  Compute --> Governance
+  Compute --> Storage
+```
 
 Let's take a closer look at its components:
 
@@ -123,7 +142,7 @@ IOMETE offers a wide range of features to enhance your data engineering experien
 
 - **BI Tool Integration**: Effortlessly work with major BI tools for comprehensive business intelligence experiences.
 
-- **Collaborative SQL Editor**: Write and edit SQL queries in real-time with multiple team members simultaneously.
+- **SQL Editor**: Write and run SQL in worksheets, organize them in personal and shared workspaces, and review query history and dashboards.
 
 - **Event Streams**: Ingest real-time events via REST API directly into Iceberg tables for immediate analytics.
 
@@ -143,7 +162,7 @@ Rest assured that IOMETE prioritizes your data security and privacy. The platfor
 
 ## Multi-Region Support
 
-IOMETE Enterprise Edition offers a control plane and multi-data plane architecture. This means you can deploy IOMETE across multiple regions and manage them from a single control plane. This feature is invaluable for disaster recovery, high availability, and multi-region deployments.
+IOMETE Enterprise Edition uses one control plane to manage multiple data planes. Data planes can run in the same Kubernetes cluster or in separate clusters and regions, and each can manage several workload namespaces. This lets you place workloads near their data while using one console. To query computes on a data plane in another Kubernetes cluster from the SQL Editor, turn on [SQL Editor V2](/resources/user-guide/feature-flags/sql-editor-v2). Data replication, backup, and failover need their own design; adding a data plane does not configure them automatically. See [Multi-Cluster Setup](../deployment/multi-cluster-setup.mdx) for topology choices.
 
 ## Benefits of Using IOMETE
 
@@ -173,9 +192,9 @@ IOMETE Enterprise Edition offers a control plane and multi-data plane architectu
 - **Central Data Access Control**: Fine-grained access control policies managed through the Identity Service.
 - **Data Catalog**: Centralized repository for dataset metadata, promoting efficient collaboration and resource sharing.
 
-### High Availability and Disaster Recovery
+### Multi-Region Deployment {#high-availability-and-disaster-recovery}
 
-- **Multi-Region Support**: Enterprise Edition features multi-region deployment for disaster recovery and high availability.
+- **Multi-Region Support**: In Enterprise Edition, one control plane manages data planes in several clusters and regions. Plan data replication, backup, and recovery separately.
 
 ### Technological Excellence
 
@@ -202,7 +221,7 @@ Before diving deeper into IOMETE, familiarize yourself with the key terms and co
 
 - **Central Data Access Control**: Manages access control policies across all datasets, including selective masking for sensitive fields, with fine-grained permissions managed through the Identity Service.
 
-- **Collaborative SQL Editor**: Features syntax highlighting, auto-completion, and real-time multi-user editing, allowing team members to work on queries simultaneously.
+- **SQL Editor**: A browser-based editor with syntax highlighting and auto-completion, where you write and run SQL in worksheets and share them through workspaces.
 
 - **Integration with External Tools**: Supports integration with tools like Apache Airflow and BI tools, enhancing extensibility and existing infrastructure compatibility.
 
@@ -218,9 +237,9 @@ Before diving deeper into IOMETE, familiarize yourself with the key terms and co
 
 Explore the rest of the Getting Started section to learn more about the platform:
 
-- [Architecture Overview](./architecture) - detailed microservices breakdown, service routing, and technology stack
-- [Platform Tour](./platform-tour) - navigate the IOMETE console, sidebar menus, and domain vs. admin areas
-- [Scalability](./scalability) - four scaling layers, autoscaling configuration, and cost optimization
-- [Support](./support) - getting help and contacting the IOMETE team
+- [Architecture Overview](./architecture.md) - the control plane, data planes, platform services, and how they connect
+- [Platform Tour](./platform-tour.md) - navigate the IOMETE console, sidebar menus, and domain vs. admin areas
+- [Scalability](./scalability.md) - four scaling layers, autoscaling configuration, and cost optimization
+- [Support](./support.md) - getting help and contacting the IOMETE team
 
 <DemoCta variant="B" page="what-is-iomete" position="end" />
