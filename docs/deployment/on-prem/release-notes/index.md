@@ -3,7 +3,7 @@ title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 last_update:
-  date: 11/05/2026
+  date: 11/07/2026
   author: Vusal Dadalov
 ---
 
@@ -175,7 +175,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - ⚠️ **Upgrading With RAS Flags Off**: If the four `onboard*Ras` flags were off before the upgrade, existing compute clusters, Spark jobs and namespaces aren't in any resource bundle. After the upgrade the console hides them from every user, admins included. Nothing is deleted. Run the [ras-onboarding job](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md#upgrading-from-3x-to-40) with `NAMESPACE`, `COMPUTE` and `SPARK_JOB` for each domain to bring them back. Workspaces need no migration: with `onboardWorkspaceRas` off, only the built-in Personal and Shared workspaces exist, and they aren't stored in bundles.
         - Removed: `emailNotifications` and `enableAutomatedMaintenance`. Email notifications and automated Iceberg table maintenance are always available.
       - **Credential Changes Apply on Upgrade**: When you change database or object storage credentials in your Helm values, `helm upgrade` now restarts the affected services. The new values take effect without a manual pod restart. Credentials read from your own existing Secrets aren't covered. Restart the services yourself after rotating them.
-      - **Adding Namespaces to the Default Data Plane**: In this release, changing the `namespaces` list still requires an `iom-cluster` restart before you can assign a new namespace to a domain. Follow [Refreshing the Namespace List](../../connect-namespace.md#refreshing-the-namespace-list).
+      - ⚠️ **Known Limitation: Adding Namespaces to the Default Data Plane**: In 4.0.0 and 4.0.1, `helm upgrade` doesn't restart `iom-cluster` when the `namespaces` list changes. `iom-cluster` keeps checking namespace assignments against the old list, so assigning a newly added namespace to a domain fails with `Namespace <name> is not allowed` (HTTP 403). Restart `iom-cluster` after the upgrade, as described in [Restarting `iom-cluster`](../../connect-namespace.md#restart-iom-cluster). Namespaces added to an additional data plane aren't affected.
       - **Spark Connect Service Port**: Arrow Flight SQL and Spark Connect traffic now has a dedicated service port on `iom-gateway`, fixing connectivity issues for customers using Spark Connect or SQL Editor V2 through the gateway.
       - **Control Plane Without a Bundled Data Plane**: A control plane can be installed on its own and have its data planes added afterwards. By default, the install still brings up its own data plane and registers it as `default`.
 
