@@ -67,8 +67,6 @@ Use this tab to tune Spark behavior, inject secrets, and set JVM options without
 - **Arguments**: command-line arguments passed to the Spark application.
 - **Java options**: JVM flags for driver and executor processes (for example, `-XX:+UseG1GC`).
 
-<Img src="/img/user-guide/compute-clusters/create-configs.png" alt="Create compute cluster -- Configurations tab" maxWidth="700px" />
-
 ## Dependencies Tab
 
 Pull in external JARs, Python packages, and Maven artifacts at Spark startup.
