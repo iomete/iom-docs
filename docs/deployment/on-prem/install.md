@@ -3,7 +3,7 @@ title: On-Premises Deployment Guide
 sidebar_label: Install
 description:  Detailed instructions for deploying IOMETE on-premises within a Kubernetes environment.
 last_update:
-  date: 11/06/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -13,10 +13,10 @@ This guide installs an IOMETE **control plane and its default data plane** in th
 |---|---|
 | A new IOMETE installation, including the console | Follow this guide. |
 | Another workload namespace for an existing data plane | Follow [Adding a Kubernetes Namespace](../connect-namespace.md). You do not need another control plane. |
-| An additional data plane connected to an existing control plane | Review [Multi-Cluster Setup](../multi-cluster-setup.mdx). An additional plane uses its own `iomete-lakehouse-runtime` release and service namespace. |
+| An additional data plane connected to an existing control plane | Follow [Multi-Cluster Setup](../multi-cluster-setup.mdx) instead of this guide. An additional data plane is installed with its own `iomete-lakehouse-runtime` release, in its own service namespace. |
 | An upgrade of an existing release | Follow [Life Cycle Management](../life-cycle-management.mdx). |
 
-One data plane can manage several workload namespaces in its Kubernetes cluster. Several data planes can share a Kubernetes cluster when their releases and managed namespaces are separate. A workload namespace must not be managed by two IOMETE releases.
+One data plane can manage several workload namespaces in its Kubernetes cluster. Several data planes can share a Kubernetes cluster when their releases and workload namespaces are separate. A workload namespace must not be managed by two IOMETE releases.
 
 <details>
 <summary>Platform-specific installation options</summary>
@@ -71,7 +71,7 @@ kubectl label namespace iomete-system iomete.com/managed=true
 :::tip
 Technically, you can deploy IOMETE in any namespace. If you choose to deploy in a different namespace, ensure you use the correct namespace in the following steps.
 
-The release namespace is included automatically in the plane’s managed namespaces. To add dedicated workload namespaces, see [Adding a Kubernetes Namespace](../connect-namespace.md).
+The namespace you install into is always one of the default data plane's workload namespaces, so you don't list it in the `namespaces` value. To add more workload namespaces, see [Adding a Kubernetes Namespace](../connect-namespace.md).
 :::
 
 
@@ -98,6 +98,8 @@ Set the chart version you are installing. Every `helm` command below uses it, so
 export IOMETE_VERSION="<approved-chart-version>"
 ```
 
+Replace `<approved-chart-version>` with the version approved for your installation, for example `4.0.1`. The [release notes](./release-notes/index.md) describe each version.
+
 ### Preparing Your Values File {#prepare-your-values-file}
 
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/iomete)](https://artifacthub.io/packages/search?repo=iomete)
@@ -115,9 +117,11 @@ helm show values iomete/iomete-data-plane-enterprise \
   --version "$IOMETE_VERSION" > chart-defaults.yaml
 ```
 
+For every available setting, see the [IOMETE Data Plane Enterprise](https://artifacthub.io/packages/helm/iomete/iomete-data-plane-enterprise) page on Artifact Hub. The page opens on the newest published chart, so select the version you are installing.
+
 For an HTTPS ingress, set `ingress.httpsEnabled: true`; the downloaded example uses HTTP. This setting changes forwarded URLs and headers inside IOMETE. It does not create a TLS listener or a certificate.
 
-Set `adminUser.temporaryPassword` to a new password before the initial install. If you use a private image registry, create the referenced pull Secret in each managed namespace and configure `docker.imagePullSecrets` in this file. The chart does not copy Secrets across namespaces. Use `serviceAccount.create: true` below to have Helm attach the configured pull Secrets when it creates the service accounts; do not patch a service account that has not been created yet.
+Set `adminUser.temporaryPassword` to a new password before the initial install. If you use a private image registry, create the referenced pull Secret in `iomete-system` and in each workload namespace, and configure `docker.imagePullSecrets` in this file. The chart does not copy Secrets across namespaces. Use `serviceAccount.create: true` below to have Helm attach the configured pull Secrets when it creates the service accounts; do not patch a service account that has not been created yet.
 
 Keep `defaultDataPlane.enabled: true` for the installation described here. Setting it to `false` is a control-plane-only configuration and requires separately installed data planes before users can create compute workloads.
 
@@ -180,7 +184,9 @@ The release should be `deployed` and the service Deployments should have their r
 
 Follow [Configuring Ingress](../configure-ingress.md) to route your hostname to the control plane. Open that hostname in a browser and sign in with the admin credentials from your values file. Change the temporary password when prompted.
 
-Verify that the default data plane is connected. Then follow [Adding a Kubernetes Namespace](../connect-namespace.md) if you need separate workload namespaces, assign a namespace to a domain, and run a small compute query such as `SELECT 1`. This checks workload access in addition to console access.
+Open the **Admin Portal** from the user menu and select **Data Planes**. The default data plane should show **Connected**. Then follow [Adding a Kubernetes Namespace](../connect-namespace.md) if you need separate workload namespaces, assign a namespace to a domain, and run a small compute query such as `SELECT 1`. This checks workload access in addition to console access.
+
+In the Admin Portal, also open **System Config** and set `platform.url` to the console URL, such as `https://iomete.example.com`. IOMETE uses it to build links in notifications, such as Spark job and access token expiry notifications. It is a console setting, not a Helm value.
 
 Keep the values file and approved chart version for [future upgrades](../life-cycle-management.mdx).
 
@@ -252,17 +258,23 @@ You can combine the two options. For example, let Helm create the service accoun
 <details id="upgrading-the-crds" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
 <summary>Updating Spark Operator CRDs during an upgrade</summary>
 
-`helm upgrade` never updates or deletes the Spark Operator CRDs, whether Helm or an administrator created them. When the release notes for the version you are upgrading to say the CRDs changed, apply them before you run the upgrade:
+`helm upgrade` never updates or deletes the Spark Operator CRDs, whether Helm or an administrator created them. When the release notes for the version you are upgrading to say the CRDs changed, apply them before you run the upgrade.
+
+CRDs are shared by every Spark Operator in the Kubernetes cluster. Before you apply them, check that the new versions are compatible with any other Spark Operator in the cluster. If an administrator or another release manages the CRDs, have them apply the change instead.
+
+Set `IOMETE_VERSION` to the chart version you are upgrading to, then apply that chart's CRDs:
 
 ```shell
+export IOMETE_VERSION="<target-chart-version>"
+
 helm pull iomete/iomete-data-plane-enterprise \
   --version "$IOMETE_VERSION" \
   --untar --untardir "chart-$IOMETE_VERSION"
 
-kubectl apply --server-side -f "chart-$IOMETE_VERSION"/iomete-data-plane-enterprise/charts/operator-crds/crds/
+kubectl apply --server-side --force-conflicts -f "chart-$IOMETE_VERSION"/iomete-data-plane-enterprise/charts/operator-crds/crds/
 ```
 
-CRDs are shared by every Spark Operator in the Kubernetes cluster. Coordinate the change with their owners and check version compatibility first. If server-side apply reports a field ownership conflict, review the conflicting fields with the administrator; use `--force-conflicts` only when intentionally taking ownership of those fields.
+`--force-conflicts` lets `kubectl` take over the fields Helm set when it created the CRDs (`crds.create: true`). Without it, `kubectl` refuses the change. `kubectl` reports each CRD as `serverside-applied`.
 
 </details>
 
