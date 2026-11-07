@@ -3,7 +3,7 @@ title: Managing Clusters
 description: View cluster details, monitor driver and executor states, and run lifecycle actions such as start, restart, terminate, configure, and delete.
 sidebar_label: Managing Clusters
 last_update:
-  date: 02/26/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -11,9 +11,9 @@ import Img from '@site/src/components/Img';
 
 Once a cluster is created, you can manage it from its detail page: check status, run lifecycle actions, and grab connection strings for external tools. Click any cluster name in the list to open it.
 
-The page title reads **Compute: \{name\}**, and the breadcrumb shows **Compute > \{name\}**. The header contains state-aware action buttons (see [Lifecycle Actions](#lifecycle-actions)) plus two monitoring links:
+The page title is the cluster name, and the breadcrumb shows **Compute > \{name\}**. The header contains state-aware action buttons (see [Lifecycle Actions](#lifecycle-actions)) plus two monitoring links:
 
-- **Spark Metrics UI**: opens the Spark metrics dashboard. Always available.
+- **Metrics**: opens the Spark metrics dashboard. If monitoring isn't enabled for the installation, the link is disabled with the tooltip "Enable monitoring to see metrics".
 - **Spark UI**: opens the live Spark web interface. Active only when the driver is `ACTIVE`.
 
 If another user deletes the cluster while you're viewing it, a yellow banner appears: **This compute has been deleted.**
@@ -24,15 +24,17 @@ If another user deletes the cluster while you're viewing it, a yellow banner app
 
 The **Details** tab shows the cluster's current state and configuration.
 
-The **Compute** section lists the cluster's **ID**, **Name**, **Driver state** badge, driver and executor node types, executor counts, **Volume**, and **Auto scaling** timeout. If the state is `FAILED`, a tooltip explains the failure reason. Single-node clusters hide executor-related fields.
+The top rows show the cluster's **ID**, **Name**, **Driver state** badge, **Executors state**, and **Bundle**. If the state is `FAILED`, a tooltip explains the failure reason.
 
-The **Metadata** section shows the **Namespace**, **Created by** user and timestamp, **Tags**, and **Description**.
+The **Compute** section lists the deployment type, driver and executor node types, executor counts, **Volume**, **Auto scaling** timeout, **Query acceleration**, and **Docker image**. Single-node clusters hide executor-related fields.
+
+The **Metadata** section shows the **Data plane**, **Namespace**, **Created by** user and timestamp, **Tags**, and **Description**.
 
 <Img src="/img/user-guide/compute-clusters/detail-overview.png" alt="Compute cluster detail -- Details tab" />
 
 ### Connections Tab
 
-Need to hook up a BI tool or application? The **Connections** tab provides ready-to-use snippets. Click a connection type card to see its configuration.
+Need to hook up a BI tool or application? The **Connections** tab provides ready-to-use snippets. Click a connection type card to see its configuration. Copy the host and namespace from this tab: when the compute runs on an additional data plane, its host can differ from the console host.
 
 Available types include **Python**, **JDBC**, **DBT**, **Tableau**, **Power BI**, **Superset**, **Metabase**, **Redash**, and **Spark Connect**. If the Arrow Flight module is enabled, **Arrow Flight** appears as well.
 
@@ -40,9 +42,9 @@ Available types include **Python**, **JDBC**, **DBT**, **Tableau**, **Power BI**
 
 ### Logs Tab
 
-The **Logs** tab streams Spark driver logs in real time. Narrow the window with the time range selector, or click **Download** to save logs as `spark-driver-logs.txt`.
+The **Logs** tab streams Spark driver logs in real time. Narrow the window with the time range selector. To save logs, open the settings menu and choose **Download visible logs** or **Download all logs**.
 
-If per-executor logging is enabled, an **Instance** dropdown appears above the viewer so you can inspect individual pod logs.
+If executor logs are enabled for the installation, an instance selector appears above the viewer so you can inspect individual pod logs.
 
 <Img src="/img/user-guide/compute-clusters/detail-logs.png" alt="Compute cluster detail -- Logs tab" />
 
@@ -81,7 +83,7 @@ The driver cycles through four states. The page refreshes automatically when the
 
 A newly created cluster enters `STARTING` automatically, then moves to `ACTIVE` once the driver is ready or to `FAILED` if a deployment error occurs.
 
-### Executor States (Multi-Node Only)
+### Executor States (Standard Deployments Only) {#executor-states-multi-node-only}
 
 The **Details** tab and the **Executor** list column both show executor state. These fields are hidden for single-node clusters.
 
@@ -106,7 +108,7 @@ You can only reconfigure a cluster when the driver is `STOPPED` or `FAILED`. Whi
 
 <Img src="/img/user-guide/compute-clusters/configure-tooltip.png" alt="Configure button disabled with tooltip: Terminate the compute before configuring"/>
 
-**Configure** opens the same six-tab form used during creation, pre-populated with current values. **Name** and **Bundle** are read-only. After making changes, review them on the **Review & Save** tab and click **Save**.
+**Configure** opens the same six-tab form used during creation, pre-populated with current values. **Name** and **Resource bundle** are read-only. After making changes, review them on the **Review & Save** tab and click **Save**.
 
 After saving, the cluster may show an amber **Restart required** label in the list. Starting or restarting applies the new settings and clears the label.
 
@@ -116,9 +118,7 @@ Click **Start** in the header or the list row ellipsis menu. There's no confirma
 
 ### Restarting a Cluster
 
-Click **Restart** in the header or the list row ellipsis menu, then confirm with **Yes, restart it**. The driver cycles through `STOPPED` then `STARTING` then `ACTIVE`. Available when the driver is `ACTIVE`, `STARTING`, or `FAILED`.
-
-<Img src="/img/user-guide/compute-clusters/restart-confirm.png" alt="Restart confirmation popover with Cancel and Yes, restart it buttons" />
+Click **Restart** in the header or the list row ellipsis menu, then click **Restart** in the **Restart Compute** dialog. Restarting interrupts running queries and active sessions. The driver cycles through `STOPPED` then `STARTING` then `ACTIVE`. Available when the driver is `ACTIVE`, `STARTING`, or `FAILED`.
 
 :::warning Restart Isn't Atomic
 If the start phase fails after a successful terminate, the cluster stays `STOPPED`. Check the **Logs** and **Kubernetes events** tabs to diagnose the failure.
@@ -126,18 +126,16 @@ If the start phase fails after a successful terminate, the cluster stays `STOPPE
 
 ### Terminating a Cluster
 
-Click **Terminate** in the header or the list row ellipsis menu, then confirm with **Yes, terminate it**. The driver moves to `STOPPED`, all active connections drop, and executor state clears. Available when the driver is `ACTIVE`, `STARTING`, or `FAILED`.
+Click **Terminate** in the header or the list row ellipsis menu, then click **Terminate** in the **Terminate Compute** dialog. The driver moves to `STOPPED`, all active connections drop, and executor state clears. Available when the driver is `ACTIVE`, `STARTING`, or `FAILED`.
 
 Unlike restart, termination leaves the cluster stopped. Start it again manually when you're ready.
-
-<Img src="/img/user-guide/compute-clusters/terminate-confirm.png" alt="Terminate confirmation popover with Cancel and Yes, terminate it buttons"/>
 
 ### Deleting a Cluster
 
 Deletion permanently removes the cluster and its configuration. Data in object storage isn't affected.
 
-1. Select **Delete** from the detail page or list row ellipsis menu.
-2. Type the exact cluster name in the confirmation modal.
+1. Select **Delete** from the ellipsis menu in the detail page header or on the list row.
+2. Type the exact cluster name in the confirmation dialog.
 3. Click **Delete**. The button stays disabled until the name matches.
 
 :::warning Deletion Is Permanent

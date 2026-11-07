@@ -3,7 +3,7 @@ title: Platform Tour
 sidebar_label: Platform Tour
 description: A high-level tour of the IOMETE platform covering compute, SQL Editor, Spark jobs, Data Catalog, and more.
 last_update:
-  date: 03/23/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -25,7 +25,7 @@ The Home page is your starting point after login. It displays [recently viewed r
 
 ## Engine
 
-Every workload on IOMETE needs compute resources. The Engine section is where you provision and manage them.
+Every workload on IOMETE needs compute resources. The Engine section is where you provision and manage them. When you create a compute cluster, Spark job, or Jupyter container, you choose where it runs: a Kubernetes namespace, listed under the data plane that manages it, for example `finance` under `analytics`. The list shows only namespaces that an administrator has assigned to your domain and that you may use; creating a workload never creates a data plane or a namespace.
 
 ### Compute
 
@@ -37,7 +37,7 @@ The [Compute Clusters](/user-guide/compute-clusters/overview) guide covers confi
 
 ### Jupyter Containers
 
-Jupyter Containers provide containerized JupyterLab environments inside the platform. Each container has persistent storage and connects to compute clusters via Spark Connect, so you can explore data, prototype ETL pipelines, and develop ML models interactively.
+Jupyter Containers provide containerized JupyterLab environments inside the platform. Each container can use an attached persistent volume and connect to compute clusters via Spark Connect, so you can explore data, prototype ETL pipelines, and develop ML models interactively.
 
 <Img src="/img/getting-started/platform-tour/notebook-page.png" alt="Jupyter Containers page" maxWidth="900px"/>
 
@@ -63,7 +63,7 @@ The SQL Editor is where you write and run queries. The left icon bar switches be
 - **[Database Explorer](/user-guide/sql-editor/database-explorer)**: browse catalogs, schemas, tables, views, and columns.
 - **[Query History](/user-guide/sql-editor/query-history)**: logs every query you run, with time range and status filters. Reopen any past query in the active worksheet.
 
-Before running a query, select a compute cluster and namespace from the top bar. The editor autocompletes database objects as you type. Results display as tables or charts. Build **[Dashboards](/user-guide/sql-editor/dashboards)** from your results and export them to PDF.
+Before running a query, select a compute cluster, and a catalog and database, from the top bar. The editor autocompletes database objects as you type. Results display as tables or charts. Build **[Dashboards](/user-guide/sql-editor/dashboards)** from your results and export them to PDF.
 
 <Img src="/img/getting-started/platform-tour/sql-editor-page.png" alt="SQL Editor page" maxWidth="900px"/>
 
@@ -126,7 +126,7 @@ More in the [Resource Bundles](/user-guide/ras/resource-bundles) guide.
 
 ## Settings
 
-Platform-wide configuration lives in Settings, organized into three groups:
+Configuration for your current domain and profile lives in Settings, organized into three groups:
 
 - **General Info**: domain details, cloud provider, runtime and Spark versions.
 - **Profile**: Access Tokens and Notifications.
@@ -140,10 +140,13 @@ Open Settings from the left sidebar or the user menu.
 
 Platform administrators manage users, security, and infrastructure from the Admin Portal. Access it through the user menu.
 
+- **Domains**: manage domains and assign existing Kubernetes namespaces from data planes to them.
+- **Data Planes**: view registered data planes and the namespaces each manages.
+- **Monitoring**: check control-plane and data-plane health, namespace quotas across data planes, and SQL query activity.
 - **IAM**: [Users](/user-guide/users), [Groups](/user-guide/groups), Admin Roles, [LDAP](/user-guide/ldap-configuration), and [Single Sign-On (SSO)](/user-guide/single-sign-on).
 - **Data Governance**: [Spark Catalogs](/user-guide/spark-catalogs/overview), [Data Security](/user-guide/data-security/overview) policies, and Audit logs.
-- **Compute**: [Node Types](/user-guide/node-types/overview), [Volumes](/user-guide/volumes), [Namespaces](/user-guide/namespace-quotas), and [Docker Settings](/user-guide/private-docker-registry).
-- **Administration**: System Config, Event Logs, [Email Config](/user-guide/email-settings), and Orphaned Resources.
+- **Compute**: [Node Types](/user-guide/node-types/overview), [Volumes](/user-guide/volumes), Namespaces (a shortcut to **Data Planes**), and [Docker Settings](/user-guide/private-docker-registry).
+- **Administration**: System Config, Event Logs, [Email Config](/user-guide/email-settings), Feature Flags, and Orphaned Resources (when enabled).
 
 <Img src="/img/getting-started/platform-tour/admin-portal.png" alt="Admin Portal page" maxWidth="900px"/>
 
