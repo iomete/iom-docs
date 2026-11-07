@@ -286,7 +286,7 @@ kubectl get pods --namespace <namespace> --show-labels
 
 Then check the actual operation that failed:
 
-- **Webhook timeout:** create or update a test compute through IOMETE, inspect the admission error and check CNI flow logs for API-server traffic to the operator's pod port 9443. `kubectl cluster-info` only reports the API endpoint; it does not test the reverse connection to the webhook.
+- **Slow pod creation or Spark pods missing settings:** the API server calls the operator's webhook for every pod created in the plane's namespaces. When it can't reach the webhook, each pod creation waits for the 30-second webhook timeout and then continues without the webhook's changes, so there is no admission error to inspect. Start a test compute through IOMETE and check CNI flow logs, or API server logs where you have them, for failed calls from the API server to the operator's pod port 9443. `kubectl cluster-info` only reports the API endpoint; it does not test the reverse connection to the webhook.
 - **Console or API unavailable:** verify ingress-controller access to the gateway, including source namespace labels and any existing egress isolation on the controller.
 - **Plane disconnected:** verify both directions of the plane-to-plane API connection. Same-cluster namespace rules do not allow cross-cluster traffic by themselves.
 - **SQL fails on a connected plane:** check the control plane's egress to the compute hostname on TLS port 443, TLS trust and HTTP/2 routing.
