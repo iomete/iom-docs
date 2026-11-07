@@ -83,11 +83,11 @@ Please replace:
 
 ### Helm Chart Settings
 
-The **enterprise release** hosts the orchestrator's Prefect server on the control plane. Each data plane has workers in its managed namespaces: the enterprise release configures default-plane workers, and an additional plane's `iomete-lakehouse-runtime` release configures its own workers.
+The **control-plane release** (`iomete-data-plane-enterprise`) hosts the orchestrator's Prefect server. Each data plane runs workers in its service namespace and workload namespaces: the control-plane release configures the default data plane's workers, and an additional data plane's `iomete-lakehouse-runtime` release configures its own workers.
 
-Set server options, database access and run cleanup in the enterprise release. Set worker batch size, resources and logging in the release that owns those workers; updating the control-plane values does not update workers in a separate runtime release. Keep each release's complete values file and namespace list when applying changes through [Life Cycle Management](/resources/deployment/life-cycle-management).
+Set server options, database access and run cleanup in the control-plane release. Set worker batch size, resources and logging in the release that owns those workers; updating the control-plane values does not update workers in a separate runtime release. Keep each release's complete values file and namespace list when applying changes through [Life Cycle Management](/resources/deployment/life-cycle-management).
 
-For example, the enterprise values can contain:
+For example, the control-plane release's values can contain:
 
 ```yaml
 services:
@@ -110,8 +110,8 @@ services:
 |----------|---------|-------|-------------|
 | `verboseLogging` | false | 3.19.0 | Enables verbose (INFO-level) stdout logging for job orchestrator server and worker pods. Leave disabled for reduced (ERROR-level) log volume. |
 | `settings.batchSize` | 20 | 3.15.0 | Worker batch size; configure in each owning release. |
-| `settings.jobRunCleanup.enabled` | true | 3.15.0 | Enable server-side cleanup of completed queue runs and logs; enterprise release only. |
-| `settings.jobRunCleanup.retentionPeriod` | 2592000 | 3.15.0 | Server cleanup retention in seconds (30 days); enterprise release only. |
+| `settings.jobRunCleanup.enabled` | true | 3.15.0 | Enable server-side cleanup of completed queue runs and logs; control-plane release only. |
+| `settings.jobRunCleanup.retentionPeriod` | 2592000 | 3.15.0 | Server cleanup retention in seconds (30 days); control-plane release only. |
 
 ### S3 Log Storage [3.17.0+]
 
@@ -190,7 +190,7 @@ Workers on an additional data plane call the control-plane API rather than openi
 
 ### System Properties
 
-Configure queue behavior via **Admin Portal → System Configuration**:
+Configure queue behavior in **System Config**: open the **Admin Portal** from the user menu, then **System Config** under **Administration**.
 
 | Property | Default | Since | Description |
 |----------|---------|-------|-------------|
