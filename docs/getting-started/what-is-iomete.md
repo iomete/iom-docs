@@ -52,6 +52,12 @@ IOMETE utilizes a decoupled compute and storage architecture, which allows for t
 IOMETE's architecture is designed to provide optimal performance and flexibility for data processing.
 
 ```mermaid
+---
+config:
+  htmlLabels: false
+  flowchart:
+    htmlLabels: false
+---
 flowchart TB
   accTitle: IOMETE between your tools and your storage
   accDescr: BI tools, SQL clients, notebooks, dbt, and Airflow connect to IOMETE, which runs Apache Spark compute on Kubernetes and manages the catalogs and access control. Table data stays in your object storage as Apache Iceberg tables.

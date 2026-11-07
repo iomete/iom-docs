@@ -29,6 +29,12 @@ A default installation contains the control plane and a **default data plane** w
 The diagram shows one installation with the default data plane and an additional data plane, `analytics`:
 
 ```mermaid
+---
+config:
+  htmlLabels: false
+  flowchart:
+    htmlLabels: false
+---
 flowchart TB
   accTitle: IOMETE system overview
   accDescr: Users and client tools reach the console and APIs through the control-plane gateway, and the computes on the analytics data plane through that plane's gateway. The control plane runs the console and the core services and keeps platform state in PostgreSQL. It manages each data plane, whose gateway, agent, and Spark operator run its workloads. The default data plane runs its workloads in iomete-system. The analytics data plane runs its services in iomete-analytics and its workloads in the finance and marketing namespaces. Workloads read and write table data in object storage.
