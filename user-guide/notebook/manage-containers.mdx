@@ -3,7 +3,7 @@ title: Managing Jupyter Containers
 description: Create, configure, start, stop, delete, and monitor Jupyter Containers in the IOMETE platform.
 sidebar_label: Manage Containers
 last_update:
-  date: 03/19/2026
+  date: 11/06/2026
   author: Abhishek Pathania
 ---
 
@@ -22,7 +22,7 @@ Each row includes the following columns:
 | **Name** | Opens the container detail page. The container ID appears on hover and can be copied. |
 | **Status** | Color-coded status badge (`Starting`, `Active`, `Stopped`, `Failed`). Hover over a failed status to see the error message. |
 | **Instance** | The node type assigned to the container (CPU and memory). |
-| **Namespace** | The Kubernetes namespace where the container runs. |
+| **Namespace** | The data plane and Kubernetes namespace where the container runs. |
 | **Actions** | Context menu with lifecycle and management actions. |
 
 ### Filtering the List
@@ -30,7 +30,7 @@ Each row includes the following columns:
 Use the controls above the table to narrow results:
 
 - **View toggle**: Switch between **My Jupyter Containers** (containers you created) and **Shared with me** (containers others created and shared with you through resource bundles).
-- **Namespace**: Filter by deployment namespace.
+- **Namespace**: Choose a namespace under a data plane, or **All namespaces** within that data plane.
 - **Status**: Filter by container state (`Starting`, `Active`, `Stopped`, `Failed`).
 - **Search**: Match containers by name.
 
@@ -57,7 +57,7 @@ The **General** tab defines the core settings of the container.
 
 - **Resource bundle** (required): Associates the container with a [resource bundle](/user-guide/ras/resource-bundles) that controls who can access it. This cannot be changed after creation. If you need a new bundle, click **+ Create Resource Bundle** inside the dropdown (requires the `resource_bundle.create` permission).
 
-- **Namespace** (required): The Kubernetes namespace where the container will be deployed. Only namespaces available to your account are shown.
+- **Deploy to Kubernetes namespace** (required): Choose the namespace under the data plane that should run the container, for example `finance` under `analytics`. Only deployment targets available to your account appear. See [Selecting a Namespace](../namespace-quotas.md#selecting-a-namespace) if the list is empty.
 
 - **Instance type** (required): The [node type](/user-guide/node-types/overview) that determines CPU and memory limits for the container. The first available node type is selected by default.
 
@@ -88,7 +88,7 @@ The **Review & Create** tab displays a read-only summary of every setting before
 
 <Img src="/img/jupyter/review-page.png" alt="Review and Create tab showing configuration summary with resource cost details" />
 
-- Container name, bundle, and namespace
+- Container name, bundle, **Data plane**, and **Namespace**
 - Instance type and volume assignment
 - Environment variables and arguments (if any)
 - Resource tags (if any)
@@ -193,7 +193,8 @@ The **Details** tab shows the container's configuration:
 | **Bundle** | The associated resource bundle name. |
 | **Instance** | The assigned node type (CPU and memory). |
 | **Volume** | The attached volume, or "No volume" if none is configured. |
-| **Namespace** | The Kubernetes namespace. |
+| **Data plane** | The data plane managing the container's deployment. |
+| **Namespace** | The Kubernetes namespace where the container runs. |
 | **Created by** | The user who created the container, with a relative timestamp. |
 | **Tags** | Resource tags (shown only when tags exist). |
 
