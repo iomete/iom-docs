@@ -30,7 +30,7 @@ Choose priority values and preemption policies according to which workloads may 
 
 ## Prerequisites
 
-- You need access to update the control-plane enterprise release's complete values file.
+- You need access to update the control-plane release's complete values file.
 - A Kubernetes administrator must create every referenced PriorityClass in each cluster that runs the affected pods. PriorityClasses are **cluster-scoped**, so they are shared by data planes in the same Kubernetes cluster; do not create one copy per namespace.
 - For an additional data plane, complete [Additional Data Planes](#additional-data-planes) before reloading the configuration. The control plane's mapping is not copied to other planes.
 
@@ -65,7 +65,7 @@ The enterprise chart applies the `iomete-operational-support` class itself, to t
 
 ## Enabling Priority Classes
 
-Enable the feature in the **control-plane enterprise release’s** complete values file. This flag controls priority assignment for workloads, including those on additional planes:
+Enable the feature in the **control-plane release's** complete values file. This flag controls priority assignment for workloads, including those on additional data planes:
 
 ```yaml
 features:
@@ -76,14 +76,14 @@ features:
 Then apply the change with Helm:
 
 ```bash
-helm upgrade <control-plane-release> iomete/iomete-data-plane-enterprise \
+helm upgrade data-plane iomete/iomete-data-plane-enterprise \
   --kube-context <control-plane-context> \
-  --namespace <control-plane-service-namespace> \
+  --namespace iomete-system \
   --version <installed-chart-version> \
   --values values.yaml --wait
 ```
 
-Use the existing release, chart version and complete values file, preserving its namespace list and other settings. See [Life Cycle Management](/resources/deployment/life-cycle-management) for upgrade preparation.
+This example uses the control-plane release `data-plane` in the service namespace `iomete-system`. Use your existing release, chart version and complete values file, preserving its namespace list and other settings. See [Life Cycle Management](/resources/deployment/life-cycle-management) for upgrade preparation.
 
 ## Customizing Mappings
 
@@ -132,28 +132,30 @@ Replace the namespace and class names for your plane. Keep the feature enabled o
 
 ## Reloading and Verifying the Configuration {#verifying-the-configuration}
 
-The agent caches its mappings, and `iom-cluster` reads the feature flag at startup and caches the returned mappings. After updating them, restart the affected plane's agent, then the control-plane `iom-cluster`, during your change window. For the default plane, both deployments are in the enterprise release's namespace:
+The agent caches its mappings, and `iom-cluster` reads the feature flag at startup and caches the returned mappings. After updating them, restart the affected plane's agent, then the control-plane `iom-cluster`, during your change window. For the default data plane, both Deployments are in the control-plane release's service namespace, `iomete-system`. For an additional data plane, restart the agent in that plane's cluster and service namespace instead, such as `iomete-analytics`:
 
 ```bash
-kubectl --context <plane-cluster-context> --namespace <plane-service-namespace> \
+kubectl --context <plane-cluster-context> --namespace iomete-system \
   rollout restart deployment/iomete-lakehouse-agent
-kubectl --context <plane-cluster-context> --namespace <plane-service-namespace> \
+kubectl --context <plane-cluster-context> --namespace iomete-system \
   rollout status deployment/iomete-lakehouse-agent
-kubectl --context <control-plane-context> --namespace <control-plane-service-namespace> \
+kubectl --context <control-plane-context> --namespace iomete-system \
   rollout restart deployment/iom-cluster
-kubectl --context <control-plane-context> --namespace <control-plane-service-namespace> \
+kubectl --context <control-plane-context> --namespace iomete-system \
   rollout status deployment/iom-cluster
 ```
 
-Create a new test workload and inspect its pods in the selected plane and workload namespace. Existing workload pods do not gain a different PriorityClass merely because the mapping changed:
+Each `rollout status` command should end with `successfully rolled out`.
+
+Create a new test workload and inspect its pods in the selected plane and workload namespace, such as `finance`. Existing workload pods do not gain a different PriorityClass merely because the mapping changed:
 
 ```bash
 kubectl --context <workload-cluster-context> get pods \
-  --namespace <workload-namespace> \
+  --namespace finance \
   -o custom-columns='NAME:.metadata.name,PRIORITY:.spec.priorityClassName'
 ```
 
-The new driver/executor or notebook pods should show the mapped class. Other platform services may legitimately have no class. If a new workload has none, check the control-plane feature flag, that plane's ConfigMap, and whether the processes above have reloaded it. If a pod is rejected because the class does not exist, create the referenced PriorityClass in that pod's cluster.
+The new driver/executor or notebook pods should show the mapped class in the `PRIORITY` column, such as `iomete-compute` for a compute cluster's pods. Other platform services may legitimately have no class. If a new workload has none, check the control-plane feature flag, that plane's ConfigMap, and whether the processes above have reloaded it. If a pod is rejected because the class does not exist, create the referenced PriorityClass in that pod's cluster.
 
 :::caution
 Test priority class changes in a staging environment before applying them to production. Preemption can terminate running workloads, so an incorrect priority assignment could disrupt active Spark jobs or compute clusters.
