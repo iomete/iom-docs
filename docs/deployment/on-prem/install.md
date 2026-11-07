@@ -40,6 +40,7 @@ Have the following ready before you start:
   - **Spark workloads:** at least one node with 4 CPU cores and 32GB of RAM for Spark drivers and executors.
 - **Object storage:** Apache Ozone, Dell ECS, IBM Cloud Object Storage, MinIO or any other S3-compatible storage, AWS S3, Azure Blob Storage, or Google Cloud Storage. If you don't have one, see [Apache Ozone deployment](../ozone-deployment.md) or [MinIO deployment](../minio-deployment.md).
 - **PostgreSQL database** for IOMETE metadata. If you don't have one, see [PostgreSQL deployment](../postgresql-deployment.md).
+- **Persistent volumes:** a default StorageClass that can provision volumes for the IOMETE services, about 40GB by default: 20GB for the search engine (Typesense) and 10GB for each of the two `iom-event-stream` replicas. `kubectl get storageclass` marks the default class with `(default)`. Without one, set `services.typesense.persistence.storageClassName` and `services.eventStream.persistence.storageClassName` in your values file.
 - **An ingress controller and a hostname** for the control plane. This guide uses [Istio](../configure-ingress.md); deployments with an existing controller can use its equivalent HTTP, WebSocket and gRPC routing. Use a TLS certificate trusted by your users and services.
 - **Tools:**
   - `kubectl` and `helm`, set up for the target cluster.
