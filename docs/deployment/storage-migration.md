@@ -3,7 +3,7 @@ title: Migrating to New Object Storage
 sidebar_label: Storage Migration
 description: Move IOMETE's S3-compatible lakehouse storage to new hardware, a new endpoint or a new provider while keeping the same bucket names. Covers configuration, restarts, cutover and validation.
 last_update:
-  date: 11/06/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -62,9 +62,9 @@ storage:
       key: "<key-in-secret>"
 ```
 
-Only the endpoint changes. Keep the credentials as they are. This example reads the secret key from a Kubernetes Secret in the release namespace through `secretKeySecret`, which keeps it out of the values file. If you set it inline with `secretKey` instead, keep that.
+Only the endpoint changes. Keep the credentials as they are. This example reads the secret key from a Kubernetes Secret in the release's service namespace through `secretKeySecret`, which keeps it out of the values file. If you set it inline with `secretKey` instead, keep that.
 
-In the switch step, apply the change with the chart and chart version you already run, so the endpoint change does not also become a version upgrade. `helm list -n <namespace>` shows both in its `CHART` column. Start with the release’s complete values file and preserve its full `namespaces` list and other overrides; the storage block above is not a replacement values file. See [Saving and Reviewing Values](./life-cycle-management.mdx#upgrade-process).
+In the switch step, apply the change with the chart and chart version you already run, so the endpoint change does not also become a version upgrade. `helm list -n <namespace>` shows both in its `CHART` column. Start from the values you supplied to the release, which [Recording the Existing Installation](/resources/user-guide/shutdown-for-maintenance#1-recording-the-existing-installation) saves as `values.yaml`, and preserve its full `namespaces` list and other overrides; the storage block above is not a replacement values file.
 
 ```shell
 helm upgrade <release-name> <chart> \
@@ -186,18 +186,19 @@ Copy the data while the platform is in normal use, with one or more passes. The 
 
 ### 3. Freeze Writes
 
-Stop everything that writes to storage or to the catalog:
+Stop everything that writes to storage or to the catalog. The [maintenance procedure](/resources/user-guide/shutdown-for-maintenance) records what you stop, so that you can restore it later:
 
-1. [Suspend](/resources/user-guide/spark-jobs/creating-spark-job#managing-spark-jobs) all scheduled Spark jobs **through the console or API**, not in Kubernetes, and keep a list of what you suspend.
-2. [Stop streaming jobs](/resources/user-guide/spark-jobs/streaming-jobs#stopping-a-streaming-job) and other long-running jobs.
-3. Terminate [compute clusters](/resources/user-guide/compute-clusters/managing-clusters#terminating-a-cluster), Spark Connect clusters and [Jupyter containers](/resources/user-guide/notebook/manage-containers#terminating-a-container).
-4. Disable [automated table maintenance](/resources/user-guide/table-maintenance/overview) if it is enabled.
-5. Stop external tools that write to the storage or use the IOMETE catalog.
-6. Follow [Temporary Shutdown for Maintenance](/resources/user-guide/shutdown-for-maintenance) through **Pausing the Selected Services** for every affected release. Record the original replica counts, pause autoscaling and reconciliation, and wait for workloads to stop before scaling runtime services to zero. Include the internal Spark application if present, the service namespace, and every managed workload namespace.
+1. Record every affected release as described in [Recording the Existing Installation](/resources/user-guide/shutdown-for-maintenance#1-recording-the-existing-installation), and note which computes, streaming jobs and Jupyter containers are running.
+2. [Suspend](/resources/user-guide/spark-jobs/creating-spark-job#managing-spark-jobs) all scheduled Spark jobs **through the console or API**, not in Kubernetes, and keep a list of what you suspend.
+3. [Stop streaming jobs](/resources/user-guide/spark-jobs/streaming-jobs#stopping-a-streaming-job) and other long-running jobs.
+4. Terminate [compute clusters](/resources/user-guide/compute-clusters/managing-clusters#terminating-a-cluster), Spark Connect clusters and [Jupyter containers](/resources/user-guide/notebook/manage-containers#terminating-a-container).
+5. Disable [automated table maintenance](/resources/user-guide/table-maintenance/overview) if it is enabled.
+6. Stop external tools that write to the storage or use the IOMETE catalog.
+7. Complete [Stopping Workloads](/resources/user-guide/shutdown-for-maintenance#2-stopping-workloads) and [Pausing the Selected Services](/resources/user-guide/shutdown-for-maintenance#3-pausing-the-selected-services) for every affected release, in its service namespace and every workload namespace. For the control-plane release, this includes deleting its internal `iom-spark-connect` application.
 
-   Keep PostgreSQL and storage available for the backup. Include any control-plane or external process that writes to the affected storage; stopping an additional runtime alone does not stop those writers.
+   Keep PostgreSQL and storage available for the backup. Include any control-plane or external process that writes to the affected storage; stopping an additional data plane alone does not stop those writers.
 
-7. Back up the IOMETE PostgreSQL databases. This backup matches the storage at this moment and is your rollback point.
+8. Back up the IOMETE PostgreSQL databases. This backup matches the storage at this moment and is your rollback point.
 
 ### 4. Run the Final Copy
 
@@ -208,17 +209,18 @@ Stop everything that writes to storage or to the catalog:
 ### 5. Switch
 
 1. Switch to the new storage:
-   - **Keeping the host name:** update the DNS record, then scale the IOMETE services back up to their recorded replica counts.
-   - **Changing the endpoint:** run the Helm upgrade with the new endpoint and any certificate changes. Services scaled down in the freeze start again with the new settings. Restore any that stay at zero replicas from the recorded replica counts. Then apply the changes from [Settings Entered Manually](#settings-entered-manually).
-2. Complete **Restoring Services and Workloads** in the [maintenance procedure](/resources/user-guide/shutdown-for-maintenance), using the updated configuration and recorded replica counts. Recreate any chart-managed resources removed during shutdown. Keep schedules and external producers paused until validation passes.
-3. [Restart services and workloads](#restarting-services-and-workloads).
-4. Run the [validation checks](#validating-the-migration).
+   - **Keeping the host name:** update the DNS record.
+   - **Changing the endpoint:** put the new endpoint and any certificate changes in a copy of each affected release's saved `values.yaml`, as described in [Helm Values](#helm-values).
+2. Restore the services of every affected release as described in [Restoring Services](/resources/user-guide/shutdown-for-maintenance#5-restoring-services). For an endpoint change, use the updated values file in each release's Helm upgrade, including a runtime release's. The services you scaled down in the freeze start with the new settings.
+3. For an endpoint change, apply the changes from [Settings Entered Manually](#settings-entered-manually).
+4. [Restart the services](#restarting-services-and-workloads) that kept running through the freeze, such as the control plane when you move only an additional data plane's storage.
+5. Run the [validation checks](#validating-the-migration). Keep schedules, streaming jobs and external producers paused until validation passes: you restart them when you reopen.
 
 ### 6. Reopen
 
 1. Resume the scheduled jobs you suspended, through the console or API. This also refreshes legacy jobs.
 2. For an endpoint change, refresh any legacy scheduled job that was not suspended, then confirm the [legacy job check](#finding-remaining-references) returns nothing.
-3. Restore autoscaling and reconciliation with the new settings. Restart streaming jobs, re-enable table maintenance, and let external tools connect.
+3. Restart the streaming jobs, computes and Jupyter containers you stopped, re-enable table maintenance, and let external tools connect. Resume GitOps reconciliation with the new settings. See [Restarting Workloads and Schedules](/resources/user-guide/shutdown-for-maintenance#6-restarting-workloads-and-schedules).
 
 ### Rolling Back
 
@@ -295,7 +297,7 @@ FROM <catalog>.<database>.<table>;
 | Query an existing table from the SQL Editor | Results returned |
 | Open a few saved SQL Editor worksheets | Content shown |
 | For an endpoint change, run the checks under [Finding Remaining References](#finding-remaining-references) | No output |
-| Let one scheduled Spark job run on its schedule | Job succeeds |
+| [Run](/resources/user-guide/spark-jobs/creating-spark-job#running-a-spark-job) one of the suspended scheduled Spark jobs manually | Job succeeds |
 | Open the Spark History Server | Applications from before the migration are listed |
 | Query from an external client (JDBC, Arrow Flight or a BI tool) | Full result received |
 | Read a table from an external engine that uses the IOMETE REST catalog, if you have one | Data returned |
