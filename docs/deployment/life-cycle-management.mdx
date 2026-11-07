@@ -1,238 +1,154 @@
 ---
 title: Life Cycle Management (LCM)
 sidebar_label: Life Cycle Management (LCM)
-description: Learn about IOMETE's comprehensive Life Cycle Management (LCM) for On-premise Kubernetes environment, from efficient installation to seamless upgrades and robust monitoring.
+description: Identify the correct IOMETE Helm release, preserve its configuration, and verify upgrades and recovery.
 last_update:
-    date: 10/10/2023
-    author: Vusal Dadalov
-keywords:
-- On-premise
-- Life Cycle Management
-- LCM
-- Kubernetes
-- IOMETE
-- Installation
-- Helm
-- Upgrades
-- Rollbacks
-- Monitoring
-- Prometheus
-- Loki
-- Grafana
-- High Availability
-- Disaster Recovery
+  date: 11/06/2026
+  author: IOMETE
 ---
 
-import Img from '@site/src/components/Img';
+Upgrade the Helm release that owns the services you want to change. Keep its chart, namespace and values together: a control plane and an additional data plane use different charts.
 
-## Installation
+## Choosing the Release {#installation}
 
-IOMETE is designed to operate within a Kubernetes environment. The installation process, streamlined through Helm, is well-organized, efficient, and straightforward.
+| Installation | Chart | What the release manages |
+|---|---|---|
+| Control plane with its default data plane | `iomete/iomete-data-plane-enterprise` | Console, APIs and default-plane runtime services. |
+| Control plane with `defaultDataPlane.enabled: false` | `iomete/iomete-data-plane-enterprise` | Control-plane services; workload data planes are installed separately. |
+| Additional data plane | `iomete/iomete-lakehouse-runtime` | Runtime services and configured workload namespaces; no separate console. |
 
-<Img src="/img/guides/deployments/on-prem/overview.png"
-     alt="On-prem infrastructure overview"
-     caption="On-prem infrastructure overview"/>
+For a new installation, use the [on-premises installation guide](./on-prem/install.md). For another workload namespace on an existing plane, use [Adding a Kubernetes Namespace](./connect-namespace.md). Adding a namespace does not require installing another release.
 
-*Prerequisites*:
+### Identifying an Existing Release {#installation-example}
 
-1. A pre-configured Kubernetes cluster.
-2. Necessary credentials and access to external storage and database (a built-in database solution can also be used).
-
-
-*Steps for Installation*:
-
-1. **Repository Cloning**: Clone the [dedicated GitHub repository](https://github.com/iomete/on-prem-deployment) that contains the Helm charts and other essential files for deployment.
-2. **Helm Installation**: Utilize the provided Helm charts from the repository to initiate the installation process.
-
-All required files, examples, and a comprehensive installation guide can be found in our GitHub repository. We highly recommend following the step-by-step guide provided in the repository and using the example configurations as templates.
-
-### Installation Example
-
-Here is an example for data plane installation. You'll only need to modify the values in the `data-plane-values.yaml` file and run the following command:
-
-```bash
-helm upgrade --install -n iomete iomete-dataplane iomete/iomete-dataplane \
-  -f data-plane-values.yaml --version 1.0.5
-```
-
-Below is an example of the `data-plane-values.yaml` file that the Helm chart uses to install the IOMETE data plane:
-
-```yaml title="data-plane-values.yaml"
-dataPlane:
-  adminUser:
-    username: "admin"
-    email: "admin@example.com" # required for password reset
-    firstName: Admin
-    lastName: Admin
-    temporaryPassword: "temp_password_here" # you will be prompted to change this on first login
-
-istioGateway:
-  # if you want to enable TLS, set the tlsCertSecretName
-  # name of the secret with certificates. Secret should contain 2 files: tls.crt and tls.key
-  # if redirectHttpToHttps is set to true, this secret must be provided to handle https traffic
-  tlsCertSecretName: ""
-
-spark:
-  logLevel: warn
-
-jupyter:
-  authToken: "********"
-
-keycloak:
-  adminUser: "kc_admin"
-  adminPassword: "********"
-  # if adminPasswordSecret is set, the password will be read from the secret
-  adminPasswordSecret: {}
-    # name: secret-name
-    # key: password
-
-storage:
-  lakehouse_bucket_name: "lakehouse"
-  assets_bucket_name: "assets"
-  settings:
-    type: "minio"
-    endpoint: "http://minio.default.svc.cluster.local:9000"
-    accessKey: "admin"
-    secretKey: "********"
-    # if secretKeySecret is set, the secretKey will be read from the secret
-    secretKeySecret: {}
-      # name: secret-name
-      # key: secretKey
-    additionalConfigOverrides: {}
-      # core-site-xml-overrides: |
-        # fs.s3a.path.style.access: true
-        # fs.s3a.connection.ssl.enabled: false
-
-database:
-  host: "mysql"
-  port: "3306"
-  user: "db_user"
-  password: "********"
-  # if passwordSecret is set, the password will be read from the secret
-  passwordSecret: {}
-    # name: byo-db-creds
-    # key: password
-  prefix: "iomete_" # all IOMETE databases should be prefixed with this. See database init script.
-
-clusterDomain: cluster.local
-
-ranger:
-  enabled: true
-```
-
-
-## Upgrades
-
-To ensure our customers benefit from the continuous improvements, feature additions, and optimizations we make, we release updates periodically. With every release, our primary focus remains the seamless transition of our users from one version to another, ensuring stability, data integrity, and operational continuity.
-
-### Semantic Versioning
-
-IOMETE follows the [Semantic Versioning](https://semver.org/) standard. This ensures that our customers can easily understand the impact of a new release and plan accordingly.
-
-- **Major Version**: A major version release indicates that the update contains significant changes. These changes can include new features, breaking changes, or other significant improvements.
-- **Minor Version**: A minor version release indicates that the update contains new features, improvements, and bug fixes. These changes are backward-compatible and do not require any significant changes to the existing setup.
-- **Patch Version**: A patch version release indicates that the update contains bug fixes and minor improvements. These changes are backward-compatible and do not require any significant changes to the existing setup.
-
-Each release is accompanied by a detailed changelog, which provides a comprehensive overview of the changes included in the update.
-
-### Upgrade Notification and Support
-
-Upon the release of a new update:
-
-1. **Notification**: Customers will receive a notification regarding the new release. This will detail the new features, improvements, and any critical fixes included.
-2. **Upgrade Guide**: Accompanying the notification, customers will be provided with a comprehensive upgrade guide. This manual will have step-by-step instructions, tailored to help users navigate through the upgrade process with ease.
-3. **Dedicated Support**: Understanding that upgrades can sometimes be intricate, our support team is always ready to assist. Whether you need clarification on a step or face any technical challenges, our experts will be there to guide and ensure a successful upgrade.
-
-### Upgrade Process
-
-1. **Backup**: Before starting the upgrade, take backups of configurations, databases, and any vital data. This precautionary step ensures data safety.
-2. **Access New Release**: Fetch the updated Helm chart corresponding to the new release.
-3. **Apply the Upgrade**: Use the Helm upgrade command with the fetched chart. Follow the instructions provided in the upgrade guide. Using Kubernetes replication and `RollingUpdate` strategies we ensure smooth transition of our services.
-4. **Validation**: Post-upgrade, verify the platform's state. Check if all the services are running correctly and test key functionalities to ensure everything operates as expected.
-
-### Upgrade Example
-In most cases, just running the below command will be enough to upgrade the platform. Assuming `data-plane-values.yaml` is adjusted to the new version:
-
-:::important
-Replace `--version 1.0.5` with the version you want to upgrade to
-:::
+Check the Kubernetes context, then locate the release:
 
 ```shell
-helm upgrade --install -n iomete iomete-dataplane iomete/iomete-dataplane \
-  -f data-plane-values.yaml --version 1.0.5
+kubectl config current-context
+helm list --all-namespaces
 ```
 
-## Rollback Process
+The `NAME`, `NAMESPACE` and `CHART` columns identify the release. The chart version is part of `CHART`; it is not necessarily the same as `APP VERSION`. For a data plane in another Kubernetes cluster, switch to that cluster before running Helm or `kubectl`.
 
-While we strive to make every upgrade seamless, unforeseen issues can arise. In such scenarios, the platform is designed to support smooth rollbacks.
-
-1. **Rollback Guide**: If the need arises, a rollback guide will be provided, detailing how to revert to the previous stable version without loss of data or functionality.
-2. **Rollback Execution**: Use Helm's rollback command to revert to the previous state/version. Helm’s rollback feature ensures that the platform is restored to its previous operational state without hitches.
-3. **Support During Rollback**: During a rollback, our support team remains available to address any challenges or concerns, ensuring that the system is restored to its optimal state without unnecessary downtime.
-
-### Rollback Example
-
-Again, in most cases, rollback is just running helm upgrade commands with the previous version. Assuming `data-plane-values.yaml` is adjusted to the previous version:
-
-:::tip
-It is recommended to keep a copy of the previous version of the file. Version control systems like Git can be used to track changes.
-:::
+The examples below use the control-plane release from the installation guide. For an additional data plane, replace **all three** variables with its existing release, service namespace and runtime chart:
 
 ```shell
-helm upgrade --install -n iomete iomete-dataplane iomete/iomete-dataplane \
-    -f data-plane-values.yaml --version 1.0.5
+RELEASE="data-plane"
+NAMESPACE="iomete-system"
+CHART="iomete/iomete-data-plane-enterprise"
 ```
+
+Do not change an existing release from the enterprise chart to the runtime chart or the other way around.
+
+## Preparing an Upgrade {#upgrades}
+
+### Selecting a Version {#semantic-versioning}
+
+Read the target version's [release notes](./on-prem/release-notes/index.md) and upgrade requirements. Confirm the supported combination of control-plane, data-plane and Spark image versions, including any required intermediate upgrade. A version number alone does not establish database downgrade compatibility.
+
+```shell
+TARGET_VERSION="<approved-chart-version>"
+helm repo update
+helm show values "$CHART" --version "$TARGET_VERSION" > target-defaults.yaml
+```
+
+### Planning the Maintenance Window {#upgrade-notification-and-support}
+
+Back up PostgreSQL and retain the corresponding storage, configuration and Secrets needed for recovery. Check the release-specific migration and recovery procedure before starting. A Helm revision does not back up your databases, object storage or externally managed Secrets.
+
+Account for active jobs, queries and notebooks when scheduling the change. Restarting services or changing runtime versions can interrupt connections; a successful rolling deployment does not guarantee uninterrupted queries. For storage changes, follow the separate [storage migration procedure](./storage-migration.md).
+
+### Saving and Reviewing Values {#upgrade-process}
+
+Start with the complete values file used for the existing release. If you need to recover its submitted overrides, save them privately:
+
+```shell
+umask 077
+mkdir -p release-backup
+helm get values "$RELEASE" --namespace "$NAMESPACE" --output yaml \
+  > release-backup/values-before.yaml
+helm get values "$RELEASE" --namespace "$NAMESPACE" --all --output yaml \
+  > release-backup/effective-values-before.yaml
+helm history "$RELEASE" --namespace "$NAMESPACE" \
+  > release-backup/history-before.txt
+```
+
+The `--all` file records the effective old defaults for comparison. Do not blindly use every old default as an override for a new version. Merge the submitted overrides and any intentional changes into `values-next.yaml`, using `target-defaults.yaml` and the release notes to resolve renamed or removed settings.
+
+Preserve these settings unless you are intentionally changing them:
+
+- The **complete `namespaces` list**, including every namespace already managed by this plane. Helm replaces lists; a file containing only a newly added namespace can remove the existing entries.
+- Database, storage, registry, truststore and Secret references, plus service-account and webhook ownership settings.
+- Data-plane identity and addresses under `multiCluster`. These are not ordinary version-upgrade settings; registered addresses may remain pinned after a Helm change.
+- Resource settings, scheduling constraints and deliberate image overrides. Review overrides against the target version so an old image does not remain pinned accidentally.
+
+If the target release changes Spark Operator CRDs, coordinate their update before the service upgrade. CRDs are shared across releases in the same cluster and Helm does not update them during `helm upgrade`. See [Upgrading the CRDs](./on-prem/install.md#upgrading-the-crds).
+
+## Applying and Verifying the Upgrade {#upgrade-example}
+
+Use `helm upgrade` for the existing release. The explicit chart version and complete values file make the intended change reviewable:
+
+```shell
+helm upgrade "$RELEASE" "$CHART" \
+  --namespace "$NAMESPACE" \
+  --version "$TARGET_VERSION" \
+  --reset-values --values values-next.yaml \
+  --wait --timeout 15m
+```
+
+`--reset-values` starts with the target chart's defaults, then applies `values-next.yaml`. It is appropriate here because that file includes all overrides you intend to retain. Do not substitute a small change-only file. Keep the original chart family and release name; `--install` is unnecessary for an upgrade and can hide a mistyped release name by creating a new installation.
+
+Check the result:
+
+```shell
+helm status "$RELEASE" --namespace "$NAMESPACE"
+kubectl get deployments,statefulsets,pods --namespace "$NAMESPACE"
+kubectl get events --namespace "$NAMESPACE" --sort-by=.lastTimestamp
+```
+
+Verify both Kubernetes readiness and product behavior:
+
+1. Confirm the expected replicas are ready in the service namespace and every managed workload namespace.
+2. Open the control-plane console and confirm the affected data plane is connected.
+3. Check that existing namespace assignments remain available. If you added a namespace, complete the [namespace verification steps](./connect-namespace.md).
+4. Run `SELECT 1` on a compute in the affected data plane and check the workload types you use, such as scheduled jobs or Jupyter containers.
+
+A ready agent proves only that its pod is running. It does not prove that the control plane can authenticate cross-plane requests or query a remote compute through TLS and HTTP/2.
+
+## Recovering From a Failed Upgrade {#rollback-process}
+
+Inspect the failure before choosing a recovery action:
+
+```shell
+helm history "$RELEASE" --namespace "$NAMESPACE"
+kubectl get jobs,pods --namespace "$NAMESPACE"
+kubectl describe pod <failing-pod> --namespace "$NAMESPACE"
+kubectl logs <failing-pod> --namespace "$NAMESPACE" --all-containers --tail=100
+```
+
+Initialization hooks may already have changed database schemas or generated configuration before the upgrade fails. `helm rollback` restores a release's Kubernetes manifests; it does not reverse those changes. In particular, the enterprise chart writes its saved values Secret through pre-install and pre-upgrade hooks, which are not rollback hooks. A blind rollback can leave services and saved configuration on different versions.
+
+### Restoring a Known Configuration {#rollback-example}
+
+If the previous chart is compatible with the current database state and the release-specific recovery procedure permits it, reapply that chart with the complete saved values. This runs the normal upgrade hooks:
+
+```shell
+PREVIOUS_VERSION="<approved-recovery-chart-version>"
+helm upgrade "$RELEASE" "$CHART" \
+  --namespace "$NAMESPACE" \
+  --version "$PREVIOUS_VERSION" \
+  --reset-values --values release-backup/values-before.yaml \
+  --wait --timeout 15m
+```
+
+If database changes are not backward compatible, use the agreed database and storage restoration procedure instead. Do not attempt the command above to test whether a downgrade works. After recovery, repeat the readiness and product checks and follow any required service restarts in the release-specific instructions. For stale default-plane namespace configuration, see [namespace troubleshooting](./connect-namespace.md).
 
 ## Monitoring and Management
 
-Monitoring and management are pivotal to ensuring the health and performance. We've integrated leading monitoring tools such as Prometheus, Loki, and Grafana.
+Monitor the Kubernetes services and the workloads users run. Check pod restarts, pending pods, failed initialization Jobs, operator errors and available capacity in each managed namespace. If you use Prometheus, Grafana or Loki, maintain their installation and retention policies separately; the IOMETE Helm release is not a backup for those systems.
 
-*Monitoring Features*:
+## Planning Recovery and Availability {#high-availability--disaster-recovery}
 
-1. **Prometheus**: Collects metrics from configured targets at specified intervals, evaluates rule expressions, and can trigger alerts if certain conditions are observed.
-2. **Loki**: A horizontally scalable, highly available, multi-tenant log aggregation system.
-3. **Grafana**: Offers visualization panels to view metrics and logs.
+A recovery plan includes PostgreSQL, object storage, required Secrets, Helm values and ingress/DNS configuration. Test restoring them together. Additional replicas help only when the service supports them and replicas can run on healthy nodes; they do not replace database or storage backups.
 
-IOMETE provides built-in monitoring for Spark services
-
-<Img src="/img/guides/deployments/on-prem/spark-jobs-monitoring.png"
-     alt="Spark jobs metrics"
-     caption="Spark jobs metrics"/>
-
-Monitoring Kubernetes nodes through Grafana.
-
-<Img src="/img/guides/deployments/on-prem/grafana-monitoring.png"
-     alt="Additional metrics dashboard on Grafana"
-     caption="Additional metrics dashboard on Grafana"/>
-
-## High Availability / Disaster Recovery
-
-**1. External Dependencies and HA**
-
-- **MySQL Database**:
-  - Our platform integrates with a high-availability MySQL database setup. This ensures that database operations remain resilient to failures, guaranteeing uninterrupted data access.
-  - Features like automated failover, replication, and backup capabilities of the MySQL setup mean that the platform can continue its operations even if a primary database node fails.
-- **Storage Solution**:
-  - The platform is designed to work seamlessly with high-availability storage solutions. This guarantees that the data remains accessible and safe.
-  - Through redundancy, data replication, and failover protocols present in these storage solutions, data loss or inaccessibility issues are effectively negated.
-
-
-**2. Stateless Architecture**
-
-One of the foundational strengths of our platform is its stateless nature:
-
-- Being stateless ensures that no session or user-specific data is stored on any single server or node. This means, in the event of a node failure, another node can easily take over without any loss of data or disruption to the user.
-- This architecture also aids in effortless horizontal scaling, as new nodes can be added without needing any unique configurations or data.
-
-**3. Kubernetes-driven Replication and Failover**
-
-Leveraging Kubernetes' powerful orchestration capabilities, our platform achieves enhanced availability:
-
-- **Replication Across Nodes**: Kubernetes ensures that the platform's services and pods are replicated across multiple nodes. If a node faces issues or goes down, traffic is automatically directed to healthy nodes, ensuring uninterrupted service.
-
-**4. Disaster Recovery and Quick Switching**
-
-In the improbable event of a complete Kubernetes cluster failure:
-
-- Customers have the option to maintain a separate standby Kubernetes cluster with our platform deployed.
-- This standby instance can be quickly pointed to the same high-availability database and storage. This ensures a swift switch without any data loss or significant downtime.
+Do not start a second control plane against the same production databases as an improvised failover procedure. Plan the supported topology, credentials and write ownership before bringing up a standby environment.
