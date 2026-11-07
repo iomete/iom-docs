@@ -1,115 +1,151 @@
 ---
 title: Database Migration
 sidebar_label: Database Migration
-description: Move the PostgreSQL databases used by IOMETE while preserving the installation and coordinating all affected control planes and data planes.
+description: Move the PostgreSQL databases IOMETE uses to another server while keeping the same installation, and coordinate the workloads on every data plane that connect to them.
 last_update:
-  date: 11/06/2026
+  date: 11/07/2026
   author: Vusal Dadalov
 ---
 
-This guide covers moving IOMETE's PostgreSQL databases to a different server while keeping the same IOMETE version and installation. It does not cover upgrading PostgreSQL or changing database engines at the same time.
+This guide moves IOMETE's PostgreSQL databases to a different server while you keep the same IOMETE version and installation. You stop everything that connects to the databases, copy them, point each affected Helm release at the new server, and restore the services and workloads. It doesn't cover upgrading PostgreSQL or changing the database engine at the same time.
 
-A control plane and its data planes can use the same database server or different servers. Before moving one, identify **every release and external client that connects to it**. Stopping only the control-plane namespace does not stop additional data planes or workloads in other namespaces.
+The examples use the control-plane release `data-plane` in the service namespace `iomete-system`, the additional data plane `analytics` (runtime release `analytics` in `iomete-analytics`, with workload namespaces `finance` and `marketing`), and a new server at `new-postgresql.example.com`.
+
+<span id="understanding-control-plane-setup" style={{scrollMarginTop: 'calc(var(--ifm-navbar-height) + 0.5rem)'}}></span>
 
 ## 1. Identifying the Affected Releases
 
-Review each release's database configuration and existing Secret references. Record the Kubernetes context, release name, service namespace, workload namespaces, chart version, database host, and database names or prefix.
+Each Helm release has its own `database` settings, and other clients may connect to the same databases:
 
-| Release type | What to check |
-| --- | --- |
-| `iomete-data-plane-enterprise` | The control plane's databases, including its metastore. The internal Spark Connect service still needs the metastore when the default data plane is disabled. |
-| `iomete-lakehouse-runtime` | The additional data plane's metastore database. Include this release if it uses the server you are moving. |
-| Other installations or external clients | Any connection to the databases being moved, including other control-plane replicas or separately deployed services. |
+| Release or client | Its databases | What connects to them |
+| --- | --- | --- |
+| Control-plane release (`iomete-data-plane-enterprise`) | Nine databases named with its `database.prefix`, `iomete_` by default: `iomete_core_db`, `iomete_iam_db`, `iomete_sql_db`, `iomete_metastore_db`, `iomete_iceberg_db`, `iomete_catalog_db`, `iomete_prefect_db`, `iomete_mcp_db` and `iomete_ai_services_db` | Its services, including the internal `iom-spark-connect` application, which uses the metastore database even when `defaultDataPlane.enabled` is `false`. Also the computes on **every** data plane. |
+| Runtime release of an additional data plane (`iomete-lakehouse-runtime`) | One metastore database, `<prefix>metastore_db` | That data plane's `metastore` service |
+| Other clients | Any of the above | For example, another control-plane installation that shares the databases, or your own tools |
 
-IOMETE uses several databases. Moving only `iomete_core_db` does not migrate an entire installation. Use the actual configured prefix and your database inventory, rather than assuming every database has its default name.
+Computes connect to the control-plane database directly. With activity monitoring on, which is the 4.0.1 default (`features.activityMonitoring.enabled`), every compute writes query activity to `<prefix>sql_db`, whichever data plane it runs on. So when you move the control-plane databases, you stop and later restart the workloads on every data plane, and every cluster that runs computes must be able to reach the new server.
+
+The control-plane databases share one `database.host`, so they move together; moving only `iomete_core_db` doesn't migrate the installation. Check the prefix each release actually uses, rather than assuming the default names. See [Backend Databases](/resources/deployment/backend-databases) for what each database holds.
 
 ## 2. Preparing the Destination and Recovery Plan
 
 Before the maintenance window:
 
-- Verify that the new PostgreSQL server meets the requirements of your installed IOMETE version.
-- Prepare the database roles, permissions, extensions, TLS settings, and network access required by all affected clusters.
-- Test your backup and restore process. Include every affected database and the roles or grants your backup method does not capture automatically.
-- Preserve the installation's Secrets, including encryption and signing material, along with Helm values and original replica counts. Changing these identities is not part of a database move.
-- Decide when it is safe to switch back. Once the new server accepts writes, returning to the old backup requires a plan to reconcile those writes.
+- Check that the new PostgreSQL server meets the requirements of your installed IOMETE version.
+- Prepare the database role, the databases and their grants. Alternatively, plan to let the initialization job create them on the new server through `database.adminCredentials`.
+- Allow connections to the new server from every cluster that runs IOMETE services or computes: the control plane's cluster and the cluster of every data plane. Computes connect to the database directly, not through the control plane, and use the control-plane release's `database.host` value as it is. So choose a host name that resolves in all of those clusters, such as a fully qualified name rather than a short Kubernetes Service name.
+- If the new server needs different TLS settings, or a certificate authority your truststore doesn't include, prepare those changes too.
+- Test your backup and restore process with every affected database, including the roles and grants your method doesn't capture.
+- Decide until when it's safe to switch back. Once the new server accepts writes, returning to the old one means reconciling those writes.
 
-Use your database administrator's or managed provider's migration procedure for copying the database contents. This guide covers coordinating IOMETE around that move.
+Copy the database contents with your database administrator's or managed provider's migration procedure. This guide coordinates IOMETE around that copy.
+
+<span id="downscaling-iomete-to-remove-connections-to-the-database" style={{scrollMarginTop: 'calc(var(--ifm-navbar-height) + 0.5rem)'}}></span>
+<span id="downscaling-deployments-and-statefulsets" style={{scrollMarginTop: 'calc(var(--ifm-navbar-height) + 0.5rem)'}}></span>
+<span id="deleting-sparkapplication" style={{scrollMarginTop: 'calc(var(--ifm-navbar-height) + 0.5rem)'}}></span>
 
 ## 3. Stopping Database Consumers
 
-Follow [Temporary Shutdown for Maintenance](../misc/shutdown-for-maintenance.md) for **all affected releases**, stopping at the maintenance step. That procedure records the original state, pauses new work, stops workloads, handles the internal Spark application when present, and stops services across their workload namespaces.
+Use [Temporary Shutdown for Maintenance](../misc/shutdown-for-maintenance.md) to stop everything that connects to the databases:
 
-Keep the old database running until its consumers are stopped. Ask your database administrator to verify that no application clients are still writing to the databases being copied. Do not infer this solely from zero replicas in `iomete-system`.
+- For every release whose settings you'll change, complete steps 1 to 3: record the release, stop its workloads and scale its services to zero. That's the control-plane release when you move the control-plane databases, and each runtime release whose metastore database moves.
+- When you move the control-plane databases, also complete steps 1 and 2 for every other data plane: record it and stop its workloads. Its services can keep running, and it reconnects once the control plane is back.
 
-Take the final consistent backup or complete your provider's replication cutover only after the required write pause. Keep the original database available for the agreed recovery window without allowing both copies to receive application writes.
+Keep the old databases running until their consumers have stopped. Then check on the old server that no IOMETE client is still connected. Connected to the `postgres` database, run this query, with your prefix instead of `iomete`:
+
+```sql
+SELECT datname, usename, client_addr, application_name
+FROM pg_stat_activity
+WHERE datname LIKE 'iomete%';
+```
+
+It should return no rows. A row whose `client_addr` belongs to a pod means that a workload or service is still running, possibly on another data plane. Find and stop it before you continue: zero replicas in `iomete-system` alone doesn't prove that nothing is connected.
+
+<span id="migrating-the-database-to-a-new-location" style={{scrollMarginTop: 'calc(var(--ifm-navbar-height) + 0.5rem)'}}></span>
+
+Take the final consistent backup, or complete your provider's replication cutover, and copy the databases to the new server. Keep the original databases available for the agreed recovery window, but don't let both copies receive writes.
+
+<span id="updating-values-files-to-point-to-the-new-database-location" style={{scrollMarginTop: 'calc(var(--ifm-navbar-height) + 0.5rem)'}}></span>
 
 ## 4. Updating Connection Settings
 
-Update the existing complete values file for every affected release. Change the connection fields needed for the new server and keep the database names/prefix and unrelated settings unchanged. For example:
+For each release whose settings change, copy the `values.yaml` saved in its snapshot to a new file in the same directory, such as `values-new-database.yaml`, and edit its `database` section. Keep the database prefix: the database names must not change. These keys can point at the old server:
 
-```yaml title="Existing values file: change the host"
+| Key | What to set |
+| --- | --- |
+| `database.host`, `database.port` | The new server, or the connection pooler in front of it. |
+| `database.directHost`, `database.directPort` | If they're set: the new server itself. They're used when `host` points at a pooler. |
+| `database.readHost`, `database.readPort`, `database.readUser`, `database.readPassword` | If `readHost` is set: a read-only standby of the new server. Or leave `readHost` empty to read from the primary. |
+| `database.user`, and `database.password` or `database.passwordSecret` | Only if the new server uses another role or password. |
+| `database.adminCredentials` | If it's set: an administrator account on the new server. Or remove it if your database administrator created the role and databases. The initialization job connects to the new server with it during the upgrade. |
+| `database.ssl.enabled`, `database.ssl.mode` | The new server's TLS requirements. Enabling TLS also requires the `javaTrustStore` settings. |
+
+A runtime release has fewer keys: `host`, `port`, `user`, `password` or `passwordSecret`, `prefix` and `ssl`. For example, the `database` section of the control-plane release, with the keys you may also need shown as comments:
+
+```yaml title="values-new-database.yaml: database section"
 database:
   type: postgresql
   host: new-postgresql.example.com
   port: "5432"
-  # Keep the existing user, password or Secret reference, prefix, and TLS settings.
+  # directHost: ""              # the new server itself, if host points at a pooler
+  # directPort: ""
+  # readHost: ""                # a standby of the new server, or empty
+  # user: iomete_user           # change only for a new role
+  # password: <password>        # or passwordSecret with the Secret's name and key
+  # adminCredentials:           # an administrator on the new server, or remove it
+  #   user: postgres
+  #   password: <password>
+  # prefix: "iomete_"           # keep your existing prefix
+  # ssl:
+  #   enabled: false
+  #   mode: disable
 ```
 
-This is a fragment, not a replacement values file. Preserve any administrator-credential configuration already used by your installation's initialization job.
+This is a section of the saved file, not a replacement for it: keep everything else in the file as it is.
 
-If credentials or a connection URL come from an existing Kubernetes Secret, update that Secret wherever it is consumed. Changing `database.host` does not rewrite connection URLs stored elsewhere. If the destination uses a different private CA, update the trust configuration in every affected namespace before starting services.
+If the password comes from `database.passwordSecret`, update that Secret in the release's service namespace before you start any service. For the control-plane release, update it in each of its workload namespaces too: the Spark proxy in every one of them reads it. If the new server uses a certificate authority your truststore doesn't include, add it to the truststore Secret in every namespace that has a copy.
 
-Prepare and review all affected releases' new settings before restarting any of them. An additional data plane with a metastore on another, unchanged database server does not need its database settings changed.
+Prepare and review the settings of every affected release before you start any of them. A runtime release whose metastore database stays on an unchanged server keeps its settings.
+
+<span id="upgrading-the-iomete-control-plane-using-the-new-values-files" style={{scrollMarginTop: 'calc(var(--ifm-navbar-height) + 0.5rem)'}}></span>
 
 ## 5. Applying the Settings and Restoring Services
 
-Confirm that the restored databases contain the expected data before starting IOMETE. An empty database can allow initialization to succeed while your users and resources are missing.
+Before you start IOMETE, confirm that the new server holds the expected data. If a database is empty, the initialization job can still succeed by creating empty schemas, and your users and resources are missing.
 
-Apply the updated complete values file with the **existing release name, chart, and chart version**. For an enterprise release:
+Then restore the services as described in [Restoring Services](../misc/shutdown-for-maintenance.md#5-restoring-services), with these settings:
 
-```bash
-IOMETE_CONTEXT="<kubernetes-context>"
-IOMETE_VERSION="<installed-chart-version>"
+1. Load the control-plane release's snapshot and upgrade the release with its existing chart version and your updated values file:
 
-helm upgrade data-plane iomete/iomete-data-plane-enterprise \
-  --kube-context "$IOMETE_CONTEXT" \
-  --namespace iomete-system \
-  --version "$IOMETE_VERSION" \
-  --values values.yaml \
-  --wait
-```
+   ```bash
+   source "$HOME/iomete-maintenance/<context>/iomete-system/data-plane/<timestamp>/env.sh"
+   IOMETE_VALUES="$IOMETE_MAINTENANCE_DIR/values-new-database.yaml"
 
-If an additional data plane uses the database being moved, update its release as well before restoring workloads.
+   helm upgrade "$RELEASE_NAME" "$IOMETE_CHART" \
+     --kube-context "$IOMETE_CONTEXT" --namespace "$RELEASE_NAMESPACE" \
+     --version "$IOMETE_VERSION" \
+     --reset-values --values "$IOMETE_VALUES" \
+     --wait --timeout 15m
+   ```
 
-<details>
-<summary>Applying the connection settings to an additional data plane</summary>
+   The initialization job runs first and connects to the new server. When `adminCredentials` is set, it creates the role and any missing database. It also creates the metastore schema if it's missing. If the job can't connect or sign in, the upgrade stops before any service starts. Read its logs, fix the settings and run the upgrade again:
 
-Use its `iomete-lakehouse-runtime` release and its own values file:
+   ```bash
+   kubectl --context "$IOMETE_CONTEXT" -n "$RELEASE_NAMESPACE" logs job/iomete-data-plane-init
+   ```
 
-```bash
-helm upgrade <runtime-release> iomete/iomete-lakehouse-runtime \
-  --kube-context <runtime-kubernetes-context> \
-  --namespace <runtime-service-namespace> \
-  --version <installed-runtime-chart-version> \
-  --values <updated-runtime-values-file> \
-  --wait
-```
-
-</details>
-
-Restore the control plane first, then its additional data planes. Use the recorded replica counts from the maintenance procedure; do not assume Helm restores every manually scaled or autoscaled service to its previous count. A service left at zero may need its recorded count restored while an upgrade is waiting for readiness.
-
-If you deleted the chart-managed `iom-spark-connect` application during shutdown, the enterprise upgrade recreates it with the updated configuration. Other workloads remain stopped until you restart them deliberately. If an existing Secret changed without a corresponding pod restart, restart its consumers so they read the new connection settings.
+2. Complete steps 4 to 6 of [Restoring Services](../misc/shutdown-for-maintenance.md#5-restoring-services): restore the recorded replica counts, check that every Deployment and StatefulSet is ready, and check that `iom-spark-connect` is `RUNNING`. Run the replica loop even after a successful upgrade, or the Deployments that an HPA manages stay at zero.
+3. For each runtime release whose metastore database moved, load its snapshot, set `IOMETE_VALUES` to its updated file and run the same `helm upgrade` command. Then restore its replica counts and check it the same way. Its metastore starts with the new settings.
 
 ## 6. Verifying the Migration
 
-Before re-enabling schedules and external producers:
+Before you resume schedules and external producers:
 
-1. Confirm that all affected services are ready and logs show no connection, authentication, TLS, or schema errors.
-2. Sign in to the console. Check existing users, domains, computes, catalogs, and other expected resources from the migrated databases.
-3. Open **Data Planes** and verify that every affected plane reconnects and reports the expected namespaces.
-4. Start a compute on each affected plane. Run `SELECT 1`, then query a known table to check metastore and storage access as well.
-5. Have the database administrator confirm that the intended clients connect to the new server and that none still write to the old one.
-6. Restore autoscaling and reconciliation with the new settings, then re-enable schedules and other producers.
+1. Confirm that all affected services are ready and that their logs show no connection, authentication, TLS or schema errors.
+2. Sign in to the console. Check that existing users, domains, computes, catalogs and other resources from the migrated databases are there.
+3. On the **Data Planes** page of the admin console, check that every data plane shows as **Connected** and reports its expected namespaces.
+4. Start a compute on each data plane. Run `SELECT 1`, then query a known table to check metastore and storage access too.
+5. Run the `pg_stat_activity` query from step 3 on both servers. On the new server, it lists the IOMETE services and the computes you started. On the old server, it still returns no rows.
+6. Restart the remaining workloads, and resume schedules, external producers and automation with the new settings, as described in [Restarting Workloads and Schedules](../misc/shutdown-for-maintenance.md#6-restarting-workloads-and-schedules).
 
-Keep the old database and the migration snapshots until the agreed verification and recovery window ends. A Helm rollback changes Kubernetes resources; it does not reverse database writes or restore a database backup.
+Keep the old databases and the snapshots until the agreed verification and recovery window ends. A Helm rollback changes Kubernetes resources; it doesn't reverse database writes or restore a database backup.
