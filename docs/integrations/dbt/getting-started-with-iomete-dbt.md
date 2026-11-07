@@ -3,7 +3,7 @@ title: Getting started with DBT
 sidebar_label: Getting Started
 description: Learn how to set up the dbt-iomete adapter, connect to your IOMETE lakehouse, and run your first dbt transformation.
 last_update:
-  date: 11/05/2026
+  date: 11/07/2026
   author: Turkel Mammadli
 ---
 
@@ -76,7 +76,7 @@ pip install --upgrade dbt-iomete
 
 ### Initializing the Project
 
-`dbt init` asks for connection details, so grab them first. In the IOMETE console, open your compute instance, switch to the **Connect** tab, and select **dbt**.
+`dbt init` asks for connection details, so grab them first. In the IOMETE console, open your compute, switch to the **Connections** tab, and select the **DBT** card. It shows the **Host**, **Port**, **Namespace**, **Domain**, and **Lakehouse** values that the prompts ask for.
 
 <Img src="/img/integrations/dbt/getting-started-compute-list.png"
   alt="List of compute instances in the IOMETE console"/>
@@ -84,7 +84,9 @@ pip install --upgrade dbt-iomete
 <Img src="/img/integrations/dbt/getting-started-compute-connect.png"
   alt="Connect tab on the compute detail page showing dbt connection parameters"/>
 
-Now run the init command and answer the prompts. When it asks for a schema, enter `dbt_database` (the database you created earlier).
+Now run the init command and answer the prompts. The `dataplane` prompt asks for a data plane name, but the adapter sends this value as the Kubernetes namespace: enter the card's **Namespace** value, for example `finance`, not the data plane ID. When it asks for a schema, enter `dbt_database` (the database you created earlier).
+
+In this example, the compute `demo-spark-compute` runs in the `finance` namespace on the `analytics` data plane, which serves `analytics.example.com`, and belongs to the `business` domain.
 
 ```bash
 dbt init dbt_project
@@ -100,15 +102,15 @@ Which database would you like to use?
 [1] iomete
 
 Enter a number: 1
-host (Data plane host.): dev.iomete.cloud
+host (Data plane host.): analytics.example.com
 port (Data plane port. e.g., 443) [443]: 443
 https (Connection is https. Set to false for http.) [True]: True
-dataplane (dataplane name that dbt will connect): spark-resources-1
-domain (domain name that dbt will connect): workflow-governance
+dataplane (dataplane name that dbt will connect): finance
+domain (domain name that dbt will connect): business
 lakehouse (lakehouse name that dbt will connect): demo-spark-compute
 catalog (default catalog that dbt will build objects in): iomete_analytics
 schema (default schema/database that dbt will build objects in): dbt_database
-user (username): shashank
+user (username): analyst
 token (personal access token):
 connect_timeout (connection timeout in seconds) [120]: 
 connect retries [0]:
@@ -124,11 +126,11 @@ dbt_project:
   outputs:
     dev:
       type: iomete
-      host: dev.iomete.cloud
+      host: analytics.example.com
       port: 443
       https: true
-      dataplane: spark-resources-1
-      domain: workflow-governance
+      dataplane: finance
+      domain: business
       lakehouse: demo-spark-compute
       catalog: iomete_analytics
       schema: dbt_database
@@ -157,9 +159,9 @@ Required dependencies:
   - git [OK found]
 
 Connection:
-  host: dev.iomete.cloud
+  host: analytics.example.com
   port: 443
-  dataplane: spark-resources-1
+  dataplane: finance
   lakehouse: demo-spark-compute
   database: iomete_analytics
   schema: dbt_database
