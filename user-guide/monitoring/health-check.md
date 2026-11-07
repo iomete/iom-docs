@@ -95,6 +95,6 @@ Use **Max** to turn any hour with a failure red, which is useful for catching tr
 
 ## Troubleshooting
 
-The Health Check page doesn't expose individual probe logs. For deeper investigation, inspect the affected service with your usual Kubernetes tooling in the cluster and namespace hosting that service. A data plane's management services can run in a different namespace from its workloads.
+The Health Check page doesn't expose individual probe logs. For deeper investigation, inspect the affected service with your usual Kubernetes tooling in the cluster and namespace hosting that service. A data plane's services run in the service namespace of its release, such as `iomete-analytics`, not in its workload namespaces.
 
 If the page itself fails to load, check the failed request and control-plane logs for `iom-core`, which serves the health-check API. A page-load failure alone does not identify which monitored service is unhealthy.
