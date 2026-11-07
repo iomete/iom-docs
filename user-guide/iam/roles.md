@@ -1,16 +1,17 @@
 ---
 slug: /roles
 title: Roles
+sidebar_label: Roles
 description: Learn how to create and manage Roles, their permissions, responsibilities, and best practices for effective management.
 last_update:
-  date: 02/02/2024
+  date: 11/07/2026
   author: Vugar Dadalov
 ---
 
 import { Plus } from "@phosphor-icons/react";
 import Img from '@site/src/components/Img';
 
-Welcome to the documentation for Roles! This document aims to provide a comprehensive guide to understanding roles within data plane.
+Roles define which actions users and groups can perform in an IOMETE domain. They're separate from [admin roles](./admin-roles.md), which grant platform-wide administration permissions.
 
 ---
 
