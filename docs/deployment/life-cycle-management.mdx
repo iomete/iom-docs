@@ -168,7 +168,7 @@ If the database changes are not backward compatible, restore PostgreSQL and obje
 
 Monitor the Kubernetes services and the workloads users run. Check pod restarts, pending pods, failed initialization Jobs, operator errors and available capacity in the service namespace and each workload namespace.
 
-IOMETE publishes a monitoring chart, `iomete/iomete-monitoring-chart`, in the same Helm repository as the platform charts. It installs Prometheus, Grafana with IOMETE's dashboards and alert rules, node and PostgreSQL exporters, and Loki with Promtail for logs, which you can turn off. If you already run Prometheus, the `iomete/iomete-grafana` chart installs only Grafana, with IOMETE's dashboards reading from your Prometheus. To turn on metrics and use the dashboards, see [Monitoring](/resources/user-guide/k8s/monitoring).
+IOMETE publishes a monitoring chart, `iomete/iomete-monitoring-chart`, in the same Helm repository as the platform charts. It installs Prometheus, Grafana with IOMETE's dashboards and alert rules, node and PostgreSQL exporters, and Loki with Promtail for logs (on by default; set `loki.enabled: false` to leave them out). If you already run Prometheus, the `iomete/iomete-grafana` chart installs only Grafana with IOMETE's dashboards; point its Prometheus data source at your server. To turn on metrics and use the dashboards, see [Monitoring](/resources/user-guide/k8s/monitoring).
 
 The monitoring stack is a separate Helm release. Upgrade it, and plan its storage and retention, on its own schedule: the IOMETE platform release does not back up its data.
 
@@ -204,6 +204,6 @@ Set up the rest of the pair as follows:
 - **Load balancer.** Send the shared hostname, such as `iomete.example.com`, to both control planes, and make each control plane's ingress also answer to that hostname. For health checks, request `/healthz` from each control plane. It returns `200` with `{"status":"UP"}` when that control plane can serve requests, and `503` with `{"status":"DOWN"}` when it can't.
 - **Names.** Give each control plane its own `multiCluster.controlPlaneName`, such as `iomete-a` and `iomete-b`. The gateway returns it in the `X-Control-Plane-ID` response header, so you can tell which control plane answered.
 - **Data planes.** In IOMETE's reference setup, both control planes run with `defaultDataPlane.enabled: false`, and each data plane is installed separately with its own runtime release. A bundled default data plane in each cluster would register under the same ID, `default`, in the shared database. Enroll each data plane with the shared hostname as its `multiCluster.controlPlaneAddress`, so it keeps working while one control plane is down.
-- **Upgrades.** Upgrade the control planes one at a time to the same version, and verify each one before you start the next. A control plane still on the older version keeps starting against a database the other one has already upgraded.
+- **Upgrades.** Upgrade the control planes one at a time to the same version, and verify each one before you start the next. A control plane still on the older version can start against a database that the other one has already upgraded.
 
 Confirm with [IOMETE support](../getting-started/support.md) that your topology is supported before you run it in production.
