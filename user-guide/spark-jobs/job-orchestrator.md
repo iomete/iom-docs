@@ -3,7 +3,7 @@ title: Job Orchestrator
 description: Learn about the new Job Orchestrator for priority-based scheduling and resource-aware execution for Spark jobs on the IOMETE platform.
 sidebar_label: Job Orchestrator
 last_update:
-   date: 11/05/2026
+   date: 11/07/2026
    author: Abhishek Pathania
 ---
 
@@ -135,13 +135,46 @@ services:
 
 ### SSL Database Connection [3.17.0+]
 
-The **control-plane Prefect server** connects to PostgreSQL. In the 4.0 enterprise chart, configure its standard database connection through `database.ssl`, not the legacy `clusterDatabase.ssl` setting. For example, merge this into the control-plane release's complete values file:
+The **control-plane Prefect server** connects to PostgreSQL. In the 4.0 enterprise chart, encrypt and verify that connection with `database.ssl`, not the legacy `clusterDatabase.ssl` setting. `database.ssl` applies to every service of the control-plane release that connects to PostgreSQL, not only Prefect, so all of them must trust the CA that signed the database certificate.
+
+These services check the database certificate against two files in the truststore Secret, `javaTrustStore.secretName` (default `java-truststore`) in the control-plane release's service namespace:
+
+- **The Java truststore**, `javaTrustStore.fileName` (default `truststore.jks`), used by the Java services. Add your PostgreSQL CA to it as described in [Custom Java Truststore](/resources/deployment/truststore).
+- **The PEM bundle** named by `javaTrustStore.caCertFileName`, used by the services that can't read the Java truststore, including the Prefect server.
+
+The PEM bundle is shared. Several services use it as their only list of trusted CAs, so it must hold the public CAs as well as your private CAs, including the one that signed the PostgreSQL certificate:
+
+| Service | Uses the PEM bundle to verify |
+|---|---|
+| Prefect server, `iom-ai-services` and `iom-mcp-server` | The PostgreSQL certificate, through `PGSSLROOTCERT` |
+| `iom-socket` | The PostgreSQL certificate, through `sslrootcert` |
+| `iom-gateway`, and the default data plane's `iom-gateway-dp` | The certificates of other planes it calls over HTTPS. The bundle replaces the system CAs. |
+| The default data plane's Prefect workers | The object storage endpoint, when [S3 log storage](#s3-log-storage-3170) is on |
+
+Don't point `caCertFileName` at a file that holds only the PostgreSQL CA. The gateways would then reject publicly signed certificates, and calls to data planes that use them would fail.
+
+If the Secret already has a PEM bundle, keep its key and add the PostgreSQL CA to that bundle. Otherwise, build one from the system CAs and your CA, then write it to the Secret together with the files the Secret already holds, such as `truststore.jks`:
+
+```shell
+cat /etc/ssl/certs/ca-certificates.crt postgres-ca.crt > ca.crt
+
+# Export truststore.jks first if you don't have the current copy:
+kubectl get secret java-truststore --namespace iomete-system \
+  -o jsonpath='{.data.truststore\.jks}' | base64 --decode > truststore.jks
+
+kubectl create secret generic java-truststore \
+  --namespace iomete-system \
+  --from-file=truststore.jks --from-file=ca.crt \
+  --dry-run=client -o yaml | kubectl apply -f -
+```
+
+Then merge these settings into the control-plane release's complete values file, keeping its other truststore settings, such as the password:
 
 ```yaml
 javaTrustStore:
   enabled: true
   secretName: java-truststore
-  caCertFileName: postgres-ca.pem
+  caCertFileName: ca.crt # or the bundle key your Secret already uses
 
 database:
   ssl:
@@ -149,11 +182,11 @@ database:
     mode: verify-full
 ```
 
-The `postgres-ca.pem` key must contain the PEM CA certificate chain in the configured Secret in the **control-plane service namespace**. Preserve the truststore's existing keys, password and other settings. The chart uses the PEM file for the Prefect server's PostgreSQL certificate trust; it is separate from the Java keystore. See [Custom Java Truststore](/resources/deployment/truststore).
+Apply the change with the [upgrade procedure](/resources/deployment/life-cycle-management#upgrade-example). With `verify-full`, the database hostname in `database.host` must match its certificate. Afterwards, check that the `prefect-server` and `iom-socket` pods are ready and that every data plane still shows **Connected** on the **Data Planes** page of the Admin Portal.
 
-The example changes the shared database SSL settings for the enterprise release, not just Prefect. Confirm that the database hostname matches its certificate and all affected services have the required trust. If `services.jobOrchestrator.database.enabled` selects a custom connection-URL Secret, configure the TLS parameters in that URL as well; the generated database URL is not used in that case.
+If `services.jobOrchestrator.database.enabled` selects a custom connection-URL Secret, configure the TLS parameters in that URL as well; the generated database URL is not used in that case.
 
-Additional-plane workers call the control-plane API rather than opening this PostgreSQL connection. Their runtime release's `database.ssl` settings concern that runtime's metastore, not the control-plane orchestrator database. Configure worker HTTPS trust separately when the control plane uses a private CA.
+Workers on an additional data plane call the control-plane API rather than opening this PostgreSQL connection. Their runtime release's `database.ssl` settings concern that runtime's metastore, not the control-plane orchestrator database. Configure worker HTTPS trust separately when the control plane uses a private CA.
 
 ### System Properties
 
