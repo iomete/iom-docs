@@ -1,111 +1,100 @@
 ---
 title: AWS S3 Buckets Access
 sidebar_label: S3 Buckets Access
-description: Identify the AWS identity used by an IOMETE workload, grant scoped S3 permissions, and verify a read from the intended data plane and namespace.
+description: Find the IAM role an IOMETE data plane uses on Amazon EKS, grant it access to an Amazon S3 bucket, and verify the access with a query from a compute.
 last_update:
-  date: 11/06/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
-To read or write an Amazon S3 bucket, grant access to the AWS identity used by the workload that accesses it. A data plane ID, Kubernetes namespace, and AWS IAM role are different things. Workloads in different namespaces or data planes can use different roles, even when their Kubernetes service accounts have the same name.
+To read or write an Amazon S3 bucket from IOMETE, grant access to the IAM role that the data plane uses. This guide starts from a compute that needs the bucket. It finds the compute's IAM role, grants that role read access with a bucket policy, and ends with a query that reads the bucket from the compute.
 
-This guide walks through granting read access with a bucket policy, then verifying a read from the intended workload. It assumes the workload already has an AWS identity. Additional policy examples cover writes, a specific folder, and IAM role policies.
+The examples use a compute in the `finance` workload namespace of the `analytics` data plane. The `analytics` runtime release installs that data plane's services in the `iomete-analytics` service namespace. The AWS account is `111122223333`.
 
-This guide covers IAM-backed access to Amazon S3. For an S3-compatible store such as MinIO or Ozone, use that store's credential and endpoint configuration. The EKS identity discovery steps below apply to workloads on Amazon EKS.
+This guide is for data planes that store their data in Amazon S3 (`storage.type: aws_s3`) on Amazon EKS. A data plane on S3-compatible storage, such as MinIO, Apache Ozone or Dell ECS, uses the endpoint and static keys under `storage.s3CompatibleSettings` in its Helm values instead of an IAM role; see [Object Storage](/resources/deployment/architecture-deployment#object-storage). To read one bucket with different credentials, see [Accessing Specific Buckets](../spark-jobs/accessing-specific-buckets.md).
 
-## 1. Identifying the Workload’s AWS Role {#identify-the-workloads-aws-role}
+## Understanding the Lakehouse Role {#lakehouse-role}
 
-Start with the compute or Spark job that needs access. On its **Details** tab, record **Data plane** and **Namespace**. Ask your platform administrator which Kubernetes context hosts that data plane. Use the workload namespace, which can differ from the namespace containing the data plane's management services.
+IOMETE services and workloads, including computes, Spark jobs and Jupyter containers, run as a Kubernetes service account named `lakehouse-service-account`. On Amazon EKS, IOMETE uses [IAM roles for service accounts (IRSA)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html): the `eks.amazonaws.com/role-arn` annotation on that service account names an IAM role, and Spark reads S3 with temporary credentials for that role. The IOMETE documentation calls this role the **Lakehouse role**.
 
-Run these read-only commands with access to that cluster. Replace the example values with your own:
+Each IOMETE Helm release sets the annotation in its `serviceAccount.annotations` value, which goes on `lakehouse-service-account` in the release's service namespace and in every workload namespace. Everything a release runs therefore shares one Lakehouse role. For the `analytics` runtime release:
 
-```bash
-KUBE_CONTEXT="<context-for-the-selected-data-plane>"
-WORKLOAD_NS="finance"
+| Namespace | What runs there | Lakehouse role |
+| --- | --- | --- |
+| `iomete-analytics` (service namespace) | The data plane's services | `iomete-analytics-lakehouse` |
+| `finance` (workload namespace) | Computes, Spark jobs and Jupyter containers | `iomete-analytics-lakehouse` |
+| `marketing` (workload namespace) | Computes, Spark jobs and Jupyter containers | `iomete-analytics-lakehouse` |
 
-kubectl --context "$KUBE_CONTEXT" -n "$WORKLOAD_NS" get pods \
-  -o custom-columns=NAME:.metadata.name,SERVICEACCOUNT:.spec.serviceAccountName
+So a bucket grant to the Lakehouse role of `analytics` reaches every workload in `finance` and `marketing`, and the release's own services. You can't grant a bucket to `finance` alone through this role. The control-plane release `data-plane` has its own `serviceAccount.annotations`: its role covers the control-plane services in `iomete-system` and the workloads of the `default` data plane.
 
-WORKLOAD_POD="<pod-for-the-intended-workload>"
-WORKLOAD_SA=$(kubectl --context "$KUBE_CONTEXT" -n "$WORKLOAD_NS" \
-  get pod "$WORKLOAD_POD" -o jsonpath='{.spec.serviceAccountName}')
-printf 'Kubernetes service account: %s\n' "$WORKLOAD_SA"
-```
+:::note EKS Pod Identity isn't supported
+IOMETE 4.0.1 configures Spark's S3 connector (S3A) to get credentials only from the IRSA web identity token. With EKS Pod Identity alone, `s3a://` reads fail, even though tools that use the standard AWS credential chain, such as `aws sts get-caller-identity`, report the associated role. Use IRSA.
+:::
 
-The IOMETE charts normally use `lakehouse-service-account`, but read the pod's actual value. Then expand the method your installation uses to identify its IAM role. Ask your administrator if you do not know which method is configured.
+## 1. Finding the Lakehouse Role {#identify-the-workloads-aws-role}
 
-<details id="iam-roles-for-service-accounts-irsa" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
-<summary>Finding the role for IRSA</summary>
+On the compute's **Details** tab, note **Data plane** and **Namespace**: `analytics` and `finance` in this example. Spark jobs and Jupyter containers show the same two fields.
 
-For IRSA, inspect the service account's role annotation:
+With `kubectl` access to the cluster that runs that data plane, read the role annotation on `lakehouse-service-account` in the workload namespace:
 
 ```bash
-kubectl --context "$KUBE_CONTEXT" -n "$WORKLOAD_NS" \
-  get serviceaccount "$WORKLOAD_SA" \
+KUBE_CONTEXT="<context-of-the-analytics-cluster>"   # kubectl config get-contexts lists them
+
+kubectl --context "$KUBE_CONTEXT" -n finance \
+  get serviceaccount lakehouse-service-account \
   -o jsonpath='{.metadata.annotations.eks\.amazonaws\.com/role-arn}{"\n"}'
 ```
 
-Expect an IAM role ARN such as `arn:aws:iam::123456789012:role/finance-reader`. Your administrator must also configure the role's trust policy for the EKS cluster's OIDC provider and the correct namespace/service account. An annotation alone does not establish that trust. See [Assign IAM roles to Kubernetes service accounts](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html).
+The command prints the Lakehouse role's ARN:
 
-If the owning IOMETE Helm release manages the Kubernetes service accounts (`serviceAccount.create: true`), retain the annotation in that release's existing values:
-
-```yaml
-serviceAccount:
-  annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/<workload-role>
+```text
+arn:aws:iam::111122223333:role/iomete-analytics-lakehouse
 ```
 
-The chart applies these annotations to the service accounts it creates in its managed namespaces. It does not create the AWS IAM role or its trust policy. For administrator-managed accounts, update their existing configuration instead of changing Helm ownership just to add an annotation.
+Use this full ARN in step 2. If the command prints an empty line, the release doesn't map the service account to a role, so workloads in that namespace have no AWS credentials. Ask the administrator who manages the release to add the annotation.
+
+<details id="iam-roles-for-service-accounts-irsa" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
+<summary>Adding or changing the role annotation</summary>
+
+An administrator with access to the release's values and to AWS IAM does this once for each release:
+
+1. Create the IAM role, or choose an existing one. Its trust policy must trust the cluster's IAM OIDC provider for `lakehouse-service-account` in every namespace of the release. For `analytics`, those are `system:serviceaccount:iomete-analytics:lakehouse-service-account`, `system:serviceaccount:finance:lakehouse-service-account` and `system:serviceaccount:marketing:lakehouse-service-account`. See [Assign IAM roles to Kubernetes service accounts](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html).
+2. Add the annotation to the release's existing values file, and keep its other settings:
+
+   ```yaml title="analytics-values.yaml"
+   serviceAccount:
+     annotations:
+       eks.amazonaws.com/role-arn: arn:aws:iam::111122223333:role/iomete-analytics-lakehouse
+   ```
+
+3. Upgrade the release with that values file at its current chart version. `helm list -n iomete-analytics` shows the version in the **CHART** column.
+
+   ```bash
+   export IOMETE_VERSION="<current-chart-version>"   # for example 4.0.1
+
+   helm upgrade --kube-context "$KUBE_CONTEXT" -n iomete-analytics analytics \
+     iomete/iomete-lakehouse-runtime \
+     --version "$IOMETE_VERSION" \
+     -f analytics-values.yaml
+   ```
+
+   For the control-plane release, use `data-plane`, `iomete/iomete-data-plane-enterprise` and `iomete-system` instead. With `serviceAccount.create: true`, the chart writes the annotation to every namespace of the release. If an administrator creates the service accounts instead, they regenerate and apply them as described in [Have an Administrator Create Them](/resources/deployment/on-prem/install#option-2-have-an-administrator-create-them). The chart doesn't create the IAM role or its trust policy.
+
+4. Restart running computes with **Restart** in the console. Amazon EKS adds the role's credentials to a pod only when it creates the pod, so pods that were already running don't get them. Spark jobs get them on their next run.
 
 </details>
 
-<details id="eks-pod-identity" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
-<summary>Finding the role for EKS Pod Identity</summary>
+<span id="options-to-provide-access-to-s3-buckets" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}></span>
 
-EKS Pod Identity uses an association for a specific cluster, namespace, and service account. It does not require an IRSA annotation on the Kubernetes account. With AWS CLI access to the selected EKS cluster, inspect the association:
+## 2. Granting Access with a Bucket Policy {#bucket-policy}
 
-```bash
-CLOUD_PROFILE="<aws-profile-for-the-cluster-account>"
-EKS_REGION="<cluster-region>"
-EKS_CLUSTER="<eks-cluster-name>"
+A bucket policy names the Lakehouse role as a principal on the bucket. This example grants read-only access. The sections after it cover read and write access, a single folder, and attaching the permissions to the role instead of the bucket.
 
-aws --profile "$CLOUD_PROFILE" --region "$EKS_REGION" \
-  eks list-pod-identity-associations --cluster-name "$EKS_CLUSTER" \
-  --namespace "$WORKLOAD_NS" --service-account "$WORKLOAD_SA" \
-  --query 'associations[].associationId' --output text
-
-ASSOCIATION_ID="<association-id-from-the-result>"
-aws --profile "$CLOUD_PROFILE" --region "$EKS_REGION" \
-  eks describe-pod-identity-association --cluster-name "$EKS_CLUSTER" \
-  --association-id "$ASSOCIATION_ID" \
-  --query 'association.{RoleArn:roleArn,TargetRoleArn:targetRoleArn}'
-```
-
-Review the associated role and any target role with your AWS administrator. The Pod Identity Agent and a supported workload SDK credential chain are also required. See [EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html) and [association configuration](https://docs.aws.amazon.com/eks/latest/userguide/pod-id-association.html).
-
-</details>
-
-If neither method identifies the role, ask your administrator how this workload obtains credentials. Do not choose a role from its name alone. Application-specific credentials or role assumption can also change the effective identity; verify from the workload after configuring access.
-
-## Options to Provide Access to S3 Buckets
-
-Continue with the bucket-policy example below to grant read access. If your organization manages permissions through IAM role policies, use the [IAM role policy examples](#iam-role-policy) instead.
-
-For cross-account access, permissions are required on both the identity and resource sides. Have the account administrators configure both before verification; see [AWS cross-account S3 access](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-walkthroughs-managing-access-example2.html).
-
-## 2. Granting Read Access with a Bucket Policy {#bucket-policy}
-
-A bucket policy can grant access to the verified workload role. Repeat the identity check for other workloads that need access; do not assume every compute, job, or notebook uses this role.
-
-To set the bucket policy, you need to navigate to your S3 bucket's permissions page.
-
-1. Go to your [S3 console](https://s3.console.aws.amazon.com/s3/home) and select your desired bucket.
-2. Click on the "Permissions" tab, and then click on "Bucket Policy".
-3. Merge the read-only statements below into the existing bucket policy, preserving unrelated access.
-4. Replace `<workload_role_arn>` with the full IAM role ARN, such as `arn:aws:iam::123456789012:role/finance-reader`, and `<your_bucket>` with the bucket name. A role name or an STS assumed-role session ARN is not the IAM role ARN used here.
-5. Click on "Save".
-
-Saving the policy confirms only that AWS accepted the policy change. [Verify a read from the intended workload](#verify-access-from-the-workload) before relying on the grant.
+1. In the [Amazon S3 console](https://console.aws.amazon.com/s3/), open the bucket and choose the **Permissions** tab.
+2. Under **Bucket policy**, choose **Edit**.
+3. Paste the policy below. If the bucket already has a policy, add the statement to its `Statement` list and keep the existing statements.
+4. Replace `<lakehouse_role_arn>` with the ARN from step 1, and `<your_bucket>` with the bucket name.
+5. Choose **Save changes**.
 
 ### Read-Only Bucket Policy {#example-2-read-only-access-to-your-bucket-from-lakehouse-role}
 
@@ -117,7 +106,7 @@ Saving the policy confirms only that AWS accepted the policy change. [Verify a r
             "Effect": "Allow",
             "Principal": {
                 "AWS": [
-                    "<workload_role_arn>"
+                    "<lakehouse_role_arn>"
                 ]
             },
             "Action": [
@@ -133,38 +122,14 @@ Saving the policy confirms only that AWS accepted the policy change. [Verify a r
 }
 ```
 
-This policy provides read-only access to your bucket from the workload role.
+If AWS rejects the policy with `Invalid principal in policy`, the ARN doesn't name an existing IAM role; compare it with the output of step 1. Saving the policy shows only that AWS accepted it. Step 3 checks that the compute can read the bucket.
 
-## 3. Verifying Access from the Workload {#verify-access-from-the-workload}
-
-If AWS CLI is already available in the intended workload container, check its effective identity without printing credentials:
-
-```bash
-WORKLOAD_CONTAINER="<container-name>"
-kubectl --context "$KUBE_CONTEXT" -n "$WORKLOAD_NS" \
-  exec "$WORKLOAD_POD" -c "$WORKLOAD_CONTAINER" -- aws sts get-caller-identity
-```
-
-The returned account and assumed-role ARN should match the intended role. A command on your laptop verifies your laptop's credentials, not the pod's. The CLI can also use a different credential chain from Spark if the application has explicit storage credentials.
-
-Finish with an actual read through the workload's configured storage connector. For a compute, select that compute in SQL Editor and read a known small Parquet file that should be allowed:
-
-```sql
-SELECT * FROM parquet.`s3a://<your_bucket>/folder/sample.parquet` LIMIT 1;
-```
-
-For a Spark job, perform the equivalent read in that job on its selected data plane and namespace. A successful read verifies that path for that workload; it does not prove write access or access from other workloads.
-
-If access is denied, check the effective identity, bucket and object policy scope, and any explicit denies. SSE-KMS objects also require the relevant KMS permissions and key policy access; see [SSE-KMS permissions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html). If credentials are unavailable, resolve the IRSA trust or Pod Identity setup before broadening S3 permissions.
-
-## Additional Access Patterns
-
-Use these examples when the read-only bucket policy does not match the workload's requirements. Apply only the permissions it needs, then repeat the workload verification above.
+If the bucket belongs to another AWS account, the Lakehouse role's own account must also allow the access, with an IAM policy on the role. See [cross-account access](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-walkthroughs-managing-access-example2.html). Objects encrypted with SSE-KMS also need permission to use the KMS key; see [SSE-KMS permissions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html).
 
 <details id="example-1-full-readwrite-access-to-your-bucket-from-lakehouse-role" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
 <summary>Granting read and write access</summary>
 
-Use this policy when the workload needs to read, write, and delete objects. Replace `<workload_role_arn>` with the full IAM role ARN and `<your_bucket>` with the bucket name.
+Use this policy when workloads write or delete objects, for example when they create tables in the bucket or use it as a Glue catalog's warehouse. Replace the placeholders as in the read-only policy.
 
 ```json showLineNumbers
 {
@@ -174,7 +139,7 @@ Use this policy when the workload needs to read, write, and delete objects. Repl
             "Effect": "Allow",
             "Principal": {
                 "AWS": [
-                    "<workload_role_arn>"
+                    "<lakehouse_role_arn>"
                 ]
             },
             "Action": [
@@ -195,19 +160,22 @@ Use this policy when the workload needs to read, write, and delete objects. Repl
 }
 ```
 
-This policy provides full read/write access to your bucket from the workload role.
-
 </details>
 
 <details id="example-3-read-only-access-to-a-specific-folder-in-your-bucket-from-lakehouse-role" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
 <summary>Restricting read access to one folder</summary>
 
+This policy lets the role read objects under one folder (key prefix) and list that folder, but not list the rest of the bucket. Replace `<your_folder>` with the prefix, without a trailing slash.
+
 ```json showLineNumbers
 {
     "Version": "2012-10-17",
     "Statement": [
         {
             "Effect": "Allow",
+            "Principal": {
+                "AWS": "<lakehouse_role_arn>"
+            },
             "Action": [
                 "s3:ListBucket"
             ],
@@ -217,93 +185,48 @@ This policy provides full read/write access to your bucket from the workload rol
             "Condition": {
                 "StringLike": {
                     "s3:prefix": [
-                        "folder",
-                        "folder/*"
+                        "<your_folder>",
+                        "<your_folder>/*"
                     ]
                 }
-            },
-            "Principal": {
-                "AWS": "<workload_role_arn>"
             }
         },
         {
             "Effect": "Allow",
+            "Principal": {
+                "AWS": "<lakehouse_role_arn>"
+            },
             "Action": [
                 "s3:GetObject"
             ],
             "Resource": [
-                "arn:aws:s3:::<your_bucket>/folder/*"
-            ],
-            "Principal": {
-                "AWS": "<workload_role_arn>"
-            }
+                "arn:aws:s3:::<your_bucket>/<your_folder>/*"
+            ]
         }
     ]
 }
 ```
 
-This example permits object reads under `folder/` and listing with that prefix. It does not grant listing of the bucket root. See [S3 prefix conditions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/amazon-s3-policy-keys.html#amazon-s3-policy-keys-prefix).
+See [listing objects with a specific prefix](https://docs.aws.amazon.com/AmazonS3/latest/userguide/amazon-s3-policy-keys.html#condition-key-bucket-ops-2) for how the `s3:prefix` condition works.
 
 </details>
 
-## IAM Role Policy
+<span id="attaching-the-iam-role-policy" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}></span>
+<span id="example-1-full-readwrite-access-to-your-bucket" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}></span>
+<span id="example-2-read-only-access-to-your-bucket" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}></span>
+<span id="example-3-read-only-access-to-a-specific-folder-in-your-bucket" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}></span>
 
-Another way to provide access to the workload role is to create an IAM role policy that allows access to the S3 bucket
-and attach it to the workload role.
+<details id="iam-role-policy" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
+<summary>Granting access with an IAM policy on the role instead</summary>
 
-### Attaching the IAM Role Policy
+If your organization manages permissions on IAM roles rather than on buckets, attach the permissions to the Lakehouse role:
 
-To attach the IAM role policy to the workload role, you need to navigate to the IAM console.
+1. In the [IAM console](https://console.aws.amazon.com/iam/), choose **Roles** and open the Lakehouse role from step 1.
+2. On the **Permissions** tab, choose **Add permissions**, then **Create inline policy**.
+3. Choose **JSON**, replace the editor's content with the policy, and choose **Next**.
+4. Enter a policy name and choose **Create policy**.
 
-1. Go to your [IAM console](https://console.aws.amazon.com/iam/home) and select `Roles` from the left-hand menu.
-2. Search for the workload role in the list of roles and click on it.
-3. Click on the Permissions tab, and then click on Add `inline policy`.
-4. See below for the examples to create a policy. You can copy and paste the policy into the JSON editor.
-5. Click on `Review policy`. Give your policy a name and click on `Create policy`.
-
-After attaching the policy, [verify access from the workload](#verify-access-from-the-workload). A successful policy save does not prove that the workload uses this role or that all required permissions are present.
-
-:::note
-Alternative to `Inline policy`, you can also create a `Managed policy` from `Policies` in the IAM console and attach it
-to the workload role.
-:::
-
-Here are some examples of IAM role policies that you can attach to the workload role:
-
-### Example 1. Full read/write access to your bucket:
-
-```json showLineNumbers
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject",
-                "s3:DeleteObject",
-                "s3:ListBucket",
-                "s3:ListBucketMultipartUploads",
-                "s3:ListMultipartUploadParts",
-                "s3:AbortMultipartUpload"
-            ],
-            "Resource": [
-                "arn:aws:s3:::<your_bucket>/*",
-                "arn:aws:s3:::<your_bucket>"
-            ]
-        }
-    ]
-}
-```
-
-Replace `<your_bucket>` with the name of your S3 bucket that you want to provide access to.
-
-:::info
-You already noticed that, IAM role policy does not require to specify the `Principal` field as it is already attached to
-the workload role.
-:::
-
-### Example 2. Read-only access to your bucket:
+An IAM policy applies to the role it's attached to, so it has no `Principal` element. This one grants read-only access. For other access levels, use the statements of the bucket policies above without their `Principal` elements.
 
 ```json showLineNumbers
 {
@@ -324,43 +247,43 @@ the workload role.
 }
 ```
 
-### Example 3. Read-only access to a specific folder in your bucket:
+To reuse the permissions for other roles, create a managed policy under **Policies** and attach it to each role instead. To cover several buckets or folders, add their ARNs to `Resource`.
 
-```json showLineNumbers
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::<your_bucket>"
-            ],
-            "Condition": {
-                "StringLike": {
-                    "s3:prefix": [
-                        "folder",
-                        "folder/*"
-                    ]
-                }
-            }
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::<your_bucket>/folder/*"
-            ]
-        }
-    ]
-}
+</details>
+
+## 3. Verifying Access from a Compute {#verify-access-from-the-workload}
+
+Check the grant from IOMETE itself, through the same S3 connector your workloads use. The public IOMETE Spark images don't include the AWS CLI, and an AWS command on your own machine uses your credentials, not the compute's.
+
+1. Open the **SQL Editor** and select a running compute on the `analytics` data plane in the `finance` namespace.
+2. Read a small object that you know exists in the bucket. For a Parquet file:
+
+   ```sql
+   SELECT * FROM parquet.`s3a://<your_bucket>/<path-to-a-small-file>.parquet` LIMIT 1;
+   ```
+
+   Use the `s3a://` scheme. For a CSV file, use `csv.` instead of `parquet.`.
+
+The query returns a row from the file. That proves read access for the compute's Lakehouse role, not write access. For a Spark job, read the same path from the job.
+
+If the query fails, the error shows what's missing:
+
+- **Access denied, or HTTP 403:** the compute has credentials, but its role lacks permission. Check the principal ARN, the bucket and object ARNs in the policy, any explicit `Deny` statement, and KMS key permissions for SSE-KMS objects.
+- **No AWS credentials:** an error such as `No AWS Credentials provided by WebIdentityTokenFileCredentialsProvider` means the compute's pods didn't get IRSA credentials. Check the annotation from step 1 and the role's trust policy. If the annotation was added or changed after the compute started, restart the compute.
+
+To check whether a running compute got the role, look for `AWS_ROLE_ARN` in its driver pod, which IOMETE names `cc-<compute-name>-driver`:
+
+```bash
+COMPUTE_NAME="<compute-name>"   # the compute's Name in the console
+
+kubectl --context "$KUBE_CONTEXT" -n finance \
+  describe pod "cc-${COMPUTE_NAME}-driver" | grep AWS_ROLE_ARN
 ```
 
-:::info
-In the `Resource` field, you can specify multiple resources by separating them with a comma to provide access to
-multiple buckets or folders.
-:::
+A pod with IRSA credentials shows the role:
+
+```text
+      AWS_ROLE_ARN:                 arn:aws:iam::111122223333:role/iomete-analytics-lakehouse
+```
+
+No output means the pod started without the role. Fix the annotation, then restart the compute.
