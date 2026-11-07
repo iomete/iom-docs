@@ -172,8 +172,38 @@ IOMETE publishes a monitoring chart, `iomete/iomete-monitoring-chart`, in the sa
 
 The monitoring stack is a separate Helm release. Upgrade it, and plan its storage and retention, on its own schedule: the IOMETE platform release does not back up its data.
 
-## Planning Recovery and Availability {#high-availability--disaster-recovery}
+## Planning Availability and Disaster Recovery {#high-availability--disaster-recovery}
 
-A recovery plan includes PostgreSQL, object storage, required Secrets, Helm values and ingress/DNS configuration. Test restoring them together. Additional replicas help only when the service supports them and replicas can run on healthy nodes; they do not replace database or storage backups.
+A recovery plan covers PostgreSQL, object storage, the keys and other Secrets the releases need, the Helm values, and the ingress and DNS configuration. Back them up and test restoring them together. Additional service replicas help only when the service supports them and the replicas can run on healthy nodes; they do not replace database or storage backups.
 
-Do not start a second control plane against the same production databases as an improvised failover procedure. Plan the supported topology, credentials and write ownership before bringing up a standby environment.
+### Running Two Control Planes {#running-two-control-planes}
+
+Since 4.0.0, two control planes can run side by side as one installation, for example in two Kubernetes clusters, behind a load balancer. Either one can serve users while the other is down or being upgraded. The [4.0.0 release notes](./on-prem/release-notes/index.md) introduced this active-active setup.
+
+The two control-plane releases must share:
+
+- **One PostgreSQL database and the same object storage**, with the same `database` and `storage` settings, including `database.prefix`. Both control planes stop serving when that database is unavailable, so run PostgreSQL with replication and automatic failover. To send reads that tolerate a short delay to a read-only standby, set `database.readHost`.
+- **The same chart version**, except while you upgrade them one at a time.
+- **The same keys.** Each release normally generates these keys for itself. Create each Secret once, copy it to the service namespace in both clusters, and name it in both releases' values:
+
+  | Setting | Keys in the Secret | What it protects |
+  |---|---|---|
+  | `secretEncryptionKey.existingSecret` | `SECRET_ENCRYPTION_KEY` | Secret values that IOMETE stores encrypted in the database |
+  | `socketSystemToken.existingSecret` | `token` | Events that services publish to `iom-socket` |
+  | `jwtSigning.existingSecret` | `privateKey` and `publicKey`, in PEM format | Tokens that IOMETE issues, so a token from one control plane is accepted by the other |
+  | `multiCluster.trustSecret.existingSecret` | `plane-trust-secret.conf` | Calls between the control planes and their data planes |
+
+  To reuse the keys a control plane has already generated, copy its `iom-secret-encryption-key`, `iom-socket-system-token`, `iomete-jwt-signing` and `iomete-plane-trust-secret` Secrets to new names first, and point the settings at the copies. The chart stops with an error if an `existingSecret` setting names a Secret that the release created itself, because the upgrade that adopts it would delete it.
+
+:::warning
+Without the shared keys, neither control plane can read the secret values the other stored, and tokens and plane-to-plane calls are rejected. Never start a second control plane against a production database as an improvised failover without these settings.
+:::
+
+Set up the rest of the pair as follows:
+
+- **Load balancer.** Send the shared hostname, such as `iomete.example.com`, to both control planes, and make each control plane's ingress also answer to that hostname. For health checks, request `/healthz` from each control plane. It returns `200` with `{"status":"UP"}` when that control plane can serve requests, and `503` with `{"status":"DOWN"}` when it can't.
+- **Names.** Give each control plane its own `multiCluster.controlPlaneName`, such as `iomete-a` and `iomete-b`. The gateway returns it in the `X-Control-Plane-ID` response header, so you can tell which control plane answered.
+- **Data planes.** In IOMETE's reference setup, both control planes run with `defaultDataPlane.enabled: false`, and each data plane is installed separately with its own runtime release. A bundled default data plane in each cluster would register under the same ID, `default`, in the shared database. Enroll each data plane with the shared hostname as its `multiCluster.controlPlaneAddress`, so it keeps working while one control plane is down.
+- **Upgrades.** Upgrade the control planes one at a time to the same version, and verify each one before you start the next. A control plane still on the older version keeps starting against a database the other one has already upgraded.
+
+Confirm with [IOMETE support](../getting-started/support.md) that your topology is supported before you run it in production.
