@@ -102,6 +102,14 @@ spec:
     - Egress
 ```
 
+This policy also blocks a Prometheus that runs in a namespace without the `iomete.com/managed` label, so its scrapes of IOMETE services and Spark drivers time out. If you collect metrics as described in [Monitoring](/resources/user-guide/k8s/monitoring), add the Prometheus namespace to the `from` list, for example `monitoring`:
+
+```yaml
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+```
+
 ---
 
 ## Jupyter Containers Policy
@@ -283,5 +291,6 @@ Then check the actual operation that failed:
 - **Plane disconnected:** verify both directions of the plane-to-plane API connection. Same-cluster namespace rules do not allow cross-cluster traffic by themselves.
 - **SQL fails on a connected plane:** check the control plane's egress to the compute hostname on TLS port 443, TLS trust and HTTP/2 routing.
 - **Notebook cannot reach compute or data:** inspect its resolved destination and add the specific required egress rule. Confirm that another broad policy has not removed notebook isolation.
+- **Prometheus targets down:** if Prometheus runs in a namespace without the `iomete.com/managed` label, add that namespace to the communication policy, as described in [IOMETE Namespaces Communication Policy](#iomete-namespaces-communication-policy).
 
 Test allowed and denied connections after each policy change. A NetworkPolicy object being accepted by Kubernetes does not prove that the CNI enforces the intended restrictions.
