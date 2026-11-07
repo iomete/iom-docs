@@ -3,7 +3,7 @@ title: System Tables
 sidebar_label: System Tables
 description: Learn about IOMETE system tables used for internal platform operations, audit logging, and event streaming.
 last_update:
-  date: 11/05/2026
+  date: 11/07/2026
   author: Maksym Kryvchun
 ---
 
@@ -28,11 +28,11 @@ Knowing which flag controls which table saves you from guessing during setup. Th
 | `data_access_audit` | `dataAccessAudit` | Enabled | Also writes to Ranger's own S3 audit store (see below). |
 | `iceberg_commit_report` | `icebergMetrics` | Enabled | A single flag covers both Iceberg report tables. |
 | `iceberg_scan_report` | `icebergMetrics` | Enabled | A single flag covers both Iceberg report tables. |
-| `query_archive` | `sqlEditorV2` | Disabled | A rollout flag, set in the admin panel rather than Helm values. |
+| `query_archive` | `sqlEditorV2` | Disabled | A rollout flag, set in the Admin Portal under **Administration → Feature Flags** rather than in Helm values. |
 
 A table that exists but has its feature flag off just stays empty until you enable it. No errors, no surprises.
 
-Set the Helm-managed flags in the values for your control-plane release (`iomete-data-plane-enterprise` chart), under the `features` block. The `sqlEditorV2` rollout flag remains an admin-panel setting, as shown above. Each flag follows the `features.<flag>.enabled` notation:
+Set the other flags in the values of the control-plane release (the `iomete-data-plane-enterprise` chart), under the `features` block. Each flag follows the `features.<flag>.enabled` notation:
 
 ```yaml
 features:
@@ -42,7 +42,7 @@ features:
     enabled: true   # iceberg_commit_report and iceberg_scan_report
 ```
 
-Apply the values change to that control-plane release with your usual `helm upgrade` workflow, using its Kubernetes context and release namespace. A workload namespace or remote runtime release is not the target for these control-plane feature flags.
+Apply the change by upgrading the control-plane release with your complete values file, for example release `data-plane` in the service namespace `iomete-system`. Don't set these flags on the runtime release of an additional data plane: the `iomete-lakehouse-runtime` chart has no such settings.
 
 ---
 

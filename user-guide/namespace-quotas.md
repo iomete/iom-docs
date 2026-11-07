@@ -3,7 +3,7 @@ title: Namespace Quotas
 description: Understand how Kubernetes resource quotas limit IOMETE workloads in each namespace, how to read quota usage in the console, and why usage can exceed 100% or pods can wait while you're under quota.
 sidebar_label: Namespace Quotas
 last_update:
-  date: 11/06/2026
+  date: 11/07/2026
   author: Shashank Chaudhary
 ---
 
@@ -97,7 +97,7 @@ The **Deploy to Kubernetes namespace** dropdown groups namespaces by data plane.
 
 The choices come from namespace assignments in your domain and your [Use permissions](./iam/ras/ras-permissions.md#namespace). Selecting one does not create a Kubernetes namespace or register a data plane. If the dropdown shows **No namespaces available**, ask your administrator to check the domain assignment and namespace permissions, then refresh the list.
 
-Next to each namespace, it shows what would be left after your selection, for example **477.6 vCPU left / 3.9 TB left / 104 pods left**. The color tells you how well your selection fits:
+Next to each namespace, the dropdown shows what would be left after your selection, for example **477.6 vCPU left / 3.9 TB left / 104 pods left**. The color tells you how well your selection fits:
 
 | Indicator | Example | Meaning |
 |-----------|---------|---------|
@@ -209,7 +209,7 @@ spec:
 Keep these rules in mind:
 
 - **Several quotas in one namespace**: IOMETE shows and checks the lowest limit for each resource. Kubernetes enforces every quota, so the strictest one applies.
-- **Workload-type rows** need priority classes enabled in the data plane Helm chart (`features.priorityClasses.enabled`), and the priority class names must match your [priority class mappings](./priority-class/overview.md#default-priority-class-mappings).
+- **Workload-type rows** need priority classes enabled in the control-plane release (`features.priorityClasses.enabled`, `false` by default), and the priority class names must match your [priority class mappings](./priority-class/overview.md#default-priority-class-mappings).
 - **Requests are required**: once a quota limits CPU or memory, Kubernetes rejects pods without CPU and memory requests. Set defaults with a [LimitRange](https://kubernetes.io/docs/concepts/policy/limit-range/).
 - **Sum of quotas**: if the quotas across namespaces add up to more than the cluster, teams can be under quota and still wait for capacity. See [Quota Is Not Capacity](#quota-is-not-capacity).
 
@@ -263,10 +263,10 @@ Keep these rules in mind:
   },
   {
     question: "Why don't I see Compute, Spark job, or Notebook quota rows?",
-    answer: "Those rows need priority classes enabled in the data plane, and a quota scoped to that priority class in the namespace.",
+    answer: "Those rows need priority classes enabled in the control-plane release, and a quota scoped to that priority class in the namespace.",
     answerContent: (
       <>
-        <p>Those rows need priority classes enabled in the data plane, and a quota scoped to that priority class in the namespace.</p>
+        <p>Those rows need priority classes enabled in the control-plane release, and a quota scoped to that priority class in the namespace.</p>
       </>
     )
   },
