@@ -108,7 +108,7 @@ You can only reconfigure a cluster when the driver is `STOPPED` or `FAILED`. Whi
 
 <Img src="/img/user-guide/compute-clusters/configure-tooltip.png" alt="Configure button disabled with tooltip: Terminate the compute before configuring"/>
 
-**Configure** opens the same six-tab form used during creation, pre-populated with current values. **Name** and **Bundle** are read-only. After making changes, review them on the **Review & Save** tab and click **Save**.
+**Configure** opens the same six-tab form used during creation, pre-populated with current values. **Name** and **Resource bundle** are read-only. After making changes, review them on the **Review & Save** tab and click **Save**.
 
 After saving, the cluster may show an amber **Restart required** label in the list. Starting or restarting applies the new settings and clears the label.
 
