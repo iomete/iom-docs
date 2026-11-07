@@ -3,7 +3,7 @@ title: Platform Tour
 sidebar_label: Platform Tour
 description: A high-level tour of the IOMETE platform covering compute, SQL Editor, Spark jobs, Data Catalog, and more.
 last_update:
-  date: 11/05/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -25,7 +25,7 @@ The Home page is your starting point after login. It displays [recently viewed r
 
 ## Engine
 
-Every workload on IOMETE needs compute resources. The Engine section is where you provision and manage them. When creating a compute cluster, Spark job, or Jupyter container, you choose a Kubernetes namespace grouped under its data plane. These choices are existing deployment targets assigned to your domain; creating a workload does not create a new data plane.
+Every workload on IOMETE needs compute resources. The Engine section is where you provision and manage them. When you create a compute cluster, Spark job, or Jupyter container, you choose where it runs: a Kubernetes namespace, listed under the data plane that manages it, for example `finance` under `analytics`. The list shows only namespaces that an administrator has assigned to your domain and that you may use; creating a workload never creates a data plane or a namespace.
 
 ### Compute
 
@@ -63,7 +63,7 @@ The SQL Editor is where you write and run queries. The left icon bar switches be
 - **[Database Explorer](/user-guide/sql-editor/database-explorer)**: browse catalogs, schemas, tables, views, and columns.
 - **[Query History](/user-guide/sql-editor/query-history)**: logs every query you run, with time range and status filters. Reopen any past query in the active worksheet.
 
-Before running a query, select a compute cluster and namespace from the top bar. The editor autocompletes database objects as you type. Results display as tables or charts. Build **[Dashboards](/user-guide/sql-editor/dashboards)** from your results and export them to PDF.
+Before running a query, select a compute cluster, and a catalog and database, from the top bar. The editor autocompletes database objects as you type. Results display as tables or charts. Build **[Dashboards](/user-guide/sql-editor/dashboards)** from your results and export them to PDF.
 
 <Img src="/img/getting-started/platform-tour/sql-editor-page.png" alt="SQL Editor page" maxWidth="900px"/>
 
@@ -142,11 +142,11 @@ Platform administrators manage users, security, and infrastructure from the Admi
 
 - **Domains**: manage domains and assign existing Kubernetes namespaces from data planes to them.
 - **Data Planes**: view registered data planes and the namespaces each manages.
-- **Monitoring**: check service health and namespace quotas across data planes.
+- **Monitoring**: check control-plane and data-plane health, namespace quotas across data planes, and SQL query activity.
 - **IAM**: [Users](/user-guide/users), [Groups](/user-guide/groups), Admin Roles, [LDAP](/user-guide/ldap-configuration), and [Single Sign-On (SSO)](/user-guide/single-sign-on).
 - **Data Governance**: [Spark Catalogs](/user-guide/spark-catalogs/overview), [Data Security](/user-guide/data-security/overview) policies, and Audit logs.
 - **Compute**: [Node Types](/user-guide/node-types/overview), [Volumes](/user-guide/volumes), Namespaces (a shortcut to **Data Planes**), and [Docker Settings](/user-guide/private-docker-registry).
-- **Administration**: System Config, Event Logs, [Email Config](/user-guide/email-settings), and Orphaned Resources.
+- **Administration**: System Config, Event Logs, [Email Config](/user-guide/email-settings), Feature Flags, and Orphaned Resources (when enabled).
 
 <Img src="/img/getting-started/platform-tour/admin-portal.png" alt="Admin Portal page" maxWidth="900px"/>
 
