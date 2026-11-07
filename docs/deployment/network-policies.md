@@ -3,17 +3,41 @@ title: Kubernetes Network Policies
 sidebar_label: Network Policies
 description: Learn how to configure network policies for IOMETE services in a Kubernetes cluster.
 last_update:
-  date: 10/15/2026
+  date: 11/07/2026
   author: Maksym Kryvchun
 ---
 
-IOMETE services rely on specific network configurations to function properly in a Kubernetes cluster. These network policies govern how different components communicate securely and efficiently.
+Apply policies to the Kubernetes namespaces that run the services and workloads. A data plane can manage several namespaces, and several planes can share a Kubernetes cluster. A policy in the service namespace does not automatically apply to its workload namespaces.
+
+These examples assume your network plugin enforces [Kubernetes NetworkPolicies](https://kubernetes.io/docs/concepts/services-networking/network-policies/). Policies are additive: traffic allowed by any policy selecting a pod remains allowed. If the source is isolated for egress and the destination for ingress, both sides must allow the connection.
+
+The broad communication policy below permits trusted IOMETE namespaces to reach each other and permits all egress. It is a starting point for connectivity, **not an isolation boundary between domains or data planes**. Review it against your own network requirements before applying it.
+
+Check the target context and the namespaces involved:
+
+```shell
+kubectl config current-context
+kubectl get namespaces --show-labels
+kubectl get networkpolicies --all-namespaces
+```
+
+## Required Connections
+
+| Source | Destination | Purpose |
+|---|---|---|
+| Ingress controller | The plane's gateway pods | Console/API HTTP, gRPC and notebook WebSockets. Service ports 80 and 8081 both target gateway pod port 8080 in the 4.0 charts. Plane-to-plane calls on Service port 8083 target pod port 8083. |
+| Kubernetes API server | Spark Operator webhook pods | Admission requests on pod port 9443; the webhook Service exposes port 443. |
+| Control-plane services | Additional plane's API address and compute hostname | Enrollment, runtime management and SQL. Remote compute traffic requires TLS port 443 and HTTP/2. |
+| Data-plane agent and gateway | Control-plane API address | Enrollment, status reports and authentication. |
+| Services and workloads | DNS, Kubernetes API, databases, object storage and configured data sources | Name resolution, workload management and data access. |
+
+The exact destinations depend on whether traffic stays inside the cluster or passes through a load balancer. Check [ingress routing](./configure-ingress.md) and your CNI's address translation behavior when writing IP-based rules. A successful connection to the console does not test all these paths.
 
 ## Spark Operator Webhook Policy
 
-The webhook service plays a critical role in managing IOMETE resources. If resource creation times out or fails, there could be a connectivity issue between the Kubernetes API server and the webhook. This is often due to restrictive network policies that block incoming traffic.
+The Kubernetes API server must reach the webhook in each plane's **service namespace**. Use the API server source address or CIDR as observed by your CNI. The endpoint in kubeconfig may be a load balancer and is not necessarily the source address of admission traffic.
 
-Kubernetes API server requires access to the Spark Operator webhook service. This policy allows controlled ingress traffic to the webhook while restricting external access.
+Ask the Kubernetes administrator for the allowed source ranges, including every control-plane node or managed-service range. Replace the example CIDR below before applying it and add entries if more than one range is needed. For host-networked API servers, enforcement depends on the CNI; verify with an actual admission request.
 
 ```yaml title="iomete-spark-operator.yaml"
 apiVersion: networking.k8s.io/v1
@@ -27,7 +51,10 @@ spec:
   ingress:
     - from:
         - ipBlock:
-            cidr: [API_SERVER_IP]/32  # Replace with your API server's IP
+            cidr: 192.0.2.10/32  # Replace with the observed API server source CIDR
+      ports:
+        - protocol: TCP
+          port: 9443
   egress:
     - {}
   policyTypes:
@@ -35,24 +62,18 @@ spec:
     - Egress
 ```
 
-**How to Find API Server IP**
-Use the following command to retrieve the API server IP and update the policy:
-
-```bash
-kubectl cluster-info | grep master
-```
-
-Replace `[API_SERVER_IP]` in the YAML file with the actual IP address.
-
----
-
 ## IOMETE Namespaces Communication Policy
 
-This policy ensures that all IOMETE control plane and data plane services can communicate securely across namespaces, using the label `iomete.com/managed: "true"`.
+This policy allows ingress from namespaces labeled `iomete.com/managed: "true"` and from the ingress controller namespace. Set the label on the service and workload namespaces that should communicate, using the actual namespace names:
 
-It leaves out Jupyter Container pods. Kubernetes combines policies by allowing anything any of them allows, so a policy that selects every pod would cancel out the [Jupyter Containers policy](#jupyter-containers-policy).
+```shell
+kubectl label namespace iomete-system iomete.com/managed=true --overwrite
+kubectl label namespace <workload-namespace> iomete.com/managed=true --overwrite
+```
 
-Use the `NotIn` selector below only when the Jupyter Containers policy is installed. Without it, notebooks match no policy and become fully open, so keep `podSelector: {}` instead.
+For an additional data plane, label its service namespace and workload namespaces too. Do not label unrelated namespaces just to bypass a blocked connection. Replace `istio-system` in the policy if your ingress controller runs elsewhere.
+
+The example leaves out Jupyter Container pods so it does not cancel their more restrictive [notebook policy](#jupyter-containers-policy). Use the `NotIn` selector only when that policy is installed. If it is not installed, use `podSelector: {}` instead; otherwise notebook pods may have no ingress isolation at all.
 
 ```yaml title="iomete-ingress-egress.yaml"
 apiVersion: networking.k8s.io/v1
@@ -71,6 +92,9 @@ spec:
         - namespaceSelector:
             matchLabels:
               iomete.com/managed: "true"
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: istio-system
   egress:
     - {}
   policyTypes:
@@ -78,59 +102,21 @@ spec:
     - Egress
 ```
 
+This policy also blocks a Prometheus that runs in a namespace without the `iomete.com/managed` label, so its scrapes of IOMETE services and Spark drivers time out. If you collect metrics as described in [Monitoring](/resources/user-guide/k8s/monitoring), add the Prometheus namespace to the `from` list, for example `monitoring`:
+
+```yaml
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+```
+
 ---
 
 ## Jupyter Containers Policy
 
-Jupyter Containers run user code, so the data plane Helm chart can install a policy named `iomete-jupyter-containers` in the data plane namespace and every Spark namespace. It's off by default. To turn it on, set this in `values.yaml` and run the Helm upgrade:
+Jupyter Containers run user code. This policy lets only the plane's gateway reach notebooks, and limits notebook egress to DNS, ingress controllers, public addresses and private destinations you explicitly allow.
 
-```yaml title="values.yaml"
-networkPolicies:
-  jupyterContainers:
-    enabled: true
-```
-
-The policy only restricts traffic when your cluster's network plugin enforces NetworkPolicies, so check that before relying on it.
-
-With it:
-
-- Only the IOMETE gateway can reach notebooks.
-- Notebooks can reach DNS, your ingress controller and the internet over IPv4 and IPv6.
-- Apart from DNS, your ingress controller and any `extraEgress` entries, notebooks can't reach private, link-local (cloud metadata) or carrier-grade NAT addresses.
-
-If you applied `iomete-ingress-egress` before, it may still select every pod and cancel this policy. Re-apply the [updated version](#iomete-namespaces-communication-policy) and check its `podSelector` uses `NotIn jupyterContainer`:
-
-```bash
-kubectl get networkpolicy iomete-ingress-egress -n <namespace> -o yaml
-```
-
-Notebooks connect to compute clusters through your ingress controller. The policy allows the `istio-system`, `istio-ingress`, `ingress-nginx`, `openshift-ingress` and `traefik` namespaces. If your controller runs elsewhere, or your platform host resolves to a private IP, adjust the policy in `values.yaml`:
-
-```yaml title="values.yaml"
-networkPolicies:
-  jupyterContainers:
-    ingressNamespaces:
-      - my-ingress
-    extraEgress:
-      - to:
-          - ipBlock:
-              cidr: 10.20.30.40/32 # internal load balancer or private data source
-        ports:
-          - protocol: TCP
-            port: 443
-```
-
-| Setting | Use it to |
-|---|---|
-| `ingressNamespaces` | List the namespaces of the ingress controller serving the platform host. Setting it replaces the default list. |
-| `extraEgress` | Allow an internal address notebooks need. |
-| `blockedCidrs` | Change which IPv4 and IPv6 ranges count as internal. |
-| `dnsPorts` | Change the ports notebooks use for DNS, for example add `5353` on OpenShift. |
-| `enabled` | Turn the policy on. |
-
-If notebooks open but can't connect to a compute cluster, add your ingress controller's namespace to `ingressNamespaces`.
-
-To apply the policy yourself instead of through the chart, save it as `iomete-jupyter-containers.yaml`, replace `<iomete-namespace>` with the data plane namespace, and apply it to the data plane namespace and every Spark namespace:
+The 4.0.1 charts don't create this policy, so apply it yourself. Save it as `iomete-jupyter-containers.yaml` and replace `<iomete-namespace>` with the **service namespace of the plane that owns the notebooks**: `iomete-system` for the default data plane, or `iomete-analytics` for the `analytics` data plane. Adjust the ingress namespaces and private destination exceptions for your network.
 
 ```yaml title="iomete-jupyter-containers.yaml"
 apiVersion: networking.k8s.io/v1
@@ -160,7 +146,28 @@ spec:
         - protocol: TCP
           port: 8888
   egress:
-    - ports:
+    # DNS. The blocked ranges are listed too, so cluster DNS stays reachable
+    # with the AWS VPC CNI, which otherwise denies every port to an except range.
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+        - ipBlock:
+            cidr: "::/0"
+        - ipBlock:
+            cidr: 10.0.0.0/8
+        - ipBlock:
+            cidr: 172.16.0.0/12
+        - ipBlock:
+            cidr: 192.168.0.0/16
+        - ipBlock:
+            cidr: 169.254.0.0/16
+        - ipBlock:
+            cidr: 100.64.0.0/10
+        - ipBlock:
+            cidr: fc00::/7
+        - ipBlock:
+            cidr: fe80::/10
+      ports:
         - protocol: UDP
           port: 53
         - protocol: TCP
@@ -192,50 +199,98 @@ spec:
               - fe80::/10
 ```
 
+Apply it in the plane's service namespace and in each of its workload namespaces, as described in [Applying Network Policies](#applying-network-policies). When no other policy grants broader access:
+
+- Only gateway pods in the owning plane's service namespace can open connections to notebook port 8888.
+- Notebooks can reach DNS, the listed ingress controller namespaces and public IPv4 and IPv6 addresses.
+- Apart from DNS and the ingress controller namespaces, notebooks can't reach private, link-local (cloud metadata) or carrier-grade NAT addresses.
+
+If you applied `iomete-ingress-egress` before, it may still select every pod and cancel this policy. Re-apply the [updated version](#iomete-namespaces-communication-policy) and check its `podSelector` uses `NotIn jupyterContainer`:
+
 ```bash
-kubectl apply -f iomete-jupyter-containers.yaml -n <iomete-namespace>
-kubectl apply -f iomete-jupyter-containers.yaml -n <spark-namespace>
+kubectl get networkpolicy iomete-ingress-egress -n <namespace> -o yaml
 ```
+
+Notebooks connect to compute clusters through your ingress controller. If your controller runs in a namespace that isn't in the policy's list, add it. If your platform host resolves to a private IP, or notebooks need a private data source, add an egress rule for that address to the `egress` list:
+
+```yaml
+    - to:
+        - ipBlock:
+            cidr: 10.20.30.40/32 # internal load balancer or private data source
+      ports:
+        - protocol: TCP
+          port: 443
+```
+
+If notebooks open but cannot connect to compute, check the resolved destination and blocked-flow logs. A connection through a private load-balancer IP may need such an IP rule as well as the ingress namespace; namespace selectors alone do not cover every load-balancer path.
+
+<details>
+<summary>Letting a later chart version manage the notebook policy</summary>
+
+The 4.0.1 charts don't have a setting for this policy. Later chart versions may add a `networkPolicies.jupyterContainers` block. Check the chart version you install, using `iomete/iomete-lakehouse-runtime` for an additional data plane:
+
+```shell
+helm show values iomete/iomete-data-plane-enterprise \
+  --version <chart-version> | grep -A3 '^networkPolicies:'
+```
+
+If the block is there, you can set `networkPolicies.jupyterContainers.enabled: true` in the release's **complete values file** and follow the [upgrade procedure](./life-cycle-management.mdx#upgrade-example). The comments in that values file describe the other settings, such as the ingress namespaces, blocked ranges and extra egress rules.
+
+Helm doesn't take over a NetworkPolicy it didn't create. If you applied `iomete-jupyter-containers` yourself, delete it in each namespace just before that upgrade, then confirm the chart created it again in the service namespace and every workload namespace.
+
+</details>
 
 ---
 
 ## Applying Network Policies
 
-The following steps explain how to apply network policies to IOMETE control plane and data plane namespaces.
+Save and review the policies above before applying them. Substitute the correct API server source ranges, ingress namespace and notebook gateway namespace.
 
-1. Save both `iomete-spark-operator.yaml` and `iomete-ingress-egress.yaml` files.
-2. In the `iomete-spark-operator.yaml`, replace: `[API_SERVER_IP]` with your Kubernetes API server's IP address (obtain this using `kubectl cluster-info | grep master`).
-3. Apply the policies using `kubectl` to the respective namespaces:
-```bash
-kubectl apply -f iomete-spark-operator.yaml -n <iomete-namespace>
-kubectl apply -f iomete-ingress-egress.yaml -n <iomete-namespace>
+1. Apply the webhook policy in the plane's service namespace, where its Spark Operator runs.
+2. Apply the communication policy in the service namespace and every workload namespace that should use it.
+3. Apply the notebook policy in the same namespaces. The communication policy leaves notebook pods out, so without the notebook policy they are not isolated.
+
+For example, for the `analytics` data plane, with service namespace `iomete-analytics` and workload namespaces `finance` and `marketing`, and with `<iomete-namespace>` set to `iomete-analytics` in the notebook policy:
+
+```shell
+kubectl apply -f iomete-spark-operator.yaml --namespace iomete-analytics
+for ns in iomete-analytics finance marketing; do
+  kubectl apply -f iomete-ingress-egress.yaml --namespace "$ns"
+  kubectl apply -f iomete-jupyter-containers.yaml --namespace "$ns"
+done
 ```
 
-Ensure that both policies have been applied successfully
+Each command reports the policy as `created`, or `configured` when it already existed. A single application does not cover the data plane as a whole, so check every namespace:
 
----
+```shell
+kubectl get networkpolicies --namespace finance
+```
+
+```text
+NAME                        POD-SELECTOR                                  AGE
+iomete-ingress-egress       iomete.com/appType notin (jupyterContainer)   1m
+iomete-jupyter-containers   iomete.com/appType=jupyterContainer           1m
+```
+
+Repeat for each plane, with its own namespaces and its own notebook policy file. Keep the policy files in the configuration management system that owns these resources.
 
 ## Troubleshooting
 
-If issues arise, follow these troubleshooting steps:
+Inspect the policies and the labels they select:
 
-1. **Verify Policy Application**:
-Ensure the policies are correctly applied:
-```bash
-kubectl get networkpolicies -n <namespace>
+```shell
+kubectl get networkpolicies --namespace <namespace>
+kubectl describe networkpolicy <policy-name> --namespace <namespace>
+kubectl get pods --namespace <namespace> --show-labels
 ```
 
-2. **Check API Server Access**:
-Confirm that the API server can reach the webhook:
-```bash
-kubectl cluster-info | grep master
-```
+Then check the actual operation that failed:
 
-3. **Connectivity Issues**:
-If errors persist, review your network policies and consult with your networking team or system administrator for potential misconfigurations.
+- **Slow pod creation or Spark pods missing settings:** the API server calls the operator's webhook for every pod created in the plane's namespaces. When it can't reach the webhook, each pod creation waits for the 30-second webhook timeout and then continues without the webhook's changes, so there is no admission error to inspect. Start a test compute through IOMETE and check CNI flow logs, or API server logs where you have them, for failed calls from the API server to the operator's pod port 9443. `kubectl cluster-info` only reports the API endpoint; it does not test the reverse connection to the webhook.
+- **Console or API unavailable:** verify ingress-controller access to the gateway, including source namespace labels and any existing egress isolation on the controller.
+- **Plane disconnected:** verify both directions of the plane-to-plane API connection. Same-cluster namespace rules do not allow cross-cluster traffic by themselves.
+- **SQL fails on a connected plane:** check the control plane's egress to the compute hostname on TLS port 443, TLS trust and HTTP/2 routing.
+- **Notebook cannot reach compute or data:** inspect its resolved destination and add the specific required egress rule. Confirm that another broad policy has not removed notebook isolation.
+- **Prometheus targets down:** if Prometheus runs in a namespace without the `iomete.com/managed` label, add that namespace to the communication policy, as described in [IOMETE Namespaces Communication Policy](#iomete-namespaces-communication-policy).
 
----
-
-## Conclusion
-
-Ensuring proper network communication between IOMETE components is essential for the platform's security and performance. By applying the correct network policies and monitoring connectivity, you can maintain a secure and efficient IOMETE deployment.
+Test allowed and denied connections after each policy change. A NetworkPolicy object being accepted by Kubernetes does not prove that the CNI enforces the intended restrictions.
