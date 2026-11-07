@@ -63,7 +63,7 @@ javaTrustStore:
   # caCertFileName: ca.crt # Set only if you also included this PEM bundle.
 ```
 
-Upgrade your existing release with its complete values file and installed chart version. For the default data plane, follow the [existing-release upgrade example](./connect-namespace.md#4-upgrading-the-existing-release). Existing computes must be stopped and started to pick up the truststore configuration.
+Upgrade your existing release with its complete values file and installed chart version. For the default data plane, follow the [existing-release upgrade example](./connect-namespace.md#upgrade-iomete). Existing computes must be stopped and started to pick up the truststore configuration.
 
 For separately installed data planes, create the Secret wherever the affected services or Spark workloads run. Spark workloads can reference the control plane's truststore settings, so check those settings too.
 
