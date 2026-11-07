@@ -3,7 +3,7 @@ title: Life Cycle Management (LCM)
 sidebar_label: Life Cycle Management (LCM)
 description: Identify the correct IOMETE Helm release, preserve its configuration, and verify upgrades and recovery.
 last_update:
-  date: 11/06/2026
+  date: 11/07/2026
   author: IOMETE
 ---
 
@@ -36,6 +36,11 @@ The examples below use the control-plane release from the installation guide. Fo
 RELEASE="data-plane"
 NAMESPACE="iomete-system"
 CHART="iomete/iomete-data-plane-enterprise"
+
+# For an additional data plane, such as analytics, use its own values instead:
+# RELEASE="analytics"
+# NAMESPACE="iomete-analytics"
+# CHART="iomete/iomete-lakehouse-runtime"
 ```
 
 Do not change an existing release from the enterprise chart to the runtime chart or the other way around.
@@ -44,23 +49,27 @@ Do not change an existing release from the enterprise chart to the runtime chart
 
 ### Selecting a Version {#semantic-versioning}
 
-Read the target version's [release notes](./on-prem/release-notes/index.md) and upgrade requirements. Confirm the supported combination of control-plane, data-plane and Spark image versions, including any required intermediate upgrade. A version number alone does not establish database downgrade compatibility.
+IOMETE provides the chart version approved for your installation, together with any version-specific upgrade notes. Read the target version's [release notes](./on-prem/release-notes/index.md) and those notes. Confirm the supported combination of control-plane, data-plane and Spark image versions, including any required intermediate upgrade. A version number alone does not establish database downgrade compatibility.
+
+Contact [IOMETE support](../getting-started/support.md) before you upgrade or roll back a production installation.
+
+Set the target version in `IOMETE_VERSION`. The commands on this page and the CRD commands on the installation page both read it. If this machine doesn't have the `iomete` Helm repository yet, [add it](./on-prem/install.md#add-iomete-helm-repository) first.
 
 ```shell
-TARGET_VERSION="<approved-chart-version>"
+export IOMETE_VERSION="<approved-chart-version>"
 helm repo update
-helm show values "$CHART" --version "$TARGET_VERSION" > target-defaults.yaml
+helm show values "$CHART" --version "$IOMETE_VERSION" > target-defaults.yaml
 ```
 
 ### Planning the Maintenance Window {#upgrade-notification-and-support}
 
-Back up PostgreSQL and retain the corresponding storage, configuration and Secrets needed for recovery. Check the release-specific migration and recovery procedure before starting. A Helm revision does not back up your databases, object storage or externally managed Secrets.
+Before every upgrade, back up the PostgreSQL databases and keep the object storage data that matches the backup. A Helm revision does not back up your databases, object storage or externally managed Secrets. Check IOMETE's version-specific notes for any migration or recovery steps before you start.
 
 Account for active jobs, queries and notebooks when scheduling the change. Restarting services or changing runtime versions can interrupt connections; a successful rolling deployment does not guarantee uninterrupted queries. For storage changes, follow the separate [storage migration procedure](./storage-migration.md).
 
 ### Saving and Reviewing Values {#upgrade-process}
 
-Start with the complete values file used for the existing release. If you need to recover its submitted overrides, save them privately:
+Save the release's current values and history before you change anything. [Recovering From a Failed Upgrade](#rollback-process) depends on these files, so don't skip this step. The files can contain credentials, so the commands make them readable only by you:
 
 ```shell
 umask 077
@@ -73,16 +82,28 @@ helm history "$RELEASE" --namespace "$NAMESPACE" \
   > release-backup/history-before.txt
 ```
 
-The `--all` file records the effective old defaults for comparison. Do not blindly use every old default as an override for a new version. Merge the submitted overrides and any intentional changes into `values-next.yaml`, using `target-defaults.yaml` and the release notes to resolve renamed or removed settings.
+Open `release-backup/values-before.yaml` and check that it holds your overrides, such as the `database` and `storage` settings.
+
+For the control-plane release, also save the keys the chart generated on its first installation. Without `iom-secret-encryption-key`, secret values stored in the database can't be read after a restore. If you supply a key through an `existingSecret` setting, `kubectl` reports its default name as `NotFound`; back up your own Secret instead:
+
+```shell
+kubectl get secret iom-secret-encryption-key iom-socket-system-token \
+  iomete-jwt-signing iomete-plane-trust-secret \
+  --namespace "$NAMESPACE" --output yaml > release-backup/secrets-before.yaml
+```
+
+Store the `release-backup` directory somewhere safe outside the cluster.
+
+Next, create `values-next.yaml` for the target version. Start from `values-before.yaml`, or from the complete values file you keep for this release, and add any intentional changes. Use `target-defaults.yaml` and the release notes to resolve renamed or removed settings. `effective-values-before.yaml` shows the old defaults for comparison only: don't copy every old default into `values-next.yaml`, or settings that the new version changes keep their old values.
 
 Preserve these settings unless you are intentionally changing them:
 
-- The **complete `namespaces` list**, including every namespace already managed by this plane. Helm replaces lists; a file containing only a newly added namespace can remove the existing entries.
+- The **complete `namespaces` list**, including every workload namespace this plane already uses. Helm replaces lists; a file containing only a newly added namespace can remove the existing entries.
 - Database, storage, registry, truststore and Secret references, plus service-account and webhook ownership settings.
-- Data-plane identity and addresses under `multiCluster`. These are not ordinary version-upgrade settings; registered addresses may remain pinned after a Helm change.
+- Data-plane identity and addresses under `multiCluster`. These are not ordinary upgrade settings: the control plane keeps the addresses it stored when the plane enrolled.
 - Resource settings, scheduling constraints and deliberate image overrides. Review overrides against the target version so an old image does not remain pinned accidentally.
 
-If the target release changes Spark Operator CRDs, coordinate their update before the service upgrade. CRDs are shared across releases in the same cluster and Helm does not update them during `helm upgrade`. See [Upgrading the CRDs](./on-prem/install.md#upgrading-the-crds).
+If the target release changes Spark Operator CRDs, coordinate their update before the service upgrade. CRDs are shared across releases in the same cluster and Helm does not update them during `helm upgrade`. See [Upgrading the CRDs](./on-prem/install.md#upgrading-the-crds), which uses the same `IOMETE_VERSION`. For an additional data plane in another Kubernetes cluster, apply the CRDs from its runtime chart: replace `iomete-data-plane-enterprise` with `iomete-lakehouse-runtime` in those commands.
 
 ## Applying and Verifying the Upgrade {#upgrade-example}
 
@@ -91,7 +112,7 @@ Use `helm upgrade` for the existing release. The explicit chart version and comp
 ```shell
 helm upgrade "$RELEASE" "$CHART" \
   --namespace "$NAMESPACE" \
-  --version "$TARGET_VERSION" \
+  --version "$IOMETE_VERSION" \
   --reset-values --values values-next.yaml \
   --wait --timeout 15m
 ```
@@ -108,8 +129,8 @@ kubectl get events --namespace "$NAMESPACE" --sort-by=.lastTimestamp
 
 Verify both Kubernetes readiness and product behavior:
 
-1. Confirm the expected replicas are ready in the service namespace and every managed workload namespace.
-2. Open the control-plane console and confirm the affected data plane is connected.
+1. Confirm the expected replicas are ready in the service namespace and every workload namespace.
+2. In the console, open the **Admin Portal** from the user menu, select **Data Planes**, and confirm the affected data plane shows **Connected**.
 3. Check that existing namespace assignments remain available. If you added a namespace, complete the [namespace verification steps](./connect-namespace.md).
 4. Run `SELECT 1` on a compute in the affected data plane and check the workload types you use, such as scheduled jobs or Jupyter containers.
 
@@ -130,10 +151,10 @@ Initialization hooks may already have changed database schemas or generated conf
 
 ### Restoring a Known Configuration {#rollback-example}
 
-If the previous chart is compatible with the current database state and the release-specific recovery procedure permits it, reapply that chart with the complete saved values. This runs the normal upgrade hooks:
+If IOMETE's version-specific notes confirm that the previous chart works with the current database state, reapply that chart with the complete saved values. Set `PREVIOUS_VERSION` to the chart version you upgraded from; `release-backup/history-before.txt` shows it in the `CHART` column. This runs the normal upgrade hooks:
 
 ```shell
-PREVIOUS_VERSION="<approved-recovery-chart-version>"
+PREVIOUS_VERSION="<previous-chart-version>"
 helm upgrade "$RELEASE" "$CHART" \
   --namespace "$NAMESPACE" \
   --version "$PREVIOUS_VERSION" \
@@ -141,7 +162,7 @@ helm upgrade "$RELEASE" "$CHART" \
   --wait --timeout 15m
 ```
 
-If database changes are not backward compatible, use the agreed database and storage restoration procedure instead. Do not attempt the command above to test whether a downgrade works. After recovery, repeat the readiness and product checks and follow any required service restarts in the release-specific instructions. For stale default-plane namespace configuration, see [namespace troubleshooting](./connect-namespace.md).
+If the database changes are not backward compatible, restore PostgreSQL and object storage from the backups you took before the upgrade instead, together with IOMETE support. Do not run the command above to test whether a downgrade works. After recovery, repeat the readiness and product checks, and make any service restarts that IOMETE's version-specific notes require. For stale default-plane namespace configuration, see [namespace troubleshooting](./connect-namespace.md).
 
 ## Monitoring and Management
 
