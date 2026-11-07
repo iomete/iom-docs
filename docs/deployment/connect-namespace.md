@@ -258,7 +258,7 @@ IOMETE also adds `sales` to a resource bundle named `namespace-business-sales-de
 ## 7. Verifying a Workload
 
 1. In the `business` domain, create a small compute, here `sales-check`. In **Deploy to Kubernetes namespace**, choose `sales` under **default**. If `sales` isn't listed, select **Refresh namespaces** in the list.
-2. Start the compute, then run `SELECT 1` on it in the SQL editor.
+2. Start the compute, then run `SELECT 1` on it in the **SQL Editor**.
 3. Check its pods:
 
    ```shell
