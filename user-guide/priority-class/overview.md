@@ -3,7 +3,7 @@ title: Priority Classes
 sidebar_label: Priority Classes
 description: Configure Kubernetes PriorityClasses for IOMETE workloads to control scheduling and preemption when cluster resources are limited.
 last_update:
-  date: 11/06/2026
+  date: 11/07/2026
   author: IOMETE
 ---
 
@@ -57,9 +57,11 @@ For the default data plane, the enterprise chart writes `priorityClassMappings` 
 | `iomete-compute`               | `iomete-compute`               | Compute clusters           |
 | `iomete-spark-job`             | `iomete-spark-job`             | Spark jobs                 |
 | `iomete-notebook`              | `iomete-notebook`              | Jupyter containers         |
-| `iomete-operational-support`   | `iomete-operational-support`   | Enterprise-chart workers and Spark proxies |
+| `iomete-operational-support`   | `iomete-operational-support`   | Job Orchestrator (Prefect) workers and Spark proxy servers |
 
 The **mapping keys** (left column) are fixed. IOMETE uses them internally to look up the PriorityClass for each workload. The **values** (middle column) can be changed to point to any PriorityClass name that exists in your cluster.
+
+The enterprise chart applies the `iomete-operational-support` class itself, to the default data plane's `prefect-worker-<namespace>` and `spark-proxy-server-<namespace>` Deployments in the service namespace and each workload namespace. A change to that mapping takes effect with the Helm upgrade that applies it.
 
 ## Enabling Priority Classes
 
