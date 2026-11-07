@@ -3,7 +3,7 @@ title: SDK Usage for Spark Jobs
 sidebar_label: IOMETE SDK
 description: Manage Spark Jobs programmatically with IOMETE's Python SDK — create, update, delete, run, and monitor jobs via Python or cURL.
 last_update:
-  date: 07/29/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -24,7 +24,7 @@ pip install iomete-sdk
 ```
 
 :::info
-Requires Python 3.9 or higher. The SDK depends on `requests` and `dataclasses-json`.
+Requires Python 3.10 or higher. The SDK depends on `requests` and `dataclasses-json`.
 :::
 
 ## Prerequisites
@@ -32,8 +32,8 @@ Requires Python 3.9 or higher. The SDK depends on `requests` and `dataclasses-js
 You need the following to use the SDK:
 
 - **API Token:** Create one from the IOMETE Console. See **[Resources](#resources)** below.
-- **Host:** Your dataplane endpoint URL (e.g., `https://your-dataplane.iomete.com`).
-- **Domain:** Your IOMETE domain identifier. Both the host and domain can be found in **Settings &gt; General** in the IOMETE Console.
+- **Host:** Your control-plane API base URL (e.g., `https://iomete.example.com`). This is the host serving IOMETE management APIs.
+- **Domain:** Your IOMETE domain identifier. Find the domain identifier in **Settings &gt; General Info** in the IOMETE Console.
 
 ## Initialization
 
@@ -42,7 +42,7 @@ import os
 from iomete_sdk.spark import SparkJobApiClient
 
 job_client = SparkJobApiClient(
-    host="https://your-dataplane.iomete.com",
+    host="https://iomete.example.com",
     api_key=os.environ["IOMETE_API_TOKEN"],
     domain="your-domain"
 )
@@ -50,14 +50,14 @@ job_client = SparkJobApiClient(
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `host` | str | required | Dataplane endpoint URL |
+| `host` | str | required | Control-plane API base URL |
 | `api_key` | str | required | IOMETE API token |
 | `domain` | str | required | IOMETE domain identifier |
 | `verify` | bool | `True` | SSL certificate verification. Set to `False` for self-signed certs. |
 
 ## Creating a Job
 
-Register a new Spark Job by sending a create request with the job payload:
+Register a new Spark Job by sending a create request to the control plane. The payload chooses where the job runs: always send `dataPlane` and `namespace` together. In this example, the `finance` namespace on the `analytics` data plane must already be assigned to your domain, and both you and the job's run-as user need **Use** permission on it. See [Deployment Namespace](./spark-application-config.md#deployment-namespace).
 
 <Tabs>
   <TabItem value="python" label="Python" default>
@@ -66,7 +66,8 @@ Register a new Spark Job by sending a create request with the job payload:
 job_payload = {
     "name": "my-etl-job",
     "bundleId": "your-bundle-id",
-    "namespace": "default",
+    "dataPlane": "analytics",
+    "namespace": "finance",
     "template": {
         "applicationType": "python",
         "image": "iomete/spark-py:3.5.3-v1",
@@ -87,13 +88,14 @@ print(job)
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl -X POST 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs' \
+curl -X POST 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
     "name": "my-etl-job",
     "bundleId": "your-bundle-id",
-    "namespace": "default",
+    "dataPlane": "analytics",
+    "namespace": "finance",
     "template": {
         "applicationType": "python",
         "image": "iomete/spark-py:3.5.3-v1",
@@ -120,7 +122,8 @@ The `bundleId` field is required when creating a job. The SDK raises a `ValueErr
 |-------|------|----------|-------------|
 | `name` | string | Yes | Job name (must be non-blank) |
 | `bundleId` | string | Yes | Bundle identifier (SDK validates presence) |
-| `namespace` | string | Yes | Kubernetes namespace (must be allowed in domain) |
+| `dataPlane` | string | No | Data plane ID, for example `analytics`. Always send it with `namespace`: without it, IOMETE looks for the namespace on the `default` data plane first. |
+| `namespace` | string | Yes | Kubernetes namespace assigned to your domain on that data plane, for example `finance`. |
 | `template` | object | Yes | Job configuration (see template fields below) |
 | `description` | string | No | Job description |
 | `flow` | string | No | `LEGACY` (default) or `PRIORITY` |
@@ -152,7 +155,7 @@ The `bundleId` field is required when creating a job. The SDK raises a `ValueErr
 
 ## Updating a Job
 
-Modify an existing job's configuration, such as changing its schedule or instance sizing:
+Modify an existing job's configuration, such as changing its schedule or instance sizing. An update replaces the job's definition, so send the complete job, including `dataPlane` and `namespace`. If you leave out `dataPlane`, IOMETE resolves the namespace again and can move the job to a namespace with the same name on the `default` data plane. The Python example below starts from the job returned by `create_job`, which already contains both fields:
 
 <Tabs>
   <TabItem value="python" label="Python" default>
@@ -171,13 +174,14 @@ print(updated)
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl -X PUT 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID' \
+curl -X PUT 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
     "name": "my-etl-job",
     "bundleId": "your-bundle-id",
-    "namespace": "default",
+    "dataPlane": "analytics",
+    "namespace": "finance",
     "jobType": "SCHEDULED",
     "schedule": "0 0 */1 * *",
     "template": {
@@ -213,7 +217,7 @@ for j in jobs:
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs' \
+curl -X GET 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
 
@@ -240,11 +244,11 @@ job = job_client.get_job_by_name(job_name="my-etl-job")
 
 ```bash
 # By ID
-curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID' \
+curl -X GET 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN'
 
 # By name
-curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/name/my-etl-job' \
+curl -X GET 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs/name/my-etl-job' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
 
@@ -266,7 +270,7 @@ job_client.delete_job_by_id(job_id=job["id"])
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl -X DELETE 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID' \
+curl -X DELETE 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
 
@@ -296,13 +300,13 @@ run = job_client.submit_job_run(job_id=job["id"], payload={
 
 ```bash
 # Basic run
-curl -X POST 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs' \
+curl -X POST 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{}'
 
 # With argument overrides
-curl -X POST 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs' \
+curl -X POST 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{"arguments": ["arg1", "arg2"]}'
@@ -328,7 +332,7 @@ for r in runs:
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs' \
+curl -X GET 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
 
@@ -349,7 +353,7 @@ print(run_info)
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID' \
+curl -X GET 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
 
@@ -377,7 +381,7 @@ for entry in logs:
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID/logs?range=1h' \
+curl -X GET 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID/logs?range=1h' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
 
@@ -400,7 +404,7 @@ print(metrics)
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl -X GET 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID/metrics' \
+curl -X GET 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID/metrics' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
 
@@ -420,7 +424,7 @@ job_client.cancel_job_run(job_id=job["id"], run_id=run["id"])
   <TabItem value="curl" label="cURL">
 
 ```bash
-curl -X DELETE 'https://your-dataplane.iomete.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID' \
+curl -X DELETE 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jobs/JOB_ID/runs/RUN_ID' \
   -H 'X-API-TOKEN: YOUR_API_TOKEN'
 ```
 
@@ -437,6 +441,8 @@ from iomete_sdk.spark.spark_job import Flow, Priority
 job_payload = {
     "name": "priority-job",
     "bundleId": "your-bundle-id",
+    "dataPlane": "analytics",
+    "namespace": "finance",
     "flow": Flow.PRIORITY.value,      # "LEGACY" or "PRIORITY"
     "priority": Priority.HIGH.value,   # "NORMAL" or "HIGH"
     "template": { ... }
