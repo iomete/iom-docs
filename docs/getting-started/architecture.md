@@ -4,7 +4,7 @@ title_meta: "IOMETE Architecture: Control Plane, Data Planes, Kubernetes"
 sidebar_label: Architecture
 description: "How IOMETE works on Kubernetes: control plane, data planes, Spark compute, Iceberg storage, catalog and security model, and how the components connect."
 last_update:
-  date: 11/06/2026
+  date: 11/07/2026
   author: Shashank Chaudhary
 ---
 
@@ -19,34 +19,66 @@ IOMETE separates **management**, **execution**, and **storage**. In the 4.x arch
 | Component | Responsibility | Example |
 | --- | --- | --- |
 | **Control plane** | Provides the console, APIs, identity, catalog, and workload management | One console for all your teams and data planes |
-| **Data plane** | Runs the services that create, monitor, and connect to workloads in its Kubernetes cluster | `default` for existing workloads, `analytics` for a separate runtime |
+| **Data plane** | Runs the services that create, monitor, and connect to workloads in its Kubernetes cluster | `default`, installed with the control plane, and `analytics`, an additional data plane |
 | **Kubernetes namespace** | Contains pods and other Kubernetes resources; can have its own quotas and access rules | `finance` and `marketing`, both managed by `analytics` |
 | **IOMETE domain** | Organizes members, permissions, and platform resources | A `business` domain assigned namespaces on one or more data planes |
 | **Storage** | Holds table data and platform files; PostgreSQL holds platform metadata | Object storage for Iceberg tables, PostgreSQL for configuration |
 
-The default installation includes a control plane and a colocated data plane named `default`. Additional data planes run their own runtime services and register with that control plane. They can be in the same cluster, another data center, or another cloud region.
+A default installation contains the control plane and a **default data plane** with the ID `default`, both installed by one Helm release. Each **additional data plane** runs its own data-plane services, installed by its own Helm release, and registers with the control plane. It can be in the same cluster, another data center, or another cloud region. [Terms Used in These Guides](../deployment/architecture-deployment.md#terms-used-in-these-guides) defines these terms.
+
+The diagram shows one installation with the default data plane and an additional data plane, `analytics`:
 
 ```mermaid
 flowchart TB
-  accTitle: One control plane manages multiple data planes
-  accDescr: The control plane manages the default data plane and analytics. Data plane analytics manages the finance and marketing namespaces.
-  CP["Control plane"] --> Default["Data plane<br/>default"]
-  CP --> AnalyticsPlane["Data plane<br/>analytics"]
-  AnalyticsPlane --> FinanceNamespace["Namespace<br/>finance"]
-  AnalyticsPlane --> MarketingNamespace["Namespace<br/>marketing"]
+  accTitle: IOMETE system overview
+  accDescr: Users and client tools reach the console and APIs through the control-plane gateway, and the computes on the analytics data plane through that plane's gateway. The control plane runs the console and the core services and keeps platform state in PostgreSQL. It manages each data plane, whose gateway, agent, and Spark operator run its workloads. The default data plane runs its workloads in iomete-system. The analytics data plane runs its services in iomete-analytics and its workloads in the finance and marketing namespaces. Workloads read and write table data in object storage.
+
+  Clients["Users and client tools"]
+
+  subgraph ControlPlane["Control plane<br/>in iomete-system"]
+    CPGateway["Gateway"]
+    Console["Console"]
+    CoreServices["Core services"]
+  end
+
+  subgraph DefaultPlane["Data plane default<br/>in iomete-system"]
+    DefaultServices["Gateway, agent,<br/>Spark operator"]
+    DefaultWorkloads["Workloads in<br/>iomete-system"]
+  end
+
+  subgraph AnalyticsPlane["Data plane analytics<br/>in iomete-analytics"]
+    AnalyticsServices["Gateway, agent,<br/>Spark operator"]
+    AnalyticsWorkloads["Workloads in<br/>finance and<br/>marketing"]
+  end
+
+  Postgres[("PostgreSQL")]
+  Storage[("Object storage")]
+
+  Clients -->|"console and APIs"| CPGateway
+  Clients -->|"compute<br/>connections"| AnalyticsServices
+  CPGateway --> Console
+  CPGateway --> CoreServices
+  CoreServices --> Postgres
+  CoreServices -->|"manages"| DefaultServices
+  CoreServices -->|"manages"| AnalyticsServices
+  DefaultServices --> DefaultWorkloads
+  AnalyticsServices --> AnalyticsWorkloads
+  DefaultWorkloads --> Storage
+  AnalyticsWorkloads --> Storage
+  DefaultWorkloads ~~~ Postgres
 ```
 
-This diagram shows management relationships, not nested Kubernetes namespaces. The control-plane namespace, each runtime's service namespace, and its workload namespaces are peers in Kubernetes. You can place all the components above in one cluster or place the data planes in separate clusters.
+The arrows show which component calls which, not nesting in Kubernetes. The control plane and the default data plane share the service namespace `iomete-system`. The `analytics` data plane's services run in `iomete-analytics`, and its workloads run in the workload namespaces `finance` and `marketing`. All of these namespaces are siblings in Kubernetes. Client tools, such as BI tools, SQL clients, dbt, and Spark Connect applications, reach the default data plane's computes through the control-plane gateway and the `analytics` computes through that plane's gateway. You can place everything in one cluster or put the data planes in separate clusters.
 
-For example, a `business` domain can use both `finance` and `marketing` on `analytics`. A compute created in `marketing` runs there; assigning the namespace to the domain does not create another data plane or move existing workloads. See [Multi-Cluster Setup](../deployment/multi-cluster-setup.mdx) for topology choices.
+For example, a `business` domain can use both `finance` and `marketing` on `analytics`. A compute created in `marketing` runs there. Assigning a namespace to a domain doesn't create another data plane or move existing workloads. See [Multi-Cluster Setup](../deployment/multi-cluster-setup.mdx) for topology choices.
 
 ## Platform Services
 
-The control plane's services provide the shared console and management APIs. Data planes provide local runtime services, including an agent, gateway, Spark operator, metastore, and history server. Use compatible control-plane and runtime releases; the presence of separate containers does not imply that any mix of versions is supported.
+The control plane's services provide the shared console and management APIs. Each data plane runs its own services: an agent, a gateway, the Spark operator, a Hive metastore, and a Spark History Server. Use the same IOMETE version for the control plane and all its data planes; see [Release Versions](../deployment/architecture-deployment.md#release-versions).
 
 ### IOMETE Gateway
 
-The control-plane [Nginx](https://nginx.org/) gateway routes console and management API requests to the appropriate service. Each data plane also has a gateway for its workload connections and communication with the control plane. Spark Connect and Arrow Flight use gRPC; notebook connections also require WebSocket support. The ingress in front of each gateway must support the protocols you use.
+The control-plane [Nginx](https://nginx.org/) gateway routes console and management API requests to the right service. Each data plane also has a gateway for its compute connections and for calls between the planes. Spark Connect and Arrow Flight use gRPC, and notebooks also need WebSocket support, so the ingress in front of each gateway must support the protocols you use. See [Gateway Routing](../deployment/architecture-deployment.md#gateway-routing) for the routes.
 
 ### Core Service
 
@@ -74,7 +106,7 @@ The Cluster Service manages workload definitions and lifecycle operations across
 
 ### Data Plane Agent
 
-Each data plane's agent registers it with the control plane, reports its namespaces and runtime health, and forwards Kubernetes events. The control plane uses the agent to perform Kubernetes operations and retrieve workload status and logs in that plane. This is how one console manages workloads across cluster boundaries without installing another full control plane for each runtime.
+Each data plane's agent registers it with the control plane, reports its namespaces and health, and forwards Kubernetes events. The control plane calls the agent to run Kubernetes operations and to read workload status in that plane. With the default log settings, it also reads workload logs through the agent; see [Logging](../deployment/architecture-deployment.md#logging). This is how one console manages workloads across clusters without a full control plane in each one.
 
 ### Identity Service
 
@@ -92,10 +124,12 @@ Provides the backend for the [SQL Editor](/resources/user-guide/sql-editor/overv
 
 - SQL [query execution](/resources/user-guide/sql-editor/running-queries) and [result management](/resources/user-guide/sql-editor/query-results)
 - [Worksheets](/resources/user-guide/sql-editor/worksheets), [workspaces](/resources/user-guide/sql-editor/workspaces), and folder organization
-- [Git integration](/resources/integrations/git/git-integration) for version-controlled SQL
+- [Git integration](../integrations/git/git-integration.md) for version-controlled SQL
 - [Query history](/resources/user-guide/sql-editor/query-history) and monitoring
 - [Database explorer](/resources/user-guide/sql-editor/database-explorer) for schema and catalog browsing
 - [Dashboards](/resources/user-guide/sql-editor/dashboards)
+
+In 4.0.1, the SQL Editor can query a compute on a data plane in another Kubernetes cluster only when [SQL Editor V2](/resources/user-guide/feature-flags/sql-editor-v2) is turned on.
 
 ### Catalog Service
 
@@ -112,11 +146,11 @@ Implements the [Apache Iceberg REST Catalog](https://iceberg.apache.org/rest-cat
 
 ### Platform Health {#health-check-service}
 
-The Core Service exposes platform health information, including the status reported by each data plane. The console distinguishes control-plane services from data-plane runtimes, so a disconnected plane can be investigated without treating it as a failure of every plane. Health monitoring is part of Core in the 4.x architecture, rather than a separate `iom-health-check` deployment.
+The Core Service checks the platform's services every 10 seconds and keeps 48 hours of results, together with the status that each data plane reports. The console groups the results into control-plane services and one group per data plane, so a disconnected data plane doesn't look like a failure of every plane. In 4.x, health monitoring is part of Core, not a separate `iom-health-check` deployment. See [Health Check](/resources/user-guide/monitoring/health-check).
 
 ## Spark Infrastructure
 
-Spark is the execution engine for Spark computes and jobs. The components below manage how those workloads are created, submitted, and tracked.
+Spark is the execution engine for computes and Spark jobs. Each data plane runs its own Spark operator, Hive metastore, and Spark History Server. The components below manage how Spark workloads are created, submitted, and tracked.
 
 ### Spark Operator
 
@@ -128,21 +162,21 @@ A Kubernetes operator that manages Spark workloads through three components:
 
 ### Spark Connect (Internal)
 
-An internal Spark cluster used for metadata extraction and database explorer operations. It isn't user-facing. Instead, it powers features like schema browsing in the SQL Editor and Data Catalog.
+An internal Spark cluster used for metadata extraction and database explorer operations. It runs in the control-plane release and isn't user-facing. Instead, it powers features like schema browsing in the SQL Editor and Data Catalog.
 
 ### Spark History Server
 
-Reads Spark event logs from object storage and displays job history and performance details. You can access it through the IOMETE Console via the Core Service proxy.
+Reads Spark event logs from object storage and shows job history and performance details. Each data plane runs its own, and the console reaches it through the Core Service proxy.
 
 ## Workloads
 
-You create computes, Spark jobs, and Jupyter containers through the console or API, choosing a data plane and an assigned namespace. The runtime creates the corresponding Kubernetes resources there. Spark workloads use the Spark operator; supporting services are installed with the runtime chart.
+You create computes, Spark jobs, and Jupyter containers in the console or through the API, choosing a data plane and one of the namespaces assigned to your domain. The control plane asks that data plane to create the Kubernetes resources there, and Spark workloads run through the data plane's Spark operator.
 
 ### Compute Clusters
 
 These are SQL-accessible Spark clusters. Each one runs a Spark driver pod that exposes:
 
-- **HiveServer2** (port 10000): [JDBC](/resources/user-guide/driver/hive-jdbc-driver)/ODBC connections from BI tools, [dbt](/resources/integrations/dbt/getting-started-with-iomete-dbt), and other SQL clients
+- **HiveServer2** (port 10000): [JDBC](/resources/user-guide/driver/hive-jdbc-driver)/ODBC connections from BI tools, [dbt](../integrations/dbt/getting-started-with-iomete-dbt.md), and other SQL clients
 - **Spark Connect** (port 15002): gRPC protocol for programmatic access
 - **[Arrow Flight](/resources/user-guide/driver/arrow-flight-jdbc-driver)** (port 33333): high-performance gRPC data transfer (when enabled)
 
@@ -154,11 +188,11 @@ Batch and streaming Spark applications. You can submit Scala or PySpark jobs, sc
 
 ### Jupyter Containers
 
-Dedicated [JupyterLab](https://jupyterlab.readthedocs.io/) environments for interactive data exploration, ETL prototyping, and ML development. Each container runs as a separate pod inside the cluster and is accessible through the Gateway with full WebSocket support. See [Jupyter Containers](/resources/user-guide/notebook/jupyter-containers).
+Dedicated [JupyterLab](https://jupyterlab.readthedocs.io/) environments for interactive data exploration, ETL prototyping, and ML development. Each container runs as a separate pod in the selected namespace, and you reach it through the gateway, which forwards WebSocket traffic. See [Jupyter Containers](/resources/user-guide/notebook/jupyter-containers).
 
 ### Event Streams
 
-Real-time data ingestion endpoints powered by Papyrus, a Rust-based ingestion engine. Each event stream receives HTTP POST requests and writes data to Iceberg tables. This is an optional feature that an administrator must enable. See [Event Streams](/resources/user-guide/event-stream).
+Real-time data ingestion endpoints powered by Papyrus, a Rust-based ingestion engine. Each event stream receives HTTP POST requests and writes data to Iceberg tables. This is an optional feature: an administrator turns it on with `features.eventStream.enabled` on the control-plane release (see [Deployment Flags](../deployment/architecture-deployment.md#deployment-flags)). See [Event Streams](/resources/user-guide/event-stream).
 
 ## Security Architecture
 
@@ -204,11 +238,11 @@ IOMETE supports multiple storage backends. The URI scheme depends on the provide
 
 ### Database
 
-The control plane uses [PostgreSQL](https://www.postgresql.org/) databases for its services. You can provide administrator credentials for database initialization or provision the databases yourself. An additional runtime also needs a database for its Hive metastore; it does not need a second copy of all control-plane databases. PostgreSQL can be external to Kubernetes. See [Backend Databases](../deployment/backend-databases.md) for provisioning details.
+The control plane uses [PostgreSQL](https://www.postgresql.org/) databases for its services. You can provide administrator credentials so that the installation creates the databases, or provision them yourself. Each additional data plane also needs a database for its Hive metastore; it doesn't need a copy of the control plane's databases. PostgreSQL can run outside Kubernetes. See [Backend Databases](../deployment/backend-databases.md) for provisioning details.
 
 ## Real-Time Communication
 
-The Socket Service pushes events such as workload status changes to the console. Data-plane agents send runtime events to the control plane, which keeps the shared view up to date. A browser refresh or a connected agent alone is not a workload health check: verify the compute's status and execute a query when checking an end-to-end connection.
+The Socket Service pushes events such as workload status changes to the console. Data-plane agents send Kubernetes events to the control plane, which keeps the shared view up to date. A browser refresh or a connected agent alone is not a workload health check: verify the compute's status and execute a query when checking an end-to-end connection.
 
 ## Job Orchestration
 
@@ -221,10 +255,10 @@ See [Job Orchestrator](/resources/user-guide/spark-jobs/job-orchestrator) for co
 
 ## Deployment Architecture
 
-Understanding the deployment topology helps you plan infrastructure, estimate resource needs, and configure the Helm chart for your environment.
+Understanding the deployment topology helps you plan infrastructure, estimate resource needs, and configure the Helm charts for your environment.
 
 For chart roles, service placement, namespace configuration, and network requirements, see [Deployment Architecture](../deployment/architecture-deployment.md). The [Scalability](./scalability.md) guide explains when to add executors, nodes, namespaces, or data planes.
 
-For step-by-step installation instructions, see the [On-Premises Deployment Guide](../deployment/on-prem/install).
+For step-by-step installation instructions, see the [On-Premises Deployment Guide](../deployment/on-prem/install.md).
 
 <DemoCta variant="B" page="architecture" position="end" />
