@@ -3,7 +3,7 @@ title: SDK Usage for Spark Jobs
 sidebar_label: IOMETE SDK
 description: Manage Spark Jobs programmatically with IOMETE's Python SDK — create, update, delete, run, and monitor jobs via Python or cURL.
 last_update:
-  date: 11/06/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -24,7 +24,7 @@ pip install iomete-sdk
 ```
 
 :::info
-Requires Python 3.9 or higher. The SDK depends on `requests` and `dataclasses-json`.
+Requires Python 3.10 or higher. The SDK depends on `requests` and `dataclasses-json`.
 :::
 
 ## Prerequisites
@@ -57,7 +57,7 @@ job_client = SparkJobApiClient(
 
 ## Creating a Job
 
-Register a new Spark Job by sending a create request to the control plane. The payload chooses where the job runs: send `dataPlane` and `namespace` together. In this example, `finance` on `analytics` must already be assigned to your domain and available to your account. See [Deployment Namespace](./spark-application-config.md#deployment-namespace).
+Register a new Spark Job by sending a create request to the control plane. The payload chooses where the job runs: always send `dataPlane` and `namespace` together. In this example, the `finance` namespace on the `analytics` data plane must already be assigned to your domain, and both you and the job's run-as user need **Use** permission on it. See [Deployment Namespace](./spark-application-config.md#deployment-namespace).
 
 <Tabs>
   <TabItem value="python" label="Python" default>
@@ -122,8 +122,8 @@ The `bundleId` field is required when creating a job. The SDK raises a `ValueErr
 |-------|------|----------|-------------|
 | `name` | string | Yes | Job name (must be non-blank) |
 | `bundleId` | string | Yes | Bundle identifier (SDK validates presence) |
-| `dataPlane` | string | No | Data plane ID; send it with `namespace` to select the target explicitly. |
-| `namespace` | string | Yes | Kubernetes namespace assigned to the domain on the selected data plane. |
+| `dataPlane` | string | No | Data plane ID, for example `analytics`. Always send it with `namespace`: without it, IOMETE looks for the namespace on the `default` data plane first. |
+| `namespace` | string | Yes | Kubernetes namespace assigned to your domain on that data plane, for example `finance`. |
 | `template` | object | Yes | Job configuration (see template fields below) |
 | `description` | string | No | Job description |
 | `flow` | string | No | `LEGACY` (default) or `PRIORITY` |
@@ -155,7 +155,7 @@ The `bundleId` field is required when creating a job. The SDK raises a `ValueErr
 
 ## Updating a Job
 
-Modify an existing job's configuration, such as changing its schedule or instance sizing:
+Modify an existing job's configuration, such as changing its schedule or instance sizing. An update replaces the job's definition, so send the complete job, including `dataPlane` and `namespace`. If you leave out `dataPlane`, IOMETE resolves the namespace again and can move the job to a namespace with the same name on the `default` data plane. The Python example below starts from the job returned by `create_job`, which already contains both fields:
 
 <Tabs>
   <TabItem value="python" label="Python" default>
@@ -441,6 +441,8 @@ from iomete_sdk.spark.spark_job import Flow, Priority
 job_payload = {
     "name": "priority-job",
     "bundleId": "your-bundle-id",
+    "dataPlane": "analytics",
+    "namespace": "finance",
     "flow": Flow.PRIORITY.value,      # "LEGACY" or "PRIORITY"
     "priority": Priority.HIGH.value,   # "NORMAL" or "HIGH"
     "template": { ... }
