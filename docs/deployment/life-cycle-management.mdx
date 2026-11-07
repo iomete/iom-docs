@@ -166,7 +166,11 @@ If the database changes are not backward compatible, restore PostgreSQL and obje
 
 ## Monitoring and Management
 
-Monitor the Kubernetes services and the workloads users run. Check pod restarts, pending pods, failed initialization Jobs, operator errors and available capacity in each managed namespace. If you use Prometheus, Grafana or Loki, maintain their installation and retention policies separately; the IOMETE Helm release is not a backup for those systems.
+Monitor the Kubernetes services and the workloads users run. Check pod restarts, pending pods, failed initialization Jobs, operator errors and available capacity in the service namespace and each workload namespace.
+
+IOMETE publishes a monitoring chart, `iomete/iomete-monitoring-chart`, in the same Helm repository as the platform charts. It installs Prometheus, Grafana with IOMETE's dashboards and alert rules, node and PostgreSQL exporters, and Loki with Promtail for logs, which you can turn off. If you already run Prometheus, the `iomete/iomete-grafana` chart installs only Grafana, with IOMETE's dashboards reading from your Prometheus. To turn on metrics and use the dashboards, see [Monitoring](/resources/user-guide/k8s/monitoring).
+
+The monitoring stack is a separate Helm release. Upgrade it, and plan its storage and retention, on its own schedule: the IOMETE platform release does not back up its data.
 
 ## Planning Recovery and Availability {#high-availability--disaster-recovery}
 
