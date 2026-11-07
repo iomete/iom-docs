@@ -3,7 +3,7 @@ title: Security Overview
 sidebar_label: Security Overview
 description: Understand how IAM, RAS, Data Security, and Network Policies work together to form IOMETE's layered security model.
 last_update:
-  date: 11/05/2026
+  date: 11/07/2026
   author: Sourabh Jajoria
 ---
 
@@ -28,10 +28,10 @@ Kubernetes `NetworkPolicy` resources restrict traffic to and from selected pods 
 
 The deployment guide provides examples for two required connections:
 
-- **Spark Operator webhook access** — the Kubernetes API server must reach the operator's admission webhook to create or update Spark applications. Restrictive policies can block that connection and cause submission timeouts.
+- **Spark Operator webhook access** — the Kubernetes API server calls the operator's admission webhook whenever a pod is created in the plane's namespaces, including Spark driver and executor pods. If a policy blocks that call, each pod creation waits for the webhook's timeout, and Spark pods start without the settings the webhook adds.
 - **Service and workload communication** — the example allows traffic from namespaces labeled `iomete.com/managed: "true"` and from the ingress controller. It is one possible rule set, not a requirement to use that label for every network path. Cross-cluster connections and external dependencies need appropriate rules for their actual addresses.
 
-Network policies select Kubernetes pods, namespaces and IP ranges, not IOMETE users or groups. The broad communication example does not isolate domains from each other. Jupyter containers have a separate restrictive policy; another policy granting wider access can cancel that restriction.
+Network policies select Kubernetes pods, namespaces and IP ranges, not IOMETE users or groups. The broad communication example does not isolate domains from each other. The deployment guide also provides a restrictive policy for Jupyter containers; another policy that grants wider access cancels that restriction.
 
 See [Kubernetes Network Policies](/resources/deployment/network-policies) for YAML examples and troubleshooting steps.
 
@@ -42,7 +42,7 @@ See [Kubernetes Network Policies](/resources/deployment/network-policies) for YA
 IAM answers the question "who are you?" before any other layer evaluates a request. It covers:
 
 - **Users** — person accounts and service accounts, created locally or synced from an external directory.
-- **Groups** — named collections of users; groups can be nested. Groups are the primary unit of permission management across all other layers.
+- **Groups** — named collections of users; groups can be nested. Groups are the primary unit of permission management in RAS and Data Security.
 - **Authentication** — local credentials, LDAP directory sync, or federated identity via SAML/OIDC (Okta, OneLogin, Microsoft Entra ID, SCIM provisioning).
 - **Platform Roles** — coarse-grained admin rights such as `IAM_MANAGER` and `DATA_SECURITY_AND_AUDIT_MANAGER` that grant access to manage specific sections of the IOMETE console.
 
@@ -108,7 +108,7 @@ Access policies and masking policies reference the same users and groups that ar
 
 The following example shows how a data analyst in the `analytics-team` group accesses a production table:
 
-1. **Network** — The analyst can reach IOMETE, and the SQL service can connect to the selected compute through its gateway and proxy. The Spark operator manages Spark applications; SQL requests do not pass through it.
+1. **Network** — The analyst can reach the IOMETE console, and the SQL service can reach the selected compute. On the default data plane, the SQL service connects to the compute inside the cluster; a compute on another data plane is reached through that plane's ingress and gateway. The Spark operator manages Spark applications; SQL requests do not pass through it.
 2. **IAM** — The analyst authenticates via SSO. IOMETE resolves their identity and group memberships.
 3. **RAS** — The `analytics-prod` Resource Bundle grants `analytics-team` permission to use the `prod-cluster` compute cluster. The query runs on that cluster.
 4. **Data Security** — An Access Policy grants `analytics-team` SELECT on `prod_db.orders`. A row-level filter limits results to the analyst's assigned region. A masking policy replaces the `credit_card` column with `****`.
