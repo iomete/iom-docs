@@ -9401,7 +9401,7 @@ sass-loader@^16.0.2:
   dependencies:
     neo-async "^2.6.2"
 
-sass@^1.107.1:
+sass@^1.108.0:
   version "1.108.1"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.108.1.tgz#169e456df9ad50bac4593435a207106a59b645a1"
   integrity sha512-sIYgSvOPeD9wABwDS/ofNjHASSck+7h3jLkk7wG1NPFL3XeS6vOQjBlAFSmRV09kZr1yt/Tuayt6kKtBbLjHNQ==
