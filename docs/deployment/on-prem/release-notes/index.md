@@ -29,8 +29,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Shared Read Token**: An admin saves one read-only token on a repository, and everyone in the domain can then browse it, open its worksheets and switch branches without adding a token of their own. A user's own linked token is always used first. The token is verified when saved, stored encrypted and never shown again.
       - Repositories added before this release keep working as they are, with each user linking their own token, until an admin saves a read-only token on them.
     - **SQL Syntax Checking**: The SQL Editor underlines syntax errors as you type and lists them in a new **Problems** panel, where clicking one jumps to it. It is advisory, works without a running compute, and never blocks **Run**.
-    - **Resource Group Roles**: A role can now grant access to resource groups and to namespaces, rather than only per-resource permissions. Assign roles on a resource group's **Roles** tab, and manage built-in and custom resource roles under **Settings → Roles → Resource roles**. Turn it on with the `resourceGroupRoles` rollout flag, which is off by default. While it is off, only per-resource permissions apply, and role assignments are kept but have no effect.
+    - **Resource Group Roles**: A role can now grant access to resource groups and to namespaces, rather than only per-resource permissions. Assign roles on a resource group's **Members** tab, and manage built-in and custom resource roles under **Settings → Roles → Resource roles**. Turn it on with the `resourceGroupRoles` rollout flag, which is off by default. While it is off, only per-resource permissions apply, and role assignments are kept but have no effect.
+      - **Resource Role Details**: Opening a resource role under **Settings → Roles → Resource roles** shows the actions it grants and everyone it is assigned to, with the resource group each assignment covers.
+      - **Namespace Role Access**: Domain **Settings → Namespaces** has a **Role access** column listing the domain roles whose members can deploy to each namespace, and **Resource group** is renamed **Resource group access**.
     - **OIDC Single Logout**: A **Sign out of identity provider** switch on the OIDC provider page ends the user's session with the identity provider when they sign out of IOMETE. Off by default. Register the redirect URL shown on the page with your provider first.
+    - **OIDC Providers Without Discovery**: SSO can now use an OIDC identity provider that publishes no discovery document, such as MyGovId, by entering the authorization, token, JWKS and user info URLs, the issuer, and the claim that identifies the user. An issuer is required when the provider has no user info endpoint.
+    - **Dynatrace Logs**: Installs that send their logs to Dynatrace can now read and download Spark, compute, event stream and Jupyter logs in the console. Set `logging.source: dynatrace` in the install values, with your environment URL and a platform token.
   </NewFeatures>
 
   <Improvements>
@@ -51,7 +55,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Deleting Unused Resources**
       - **Domains**: A domain can be deleted once nothing in it is running. The refusal names each compute, notebook, event stream, Spark job and queued run that still needs removing.
       - **Data Planes**: A disconnected data plane can be deleted once no namespaces are assigned to it, and the refusal names the domains whose namespaces still hold it.
-    - **Resource Groups**: **Resource Bundles** are now called **Resource groups** throughout the console, and a group can carry key/value tags, shown on its list, form and details.
+    - **Resource Groups**
+      - **Resource Bundles** are now called **Resource groups** throughout the console, and a group can carry key/value tags, shown on its list, form and details.
+      - A resource group's **Members & Permissions** and **Roles** tabs are now one **Members** tab, with a row per member showing either a role or their per-resource permissions, marked **Legacy**. Opening a legacy row offers to replace it with a matching role, or to create one.
     - **Data Explorer**: Database and table lists have a **Total Storage** column next to **Size**, covering history and metadata as well as the current snapshot.
     - **Power BI and Tableau**: On a compute's **Connections** tab, the Power BI and Tableau tabs show the Arrow Flight connector settings when Arrow Flight is enabled, instead of the Thrift server URL, which those connectors don't accept.
     - **Console**
@@ -59,14 +65,20 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Refreshing Lists and Pickers**: List filters, form pickers and assign pickers have a **Refresh** action, and a refresh that fails is reported above the list you already have instead of replacing it.
       - **Links to People**: User and group names in lists, detail pages and Data Security policy conditions link to their pages.
       - **Namespaces**: Domain **Settings → Namespaces** shows each namespace's data plane.
+      - **Settings on Phones and Tablets**: Below 1024 pixels wide, domain and admin **Settings** show either the menu or the selected page, with a link back to the menu. Wider screens are unchanged.
+      - **Copying API Commands**: The **API operations** and **View code** dialogs have a **Bash / PowerShell** toggle, starting on PowerShell on Windows. The command shown before did not run in Windows PowerShell.
     - **Query Result Paging**: `GET /api/v1/domains/{domain}/sql/queries/{query_id}/result` accepts `offset` and `limit`, so a large result can be read a page at a time instead of loading all of it at once. Calls without the parameters are unchanged.
     - **MCP Server**
       - A result too large for one response now says how to recover, such as how many columns to ask for per call, or how to page through the rest.
       - `run_query` reports that a query needs confirmation only when the statement policy will actually refuse to run it without one.
       - Audit records are written out on a timer instead of only at shutdown.
       - Large query results use less memory, since tools read only the data they need.
+      - The `run_query` description tells agents that struct, array and map values can come back as text rather than JSON, and points them to `explain_query` for query plans.
     - **Gateway Rate Limiting**: Requests with no credential now have their own rate-limit pool, so anonymous traffic can no longer use up signed-in users' allowance. The defaults under `services.gateway.rateLimit.unauthenticated` match the previous shared limit, so upgrades change nothing.
     - **Login Lockout**: Ten failed sign-ins for an account within 15 minutes now block password sign-in for the rest of that window, and each lockout is recorded in the audit log. On by default, with a feature flag to turn it off.
+    - **Sign-In Rate Limiting**: Browser sign-in, admin sign-in and the token endpoint can now answer `429 Too Many Requests`, with a `Retry-After` header, after repeated attempts from one client address. Off by default, because it needs your ingress to pass the real client address through to the gateway.
+    - **Global Spark Settings**: A new setting whose key looks sensitive, such as one holding a password, token, secret or access key, is now locked automatically so its value stays hidden. Settings saved earlier are unchanged, and a row can still be locked or unlocked by hand.
+    - **Schema API**: The V1 schema endpoints (`/api/v1/domains/{domain}/schema/...` and `/api/v1/admin/schema/...`) answer from their own implementation again, including where Arrow Flight for the database explorer is on. Turn on the `schemaV1ForwardToV2` rollout flag, off by default, to have V2 answer them instead. V1 needs the `iom-spark-connect-rest-client` service, which is on by default.
     - **Private Certificate Authorities**: A new `caCertificates` setting points the platform at one Secret holding your CA bundle. The MCP server reads it first, and `services.mcpServer.iometeTls` is deprecated in its favour but keeps working. Nothing to change on upgrade.
     - **Jupyter Network Policy**: An optional network policy stops Jupyter containers reaching internal services and cloud metadata, leaving only the IOMETE gateway and the internet. Off by default, turn it on with `networkPolicies.jupyterContainers.enabled: true`.
     - **SQL Service Memory**: `iom-sql` now defaults its Java heap to 78% of its memory limit, down from 85%, so an overloaded pod logs an `OutOfMemoryError` instead of being killed without a trace. Set `services.sql.maxRAMPercentage` to change it for this service alone. A lower global `javaOpts.maxRAMPercentage` still wins.
@@ -93,8 +105,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark Connect REST Client**: Fixed API requests failing on larger workloads because the service ran out of memory while creating catalog sessions. Its heap now uses the same share of its memory limit as the other services.
     - **Spark Applications**: Fixed a run staying in `PendingRerun` forever when the previous attempt's Spark UI service or ingress had not finished being removed.
     - **Logs**
-      - Fixed **Download all logs** failing with a `500` for long logs on Splunk-based installs. The download now runs a single search and streams lines as they arrive.
-      - Fixed lines going missing from long Splunk logs, where lines written in the same millisecond as a page boundary could be skipped.
+      - Fixed **Download all logs** failing with a `500` for long logs on Splunk-based installs, and briefly taking down the console's compute features on very large runs. The download now runs a single search and streams lines one at a time as they arrive, instead of holding each day's logs in memory first.
+      - Fixed lines going missing from long Spark driver logs, where lines written in the same millisecond as a page boundary could be skipped. Splunk, Elasticsearch and Loki installs were all affected.
+      - Loki log lines that aren't JSON are now masked like the rest, instead of showing sensitive values.
       - Job logs that take too long to load from Splunk now report a timeout and ask for a shorter time range, instead of showing the gateway's error page. The 45 second limit can be changed per data plane in the Splunk settings.
       - Jupyter container logs now open on installs that send logs to Elasticsearch or Splunk, instead of showing an error.
       - Compute driver logs can be viewed and downloaded again on Loki-based installs.
@@ -108,21 +121,33 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Compute Clusters**
       - Fixed deleting a compute whose driver was still starting hanging for about 70 seconds and then failing, leaving the compute in the list with nothing behind it.
       - A compute left behind on a data plane an admin has removed can now be deleted.
+      - Saving or duplicating a compute no longer writes the masked `******` value over a stored secret, such as an S3 key or a credential in an environment variable, which left Spark unable to reach storage. A compute already saved that way needs its secret entered again, and duplicating one now asks for its secrets.
+      - Environment variables and Spark configuration values on compute and Jupyter container forms can be locked as secrets again, and a Jupyter container that uses a stored secret opens instead of failing. Clearing a value and saving now asks for a value instead of removing the entry.
     - **SQL Editor**
       - Numeric results are sorted without losing precision.
       - Moving a worksheet or folder no longer leaves the source folder behind, and empty subfolders are kept.
       - Moving to **Shared** no longer drops a folder's contents, and a newly created folder appears in **Move to**.
       - Autocomplete keeps working when a schema lookup fails.
       - The Jupyter connection URL no longer contains the token twice.
+      - The timer on a running query shows the real elapsed time, instead of adding the difference between your computer's clock and the server's.
+      - The empty state keeps its action buttons visible when the result panel leaves the editor pane short.
     - **Data Catalog**
       - The V2 table and schema APIs now answer like V1. A missing table or schema returns `404` or `403` instead of `200` with an empty list, table details carry the comment, V1 type names and the details, metadata columns and defaults that `DESCRIBE` reports, and the catalog list is sorted by name.
       - Catalog search returns `404 Not Found` before the first index run and `400 Bad Request` for a bad filter or page size, instead of `500 Internal Server Error`.
+      - The V2 namespace list returns each catalog's properties, credentials and resource tags again, as V1 does, with secret values masked.
     - **Webhooks**: Fixed saving a change to a webhook failing with a `412` through the gateway.
     - **Console**
       - After signing in, you return to the page you were on.
       - Opening a link to a domain you can't access now says so, instead of failing silently.
       - A compute's executor state is shown next to its driver state again.
       - Deleting a Marketplace application returns to the Marketplace list.
+      - Copy actions work on installs served over plain HTTP, instead of doing nothing.
+      - A tab, drawer, panel or table that fails to load no longer renames the browser tab to **Error**, and shows its error in place. Table maintenance also shows its **assign a catalog owner** notice again, and the Vault form's access-denied page has a way back.
+    - **Spark Query Plan Redaction**: Fixed Spark drivers slowing down on jobs that run many queries or build large query plans, caused by the redaction of secrets in plan text added in `v3.18.0`. Secrets are still redacted. If you set `spark.redaction.string.regex=(?!)` to work around it, you can remove that setting after upgrading.
+    - **Adding a Namespace**: Fixed a namespace added to the `namespaces` list in your Helm values being refused when assigned to a domain until the platform was restarted by hand, with an error that read as an access problem. The upgrade now rolls out the new list, and a namespace the platform doesn't know about returns a configuration error naming what to check. Installations that keep their database password in their own Secret can also reach computes in namespaces added this way.
+    - **Admin Audit Log**: Fixed the admin audit log returning no rows when data access auditing is turned on.
+    - **Access Tokens**: Fixed a custom expiry date being counted one day short in time zones where daylight saving starts at midnight, so choosing the next day created a token that never expired.
+    - **Event Stream Settings**: Saving a change to a running event stream now shows the message asking you to stop it first, instead of reporting it on the **Name** field as a duplicate name.
   </BugFixes>
 
 **Spark version:** [4.1.3-v2](./spark.md)
