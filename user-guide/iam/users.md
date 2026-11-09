@@ -1,10 +1,10 @@
 ---
 slug: /users
 title: Users
-description: Create and manage user accounts, reset passwords, assign groups and admin roles, and control access across the data plane.
+description: Create and manage user accounts, reset passwords, assign groups and admin roles, and control access across IOMETE.
 sidebar_label: Users
 last_update:
-  date: 03/25/2026
+  date: 11/05/2026
   author: Abhishek Pathania
 ---
 
@@ -12,7 +12,7 @@ import Img from '@site/src/components/Img';
 
 ## User Accounts at a Glance
 
-Every person or system that accesses the IOMETE data plane needs a user account. Each account has a **type** (`Person` or `Service Account`) and an **origin** that indicates how it was provisioned: `IOMETE` (local), `LDAP` (directory sync), or `IDP` (SAML/OIDC).
+IOMETE manages user accounts centrally in the control plane. Users access domains and data-plane resources according to their assigned permissions. Each account has a **type** (`Person` or `Service Account`) and an **origin** that indicates how it was provisioned: `IOMETE` (local), `LDAP` (directory sync), or `IDP` (SAML/OIDC).
 
 The admin portal lets you create accounts, edit profiles, reset passwords, assign groups and admin roles, switch account types, and delete accounts. Users also appear in the domain-level **Members** view for domain-scoped role assignment.
 
