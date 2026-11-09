@@ -6338,7 +6338,7 @@ ignore@^5.2.0, ignore@^5.2.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.3.2.tgz#3cd40e729f3643fd87cb04e50bf0eb722bc596f5"
   integrity sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==
 
-image-size@^2.0.2, image-size@^2.0.4:
+image-size@^2.0.2, image-size@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-2.1.0.tgz#744768cd32be19583c5adb7491e265ccca03ecc8"
   integrity sha512-6Dbisa46RsgeAh3TMSFL2i8+uIFG+/LRmz6Q2oscSJJvXo1sOw3EgNO4M8jPl1P+gR1atJLDPrpclX4IHz63sA==
