@@ -38,7 +38,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </NewFeatures>
 
   <Improvements>
-    - **Spark 4 Is the Default**: New compute clusters and Spark jobs now default to the Spark image `4.1.3-v2`, moving the platform default from the Spark 3.5 line to Spark 4.1. `3.5.7-v7` stays selectable, and existing computes and jobs keep the image they already use. See the [Spark release notes](./spark.md).
+    - **Spark 4 Is the Default**: New compute clusters and Spark jobs now default to the Spark image `4.1.3-v3`, moving the platform default from the Spark 3.5 line to Spark 4.1. `3.5.7-v7` stays selectable, and existing computes and jobs keep the image they already use. See the [Spark release notes](./spark.md).
     - **Marketplace Jobs**: Job templates now deploy the marketplace job versions this release ships: Data Compaction `1.2.14`, File Streaming `1.0.1`, Catalog Sync `5.1.1`, MySQL Sync `3.0.0`, Kafka Iceberg Stream `1.2.0` and Cleanup Untracked Table Folders `0.1.5`. See the [Marketplace Jobs release notes](./marketplace-jobs.md) for what changed in each.
     - **Access Tokens**
       - **Rename and Regenerate**: A token can be renamed, and its secret can be replaced in place while keeping its name and settings. Regenerating an expired token's secret also makes it active again, with a fresh expiry.
@@ -57,7 +57,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Data Planes**: A disconnected data plane can be deleted once no namespaces are assigned to it, and the refusal names the domains whose namespaces still hold it.
     - **Resource Groups**
       - **Resource Bundles** are now called **Resource groups** throughout the console, and a group can carry key/value tags, shown on its list, form and details.
-      - A resource group's **Members & Permissions** and **Roles** tabs are now one **Members** tab, with a row per member showing either a role or their per-resource permissions, marked **Legacy**. Opening a legacy row offers to replace it with a matching role, or to create one.
+      - With the `resourceGroupRoles` flag on, a resource group's **Members & Permissions** and **Roles** tabs become one **Members** tab, with a row per member showing either a role or their per-resource permissions, marked **Legacy**. Opening a legacy row offers to replace it with a matching role, or to create one. Namespace access stays a per-resource permission either way, since resource roles can't grant it.
     - **Data Explorer**: Database and table lists have a **Total Storage** column next to **Size**, covering history and metadata as well as the current snapshot.
     - **Power BI and Tableau**: On a compute's **Connections** tab, the Power BI and Tableau tabs show the Arrow Flight connector settings when Arrow Flight is enabled, instead of the Thrift server URL, which those connectors don't accept.
     - **Console**
@@ -67,6 +67,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Namespaces**: Domain **Settings → Namespaces** shows each namespace's data plane.
       - **Settings on Phones and Tablets**: Below 1024 pixels wide, domain and admin **Settings** show either the menu or the selected page, with a link back to the menu. Wider screens are unchanged.
       - **Copying API Commands**: The **API operations** and **View code** dialogs have a **Bash / PowerShell** toggle, starting on PowerShell on Windows. The command shown before did not run in Windows PowerShell.
+      - **Error Messages**: Errors in the SQL Editor's Database explorer and Worksheets, in Spark job run details and on dashboards now show a short summary with a **See more** link to the full text, which keeps its line breaks. These views no longer have a copy button.
+      - **Service Account Help**: The **Service account** switch in the Create user drawer has an info tooltip explaining what a service account is.
     - **Query Result Paging**: `GET /api/v1/domains/{domain}/sql/queries/{query_id}/result` accepts `offset` and `limit`, so a large result can be read a page at a time instead of loading all of it at once. Calls without the parameters are unchanged.
     - **MCP Server**
       - A result too large for one response now says how to recover, such as how many columns to ask for per call, or how to page through the rest.
@@ -105,7 +107,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Spark Connect REST Client**: Fixed API requests failing on larger workloads because the service ran out of memory while creating catalog sessions. Its heap now uses the same share of its memory limit as the other services.
     - **Spark Applications**: Fixed a run staying in `PendingRerun` forever when the previous attempt's Spark UI service or ingress had not finished being removed.
     - **Logs**
-      - Fixed **Download all logs** failing with a `500` for long logs on Splunk-based installs, and briefly taking down the console's compute features on very large runs. The download now runs a single search and streams lines one at a time as they arrive, instead of holding each day's logs in memory first.
+      - Fixed **Download all logs** failing with a `500` for long logs on Splunk-based installs, and briefly taking down the console's compute features on very large runs. The download now streams lines as they arrive instead of holding them in memory first, and copes with far busier runs. If one still times out, raise `splunk.log-download.read-timeout-seconds` (default `240`) or lower `splunk.log-download.window-hours` (default `4`) in system settings.
       - Fixed lines going missing from long Spark driver logs, where lines written in the same millisecond as a page boundary could be skipped. Splunk, Elasticsearch and Loki installs were all affected.
       - Loki log lines that aren't JSON are now masked like the rest, instead of showing sensitive values.
       - Job logs that take too long to load from Splunk now report a timeout and ask for a shorter time range, instead of showing the gateway's error page. The 45 second limit can be changed per data plane in the Splunk settings.
@@ -150,7 +152,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Event Stream Settings**: Saving a change to a running event stream now shows the message asking you to stop it first, instead of reporting it on the **Name** field as a duplicate name.
   </BugFixes>
 
-**Spark version:** [4.1.3-v2](./spark.md)
+**Spark version:** [4.1.3-v3](./spark.md)
 **Iceberg version:** 1.9.0-iomete-5
 
 </Release>
