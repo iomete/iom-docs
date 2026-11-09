@@ -3,8 +3,8 @@ title: IOMETE Spark Release Notes
 sidebar_label: Spark
 description: Release notes for IOMETE Spark images. Learn about new features, improvements, security updates, and bug fixes in each Spark image release.
 last_update:
-  date: 11/04/2026
-  author: Rovshan Baghirov
+  date: 11/09/2026
+  author: Jabrail Gadgiev
 ---
 
 import Mailer from '@site/src/components/Mailer';
@@ -32,6 +32,23 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     `az acr repository show-tags -n iomete --repository iomete/spark --detail`.
     Never an rc push or the tagged commit date; both predate availability.
 */}
+
+<Release name="Spark" version="4.1.3-v3" date="November 10, 2026">
+  <ReleaseDescription>
+    A maintenance release for the Spark 4 line that brings the V2 [Database Explorer APIs](/user-guide/sql-editor/database-explorer-api-migration) in line with V1: column comments, exact column types, `DESCRIBE` details for tables and views, and errors instead of empty listings when a catalog fails. The table and view details need IOMETE 4.0.2 or later, which reads the new metadata Spark sends.
+  </ReleaseDescription>
+
+  <Improvements>
+    - **Column Comments over Arrow Flight SQL**: Table schemas that Spark returns to Flight SQL `GetTables` requests now carry column comments as the standard `ARROW:FLIGHT:SQL:REMARKS` column metadata, including on nested struct fields inside arrays and maps. The V2 table details API returns them in `columns[].comment` and `fields[].metadata`, as V1 does.
+    - **V2 Table Details Match V1**: Spark now sends each table's Spark schema and what `DESCRIBE TABLE EXTENDED` shows for it alongside the Flight SQL table schema. The V2 table details API uses them to return what V1 returns: `char(n)` and `varchar(n)` types instead of `string`, column data types as `DESCRIBE` prints them, a `type` of `MANAGED` or `EXTERNAL` instead of `TABLE`, every `DESCRIBE` row for Hive tables, Iceberg metadata columns (`_spec_id`, `_partition`, `_file`, `_pos`, `_deleted`) and column default values. Secret-looking table properties stay redacted, using Spark's redaction patterns (`spark.sql.redaction.options.regex`, `spark.redaction.regex`).
+  </Improvements>
+
+  <BugFixes>
+    - **Views Returned 404 from V2 Table Details**: Hive views in `spark_catalog` were listed by the V2 APIs but returned 404 "Table not found" when described. They now return their columns, plus the view rows V1 returns: `View Text`, `View Original Text`, `View Catalog and Namespace` and `View Query Output Columns`. Iceberg views get V1's view rows too. Describing a view reads its stored metadata only and never scans the tables it references.
+    - **Failing Catalogs Listed as Empty**: Listing the namespaces of a REST catalog whose server answers 404, for example behind a wrong URI, prefix or proxy, now returns the catalog's error instead of an empty list. An empty REST catalog still lists as empty. Listing the tables of a namespace whose name contains `_`, such as `my_db`, likewise returns the error when that namespace fails, instead of an empty list.
+    - **New Tables Missing after a Refresh**: A table listing with `forceRefresh=true` now also refreshes the cached namespaces, so a table just created in a new database shows up right away instead of after up to 10 minutes.
+  </BugFixes>
+</Release>
 
 <Release name="Spark" version="4.1.3-v2" date="November 4, 2026">
   <ReleaseDescription>
