@@ -18,6 +18,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <BreakingChanges>
     - **V1 Schema API Routing**: Removed automatic V1 forwarding when `arrowFlightForDbExplorer` is enabled. Enable `schemaV1ForwardToV2` to retain forwarding after upgrading. Without forwarding, V1 requires the `iom-spark-connect-rest-client` service. See [Forwarding V1 Routes to V2](/resources/user-guide/sql-editor/database-explorer-api-migration#forwarding-v1-to-v2).
     - **V2 Schema API Responses**: Changed status codes, type names, the table comment field location, and secret redaction. Review the [Behavior Differences](/resources/user-guide/sql-editor/database-explorer-api-migration#behavior-differences) before upgrading clients that call V2 or forward V1 requests to V2.
+    - **V1 Schema API on Spark 4.1**: With the new Spark 4.1 default, V1 encloses namespace names that begin with a digit in backticks, such as `` `1db` ``, and adds a `Statistics` row to table details. See [Schema Server Image](/resources/user-guide/sql-editor/database-explorer-api-migration#schema-server-image).
   </BreakingChanges>
 
   <NewFeatures>
