@@ -39,9 +39,9 @@ Enabling the flag unlocks role-based access on resource groups: an administrator
 
 Enabling the flag also unlocks namespace control on domain roles: a domain role can define which namespaces its members are allowed to deploy to. Without the flag, a role-based namespace list is not applied.
 
-### Role management
+### Role assignments and namespace lists
 
-Roles, their members, and their namespace lists become manageable. Role assignments and namespace lists are stored, and only take effect while the flag is on.
+Adds role assignments on resource groups and namespace lists on roles. Both are stored, and only take effect while the flag is on. Roles themselves stay manageable without the flag.
 
 ## Rollout Considerations
 
@@ -53,7 +53,7 @@ Enabling the flag adds access, it never removes it: permissions a resource group
 
 Nothing is deleted. Role assignments and namespace lists are kept, and apply again when the flag is turned back on.
 
-Before disabling, confirm nobody depends only on a role for access, and tell affected users first.
+Before disabling, confirm no user or group depends only on a role for access, and tell affected users first.
 
 ## References
 
