@@ -37,18 +37,18 @@ If you already use V2, review the [changes in IOMETE 4.0.2](#changes-in-4-0-2) b
     enabled: true
   ```
 
-- The shared schema server on the [Spark 4.1 image](#schema-server-image).
+- The shared schema server on the [Spark 4.1 image](#schema-server-image), which IOMETE 4.0.2 uses by default.
 
 ### Schema Server Image {#schema-server-image}
 
-To apply all table details fixes introduced in IOMETE 4.0.2, run the shared schema server on `spark-py:4.1.3-v3` or later (Spark 4.1). Set the image version with `docker.defaultSparkPyVersion`. This setting does not change the images used by your compute clusters.
+The table details fixes introduced in IOMETE 4.0.2 need the shared schema server on `spark-py:4.1.3-v3` or later (Spark 4.1). IOMETE 4.0.2 uses `4.1.3-v3` by default, so you don't need to change anything unless your Helm values pin an older version in `docker.defaultSparkVersion` or `docker.defaultSparkPyVersion`. In that case, remove the pin or set it to `4.1.3-v3` or later. `docker.defaultSparkPyVersion` changes only the schema server image, not the images your compute clusters use.
 
 On Spark 4.1, V1 responses also change:
 
 - V1 encloses namespace names that begin with a digit in backticks, for example, `` `1db` ``.
 - Table details include a `Statistics` row in `detailedTableInfo`.
 
-V2 remains available on older images, including Spark 3.5. Changes to status codes, secret redaction, snapshot timestamps, name matching, and live retrieval for forwarded V1 requests still apply. The following limitations remain until you upgrade the schema server:
+V2 remains available on older images, including Spark 3.5. Changes to status codes, secret redaction, snapshot timestamps, name matching, and live retrieval for forwarded V1 requests still apply. The following limitations remain until the schema server runs Spark 4.1:
 
 - Table details return `type: TABLE` and the previous column and field type names.
 - Additional `DESCRIBE` rows, metadata columns, and column comments are unavailable.
@@ -57,7 +57,7 @@ V2 remains available on older images, including Spark 3.5. Changes to status cod
 
 ## Migrating an Integration {#migration-checklist}
 
-1. Upgrade to IOMETE 4.0.2 or later and update the shared schema server to the [required image](#schema-server-image).
+1. Upgrade to IOMETE 4.0.2 or later, and make sure your Helm values don't pin the shared schema server to an image older than the [required image](#schema-server-image).
 2. Enable `arrowFlightForDbExplorer` in your Helm values.
 3. Review the [response changes](#changes-in-4-0-2) and [differences from V1](#differences-from-v1). Update your client to handle status codes, type names, redacted values, and partial listings.
 4. Replace your V1 endpoint paths with the V2 paths in the [endpoint reference](#endpoint-mapping-reference). **List Catalogs** remains on V1.
@@ -138,7 +138,7 @@ Unless noted otherwise, these changes apply to V2 requests and [V1 requests forw
 
 ### Changes in IOMETE 4.0.2 {#changes-in-4-0-2}
 
-IOMETE 4.0.2 updates V2 responses to align more closely with V1. If you already use V2, review the **Client Action** column for response handling changes before upgrading. Table details fixes also require the [schema server image update](#schema-server-image).
+IOMETE 4.0.2 updates V2 responses to align more closely with V1. If you already use V2, review the **Client Action** column for response handling changes before upgrading. Table details fixes also require the [Spark 4.1 schema server image](#schema-server-image), the 4.0.2 default.
 
 If you migrate from V1, review these response formats along with the [differences that remain](#differences-from-v1).
 

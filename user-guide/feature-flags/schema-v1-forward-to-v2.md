@@ -21,7 +21,7 @@ The `schemaV1ForwardToV2` flag forwards V1 [Database Explorer API](../sql-editor
 
 IOMETE `4.0.2` or later.
 
-Enable `arrowFlightForDbExplorer` in your Helm values before enabling this flag. Update the shared schema server to the [required Spark 4.1 image](../sql-editor/database-explorer-api-migration.md#schema-server-image) to apply all table details fixes introduced in IOMETE 4.0.2.
+Enable `arrowFlightForDbExplorer` in your Helm values before enabling this flag. Keep the shared schema server on the [required Spark 4.1 image](../sql-editor/database-explorer-api-migration.md#schema-server-image), the IOMETE 4.0.2 default, to apply all table details fixes introduced in 4.0.2.
 
 ### Deployment Setup Changes
 
@@ -44,7 +44,7 @@ Forwarded requests return V2 responses and always retrieve live metadata. V2 app
 
 ## Rollout Considerations
 
-1. Enable `arrowFlightForDbExplorer` and update the schema server to the [required image](../sql-editor/database-explorer-api-migration.md#schema-server-image).
+1. Enable `arrowFlightForDbExplorer` and check that the schema server runs the [required image](../sql-editor/database-explorer-api-migration.md#schema-server-image).
 2. Update your V1 clients to handle the [V2 response differences](../sql-editor/database-explorer-api-migration.md#behavior-differences), including status codes, access checks, and partial listings.
 3. Enable `schemaV1ForwardToV2` under **Administration → Feature Flags**. See [Managing Feature Flags](./managing-feature-flags.md).
 
