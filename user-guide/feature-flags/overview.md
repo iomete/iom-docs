@@ -16,4 +16,5 @@ Admins control them from the admin panel under **Administration → Feature Flag
 - [Secrets V2](./secrets-v2.md)
 - [LDAP Group Inheritance](./ldap-group-inheritance.md)
 - [SQL Editor V2](./sql-editor-v2.md)
+- [Resource Group Roles](./resource-group-roles.md)
 - [V1 Schema API Forwarding](./schema-v1-forward-to-v2.md)
