@@ -41,9 +41,7 @@ If you already use V2, review the [changes in IOMETE 4.0.2](#changes-in-4-0-2) b
 
 ### Schema Server Image {#schema-server-image}
 
-{/* TODO(LKH-1082): replace 4.1.3-vX with the released spark-py tag that holds the arrow-server fixes. */}
-
-To apply all table details fixes introduced in IOMETE 4.0.2, run the shared schema server on `spark-py:4.1.3-vX` or later (Spark 4.1). Set the image version with `docker.defaultSparkPyVersion`. This setting does not change the images used by your compute clusters.
+To apply all table details fixes introduced in IOMETE 4.0.2, run the shared schema server on `spark-py:4.1.3-v3` or later (Spark 4.1). Set the image version with `docker.defaultSparkPyVersion`. This setting does not change the images used by your compute clusters.
 
 On Spark 4.1, V1 responses also change:
 

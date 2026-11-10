@@ -14,7 +14,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-{/* TODO(LKH-1082): set the 4.0.2 release date, and replace 4.1.3-vX with the released spark-py tag that holds the arrow-server fixes. */}
+{/* TODO(LKH-1082): set the 4.0.2 release date. */}
 
 <Release version="4.0.2" date="TBD">
   <NewFeatures>
@@ -22,7 +22,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </NewFeatures>
 
   <Improvements>
-    - **Database Explorer API**: Aligned V2 response fields, types, and status codes more closely with V1. All table details fixes require the shared schema server to run `spark-py:4.1.3-vX` or later (Spark 4.1). See [Database Explorer API Migration](/resources/user-guide/sql-editor/database-explorer-api-migration).
+    - **Database Explorer API**: Aligned V2 response fields, types, and status codes more closely with V1. All table details fixes require the shared schema server to run `spark-py:4.1.3-v3` or later (Spark 4.1). See [Database Explorer API Migration](/resources/user-guide/sql-editor/database-explorer-api-migration).
   </Improvements>
 
   <BreakingChanges>
