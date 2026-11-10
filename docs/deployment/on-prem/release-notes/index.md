@@ -82,7 +82,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Global Spark Settings**: A new setting whose key looks sensitive, such as one holding a password, token, secret or access key, is now locked automatically so its value stays hidden. Settings saved earlier are unchanged, and a row can still be locked or unlocked by hand.
     - **Schema API**: The V1 schema endpoints (`/api/v1/domains/{domain}/schema/...` and `/api/v1/admin/schema/...`) answer from their own implementation again, including where Arrow Flight for the database explorer is on. Turn on the `schemaV1ForwardToV2` rollout flag, off by default, to have V2 answer them instead. V1 needs the `iom-spark-connect-rest-client` service, which is on by default.
     - **Private Certificate Authorities**: A new `caCertificates` setting points the platform at one Secret holding your CA bundle. The MCP server reads it first, and `services.mcpServer.iometeTls` is deprecated in its favour but keeps working. Nothing to change on upgrade.
-    - **Jupyter Network Policy**: An optional network policy stops Jupyter containers reaching internal services and cloud metadata, leaving only the IOMETE gateway and the internet. Off by default, turn it on with `networkPolicies.jupyterContainers.enabled: true`.
+    - **Jupyter Network Policy**: An optional network policy stops Jupyter containers reaching internal services and cloud metadata, leaving only the IOMETE gateway and the internet. Off by default, turn it on with `networkPolicies.jupyterContainers.enabled: true`. Notebooks reach cluster DNS through the `k8s-app: kube-dns` pods in `kube-system`; if your DNS runs elsewhere, list it in `networkPolicies.jupyterContainers.dnsServers`.
     - **SQL Service Memory**: `iom-sql` now defaults its Java heap to 78% of its memory limit, down from 85%, so an overloaded pod logs an `OutOfMemoryError` instead of being killed without a trace. Set `services.sql.maxRAMPercentage` to change it for this service alone. A lower global `javaOpts.maxRAMPercentage` still wins.
     - **Event Stream**
       - ⚠️ **Parallel Pod Start**: Event Stream pods now start in parallel, so one pod under backpressure no longer stops the others from being created. The upgrade recreates the StatefulSet and keeps the running pods. If you supply your own service account (`serviceAccount.create: false`), give it permission to get and delete StatefulSets in the IOMETE namespace before upgrading.
@@ -93,10 +93,10 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Platform Security Updates**: Resolved critical and high-severity CVEs in the backend services and in the Jupyter notebook, gateway, rate limiter, Hive Metastore, Typesense and job orchestrator images. No change in behavior and no migration required.
     - **Security Hardening**
       - The API reference and Swagger UI now require signing in, and the login, SSO and API documentation pages refuse to be embedded in other sites.
-      - Gateway responses no longer reveal the proxy name or its version, and gateway access logs no longer record login codes.
+      - Gateway responses no longer send a `Server` header or reveal the proxy version, and gateway access logs no longer record login codes.
       - Malformed requests and invalid password reset codes return a client error instead of a `500`, and REST catalog errors no longer return Java stack traces.
       - A password reset code is now accepted only on the reset page, closing a way to change a password without knowing the current one.
-      - Jupyter containers no longer receive a Kubernetes API token or internal control plane addresses.
+      - Jupyter containers no longer receive a Kubernetes API token or internal control plane addresses. Containers created before the upgrade pick this up the next time they are stopped and started.
       - Compute deployment logs no longer contain the rendered specification with its resolved secrets, and the REST catalog rate limiter no longer stores or returns token secrets.
       - Table details no longer return a data source's connection options in plain text, such as a JDBC password. They are listed as storage properties with secrets redacted.
       - The domain catalog, schema, S3 browser and Spark properties routes now check that you have access to the domain.
