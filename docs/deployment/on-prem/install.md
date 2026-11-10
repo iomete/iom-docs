@@ -191,7 +191,7 @@ A Kubernetes administrator generates the resources from the chart and applies th
      create: false
    ```
 
-Helm doesn't update resources an administrator created. Repeat step 1 after you [add a namespace](../connect-namespace.md) or change `namespaces`, `docker.imagePullSecrets` or `serviceAccount.annotations`, and apply CRD changes as described in [Upgrading the CRDs](#upgrading-the-crds) when you upgrade to a new chart version.
+Helm doesn't update resources an administrator created. Repeat step 1 after you [add a namespace](../connect-namespace.md) or change `namespaces`, `docker.imagePullSecrets` or `serviceAccount.annotations`, and apply CRD changes as described in [Upgrading the CRDs](#upgrading-the-crds) when you upgrade to a new chart version. Repeat it too when you enable Doris computes: the Role then gains permission to manage `networkpolicies`, and without it the first Doris compute fails to start with a `403` on the NetworkPolicy create.
 
 :::tip Mixing both options
 You can combine the two options. For example, let Helm create the service account and have an administrator create the CRDs and the webhook. Set each switch to `true` only for what Helm creates.
