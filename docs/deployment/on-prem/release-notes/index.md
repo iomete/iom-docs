@@ -128,7 +128,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - The V2 table and schema APIs now answer like V1. A missing table or schema returns `404` or `403` instead of `200` with an empty list, table details carry the comment, V1 type names and the details, metadata columns and defaults that `DESCRIBE` reports, and the catalog list is sorted by name.
       - Catalog search returns `404 Not Found` before the first index run and `400 Bad Request` for a bad filter or page size, instead of `500 Internal Server Error`.
       - The V2 namespace list returns each catalog's properties, credentials and resource tags again, as V1 does, with secret values masked.
-    - **Webhooks**: Fixed saving a change to a webhook failing with a `412` through the gateway.
     - **Console**
       - After signing in, you return to the page you were on.
       - Opening a link to a domain you can't access now says so, instead of failing silently.
