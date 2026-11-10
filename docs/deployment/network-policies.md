@@ -213,7 +213,10 @@ networkPolicies:
     enabled: true
 ```
 
-**One thing to check first.** The policy blocks private addresses (anything in `10.x`, `172.16-31.x` or `192.168.x`). If your object storage or any data source sits on a private address, list it under `extraEgress`, or Spark jobs will not be able to reach it:
+**Two things to check first.**
+
+- The policy does not apply to pods that `iomete-ingress-egress` also selects, because Kubernetes adds up what matching policies allow and that one allows all egress. If you applied it, exclude the workloads from its `podSelector` by adding `compute`, `sparkApp`, `scheduledSparkApp` and `eventStream` next to `jupyterContainer` in the `NotIn` list, and keep them there when you re-apply it later.
+- The policy blocks private addresses (anything in `10.x`, `172.16-31.x` or `192.168.x`), except on the Kubernetes API ports `443` and `6443`, which stay open to any address until you set `kubernetesApi.cidrs`. If your object storage or any data source sits on a private address, list it under `extraEgress`, or Spark jobs will not be able to reach it:
 
 ```yaml title="values.yaml"
 networkPolicies:
@@ -232,7 +235,7 @@ networkPolicies:
 |---|---|
 | `enabled` | Turn the policy on. |
 | `extraEgress` | Allow a private address the workloads need, such as object storage or a database. |
-| `kubernetesApi.cidrs` | Optional. Pin the API-server egress to these addresses. Left empty, the API ports stay open to any address. |
+| `kubernetesApi.cidrs` | Pin the API-server egress to these addresses (the IPs from `kubectl get endpoints kubernetes -n default`). Left empty, ports `443` and `6443` stay open to any address, private ones included. |
 | `blockedCidrs` | Change which ranges count as private. Setting it replaces the default list. |
 | `monitoringNamespaces` | Allow extra namespaces to scrape Spark metrics, besides `monitoring`. |
 
