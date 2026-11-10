@@ -90,15 +90,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Lakehouse Agent**: The data plane agent runs two pods by default, so Spark sign-ins survive one pod restarting.
     - **JVM Diagnostics**: Platform services expose thread dumps, thread state summaries and deadlock detection under `/api/v1/admin/diagnostics/threads`, for Domain Managers.
     - **Platform Security Updates**: Resolved critical and high-severity CVEs in the backend services and in the Jupyter notebook, gateway, rate limiter, Hive Metastore, Typesense and job orchestrator images. No change in behavior and no migration required.
-    - **Security Hardening**
-      - The API reference and Swagger UI now require signing in, and the login, SSO and API documentation pages refuse to be embedded in other sites.
-      - Gateway responses no longer send a `Server` header or reveal the proxy version, and gateway access logs no longer record login codes.
-      - Malformed requests and invalid password reset codes return a client error instead of a `500`, and REST catalog errors no longer return Java stack traces.
-      - A password reset code is now accepted only on the reset page, closing a way to change a password without knowing the current one.
-      - Jupyter containers no longer receive a Kubernetes API token or internal control plane addresses. Containers created before the upgrade pick this up the next time they are stopped and started.
-      - Compute deployment logs no longer contain the rendered specification with its resolved secrets, and the REST catalog rate limiter no longer stores or returns token secrets.
-      - Table details no longer return a data source's connection options in plain text, such as a JDBC password. They are listed as storage properties with secrets redacted.
-      - The domain catalog, schema, S3 browser and Spark properties routes now check that you have access to the domain.
+    - **Security Hardening**: Fixes from a security review of sign-in, the API and the gateway. API documentation now requires signing in, sign-in pages can't be embedded in other sites, error responses and logs no longer expose internal details or secrets, and more routes check that you have access to the domain. Jupyter containers no longer receive a Kubernetes API token or internal control plane addresses; containers created before the upgrade pick this up the next time they are stopped and started.
   </Improvements>
 
   <BugFixes>
