@@ -3,7 +3,7 @@ title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 last_update:
-  date: 11/06/2026
+  date: 11/11/2026
   author: Shashank Chaudhary
 ---
 
@@ -14,7 +14,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="4.0.2" date="TBD">
+<Release version="4.0.2" date="November 10, 2026">
   <BreakingChanges>
     - **V1 Schema API Routing**: Removed automatic V1 forwarding when `arrowFlightForDbExplorer` is enabled. Enable `schemaV1ForwardToV2` to retain forwarding after upgrading. Without forwarding, V1 requires the `iom-spark-connect-rest-client` service. See [Forwarding V1 Routes to V2](/resources/user-guide/sql-editor/database-explorer-api-migration#forwarding-v1-to-v2).
     - **V2 Schema API Responses**: Changed status codes, type names, the table comment field location, and secret redaction. Review the [Behavior Differences](/resources/user-guide/sql-editor/database-explorer-api-migration#behavior-differences) before upgrading clients that call V2 or forward V1 requests to V2.
