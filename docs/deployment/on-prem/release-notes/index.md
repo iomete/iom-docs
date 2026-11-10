@@ -3,8 +3,8 @@ title: IOMETE Release Notes
 sidebar_label: Platform
 description: Get latest release notes for IOMETE. Learn about new features, enhancements, and bug fixes in each release.
 last_update:
-  date: 10/08/2026
-  author: Sourabh Jajoria
+  date: 11/06/2026
+  author: Shashank Chaudhary
 ---
 
 import Img from '@site/src/components/Img';
@@ -15,6 +15,12 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Mailer/>
 
 <Release version="4.0.2" date="TBD">
+  <BreakingChanges>
+    - **V1 Schema API Routing**: Removed automatic V1 forwarding when `arrowFlightForDbExplorer` is enabled. Enable `schemaV1ForwardToV2` to retain forwarding after upgrading. Without forwarding, V1 requires the `iom-spark-connect-rest-client` service. See [Forwarding V1 Routes to V2](/resources/user-guide/sql-editor/database-explorer-api-migration#forwarding-v1-to-v2).
+    - **V2 Schema API Responses**: Changed status codes, type names, the table comment field location, and secret redaction. Review the [Behavior Differences](/resources/user-guide/sql-editor/database-explorer-api-migration#behavior-differences) before upgrading clients that call V2 or forward V1 requests to V2.
+    - **V1 Schema API on Spark 4.1**: With the new Spark 4.1 default, V1 encloses namespace names that begin with a digit in backticks, such as `` `1db` ``, and adds a `Statistics` row to table details. See [Schema Server Image](/resources/user-guide/sql-editor/database-explorer-api-migration#schema-server-image).
+  </BreakingChanges>
+
   <NewFeatures>
     - **Webhook Notifications**: Job and compute alerts can now go to Slack, Microsoft Teams, PagerDuty or your own HTTPS endpoint, as well as by email. Domain admins manage webhooks under the domain's **Settings → Webhooks**, jobs and computes subscribe from their **Notifications** tab, and admins see every domain's webhooks under **Administration → Webhooks**. Generic webhooks send signed JSON and can't reach private or internal addresses unless an admin allows them. Failed deliveries are retried, and a webhook that keeps failing is switched off and its domain owners are emailed. On by default.
     - **Check Access**: **Administration → Data Security → Check access** shows what a user may do on a database or table, which policy decided each answer, and which columns are masked or row-filtered. Data Security admins and read-only admins can use it, and `GET /api/v1/admin/data-security/users/{user}/access` returns the same answer.
@@ -28,6 +34,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Namespace Role Access**: Domain **Settings → Namespaces** has a **Role access** column listing the domain roles whose members can deploy to each namespace, and **Resource group** is renamed **Resource group access**.
     - **OIDC Single Logout**: A **Sign out of identity provider** switch on the OIDC provider page ends the user's session with the identity provider when they sign out of IOMETE. Off by default. Register the redirect URL shown on the page with your provider first.
     - **OIDC Providers Without Discovery**: SSO can now use an OIDC identity provider that publishes no discovery document, such as MyGovId, by entering the authorization, token, JWKS and user info URLs, the issuer, and the claim that identifies the user. An issuer is required when the provider has no user info endpoint.
+    - **V1 Schema API Forwarding**: Added the [`schemaV1ForwardToV2`](/resources/user-guide/feature-flags/schema-v1-forward-to-v2) feature flag to forward V1 schema requests to V2 without changing client URLs. The flag is disabled by default and requires `arrowFlightForDbExplorer`. Forwarded requests always retrieve live metadata; **List Catalogs** remains on V1.
   </NewFeatures>
 
   <Improvements>
@@ -73,7 +80,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Login Lockout**: Ten failed sign-ins for an account within 15 minutes now block password sign-in for the rest of that window, and each lockout is recorded in the audit log. On by default, with a feature flag to turn it off.
     - **Sign-In Rate Limiting**: Browser sign-in, admin sign-in and the token endpoint can now answer `429 Too Many Requests`, with a `Retry-After` header, after repeated attempts from one client address. Off by default, because it needs your ingress to pass the real client address through to the gateway. Turn it on with `services.gateway.signinRateLimit.enabled: true`, and tune `rate` (default `10r/m`) and `burst` (default `10`) under the same key.
     - **Global Spark Settings**: A new setting whose key looks sensitive, such as one holding a password, token, secret or access key, is now locked automatically so its value stays hidden. Settings saved earlier are unchanged, and a row can still be locked or unlocked by hand.
-    - **Schema API**: The V1 schema endpoints (`/api/v1/domains/{domain}/schema/...` and `/api/v1/admin/schema/...`) answer from their own implementation again, including where Arrow Flight for the database explorer is on. Turn on the `schemaV1ForwardToV2` rollout flag, off by default, to have V2 answer them instead. V1 needs the `iom-spark-connect-rest-client` service, which is on by default.
+    - **Database Explorer API**: Aligned V2 response fields, types, and status codes more closely with V1. All table details fixes require the shared schema server on `spark-py:4.1.3-v3` or later (Spark 4.1), the default in this release; if you pin an older Spark version in your Helm values, update it. See [Database Explorer API Migration](/resources/user-guide/sql-editor/database-explorer-api-migration).
     - **Private Certificate Authorities**: A new `caCertificates` setting points the platform at one Secret holding your CA bundle. The MCP server reads it first, and `services.mcpServer.iometeTls` is deprecated in its favour but keeps working. Nothing to change on upgrade.
     - **Jupyter Network Policy**: An optional network policy stops Jupyter containers reaching internal services and cloud metadata, leaving only the IOMETE gateway and the internet. Off by default, turn it on with `networkPolicies.jupyterContainers.enabled: true`. Notebooks reach cluster DNS through the `k8s-app: kube-dns` pods in `kube-system`; if your DNS runs elsewhere, list it in `networkPolicies.jupyterContainers.dnsServers`.
     - **SQL Service Memory**: `iom-sql` now defaults its Java heap to 78% of its memory limit, down from 85%, so an overloaded pod logs an `OutOfMemoryError` instead of being killed without a trace. Set `services.sql.maxRAMPercentage` to change it for this service alone. A lower global `javaOpts.maxRAMPercentage` still wins.
@@ -112,10 +119,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - The Jupyter connection URL no longer contains the token twice.
       - The timer on a running query shows the real elapsed time, instead of adding the difference between your computer's clock and the server's.
       - The empty state keeps its action buttons visible when the result panel leaves the editor pane short.
-    - **Data Catalog**
-      - The V2 table and schema APIs now answer like V1. A missing table or schema returns `404` or `403` instead of `200` with an empty list, table details carry the comment, V1 type names and the details, metadata columns and defaults that `DESCRIBE` reports, and the catalog list is sorted by name.
-      - Catalog search returns `404 Not Found` before the first index run and `400 Bad Request` for a bad filter or page size, instead of `500 Internal Server Error`.
-      - The V2 namespace list returns each catalog's properties, credentials and resource tags again, as V1 does, with secret values masked.
+    - **Data Catalog**: Catalog search returns `404 Not Found` before the first index run and `400 Bad Request` for a bad filter or page size, instead of `500 Internal Server Error`.
     - **Console**
       - After signing in, you return to the page you were on.
       - Opening a link to a domain you can't access now says so, instead of failing silently.
