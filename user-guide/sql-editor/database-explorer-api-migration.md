@@ -45,6 +45,11 @@ If you already use V2, review the [changes in IOMETE 4.0.2](#changes-in-4-0-2) b
 
 To apply all table details fixes introduced in IOMETE 4.0.2, run the shared schema server on `spark-py:4.1.3-vX` or later (Spark 4.1). Set the image version with `docker.defaultSparkPyVersion`. This setting does not change the images used by your compute clusters.
 
+On Spark 4.1, V1 responses also change:
+
+- V1 encloses namespace names that begin with a digit in backticks, for example, `` `1db` ``.
+- Table details include a `Statistics` row in `detailedTableInfo`.
+
 V2 remains available on older images, including Spark 3.5. Changes to status codes, secret redaction, snapshot timestamps, name matching, and live retrieval for forwarded V1 requests still apply. The following limitations remain until you upgrade the schema server:
 
 - Table details return `type: TABLE` and the previous column and field type names.
@@ -185,7 +190,7 @@ Account for the following differences when you migrate to V2 or enable V1 forwar
 | Hadoop catalog whose warehouse folder does not exist yet                    | `500`                           | `200` with `[]`                                                     | None.                                                                                        |
 | Order of `/namespaces/v2` and of table listings with `includeMetadata=true` | Unsorted                        | Sorted                                                              | None.                                                                                        |
 | Listing a domain's namespaces when one catalog fails                        | The whole call fails            | Returns `200` with the other catalogs' namespaces                   | A `200` response can be partial. Compare it with the catalog list if you need every catalog. |
-| Listing every table of a catalog when one namespace fails or times out      | The whole call fails            | Returns `200` with the other namespaces' tables                     | A `200` response can be partial. List the namespace's tables directly to see its error.      |
+| Listing all tables in a catalog when one namespace fails | The entire request fails | Returns `200` with the other namespaces' tables. A timeout causes the entire request to fail with `500`. | A `200` response can contain partial results. List the affected namespace's tables directly to inspect the error. |
 | `/namespaces/v2` on a slow namespace or a very large catalog                | Waits                           | Times out with `500`, or a `Timed out fetching namespaces` error    | Retry, or list namespaces one catalog at a time.                                             |
 | Access checks                                                               | Lists metadata as an admin user | Lists metadata as the calling user, so data security policies apply | Grant the calling user access to the catalogs, namespaces and tables your integration reads. |
 | Table comments and Iceberg view properties that look like secrets           | Returned in full                | `*********(redacted)`                                               | Use your configured secret store to retrieve credentials.                                    |
