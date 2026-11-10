@@ -34,7 +34,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Namespace Role Access**: Domain **Settings → Namespaces** has a **Role access** column listing the domain roles whose members can deploy to each namespace, and **Resource group** is renamed **Resource group access**.
     - **OIDC Single Logout**: A **Sign out of identity provider** switch on the OIDC provider page ends the user's session with the identity provider when they sign out of IOMETE. Off by default. Register the redirect URL shown on the page with your provider first.
     - **OIDC Providers Without Discovery**: SSO can now use an OIDC identity provider that publishes no discovery document, such as MyGovId, by entering the authorization, token, JWKS and user info URLs, the issuer, and the claim that identifies the user. An issuer is required when the provider has no user info endpoint.
-    - **Dynatrace Logs**: Installs that send their logs to Dynatrace can now read and download Spark, compute, event stream and Jupyter logs in the console. Set `logging.source: dynatrace` in the install values, with your environment URL and a platform token.
   </NewFeatures>
 
   <Improvements>
