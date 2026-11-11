@@ -9,7 +9,7 @@ last_update:
 
 IOMETE stores platform configuration and metadata in PostgreSQL. Table data and files live in object storage; adding a data plane does not copy those files into a database.
 
-The current enterprise and runtime charts support **PostgreSQL**. For example, both published 4.0.1 charts specify PostgreSQL as their only supported backend. The older [MySQL deployment example](./mysql-deployment.md) is for legacy deployments, not a database choice for a new 4.x installation.
+The current enterprise and runtime charts support **PostgreSQL**. For example, the published 4.0.1 and 4.0.2 charts specify PostgreSQL as their only supported backend. The older [MySQL deployment example](./mysql-deployment.md) is for legacy deployments, not a database choice for a new 4.x installation.
 
 ## Choosing Database Ownership
 
@@ -23,7 +23,7 @@ A Kubernetes namespace, an IOMETE data plane, and a PostgreSQL database are diff
 
 The control-plane release uses its metastore database even when `defaultDataPlane.enabled` is `false`, because its internal Spark Connect service needs it.
 
-Computes on every data plane also connect to the control-plane database. With activity monitoring on, which is the 4.0.1 default (`features.activityMonitoring.enabled`), every compute writes query activity to `<prefix>sql_db`, whichever data plane it runs on. Computes use the control-plane release's `database.host` value as it is, so that host name must resolve, and the server must accept connections, in every cluster that runs computes.
+Computes on every data plane also connect to the control-plane database. With activity monitoring on, which is the default in 4.0.1 and 4.0.2 (`features.activityMonitoring.enabled`), every compute writes query activity to `<prefix>sql_db`, whichever data plane it runs on. Computes use the control-plane release's `database.host` value as it is, so that host name must resolve, and the server must accept connections, in every cluster that runs computes.
 
 You can host the required databases on the same PostgreSQL server or on separate servers. Record which release owns each database and which clients use it. Both charts use the prefix `iomete_` by default, so an additional data plane whose metastore database is on the control plane's server needs its own `database.prefix`, such as `analytics_`. Otherwise both releases use `iomete_metastore_db`. Sharing a PostgreSQL server does not itself connect data planes to a control plane.
 
@@ -31,7 +31,7 @@ An additional plane registers with the control plane using its runtime configura
 
 ## Control-Plane Databases
 
-In 4.0.1, the control-plane release uses nine databases, each named with its `database.prefix`. With the default prefix, `iomete_`:
+In 4.0.1 and 4.0.2, the control-plane release uses nine databases, each named with its `database.prefix`. With the default prefix, `iomete_`:
 
 | Database | Used by | Holds |
 | --- | --- | --- |
@@ -66,7 +66,7 @@ Size the database for the work it performs, rather than the number of Kubernetes
 
 ### IOMETE Internal Metadata
 
-Consider concurrent API operations, job scheduling and run history, SQL activity, catalog operations, and enabled platform features. In 4.0.1, activity monitoring is on by default: computes on every data plane record their queries in `<prefix>sql_db`, including query plans (`features.activityMonitoringQueryPlans.enabled`). Additional services, replicas and computes also increase the number of database connections. Plan connection limits across all consumers of a shared server.
+Consider concurrent API operations, job scheduling and run history, SQL activity, catalog operations, and enabled platform features. In 4.0.1 and 4.0.2, activity monitoring is on by default: computes on every data plane record their queries in `<prefix>sql_db`, including query plans (`features.activityMonitoringQueryPlans.enabled`). Additional services, replicas and computes also increase the number of database connections. Plan connection limits across all consumers of a shared server.
 
 ### Metadata of Data Lake
 

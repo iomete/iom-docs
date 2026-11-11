@@ -8,7 +8,7 @@ last_update:
 ---
 
 :::info Legacy deployment example
-This page is retained for older installations whose chart supports MySQL. Current enterprise and runtime charts, including published 4.0.1, support PostgreSQL only. For a new installation, follow [Backend Databases](./backend-databases.md) and [PostgreSQL Deployment](./postgresql-deployment.md).
+This page is retained for older installations whose chart supports MySQL. Current enterprise and runtime charts, including published 4.0.1 and 4.0.2, support PostgreSQL only. For a new installation, follow [Backend Databases](./backend-databases.md) and [PostgreSQL Deployment](./postgresql-deployment.md).
 
 Do not change an existing installation's database engine by substituting these deployment commands. Confirm the migration procedure for that installation first.
 
