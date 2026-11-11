@@ -122,7 +122,7 @@ For every available setting, see the [IOMETE Data Plane Enterprise](https://arti
 
 For an HTTPS ingress, set `ingress.httpsEnabled: true`; the downloaded example uses HTTP. This setting changes forwarded URLs and headers inside IOMETE. It does not create a TLS listener or a certificate.
 
-Set `adminUser.temporaryPassword` to a new password before the initial install. If you use a private image registry, create the referenced pull Secret in `iomete-system` and in each workload namespace, and configure `docker.imagePullSecrets` in this file. The chart does not copy Secrets across namespaces. Use `serviceAccount.create: true` below to have Helm attach the configured pull Secrets when it creates the service accounts; do not patch a service account that has not been created yet.
+Set `adminUser.temporaryPassword` to a new password before the initial install. If you use a private image registry, create the referenced pull Secret in `iomete-system` and in each workload namespace, and configure `docker.imagePullSecrets` in this file. Up to 4.0.1, if you set `database.passwordSecret` and list workload namespaces in `namespaces`, also create that Secret in each workload namespace: the Spark proxy that runs there reads it. The chart does not copy Secrets across namespaces. Use `serviceAccount.create: true` below to have Helm attach the configured pull Secrets when it creates the service accounts; do not patch a service account that has not been created yet.
 
 Keep `defaultDataPlane.enabled: true` for the installation described here. Setting it to `false` is a control-plane-only configuration and requires separately installed data planes before users can create compute workloads.
 
@@ -213,7 +213,7 @@ A Kubernetes administrator generates the resources from the chart and applies th
    kubectl apply -f lakehouse-service-account.yaml
    ```
 
-2. Create the Spark Operator CRDs. The chart ships them as plain files, so download the chart and apply them from it. The CRD files are large, so they must be applied with `--server-side`:
+2. Create the Spark Operator CRDs. The chart ships them as plain files, so download the chart and apply them from it. The CRD files are large, so they must be applied with `--server-side`. In 4.0 charts, the folder also holds the `dorisclusters.doris.selectdb.com` CRD, which `crds.create: true` installs too:
 
    ```shell
    helm pull iomete/iomete-data-plane-enterprise \
@@ -312,6 +312,20 @@ These are the same three resources as in option 2, but the files come from the [
 
    kubectl apply -n iomete-system -f spark-operator-webhook.yaml
    ```
+
+4. If your values file lists workload namespaces in `namespaces`, create the service account and its permissions in each of them as well. Otherwise the initialization job fails with `secrets is forbidden` for that namespace. For example, for `reporting`:
+
+   ```shell
+   kubectl apply -n reporting -f service-account.yaml
+
+   wget https://raw.githubusercontent.com/iomete/iomete-deployment/main/role-binding-to-control-plane.yaml
+   sed -i "s/{{control-plane-namespace}}/iomete-system/g" role-binding-to-control-plane.yaml
+   # On macOS: sed -i '' "s/{{control-plane-namespace}}/iomete-system/g" role-binding-to-control-plane.yaml
+
+   kubectl apply -n reporting -f role-binding-to-control-plane.yaml
+   ```
+
+On 3.19.0, `spark-history` keeps restarting with the default values, so `--wait` can time out (fixed in 3.19.1). Set `services.sparkHistory.settings.maxEventLogSizeBytes: "524288000"`, quoted, in your values file before you install.
 
 When you later upgrade to 3.19.1 or newer, you don't need to redo anything. The chart finds these resources and leaves them as they are.
 
