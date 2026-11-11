@@ -116,7 +116,7 @@ This policy also blocks a Prometheus that runs in a namespace without the `iomet
 
 Jupyter Containers run user code. This policy lets only the plane's gateway reach notebooks, and limits notebook egress to DNS, ingress controllers, public addresses and private destinations you explicitly allow.
 
-The 4.0.1 charts don't create this policy, so apply it yourself. Save it as `iomete-jupyter-containers.yaml` and replace `<iomete-namespace>` with the **service namespace of the plane that owns the notebooks**: `iomete-system` for the default data plane, or `iomete-analytics` for the `analytics` data plane. Adjust the ingress namespaces and private destination exceptions for your network.
+Up to 4.0.1, the charts don't create this policy, so apply it yourself. From 4.0.2, both charts can create it for you; see [Letting the Chart Manage the Notebook Policy](#letting-the-chart-manage-the-notebook-policy). Otherwise, save it as `iomete-jupyter-containers.yaml` and replace `<iomete-namespace>` with the **service namespace of the plane that owns the notebooks**: `iomete-system` for the default data plane, or `iomete-analytics` for the `analytics` data plane. Adjust the ingress namespaces and private destination exceptions for your network.
 
 ```yaml title="iomete-jupyter-containers.yaml"
 apiVersion: networking.k8s.io/v1
@@ -224,19 +224,19 @@ Notebooks connect to compute clusters through your ingress controller. If your c
 
 If notebooks open but cannot connect to compute, check the resolved destination and blocked-flow logs. A connection through a private load-balancer IP may need such an IP rule as well as the ingress namespace; namespace selectors alone do not cover every load-balancer path.
 
-<details>
-<summary>Letting a later chart version manage the notebook policy</summary>
+<details id="letting-the-chart-manage-the-notebook-policy" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
+<summary>Letting the chart manage the notebook policy (4.0.2 and later)</summary>
 
-The 4.0.1 charts don't have a setting for this policy. Later chart versions may add a `networkPolicies.jupyterContainers` block. Check the chart version you install, using `iomete/iomete-lakehouse-runtime` for an additional data plane:
+From 4.0.2, `iomete-data-plane-enterprise` and `iomete-lakehouse-runtime` have a `networkPolicies.jupyterContainers` block, off by default. 4.0.1 and earlier charts don't. Check the chart version you install, using `iomete/iomete-lakehouse-runtime` for an additional data plane:
 
 ```shell
 helm show values iomete/iomete-data-plane-enterprise \
   --version <chart-version> | grep -A3 '^networkPolicies:'
 ```
 
-If the block is there, you can set `networkPolicies.jupyterContainers.enabled: true` in the release's **complete values file** and follow the [upgrade procedure](./life-cycle-management.mdx#upgrade-example). The comments in that values file describe the other settings, such as the ingress namespaces, blocked ranges and extra egress rules.
+If the block is there, you can set `networkPolicies.jupyterContainers.enabled: true` in the release's **complete values file** and follow the [upgrade procedure](./life-cycle-management.mdx#upgrade-example). The chart then creates an `iomete-jupyter-containers` policy like the one above in the release's service namespace and in each of its workload namespaces. The comments in the chart's values describe the other settings: `ingressNamespaces`, `blockedCidrs`, `dnsPorts` and `extraEgress`.
 
-Helm doesn't take over a NetworkPolicy it didn't create. If you applied `iomete-jupyter-containers` yourself, delete it in each namespace just before that upgrade, then confirm the chart created it again in the service namespace and every workload namespace.
+Helm doesn't take over a NetworkPolicy it didn't create: while your own `iomete-jupyter-containers` exists, the upgrade fails with `exists and cannot be imported into the current release`. If you applied it yourself, delete it in each namespace just before that upgrade, then confirm the chart created it again in the service namespace and every workload namespace.
 
 </details>
 
