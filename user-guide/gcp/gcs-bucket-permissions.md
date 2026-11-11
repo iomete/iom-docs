@@ -60,7 +60,7 @@ serviceAccount:
     iam.gke.io/gcp-service-account: iomete-analytics@example-project.iam.gserviceaccount.com
 ```
 
-With `serviceAccount.create: true`, the chart writes these annotations to `lakehouse-service-account` in every namespace of the release. It doesn't create the IAM service account, configure Workload Identity Federation, or grant `roles/iam.workloadIdentityUser`. Keep the release's existing values when you upgrade it.
+With `serviceAccount.create: true`, the chart writes these annotations to `lakehouse-service-account` in every namespace of the release. From 4.0.2, it also writes them to `iomete-data-plane-init`, which runs the release's initialization job in its service namespace; that job needs bucket access only when the release's own storage is in Cloud Storage. The chart doesn't create the IAM service account, configure Workload Identity Federation, or grant `roles/iam.workloadIdentityUser`. Keep the release's existing values when you upgrade it.
 
 </details>
 
