@@ -71,11 +71,11 @@ for ns in iomete-system reporting sales; do
   kubectl create secret generic java-truststore \
     --namespace "$ns" \
     --from-file=truststore.jks \
-    --dry-run=client -o yaml | kubectl apply -f -
+    --dry-run=client -o yaml | kubectl apply --server-side -f -
 done
 ```
 
-If you built a PEM bundle, add `--from-file=ca.crt` after `--from-file=truststore.jks`. For each namespace, you should see `secret/java-truststore created`, or `configured` if the Secret already existed.
+If you built a PEM bundle, add `--from-file=ca.crt` after `--from-file=truststore.jks`. For each namespace, you should see `secret/java-truststore serverside-applied`. The loop uses server-side apply because the two files together are too large for client-side `kubectl apply`, which fails with `metadata.annotations: Too long`.
 
 For an additional data plane, run the same loop in the Kubernetes cluster that hosts it, over its workload namespaces, such as `finance` and `marketing`. If its runtime release enables its own `javaTrustStore` settings, the Secret named there must exist in its service namespace, such as `iomete-analytics`, and in its workload namespaces. Using the same Secret name, file name and password in both releases lets one Secret per namespace serve both.
 

@@ -176,7 +176,7 @@ A pod can use only the Secrets in its own namespace, and the chart doesn't copy 
 
 | Setting in your values file | Secret to create in `sales` | Pods that use it | If it's missing |
 | --- | --- | --- | --- |
-| `database.passwordSecret.name` | The Secret it names | `spark-proxy-server-sales`, which runs while `features.sparkProxyForArrowFlight.enabled` is `true` (the default) | The pod fails with `CreateContainerConfigError`, and the upgrade times out. |
+| `database.passwordSecret.name` | The Secret it names. Needed up to 4.0.1; from 4.0.2, no pod in `sales` reads it. | `spark-proxy-server-sales`, which runs while `features.sparkProxyForArrowFlight.enabled` is `true` (the default from 4.0) | The pod fails with `CreateContainerConfigError`, and the upgrade times out. |
 | `docker.imagePullSecrets` | Each Secret listed | Every pod in `sales`, through `lakehouse-service-account` | Pods fail with `ImagePullBackOff`. |
 | `javaTrustStore.enabled: true` | The Secret named by `javaTrustStore.secretName` (default `java-truststore`). See [Custom Java Truststore](./truststore.md#3-create-a-kubernetes-secret-with-the-truststorejks-file). | `spark-proxy-server-sales`, compute, Spark job and event stream pods, and `prefect-worker-sales` when `javaTrustStore.caCertFileName` is set | Pods stay in `ContainerCreating`. |
 
@@ -188,11 +188,11 @@ Each of these Secrets already exists in `iomete-system`, where the IOMETE servic
 for secret in byo-db-creds iomete-image-pull-secret java-truststore; do
   kubectl get secret "$secret" --namespace iomete-system --output json \
     | jq '{apiVersion, kind, type, metadata: {name: .metadata.name}, data}' \
-    | kubectl apply --namespace sales --filename -
+    | kubectl apply --server-side --namespace sales --filename -
 done
 ```
 
-You should see a line such as `secret/byo-db-creds created` for each Secret.
+You should see a line such as `secret/byo-db-creds serverside-applied` for each Secret. The command uses server-side apply because a truststore Secret that also holds a PEM bundle is too large for client-side `kubectl apply`.
 
 List registry Secrets in `docker.imagePullSecrets` even if you added them to existing service accounts by hand. A service account that Helm creates in `sales` gets only the Secrets listed there.
 
@@ -224,6 +224,8 @@ spark-proxy-server-sales-5d8b9c7f6-r4t7w   1/1     Running   0          2m
 
 `prefect-worker-sales` runs the Job Orchestrator's Spark jobs in `sales`. `spark-proxy-server-sales` handles Arrow Flight connections and runs only while `features.sparkProxyForArrowFlight.enabled` is `true`.
 
+The list depends on the chart version and its default settings. From 3.17 through 3.19, only `prefect-worker-sales` runs in `sales`. On 3.16 and earlier, no pod runs there until a workload starts.
+
 If a pod isn't `Running`, run `kubectl describe pod --namespace sales <pod-name>`. Its **Events** name the missing Secret or image.
 
 | Status | Usual cause | Fix |
@@ -236,7 +238,7 @@ Kubernetes keeps retrying, so a pod starts by itself once its Secret exists. If 
 
 ## 5. Restarting `iom-cluster` {#restart-iom-cluster}
 
-`iom-cluster` checks every namespace assignment on the default data plane against the namespace list it read when it started. In IOMETE 4.0.0 and 4.0.1, `helm upgrade` doesn't restart it when only `namespaces` changes. Restart it now:
+`iom-cluster` checks every namespace assignment on the default data plane against the namespace list it read when it started. From IOMETE 4.0.2, the upgrade in step 4 restarts `iom-cluster` when `namespaces` changes, and `--wait` returns after the new pod is ready, so you can skip this step. From 3.16 through 4.0.1, `helm upgrade` doesn't restart it. Restart it now:
 
 ```shell
 kubectl rollout restart deployment/iom-cluster --namespace iomete-system
@@ -249,7 +251,7 @@ The second command waits for the new pod to be ready, then prints:
 deployment "iom-cluster" successfully rolled out
 ```
 
-The restart is a rolling update. It's safe to run even if `iom-cluster` already restarted during the upgrade. If you skip it, step 6 fails with **Access denied** and the message `Namespace sales is not allowed`.
+The restart is a rolling update. It's safe to run even if `iom-cluster` already restarted during the upgrade. Up to 4.0.1, if you skip it, step 6 fails with **Access denied** and the message `Namespace sales is not allowed`.
 
 On IOMETE 3.15 or earlier, restart `deployment/iom-core` instead.
 
@@ -261,7 +263,7 @@ On IOMETE 3.15 or earlier, restart `deployment/iom-core` instead.
 
 You should see **Namespace added**, and `sales` appears in the list with `default` in the **Data plane** column. If `sales` isn't offered or **Add** fails, see [Troubleshooting](#troubleshooting).
 
-IOMETE also adds `sales` to a resource bundle named `namespace-business-sales-default`. Users who aren't domain owners need the **Use** permission on `sales`, through a resource bundle, before they can deploy to it. See [RAS Permissions](/resources/user-guide/ras/permissions#namespace).
+IOMETE also adds `sales` to a resource bundle named `namespace-business-sales-default` (`namespace-business-sales` on 3.19). Users who aren't domain owners need the **Use** permission on `sales`, through a resource bundle, before they can deploy to it. See [RAS Permissions](/resources/user-guide/ras/permissions#namespace).
 
 ## 7. Verifying a Workload
 
@@ -287,7 +289,7 @@ A compute's pods start with `cc-` and its name. A compute without executors has 
 
 ### The Namespace Isn't Offered in Add Namespace
 
-**Add Namespace** offers the namespaces that each connected data plane's agent reports. The upgrade restarts the default data plane's agent, `iomete-lakehouse-agent` in `iomete-system`, with the new list. The agent reports it every few seconds. If `sales` isn't offered:
+**Add Namespace** offers the namespaces that each connected data plane's agent reports. The upgrade restarts the default data plane's agent, `iomete-lakehouse-agent` in `iomete-system`, with the new list. The agent reports it every few seconds. The agent and the **Data Planes** page exist from IOMETE 4.0, so on earlier versions only step 1 applies. If `sales` isn't offered:
 
 1. Check that the release has the new list. In the output of `helm get values data-plane --namespace iomete-system`, `namespaces` must include `sales`. If it doesn't, repeat steps 2 and 4 with the right values file.
 2. Check that the agent restarted:
@@ -299,21 +301,24 @@ A compute's pods start with `cc-` and its name. A compute without executors has 
 3. In the **Admin Portal**, open **Data Planes** and select `default`. Its status must be **Connected**, and `sales` must appear under **Namespace quotas**. Namespaces of a disconnected data plane aren't offered.
 4. Reload the domain page and open **Add Namespace** again.
 
-### Adding the Namespace Fails with Access Denied
+### Adding the Namespace Fails {#adding-the-namespace-fails-with-access-denied}
 
-If **Add** shows an **Access denied** message with the text `Namespace sales is not allowed`, `iom-cluster` is still using its old namespace list. The API returns HTTP 403 with the error code `ACCESS_DENIED`. Despite the title, your permissions are not the problem.
+`iom-cluster` is still using its old namespace list when **Add** fails with one of these messages:
 
-1. Restart `iom-cluster` as in [step 5](#restart-iom-cluster), then add the namespace again.
+- Up to IOMETE 4.0.1: an **Access denied** message with the text `Namespace sales is not allowed`. The API returns HTTP 403 with the error code `ACCESS_DENIED`. Despite the title, your permissions are not the problem.
+- From IOMETE 4.0.2: `Namespace sales is not known to iom-cluster for data plane default. Check that the Helm values list it under namespaces and that the rollout after helm upgrade has finished.` The API returns HTTP 400 with the error code `BAD_INPUT`.
+
+1. Restart `iom-cluster` as in [step 5](#restart-iom-cluster), then add the namespace again. On 4.0.2, first check whether the upgrade's restart is still running, with `kubectl rollout status deployment/iom-cluster --namespace iomete-system`.
 2. If it still fails, check that `helm get values data-plane --namespace iomete-system` lists `sales` under `namespaces`. If it doesn't, the upgrade used a values file without `sales`. Repeat steps 2, 4 and 5.
 
 ### Rolling Back a Namespace Change
 
-To remove `sales` again, upgrade forward with the namespace removed. Don't use `helm rollback` for this. IOMETE services read their settings from the `iomete-helm-values` Secret in `iomete-system`. The chart writes that Secret in a pre-install and pre-upgrade hook, and `helm rollback` doesn't run those hooks. After a rollback, that Secret would still list `sales`.
+To remove `sales` again, upgrade forward with the namespace removed. Don't use `helm rollback` for this. IOMETE services read their settings from the `iomete-helm-values` Secret in `iomete-system` (the `data-plane` Secret on 3.19 and earlier). The chart writes that Secret in a pre-install and pre-upgrade hook, and `helm rollback` doesn't run those hooks. After a rollback, that Secret would still list `sales`.
 
-1. Stop the workloads that run in `sales`: computes, Spark jobs, streaming jobs, Jupyter containers and event streams. Move or delete Spark jobs that deploy there. Then `kubectl get pods --namespace sales` should list only the `prefect-worker-sales` and `spark-proxy-server-sales` pods.
+1. Stop the workloads that run in `sales`: computes, Spark jobs, streaming jobs, Jupyter containers and event streams. Move or delete Spark jobs that deploy there. Then `kubectl get pods --namespace sales` should list only the pods from [step 4](#upgrade-iomete), such as `prefect-worker-sales` and `spark-proxy-server-sales`.
 2. Remove `sales` from every domain that uses it. In the **Admin Portal**, open **Domains**, select the domain, and open the **Namespaces** tab. In the `sales` row's actions menu, select **Remove**, then confirm with **Remove**.
 3. Remove `sales` from `namespaces` in your values file, keeping `reporting`. Run the upgrade command from step 4. Helm removes the `prefect-worker-sales` and `spark-proxy-server-sales` deployments. If an administrator manages your webhook, remove `sales` from its list too.
-4. Restart `iom-cluster` as in step 5, so it stops accepting `sales`.
+4. Restart `iom-cluster` as in step 5, so it stops accepting `sales`. From 4.0.2, the upgrade does this for you.
 5. If nothing else uses `sales`, delete it with `kubectl delete namespace sales`. This also deletes everything left in it, including the Secrets you created there.
 
 If you already ran `helm rollback`, run the step 4 upgrade with the values you want, then restart `iom-cluster`.
@@ -390,5 +395,20 @@ kubectl apply -n sales -f role-binding-to-control-plane.yaml
 ```
 
 The first file creates `lakehouse-service-account`, its Role and its RoleBinding in `sales`. The second lets the service account in `iomete-system` manage workloads in `sales`.
+
+On 3.19.0, `helm upgrade --wait` in step 4 times out with the default values, because `spark-history` keeps restarting (fixed in 3.19.1). Before the upgrade, set the value as a quoted string in your values file:
+
+```yaml title="values.yaml"
+services:
+  sparkHistory:
+    settings:
+      maxEventLogSizeBytes: "524288000"
+```
+
+After the upgrade, restart it, because 3.19.0 doesn't restart it when its settings change:
+
+```shell
+kubectl rollout restart deployment/spark-history --namespace iomete-system
+```
 
 </details>
