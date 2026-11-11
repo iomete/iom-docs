@@ -70,7 +70,7 @@ job_payload = {
     "namespace": "finance",
     "template": {
         "applicationType": "python",
-        "image": "iomete/spark-py:3.5.3-v1",
+        "image": "iomete/spark-py:3.5.7-v7",
         "mainApplicationFile": "path/to/job.py",
         "instanceConfig": {
             "driverType": "driver-small",
@@ -98,7 +98,7 @@ curl -X POST 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jo
     "namespace": "finance",
     "template": {
         "applicationType": "python",
-        "image": "iomete/spark-py:3.5.3-v1",
+        "image": "iomete/spark-py:3.5.7-v7",
         "mainApplicationFile": "path/to/job.py",
         "instanceConfig": {
             "driverType": "driver-small",
@@ -114,6 +114,8 @@ curl -X POST 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/jo
 
 :::note
 The `bundleId` field is required when creating a job. The SDK raises a `ValueError` if it is missing.
+
+In IOMETE 4.0.2, creating a job without `jobUser` fails with `Failed to call identity-service ... Not Found` (HTTP 404). Until that is fixed, add `"jobUser": "<your-username>"` to the payload.
 :::
 
 ### Job Payload Reference
@@ -186,7 +188,7 @@ curl -X PUT 'https://iomete.example.com/api/v2/domains/your-domain/sdk/spark/job
     "schedule": "0 0 */1 * *",
     "template": {
         "applicationType": "python",
-        "image": "iomete/spark-py:3.5.3-v1",
+        "image": "iomete/spark-py:3.5.7-v7",
         "mainApplicationFile": "path/to/job.py",
         "instanceConfig": {
             "driverType": "driver-small",
@@ -444,7 +446,7 @@ job_payload = {
     "dataPlane": "analytics",
     "namespace": "finance",
     "flow": Flow.PRIORITY.value,      # "LEGACY" or "PRIORITY"
-    "priority": Priority.HIGH.value,   # "NORMAL" or "HIGH"
+    "priority": Priority.HIGH.value,   # "NORMAL" or "HIGH"; HIGH requires a domain owner
     "template": { ... }
 }
 job = job_client.create_job(payload=job_payload)
