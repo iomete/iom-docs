@@ -157,7 +157,7 @@ The data plane's hostname, `analytics.example.com`, must serve TLS on port 443 w
 | `/cross-plane/` | `iom-gateway-cross-ingress`, port 8083 | The control plane, when `selfUrl` is this hostname |
 | All other paths | `iom-gateway`, port 80 | JDBC and ODBC connections, and Jupyter containers |
 
-In 4.0.1, the SQL Editor connects to a compute on an additional data plane at the `externalUrl` host on port 443 over TLS, whatever scheme or port the URL names.
+In 4.0.1 and 4.0.2, the SQL Editor connects to a compute on an additional data plane at the `externalUrl` host on port 443 over TLS, whatever scheme or port the URL names.
 
 When the data plane runs in the control plane's cluster, `selfUrl` can be the in-cluster address `http://iom-gateway-cross-ingress.iomete-analytics.svc.cluster.local:8083` instead. The control plane's default `trustedDomains` already allow it, and the `/cross-plane/` route isn't needed. Keep `externalUrl` on the public HTTPS hostname.
 
@@ -189,10 +189,10 @@ Prepare the following:
   ```
 
   Share the control plane's metastore only on purpose, and only when both data planes can read the same object storage.
-- **Object storage.** You need a bucket for the data plane, `analytics-lakehouse` here, and credentials that can write to it: the installation creates a folder in it. The 4.0.1 runtime chart supports S3-compatible storage (`s3_compatible`) and Amazon S3 (`aws_s3`) only, and the installation stops on other storage types. For Amazon S3, also set `storage.region` and `cloud.provider: aws`, and grant access through an IAM role in `serviceAccount.annotations` instead of keys.
+- **Object storage.** You need a bucket for the data plane, `analytics-lakehouse` here, and credentials that can write to it: the installation creates a folder in it. The 4.0.1 and 4.0.2 runtime charts support S3-compatible storage (`s3_compatible`) and Amazon S3 (`aws_s3`) only, and the installation stops on other storage types. For Amazon S3, also set `storage.region` and `cloud.provider: aws`, and grant access through an IAM role in `serviceAccount.annotations` instead of keys.
 - **Registry access.** The clusters pull images from `iomete.azurecr.io/iomete`. For a private registry, set `docker.repo`, create the pull Secret in `iomete-analytics`, `finance`, and `marketing`, and list it in `docker.imagePullSecrets`.
 - **The truststore Secret for computes.** If the control-plane release enables `javaTrustStore`, also create its Secret (`java-truststore` unless `javaTrustStore.secretName` names another) in `finance` and `marketing`. Computes on every data plane mount it.
-- **SQL Editor V2.** The last check runs a query from the console. In 4.0.1, the SQL Editor queries computes in another cluster only when the **SQL Editor V2** feature flag is on, and it is off by default. See [SQL Editor V2 Feature Flag](/resources/user-guide/feature-flags/sql-editor-v2) for what it requires.
+- **SQL Editor V2.** The last check runs a query from the console. In 4.0.1 and 4.0.2, the SQL Editor queries computes in another cluster only when the **SQL Editor V2** feature flag is on, and it is off by default. See [SQL Editor V2 Feature Flag](/resources/user-guide/feature-flags/sql-editor-v2) for what it requires.
 
 ### Setting the Contexts and Chart Version
 
@@ -211,13 +211,13 @@ The `CHART` column shows the version:
 
 ```text
 NAME        NAMESPACE      REVISION  UPDATED                                  STATUS    CHART                               APP VERSION
-data-plane  iomete-system  12        2026-11-02 14:03:51.284516 +0000 UTC     deployed  iomete-data-plane-enterprise-4.0.1  4.0.1
+data-plane  iomete-system  12        2026-11-02 14:03:51.284516 +0000 UTC     deployed  iomete-data-plane-enterprise-4.0.2  4.0.2
 ```
 
 Use the same version for the runtime chart, and check that the repository has it:
 
 ```bash
-export IOMETE_VERSION=4.0.1
+export IOMETE_VERSION=4.0.2
 helm repo add iomete https://chartmuseum.iomete.com
 helm repo update iomete
 helm search repo iomete/iomete-lakehouse-runtime --version "$IOMETE_VERSION"
@@ -227,7 +227,7 @@ Expected output:
 
 ```text
 NAME                             CHART VERSION  APP VERSION  DESCRIPTION
-iomete/iomete-lakehouse-runtime  4.0.1          4.0.1        IOMETE lakehouse runtime used for multi-cluster...
+iomete/iomete-lakehouse-runtime  4.0.2          4.0.2        IOMETE lakehouse runtime used for multi-cluster...
 ```
 
 To review every value that the chart accepts, run `helm show values iomete/iomete-lakehouse-runtime --version "$IOMETE_VERSION"`.
@@ -433,7 +433,9 @@ If `analytics` shares the control plane's cluster, set `crds.create: false`. You
 ### Installing the Runtime Release {#applying-the-configuration}
 
 :::warning Check the Addresses Before You Install
-The control plane records `selfUrl` and `externalUrl` at the data plane's first successful enrollment and keeps them. A later `helm upgrade` with other values doesn't change them, and in 4.0.1 neither the console nor the API can edit or remove an enrolled data plane. Before you install, check that both URLs are final, resolve from the main cluster, and use HTTPS with a certificate that the control plane trusts. If a data plane enrolled with a wrong address, contact IOMETE support.
+The control plane records `selfUrl` and `externalUrl` at the data plane's first successful enrollment and keeps them. A later `helm upgrade` with other values doesn't change them, and neither the console nor the API can edit them. Before you install, check that both URLs are final, resolve from the main cluster, and use HTTPS with a certificate that the control plane trusts.
+
+If a data plane enrolled with a wrong address: in 4.0.1, contact IOMETE support. From 4.0.2, you can remove it and install it again. Stop its workloads, remove its namespaces from every domain, and uninstall the runtime release. When it shows **Disconnected**, remove it on the **Data Planes** page, or with `DELETE /api/v1/admin/multi-cluster/data-planes/analytics`. The control plane refuses while the data plane is connected or still has namespaces assigned.
 :::
 
 Install the runtime release in the analytics cluster:
@@ -492,19 +494,19 @@ The data plane hasn't enrolled at that point, because the agent starts only afte
 2. **The agent enrolled.** Search the agent's log for the handshake:
 
    ```bash
-   kubectl --context "$DP_CONTEXT" logs deployment/iomete-lakehouse-agent \
-     --namespace iomete-analytics | grep Handshake
+   kubectl --context "$DP_CONTEXT" logs --namespace iomete-analytics \
+     --selector service=iomete-lakehouse-agent --tail=-1 --prefix | grep Handshake
    ```
 
-   Expected output:
+   The selector reads every agent replica: from 4.0.2 the chart runs two, and only the one that holds the leader lease enrolls. Expected output, prefixed with that pod's name:
 
    ```text
-   {"level":"info","time":"2026-11-07T10:12:41.538Z","logger":"handshake","caller":"enroll/enroll.go:59","msg":"Handshake succeeded","dataPlaneId":"analytics","controlPlaneId":"<control-plane-id>"}
+   [pod/iomete-lakehouse-agent-7c9f6d8b5-q2w4x/lakehouse-agent] {"level":"info","time":"2026-11-07T10:12:41.538Z","logger":"handshake","caller":"enroll/enroll.go:59","msg":"Handshake succeeded","dataPlaneId":"analytics","controlPlaneId":"<control-plane-id>"}
    ```
 
-   If the agent logs `Handshake failed, will retry` instead, its `reason` field names the HTTP status. See [Troubleshooting](#troubleshooting).
+   A `Handshake failed, will retry` line or two before it is normal while the release starts. If the agent keeps logging `Handshake failed, will retry` instead, its `reason` field names the HTTP status. See [Troubleshooting](#troubleshooting).
 
-3. **The console shows the data plane.** In the admin console, open **Data Planes** (`https://iomete.example.com/admin/data-planes`). The `analytics` row shows the address `https://analytics.example.com`, the status **Connected**, and the runtime version `4.0.1`. If the agent stops reporting for about 30 seconds, the status changes to **Disconnected**.
+3. **The console shows the data plane.** In the admin console, open **Data Planes** (`https://iomete.example.com/admin/data-planes`). The `analytics` row shows the address `https://analytics.example.com`, the status **Connected**, and the runtime version, here `4.0.2`. If the agent stops reporting for about 30 seconds, the status changes to **Disconnected**.
 
 4. **The namespaces are discovered.** In the admin console, open **Domains**, select `business`, and open the **Namespaces** tab. Select **Add Namespace**. The list groups namespaces by data plane: `reporting`, `sales`, and `iomete-system` under `default`, and `finance`, `marketing`, and the service namespace `iomete-analytics` under `analytics`. Select `finance` and `marketing`, and then select **Add**. The tab lists both, with `analytics` in the **Data plane** column. The control plane reads this list from the agent at `selfUrl`, so it also proves that the control plane can reach the data plane.
 
