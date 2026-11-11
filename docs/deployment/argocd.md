@@ -103,31 +103,55 @@ Apply the webhook as described above **before** you switch to `webhook.create: f
 
 ## Versions 4.0.2 and Earlier
 
-These versions have no `argocd` setting, and the chart generates three secrets on every render, so each Argo CD sync replaces them. Leave `argocd` out of your values file, and create the secrets once:
+These versions have no `argocd` setting, so leave it out of your values file. They also generate three secrets on every render, so each Argo CD sync replaces them. Give the chart Secrets of your own instead.
+
+**Already running IOMETE with Argo CD?** Copy the current Secrets, so data encrypted with the current key stays readable. Do this before any other change, including an upgrade:
 
 ```shell
-kubectl create secret generic iomete-secret-encryption-key -n iomete-system \
-  --from-literal=SECRET_ENCRYPTION_KEY="$(openssl rand -base64 32)"
-
-kubectl create secret generic iomete-socket-system-token -n iomete-system \
-  --from-literal=token="$(openssl rand -hex 32)"
+for name in iom-secret-encryption-key iom-socket-system-token iomete-plane-trust-secret; do
+  kubectl get secret "$name" -n iomete-system -o json \
+    | jq '{apiVersion, kind, type, data, metadata: {name: ("my-" + .metadata.name), namespace: .metadata.namespace}}' \
+    | kubectl apply -f -
+done
 ```
 
-Then point the chart at them:
+Then point the chart at the copies, and keep these settings when you upgrade:
 
 ```yaml title="example-data-plane-values.yaml"
 secretEncryptionKey:
-  existingSecret: iomete-secret-encryption-key
+  existingSecret: my-iom-secret-encryption-key
 
 socketSystemToken:
-  existingSecret: iomete-socket-system-token
+  existingSecret: my-iom-socket-system-token
 
 multiCluster:
   trustSecret:
-    value: "<output of: openssl rand -base64 48>"
+    existingSecret: my-iomete-plane-trust-secret
 ```
 
-Keep these settings when you upgrade to a newer version.
+**New installation?** Create two Secrets:
+
+```shell
+kubectl create secret generic my-iom-secret-encryption-key -n iomete-system \
+  --from-literal=SECRET_ENCRYPTION_KEY="$(openssl rand -base64 32)"
+
+kubectl create secret generic my-iom-socket-system-token -n iomete-system \
+  --from-literal=token="$(openssl rand -hex 32)"
+```
+
+Then point the chart at them, and set the trust secret as a value. Keep these settings when you upgrade:
+
+```yaml title="example-data-plane-values.yaml"
+secretEncryptionKey:
+  existingSecret: my-iom-secret-encryption-key
+
+socketSystemToken:
+  existingSecret: my-iom-socket-system-token
+
+multiCluster:
+  trustSecret:
+    value: "<output of: openssl rand -hex 32>"
+```
 
 ## Known Limits
 
