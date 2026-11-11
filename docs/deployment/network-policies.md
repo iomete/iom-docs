@@ -29,6 +29,7 @@ kubectl get networkpolicies --all-namespaces
 | Kubernetes API server | Spark Operator webhook pods | Admission requests on pod port 9443; the webhook Service exposes port 443. |
 | Control-plane services | Additional plane's API address and compute hostname | Enrollment, runtime management and SQL. Remote compute traffic requires TLS port 443 and HTTP/2. |
 | Data-plane agent and gateway | Control-plane API address | Enrollment, status reports and authentication. |
+| Computes and Spark jobs, from 4.0.2 | The plane's `iomete-lakehouse-agent` pods, port 8080, through the `iom-data-plane-agent` Service | Token and permission checks. The communication policy below allows it while the service and workload namespaces carry the `iomete.com/managed` label. |
 | Services and workloads | DNS, Kubernetes API, databases, object storage and configured data sources | Name resolution, workload management and data access. |
 
 The exact destinations depend on whether traffic stays inside the cluster or passes through a load balancer. Check [ingress routing](./configure-ingress.md) and your CNI's address translation behavior when writing IP-based rules. A successful connection to the console does not test all these paths.
