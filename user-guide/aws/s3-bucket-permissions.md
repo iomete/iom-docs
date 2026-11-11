@@ -28,7 +28,7 @@ Each IOMETE Helm release sets the annotation in its `serviceAccount.annotations`
 So a bucket grant to the Lakehouse role of `analytics` reaches every workload in `finance` and `marketing`, and the release's own services. You can't grant a bucket to `finance` alone through this role. The control-plane release `data-plane` has its own `serviceAccount.annotations`: its role covers the control-plane services in `iomete-system` and the workloads of the `default` data plane.
 
 :::note EKS Pod Identity isn't supported
-IOMETE 4.0.1 configures Spark's S3 connector (S3A) to get credentials only from the IRSA web identity token. With EKS Pod Identity alone, `s3a://` reads fail, even though tools that use the standard AWS credential chain, such as `aws sts get-caller-identity`, report the associated role. Use IRSA.
+IOMETE 4.0.1 and 4.0.2 configure Spark's S3 connector (S3A) to get credentials only from the IRSA web identity token. With EKS Pod Identity alone, `s3a://` reads fail, even though tools that use the standard AWS credential chain, such as `aws sts get-caller-identity`, report the associated role. Use IRSA.
 :::
 
 ## 1. Finding the Lakehouse Role {#identify-the-workloads-aws-role}
@@ -58,7 +58,7 @@ Use this full ARN in step 2. If the command prints an empty line, the release do
 
 An administrator with access to the release's values and to AWS IAM does this once for each release:
 
-1. Create the IAM role, or choose an existing one. Its trust policy must trust the cluster's IAM OIDC provider for `lakehouse-service-account` in every namespace of the release. For `analytics`, those are `system:serviceaccount:iomete-analytics:lakehouse-service-account`, `system:serviceaccount:finance:lakehouse-service-account` and `system:serviceaccount:marketing:lakehouse-service-account`. See [Assign IAM roles to Kubernetes service accounts](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html).
+1. Create the IAM role, or choose an existing one. Its trust policy must trust the cluster's IAM OIDC provider for `lakehouse-service-account` in every namespace of the release. For `analytics`, those are `system:serviceaccount:iomete-analytics:lakehouse-service-account`, `system:serviceaccount:finance:lakehouse-service-account` and `system:serviceaccount:marketing:lakehouse-service-account`. From 4.0.2, also trust `system:serviceaccount:iomete-analytics:iomete-data-plane-init`: the release's initialization job runs as that account, gets the same annotation, and writes to the release's bucket. See [Assign IAM roles to Kubernetes service accounts](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html).
 2. Add the annotation to the release's existing values file, and keep its other settings:
 
    ```yaml title="analytics-values.yaml"
@@ -70,7 +70,7 @@ An administrator with access to the release's values and to AWS IAM does this on
 3. Upgrade the release with that values file at its current chart version. `helm list -n iomete-analytics` shows the version in the **CHART** column.
 
    ```bash
-   export IOMETE_VERSION="<current-chart-version>"   # for example 4.0.1
+   export IOMETE_VERSION="<current-chart-version>"   # for example 4.0.2
 
    helm upgrade --kube-context "$KUBE_CONTEXT" -n iomete-analytics analytics \
      iomete/iomete-lakehouse-runtime \
