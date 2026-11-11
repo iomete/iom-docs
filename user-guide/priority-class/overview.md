@@ -106,7 +106,7 @@ The names are only references: the PriorityClass resources’ numeric values and
 <details id="additional-data-planes" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
 <summary>Configuring mappings for an additional data plane</summary>
 
-The agent reads `priority-class-mappings` from **its own service namespace**, such as `iomete-analytics`. The published 4.0.1 runtime chart does not render this ConfigMap from `priorityClassMappings`, so adding the enterprise values to that runtime release alone is insufficient.
+The agent reads `priority-class-mappings` from **its own service namespace**, such as `iomete-analytics`. The published 4.0.1 and 4.0.2 runtime charts do not render this ConfigMap from `priorityClassMappings`, so adding the enterprise values to that runtime release alone is insufficient.
 
 For a runtime chart that does not manage this resource, an administrator can manage the mapping separately. If a mapping already exists, update its owned configuration and preserve the intended entries. For example:
 
@@ -126,7 +126,7 @@ data:
 kubectl --context <runtime-cluster-context> apply -f runtime-priority-mappings.yaml
 ```
 
-Replace the namespace and class names for your plane. Keep the feature enabled on the control plane. Do not assume that the operational-support mapping applies to every runtime release: the 4.0.1 runtime workers do not set `priorityClassName` from that mapping.
+Replace the namespace and class names for your plane. Keep the feature enabled on the control plane. Do not assume that the operational-support mapping applies to every runtime release: the 4.0.1 and 4.0.2 runtime workers do not set `priorityClassName` from that mapping.
 
 </details>
 
