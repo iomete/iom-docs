@@ -11,6 +11,8 @@ last_update:
 This page is retained for older installations whose chart supports MySQL. Current enterprise and runtime charts, including published 4.0.1, support PostgreSQL only. For a new installation, follow [Backend Databases](./backend-databases.md) and [PostgreSQL Deployment](./postgresql-deployment.md).
 
 Do not change an existing installation's database engine by substituting these deployment commands. Confirm the migration procedure for that installation first.
+
+The commands below no longer produce a running database: since August 28, 2025, Bitnami no longer publishes the `bitnami/mysql` images that the chart pulls, so the pod stays in `ImagePullBackOff`. Use your organization's MySQL service or image instead.
 :::
 
 For a legacy installation that requires MySQL, you can use an existing database or the test deployment below.
