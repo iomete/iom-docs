@@ -47,7 +47,28 @@ Argo CD is supported on chart versions after 4.0.2. Earlier versions aren't supp
      kubectl apply -f spark-operator-webhook.yaml
      ```
 
-4. Create the Argo CD Application. Put the contents of your values file under `valuesObject`:
+4. Tell Argo CD when IOMETE's Spark applications are healthy. Its built-in check waits for Spark executors, which IOMETE's Spark Connect server doesn't start, so the Application otherwise stays **Progressing**. Add this to the `argocd-cm` ConfigMap (under `configs.cm` if you install Argo CD with its Helm chart):
+
+   ```yaml title="argocd-cm"
+   data:
+     resource.customizations.health.sparkoperator.k8s.io_SparkApplication: |
+       hs = {}
+       local state = ""
+       if obj.status ~= nil and obj.status.applicationState ~= nil and obj.status.applicationState.state ~= nil then
+         state = obj.status.applicationState.state
+       end
+       if state == "RUNNING" or state == "COMPLETED" then
+         hs.status = "Healthy"
+       elseif state == "FAILED" or state == "SUBMISSION_FAILED" then
+         hs.status = "Degraded"
+       else
+         hs.status = "Progressing"
+       end
+       hs.message = "SparkApplication is " .. (state ~= "" and state or "being submitted")
+       return hs
+   ```
+
+5. Create the Argo CD Application. Put the contents of your values file under `valuesObject`:
 
    ```yaml title="iomete-data-plane.yaml"
    apiVersion: argoproj.io/v1alpha1
