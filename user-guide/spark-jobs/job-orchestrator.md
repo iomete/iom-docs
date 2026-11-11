@@ -165,8 +165,10 @@ kubectl get secret java-truststore --namespace iomete-system \
 kubectl create secret generic java-truststore \
   --namespace iomete-system \
   --from-file=truststore.jks --from-file=ca.crt \
-  --dry-run=client -o yaml | kubectl apply -f -
+  --dry-run=client -o yaml | kubectl apply --server-side -f -
 ```
+
+Use server-side apply: with a full system CA bundle, the two files are too large for client-side `kubectl apply`, which fails with `metadata.annotations: Too long`.
 
 Then merge these settings into the control-plane release's complete values file, keeping its other truststore settings, such as the password:
 
