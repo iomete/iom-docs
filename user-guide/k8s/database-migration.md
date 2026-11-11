@@ -23,7 +23,7 @@ Each Helm release has its own `database` settings, and other clients may connect
 | Runtime release of an additional data plane (`iomete-lakehouse-runtime`) | One metastore database, `<prefix>metastore_db` | That data plane's `metastore` service |
 | Other clients | Any of the above | For example, another control-plane installation that shares the databases, or your own tools |
 
-Computes connect to the control-plane database directly. With activity monitoring on, which is the 4.0.1 default (`features.activityMonitoring.enabled`), every compute writes query activity to `<prefix>sql_db`, whichever data plane it runs on. So when you move the control-plane databases, you stop and later restart the workloads on every data plane, and every cluster that runs computes must be able to reach the new server.
+Computes connect to the control-plane database directly. With activity monitoring on, which is the default in 4.0.1 and 4.0.2 (`features.activityMonitoring.enabled`), every compute writes query activity to `<prefix>sql_db`, whichever data plane it runs on. So when you move the control-plane databases, you stop and later restart the workloads on every data plane, and every cluster that runs computes must be able to reach the new server.
 
 The control-plane databases share one `database.host`, so they move together; moving only `iomete_core_db` doesn't migrate the installation. Check the prefix each release actually uses, rather than assuming the default names. See [Backend Databases](/resources/deployment/backend-databases) for what each database holds.
 

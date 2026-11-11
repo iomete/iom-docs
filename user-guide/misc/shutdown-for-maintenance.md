@@ -29,7 +29,7 @@ Use the target of the maintenance to decide what to stop:
 | The control plane, or the PostgreSQL server that holds the control-plane databases | Workloads on **every** data plane | The control-plane release, and every runtime release whose metastore database is on that server |
 | An object store | Workloads on every data plane that stores data in it | Every release configured to use it |
 
-Workloads on every data plane depend on the control plane. Computes also connect to the control-plane database directly: with activity monitoring on, which is the 4.0.1 default (`features.activityMonitoring.enabled`), every compute writes query activity to `<prefix>sql_db` (`iomete_sql_db` with the default prefix), whichever data plane it runs on. Scaling down the control-plane release doesn't stop computes on other data planes, so stop them first.
+Workloads on every data plane depend on the control plane. Computes also connect to the control-plane database directly: with activity monitoring on, which is the default in 4.0.1 and 4.0.2 (`features.activityMonitoring.enabled`), every compute writes query activity to `<prefix>sql_db` (`iomete_sql_db` with the default prefix), whichever data plane it runs on. Scaling down the control-plane release doesn't stop computes on other data planes, so stop them first.
 
 <span id="notes" style={{scrollMarginTop: 'calc(var(--ifm-navbar-height) + 0.5rem)'}}></span>
 
