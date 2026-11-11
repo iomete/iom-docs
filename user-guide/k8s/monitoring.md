@@ -28,7 +28,7 @@ Before you start, you need:
 
 ## Enabling Monitoring
 
-The `monitoring.enabled` Helm value defaults to `false` in both IOMETE charts: `iomete-data-plane-enterprise` for the control-plane release, and `iomete-lakehouse-runtime` for the runtime release of an additional data plane. In IOMETE 4.0.1, setting it to `true` has these effects:
+The `monitoring.enabled` Helm value defaults to `false` in both IOMETE charts: `iomete-data-plane-enterprise` for the control-plane release, and `iomete-lakehouse-runtime` for the runtime release of an additional data plane. In IOMETE 4.0.1 and 4.0.2, setting it to `true` has these effects:
 
 - **Control-plane release:** adds Prometheus scrape annotations to the IOMETE JVM services, such as `iom-core`, `iom-sql`, `iom-identity`, `iom-cluster`, and `iom-rest-catalog`, and to the default data plane's Spark operator. It also adds the Grafana dashboard links to System Config and turns on the **Metrics** links of Spark job runs and computes.
 - **Runtime release of an additional data plane:** adds scrape annotations to that data plane's Spark operator.
@@ -44,12 +44,12 @@ To enable monitoring on the control-plane release and keep its other settings:
    helm --kube-context "$KUBE_CONTEXT" -n iomete-system list --filter '^data-plane$'
    ```
 
-   Replace `your-kubernetes-context` with the context of the example cluster. The **CHART** column shows the version, for example `iomete-data-plane-enterprise-4.0.1`.
+   Replace `your-kubernetes-context` with the context of the example cluster. The **CHART** column shows the version, for example `iomete-data-plane-enterprise-4.0.2`.
 
 2. Save the release's current values:
 
    ```bash
-   IOMETE_VERSION=4.0.1
+   IOMETE_VERSION=4.0.2
    helm --kube-context "$KUBE_CONTEXT" -n iomete-system \
      get values data-plane -o yaml > data-plane-values.yaml
    ```
@@ -109,10 +109,10 @@ For a data plane in another Kubernetes cluster, collect its metrics in that clus
 <details>
 <summary>If you discover targets through the IOMETE annotations</summary>
 
-Prometheus doesn't read `prometheus.io/*` annotations by itself; your relabeling rules apply them. In IOMETE 4.0.1:
+Prometheus doesn't read `prometheus.io/*` annotations by itself; your relabeling rules apply them. In IOMETE 4.0.1 and 4.0.2:
 
 - `prometheus.io/port` holds a port **name**, `http` or `metrics`, on the services and operators, and a number, `4040`, on Spark drivers. Rules that accept only port numbers don't resolve the names.
-- Two annotations point at a port that the pod doesn't have. `spark-operator-submit-service` is annotated with port `metrics`, but it serves `/metrics` on its `http` port, `7070`. In the control-plane release, `spark-proxy-server-iomete-system` is annotated with `/q/metrics` on port `http`, but it serves `/metrics` on its `metrics` port, `9090`. Skip these targets or scrape their actual ports; the IOMETE dashboards don't use them.
+- Two annotations point at a port that the pod doesn't have. `spark-operator-submit-service` is annotated with port `metrics`, but it serves `/metrics` on its `http` port, `7070`. In the control-plane release, every `spark-proxy-server-<namespace>`, such as `spark-proxy-server-iomete-system`, is annotated with `/q/metrics` on port `http`, but it serves `/metrics` on its `metrics` port, `9090`. Skip these targets or scrape their actual ports; the IOMETE dashboards don't use them.
 - `prometheus.io/interval` suggests 15 seconds. Your Prometheus configuration sets the actual scrape interval.
 
 </details>
@@ -207,7 +207,7 @@ alt="IOMETE Service Dashboard"/>
 ### Spark Operator Dashboard
 
 :::warning Not for IOMETE 4.x
-The archived [Spark Operator Dashboard](https://github.com/iomete/on-prem-deployment/blob/main/observability/monitoring/grafana/iom-spark-operator-detailed-dashboard.json) stays empty with IOMETE 4.0.1. It was built for an earlier Spark operator: its panels and its namespace list query `spark_app_*` metrics, while the operator in IOMETE 4.0.1 exports `spark_application_*` and `spark_executor_*` metrics. Don't import it for a 4.x installation.
+The archived [Spark Operator Dashboard](https://github.com/iomete/on-prem-deployment/blob/main/observability/monitoring/grafana/iom-spark-operator-detailed-dashboard.json) stays empty with IOMETE 4.0.1 and 4.0.2. It was built for an earlier Spark operator: its panels and its namespace list query `spark_app_*` metrics, while the operator in IOMETE 4.0.1 exports `spark_application_*` and `spark_executor_*` metrics. Don't import it for a 4.x installation.
 :::
 
 To follow the operator without that dashboard, query its metrics in Prometheus or in your own Grafana panels, for example `spark_application_running_count`, `spark_application_submit_count`, and `spark_application_failure_count`. The [IOMETE monitoring chart](#using-the-iomete-monitoring-chart) includes an **IOMETE - Spark Processing Overview Dashboard** that reads these metrics.
@@ -334,7 +334,7 @@ Check the stages in order: target discovery, sample collection, the dashboard qu
 | Symptom | What to Check |
 | --- | --- |
 | No Prometheus target | Namespace discovery, Kubernetes RBAC, monitor selectors or annotation relabeling, and the port and path from [Configuring Prometheus Collection](#configuring-prometheus-collection). `monitoring.enabled` alone doesn't create a scrape job. |
-| Target is down | The target's scrape error. Check connectivity, network policies, and whether the endpoint listens on that port. For `spark-operator-submit-service` and `spark-proxy-server-iomete-system`, the 4.0.1 annotations name a port that the pod doesn't have. |
+| Target is down | The target's scrape error. Check connectivity, network policies, and whether the endpoint listens on that port. For `spark-operator-submit-service` and the `spark-proxy-server-<namespace>` Deployments, the 4.0.1 and 4.0.2 annotations name a port that the pod doesn't have. |
 | Target is up but panels are empty | Query the panel's metric in Prometheus and compare its labels with the dashboard's filters: `namespace`, `service`, or `pod`. Also check the data source, namespace, driver, time range, and retention. |
 | Panels are slow or have gaps | Prometheus and Grafana may need more CPU, memory, or storage. Check the network between Prometheus and the targets. Keep the scrape interval well below one minute, because several panels use 1-minute rates. |
 | Spark Operator Dashboard is empty | Expected with IOMETE 4.x. See [Spark Operator Dashboard](#spark-operator-dashboard). |
