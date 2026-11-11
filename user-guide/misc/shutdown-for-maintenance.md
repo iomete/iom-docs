@@ -153,7 +153,7 @@ Deployment   iomete-system  typesense                         1
 StatefulSet  iomete-system  iom-event-stream                  2
 ```
 
-Optional features add rows, such as `iom-event-stream-proxy`, `iom-ratelimiter`, `iom-mcp-server` and `iom-ai-services`. Your replica counts may differ.
+Optional features add rows, such as `iom-event-stream-proxy`, `iom-ratelimiter`, `iom-mcp-server` and `iom-ai-services`. Your replica counts may differ. From 4.0.2, both charts run `iomete-lakehouse-agent` with 2 replicas by default.
 
 <details>
 <summary>Sample for the analytics data plane</summary>
