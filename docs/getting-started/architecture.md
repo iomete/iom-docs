@@ -135,7 +135,7 @@ Provides the backend for the [SQL Editor](/resources/user-guide/sql-editor/overv
 - [Database explorer](/resources/user-guide/sql-editor/database-explorer) for schema and catalog browsing
 - [Dashboards](/resources/user-guide/sql-editor/dashboards)
 
-In 4.0.1, the SQL Editor can query a compute on a data plane in another Kubernetes cluster only when [SQL Editor V2](/resources/user-guide/feature-flags/sql-editor-v2) is turned on.
+In 4.0.1 and 4.0.2, the SQL Editor can query a compute on a data plane in another Kubernetes cluster only when [SQL Editor V2](/resources/user-guide/feature-flags/sql-editor-v2) is turned on.
 
 ### Catalog Service
 

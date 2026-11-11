@@ -43,7 +43,7 @@ To run all user workloads on additional data planes, set `defaultDataPlane.enabl
 
 ### Release Versions
 
-Both charts are published with the same version number for each IOMETE release. Install every runtime release from the same version as the control-plane release, and upgrade all of them when you upgrade IOMETE. The 4.0.1 charts and release notes don't describe support for running a control plane and its data planes on different versions.
+Both charts are published with the same version number for each IOMETE release. Install every runtime release from the same version as the control-plane release, and upgrade all of them when you upgrade IOMETE. The 4.0.1 and 4.0.2 charts and release notes don't describe support for running a control plane and its data planes on different versions. From 4.0.2, computes send their sign-in checks to their data plane's agent through the `iom-data-plane-agent` Service, which only 4.0.2 and later charts create, so a runtime release older than the control plane can enroll and then fail when a compute signs in.
 
 Defaults and optional services change between versions, so read the values of the version you deploy, for example:
 
@@ -70,9 +70,9 @@ The logs show which step failed. Check the Job's access to Kubernetes, the datab
 
 ### Configuration Distribution
 
-Each release stores the values it applied in the Secret `iomete-helm-values`, under the key `values.yaml`, in its service namespace. 4.0.1 also writes a copy to a legacy Secret named `data-plane`. Helm rewrites both on every upgrade, so change values with Helm, not by editing these Secrets.
+Each release stores the values it applied in the Secret `iomete-helm-values`, under the key `values.yaml`, in its service namespace. 4.0.1 and 4.0.2 also write a copy to a legacy Secret named `data-plane`. Helm rewrites both on every upgrade, so change values with Helm, not by editing these Secrets.
 
-The control-plane services read these values once, when they start. Upgrading to a new IOMETE version restarts them, because their images change. An upgrade that only changes values restarts a service only when a setting it watches changes, such as `database`, `storage`, or `multiCluster`. Other settings, such as `features`, `logging`, and the [Spark pod settings](#node-placement), take effect only after the services that read them restart. After such a `helm upgrade`, restart them:
+The control-plane services read these values once, when they start. Upgrading to a new IOMETE version restarts them, because their images change. An upgrade that only changes values restarts a service only when a setting it watches changes, such as `database`, `storage`, or `multiCluster`, and from 4.0.2 `namespaces` for `iom-cluster`. Other settings, such as `features`, `logging`, and the [Spark pod settings](#node-placement), take effect only after the services that read them restart. After such a `helm upgrade`, restart them:
 
 ```bash
 kubectl rollout restart -n iomete-system \
@@ -87,7 +87,7 @@ Keep each release's values file separate. For example, adding `marketing` to the
 
 ## Service Inventory
 
-The tables list what each release runs in 4.0.1, using the Kubernetes resource names. Use them to plan capacity and to find a component when you troubleshoot.
+The tables list what each release runs in 4.0.1 and 4.0.2, using the Kubernetes resource names. Use them to plan capacity and to find a component when you troubleshoot.
 
 ### Control-Plane Services
 
@@ -122,7 +122,8 @@ Every data plane runs these in its service namespace. The control-plane release 
 
 | Component | Kubernetes Resource | Role |
 | --- | --- | --- |
-| `iomete-lakehouse-agent` | Deployment | Registers the data plane, reports its namespaces and health, and carries out Kubernetes operations for the control plane |
+| `iomete-lakehouse-agent` | Deployment: 1 replica in 4.0.1, 2 from 4.0.2 (`services.lakehouseAgent.replicas`), one of which leads | Registers the data plane, reports its namespaces and health, and carries out Kubernetes operations for the control plane |
+| `iom-data-plane-agent` | Service (ExternalName) in each of the plane's namespaces, from 4.0.2 | Lets computes reach the agent, which checks their sign-in tokens and permissions |
 | `iom-gateway-dp` on the default data plane, `iom-gateway` in a runtime release | Deployment | Data-plane gateway for compute connections and for calls between the planes |
 | `spark-operator` | Deployment, plus a MutatingWebhookConfiguration when `webhook.create` is `true` | Runs Spark applications and adjusts Spark pods when Kubernetes admits them |
 | `spark-operator-submit-service` | Deployment | Submits Spark applications |
@@ -146,7 +147,7 @@ The Quarkus services `iom-core`, `iom-cluster`, `iom-identity`, `iom-sql`, `iom-
 
 Setting `services.databaseAwareProbes: false` moves the liveness and readiness probes to `/health`, which always passes while the process runs. The timings are shared by these services and set under `services.probes` on the control-plane release:
 
-```yaml title="services.probes defaults in the 4.0.1 control-plane chart"
+```yaml title="services.probes defaults in the 4.0.1 and 4.0.2 control-plane charts"
 services:
   probes:
     liveness:
@@ -216,7 +217,7 @@ The control-plane gateway serves these routes for computes in its own cluster, a
 
 When `features.sparkProxyForArrowFlight.enabled` is `false`, the control-plane gateway sends Arrow Flight traffic to the compute itself, on port `33333`. The ingress in front of a gateway must support HTTP/2 for gRPC and WebSocket upgrades. Clients connect through the gateways, so don't expose Spark driver ports directly. Give each additional data plane a public hostname and configure its ingress; see [Configure Ingress](./configure-ingress.md) and [Multi-Cluster Setup](./multi-cluster-setup.mdx).
 
-With SQL Editor V2, `iom-sql` reaches a compute on an additional data plane through that plane's public host, over gRPC with TLS on port 443. The control plane must be able to reach that host and trust its certificate. In 4.0.1, the default V1 engine connects to computes only through cluster-internal addresses, so it can't query a compute on a data plane in another Kubernetes cluster. To query those computes, turn on [SQL Editor V2](/resources/user-guide/feature-flags/sql-editor-v2).
+With SQL Editor V2, `iom-sql` reaches a compute on an additional data plane through that plane's public host, over gRPC with TLS on port 443. The control plane must be able to reach that host and trust its certificate. In 4.0.1 and 4.0.2, the default V1 engine connects to computes only through cluster-internal addresses, so it can't query a compute on a data plane in another Kubernetes cluster. To query those computes, turn on [SQL Editor V2](/resources/user-guide/feature-flags/sql-editor-v2).
 
 ## Node Placement
 
@@ -324,7 +325,7 @@ The values file has other switches that aren't listed here, such as previews and
 
 ### Flags in the Console
 
-Some features are switched in the console instead, under **Administration → Feature Flags**, and take effect without a restart. In 4.0.1, these are Secrets V2, LDAP Group Inheritance, and SQL Editor V2 (`sqlEditorV2`). For `secretsV2` and `ldapGroupInheritance`, the Helm value is only the default until an administrator changes the flag in the console. `sqlEditorV2` has no Helm value and stays off until you turn it on. See [Managing Feature Flags](/resources/user-guide/feature-flags/managing-feature-flags).
+Some features are switched in the console instead, under **Administration → Feature Flags**, and take effect without a restart. In 4.0.1, these are Secrets V2, LDAP Group Inheritance, and SQL Editor V2 (`sqlEditorV2`). 4.0.2 adds Resource Group Roles (off by default), Webhook Notifications (on), Disable Login Lockout (off) and Forward V1 Schema API to V2 (off). For `secretsV2` and `ldapGroupInheritance`, the Helm value is only the default until an administrator changes the flag in the console. The other flags have no Helm value: `sqlEditorV2` stays off until you turn it on. See [Managing Feature Flags](/resources/user-guide/feature-flags/managing-feature-flags).
 
 4.0 also changed some older Helm flags: `jobOrchestrator` and the four `onboard*Ras` flags are always on, and `emailNotifications` and `enableAutomatedMaintenance` were removed. See the 4.0.0 entry in the [release notes](./on-prem/release-notes/index.md).
 
@@ -342,12 +343,13 @@ The enterprise chart supports these storage configuration types:
 | AWS S3 | `aws_s3` | Bucket, region, and the configured AWS identity |
 | Google Cloud Storage | `gcs` | Bucket and GCP identity configuration |
 | Azure Blob Storage | `azure_gen1` | `storage.azureSettings` |
-| Azure Data Lake Storage Gen2 | `azure_gen2` | `storage.azureSettings` |
+
+The chart's values also mention `azure_gen2`, but in 4.0.1 and 4.0.2 the initialization job stops with `Azure Gen2 is not implemented yet` for that type.
 
 From 3.19.1, use `s3_compatible` for S3-compatible storage. The older `minio` and `dell_ecs` types and their `storage.minioSettings` and `storage.dellEcsSettings` blocks are deprecated aliases kept for existing installations.
 
 :::note Storage for Additional Data Planes
-Don't assume that an additional data plane supports every provider in the enterprise chart's list. In 4.0.1, a runtime release supports AWS S3 and S3-compatible storage; its `init-job` rejects the GCS and Azure storage types.
+Don't assume that an additional data plane supports every provider in the enterprise chart's list. In 4.0.1 and 4.0.2, a runtime release supports AWS S3 and S3-compatible storage; its `init-job` rejects the GCS and Azure storage types, although the 4.0.2 chart's values comment lists them.
 :::
 
 Typical storage locations include:
