@@ -273,7 +273,7 @@ Depending on your observability stack, you can route logs to one of several back
 | `splunk` | [Splunk Enterprise](https://www.splunk.com/) (requires endpoint, token, indexName) |
 | `dynatrace` | [Dynatrace](https://www.dynatrace.com/) (requires endpoint, token) |
 
-**Dynatrace**: IOMETE reads logs from Dynatrace but does not send them there. Install the [Dynatrace Log module](https://docs.dynatrace.com/docs/ingest-from/setup-on-k8s/deployment/k8s-log-monitoring) on the data plane cluster to collect them. Then set:
+**Dynatrace**: From 4.0.2, IOMETE reads logs from Dynatrace but does not send them there. Install the [Dynatrace Log module](https://docs.dynatrace.com/docs/ingest-from/setup-on-k8s/deployment/k8s-log-monitoring) on the data plane cluster to collect them. Then set:
 
 - `endpoint`: your environment URL, for example `https://abc12345.apps.dynatrace.com`
 - `token`: a platform token with the `storage:logs:read` and `storage:buckets:read` scopes
