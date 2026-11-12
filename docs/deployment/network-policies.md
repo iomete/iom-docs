@@ -3,7 +3,7 @@ title: Kubernetes Network Policies
 sidebar_label: Network Policies
 description: Learn how to configure network policies for IOMETE services in a Kubernetes cluster.
 last_update:
-  date: 11/05/2026
+  date: 11/12/2026
   author: Rovshan Baghirov
 ---
 
@@ -65,7 +65,9 @@ The result is JSON with these fields:
 - `checkedAt`: when the check ran.
 - `details`: why the check reached its result.
 
-After you switch enforcement on, or fix a policy that let traffic through, restart the lakehouse agent so it checks again at once instead of waiting up to 6 hours:
+If `details` says the canary was unreachable before the policy, something in the IOMETE namespace already blocks the lakehouse agent from reaching its canary pod: usually a default-deny NetworkPolicy there, or a service-mesh sidecar on the agent. Neither setup is supported yet. IOMETE keeps refusing Doris computes until you remove the cause and restart the agent.
+
+After you switch enforcement on, or change a policy that affected the check, restart the lakehouse agent so it checks again at once instead of waiting up to 6 hours:
 
 ```bash
 kubectl rollout restart deployment/iomete-lakehouse-agent -n <iomete-namespace>
@@ -165,9 +167,9 @@ Replace `[API_SERVER_IP]` in the YAML file with the actual IP address.
 
 This policy ensures that all IOMETE control plane and data plane services can communicate securely across namespaces, using the label `iomete.com/managed: "true"`.
 
-It leaves out three kinds of pods: Jupyter Container pods, Doris compute pods and the lakehouse agent's NetworkPolicy check pod. Kubernetes combines policies by allowing anything any of them allows. A policy that selected these pods would cancel the [Jupyter Containers policy](#jupyter-containers-policy) and the per-compute Doris policy, and would make the lakehouse agent report that the cluster doesn't enforce policies.
+As shown below, it leaves out three kinds of pods: Jupyter Container pods, Doris compute pods and the lakehouse agent's NetworkPolicy check pod. Kubernetes combines policies by allowing anything any of them allows. A policy that selected these pods would cancel the [Jupyter Containers policy](#jupyter-containers-policy) and the per-compute Doris policy, and would make the lakehouse agent report that the cluster doesn't enforce policies.
 
-Always keep the two `DoesNotExist` entries. Keep the `NotIn` entry only when the Jupyter Containers policy is installed. Without that policy, the `NotIn` entry would leave notebooks matched by no policy and fully open, so remove it.
+Always keep the two `DoesNotExist` entries. The `NotIn` entry lists pods that another IOMETE policy covers, so each value belongs there only while that policy is on: `jupyterContainer` with the [Jupyter Containers policy](#jupyter-containers-policy), and `compute`, `sparkApp`, `scheduledSparkApp` and `eventStream` with the [Data Plane Workloads Policy](#data-plane-workloads-policy). A pod listed there without a policy of its own is matched by no policy and fully open. Remove the entry if neither policy is on.
 
 ```yaml title="iomete-ingress-egress.yaml"
 apiVersion: networking.k8s.io/v1
