@@ -26,6 +26,8 @@ Argo CD is supported on chart versions after 4.0.2. Earlier versions aren't supp
      --from-literal=storage-secret-key='<object storage secret key>'
    ```
 
+   Leave out `storage-secret-key` unless you use S3-compatible storage.
+
 3. Add these lines to your values file, and remove any passwords or keys from it:
 
    ```yaml title="example-data-plane-values.yaml"
@@ -47,6 +49,7 @@ Argo CD is supported on chart versions after 4.0.2. Earlier versions aren't supp
          name: iomete-credentials
          key: db-admin-password
 
+   # S3-compatible storage only
    storage:
      type: s3_compatible
      s3CompatibleSettings:
@@ -57,7 +60,11 @@ Argo CD is supported on chart versions after 4.0.2. Earlier versions aren't supp
          key: storage-secret-key
    ```
 
+   On AWS S3, Google Cloud Storage or Azure, keep your existing `storage` block instead. Azure's storage account key stays in the values file, since the chart has no Secret form for it.
+
    If your values file has `minioSettings`, move its endpoint and access key into `s3CompatibleSettings` and delete `minioSettings`. The chart ignores it once `s3CompatibleSettings` is set.
+
+   With workload identity (EKS, GKE or Azure), the init job runs as `iomete-data-plane-init` under Argo CD. Have the cloud side trust `system:serviceaccount:iomete-system:iomete-data-plane-init` as well as `lakehouse-service-account`, or the init job fails with a 403 on storage.
 
    The chart generates its own encryption key, tokens and signing keys on the first install and keeps them, so leave those settings empty.
 
@@ -135,13 +142,16 @@ Argo CD is supported on chart versions after 4.0.2. Earlier versions aren't supp
 ## Upgrading
 
 1. Set `IOMETE_VERSION` to the new chart version.
-2. Re-run step 4 when:
-   - The release notes say the CRDs changed: re-apply the CRDs.
-   - You change `namespaces` in your values file: re-apply the webhook.
-3. Change `targetRevision` to the new chart version.
+2. If the release notes say the CRDs changed, follow [Upgrading the CRDs](./on-prem/install.md#upgrading-the-crds).
+3. If you change `namespaces` in your values file, re-apply the webhook (step 4).
+4. Change `targetRevision` to the new chart version.
 
 :::warning Moving from a Helm install
-Argo CD doesn't manage the webhook, so the one Helm created stays in place. If you later run `helm uninstall` on the old release, Helm deletes it: re-apply the webhook (step 4) right after, or Spark jobs stop starting.
+Don't run `helm uninstall` on the old release. It deletes every resource Argo CD now manages, and the data plane is down until Argo CD re-creates them. Delete only Helm's release record instead, which leaves every resource, including the webhook, in place:
+
+```shell
+kubectl delete secret -n iomete-system -l owner=helm,name=data-plane
+```
 :::
 
 ## Known Limits

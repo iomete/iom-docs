@@ -26,7 +26,7 @@ Installing on Nutanix Kubernetes Platform (NKP)? Follow this guide together with
 :::
 
 :::tip Argo CD
-Deploying with Argo CD? Follow this guide up to **Prepare Your Values File**, then continue with [Installing IOMETE with Argo CD](../argocd.md).
+Deploying with Argo CD? Follow this guide up to and including **Prepare Your Values File**, then continue with [Installing IOMETE with Argo CD](../argocd.md).
 :::
 
 ## Essential Requirements Before You Start
@@ -128,7 +128,7 @@ webhook:
   create: true
 ```
 
-Installing with Argo CD? Don't use these settings. See [Installing IOMETE with Argo CD](../argocd.md#installing).
+Installing with Argo CD? Set `crds.create` and `webhook.create` to `false` instead. See [Installing IOMETE with Argo CD](../argocd.md#installing).
 
 With these set, Helm creates the resources during installation. It keeps the service account and the webhook up to date on every upgrade. It creates the CRDs only on the first installation and never updates them, so apply CRD changes yourself as described in [Upgrading the CRDs](#upgrading-the-crds).
 
