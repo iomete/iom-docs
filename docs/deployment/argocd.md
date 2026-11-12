@@ -3,7 +3,7 @@ title: Installing IOMETE with Argo CD
 sidebar_label: Argo CD
 description: Install and upgrade IOMETE Data Plane Enterprise with Argo CD.
 last_update:
-  date: 11/11/2026
+  date: 11/12/2026
   author: Maksym Kryvchun
 ---
 
@@ -48,11 +48,16 @@ Argo CD is supported on chart versions after 4.0.2. Earlier versions aren't supp
          key: db-admin-password
 
    storage:
+     type: s3_compatible
      s3CompatibleSettings:
+       endpoint: "<object storage endpoint>"
+       accessKey: "<object storage access key>"
        secretKeySecret:
          name: iomete-credentials
          key: storage-secret-key
    ```
+
+   If your values file has `minioSettings`, move its endpoint and access key into `s3CompatibleSettings` and delete `minioSettings`. The chart ignores it once `s3CompatibleSettings` is set.
 
    The chart generates its own encryption key, tokens and signing keys on the first install and keeps them, so leave those settings empty.
 
@@ -129,15 +134,14 @@ Argo CD is supported on chart versions after 4.0.2. Earlier versions aren't supp
 
 ## Upgrading
 
-Change `targetRevision` to the new chart version.
+1. Set `IOMETE_VERSION` to the new chart version.
+2. Re-run step 4 when:
+   - The release notes say the CRDs changed: re-apply the CRDs.
+   - You change `namespaces` in your values file: re-apply the webhook.
+3. Change `targetRevision` to the new chart version.
 
-Also re-run step 4 when:
-
-- You change `namespaces` in your values file: re-apply the webhook.
-- The release notes say the CRDs changed: re-apply the CRDs.
-
-:::warning Switching from `webhook.create: true`
-Apply the webhook (step 4) **before** you set `webhook.create: false`. Otherwise Argo CD deletes the webhook on the next sync and Spark jobs stop starting.
+:::warning Moving from a Helm install
+Argo CD doesn't manage the webhook, so the one Helm created stays in place. If you later run `helm uninstall` on the old release, Helm deletes it: re-apply the webhook (step 4) right after, or Spark jobs stop starting.
 :::
 
 ## Known Limits
