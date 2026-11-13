@@ -513,6 +513,58 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 </Release>
 
+<Release version="3.19.2" date="TBD">
+  <BreakingChanges>
+    - **Secret Value API Removed**: `GET /api/v1/domains/{domain}/secrets/{key}`, deprecated since May 2026, is removed, so a stored secret's value can no longer be read back through the API. Reference secrets as `${secrets.KEY}` in job, compute and notebook settings, and use `/api/v2/domains/{domain}/secrets` to list, create, update and delete them.
+  </BreakingChanges>
+
+  <NewFeatures>
+    - **Domain Isolation**: A domain can now be marked isolated when it is created, through the admin domain API. Its owners run it themselves, and platform administrators, including the super admin, no longer manage its members, roles or settings directly. Creating one needs the `domainIsolation` feature flag, which is off by default, and every existing domain stays administrator-managed and unchanged.
+      - **Owners and Members**: Only an isolated domain's own owners add or remove its owners and members, through new endpoints under `/api/v1/domains/{domain}/owners`. The domain always keeps at least one owner, and owners must be people, not groups or service accounts. Administrators can still edit its name, description and color.
+      - **Groups**: Owners create and manage groups that belong to their domain alone, and choose which of its members are in them, under `/api/v1/domains/{domain}/groups`. Global groups are unchanged.
+      - **Catalogs**: Owners create, delete and test their domain's own Spark catalogs. A catalog an isolated domain owns cannot be read, changed, shared or taken over by administrators or by another domain, and it must carry its own storage credentials.
+      - **Data Security Policies**: Owners list, view and delete their domain's access, masking and row filter policies. An isolated domain's catalogs are governed only by that domain's policies, so platform-wide policies, including ones on all catalogs, no longer reach them.
+      - **Namespaces**: An isolated domain's namespaces are its own. Assigning one that another domain already holds is refused, and so is removing one while the domain still has computes, Spark jobs, notebooks or event streams configured in it.
+      - **Visibility**: Users who are not administrators no longer see isolated domains they don't belong to in the domain lists, and a user who is not a member of one gets nothing from its default role.
+    - **Dynatrace Logs**: Installations that ship their logs to Dynatrace can now view and download Spark, compute, event stream and Jupyter container logs in the console. Set `logging.source: dynatrace` in your install values, with your environment URL and a platform token.
+  </NewFeatures>
+
+  <Improvements>
+    - **OpenShift Support**: The data plane now installs on OpenShift under the default `restricted-v2` security context constraint, without extra grants. Jupyter, Spark and event stream pods no longer pin user and group IDs there, fresh installations default to EmptyDir storage, and host path and NFS volumes are refused with a pointer to EmptyDir or On-demand PVC. A new `platform` value (`auto`, `openshift` or `kubernetes`) names the platform when the charts are rendered without cluster access. Other platforms are unchanged.
+    - **Argo CD Installations**: The chart no longer generates the secret store encryption key, event service token and plane trust secret while rendering, so a sync no longer replaces them and leaves stored secrets unreadable. Set `argocd: true`, keep `webhook.create: false`, and apply the Spark operator webhook once by hand.
+    - **Per-Installation Search Key**: Typesense now gets a key generated for your installation instead of the same built-in value everywhere. The first upgrade creates it and restarts Typesense and the data catalog; set `typesenseApiKey.existingSecret` to supply your own instead.
+    - **Data Plane Network Policies**: Optional network policies keep data plane workloads, such as Spark jobs and event streams, off the platform's internal services and leave the gateway as the way in. Off by default, and turning them on means listing your Kubernetes API addresses and any private data sources in the chart values.
+    - **Spark Driver Volume**: A compute or Spark job can now put its driver's scratch space on an on-demand persistent volume claim, picked separately from the executors' volume, so a heavy run no longer fills the node's own disk. Unset by default, which keeps the driver on the node disk; single-node computes and jobs, which have no executors, gain the most.
+    - **Rolling Spark Event Logs**: A long run can now write its event log in parts, so its history survives a driver that is killed before the log is closed. Off by default, turn it on with the `sparkEventLogRolling` feature flag.
+    - **Resource Group Roles**: With the `resourceGroupRoles` feature flag on, running or starting a job, compute, notebook or event stream no longer needs separate access to its namespace. Namespace access is still checked when you create a resource or move it to another namespace.
+    - **Marketplace Jobs**: Job templates now deploy Data Compaction `1.2.16` and Kafka Iceberg Stream `1.3.0`. See the [Marketplace Jobs release notes](./marketplace-jobs.md) for what changed in each.
+    - **Platform Security Updates**: Resolved a high-severity CVE in the backend service images. No change in behavior and no migration required.
+  </Improvements>
+
+  <BugFixes>
+    - **Data Access Policy Refresh**: Fixed compute clusters rebuilding their data access policies every 10 seconds even when nothing had changed, which loaded both the compute and the platform and left computes liable to stop refreshing policies at all. Policy, tag, role and user group downloads now answer "not modified" when the compute is already up to date, and changes still reach running computes within seconds.
+    - **Spark History Server**: Fixed the history server exhausting its heap and then holding its port open without serving anything, while its pod still showed as running. Its heap is now sized from its memory limit, an out-of-memory error restarts the pod, and the deployment has startup, readiness and liveness checks, which you can turn off with `services.sparkHistory.probesEnabled: false`.
+    - **Long Queries on Remote Data Planes**: Fixed a healthy long-running query on a compute in another data plane being marked as failed while that compute was still running it, which lost the result.
+    - **Database Explorer on Spark 3.5**: Fixed a `spark_catalog` database holding no Iceberg table, such as an empty `default` or one with only Hive tables, failing to open or listing as empty when the shared schema server runs on a Spark 3.5 image. Schema servers on Spark 4.1, the default Spark version, were not affected.
+    - **S3 Browser**
+      - Browsing a bucket in a different region from the catalog's storage configuration now names the bucket's region and the configured one, instead of returning a server error. A wrong endpoint gets its own message.
+      - The bucket list now offers only buckets in the catalog's region, so every bucket it lists opens.
+    - **Catalog Connection Test**: Fixed testing an external catalog with a wrong password using three login attempts, which locked database users whose policy allows three failures. The test now stops at the first failed check.
+    - **LDAP Sync**
+      - Fixed sync being blocked for good after an administrator deleted a local user or group that shares a name with one in LDAP. LDAP now takes the deleted account over, without restoring its old roles and group memberships.
+      - An LDAP username that differs from a local user's only by upper or lower case now reports the conflict, instead of failing with a database error.
+      - When local users or groups block sync, the error now names up to three of them and says whether to delete them or leave them out of the LDAP filter.
+    - **Catalog Metadata Access**: Fixed table metadata and snapshots from catalogs a domain has not been granted being returned through the data catalog's metadata export and the database browser. The deprecated `/api/v1/schema` API now answers `403` to users who are not members of the default domain.
+    - **Admin Webhooks**: Fixed **Administration → Webhooks** showing no results for a domain whose display name differs from its id, such as the default domain.
+    - **Splunk Logs**: A failure reading logs from Splunk now says so on the **Logs** tab, instead of showing a generic internal error.
+    - **System Table Storage Growth**: Activity monitoring and other archival tables kept every Iceberg metadata file they ever wrote, which grew far beyond the data itself. New writes now delete the files they replace, so tables stop accumulating extra metadata after upgrading. Existing tables pick this up the next time the archival job runs.
+  </BugFixes>
+
+**Spark version:** [4.1.3-v3](./spark.md)
+**Iceberg version:** 1.9.0-iomete-5
+
+</Release>
+
 <Release version="3.19.1" date="October 1, 2026">
   <NewFeatures>
     - **Helm Chart Creates Cluster-Level Resources**: The data plane chart can now create the Spark Operator CRDs, the `lakehouse-service-account` with its Role and RoleBinding, and the Spark Operator webhook with its certificate, so you don't have to run `gencerts.sh` or `kubectl apply` them yourself before installing. See [Create Cluster-Level Resources](../install.md#create-cluster-level-resources).
