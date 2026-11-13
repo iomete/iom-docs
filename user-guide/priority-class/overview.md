@@ -3,13 +3,13 @@ title: Priority Classes
 sidebar_label: Priority Classes
 description: Configure Kubernetes PriorityClasses for IOMETE workloads to control scheduling and preemption when cluster resources are limited.
 last_update:
-  date: 04/29/2026
+  date: 11/07/2026
   author: IOMETE
 ---
 
 When multiple workloads compete for limited cluster resources, some will have to wait. Priority classes let you control which IOMETE workloads get resources first — and which ones can be interrupted to make room.
 
-By default, all IOMETE workloads are scheduled with equal priority. Kubernetes uses its default first-come, first-served ordering, which means a batch of notebook pods that happen to start first can block a production Spark job from getting resources. Priority classes let you change that by telling Kubernetes which workloads matter most.
+IOMETE priority-class assignment is disabled by default. Without an explicit class, Kubernetes uses the cluster’s default priority. Priority affects scheduling order and possible preemption; it does not create capacity or bypass namespace quotas.
 
 ## How It Works
 
@@ -22,16 +22,19 @@ When priority classes are enabled, IOMETE assigns a Kubernetes [PriorityClass](h
 
 When a lower-priority pod is preempted, Kubernetes terminates it. The impact depends on the workload type:
 
-- **Spark jobs**: The job fails and needs to be retried. If you use the Job Orchestrator with retry policies configured, the job is retried automatically.
-- **Compute clusters**: The affected executor pods are evicted and the cluster may temporarily degrade until Kubernetes reschedules replacement pods.
+- **Spark jobs**: Losing a driver can fail the application; losing an executor can require task retries or replacement executors. Recovery depends on the Spark settings and configured job retry policy.
+- **Compute clusters**: Executor loss can interrupt work while Spark replaces executors. Driver loss can interrupt the entire compute and its sessions.
 - **Jupyter containers**: The notebook server is terminated. Any unsaved work in the notebook session is lost.
 
-Keep this in mind when assigning priority values. Preemption is disruptive, so you should reserve large priority gaps for workloads where the tradeoff is clearly worth it.
+Choose priority values and preemption policies according to which workloads may interrupt others. A larger numerical gap does not create more capacity.
 
 ## Prerequisites
 
-- You need Helm access to update the IOMETE data-plane `values.yaml`.
-- You need to create the PriorityClass resources in your cluster before enabling this feature. Here is a minimal example:
+- You need access to update the control-plane release's complete values file.
+- A Kubernetes administrator must create every referenced PriorityClass in each cluster that runs the affected pods. PriorityClasses are **cluster-scoped**, so they are shared by data planes in the same Kubernetes cluster; do not create one copy per namespace.
+- For an additional data plane, complete [Additional Data Planes](#additional-data-planes) before reloading the configuration. The control plane's mapping is not copied to other planes.
+
+Here is a minimal example for one class:
 
 ```yaml
 apiVersion: scheduling.k8s.io/v1
@@ -43,24 +46,26 @@ globalDefault: false
 description: "High priority for IOMETE compute clusters"
 ```
 
-Create a PriorityClass for each workload type you want to prioritize. Set the `value` field to reflect relative importance: higher numbers mean higher priority. Apply each manifest with `kubectl apply -f <file>.yaml`.
+Create every class referenced by your enabled mappings, including support-pod mappings. Use `kubectl --context <workload-cluster-context> apply -f <file>.yaml`; no namespace is needed for a PriorityClass.
 
 ## Default Priority Class Mappings
 
-When enabled, IOMETE maps each workload type to a PriorityClass using the `priorityClassMappings` section in `values.yaml`:
+For the default data plane, the enterprise chart writes `priorityClassMappings` to a ConfigMap in its service namespace. The agent supplies these mappings to the control plane when it generates workload specifications:
 
 | Mapping Key                    | Default PriorityClass Name     | Workload Type              |
 | ------------------------------ | ------------------------------ | -------------------------- |
 | `iomete-compute`               | `iomete-compute`               | Compute clusters           |
 | `iomete-spark-job`             | `iomete-spark-job`             | Spark jobs                 |
 | `iomete-notebook`              | `iomete-notebook`              | Jupyter containers         |
-| `iomete-operational-support`   | `iomete-operational-support`   | Job Orchestrator workers   |
+| `iomete-operational-support`   | `iomete-operational-support`   | Job Orchestrator (Prefect) workers and Spark proxy servers |
 
 The **mapping keys** (left column) are fixed. IOMETE uses them internally to look up the PriorityClass for each workload. The **values** (middle column) can be changed to point to any PriorityClass name that exists in your cluster.
 
+The enterprise chart applies the `iomete-operational-support` class itself, to the default data plane's `prefect-worker-<namespace>` and `spark-proxy-server-<namespace>` Deployments in the service namespace and each workload namespace. A change to that mapping takes effect with the Helm upgrade that applies it.
+
 ## Enabling Priority Classes
 
-Priority classes are disabled by default. To enable them, set the feature flag in your `values.yaml`:
+Enable the feature in the **control-plane release's** complete values file. This flag controls priority assignment for workloads, including those on additional data planes:
 
 ```yaml
 features:
@@ -71,10 +76,14 @@ features:
 Then apply the change with Helm:
 
 ```bash
-helm upgrade <release-name> iomete/iomete-data-plane -f values.yaml -n <namespace>
+helm upgrade data-plane iomete/iomete-data-plane-enterprise \
+  --kube-context <control-plane-context> \
+  --namespace iomete-system \
+  --version <installed-chart-version> \
+  --values values.yaml --wait
 ```
 
-Replace `<release-name>` and `<namespace>` with your actual Helm release name and Kubernetes namespace.
+This example uses the control-plane release `data-plane` in the service namespace `iomete-system`. Use your existing release, chart version and complete values file, preserving its namespace list and other settings. See [Life Cycle Management](/resources/deployment/life-cycle-management) for upgrade preparation.
 
 ## Customizing Mappings
 
@@ -92,17 +101,61 @@ priorityClassMappings:
   iomete-operational-support: "my-medium-priority"
 ```
 
-In this example, compute clusters use a high-priority class while notebooks use a low-priority class, so notebooks are preempted first when resources are constrained.
+The names are only references: the PriorityClass resources’ numeric values and preemption policies determine behavior. Ensure every mapped name exists in the workload’s Kubernetes cluster.
 
-## Verifying the Configuration
+<details id="additional-data-planes" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
+<summary>Configuring mappings for an additional data plane</summary>
 
-After enabling priority classes and running a Helm upgrade, confirm that new pods are picking up the correct PriorityClass:
+The agent reads `priority-class-mappings` from **its own service namespace**, such as `iomete-analytics`. The published 4.0.1 and 4.0.2 runtime charts do not render this ConfigMap from `priorityClassMappings`, so adding the enterprise values to that runtime release alone is insufficient.
 
-```bash
-kubectl get pods -o custom-columns='NAME:.metadata.name,PRIORITY:.spec.priorityClassName' -n <namespace>
+For a runtime chart that does not manage this resource, an administrator can manage the mapping separately. If a mapping already exists, update its owned configuration and preserve the intended entries. For example:
+
+```yaml title="runtime-priority-mappings.yaml"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: priority-class-mappings
+  namespace: iomete-analytics
+data:
+  iomete-compute: my-high-priority
+  iomete-spark-job: my-medium-priority
+  iomete-notebook: my-low-priority
 ```
 
-Each IOMETE workload pod should show its assigned PriorityClass in the `PRIORITY` column. If the column is empty for a pod, the PriorityClass mapping or the feature flag may not be configured correctly.
+```bash
+kubectl --context <runtime-cluster-context> apply -f runtime-priority-mappings.yaml
+```
+
+Replace the namespace and class names for your plane. Keep the feature enabled on the control plane. Do not assume that the operational-support mapping applies to every runtime release: the 4.0.1 and 4.0.2 runtime workers do not set `priorityClassName` from that mapping.
+
+</details>
+
+## Reloading and Verifying the Configuration {#verifying-the-configuration}
+
+The agent caches its mappings, and `iom-cluster` reads the feature flag at startup and caches the returned mappings. After updating them, restart the affected plane's agent, then the control-plane `iom-cluster`, during your change window. For the default data plane, both Deployments are in the control-plane release's service namespace, `iomete-system`. For an additional data plane, restart the agent in that plane's cluster and service namespace instead, such as `iomete-analytics`:
+
+```bash
+kubectl --context <plane-cluster-context> --namespace iomete-system \
+  rollout restart deployment/iomete-lakehouse-agent
+kubectl --context <plane-cluster-context> --namespace iomete-system \
+  rollout status deployment/iomete-lakehouse-agent
+kubectl --context <control-plane-context> --namespace iomete-system \
+  rollout restart deployment/iom-cluster
+kubectl --context <control-plane-context> --namespace iomete-system \
+  rollout status deployment/iom-cluster
+```
+
+Each `rollout status` command should end with `successfully rolled out`.
+
+Create a new test workload and inspect its pods in the selected plane and workload namespace, such as `finance`. Existing workload pods do not gain a different PriorityClass merely because the mapping changed:
+
+```bash
+kubectl --context <workload-cluster-context> get pods \
+  --namespace finance \
+  -o custom-columns='NAME:.metadata.name,PRIORITY:.spec.priorityClassName'
+```
+
+The new driver/executor or notebook pods should show the mapped class in the `PRIORITY` column, such as `iomete-compute` for a compute cluster's pods. Other platform services may legitimately have no class. If a new workload has none, check the control-plane feature flag, that plane's ConfigMap, and whether the processes above have reloaded it. If a pod is rejected because the class does not exist, create the referenced PriorityClass in that pod's cluster.
 
 :::caution
 Test priority class changes in a staging environment before applying them to production. Preemption can terminate running workloads, so an incorrect priority assignment could disrupt active Spark jobs or compute clusters.
