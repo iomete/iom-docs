@@ -3,7 +3,7 @@ title: Managing Clusters
 description: View cluster details, monitor driver and executor states, and run lifecycle actions such as start, restart, terminate, configure, and delete.
 sidebar_label: Managing Clusters
 last_update:
-  date: 02/26/2026
+  date: 11/05/2026
   author: Abhishek Pathania
 ---
 
@@ -13,7 +13,7 @@ Once a cluster is created, you can manage it from its detail page: check status,
 
 The page title reads **Compute: \{name\}**, and the breadcrumb shows **Compute > \{name\}**. The header contains state-aware action buttons (see [Lifecycle Actions](#lifecycle-actions)) plus two monitoring links:
 
-- **Spark Metrics UI**: opens the Spark metrics dashboard. Always available.
+- **Spark Metrics UI**: opens the Spark metrics dashboard when monitoring is enabled for the deployment.
 - **Spark UI**: opens the live Spark web interface. Active only when the driver is `ACTIVE`.
 
 If another user deletes the cluster while you're viewing it, a yellow banner appears: **This compute has been deleted.**
@@ -26,13 +26,13 @@ The **Details** tab shows the cluster's current state and configuration.
 
 The **Compute** section lists the cluster's **ID**, **Name**, **Driver state** badge, driver and executor node types, executor counts, **Volume**, and **Auto scaling** timeout. If the state is `FAILED`, a tooltip explains the failure reason. Single-node clusters hide executor-related fields.
 
-The **Metadata** section shows the **Namespace**, **Created by** user and timestamp, **Tags**, and **Description**.
+The **Metadata** section shows the **Data plane**, **Namespace**, **Created by** user and timestamp, **Tags**, and **Description**.
 
 <Img src="/img/user-guide/compute-clusters/detail-overview.png" alt="Compute cluster detail -- Details tab" />
 
 ### Connections Tab
 
-Need to hook up a BI tool or application? The **Connections** tab provides ready-to-use snippets. Click a connection type card to see its configuration.
+Need to hook up a BI tool or application? The **Connections** tab provides ready-to-use snippets. Click a connection type card to see its configuration. Copy the host and namespace for this compute: the host can differ from the console host when the compute runs on another data plane.
 
 Available types include **Python**, **JDBC**, **DBT**, **Tableau**, **Power BI**, **Superset**, **Metabase**, **Redash**, and **Spark Connect**. If the Arrow Flight module is enabled, **Arrow Flight** appears as well.
 

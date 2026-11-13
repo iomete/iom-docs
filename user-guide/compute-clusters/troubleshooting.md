@@ -3,7 +3,7 @@ title: Troubleshooting Compute Cluster Failures
 description: Diagnose a failing compute cluster using the Logs and Kubernetes events tabs, decode common failure reasons, and find the cluster's owner to escalate.
 sidebar_label: Troubleshooting
 last_update:
-  date: 05/21/2026
+  date: 11/05/2026
   author: Soltan Garayev
 ---
 
@@ -13,7 +13,7 @@ When a compute cluster shows `Failed`, keeps cycling back to `Starting`, or stop
 
 ## Read the Status First
 
-Open the cluster from the compute list and look at the **Details** tab.
+Open the cluster from the compute list and look at the **Details** tab. Record its **Data plane** and **Namespace**. If you inspect pods with Kubernetes tooling, use the cluster hosting that data plane and the namespace shown here; a matching namespace name on another data plane can refer to a different deployment.
 
 The driver-state badge near the top reads `Failed` with a red alert icon when something has gone wrong. Hover the badge to see a tooltip with the underlying error message returned by the Spark operator (for example, a Kubernetes scheduling error, an image pull failure, or a driver crash).
 
@@ -68,7 +68,7 @@ Most cluster failures map to one of these event reasons:
 |---|---|---|
 | `OOMKilled` | The pod exceeded its memory limit and the Linux kernel killed it. Can hit either the driver or an executor. | Reconfigure the cluster (driver or executor memory) on the **Configure** form, or reduce per-task memory pressure (smaller batches, fewer concurrent stages, repartition). For deeper Spark-side tuning see [Troubleshooting OOM kills on the Lakehouse driver pod](../troubleshooting/troubleshooting-lakehouse-oom.md). |
 | `BackOff` / `CrashLoopBackOff` | The pod has crashed repeatedly and Kubernetes is delaying the next restart. | Open the **Logs** tab; the last error before the crash is almost always the root cause. |
-| `FailedScheduling` | No node in the cluster has enough CPU, memory, or the required taint/toleration to host the pod. | Check that the chosen [node type](../node-types/overview.md) still exists, that the namespace has capacity, and that any taints/tolerations match. Most of these checks require cluster-admin access, so contact your platform administrator if you can't see this yourself. |
+| `FailedScheduling` | Kubernetes cannot find a node that satisfies the pod's resource requests and scheduling constraints. | Check available node capacity and scheduling constraints in the Kubernetes cluster hosting the selected data plane. Review the chosen [node type](../node-types/overview.md), node selectors, and taints/tolerations. Having room in a [namespace quota](../namespace-quotas.md#quota-is-not-capacity) does not guarantee a node can run the pod. Most of these checks require cluster-admin access, so contact your platform administrator if you can't see this yourself. |
 | `ImagePullBackOff` / `ErrImagePull` | The Docker image can't be pulled (wrong name, wrong tag, missing credentials). | Verify the image name, tag, and registry credentials on the **Docker settings** tab. See [Private Docker Registry](../private-docker-registry.md). |
 | `Evicted` | The node ran out of a resource (memory, disk) and Kubernetes reclaimed the pod. | Read the eviction `Message` for the specific resource, then resize the executor or move to a larger node type. |
 
@@ -107,6 +107,7 @@ When you message the owner or open a support ticket, the answer comes back faste
 | What to attach | Where to find it |
 |---|---|
 | Link to the cluster | The URL in your browser address bar. If you can't share the link, attach the cluster name (or endpoint), cluster ID, and domain name instead. |
+| Data plane and namespace | The **Data plane** and **Namespace** rows on the **Details** tab. |
 | Time of failure | An approximate timestamp. Events are gone after an hour, so be specific. |
 | Top one or two Warning events | `Reason` and `Message` columns on the **Kubernetes events** tab. |
 | A log snippet | Download from the **Logs** tab. Attach the lines around the failure, not the whole file. |
