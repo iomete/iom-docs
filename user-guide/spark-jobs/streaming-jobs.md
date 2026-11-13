@@ -3,7 +3,7 @@ title: Streaming Jobs
 sidebar_label: Streaming Jobs
 description: Learn how to create, manage, and monitor long-running Spark Streaming Jobs on the IOMETE platform for continuous data processing.
 last_update:
-  date: 04/08/2026
+  date: 11/07/2026
   author: Nurlan Mammadov
 ---
 
@@ -24,7 +24,7 @@ Streaming Jobs share the same form and compute infrastructure as regular Spark J
 
 ## Creating a Streaming Job
 
-Setting up a streaming job is similar to creating a regular Spark job, with fewer scheduling options. Open **Applications > Streaming Jobs** in the left sidebar, then click **New Streaming Job** in the top-right corner.
+Setting up a streaming job is similar to creating a regular Spark job, with fewer scheduling options. Open **Applications > Streaming Jobs** in the left sidebar, then click **New streaming job** in the top-right corner.
 
 <Img src="/img/guides/streaming-job/streaming-job-create-form.png" alt="Streaming Job create form showing Name, Resource bundle, Namespace, and Run as user fields" maxWidth="700px"/>
 
@@ -32,9 +32,9 @@ The create form walks you through several sections.
 
 - **Name** (required): Allowed characters: alphanumeric, dashes, underscores, dots, and spaces (up to 255 characters).
 - **Description** (optional): A brief note so others know what the job does.
-- **Resource bundle**: Pick a [resource bundle](/user-guide/ras/resource-bundles) that defines the resource quotas for this job.
-- **Namespace**: The Kubernetes namespace to deploy in. If only one namespace exists, it's selected automatically.
-- **Run as user**: The user identity the job runs under. Defaults to your own account, but you can pick another user or a service account.
+- **Resource bundle**: Pick a [resource bundle](../iam/ras/ras.md) that controls access to this job. Resource limits come from the deployment namespace's [quota](../namespace-quotas.md).
+- **Deploy to Kubernetes namespace** (required): Choose a namespace under the data plane that should run the job. If only one choice is available to you, it is selected automatically. Check both values, such as `finance` under `analytics`. See [Deployment Namespace](./spark-application-config.md#deployment-namespace) for domain assignments and permissions.
+- **Run as user**: The user identity the job runs under. Defaults to your own account, but you can pick another user or a service account. The run-as user also needs **Use** permission on the selected namespace.
 
 ### Application
 
@@ -49,7 +49,7 @@ The create form walks you through several sections.
 
 <Img src="/img/guides/streaming-job/streaming-job-create-form-configurations.png" alt="Configurations and Dependencies sections showing Environment variables, Spark config, Arguments, Java options, Config Maps tabs and Dependencies tabs" maxWidth="700px"/>
 
-- **Configurations**: Tabs for environment variables, environment secrets, Spark config key-value pairs, Spark config secrets, application arguments, Java options, and config maps. See [Configurations](./spark-application-config.md#configuration) for details.
+- **Configurations**: Tabs for environment variables, Spark config, arguments, Java options, and config maps. Environment variable and Spark config values can be plain text or references to secrets. See [Configurations](./spark-application-config.md#configuration) for details.
 - **Dependencies**: Tabs for additional jar files, data files, Python files, and Maven packages. See [Dependencies](./spark-application-config.md#dependencies) for details.
 
 ### Instance
@@ -92,7 +92,7 @@ The detail page centralizes a streaming job's configuration, application history
 This tab shows the job's configuration at a glance:
 
 - **Compute**: deployment type, driver node, executor node, bundle, total executor resources, and volume.
-- **Metadata**: namespace, run-as user, created by, tags, and description.
+- **Metadata**: data plane, namespace, run-as user, created by, tags, and description.
 
 <Img src="/img/guides/streaming-job/streaming-job-details.png" alt="Streaming Job detail page showing job configuration, compute resources, and metadata" maxWidth="700px"/>
 
@@ -111,7 +111,8 @@ Each row in the table includes:
 | Duration       | Running duration (live counter for active applications) |
 | Driver state   | Current Spark driver status                             |
 | Executor state | Running and pending executor count                      |
-| Namespace      | Deploy namespace                                        |
+| Data plane     | Data plane that runs the application                    |
+| Namespace      | Kubernetes namespace the application runs in            |
 | Run as user    | Identity the application runs under                     |
 | Triggered by   | Who started the application                             |
 | Attempts       | Submission and execution attempt counts                 |
@@ -139,9 +140,7 @@ Stopping a streaming job means aborting the active application.
 
 1. In the **Applications** tab, find the running application.
 2. Click the three-dot menu on the row and select **Abort app**. You can also open the application's detail view and click **Abort app** in the header.
-3. Confirm by clicking **Yes, abort it**.
-
-<Img src="/img/guides/streaming-job/streaming-application-abort.png" alt="Abort application confirmation popover with Yes, abort it button" maxWidth="400px"/>
+3. Click **Abort** in the **Abort app** dialog.
 
 :::note Abort Permissions
 You can only abort an application if you have the **RUN** permission and the application isn't already in a terminal state (Completed, Failed, or Aborted).
@@ -157,7 +156,7 @@ To dig into a specific run, click an application name in the **Applications** ta
 
 The top of this tab displays key **metrics** in a collapsible section: completed/failed tasks, Spark task duration, shuffle data read/write, memory used, and disk used. Expand it for extras like driver task duration, data input, RDD blocks, total GC time, total cores, and disk bytes spilled. Metrics auto-refresh every 5 seconds while the application is running.
 
-Below the metrics, you'll find **application details**: driver state, executor state, attempts, duration, submission time, finish time, started by, namespace, and tags.
+Below the metrics, you'll find **application details**: driver state, executor state, attempts, duration, submission time, finish time, started by, **Data plane**, **Namespace**, and tags.
 
 <Img src="/img/guides/streaming-job/streaming-job-application-details.png" alt="Application detail view showing metrics cards and application details like driver state, executor state, and attempts" maxWidth="700px"/>
 
@@ -214,7 +213,9 @@ Each streaming job displays a status that reflects its active application. The p
 Who can see and interact with a streaming job depends on permissions granted to users or groups at two levels:
 
 - **Domain level**
-  The **Create Spark Job** permission lets a user create new streaming jobs. Admins assign it through [Roles](/user-guide/roles).
+  The **Create New Spark Job** permission lets a user create new streaming jobs. Admins assign it through [Roles](/user-guide/roles).
 
 - **Resource level**
   Per-job permissions (`VIEW`, `RUN`, `UPDATE`, `DELETE`) come from the job's resource bundle. `RUN` lets a user start or stop a streaming job. The streaming job list only shows jobs where you have at least `VIEW` permission. See [Resource Bundles](/user-guide/ras/resource-bundles) for bundle-based access control.
+
+Creating, updating, or starting a streaming job also requires **Use** permission on its namespace, both for you and for the job's run-as user. See [Namespace Permissions](../iam/ras/ras-permissions.md#namespace).
