@@ -3,8 +3,8 @@ title: On-Premises Deployment Guide
 sidebar_label: Install
 description:  Detailed instructions for deploying IOMETE on-premises within a Kubernetes environment.
 last_update:
-  date: 09/30/2026
-  author: Abhishek Pathania
+  date: 11/05/2026
+  author: Rovshan Baghirov
 ---
 
 import Img from '@site/src/components/Img';
@@ -35,6 +35,7 @@ Have the following ready before you start:
 - **Object storage:** Apache Ozone, Dell ECS, IBM Cloud Object Storage, MinIO or any other S3-compatible storage, AWS S3, Azure Blob Storage, or Google Cloud Storage. If you don't have one, see [Apache Ozone deployment](../ozone-deployment.md) or [MinIO deployment](../minio-deployment.md).
 - **PostgreSQL database** for IOMETE metadata. If you don't have one, see [PostgreSQL deployment](../postgresql-deployment.md).
 - **Istio**, to give users access to the IOMETE UI. See [Configure ISTIO Ingress Gateway](../configure-ingress.md).
+- **NetworkPolicy enforcement**, if you plan to run Doris computes. See [NetworkPolicy enforcement](../network-policies.md#networkpolicy-enforcement-is-a-prerequisite-for-doris-computes).
 - **Tools:**
   - `kubectl` and `helm`, set up for the target cluster.
   - `yq` v4, only if an administrator creates the cluster-level resources (option 2 below).
@@ -190,7 +191,7 @@ A Kubernetes administrator generates the resources from the chart and applies th
      create: false
    ```
 
-Helm doesn't update resources an administrator created. Repeat step 1 after you [add a namespace](../connect-namespace.md) or change `namespaces`, `docker.imagePullSecrets` or `serviceAccount.annotations`, and apply CRD changes as described in [Upgrading the CRDs](#upgrading-the-crds) when you upgrade to a new chart version.
+Helm doesn't update resources an administrator created. Repeat step 1 after you [add a namespace](../connect-namespace.md) or change `namespaces`, `docker.imagePullSecrets` or `serviceAccount.annotations`, and apply CRD changes as described in [Upgrading the CRDs](#upgrading-the-crds) when you upgrade to a new chart version. Repeat it too after you set `features.doris.enabled: true` in the values file: the Role then gains permission to manage `networkpolicies`. Without it, IOMETE refuses Doris computes with "the agent is not permitted to manage NetworkPolicies". After you apply the Role, restart the lakehouse agent so it [checks NetworkPolicy enforcement](../network-policies.md#how-iomete-checks-enforcement) again at once.
 
 :::tip Mixing both options
 You can combine the two options. For example, let Helm create the service account and have an administrator create the CRDs and the webhook. Set each switch to `true` only for what Helm creates.

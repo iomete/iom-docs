@@ -64,6 +64,10 @@ kubectl patch mutatingwebhookconfiguration spark-operator-iomete-system \
 
 If the webhook was created with `gencerts.sh`, skip this step. The `iomete.com/managed=true` label you added to the namespace is enough.
 
+### Apply Network Policies
+
+If you use the `iomete-ingress-egress` policy from [Network Policies](./network-policies.md#iomete-namespaces-communication-policy), apply it to the new namespace too. Doris computes can run in connected namespaces, so use the version shown there, which leaves Doris compute pods out.
+
 ### Upgrade IOMETE
 
 Use the chart version you already run, so the upgrade doesn't move you to a newer release:
