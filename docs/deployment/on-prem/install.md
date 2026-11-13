@@ -25,6 +25,10 @@ There is also a [Terraform configuration](https://github.com/iomete/iomete-deplo
 Installing on Nutanix Kubernetes Platform (NKP)? Follow this guide together with [Deploying IOMETE on NKP](../nutanix-nkp.md), which covers the NKP-specific settings for Nutanix Objects, Nutanix Volumes, CloudNativePG and the built-in Traefik ingress. Istio is not needed on NKP.
 :::
 
+:::tip Argo CD
+Deploying with Argo CD? Follow this guide up to and including **Prepare Your Values File**, then continue with [Installing IOMETE with Argo CD](../argocd.md).
+:::
+
 ## Essential Requirements Before You Start
 
 Have the following ready before you start:
@@ -123,6 +127,8 @@ crds:
 webhook:
   create: true
 ```
+
+Installing with Argo CD? Set `crds.create` and `webhook.create` to `false` instead. See [Installing IOMETE with Argo CD](../argocd.md#installing).
 
 With these set, Helm creates the resources during installation. It keeps the service account and the webhook up to date on every upgrade. It creates the CRDs only on the first installation and never updates them, so apply CRD changes yourself as described in [Upgrading the CRDs](#upgrading-the-crds).
 
