@@ -4,13 +4,13 @@ title_meta: "IOMETE Architecture: Control Plane, Data Planes, Kubernetes"
 sidebar_label: Architecture
 description: "How IOMETE works on Kubernetes: control plane, data planes, Spark compute, Iceberg storage, catalog and security model, and how the components connect."
 last_update:
-  date: 11/07/2026
+  date: 11/15/2026
   author: Shashank Chaudhary
 ---
 
 import DemoCta from '@site/src/components/DemoCta';
 
-IOMETE is a data lakehouse platform built on [Apache Spark](https://spark.apache.org/), [Apache Iceberg](https://iceberg.apache.org/), and [Kubernetes](https://kubernetes.io/). It runs on Kubernetes and stores table data in object storage. From a single console, you can manage compute clusters, run Spark jobs, query data with SQL, browse the data catalog, and enforce security policies.
+This page gives a high-level overview of how IOMETE is built and where each part runs. IOMETE is self-hosted: one **control plane** and one or more **data planes** run in your own Kubernetes clusters, and your table data stays in your own object storage. The control plane provides the console and the shared services, and each data plane runs your workloads. For what you can do with IOMETE, see [What Is IOMETE?](./what-is-iomete.md).
 
 ## High-Level Architecture
 
