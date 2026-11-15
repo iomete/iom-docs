@@ -3,7 +3,7 @@ title: Deployment Architecture
 sidebar_label: Deployment Architecture
 description: Reference for how the IOMETE control-plane and runtime releases map onto Kubernetes, including services, namespaces, gateway routes, feature flags, storage, and logging.
 last_update:
-  date: 11/07/2026
+  date: 11/15/2026
   author: Abhishek Pathania
 ---
 
@@ -390,8 +390,14 @@ The console shows workload logs, such as a compute's driver and executor logs, t
 | `loki` | [Grafana Loki](https://grafana.com/oss/loki/) | `logging.lokiSettings.host` and `port` |
 | `elasticsearch` | [Elasticsearch](https://www.elastic.co/elasticsearch) | `logging.elasticSearchSettings.endpoint` and `indexPattern`, plus `apiKey` if your cluster needs one |
 | `splunk` | [Splunk Enterprise](https://www.splunk.com/) | `logging.splunkSettings.endpoint` and `indexName`, plus `token`, a Splunk bearer token |
+| `dynatrace` (from 4.0.2) | [Dynatrace](https://www.dynatrace.com/) | `logging.dynatraceSettings.endpoint` and `token` |
 
-With `loki`, `elasticsearch`, or `splunk`, the control plane queries that one backend for workloads on every data plane. It looks logs up by Kubernetes namespace, pod, and container, not by data plane. Make sure the backend receives logs, with their Kubernetes metadata, from every cluster that hosts a data plane.
+**Dynatrace**: From 4.0.2, IOMETE reads logs from Dynatrace but does not send them there. Install the [Dynatrace Log module](https://docs.dynatrace.com/docs/ingest-from/setup-on-k8s/deployment/k8s-log-monitoring) on every cluster that hosts a data plane to collect them. Then set:
+
+- `endpoint`: your environment URL, for example `https://abc12345.apps.dynatrace.com`
+- `token`: a platform token with the `storage:logs:read` and `storage:buckets:read` scopes
+
+With `loki`, `elasticsearch`, `splunk`, or `dynatrace`, the control plane queries that one backend for workloads on every data plane. It looks logs up by Kubernetes namespace, pod, and container, not by data plane. Make sure the backend receives logs, with their Kubernetes metadata, from every cluster that hosts a data plane.
 
 To read recent logs from Kubernetes and older logs from the external backend, turn on hot storage:
 

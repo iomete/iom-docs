@@ -42,6 +42,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "deployment/on-prem/install",
+        "deployment/on-prem/verify-installation",
         "deployment/architecture-deployment",
         "deployment/storage-migration",
         {

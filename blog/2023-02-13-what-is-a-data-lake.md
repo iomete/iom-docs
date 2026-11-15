@@ -55,6 +55,8 @@ Data lakes are typically introduced when organizations need scalable, flexible, 
 
 IOMETE provides a “data lake on steroids”: the [data lakehouse](/glossary/data-lakehouse). The IOMETE data lakehouse combines the best of data lakes and data warehouses. It combines the scalability and flexibility of a data lake with the structure and organization of a data warehouse. It allows organizations to store large amounts of raw data in a cost-effective way and perform analytics on that data - including machine learning and AI - while also providing a structured environment for BI use cases.
 
+Featured among the [best Data Lake software](https://theknowledgeengineers.com/software-advice/data-lake-software) on The Knowledge Engineers.
+
 ---
 
 <FAQSection faqs={[

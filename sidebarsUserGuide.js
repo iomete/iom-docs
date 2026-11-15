@@ -134,6 +134,8 @@ const sidebars = {
         "feature-flags/secrets-v2",
         "feature-flags/ldap-group-inheritance",
         "feature-flags/sql-editor-v2",
+        "feature-flags/resource-group-roles",
+        "feature-flags/schema-v1-forward-to-v2",
       ],
     },
     {
