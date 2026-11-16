@@ -27,6 +27,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - **Volumes**: A fresh OpenShift install defaults to EmptyDir storage, and host path and NFS volumes are refused with a message pointing to EmptyDir or On-demand PVC. Volumes created earlier are left as they are.
       - **Choosing the Platform**: A new `platform` value (`auto`, `openshift` or `kubernetes`) picks the platform when the chart is rendered without cluster access, as Argo CD does. It defaults to `auto`, which detects OpenShift.
     - **Argo CD Installs**: An install managed by Argo CD now keeps its stored secrets, live console updates and control plane to data plane connections across syncs. Before, every sync replaced the secret-store encryption key, the event service token and the plane trust secret, which left stored secrets unreadable. Set `argocd: true` on such an install, which then refuses `webhook.create: true`, and apply the Spark operator webhook once by hand.
+    - **Dynatrace Logs**: The console can now show and download Spark, compute, Event Stream and Jupyter logs stored in Dynatrace. Set `logging.source: dynatrace` with your environment URL and a platform token that has the `storage:logs:read` and `storage:buckets:read` scopes. IOMETE reads logs from Dynatrace but does not send them there, so install the Dynatrace Log module on the data plane cluster to collect them. See [Logging](../../architecture-deployment.md#logging).
   </NewFeatures>
 
   <Improvements>
