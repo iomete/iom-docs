@@ -16,7 +16,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="4.0.3" date="TBD">
   <BreakingChanges>
-    - **Domain Secret Values API**: Removed the deprecated `GET /api/v1/domains/{domain}/secrets/{key}` endpoint, which returned a secret's value to any user who could list secret names. Reference secrets as `${secrets.KEY}` in job, compute and notebook settings instead, and use `/api/v2/domains/{domain}/secrets` to list, create, update and delete them.
+    - **Domain Secrets API**: Removed the deprecated V1 endpoint that returned a secret's value. Reference secrets as `${secrets.KEY}` in job, compute and notebook settings, and manage them through the V2 secrets API.
   </BreakingChanges>
 
   <NewFeatures>
