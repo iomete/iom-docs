@@ -116,15 +116,6 @@ Unknown fields in `application.json` are rejected at startup, so check the spell
 7. Enable deletion only after the dry-run output is reviewed.
 8. Query the audit table after the run.
 
-## Upgrading from 0.1.5
-
-Version 0.1.6 can change the result for some databases. Run with `dry_run=true` after upgrading, and review the candidates and audit rows before enabling deletion.
-
-- A database with tables in both `<warehouse>/<database>.db` and `<warehouse>/<database>` can now delete orphans in both folders, and the candidate limit counts both. See [Second Cleanup Root](#second-cleanup-root).
-- A database with JDBC tables can clean more or less than before. See [JDBC Tables](#jdbc-tables).
-- A table of another database or catalog that cannot be resolved now blocks deletion with `status_reason=other_table_unresolved`. See [Tables of Other Databases and Catalogs](#tables-of-other-databases-and-catalogs).
-- A database with only unresolved tables is recorded as `BLOCKED` instead of `SKIPPED`. Some audit rows that showed `scan_plan_coverage=complete` now show `partial`.
-
 ## Safety Controls
 
 The job is designed to fail closed. If it cannot prove that a path is safe to delete, it does not delete it.
@@ -270,10 +261,12 @@ Every other provider, including one the job does not recognize, counts as a tabl
 
 A JDBC table does not choose the cleanup roots or the report-only roots. It is not the visible table a cleanup root needs, and it does not count toward coverage. Its location stays protected: a folder there is never a candidate, is not listed under report-only roots, and is checked again right before deletion. A JDBC table of another database or catalog protects its location the same way. `active_table_count` still includes JDBC tables.
 
-Upgrading from 0.1.5 can change the result for a database with JDBC tables, in both directions:
+What this means for a database with JDBC tables:
 
-- Folders that were not cleaned before can become candidates. When the tables that store files all sit in one folder, that folder becomes the cleanup root even if a JDBC table sits elsewhere. Check that `exclude_database_folders` still names the folders you want to keep.
-- A database can be skipped or blocked, or clean less. A database with only JDBC tables is `SKIPPED` with `no_active_tables_in_database`. A cleanup root that holds only JDBC tables gives `BLOCKED` with `cleanup_root_has_no_visible_table`. If the other tables sit outside the database's storage, the database is `SKIPPED` with `scan_root_outside_database_boundary`.
+- When the tables that store files all sit in one folder, that folder is the cleanup root, even if a JDBC table sits elsewhere. Use `exclude_database_folders` for any folder under it that you want to keep.
+- A database with only JDBC tables is `SKIPPED` with `no_active_tables_in_database`.
+- A cleanup root that holds only JDBC tables gives `BLOCKED` with `cleanup_root_has_no_visible_table`.
+- If the other tables sit outside the database's storage, the database is `SKIPPED` with `scan_root_outside_database_boundary`.
 
 ## Excluding Paths
 
