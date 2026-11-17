@@ -100,9 +100,9 @@ Append the catalog parameters to your base JDBC URL (`jdbc:arrow-flight-sql://<h
 
 ## Default String Column Length
 
-*Requires driver **≥ 19.0.0-iomete.7**; `getColumns` support requires **≥ 19.0.0-iomete.9**.*
+*Requires driver **≥ 19.0.0-iomete.7**. Table imports through `getColumns` require driver **≥ 19.0.0-iomete.9** and Spark **4.1.3-v2** or later.*
 
-Spark `STRING` columns have no declared length, so the driver reports their precision and display size in `ResultSetMetaData` as `0`. Most clients ignore this, but tools that size string columns from that metadata, such as **Oracle BI Publisher**, render those columns empty. Tools that import tables through `DatabaseMetaData.getColumns`, such as **Oracle Analytics Server**, import those columns with whatever `COLUMN_SIZE` the driver reports: `65536` on Spark `4.1.3-v2` and later, `20` on earlier versions.
+Spark `STRING` columns have no declared length, so the driver reports their precision and display size in `ResultSetMetaData` as `0`. Most clients ignore this, but tools that size string columns from that metadata, such as **Oracle BI Publisher**, render those columns empty. Tools that import tables through `DatabaseMetaData.getColumns`, such as **Oracle Analytics Server**, create those columns with the wrong size.
 
 To report a length instead, set `defaultStringColumnLength` to a positive integer in the JDBC URL or as a connection property:
 
@@ -110,13 +110,11 @@ To report a length instead, set `defaultStringColumnLength` to a positive intege
 jdbc:arrow-flight-sql://<host>:<port>?user=<username>&password=<token>&defaultStringColumnLength=255
 ```
 
-The driver then reports that value as the precision and display size of every string column in a query result, and from `19.0.0-iomete.9` as the `COLUMN_SIZE` of every string column returned by `getColumns`. Choose a length that fits the longest values in your string columns, because tools that size columns from this metadata may cut off longer values.
+The driver then reports that value as the length of every string column, both in query results and in `getColumns`. Choose a length that fits the longest values in your string columns, because tools that size columns from this metadata may cut off longer values.
 
 :::note
-- Existing connections are unaffected: without `defaultStringColumnLength`, string columns report `0` as before. A blank value counts as unset.
-- A length sent by the server always takes precedence over the configured value.
-- For `getColumns`, the compute cluster must run Spark `4.1.3-v2` or later. Earlier Spark versions send a length of `20` for `STRING` columns, which takes precedence over the configured value.
-- Other `DatabaseMetaData` results are unchanged.
+- Without `defaultStringColumnLength`, the driver behaves as before. A blank value counts as unset.
+- A length sent by the server always takes precedence. Spark versions before `4.1.3-v2` send `20` for `STRING` columns in `getColumns`, so the setting has no effect there.
 - An invalid value (`0`, a negative number, or a non-numeric value) makes queries and `getColumns` fail with an error that names the property.
 :::
 

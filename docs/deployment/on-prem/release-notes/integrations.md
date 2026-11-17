@@ -27,7 +27,7 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
 
 <Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.9" date="November 17, 2026">
   <BugFixes>
-    - **String column lengths in Oracle Analytics Server**: Fixed `defaultStringColumnLength` being ignored by `DatabaseMetaData.getColumns`, which Oracle Analytics Server uses to import tables. Spark `STRING` columns were imported as `VARCHAR(20)`, or `VARCHAR(65536)` on Spark `4.1.3-v2` and later, instead of the configured length. `getColumns` now reports the configured length as `COLUMN_SIZE` for string columns the server sends without one. This needs Spark `4.1.3-v2` or later on the compute cluster: earlier Spark versions send a length of 20 for `STRING`, which still takes precedence. See [Default String Column Length](/user-guide/driver/arrow-flight-jdbc-driver#default-string-column-length).
+    - **String column lengths in Oracle Analytics Server**: Fixed `defaultStringColumnLength` being ignored when Oracle Analytics Server imports tables, which created Spark `STRING` columns as `VARCHAR(20)` or `VARCHAR(65536)` instead of the configured length. The property now also applies to `DatabaseMetaData.getColumns`. Requires Spark `4.1.3-v2` or later on the compute cluster; on earlier versions, imported `STRING` columns stay `VARCHAR(20)`. See [Default String Column Length](/user-guide/driver/arrow-flight-jdbc-driver#default-string-column-length).
   </BugFixes>
 </Release>
 
