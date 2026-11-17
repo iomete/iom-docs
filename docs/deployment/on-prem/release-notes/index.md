@@ -55,6 +55,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Database Explorer**
       - Fixed a `spark_catalog` database that holds no Iceberg table failing to open. An empty `default`, or one holding only Hive or parquet tables, returned `Namespace does not exist` or listed as empty. Only installs whose shared schema server runs a Spark 3.5 image were affected.
       - Fixed the Spark service behind the Database Explorer being evicted when its node was consolidated, which broke schema calls until it next restarted. It now carries the install's Spark pod annotations, so node eviction protection applies to it too.
+    - **Data Explorer**: Sorting the table list by **Size** or **Total Storage** now treats `0 B` tables as the smallest, instead of placing them after the largest.
     - **S3 Browser**
       - Browsing a bucket in a different region from the catalog's storage configuration now reports an error naming both regions, instead of a generic `500`. A wrong endpoint gets its own message, and the storage connection test's **List** check shows the same text.
       - The bucket list now offers only the buckets in the catalog's region, so every bucket it lists opens.
@@ -80,6 +81,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - Clicking inside the error dialog of a Worksheets or Database tree row no longer retries that row or moves the tree's focus.
       - User and group tags no longer appear as blue underlined links, and still open the person's page when clicked.
       - Vertical dividers sit centred in their row on the OIDC issuer field, audit event details, full-screen run logs and the SQL editor dialog.
+      - Values cut off in the Compute list's **Image**, **Driver**, **Executor** and **Namespace** columns, and in the Job Templates list's **Driver**, **Executor** and **Schedule** columns, now show in full on hover.
   </BugFixes>
 
 **Spark version:** [4.1.3-v3](./spark.md)
