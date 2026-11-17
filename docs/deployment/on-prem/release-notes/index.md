@@ -23,6 +23,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   <NewFeatures>
     - **Driver Volume**: Compute clusters and Spark jobs now have a **Driver volume** picker next to the executors' one, so the Spark driver writes its scratch files to an on-demand PVC instead of the node's local disk. Node disk stays the default and existing computes and jobs are unchanged. Single-node computes and jobs gain the most, since they have no executor pods and the executors' volume never applied to them.
     - **Member Permissions**: User and service account pages under domain **Settings → Members** have a read-only **Permissions** `BETA` tab, listing what the member can do, which resource group or namespace it applies to, and whether it was assigned directly or inherited from a group. Filter by Domain, Resource groups or Namespaces, and search.
+
+      <Img src="/img/getting-started/release-notes/4.0.3/member-permissions.png" alt="Permissions tab on a user's page under Settings, Members, listing each domain resource type with its View, Edit, Manage and Use permissions and the role it comes from" maxWidth="900px" />
+
     - **OpenShift Support**: The data plane now installs on OpenShift under its default security settings, with no extra permissions needed. Installs on other platforms are unchanged.
     - **Argo CD Installs**: IOMETE can now be installed and managed with Argo CD. See [Argo CD](../../argocd.md).
     - **Dynatrace Logs**: The console can now show and download Spark, compute, Event Stream and Jupyter logs stored in Dynatrace. Set `logging.source: dynatrace` with your environment URL and a platform token that has the `storage:logs:read` and `storage:buckets:read` scopes. IOMETE reads logs from Dynatrace but does not send them there, so install the Dynatrace Log module on the data plane cluster to collect them. See [Logging](../../architecture-deployment.md#logging).
