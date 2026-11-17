@@ -38,7 +38,7 @@ The reference architecture below uses that integration alongside an on-premises 
 
 ## How the Reference Architecture Works
 
-<Img src="/img/blog/2026-10-14-hybrid-iceberg-lakehouse-wasabi/reference-architecture.png" alt="Hybrid lakehouse architecture with IOMETE compute, catalog service and governance inside the customer environment, local object storage for restricted tables, and Wasabi for cloud-backed Iceberg tables" centered />
+<Img src="/img/blog/2026-11-18-self-hosted-lakehouse-wasabi/reference-architecture.png" alt="Hybrid lakehouse architecture with IOMETE compute, catalog service and governance inside the customer environment, local object storage for restricted tables, and Wasabi for cloud-backed Iceberg tables" centered />
 
 ### Queries Run in Your Environment
 
