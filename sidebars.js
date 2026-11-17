@@ -72,6 +72,7 @@ const sidebars = {
             "deployment/truststore",
             "deployment/network-policies",
             "deployment/connect-namespace",
+            "deployment/argocd",
             "deployment/nutanix-nkp",
             "deployment/kubernetes",
             "deployment/multi-cluster-setup",

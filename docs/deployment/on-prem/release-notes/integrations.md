@@ -3,8 +3,8 @@ title: Integration Release Notes
 sidebar_label: Integrations
 description: Release notes for IOMETE integrations, including dbt-iomete, the IOMETE Airflow Plugin, the IOMETE Tableau connector, the IOMETE Power BI connector, and the Arrow Flight SQL ODBC and JDBC drivers.
 last_update:
-  date: 11/05/2026
-  author: Turkel Mammadli
+  date: 11/17/2026
+  author: Abhishek Pathania
 ---
 
 import { Release, NewFeatures, Improvements, BugFixes, BreakingChanges } from '@site/src/components/Release';
@@ -19,11 +19,17 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
 | Airflow | [`iomete-airflow-plugin`](https://pypi.org/project/iomete-airflow-plugin/) | 4.0.0 | Airflow `>=3.3.0,<4.0.0`; Python 3.11–3.13 | [Open](../../../integrations/airflow/getting-started.mdx) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) |
 | Tableau | [`tableau-connector`](https://github.com/iomete/iomete-integrations/releases?q=tableau-connector) | 0.1.0 | Tableau Desktop and Server 2024.2 and later | [Open](../../../integrations/bi/tableau/arrow-flight.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/tableau-connector) |
 | Power BI and Arrow Flight SQL ODBC | [`iomete-odbc-connector`](https://github.com/iomete/iomete-artifacts) | 24.0.0-iomete.3 | Power BI Desktop and on-premises data gateway on Windows x64 | [Open](../../../integrations/bi/power-bi/arrow-flight.md) | Closed source |
-| Arrow Flight SQL JDBC | [`flight-sql-jdbc-driver`](https://github.com/iomete/iomete-artifacts) | 19.0.0-iomete.8 | Java 11 or later; Tableau Desktop and Server 2024.2 or later | [Open](/user-guide/driver/arrow-flight-jdbc-driver) | Closed source |
+| Arrow Flight SQL JDBC | [`flight-sql-jdbc-driver`](https://github.com/iomete/iomete-artifacts) | 19.0.0-iomete.9 | Java 11 or later; Tableau Desktop and Server 2024.2 or later | [Open](/user-guide/driver/arrow-flight-jdbc-driver) | Closed source |
 
 ---
 
 ## Recent Releases
+
+<Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.9" date="November 17, 2026">
+  <BugFixes>
+    - **String column lengths in Oracle Analytics Server**: Fixed `defaultStringColumnLength` being ignored when Oracle Analytics Server imports tables, which created Spark `STRING` columns as `VARCHAR(20)` or `VARCHAR(65536)` instead of the configured length. The property now also applies to `DatabaseMetaData.getColumns`. Requires Spark `4.1.3-v2` or later on the compute cluster; on earlier versions, imported `STRING` columns stay `VARCHAR(20)`. See [Default String Column Length](/user-guide/driver/arrow-flight-jdbc-driver#default-string-column-length).
+  </BugFixes>
+</Release>
 
 <Release name="dbt-iomete" version="1.12.0" date="November 5, 2026">
   <NewFeatures>
