@@ -16,7 +16,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Release version="4.0.3" date="TBD">
   <BreakingChanges>
-    - **Domain Secrets API**: Removed the deprecated V1 endpoint `GET /api/v1/domains/{domain}/secrets/{key}` that returned a secret's value.
+    - **Domain Secrets API**: Removed the deprecated V1 endpoint `GET /api/v1/domains/{domain}/secrets/{key}`, which the V2 secrets API replaced in an earlier release.
   </BreakingChanges>
 
   <NewFeatures>
