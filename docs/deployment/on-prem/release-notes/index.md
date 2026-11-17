@@ -58,7 +58,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **S3 Browser**
       - Browsing a bucket in a different region from the catalog's storage configuration now reports an error naming both regions, instead of a generic `500`. A wrong endpoint gets its own message, and the storage connection test's **List** check shows the same text.
       - The bucket list now offers only the buckets in the catalog's region, so every bucket it lists opens.
-    - **Long Queries on Remote Data Planes**: Fixed a healthy long-running query being marked as failed while its compute was still running it, which lost the result and made a rerun pay for the same long run again. Only computes on a data plane outside the control plane's cluster were affected.
+    - **Long Queries on Remote Data Planes**: Fixed a healthy long-running query on SQL Editor V2 being marked as failed while its compute was still running it, so its result was never returned. Only remote data planes (those running in a different Kubernetes cluster from the control plane) were affected.
     - **Catalog Connection Test**: Testing an external catalog with a wrong password now uses one login attempt instead of three, so it no longer locks a database account whose policy allows three failed logins. This applies to JDBC, external Iceberg and Enterprise catalog tests.
     - **LDAP Sync**
       - Fixed sync failing for good once a deleted local user or group shared a name with one in LDAP. LDAP now takes the deleted record over, without restoring its old roles or group memberships.
