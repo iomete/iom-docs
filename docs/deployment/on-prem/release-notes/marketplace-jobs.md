@@ -24,7 +24,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 | Query Scheduler          | spark-py                | 3.5.7-v1 | [Open ↗](/resources/open-source-spark-jobs/query-scheduler-job)            |
 | TPC-DS Iceberg Generator | tpcds-iceberg-generator | 3.5.5    | Use job-templates in IOMETE                                                |
 | Lakehouse Backup         | iomete-lakehouse-backup | 1.4.2    | [Open ↗](../../../open-source-spark-jobs/lakehouse-backup.mdx)          |
-| Cleanup Untracked Table Folders | cleanup-untracked-table-folders | 0.1.5 | [Open ↗](/resources/open-source-spark-jobs/cleanup-untracked-table-folders) |
+| Cleanup Untracked Table Folders | cleanup-untracked-table-folders | 0.1.6 | [Open ↗](/resources/open-source-spark-jobs/cleanup-untracked-table-folders) |
 ---
 
 ## Recent Releases
