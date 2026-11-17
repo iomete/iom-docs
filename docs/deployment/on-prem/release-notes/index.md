@@ -17,6 +17,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 <Release version="4.0.3" date="TBD">
   <BreakingChanges>
     - **Domain Secrets API**: Removed the deprecated V1 endpoint `GET /api/v1/domains/{domain}/secrets/{key}`, which the V2 secrets API replaced in an earlier release.
+    - **LDAP Usernames That Differ Only by Case**: LDAP sync now stops when an LDAP username matches a local user's except for upper or lower case, such as `JohnDoe` and `johndoe`, and names the local users in the way. Before, the sync either failed with a database error or created a second account for the same person. Before upgrading, look for local users whose names match LDAP users apart from case. Delete each one and sync again to let LDAP manage it, then grant its roles and group memberships again, or leave it out of the LDAP user filter to keep it local.
   </BreakingChanges>
 
   <NewFeatures>
@@ -60,7 +61,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Catalog Connection Test**: Testing an external catalog with a wrong password now uses one login attempt instead of three, so it no longer locks a database account whose policy allows three failed logins. This applies to JDBC, external Iceberg and Enterprise catalog tests.
     - **LDAP Sync**
       - Fixed sync failing for good once a deleted local user or group shared a name with one in LDAP. LDAP now takes the deleted record over, without restoring its old roles or group memberships.
-      - An LDAP username that differs from a local user's only by upper or lower case now reports the conflict, instead of failing with a database error.
       - A blocked sync now names up to three of the local users or groups in the way and says how to clear them, instead of giving only a count.
     - **Admin Webhooks**: Fixed **Administration → Webhooks** showing no results for a domain whose display name differs from its id, such as **Default Domain**.
     - **Splunk Logs**: The **Logs** tab now reports that logs could not be read from Splunk, instead of a generic internal system error.
