@@ -100,11 +100,11 @@ Choose the cloud-backed datasets using their access patterns as well as their st
 
 | Consideration | What to Account For |
 | --- | --- |
-| Connectivity | Reads from Wasabi to on-premises compute cross your network connection. Choose a nearby [Wasabi region](https://wasabi.com/company/storage-regions) and measure latency and throughput; internet connectivity and paid private connections have their own costs. |
+| Connectivity | Reads from Wasabi to on-premises compute across your network connection. Choose a nearby [Wasabi storage region](https://wasabi.com/company/storage-regions) and measure latency and throughput; internet connectivity and paid private connections have their own costs. |
 | Read volume | Wasabi's [free-egress policy](https://wasabi.com/pricing/faq) describes workloads with monthly downloads no greater than active stored volume as a good fit. Estimate account-wide downloads, including queries and maintenance, after caching and query pruning. Regularly exceeding the guideline can lead to service restrictions, so confirm higher-volume workloads with Wasabi before production. |
-| File lifetime | Wasabi's pay-as-you-go plan has a default [90-day minimum storage duration per object](https://docs.wasabi.com/docs/how-does-wasabis-minimum-storage-duration-policy-work). Deleting files sooner incurs charges for the remaining period, so include file replacements from compaction and updates in the storage budget. |
+| File lifetime | Wasabi's Pay as You Go plan has a default [90-day minimum storage duration per object](https://docs.wasabi.com/docs/how-does-wasabis-minimum-storage-duration-policy-work). Deleting files sooner incurs charges for the remaining period, so include file replacements from compaction and updates in the storage budget. |
 
-These measurements help you decide which tables to put on Wasabi and which to retain locally. Keep Iceberg maintenance aligned with your recovery and performance needs, while accounting for how often it replaces files. Wasabi's integration guide also specifies disabling bucket versioning and Object Lock for live table buckets; follow those settings when configuring the pilot.
+These measurements help you decide which tables to put in Wasabi and which to retain locally. Keep Iceberg maintenance aligned with your recovery and performance needs, while accounting for how often it replaces files. Wasabi's integration guide also specifies disabling bucket versioning and Object Lock for live table buckets; follow those settings when configuring the pilot.
 
 ## Exploring IOMETE With Wasabi
 
@@ -118,7 +118,7 @@ Wasabi's [IOMETE with Wasabi guide](https://docs.wasabi.com/docs/iomete-with-was
     answer: "It is a lakehouse where you run IOMETE's query compute, catalog service and governance on infrastructure you control, while Wasabi Hot Cloud Storage stores Apache Iceberg tables. You can also use local object storage alongside Wasabi, with separate catalogs defining the default storage location for their tables."
   },
   {
-    question: "Can one query join on-premises tables with tables stored on Wasabi?",
+    question: "Can one query join on-premises tables with tables stored in Wasabi?",
     answer: "Yes. When both catalogs are available to the same IOMETE compute and the analyst has the required access, a Spark SQL query can join tables across them. Spark reads the table files from each storage location and executes the join on your compute, applying the configured query access policies."
   },
   {
@@ -127,10 +127,10 @@ Wasabi's [IOMETE with Wasabi guide](https://docs.wasabi.com/docs/iomete-with-was
   },
   {
     question: "Which organizations and datasets fit this architecture best?",
-    answer: "It suits organizations that want to retain self-hosted analytics compute while expanding storage for datasets approved for cloud placement. Longer-lived operational history and analytical datasets with selective reads are useful pilot candidates. Evaluate network performance, monthly downloads and file replacement rates to decide which tables belong on Wasabi and which should remain local."
+    answer: "It suits organizations that want to retain self-hosted analytics compute while expanding storage for datasets approved for cloud placement. Longer-lived operational history and analytical datasets with selective reads are useful pilot candidates. Evaluate network performance, monthly downloads and file replacement rates to decide which tables belong in Wasabi and which should remain local."
   },
   {
     question: "What costs should you consider for Wasabi-backed Iceberg tables?",
-    answer: "Wasabi has no separate egress or API request fees, subject to its usage policies. Its published free-egress guideline describes monthly downloads at or below active stored volume as a good fit; regularly exceeding it can lead to service restrictions. Also budget for connectivity and object lifetime: the pay-as-you-go plan has a default 90-day minimum storage duration, so files deleted sooner remain billable for the remaining period."
+    answer: "Wasabi has no separate egress or API request fees, subject to its usage policies. Its published free-egress guideline describes monthly downloads at or below active stored volume as a good fit; regularly exceeding it can lead to service restrictions. Also budget for connectivity and object lifetime: the Pay as You Go plan has a default 90-day minimum storage duration, so files deleted sooner remain billable for the remaining period."
   }
 ]} />
