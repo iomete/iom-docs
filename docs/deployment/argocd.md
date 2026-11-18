@@ -64,7 +64,7 @@ Argo CD is supported on chart versions after 4.0.2. Earlier versions aren't supp
 
    If your values file has `minioSettings`, move its endpoint and access key into `s3CompatibleSettings` and delete `minioSettings`. The chart ignores it once `s3CompatibleSettings` is set.
 
-   With workload identity (EKS, GKE or Azure), the init job runs as `iomete-data-plane-init` under Argo CD. Have the cloud side trust `system:serviceaccount:iomete-system:iomete-data-plane-init` as well as `lakehouse-service-account`, or the init job fails with a 403 on storage. Spark runs as its own [restricted identities](./on-prem/install.md#restricted-spark-identities), which need the same trust.
+   With workload identity (EKS, GKE or Azure), the init job runs as `iomete-data-plane-init` under Argo CD. Have the cloud side trust `system:serviceaccount:iomete-system:iomete-data-plane-init` as well as `lakehouse-service-account`, or the init job fails with a 403 on storage. Spark runs as its own [restricted identities](./on-prem/install.md#restricted-spark-identities), which need the same trust. The chart also creates a cluster-wide `ValidatingAdmissionPolicy` and its binding. Allow both kinds in the Argo CD project, or set `serviceAccount.sparkPodPolicy: false`.
 
    The chart generates its own encryption key, tokens and signing keys on the first install and keeps them, so leave those settings empty.
 

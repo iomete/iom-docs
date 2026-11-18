@@ -44,7 +44,7 @@ namespaces:
 
 ### Create the Service Account and Role
 
-The new namespace needs `lakehouse-service-account` with its Role and RoleBinding, and the [restricted Spark identities](./on-prem/install.md#restricted-spark-identities).
+The new namespace needs `lakehouse-service-account` with its Role and RoleBinding. Charts that support the [restricted Spark identities](./on-prem/install.md#restricted-spark-identities) create those in the new namespace too. With workload identity, have the cloud role trust them in the new namespace before you upgrade, or Spark jobs there fail with a 403 on storage.
 
 - **If `serviceAccount.create` is `true` in `values.yaml`**, skip this step. The Helm upgrade below creates them.
 - **If it is `false`**, have a Kubernetes administrator re-create the file from step 1 of [Option 2 in the install guide](./on-prem/install.md#option-2-have-an-administrator-create-them) and apply it before you upgrade. The file covers every namespace listed in `values.yaml`, so it includes the new one.
