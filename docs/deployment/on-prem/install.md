@@ -166,7 +166,7 @@ A Kubernetes administrator generates the resources from the chart and applies th
    kubectl apply -f lakehouse-service-account.yaml
    ```
 
-   On Kubernetes older than 1.30, drop the `--api-versions` line. The cluster can't run the admission policy.
+   On Kubernetes older than 1.30, drop the `--api-versions` line. The cluster can't run the admission policy, so the file leaves out the Spark identities and Spark keeps running as `lakehouse-service-account`.
 
 2. Create the Spark Operator CRDs. The chart ships them as plain files, so download the chart and apply them from it. The CRD files are large, so they must be applied with `--server-side`:
 
@@ -213,17 +213,18 @@ You can combine the two options. For example, let Helm create the service accoun
 
 Spark jobs and computes run as two restricted identities instead of `lakehouse-service-account`:
 
-- `spark-driver-service-account` can run executor pods. It can't read secrets or touch other workloads.
+- `spark-driver-service-account` can run its own executor pods. It can't read secrets through the Kubernetes API or touch other workloads.
 - `spark-executor-service-account` gets no Kubernetes access token at all.
 
-The driver's Role covers every pod in its namespace. The admission policy below narrows that to pods running as `spark-executor-service-account`.
+The driver's Role covers every pod in its namespace. The admission policy below narrows that to the executor pods the driver owns, and refuses privileged pods and pods in the host network or process namespace.
 
 IOMETE switches a namespace to them once both exist there. Until then, Spark keeps running as `lakehouse-service-account`, so nothing breaks while you roll them out. The chart creates them only when `serviceAccount.create` is `true`. With option 2, the administrator creates them in step 1.
 
 | Setting | Default | What it does |
 | -- | -- | -- |
-| `serviceAccount.restrictSparkJobs` | `auto` | `auto` creates the identities unless `serviceAccount.annotations` is set. `true` always creates them, `false` never does. |
-| `serviceAccount.sparkPodPolicy` | `true` | Adds an admission policy that stops a driver from touching pods other than its executors. Needs Kubernetes 1.30 or later and permission to create cluster-wide admission policies. |
+| `serviceAccount.restrictSparkJobs` | `auto` | `auto` creates the identities unless `serviceAccount.annotations` is set. `true` always creates them, `false` never does. Any other value fails the install. |
+| `serviceAccount.sparkPodPolicy` | `true` | Adds an admission policy that stops a driver from touching pods other than its own executors. Needs Kubernetes 1.30 or later and permission to create cluster-wide admission policies. Without it, a driver could start pods as `lakehouse-service-account`, so the chart skips the identities on older clusters, and `restrictSparkJobs: true` fails there. Set it to `false` only when an administrator applies the policy. |
+| `serviceAccount.sparkEventsReader` | `false` | Lets Spark jobs read events in every IOMETE namespace. Turn it on only if you run the Kubernetes event collector job. |
 
 Using workload identity (EKS, GKE or Azure)? Have the cloud role trust `spark-driver-service-account` and `spark-executor-service-account` in every IOMETE namespace, then set `serviceAccount.restrictSparkJobs: true`. Skip the trust step and Spark jobs fail with a 403 on storage.
 
