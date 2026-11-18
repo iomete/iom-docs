@@ -14,7 +14,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
-<Release version="4.0.3" date="TBD">
+<Release version="4.0.3" date="November 18, 2026">
   <BreakingChanges>
     - **Domain Secrets API**: Removed the deprecated V1 endpoint `GET /api/v1/domains/{domain}/secrets/{key}`, which the V2 secrets API replaced in an earlier release.
     - **LDAP Usernames That Differ Only by Case**: LDAP sync now stops when an LDAP username matches a local user's except for upper or lower case, such as `JohnDoe` and `johndoe`, and names the local users in the way. Before, the sync either failed with a database error or created a second account for the same person. Before upgrading, look for local users whose names match LDAP users apart from case. Delete each one and sync again to let LDAP manage it, then grant its roles and group memberships again, or leave it out of the LDAP user filter to keep it local.
