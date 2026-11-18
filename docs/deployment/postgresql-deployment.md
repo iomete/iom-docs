@@ -3,11 +3,11 @@ title: PostgreSQL Deployment
 sidebar_label: PostgreSQL Deployment
 description:  Deploy a PostgreSQL database for the IOMETE deployment.
 last_update:
-  date: 08/15/2024
+  date: 11/07/2026
   author: Vusal Dadalov
 ---
 
-IOMETE requires a PostgreSQL database to store metadata and other information. Refer [Backend Databases](/deployment/backend-databases) for more details.
+IOMETE requires a PostgreSQL database to store metadata and other information. Refer [Backend Databases](./backend-databases.md) for more details.
 
 You can use your own database, or you can use the provided `postgresql` database.
 
@@ -41,6 +41,5 @@ kubectl get pods -n iomete-system \
 ```
 
 :::note
-When admin user credentials are provided to IOMETE deployment, IOMETE will create necessary users and databases automatically. If you want to create users and databases manually, you can use the following script:
-[database-init-postgres.sql](https://github.com/iomete/iomete-deployment/blob/main/database/postgresql/database-init-postgres.sql)
+When you set `database.adminCredentials` in the IOMETE values, the initialization job creates the IOMETE role and databases automatically. To create them yourself, create every database in the [control-plane database list](./backend-databases.md#control-plane-databases). The [database-init-postgres.sql](https://github.com/iomete/iomete-deployment/blob/main/database/postgresql/database-init-postgres.sql) script creates only seven of the nine: also create `iomete_prefect_db` and `iomete_ai_services_db`, with the same grants.
 :::
