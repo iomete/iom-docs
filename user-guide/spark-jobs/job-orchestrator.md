@@ -3,7 +3,7 @@ title: Job Orchestrator
 description: Learn about the new Job Orchestrator for priority-based scheduling and resource-aware execution for Spark jobs on the IOMETE platform.
 sidebar_label: Job Orchestrator
 last_update:
-   date: 09/30/2026
+   date: 11/07/2026
    author: Abhishek Pathania
 ---
 
@@ -15,24 +15,24 @@ import Img from '@site/src/components/Img';
 
 The **Job Orchestrator** is a new addition to IOMETE’s job management platform, designed to enable
 - **Priority-based scheduling**: Prioritize business-critical jobs over routine workloads.
-- **Resource-aware execution**: Submit jobs only when sufficient cluster resources are available.
+- **Quota-aware submission**: Keep jobs queued when their resource requirements exceed the available namespace quota.
 
 ---
 
 ## Key Features
 
 ### Priority-Aware Scheduling
-Easily configure job priority (`High` vs `Normal`) to ensure critical jobs are executed first. The system maintains separate queues for each priority level, with high-priority jobs always processed before normal-priority ones.
+Configure job priority (`High` or `Normal`) to influence submission order. The orchestrator maintains separate queues and allocates scheduling slots according to the [weighted scheduling share](#weighted-round-robin-scheduling-3120), so normal-priority jobs can still progress.
 
 ### Resource-Aware Execution
-Jobs are submitted **only when cluster capacity is available**, reducing the chances of failure due to insufficient compute resources. The orchestrator continuously monitors CPU & memory availability before scheduling job execution.
+The orchestrator checks resource requirements against available namespace quota before submitting jobs. Passing this check does not reserve physical nodes or guarantee that Kubernetes can place every pod. Node capacity, selectors, taints and storage availability can still leave a submitted job Pending.
 
 ### FIFO Queue Processing
-Within each priority level, jobs are processed in **First-In-First-Out (FIFO) order**. The system will process the first job in the queue completely before moving to the next job, even if resources are available for subsequent jobs.
+Within each priority queue, jobs are considered in **First-In-First-Out (FIFO) order**. This describes submission order, not a promise that one running job must finish before another can start.
 
 **Queue behavior:**
-- High-priority queue is always processed before normal-priority queue.
-- Within each queue, jobs execute in the order they were submitted.
+- Scheduling slots are shared between the high and normal queues according to the configured weights.
+- Within each queue, jobs are considered for submission in queue order; execution and completion times can differ.
 - If the first job in queue cannot run due to resource constraints, subsequent jobs wait until resources become available or the blocking job completes.
 
 ### Per-Job Opt-In
@@ -83,7 +83,11 @@ Please replace:
 
 ### Helm Chart Settings
 
-Configure orchestrator settings in your `values.yaml`:
+The **control-plane release** (`iomete-data-plane-enterprise`) hosts the orchestrator's Prefect server. Each data plane runs workers in its service namespace and workload namespaces: the control-plane release configures the default data plane's workers, and an additional data plane's `iomete-lakehouse-runtime` release configures its own workers.
+
+Set server options, database access and run cleanup in the control-plane release. Set worker batch size, resources and logging in the release that owns those workers; updating the control-plane values does not update workers in a separate runtime release. Keep each release's complete values file and namespace list when applying changes through [Life Cycle Management](/resources/deployment/life-cycle-management).
+
+For example, the control-plane release's values can contain:
 
 ```yaml
 services:
@@ -105,9 +109,9 @@ services:
 | Setting | Default | Since | Description |
 |----------|---------|-------|-------------|
 | `verboseLogging` | false | 3.19.0 | Enables verbose (INFO-level) stdout logging for job orchestrator server and worker pods. Leave disabled for reduced (ERROR-level) log volume. |
-| `settings.batchSize` | 20 | 3.15.0 | Maximum jobs validated and deployed per batch. |
-| `settings.jobRunCleanup.enabled` | true | 3.15.0 | Enable periodic cleanup of completed queue runs and logs. |
-| `settings.jobRunCleanup.retentionPeriod` | 2592000 | 3.15.0 | Retention period in seconds (30 days). Older runs are automatically deleted. |
+| `settings.batchSize` | 20 | 3.15.0 | Worker batch size; configure in each owning release. |
+| `settings.jobRunCleanup.enabled` | true | 3.15.0 | Enable server-side cleanup of completed queue runs and logs; control-plane release only. |
+| `settings.jobRunCleanup.retentionPeriod` | 2592000 | 3.15.0 | Server cleanup retention in seconds (30 days); control-plane release only. |
 
 ### S3 Log Storage [3.17.0+]
 
@@ -131,23 +135,64 @@ services:
 
 ### SSL Database Connection [3.17.0+]
 
-The job orchestrator can connect to its backing PostgreSQL database over SSL. Enable it in your `values.yaml`:
+The **control-plane Prefect server** connects to PostgreSQL. In the 4.0 enterprise chart, encrypt and verify that connection with `database.ssl`, not the legacy `clusterDatabase.ssl` setting. `database.ssl` applies to every service of the control-plane release that connects to PostgreSQL, not only Prefect, so all of them must trust the CA that signed the database certificate.
+
+These services check the database certificate against two files in the truststore Secret, `javaTrustStore.secretName` (default `java-truststore`) in the control-plane release's service namespace:
+
+- **The Java truststore**, `javaTrustStore.fileName` (default `truststore.jks`), used by the Java services. Add your PostgreSQL CA to it as described in [Custom Java Truststore](/resources/deployment/truststore).
+- **The PEM bundle** named by `javaTrustStore.caCertFileName`, used by the services that can't read the Java truststore, including the Prefect server.
+
+The PEM bundle is shared. Several services use it as their only list of trusted CAs, so it must hold the public CAs as well as your private CAs, including the one that signed the PostgreSQL certificate:
+
+| Service | Uses the PEM bundle to verify |
+|---|---|
+| Prefect server, `iom-ai-services` and `iom-mcp-server` | The PostgreSQL certificate, through `PGSSLROOTCERT` |
+| `iom-socket` | The PostgreSQL certificate, through `sslrootcert` |
+| `iom-gateway`, and the default data plane's `iom-gateway-dp` | The certificates of other planes it calls over HTTPS. The bundle replaces the system CAs. |
+| The default data plane's Prefect workers | The object storage endpoint, when [S3 log storage](#s3-log-storage-3170) is on |
+
+Don't point `caCertFileName` at a file that holds only the PostgreSQL CA. The gateways would then reject publicly signed certificates, and calls to data planes that use them would fail.
+
+If the Secret already has a PEM bundle, keep its key and add the PostgreSQL CA to that bundle. Otherwise, build one from the system CAs and your CA, then write it to the Secret together with the files the Secret already holds, such as `truststore.jks`:
+
+```shell
+cat /etc/ssl/certs/ca-certificates.crt postgres-ca.crt > ca.crt
+
+# Export truststore.jks first if you don't have the current copy:
+kubectl get secret java-truststore --namespace iomete-system \
+  -o jsonpath='{.data.truststore\.jks}' | base64 --decode > truststore.jks
+
+kubectl create secret generic java-truststore \
+  --namespace iomete-system \
+  --from-file=truststore.jks --from-file=ca.crt \
+  --dry-run=client -o yaml | kubectl apply --server-side -f -
+```
+
+Use server-side apply: with a full system CA bundle, the two files are too large for client-side `kubectl apply`, which fails with `metadata.annotations: Too long`.
+
+Then merge these settings into the control-plane release's complete values file, keeping its other truststore settings, such as the password:
 
 ```yaml
 javaTrustStore:
   enabled: true
-  caCertFileName: your_file.crt   # key name of the PEM certificate chain in the java-truststore secret
+  secretName: java-truststore
+  caCertFileName: ca.crt # or the bundle key your Secret already uses
 
-clusterDatabase:
+database:
   ssl:
     enabled: true
+    mode: verify-full
 ```
 
-The `caCertFileName` must match the key name of a PEM certificate chain file stored in the `java-truststore` Kubernetes secret. See [Custom Java Truststore](/deployment/truststore) for setup instructions.
+Apply the change with the [upgrade procedure](/resources/deployment/life-cycle-management#upgrade-example). With `verify-full`, the database hostname in `database.host` must match its certificate. Afterwards, check that the `prefect-server` and `iom-socket` pods are ready and that every data plane still shows **Connected** on the **Data Planes** page of the Admin Portal.
+
+If `services.jobOrchestrator.database.enabled` selects a custom connection-URL Secret, configure the TLS parameters in that URL as well; the generated database URL is not used in that case.
+
+Workers on an additional data plane call the control-plane API rather than opening this PostgreSQL connection. Their runtime release's `database.ssl` settings concern that runtime's metastore, not the control-plane orchestrator database. Configure worker HTTPS trust separately when the control plane uses a private CA.
 
 ### System Properties
 
-Configure queue behavior via **Admin Portal → System Configuration**:
+Configure queue behavior in **System Config**: open the **Admin Portal** from the user menu, then **System Config** under **Administration**.
 
 | Property | Default | Since | Description |
 |----------|---------|-------|-------------|
@@ -225,9 +270,11 @@ please refer to https://go.microsoft.com/fwlink/?linkid=2301063
 **Problem:** Jobs remain queued even when cluster appears to have available resources.
 
 **Potential Causes:**
-- First job in queue requires more resources than currently available
-- Resource fragmentation across different node types
-- Quota limits blocking deployment
+- The job at the queue head requires more quota than remains in its target namespace.
+- Another workload consumes the available quota, even when some nodes have spare capacity.
+- Quota usage has not yet reflected recently terminated workloads.
+
+If the job was submitted but its pods are Pending, inspect Kubernetes scheduling events for node capacity, selectors, taints or volume problems. That is different from being held in the orchestrator queue.
 
 **Automatic Handling (3.15.0+):**
 
@@ -240,8 +287,8 @@ Starting from version 3.15.0, the orchestrator automatically handles blocked job
 **Manual Solutions:**
 - Check the job details page to see which resource is blocking deployment
 - Monitor cluster capacity through Grafana dashboards
-- Adjust job resource requirements or scale cluster capacity
-- Temporarily change problematic jobs to `Legacy` deployment flow
+- Adjust job resource requests or namespace quotas as appropriate. Adding nodes alone does not increase a ResourceQuota limit.
+- Changing a job to `Legacy` bypasses the orchestrator queue, but does not remove Kubernetes quotas or scheduling constraints.
 
 ### 3. All Jobs Stuck Due to One Problematic Job
 
