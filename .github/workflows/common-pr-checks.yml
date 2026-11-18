@@ -2,9 +2,13 @@ name: PR checks
 
 on:
   pull_request:
+    # edited re-runs the title check after a rename; ready_for_review requests the Copilot review.
+    types: [opened, edited, synchronize, reopened, ready_for_review]
 
 permissions:
   contents: read
+  # Lets the shared checks request a Copilot review.
+  pull-requests: write
 
 jobs:
   common:
