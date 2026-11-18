@@ -2,7 +2,7 @@
 slug: /single-sign-on
 title: SSO Configuration
 sidebar_label: Overview
-description: Learn how to integrate SSO authentication within the IOMETE Data Plane
+description: Learn how to integrate SSO authentication within IOMETE
 last_update:
   date: 10/18/2024
   author: Vugar Dadalov
