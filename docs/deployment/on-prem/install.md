@@ -3,8 +3,8 @@ title: On-Premises Deployment Guide
 sidebar_label: Install
 description:  Detailed instructions for deploying IOMETE on-premises within a Kubernetes environment.
 last_update:
-  date: 09/30/2026
-  author: Abhishek Pathania
+  date: 11/18/2026
+  author: Maksym Kryvchun
 ---
 
 import Img from '@site/src/components/Img';
@@ -106,6 +106,7 @@ This is a sample file. Edit it for your setup before you continue. For every ava
 IOMETE needs three sets of Kubernetes resources before its pods can start:
 
 - The `lakehouse-service-account` service account, with its Role and RoleBinding.
+- The restricted Spark identities `spark-driver-service-account` and `spark-executor-service-account`, with their Roles and RoleBindings. See [Restricted Spark Identities](#restricted-spark-identities).
 - The Spark Operator CRDs.
 - The Spark Operator webhook and its certificate.
 
@@ -154,7 +155,10 @@ A Kubernetes administrator generates the resources from the chart and applies th
      --version "$IOMETE_VERSION" \
      --values example-data-plane-values.yaml \
      --set serviceAccount.create=true \
-     | yq 'select(.metadata.name == "lakehouse-service-account" or .metadata.name == "iomete-lakehouse-role" or .metadata.name == "iomete-lakehouse-role-binding")
+     | yq 'select(.metadata.name == "lakehouse-service-account" or .metadata.name == "iomete-lakehouse-role" or .metadata.name == "iomete-lakehouse-role-binding"
+                 or .metadata.name == "spark-driver-service-account" or .metadata.name == "spark-executor-service-account"
+                 or .metadata.name == "iomete-spark-driver-role*" or .metadata.name == "iomete-spark-events-reader-role*"
+                 or .kind == "ValidatingAdmissionPolicy*")
            | del(.metadata.annotations."helm.sh/hook", .metadata.annotations."helm.sh/hook-weight")' \
      > lakehouse-service-account.yaml
 
@@ -201,6 +205,22 @@ Helm doesn't update resources an administrator created. Repeat step 1 after you 
 :::tip Mixing both options
 You can combine the two options. For example, let Helm create the service account and have an administrator create the CRDs and the webhook. Set each switch to `true` only for what Helm creates.
 :::
+
+#### Restricted Spark Identities
+
+Spark jobs and computes run as two restricted identities instead of `lakehouse-service-account`:
+
+- `spark-driver-service-account` can only start, watch and stop its own executor pods.
+- `spark-executor-service-account` gets no Kubernetes access token at all.
+
+IOMETE switches a namespace to them once both exist there. Until then, Spark keeps running as `lakehouse-service-account`, so nothing breaks while you roll them out.
+
+| Setting | Default | What it does |
+| -- | -- | -- |
+| `serviceAccount.restrictSparkJobs` | `auto` | `auto` creates the identities unless `serviceAccount.annotations` is set. `true` always creates them, `false` never does. |
+| `serviceAccount.sparkPodPolicy` | `true` | Adds an admission policy that stops a driver from touching pods other than its executors. Needs Kubernetes 1.30 or later and permission to create cluster-wide admission policies. |
+
+Using workload identity (EKS, GKE or Azure)? Have the cloud role trust `spark-driver-service-account` and `spark-executor-service-account` in every IOMETE namespace, then set `serviceAccount.restrictSparkJobs: true`. Skip the trust step and Spark jobs fail with a 403 on storage.
 
 #### Upgrading the CRDs
 

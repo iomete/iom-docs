@@ -3,8 +3,8 @@ title: AWS S3 Buckets Access
 sidebar_label: S3 Buckets Access
 description: Learn how to provide access to external S3 buckets in IOMETE, a hybrid (cloud & on-premises based) data platform for data storage and analysis. This guide outlines simple steps to connect to S3 buckets and grant permission to the Lakehouse role.
 last_update:
-  date: 09/30/2026
-  author: Abhishek Pathania
+  date: 11/18/2026
+  author: Maksym Kryvchun
 ---
 
 IOMETE is a hybrid (cloud & on-premises) platform that allows users to store, manage, and analyze large amounts of data.
@@ -27,6 +27,8 @@ serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/<lakehouse-role>
 ```
+
+Spark pods can also run as `spark-driver-service-account` and `spark-executor-service-account`. Add both to the role's trust policy for every IOMETE namespace, then set `serviceAccount.restrictSparkJobs: true`. See [Restricted Spark Identities](/deployment/on-prem/install#restricted-spark-identities).
 :::
 
 :::note Running IOMETE outside AWS?

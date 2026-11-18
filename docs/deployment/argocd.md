@@ -3,7 +3,7 @@ title: Installing IOMETE with Argo CD
 sidebar_label: Argo CD
 description: Install and upgrade IOMETE Data Plane Enterprise with Argo CD.
 last_update:
-  date: 11/12/2026
+  date: 11/18/2026
   author: Maksym Kryvchun
 ---
 
@@ -64,7 +64,7 @@ Argo CD is supported on chart versions after 4.0.2. Earlier versions aren't supp
 
    If your values file has `minioSettings`, move its endpoint and access key into `s3CompatibleSettings` and delete `minioSettings`. The chart ignores it once `s3CompatibleSettings` is set.
 
-   With workload identity (EKS, GKE or Azure), the init job runs as `iomete-data-plane-init` under Argo CD. Have the cloud side trust `system:serviceaccount:iomete-system:iomete-data-plane-init` as well as `lakehouse-service-account`, or the init job fails with a 403 on storage.
+   With workload identity (EKS, GKE or Azure), the init job runs as `iomete-data-plane-init` under Argo CD. Have the cloud side trust `system:serviceaccount:iomete-system:iomete-data-plane-init` as well as `lakehouse-service-account`, or the init job fails with a 403 on storage. Spark runs as its own [restricted identities](./on-prem/install.md#restricted-spark-identities), which need the same trust.
 
    The chart generates its own encryption key, tokens and signing keys on the first install and keeps them, so leave those settings empty.
 
