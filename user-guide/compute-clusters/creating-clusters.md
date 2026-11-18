@@ -1,22 +1,22 @@
 ---
 title: Creating a Cluster
-description: Step-by-step guide to creating a compute cluster, covering the General, Configurations, Dependencies, Docker settings, Tags, and Review tabs.
+description: Step-by-step guide to creating a compute cluster, covering the General, Configurations, Dependencies, Docker settings, Resource tags, and Review tabs.
 sidebar_label: Creating a Cluster
 last_update:
-  date: 02/26/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
 
-Creating a dedicated cluster for each workload ensures isolation, eliminates resource contention, and delivers consistent performance. The setup process is simple and takes about a minute. Here's how to create a compute cluster:
+Create a compute cluster to give a workload its own Spark driver and executors. The cluster runs in an existing Kubernetes namespace managed by a data plane. It still shares the underlying Kubernetes cluster's capacity with other workloads. Here's how to create one:
 
 1. Go to the **Compute** page.
-2. Click **New Compute Cluster** in the top-right corner.
-3. Walk through the six tabs: **General**, **Configurations**, **Dependencies**, **Docker settings**, **Tags**, and **Review & Create**.
+2. Click **New compute cluster** in the top-right corner.
+3. Walk through the six tabs: **General**, **Configurations**, **Dependencies**, **Docker settings**, **Resource tags**, and **Review & Create**.
 4. On **Review & Create**, verify the summary and click **Create**.
 
-Move between tabs with **Previous** and **Next**, or click any tab directly. **Next** validates the current tab before advancing. If validation fails, the tab shows a red exclamation mark; fix the flagged fields before continuing.
+Move between tabs with **Previous** and **Next**, or click any tab directly. The form checks every tab when you click **Create**. If a field is invalid, the form opens the first tab with an error, and each tab with an error shows a red alert icon. Fix the flagged fields and click **Create** again.
 
 ## General Tab
 
@@ -30,27 +30,27 @@ This is where you set identity, sizing, and scaling for the cluster.
 
 - **Description** (optional): A short explanation of the cluster's purpose.
 
-- **Bundle** (required if resource-level access control is enabled): Links the cluster to a resource bundle that defines access permissions. Hidden when resource-level access control is disabled. Like the name, this can't be changed later.
+- **Resource bundle** (required): Links the cluster to a [resource bundle](/user-guide/ras/resource-bundles) that defines access permissions. Like the name, this can't be changed later. To create a bundle from the form, click **New resource bundle** at the bottom of the list (requires permission to create resource bundles).
 
-- **Namespace** (required): Kubernetes namespace where the cluster runs. Only namespaces available to your account appear.
+- **Deploy to Kubernetes namespace** (required): Choose the namespace under the data plane that should run the cluster, for example `finance` under `analytics`. Only deployment targets available to your account appear. See [Selecting a Namespace](../namespace-quotas.md#selecting-a-namespace) if the list is empty.
 
 - **Deployment type**: Choose between:
-  - **Multi-node** (default): Uses separate driver and executor pods.
-  - **Single-node**: Runs only the Spark driver. Executor-related fields and **Auto scaling** are hidden.
+  - **Standard** (default): Uses separate driver and executor pods.
+  - **Single node**: Runs only the Spark driver. Executor-related fields and **Auto scaling** are hidden.
 
 - **Node driver** (required): The [node type](../node-types/node-type-sizing.md) assigned to the Spark driver. The driver coordinates executors and handles incoming connections.
 
-- **Node executor** (required for multi-node): The [node type](../node-types/node-type-sizing.md) used for executor pods.
+- **Node executor** (required for Standard): The [node type](../node-types/node-type-sizing.md) used for executor pods. If the selected node type supports spot instances, a **Spot** checkbox appears next to the label. Select it to prefer spot nodes for executors; IOMETE falls back to on-demand nodes when no spot node is available.
 
-- **Max executor count** (required for multi-node): Maximum number of executor pods. Default is `1`. The minimum cannot exceed the maximum.
+- **Min executor count** (Standard with auto scaling only): Minimum number of executor pods. Default is `1`. It can't exceed the maximum.
 
-- **Min executor count** (required for multi-node): Minimum number of executor pods. Default is `0`. The maximum cannot be less than the minimum.
+- **Max executor count** (required for Standard): Maximum number of executor pods. Default is `2`. When auto scaling is disabled, this field is labeled **Executor count**.
 
-- **Use spot instances** (optional): Enables spot or preemptible instances for executor pods to reduce cost. Disabled by default.
+- **Auto scaling** (Standard only): Executors scale down to the minimum after the selected idle period and scale back up when a query runs. Options range from 1 minute to 3 hours. Default is 30 minutes. Select **Disabled** to keep executors running continuously.
 
-- **Auto scaling** (multi-node only): Enabled by default. Executors scale down to minimum executors configured after the configured idle period and scale back up when a query runs. Idle timeout options range from 1 minute to 3 hours. Default is 30 minutes. Select **Disabled** to keep executors running continuously.
+- **Executors volume** (optional): Attach a persistent volume. For a single-node cluster, this field is labeled **Driver volume**. See [Volumes](../volumes.md) for configuration details.
 
-- **Executors Volume** (optional): Attach a persistent volume. See [Volumes](../volumes.md) for configuration details.
+- **Query acceleration** (optional): Runs Spark SQL through [Apache DataFusion Comet](https://datafusion.apache.org/comet/), a native vectorized engine. Off by default and not available for single-node clusters. It needs a Spark 4 or newer image; if the default image is older, the form asks you to choose a newer one on the **Docker settings** tab.
 
   :::tip Keep Auto Scaling Enabled
   You're only billed for executors in the `Running` state. Scale-up takes 10 to 15 seconds with a hot pool, or 1 to 2 minutes otherwise.
@@ -62,12 +62,10 @@ This is where you set identity, sizing, and scaling for the cluster.
 
 Use this tab to tune Spark behavior, inject secrets, and set JVM options without rebuilding a Docker image.
 
-- **Environment variables**: key-value pairs injected at runtime, supporting both plain text and secret-backed values.
-- **Spark config**: standard Spark properties (for example, `spark.executor.memoryOverhead = 512m`). Also supports secrets.
+- **Environment variables**: key-value pairs injected at runtime. The form accepts plain-text values, so avoid putting credentials here.
+- **Spark config**: standard Spark properties as plain-text key-value pairs (for example, `spark.executor.memoryOverhead = 512m`).
 - **Arguments**: command-line arguments passed to the Spark application.
 - **Java options**: JVM flags for driver and executor processes (for example, `-XX:+UseG1GC`).
-
-<Img src="/img/user-guide/compute-clusters/create-configs.png" alt="Create compute cluster -- Configurations tab" maxWidth="700px" />
 
 ## Dependencies Tab
 
@@ -86,15 +84,15 @@ Override the default Spark runtime image here. The **Docker image** field (optio
 
 <Img src="/img/user-guide/compute-clusters/create-docker.png" alt="Create compute cluster -- Docker Settings tab" maxWidth="700px" />
 
-## Tags Tab
+## Resource Tags Tab {#tags-tab}
 
 Attach **Resource tags** (key-value metadata pairs) to categorize the cluster. Tags show up on the detail page and are handy for cost allocation or operational filtering.
 
-<Img src="/img/user-guide/compute-clusters/create-tags.png" alt="Create compute cluster -- Tags tab" maxWidth="700px" />
+<Img src="/img/user-guide/compute-clusters/create-tags.png" alt="Create compute cluster -- Resource tags tab" maxWidth="700px" />
 
 ## Review & Create Tab
 
-This tab shows a read-only summary of your configuration. Look it over, and if anything needs adjusting, click the relevant tab to go back. When everything looks correct, click **Create**.
+This tab shows a read-only summary of your configuration, including separate **Data plane** and **Namespace** rows. Verify both match your intended deployment, and if anything needs adjusting, click the relevant tab to go back. When everything looks correct, click **Create**.
 
 If creation succeeds, IOMETE provisions the cluster and redirects you to its detail page. If the cluster name is already taken, you're returned to the **General** tab with a validation error. If resource quotas are exceeded, the form highlights the affected fields with error messages. See [Namespace Quotas](../namespace-quotas.md#checking-quota-before-creating-a-resource).
 
