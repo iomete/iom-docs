@@ -3,7 +3,7 @@ title: Power BI (Arrow Flight) - Connecting to IOMETE
 sidebar_label: Arrow Flight
 description: Install the IOMETE Power BI connector and connect Power BI Desktop or an on-premises data gateway to IOMETE through Arrow Flight SQL.
 last_update:
-  date: 10/02/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -58,11 +58,13 @@ The Navigator then lists the catalogs and tables you can access, and you can sta
 
 ### Connection Settings
 
+Copy the values from the compute's **Connections** tab in the IOMETE console. Select the **Arrow Flight** card, not the **Power BI** card: the **Power BI** card is for the [Thrift connection](./thrift.md). The **Arrow Flight** card's JDBC connection string contains all three values, for example `jdbc:arrow-flight-sql://analytics.example.com:443?cluster=medium-cluster&data-plane=finance&...`. If the card is missing, ask your administrator to check `features.arrowFlightConnection.enabled` in the control-plane release; it is `true` by default.
+
 | Field | Value | Example |
 |---|---|---|
-| Server URL | Host and port of your IOMETE Arrow Flight endpoint | `dev.iomete.com:443` |
-| Cluster | Name of the compute cluster | `medium-cluster` |
-| Data Plane | Kubernetes namespace where the compute cluster runs | `spark-resources` |
+| Server URL | The compute's `host:port`: the `Server=` value in the card's ODBC connection string. For a compute on an additional data plane, this host can differ from the console host. | `analytics.example.com:443` |
+| Cluster | Name of the compute cluster: the `cluster=` value | `medium-cluster` |
+| Data Plane | Kubernetes namespace where the compute cluster runs: the `data-plane=` value. Despite the field name, this isn't the data plane ID. | `finance` |
 | Certificate Path | Optional. Leave blank to use the Windows certificate store. See [Trusting the Server Certificate](#trusting-the-server-certificate). | `C:\certs\iomete-ca.pem` |
 | Data Connectivity mode | **Import** copies data into the report; **DirectQuery** queries IOMETE live | DirectQuery |
 
@@ -145,7 +147,7 @@ When a report works in Power BI Desktop but fails through the gateway, the cause
 
 ### Connection Fails With "Could not finish writing before closing"
 
-The driver shows this generic error when the connection closes before login finishes, and the real cause isn't passed on. It most often means a wrong **Server URL**, **Cluster**, or **Data Plane**, such as a data plane that doesn't contain the cluster. It can also come from an invalid access token or an untrusted server certificate. Check the three connection values first, then your credentials, then [Trusting the Server Certificate](#trusting-the-server-certificate).
+The driver shows this generic error when the connection closes before login finishes, and the real cause isn't passed on. It most often means a wrong **Server URL**, **Cluster**, or **Data Plane**, such as a Kubernetes namespace that does not contain the compute, or a host for a different data plane. The connector's **Data Plane** field takes the compute's Kubernetes namespace. It can also come from an invalid access token or an untrusted server certificate. Check the three connection values first, then your credentials, then [Trusting the Server Certificate](#trusting-the-server-certificate).
 
 ### Connection Fails With "No client transport implementation for arrow-flight-reuse-connection"
 
@@ -168,7 +170,7 @@ The gateway hasn't loaded the connector, or the cluster doesn't allow custom con
 
 ### Refresh Does Not Use the Gateway Connection
 
-If the semantic model settings show the IOMETE data source without a mapped connection, the **Server URL**, **Cluster**, or **Data Plane** on the gateway connection differs from the values in your report. They must match character for character, including the port, so `dev.iomete.com` and `dev.iomete.com:443` count as different data sources. Recreate the connection with **Manually add to gateway**, as described in [Creating the Gateway Connection](#creating-the-gateway-connection).
+If the semantic model settings show the IOMETE data source without a mapped connection, the **Server URL**, **Cluster**, or **Data Plane** on the gateway connection differs from the values in your report. They must match character for character, including the port, so `analytics.example.com` and `analytics.example.com:443` count as different data sources. Recreate the connection with **Manually add to gateway**, as described in [Creating the Gateway Connection](#creating-the-gateway-connection).
 
 ### Connection Fails With "Could not open certificate"
 
