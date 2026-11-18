@@ -3,7 +3,7 @@ title: Monitoring
 description: Reach every platform-wide monitoring surface in IOMETE — control-plane health, namespace quotas, query monitoring, search engine metrics, and external Grafana dashboards — from one admin portal page.
 sidebar_label: Overview
 last_update:
-  date: 07/06/2026
+  date: 11/06/2026
   author: Valid Akhundov
 ---
 
@@ -21,7 +21,7 @@ Each card has a thumbnail image, a title, and a short description, so you don't 
 
 | Card | What It Opens | Description |
 |------|---------------|--------------|
-| **Control-Plane health** | The [Health Check](./health-check.md) page | Shows core infrastructure health at a glance. |
+| **Control-plane and data planes health** | The [Health Check](./health-check.md) page | Shows shared control-plane services and services grouped by data plane. |
 | **Namespace quotas overview** | The Namespaces page (**Compute** group in the sidebar) | Tracks resource allocation and consumption across Kubernetes namespaces. See [Namespace Quotas](../namespace-quotas.md). |
 | **SQL query monitoring** | The [Query Monitoring](./query-monitoring.md) page | Tracks query execution times and resource consumption patterns. |
 | **Search engine (Typesense)** | The [Search Engine Monitoring](./typesense.md) page | Tracks search collections, system metrics, and request statistics. |
@@ -37,9 +37,7 @@ If your organization has linked external Grafana dashboards, a second section ti
 
 Each card only appears once its dashboard URL has a value. If neither is configured, the section doesn't render at all, so it never appears empty.
 
-:::info
-These cards can only appear if your data plane was deployed with monitoring support enabled (the Helm value `monitoring.enabled`, default `false`). If that flag is off, the two dashboard-URL keys don't exist in System Config at all, so there's nothing to find or set in the console. If you can't locate these keys, this infra-level flag being off is the most likely reason, not a UI issue. Ask whoever deployed your data plane to confirm the setting.
-:::
+These dashboard-URL keys are available when `monitoring.enabled` is `true` on the **control-plane Helm release**. They are shared System Config settings; enabling monitoring only on an additional runtime release does not make them available here. If the keys are missing, ask the administrator of the control-plane release to check its setting. Dashboard links do not configure metrics collection: Prometheus must separately discover and scrape the service and workload namespaces. See [Monitoring Setup](../k8s/monitoring.md) for collection and Grafana configuration.
 
 If a dashboard URL is entered as a full address (starting with `http://` or `https://`), IOMETE links to it as-is. If it's a relative path instead (starting with `/`), IOMETE resolves it against the console's own address: the same protocol, host, and port you're using to view the admin portal.
 
