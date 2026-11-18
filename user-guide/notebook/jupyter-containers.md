@@ -3,14 +3,14 @@ title: Jupyter Containers
 description: Create dedicated JupyterLab environments with persistent storage and Spark Connect for data exploration and ML development.
 sidebar_label: Overview
 last_update:
-  date: 03/19/2026
+  date: 11/05/2026
   author: Abhishek Pathania
 ---
 
 Jupyter Containers are dedicated, containerized JupyterLab environments that run inside the IOMETE platform. Each container comes pre-configured with JupyterLab and essential data engineering tools (Git, AWS CLI, and pip) so you can start working with your data immediately. Containers connect to IOMETE compute clusters through Spark Connect for distributed processing.
 
 :::info Feature availability
-Jupyter Containers require the `jupyterContainers` feature flag to be enabled on your data plane. If you do not see the **Jupyter Containers** menu item in the sidebar, contact your platform administrator.
+Jupyter Containers must be enabled for your IOMETE deployment. If you do not see the **Jupyter Containers** menu item in the sidebar, contact your platform administrator.
 :::
 
 ## Common Use Cases
@@ -45,6 +45,8 @@ Each container is an asset in a [resource bundle](/user-guide/ras/resource-bundl
 | `DELETE` | Delete the container. |
 
 Users only see containers they have at least `VIEW` access to in the list. The platform filters the list based on your bundle permissions.
+
+To deploy a container, you also need access to a Kubernetes namespace assigned to your domain. Choose the namespace under its data plane in the creation form. See [Namespace Permissions](../iam/ras/ras-permissions.md#namespace) and [Creating a Jupyter Container](./manage-containers.mdx#creating-a-jupyter-container).
 
 ## Related Features
 

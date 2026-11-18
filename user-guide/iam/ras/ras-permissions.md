@@ -4,7 +4,7 @@ title: RAS Permissions Reference
 description: Detailed reference for every Resource Authorization System (RAS) permission, what each one allows, and which resource types accept it.
 sidebar_label: RAS Permissions
 last_update:
-  date: 05/06/2026
+  date: 11/06/2026
   author: Ruturaj Bhokre
 ---
 
@@ -140,13 +140,13 @@ A vault configuration entry points the platform at an external secrets vault (Ha
 
 ### Namespace
 
-A namespace is a Kubernetes namespace mapping registered with the data plane and used as a deployment target for compute clusters and Spark jobs. There's nothing to read or edit on it directly; you only need permission to deploy into it.
+A namespace resource represents a domain's assignment of a Kubernetes namespace on a specific data plane. For example, `finance` on `analytics` and `finance` on `default` are separate assignments, even though their namespace names match. Compute clusters, Spark jobs, and Jupyter containers use these assignments as deployment targets.
 
 | Permission | What it allows |
 |---|---|
-| **Use** | Deploy resources into this namespace by selecting it as the deployment namespace when creating a compute or Spark job. |
+| **Use** | Select this namespace and its data plane as the deployment target for a compute cluster, Spark job, or Jupyter container. |
 
-Namespace supports only this one permission.
+Namespace supports only this one permission. It does not grant permission to create workloads; you still need the relevant domain-level create permission. Assigning a namespace to a domain or granting **Use** does not create the Kubernetes namespace or register a data plane. If a deployment target is missing from a creation form, ask your administrator to check the domain assignment and the permissions on the bundle containing that namespace resource.
 
 ## How Permissions Are Grouped
 
