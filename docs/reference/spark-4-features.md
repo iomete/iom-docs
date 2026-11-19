@@ -319,7 +319,7 @@ spark.sql("SELECT COUNT(*) FROM sales").show()
 Define materialized views in SQL and Python, and let Spark plan and run them in dependency order — driven by the pipelines CLI over Spark Connect.
 
 ```bash
-pip install pyspark-client==4.1.3 pyyaml
+pip install "pyspark[pipelines]==4.1.3"
 spark-pipelines init --name sales_pipeline    # generates spark-pipeline.yml + transformations/
 spark-pipelines dry-run                        # validates the flow graph
 spark-pipelines run                            # runs all flows in dependency order
