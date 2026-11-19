@@ -6,7 +6,7 @@ description: Learn how to connect to Oracle from IOMETE Lakehouse.
 
 import Img from "@site/src/components/Img";
 
-By default, IOMETE includes MySQL, PostgreSQL, and Snowflake JDBC drivers. However, adding custom drivers, such as the Oracle driver, is straightforward. Follow these steps to add the Oracle driver to IOMETE:
+The IOMETE Spark images include JDBC drivers for a few databases, listed in [Bundled Drivers](/user-guide/spark-catalogs/external-jdbc-drivers#bundled-drivers). Oracle isn't one of them, so you add its driver yourself. Follow these steps to add the Oracle driver to IOMETE:
 
 ### Configure Oracle JDBC Driver
 
@@ -40,13 +40,13 @@ Then, add the following configuration in the Global Spark Settings:
 spark.jars s3a://lakehouse/drivers/ojdbc8.jar
 ```
 
-### Restart the Lakehouse
+### Restart the Compute Clusters
 
-After adding the Oracle driver dependencies, restart the lakehouses to make the driver available.
+After adding the Oracle driver dependencies, restart the compute clusters to make the driver available.
 
 ### Connect to Oracle Data Source
 
-Once the dependencies are added and the lakehouse is restarted, you can connect to the Oracle data source using the following syntax:
+Once the dependencies are added and the compute clusters are restarted, you can connect to the Oracle data source using the following syntax:
 
 ```sql showLineNumbers
 CREATE TABLE test_table
@@ -61,7 +61,7 @@ OPTIONS (
 ```
 
 :::info
-In addition to using the JDBC method to create individual tables, you can also create a Spark JDBC catalog. By setting up a Spark JDBC catalog, you will be able to connect to an entire database or schema and browse all the tables under that catalog without needing to write DDL statements for every table. This simplifies the process of managing multiple tables in your Oracle Data Source. For more details on setting up a Spark JDBC catalog, refer to the following [Spark Catalogs](/user-guide/spark-catalogs/overview) Documentation.
+In addition to using the JDBC method to create individual tables, you can also create a Spark JDBC catalog. By setting up a Spark JDBC catalog, you will be able to connect to an entire database or schema and browse all the tables under that catalog without needing to write DDL statements for every table. This simplifies the process of managing multiple tables in your Oracle Data Source. For more details on setting up a Spark JDBC catalog, refer to the following [Spark Catalogs](/user-guide/spark-catalogs/overview) Documentation. A JDBC catalog also needs the driver on the shared schema server, which runs **Test connection** and the Database Browser; see [Adding the Jar to the Shared Schema Server](/user-guide/spark-catalogs/external-jdbc-drivers#adding-the-jar-to-the-shared-schema-server).
 :::
 
 ### Important Parameters

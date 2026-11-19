@@ -6,7 +6,7 @@ description: Learn how to connect to Microsoft SQL Server from IOMETE Lakehouse.
 
 import Img from "@site/src/components/Img";
 
-By default, IOMETE includes MySQL, PostgreSQL, and Snowflake JDBC drivers. However, adding custom drivers, such as the Microsoft SQL Server driver, Oracle is straightforward. Follow these steps to add Microsoft SQL Server driver to IOMETE:
+The IOMETE Spark images include JDBC drivers for a few databases, listed in [Bundled Drivers](/user-guide/spark-catalogs/external-jdbc-drivers#bundled-drivers). Follow these steps to add the Microsoft SQL Server Spark connector to IOMETE:
 
 ### Configure Microsoft SQL Server Driver
 
@@ -33,13 +33,13 @@ You can add the MS SQL driver using two methods:
 
     <Img src="/img/database-drivers/mssql-driver-2.png" alt="Adding spark dependencies for MS SQL driver in IOMETE"/>
 
-### Restart the Lakehouse
+### Restart the Compute Clusters
 
-After adding the MS SQL driver dependencies, restart the lakehouses to make the driver available.
+After adding the MS SQL driver dependencies, restart the compute clusters to make the driver available.
 
 ### Connect to Microsoft SQL Server Data Source
 
-Once the dependencies are added and the lakehouse is restarted, you can connect to the MS SQL data source using the following syntax:
+Once the dependencies are added and the compute clusters are restarted, you can connect to the MS SQL data source using the following syntax:
 
 ```sql
 CREATE TABLE ms_sql_demo_db
