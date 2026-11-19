@@ -189,6 +189,7 @@ const sidebars = {
           collapsed: false,
           items: [
             "spark-catalogs/external-jdbc",
+            "spark-catalogs/external-jdbc-drivers",
             "spark-catalogs/external-rest",
             "spark-catalogs/external-glue",
             "spark-catalogs/external-nessie",
