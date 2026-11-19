@@ -9,4 +9,4 @@ alphabet: M
 
 **Materialized views** differ from regular database views as they store precomputed data as a physical table. This feature makes them well-suited for handling complex queries or aggregations that are frequently performed.
 
-Creating a materialized view is straightforward with the IOMETE SQL Editor. Simply use the CREATE MATERIALIZED VIEW statement and specify the base tables. Additionally, you have the option to set up automatic refreshes on a predefined schedule to ensure your data remains up-to-date.
+On IOMETE Spark 4 clusters, you create a materialized view with [Spark Declarative Pipelines](/reference/spark-4-features#declarative-pipelines): define the view in a pipeline's SQL or Python file and run the pipeline over Spark Connect with the `spark-pipelines` CLI. Running `CREATE MATERIALIZED VIEW` directly in the SQL Editor or in a Spark job isn't supported. To refresh the view, run the pipeline again.
