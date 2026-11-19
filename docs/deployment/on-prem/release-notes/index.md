@@ -83,7 +83,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
 **Spark version:** [4.1.3-v3](./spark.md)
-**Iceberg version:** 1.9.0-iomete-5
+**Iceberg version:** 1.11.0-iomete-7
 
 </Release>
 
@@ -208,7 +208,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
 **Spark version:** [4.1.3-v3](./spark.md)
-**Iceberg version:** 1.9.0-iomete-5
+**Iceberg version:** 1.11.0-iomete-7
 
 </Release>
 
@@ -272,7 +272,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
 **Spark version:** [3.5.7-v7](./spark.md)
-**Iceberg version:** 1.9.0-iomete-5
+**Iceberg version:** 1.9.0-iomete-4
 
 </Release>
 
@@ -582,7 +582,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Deprecations>
 
       **Spark version:** [3.5.7-v7](./spark.md)
-      **Iceberg version:** 1.9.0-iomete-5
+      **Iceberg version:** 1.9.0-iomete-4
 
 </Release>
 
@@ -653,7 +653,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Deprecations>
 
       **Spark version:** [3.5.7-v7](./spark.md)
-      **Iceberg version:** 1.9.0-iomete-5
+      **Iceberg version:** 1.9.0-iomete-4
 
 </Release>
 
@@ -696,7 +696,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
       **Spark version:** [3.5.7-v6](./spark.md)
-      **Iceberg version:** 1.9.0-iomete-5
+      **Iceberg version:** 1.9.0-iomete-4
 
 </Release>
 
@@ -744,7 +744,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
       **Spark version:** [3.5.7-v4](./spark.md), [3.5.5-v16](./spark.md)
-      **Iceberg version:** 1.9.0-iomete-5
+      **Iceberg version:** 1.9.0-iomete-4 (Spark 3.5.7-v4), 1.9.3-iomete (Spark 3.5.5-v16)
 
 </Release>
 
