@@ -99,6 +99,10 @@ const userGuideRedirects = [
   { from: "/user-guide/rollout-flags/secrets-v2", to: "/user-guide/feature-flags/secrets-v2" },
   { from: "/user-guide/rollout-flags/ldap-group-inheritance", to: "/user-guide/feature-flags/ldap-group-inheritance" },
   { from: "/user-guide/rollout-flags/sql-editor-v2", to: "/user-guide/feature-flags/sql-editor-v2" },
+
+  // Oracle and SQL Server data source pages merged into the JDBC Drivers page
+  { from: "/reference/sql-quick-start/oracle-datasource", to: "/user-guide/spark-catalogs/external-jdbc-drivers" },
+  { from: "/reference/sql-quick-start/ms-sql-server-datasource", to: "/user-guide/spark-catalogs/external-jdbc-drivers" },
 ];
 
 export default userGuideRedirects;

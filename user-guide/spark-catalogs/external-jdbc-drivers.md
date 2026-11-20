@@ -1,11 +1,13 @@
 ---
 title: JDBC Drivers
 sidebar_label: JDBC Drivers
-description: See which JDBC drivers the IOMETE Spark images include, and add a driver for any other database, such as ClickHouse or Oracle.
+description: See which JDBC drivers the IOMETE Spark images include, and add a driver for any other database, such as ClickHouse.
 last_update:
   date: 11/19/2026
   author: Abhishek Pathania
 ---
+
+import Img from '@site/src/components/Img';
 
 A [JDBC catalog](./external-jdbc.md), a `USING jdbc` table and `spark.read.format("jdbc")` all need the database's JDBC driver on the Spark classpath. The IOMETE Spark images include drivers for a few common databases. For any other database, you upload the driver jar yourself and add it everywhere that connects to the database: the compute clusters that run your queries, and the shared schema server that runs **Test connection** and the Database Browser.
 
@@ -18,13 +20,45 @@ These drivers are bundled in the Spark images, so you can use them without addin
 | PostgreSQL | `org.postgresql:postgresql` | 3.5.7 and later |
 | MySQL | `com.mysql:mysql-connector-j` | 3.5.7 and later |
 | Microsoft SQL Server | `com.microsoft.sqlserver:mssql-jdbc` | 3.5.7 and later |
+| Microsoft SQL Server Spark connector | `com.microsoft.azure:spark-mssql-connector_2.12` | 3.5 images only |
+| Oracle | `ojdbc11` | 3.5.7 and later |
 | Snowflake | `net.snowflake:snowflake-jdbc` | 3.5.7 and later |
-| Amazon Redshift | `com.amazon.redshift:redshift-jdbc42` | 4.2.1-v1 and later |
+| Amazon Redshift | `com.amazon.redshift:redshift-jdbc42` | 3.5.7 and later |
 | ClickHouse | `com.clickhouse:clickhouse-jdbc` | Removed in 4.2.1-v1 and 3.5.9-v2 |
+
+On 3.5 images, you can read SQL Server through its Spark connector with `USING com.microsoft.sqlserver.jdbc.spark`. Spark 4 images don't include the connector, so use `USING jdbc` there.
 
 The ClickHouse driver 0.6.4 was removed from these images because of compatibility issues with newer ClickHouse servers. Other images, including later 4.2.0, 4.1 and 3.5.7 releases, still bundle it. See [ClickHouse](#clickhouse) to add a newer driver.
 
 A bundled driver loads before any jar you add with `spark.jars`, so adding your own copy of a bundled driver with the same class name has no effect. You can't switch a bundled driver to another version this way.
+
+## Driver Class and URL
+
+| Database | Driver class | JDBC URL |
+| -- | -- | -- |
+| PostgreSQL | `org.postgresql.Driver` | `jdbc:postgresql://<host>:5432/<database>` |
+| MySQL | `com.mysql.cj.jdbc.Driver` | `jdbc:mysql://<host>:3306/<database>` |
+| Microsoft SQL Server | `com.microsoft.sqlserver.jdbc.SQLServerDriver` | `jdbc:sqlserver://<host>:1433;databaseName=<database>` |
+| Oracle | `oracle.jdbc.OracleDriver` | `jdbc:oracle:thin:@//<host>:1521/<service-name>` |
+| Amazon Redshift | `com.amazon.redshift.Driver` | `jdbc:redshift://<endpoint>:5439/<database>` |
+| Snowflake | `net.snowflake.client.jdbc.SnowflakeDriver` | `jdbc:snowflake://<account-identifier>.snowflakecomputing.com/?db=<database>&warehouse=<warehouse>` |
+| ClickHouse | `com.clickhouse.jdbc.ClickHouseDriver` | `jdbc:clickhouse://<host>:8123/<database>` |
+
+Use these values in a [JDBC catalog](./external-jdbc.md) or in a table that reads from the database, for example:
+
+```sql
+CREATE TABLE orders_pg
+USING jdbc
+OPTIONS (
+  url "jdbc:postgresql://<host>:5432/<database>",
+  driver "org.postgresql.Driver",
+  dbtable "<schema>.<table>",
+  user "<user>",
+  password "<password>"
+);
+```
+
+Replace the placeholders with your database's values. For other options, such as `query` and `fetchsize`, see [JDBC Sources](../reference/data-sources/jdbc-sources.mdx).
 
 ## Adding a Driver That Isn't Bundled
 
@@ -47,18 +81,20 @@ Use a path only administrators can write to. A jar on `spark.jars` runs in every
 
 ### Adding the Jar to a Compute Cluster
 
-If the compute cluster already loads jars through **Jar file locations**, or through `spark.jars` in Global Spark Settings, add the driver to that list instead. A second list replaces the first rather than adding to it.
+If the compute cluster already loads jars through **Jar file locations**, or through `spark.jars` in [Global Spark Settings](../global-spark-settings.md), add the driver to that list instead. A second list replaces the first rather than adding to it.
 
 Repeat these steps on every compute cluster that queries the database:
 
 1. Open the compute cluster and click **Configure**.
-2. On the **Configurations** tab, add a **Spark config** entry with the key `spark.jars` and the jar path as its value. If `spark.jars` is already set, append the new path with a comma:
+2. On the [**Configurations** tab](../compute-clusters/creating-clusters.md#configurations-tab), add a **Spark config** entry with the key `spark.jars` and the jar path as its value. If `spark.jars` is already set, append the new path with a comma:
 
    ```
    s3a://<lakehouse-bucket>/jars/existing.jar,s3a://<lakehouse-bucket>/jars/<driver>.jar
    ```
 
 3. Click **Save**, then restart the compute cluster. Spark loads jars only at startup, so a running cluster doesn't see the driver until it restarts.
+
+<Img src="/img/user-guide/spark-catalogs/compute-spark-jars.png" alt="Configurations tab of a compute cluster with a Spark config entry whose key is spark.jars and whose value is the S3 path of the ClickHouse JDBC driver jar" />
 
 A Spark job that reads from the database needs the jar too. If the job lists [JAR files](../spark-jobs/spark-application-config.md#jar-files), add the driver there. Otherwise, add it as `spark.jars` in the job's Spark config.
 
@@ -101,6 +137,8 @@ The shared schema server is a Spark application that the data plane Helm chart d
 ### Creating the Catalog
 
 Create the catalog as described in [JDBC Catalog Integration](./external-jdbc.md). If your driver isn't in the **Driver** list, type its class name and select **Use "\<class name\>"**. Click **Test connection** before you create the catalog. A passing **Show Tables** check means the schema server loaded the driver and reached the database. The **Create Table** and **Drop Table** checks also need write access to the database.
+
+<Img src="/img/user-guide/spark-catalogs/jdbc-driver-use-class.png" alt="Driver field of the Create Spark catalog form with the class name com.clickhouse.jdbc.ClickHouseDriver typed in and the option Use com.clickhouse.jdbc.ClickHouseDriver shown" />
 
 ## ClickHouse
 
