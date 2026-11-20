@@ -14,6 +14,85 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 <Mailer/>
 
+<Release version="4.0.3" date="November 18, 2026">
+  <BreakingChanges>
+    - **Domain Secrets API**: Removed the deprecated V1 endpoint `GET /api/v1/domains/{domain}/secrets/{key}`, which the V2 secrets API replaced in an earlier release.
+    - **LDAP Usernames That Differ Only by Case**: LDAP sync now stops when an LDAP username matches a local user's except for upper or lower case, such as `JohnDoe` and `johndoe`, and names the local users in the way. Before, the sync either failed with a database error or created a second account for the same person. Before upgrading, look for local users whose names match LDAP users apart from case. Delete each one and sync again to let LDAP manage it, then grant its roles and group memberships again, or leave it out of the LDAP user filter to keep it local.
+  </BreakingChanges>
+
+  <NewFeatures>
+    - **Driver Volume**: Compute clusters and Spark jobs now have a **Driver volume** picker next to the executors' one, so the Spark driver writes its scratch files to an on-demand PVC instead of the node's local disk. Node disk stays the default and existing computes and jobs are unchanged. Single-node computes and jobs gain the most, since they have no executor pods and the executors' volume never applied to them.
+    - **Member Permissions**: User and service account pages under domain **Settings → Members** have a read-only **Permissions** `BETA` tab, listing what the member can do, which resource group or namespace it applies to, and whether it was assigned directly or inherited from a group. Filter by Domain, Resource groups or Namespaces, and search. The tab appears only when the `resourceGroupRoles` rollout flag is on, which is off by default.
+
+      <Img src="/img/getting-started/release-notes/4.0.3/member-permissions.png" alt="Permissions tab on a user's page under Settings, Members, listing each domain resource type with its View, Edit, Manage and Use permissions and the role it comes from" maxWidth="900px" />
+
+    - **OpenShift Support**: The data plane now installs on OpenShift under its default security settings, with no extra permissions needed. Installs on other platforms are unchanged.
+    - **Argo CD Installs**: IOMETE can now be installed and managed with Argo CD. See [Argo CD](../../argocd.md).
+    - **Dynatrace Logs**: The console can now show and download Spark, compute, Event Stream and Jupyter logs stored in Dynatrace. Set `logging.source: dynatrace` with your environment URL and a platform token that has the `storage:logs:read` and `storage:buckets:read` scopes. IOMETE reads logs from Dynatrace but does not send them there, so install the Dynatrace Log module on the data plane cluster to collect them. See [Logging](../../architecture-deployment.md#logging).
+  </NewFeatures>
+
+  <Improvements>
+    - **Data Plane Workloads Network Policy**: An optional network policy keeps compute clusters, Spark jobs and Event Streams away from the platform's internal services, leaving them the data plane gateway, the metastore, the lakehouse agent, DNS, the Kubernetes API and public addresses. Off by default, turn it on with `networkPolicies.dataPlaneWorkloads.enabled: true`, and first list any private address your workloads need, such as object storage, under `extraEgress`. A separate `networkPolicies.controlPlane.enabled`, also off by default, restricts who can reach the platform's own pods. See [Network Policies](../../network-policies.md).
+    - **Search Service Key**: Each install now generates its own key for the Data Catalog search service, instead of sharing one built into the chart. The key is created during the upgrade with nothing for you to change; to supply your own, set `typesenseApiKey.existingSecret`.
+    - **Data Access Policy Downloads**: Compute clusters now rebuild their data access policies only when something changed, instead of every ten seconds. Policy changes still reach running computes within seconds, with much less background load on both the computes and the platform.
+    - **Check Access**: The times on **Administration → Data Security → Check access** now report when the catalog service loaded the policies and classification tags it answered with, and the policy time is labelled **Policies loaded**. A change that has not reached the catalog service yet is now visible, instead of looking as though it failed.
+    - **Rolling Spark Event Logs**: Spark can now write its event log in parts as a run proceeds, so a long run keeps its history even when the driver is killed before it closes the log. Off by default, turn it on with the `sparkEventLogRolling` rollout flag.
+    - **System Table Storage**: The Iceberg tables IOMETE keeps for query history, activity and maintenance runs now delete superseded metadata files as they commit, instead of leaving them behind to grow without limit. Existing tables pick this up the first time the archival job runs after the upgrade.
+    - **OIDC Endpoint Discovery**: The OIDC provider form now takes one **Issuer URL** and reads the provider's discovery document through the platform, so deployed consoles show the endpoints it found instead of always reporting that the document could not be read. Override any endpoint, or enter them all by hand when the provider publishes none.
+    - **Catalog Scope**: Users no longer see table metadata or snapshots from catalogs their domain is not granted, in the Data Catalog metadata export and in the database browser. The deprecated `/api/v1/schema` API now answers `403` for users who are not members of the default domain. Users who already had access see no change.
+    - **Image Pull Policy**: `docker.pullPolicy` now defaults to `IfNotPresent` instead of `Always`, so an image is pulled only when the node does not already have it and a registry outage no longer blocks pod restarts. Jupyter, Event Stream and Spark pods now follow this setting as well, and the ones you already have keep `Always` until they are next redeployed. If you reuse a tag such as `latest` for a custom Spark image, set `docker.pullPolicy: Always` to keep picking up updates.
+    - **SQL Editor Full Screen**: Full screen for query results is now part of the page address, so a copied link opens in full screen, and the sidebar folds to its icon rail instead of disappearing. Opening another worksheet or editor tab now leaves full screen, where it used to be remembered.
+    - **Feature Flags**: **Administration → Feature Flags** now shows a `BETA` tag on flags for features that are in beta, starting with Resource group roles.
+    - **Marketplace Jobs**: Job templates now deploy Data Compaction `1.2.16` and Kafka Iceberg Stream `1.3.0`. Both move to the Spark 3.5.7 base image, which clears a large number of critical and high-severity CVEs, and both now run as user `1001` instead of `185`, so update any pod spec of your own that pins the old user. Cleanup Untracked Table Folders moves to `0.1.6`, which now also cleans a database's `<warehouse>/<database>` folder when its tables use that as well as `<warehouse>/<database>.db`, and leaves alone folders still used by tables in other databases or catalogs. Run it in dry run mode first, since it can now propose folders it did not before. See the [Marketplace Jobs release notes](./marketplace-jobs.md).
+    - **Platform Security Updates**: Resolved critical and high-severity CVEs in the backend services and in the Jupyter notebook and gateway images. No change in behavior and no migration required.
+  </Improvements>
+
+  <BugFixes>
+    - **Spark History Server**: Fixed the Spark History Server running out of heap and then serving nothing while its pod still reported **Running**. Its heap now scales with the pod's memory limit, an out-of-memory error restarts the pod, and health checks mark it unready. Set `services.sparkHistory.heapSize` to choose the heap yourself, or `services.sparkHistory.probesEnabled: false` to turn the checks off.
+    - **Spark Connect and Spark Job Restarts**: Fixed Spark Connect and Spark jobs getting stuck in **Submitted**, or restarting repeatedly for several minutes, when a failed start was retried, such as right after installing IOMETE or restarting the cluster. A job whose driver disappears, for example with its node, now follows its restart policy within about ten seconds instead of sometimes staying in **Submitted** or **Running**, and jobs already stuck that way are picked up shortly after the upgrade.
+    - **Database Explorer**
+      - Fixed a `spark_catalog` database that holds no Iceberg table failing to open. An empty `default`, or one holding only Hive or parquet tables, returned `Namespace does not exist` or listed as empty. Only installs whose shared schema server runs a Spark 3.5 image were affected.
+      - Fixed the Spark service behind the Database Explorer being evicted when its node was consolidated, which broke schema calls until it next restarted. It now carries the install's Spark pod annotations, so node eviction protection applies to it too.
+      - The Explorer no longer lists tables, opens table details or returns snapshots that data security policies hide from the user, on installs running with `arrowFlightForDbExplorer` on. A hidden table now answers as a missing one, and opening a database that holds only Hive tables can take a little longer.
+    - **Data Explorer**: Sorting the table list by **Size** or **Total Storage** now treats `0 B` tables as the smallest, instead of placing them after the largest.
+    - **S3 Browser**
+      - Browsing a bucket in a different region from the catalog's storage configuration now reports an error naming both regions, instead of a generic `500`. A wrong endpoint gets its own message, and the storage connection test's **List** check shows the same text.
+      - The bucket list now offers only the buckets in the catalog's region, so every bucket it lists opens.
+    - **Long Queries on Remote Data Planes**: Fixed a healthy long-running query on SQL Editor V2 being marked as failed while its compute was still running it, so its result was never returned. Only remote data planes (those running in a different Kubernetes cluster from the control plane) were affected.
+    - **Catalog Connection Test**: Testing an external catalog with a wrong password now uses one login attempt instead of three, so it no longer locks a database account whose policy allows three failed logins. This applies to JDBC, external Iceberg and Enterprise catalog tests.
+    - **LDAP Sync**
+      - Fixed sync failing for good once a deleted local user or group shared a name with one in LDAP. LDAP now takes the deleted record over, without restoring its old roles or group memberships.
+      - A blocked sync now names up to three of the local users or groups in the way and says how to clear them, instead of giving only a count.
+    - **Admin Webhooks**: Fixed **Administration → Webhooks** showing no results for a domain whose display name differs from its id, such as **Default Domain**.
+    - **Splunk Logs**: The **Logs** tab now reports that logs could not be read from Splunk, instead of a generic internal system error.
+    - **SSO Sign-In**: Fixed OIDC sign-in failing when the identity provider's issuer URL ends with a `/`, as Auth0's does.
+    - **Credentials in Debug Logs**: Fixed compute and SQL endpoint logs holding access tokens, storage access keys and database passwords in plain text when `spark.log.level` was set to `debug`. The Spark UI's **Environment** tab now also hides storage access key ids and database user names.
+    - **Resource Groups**: Namespaces added to a resource group on an older version now show their names in the group's resources list and on a member's **Permissions** tab, instead of an identifier. Searching and sorting by name still miss those namespaces.
+    - **Spark Connect REST Client**: Its cached Spark sessions now expire after 15 minutes instead of 3, so fewer V1 admin API requests fail because the session behind them had gone. Set `services.sparkConnect.restClient.env.sparkSessionCacheTimeoutMinutes` to choose your own timeout; a value you already set is kept.
+    - **SQL Editor**
+      - Unsaved worksheet text is no longer discarded when a save fails. The toolbar shows **Saving…**, **Saved** or **Not saved, retrying**, a failed save is retried every ten seconds, and closing the tab asks first while text is still unsaved.
+      - `SELECT`, `WHERE`, `GROUP BY`, `ORDER BY`, `HAVING`, `DISTINCT` and `LIMIT` are coloured as keywords again, instead of taking the colour of column names.
+      - Result columns have their right borders back, and the **Run** button no longer shifts while a query runs.
+      - A worksheet shows the same icon in the Worksheets tree and on its editor tab.
+      - Changing a worksheet's compute several times quickly no longer snaps the picker back to an earlier choice.
+      - A failed query's result header now shows how long the query ran and `0 rows`, with **Failed** and **Logs** at its right end as for every other status, instead of leaving the gap where the duration and row count would be. The chart view is turned off for a failed query, and its result opens on the error message.
+      - A worksheet's result header now reads `269 rows` rather than `269rows`.
+    - **Console**
+      - Relative times round down, so a run started an hour and forty minutes ago reads **an hour ago** rather than **2 hours ago**.
+      - Starting a Jupyter container from the list moves its row to **Starting** at once, instead of leaving it **Stopped** until the page is refreshed.
+      - A failed activity chart refresh on the Spark Applications page no longer freezes live updates, which left the **new applications** count growing and **Resume live updates** doing nothing.
+      - Copying on an install served over plain HTTP now copies plain text only, so a token pasted into a document no longer arrives in the console's own colours and font, and copying an empty cell clears the clipboard and reports success.
+      - Clicking inside the error dialog of a Worksheets or Database tree row no longer retries that row or moves the tree's focus.
+      - User and group tags no longer appear as blue underlined links, and still open the person's page when clicked.
+      - Vertical dividers sit centred in their row on the OIDC issuer field, audit event details, full-screen run logs and the SQL editor dialog.
+      - Values cut off in the Compute list's **Image**, **Driver**, **Executor** and **Namespace** columns, and in the Job Templates list's **Driver**, **Executor** and **Schedule** columns, now show in full on hover.
+  </BugFixes>
+
+**Spark version:** [4.1.3-v3](./spark.md)
+**Iceberg version:** 1.11.0-iomete-7
+
+</Release>
+
 <Release version="4.0.2" date="November 10, 2026">
   <BreakingChanges>
     - **V1 Schema API Routing**: Removed automatic V1 forwarding when `arrowFlightForDbExplorer` is enabled. Enable `schemaV1ForwardToV2` to retain forwarding after upgrading. Without forwarding, V1 requires the `iom-spark-connect-rest-client` service. See [Forwarding V1 Routes to V2](/resources/user-guide/sql-editor/database-explorer-api-migration#forwarding-v1-to-v2).
@@ -135,7 +214,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
 **Spark version:** [4.1.3-v3](./spark.md)
-**Iceberg version:** 1.9.0-iomete-5
+**Iceberg version:** 1.11.0-iomete-7
 
 </Release>
 
@@ -199,7 +278,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
 **Spark version:** [3.5.7-v7](./spark.md)
-**Iceberg version:** 1.9.0-iomete-5
+**Iceberg version:** 1.9.0-iomete-4
 
 </Release>
 
@@ -509,7 +588,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Deprecations>
 
       **Spark version:** [3.5.7-v7](./spark.md)
-      **Iceberg version:** 1.9.0-iomete-5
+      **Iceberg version:** 1.9.0-iomete-4
 
 </Release>
 
@@ -580,7 +659,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </Deprecations>
 
       **Spark version:** [3.5.7-v7](./spark.md)
-      **Iceberg version:** 1.9.0-iomete-5
+      **Iceberg version:** 1.9.0-iomete-4
 
 </Release>
 
@@ -623,7 +702,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
       **Spark version:** [3.5.7-v6](./spark.md)
-      **Iceberg version:** 1.9.0-iomete-5
+      **Iceberg version:** 1.9.0-iomete-4
 
 </Release>
 
@@ -671,7 +750,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
       **Spark version:** [3.5.7-v4](./spark.md), [3.5.5-v16](./spark.md)
-      **Iceberg version:** 1.9.0-iomete-5
+      **Iceberg version:** 1.9.0-iomete-4 (Spark 3.5.7-v4), 1.9.3-iomete (Spark 3.5.5-v16)
 
 </Release>
 
