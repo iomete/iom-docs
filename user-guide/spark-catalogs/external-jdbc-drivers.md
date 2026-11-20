@@ -11,17 +11,18 @@ A [JDBC catalog](./external-jdbc.md), a `USING jdbc` table and `spark.read.forma
 
 ## Bundled Drivers
 
-These drivers are bundled in the Spark images named in the table, so you can use them without adding anything. A bundled driver is available only where the image that runs there includes it, so check the image of each place that connects: your compute clusters, and the shared schema server, which runs its own image (see [Checking the Schema Server Image](#checking-the-schema-server-image)).
+These drivers are bundled in the Spark images, so you can use them without adding anything. The shared schema server runs its own image, which can differ from your compute clusters' image (see [Adding the Jar to the Shared Schema Server](#adding-the-jar-to-the-shared-schema-server)).
 
-| Database | Driver artifact | Spark 4.2.1-v1 | Spark 3.5.9-v2 |
-| -- | -- | -- | -- |
-| PostgreSQL | `org.postgresql:postgresql` | Yes | Yes |
-| MySQL | `com.mysql:mysql-connector-j` | Yes | Yes |
-| Microsoft SQL Server | `com.microsoft.sqlserver:mssql-jdbc` | Yes | Yes |
-| Amazon Redshift | `com.amazon.redshift:redshift-jdbc42` | Yes | No |
-| Snowflake | `net.snowflake:snowflake-jdbc` | Yes | Yes |
+| Database | Driver artifact | Included in |
+| -- | -- | -- |
+| PostgreSQL | `org.postgresql:postgresql` | 3.5.7 and later |
+| MySQL | `com.mysql:mysql-connector-j` | 3.5.7 and later |
+| Microsoft SQL Server | `com.microsoft.sqlserver:mssql-jdbc` | 3.5.7 and later |
+| Snowflake | `net.snowflake:snowflake-jdbc` | 3.5.7 and later |
+| Amazon Redshift | `com.amazon.redshift:redshift-jdbc42` | 4.2.1-v1 and later |
+| ClickHouse | `com.clickhouse:clickhouse-jdbc` | Removed in 4.2.1-v1 and 3.5.9-v2 |
 
-The table applies from 4.2.1-v1 on the 4.2.1 line and from 3.5.9-v2 on the 3.5.9 line. Other images, including later 4.2.0, 4.1 and 3.5.7 releases, still bundle the ClickHouse JDBC driver 0.6.4 and the ClickHouse Spark connector. See [ClickHouse](#clickhouse) if you used either.
+The ClickHouse driver 0.6.4 was removed from these images because of compatibility issues with newer ClickHouse servers. Other images, including later 4.2.0, 4.1 and 3.5.7 releases, still bundle it. See [ClickHouse](#clickhouse) to add a newer driver.
 
 A bundled driver loads before any jar you add with `spark.jars`, so adding your own copy of a bundled driver with the same class name has no effect. You can't switch a bundled driver to another version this way.
 
@@ -44,22 +45,9 @@ Upload the jar to the bucket, for example to `s3a://<lakehouse-bucket>/jars/<dri
 
 Use a path only administrators can write to. A jar on `spark.jars` runs in every Spark application that loads it, including the shared schema server.
 
-### Checking the Schema Server Image
-
-The shared schema server runs the `spark-py` image set in the Helm value `docker.defaultSparkPyVersion`, or `docker.defaultSparkVersion` when that is empty (`4.1.3-v3` by default in IOMETE 4.0.3). It keeps the drivers bundled in that image, whatever image your compute clusters run. If that image still bundles a driver you're replacing, such as ClickHouse 0.6.4 on `4.1.3-v3`, the bundled copy loads instead of your jar.
-
-In that case, move the schema server to an image that doesn't bundle the driver. Add this to the values file you edit in [Adding the Jar to the Shared Schema Server](#adding-the-jar-to-the-shared-schema-server), and the same `helm upgrade` applies both changes:
-
-```yaml title="values.yaml"
-docker:
-  defaultSparkPyVersion: 4.2.1-v1
-```
-
-Use a Spark 4 image here even if your compute clusters run 3.5.9-v2, because the table details fixes in IOMETE 4.0.2 and later need the schema server on `4.1.3-v3` or later (see [Schema Server Image](../sql-editor/database-explorer-api-migration.md#schema-server-image)). `docker.defaultSparkPyVersion` changes only the schema server image, not the images your compute clusters use.
-
 ### Adding the Jar to a Compute Cluster
 
-Keep all extra jars in one place. A compute cluster's `spark.jars` replaces a `spark.jars` set in Global Spark Settings, and a compute cluster's **Jar file locations** or a job's **JAR files** override `spark.jars`. If you already list jars in one of those, add the driver there instead.
+If the compute cluster already loads jars through **Jar file locations**, or through `spark.jars` in Global Spark Settings, add the driver to that list instead. A second list replaces the first rather than adding to it.
 
 Repeat these steps on every compute cluster that queries the database:
 
@@ -89,7 +77,16 @@ The shared schema server is a Spark application that the data plane Helm chart d
 
    Helm merges this key into the chart's default `sparkConf`, so you list only the keys you add. If your values file already sets `spark.jars` here, append the new path with a comma.
 
-2. Apply the change with the chart version you already run. `helm list -n iomete-system` shows it in the **CHART** column, for example `iomete-data-plane-enterprise-4.0.3`. Pass every values file and `--set` flag from your original install as well, because Helm resets any value you leave out:
+2. Check the schema server image. It's set in `docker.defaultSparkPyVersion`, or `docker.defaultSparkVersion` when that is empty, and doesn't follow your compute clusters. If that image bundles the driver you're adding, such as ClickHouse 0.6.4, the bundled copy loads instead of your jar. In that case, set an image that doesn't bundle it in the same values file:
+
+   ```yaml title="values.yaml"
+   docker:
+     defaultSparkPyVersion: 4.2.1-v1
+   ```
+
+   Use a Spark 4 image even if your compute clusters run Spark 3.5, because the schema server needs [`4.1.3-v3` or later](../sql-editor/database-explorer-api-migration.md#schema-server-image). This value changes only the schema server image.
+
+3. Apply the change with the chart version you already run. `helm list -n iomete-system` shows it in the **CHART** column, for example `iomete-data-plane-enterprise-4.0.3`. Pass every values file and `--set` flag from your original install as well, because Helm resets any value you leave out:
 
    ```shell showLineNumbers
    export IOMETE_VERSION="<chart-version>"   # the version you installed
@@ -150,10 +147,10 @@ If you can't change the properties right away, add `ignore_unknown_config_key=tr
 
 If you already have a ClickHouse catalog that uses the bundled driver 0.6.4, upgrade it in this order:
 
-1. Add the driver jar to the [shared schema server](#adding-the-jar-to-the-shared-schema-server) and to [every compute cluster](#adding-the-jar-to-a-compute-cluster) that queries ClickHouse, and make sure the [schema server image](#checking-the-schema-server-image) doesn't bundle 0.6.4.
+1. Add the driver jar to the [shared schema server](#adding-the-jar-to-the-shared-schema-server), including its image check, and to [every compute cluster](#adding-the-jar-to-a-compute-cluster) that queries ClickHouse.
 2. Change the catalog's properties as described in [Connection Properties for Driver 0.11.2](#connection-properties-for-driver-0112) before you switch your compute clusters to the new images.
 3. Switch your compute clusters to 4.2.1-v1 or 3.5.9-v2 and restart them.
-4. Open the catalog in the Database Browser or run a query against it. Don't verify with **Test connection** on the saved catalog's edit form: it currently fails with an authentication error on saved catalogs, even when the setup is right.
+4. Verify with **Test connection**, the Database Browser or a query against the catalog.
 
 A platform upgrade whose chart sets `docker.defaultSparkVersion` to 4.2.1-v1 or later moves the shared schema server to that image, even if you don't change your compute clusters. Do steps 1 and 2 in the same `helm upgrade`.
 
