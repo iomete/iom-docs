@@ -135,7 +135,7 @@ With these set, Helm creates the resources during installation. It keeps the ser
 
 If another Helm release or an administrator already manages the Spark Operator CRDs, leave `crds.create` set to `false`. Helm 4 fails the installation when an existing CRD differs from the one in the chart.
 
-Your Helm user needs permission to create CRDs, a `MutatingWebhookConfiguration`, a `ValidatingAdmissionPolicy`, a `ValidatingAdmissionPolicyBinding`, service accounts, Roles, RoleBindings and Secrets. If the installation fails with a `forbidden` error, set the failing switch back to `false` and use option 2 for that resource. For the admission policy, the switch is `serviceAccount.sparkPodPolicy`.
+Your Helm user needs permission to create CRDs, a `MutatingWebhookConfiguration`, a `ValidatingAdmissionPolicy`, a `ValidatingAdmissionPolicyBinding`, service accounts, Roles, RoleBindings and Secrets. If the installation fails with a `forbidden` error, set the failing switch back to `false` and use option 2 for that resource. For the admission policy, the switch is `serviceAccount.sparkPodPolicy`: have an administrator [apply the policy](#applying-the-admission-policy-yourself) before you install again, because Helm still creates the Spark identities without it.
 
 :::note Upgrading an existing installation
 If you created these resources by hand in an earlier installation, the chart leaves them as they are. You don't need to change anything.
@@ -189,11 +189,12 @@ A Kubernetes administrator generates the resources from the chart and applies th
    kubectl apply -f spark-operator-webhook.yaml
    ```
 
-4. Keep all three switches off in `example-data-plane-values.yaml`, so Helm doesn't try to create them:
+4. Keep all three switches and the admission policy off in `example-data-plane-values.yaml`, so Helm doesn't try to create them:
 
    ```yaml title="example-data-plane-values.yaml"
    serviceAccount:
      create: false
+     sparkPodPolicy: false
    crds:
      create: false
    webhook:
@@ -213,15 +214,35 @@ On Kubernetes 1.32 or later, Spark jobs and computes run as two restricted ident
 - `spark-driver-service-account` can only manage its own executor pods. An admission policy enforces this.
 - `spark-executor-service-account` has no Kubernetes access.
 
-A namespace switches to them once `spark-driver-service-account` exists there. Until then, Spark keeps running as `lakehouse-service-account`.
+A namespace switches to them once both accounts exist there. New runs pick them up within about a minute, scheduled jobs within about 10 minutes, and running computes when they restart. Until then, Spark keeps running as `lakehouse-service-account`.
 
 | Setting | Default | What it does |
 | -- | -- | -- |
 | `serviceAccount.restrictSparkJobs` | `auto` | `auto` creates the identities unless `serviceAccount.annotations` is set. `true` always creates them, `false` never does. |
 | `serviceAccount.sparkPodPolicy` | `true` | Creates the admission policy. Set it to `false` only when an administrator applies the policy. |
-| `serviceAccount.sparkEventsReader` | `false` | Lets Spark jobs read events in every IOMETE namespace. Only the Kubernetes event collector job needs it. |
+| `serviceAccount.sparkEventsReader` | `true` | Lets Spark jobs read events in every IOMETE namespace. Only the Kubernetes event collector job needs it, so set it to `false` if you don't run that job. |
 
 With workload identity (EKS, GKE or Azure), have the cloud role trust both accounts in every IOMETE namespace, then set `serviceAccount.restrictSparkJobs: true`. Otherwise Spark jobs fail with a 403 on storage.
+
+##### Applying the Admission Policy Yourself
+
+When Helm can't create cluster-wide admission policies, set `serviceAccount.sparkPodPolicy: false` and have an administrator apply the policy before installing, so Spark drivers are never unrestricted. Run it with the same values file you install with:
+
+```shell
+helm template data-plane iomete/iomete-data-plane-enterprise \
+  --namespace iomete-system \
+  --version "$IOMETE_VERSION" \
+  --values example-data-plane-values.yaml \
+  --set serviceAccount.sparkPodPolicy=true \
+  --set serviceAccount.restrictSparkJobs=true \
+  --kube-version "$(kubectl version -o yaml | yq .serverVersion.gitVersion)" \
+  | yq 'select(.kind == "ValidatingAdmissionPolicy*")' \
+  > spark-pod-policy.yaml
+
+kubectl apply -f spark-pod-policy.yaml
+```
+
+Repeat it after you add a namespace or change `namespaces`.
 
 #### Upgrading the CRDs
 
