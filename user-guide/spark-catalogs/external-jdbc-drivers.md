@@ -153,6 +153,8 @@ If you already have a ClickHouse catalog that uses the bundled driver 0.6.4, upg
 3. Switch your compute clusters to 4.2.1-v1 or 3.5.9-v2 and restart them.
 4. Open the catalog in the Database Browser or run a query against it. Don't verify with **Test connection** on the saved catalog's edit form: it currently fails with an authentication error on saved catalogs, even when the setup is right.
 
+A platform upgrade whose chart sets `docker.defaultSparkVersion` to 4.2.1-v1 or later moves the shared schema server to that image, even if you don't change your compute clusters. Do steps 1 and 2 in the same `helm upgrade`.
+
 ### Driver 0.6.4
 
 Every image other than 4.2.1-v1 or later on the 4.2.1 line and 3.5.9-v2 or later on the 3.5.9 line, including later 4.2.0, 4.1 and 3.5.7 releases, bundles driver 0.6.4, which loads before any newer jar you add. The same applies if you add 0.6.4 yourself through `spark.jars`. With this driver, set these catalog properties:
