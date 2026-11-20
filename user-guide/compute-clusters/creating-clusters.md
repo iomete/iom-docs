@@ -78,6 +78,8 @@ Pull in external JARs, Python packages, and Maven artifacts at Spark startup.
 - **PY file locations**: Python files (`.py`, `.egg`, or `.zip`) for PySpark (for example, `local:///app/package.egg`).
 - **Maven packages**: Maven coordinates resolved at startup (for example, `org.apache.spark:spark-avro_2.13:3.5.0`).
 
+To add a JDBC driver for an external catalog, see [JDBC Drivers](../spark-catalogs/external-jdbc-drivers.md).
+
 <Img src="/img/user-guide/compute-clusters/create-dependencies.png" alt="Create compute cluster -- Dependencies tab" maxWidth="700px" />
 
 ## Docker Settings Tab
