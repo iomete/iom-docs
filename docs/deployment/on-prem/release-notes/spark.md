@@ -3,8 +3,8 @@ title: IOMETE Spark Release Notes
 sidebar_label: Spark
 description: Release notes for IOMETE Spark images. Learn about new features, improvements, security updates, and bug fixes in each Spark image release.
 last_update:
-  date: 11/09/2026
-  author: Jabrail Gadgiev
+  date: 11/20/2026
+  author: Shafi Rasulov
 ---
 
 import Mailer from '@site/src/components/Mailer';
@@ -32,6 +32,58 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
     `az acr repository show-tags -n iomete --repository iomete/spark --detail`.
     Never an rc push or the tagged commit date; both predate availability.
 */}
+
+<Release name="Spark" version="4.2.1-v1" date="November 20, 2026">
+  <ReleaseDescription>
+    The Spark 4 line moves to Spark 4.2.1, with most known security vulnerabilities in bundled libraries fixed. It replaces 4.1.3.
+  </ReleaseDescription>
+
+  <BreakingChanges>
+    - **ClickHouse Spark Connector No Longer Bundled**: The connector bundles its own Scala library, which could crash the driver. The ClickHouse JDBC driver is still included, so JDBC access to ClickHouse works.
+    - **Lower Arrow Flight Session Limit**: The default per-user limit (`spark.arrow.flight.auth.max.sessions.per.user`) is lowered from 10000 to 1000. At the limit, the user's least recently used idle session is closed to admit a new connection.
+  </BreakingChanges>
+
+  <NewFeatures>
+    - **Spark 4.2.1**: Built on Apache Spark 4.2.1. Review the Apache Spark 4.2 release notes for upstream behavior changes.
+    - **Comet 1.2.0**: Upgraded [Comet](/blog/apache-datafusion-comet-spark-acceleration) from 1.0.
+    - **Iceberg 1.12**: Upgraded from 1.11. Existing tables and views keep working.
+  </NewFeatures>
+
+  <Improvements>
+    - **AWS SDK 2.57**: Upgraded from 2.29. Jobs that bundle their own AWS SDK should move to a compatible version.
+    - **GCS Connector 4.0**: Upgraded from 2.2.
+    - **Compressed Arrow Fetch Results**: Large query results over Arrow Fetch are stored ZSTD-compressed, so they use less storage and load faster. Clients still receive plain Arrow data. Set `spark.iomete.arrow.flight.sql.arrowFetch.compression.codec=none` to turn it off.
+    - **Security Updates**: Bundled dependencies are updated, fixing most known security vulnerabilities in the image.
+  </Improvements>
+</Release>
+
+<Release name="Spark" version="3.5.9-v1" date="November 20, 2026">
+  <ReleaseDescription>
+    The Spark 3 line moves to Spark 3.5.9, with most known security vulnerabilities in bundled libraries fixed. It replaces 3.5.7 and brings the data-security, Database Browser and Arrow Flight fixes from the Spark 4 line.
+  </ReleaseDescription>
+
+  <BreakingChanges>
+    - **Hive Metastore Required for Hive Tables**: The built-in local metastore has been removed. Jobs that use the IOMETE catalog or a remote Hive metastore are unaffected.
+    - **Snowflake Connector 3.x**: Its optional Parquet-based write mode is not available.
+    - **JSON Parse Errors No Longer Show the Input Text**: This keeps data out of error messages and logs.
+    - **Lower Arrow Flight Session Limit**: The default per-user limit (`spark.arrow.flight.auth.max.sessions.per.user`) is lowered from 10000 to 1000. At the limit, the user's least recently used idle session is closed to admit a new connection.
+  </BreakingChanges>
+
+  <NewFeatures>
+    - **Spark 3.5.9**: Built on Apache Spark 3.5.9.
+    - **Iceberg 1.12**: Upgraded from 1.9. Existing tables and views keep working.
+  </NewFeatures>
+
+  <Improvements>
+    - **AWS SDK 2.57**: Upgraded from 2.24. Jobs that bundle their own AWS SDK should move to a compatible version.
+    - **SHOW VIEWS on JDBC Catalogs**: `SHOW VIEWS` now works on JDBC catalogs. Data-security policies apply as they do to `SHOW TABLES`. The IOMETE Spark extension that provides this is enabled on compute clusters by default; set `spark.iomete.extension.enabled=false` to opt out.
+    - **Oracle Boolean Pushdown by Default**: The IOMETE Spark plugin that fixes boolean-literal filter pushdown to Oracle versions before 23c now loads on compute clusters by default. Set `spark.iomete.plugin.enabled=false` to opt out. Spark jobs with their own entrypoint are unaffected.
+    - **Database Explorer Details**: Column comments, exact column types and `DESCRIBE` details for tables and views appear in the V2 [Database Explorer APIs](/user-guide/sql-editor/database-explorer-api-migration) from IOMETE 4.0.2, when the shared schema server runs this image (`docker.defaultSparkPyVersion`).
+    - **Arrow Flight Streaming to Slow Clients**: A client that reads slowly, such as a Tableau extract, no longer makes the driver run out of memory. Cancelling the query also ends its transfer.
+    - **Flight SQL Column Sizes**: Column metadata now reports standard column sizes for numbers, dates and timestamps.
+    - **Security Updates**: Bundled dependencies are updated, fixing most known security vulnerabilities in the image.
+  </Improvements>
+</Release>
 
 <Release name="Spark" version="4.1.3-v3" date="November 9, 2026">
   <ReleaseDescription>
