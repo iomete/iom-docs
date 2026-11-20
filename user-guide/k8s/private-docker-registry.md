@@ -3,7 +3,7 @@ title: Private Docker Registry Authentication
 sidebar_label: Docker Registry Authentication
 description: Providing access to private Docker registries in IOMETE platform using Kubernetes. Learn how to add a new private Docker registry authentication secret and use it in your jobs.
 last_update:
-  date: 11/18/2026
+  date: 11/20/2026
   author: Maksym Kryvchun
 ---
 
@@ -70,7 +70,7 @@ kubectl patch serviceaccount \
   -p '{"imagePullSecrets": [{"name": "iomete-image-pull-secret"}]}'
 ```
 
-Run the same command for every Spark namespace, replacing `iomete-system` with the namespace name. If you created `spark-driver-service-account` and `spark-executor-service-account`, patch them the same way.
+Run the same command for every Spark namespace, replacing `iomete-system` with the namespace name. Patch `spark-driver-service-account` and `spark-executor-service-account` too, if they exist.
 
 :::note
 You can use a different name for the secret. Use the same name in `values.yaml` or in the patch command.

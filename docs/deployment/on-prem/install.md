@@ -3,7 +3,7 @@ title: On-Premises Deployment Guide
 sidebar_label: Install
 description:  Detailed instructions for deploying IOMETE on-premises within a Kubernetes environment.
 last_update:
-  date: 11/18/2026
+  date: 11/20/2026
   author: Maksym Kryvchun
 ---
 
@@ -106,7 +106,7 @@ This is a sample file. Edit it for your setup before you continue. For every ava
 IOMETE needs three sets of Kubernetes resources before its pods can start:
 
 - The `lakehouse-service-account` service account, with its Role and RoleBinding.
-- The restricted Spark identities `spark-driver-service-account` and `spark-executor-service-account`, with their Roles and RoleBindings. See [Restricted Spark Identities](#restricted-spark-identities).
+- The [restricted Spark identities](#restricted-spark-identities), with their Roles, RoleBindings and admission policy.
 - The Spark Operator CRDs.
 - The Spark Operator webhook and its certificate.
 
@@ -135,7 +135,7 @@ With these set, Helm creates the resources during installation. It keeps the ser
 
 If another Helm release or an administrator already manages the Spark Operator CRDs, leave `crds.create` set to `false`. Helm 4 fails the installation when an existing CRD differs from the one in the chart.
 
-Your Helm user needs permission to create CRDs, a `MutatingWebhookConfiguration`, a `ValidatingAdmissionPolicy` and its binding, service accounts, Roles, RoleBindings and Secrets. If the installation fails with a `forbidden` error, set the failing switch back to `false` and use option 2 for that resource. For the admission policy, that switch is `serviceAccount.sparkPodPolicy`.
+Your Helm user needs permission to create CRDs, a `MutatingWebhookConfiguration`, a `ValidatingAdmissionPolicy`, service accounts, Roles, RoleBindings and Secrets. If the installation fails with a `forbidden` error, set the failing switch back to `false` and use option 2 for that resource. For the admission policy, the switch is `serviceAccount.sparkPodPolicy`.
 
 :::note Upgrading an existing installation
 If you created these resources by hand in an earlier installation, the chart leaves them as they are. You don't need to change anything.
@@ -147,7 +147,7 @@ Turning on `crds.create` for an existing installation creates nothing, because H
 
 A Kubernetes administrator generates the resources from the chart and applies them. The commands need [`yq`](https://github.com/mikefarah/yq) v4 and must run with the same values file you install with.
 
-1. Create the service accounts, their Roles and RoleBindings, and the Spark admission policy:
+1. Create the service accounts, their Roles and RoleBindings, and the Spark admission policy. `--kube-version` must match your cluster, because the chart leaves out the Spark identities below Kubernetes 1.32:
 
    ```shell
    helm template data-plane iomete/iomete-data-plane-enterprise \
@@ -155,18 +155,14 @@ A Kubernetes administrator generates the resources from the chart and applies th
      --version "$IOMETE_VERSION" \
      --values example-data-plane-values.yaml \
      --set serviceAccount.create=true \
-     --api-versions admissionregistration.k8s.io/v1/ValidatingAdmissionPolicy \
-     | yq 'select(.metadata.name == "lakehouse-service-account" or .metadata.name == "iomete-lakehouse-role" or .metadata.name == "iomete-lakehouse-role-binding"
-                 or .metadata.name == "spark-driver-service-account" or .metadata.name == "spark-executor-service-account"
-                 or .metadata.name == "iomete-spark-driver-role*" or .metadata.name == "iomete-spark-events-reader-role*"
-                 or .kind == "ValidatingAdmissionPolicy*")
+     --kube-version "$(kubectl version -o yaml | yq .serverVersion.gitVersion)" \
+     | yq 'select(.metadata.name == "lakehouse-service-account" or .metadata.name == "iomete-lakehouse-role*"
+                 or .metadata.name == "spark-*-service-account" or .metadata.name == "iomete-spark-*")
            | del(.metadata.annotations."helm.sh/hook", .metadata.annotations."helm.sh/hook-weight")' \
      > lakehouse-service-account.yaml
 
    kubectl apply -f lakehouse-service-account.yaml
    ```
-
-   On Kubernetes older than 1.30, drop the `--api-versions` line. The cluster can't run the admission policy, so the file leaves out the Spark identities and Spark keeps running as `lakehouse-service-account`.
 
 2. Create the Spark Operator CRDs. The chart ships them as plain files, so download the chart and apply them from it. The CRD files are large, so they must be applied with `--server-side`:
 
@@ -211,22 +207,20 @@ You can combine the two options. For example, let Helm create the service accoun
 
 #### Restricted Spark Identities
 
-Spark jobs and computes run as two restricted identities instead of `lakehouse-service-account`:
+On Kubernetes 1.32 or later, Spark jobs and computes run as two restricted identities instead of `lakehouse-service-account`:
 
-- `spark-driver-service-account` can run its own executor pods. It can't read secrets through the Kubernetes API or touch other workloads.
-- `spark-executor-service-account` gets no Kubernetes access token at all.
+- `spark-driver-service-account` can only manage its own executor pods. An admission policy enforces this.
+- `spark-executor-service-account` has no Kubernetes access.
 
-The driver's Role covers every pod in its namespace. The admission policy below narrows that to the executor pods the driver owns, and refuses privileged pods and pods in the host network or process namespace.
-
-IOMETE switches a namespace to them once both exist there. Until then, Spark keeps running as `lakehouse-service-account`, so nothing breaks while you roll them out. The chart creates them only when `serviceAccount.create` is `true`. With option 2, the administrator creates them in step 1.
+A namespace switches to them once `spark-driver-service-account` exists there. Until then, Spark keeps running as `lakehouse-service-account`.
 
 | Setting | Default | What it does |
 | -- | -- | -- |
-| `serviceAccount.restrictSparkJobs` | `auto` | `auto` creates the identities unless `serviceAccount.annotations` is set. `true` always creates them, `false` never does. Any other value fails the install. |
-| `serviceAccount.sparkPodPolicy` | `true` | Adds an admission policy that stops a driver from touching pods other than its own executors. Needs Kubernetes 1.30 or later and permission to create cluster-wide admission policies. Without it, a driver could start pods as `lakehouse-service-account`, so the chart skips the identities on older clusters, and `restrictSparkJobs: true` fails there. Set it to `false` only when an administrator applies the policy. |
-| `serviceAccount.sparkEventsReader` | `false` | Lets Spark jobs read events in every IOMETE namespace. Turn it on only if you run the Kubernetes event collector job. |
+| `serviceAccount.restrictSparkJobs` | `auto` | `auto` creates the identities unless `serviceAccount.annotations` is set. `true` always creates them, `false` never does. |
+| `serviceAccount.sparkPodPolicy` | `true` | Creates the admission policy. Set it to `false` only when an administrator applies the policy. |
+| `serviceAccount.sparkEventsReader` | `false` | Lets Spark jobs read events in every IOMETE namespace. Only the Kubernetes event collector job needs it. |
 
-Using workload identity (EKS, GKE or Azure)? Have the cloud role trust `spark-driver-service-account` and `spark-executor-service-account` in every IOMETE namespace, then set `serviceAccount.restrictSparkJobs: true`. Skip the trust step and Spark jobs fail with a 403 on storage.
+With workload identity (EKS, GKE or Azure), have the cloud role trust both accounts in every IOMETE namespace, then set `serviceAccount.restrictSparkJobs: true`. Otherwise Spark jobs fail with a 403 on storage.
 
 #### Upgrading the CRDs
 
