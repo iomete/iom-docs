@@ -24,7 +24,7 @@ These drivers are bundled in the Spark images, so you can use them without addin
 | Oracle | `ojdbc11` | 3.5.7 and later |
 | Snowflake | `net.snowflake:snowflake-jdbc` | 3.5.7 and later |
 | Amazon Redshift | `com.amazon.redshift:redshift-jdbc42` | 3.5.7 and later |
-| ClickHouse | `com.clickhouse:clickhouse-jdbc` | Removed in 4.2.1-v1 and 3.5.9-v2 |
+| ClickHouse | `com.clickhouse:clickhouse-jdbc` | Removed in 4.2.1-v2 and 3.5.9-v2 |
 
 On 3.5 images, you can read SQL Server through its Spark connector with `USING com.microsoft.sqlserver.jdbc.spark`. Spark 4 images don't include the connector, so use `USING jdbc` there.
 
@@ -117,7 +117,7 @@ The shared schema server is a Spark application that the data plane Helm chart d
 
    ```yaml title="values.yaml"
    docker:
-     defaultSparkPyVersion: 4.2.1-v1
+     defaultSparkPyVersion: 4.2.1-v2
    ```
 
    Use a Spark 4 image even if your compute clusters run Spark 3.5, because the schema server needs [`4.1.3-v3` or later](../sql-editor/database-explorer-api-migration.md#schema-server-image). This value changes only the schema server image.
@@ -142,7 +142,7 @@ Create the catalog as described in [JDBC Catalog Integration](./external-jdbc.md
 
 ## ClickHouse
 
-From 4.2.1-v1 on the 4.2.1 line and from 3.5.9-v2 on the 3.5.9 line, the Spark images include no ClickHouse driver. Add the driver as described in [Adding a Driver That Isn't Bundled](#adding-a-driver-that-isnt-bundled), with these values:
+From 4.2.1-v2 on the 4.2.1 line and from 3.5.9-v2 on the 3.5.9 line, the Spark images include no ClickHouse driver. Add the driver as described in [Adding a Driver That Isn't Bundled](#adding-a-driver-that-isnt-bundled), with these values:
 
 | Setting | Value |
 | -- | -- |
@@ -159,7 +159,9 @@ Download the jar from Maven Central, for example:
 wget https://repo1.maven.org/maven2/com/clickhouse/clickhouse-jdbc/0.11.2/clickhouse-jdbc-0.11.2-all.jar
 ```
 
-Spark 4.2.1-v1 and 3.5.9-v2 don't include the ClickHouse Spark connector either, so a catalog that uses `com.clickhouse.spark.ClickHouseCatalog` fails with `Cannot find catalog plugin class`. A JDBC catalog with the driver above lists and queries ClickHouse databases and tables.
+Spark 4.2.1-v2 and 3.5.9-v2 don't include the ClickHouse Spark connector either, so a catalog that uses `com.clickhouse.spark.ClickHouseCatalog` fails with `Cannot find catalog plugin class`. A JDBC catalog with the driver above lists and queries ClickHouse databases and tables.
+
+If you need the connector, add the `clickhouse-spark-runtime` artifact built for the image's Spark and Scala version, for example `clickhouse-spark-runtime-4.2_2.13` on 4.2.1 or `clickhouse-spark-runtime-3.5_2.12` on 3.5.9. The connector includes its own copy of the ClickHouse client, so when you also add the JDBC driver, use the same release line for both, such as connector 0.11.0 with driver 0.11.2.
 
 ### Connection Properties for Driver 0.11.2
 
@@ -187,14 +189,14 @@ If you already have a ClickHouse catalog that uses the bundled driver 0.6.4, upg
 
 1. Add the driver jar to the [shared schema server](#adding-the-jar-to-the-shared-schema-server), including its image check, and to [every compute cluster](#adding-the-jar-to-a-compute-cluster) that queries ClickHouse.
 2. Change the catalog's properties as described in [Connection Properties for Driver 0.11.2](#connection-properties-for-driver-0112) before you switch your compute clusters to the new images.
-3. Switch your compute clusters to 4.2.1-v1 or 3.5.9-v2 and restart them.
+3. Switch your compute clusters to 4.2.1-v2 or 3.5.9-v2 and restart them.
 4. Verify with **Test connection**, the Database Browser or a query against the catalog.
 
-A platform upgrade whose chart sets `docker.defaultSparkVersion` to 4.2.1-v1 or later moves the shared schema server to that image, even if you don't change your compute clusters. Do steps 1 and 2 in the same `helm upgrade`.
+A platform upgrade whose chart sets `docker.defaultSparkVersion` to 4.2.1-v2 or later moves the shared schema server to that image, even if you don't change your compute clusters. Do steps 1 and 2 in the same `helm upgrade`.
 
 ### Driver 0.6.4
 
-Every image other than 4.2.1-v1 or later on the 4.2.1 line and 3.5.9-v2 or later on the 3.5.9 line, including later 4.2.0, 4.1 and 3.5.7 releases, bundles driver 0.6.4, which loads before any newer jar you add. The same applies if you add 0.6.4 yourself through `spark.jars`. With this driver, set these catalog properties:
+Every image other than 4.2.1-v2 or later on the 4.2.1 line and 3.5.9-v2 or later on the 3.5.9 line, including later 4.2.0, 4.1 and 3.5.7 releases, bundles driver 0.6.4, which loads before any newer jar you add. The same applies if you add 0.6.4 yourself through `spark.jars`. With this driver, set these catalog properties:
 
 - `compress=0` if your ClickHouse server runs version 25.10 or later (tested up to ClickHouse 26.6). Without it, reads fail.
 - `databaseTerm=schema`, so the catalog lists ClickHouse databases as namespaces. Without it, the list is empty.
@@ -213,6 +215,6 @@ This error names Spark's JDBC catalog class, but that class is always present. T
 
 - **Test connection or the Database Browser**: add the jar to the [shared schema server](#adding-the-jar-to-the-shared-schema-server).
 - **A query on a compute cluster**: add the jar to [that compute cluster](#adding-the-jar-to-a-compute-cluster) and restart it.
-- **Only when the catalog is the SQL editor's selected catalog, or a Thrift/JDBC client's default database**, with the jar already on the compute cluster: on images other than 4.2.1-v1 or later and 3.5.9-v2 or later, keep `spark_catalog` selected and use `<catalog>.<database>.<table>` names, or connect through Arrow Flight, which [SQL Editor V2](../feature-flags/sql-editor-v2.md) uses.
+- **Only when the catalog is the SQL editor's selected catalog, or a Thrift/JDBC client's default database**, with the jar already on the compute cluster: on images other than 4.2.1-v2 or later and 3.5.9-v2 or later, keep `spark_catalog` selected and use `<catalog>.<database>.<table>` names, or connect through Arrow Flight, which [SQL Editor V2](../feature-flags/sql-editor-v2.md) uses.
 
 `spark.read.format("jdbc")` reports the same cause directly as `java.lang.ClassNotFoundException: <driver class>`.
