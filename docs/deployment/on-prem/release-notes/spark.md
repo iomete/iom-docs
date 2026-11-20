@@ -65,7 +65,6 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
   <BreakingChanges>
     - **Hive Metastore Required for Hive Tables**: The built-in local metastore has been removed. Jobs that use the IOMETE catalog or a remote Hive metastore are unaffected.
     - **Snowflake Connector 3.x**: Its optional Parquet-based write mode is not available.
-    - **JSON Parse Errors No Longer Show the Input Text**: This keeps data out of error messages and logs.
     - **Lower Arrow Flight Session Limit**: The default per-user limit (`spark.arrow.flight.auth.max.sessions.per.user`) is lowered from 10000 to 1000. At the limit, the user's least recently used idle session is closed to admit a new connection.
   </BreakingChanges>
 
@@ -76,11 +75,12 @@ IOMETE Spark images ship on their own cadence, independent of platform releases.
 
   <Improvements>
     - **AWS SDK 2.57**: Upgraded from 2.24. Jobs that bundle their own AWS SDK should move to a compatible version.
-    - **SHOW VIEWS on JDBC Catalogs**: `SHOW VIEWS` now works on JDBC catalogs. Data-security policies apply as they do to `SHOW TABLES`. The IOMETE Spark extension that provides this is enabled on compute clusters by default; set `spark.iomete.extension.enabled=false` to opt out.
+    - **SHOW VIEWS on JDBC Catalogs**: `SHOW VIEWS` now works on JDBC catalogs. Data-security policies apply as they do to `SHOW TABLES`. Compute clusters on this image enable the IOMETE Spark extension that provides this by default; set `spark.iomete.extension.enabled=false` to opt out. Spark jobs with their own entrypoint are unaffected.
     - **Oracle Boolean Pushdown by Default**: The IOMETE Spark plugin that fixes boolean-literal filter pushdown to Oracle versions before 23c now loads on compute clusters by default. Set `spark.iomete.plugin.enabled=false` to opt out. Spark jobs with their own entrypoint are unaffected.
     - **Database Explorer Details**: Column comments, exact column types and `DESCRIBE` details for tables and views appear in the V2 [Database Explorer APIs](/user-guide/sql-editor/database-explorer-api-migration) from IOMETE 4.0.2, when the shared schema server runs this image (`docker.defaultSparkPyVersion`).
     - **Arrow Flight Streaming to Slow Clients**: A client that reads slowly, such as a Tableau extract, no longer makes the driver run out of memory. Cancelling the query also ends its transfer.
     - **Flight SQL Column Sizes**: Column metadata now reports standard column sizes for numbers, dates and timestamps.
+    - **JSON Parse Errors**: Error messages from JSON parsing no longer include the parsed text, so data stays out of error messages and logs. The line and column of the error are still shown.
     - **Security Updates**: Bundled dependencies are updated, fixing most known security vulnerabilities in the image.
   </Improvements>
 </Release>
