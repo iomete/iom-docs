@@ -181,18 +181,23 @@ Check the catalog's additional properties and the query parameters in its URL. C
 | `dataTransferTimeout` | Remove it. |
 | `compress` | Accepted. `compress=0` is no longer needed, but you can leave it. |
 
-If you can't change the properties right away, add `ignore_unknown_config_key=true` and the driver skips the properties it doesn't recognize. Replace `sslmode` anyway: the driver skips it too, and then verifies the server certificate instead of trusting it.
+If you can't change the properties right away, add `ignore_unknown_config_key=true` and the driver skips the properties it doesn't recognize. Add `ssl_mode` anyway: the driver skips `sslmode` too, and then verifies the server certificate instead of trusting it.
 
 ### Upgrading an Existing ClickHouse Catalog
 
-If you already have a ClickHouse catalog that uses the bundled driver 0.6.4, upgrade it in this order:
+If you already have a ClickHouse catalog that uses the bundled driver 0.6.4, upgrade it in this order. The first step makes the catalog work with both drivers, so it keeps working while the shared schema server and your compute clusters move to the new driver at different times.
 
-1. Add the driver jar to the [shared schema server](#adding-the-jar-to-the-shared-schema-server), including its image check, and to [every compute cluster](#adding-the-jar-to-a-compute-cluster) that queries ClickHouse.
-2. Change the catalog's properties as described in [Connection Properties for Driver 0.11.2](#connection-properties-for-driver-0112) before you switch your compute clusters to the new images.
+1. Before you upgrade, add these to the catalog's additional properties and keep the existing ones:
+   - `ignore_unknown_config_key` with value `true`, so driver 0.11.2 skips `databaseTerm`, `dataTransferTimeout` and `sslmode`.
+   - `ssl_mode` with value `trust`, if the catalog uses `sslmode=NONE`.
+
+   Driver 0.6.4 ignores both properties, so the catalog keeps working on your current images.
+2. Add the driver jar to the [shared schema server](#adding-the-jar-to-the-shared-schema-server), including its image check, and to [every compute cluster](#adding-the-jar-to-a-compute-cluster) that queries ClickHouse.
 3. Switch your compute clusters to 4.2.1-v2 or 3.5.9-v2 and restart them.
 4. Verify with **Test connection**, the Database Browser or a query against the catalog.
+5. Once the shared schema server and every compute cluster run the new driver, remove the old properties as described in [Connection Properties for Driver 0.11.2](#connection-properties-for-driver-0112), then remove `ignore_unknown_config_key`.
 
-A platform upgrade whose chart sets `docker.defaultSparkVersion` to 4.2.1-v2 or later moves the shared schema server to that image, even if you don't change your compute clusters. Do steps 1 and 2 in the same `helm upgrade`.
+A platform upgrade whose chart sets `docker.defaultSparkVersion` to 4.2.1-v2 or later moves the shared schema server to that image, even if you don't change your compute clusters. Do step 1 before that upgrade, and add the jar to the schema server in the same `helm upgrade`.
 
 ### Driver 0.6.4
 
