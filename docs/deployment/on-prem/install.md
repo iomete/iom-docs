@@ -135,7 +135,7 @@ With these set, Helm creates the resources during installation. It keeps the ser
 
 If another Helm release or an administrator already manages the Spark Operator CRDs, leave `crds.create` set to `false`. Helm 4 fails the installation when an existing CRD differs from the one in the chart.
 
-Your Helm user needs permission to create CRDs, a `MutatingWebhookConfiguration`, a `ValidatingAdmissionPolicy` and its binding, service accounts, Roles, RoleBindings and Secrets. If the installation fails with a `forbidden` error, set the failing switch back to `false` and use option 2 for that resource. For the admission policy, that switch is `serviceAccount.sparkPodPolicy`.
+Your Helm user needs permission to create CRDs, a `MutatingWebhookConfiguration`, a `ValidatingAdmissionPolicy`, a `ValidatingAdmissionPolicyBinding`, service accounts, Roles, RoleBindings and Secrets. If the installation fails with a `forbidden` error, set the failing switch back to `false` and use option 2 for that resource. For the admission policy, that switch is `serviceAccount.sparkPodPolicy`.
 
 :::note Upgrading an existing installation
 If you created these resources by hand in an earlier installation, the chart leaves them as they are. You don't need to change anything.
@@ -155,6 +155,7 @@ A Kubernetes administrator generates the resources from the chart and applies th
      --version "$IOMETE_VERSION" \
      --values example-data-plane-values.yaml \
      --set serviceAccount.create=true \
+     --set serviceAccount.sparkPodPolicy=true \
      --api-versions admissionregistration.k8s.io/v1/ValidatingAdmissionPolicy \
      | yq 'select(.metadata.name == "lakehouse-service-account" or .metadata.name == "iomete-lakehouse-role" or .metadata.name == "iomete-lakehouse-role-binding"
                  or .metadata.name == "spark-driver-service-account" or .metadata.name == "spark-executor-service-account"
