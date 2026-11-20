@@ -23,7 +23,7 @@ These drivers are bundled in the Spark images named in the table, so you can use
 
 The table applies from 4.2.1-v1 on the 4.2.1 line and from 3.5.9-v2 on the 3.5.9 line. Other images, including later 4.2.0, 4.1 and 3.5.7 releases, still bundle the ClickHouse JDBC driver 0.6.4 and the ClickHouse Spark connector. See [ClickHouse](#clickhouse) if you used either.
 
-A bundled driver loads before any jar you add with `spark.jars`, so adding your own copy of a bundled driver with the same class name has no effect.
+A bundled driver loads before any jar you add with `spark.jars`, so adding your own copy of a bundled driver with the same class name has no effect. You can't switch a bundled driver to another version this way.
 
 ## Adding a Driver That Isn't Bundled
 
@@ -115,6 +115,8 @@ From 4.2.1-v1 on the 4.2.1 line and from 3.5.9-v2 on the 3.5.9 line, the Spark i
 | Driver class | `com.clickhouse.jdbc.ClickHouseDriver` |
 | URL | `jdbc:clickhouse://<host>:8123/<database>` |
 | URL with TLS | `jdbc:clickhouse://<host>:<https-port>/<database>?ssl=true&ssl_mode=<mode>`, with `<mode>` one of the `ssl_mode` values [below](#connection-properties-for-driver-0112) |
+
+Use one ClickHouse driver version for all your ClickHouse catalogs. The shared schema server loads one copy of the driver for every catalog on the data plane, and each compute cluster loads one copy for all its queries.
 
 Download the jar from Maven Central, for example:
 
