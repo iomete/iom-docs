@@ -11,7 +11,7 @@ A [JDBC catalog](./external-jdbc.md), a `USING jdbc` table and `spark.read.forma
 
 ## Bundled Drivers
 
-These drivers are in the Spark image, so you can use them without adding anything:
+These drivers are bundled in the Spark images named in the table, so you can use them without adding anything. A bundled driver is available only where the image that runs there includes it, so check the image of each place that connects: your compute clusters, and the shared schema server, which runs its own image (see [Checking the Schema Server Image](#checking-the-schema-server-image)).
 
 | Database | Driver artifact | Spark 4.2.1-v1 | Spark 3.5.9-v2 |
 | -- | -- | -- | -- |
@@ -21,7 +21,7 @@ These drivers are in the Spark image, so you can use them without adding anythin
 | Amazon Redshift | `com.amazon.redshift:redshift-jdbc42` | Yes | No |
 | Snowflake | `net.snowflake:snowflake-jdbc` | Yes | Yes |
 
-Driver versions change between images, and the [Spark release notes](/deployment/on-prem/release-notes/spark) list each upgrade. Images earlier than 4.2.1-v1 and 3.5.9-v2 also include the ClickHouse JDBC driver 0.6.4 and the ClickHouse Spark connector. See [ClickHouse](#clickhouse) if you used either.
+The table applies from 4.2.1-v1 on the 4.2.1 line and from 3.5.9-v2 on the 3.5.9 line. Other images, including later 4.2.0, 4.1 and 3.5.7 releases, still bundle the ClickHouse JDBC driver 0.6.4 and the ClickHouse Spark connector. See [ClickHouse](#clickhouse) if you used either.
 
 A bundled driver loads before any jar you add with `spark.jars`, so adding your own copy of a bundled driver with the same class name has no effect.
 
@@ -42,7 +42,24 @@ Before you start, you need:
 
 Upload the jar to the bucket, for example to `s3a://<lakehouse-bucket>/jars/<driver>.jar`. Spark accepts both `s3a://` and `s3://` paths.
 
+Use a path only administrators can write to. A jar on `spark.jars` runs in every Spark application that loads it, including the shared schema server.
+
+### Checking the Schema Server Image
+
+The shared schema server runs the `spark-py` image set in the Helm value `docker.defaultSparkPyVersion`, or `docker.defaultSparkVersion` when that is empty (`4.1.3-v3` by default in IOMETE 4.0.3). It keeps the drivers bundled in that image, whatever image your compute clusters run. If that image still bundles a driver you're replacing, such as ClickHouse 0.6.4 on `4.1.3-v3`, the bundled copy loads instead of your jar.
+
+In that case, move the schema server to an image that doesn't bundle the driver. Add this to the values file you edit in [Adding the Jar to the Shared Schema Server](#adding-the-jar-to-the-shared-schema-server), and the same `helm upgrade` applies both changes:
+
+```yaml title="values.yaml"
+docker:
+  defaultSparkPyVersion: 4.2.1-v1
+```
+
+Use a Spark 4 image here even if your compute clusters run 3.5.9-v2, because the table details fixes in IOMETE 4.0.2 and later need the schema server on `4.1.3-v3` or later (see [Schema Server Image](../sql-editor/database-explorer-api-migration.md#schema-server-image)). `docker.defaultSparkPyVersion` changes only the schema server image, not the images your compute clusters use.
+
 ### Adding the Jar to a Compute Cluster
+
+Keep all extra jars in one place. A compute cluster's `spark.jars` replaces a `spark.jars` set in Global Spark Settings, and a compute cluster's **Jar file locations** or a job's **JAR files** override `spark.jars`. If you already list jars in one of those, add the driver there instead.
 
 Repeat these steps on every compute cluster that queries the database:
 
@@ -55,7 +72,7 @@ Repeat these steps on every compute cluster that queries the database:
 
 3. Click **Save**, then restart the compute cluster. Spark loads jars only at startup, so a running cluster doesn't see the driver until it restarts.
 
-A Spark job that reads from the database needs the jar too. Add it under the job's [JAR files](../spark-jobs/spark-application-config.md#jar-files) or as `spark.jars` in its Spark config.
+A Spark job that reads from the database needs the jar too. If the job lists [JAR files](../spark-jobs/spark-application-config.md#jar-files), add the driver there. Otherwise, add it as `spark.jars` in the job's Spark config.
 
 ### Adding the Jar to the Shared Schema Server
 
@@ -72,7 +89,7 @@ The shared schema server is a Spark application that the data plane Helm chart d
 
    Helm merges this key into the chart's default `sparkConf`, so you list only the keys you add. If your values file already sets `spark.jars` here, append the new path with a comma.
 
-2. Apply the change with the chart version you already run:
+2. Apply the change with the chart version you already run. `helm list -n iomete-system` shows it in the **CHART** column, for example `iomete-data-plane-enterprise-4.0.3`. Pass every values file and `--set` flag from your original install as well, because Helm resets any value you leave out:
 
    ```shell showLineNumbers
    export IOMETE_VERSION="<chart-version>"   # the version you installed
@@ -82,23 +99,22 @@ The shared schema server is a Spark application that the data plane Helm chart d
      -f values.yaml
    ```
 
-   The shared schema server restarts on its own after the upgrade and accepts requests again after about a minute. You don't need to restart it manually.
-
-The schema server runs the `spark-py` image set in `docker.defaultSparkPyVersion`, or `docker.defaultSparkVersion` when that is empty, so it includes the bundled drivers of that image.
+   The shared schema server restarts on its own after the upgrade and accepts requests again after about a minute. You don't need to restart it manually. During that minute, **Test connection** and the Database Browser are unavailable for every user.
 
 ### Creating the Catalog
 
-Create the catalog as described in [JDBC Catalog Integration](./external-jdbc.md). If your driver isn't in the **Driver** list, type its class name and select **Use "\<class name\>"**. Click **Test connection** before you create the catalog. Green checks mean the schema server loaded the driver and reached the database.
+Create the catalog as described in [JDBC Catalog Integration](./external-jdbc.md). If your driver isn't in the **Driver** list, type its class name and select **Use "\<class name\>"**. Click **Test connection** before you create the catalog. A passing **Show Tables** check means the schema server loaded the driver and reached the database. The **Create Table** and **Drop Table** checks also need write access to the database.
 
 ## ClickHouse
 
-The Spark images include no ClickHouse driver from 4.2.1-v1 and 3.5.9-v2 on. Add the driver as described in [Adding a Driver That Isn't Bundled](#adding-a-driver-that-isnt-bundled), with these values:
+From 4.2.1-v1 on the 4.2.1 line and from 3.5.9-v2 on the 3.5.9 line, the Spark images include no ClickHouse driver. Add the driver as described in [Adding a Driver That Isn't Bundled](#adding-a-driver-that-isnt-bundled), with these values:
 
 | Setting | Value |
 | -- | -- |
-| Driver jar | `clickhouse-jdbc-<version>-all.jar`, version 0.9.4 or later. Tested with `clickhouse-jdbc-0.11.2-all.jar`. |
+| Driver jar | `clickhouse-jdbc-<version>-all.jar`, version 0.11.2 or later (tested with 0.11.2) |
 | Driver class | `com.clickhouse.jdbc.ClickHouseDriver` |
 | URL | `jdbc:clickhouse://<host>:8123/<database>` |
+| URL with TLS | `jdbc:clickhouse://<host>:<https-port>/<database>?ssl=true&ssl_mode=<mode>`, with `<mode>` one of the `ssl_mode` values [below](#connection-properties-for-driver-0112) |
 
 Download the jar from Maven Central, for example:
 
@@ -108,18 +124,18 @@ wget https://repo1.maven.org/maven2/com/clickhouse/clickhouse-jdbc/0.11.2/clickh
 
 Spark 4.2.1-v1 and 3.5.9-v2 don't include the ClickHouse Spark connector either, so a catalog that uses `com.clickhouse.spark.ClickHouseCatalog` fails with `Cannot find catalog plugin class`. A JDBC catalog with the driver above lists and queries ClickHouse databases and tables.
 
-### Connection Properties for Driver 0.9 and Later
+### Connection Properties for Driver 0.11.2
 
-Driver 0.9 and later rejects any connection property it doesn't recognize, so a catalog set up for the older 0.6.4 driver can fail every request with:
+Driver 0.11.2 rejects any connection property it doesn't recognize, so a catalog set up for the older 0.6.4 driver can fail every request with:
 
 ```
 Failed to create connection
 Caused by: com.clickhouse.client.api.ClientMisconfigurationException: Unknown and unmapped config properties: [databaseTerm]
 ```
 
-Check the catalog's additional properties and the query parameters in its URL:
+Check the catalog's additional properties and the query parameters in its URL. Change the properties below and any other property named in the error:
 
-| Property | With driver 0.9 and later |
+| Property | With driver 0.11.2 |
 | -- | -- |
 | `databaseTerm` | Remove it. The driver lists ClickHouse databases as schemas without it. |
 | `sslmode` | Replace it with `ssl_mode`, which takes `DISABLED`, `TRUST`, `VERIFY_CA` or `STRICT`. For `sslmode=NONE`, use `ssl_mode=trust`. |
@@ -128,24 +144,36 @@ Check the catalog's additional properties and the query parameters in its URL:
 
 If you can't change the properties right away, add `ignore_unknown_config_key=true` and the driver skips the properties it doesn't recognize. Replace `sslmode` anyway: the driver skips it too, and then verifies the server certificate instead of trusting it.
 
+### Upgrading an Existing ClickHouse Catalog
+
+If you already have a ClickHouse catalog that uses the bundled driver 0.6.4, upgrade it in this order:
+
+1. Add the driver jar to the [shared schema server](#adding-the-jar-to-the-shared-schema-server) and to [every compute cluster](#adding-the-jar-to-a-compute-cluster) that queries ClickHouse, and make sure the [schema server image](#checking-the-schema-server-image) doesn't bundle 0.6.4.
+2. Change the catalog's properties as described in [Connection Properties for Driver 0.11.2](#connection-properties-for-driver-0112) before you switch your compute clusters to the new images.
+3. Switch your compute clusters to 4.2.1-v1 or 3.5.9-v2 and restart them.
+4. Open the catalog in the Database Browser or run a query against it. Don't verify with **Test connection** on the saved catalog's edit form: it currently fails with an authentication error on saved catalogs, even when the setup is right.
+
 ### Driver 0.6.4
 
-Images earlier than 4.2.1-v1 and 3.5.9-v2 include driver 0.6.4, which loads before any newer jar you add. The same applies if you add 0.6.4 yourself through `spark.jars`. With this driver, set these catalog properties:
+Every image other than 4.2.1-v1 or later on the 4.2.1 line and 3.5.9-v2 or later on the 3.5.9 line, including later 4.2.0, 4.1 and 3.5.7 releases, bundles driver 0.6.4, which loads before any newer jar you add. The same applies if you add 0.6.4 yourself through `spark.jars`. With this driver, set these catalog properties:
 
-- `compress=0` if your ClickHouse server runs version 25.10 or later. Without it, reads fail.
+- `compress=0` if your ClickHouse server runs version 25.10 or later (tested up to ClickHouse 26.6). Without it, reads fail.
 - `databaseTerm=schema`, so the catalog lists ClickHouse databases as namespaces. Without it, the list is empty.
 
 ## Troubleshooting
 
 ### Cannot Find Catalog Plugin Class
 
+**Test connection**, the Database Browser or a query fails with:
+
 ```
 Cannot find catalog plugin class for catalog '<catalog>': org.apache.spark.sql.execution.datasources.v2.jdbc.JDBCTableCatalog.
 ```
 
-This error names Spark's JDBC catalog class, but that class is always present. The usual cause is a missing driver jar, which the Spark driver log shows as `Caused by: java.lang.ClassNotFoundException: <driver class>`. Where the error appears tells you which side lacks the jar:
+This error names Spark's JDBC catalog class, but that class is always present. The usual cause is a missing driver jar, which the Spark driver log shows as `Caused by: java.lang.ClassNotFoundException: <driver class>`. For the shared schema server, that log is in the `iom-spark-connect-driver` pod in the data plane namespace. For a compute cluster, it's in the `cc-<compute-name>-driver` pod. Where the error appears tells you which side lacks the jar:
 
 - **Test connection or the Database Browser**: add the jar to the [shared schema server](#adding-the-jar-to-the-shared-schema-server).
 - **A query on a compute cluster**: add the jar to [that compute cluster](#adding-the-jar-to-a-compute-cluster) and restart it.
+- **Only when the catalog is the SQL editor's selected catalog, or a Thrift/JDBC client's default database**, with the jar already on the compute cluster: on images other than 4.2.1-v1 or later and 3.5.9-v2 or later, keep `spark_catalog` selected and use `<catalog>.<database>.<table>` names, or connect through Arrow Flight, which [SQL Editor V2](../feature-flags/sql-editor-v2.md) uses.
 
 `spark.read.format("jdbc")` reports the same cause directly as `java.lang.ClassNotFoundException: <driver class>`.
