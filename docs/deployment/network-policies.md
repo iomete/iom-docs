@@ -3,11 +3,128 @@ title: Kubernetes Network Policies
 sidebar_label: Network Policies
 description: Learn how to configure network policies for IOMETE services in a Kubernetes cluster.
 last_update:
-  date: 10/23/2026
-  author: Maksym Kryvchun
+  date: 11/12/2026
+  author: Rovshan Baghirov
 ---
 
 IOMETE services rely on specific network configurations to function properly in a Kubernetes cluster. These network policies govern how different components communicate securely and efficiently.
+
+## NetworkPolicy Enforcement Is a Prerequisite for Doris Computes
+
+Doris computes depend on Kubernetes NetworkPolicy. For each Doris compute, IOMETE creates a policy named `cc-<name>-ingress`. It lets only the compute's own frontend and backend pods, the compute proxy and doris-operator reach the Doris pods.
+
+The policy matters because Doris's internal ports accept no login at all. These are the frontend's Thrift RPC port `9020`, its edit log port `9010` and every backend port. The Thrift port runs statements as any user named in the request. Without the policy, any pod in the cluster could use these ports. That includes user code in Spark drivers and executors.
+
+The policy selects the compute's pods by their `app.doris.cluster` label. Kubernetes combines policies by allowing anything any of them allows. So another policy that selects Doris pods and allows broad ingress cancels this one. Keep Doris pods out of your own policies, as the [IOMETE namespaces policy](#iomete-namespaces-communication-policy) below does.
+
+If you applied `iomete-ingress-egress` before, re-apply the [version on this page](#iomete-namespaces-communication-policy) in every namespace that has it, then restart the lakehouse agent. To find those namespaces:
+
+```bash
+kubectl get networkpolicy --all-namespaces --field-selector metadata.name=iomete-ingress-egress
+```
+
+Kubernetes stores a NetworkPolicy on any cluster, but only the cluster's network plugin enforces it. On a cluster that doesn't enforce policies, `kubectl apply` succeeds and the policy has no effect.
+
+These setups enforce NetworkPolicies:
+
+- OpenShift with OVN-Kubernetes, or with OpenShift SDN in its default NetworkPolicy mode.
+- k3s, through its embedded policy controller, unless it runs with `--disable-network-policy`.
+- AKS with `networkPolicy` set to `azure`, `calico` or `cilium`.
+- GKE with Dataplane V2.
+- Any cluster that runs Cilium or Calico.
+
+These platforms accept NetworkPolicies but ignore them until you switch enforcement on:
+
+- AKS without a network policy mode (`networkPolicy: none`).
+- GKE without Dataplane V2 or the network policy add-on.
+- EKS Auto Mode, until you create the `amazon-vpc-cni` ConfigMap in the `kube-system` namespace with `enable-network-policy-controller: "true"`. The ConfigMap doesn't exist by default. It switches enforcement on for the whole cluster. The NodeClass `networkPolicy` field is optional: it only sets the default behavior (`DefaultAllow` or `DefaultDeny`) and can't switch enforcement off.
+- Classic EKS, until you set `enableNetworkPolicy: "true"` in the VPC CNI add-on configuration, or install a CNI that enforces policies, such as Calico or Cilium. The `enableNetworkPolicy` setting needs VPC CNI add-on version 1.14 or later.
+- Any cluster with a plain network plugin such as Flannel.
+
+A policy is enforced on the node that receives the traffic. So enforcement must be on for every node pool the Doris pods can run on.
+
+### How IOMETE Checks Enforcement
+
+When Doris computes are enabled (`features.doris.enabled: true` in the data plane Helm values), the lakehouse agent checks enforcement itself, at startup and then every 6 hours. It starts a short-lived canary pod in the IOMETE namespace, applies a deny-all policy to it and checks that connections to it are blocked. IOMETE refuses to create or start Doris computes on the data plane unless the latest check says policies are enforced.
+
+The canary runs in the IOMETE namespace, with the lakehouse agent's node selector and tolerations. So the check covers one node and one namespace. Use the [manual check](#checking-that-your-cluster-enforces-networkpolicies) for other node pools. In other namespaces that host Doris computes, make sure no policy of yours allows ingress to Doris pods.
+
+The check reports policies as not enforced when a connection reaches the canary despite the deny-all policy. That happens when the network plugin doesn't enforce policies, or when another policy in the namespace allows traffic to the canary. The canary has the label `iomete.com/network-policy-canary`, so your own policies can leave it out, as the [IOMETE namespaces policy](#iomete-namespaces-communication-policy) does.
+
+To read the latest result:
+
+```bash
+kubectl get configmap iomete-network-policy-enforcement -n <iomete-namespace> -o jsonpath='{.data.result\.json}'
+```
+
+If the ConfigMap doesn't exist, the check hasn't finished yet or Doris computes aren't enabled.
+
+The result is JSON with these fields:
+
+- `enforced`: `true`, `false`, or `null` when the check couldn't tell.
+- `checkedAt`: when the check ran.
+- `details`: why the check reached its result.
+
+If `details` says the canary was unreachable before the policy, something in the IOMETE namespace already blocks the lakehouse agent from reaching its canary pod: usually a default-deny NetworkPolicy there, or a service-mesh sidecar on the agent. Neither setup is supported yet. IOMETE keeps refusing Doris computes until you remove the cause and restart the agent.
+
+After you switch enforcement on, or change a policy that affected the check, restart the lakehouse agent so it checks again at once instead of waiting up to 6 hours:
+
+```bash
+kubectl rollout restart deployment/iomete-lakehouse-agent -n <iomete-namespace>
+```
+
+### Checking That Your Cluster Enforces NetworkPolicies
+
+This check works on any cluster. It starts a pod that listens on a port, blocks all traffic to it with a NetworkPolicy, and then tries to connect from another pod. It runs in a throwaway namespace, because other policies in a namespace can allow the traffic and hide the result.
+
+The commands use the `busybox` image. On an air-gapped cluster, use any image you have that can listen on a port.
+
+Run all the steps in the same shell. Step 1 sets the `$SERVER_IP` variable that later steps use.
+
+The result covers only the node the listening pod runs on. On a cluster with more than one node pool, repeat the check for each pool Doris computes can use. Pin the listening pod to a node in that pool by adding `--overrides='{"spec":{"nodeName":"<node-name>"}}'` before the `--` in its `kubectl run` command in step 1, and clean up with step 5 before each repeat.
+
+1. Create the namespace and the listening pod. The pod runs the small web server built into `busybox` on port `8080`. The check only tests whether a TCP connection opens, so what the server answers doesn't matter:
+
+   ```bash
+   kubectl create namespace np-check
+   kubectl run np-server -n np-check --image=busybox:1.36 --labels=app=np-server -- httpd -f -p 8080
+   kubectl wait --for=condition=Ready pod/np-server -n np-check --timeout=120s
+   SERVER_IP=$(kubectl get pod np-server -n np-check -o jsonpath='{.status.podIP}')
+   ```
+
+2. Connect from another pod. This should print `CONNECTED`, which shows the test itself works:
+
+   ```bash
+   kubectl run np-client -n np-check --image=busybox:1.36 --rm -i --restart=Never -- \
+     sh -c "nc -z -w 3 $SERVER_IP 8080 && echo CONNECTED || echo BLOCKED"
+   ```
+
+3. Apply a policy that selects the listening pod and allows no ingress:
+
+   ```bash
+   kubectl apply -n np-check -f - <<'YAML'
+   apiVersion: networking.k8s.io/v1
+   kind: NetworkPolicy
+   metadata:
+     name: np-check-deny-ingress
+   spec:
+     podSelector:
+       matchLabels:
+         app: np-server
+     policyTypes:
+       - Ingress
+   YAML
+   ```
+
+4. Wait a few seconds, then run the command from step 2 again. It should now print `BLOCKED`. If it prints `CONNECTED`, your cluster does not enforce NetworkPolicies. Switch enforcement on before you create Doris computes.
+
+5. Clean up:
+
+   ```bash
+   kubectl delete namespace np-check
+   ```
+
+---
 
 ## Spark Operator Webhook Policy
 
@@ -50,9 +167,9 @@ Replace `[API_SERVER_IP]` in the YAML file with the actual IP address.
 
 This policy ensures that all IOMETE control plane and data plane services can communicate securely across namespaces, using the label `iomete.com/managed: "true"`.
 
-It leaves out Jupyter Container pods. Kubernetes combines policies by allowing anything any of them allows, so a policy that selects every pod would cancel out the [Jupyter Containers policy](#jupyter-containers-policy).
+As shown below, it leaves out three kinds of pods: Jupyter Container pods, Doris compute pods and the lakehouse agent's NetworkPolicy check pod. Kubernetes combines policies by allowing anything any of them allows. A policy that selected these pods would cancel the [Jupyter Containers policy](#jupyter-containers-policy) and the per-compute Doris policy, and would make the lakehouse agent report that the cluster doesn't enforce policies.
 
-Use the `NotIn` selector below only when the Jupyter Containers policy is installed. Without it, notebooks match no policy and become fully open, so keep `podSelector: {}` instead.
+Always keep the two `DoesNotExist` entries. The `NotIn` entry lists pods that another IOMETE policy covers, so each value belongs there only while that policy is on: `jupyterContainer` with the [Jupyter Containers policy](#jupyter-containers-policy), and `compute`, `sparkApp`, `scheduledSparkApp` and `eventStream` with the [Data Plane Workloads Policy](#data-plane-workloads-policy). A pod listed there without a policy of its own is matched by no policy and fully open. Remove the entry if neither policy is on.
 
 ```yaml title="iomete-ingress-egress.yaml"
 apiVersion: networking.k8s.io/v1
@@ -66,6 +183,10 @@ spec:
         operator: NotIn
         values:
           - jupyterContainer
+      - key: app.doris.cluster
+        operator: DoesNotExist
+      - key: iomete.com/network-policy-canary
+        operator: DoesNotExist
   ingress:
     - from:
         - namespaceSelector:
@@ -90,7 +211,7 @@ networkPolicies:
     enabled: true
 ```
 
-The policy only restricts traffic when your cluster's network plugin enforces NetworkPolicies, so check that before relying on it.
+The policy only restricts traffic when your cluster's network plugin enforces NetworkPolicies, so [check that](#checking-that-your-cluster-enforces-networkpolicies) before relying on it.
 
 With it:
 
@@ -98,7 +219,7 @@ With it:
 - Notebooks can reach DNS, your ingress controller and the internet over IPv4 and IPv6.
 - Apart from DNS, your ingress controller and any `extraEgress` entries, notebooks can't reach private, link-local (cloud metadata) or carrier-grade NAT addresses.
 
-If you applied `iomete-ingress-egress` before, it may still select every pod and cancel this policy. Re-apply the [updated version](#iomete-namespaces-communication-policy) and check its `podSelector` uses `NotIn jupyterContainer`:
+If you applied `iomete-ingress-egress` before, it may still select every pod and cancel this policy. Re-apply the [version on this page](#iomete-namespaces-communication-policy) and check its `podSelector` uses `NotIn jupyterContainer`:
 
 ```bash
 kubectl get networkpolicy iomete-ingress-egress -n <namespace> -o yaml
@@ -277,7 +398,9 @@ kubectl apply -f iomete-spark-operator.yaml -n <iomete-namespace>
 kubectl apply -f iomete-ingress-egress.yaml -n <iomete-namespace>
 ```
 
-Ensure that both policies have been applied successfully
+Ensure that both policies have been applied successfully.
+
+Doris computes can also run in [connected namespaces](./connect-namespace.md). If you apply `iomete-ingress-egress` to a connected namespace, use the same file there, so Doris compute pods stay out of it.
 
 ---
 
