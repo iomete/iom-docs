@@ -29,6 +29,42 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 ## Recent Releases
 
+<Release name="Cleanup Untracked Table Folders Job" version="0.1.6" date="November 17, 2026">
+  <ReleaseDescription>
+    This release builds on v0.1.5 with the following changes.
+  </ReleaseDescription>
+
+  <NewFeatures>
+    - **Second cleanup root**: When a database keeps tables in both `<warehouse>/<database>.db` and `<warehouse>/<database>`, the job now cleans both folders. The second folder counts only when the catalog places this database's tables there and at least one table the job can see is stored there. All safety checks run under both folders, and an unresolved table or a failed read under either folder blocks deletion in both.
+    - **Tables of other databases and catalogs**: When a folder has no owner after the existing checks, the job now reads the tables it can see in the catalog's other databases, and in the other catalogs of its Spark session that are in the same bucket or have no `warehouse` setting. A folder that one of these tables uses is never deleted. This protects tables renamed into another database and tables created or registered with an explicit location.
+    - **Final read before deleting**: In deletion mode, the job reads the storage of other databases and catalogs again right before deleting. A folder claimed in the meantime is kept and recorded as `folder_kept_at_final_check`.
+    - **Ownership checks in reports and audit rows**: Every audit row lists the ownership checks that ran in `diagnostic_details.ownership_checks`, and the checks that did not run in `ownership_not_checked`. Every cleanup report starts with an `OWNERSHIP CHECKS` section.
+  </NewFeatures>
+
+  <BugFixes>
+    - **Vanished and empty folders**: A candidate folder that disappears before inspection or before deletion no longer fails the database. It is recorded as `folder_not_found` or `folder_not_found_at_deletion`. Folders skipped after inspection are now reported by reason: `folder_not_found`, `statistics_unavailable`, `empty_folder`, or `unknown_age`. Empty folders are never deleted.
+    - **Databases with only unresolved tables**: These are now recorded as `BLOCKED` with `status_reason=unresolved_catalog_ownership` and the correct `unresolved_table_count`, instead of `SKIPPED` with `no_active_tables_in_database`. Storage is not scanned.
+    - **Unresolved table counts**: `unresolved_table_count` and the unresolved table sample are now filled on every audit row written after discovery, including rows for a missing database location, an unsafe scan root, too many candidate folders, and failures after discovery.
+    - **JDBC tables**: A JDBC table's default location holds no files. It no longer chooses the cleanup root, counts as the visible table a cleanup root needs, or counts toward coverage. Its location stays protected.
+    - **`s3://` and `s3a://` paths**: Two spellings of the same folder now count as one parent when the job chooses storage roots.
+    - **Coverage**: `scan_plan_coverage` is `complete` only when every visible table is stored under a cleanup root and no table is unresolved, so it now agrees with `status_reason=partial_scan_coverage`.
+  </BugFixes>
+
+  <Improvements>
+    - **Cleanup report**: Each report is written as one log entry, so lines from different databases no longer mix in log viewers. Each path is listed once. Unresolved tables are listed with their reason. The report for `too_many_candidate_folders` is always logged and lists the folders. A root with no child folders shows `scanned, no folders`.
+    - **Documented limits**: The job documentation now explains what deletion mode can and cannot prove. The job does not check tables it cannot see, catalogs outside its Spark session or with their warehouse in another bucket, tables of nested namespaces, or files a table uses outside its own folder. This includes the old folder after `ALTER TABLE ... SET LOCATION`, which can still hold files the table reads, and files added with `add_files`. Protect such folders with `exclude_paths`.
+    - **Versioned buckets**: The documentation now explains why deleting a folder on a versioned bucket may not free storage, and which bucket lifecycle rules do.
+  </Improvements>
+
+  <BreakingChanges>
+    - **Deletion in `<warehouse>/<database>`**: After upgrading, a database with tables in both folders also deletes orphans in `<warehouse>/<database>`. `max_candidate_folders_per_database` counts candidates from both folders together.
+    - **New block reason**: `BLOCKED` with `status_reason=other_table_unresolved` means a table of another database or catalog cannot be resolved, so its files could be in any folder. One such table blocks deletion for every configured database that has a folder with no other owner. Repair or drop that table. `other_database_storage_unknown` now also covers failed reads of other databases' tables, of other catalogs, and of the final read.
+    - **Databases with JDBC tables**: Results can change in both directions. Folders that were not cleaned before can become candidates, so check that `exclude_database_folders` still names the folders you want to keep. A database can also be skipped or blocked, for example a database with only JDBC tables is `SKIPPED` with `no_active_tables_in_database`.
+    - **Audit values**: A database with only unresolved tables is `BLOCKED` instead of `SKIPPED`. Some rows that showed `scan_plan_coverage=complete` now show `partial`. On a `too_many_candidate_folders` row with unresolved tables, the folders are counted in `potentially_untracked_folder_count` instead of the candidate fields. Update audit queries that filter on these values.
+    - **Run a dry run first**: Run the job with `dry_run=true` after upgrading, and review the candidates and audit rows before enabling deletion.
+  </BreakingChanges>
+</Release>
+
 <Release name="Catalog Sync Job" version="5.1.0" date="October 21, 2026">
   <BugFixes>
     - **Catalog configuration in logs**: Fixed the job writing a catalog's full configuration, including object-storage credentials such as `fs.s3a.access.key` and `fs.s3a.secret.key`, to the job logs when the catalog was excluded from indexing by name or by properties. The log message now contains only the catalog name. If you ran an earlier version with catalog exclusion rules, rotate the storage credentials of the excluded catalogs and remove old job logs.
