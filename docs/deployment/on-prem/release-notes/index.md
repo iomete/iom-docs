@@ -592,7 +592,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 </Release>
 
-<Release version="3.19.2" date="TBD">
+<Release version="3.19.2" date="November 23, 2026">
   <Improvements>
     - **Gateway Rate Limiting**: Requests with no credential now have their own rate-limit pool, so anonymous traffic can no longer use up signed-in users' allowance.
       - Set these limits under `services.gateway.rateLimit.unauthenticated` (`rate`, `burst`, `zoneSize`).
