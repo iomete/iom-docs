@@ -592,7 +592,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 </Release>
 
-<Release version="3.19.2" date="November 23, 2026">
+<Release version="3.19.2" date="TBD">
   <Improvements>
     - **Gateway Rate Limiting**: Requests with no credential now have their own rate-limit pool, so anonymous traffic can no longer use up signed-in users' allowance.
       - Set these limits under `services.gateway.rateLimit.unauthenticated` (`rate`, `burst`, `zoneSize`).
@@ -609,7 +609,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
       **Spark version:** [3.5.9-v1](./spark.md)
-      **Iceberg version:** 1.12.0-iomete-3
+      **Iceberg version:** 1.9.0-iomete-4
 
 </Release>
 
