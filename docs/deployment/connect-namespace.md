@@ -48,6 +48,7 @@ The new namespace needs `lakehouse-service-account` with its Role and RoleBindin
 
 - **If `serviceAccount.create` is `true` in `values.yaml`**, skip this step. The Helm upgrade below creates them.
 - **If it is `false`**, have a Kubernetes administrator re-create the file from step 1 of [Option 2 in the install guide](./on-prem/install.md#option-2-have-an-administrator-create-them) and apply it before you upgrade. The file covers every namespace listed in `values.yaml`, so it includes the new one.
+- **If `serviceAccount.sparkPodPolicy` is `false`**, also have the administrator [reapply the admission policy](./on-prem/install.md#applying-the-admission-policy-yourself) before you upgrade, so the new namespace's Spark drivers are restricted from the start.
 - **On 3.19.0 or earlier**, create them manually before you upgrade, as shown in [Installing 3.19.0 or Earlier](#installing-3190-or-earlier).
 
 ### Add the Namespace to the Webhook
