@@ -209,7 +209,7 @@ You can combine the two options. For example, let Helm create the service accoun
 
 #### Restricted Spark Identities
 
-On Kubernetes 1.32 or later, Spark jobs and computes run as two restricted identities instead of `lakehouse-service-account`:
+From IOMETE 4.0.4 on Kubernetes 1.32 or later, Spark jobs and computes run as two restricted identities instead of `lakehouse-service-account`. Earlier chart versions ignore the settings below.
 
 - `spark-driver-service-account` can only manage its own executor pods. An admission policy enforces this.
 - `spark-executor-service-account` has no Kubernetes access.
