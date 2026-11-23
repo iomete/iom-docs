@@ -1092,8 +1092,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - Existing environments: run the [ras-onboarding v1.0.5 migration job](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md), then enable `domainLevelBundleAuthorization` feature flag.
         - Verify feature/module status from `GET /api/v1/modules`.
 
-        📄 Learn more: [Domain Authorization Documentation](/user-guide/iam/ras/domain-authorization)
-
       - **Access Delegation for Iceberg REST Catalog**
 
         The Iceberg REST Catalog now supports [access delegation](https://iceberg.apache.org/spec/#access-delegation), eliminating the need to configure external compute engines (Spark, Trino, Starburst, etc.) with long-lived, bucket-wide credentials. Instead, the catalog handles data access on behalf of clients — they only need a catalog-level access token.
