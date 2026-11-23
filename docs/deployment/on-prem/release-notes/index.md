@@ -592,6 +592,28 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 </Release>
 
+<Release version="3.19.2" date="TBD">
+  <Improvements>
+    - **Gateway Rate Limiting**: Requests with no credential now have their own rate-limit pool, so anonymous traffic can no longer use up signed-in users' allowance.
+      - Set these limits under `services.gateway.rateLimit.unauthenticated` (`rate`, `burst`, `zoneSize`).
+      - The defaults (`250r/s`, burst `250`) match the existing shared limit, so upgrades change nothing.
+      - Anonymous requests are counted per caller IP address. Behind a proxy or load balancer, that is the proxy's address, so all anonymous traffic through it shares one allowance.
+    - **Platform Security Updates**: Resolved critical and high-severity CVEs in the third-party libraries used by the IOMETE backend services, and in the console, gateway, rate limiter, socket, Hive Metastore, Typesense, Spark Operator, Spark submit service, job orchestrator, job orchestrator metrics exporter, event stream loader, Arrow Flight proxy and Jupyter notebook images. No change to features, APIs or configuration.
+      - The search image stays on Typesense 29.0, so existing search data is kept as is.
+      - The Spark submit service image is now set with `services.sparkOperator.submitService.imageVersion`, which defaults to `1.0.8`.
+      - The `spark-version` label that the Spark submit service sets on driver pods now reads `3.5.9`, instead of `3.5.7-IOMETE`. If you select pods by this label, update your selectors.
+  </Improvements>
+
+  <BugFixes>
+    - **Gateway Rate Limiting**: Fixed JDBC and Spark Connect users being rate-limited because of another busy user. Each JDBC session, Spark Connect token, personal access token and browser session now gets its own allowance.
+    - **Arrow Flight Proxy**: Credentials no longer appear in the proxy logs, and Spark errors are no longer reported as the compute being unreachable. This applies only when `features.sparkProxyForArrowFlight.enabled` is on.
+  </BugFixes>
+
+      **Spark version:** [3.5.7-v7](./spark.md)
+      **Iceberg version:** 1.9.0-iomete-4
+
+</Release>
+
 <Release version="3.19.1" date="October 1, 2026">
   <NewFeatures>
     - **Helm Chart Creates Cluster-Level Resources**: The data plane chart can now create the Spark Operator CRDs, the `lakehouse-service-account` with its Role and RoleBinding, and the Spark Operator webhook with its certificate, so you don't have to run `gencerts.sh` or `kubectl apply` them yourself before installing. See [Create Cluster-Level Resources](../install.md#create-cluster-level-resources).
