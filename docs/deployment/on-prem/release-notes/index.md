@@ -592,7 +592,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 </Release>
 
-<Release version="3.19.2" date="TBD">
+<Release version="3.19.2" date="November 23, 2026">
   <Improvements>
     - **Gateway Rate Limiting**: Requests with no credential now have their own rate-limit pool, so anonymous traffic can no longer use up signed-in users' allowance.
       - Set these limits under `services.gateway.rateLimit.unauthenticated` (`rate`, `burst`, `zoneSize`).
@@ -609,7 +609,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
       **Spark version:** [3.5.9-v1](./spark.md)
-      **Iceberg version:** 1.9.0-iomete-4
+      **Iceberg version:** 1.12.0-iomete-3
 
 </Release>
 
@@ -1091,6 +1091,8 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
         - New environments: enable `domainLevelBundleAuthorization` feature flag.
         - Existing environments: run the [ras-onboarding v1.0.5 migration job](https://github.com/iomete/iomete-marketplace-jobs/blob/main/ras-onboarding/README.md), then enable `domainLevelBundleAuthorization` feature flag.
         - Verify feature/module status from `GET /api/v1/modules`.
+
+        📄 Learn more: [Domain Authorization Documentation](/user-guide/iam/ras/domain-authorization)
 
       - **Access Delegation for Iceberg REST Catalog**
 

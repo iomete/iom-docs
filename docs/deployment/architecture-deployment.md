@@ -194,12 +194,17 @@ These flags toggle features without adding or removing services:
 | `onboardSparkJobRas` | Resource Access Service for Spark jobs | `false` |
 | `onboardWorkspaceRas` | Resource Access Service for SQL workspaces | `false` |
 | `onboardNamespaceMappingRas` | Namespace-level access control | `false` |
+| `domainLevelBundleAuthorization` | Domain-level bundle-based authorization | `false` |
 | `secretsV2` | New secrets management system | `false` |
 | `dataAccessAudit` | Data access audit logging | `false` |
 | `icebergMetrics` | Iceberg table metrics sent to event stream | `true` |
 | `ldapGroupInheritance` | LDAP group hierarchy inheritance | `true` |
 | `identitySoftDelete` | Soft delete for users/groups | `false` |
 | `showExecutorLogs` | Executor logs visible in UI | `true` |
+
+:::warning Prerequisite Chain
+Don't enable `domainLevelBundleAuthorization` until all four RAS flags are active (`onboardComputeRas`, `onboardSparkJobRas`, `onboardWorkspaceRas`, `onboardNamespaceMappingRas`) and you've run the migration script. Skipping this order breaks authorization.
+:::
 
 ## Storage Configuration
 
