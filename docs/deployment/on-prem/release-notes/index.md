@@ -609,7 +609,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Arrow Flight Proxy**: Credentials no longer appear in the proxy logs, and Spark errors are no longer reported as the compute being unreachable. This applies only when `features.sparkProxyForArrowFlight.enabled` is on.
   </BugFixes>
 
-      **Spark version:** [3.5.7-v7](./spark.md)
+      **Spark version:** [3.5.9-v1](./spark.md)
       **Iceberg version:** 1.9.0-iomete-4
 
 </Release>
