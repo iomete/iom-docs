@@ -599,7 +599,6 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - The defaults (`250r/s`, burst `250`) match the existing shared limit, so upgrades change nothing.
       - Anonymous requests are counted per caller IP address. Behind a proxy or load balancer, that is the proxy's address, so all anonymous traffic through it shares one allowance.
     - **Platform Security Updates**: Resolved critical and high-severity CVEs in the third-party libraries used by the IOMETE backend services, and in the console, gateway, rate limiter, socket, Hive Metastore, Typesense, Spark Operator, Spark submit service, job orchestrator, job orchestrator metrics exporter, event stream loader, Arrow Flight proxy and Jupyter notebook images. No change to features, APIs or configuration.
-      - The search image stays on Typesense 29.0, so existing search data is kept as is.
       - The Spark submit service image is now set with `services.sparkOperator.submitService.imageVersion`, which defaults to `1.0.8`.
       - The `spark-version` label that the Spark submit service sets on driver pods now reads `3.5.9`, instead of `3.5.7-IOMETE`. If you select pods by this label, update your selectors.
   </Improvements>
