@@ -56,7 +56,7 @@ SELECT * FROM data_sources_demo_db.employees_mysql_external LIMIT 10;
 ```
 
 :::info
-Similarly, you can read/write from other JDBC sources such as PostgreSQL, Oracle, SQL Server, etc.
+Similarly, you can read/write from other JDBC sources such as PostgreSQL, Oracle, SQL Server, etc. See [JDBC Drivers](/user-guide/spark-catalogs/external-jdbc-drivers#driver-class-and-url) for each driver class and URL format.
 :::
 
 ## Manipulating CSV files

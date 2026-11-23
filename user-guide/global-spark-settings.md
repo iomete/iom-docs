@@ -23,6 +23,8 @@ To add a new configuration item, click on the `Add config` button. If you want t
 
 <Img src="/img/user-guide/global-spark-settings/save.png" alt="Save spark setting" />
 
+To add a JDBC driver jar, follow [JDBC Drivers](./spark-catalogs/external-jdbc-drivers.md). Global Spark Settings don't reach the shared schema server, which runs **Test connection** and the Database Browser for JDBC catalogs.
+
 ## Autocomplete
 
 As you begin typing in the `Key` input, the autocomplete feature will suggest relevant Spark settings based on your input. These suggestions include common Spark configuration parameters. Users can easily discover and select appropriate Spark settings, even if they are not familiar with the complete list of available options.
