@@ -609,7 +609,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
   </BugFixes>
 
       **Spark version:** [3.5.9-v1](./spark.md)
-      **Iceberg version:** 1.9.0-iomete-4
+      **Iceberg version:** 1.12.0-iomete-3
 
 </Release>
 
