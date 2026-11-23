@@ -3,7 +3,7 @@ title: Integration Release Notes
 sidebar_label: Integrations
 description: Release notes for IOMETE integrations, including dbt-iomete, the IOMETE Airflow Plugin, the IOMETE Tableau connector, the IOMETE Power BI connector, and the Arrow Flight SQL ODBC and JDBC drivers.
 last_update:
-  date: 11/17/2026
+  date: 11/23/2026
   author: Abhishek Pathania
 ---
 
@@ -19,11 +19,17 @@ IOMETE integrations and drivers are released independently from the IOMETE platf
 | Airflow | [`iomete-airflow-plugin`](https://pypi.org/project/iomete-airflow-plugin/) | 4.0.0 | Airflow `>=3.3.0,<4.0.0`; Python 3.11–3.13 | [Open](../../../integrations/airflow/getting-started.mdx) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/iomete-airflow-plugin) |
 | Tableau | [`tableau-connector`](https://github.com/iomete/iomete-integrations/releases?q=tableau-connector) | 0.1.0 | Tableau Desktop and Server 2024.2 and later | [Open](../../../integrations/bi/tableau/arrow-flight.md) | [GitHub](https://github.com/iomete/iomete-integrations/tree/main/tableau-connector) |
 | Power BI and Arrow Flight SQL ODBC | [`iomete-odbc-connector`](https://github.com/iomete/iomete-artifacts) | 24.0.0-iomete.3 | Power BI Desktop and on-premises data gateway on Windows x64 | [Open](../../../integrations/bi/power-bi/arrow-flight.md) | Closed source |
-| Arrow Flight SQL JDBC | [`flight-sql-jdbc-driver`](https://github.com/iomete/iomete-artifacts) | 19.0.0-iomete.9 | Java 11 or later; Tableau Desktop and Server 2024.2 or later | [Open](/user-guide/driver/arrow-flight-jdbc-driver) | Closed source |
+| Arrow Flight SQL JDBC | [`flight-sql-jdbc-driver`](https://github.com/iomete/iomete-artifacts) | 19.0.0-iomete.10 | Java 11 or later; Tableau Desktop and Server 2024.2 or later | [Open](/user-guide/driver/arrow-flight-jdbc-driver) | Closed source |
 
 ---
 
 ## Recent Releases
+
+<Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.10" date="November 23, 2026">
+  <BugFixes>
+    - **Closed connections freed on the server**: Fixed closing a JDBC connection leaving its server session open until the session expired. With frequent reconnects, these sessions could fill the per-user session limit, and new connections were rejected with "Maximum number of concurrent sessions". The driver now ends the session when a connection closes. Requires Spark `4.2.1-v1` or later (`3.5.9-v1` or later on Spark 3.5) on the compute cluster; on earlier versions, sessions still close only when they expire.
+  </BugFixes>
+</Release>
 
 <Release name="Arrow Flight SQL JDBC Driver" version="19.0.0-iomete.9" date="November 17, 2026">
   <BugFixes>
