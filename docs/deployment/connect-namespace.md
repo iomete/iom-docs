@@ -3,8 +3,8 @@ title: Install Data-Plane to Kubernetes Namespace
 sidebar_label: Install Data-Plane (Namespace)
 description: Learn how to install and connect a new Data-Plane to IOMETE Control-Plane.
 last_update:
-  date: 09/30/2026
-  author: Abhishek Pathania
+  date: 11/20/2026
+  author: Maksym Kryvchun
 ---
 
 import Img from '@site/src/components/Img';
@@ -44,10 +44,11 @@ namespaces:
 
 ### Create the Service Account and Role
 
-The new namespace needs `lakehouse-service-account` with its Role and RoleBinding.
+The new namespace needs `lakehouse-service-account` with its Role and RoleBinding. The same steps create the [restricted Spark identities](./on-prem/install.md#restricted-spark-identities) there. With workload identity, have the cloud role trust them in the new namespace before you upgrade.
 
 - **If `serviceAccount.create` is `true` in `values.yaml`**, skip this step. The Helm upgrade below creates them.
 - **If it is `false`**, have a Kubernetes administrator re-create the file from step 1 of [Option 2 in the install guide](./on-prem/install.md#option-2-have-an-administrator-create-them) and apply it before you upgrade. The file covers every namespace listed in `values.yaml`, so it includes the new one.
+- **If `serviceAccount.sparkPodPolicy` is `false`**, also have the administrator [reapply the admission policy](./on-prem/install.md#applying-the-admission-policy-yourself) before you upgrade, so the new namespace's Spark drivers are restricted from the start.
 - **On 3.19.0 or earlier**, create them manually before you upgrade, as shown in [Installing 3.19.0 or Earlier](#installing-3190-or-earlier).
 
 ### Add the Namespace to the Webhook
