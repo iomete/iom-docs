@@ -2,19 +2,20 @@
 title: System Tables
 description: Learn about IOMETE system tables used for internal platform operations, audit logging, and event streaming.
 last_update:
-  date: 10/30/2026
-  author: Maksym Kryvchun
+  date: 11/24/2026
+  author: Vugar Dadalov
 ---
 
 IOMETE system tables live in the `spark_catalog.iomete_system_db` database. These tables give you a SQL-queryable view into key platform activity, including audit events, data access decisions, and Iceberg read/write metrics. All tables are automatically populated by the IOMETE Event Stream pipeline, so you can analyze platform behavior directly using SQL.
 
-Setup only takes a few steps. Once the system tables are available, you can query them like any other Iceberg table.
+You can query them like any other Iceberg table.
 
 :::info Before you begin
-System tables aren't created automatically. You set them up once, then they fill in on their own. Two things need to be in place before a table starts collecting data:
+IOMETE creates the system tables for you, all of them, whether or not their feature flags are on. The platform checks every minute: it creates a table that is missing, and adds any column a newer version introduces to a table you already have. It never renames, drops or changes the type of a column you have.
 
-1. **Create the table.** Run the `CREATE TABLE` statement for each table you want (provided below). If a table doesn't exist yet, you can lose the events written to it, and the services that send them log errors. Your queries, commits, and data access still succeed, so nothing breaks while you get set up.
-2. **Enable the table's feature flag.** Each table starts receiving data once its producer feature flag is on (see the summary below).
+A table starts receiving data once its producer feature flag is on (see the summary below).
+
+On an older version that doesn't create the tables yet, run the `CREATE TABLE` statement for each table you want (provided below). Until a table exists, the events written to it are lost and the services that send them log errors. Your queries, commits, and data access still succeed.
 :::
 
 ## Enabling System Tables
@@ -50,7 +51,7 @@ Apply the change with a `helm upgrade` to roll it out.
 The `platform_event_logs` table stores all platform audit events. This includes user actions, service operations, and other platform-level activities.
 
 :::note Enablement
-This is the easiest one: no feature flag needed. Just create the table, and it populates automatically.
+This is the easiest one: no feature flag needed. It populates as soon as the table exists.
 :::
 
 ```sql
@@ -81,7 +82,7 @@ WHERE user_id = '<user id>' AND token_masked = 'iomt_ABC…XYZ'
 ORDER BY occurred_at DESC;
 ```
 
-If you created this table before these columns existed, add them. Until you do, events are still recorded, just without the token:
+If you created this table before these columns existed, IOMETE adds them for you. On an older version that doesn't, add them yourself. Until they exist, events are still recorded, just without the token:
 
 ```sql
 ALTER TABLE spark_catalog.iomete_system_db.platform_event_logs ADD COLUMNS (
@@ -96,7 +97,7 @@ ALTER TABLE spark_catalog.iomete_system_db.platform_event_logs ADD COLUMNS (
 The `data_access_audit` table stores data access audit events. This includes all data access attempts, policy evaluations, and access control decisions.
 
 :::note Enablement
-Enable the `dataAccessAudit` feature flag, and remember to create the table first so no events are dropped. Good to know: even before you set this table up, your audit data isn't lost. Ranger always writes a copy to its own audit store in object storage, partitioned by day as ORC files:
+Enable the `dataAccessAudit` feature flag. Good to know: even before this table exists, your audit data isn't lost. Ranger always writes a copy to its own audit store in object storage, partitioned by day as ORC files:
 
 ```
 s3a://<your-bucket>/ranger/audit/day=yyyyMMdd/<hostname>-audit-data.orc
@@ -127,8 +128,8 @@ CREATE TABLE IF NOT EXISTS spark_catalog.iomete_system_db.data_access_audit (
   zoneName STRING COMMENT 'Security zone name',
   policyId BIGINT COMMENT 'ID of the policy evaluated',
   clientType STRING COMMENT 'Type of client',
-  eventCount INT COMMENT 'Number of events',
-  seqNum INT COMMENT 'Sequence number',
+  eventCount BIGINT COMMENT 'Number of events',
+  seqNum BIGINT COMMENT 'Sequence number',
   sessionId STRING COMMENT 'Session identifier',
   eventTime BIGINT COMMENT 'Event time as epoch',
   additionalInfo STRING COMMENT 'Additional information',
@@ -138,7 +139,7 @@ CREATE TABLE IF NOT EXISTS spark_catalog.iomete_system_db.data_access_audit (
   user STRING COMMENT 'User who performed the action',
   serviceType INT COMMENT 'Type of service',
   serviceName STRING COMMENT 'Name of the service',
-  policyVersion INT COMMENT 'Version of the policy')
+  policyVersion BIGINT COMMENT 'Version of the policy')
 USING iceberg
 PARTITIONED BY (days(__ts__), __write_id__);
 ```
@@ -150,7 +151,7 @@ PARTITIONED BY (days(__ts__), __write_id__);
 The `iceberg_commit_report` table captures detailed metrics for every Iceberg table commit operation. This includes information about data and delete file changes, record counts, and file sizes. It is useful for monitoring write activity, tracking table growth, and diagnosing commit performance.
 
 :::note Enablement
-The `icebergMetrics` feature flag controls this table, and it's enabled by default. So once you create the table, commit metrics start flowing right away. The same flag also powers `iceberg_scan_report`.
+The `icebergMetrics` feature flag controls this table, and it's enabled by default. So once the table exists, commit metrics start flowing right away. The same flag also powers `iceberg_scan_report`.
 :::
 
 ```sql
@@ -197,7 +198,7 @@ PARTITIONED BY (days(__ts__), __write_id__);
 The `iceberg_scan_report` table captures detailed metrics for every Iceberg table scan operation. This includes information about planning duration, manifest and file scanning statistics, and filter expressions. It is useful for monitoring read performance, identifying inefficient queries, and optimizing table layouts.
 
 :::note Enablement
-The same `icebergMetrics` feature flag as `iceberg_commit_report` controls this table (enabled by default). Create the table, and scan metrics populate automatically.
+The same `icebergMetrics` feature flag as `iceberg_commit_report` controls this table (enabled by default). Once the table exists, scan metrics populate automatically.
 :::
 
 ```sql
@@ -240,7 +241,7 @@ The `query_archive` table keeps the long-term history of queries run from the SQ
 :::note Enablement
 Unlike the other system tables, `sqlEditorV2` is a rollout flag you set in the admin panel under **Administration → Feature Flags**, not in your Helm values.
 
-The SQL Editor itself works with or without this table — only archival needs it. Until the table exists, the hourly archival job fails and logs an error, and queries stay in the platform database rather than being lost. They are archived on the next run after you create it.
+The SQL Editor itself works with or without this table — only archival needs it. Until the table exists, the hourly archival job fails and logs an error, and queries stay in the platform database rather than being lost. They are archived on the next run after it is created.
 :::
 
 ```sql
