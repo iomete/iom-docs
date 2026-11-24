@@ -17,17 +17,17 @@ import YoutubeCard from "@site/src/components/YoutubeCard";
 
 This guide provides detailed instructions for deploying IOMETE on-premises within a Kubernetes environment, ensuring you have a seamless setup process.
 
-:::tip Terraform option
-There is also a [Terraform configuration](https://github.com/iomete/iomete-deployment/tree/main/terraform) that handles all the steps below in one go (Kubernetes cluster, PostgreSQL, Apache Ozone, data plane, and monitoring). This is currently available for Azure.
-:::
+## Choosing Your Installation Path
 
-:::tip Nutanix Kubernetes Platform
-Installing on Nutanix Kubernetes Platform (NKP)? Follow this guide together with [Deploying IOMETE on NKP](../nutanix-nkp.md), which covers the NKP-specific settings for Nutanix Objects, Nutanix Volumes, CloudNativePG and the built-in Traefik ingress. Istio is not needed on NKP.
-:::
+This guide installs IOMETE with Helm. Pick the path that fits your setup:
 
-:::tip Argo CD
-Deploying with Argo CD? Follow this guide up to and including **Prepare Your Values File**, then continue with [Installing IOMETE with Argo CD](../argocd.md).
-:::
+| If you... | Use |
+| -- | -- |
+| Run a Kubernetes cluster, such as EKS, AKS, GKE, RKE2 or k3s | This guide |
+| Run Red Hat OpenShift | [Deploying IOMETE on OpenShift](../openshift.md), which lists the supported versions and installs IOMETE with the operator or with Helm |
+| Run Nutanix Kubernetes Platform (NKP) | This guide together with [Deploying IOMETE on NKP](../nutanix-nkp.md), which covers Nutanix Objects, Nutanix Volumes, CloudNativePG and Traefik in place of Istio |
+| Deploy with Argo CD | This guide up to and including **Prepare Your Values File**, then [Installing IOMETE with Argo CD](../argocd.md) |
+| Are on Azure and want everything set up in one go | The [Terraform configuration](https://github.com/iomete/iomete-deployment/tree/main/terraform), which sets up the Kubernetes cluster, PostgreSQL, Apache Ozone, the data plane and monitoring |
 
 ## Essential Requirements Before You Start
 
