@@ -10,6 +10,10 @@ import Img from '@site/src/components/Img';
 
 The **Domain Authorization** feature transitions domain security from a role-mapping model to a granular permission model within the **Resource Authorization System (RAS)**. This change simplifies and unifies how access is granted to domains and their associated resources.
 
+:::warning Deprecated
+This feature is deprecated and applies to **IOMETE 3.16.x through the last release that includes the `domainLevelBundleAuthorization` flag**. The flag is always off from **4.0** and will be removed. New and upgraded environments manage domain access with domain roles and members only.
+:::
+
 :::info Feature Flag
 This feature is controlled by the `domainLevelBundleAuthorization` feature flag and is available starting from **IOMETE version 3.16.x**. When enabled, it activates the new authorization flows and V2 API endpoints described in this guide. You can verify if this feature is enabled for your environment by checking the `GET /api/v1/modules` endpoint.
 :::
