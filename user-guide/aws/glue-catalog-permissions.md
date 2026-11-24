@@ -1,81 +1,69 @@
 ---
 title: AWS Glue Catalog Access
 sidebar_label: Glue Catalog Permissions
-description: Learn how to provide access to the AWS Glue Catalog in IOMETE, a hybrid (cloud & on-premises based) data platform for data storage and analysis. This guide outlines simple steps to connect to the AWS Glue Catalog and grant permission to the Lakehouse role.
+description: Grant an IOMETE workload scoped AWS Glue metadata permissions and verify catalog and data access from its selected data plane and namespace.
 last_update:
-  date: 05/05/2024
+  date: 11/05/2026
   author: Vusal Dadalov
 ---
 
-In IOMETE, when you add `AWS Glue Catalog` as a catalog, you need to provide permission to the `Lakehouse Role` to access the Glue Catalog.
+An AWS Glue catalog stores table metadata. The Spark compute or job that uses the catalog needs permission to read that metadata, as well as separate permission to read the table's data in S3.
 
-:::info
-To find the Lakehouse role, go to the IOMETE **Console > Settings > Data Plane > General** and look for
-the `Lakehouse Role ARN` field.
-:::
+First identify the AWS role used by the intended workload. Record its **Data plane** and **Namespace** in IOMETE, then inspect the pod's Kubernetes service account and its IRSA or EKS Pod Identity configuration. Follow [Identify the Workload's AWS Role](./s3-bucket-permissions.md#identify-the-workloads-aws-role). The same Kubernetes service-account name in another namespace or cluster does not establish which AWS role it uses.
+
+If the catalog configuration explicitly supplies credentials or assumes another IAM role, check that configuration too: the effective Glue identity can differ from the pod's initial identity.
 
 ### Attaching the IAM Role Policy
 
-To attach the IAM role policy to the Lakehouse role, you need to navigate to the IAM console.
-
-1. Go to your [IAM console](https://console.aws.amazon.com/iam/home) and select `Roles` from the left-hand menu.
-2. Search for the Lakehouse role in the list of roles and click on it.
-3. Click on the Permissions tab, and then click on Add `inline policy`.
-4. See below for the example to create a policy. You can copy and paste the policy into the JSON editor.
-5. Click on `Review policy`. Give your policy a name and click on `Create policy`.
-
-You have now successfully attached the IAM role policy to the Lakehouse role. IOMETE can now access the Glue Catalog.
-
-:::note
-Alternative to `Inline policy`, you can also create a `Managed policy` from `Policies` in the IAM console and attach it
-to the Lakehouse role.
-:::
+1. Open [IAM Roles](https://console.aws.amazon.com/iam/home#/roles) in the account that owns the verified role.
+2. Select that role and add an inline policy or attach an existing managed policy for the required Glue operations.
+3. Review the resource scope and save the policy. Preserve unrelated permissions when editing an existing policy.
+4. [Verify access from the workload](#verify-access-from-the-workload). Saving the policy is not an end-to-end access test.
 
 ### Glue Catalog IAM Policy Template
 
-Below is an example of an **IAM policy template** that provides full access to the Glue Catalog for the `Lakehouse role`.
+This example permits read-only metadata operations for one existing database and its tables. Replace `<region>`, `<catalog-account-id>`, and `<database>` with the region, 12-digit AWS account ID owning the catalog, and database name. The catalog account can differ from the workload's account.
 
-```js showLineNumbers title="iomete-glue-catalog-policy.json"
+```json showLineNumbers title="iomete-glue-catalog-policy.json"
 {
-   "Version": "2012-10-17", 
-    "Statement": [
-      {
-         "Sid": "AllConnectors",
-         "Effect": "Allow",
-         "Action": [
-            "glue:*"
-         ],
-         "Resource": [
-            "arn:aws:glue:<region>:<aws-account-number>:*"
-         ]
-      }
-   ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadSelectedDatabaseMetadata",
+      "Effect": "Allow",
+      "Action": [
+        "glue:GetDatabase",
+        "glue:GetTables",
+        "glue:GetTable",
+        "glue:GetTableVersion",
+        "glue:GetTableVersions",
+        "glue:GetPartition",
+        "glue:GetPartitions",
+        "glue:BatchGetPartition"
+      ],
+      "Resource": [
+        "arn:aws:glue:<region>:<catalog-account-id>:catalog",
+        "arn:aws:glue:<region>:<catalog-account-id>:database/<database>",
+        "arn:aws:glue:<region>:<catalog-account-id>:table/<database>/*"
+      ]
+    }
+  ]
 }
 ```
 
-Please replace `<region>` and `<aws-account-number>` with your AWS region and account number respectively.
+Glue checks table operations against the table and its parent database and catalog, which is why all three ARN levels are present. See [Glue resource ARNs and permission rules](https://docs.aws.amazon.com/glue/latest/dg/glue-specifying-resource-arns.html).
 
+This policy does not grant catalog-wide database discovery or create, update, and delete operations. Add only the operations your workload needs, scoped to the intended resources. For example, a workload that manages Iceberg tables can need `glue:CreateTable`, `glue:UpdateTable`, and `glue:DeleteTable`; creating databases requires separate permissions. Avoid using `glue:*` as a default access grant.
 
-**Example**
+### Verify Access from the Workload
 
-Here is an example of a policy that provides full access to the Glue Catalog for the Lakehouse role in the `us-east-1` region.
+Select the intended compute in SQL Editor and use a configured Glue catalog with an existing database and table. Replace `glue_catalog`, `analytics`, and `events` below with your IOMETE catalog name, Glue database, and table:
 
-```js showLineNumbers
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllConnectors",
-            "Effect": "Allow",
-            "Action": [
-                "glue:*"
-            ],
-            "Resource": [
-                "arn:aws:glue:us-east-1:680330367469:*"
-            ]
-        }
-    ]
-}
+```sql
+SHOW TABLES IN glue_catalog.analytics;
+SELECT * FROM glue_catalog.analytics.events LIMIT 1;
 ```
 
-For more granular permissions, please consult the [AWS Glue Catalog documentation](https://docs.aws.amazon.com/glue/latest/dg/what-is-glue.html).
+For a Spark job, run the equivalent checks in that job's configured environment. The first check tests metadata discovery for the chosen database; the second also reads table data. Neither proves write access.
+
+If metadata access fails, check the Glue region/catalog account, effective IAM role, and resource ARNs. Cross-account catalogs and catalogs governed by Lake Formation can require additional resource policies or Lake Formation grants; see [Glue cross-account access](https://docs.aws.amazon.com/glue/latest/dg/cross-account-access.html). If metadata is visible but reading rows fails, check [S3 permissions](./s3-bucket-permissions.md) and any KMS key permissions for the table's storage.
