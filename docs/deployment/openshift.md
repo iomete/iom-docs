@@ -50,7 +50,7 @@ The operator installs the data plane from a single custom resource, and Operator
      sourceNamespace: openshift-marketplace
    ```
 
-   The install is done when the operator's ClusterServiceVersion reports `Succeeded`:
+   The install is done when the operator's ClusterServiceVersion reports `Succeeded`. It can take a minute to appear:
 
    ```shell
    oc get csv --namespace openshift-operators
@@ -64,7 +64,7 @@ The operator installs the data plane from a single custom resource, and Operator
      --from-literal=password='<database-user-password>'
    oc create secret generic iomete-db-admin-credentials --namespace iomete-system \
      --from-literal=password='<database-admin-password>'
-   oc create secret generic iomete-storage-credentials --namespace iomete-system \
+   oc create secret generic iomete-s3-credentials --namespace iomete-system \
      --from-literal=secret-key='<storage-secret-key>'
    ```
 
@@ -102,14 +102,14 @@ The operator installs the data plane from a single custom resource, and Operator
        type: s3_compatible
        bucketName: <bucket>
        s3CompatibleSettings:
-         endpoint: <s3-endpoint>
+         endpoint: <s3-endpoint-url>
          accessKey: <storage-access-key>
          secretKeySecret:
-           name: iomete-storage-credentials
+           name: iomete-s3-credentials
            key: secret-key
    ```
 
-   Use fully qualified hostnames for the database and the storage endpoint, such as `postgresql.iomete-system.svc.cluster.local`. Storage `type` is one of `s3_compatible`, `dell_ecs`, `aws_s3`, `gcs`, `azure_gen1` or `azure_gen2`. Then apply the resource:
+   Use fully qualified hostnames for the database and the storage endpoint, such as `postgresql.iomete-system.svc.cluster.local`, and give the endpoint as a URL with its scheme and port, such as `http://minio.iomete-system.svc.cluster.local:9000`. This storage block fits S3-compatible storage (`s3_compatible`) and Dell ECS (`dell_ecs`). For AWS S3, Google Cloud Storage or Azure, see the `storage` values on [Artifact Hub](https://artifacthub.io/packages/helm/iomete/iomete-data-plane-enterprise). Then apply the resource:
 
    ```shell
    oc apply -f data-plane.yaml
@@ -141,7 +141,7 @@ Set `platform: openshift` when you render the chart without cluster access, such
 The chart doesn't expose the console, so create an edge Route to the gateway. The OpenShift router terminates HTTPS and redirects plain HTTP requests to HTTPS:
 
 ```shell
-oc create route edge iomete --service=iom-gateway --insecure-policy=Redirect --namespace iomete-system
+oc create route edge iomete --service=iom-gateway --port=http --insecure-policy=Redirect --namespace iomete-system
 ```
 
 Then print the console URL:
@@ -150,7 +150,7 @@ Then print the console URL:
 echo "https://$(oc get route iomete --namespace iomete-system --output=jsonpath='{.spec.host}')"
 ```
 
-For your own hostname and certificate, add `--hostname`, `--cert` and `--key` to the `oc create route` command. If the certificate comes from a private CA, see [Custom Java Truststore](./truststore.md).
+The Route uses the cluster's default ingress certificate, which browsers don't trust unless your administrator replaced it. For your own hostname and certificate, add `--hostname`, `--cert` and `--key` to the `oc create route` command. If the certificate comes from a private CA, or you enable the MCP server with the default certificate, add the CA as described in [Custom Java Truststore](./truststore.md).
 
 ## Limitations
 
