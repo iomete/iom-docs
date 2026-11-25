@@ -74,6 +74,7 @@ const sidebars = {
             "deployment/connect-namespace",
             "deployment/argocd",
             "deployment/nutanix-nkp",
+            "deployment/openshift",
             "deployment/kubernetes",
             "deployment/multi-cluster-setup",
           ],
