@@ -144,7 +144,7 @@ To sync only a few catalogs, list them instead of excluding everything else. Cat
 
 - Leave `inclusion_rules` out, or use an empty `names` list, to sync every catalog.
 - Names match exactly, case included.
-- In a private domain, the job only sees the catalogs the domain owns, so the names are checked against those.
+- In a private domain, names are checked only against catalogs the domain owns and whose settings were included when the job launched. An owned catalog missing from those launch settings is treated as an unknown name.
 
 ### How Inclusion and Exclusion Combine
 
