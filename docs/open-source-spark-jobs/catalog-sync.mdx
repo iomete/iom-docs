@@ -152,12 +152,18 @@ To sync only a few catalogs, list them instead of excluding everything else. Cat
 2. Every [exclusion rule](#exclusion-rules) still applies to what's left: `catalogs.names`, `catalogs.filter_by_properties`, and `default_rule`.
 3. Exclusion always wins. A catalog that is in the inclusion list and matches any exclusion rule isn't synced, and the job logs a warning naming the rule.
 
-For example, an included catalog with `iomete.governance.index=false` is never synced, because the default rule excludes it.
+For example, outside private domains, an included catalog with `iomete.governance.index=false` is never synced, because the default rule excludes it.
 
-### Unknown Catalog Names
+:::caution Private domains
+In a private domain, the job doesn't receive catalog properties, so catalog-level property rules (`catalogs.filter_by_properties`, and `default_rule` at catalog level) never match. An included catalog with `iomete.governance.index=false` **is** synced there, and no warning is logged. To skip a catalog in a private domain, list it in `exclusion_rules.catalogs.names`. Schema and table property rules still work.
+:::
 
-- If some included names don't match any catalog, the job logs a warning listing the available catalogs and syncs the rest.
-- If **none** of them match, the run fails before syncing anything. This catches a misspelled name that would otherwise sync nothing on every run.
+### Catalogs the Job Can't Sync
+
+An included catalog can't be synced if its name matches no catalog or, in a private domain, if the domain doesn't own it or the job wasn't launched with its settings.
+
+- If some included catalogs can't be synced, the job logs a warning listing the catalogs it can sync, and syncs the rest.
+- If **none** of them can be synced, the run fails before syncing anything. This catches a misspelled name that would otherwise sync nothing on every run.
 
 ### Removing a Catalog from the Sync
 
