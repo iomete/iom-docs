@@ -29,6 +29,20 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
 
 ## Recent Releases
 
+<Release name="Catalog Sync Job" version="5.3.0" date="November 25, 2026">
+  <NewFeatures>
+    - **Inclusion rules**: Sync only the catalogs you list with `inclusion_rules.catalogs.names`, instead of excluding every other catalog. Exclusion rules still apply to included catalogs, so exclusion always wins. The run fails if none of the listed names match a catalog. See [Inclusion Rules](/resources/open-source-spark-jobs/catalog-sync#inclusion-rules).
+  </NewFeatures>
+
+  <Improvements>
+    - **Empty config file**: An empty `/etc/configs/application.json` is treated like a missing one, and the job uses its defaults.
+  </Improvements>
+
+  <BreakingChanges>
+    - **Unparseable config fails the run**: If `/etc/configs/application.json` exists but can't be parsed, the run now fails. Earlier versions logged the error and indexed every catalog, ignoring your exclusion rules. Common causes are `//` comments and unknown keys inside a rule, such as `"schemas": {"names": [...]}` or `filterByProperties`. Check your config before upgrading. See [Config Errors](/resources/open-source-spark-jobs/catalog-sync#config-errors).
+  </BreakingChanges>
+</Release>
+
 <Release name="Catalog Sync Job" version="5.1.0" date="October 21, 2026">
   <BugFixes>
     - **Catalog configuration in logs**: Fixed the job writing a catalog's full configuration, including object-storage credentials such as `fs.s3a.access.key` and `fs.s3a.secret.key`, to the job logs when the catalog was excluded from indexing by name or by properties. The log message now contains only the catalog name. If you ran an earlier version with catalog exclusion rules, rotate the storage credentials of the excluded catalogs and remove old job logs.
