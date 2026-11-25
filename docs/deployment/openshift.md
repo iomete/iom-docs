@@ -25,7 +25,7 @@ IOMETE supports these versions on OpenShift:
 
 ## Prerequisites
 
-- An OpenShift 4.18 or later cluster with the capacity listed in the [On-Premises Deployment Guide](./on-prem/install.md#essential-requirements-before-you-start), and `oc` logged in to it.
+- An OpenShift 4.18 or later cluster, and `oc` logged in to it. The IOMETE services request about 14 vCPU and 24 GiB of memory in the data plane project. OpenShift's own workloads, lakehouses, Spark jobs and notebooks need capacity on top of that.
 - Cluster-admin access.
 - A PostgreSQL database and supported object storage, both reachable from the cluster.
 
@@ -33,7 +33,7 @@ IOMETE supports these versions on OpenShift:
 
 The operator installs the data plane from a single custom resource, and Operator Lifecycle Manager (OLM) keeps the operator up to date.
 
-1. **Install the operator.** In the web console, open **Ecosystem** > **Software Catalog** (**Operators** > **OperatorHub** on OpenShift 4.18 and 4.19) and search for **IOMETE Operator**. Install it from the `stable` channel with **All namespaces on the cluster** selected. The operator runs in `openshift-operators`.
+1. **Install the operator.** In the web console, open **Ecosystem** > **Software Catalog** (**Operators** > **OperatorHub** on OpenShift 4.18 and 4.19) and search for **IOMETE Operator**. Install it from the `stable` channel with **All namespaces on the cluster** selected. The operator runs in `openshift-operators`. Don't install the 0.0.x versions on the `alpha` channel.
 
    To install from the CLI instead, apply this Subscription:
 
@@ -55,6 +55,8 @@ The operator installs the data plane from a single custom resource, and Operator
    ```shell
    oc get csv --namespace openshift-operators
    ```
+
+   Each operator release bundles a new chart version, so an operator update also upgrades the data plane. For production, set the update approval to **Manual** (`installPlanApproval: Manual` in the Subscription) and approve each update, including the first install, after reading the release notes.
 
 2. **Create a project and credentials.** The data plane reads its database and storage passwords from Secrets in its own project:
 
@@ -115,7 +117,7 @@ The operator installs the data plane from a single custom resource, and Operator
    oc apply -f data-plane.yaml
    ```
 
-4. **Verify the installation.** Check the pods until every one is `Running` or `Completed`:
+4. **Verify the installation.** Check the pods until every one is `Running` or `Completed`. A few pods can restart once while the services they depend on start:
 
    ```shell
    oc get pods --namespace iomete-system
@@ -144,15 +146,49 @@ The chart doesn't expose the console, so create an edge Route to the gateway. Th
 oc create route edge iomete --service=iom-gateway --port=http --insecure-policy=Redirect --namespace iomete-system
 ```
 
+By default, the router ends a request that gets no response within 30 seconds, so longer queries fail with `504 Gateway Timeout`. Raise the timeout on the Route above your longest query:
+
+```shell
+oc annotate route iomete --namespace iomete-system haproxy.router.openshift.io/timeout=1h
+```
+
+On a cloud provider, the load balancer in front of the router has its own idle timeout, so raise that too. On AWS, the Classic Load Balancer closes idle connections after 60 seconds unless you set `spec.endpointPublishingStrategy.loadBalancer.providerParameters.aws.classicLoadBalancer.connectionIdleTimeout` on the IngressController.
+
 Then print the console URL:
 
 ```shell
 echo "https://$(oc get route iomete --namespace iomete-system --output=jsonpath='{.spec.host}')"
 ```
 
-The Route uses the cluster's default ingress certificate, which browsers don't trust unless your administrator replaced it. For your own hostname and certificate, add `--hostname`, `--cert` and `--key` to the `oc create route` command. If the certificate comes from a private CA, or you enable the MCP server with the default certificate, add the CA as described in [Custom Java Truststore](./truststore.md).
+The Route uses the cluster's default ingress certificate, which browsers don't trust unless your administrator replaced it. For your own hostname and certificate, add `--hostname`, `--cert` and `--key` to the `oc create route` command, plus `--ca-cert` with the intermediate certificates if your certificate has any, and create a DNS record that points the hostname at the router. If the certificate comes from a private CA, or you enable the MCP server with the default certificate, add the CA as described in [Custom Java Truststore](./truststore.md). The MCP server also needs `services.mcpServer.urls.public` set to the Route URL.
+
+This Route serves the console, the REST API and JDBC clients, but not Arrow Flight or Spark Connect clients. To connect those, see [Connecting Arrow Flight and Spark Connect Clients](#connecting-arrow-flight-and-spark-connect-clients).
+
+### Connecting Arrow Flight and Spark Connect Clients
+
+Arrow Flight and Spark Connect clients use gRPC, which needs HTTP/2. The OpenShift router offers HTTP/2 only when it's enabled and the Route has its own certificate. The cluster's default ingress certificate never qualifies.
+
+1. **Enable HTTP/2 on the router.** This applies to every Route that has its own certificate and restarts the router pods, so agree it with your cluster administrator:
+
+   ```shell
+   oc annotate ingresses.config/cluster ingress.operator.openshift.io/default-enable-http2=true
+   ```
+
+2. **Give the Route its own hostname and certificate.** Delete the Route you created above, create it again with `--hostname`, `--cert` and `--key`, then set the timeout again:
+
+   ```shell
+   oc delete route iomete --namespace iomete-system
+   oc create route edge iomete --service=iom-gateway --port=http --insecure-policy=Redirect \
+     --hostname=<iomete.example.com> --cert=<tls.crt> --key=<tls.key> --namespace iomete-system
+   oc annotate route iomete --namespace iomete-system haproxy.router.openshift.io/timeout=1h
+   ```
+
+   Don't use this certificate on any other Route. When two Routes share a certificate, the router turns HTTP/2 off for both, so a wildcard certificate reused across Routes breaks these clients.
+
+3. **Connect on port 443.** The connection strings the console shows already include it. Clients must trust the certificate's CA. gRPC clients don't read the browser's trust store, so if the CA is private, add it to each client.
 
 ## Limitations
 
 - Doris compute isn't supported on OpenShift. Leave `features.doris.enabled` off, which is the default.
-- Lakehouses and Spark jobs use EmptyDir volumes by default on OpenShift. For large shuffle or spill data, attach an [On-Demand PVC volume](/user-guide/volumes#on-demand-pvc).
+- Lakehouses and Spark jobs use EmptyDir volumes by default on OpenShift, and Host Path volumes are rejected. For large shuffle or spill data, attach an [On-Demand PVC volume](/user-guide/volumes#on-demand-pvc).
+- The [MinIO](./minio-deployment.md) and [Apache Ozone](./ozone-deployment.md) installation guides don't run under `restricted-v2`. Bring your own PostgreSQL database and object storage.

@@ -19,7 +19,7 @@ This guide provides detailed instructions for deploying IOMETE on-premises withi
 
 ## Choosing Your Installation Path
 
-This guide installs IOMETE with Helm. Pick the path that fits your setup:
+This guide installs IOMETE with Helm. Pick the path that fits your setup, and combine rows when more than one applies:
 
 | If you... | Use |
 | -- | -- |
