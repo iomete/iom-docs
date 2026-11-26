@@ -1,7 +1,7 @@
 ---
 slug: /single-sign-on/okta
 title: SSO to IOMETE with Okta
-description: Learn how to integrate Okta SSO with the IOMETE Data Plane
+description: Learn how to integrate Okta SSO with IOMETE
 last_update:
   date: 10/22/2024
   author: Vugar Dadalov
