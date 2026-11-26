@@ -168,27 +168,33 @@ A `VARIANT` column takes any JSON value: an object, an array, a string, a number
 `VARIANT` needs an Iceberg format-version 3 table, and a Spark 4 compute cluster to create and query it:
 
 ```sql
-CREATE TABLE analytics.events.app_events (
+CREATE TABLE analytics.events.platform_events (
     event_type STRING,
     user_id STRING,
     attributes VARIANT
 ) TBLPROPERTIES ('format-version' = '3');
 ```
 
-Send the field's value as plain JSON:
+Send the field's value as plain JSON. Each event can carry a different shape:
 
 ```json
-[{"event_type": "checkout_completed", "user_id": "u-10234",
-  "attributes": {"order_id": "ord-871", "amount": 129.99, "items": [{"sku": "TSHIRT-BLK-M", "qty": 2}]}}]
+[
+  {"event_type": "query_completed", "user_id": "u-10234",
+   "attributes": {"query_id": "q-4f1c", "compute": "analytics-cluster", "duration_ms": 5320,
+                  "rows_read": 1250000, "tables": ["spark_catalog.sales.orders", "spark_catalog.sales.customers"]}},
+  {"event_type": "compute_scaled", "user_id": "u-10234",
+   "attributes": {"compute": "analytics-cluster", "executors": {"from": 2, "to": 6}}}
+]
 ```
 
 Read values out of it with `variant_get`, or turn it back into JSON text with `to_json`:
 
 ```sql
-SELECT variant_get(attributes, '$.amount', 'decimal(10,2)') AS amount,
-       variant_get(attributes, '$.items[0].sku', 'string')  AS first_sku
-FROM analytics.events.app_events
-WHERE event_type = 'checkout_completed';
+SELECT variant_get(attributes, '$.compute', 'string')     AS compute,
+       variant_get(attributes, '$.duration_ms', 'bigint') AS duration_ms,
+       variant_get(attributes, '$.tables[0]', 'string')   AS first_table
+FROM analytics.events.platform_events
+WHERE event_type = 'query_completed';
 ```
 
 :::note
