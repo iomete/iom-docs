@@ -88,7 +88,7 @@ Once installed, the full platform works without external connectivity. Your team
 
 ## Does Sovereign Mean Small?
 
-No. Running inside your perimeter doesn't cap how far you can scale. Dell runs IOMETE in production across 40,000+ vCPUs and 40+ PB of data. Read the [proof-at-scale story](/resources/blog/sovereign-lakehouse-proof-at-scale) for details.
+No. Running inside your perimeter doesn't cap how far you can scale. Dell runs IOMETE in production across 100,000 vCPUs and 40+ PB of data, after replacing Databricks, Cloudera and Dremio. Read the [proof-at-scale story](/resources/blog/sovereign-lakehouse-proof-at-scale) for details.
 
 ## The Bottom Line
 
