@@ -68,7 +68,7 @@ We can now create a Datasource in Superset that can be used to connect the iomet
 
 ### Get connection details from iomete
 
-For connection details, go to the [iomete app](https://app.iomete.com/), select the lakehouse you want to connect to, and in the **Connection details,** you will find all the required information.
+For connection details, open your IOMETE console, select the lakehouse you want to connect to, and in the **Connection details,** you will find all the required information. If you don't have IOMETE yet, start a [60-day free trial](https://iomete.com/pricing/free-trial).
 
 <Img
 src="/img/guides/power-bi/connection-details.png"
