@@ -3,7 +3,7 @@ title: Data Catalog Sync Job
 sidebar_label: Data Catalog Sync
 description: The Data Catalog Sync Job indexes tables across all catalogs, making them searchable and manageable in the Data Catalog.
 last_update:
-  date: 10/21/2026
+  date: 11/25/2026
   author: Abhishek Pathania
 ---
 
@@ -63,14 +63,18 @@ Open **Job Templates** in the sidebar and click <FlexButton label='New Job Templ
   alt="Application type, docker image, and main class fields"
 />
 
-**3. Exclusion Rules Config**
+**3. Sync Rules Config**
 
-This step is optional and applies to both Marketplace and manual installs. Without a config file, the job falls back to its built-in defaults and indexes everything.
+This step is optional and applies to both Marketplace and manual installs. Without a config file, the job falls back to its built-in defaults and indexes everything. An empty file is treated the same way.
 
-To control which catalogs, schemas, or tables are excluded, add a Config Map:
+To control which catalogs are synced, or which catalogs, schemas, or tables are skipped, add a Config Map:
 
 - **File path:** `/etc/configs/application.json`
-- **Content:** your exclusion rules JSON (see [Exclusion Rules](#exclusion-rules))
+- **Content:** your rules JSON (see [Inclusion Rules](#inclusion-rules) and [Exclusion Rules](#exclusion-rules))
+
+:::warning
+From version `5.3.0`, the job fails if this file exists but can't be parsed. Earlier versions ignored the error and indexed everything. See [Config Errors](#config-errors).
+:::
 
 <Img
   src="/img/spark-job/marketplace/catalog-sync/form-config.png"
@@ -92,7 +96,7 @@ Click <FlexButton label="Create" primary /> to save the job.
 
 ## How It Works
 
-Once deployed, the job runs on its own. It fires on a schedule (hourly by default), scans every catalog in your environment, and indexes the tables it finds. Anything matching an [exclusion rule](#exclusion-rules) is skipped.
+Once deployed, the job runs on its own. It fires on a schedule (hourly by default), scans every catalog in your environment (or only the ones in your [inclusion list](#inclusion-rules)), and indexes the tables it finds. Anything matching an [exclusion rule](#exclusion-rules) is skipped.
 
 You can change the schedule or trigger a run manually at any time.
 
@@ -119,6 +123,60 @@ To review what was removed and when, use the **Deleted** toggle in the Data Cata
 :::note
 Deleted entries are kept indefinitely for now. Automatic cleanup of old deleted entries is planned for a future release.
 :::
+
+## Inclusion Rules
+
+:::info
+Inclusion rules require catalog-sync `5.3.0` or later.
+:::
+
+To sync only a few catalogs, list them instead of excluding everything else. Catalogs created later aren't synced unless you add them to the list.
+
+```json
+{
+  "inclusion_rules": {
+    "catalogs": {
+      "names": ["hot_catalog"]
+    }
+  }
+}
+```
+
+- Leave `inclusion_rules` out, or use an empty `names` list, to sync every catalog.
+- Names match exactly, case included.
+- In a private domain, names are checked only against catalogs the domain owns and whose settings were included when the job launched. An owned catalog missing from those launch settings is treated as an unknown name.
+
+### How Inclusion and Exclusion Combine
+
+1. The inclusion list narrows the catalogs to sync.
+2. Every [exclusion rule](#exclusion-rules) still applies to what's left: `catalogs.names`, `catalogs.filter_by_properties`, and `default_rule`.
+3. Exclusion always wins. A catalog that is in the inclusion list and matches any exclusion rule isn't synced, and the job logs a warning naming the rule.
+
+For example, outside private domains, an included catalog with `iomete.governance.index=false` is never synced, because the default rule excludes it.
+
+:::caution Private domains
+In a private domain, the job doesn't receive catalog properties, so catalog-level property rules (`catalogs.filter_by_properties`, and `default_rule` at catalog level) never match. An included catalog with `iomete.governance.index=false` **is** synced there, and no warning is logged. To skip a catalog in a private domain, list it in `exclusion_rules.catalogs.names`. Schema and table property rules still work.
+:::
+
+### Catalogs the Job Can't Sync
+
+An included catalog can't be synced if its name matches no catalog or, in a private domain, if the domain doesn't own it or the job wasn't launched with its settings.
+
+- If some included catalogs can't be synced, the job logs a warning listing the catalogs it can sync, and syncs the rest.
+- If **none** of them can be synced, the run fails before syncing anything. This catches a misspelled name that would otherwise sync nothing on every run.
+
+### Removing a Catalog from the Sync
+
+Taking a catalog out of the inclusion list, or adding it to the exclusion list, doesn't remove what was already synced for it. The job only marks tables as deleted in catalogs it visits, so a catalog it no longer visits keeps its last synced metadata, and that metadata stays searchable.
+
+### Syncing One Catalog More Often
+
+A common setup is a frequent job for one busy catalog next to the regular hourly job for everything else:
+
+- **Hourly job:** syncs all catalogs. Add `hot_catalog` to its `exclusion_rules.catalogs.names`.
+- **15-minute job:** `"inclusion_rules": {"catalogs": {"names": ["hot_catalog"]}}`, schedule `*/15 * * * *`.
+
+Excluding `hot_catalog` from the hourly job matters. Concurrency `Forbid` only stops a job from overlapping with itself, so without the exclusion both jobs can index `hot_catalog` at the same time.
 
 ## Exclusion Rules
 
@@ -325,3 +383,14 @@ A complete configuration that uses every exclusion level:
   }
 }
 ```
+
+## Config Errors
+
+From version `5.3.0`, the run fails instead of falling back to the defaults when `/etc/configs/application.json` exists but can't be parsed. Common causes:
+
+- The file isn't valid JSON, for example because it contains `//` comments.
+- A rule has an unknown key, such as `"schemas": {"names": [...]}` or camelCase `filterByProperties` instead of `filter_by_properties`.
+
+Unknown top-level keys are ignored. An empty file is treated like a missing one.
+
+If your job started failing after an upgrade, check the driver logs for `Failed to parse config file` and fix the file.
