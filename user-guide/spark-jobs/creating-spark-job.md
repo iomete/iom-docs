@@ -3,7 +3,7 @@ title: Creating Spark Job
 sidebar_label: Creating Spark Job
 description: Learn how to run your first Spark Job on the IOMETE platform using PySpark. Follow our step-by-step guide and get started with Spark Jobs today!
 last_update:
-  date: 04/20/2026
+  date: 11/06/2026
   author: Ujjawal Khare
 ---
 
@@ -29,11 +29,11 @@ You can also click the <button className="button button--primary button-iom"><Co
 
 ### Resource Bundle
 
-- **Resource bundle** (required): The [resource bundle](/user-guide/ras/resource-bundles) that defines resource quotas available to this job.
+- **Resource bundle** (required): The [resource bundle](../iam/ras/ras.md) that controls who can access this job. CPU, memory, and pod limits come from the deployment namespace's [quota](../namespace-quotas.md).
 
 ### Namespace
 
-- **Namespace**: The Kubernetes namespace to deploy the job in. Auto-selects if only one namespace exists.
+- **Deploy to Kubernetes namespace**: Choose the namespace under the data plane that should run the job, for example `finance` under `analytics`. Only deployment targets available to your account appear. See [Selecting a Namespace](../namespace-quotas.md#selecting-a-namespace) if the list is empty.
 
 ### Run as User
 
@@ -108,7 +108,7 @@ Controls automatic restart behavior. See [Application Config — Restart Policy]
 
 Once the Spark Job is created, you are redirected to the job detail page. The detail page has three tabs:
 
-- **Details**: Shows job configuration: name, schedule, compute resources, namespace, metadata, and advanced settings.
+- **Details**: Shows job configuration: name, schedule, compute resources, **Data plane**, **Namespace**, metadata, and advanced settings. Check both placement fields before running the job.
 - **Applications**: Lists all job runs with status, filters, and the **Run** button.
 - **Notifications**: Configure email notifications for job events (when enabled).
 

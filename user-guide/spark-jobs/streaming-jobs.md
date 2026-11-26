@@ -3,7 +3,7 @@ title: Streaming Jobs
 sidebar_label: Streaming Jobs
 description: Learn how to create, manage, and monitor long-running Spark Streaming Jobs on the IOMETE platform for continuous data processing.
 last_update:
-  date: 04/08/2026
+  date: 11/06/2026
   author: Nurlan Mammadov
 ---
 
@@ -32,8 +32,8 @@ The create form walks you through several sections.
 
 - **Name** (required): Allowed characters: alphanumeric, dashes, underscores, dots, and spaces (up to 255 characters).
 - **Description** (optional): A brief note so others know what the job does.
-- **Resource bundle**: Pick a [resource bundle](/user-guide/ras/resource-bundles) that defines the resource quotas for this job.
-- **Namespace**: The Kubernetes namespace to deploy in. If only one namespace exists, it's selected automatically.
+- **Resource bundle**: Pick a [resource bundle](../iam/ras/ras.md) that controls access to this job. Resource limits come from the deployment namespace's [quota](../namespace-quotas.md).
+- **Deploy to Kubernetes namespace**: Choose a namespace under the data plane that should run the job. If only one choice is available to you, it is selected automatically. Check both values, such as `analytics` and `finance`. See [Deployment Namespace](./spark-application-config.md#deployment-namespace) for domain assignments and permissions.
 - **Run as user**: The user identity the job runs under. Defaults to your own account, but you can pick another user or a service account.
 
 ### Application
@@ -92,7 +92,7 @@ The detail page centralizes a streaming job's configuration, application history
 This tab shows the job's configuration at a glance:
 
 - **Compute**: deployment type, driver node, executor node, bundle, total executor resources, and volume.
-- **Metadata**: namespace, run-as user, created by, tags, and description.
+- **Metadata**: data plane, namespace, run-as user, created by, tags, and description.
 
 <Img src="/img/guides/streaming-job/streaming-job-details.png" alt="Streaming Job detail page showing job configuration, compute resources, and metadata" maxWidth="700px"/>
 
@@ -111,7 +111,7 @@ Each row in the table includes:
 | Duration       | Running duration (live counter for active applications) |
 | Driver state   | Current Spark driver status                             |
 | Executor state | Running and pending executor count                      |
-| Namespace      | Deploy namespace                                        |
+| Namespace      | Data plane and deployment namespace                                        |
 | Run as user    | Identity the application runs under                     |
 | Triggered by   | Who started the application                             |
 | Attempts       | Submission and execution attempt counts                 |
@@ -157,7 +157,7 @@ To dig into a specific run, click an application name in the **Applications** ta
 
 The top of this tab displays key **metrics** in a collapsible section: completed/failed tasks, Spark task duration, shuffle data read/write, memory used, and disk used. Expand it for extras like driver task duration, data input, RDD blocks, total GC time, total cores, and disk bytes spilled. Metrics auto-refresh every 5 seconds while the application is running.
 
-Below the metrics, you'll find **application details**: driver state, executor state, attempts, duration, submission time, finish time, started by, namespace, and tags.
+Below the metrics, you'll find **application details**: driver state, executor state, attempts, duration, submission time, finish time, started by, **Data plane**, **Namespace**, and tags.
 
 <Img src="/img/guides/streaming-job/streaming-job-application-details.png" alt="Application detail view showing metrics cards and application details like driver state, executor state, and attempts" maxWidth="700px"/>
 
