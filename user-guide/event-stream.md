@@ -199,6 +199,7 @@ WHERE event_type = 'query_completed';
 
 :::note
 - Only a top-level `VARIANT` column is supported. A table with a `VARIANT` inside a struct, array or map rejects every request with `400`.
+- A JSON `null`, or a field left out of the event, is stored as SQL `NULL`, not as a variant null. Find these events with `attributes IS NULL`; `is_variant_null(attributes)` does not match them.
 - Event Stream reads JSON numbers as 64-bit integers or doubles, so a whole number beyond 64 bits, or a decimal with more digits than a double keeps, loses precision. Send such values as strings.
 :::
 ---
