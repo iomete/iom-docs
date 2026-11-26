@@ -4,4 +4,4 @@
 // with the docs baseUrl (/resources/) and would miss the marketing site.
 // When the marketing /demo page is live, change this to the absolute URL https://iomete.com/demo (never a root-relative path; it would resolve under /resources/).
 export const DEMO_PATH = "https://iomete.com/contact-us";
-export const FREE_PLAN_PATH = "https://iomete.com/pricing/free-plan";
+export const FREE_TRIAL_PATH = "https://iomete.com/pricing/free-trial";

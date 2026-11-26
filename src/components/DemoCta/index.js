@@ -1,5 +1,5 @@
 import React from "react";
-import { DEMO_PATH, FREE_PLAN_PATH } from "./paths";
+import { DEMO_PATH, FREE_TRIAL_PATH } from "./paths";
 // Styles live in ./style.scss and are pulled in from src/css/custom.scss so
 // the navbar can share .iomete-btn on pages that do not render this component.
 
@@ -7,12 +7,12 @@ const COPY = {
   A: {
     title: "Run Spark and Iceberg on your own infrastructure",
     body: "IOMETE is a self-hosted data lakehouse: SQL, Spark jobs, streaming and notebooks on Apache Iceberg. It runs on your own Kubernetes, on-premises, in your cloud account or air-gapped.",
-    secondary: "Try the free plan →",
+    secondary: "Start a 60-day free trial →",
   },
   B: {
     title: "Evaluating a lakehouse for on-prem or sovereign data?",
     body: "See IOMETE running in an environment like yours. It's a 30-minute walkthrough with a data architect, focused on your deployment and use case.",
-    secondary: "Or start with the free plan →",
+    secondary: "Or start a 60-day free trial →",
   },
 };
 
@@ -23,7 +23,7 @@ function query({ page, refId, variant, position }) {
 
 /**
  * Demo-first call to action. Book a demo is the primary action; the free
- * plan is the secondary link. Change DEMO_PATH in ./paths.js to point every
+ * trial is the secondary link. Change DEMO_PATH in ./paths.js to point every
  * placement (including the navbar) at /demo when that page exists.
  *
  * `refId` sets the ref query value as-is (blog and solution drafts).
@@ -74,7 +74,7 @@ export default function DemoCta({
         <a
           className="iomete-cta__link"
           data-cta-type="free"
-          href={FREE_PLAN_PATH + q}
+          href={FREE_TRIAL_PATH + q}
         >
           {c.secondary}
         </a>
