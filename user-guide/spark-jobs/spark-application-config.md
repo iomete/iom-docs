@@ -3,7 +3,7 @@ title: Application Config
 description: Reference for configuring Spark Jobs in IOMETE — Docker images, instances, environment variables, dependencies, scheduling, and more.
 sidebar_label: Application Config
 last_update:
-  date: 10/16/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -16,6 +16,14 @@ Creating and managing Spark Jobs requires appropriate IAM permissions within you
 :::
 
 ---
+
+## Deployment Namespace
+
+In **Deploy to Kubernetes namespace**, choose a namespace under the data plane that should run the job. For example, selecting `finance` under `analytics` places the job in that data plane's `finance` namespace. The same namespace name can appear under more than one data plane, so check both values. If only one namespace is available, the form selects it automatically. The job and each run show **Data plane** and **Namespace** on their **Details** tabs.
+
+The list shows only namespaces that an administrator has assigned to your domain and that you have **Use** permission on. The job's run-as user needs **Use** permission on the same namespace: IOMETE checks both users when you create, update, or run the job. If the list is empty, see [Selecting a Namespace](../namespace-quotas.md#selecting-a-namespace) for the required assignment and permissions.
+
+The selected namespace's [quota](../namespace-quotas.md) limits the workload's resources. The job's resource bundle controls access to the job.
 
 ## Schedule
 
@@ -306,6 +314,8 @@ The table below maps each console field to its JSON path in the API payload.
 
 | Console field | JSON path | Type |
 |--------------|-----------|------|
+| Deploy to Kubernetes namespace: data plane | `dataPlane` | string (data plane ID) |
+| Deploy to Kubernetes namespace: namespace | `namespace` | string (Kubernetes namespace) |
 | Application type | `template.applicationType` | `"python"` or `"jvm"` |
 | Docker image | `template.image` | string |
 | Docker registry secrets | `template.imagePullSecrets` | string array |
@@ -344,14 +354,17 @@ The table below maps each console field to its JSON path in the API payload.
 
 ### Full JSON Example
 
-Here's a complete API payload with all available fields. Most are optional and fall back to their defaults when omitted.
+Here's an example API payload. Most fields are optional and fall back to their defaults when omitted. A create request must include `name`, `namespace`, `template.image` (with a tag), and `template.mainApplicationFile`; the console and the SDK also require `bundleId`. If you omit the node types, the platform's default driver and executor node types apply.
+
+Always send `dataPlane` together with `namespace`. Without `dataPlane`, IOMETE looks for the namespace on the `default` data plane first, so an update that omits it can move the job to another data plane. In this example, the `finance` namespace on the `analytics` data plane must already be assigned to your domain. Replace the bundle and node type IDs, image, and application path with your own values.
 
 ```json
 {
   "name": "sample-job",
   "description": "Sample PySpark job",
   "bundleId": "<bundle-id>",
-  "namespace": "default",
+  "dataPlane": "analytics",
+  "namespace": "finance",
   "jobUser": "admin",
   "jobType": "SCHEDULED",
   "schedule": "*/30 * * * *",
