@@ -1,134 +1,200 @@
 ---
 title: Monitoring - Grafana Dashboards
 sidebar_label: Monitoring
-description: Learn how to enable monitoring in IOMETE, deploy Grafana dashboards, and monitor the performance of your IOMETE deployment.
+description: Configure Prometheus collection and Grafana dashboards for IOMETE services and Spark workloads across data planes and Kubernetes namespaces.
 last_update:
-  date: 08/13/2024
-  author: Vusal Dadalov
+  date: 11/06/2026
+  author: IOMETE
 ---
 import Img from '@site/src/components/Img';
 
-IOMETE comes equipped with a set of [Grafana dashboards](https://github.com/iomete/on-prem-deployment/tree/main/observability/monitoring/grafana) designed to monitor the platform's performance. These dashboards are available in the on-premises deployment GitHub repository. This document will guide you through the process of enabling monitoring on the IOMETE data plane, deploying the necessary components, and using the Grafana dashboards.
+IOMETE provides [Grafana dashboards](https://github.com/iomete/on-prem-deployment/tree/main/observability/monitoring/grafana) for platform services, Spark operators, and Spark workloads. Three parts must work together: IOMETE exposes metrics, **Prometheus** collects and stores them, and **Grafana** queries Prometheus to draw the dashboards.
+
+A data plane runs compute workloads in one or more Kubernetes namespaces. The shared control plane manages those data planes. Monitoring therefore needs to cover both the control-plane services and the namespaces where each data plane runs its services and workloads. See [IOMETE Architecture](/resources/getting-started/architecture) for the relationship between these components.
 
 ## Prerequisites
-Before setting up monitoring with IOMETE, ensure you have the following:
 
-1. **Grafana**: Installed and configured in your environment.
-2. **Prometheus**: Set up and running to collect metrics.
+Before changing IOMETE settings, identify:
+
+- A running Prometheus installation with permission and network access to discover and scrape the required Kubernetes namespaces.
+- A running Grafana installation with a working Prometheus data source and permission to import dashboards.
+- The Kubernetes cluster, Helm release, service namespace, and workload namespaces for each IOMETE installation you want to monitor.
+
+This example uses one Kubernetes cluster with the control plane in `iomete-system`, an additional data plane named `analytics` with services in `iomete-analytics`, and its workloads in `finance` and `marketing`. Prometheus must discover all four namespaces to cover those services and workloads. A second data plane does not require a second Grafana installation.
 
 ### Enabling Monitoring
-Before you can begin monitoring with Grafana, you must ensure that monitoring is enabled in your IOMETE data plane deployment. This is done by setting the `monitoring.enabled` flag to `true`.
 
-```yaml showLineNumbers
+Add this setting to the complete values file for the release you are updating:
+
+```yaml
 monitoring:
   enabled: true
 ```
 
-Enabling monitoring in IOMETE serves several purposes:
+Enable it on the **control-plane release** to expose the monitoring dashboard settings in IOMETE and generate links to workload metrics. Enable it on each **additional runtime release** where you want the chart's Spark operator scrape annotations. Preserve the release's existing configuration and follow the [upgrade procedure](/resources/deployment/life-cycle-management#upgrade-example).
 
-1. **Metrics Exposure:** Once monitoring is enabled, all services within IOMETE begin exposing their metrics.
-2. **Service Monitor and Pod Monitor:** These are Prometheus-specific custom resources that are deployed when monitoring is enabled. If you're using the Prometheus Operator, it will automatically detect and configure itself to monitor these services.
-3. **Prometheus Annotations:** For those who use a plain Prometheus setup without the Prometheus Operator, IOMETE provides annotations that Prometheus can check instead of relying on service and pod monitors.
+In the IOMETE **4.0.1 enterprise and runtime charts**, this setting adds Prometheus annotations to the applicable pod templates. It does **not** install Prometheus, Grafana, `ServiceMonitor` or `PodMonitor` resources, or dashboard ConfigMaps. These charts have no `serviceMonitor.enabled` or `podMonitor.enabled` setting. Check the values and templates for your installed chart version before using instructions for a different monitoring stack.
+
+Metrics endpoints and scraping are separate. Some endpoints, including the Spark operator's metrics endpoint, are enabled independently of this flag. An annotation only helps when your Prometheus configuration actually reads it.
+
+After upgrading, check the annotations on the deployments. Replace `your-kubernetes-context` with the context for the example cluster; adjust the namespace and deployment names for your installation:
+
+```bash
+IOMETE_CONTEXT=your-kubernetes-context
+
+kubectl --context "$IOMETE_CONTEXT" -n iomete-system \
+  get deployment iom-core \
+  -o jsonpath='{.spec.template.metadata.annotations}{"\n"}'
+
+kubectl --context "$IOMETE_CONTEXT" -n iomete-analytics \
+  get deployment spark-operator \
+  -o jsonpath='{.spec.template.metadata.annotations}{"\n"}'
+```
+
+Expect `prometheus.io/scrape: true`, with `/q/metrics` for the core service and `/metrics` for the Spark operator. This confirms the chart configuration; it does not yet prove that Prometheus is collecting samples.
+
+### Configuring Prometheus Collection
+
+Use the discovery mechanism supported by your monitoring installation:
+
+| Setup | What You Configure |
+| --- | --- |
+| Prometheus Operator | Create or supply appropriate `ServiceMonitor` or `PodMonitor` resources. Their selectors, namespaces, endpoint paths, and ports must match the targets. The Prometheus resource must also select those monitors and their namespaces. See the [Operator's setup guide](https://prometheus-operator.dev/docs/developer/getting-started/). |
+| Prometheus with Kubernetes service discovery | Configure scrape jobs for the required namespaces and endpoints. If you use annotations, configure relabeling to interpret them and resolve the annotated ports; Prometheus does not read them automatically. |
+| Separate IOMETE monitoring chart | Configure that chart's discovery scope. Its `iometeSystemNamespace` and `dataPlaneNamespaces` values belong to the monitoring chart, not the enterprise or runtime release. Check the values for your monitoring chart version. |
+
+<details>
+<summary>Values for the separate IOMETE monitoring chart</summary>
+
+For the separate IOMETE monitoring chart, the example scope is:
+
+```yaml
+# Values for the monitoring chart only.
+iometeSystemNamespace: iomete-system
+dataPlaneNamespaces:
+  - iomete-analytics
+  - finance
+  - marketing
+```
+
+</details>
+
+Include any other default-plane or additional-plane workload namespaces as well. Namespace discovery also requires matching Kubernetes RBAC and network access. For data planes in other Kubernetes clusters, configure collection in those clusters and make the resulting metrics available to Grafana.
+
+In Prometheus, open the target status page and confirm that the expected service, operator, and running Spark driver targets are **UP**. The job dashboard needs samples from the driver's `/metrics/executors/prometheus` endpoint, with `namespace` and `pod` labels identifying the workload namespace and driver pod. Its queries use metrics such as `metrics_executor_memoryUsed_bytes`; an UP target with different metric names or labels will still produce empty panels.
 
 ## Deploying Grafana Dashboards
 
-When monitoring is enabled, IOMETE automatically deploys Grafana dashboards as a ConfigMap. The deployment behavior varies depending on your setup:
+Dashboard provisioning is a Grafana configuration task. Installing Prometheus Operator or enabling IOMETE monitoring does not, by itself, import dashboards into Grafana.
 
-### For Prometheus Operator Setup:
+### Importing Dashboards Manually {#for-non-prometheus-operator-setup}
 
-If you are using the Prometheus Operator, the dashboards are automatically discovered and added to Grafana. No additional steps are required.
+Manual import works with or without Prometheus Operator:
 
-### For Non-Prometheus Operator Setup:
+1. Download the JSON file for a dashboard listed below. On GitHub, use the raw file or download action, rather than saving the surrounding web page.
+2. In Grafana, open **Dashboards → Import** and upload the JSON file.
+3. Select the Prometheus data source that contains the desired cluster's metrics, then import.
+4. Open the dashboard, select its namespace and other filters, and choose a time range containing collected samples.
 
-If you are not using the Prometheus Operator, follow these steps to manually install the Grafana dashboards:
+A successful import adds the dashboard to Grafana. Confirm that at least one expected service or running workload has data before configuring IOMETE's dashboard links.
 
-1. Download the dashboard JSON files from the IOMETE GitHub repository.
-2. Access your Grafana instance.
-3. Navigate to "Dashboards" -> "Import" in the Grafana UI.
-4. Click on "Upload JSON file" and select the downloaded dashboard file.
-5. Configure the data source to point to your Prometheus instance.
-6. Click "Import" to finalize the process.
-7. Repeat these steps for each dashboard you want to install.
+<details id="for-prometheus-operator-setup" style={{scrollMarginTop: "calc(var(--ifm-navbar-height) + 0.5rem)"}}>
+<summary>Alternative: Provisioning dashboards automatically</summary>
+
+Some monitoring stacks bundle Grafana with a **dashboard sidecar**: a container that watches labeled ConfigMaps and copies their JSON files into Grafana's dashboard directory. Automatic discovery works only when that sidecar is enabled, the ConfigMaps match its label selector, and it can read their namespaces. Check those settings in your Grafana chart. The Prometheus Operator itself does not perform this import.
+
+The separate IOMETE monitoring chart uses another approach: it mounts its bundled dashboard ConfigMaps into Grafana and supplies file-provisioning configuration. An unrelated Grafana installation will not discover those ConfigMaps automatically. For details of file provisioning, see [Grafana's provisioning guide](https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards).
+
+</details>
+
+### Selecting a Cluster, Data Plane, and Namespace
+
+The linked dashboard JSON files provide a Prometheus data-source selector and namespace filters. They do **not** provide a built-in data-plane or cluster selector.
+
+| Dashboard | What to Select |
+| --- | --- |
+| IOMETE Service Dashboard | The namespace of the JVM services, such as `iomete-system`, then the service. |
+| Spark Operator Dashboard | The namespace represented by the operator metrics. Check the metric's actual labels, especially if your scrape configuration also adds a namespace label. |
+| IOMETE Job Metrics Dashboard | The workload namespace, such as `finance`, then the Spark driver pod. Repeat with `marketing` for workloads there. |
+
+When multiple clusters reuse namespace or pod names, select a data source restricted to the intended cluster. If your Prometheus data source combines clusters, add a cluster label, dashboard variable, and matching filters to **all relevant queries** before relying on it for comparison. A namespace name alone does not identify a cluster, and selecting `analytics` is not a substitute for selecting its workload namespace.
 
 ## Grafana Dashboards
-IOMETE provides the following Grafana dashboards for monitoring
 
 ### IOMETE Service Dashboard
 
-This is a generic dashboard for monitoring all internal IOMETE services. It provides detailed information about the core services, including IOMETE Core Service, IOMETE SQL Service, and IOMETE Identity Service. 
-Download the Grafana json file from [IOMETE Service Dashboard](https://github.com/iomete/on-prem-deployment/blob/main/observability/monitoring/grafana/iom-quarkus-micrometer-service-dashboard.json).
+The [IOMETE Service Dashboard JSON](https://github.com/iomete/on-prem-deployment/blob/main/observability/monitoring/grafana/iom-quarkus-micrometer-service-dashboard.json) covers JVM/Quarkus service metrics, including request rates, JVM memory, and database connection pools. Use it for services such as IOMETE Core, SQL, and Identity when their metrics are collected. It is not a dashboard for every component or for Spark executors.
 
-#### To install the IOMETE Service Dashboard
+#### Installing the IOMETE Service Dashboard {#to-install-the-iomete-service-dashboard}
 
-If you are not using the Prometheus Operator, you can manually install the IAM Service Dashboard by following these steps:
-
-1. Download the Grafana json file from the link provided above.
-2. Go to your Grafana -> Dashboards -> Import.
-3. Upload the downloaded json file and click `Import`.
-
-You can see the IOMETE Service Dashboard in your Grafana dashboard list.
+Import the JSON using the steps above. Select the Prometheus data source, enter the service namespace, and select a service. The supplied dashboard defaults to `iomete-system`; change this if your control plane uses another namespace.
 
 <Img src="/img/k8s/monitoring/iomete-service-dashboard.png"
 caption="IOMETE Service Dashboard"
 alt="IOMETE Service Dashboard"/>
 
-
 ### Spark Operator Dashboard
-This dashboard provides in-depth details about the Spark Operator. It is crucial for monitoring the performance and behavior of Spark operations within IOMETE.
 
-Download the Grafana json file from [Spark Operator Dashboard](https://github.com/iomete/on-prem-deployment/blob/main/observability/monitoring/grafana/iom-spark-operator-detailed-dashboard.json).
+The [Spark Operator Dashboard JSON](https://github.com/iomete/on-prem-deployment/blob/main/observability/monitoring/grafana/iom-spark-operator-detailed-dashboard.json) shows operator activity, including application submissions and failures. Import it using the same procedure, then select the correct data source and namespace.
 
-Install the Spark Operator Dashboard by following the same steps as the IOMETE Service Dashboard. Once installed, you can see the Spark Operator Dashboard as shown below.
+Dashboard queries depend on the metrics exposed by your operator version. If a panel is empty, check whether its metric, such as `spark_app_submit_count`, exists in Prometheus before changing the dashboard filters.
 
 <Img src="/img/k8s/monitoring/spark-operator.png"
 caption="Spark Operator Dashboard"
 alt="Spark Operator Dashboard"/>
 
-
 ### IOMETE Job Metrics Dashboard
 
-The IOMETE Job Metrics Dashboard is a unique tool in our monitoring suite, designed with a specific purpose in mind. Unlike our other dashboards that give you a broad view of the system, this one zooms in on individual Spark jobs. It's like having a magnifying glass that lets you examine each job up close.
-
-When you're working with IOMETE, you might find yourself wondering about the performance of a particular Spark job. Maybe it's running slower than you expected, or you're just curious about how efficiently it's using resources. This is where the Job Metrics Dashboard comes into play.
-
-You won't find this dashboard useful by simply browsing through Grafana. Instead, it's seamlessly integrated into the IOMETE application itself. When you're looking at the details of a Spark job in IOMETE, you'll see a "Metrics" link. Clicking this link is like opening a window into that job's performance world.
+The job dashboard shows executor counts, completed and failed tasks, garbage collection, shuffle activity, and memory use for a Spark workload. You can select the workload namespace and driver directly in Grafana, or open **Metrics** from a job run in IOMETE.
 
 <Img src="/img/k8s/monitoring/spark-job-metrics-link.png"
 caption="Spark Job - Metrics Link"
 alt="Spark Job - Metrics Link"/>
 
-What makes this dashboard special is how it automatically adapts to the job you're viewing. You don't need to fiddle with time ranges or search for the right job name. The dashboard knows exactly which job you're interested in and adjusts itself accordingly.
+IOMETE adds the run's namespace, driver pod, and time range to the configured dashboard URL. It does not automatically select a cluster or Prometheus data source. Check those filters when opening a run from another cluster.
 
 <Img src="/img/k8s/monitoring/spark-job-dashboard.png"
 caption="Spark Job - Grafana Dashboard"
 alt="Spark Job - Grafana Dashboard"/>
 
-The dashboard is divided into several panels, each showing different aspects of your job's performance:
+The panels show collected samples. Their freshness depends on the Prometheus scrape interval and Grafana's refresh interval; they are not a continuous record of every Spark event.
 
-1. **Overview Metrics**:
-   - Executors: Shows how many executors are running for your job.
-   - Total Completed Tasks: A big number showing how many tasks have finished successfully.
-   - Total Failed Tasks: Ideally, this should be zero, indicating no tasks have failed.
-   - Total GC Time: This shows how much time has been spent on garbage collection.
+#### Setting Up the Job Metrics Dashboard
 
-2. **Executor Performance**:
-   - Total Tasks Time per Executor: A bar chart showing how long each executor has been working.
-   - Total Tasks per Executor: Another bar chart displaying how many tasks each executor has processed.
+1. Import the [IOMETE Job Metrics Dashboard JSON](https://github.com/iomete/on-prem-deployment/blob/main/observability/monitoring/grafana/iom-job-metrics-dashboard.json), selecting the appropriate Prometheus data source.
 
-3. **Detailed Metrics**:
-   - Executor GC Time: A graph showing garbage collection time for each executor over time.
-   - Active Tasks per Executor: A stacked bar chart indicating how many tasks are actively running on each executor.
+   <Img src="/img/k8s/monitoring/spark-job-grafana-import-1.png"
+   caption="Spark Job - Grafana Dashboard Import 1"
+   alt="Spark Job - Grafana Dashboard Import 1"/>
 
-4. **I/O and Memory Metrics**:
-   - Shuffle Bytes Read: A graph showing how much data each executor has read during shuffle operations.
-   - Shuffle Bytes Written: Similar to the read graph, but for data written during shuffles.
-   - Memory Used: A bar chart displaying memory usage across all executors and the driver.
+   <Img src="/img/k8s/monitoring/spark-job-grafana-import-2.png"
+   caption="Spark Job - Grafana Dashboard Import 2"
+   alt="Spark Job - Grafana Dashboard Import 2"/>
 
-All these metrics are updated in real-time, giving you a live view of your job's performance.
+2. Copy the imported dashboard's URL. Remove any existing job-specific namespace, driver, or time-range parameters; IOMETE supplies them when you open a run.
 
-:::note Special Case: Short-Running Spark Jobs
+   <Img src="/img/k8s/monitoring/spark-job-grafana-dashboard-url.png"
+   caption="Spark Job Grafana Dashboard - Copy URL"
+   alt="Spark Job Grafana Dashboard - Copy URL"/>
 
-You may encounter situations where the dashboard appears to be empty, particularly for Spark jobs that are short-running or complete in less than 1-2 minutes. This occurs because the job finishes so quickly that there isn’t enough data collected to populate the dashboard effectively.
+3. With the **Administration Manager** role, open **Settings → System Config** and set `spark-application.job.metrics-dashboard-url` to that URL. This is a shared control-plane setting, not a separate URL per data plane. If the key is missing, confirm that monitoring is enabled on the control-plane release.
+
+   <Img src="/img/k8s/monitoring/metrics-dashboard-url-setting-1.png"
+   caption="Spark Job Grafana Dashboard Settings 1"
+   alt="Spark Job Grafana Dashboard Settings 1"/>
+
+   <Img src="/img/k8s/monitoring/metrics-dashboard-url-setting-2.png"
+   caption="Spark Job Grafana Dashboard Settings 2"
+   alt="Spark Job Grafana Dashboard Settings 2"/>
+
+4. Open **Metrics** for a run with collected samples. Confirm that the URL selects the run's workload namespace and driver, and that the Grafana data source contains metrics from the right cluster.
+
+For the separate links on the admin portal's Monitoring page, see [External Grafana Dashboards](../monitoring/overview.md#external-grafana-dashboards).
+
+<details>
+<summary>Why a short job can have an empty dashboard</summary>
+
+A short job can finish before Prometheus discovers and scrapes its driver. Some queries also need more than one sample. There is no universal one- or two-minute threshold: discovery delay, scrape interval, and the query determine what appears.
 
 <Img src="/img/k8s/monitoring/short-running-spark-job.png"
 caption="Short-Running Spark Job"
@@ -138,78 +204,21 @@ alt="Short-Running Spark Job"/>
 caption="Short-Running Spark Job - Grafana Dashboard"
 alt="Short-Running Spark Job - Grafana Dashboard"/>
 
-This isn’t a problem, as jobs that complete quickly are generally not the focus of detailed performance analysis. These jobs are already optimized for speed, and their rapid completion means there’s typically little to investigate. The primary value of this dashboard lies in analyzing longer-running jobs, where understanding detailed performance metrics is crucial for optimization and troubleshooting.
-:::
+An empty dashboard does not prove that a job is optimized or that it ran without problems. Check the run status, logs, and Spark UI or History Server when available. Confirm the dashboard's time range and Prometheus retention. A shorter scrape interval may capture more detail in future runs, at the cost of collection and storage load; it cannot recover samples that were never collected.
 
-
-#### Setting Up the Job Metrics Dashboard
-
-**1. Import the Grafana**
-
-Import the Grafana json file from [IOMETE Job Metrics Dashboard](https://github.com/iomete/on-prem-deployment/blob/main/observability/monitoring/grafana/iom-job-metrics-dashboard.json)
-
-<Img src="/img/k8s/monitoring/spark-job-grafana-import-1.png"
-caption="Spark Job - Grafana Dashboard Import 1"
-alt="Spark Job - Grafana Dashboard Import 1"/>
-
-<Img src="/img/k8s/monitoring/spark-job-grafana-import-2.png"
-caption="Spark Job - Grafana Dashboard Import 2"
-alt="Spark Job - Grafana Dashboard Import 2"/>
-
-**2. Register the Dashboard in IOMETE**
-
-We need tell IOMETE where to find the Spark job metrics dashboard. In this way, when you click the "Metrics" link in IOMETE, it will open the Grafana dashboard with the correct job details.
-
-2.1. Copy Grafana Dashboard URL
-
-<Img src="/img/k8s/monitoring/spark-job-grafana-dashboard-url.png"
-caption="Spark Job Grafana Dashboard - Copy URL"
-alt="Spark Job Grafana Dashboard - Copy URL"/>
-
-2.2. Register in IOMETE
-
-Go to `IOMETE` -> `Settings` -> `System Config` -> `spark-application.job.metrics-dashboard-url` and update the URL to external grafana dashboard you copied from the previous step
-
-<Img src="/img/k8s/monitoring/metrics-dashboard-url-setting-1.png"
-caption="Spark Job Grafana Dashboard Settings 1"
-alt="Spark Job Grafana Dashboard Settings 1"/>
-
-<Img src="/img/k8s/monitoring/metrics-dashboard-url-setting-2.png"
-caption="Spark Job Grafana Dashboard Settings 2"
-alt="Spark Job Grafana Dashboard Settings 2"/>
-
-Now, when you click on the "Metrics" link in any Spark job in IOMETE, it will open the Grafana dashboard with the relevant job metrics.
-
+</details>
 
 ## Troubleshooting
 
-Here are some common issues you might encounter when setting up monitoring, along with their solutions:
+Check the stages in order: target discovery, sample collection, dashboard query, then the IOMETE link.
 
-1. **Metrics Not Showing Up**
-   - **Issue**: Dashboards are empty or not updating.
-   - **Solution**:
-      - Verify that `monitoring.enabled` is set to `true` in your IOMETE Helm Deployment (values).
-      - Check Prometheus is correctly scraping metrics from IOMETE services.
-      - Ensure the Grafana data source is correctly configured to use your Prometheus instance.
-
-2. **Dashboard Import Fails**
-   - **Issue**: Unable to import dashboards into Grafana.
-   - **Solution**:
-      - Check if you have the necessary permissions in Grafana.
-      - Ensure you're using a compatible version of Grafana (usually the latest stable version works best).
-      - Try importing the JSON manually by copying and pasting the content instead of uploading the file.
-
-3. **Job Metrics Dashboard Not Linking from IOMETE**
-   - **Issue**: Clicking on "Metrics" in IOMETE doesn't open the Grafana dashboard.
-   - **Solution**:
-      - Double-check that you've correctly set the `spark-application.job.metrics-dashboard-url` in IOMETE settings.
-      - Ensure the Grafana instance is accessible 
-
-4. **High Latency or Missing Data**
-   - **Issue**: Dashboards are slow to update or show gaps in data.
-   - **Solution**:
-      - Check the resource allocation for Prometheus and Grafana, they might need more resources.
-      - Verify network connectivity between IOMETE services, Prometheus, and Grafana.
-      - Adjust Prometheus scrape intervals if necessary.
-
-If you encounter persistent issues, consult the IOMETE documentation or reach out to IOMETE support for further assistance.
+| Symptom | Check |
+| --- | --- |
+| No Prometheus target | Confirm namespace discovery, Kubernetes RBAC, monitor selectors or annotation relabeling, and the endpoint path and port. Enabling `monitoring.enabled` alone does not create a scrape job. |
+| Target is DOWN | Inspect the target's scrape error. Check connectivity, network policies, authentication where required, and whether the metrics endpoint is listening. |
+| Target is UP but panels are empty | Query the panel's metric directly in Prometheus. Check its labels, the Grafana data source, namespace, driver, time range, and retention. Operator and Spark versions can change available metrics. |
+| Results combine unrelated workloads | Check whether the data source spans clusters with repeated namespace or pod names. Add cluster-aware queries or select a cluster-specific data source. |
+| Dashboard did not appear automatically | Check Grafana provisioning or the sidecar's labels, watched namespaces, and permissions. Alternatively, import the JSON manually. |
+| Dashboard import fails | Check Grafana permissions and that the downloaded file is dashboard JSON. Review the import error for unsupported panels or data-source settings. |
+| Metrics link is missing or points to the wrong dashboard | Check control-plane `monitoring.enabled` and the shared `spark-application.job.metrics-dashboard-url` value. Confirm that users can reach and sign in to Grafana. |
+| Short job has no samples | Check the run's status and logs, discovery and scrape intervals, and the dashboard time range. Use Spark UI or History Server when available for additional execution details. |
