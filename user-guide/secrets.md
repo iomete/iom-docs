@@ -3,7 +3,7 @@ title: Secrets Management
 description: Securely store and use credentials in IOMETE
 sidebar_label: Secrets
 last_update:
-  date: 04/27/2026
+  date: 11/07/2026
   author: Sourabh Jajoria
 ---
 
@@ -21,7 +21,7 @@ Store passwords, API keys, and credentials securely, then reference them in work
 
 ### Creating a Domain Secret
 
-Click the **New Domain Secret** button. The form requires the following fields:
+Click **New domain secret**. The form requires the following fields:
 
 - **Secret key:** The name used to reference the secret within this domain.
 - **Secret value:** The sensitive content of the secret. For security purposes, once the secret is saved, the value can never be viewed again.
@@ -31,7 +31,7 @@ Click the **New Domain Secret** button. The form requires the following fields:
 After clicking **`Create`**, the secret will appear in the list with the following details:
 
 - **Secret key**
-- **Source**: `IOMETE managed` (Kubernetes) or `Vault`
+- **Source**: **IOMETE managed**, or the name of the Vault configuration that provides the key
 - **Actions**: Use the button on the right to **Edit** or **Delete**.
 
 <Img src="/img/user-guide/secrets/domain-secret-created.png" alt="Domain Secrets with created" maxWidth="700px" />
@@ -79,7 +79,7 @@ Click **Test connection** to validate the settings, then click **Create** to sav
 
 <Img src="/img/user-guide/secrets/vault-config-create.png" alt="Vault Configuration Create" maxWidth="700px"  />
 
-Once saved, secret selectors throughout IOMETE will aggregate keys from both Kubernetes and Vault.
+Once saved, secret selectors throughout IOMETE list IOMETE-managed keys and the keys from this Vault configuration together.
 
 <Img src="/img/user-guide/secrets/domain-secrets-of-vault.png" alt="Domain Vault Secrets"  />
 
@@ -133,7 +133,7 @@ To list secrets in the secret selector, **Use** permission on the Vault configur
 
 ## Global Secrets
 
-**Global Secrets** are **read-only** credentials available across all domains for platform-wide use. You manage them directly in Kubernetes today. Console editing is planned for a future update.
+**Global Secrets** are credentials available across all domains for platform-wide use. They are **read-only** in the domain console. Platform administrators create, update, and delete them through the admin API: `PUT` or `DELETE` `/api/v1/admin/secrets/{key}?scope=GLOBAL`, with a request body such as `{"value": "..."}` for `PUT`.
 
 <Img src="/img/user-guide/secrets/domain-global-secrets.png" alt="Domain Global Secrets Tab" />
 
@@ -145,9 +145,10 @@ Existing legacy secrets are automatically mapped to the Global scope.
 
 Secrets can be used in:
 
-- **Spark & Compute:** Environment variables and Spark configuration
-- **Jupyter Notebooks:** Environment variables
+- **Spark jobs and streaming jobs:** Environment variables and Spark configuration, in the console form or the API
+- **Event streams:** Environment variables
 - **Storage Configs:** S3, MinIO, and other cloud credentials
+- **Compute clusters and Jupyter containers:** Environment variables (and Spark configuration for computes) through the API only. Their console forms accept plain-text values. See the [API Migration Guide](#api-migration-guide).
 
 ### How to Reference a Secret
 
@@ -157,7 +158,7 @@ When configuring environment variables or credentials:
 - Choose **"Use existing secret"** to select from stored secrets.
 - Or select **"Create new secret"** to define a secret inline; it will be saved to your current domain automatically.
 
-Once selected, the UI displays the secret key and its source (**KUBERNETES** or **VAULT**). Values are resolved securely at runtime.
+Once selected, the UI displays the secret key and its source: the domain name, **Global**, or the Vault configuration name. Values are resolved securely at runtime.
 
 <Img src="/img/user-guide/secrets/domain-secret-spark-env-var.png" alt="Domain Secret usage" maxWidth="600px" centered />
 
@@ -180,18 +181,30 @@ While the selector is the recommended approach, legacy `${secrets.key}` placehol
 
 IOMETE supports two backends that can be used simultaneously:
 
-- **Kubernetes** (default): Secrets stored in opaque Secret objects (`iomete-secret-store-{domain}` for domain, `iomete-secret-store` for global) within the same namespace as the data-plane installation
+- **IOMETE managed**: Secrets that you create in the console or through the API. IOMETE encrypts each value and stores it in the control-plane database, in the `secret_store` table of the `<prefix>core_db` database. The same store serves workloads on every data plane: choosing a workload namespace on another data plane doesn't change where secrets are kept. In API payloads these secrets have the source type `KUBERNETES`, a name kept for compatibility.
 - **HashiCorp Vault**: Customer-managed, read-only integration
+
+Older installations kept IOMETE-managed secrets in Kubernetes Secret objects in the control-plane service namespace: `iomete-secret-store-{domain}` for a domain and `iomete-secret-store` for global secrets. On every install and upgrade, the init job of the control-plane release copies keys that are missing from the database into it. Until a key is copied, IOMETE reads it from Kubernetes. The copy leaves the Kubernetes objects in place, but once a key is in the database, IOMETE uses the database value, so editing the Kubernetes object has no effect.
+
+Legacy `${secrets.key}` placeholders are the exception. They are resolved through the deprecated `secretStore` setting of the control-plane release, which by default (`type: kubernetes`) reads the `iomete-secret-store` Secret object directly. A global secret that exists only in the database isn't available to these placeholders; reference it with a secret object instead. See the [API Migration Guide](#api-migration-guide).
+
+The values in the database are encrypted with the key in the `iom-secret-encryption-key` Secret in the control-plane service namespace, or in the Secret named by `secretEncryptionKey.existingSecret`. Keep that key: without it, IOMETE can't decrypt the stored secrets.
 
 ## Feature Flag
 
-Enable secrets management in your Helm values:
+Secret objects and the Secrets pages described here depend on the global rollout flag `secretsV2`. Its default comes from `features.secretsV2.enabled` in the values of the control-plane release (`iomete-data-plane-enterprise`), which is `true`:
 
 ```yaml
 features:
   secretsV2:
     enabled: true
 ```
+
+A platform administrator can override that default under **Administration → Feature Flags** in the Admin Portal. The runtime chart for an additional data plane has no secrets setting.
+
+:::warning Turning the flag off
+If you turn `secretsV2` off, workloads stop receiving the environment variables and Spark settings that come from secret objects the next time they deploy, and the console shows the legacy Secrets page instead. Check that no workload depends on secret objects before you turn it off.
+:::
 
 ---
 
@@ -216,7 +229,7 @@ All secret references in API payloads use a `secretObject` to identify the secre
 | Field         | Description                                                |
 | ------------- | ---------------------------------------------------------- |
 | `key`         | Secret key name in the store                               |
-| `source.type` | `KUBERNETES` (IOMETE-managed) or `VAULT` (HashiCorp Vault) |
+| `source.type` | `KUBERNETES` (IOMETE-managed, stored in the control-plane database) or `VAULT` (HashiCorp Vault) |
 | `source.id`   | Domain name for Kubernetes, or Vault config ID for Vault   |
 
 ### Compute
