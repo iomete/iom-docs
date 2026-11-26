@@ -127,18 +127,27 @@ Accept only when every required edge passes or has an explicit scope exception. 
 
 <FAQSection faqs={[
   {
-    question: "Is Data Lineage in IOMETE Generally Available?",
-    answer: "Public sources reviewed here don't establish GA or preview status. IOMETE's native Data Lineage roadmap remains marked Backlog; a version-specific support statement is necessary before production acceptance.",
-    answerContent: <p>{"Public sources reviewed here don't establish GA or preview status. IOMETE's native Data Lineage roadmap remains marked Backlog; a version-specific support statement is necessary before production acceptance."}</p>
+    question: "How can I tell whether a revenue report has end-to-end data lineage?",
+    answer: "Trace one reported figure back to its source fields through the transformations that actually ran, including the final BI calculation. If a cancelled order drops out, the trace should identify the status filter and the run that applied it. IOMETE documents catalog discovery, but its public roadmap lists native data lineage as Backlog.",
+    answerContent: (<>
+      <p>{"Trace one reported figure back to its source fields through the transformations that actually ran, including the final BI calculation."}</p>
+      <p>{"If a cancelled order drops out, the trace should identify the status filter and the run that applied it. IOMETE documents catalog discovery, but its public roadmap lists native data lineage as Backlog."}</p>
+    </>)
   },
   {
-    question: "Does the Columns Tab Prove Column-Level Lineage?",
-    answer: "A schema view doesn't prove field dependencies. IOMETE documents column types, tags, and descriptions, which provide context but don't establish transformation lineage.",
-    answerContent: <p>{"A schema view doesn't prove field dependencies. IOMETE documents column types, tags, and descriptions, which provide context but don't establish transformation lineage."}</p>
+    question: "What's the difference between a column list and column-level lineage?",
+    answer: "A column list tells you which fields exist; column-level lineage tells you which inputs and transformations produced a field's value. The IOMETE Data Catalog shows column types, tags, and descriptions. Seeing a revenue column there doesn't tell you whether it uses unit price before or after discounts.",
+    answerContent: (<>
+      <p>{"A column list tells you which fields exist; column-level lineage tells you which inputs and transformations produced a field's value."}</p>
+      <p>{"The IOMETE Data Catalog shows column types, tags, and descriptions. Seeing a revenue column there doesn't tell you whether it uses unit price before or after discounts."}</p>
+    </>)
   },
   {
-    question: "Does Using PySpark Guarantee Complete Lineage?",
-    answer: "Using PySpark doesn't guarantee complete lineage. IOMETE supports Spark workloads, but the reviewed documentation doesn't establish native lineage coverage for DataFrame expressions, Python UDFs, or external processing.",
-    answerContent: <p>{"Using PySpark doesn't guarantee complete lineage. IOMETE supports Spark workloads, but the reviewed documentation doesn't establish native lineage coverage for DataFrame expressions, Python UDFs, or external processing."}</p>
+    question: "Will a lineage tool capture the same dependencies in SQL and PySpark?",
+    answer: "SQL and PySpark can produce identical rows without giving a lineage tool identical evidence. Run the same transformation both ways, then compare the recorded input fields, filters, and outputs. IOMETE supports Spark workloads, but that alone doesn't establish native lineage coverage for Python UDFs or external calls.",
+    answerContent: (<>
+      <p>{"SQL and PySpark can produce identical rows without giving a lineage tool identical evidence."}</p>
+      <p>{"Run the same transformation both ways, then compare the recorded input fields, filters, and outputs. IOMETE supports Spark workloads, but that alone doesn't establish native lineage coverage for Python UDFs or external calls."}</p>
+    </>)
   }
 ]} />

@@ -132,18 +132,27 @@ Adopt the hybrid only when correctness, freshness, source load, and access check
 
 <FAQSection faqs={[
   {
-    question: "Does Query Federation Eliminate Ingestion?",
-    answer: "No. Federation avoids an initial persistent copy, while ingestion serves repeated workloads from stored data. IOMETE documents both JDBC proxy reads and ingestion patterns.",
-    answerContent: <p>{"No. Federation avoids an initial persistent copy, while ingestion serves repeated workloads from stored data. IOMETE documents both JDBC proxy reads and ingestion patterns."}</p>
+    question: "When should a dashboard read an Iceberg copy instead of querying a live database?",
+    answer: "Use a copy when repeated reads strain the source or the dashboard must survive a source outage, provided the last refresh is recent enough. You can compare those paths in IOMETE using a JDBC proxy and an Iceberg table loaded from the same rows. Measure source load and data age alongside query time.",
+    answerContent: (<>
+      <p>{"Use a copy when repeated reads strain the source or the dashboard must survive a source outage, provided the last refresh is recent enough."}</p>
+      <p>{"You can compare those paths in IOMETE using a JDBC proxy and an Iceberg table loaded from the same rows. Measure source load and data age alongside query time."}</p>
+    </>)
   },
   {
-    question: "Are Cross-Catalog Joins the Same as External Database Queries?",
-    answer: "No. Cross-catalog joins can combine existing Iceberg tables without querying an operational database. IOMETE supports configuring multiple Spark catalogs; the connector determines how each source is read.",
-    answerContent: <p>{"No. Cross-catalog joins can combine existing Iceberg tables without querying an operational database. IOMETE supports configuring multiple Spark catalogs; the connector determines how each source is read."}</p>
+    question: "Does a cross-catalog join always query the source database?",
+    answer: "A cross-catalog join identifies tables in different catalogs; the connector for each table determines where the rows come from. In IOMETE, a join between two Iceberg tables reads their data files, whereas a join to a JDBC proxy reads the connected database. Check each input before estimating source load.",
+    answerContent: (<>
+      <p>{"A cross-catalog join identifies tables in different catalogs; the connector for each table determines where the rows come from."}</p>
+      <p>{"In IOMETE, a join between two Iceberg tables reads their data files, whereas a join to a JDBC proxy reads the connected database. Check each input before estimating source load."}</p>
+    </>)
   },
   {
-    question: "Can a Query Bypass a Separate Virtualization Layer?",
-    answer: "Yes, if supported SQL access and joins satisfy that query's requirements and its access tests pass. An IOMETE query succeeding doesn't establish parity with every capability of a separate virtualization layer.",
-    answerContent: <p>{"Yes, if supported SQL access and joins satisfy that query's requirements and its access tests pass. An IOMETE query succeeding doesn't establish parity with every capability of a separate virtualization layer."}</p>
+    question: "Can we remove the virtualization layer from one report without changing what users see?",
+    answer: "You can remove that dependency if direct queries reproduce the report's results, freshness, and access controls. For an IOMETE JDBC proxy, check which identity the source database sees, then run the report as both an allowed and a restricted user. Matching totals alone won't reveal a permissions mismatch.",
+    answerContent: (<>
+      <p>{"You can remove that dependency if direct queries reproduce the report's results, freshness, and access controls."}</p>
+      <p>{"For an IOMETE JDBC proxy, check which identity the source database sees, then run the report as both an allowed and a restricted user. Matching totals alone won't reveal a permissions mismatch."}</p>
+    </>)
   }
 ]} />

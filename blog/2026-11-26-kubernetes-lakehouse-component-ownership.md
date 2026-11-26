@@ -125,18 +125,27 @@ Finally, replay a small source batch through the real ingestion path and reconci
 
 <FAQSection faqs={[
   {
-    question: "Does a Kubernetes-Native Lakehouse Include Kubernetes and Storage?",
-    answer: "The platform package and its infrastructure are separate dependencies. IOMETE supplies platform services; your deployment supplies Kubernetes, object storage, PostgreSQL, and their recovery procedures.",
-    answerContent: <p>{"The platform package and its infrastructure are separate dependencies. IOMETE supplies platform services; your deployment supplies Kubernetes, object storage, PostgreSQL, and their recovery procedures."}</p>
+    question: "What infrastructure do we need before deploying a lakehouse on Kubernetes?",
+    answer: "Start with a cluster that has capacity for the workload, reachable object storage, and a database for platform metadata. For a self-hosted IOMETE deployment, you supply Kubernetes, object storage, and PostgreSQL. Name an operator for each and test recovery before the first production load.",
+    answerContent: (<>
+      <p>{"Start with a cluster that has capacity for the workload, reachable object storage, and a database for platform metadata."}</p>
+      <p>{"For a self-hosted IOMETE deployment, you supply Kubernetes, object storage, and PostgreSQL. Name an operator for each and test recovery before the first production load."}</p>
+    </>)
   },
   {
-    question: "Does Supported Mean Every Configuration Is Validated?",
-    answer: "A support range doesn't identify every tested combination. IOMETE's OpenShift guide names a specific validated combination, which is narrower than its supported version range.",
-    answerContent: <p>{"A support range doesn't identify every tested combination. IOMETE's OpenShift guide names a specific validated combination, which is narrower than its supported version range."}</p>
+    question: "How do we know whether our Kubernetes configuration has actually been tested?",
+    answer: "A supported version range tells you which releases qualify; a validation record names a combination that was tested together. For example, the IOMETE guide lists OpenShift 4.18 and later as supported and names OpenShift 4.22 with Operator 1.0.0 as validated. Compare those versions with your planned installation.",
+    answerContent: (<>
+      <p>{"A supported version range tells you which releases qualify; a validation record names a combination that was tested together."}</p>
+      <p>{"For example, the IOMETE guide lists OpenShift 4.18 and later as supported and names OpenShift 4.22 with Operator 1.0.0 as validated. Compare those versions with your planned installation."}</p>
+    </>)
   },
   {
-    question: "Does a Data Catalog Include End-to-End Lineage?",
-    answer: "Discovery and lineage are separate capabilities. IOMETE's catalog documentation supports discovery and classification claims; it doesn't establish complete lineage across every external ingestion and BI tool.",
-    answerContent: <p>{"Discovery and lineage are separate capabilities. IOMETE's catalog documentation supports discovery and classification claims; it doesn't establish complete lineage across every external ingestion and BI tool."}</p>
+    question: "A Spark job is waiting on Kubernetes. Which scheduler should we check?",
+    answer: "First check whether the application is still queued or its driver pod already exists and is waiting for a node. For a queued application, inspect priorities and available resources in the IOMETE Job Orchestrator. For a pending driver pod, check Kubernetes scheduling events and node placement constraints.",
+    answerContent: (<>
+      <p>{"First check whether the application is still queued or its driver pod already exists and is waiting for a node."}</p>
+      <p>{"For a queued application, inspect priorities and available resources in the IOMETE Job Orchestrator. For a pending driver pod, check Kubernetes scheduling events and node placement constraints."}</p>
+    </>)
   }
 ]} />

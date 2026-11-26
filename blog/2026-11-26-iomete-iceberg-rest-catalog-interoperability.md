@@ -147,23 +147,35 @@ Record which engine passed each operation. A read-only BI workload and a second 
 
 <FAQSection faqs={[
   {
-    question: "Does an Iceberg REST Catalog Store the Table's Rows?",
-    answer: "No. In IOMETE's documented managed architecture, rows and Iceberg metadata files live in object storage; PostgreSQL holds transactional catalog state.",
-    answerContent: <p>{"No. In IOMETE's documented managed architecture, rows and Iceberg metadata files live in object storage; PostgreSQL holds transactional catalog state."}</p>
+    question: "Where are Iceberg table rows stored, and what do I need to back up?",
+    answer: "The rows live in data files, so backing up the catalog database alone won't recover the table. For an IOMETE managed REST catalog, protect both the warehouse objects, including Iceberg metadata files, and the catalog state in PostgreSQL. Test that a restored catalog points to files you can still read.",
+    answerContent: (<>
+      <p>{"The rows live in data files, so backing up the catalog database alone won't recover the table."}</p>
+      <p>{"For an IOMETE managed REST catalog, protect both the warehouse objects, including Iceberg metadata files, and the catalog state in PostgreSQL. Test that a restored catalog points to files you can still read."}</p>
+    </>)
   },
   {
-    question: "Can Two Clusters Share an IOMETE Catalog?",
-    answer: "They can connect to the same REST authority when network access, credentials, policies, and client compatibility permit. Sharing that endpoint doesn't replicate the warehouse.",
-    answerContent: <p>{"They can connect to the same REST authority when network access, credentials, policies, and client compatibility permit. Sharing that endpoint doesn't replicate the warehouse."}</p>
+    question: "How can two Spark clusters safely write to the same Iceberg table?",
+    answer: "Have both clusters commit through one authoritative catalog, rather than registering the same table independently in two catalogs. With the IOMETE managed REST catalog, each cluster needs compatible clients, table permissions, and access to the warehouse. Append a row from each cluster and check that a fresh read sees both commits.",
+    answerContent: (<>
+      <p>{"Have both clusters commit through one authoritative catalog, rather than registering the same table independently in two catalogs."}</p>
+      <p>{"With the IOMETE managed REST catalog, each cluster needs compatible clients, table permissions, and access to the warehouse. Append a row from each cluster and check that a fresh read sees both commits."}</p>
+    </>)
   },
   {
-    question: "Is Enterprise Catalog Generally Available?",
-    answer: "No. The current IOMETE guide explicitly labels Enterprise Catalog preview and unsuitable for production. Its external REST interface remains planned.",
-    answerContent: <p>{"No. The current IOMETE guide explicitly labels Enterprise Catalog preview and unsuitable for production. Its external REST interface remains planned."}</p>
+    question: "Which Iceberg catalog should I use if external engines need production access?",
+    answer: "Choose a catalog with a supported external interface for the engines and operations you need. IOMETE documents external reads and writes through its managed Iceberg REST catalog. Its multi-format Enterprise Catalog is still in preview for internal workloads; don't assume it exposes the same interface.",
+    answerContent: (<>
+      <p>{"Choose a catalog with a supported external interface for the engines and operations you need."}</p>
+      <p>{"IOMETE documents external reads and writes through its managed Iceberg REST catalog. Its multi-format Enterprise Catalog is still in preview for internal workloads; don't assume it exposes the same interface."}</p>
+    </>)
   },
   {
-    question: "Does Registering a Table Prove Engine Interoperability?",
-    answer: "No. Registration creates a catalog entry. Validate reads, writes, metadata refresh, and denied operations through the actual clients before accepting an IOMETE integration.",
-    answerContent: <p>{"No. Registration creates a catalog entry. Validate reads, writes, metadata refresh, and denied operations through the actual clients before accepting an IOMETE integration."}</p>
+    question: "Why can an engine list an Iceberg table but not read its rows?",
+    answer: "Listing a table tests catalog access; reading its rows also requires access to the data files in storage. An external engine using the IOMETE REST catalog must reach the warehouse endpoint with suitable storage permissions. Test a row read with the intended identity before testing a write.",
+    answerContent: (<>
+      <p>{"Listing a table tests catalog access; reading its rows also requires access to the data files in storage."}</p>
+      <p>{"An external engine using the IOMETE REST catalog must reach the warehouse endpoint with suitable storage permissions. Test a row read with the intended identity before testing a write."}</p>
+    </>)
   }
 ]} />
