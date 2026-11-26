@@ -3,14 +3,14 @@ title: "Data Lineage in IOMETE: What Can You Verify Today?"
 description: "Assess data lineage in IOMETE. Separate catalog metadata from lineage, trace a revenue field through SQL and PySpark, and test what a governance review needs."
 keywords: [data lineage in IOMETE, column-level lineage, Spark lineage]
 slug: iomete-data-lineage-coverage
-authors: aytan
+authors: fuad
 tags2: [Technical, Educational]
 coverImage: img/blog/thumbnails/lightGeode.png
 date: 11/26/2026
 hide_table_of_contents: false
 last_update:
   date: 2026-11-26
-  author: Aytan Jalilova
+  author: Fuad Musayev
 ---
 
 A finance analyst asks why a cancelled order didn't count toward daily revenue. Your catalog can show the revenue column and its type. To answer the analyst, you need the filter that excluded the order and a record of the run that applied it.

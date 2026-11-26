@@ -3,14 +3,14 @@ title: "Choosing and Testing an Apache Iceberg Catalog in IOMETE"
 description: "Choose an Apache Iceberg catalog in IOMETE. Trace metadata and storage, compare managed and external catalogs, and test reads and writes from a second engine."
 keywords: [Apache Iceberg catalog, Iceberg REST catalog, external Spark]
 slug: iomete-iceberg-rest-catalog-interoperability
-authors: aytan
+authors: fuad
 tags2: [Technical, Educational]
 coverImage: img/blog/thumbnails/lightLake.png
 date: 11/26/2026
 hide_table_of_contents: false
 last_update:
   date: 2026-11-26
-  author: Aytan Jalilova
+  author: Fuad Musayev
 ---
 
 A second Spark cluster can list your Iceberg tables and still fail to read a single row. Listing tables proves it can reach the catalog; reading them also requires a route to the warehouse and permission to read the files.

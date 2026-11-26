@@ -3,14 +3,14 @@ title: "Who Runs What in an IOMETE Kubernetes-Native Lakehouse?"
 description: "Trace an order from source to BI in a Kubernetes-native lakehouse. See what IOMETE packages, what you supply, and which OpenShift versions it has tested."
 keywords: [Kubernetes-native lakehouse, OpenShift, Spark Operator]
 slug: kubernetes-lakehouse-component-ownership
-authors: aytan
+authors: fuad
 tags2: [Technical, Educational]
 coverImage: img/blog/thumbnails/lightStone.png
 date: 11/26/2026
 hide_table_of_contents: false
 last_update:
   date: 2026-11-26
-  author: Aytan Jalilova
+  author: Fuad Musayev
 ---
 
 A dashboard stops updating after the morning orders arrive. Who checks the source feed, the Spark job, the catalog, and the BI connection? Installing a Kubernetes-native lakehouse doesn't assign those responsibilities.

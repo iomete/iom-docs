@@ -3,14 +3,14 @@ title: "Query Federation or Iceberg Ingestion for a Shared Report?"
 description: "Choose between query federation and Iceberg ingestion for a reporting workload. Compare two SQL paths and test freshness, source load, access, and availability."
 keywords: [query federation, Iceberg ingestion, cross-catalog joins]
 slug: query-federation-or-iceberg-ingestion
-authors: aytan
+authors: fuad
 tags2: [Technical, Educational]
 coverImage: img/blog/thumbnails/lightRacing.png
 date: 11/26/2026
 hide_table_of_contents: false
 last_update:
   date: 2026-11-26
-  author: Aytan Jalilova
+  author: Fuad Musayev
 ---
 
 A dashboard joins orders in Iceberg to customer segments in a live database. Query federation is a good first move: you can answer the question without maintaining another table. But when the customer database goes down, should the sales dashboard go down with it?
