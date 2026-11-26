@@ -20,7 +20,7 @@ If yesterday's segments are acceptable and the dashboard needs to stay available
 {/* truncate */}
 
 import FAQSection from '@site/src/components/FAQSection';
-import Img from '@site/src/components/Img';
+import { ReportInputs } from '@site/src/components/LakehouseGuideFigures';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
@@ -64,17 +64,17 @@ For the broader mechanics, the existing [federated query explainer](/resources/b
 
 Start with a live join, then persist only the repeatedly used input. This limits pipeline work while exposing source-load problems early.
 
-Compare the two diagrams to see which input changes. Both versions read the same orders.
+Both versions read the same orders. Switch the source of the customer segments to see what happens if the database goes offline.
 
 <Tabs defaultValue="live">
 <TabItem value="live" label="Live lookup">
 
-<Img src="/img/blog/lakehouse-architecture-guides/report-live.png" alt="The report joins Iceberg order amounts with customer segments read from the source database over JDBC on each run." maxWidth="680px" centered borderless />
+<ReportInputs />
 
 </TabItem>
 <TabItem value="copy" label="Iceberg copy">
 
-<Img src="/img/blog/lakehouse-architecture-guides/report-copy.png" alt="The report joins the same orders with a customer-segment table in Iceberg. Segment values reflect the last refresh." maxWidth="680px" centered borderless />
+<ReportInputs persisted />
 
 </TabItem>
 </Tabs>

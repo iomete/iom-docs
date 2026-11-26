@@ -20,7 +20,7 @@ As of November 26, 2026, IOMETE documents catalog discovery and table metadata. 
 {/* truncate */}
 
 import FAQSection from '@site/src/components/FAQSection';
-import Img from '@site/src/components/Img';
+import { RevenueTrace, OrderTrace } from '@site/src/components/LakehouseGuideFigures';
 
 ## Mapping a Source-to-Product Flow
 
@@ -30,7 +30,7 @@ Write down the dependencies before opening the lineage view. For a daily revenue
 
 Here, `daily_revenue` is the technical output of a data product. Its owner, definition, access rules, and freshness commitment complete the product contract. The [data-as-a-product article](/resources/blog/2025/02/09/data-mesh-data-product) explains that broader ownership model.
 
-Run this Spark SQL in a disposable namespace on an Iceberg-enabled catalog where you have create and write permissions. The inline rows stand in for an ingested feed. They don't test the feed-to-table connection.
+Run this Spark SQL in a disposable namespace on an Iceberg-enabled catalog where you have create and write permissions. Use a fresh namespace for each run. The inline rows stand in for an ingested feed; they don't test the feed-to-table connection. This example uses Spark's [CREATE TABLE AS SELECT syntax](https://spark.apache.org/docs/3.5.7/sql-ref-syntax-ddl-create-table-datasource.html).
 
 ```sql
 CREATE DATABASE lineage_demo;
@@ -55,9 +55,9 @@ GROUP BY order_date;
 SELECT * FROM lineage_demo.daily_revenue;
 ```
 
-The expected result is one row: `2026-11-25`, with revenue of `30.00`. This uses Spark's documented [CREATE TABLE AS SELECT syntax](https://spark.apache.org/docs/3.5.7/sql-ref-syntax-ddl-create-table-datasource.html). Use a fresh namespace for reruns.
+For `2026-11-25`, only the two paid orders reach the aggregation:
 
-<Img src="/img/blog/lakehouse-architecture-guides/lineage-revenue.png" alt="Two paid orders of 20.00 and 10.00 add up to 30.00. The status filter excludes a cancelled order of 50.00." maxWidth="680px" centered borderless />
+<RevenueTrace />
 
 ## Distinguishing Table-Level and Column-Level Visibility
 
@@ -111,7 +111,11 @@ Also distinguish **cross-catalog querying** from **cross-domain lineage**. Readi
 
 ## Running a Buyer Acceptance Test
 
-Approve lineage against an expected dependency inventory, not a convincing screenshot. Use the example as a baseline, then replace its synthetic input and report boundary with real integrations.
+Use the two orders below as a small acceptance test. Select each one to trace its expected path through the status filter. This illustrates the test, not a native lineage viewer.
+
+<OrderTrace />
+
+Repeat the test with your own ingestion connector and report:
 
 1. **Fix the scope.** Record platform, Spark, connector, and collector versions. List expected tables, fields, transformations, and external edges.
 2. **Verify capture.** Execute SQL and PySpark variants. Match their outputs and run identifiers to captured events within an agreed delay.
