@@ -26,9 +26,9 @@ The largest on-premises data lakehouse in production runs on IOMETE, operated by
 
 - **4 data centers**, on the customer's own infrastructure, inside the customer's own perimeter.
 - **100,000+ vCPUs** of production-grade lakehouse compute, scaled across the estate.
-- **Five legacy analytics platforms consolidated into one** — a stack of overlapping warehouse, lake, and query products collapsed onto a single IOMETE lakehouse.
+- **Three legacy analytics platforms consolidated into one** — a stack of overlapping warehouse, lake, and query products collapsed onto a single IOMETE lakehouse.
 
-The point isn't the logo. It's the shape of the engagement. When an organization with effectively unlimited buying power, a deep bench of platform engineers, and active relationships with every major data vendor decides to consolidate five established platforms into one, they're voting on the architecture. That decision isn't about a feature — it's about the substrate.
+The point isn't the logo. It's the shape of the engagement. When an organization with effectively unlimited buying power, a deep bench of platform engineers, and active relationships with every major data vendor decides to consolidate established platforms into one, they're voting on the architecture. That decision isn't about a feature — it's about the substrate.
 
 ## Outcomes: a tier-1 bank, in weeks not quarters
 
@@ -81,7 +81,7 @@ These aren't aspirational. Customer-side security teams have reviewed and signed
 
 | The question a buyer asks | The answer |
 |---|---|
-| Will it scale? | 4 data centers, 100k+ vCPUs, five legacy platforms consolidated |
+| Will it scale? | 4 data centers, 100k+ vCPUs, three legacy platforms consolidated |
 | Will it deliver business value? | A tier-1 bank: overnight → sub-60s, day-old → intraday, in weeks not quarters |
 | Can we get off our legacy stack? | A national bank's phased DWH modernization, in flight today |
 | Is anyone independent backing this? | Gartner's 2025 Market Guide for Data Lakehouse Platforms |
@@ -102,7 +102,7 @@ Five data points, five different questions, one platform answering all of them. 
   },
   {
     question: "How large can a self-hosted data lakehouse scale?",
-    answer: "A self-hosted data lakehouse can scale to production estates spanning multiple data centers and well over 100,000 vCPUs of compute. The largest on-premises IOMETE deployment runs across four data centers with more than 100,000 vCPUs, consolidating five previously separate analytics platforms into one, entirely on the customer's own infrastructure. That demonstrates the architecture holds under real enterprise load, not just in benchmarks."
+    answer: "A self-hosted data lakehouse can scale to production estates spanning multiple data centers and well over 100,000 vCPUs of compute. The largest on-premises IOMETE deployment runs across four data centers with more than 100,000 vCPUs, consolidating three previously separate analytics platforms into one, entirely on the customer's own infrastructure. That demonstrates the architecture holds under real enterprise load, not just in benchmarks."
   },
   {
     question: "What compliance certifications does a sovereign lakehouse need?",
