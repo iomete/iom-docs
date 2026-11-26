@@ -3,7 +3,7 @@ title: dbt Configuration Reference
 sidebar_label: Configuration Reference
 description: Reference for dbt-iomete connection, model, incremental, and Python model settings.
 last_update:
-  date: 09/04/2026
+  date: 11/07/2026
   author: Abhishek Pathania
 ---
 
@@ -20,11 +20,11 @@ Add connection settings under an IOMETE output in `~/.dbt/profiles.yml`.
 | Setting | Available Since | Required | Default | Description |
 | --- | --- | --- | --- | --- |
 | `type` | 1.0.0 | Yes | — | Adapter type. Set this to `iomete`. |
-| `host` | 1.0.0 | Yes | — | IOMETE hostname without the protocol (e.g., `example.iomete.com`). |
+| `host` | 1.0.0 | Yes | — | The **Host** value on the compute's **Connections → DBT** card, without the protocol (e.g., `analytics.example.com`). |
 | `port` | 1.0.0 | No | `443` | IOMETE port. |
 | `https` | 1.7.0 | No | `true` | Uses HTTPS when `true` and HTTP when `false`. |
-| `dataplane` | 1.7.3 | Yes | — | IOMETE namespace/data plane name (e.g., `iomete-system`). |
-| `domain` | 1.7.4 | Yes | — | IOMETE domain name (e.g., `analytics`). |
+| `dataplane` | 1.7.3 | Yes | — | Kubernetes namespace where the compute runs: the **Namespace** value on the **DBT** card (e.g., `finance`). Despite the setting's name, use the namespace, not the data plane ID. |
+| `domain` | 1.7.4 | Yes | — | IOMETE domain: the **Domain** value on the **DBT** card (e.g., `business`). |
 | `lakehouse` | 1.1.0 | Yes | — | Compute cluster name. |
 | `catalog` | 1.7.7 | No | `spark_catalog` | Default catalog. The adapter also accepts `database` as the underlying dbt field name. |
 | `schema` | 1.0.0 | Yes | — | Default database or schema where dbt creates objects. The value cannot contain a period. |
@@ -35,6 +35,8 @@ Add connection settings under an IOMETE output in `~/.dbt/profiles.yml`.
 | `connect_timeout` | 1.0.0 | No | `120` | Seconds to wait between connection attempts when retries are enabled. |
 | `retry_all` | 1.0.0 | No | `false` | Retries every connection error when `true`. Otherwise, retries apply only to errors reported as pending or temporarily unavailable. |
 | `list_relations_threads` | 1.8.2 | No | `100` | Maximum concurrent `DESCRIBE EXTENDED` queries used while listing relations. This does not change model-build concurrency. |
+
+Copy the host and namespace for the intended compute together. For example, a compute in the `finance` namespace on the `analytics` data plane uses `host: analytics.example.com` and `dataplane: finance`. The `host` reaches that compute's data plane, while `dataplane` is the adapter's legacy name for the Kubernetes namespace. The `catalog` and `schema` settings select data independently of workload placement.
 
 Use `list_relations_threads` to tune metadata listing separately from model execution. Lower it if relation discovery creates too much load on the data plane:
 

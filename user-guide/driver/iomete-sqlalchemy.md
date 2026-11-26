@@ -3,7 +3,7 @@ title: IOMETE SQLAlchemy Driver
 description: Connect to IOMETE using the iomete-sqlalchemy dialect, which uses Arrow Flight SQL for high-performance gRPC-based connectivity.
 sidebar_label: IOMETE SQLAlchemy
 last_update:
-  date: 04/17/2026
+  date: 11/06/2026
   author: Sanan Ahmadli
 ---
 
@@ -27,23 +27,25 @@ pip install iomete-sqlalchemy
 ## Connection URL Format
 
 ```
-iomete://<user>:<password>@<host>:<port>/<catalog>/<schema>?cluster=<cluster>&data_plane=<data_plane>
+iomete://<user>:<password>@<host>:<port>/<catalog>/<schema>?cluster=<cluster>&data_plane=<kubernetes_namespace>
 ```
 
 ### Parameters
 
 | Parameter | Description | Default |
 |---|---|---|
-| `host` | IOMETE host | Required |
+| `host` | Host for the compute's data plane, from its Connections tab | Required |
 | `port` | gRPC port | `443` |
 | `catalog` | Top-level catalog (e.g. `spark_catalog`) | Required |
 | `schema` | Schema / database inside the catalog | Required |
 | `cluster` | IOMETE compute cluster name | Required |
-| `data_plane` | IOMETE data plane name | Required |
+| `data_plane` | Compute's Kubernetes namespace (the driver retains this legacy parameter name) | Required |
 | `tls` | Use `grpc+tls` transport | `true` |
 | `max_msg_size` | Max gRPC message size in bytes | `134217728` (128 MB) |
 
-You can find the host, port, cluster, and data plane values from the **Connection Details** tab of your lakehouse in the IOMETE console.
+Find the host, port, and compute name under **Compute → select a compute → Connections**. Use the compute's **Namespace** value for `data_plane`. For example, a compute in namespace `finance` on data plane `analytics` uses `data_plane=finance` with that data plane's host.
+
+The `catalog` and `schema` URL path segments select data to query. They are independent of the Kubernetes namespace used to route the connection.
 
 ## Usage
 
@@ -55,7 +57,7 @@ from sqlalchemy import create_engine, text
 engine = create_engine(
     "iomete://<username>:<personal_access_token>@<host>:443"
     "/spark_catalog/default"
-    "?cluster=<cluster>&data_plane=<data_plane>"
+    "?cluster=<cluster>&data_plane=<kubernetes_namespace>"
 )
 
 with engine.connect() as conn:
@@ -71,7 +73,7 @@ from sqlalchemy import create_engine, text
 engine = create_engine(
     "iomete://<username>:<personal_access_token>@<host>:443"
     "/spark_catalog/default"
-    "?cluster=<cluster>&data_plane=<data_plane>"
+    "?cluster=<cluster>&data_plane=<kubernetes_namespace>"
 )
 
 with engine.connect() as conn:
@@ -90,7 +92,7 @@ from sqlalchemy import create_engine, inspect
 engine = create_engine(
     "iomete://<username>:<personal_access_token>@<host>:443"
     "/spark_catalog/default"
-    "?cluster=<cluster>&data_plane=<data_plane>"
+    "?cluster=<cluster>&data_plane=<kubernetes_namespace>"
 )
 
 inspector = inspect(engine)
