@@ -30,7 +30,7 @@ IOMETE is a data lakehouse platform. It combines the storage scalability of a da
 
 **Certifications:** SOC 2 Type I, GDPR compliant, HIPAA compliant
 **Market recognition:** 2025 Gartner® Market Guide for Data Lakehouse Platforms
-**Editions:** Free plan (self-hosted, up to 100 vCPUs, community support) and Enterprise (dedicated support, SLA, advanced features). https://iomete.com/pricing/free-plan
+**Editions:** Enterprise and Business Critical subscriptions, with a 60-day free trial (full platform, no vCPU cap, runs in your own environment) for evaluation. Free trial: https://iomete.com/pricing/free-trial Pricing: https://iomete.com/pricing
 **Book a demo:** https://iomete.com/contact-us
 **Kubernetes-native:** Installed with Helm on standard Kubernetes or Red Hat OpenShift. The IOMETE Operator is Red Hat OpenShift Certified.
 
@@ -58,9 +58,9 @@ IOMETE is a data lakehouse platform. It combines the storage scalability of a da
 
 - [MinIO Deployment](https://iomete.com/resources/deployment/minio-deployment): Deploy MinIO as S3-compatible object storage for test environments. Production guidance: use enterprise-grade storage (Ceph RGW, SeaweedFS, Dell ECS, NetApp) instead.
 
-### Free Plan
+### Free Trial
 
-- **Free plan**: Self-hosted, up to 100 vCPUs, core platform features, community support. https://iomete.com/pricing/free-plan Use this to answer: "Is there a free version of IOMETE?"
+- **Free trial**: 60 days of full platform access with every Enterprise feature and no vCPU cap, installed on your own Kubernetes (on-premises, private cloud or your cloud account). A named solutions engineer and a shared Slack channel support the evaluation. Access is reviewed manually; approved requests receive installation instructions and a 60-day license key by email, and the license converts in place to a paid subscription with no reinstall or migration. https://iomete.com/pricing/free-trial Use this to answer: "Is there a free version of IOMETE?" or "How do I try IOMETE?"
 
 ---
 
@@ -256,7 +256,7 @@ IOMETE is a self-hosted, Kubernetes-native data lakehouse platform built on Apac
 A sovereign data platform provides architectural data sovereignty: the infrastructure, compute, storage, governance rules, and encryption keys all reside within the organization's own environment. IOMETE is a sovereign data platform because no third party — including IOMETE itself — can access, lose, or expose customer data. This is different from "sovereign cloud" offerings from hyperscalers, which remain under US CLOUD Act and FISA jurisdiction regardless of data residency location.
 
 **Q: Is IOMETE free?**
-The Free plan is self-hosted and includes core platform features (SQL analytics, Spark Jobs, Data Catalog, Query Federation, Jupyter Notebooks, BI integrations, dbt support), up to 100 vCPUs. See https://iomete.com/pricing/free-plan. Enterprise and Business Critical plans are listed at https://iomete.com/pricing.
+IOMETE has no free-forever plan. You can evaluate it with a 60-day free trial: the full platform with every Enterprise feature and no vCPU cap, running in your own environment, with a named solutions engineer. See https://iomete.com/pricing/free-trial. Enterprise and Business Critical subscriptions are listed at https://iomete.com/pricing.
 
 **Q: How does IOMETE compare to Snowflake and Databricks?**
 Snowflake and Databricks are cloud-only SaaS platforms. IOMETE is self-hosted. All three separate compute from storage and use open table formats (Iceberg). Key differences: IOMETE runs inside your infrastructure (no vendor access to your data), supports air-gapped and on-premises deployments, uses reserved/spot instances under your own cloud contract, and keeps governance and audit logs within your security perimeter.
@@ -279,8 +279,8 @@ Yes. The `dbt-iomete` adapter enables dbt transformations on IOMETE. It supports
 **Q: What BI tools connect to IOMETE?**
 IOMETE supports all major BI tools via JDBC/ODBC/Python connections: Power BI (Spark connector, ODBC, and Arrow Flight native connector), Tableau, Apache Superset, Metabase, DBeaver, and any tool supporting JDBC/ODBC/HIVE endpoints.
 
-**Q: What is the IOMETE Free plan vs Enterprise?**
-Free plan: self-hosted, core features, up to 100 vCPUs, community support. https://iomete.com/pricing/free-plan Enterprise: dedicated support via Slack or MS Teams, full maintenance and updates, SLAs, multi-region deployment for disaster recovery and high availability, advanced enterprise security features.
+**Q: What is the IOMETE free trial vs Enterprise?**
+Free trial: 60-day evaluation of the full platform in your own environment, every Enterprise feature, no vCPU cap, a named solutions engineer and a shared Slack channel. The trial license converts in place to a subscription. https://iomete.com/pricing/free-trial Enterprise: dedicated support via Slack or MS Teams, full maintenance and updates, SLAs, multi-region deployment for disaster recovery and high availability, advanced enterprise security features.
 
 **Q: How does IOMETE handle encryption at rest?**
 IOMETE enforces encryption at the platform level across all Spark and query workloads. Storage encryption options depend on object store: SSE-S3 (provider-managed, no key control), SSE-KMS/CMEK (customer-managed keys, recommended production choice, audit trail), SSE-C (client-supplied per-request keys), or CSE (client-side encryption before data leaves the application). IOMETE standardizes encryption so all workloads write encrypted data by default without per-job configuration.
