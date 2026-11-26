@@ -20,6 +20,9 @@ If yesterday's segments are acceptable and the dashboard needs to stay available
 {/* truncate */}
 
 import FAQSection from '@site/src/components/FAQSection';
+import Img from '@site/src/components/Img';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 ## What Query Federation Actually Reads
 
@@ -60,6 +63,21 @@ For the broader mechanics, the existing [federated query explainer](/resources/b
 ## A Staged Adoption Example in IOMETE
 
 Start with a live join, then persist only the repeatedly used input. This limits pipeline work while exposing source-load problems early.
+
+Compare the two diagrams to see which input changes. Both versions read the same orders.
+
+<Tabs defaultValue="live">
+<TabItem value="live" label="Live lookup">
+
+<Img src="/img/blog/lakehouse-architecture-guides/report-live.png" alt="The report joins Iceberg order amounts with customer segments read from the source database over JDBC on each run." maxWidth="680px" centered borderless />
+
+</TabItem>
+<TabItem value="copy" label="Iceberg copy">
+
+<Img src="/img/blog/lakehouse-architecture-guides/report-copy.png" alt="The report joins the same orders with a customer-segment table in Iceberg. Segment values reflect the last refresh." maxWidth="680px" centered borderless />
+
+</TabItem>
+</Tabs>
 
 IOMETE documents [JDBC proxy queries](/resources/reference/sql-quick-start/query-federation) and [multiple Spark catalogs](/resources/user-guide/spark-catalogs/overview). Use connectors supported by your installed release, with network access and read-only source credentials configured.
 

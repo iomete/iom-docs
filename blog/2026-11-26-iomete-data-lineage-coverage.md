@@ -20,6 +20,7 @@ As of November 26, 2026, IOMETE documents catalog discovery and table metadata. 
 {/* truncate */}
 
 import FAQSection from '@site/src/components/FAQSection';
+import Img from '@site/src/components/Img';
 
 ## Mapping a Source-to-Product Flow
 
@@ -55,6 +56,8 @@ SELECT * FROM lineage_demo.daily_revenue;
 ```
 
 The expected result is one row: `2026-11-25`, with revenue of `30.00`. This uses Spark's documented [CREATE TABLE AS SELECT syntax](https://spark.apache.org/docs/3.5.7/sql-ref-syntax-ddl-create-table-datasource.html). Use a fresh namespace for reruns.
+
+<Img src="/img/blog/lakehouse-architecture-guides/lineage-revenue.png" alt="Two paid orders of 20.00 and 10.00 add up to 30.00. The status filter excludes a cancelled order of 50.00." maxWidth="680px" centered borderless />
 
 ## Distinguishing Table-Level and Column-Level Visibility
 

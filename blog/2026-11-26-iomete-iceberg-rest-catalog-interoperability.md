@@ -20,10 +20,13 @@ When choosing an Apache Iceberg catalog in IOMETE, start with the table's owner.
 {/* truncate */}
 
 import FAQSection from '@site/src/components/FAQSection';
+import Img from '@site/src/components/Img';
 
 ## Separating Table Files, Metadata, and Catalog State
 
 Separating these layers prevents a common deployment mistake: treating the catalog database as the warehouse. For Iceberg v2 tables, object storage holds data files, delete files when present, and Iceberg metadata files.
+
+<Img src="/img/blog/lakehouse-architecture-guides/catalog-access.png" alt="A Spark client contacts the REST catalog to locate table metadata and object storage to read the files." maxWidth="680px" centered borderless />
 
 The [Apache Iceberg specification](https://iceberg.apache.org/spec/) describes the file hierarchy. Table metadata JSON records schemas, partition specifications, and snapshots. A snapshot references a manifest list, which references manifests describing data and delete files.
 

@@ -20,6 +20,7 @@ IOMETE packages the services that run Spark applications, manage Iceberg catalog
 {/* truncate */}
 
 import FAQSection from '@site/src/components/FAQSection';
+import Img from '@site/src/components/Img';
 
 ## Following a Workload Through the Kubernetes-Native Lakehouse
 
@@ -36,6 +37,8 @@ The [architecture overview](/resources/getting-started/architecture) documents t
 ## Separating Packaged Services From Supplied Infrastructure
 
 Packaging tells you what installs together, not who operates everything. The [deployment architecture reference](/resources/deployment/architecture-deployment) lists the chart's services and feature flags.
+
+<Img src="/img/blog/lakehouse-architecture-guides/ownership-layers.png" alt="External sources and BI tools sit above IOMETE services. The deployment supplies Kubernetes, storage and PostgreSQL." maxWidth="680px" centered borderless />
 
 | Boundary | IOMETE Provides | Your Deployment Supplies |
 |---|---|---|
