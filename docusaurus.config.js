@@ -11,8 +11,10 @@ import { DEMO_PATH } from "./src/components/DemoCta/paths.js";
 // Injects width/height into <Img> usages at build time so images reserve
 // their space before loading (CLS fix). See plugins/remark-image-dimensions.js
 const remarkImageDimensions = require("./plugins/remark-image-dimensions");
-// Places the slim in-article CTA in the middle of blog posts.
+// Places the in-article CTA (60-day free trial banner) in the middle of blog posts.
 const remarkBlogCTA = require("./plugins/remark-blog-cta");
+// Appends the 60-day free trial banner to docs pages. See plugins/remark-docs-trial-banner.js
+const remarkDocsTrialBanner = require("./plugins/remark-docs-trial-banner");
 // Release-notes pages render version headings in JSX, so build their TOC from
 // <Release> elements. See plugins/remark-release-toc.js
 const remarkReleaseToc = require("./plugins/remark-release-toc");
@@ -90,7 +92,7 @@ const config = {
           routeBasePath: "/",
           sidebarPath: "./sidebars.js",
           breadcrumbs: true,
-          beforeDefaultRemarkPlugins: [remarkImageDimensions],
+          beforeDefaultRemarkPlugins: [remarkImageDimensions, remarkDocsTrialBanner],
           remarkPlugins: [remarkReleaseToc],
         },
         blog: {
