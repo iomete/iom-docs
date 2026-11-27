@@ -2,7 +2,7 @@
 title: Event Stream
 description: Learn how to create and manage Event Streams in IOMETE for real-time event ingestion into Apache Iceberg tables.
 last_update:
-  date: 01/31/2026
+  date: 11/26/2026
   author: Shahriyar Novruzov
 ---
 
@@ -160,6 +160,48 @@ Additional metadata columns (`__id__`, `__ts__`, `__write_id__`) will be added a
 | `__id__`       | Unique event identifier (auto-generated UUID)             |
 | `__ts__`       | Event ingestion timestamp (auto-generated)                |
 | `__write_id__` | Write batch identifier for data organization              |
+
+### Storing Semi-Structured Data in a VARIANT Column
+
+A `VARIANT` column takes any JSON value: an object, an array, a string, a number, a boolean or `null`. Use it for fields whose shape changes from event to event, so you do not need a new column for each new field.
+
+`VARIANT` needs an Iceberg format-version 3 table, and a Spark 4 compute cluster to create and query it:
+
+```sql
+CREATE TABLE analytics.events.platform_events (
+    event_type STRING,
+    user_id STRING,
+    attributes VARIANT
+) TBLPROPERTIES ('format-version' = '3');
+```
+
+Send the field's value as plain JSON. Each event can carry a different shape:
+
+```json
+[
+  {"event_type": "query_completed", "user_id": "u-10234",
+   "attributes": {"query_id": "q-4f1c", "compute": "analytics-cluster", "duration_ms": 5320,
+                  "rows_read": 1250000, "tables": ["spark_catalog.sales.orders", "spark_catalog.sales.customers"]}},
+  {"event_type": "compute_scaled", "user_id": "u-10234",
+   "attributes": {"compute": "analytics-cluster", "executors": {"from": 2, "to": 6}}}
+]
+```
+
+Read values out of it with `variant_get`, or turn it back into JSON text with `to_json`:
+
+```sql
+SELECT variant_get(attributes, '$.compute', 'string')     AS compute,
+       variant_get(attributes, '$.duration_ms', 'bigint') AS duration_ms,
+       variant_get(attributes, '$.tables[0]', 'string')   AS first_table
+FROM analytics.events.platform_events
+WHERE event_type = 'query_completed';
+```
+
+:::note
+- Only a top-level `VARIANT` column is supported. A table with a `VARIANT` inside a struct, array or map rejects every request with `400`.
+- A JSON `null`, or a field left out of the event, is stored as SQL `NULL`, not as a variant null. Find these events with `attributes IS NULL`; `is_variant_null(attributes)` does not match them.
+- Event Stream reads JSON numbers as 64-bit integers or doubles, so a whole number beyond 64 bits, or a decimal with more digits than a double keeps, loses precision. Send such values as strings.
+:::
 ---
 
 ## Sending Events
@@ -276,6 +318,8 @@ Ensure your JSON field names match your Iceberg table column names. Mismatched f
 
 For complex or dynamic event fields (such as nested objects or fields with varying structures), define the Iceberg column as a string type. The Event Stream will automatically cast these values to strings, allowing you to store flexible data without strict schema requirements.
 
+To query inside such fields without parsing text, use a [`VARIANT` column](#storing-semi-structured-data-in-a-variant-column) instead.
+
 ### Use Persistent Volume for Production
 
 When creating an Event Stream for production workloads, always attach a persistent volume. Without a volume, in-flight events may be lost if the service restarts.
@@ -310,6 +354,7 @@ def send_with_retry(events, max_retries=3):
 | 400 | BAD_REQUEST | Invalid JSON | Verify JSON syntax is valid |
 | 400 | BAD_REQUEST | Expected JSON array | Wrap events in array: `[{...}]` even for single events |
 | 400 | BAD_REQUEST | Schema mismatch | Ensure JSON field types match table column types |
+| 400 | BAD_REQUEST | A variant inside a struct, list or map is not supported | Make the `VARIANT` column a top-level column of the table |
 | 401 | UNAUTHORIZED | Missing authorization header | Add `Authorization` header with your Personal Access Token |
 | 401 | UNAUTHORIZED | Invalid or expired token | Generate a new Personal Access Token |
 | 403 | FORBIDDEN | No access to Event Stream | Request access to the Event Stream service |
