@@ -27,8 +27,8 @@ function query(placement, page) {
  * by plugins/remark-trial-banner.js. On blog posts it is an addition to the
  * slim in-article BlogCTA, not a replacement.
  *
- * Line-only design, the slim BlogCTA scaled up: one hairline above, the same
- * hairline below, a fluoro rule on the left. No fill and no artwork.
+ * Line-only design: a hairline frame with short corner marks and a hairline
+ * divider before the actions. No fill and no artwork.
  */
 export default function TrialBanner({ page, placement = "docs" }) {
   const q = query(placement, page);

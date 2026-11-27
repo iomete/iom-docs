@@ -1,6 +1,6 @@
-// 60-day free trial banner. Line-only, the slim BlogCTA scaled up: the same
-// hairline above and below, a fluoro rule on the left, Dmmono eyebrow,
-// Archivo title, Inter body. No fill, no artwork.
+// 60-day free trial banner. Line-only: a hairline frame with short corner
+// marks, a hairline divider before the actions, Dmmono eyebrow, Archivo
+// title, Inter body. No fill, no artwork.
 // Depends on .iomete-btn from DemoCta/style.scss.
 
 .trial-banner {
@@ -10,12 +10,30 @@
   justify-content: space-between;
   gap: 2.5rem;
   margin: 3rem 0;
-  padding: 1.875rem 0 1.875rem 2rem;
-  border-top: 1px solid var(--border-primary);
-  border-bottom: 1px solid var(--border-primary);
-  border-left: 4px solid var(--fluoro-400);
+  padding: 2.125rem 2.25rem;
+  border: 1px solid var(--border-primary);
   color: var(--text-primary);
   font-family: Inter, "Inter Fallback", var(--ifm-font-family-base);
+
+  // Corner marks: one overlay, two short strokes per corner.
+  &::before {
+    --mark: var(--text-primary);
+    --stroke: linear-gradient(var(--mark), var(--mark));
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    background:
+      var(--stroke) top left / 0.75rem 2px,
+      var(--stroke) top left / 2px 0.75rem,
+      var(--stroke) top right / 0.75rem 2px,
+      var(--stroke) top right / 2px 0.75rem,
+      var(--stroke) bottom left / 0.75rem 2px,
+      var(--stroke) bottom left / 2px 0.75rem,
+      var(--stroke) bottom right / 0.75rem 2px,
+      var(--stroke) bottom right / 2px 0.75rem;
+    background-repeat: no-repeat;
+  }
 
   &__copy {
     min-width: 0;
@@ -56,7 +74,11 @@
     flex: none;
     flex-direction: column;
     align-items: flex-start;
+    align-self: stretch;
+    justify-content: center;
     gap: 1rem;
+    padding-left: 2.5rem;
+    border-left: 1px solid var(--border-primary);
   }
 
   a.trial-banner__btn {
@@ -95,9 +117,11 @@
     flex-direction: column;
     align-items: stretch;
     gap: 1.25rem;
-    padding: 1.5rem 0 1.5rem 1.25rem;
+    padding: 1.5rem 1.25rem;
 
     &__actions {
+      padding-left: 0;
+      border-left: 0;
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
