@@ -8,7 +8,6 @@ last_update:
   author: Abhishek Pathania
 ---
 
-import DemoCta from '@site/src/components/DemoCta';
 
 Incremental models skip reprocessing your entire source dataset on every run, which can be the difference between a transformation that finishes in seconds and one that drags on for hours. They're built as tables in your data lake. The first run transforms _all rows_ of source data, and on later runs dbt transforms only the rows you filter for, then inserts them into the existing target table.
 
@@ -374,5 +373,3 @@ select ...
 :::caution
 Predicates reference `DBT_INTERNAL_DEST` (the target table alias). A wrong predicate can silently skip rows during the merge, so run `--full-refresh` to recover.
 :::
-
-<DemoCta variant="A" page="dbt-incremental-models" position="end" />

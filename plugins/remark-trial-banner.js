@@ -11,8 +11,7 @@
  * short pages get it too.
  *
  * Skipped when:
- *   - the page already places a DemoCta or TrialBanner by hand (all of those
- *     sit at the end of the page, so the banner would stack on another CTA),
+ *   - the page already places a TrialBanner by hand,
  *   - the page is a glossary entry,
  *   - the page is a partial (_name.md),
  *   - frontmatter sets `trial_banner: false`.
@@ -24,7 +23,7 @@ const DOCS_DIR = `${path.sep}docs${path.sep}`;
 const BLOG_DIR = `${path.sep}blog${path.sep}`;
 const USER_GUIDE_DIR = `${path.sep}user-guide${path.sep}`;
 const IMPORT_SOURCE = "@site/src/components/TrialBanner";
-const MANUAL_CTAS = new Set(["DemoCta", "TrialBanner"]);
+const MANUAL_CTAS = new Set(["TrialBanner"]);
 
 function filePathOf(file) {
   return (file && (file.path || file.history?.[0])) || "";

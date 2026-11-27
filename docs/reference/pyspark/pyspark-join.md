@@ -986,5 +986,3 @@ As you've seen in the example, even though there's a null in the purchases table
 
 ### Partitioning
 **Partitioning**: The process of dividing a large DataFrame into smaller pieces (partitions) that can be processed in parallel. Effective partitioning is crucial for optimizing join operations in distributed computing.
-
-<DemoCta variant="A" page="pyspark-join" position="end" />
