@@ -1,8 +1,8 @@
 import React from "react";
+import Link from "@docusaurus/Link";
 import { useBlogPost } from "@docusaurus/plugin-content-blog/client";
-import TrialBanner from "../TrialBanner";
-import { FREE_TRIAL_PATH } from "../DemoCta/paths";
 import { VARIANTS, selectVariant, withUtm } from "./variants";
+import "./style.scss";
 
 const BLOG_PATH = "/resources/blog/";
 
@@ -34,26 +34,28 @@ export function BlogCTAView({ post, variant }) {
   const content = VARIANTS[key];
   if (!content) return null;
 
-  const secondary = {
-    label: `${content.primary.label} →`,
-    href: withUtm(post.ctaLink || content.primary.href, post.slug),
-  };
+  const href = withUtm(post.ctaLink || content.primary.href, post.slug);
 
   return (
-    <div className={`blog-cta blog-cta--${key}`} data-cta-variant={key}>
-      <TrialBanner
-        placement="blog"
-        href={withUtm(FREE_TRIAL_PATH, post.slug)}
-        secondary={secondary}
-      />
-    </div>
+    <aside className={`blog-cta blog-cta--${key}`} data-cta-variant={key}>
+      <p className="blog-cta__eyebrow">{content.eyebrow}</p>
+      <p className="blog-cta__body">
+        {content.line}{" "}
+        <Link className="blog-cta__link" to={href}>
+          {content.primary.label}
+          <span className="blog-cta__arrow" aria-hidden="true">
+            →
+          </span>
+        </Link>
+      </p>
+    </aside>
   );
 }
 
 /**
- * In-article call to action. Placed mid-post by plugins/remark-blog-cta.js
- * (or by hand in MDX). It renders the 60-day free trial banner; the post's
- * variant (see ./variants.js) supplies the secondary link beside the button.
+ * Slim in-article call to action. Placed mid-post by plugins/remark-blog-cta.js
+ * (or by hand in MDX). One line of copy, one link: it should read as a rule in
+ * the text, never as a banner.
  *
  * Both placements render inside the blog post body, so BlogPostProvider is
  * always present and the hook is called unconditionally at the top level.

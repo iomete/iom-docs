@@ -1,0 +1,60 @@
+// Slim in-article CTA. Sits inside the text column, mid-post: a hairline rule
+// above and below, a fluoro accent tick, one line of copy and one link. No
+// card, no wide box — brand guardrails keep FLUORO-400 as an accent only.
+.blog-cta {
+  margin: 2.25rem 0;
+  padding: 0.85rem 0 0.9rem 0.9rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+  border-left: 2px solid var(--fluoro-400);
+  background: none;
+
+  &--sovereign {
+    border-left-color: var(--fluoro-400);
+  }
+
+  &--reference {
+    border-left-color: var(--ifm-color-emphasis-300);
+  }
+
+  &__eyebrow {
+    margin: 0 0 0.2rem;
+    font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    // emphasis-700: 5.56:1 on the light #fcfcf8 page, 11.96:1 on dark #202020.
+    // emphasis-600 was 2.98:1 in light mode (WCAG AA needs 4.5:1).
+    color: var(--ifm-color-emphasis-700);
+  }
+
+  &__body {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--ifm-color-emphasis-800);
+  }
+
+  &__link {
+    white-space: nowrap;
+    font-weight: 600;
+    // primary-dark #0065db: 5.26:1 on #fcfcf8 (primary #0070f3 was 4.43:1).
+    color: var(--ifm-color-primary-dark);
+    text-decoration: none;
+
+    [data-theme="dark"] & {
+      // In dark mode primary-dark is darker, not lighter; use primary-light
+      // #65a9f3 (6.61:1 on #202020).
+      color: var(--ifm-color-primary-light);
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__arrow {
+    margin-left: 0.3rem;
+  }
+}

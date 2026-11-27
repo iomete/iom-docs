@@ -3,9 +3,10 @@
  *
  * A CTA appended after the last paragraph is read by almost nobody: most
  * readers leave a long post well before the footer. This plugin injects a
- * single `<BlogCTA />` node into the body itself, at ~45% of the post's
- * words, so the ask arrives while the reader is still engaged. It renders the
- * 60-day free trial banner (see src/components/TrialBanner).
+ * single slim `<BlogCTA />` node into the body itself, at ~45% of the post's
+ * words, so the ask arrives while the reader is still engaged. The block is
+ * deliberately narrow (see BlogCTA/style.scss) so it reads as a rule in the
+ * text flow, not as a banner.
  *
  * Only blog posts get it. The glossary and the docs share remark config but
  * are not conversion surfaces, so they are skipped by path. Very short posts
@@ -200,7 +201,7 @@ module.exports = function remarkBlogCTA() {
     const manual = tree.children.some(
       (n) =>
         n.type === "mdxJsxFlowElement" &&
-        (n.name === "BlogCTA" || n.name === "DemoCta" || n.name === "TrialBanner")
+        (n.name === "BlogCTA" || n.name === "DemoCta")
     );
     if (manual) return;
 

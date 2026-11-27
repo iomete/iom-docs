@@ -11,10 +11,10 @@ import { DEMO_PATH } from "./src/components/DemoCta/paths.js";
 // Injects width/height into <Img> usages at build time so images reserve
 // their space before loading (CLS fix). See plugins/remark-image-dimensions.js
 const remarkImageDimensions = require("./plugins/remark-image-dimensions");
-// Places the in-article CTA (60-day free trial banner) in the middle of blog posts.
+// Places the slim in-article CTA in the middle of blog posts.
 const remarkBlogCTA = require("./plugins/remark-blog-cta");
-// Appends the 60-day free trial banner to docs pages. See plugins/remark-docs-trial-banner.js
-const remarkDocsTrialBanner = require("./plugins/remark-docs-trial-banner");
+// Appends the 60-day free trial banner to blog posts and docs pages. See plugins/remark-trial-banner.js
+const remarkTrialBanner = require("./plugins/remark-trial-banner");
 // Release-notes pages render version headings in JSX, so build their TOC from
 // <Release> elements. See plugins/remark-release-toc.js
 const remarkReleaseToc = require("./plugins/remark-release-toc");
@@ -92,7 +92,7 @@ const config = {
           routeBasePath: "/",
           sidebarPath: "./sidebars.js",
           breadcrumbs: true,
-          beforeDefaultRemarkPlugins: [remarkImageDimensions, remarkDocsTrialBanner],
+          beforeDefaultRemarkPlugins: [remarkImageDimensions, remarkTrialBanner],
           remarkPlugins: [remarkReleaseToc],
         },
         blog: {
@@ -106,7 +106,7 @@ const config = {
           blogDescription:
             "Modern lakehouse platform built on Apache Iceberg and Apache Spark. Cloud, on-premises and hybrid deployment.",
           onUntruncatedBlogPosts: "ignore",
-          beforeDefaultRemarkPlugins: [remarkImageDimensions, remarkBlogCTA],
+          beforeDefaultRemarkPlugins: [remarkImageDimensions, remarkBlogCTA, remarkTrialBanner],
         },
 
         theme: {
