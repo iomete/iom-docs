@@ -222,5 +222,3 @@ Explore the rest of the Getting Started section to learn more about the platform
 - [Platform Tour](./platform-tour) - navigate the IOMETE console, sidebar menus, and domain vs. admin areas
 - [Scalability](./scalability) - four scaling layers, autoscaling configuration, and cost optimization
 - [Support](./support) - getting help and contacting the IOMETE team
-
-<DemoCta variant="B" page="what-is-iomete" position="end" />

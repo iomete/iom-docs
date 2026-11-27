@@ -9,7 +9,6 @@ last_update:
 ---
 
 import Img from '@site/src/components/Img';
-import DemoCta from '@site/src/components/DemoCta';
 
 IOMETE is a Data Lakehouse Platform for AI and Analytics built on [Apache Spark](https://spark.apache.org/), [Apache Iceberg](https://iceberg.apache.org/), and [Kubernetes](https://kubernetes.io/). It deploys as a [Helm](https://helm.sh/) chart into a Kubernetes cluster and uses object storage ([AWS S3](https://aws.amazon.com/s3/), [Google Cloud Storage](https://cloud.google.com/storage), [Azure Blob/ADLS](https://azure.microsoft.com/en-us/products/storage/blobs), [Apache Ozone](https://ozone.apache.org/), [Dell ECS](https://www.dell.com/en-us/dt/storage/ecs/index.htm), [MinIO](https://min.io/)) as its data layer. From a single console, you can manage compute clusters, run Spark jobs, query data with SQL, browse the data catalog, and enforce security policies.
 
@@ -213,5 +212,3 @@ Understanding the deployment topology helps you plan infrastructure, estimate re
 For details on how IOMETE is deployed on Kubernetes (including the Helm chart structure, service inventory, feature flags, and infrastructure requirements), see the [Deployment Architecture](../deployment/architecture-deployment) reference.
 
 For step-by-step installation instructions, see the [On-Premises Deployment Guide](../deployment/on-prem/install).
-
-<DemoCta variant="B" page="architecture" position="end" />

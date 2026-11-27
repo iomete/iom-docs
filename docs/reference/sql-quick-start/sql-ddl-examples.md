@@ -6,7 +6,6 @@ last_update:
   author: Abhishek Pathania
 ---
 
-import DemoCta from '@site/src/components/DemoCta';
 
 This SQL script showcases key DDL operations in IOMETE, a platform based on Spark SQL and Iceberg. It includes database and table creation, CTAS and RTAS operations, and various table alterations.
 
@@ -357,5 +356,3 @@ DROP TABLE ddl_ops_demo_db.employees PURGE;
 
 DROP DATABASE ddl_ops_demo_db;
 ```
-
-<DemoCta variant="A" page="sql-ddl-examples" position="end" />

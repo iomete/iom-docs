@@ -95,5 +95,3 @@ The IOMETE data lakehouse platform unifies all your data - regardless of where y
     answer: "Yes, a hybrid data lakehouse can analyze data across on-premises data centers and cloud environments without first consolidating everything in one place. This lets organizations keep regulated data on-site while still running large-scale analytics across their full data set. The key is a platform that reads data wherever it resides. IOMETE unifies data regardless of where it resides and can analyze multi-terabyte to petabyte-scale data across on-premises and cloud environments."
   }
 ]} />
-
-<DemoCta variant="B" refId="blog-on-prem-vs-cloud-data-lakehouse" position="end" />

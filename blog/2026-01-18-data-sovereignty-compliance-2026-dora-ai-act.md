@@ -359,5 +359,3 @@ If you're operating in financial services, healthcare, or any regulated industry
 IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, [Apache Spark](/glossary/apache-spark), and Kubernetes. It runs entirely within your infrastructure—[on-premise](/blog/how-to-build-on-prem-data-lakehouse), in your VPC, or in air-gapped environments—giving you complete control over data sovereignty, operational resilience, and compliance. With DORA-ready monitoring, AI Act-compliant audit trails, and complete operational independence from vendor dependencies, IOMETE is designed for financial services, healthcare, and government organizations that cannot compromise on regulatory compliance.
 
 Learn more at [iomete.com](https://iomete.com) or [schedule a demo](https://iomete.com/contact-us) to see how self-hosted lakehouse architecture meets DORA and AI Act requirements.
-
-<DemoCta variant="B" refId="blog-data-sovereignty-compliance-2026-dora-ai-act" position="end" />

@@ -894,5 +894,3 @@ select 1
 Invalid incremental strategy provided: something_else
     Expected one of: 'append', 'merge', 'delete+insert', 'insert_overwrite'
 ```
-
-<DemoCta variant="A" page="dbt-incremental-models-by-examples" position="end" />

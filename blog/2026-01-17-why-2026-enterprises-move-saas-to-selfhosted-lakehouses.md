@@ -266,5 +266,3 @@ If you're still running critical workloads on SaaS platforms in 2026, you're not
 IOMETE is a self-hosted data lakehouse platform built on Apache Iceberg, Apache Spark, and Kubernetes. It runs entirely within your infrastructure—on-premise, in your VPC, or in air-gapped environments—giving you complete control over data sovereignty, compliance, and cost. With transparent pricing ($500/vCPU/year), support for streaming and batch workloads, and compatibility with the full open-source lakehouse ecosystem, IOMETE is designed for enterprises that need warehouse-level performance without SaaS vendor dependency.
 
 Learn more at [iomete.com](https://iomete.com) or [schedule a demo](https://iomete.com/contact-us) to see how self-hosted lakehouse architecture can solve your compliance and cost challenges.
-
-<DemoCta variant="B" refId="blog-why-2026-enterprises-move-saas-to-selfhosted-lakehouses" position="end" />
