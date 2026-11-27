@@ -18,7 +18,7 @@ This post walks through how a self-hosted data platform is actually built to run
 
 {/* truncate */}
 
-import SharedStorageDiagram from '@site/src/components/SharedStorageDiagram';
+import Img from '@site/src/components/Img';
 
 ## What "self-hosted" has to mean architecturally
 
@@ -48,7 +48,7 @@ One storage layer, many workloads. A self-hosted lakehouse runs [Apache Spark](h
 
 The architectural payoff is consolidation. An enterprise running a warehouse for BI, a separate lake for ML, a streaming stack for real-time, and a notebook environment for data science can collapse all four into one lakehouse on shared infrastructure. Fewer copies, one governance model, one place to secure.
 
-<SharedStorageDiagram />
+<Img src="/img/diagrams/shared-compute-storage.gif" alt="Separate BI and ETL compute clusters share Iceberg tables in object storage. Stopping ETL leaves BI running and the tables in place." maxWidth="840px" centered borderless />
 
 ## The security boundary
 

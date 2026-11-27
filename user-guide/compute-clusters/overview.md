@@ -8,13 +8,13 @@ last_update:
 ---
 
 import Img from '@site/src/components/Img';
-import SharedStorageDiagram from '@site/src/components/SharedStorageDiagram';
+
 
 A compute cluster gives you dedicated CPU and memory, powered by Apache Spark, for running queries. Table data lives in S3-compatible object storage, separate from compute, so multiple clusters can share the same data without interfering with each other. IOMETE uses the Apache Iceberg table format for reliable ACID transactions.
 
 Since storage and compute are decoupled, you can size each cluster for its workload (batch ETL, interactive analytics, a dedicated BI connection) and shut it down when it's idle to stop accruing costs.
 
-<SharedStorageDiagram />
+<Img src="/img/diagrams/shared-compute-storage.gif" alt="Separate BI and ETL compute clusters share Iceberg tables in object storage. Stopping ETL leaves BI running and the tables in place." maxWidth="840px" centered borderless />
 
 <Img src="/img/user-guide/compute-clusters/overview.png" alt="Compute Clusters" />
 
