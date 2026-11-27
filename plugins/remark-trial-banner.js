@@ -6,16 +6,15 @@
  * there is one. It is an addition to the slim in-article CTA placed by
  * plugins/remark-blog-cta.js, which stays as it is.
  *
- * Docs pages (docs/ only): the banner goes after the last block, above the
- * previous/next pagination, so it never interrupts a task. The user guide is
- * read by people who already run IOMETE and is not registered for this plugin.
+ * Docs and user guide pages: the banner goes after the last block, above the
+ * previous/next pagination, so it never interrupts a task. Release notes and
+ * short pages get it too.
  *
  * Skipped when:
- *   - the page already places a DemoCta or TrialBanner by hand,
- *   - the page is a glossary entry, a release-notes page or a per-version
- *     release page,
+ *   - the page already places a DemoCta or TrialBanner by hand (all of those
+ *     sit at the end of the page, so the banner would stack on another CTA),
+ *   - the page is a glossary entry,
  *   - the page is a partial (_name.md),
- *   - the page is shorter than the minimum word count (index and stub pages),
  *   - frontmatter sets `trial_banner: false`.
  */
 
@@ -23,9 +22,7 @@ const path = require("path");
 
 const DOCS_DIR = `${path.sep}docs${path.sep}`;
 const BLOG_DIR = `${path.sep}blog${path.sep}`;
-// Release notes and per-version install pages are read by existing customers.
-const RELEASE_DIR = /[\\/]release(s|-notes)[\\/]/;
-const MIN_WORDS = { docs: 150, blog: 400 };
+const USER_GUIDE_DIR = `${path.sep}user-guide${path.sep}`;
 const IMPORT_SOURCE = "@site/src/components/TrialBanner";
 const MANUAL_CTAS = new Set(["DemoCta", "TrialBanner"]);
 
@@ -36,26 +33,10 @@ function filePathOf(file) {
 function placementOf(filePath) {
   if (filePath.includes("glossary")) return null;
   if (filePath.includes(BLOG_DIR)) return "blog";
-  if (filePath.includes(DOCS_DIR) && !RELEASE_DIR.test(filePath)) {
+  if (filePath.includes(DOCS_DIR) || filePath.includes(USER_GUIDE_DIR)) {
     return "docs";
   }
   return null;
-}
-
-function countWords(node) {
-  if (!node) return 0;
-  if (node.type === "mdxjsEsm" || node.type === "yaml" || node.type === "toml") {
-    return 0;
-  }
-  let n = 0;
-  if (typeof node.value === "string") {
-    const m = node.value.match(/[\p{L}\p{N}][\p{L}\p{N}'’_.-]*/gu);
-    n += m ? m.length : 0;
-  }
-  if (Array.isArray(node.children)) {
-    for (const child of node.children) n += countWords(child);
-  }
-  return n;
 }
 
 function hasManualCta(node) {
@@ -132,7 +113,6 @@ module.exports = function remarkTrialBanner() {
     const frontMatter = file.data?.frontMatter;
     if (frontMatter?.trial_banner === false) return;
     if (hasManualCta(tree)) return;
-    if (countWords(tree) < MIN_WORDS[placement]) return;
 
     const banner = bannerNode(placement, pageId(filePath, frontMatter));
     const faqAt = tree.children.findIndex(

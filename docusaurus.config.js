@@ -307,7 +307,7 @@ const config = {
         path: 'user-guide',
         routeBasePath: 'user-guide',
         sidebarPath: './sidebarsUserGuide.js',
-        beforeDefaultRemarkPlugins: [remarkImageDimensions],
+        beforeDefaultRemarkPlugins: [remarkImageDimensions, remarkTrialBanner],
       },
     ],
     [
