@@ -7,7 +7,7 @@ authors: [aytan]
 hide_table_of_contents: false
 coverImage: img/blog/thumbnails/2.png
 last_update:
-  date: 2026-06-06
+  date: 2026-11-27
 ---
 
 import FAQSection from '@site/src/components/FAQSection';
@@ -17,6 +17,8 @@ A self-hosted data platform looks simple on a slide – your hardware, your data
 This post walks through how a self-hosted data platform is actually built to run on a private cloud: the deployment model, the storage layer, the compute engines, and the security boundary. It is the infrastructure companion to the [sovereign data platform pillar](/resources/blog/sovereign-data-platform-private-cloud-ai) and the [sovereign AI and ML post](/resources/blog/sovereign-ai-ml-private-cloud-lakehouse).
 
 {/* truncate */}
+
+import SharedStorageDiagram from '@site/src/components/SharedStorageDiagram';
 
 ## What "self-hosted" has to mean architecturally
 
@@ -45,6 +47,8 @@ This is the difference between owning your data and renting access to it. With o
 One storage layer, many workloads. A self-hosted lakehouse runs [Apache Spark](https://spark.apache.org/) for distributed ETL, ML feature pipelines, and batch analytics, alongside a SQL engine for interactive querying and BI, plus streaming ingestion – all against the same Iceberg tables. Query federation extends the SQL surface across systems whose data cannot move: Oracle, SQL Server, Postgres, Kafka, and object storage queried where they sit, without a copy.
 
 The architectural payoff is consolidation. An enterprise running a warehouse for BI, a separate lake for ML, a streaming stack for real-time, and a notebook environment for data science can collapse all four into one lakehouse on shared infrastructure. Fewer copies, one governance model, one place to secure.
+
+<SharedStorageDiagram />
 
 ## The security boundary
 

@@ -3,16 +3,18 @@ title: Compute Clusters
 description: Dedicated Apache Spark compute clusters that provide isolated CPU and memory resources for query processing while sharing data stored in object storage.
 sidebar_label: Overview
 last_update:
-  date: 02/26/2026
+  date: 11/27/2026
   author: Abhishek Pathania
 ---
 
 import Img from '@site/src/components/Img';
+import SharedStorageDiagram from '@site/src/components/SharedStorageDiagram';
 
 A compute cluster gives you dedicated CPU and memory, powered by Apache Spark, for running queries. Table data lives in S3-compatible object storage, separate from compute, so multiple clusters can share the same data without interfering with each other. IOMETE uses the Apache Iceberg table format for reliable ACID transactions.
 
 Since storage and compute are decoupled, you can size each cluster for its workload (batch ETL, interactive analytics, a dedicated BI connection) and shut it down when it's idle to stop accruing costs.
 
+<SharedStorageDiagram />
 
 <Img src="/img/user-guide/compute-clusters/overview.png" alt="Compute Clusters" />
 
