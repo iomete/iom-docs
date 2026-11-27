@@ -211,7 +211,7 @@ You can combine the two options. For example, let Helm create the service accoun
 
 From IOMETE 4.0.4 on Kubernetes 1.32 or later, Spark jobs and computes run as two restricted identities instead of `lakehouse-service-account`. Earlier chart versions ignore the settings below.
 
-- `spark-driver-service-account` can only manage its own executor pods. An admission policy enforces this.
+- `spark-driver-service-account` can only manage its own executor pods. Those pods must carry a workload `iomete.com/appType` label, so the workload network policies cover them. They may use no Secret but `hadoop-config`, the Java truststore and those in `serviceAccount.sparkExecutorSecrets`. An admission policy enforces this.
 - `spark-executor-service-account` has no Kubernetes access.
 
 A namespace switches to them once both accounts exist there. New runs pick them up within about a minute, scheduled jobs within about 10 minutes, and running computes when they restart. Until then, Spark keeps running as `lakehouse-service-account`.
@@ -221,6 +221,7 @@ A namespace switches to them once both accounts exist there. New runs pick them 
 | `serviceAccount.restrictSparkJobs` | `auto` | `auto` creates the identities unless `serviceAccount.annotations` is set. `true` always creates them, `false` never does. |
 | `serviceAccount.sparkPodPolicy` | `true` | Creates the admission policy. Set it to `false` only when an administrator applies the policy. |
 | `serviceAccount.sparkEventsReader` | `true` | Lets Spark jobs read events in every IOMETE namespace. Only the Kubernetes event collector job needs it, so set it to `false` if you don't run that job. |
+| `serviceAccount.sparkExecutorSecrets` | `[]` | Other Secrets the executor pods may use. Leave it empty unless your installation adds Secrets to Spark executors. |
 
 With workload identity (EKS, GKE or Azure), have the cloud role trust both accounts in every IOMETE namespace, then set `serviceAccount.restrictSparkJobs: true`. Otherwise Spark jobs fail with a 403 on storage.
 
