@@ -45,6 +45,7 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
     - **Data Catalog**
       - **Search** results are now a table with Name, Catalog, Database, Provider, Columns, Rows, Classification tags, Owners and a favourite star, with the search box, filters and **Show deleted** in one toolbar and a choice of 25, 50 or 100 rows per page.
       - The page has its own **Data Catalog** title with a documentation link above the tabs, the indexing notice has moved up beside it, and the **Favorites** and **Classification Requests** tabs show how many favourites and open requests you have.
+      - The indexing notice can now be dismissed, and stays dismissed for the person who closed it, without hiding it from anyone else using the same browser.
     - **Spark Catalog Credentials**: The `credential` property of a Spark catalog, which carries an Iceberg REST catalog's OAuth client secret or access token, is now masked in the console and the API instead of being returned in clear text. Sending the mask back keeps the stored secret, and creating a catalog with a masked value is refused.
     - **Vault Secrets on Spark Jobs**: Saving a Spark or streaming job that uses Vault secrets now requires **Use** permission on each of those Vault configurations for both the person saving the job and the user it runs as, including secrets already on the job. The same applies when a run overrides the job's script, arguments, environment, Spark configuration or Java options, and when such a run is retried. A job saved through the API without a run-as user now runs as the person who created it. Existing jobs keep running until they are next saved.
     - **Least-Privilege Default Role**: A new domain's default role, which every member gets, no longer lets members manage members and roles, secrets, Spark settings, the data catalog or marketplace apps; reading those is unchanged. Existing domains keep their current default role, which an admin can trim by editing it.
@@ -58,6 +59,15 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - A missing permission now comes back as a permission error naming the permission or role, instead of reading as a sign-in problem, and the platform's own message, which could repeat the caller's token name and id, is no longer passed on.
       - Where SQL Editor V2 is off, responses now say that the query ID cannot be searched for in Query Monitoring and that a restart of the SQL service can lose a running query.
       - Sign-in and console links can now use your public address while the server calls the platform inside the cluster, with `services.mcpServer.urls.backendSplit: true`, which is off by default. A base URL that carries a user name, a query or a fragment is now refused at startup instead of quietly sending every call to `/`.
+      - Errors from `get_query_result` and `cancel_query` now name which SQL API version answered them, as the other tools' errors already did.
+    - **Spark UI for Finished Runs**: Opening the **Spark UI** of a finished Spark run now shows a loading page while Spark History prepares the application, then opens it, instead of failing with a gateway timeout on a large application. A running application opens its live Spark UI as before.
+    - **Workload Isolation**
+      - Workloads in a data plane, Spark jobs included, can no longer reach the lakehouse agent's Kubernetes routes through the data plane's outbound gateway, which could expose cluster secrets. The install's `internalAuth.mode` setting now covers the lakehouse agent as well, on both built-in and separately installed data planes.
+      - A Spark driver can no longer start pods that fall outside the data plane's workload network policies, or give its executors secrets other than the Hadoop configuration, the Java truststore and the ones listed in `serviceAccount.sparkExecutorSecrets`.
+      - The job orchestrator worker no longer has access to the Kubernetes API. Where job logging to S3 is on, the worker restarts once during the upgrade.
+    - **Group Grants Across Domains**: An API call that grants access to a group owned by another domain, in a role assignment, a resource group role or a service account's owner or run-as groups, is now refused with `400` naming the groups to remove. The console pickers already hid those groups, so the console is unchanged.
+    - **Private Domain Users**: On the admin page for a user who belongs to a private domain, **Reset password** is now disabled and says why, instead of being refused after the click.
+    - **Gateway Pod Placement**: Gateway pods can now be spread across nodes with `services.gateway.podAntiAffinity.enabled: true`, off by default. It is a preference, so the gateway still starts when only one node has room for its pods.
     - **Platform Security Updates**: Resolved a critical Java runtime vulnerability in all backend services, high-severity CVEs in the core, identity and data plane init services, and the Python and UI dependency CVEs in the job orchestrator. No change in behavior and no migration required.
   </Improvements>
 
@@ -81,6 +91,9 @@ import { Release, NewFeatures, Improvements, BugFixes, ReleaseDescription, Depre
       - A compute's custom Docker image can be cleared again, so the compute returns to the platform's default image on save. The stored image used to reappear as soon as it was cleared. This is a regression from the 3.x line.
       - The health check pages show **No uptime data** for a service with no data in the last 48 hours, instead of `NaN% uptime`.
       - User menu items show their hover state in dark mode again.
+    - **Access Token Expiry Emails**: Fixed expiry warnings never reaching some token owners. Each owner is now emailed separately, so one address the mail server rejects no longer stops the rest, and the notice goes to the owner's current email address instead of the one stored when the token was created.
+    - **Enterprise Catalog Table Rename**: Renaming an Enterprise Catalog table into a database that does not exist is now refused with a clear error and leaves the table where it was, where such a rename could lose the table. A rename that another operation beats to the destination name now answers `409`.
+    - **Data Catalog**: The **Learn more** link on the Data Catalog's empty state now opens the Catalog Sync guide, instead of a page that no longer exists.
   </BugFixes>
 
 **Spark version:** [4.2.1-v1](./spark.md)
